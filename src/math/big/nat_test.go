@@ -769,3 +769,77 @@ func BenchmarkExp3Power0x10000(b *testing.B)  { ExpHelper(b, 3, 0x10000) }
 func BenchmarkExp3Power0x40000(b *testing.B)  { ExpHelper(b, 3, 0x40000) }
 func BenchmarkExp3Power0x100000(b *testing.B) { ExpHelper(b, 3, 0x100000) }
 func BenchmarkExp3Power0x400000(b *testing.B) { ExpHelper(b, 3, 0x400000) }
+
+var bitTests = []struct {
+	x    string
+	i    uint
+	want uint
+}{
+	{"0", 0, 0},
+	{"0", 1, 0},
+	{"0", 1000, 0},
+
+	{"0x1", 0, 1},
+	{"0x10", 0, 0},
+	{"0x10", 3, 0},
+	{"0x10", 4, 1},
+	{"0x10", 5, 0},
+
+	{"0x8000000000000000", 62, 0},
+	{"0x8000000000000000", 63, 1},
+	{"0x8000000000000000", 64, 0},
+
+	{"0x3" + strings.Repeat("0", 32), 127, 0},
+	{"0x3" + strings.Repeat("0", 32), 128, 1},
+	{"0x3" + strings.Repeat("0", 32), 129, 1},
+	{"0x3" + strings.Repeat("0", 32), 130, 0},
+}
+
+func TestBit(t *testing.T) {
+	for i, test := range bitTests {
+		x := natFromString(test.x)
+		if got := x.bit(test.i); got != test.want {
+			t.Errorf("#%d: %s.bit(%d) = %v; want %v", i, test.x, test.i, got, test.want)
+		}
+	}
+}
+
+var stickyTests = []struct {
+	x    string
+	i    uint
+	want uint
+}{
+	{"0", 0, 0},
+	{"0", 1, 0},
+	{"0", 1000, 0},
+
+	{"0x1", 0, 0},
+	{"0x1", 1, 1},
+
+	{"0x1350", 0, 0},
+	{"0x1350", 4, 0},
+	{"0x1350", 5, 1},
+
+	{"0x8000000000000000", 63, 0},
+	{"0x8000000000000000", 64, 1},
+
+	{"0x1" + strings.Repeat("0", 100), 400, 0},
+	{"0x1" + strings.Repeat("0", 100), 401, 1},
+}
+
+func TestSticky(t *testing.T) {
+	for i, test := range stickyTests {
+		x := natFromString(test.x)
+		if got := x.sticky(test.i); got != test.want {
+			t.Errorf("#%d: %s.sticky(%d) = %v; want %v", i, test.x, test.i, got, test.want)
+		}
+		if test.want == 1 {
+			// all subsequent i's should also return 1
+			for d := uint(1); d <= 3; d++ {
+				if got := x.sticky(test.i + d); got != 1 {
+					t.Errorf("#%d: %s.sticky(%d) = %v; want %v", i, test.x, test.i+d, got, 1)
+				}
+			}
+		}
+	}
+}
