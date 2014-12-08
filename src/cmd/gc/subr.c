@@ -2115,13 +2115,16 @@ localexpr(Node *n, Type *t, NodeList **init)
 }
 
 void
-setmaxarg(Type *t)
+setmaxarg(Type *t, int32 extra)
 {
 	int64 w;
 
 	dowidth(t);
 	w = t->argwid;
-	if(t->argwid >= MAXWIDTH)
+	if(w >= MAXWIDTH)
+		fatal("bad argwid %T", t);
+	w += extra;
+	if(w >= MAXWIDTH)
 		fatal("bad argwid %T", t);
 	if(w > maxarg)
 		maxarg = w;
