@@ -1,0 +1,990 @@
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This file implements multi-precision floating-point numbers.
+// The API and parts of the implementation are loosely inspired
+// by the GNU MPFR library (http://www.mpfr.org/) - but this is
+// a from-scratch implementation with much smaller scope.
+
+package big
+
+import (
+	"fmt"
+	"math"
+)
+
+// TODO(gri):
+// - Perhaps accuracy information can also encode under- and overflow (-/+ infinity)?
+// - Determine which operations need a rounding mode and which don't.
+// - Determine if there's a more natural way to set the precision. Should there be a special
+//   meaning for prec 0? Such as "full precision"? (would be possible for all ops except quotient).
+// - Do we care about -0?
+// - Do we want special interpretation of prec = 0?
+
+const debugFloat = true // enable for debugging
+
+// Internal representation: A floating-point value x != 0 consists
+// of a sign (x.neg), mantissa (x.mant), and exponent (x.exp) such
+// that
+//
+//   x = sign * 0.mantissa * 2**exponent
+//
+// and the mantissa is interpreted as a value between 0.5 and 1:
+//
+//  0.5 <= mantissa < 1.0
+//
+// The mantissa bits are stored in the shortest nat slice long enough
+// to hold x.prec mantissa bits. The mantissa is normalized such that
+// the msb of x.mant == 1. Thus, if the precision is not a multiple of
+// the Word size _W, x.mant[0] contains trailing zero bits. The number
+// 0 is represented by an empty mantissa and a zero exponent.
+
+// TODO(gri) be more specific about representation of zero. Are there
+// more than one?
+
+// A Float represents a multi-precision floating point number
+// of the form
+//
+//   sign * 0.mantissa * 2**exponent
+//
+// Each value has a precision which is the number of mantissa bits
+// used to represent the value. The zero value for a Float represents
+// the number 0.
+//
+// Floating-point operations that take a rounding mode round the result
+// to the precision of the result argument according to specified mode.
+// By setting the desired precision to 24 (or 53) and using ToNearest
+// rounding, Float operations can emulate float32 or float64 IEEE-754
+// operations (except for denormalized numbers and NaNs).
+//
+// TODO(gri) should rounding mode be part of result? document result
+// influence on operation.
+//
+type Float struct {
+	acc  Accuracy
+	neg  bool
+	mant nat
+	exp  int32
+	prec uint // TODO(gri) make this a 32bit field
+}
+
+// NewFloat returns a new Float with value x rounded
+// to prec bits according to the given rounding mode.
+func NewFloat(x float64, prec uint, mode RoundingMode) *Float {
+	// TODO(gri) should make this more efficient
+	z := new(Float).SetFloat64(x)
+	return z.Round(z, prec, mode)
+}
+
+func (z *Float) setExp(e int64) {
+	e32 := int32(e)
+	if int64(e32) != e {
+		panic("exponent overflow") // TODO(gri) handle this gracefully
+	}
+	z.exp = e32
+}
+
+// TODO(gri) Reduce exp, prec to 32 bits in representation;
+// perform internal ops in 64 bit and then check that we don't
+// overflow exp in final result.
+
+// Accuracy describes the rounding error produced by the
+// most recent operation that generated a Float value:
+//
+//  -1: float value is below exact value
+//   0: float value is exact value
+//  +1: float value is above exact value
+//
+type Accuracy int8
+
+const (
+	below Accuracy = -1
+	exact Accuracy = 0
+	above Accuracy = +1
+)
+
+func (a Accuracy) String() string {
+	switch {
+	case a < 0:
+		return "below"
+	default:
+		return "exact"
+	case a > 0:
+		return "above"
+	}
+}
+
+// RoundingMode determines how a Float value is rounded to the
+// desired precision. Rounding may change the Float value; the
+// rounding error is described by the Float's Accuracy.
+type RoundingMode int
+
+// The following rounding modes are supported.
+const (
+	ToNearest    RoundingMode = iota // round to nearest value with even mantissa
+	ToZero                           // round to zero
+	AwayFromZero                     // round away from zero
+	infMode      = 1 << 2
+	ToNegInf     = infMode | ToZero       // round to -infinity (i.e., always round down)
+	ToPosInf     = infMode | AwayFromZero // round to +infinity (i.e., always round up)
+)
+
+func (mode RoundingMode) String() string {
+	switch mode {
+	case ToNearest:
+		return "ToNearest"
+	case ToZero:
+		return "ToZero"
+	case AwayFromZero:
+		return "AwayFromZero"
+	case ToNegInf:
+		return "ToNegInf"
+	case ToPosInf:
+		return "ToPosInf"
+	}
+	panic("unreachable")
+}
+
+// Precision returns the mantissa precision of x in bits.
+// The precision may be 0 if x == 0. // TODO(gri) Determine a better approach.
+func (x *Float) Precision() uint {
+	return uint(x.prec)
+}
+
+// Accuracy returns the accuracy of x returned from an operation.
+func (x *Float) Accuracy() Accuracy {
+	return x.acc
+}
+
+// debugging support
+func (x *Float) validate() {
+	// assumes x != 0
+	const msb = 1 << (_W - 1)
+	m := len(x.mant)
+	if x.mant[m-1]&msb == 0 {
+		panic(fmt.Sprintf("msb not set in last word %#x of %s", x.mant[m-1], x.PString()))
+	}
+	if x.prec < 0 {
+		panic(fmt.Sprintf("invalid precision %d", x.prec))
+	}
+}
+
+// round rounds z according to mode to z.prec bits and sets z.acc accordingly.
+// sbit must be 0 or 1 and summarizes any "sticky bit" information one might
+// have before calling round.
+func (z *Float) round(mode RoundingMode, sbit uint) {
+	z.acc = exact
+
+	// handle zero
+	m := uint(len(z.mant)) // mantissa length in words for current precision
+	if m == 0 {
+		z.exp = 0
+		return
+	}
+
+	if debugFloat {
+		z.validate()
+	}
+	// z.prec > 0
+
+	bits := m * _W // available mantissa bits
+	if bits == z.prec {
+		// mantissa fits exactly => nothing to do
+		return
+	}
+
+	n := (z.prec + (_W - 1)) / _W // mantissa length in words for desired precision
+	if bits < z.prec {
+		// mantissa too small => extend
+		if m < n {
+			// slice too short => extend slice
+			if int(n) <= cap(z.mant) {
+				// reuse existing slice
+				z.mant = z.mant[:n]
+				copy(z.mant[n-m:], z.mant[:m])
+				z.mant[:n-m].clear()
+			} else {
+				// n > cap(z.mant) => allocate new slice
+				const e = 4 // extra capacity (see nat.make)
+				new := make(nat, n, n+e)
+				copy(new[n-m:], z.mant)
+			}
+		}
+		return
+	}
+
+	// Rounding is based on two bits: the rounding bit (rbit) and the
+	// sticky bit (sbit). The rbit is the bit immediately before the
+	// mantissa bits (the "0.5"). The sbit is set if any of the bits
+	// before the rbit are set (the "0.25", "0.125", etc.):
+	//
+	//   rbit  sbit  => "fractional part"
+	//
+	//   0     0        == 0
+	//   0     1        >  0  , < 0.5
+	//   1     0        == 0.5
+	//   1     1        >  0.5, < 1.0
+
+	// bits > z.prec: mantissa too large => round
+	r := bits - z.prec - 1 // rounding bit position; r >= 0
+	rbit := z.mant.bit(r)  // rounding bit
+	if sbit == 0 {
+		sbit = z.mant.sticky(r)
+	}
+	if debugFloat && sbit&^1 != 0 {
+		panic(fmt.Sprintf("invalid sbit %#x", sbit))
+	}
+
+	// convert ToXInf rounding modes (infMode bit is set):
+	// x > 0: ToNegInf -> ToZero        101 -> 001
+	//        ToPosInf -> AwayFromZero  110 -> 010
+	// x < 0: ToNegInf -> AwayFromZero  101 -> 010
+	//        ToPosInf -> ToZero        110 -> 001
+	if mode&infMode != 0 {
+		mode &^= infMode // 1xx -> 0xx
+		if z.neg {
+			mode ^= infMode - 1 // 001 -> 010, 010 -> 001
+		}
+	}
+
+	// cut off extra words
+	if m > n {
+		// cut off extra words
+		copy(z.mant, z.mant[m-n:])
+		z.mant = z.mant[:n]
+	}
+
+	// determine number of trailing zero bits t
+	t := n*_W - z.prec // 0 <= t < _W
+	lsb := Word(1) << t
+
+	// make rounding decision
+	switch mode {
+	case ToZero:
+		// nothing to do
+	case ToNearest:
+		if rbit == 0 {
+			// rounding bits == 0b0x
+			mode = ToZero
+		} else if sbit == 1 {
+			// rounding bits == 0b11
+			mode = AwayFromZero
+		}
+	case AwayFromZero:
+		if rbit|sbit == 0 {
+			mode = ToZero
+		}
+	default:
+		// ToXInf modes have been converted to ToZero or AwayFromZero
+		panic("unreachable")
+	}
+
+	// round and determine accuracy
+	switch mode {
+	case ToZero:
+		if rbit|sbit != 0 {
+			z.acc = below
+		}
+
+	case ToNearest:
+		if debugFloat && rbit != 1 {
+			panic("internal error in rounding")
+		}
+		if sbit == 0 && z.mant[0]&lsb == 0 {
+			z.acc = below
+			break
+		}
+		// sbit == 1 || z.mant[0]&lsb != 0
+		fallthrough
+
+	case AwayFromZero:
+		// add 1 to mantissa
+		if addVW(z.mant, z.mant, lsb) != 0 {
+			// overflow => shift mantissa right by 1 and add msb
+			shrVU(z.mant, z.mant, 1)
+			z.mant[n-1] |= 1 << (_W - 1)
+			// adjust exponent
+			z.exp++
+		}
+		z.acc = above
+	}
+
+	// zero out trailing bits in least-significant word
+	z.mant[0] &^= lsb - 1
+
+	// update accuracy
+	if z.neg {
+		z.acc = -z.acc
+	}
+
+	if debugFloat {
+		z.validate()
+	}
+
+	return
+}
+
+// Round sets z to the value of x rounded according to mode to prec bits and returns z.
+func (z *Float) Round(x *Float, prec uint, mode RoundingMode) *Float {
+	z.Set(x)
+	z.prec = prec
+	z.round(mode, 0)
+	return z
+}
+
+// nlz returns the number of leading zero bits in x.
+func nlz(x Word) uint {
+	return _W - uint(bitLen(x))
+}
+
+// TODO(gri) this assumes a Word is 64 bits
+func nlz64(x uint64) uint {
+	if _W != 64 {
+		panic("size mismatch")
+	}
+	return nlz(Word(x))
+}
+
+// SetUint64 sets z to x and returns z.
+// Precision is set to 64 bits.
+func (z *Float) SetUint64(x uint64) *Float {
+	z.neg = false
+	z.prec = 64
+	if x == 0 {
+		z.mant = z.mant[:0]
+		z.exp = 0
+		return z
+	}
+	s := nlz64(x)
+	z.mant = z.mant.setUint64(x << s)
+	z.exp = int32(64 - s)
+	return z
+}
+
+// SetInt64 sets z to x and returns z.
+// Precision is set to 64 bits.
+func (z *Float) SetInt64(x int64) *Float {
+	u := x
+	if u < 0 {
+		u = -u
+	}
+	z.SetUint64(uint64(u))
+	z.neg = x < 0
+	return z
+}
+
+// SetFloat64 sets z to x and returns z.
+// Precision is set to 53 bits.
+// TODO(gri) test denormals, +/-Inf, disallow NaN.
+func (z *Float) SetFloat64(x float64) *Float {
+	z.prec = 53
+	if x == 0 {
+		z.neg = false
+		z.mant = z.mant[:0]
+		z.exp = 0
+		return z
+	}
+	z.neg = x < 0
+	fmant, exp := math.Frexp(x) // get normalized mantissa
+	z.mant = z.mant.setUint64(1<<63 | math.Float64bits(fmant)<<11)
+	z.exp = int32(exp)
+	return z
+}
+
+// norm normalizes mantissa m by shifting it to the left
+// such that the msb of the most-significant word (msw)
+// is 1. It returns the shift amount.
+// It assumes that m is not the zero nat.
+func norm(m nat) uint {
+	if debugFloat && (len(m) == 0 || m[len(m)-1] == 0) {
+		panic("msw of mantissa is 0")
+	}
+	s := nlz(m[len(m)-1])
+	if s > 0 {
+		c := shlVU(m, m, s)
+		if debugFloat && c != 0 {
+			panic("nlz or shlVU incorrect")
+		}
+	}
+	return s
+}
+
+// SetInt sets z to x and returns z.
+// Precision is set to the number of bits required to represent x accurately.
+// TODO(gri) what about precision for x == 0?
+func (z *Float) SetInt(x *Int) *Float {
+	if len(x.abs) == 0 {
+		z.neg = false
+		z.mant = z.mant[:0]
+		z.exp = 0
+		// z.prec = ?
+		return z
+	}
+	// x != 0
+	z.neg = x.neg
+	z.mant = z.mant.set(x.abs)
+	e := uint(len(z.mant))*_W - norm(z.mant)
+	z.exp = int32(e)
+	z.prec = e
+	return z
+}
+
+// SetBits sets z to the *Float of the smallest possible precision
+// such that z = 0 + sum(2**bits[i]), with i = range bits, and returns z.
+func (z *Float) SetBits(bits ...int) *Float {
+	// handle 0
+	if len(bits) == 0 {
+		z.neg = false
+		z.mant = z.mant[:0]
+		z.exp = 0
+		// z.prec = ?
+		return z
+	}
+	// len(bits) > 0
+
+	// determine lsb exponent
+	var min int
+	for i, b := range bits {
+		if i == 0 || b < min {
+			min = b
+		}
+	}
+
+	// create bit pattern
+	x := NewInt(0)
+	for _, b := range bits {
+		x.SetBit(x, b-min, 1)
+	}
+
+	// create corresponding float
+	z.SetInt(x) // normalized
+	z.setExp(int64(z.exp) + int64(min))
+	return z
+}
+
+// SetRat sets z to x rounded to the precision of z and returns z.
+func (z *Float) SetRat(x *Rat, prec uint) *Float {
+	panic("unimplemented")
+}
+
+// Set sets z to x, with the same precision as x, and returns z.
+func (z *Float) Set(x *Float) *Float {
+	if z != x {
+		z.neg = x.neg
+		z.exp = x.exp
+		z.mant = z.mant.set(x.mant)
+		z.prec = x.prec
+	}
+	return z
+}
+
+func high64(x nat) uint64 {
+	if len(x) == 0 {
+		return 0
+	}
+	v := uint64(x[len(x)-1])
+	if _W == 32 && len(x) > 1 {
+		v = v<<32 | uint64(x[len(x)-2])
+	}
+	return v
+}
+
+// TODO(gri) FIX THIS (rounding mode, errors, accuracy, etc.)
+func (x *Float) Uint64() uint64 {
+	m := high64(x.mant)
+	s := x.exp
+	if s >= 0 {
+		return m >> (64 - uint(s))
+	}
+	return 0 // imprecise
+}
+
+// TODO(gri) FIX THIS (rounding mode, errors, etc.)
+func (x *Float) Int64() int64 {
+	v := int64(x.Uint64())
+	if x.neg {
+		return -v
+	}
+	return v
+}
+
+// Float64 returns the closest float64 value of x
+// by rounding to nearest with 53 bits precision.
+// TODO(gri) implement/document error scenarios.
+func (x *Float) Float64() (float64, Accuracy) {
+	if len(x.mant) == 0 {
+		return 0, exact
+	}
+	// x != 0
+	r := new(Float).Round(x, 53, ToNearest)
+	var s uint64
+	if r.neg {
+		s = 1 << 63
+	}
+	e := uint64(1022+r.exp) & 0x7ff // TODO(gri) check for overflow
+	m := high64(r.mant) >> 11 & (1<<52 - 1)
+	return math.Float64frombits(s | e<<52 | m), r.acc
+}
+
+func (x *Float) Int() *Int {
+	if len(x.mant) == 0 {
+		return new(Int)
+	}
+	panic("unimplemented")
+}
+
+func (x *Float) Rat() *Rat {
+	panic("unimplemented")
+}
+
+func (x *Float) IsInt() bool {
+	if len(x.mant) == 0 {
+		return true
+	}
+	if x.exp <= 0 {
+		return false
+	}
+	if uint(x.exp) >= x.prec {
+		return true
+	}
+	panic("unimplemented")
+}
+
+// Abs sets z to |x| (the absolute value of x) and returns z.
+func (z *Float) Abs(x *Float) *Float {
+	z.Set(x)
+	z.neg = false
+	return z
+}
+
+// Neg sets z to -x and returns z.
+// TODO(gri) do we return -0 for x == 0? (adonovan says yes, gri is not sure)
+func (z *Float) Neg(x *Float) *Float {
+	z.Set(x)
+	z.neg = !z.neg
+	return z
+}
+
+// z = x + y, ignoring signs of x and y.
+// x and y must not be 0.
+func (z *Float) uadd(x, y *Float, mode RoundingMode) {
+	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
+		panic("uadd called with 0 argument")
+	}
+
+	// Note: This implementation requires 2 shifts most of the
+	// time. It is also inefficient if exponents or precisions
+	// differ by wide margins. The following article describes
+	// an efficient (but much more complicated) implementation
+	// compatible with the internal representation used here:
+	//
+	// Vincent Lefèvre: "The Generic Multiple-Precision Floating-
+	// Point Addition With Exact Rounding (as in the MPFR Library)"
+	// http://www.vinc17.net/research/papers/rnc6.pdf
+
+	// order x, y by magnitude
+	ex := int(x.exp) - len(x.mant)*_W
+	ey := int(y.exp) - len(y.mant)*_W
+	if ex < ey {
+		// + is commutative => ok to swap operands
+		x, y = y, x
+		ex, ey = ey, ex
+	}
+	// ex >= ey
+	d := uint(ex - ey)
+
+	// computed adjusted xmant
+	var n0 uint // nlz(z) before addition
+	xadj := x.mant
+	if d > 0 {
+		xadj = z.mant.shl(x.mant, d) // 1st shift
+		n0 = _W - d%_W
+	}
+	z.exp = x.exp
+
+	// add numbers
+	z.mant = z.mant.add(xadj, y.mant)
+
+	// normalize mantissa
+	n1 := norm(z.mant) // 2nd shift (often)
+
+	// adjust exponent if the result got longer
+	// (by at most 1 bit)
+	if n1 < n0 {
+		if debugFloat && n1+1 != n0 {
+			panic(fmt.Sprintf("carry is %d bits, expected at most 1 bit", n0-n1))
+		}
+		z.exp++
+	}
+
+	z.round(mode, 0)
+}
+
+// z = x - y for x >= y, ignoring signs of x and y.
+// x and y must not be zero.
+func (z *Float) usub(x, y *Float, mode RoundingMode) {
+	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
+		panic("usub called with 0 argument")
+	}
+
+	// Note: Like uadd, this implementation is often doing
+	// too much work and could be optimized by separating
+	// the various special cases.
+
+	// determine magnitude difference
+	ex := int(x.exp) - len(x.mant)*_W
+	ey := int(y.exp) - len(y.mant)*_W
+
+	if ex < ey {
+		panic("underflow")
+	}
+	// ex >= ey
+	d := uint(ex - ey)
+
+	// compute adjusted x.mant
+	var n uint // nlz(z) after adjustment
+	xadj := x.mant
+	if d > 0 {
+		xadj = z.mant.shl(x.mant, d)
+		n = _W - d%_W
+	}
+	e := int64(x.exp) + int64(n)
+
+	// subtract numbers
+	z.mant = z.mant.sub(xadj, y.mant)
+
+	if len(z.mant) != 0 {
+		e -= int64(len(xadj)-len(z.mant)) * _W
+
+		// normalize mantissa
+		z.setExp(e - int64(norm(z.mant)))
+	}
+
+	z.round(mode, 0)
+}
+
+// z = x * y, ignoring signs of x and y.
+// x and y must not be zero.
+func (z *Float) umul(x, y *Float, mode RoundingMode) {
+	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
+		panic("umul called with 0 argument")
+	}
+
+	// Note: This is doing too much work if the precision
+	// of z is less than the sum of the precisions of x
+	// and y which is often the case (e.g., if all floats
+	// have the same precision).
+	// TODO(gri) Optimize this for the common case.
+
+	e := int64(x.exp) + int64(y.exp)
+	z.mant = z.mant.mul(x.mant, y.mant)
+
+	// normalize mantissa
+	z.setExp(e - int64(norm(z.mant)))
+	z.round(mode, 0)
+}
+
+// z = x / y, ignoring signs of x and y.
+// x and y must not be zero.
+func (z *Float) uquo(x, y *Float, mode RoundingMode) {
+	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
+		panic("uquo called with 0 argument")
+	}
+
+	// mantissa length in words for desired result precision + 1
+	// (at least one extra bit so we get the rounding bit after
+	// the division)
+	n := int(z.prec/_W) + 1
+
+	// computed ajusted x.mant such that we get enough result precision
+	xadj := x.mant
+	if d := n - len(x.mant) + len(y.mant); d > 0 {
+		// d extra words needed => add d "0 digits" to x
+		xadj = make(nat, len(x.mant)+d)
+		copy(xadj[d:], x.mant)
+	}
+	// TODO(gri): If we have too many digits (d < 0), we should be able
+	// to shorten x for faster division. But we must be extra careful
+	// with rounding in that case.
+
+	// divide
+	var r nat
+	z.mant, r = z.mant.div(nil, xadj, y.mant)
+
+	// determine exponent
+	e := int64(x.exp) - int64(y.exp) - int64(len(xadj)-len(y.mant)-len(z.mant))*_W
+
+	// normalize mantissa
+	z.setExp(e - int64(norm(z.mant)))
+
+	// The result is long enough to include (at least) the rounding bit.
+	// If there's a non-zero remainder, the corresponding fractional part
+	// (if it were computed), would have a non-zero sticky bit (if it were
+	// zero, it couldn't have a non-zero remainder).
+	var sbit uint
+	if len(r) > 0 {
+		sbit = 1
+	}
+	z.round(mode, sbit)
+}
+
+// ucmp returns -1, 0, or 1, depending on whether x < y, x == y, or x > y,
+// while ignoring the signs of x and y. x and y must not be zero.
+func (x *Float) ucmp(y *Float) int {
+	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
+		panic("ucmp called with 0 argument")
+	}
+
+	switch {
+	case x.exp < y.exp:
+		return -1
+	case x.exp > y.exp:
+		return 1
+	}
+	// x.exp == y.exp
+
+	// compare mantissas
+	i := len(x.mant)
+	j := len(y.mant)
+	for i > 0 || j > 0 {
+		var xm, ym Word
+		if i > 0 {
+			i--
+			xm = x.mant[i]
+		}
+		if j > 0 {
+			j--
+			ym = y.mant[j]
+		}
+		switch {
+		case xm < ym:
+			return -1
+		case xm > ym:
+			return 1
+		}
+	}
+
+	return 0
+}
+
+// Add sets z to the sum x+y and returns z.
+// TODO(gri) document result precision.
+func (z *Float) Add(x, y *Float, mode RoundingMode) *Float {
+	// TODO(gri) what about -0?
+	if len(y.mant) == 0 {
+		return z.Round(x, z.prec, mode)
+	}
+	if len(x.mant) == 0 {
+		return z.Round(y, z.prec, mode)
+	}
+
+	// x, y != 0
+	neg := x.neg
+	if x.neg == y.neg {
+		// x + y == x + y
+		// (-x) + (-y) == -(x + y)
+		z.uadd(x, y, mode)
+	} else {
+		// x + (-y) == x - y == -(y - x)
+		// (-x) + y == y - x == -(x - y)
+		if x.ucmp(y) >= 0 {
+			z.usub(x, y, mode)
+		} else {
+			neg = !neg
+			z.usub(y, x, mode)
+		}
+	}
+	z.neg = neg
+	return z
+}
+
+// Sub sets z to the difference x-y and returns z.
+// TODO(gri) document result precision.
+func (z *Float) Sub(x, y *Float, mode RoundingMode) *Float {
+	// TODO(gri) what about -0?
+	if len(y.mant) == 0 {
+		return z.Round(x, z.prec, mode)
+	}
+	if len(x.mant) == 0 {
+		prec := z.prec
+		z.Neg(y)
+		return z.Round(z, prec, mode)
+	}
+
+	// x, y != 0
+	neg := x.neg
+	if x.neg != y.neg {
+		// x - (-y) == x + y
+		// (-x) - y == -(x + y)
+		z.uadd(x, y, mode)
+	} else {
+		// x - y == x - y == -(y - x)
+		// (-x) - (-y) == y - x == -(x - y)
+		if x.ucmp(y) >= 0 {
+			z.usub(x, y, mode)
+		} else {
+			neg = !neg
+			z.usub(y, x, mode)
+		}
+	}
+	z.neg = neg
+	return z
+}
+
+// Mul sets z to the product x*y and returns z.
+// TODO(gri) document result precision.
+func (z *Float) Mul(x, y *Float, mode RoundingMode) *Float {
+	// TODO(gri) what about -0?
+	if len(x.mant) == 0 || len(y.mant) == 0 {
+		z.neg = false
+		z.mant = z.mant[:0]
+		z.exp = 0
+		z.acc = exact
+		return z
+	}
+
+	// x, y != 0
+	z.umul(x, y, mode)
+	z.neg = x.neg != y.neg
+	return z
+}
+
+// Quo sets z to the quotient x/y and returns z.
+// If y == 0, a division-by-zero run-time panic occurs. TODO(gri) should this be infinity instead?
+// TODO(gri) document result precision.
+func (z *Float) Quo(x, y *Float, mode RoundingMode) *Float {
+	// TODO(gri) what about -0?
+	if len(x.mant) == 0 {
+		z.neg = false
+		z.mant = z.mant[:0]
+		z.exp = 0
+		z.acc = exact
+		return z
+	}
+	if len(y.mant) == 0 {
+		panic("division-by-zero") // TODO(gri) handle this better
+	}
+
+	// x, y != 0
+	z.uquo(x, y, mode)
+	z.neg = x.neg != y.neg
+	return z
+}
+
+// Lsh sets z = x * (1<<s) and returns z.
+// TODO(gri) document result precision.
+func (z *Float) Lsh(x *Float, s uint, mode RoundingMode) *Float {
+	z.Round(x, z.prec, mode)
+	z.setExp(int64(z.exp) + int64(s))
+	return z
+}
+
+// Rsh sets z = x / (1<<s) and returns z.
+// TODO(gri) document result precision.
+func (z *Float) Rsh(x *Float, s uint, mode RoundingMode) *Float {
+	z.Round(x, z.prec, mode)
+	z.setExp(int64(z.exp) - int64(s))
+	return z // TODO(gri) FIX THIS
+}
+
+// Cmp compares x and y and returns:
+//
+//   -1 if x <  y
+//    0 if x == y (incl. -0 == 0)
+//   +1 if x >  y
+//
+func (x *Float) Cmp(y *Float) int {
+	// special cases
+	switch {
+	case len(x.mant) == 0:
+		// 0 cmp y == -sign(y)
+		return -y.Sign()
+	case len(y.mant) == 0:
+		// x cmp 0 == sign(x)
+		return x.Sign()
+	}
+	// x != 0 && y != 0
+
+	// x cmp y == x cmp y
+	// x cmp (-y) == 1
+	// (-x) cmp y == -1
+	// (-x) cmp (-y) == -(x cmp y)
+	switch {
+	case x.neg == y.neg:
+		r := x.ucmp(y)
+		if x.neg {
+			r = -r
+		}
+		return r
+	case x.neg:
+		return -1
+	default:
+		return 1
+	}
+	return 0
+}
+
+// Sign returns:
+//
+//	-1 if x <  0
+//	 0 if x == 0 (incl. x == -0)
+//	+1 if x >  0
+//
+func (x *Float) Sign() int {
+	if len(x.mant) == 0 {
+		return 0
+	}
+	if x.neg {
+		return -1
+	}
+	return 1
+}
+
+func setToString(z nat, s string, b Word) nat {
+	z = z[:0]
+	bb := Word(1)
+	dd := Word(0)
+	max := _M / b
+	for _, ch := range s {
+		d := hexValue(ch)
+		if d >= b {
+			panic("internal error: unexpected digit")
+		}
+		if bb <= max {
+			bb *= b
+			dd = dd*b + d
+		} else {
+			// bb * b would overflow
+			z = z.mulAddWW(z, bb, dd)
+			bb = b
+			dd = d
+		}
+	}
+	return z.mulAddWW(z, bb, dd)
+}
+
+// TODO(gri) document
+// number    = [ sign ] mantissa [ exponent ] .
+// sign      = "+" | "-" .
+// mantissa  = "." digits | digits [ "." [ digits ] ] .
+// exponent  = ( "E" | "e" | "p" ) [ sign ] digits .
+// digits    = digit { digit } .
+// digit     = "0" | "1" | ... | "9" | "A" | "a" | ... | "F" | "f" .
+func (z *Float) SetString(s string) (*Float, bool) {
+	panic("unimplemented")
+}
+
+func (x *Float) String() string {
+	return x.PString() // TODO(gri) fix this
+}
+
+// PString returns x as a string in the format ["-"] "0x" mantissa "p" exponent,
+// with a hexadecimal mantissa and a signed decimal exponent.
+func (x *Float) PString() string {
+	prefix := "0."
+	if x.neg {
+		prefix = "-0."
+	}
+	return prefix + x.mant.string(lowercaseDigits[:16]) + fmt.Sprintf("p%d", x.exp)
+}
