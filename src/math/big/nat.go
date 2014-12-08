@@ -5,18 +5,22 @@
 // Package big implements multi-precision arithmetic (big numbers).
 // The following numeric types are supported:
 //
-//	- Int	signed integers
-//	- Rat	rational numbers
+//   Int    signed integers
+//   Rat    rational numbers
+//   Float  floating-point numbers
 //
 // Methods are typically of the form:
 //
-//	func (z *Int) Op(x, y *Int) *Int	(similar for *Rat)
+//   func (z *T) Unary(x *T) *T        // z = op x
+//   func (z *T) Binary(x, y *T) *T    // z = x op y
+//   func (x *T) M() T1                // v = x.M()
 //
-// and implement operations z = x Op y with the result as receiver; if it
-// is one of the operands it may be overwritten (and its memory reused).
+// with T one of Int, Rat, or Float. For unary and binary operations, the
+// result is the receiver (usually named z in that case); if it is one of
+// the operands x or y it may be overwritten (and its memory reused).
 // To enable chaining of operations, the result is also returned. Methods
-// returning a result other than *Int or *Rat take one of the operands as
-// the receiver.
+// returning a result other than *Int, *Rat, or *Float take an operand as
+// the receiver (usually named x in that case).
 //
 package big
 
@@ -68,7 +72,7 @@ func (z nat) norm() nat {
 
 func (z nat) make(n int) nat {
 	if n <= cap(z) {
-		return z[0:n] // reuse z
+		return z[:n] // reuse z
 	}
 	// Choosing a good value for e has significant performance impact
 	// because it increases the chance that a value can be reused.
@@ -78,7 +82,7 @@ func (z nat) make(n int) nat {
 
 func (z nat) setWord(x Word) nat {
 	if x == 0 {
-		return z.make(0)
+		return z[:0]
 	}
 	z = z.make(1)
 	z[0] = x
@@ -122,7 +126,7 @@ func (z nat) add(x, y nat) nat {
 		return z.add(y, x)
 	case m == 0:
 		// n == 0 because m >= n; result is 0
-		return z.make(0)
+		return z[:0]
 	case n == 0:
 		// result is x
 		return z.set(x)
@@ -148,7 +152,7 @@ func (z nat) sub(x, y nat) nat {
 		panic("underflow")
 	case m == 0:
 		// n == 0 because m >= n; result is 0
-		return z.make(0)
+		return z[:0]
 	case n == 0:
 		// result is x
 		return z.set(x)
@@ -384,7 +388,7 @@ func (z nat) mul(x, y nat) nat {
 	case m < n:
 		return z.mul(y, x)
 	case m == 0 || n == 0:
-		return z.make(0)
+		return z[:0]
 	case n == 1:
 		return z.mulAddWW(x, y[0], 0)
 	}
@@ -488,7 +492,7 @@ func (z nat) divW(x nat, y Word) (q nat, r Word) {
 		q = z.set(x) // result is x
 		return
 	case m == 0:
-		q = z.make(0) // result is 0
+		q = z[:0] // result is 0
 		return
 	}
 	// m > 0
@@ -504,7 +508,7 @@ func (z nat) div(z2, u, v nat) (q, r nat) {
 	}
 
 	if u.cmp(v) < 0 {
-		q = z.make(0)
+		q = z[:0]
 		r = z2.set(u)
 		return
 	}
@@ -543,7 +547,7 @@ func (z nat) divLarge(u, uIn, v nat) (q, r nat) {
 		u = nil // u is an alias for uIn or v - cannot reuse
 	}
 	u = u.make(len(uIn) + 1)
-	u.clear()
+	u.clear() // TODO(gri) no need to clear if we allocated a new u
 
 	// D1.
 	shift := leadingZeros(v[n-1])
@@ -665,7 +669,7 @@ func (z nat) scan(r io.RuneScanner, base int) (nat, int, error) {
 					}
 				}
 			case io.EOF:
-				return z.make(0), 10, nil
+				return z[:0], 10, nil
 			default:
 				return z, 10, err
 			}
@@ -675,7 +679,7 @@ func (z nat) scan(r io.RuneScanner, base int) (nat, int, error) {
 	// convert string
 	// - group as many digits d as possible together into a "super-digit" dd with "super-base" bb
 	// - only when bb does not fit into a word anymore, do a full number mulAddWW using bb and dd
-	z = z.make(0)
+	z = z[:0]
 	bb := Word(1)
 	dd := Word(0)
 	for max := _M / b; ; {
@@ -728,7 +732,7 @@ const (
 // decimalString returns a decimal representation of x.
 // It calls x.string with the charset "0123456789".
 func (x nat) decimalString() string {
-	return x.string(lowercaseDigits[0:10])
+	return x.string(lowercaseDigits[:10])
 }
 
 // string converts x to a string using digits from a charset; a digit with
@@ -1041,7 +1045,7 @@ func (x nat) trailingZeroBits() uint {
 func (z nat) shl(x nat, s uint) nat {
 	m := len(x)
 	if m == 0 {
-		return z.make(0)
+		return z[:0]
 	}
 	// m > 0
 
@@ -1058,7 +1062,7 @@ func (z nat) shr(x nat, s uint) nat {
 	m := len(x)
 	n := m - int(s/_W)
 	if n <= 0 {
-		return z.make(0)
+		return z[:0]
 	}
 	// n > 0
 
@@ -1097,12 +1101,36 @@ func (z nat) setBit(x nat, i uint, b uint) nat {
 	panic("set bit is not 0 or 1")
 }
 
-func (z nat) bit(i uint) uint {
-	j := int(i / _W)
-	if j >= len(z) {
+// bit returns the value of the i'th bit, with lsb == bit 0.
+func (x nat) bit(i uint) uint {
+	j := i / _W
+	if j >= uint(len(x)) {
 		return 0
 	}
-	return uint(z[j] >> (i % _W) & 1)
+	// 0 <= j < len(x)
+	return uint(x[j] >> (i % _W) & 1)
+}
+
+// sticky returns 1 if there's a 1 bit within the
+// i least significant bits, otherwise it returns 0.
+func (x nat) sticky(i uint) uint {
+	j := i / _W
+	if j >= uint(len(x)) {
+		if len(x) == 0 {
+			return 0
+		}
+		return 1
+	}
+	// 0 <= j < len(x)
+	for _, x := range x[:j] {
+		if x != 0 {
+			return 1
+		}
+	}
+	if x[j]<<(_W-i%_W) != 0 {
+		return 1
+	}
+	return 0
 }
 
 func (z nat) and(x, y nat) nat {
