@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0449267c_69034103",
+        "filename": "test/fibo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-08T20:38:34Z",
+      "side": 1,
+      "message": "Please add\n\n// skip\n\u003cblank line\u003e\n\nabove this. Otherwise test/run will get mad.",
+      "revId": "103068a57afac0790db23b00e0ab6aeb491e1eee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
