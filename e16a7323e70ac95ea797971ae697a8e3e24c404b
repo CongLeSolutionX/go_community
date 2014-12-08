@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "040206f8_3edc45f2",
+        "filename": "test/fixedbugs/bug302.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-08T21:03:55Z",
+      "side": 1,
+      "message": "This probably needs // +build !nacl. See CL 171350043.",
+      "revId": "e16a7323e70ac95ea797971ae697a8e3e24c404b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "040206f8_7ee2cdab",
+        "filename": "test/fixedbugs/bug302.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-08T21:03:55Z",
+      "side": 1,
+      "message": "You could use build.ArchChar here instead of the map. (cf https://codereview.appspot.com/147220043/diff/40001/test/fixedbugs/bug302.go)",
+      "revId": "e16a7323e70ac95ea797971ae697a8e3e24c404b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
