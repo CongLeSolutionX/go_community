@@ -326,14 +326,14 @@ func (z *Rat) SetFrac64(a, b int64) *Rat {
 // SetInt sets z to x (by making a copy of x) and returns z.
 func (z *Rat) SetInt(x *Int) *Rat {
 	z.a.Set(x)
-	z.b.abs = z.b.abs.make(0)
+	z.b.abs = z.b.abs[:0]
 	return z
 }
 
 // SetInt64 sets z to x and returns z.
 func (z *Rat) SetInt64(x int64) *Rat {
 	z.a.SetInt64(x)
-	z.b.abs = z.b.abs.make(0)
+	z.b.abs = z.b.abs[:0]
 	return z
 }
 
@@ -372,7 +372,7 @@ func (z *Rat) Inv(x *Rat) *Rat {
 	}
 	b := z.a.abs
 	if b.cmp(natOne) == 0 {
-		b = b.make(0) // normalize denominator
+		b = b[:0] // normalize denominator
 	}
 	z.a.abs, z.b.abs = a, b // sign doesn't change
 	return z
@@ -417,12 +417,12 @@ func (z *Rat) norm() *Rat {
 	case len(z.a.abs) == 0:
 		// z == 0 - normalize sign and denominator
 		z.a.neg = false
-		z.b.abs = z.b.abs.make(0)
+		z.b.abs = z.b.abs[:0]
 	case len(z.b.abs) == 0:
 		// z is normalized int - nothing to do
 	case z.b.abs.cmp(natOne) == 0:
 		// z is int - normalize denominator
-		z.b.abs = z.b.abs.make(0)
+		z.b.abs = z.b.abs[:0]
 	default:
 		neg := z.a.neg
 		z.a.neg = false
@@ -432,7 +432,7 @@ func (z *Rat) norm() *Rat {
 			z.b.abs, _ = z.b.abs.div(nil, z.b.abs, f.abs)
 			if z.b.abs.cmp(natOne) == 0 {
 				// z is int - normalize denominator
-				z.b.abs = z.b.abs.make(0)
+				z.b.abs = z.b.abs[:0]
 			}
 		}
 		z.a.neg = neg
