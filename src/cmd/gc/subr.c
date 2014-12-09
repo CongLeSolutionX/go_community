@@ -3760,6 +3760,9 @@ isbadimport(Strlit *path)
 	}
 
 	s = path->s;
+	/* Skip drive letter. Note that this doesn't handle UNC paths. */
+	if (ctxt->windows && *s && isalpha(*s) && *(s + 1) == ':')
+		s += 2;
 	while(*s) {
 		s += chartorune(&r, s);
 		if(r == Runeerror) {
