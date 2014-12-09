@@ -1321,7 +1321,7 @@ exprfmt(Fmt *f, Node *n, int prec)
 			return fmtprint(f, "make(%T, %,H)", n->type, n->list);
 		if(n->right)
 			return fmtprint(f, "make(%T, %N, %N)", n->type, n->left, n->right);
-		if(n->left)
+		if(n->left && (n->op == OMAKESLICE || !isideal(n->left->type)))
 			return fmtprint(f, "make(%T, %N)", n->type, n->left);
 		return fmtprint(f, "make(%T)", n->type);
 
