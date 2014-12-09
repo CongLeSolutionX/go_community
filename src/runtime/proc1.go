@@ -1576,6 +1576,7 @@ func goexit0(gp *g) {
 }
 
 //go:nosplit
+//go:nowritebarrier
 func save(pc, sp uintptr) {
 	_g_ := getg()
 
@@ -1584,8 +1585,8 @@ func save(pc, sp uintptr) {
 	_g_.sched.lr = 0
 	_g_.sched.ret = 0
 	_g_.sched.ctxt = nil
-	// write as uintptr to avoid write barrier, which will smash _g_.sched.
-	*(*uintptr)(unsafe.Pointer(&_g_.sched.g)) = uintptr(unsafe.Pointer(_g_))
+	// _g_.sched.g = _g_, but avoid write barrier, which smashes _g_.sched
+	//*(*uintptr)(unsafe.Pointer(&_g_.sched.g)) = uintptr(unsafe.Pointer(_g_))
 }
 
 // The goroutine g is about to enter a system call.
