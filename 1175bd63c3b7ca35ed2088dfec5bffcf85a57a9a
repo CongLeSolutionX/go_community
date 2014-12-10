@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4205adf_9c13154f",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2014-12-10T18:44:19Z",
+      "side": 1,
+      "message": "This will no longer save _g_ in _g_sched.g which seems reasonable but we should remove the dead comment.",
+      "revId": "1175bd63c3b7ca35ed2088dfec5bffcf85a57a9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
