@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c49c6e86_a13e7edc",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-11T00:03:08Z",
+      "side": 1,
+      "message": "FWIW, If you are at page minus 16, this test decides there is a page boundary crossing. This seems fundamental in the use of TESTW - there are 16 values that will mask down to 0, but only 15 problematic values.\n\nThe code is okay to keep as is, but if you want to be pedantic it should be AND and CMP. The old code was using a \u003e so it did hit the right 15 values only.",
+      "revId": "0b4d8258cf361afdafaba7a89d28eca60e8a1dad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c49c6e86_c17862b5",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-11T00:03:08Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "0b4d8258cf361afdafaba7a89d28eca60e8a1dad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
