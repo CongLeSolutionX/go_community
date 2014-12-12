@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6402e28e_89271dd7",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-12T03:24:55Z",
+      "side": 1,
+      "message": "git clone -b go1.4 https://go.googlesource.com/go ??\n\nalso, should we recommend checkout a branch rather than a tag?\n(because checking out a tag will go into the detached HEAD state)",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "c6a04175bf665ed60ba366483d48286f18c15cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6402e28e_e93fb1db",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-12T03:24:55Z",
+      "side": 1,
+      "message": "same. I still like branches better than tags.",
+      "range": {
+        "startLine": 301,
+        "startChar": 22,
+        "endLine": 301,
+        "endChar": 25
+      },
+      "revId": "c6a04175bf665ed60ba366483d48286f18c15cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
