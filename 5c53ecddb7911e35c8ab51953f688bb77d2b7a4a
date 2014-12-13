@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "046f66ad_f37d90a2",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2014-12-13T22:17:43Z",
+      "side": 1,
+      "message": "I am sorry but it is not possible to change the signature of this method.",
+      "revId": "5c53ecddb7911e35c8ab51953f688bb77d2b7a4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
