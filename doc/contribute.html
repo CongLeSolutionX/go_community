@@ -7,7 +7,7 @@
 <p>
 This document explains how to contribute changes to the Go project.
 It assumes you have installed Go from source:
-<p>
+</p>
 
 <pre>
 $ git clone https://go.googlesource.com/go
@@ -150,7 +150,7 @@ Make sure <code>git-review</code> is installed in your shell path, so that the
 <pre>
 $ git review help
 </pre>
- 
+
 <p>
 prints help text, not an error.
 </p>
@@ -186,7 +186,7 @@ subcommands, so that the above becomes,
 $ git sync
 </pre>
 
-</p>
+<p>
 The <code>git-review</code> subcommands have been chosen to be distinct from
 Git's own, so it's safe to do so.
 </p>
@@ -209,7 +209,9 @@ To install them, copy this text into your Git configuration file
 
 <h3>Understanding the git-review command</h3>
 
-<p>After installing the <code>git-review</code> command, you can run</p>
+<p>
+After installing the <code>git-review</code> command, you can run
+</p>
 
 <pre>
 $ git review help
@@ -254,7 +256,8 @@ and
 </p>
 
 <p>
-If you wish to checkpoint your work, or are ready to send the code out for review, run</p>
+If you wish to checkpoint your work, or are ready to send the code out for review, run
+</p>
 
 <pre>
 $ git change <i>&lt;branch&gt;</i>
@@ -281,7 +284,6 @@ The file will look like:
 </p>
 
 <pre>
-
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
 # On branch foo
@@ -367,7 +369,7 @@ Do not edit or delete it.
 <p>
 (In Git terms, <code>git</code> <code>change</code> with no branch name
 runs <code>git</code> <code>commit</code> <code>--amend</code>.)
-</p> 
+</p>
 
 <h3>Mail the change for review</h3>
 
@@ -484,6 +486,7 @@ For example, suppose you have edited <code>sin.go</code> but
 someone else has committed an independent change.
 When you run <code>git</code> <code>sync</code>,
 you will get the (scary-looking) output:
+</p>
 
 <pre>
 $ git sync
@@ -620,7 +623,8 @@ Feel free to contribute to this page as you learn the review process.
 
 <h2 id="copyright">Copyright</h2>
 
-<p>Files in the Go repository don't list author names,
+<p>
+Files in the Go repository don't list author names,
 both to avoid clutter and to avoid having to keep the lists up to date.
 Instead, your name will appear in the
 <a href="https://golang.org/change">change log</a>
@@ -628,7 +632,8 @@ and in the <a href="/CONTRIBUTORS"><code>CONTRIBUTORS</code></a> file
 and perhaps the <a href="/AUTHORS"><code>AUTHORS</code></a> file.
 </p>
 
-<p>The <a href="/CONTRIBUTORS"><code>CONTRIBUTORS</code></a> file
+<p>
+The <a href="/CONTRIBUTORS"><code>CONTRIBUTORS</code></a> file
 defines who the Go contributors&mdash;the people&mdash;are;
 the <a href="/AUTHORS"><code>AUTHORS</code></a> file defines
 who &ldquo;The Go Authors&rdquo;&mdash;the copyright holders&mdash;are.
@@ -636,12 +641,15 @@ The Go developers at Google will update these files when submitting
 your first change.
 In order for them to do that, you need to have completed one of the
 contributor license agreements:
+</p>
+
 <ul>
 <li>
 If you are the copyright holder, you will need to agree to the
 <a href="https://developers.google.com/open-source/cla/individual">individual
 contributor license agreement</a>, which can be completed online.
 </li>
+
 <li>
 If your organization is the copyright holder, the organization
 will need to agree to the
@@ -657,7 +665,9 @@ it does not need to be completed again.)
 This rigmarole needs to be done only for your first submission.
 </p>
 
-<p>Code that you contribute should use the standard copyright header:</p>
+<p>
+Code that you contribute should use the standard copyright header:
+</p>
 
 <pre>
 // Copyright 2014 The Go Authors. All rights reserved.
