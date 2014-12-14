@@ -148,7 +148,7 @@ func mallocinit() {
 		// Instead we map the memory information bitmap
 		// immediately after the data segment, large enough
 		// to handle another 2GB of mappings (256 MB),
-		// along with a reservation for another 512 MB of memory.
+		// along with a reservation for an initial arena.
 		// When that gets used up, we'll start asking the kernel
 		// for any memory anywhere and hope it's in the 2GB
 		// following the bitmap (presumably the executable begins
@@ -162,6 +162,12 @@ func mallocinit() {
 		// of address space, which is probably too much in a 32-bit world.
 		bitmap_size = _MaxArena32 / (ptrSize * 8 / 4)
 		arena_size = 512 << 20
+		if GOOS == "android" {
+			// The ART runtime in the initial release of Android L
+			// consumes a lot of virtual memory. So we start with
+			// a smaller arena.
+			arena_size = 256 << 20
+		}
 		spans_size = _MaxArena32 / _PageSize * ptrSize
 		if limit > 0 && arena_size+bitmap_size+spans_size > limit {
 			bitmap_size = (limit / 9) &^ ((1 << _PageShift) - 1)
