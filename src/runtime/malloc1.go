@@ -182,9 +182,22 @@ func mallocinit() {
 		p = round(uintptr(unsafe.Pointer(&end))+(1<<18), 1<<20)
 		p_size = bitmap_size + spans_size + arena_size + _PageSize
 		p = uintptr(sysReserve(unsafe.Pointer(p), p_size, &reserved))
-		if p == 0 {
-			gothrow("runtime: cannot reserve arena virtual address space")
-		}
+	}
+
+	if p == 0 {
+		// One more time for 32-bit machines short on virtual memory.
+		// Shrink the initial arena to 256 MB. This is necessary on
+		// Android L where we share virtual memory with ART.
+		//
+		// See issue #9311.
+		arena_size = 256 << 20
+		spans_size = _MaxArena32 / _PageSize * ptrSize
+		p_size = bitmap_size + spans_size + arena_size + _PageSize
+		p = uintptr(sysReserve(unsafe.Pointer(&end), p_size, &reserved))
+	}
+
+	if p == 0 {
+		gothrow("runtime: cannot reserve arena virtual address space")
 	}
 
 	// PageSize can be larger than OS definition of page size,
