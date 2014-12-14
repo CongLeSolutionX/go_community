@@ -673,41 +673,41 @@ This table lists the old and new import paths:
 <tr>
 <td colspan="2"><hr></td>
 </tr>
-<tr><td>crypto/bcrypt</td> <td>code.google.com/p/go.crypto/bcrypt</tr>
-<tr><td>crypto/blowfish</td> <td>code.google.com/p/go.crypto/blowfish</tr>
-<tr><td>crypto/cast5</td> <td>code.google.com/p/go.crypto/cast5</tr>
-<tr><td>crypto/md4</td> <td>code.google.com/p/go.crypto/md4</tr>
-<tr><td>crypto/ocsp</td> <td>code.google.com/p/go.crypto/ocsp</tr>
-<tr><td>crypto/openpgp</td> <td>code.google.com/p/go.crypto/openpgp</tr>
-<tr><td>crypto/openpgp/armor</td> <td>code.google.com/p/go.crypto/openpgp/armor</tr>
-<tr><td>crypto/openpgp/elgamal</td> <td>code.google.com/p/go.crypto/openpgp/elgamal</tr>
-<tr><td>crypto/openpgp/errors</td> <td>code.google.com/p/go.crypto/openpgp/errors</tr>
-<tr><td>crypto/openpgp/packet</td> <td>code.google.com/p/go.crypto/openpgp/packet</tr>
-<tr><td>crypto/openpgp/s2k</td> <td>code.google.com/p/go.crypto/openpgp/s2k</tr>
-<tr><td>crypto/ripemd160</td> <td>code.google.com/p/go.crypto/ripemd160</tr>
-<tr><td>crypto/twofish</td> <td>code.google.com/p/go.crypto/twofish</tr>
-<tr><td>crypto/xtea</td> <td>code.google.com/p/go.crypto/xtea</tr>
-<tr><td>exp/ssh</td> <td>code.google.com/p/go.crypto/ssh</tr>
+<tr><td>crypto/bcrypt</td> <td>code.google.com/p/go.crypto/bcrypt</td></tr>
+<tr><td>crypto/blowfish</td> <td>code.google.com/p/go.crypto/blowfish</td></tr>
+<tr><td>crypto/cast5</td> <td>code.google.com/p/go.crypto/cast5</td></tr>
+<tr><td>crypto/md4</td> <td>code.google.com/p/go.crypto/md4</td></tr>
+<tr><td>crypto/ocsp</td> <td>code.google.com/p/go.crypto/ocsp</td></tr>
+<tr><td>crypto/openpgp</td> <td>code.google.com/p/go.crypto/openpgp</td></tr>
+<tr><td>crypto/openpgp/armor</td> <td>code.google.com/p/go.crypto/openpgp/armor</td></tr>
+<tr><td>crypto/openpgp/elgamal</td> <td>code.google.com/p/go.crypto/openpgp/elgamal</td></tr>
+<tr><td>crypto/openpgp/errors</td> <td>code.google.com/p/go.crypto/openpgp/errors</td></tr>
+<tr><td>crypto/openpgp/packet</td> <td>code.google.com/p/go.crypto/openpgp/packet</td></tr>
+<tr><td>crypto/openpgp/s2k</td> <td>code.google.com/p/go.crypto/openpgp/s2k</td></tr>
+<tr><td>crypto/ripemd160</td> <td>code.google.com/p/go.crypto/ripemd160</td></tr>
+<tr><td>crypto/twofish</td> <td>code.google.com/p/go.crypto/twofish</td></tr>
+<tr><td>crypto/xtea</td> <td>code.google.com/p/go.crypto/xtea</td></tr>
+<tr><td>exp/ssh</td> <td>code.google.com/p/go.crypto/ssh</td></tr>
 <tr>
 <td colspan="2"><hr></td>
 </tr>
-<tr><td>image/bmp</td> <td>code.google.com/p/go.image/bmp</tr>
-<tr><td>image/tiff</td> <td>code.google.com/p/go.image/tiff</tr>
+<tr><td>image/bmp</td> <td>code.google.com/p/go.image/bmp</td></tr>
+<tr><td>image/tiff</td> <td>code.google.com/p/go.image/tiff</td></tr>
 <tr>
 <td colspan="2"><hr></td>
 </tr>
-<tr><td>net/dict</td> <td>code.google.com/p/go.net/dict</tr>
-<tr><td>net/websocket</td> <td>code.google.com/p/go.net/websocket</tr>
-<tr><td>exp/spdy</td> <td>code.google.com/p/go.net/spdy</tr>
+<tr><td>net/dict</td> <td>code.google.com/p/go.net/dict</td></tr>
+<tr><td>net/websocket</td> <td>code.google.com/p/go.net/websocket</td></tr>
+<tr><td>exp/spdy</td> <td>code.google.com/p/go.net/spdy</td></tr>
 <tr>
 <td colspan="2"><hr></td>
 </tr>
-<tr><td>encoding/git85</td> <td>code.google.com/p/go.codereview/git85</tr>
-<tr><td>patch</td> <td>code.google.com/p/go.codereview/patch</tr>
+<tr><td>encoding/git85</td> <td>code.google.com/p/go.codereview/git85</td></tr>
+<tr><td>patch</td> <td>code.google.com/p/go.codereview/patch</td></tr>
 <tr>
 <td colspan="2"><hr></td>
 </tr>
-<tr><td>exp/wingui</td> <td>code.google.com/p/gowingui</tr>
+<tr><td>exp/wingui</td> <td>code.google.com/p/gowingui</td></tr>
 </table>
 
 <p>
@@ -775,7 +775,7 @@ to turn a string into an error. It replaces the old <code>os.NewError</code>.
 </p>
 
 {{code "/doc/progs/go1.go" `/ErrSyntax/`}}
-		
+
 <p>
 <em>Updating</em>:
 Running <code>go</code> <code>fix</code> will update almost all code affected by the change.
@@ -1827,7 +1827,7 @@ for full details.
 <tr><td>Uitob(x, b)</td> <td>FormatUint(uint64(x), b)</td></tr>
 <tr><td>Uitob64(x, b)</td> <td>FormatUint(x, b)</td></tr>
 </table>
-		
+
 <p>
 <em>Updating</em>:
 Running <code>go</code> <code>fix</code> will update almost all code affected by the change.
@@ -1841,7 +1841,7 @@ a cast that must be added by hand; the <code>go</code> <code>fix</code> tool wil
 <h3 id="templates">The template packages</h3>
 
 <p>
-The <code>template</code> and <code>exp/template/html</code> packages have moved to 
+The <code>template</code> and <code>exp/template/html</code> packages have moved to
 <a href="/pkg/text/template/"><code>text/template</code></a> and
 <a href="/pkg/html/template/"><code>html/template</code></a>.
 More significant, the interface to these packages has been simplified.
