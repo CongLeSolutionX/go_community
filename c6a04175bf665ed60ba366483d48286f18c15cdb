@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "046f66ad_f31750eb",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2014-12-15T01:26:37Z",
+      "side": 1,
+      "message": "Tell people \"pick the release branch corresponding to the last stable release\" should be fine for almost all the time. The only times that would end up badly would be if we are cherry-picking multiple CLs onto an existing release branch (post the first stable release from it), and a subset of those CLs is bad.\n\nChecking out a tag is not great, because I think that will result in a detached head unless you first check out the relevant branch.",
+      "parentUuid": "046f66ad_7347c017",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "c6a04175bf665ed60ba366483d48286f18c15cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6402e28e_e93fb1db",
         "filename": "doc/install-source.html",
         "patchSetId": 1
