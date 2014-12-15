@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "046f66ad_935b7cfd",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2014-12-15T00:17:29Z",
+      "side": 1,
+      "message": "I don\u0027t think a \"release\" branch is going to work. It won\u0027t fast-forward between releases, so someone getting go1.4 will never get moved to go1.5 without explicit intention.\n\nI think we should just tell people to pick the right release branch. It shouldn\u0027t be hard. If you\u0027re cloning the source repo in this way then it seems fine to expect people to be able to figure out what the latest version is.",
+      "parentUuid": "046f66ad_73998055",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "c6a04175bf665ed60ba366483d48286f18c15cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6402e28e_e93fb1db",
         "filename": "doc/install-source.html",
         "patchSetId": 1
