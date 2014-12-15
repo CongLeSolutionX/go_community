@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04c126c3_66f0d06e",
+        "filename": "src/runtime/malloc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2014-12-15T17:49:21Z",
+      "side": 1,
+      "message": "I don\u0027t like this as a code repeat with minor unexplained differences (why recompute spans_size but then not adjust it like above?).  Use a for loop over requested arena size ranges.",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 12
+      },
+      "revId": "afc82b1473391e08441326beb0b03c18ce290a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
