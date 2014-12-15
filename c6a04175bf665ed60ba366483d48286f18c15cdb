@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "046f66ad_f38cb019",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2014-12-15T00:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c54e7a_ffbad794",
+      "range": {
+        "startLine": 92,
+        "startChar": 5,
+        "endLine": 92,
+        "endChar": 7
+      },
+      "revId": "c6a04175bf665ed60ba366483d48286f18c15cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6402e28e_89271dd7",
         "filename": "doc/install-source.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-12T03:24:55Z",
       "side": 1,
       "message": "git clone -b go1.4 https://go.googlesource.com/go ??\n\nalso, should we recommend checkout a branch rather than a tag?\n(because checking out a tag will go into the detached HEAD state)",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 42
+      },
+      "revId": "c6a04175bf665ed60ba366483d48286f18c15cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046f66ad_73998055",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2014-12-15T00:06:27Z",
+      "side": 1,
+      "message": "If we tell them to checkout release-branch.go1.4 they might end up with a bad revision between go1.4 and go1.4.1.\n\ndsymonds suggested we might want to maintain a \u0027release\u0027 branch whose HEAD is always set to the current stable release revision.\n\nWe\u0027d need to be careful not to commit to that branch, though, lest things get really confusing. Still not sure what the right course of action is there.",
+      "parentUuid": "6402e28e_89271dd7",
       "range": {
         "startLine": 110,
         "startChar": 2,
