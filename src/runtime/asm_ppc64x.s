@@ -10,6 +10,8 @@
 #include "textflag.h"
 
 TEXT runtime·rt0_go(SB),NOSPLIT,$0
+	// R1 = stack; R3 = argc; R4 = argv; R13 = C TLS base pointer
+
 	// initialize essential registers
 	BL	runtime·reginit(SB)
 
@@ -102,6 +104,8 @@ TEXT runtime·gosave(SB), NOSPLIT, $-8-8
 TEXT runtime·gogo(SB), NOSPLIT, $-8-8
 	MOVD	buf+0(FP), R5
 	MOVD	gobuf_g(R5), g	// make sure g is not nil
+	BL	runtime·postsetg(SB)
+
 	MOVD	0(g), R4
 	MOVD	gobuf_sp(R5), R1
 	MOVD	gobuf_lr(R5), R31
@@ -133,6 +137,7 @@ TEXT runtime·mcall(SB), NOSPLIT, $-8-8
 	MOVD	g, R3
 	MOVD	g_m(g), R8
 	MOVD	m_g0(R8), g
+	BL	runtime·postsetg(SB)
 	CMP	g, R3
 	BNE	2(PC)
 	BR	runtime·badmcall(SB)
@@ -191,6 +196,7 @@ switch:
 
 	// switch to g0
 	MOVD	R5, g
+	BL	runtime·postsetg(SB)
 	MOVD	(g_sched+gobuf_sp)(g), R3
 	// make it look like mstart called systemstack on g0, to stop traceback
 	SUB	$8, R3
@@ -206,6 +212,7 @@ switch:
 	// switch back to g
 	MOVD	g_m(g), R3
 	MOVD	m_curg(R3), g
+	BL	runtime·postsetg(SB)
 	MOVD	(g_sched+gobuf_sp)(g), R1
 	MOVD	R0, (g_sched+gobuf_sp)(g)
 	RETURN
@@ -259,6 +266,7 @@ TEXT runtime·morestack(SB),NOSPLIT,$-8-0
 
 	// Call newstack on m->g0's stack.
 	MOVD	m_g0(R7), g
+	BL	runtime·postsetg(SB)
 	MOVD	(g_sched+gobuf_sp)(g), R1
 	BL	runtime·newstack(SB)
 
@@ -617,6 +625,17 @@ TEXT ·cgocallback_gofunc(SB),NOSPLIT,$8-24
 // void setg(G*); set g. for use by needm.
 TEXT runtime·setg(SB), NOSPLIT, $0-8
 	MOVD	R0, 24(R0)
+
+// runtime·postsetg must be called after changing g to commit it to C TLS.
+// Clobbers R31 only.
+TEXT runtime·postsetg(SB),NOSPLIT,$-8-0
+	// Save g to thread-local storage.
+	MOVB	runtime·iscgo(SB), R31
+	CMP	R31, $0
+	BEQ	nocgo
+	BR	runtime·save_g(SB)
+nocgo:
+	RET
 
 // void setg_gcc(G*); set g called from gcc.
 TEXT setg_gcc<>(SB),NOSPLIT,$0
