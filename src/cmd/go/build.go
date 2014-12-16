@@ -2172,6 +2172,11 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, gccfi
 	// Allows including _cgo_export.h from .[ch] files in the package.
 	cgoCPPFLAGS = append(cgoCPPFLAGS, "-I", obj)
 
+	if goarch == "ppc64" || goarch == "ppc64le" {
+		// Use symbolic register names in assembly
+		cgoCFLAGS = append(cgoCFLAGS, "-mregnames")
+	}
+
 	// cgo
 	// TODO: CGOPKGPATH, CGO_FLAGS?
 	gofiles := []string{obj + "_cgo_gotypes.go"}
