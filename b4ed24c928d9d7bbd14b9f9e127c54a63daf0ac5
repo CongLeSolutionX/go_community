@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "013038e8_eb3e11ac",
+        "filename": "misc/chrome/gophertool/popup.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-16T07:22:23Z",
+      "side": 1,
+      "message": "https on all these",
+      "revId": "b4ed24c928d9d7bbd14b9f9e127c54a63daf0ac5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
