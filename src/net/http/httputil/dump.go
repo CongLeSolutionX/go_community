@@ -98,9 +98,17 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 	defer pr.Close()
 	defer pw.Close()
 	dr := &delegateReader{c: make(chan io.Reader)}
+
+	t := &http.Transport{
+		Dial: func(net, addr string) (net.Conn, error) {
+			return &dumpConn{io.MultiWriter(&buf, pw), dr}, nil
+		},
+	}
+
 	// Wait for the request before replying with a dummy response:
 	go func() {
 		req, err := http.ReadRequest(bufio.NewReader(pr))
+		t.CloseIdleConnections()
 		if err == nil {
 			// Ensure all the body is read; otherwise
 			// we'll get a partial dump.
@@ -109,13 +117,6 @@ func DumpRequestOut(req *http.Request, body bool) ([]byte, error) {
 		}
 		dr.c <- strings.NewReader("HTTP/1.1 204 No Content\r\n\r\n")
 	}()
-
-	t := &http.Transport{
-		DisableKeepAlives: true,
-		Dial: func(net, addr string) (net.Conn, error) {
-			return &dumpConn{io.MultiWriter(&buf, pw), dr}, nil
-		},
-	}
 
 	_, err := t.RoundTrip(reqSend)
 
