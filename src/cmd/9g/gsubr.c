@@ -263,7 +263,14 @@ static	int	resvd[] =
 {
 	REGZERO,
 	REGSP,	// reserved for SP, XXX: not reserved in 9c.
-	30,	// for g
+	// We need to preserve the C ABI TLS pointer because sigtramp
+	// may happen during C code and needs to access the g.  C
+	// clobbers REGG, so if Go were to clobber REGTLS, sigtramp
+	// won't know which convention to use.  By preserving REGTLS,
+	// we can just retrieve g from TLS when we aren't sure.
+	REGTLS,
+	// TODO(austin) Consolidate REGTLS and REGG?
+	REGG,
 	REGTMP,	// REGTMP
 	FREGCVI+NREG,
 	FREGZERO+NREG,
