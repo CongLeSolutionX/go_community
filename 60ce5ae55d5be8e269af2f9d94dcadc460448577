@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6129f484_0ef28bfa",
+        "filename": "src/crypto/rand/eagain.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2014-12-16T04:47:23Z",
+      "side": 1,
+      "message": "s/2010/2014/",
+      "revId": "60ce5ae55d5be8e269af2f9d94dcadc460448577",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
