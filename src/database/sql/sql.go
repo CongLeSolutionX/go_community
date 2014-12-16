@@ -459,7 +459,7 @@ func (db *DB) Ping() error {
 	// TODO(bradfitz): give drivers an optional hook to implement
 	// this in a more efficient or more reliable way, if they
 	// have one.
-	dc, err := db.conn()
+	dc, err := db.conn(false)
 	if err != nil {
 		return err
 	}
@@ -629,17 +629,30 @@ type connRequest struct {
 
 var errDBClosed = errors.New("sql: database is closed")
 
-// conn returns a newly-opened or cached *driverConn
-func (db *DB) conn() (*driverConn, error) {
+// conn returns a newly-opened or cached *driverConn.  If bypassFree is true,
+// any cached connections are not considered and instead a new connection is
+// always opened.
+func (db *DB) conn(bypassFree bool) (*driverConn, error) {
 	db.mu.Lock()
 	if db.closed {
 		db.mu.Unlock()
 		return nil, errDBClosed
 	}
 
-	// If db.maxOpen > 0 and the number of open connections is over the limit
-	// and there are no free connection, make a request and wait.
-	if db.maxOpen > 0 && db.numOpen >= db.maxOpen && len(db.freeConn) == 0 {
+	// Prefer a free connection, if possible.
+	numFree := len(db.freeConn)
+	if !bypassFree && numFree > 0 {
+		conn := db.freeConn[0]
+		copy(db.freeConn, db.freeConn[1:])
+		db.freeConn = db.freeConn[:numFree-1]
+		conn.inUse = true
+		db.mu.Unlock()
+		return conn, nil
+	}
+
+	// Out of free connections or we were asked not to use one.  If we're not
+	// allowed to open any more connections, make a request and wait.
+	if db.maxOpen > 0 && db.numOpen >= db.maxOpen {
 		// Make the connRequest channel. It's buffered so that the
 		// connectionOpener doesn't block while waiting for the req to be read.
 		req := make(chan connRequest, 1)
@@ -647,15 +660,6 @@ func (db *DB) conn() (*driverConn, error) {
 		db.mu.Unlock()
 		ret := <-req
 		return ret.conn, ret.err
-	}
-
-	if c := len(db.freeConn); c > 0 {
-		conn := db.freeConn[0]
-		copy(db.freeConn, db.freeConn[1:])
-		db.freeConn = db.freeConn[:c-1]
-		conn.inUse = true
-		db.mu.Unlock()
-		return conn, nil
 	}
 
 	db.numOpen++ // optimistically
@@ -819,8 +823,9 @@ func (db *DB) putConnDBLocked(dc *driverConn, err error) bool {
 }
 
 // maxBadConnRetries is the number of maximum retries if the driver returns
-// driver.ErrBadConn to signal a broken connection.
-const maxBadConnRetries = 10
+// driver.ErrBadConn to signal a broken connection before forcing a new
+// connection to be opened.
+const maxBadConnRetries = 2
 
 // Prepare creates a prepared statement for later queries or executions.
 // Multiple queries or executions may be run concurrently from the
@@ -829,22 +834,26 @@ func (db *DB) Prepare(query string) (*Stmt, error) {
 	var stmt *Stmt
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		stmt, err = db.prepare(query)
+		stmt, err = db.prepare(query, false)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
+	// if the connection is still bad, make sure we try to establish a new one
+	if err == driver.ErrBadConn {
+		return db.prepare(query, true)
+	}
 	return stmt, err
 }
 
-func (db *DB) prepare(query string) (*Stmt, error) {
+func (db *DB) prepare(query string, bypassFree bool) (*Stmt, error) {
 	// TODO: check if db.driver supports an optional
 	// driver.Preparer interface and call that instead, if so,
 	// otherwise we make a prepared statement that's bound
 	// to a connection, and to execute this prepared statement
 	// we either need to use this connection (if it's free), else
 	// get a new connection + re-prepare + execute on that one.
-	dc, err := db.conn()
+	dc, err := db.conn(bypassFree)
 	if err != nil {
 		return nil, err
 	}
@@ -871,16 +880,20 @@ func (db *DB) Exec(query string, args ...interface{}) (Result, error) {
 	var res Result
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		res, err = db.exec(query, args)
+		res, err = db.exec(query, args, false)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
+	// if the connection is still bad, make sure we try to establish a new one
+	if err == driver.ErrBadConn {
+		return db.exec(query, args, true)
+	}
 	return res, err
 }
 
-func (db *DB) exec(query string, args []interface{}) (res Result, err error) {
-	dc, err := db.conn()
+func (db *DB) exec(query string, args []interface{}, bypassFree bool) (res Result, err error) {
+	dc, err := db.conn(bypassFree)
 	if err != nil {
 		return nil, err
 	}
@@ -920,16 +933,20 @@ func (db *DB) Query(query string, args ...interface{}) (*Rows, error) {
 	var rows *Rows
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		rows, err = db.query(query, args)
+		rows, err = db.query(query, args, false)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
+	// if the connection is still bad, make sure we try to establish a new one
+	if err == driver.ErrBadConn {
+		return db.query(query, args, true)
+	}
 	return rows, err
 }
 
-func (db *DB) query(query string, args []interface{}) (*Rows, error) {
-	ci, err := db.conn()
+func (db *DB) query(query string, args []interface{}, bypassFree bool) (*Rows, error) {
+	ci, err := db.conn(bypassFree)
 	if err != nil {
 		return nil, err
 	}
@@ -1008,16 +1025,20 @@ func (db *DB) Begin() (*Tx, error) {
 	var tx *Tx
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		tx, err = db.begin()
+		tx, err = db.begin(false)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
+	// if the connection is still bad, make sure we try to establish a new one
+	if err == driver.ErrBadConn {
+		return db.begin(true)
+	}
 	return tx, err
 }
 
-func (db *DB) begin() (tx *Tx, err error) {
-	dc, err := db.conn()
+func (db *DB) begin(bypassFree bool) (tx *Tx, err error) {
+	dc, err := db.conn(bypassFree)
 	if err != nil {
 		return nil, err
 	}
@@ -1394,7 +1415,7 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 	// new one.
 	//
 	// TODO(bradfitz): or always wait for one? make configurable later?
-	dc, err := s.db.conn()
+	dc, err := s.db.conn(false)
 	if err != nil {
 		return nil, nil, nil, err
 	}
