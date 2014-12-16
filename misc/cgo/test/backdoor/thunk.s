@@ -4,13 +4,21 @@
 
 // Assembly to get into package runtime without using exported symbols.
 
-// +build amd64 amd64p32 arm 386
+// +build amd64 amd64p32 arm 386 ppc64 ppc64le
 // +build gc
 
 #include "textflag.h"
 
 #ifdef GOARCH_arm
 #define JMP B
+#endif
+
+#ifdef GOARCH_ppc64
+#define JMP BR
+#endif
+
+#ifdef GOARCH_ppc64le
+#define JMP BR
 #endif
 
 TEXT ·LockedOSThread(SB),NOSPLIT,$0-0
