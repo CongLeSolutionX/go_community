@@ -704,6 +704,16 @@ The blank identifier has many uses, as described in <a href="#blank">a later sec
 </p>
 
 <p>
+If you are not interested in the loop values, only the iteration itself,
+you can use a variable-free form of the loop to discard the values:
+</p>
+<pre>
+for range array {
+    // do something....
+}
+</pre>
+
+<p>
 For strings, the <code>range</code> does more work for you, breaking out individual
 Unicode code points by parsing the UTF-8.
 Erroneous encodings consume one byte and produce the
