@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "046f66ad_9ccaa9ae",
+        "filename": "doc/install-source.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2014-12-16T04:43:46Z",
+      "side": 1,
+      "message": "s/command/\u0026 before proceeding/",
+      "range": {
+        "startLine": 92,
+        "startChar": 24,
+        "endLine": 92,
+        "endChar": 31
+      },
+      "revId": "d5e01975ad8a816cf735453511a85d05ec3cf7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046f66ad_dcd42154",
+        "filename": "doc/install-source.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2014-12-16T04:43:46Z",
+      "side": 1,
+      "message": "s/:/,/",
+      "range": {
+        "startLine": 290,
+        "startChar": 55,
+        "endLine": 290,
+        "endChar": 63
+      },
+      "revId": "d5e01975ad8a816cf735453511a85d05ec3cf7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
