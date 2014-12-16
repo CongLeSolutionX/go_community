@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1b4ccb0_687323d9",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2014-12-16T22:20:37Z",
+      "side": 1,
+      "message": "it doesn\u0027t really discard the values and looping over an array like this makes little sense. it\u0027s really there for things like looping over a signalling channel, but channels haven\u0027t been introduced yet in this document.\n\nlet me think about the right way to do this. i\u0027m not convinced anything needs to be done, however; this document doesn\u0027t need to be encyclopedic.",
+      "range": {
+        "startLine": 708,
+        "startChar": 33,
+        "endLine": 708,
+        "endChar": 35
+      },
+      "revId": "2b4caa7c89a565a2808a0d58ade7d7e5827420b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
