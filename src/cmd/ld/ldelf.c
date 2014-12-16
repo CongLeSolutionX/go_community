@@ -613,6 +613,13 @@ ldelf(Biobuf *f, char *pkg, int64 len, char *pn)
 					diag("%s: duplicate definition of %s", pn, s->name);
 			s->external = 1;
 		}
+		if(obj->machine == ElfMachPower64) {
+			int flag = sym.other >> 5;
+			if(2 <= flag && flag <= 6)
+				s->localentry = 1 << (flag - 2);
+			else if(flag == 7)
+				diag("%s: invalid sym.other 0x%x", sym.other);
+		}
 	}
 	
 	// Sort outer lists by address, adding to textp.
