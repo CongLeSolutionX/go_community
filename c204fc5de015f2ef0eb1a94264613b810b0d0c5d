@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1dbec04_7036b08a",
+        "filename": "src/cmd/6g/ggen.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-17T01:17:29Z",
+      "side": 1,
+      "message": "{0, 8, or 16}, strictly speaking (nacl)",
+      "revId": "c204fc5de015f2ef0eb1a94264613b810b0d0c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dbec04_1068845e",
+        "filename": "src/cmd/gc/subr.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-17T01:17:29Z",
+      "side": 1,
+      "message": "Nit, but maybe include extra here, e.g.:\n\n\t\tfatal(\"bad argwid %ld + %T\", extra, t);",
+      "revId": "c204fc5de015f2ef0eb1a94264613b810b0d0c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
