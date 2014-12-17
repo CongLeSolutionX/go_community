@@ -71,7 +71,7 @@ func Stat(name string) (fi FileInfo, err error) {
 // If there is an error, it will be of type *PathError.
 func Lstat(name string) (fi FileInfo, err error) {
 	if len(name) == 0 {
-		return nil, &PathError{"Lstat", name, syscall.Errno(syscall.ERROR_PATH_NOT_FOUND)}
+		return nil, &PathError{"Lstat", name, syscall.ERROR_PATH_NOT_FOUND}
 	}
 	if name == DevNull {
 		return &devNullStat, nil

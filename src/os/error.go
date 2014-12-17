@@ -6,6 +6,7 @@ package os
 
 import (
 	"errors"
+	"syscall"
 )
 
 // Portable analogs of some common system call errors.
@@ -62,4 +63,17 @@ func IsNotExist(err error) bool {
 // as some syscall errors.
 func IsPermission(err error) bool {
 	return isPermission(err)
+}
+
+// Ugly hack to avoid allocations when comparing type error (an interface)
+// to type syscall.Errno (a uintptr). The allocation would come from
+// runtime.convT2I, inserted by the compiler in an expr like
+// "if err == syscall.EPIPE", in order to promote syscall.EPIPE to an
+// interface for the comparision.
+//
+// A fix for issue 8618 would probably remove the need for this.
+func errEq(e1 error, e2 syscall.Errno) bool {
+	//	e3, ok := e1.(syscall.Errno)
+	//	return ok && e2 == e3
+	return e1 == e2
 }

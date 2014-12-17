@@ -56,7 +56,7 @@ type dirInfo struct {
 }
 
 func epipecheck(file *File, e error) {
-	if e == syscall.EPIPE {
+	if errEq(e, syscall.EPIPE) {
 		if atomic.AddInt32(&file.nepipe, 1) >= 10 {
 			sigpipe()
 		}
@@ -227,7 +227,7 @@ func (f *File) write(b []byte) (n int, err error) {
 		// If the syscall wrote some data but not all (short write)
 		// or it returned EINTR, then assume it stopped early for
 		// reasons that are uninteresting to the caller, and try again.
-		if 0 < m && m < len(bcap) || err == syscall.EINTR {
+		if 0 < m && m < len(bcap) || errEq(err, syscall.EINTR) {
 			b = b[m:]
 			continue
 		}
@@ -293,7 +293,7 @@ func Remove(name string) error {
 	// file path, like /etc/passwd/foo, but in that case,
 	// both errors will be ENOTDIR, so it's okay to
 	// use the error from unlink.
-	if e1 != syscall.ENOTDIR {
+	if !errEq(e1, syscall.ENOTDIR) {
 		e = e1
 	}
 	return &PathError{"remove", name, e}

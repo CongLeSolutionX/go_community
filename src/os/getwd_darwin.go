@@ -11,5 +11,5 @@ func init() {
 }
 
 func useSyscallwdDarwin(err error) bool {
-	return err != syscall.ENOTSUP
+	return !errEq(err, syscall.ENOTSUP)
 }

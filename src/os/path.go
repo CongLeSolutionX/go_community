@@ -73,7 +73,7 @@ func RemoveAll(path string) error {
 	// Otherwise, is this a directory we need to recurse into?
 	dir, serr := Lstat(path)
 	if serr != nil {
-		if serr, ok := serr.(*PathError); ok && (IsNotExist(serr.Err) || serr.Err == syscall.ENOTDIR) {
+		if serr, ok := serr.(*PathError); ok && (IsNotExist(serr.Err) || errEq(serr.Err, syscall.ENOTDIR)) {
 			return nil
 		}
 		return serr

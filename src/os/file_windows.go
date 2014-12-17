@@ -99,7 +99,7 @@ func openDir(name string) (file *File, err error) {
 		// FindFirstFile returns ERROR_FILE_NOT_FOUND when
 		// no matching files can be found. Then, if directory
 		// exists, we should proceed.
-		if e != syscall.ERROR_FILE_NOT_FOUND {
+		if errEq(e, syscall.ERROR_FILE_NOT_FOUND) {
 			return nil, e
 		}
 		var fa syscall.Win32FileAttributeData
@@ -211,7 +211,7 @@ func (file *File) readdir(n int) (fi []FileInfo, err error) {
 		if file.dirinfo.needdata {
 			e := syscall.FindNextFile(syscall.Handle(file.fd), d)
 			if e != nil {
-				if e == syscall.ERROR_NO_MORE_FILES {
+				if errEq(e, syscall.ERROR_NO_MORE_FILES) {
 					break
 				} else {
 					err = &PathError{"FindNextFile", file.name, e}
@@ -317,7 +317,7 @@ func (f *File) pread(b []byte, off int64) (n int, err error) {
 	var done uint32
 	e = syscall.ReadFile(syscall.Handle(f.fd), b, &done, &o)
 	if e != nil {
-		if e == syscall.ERROR_HANDLE_EOF {
+		if errEq(e, syscall.ERROR_HANDLE_EOF) {
 			// end of file
 			return 0, nil
 		}

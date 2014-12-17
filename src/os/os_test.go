@@ -1233,6 +1233,62 @@ func TestDevNullFile(t *testing.T) {
 	}
 }
 
+func TestAllocsPerWrite(t *testing.T) {
+	f, err := Create(DevNull)
+	if err != nil {
+		t.Fatalf("Create(%s): %v", DevNull, err)
+	}
+	defer f.Close()
+
+	zeros := make([]byte, 100)
+	allocs := testing.AllocsPerRun(1000, func() {
+		n, err := f.Write(zeros)
+		if err != nil {
+			panic(err)
+		}
+		if n != len(zeros) {
+			panic("short write")
+		}
+	})
+	if allocs != 0 {
+		t.Fatal("Allocs per write: ", allocs)
+	}
+}
+
+func TestAllocsPerSeekAndRead(t *testing.T) {
+	zeros := make([]byte, 100)
+
+	// Make a file to read from. On unix, we could use
+	// /dev/zero, but using a temp file like this is
+	// more portable.
+	f, err := Create("a")
+	if err != nil {
+		t.Fatalf("Create(a): %v", err)
+	}
+	n, err := f.Write(zeros)
+	if err != nil {
+		t.Fatalf("Write: %v", err)
+	}
+	if n != len(zeros) {
+		t.Fatal("short write")
+	}
+	defer Remove(f.Name())
+
+	allocs := testing.AllocsPerRun(1000, func() {
+		f.Seek(0, SEEK_SET)
+		n, err := f.Read(zeros)
+		if err != nil {
+			panic(err)
+		}
+		if n != len(zeros) {
+			panic("short write")
+		}
+	})
+	if allocs != 0 {
+		t.Fatal("Allocs per read: ", allocs)
+	}
+}
+
 var testLargeWrite = flag.Bool("large_write", false, "run TestLargeWriteToConsole test that floods console with output")
 
 func TestLargeWriteToConsole(t *testing.T) {
