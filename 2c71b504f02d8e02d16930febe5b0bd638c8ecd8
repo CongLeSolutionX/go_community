@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41eeb0c7_70d48e53",
+        "filename": "src/os/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-18T00:14:20Z",
+      "side": 1,
+      "message": "this would break plan9 where there is no syscall.Errno.\n\nYou can verify with GOOS\u003dplan9 ./make.bash in the src directory.\n\nYou\u0027ll need to use +build tags.",
+      "revId": "2c71b504f02d8e02d16930febe5b0bd638c8ecd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41eeb0c7_b0dd5676",
+        "filename": "src/os/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-18T00:14:20Z",
+      "side": 1,
+      "message": "e1 to e3 isn\u0027t very readable",
+      "revId": "2c71b504f02d8e02d16930febe5b0bd638c8ecd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
