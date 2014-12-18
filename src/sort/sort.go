@@ -385,8 +385,12 @@ func symMerge(data Interface, a, m, b int) {
 	}
 	end := n - start
 	rotate(data, start, m, end)
-	symMerge(data, a, start, mid)
-	symMerge(data, mid, end, b)
+	if a < start && start < mid {
+		symMerge(data, a, start, mid)
+	}
+	if mid < end && end < b {
+		symMerge(data, mid, end, b)
+	}
 }
 
 // Rotate two consecutives blocks u = data[a:m] and v = data[m:b] in data:
