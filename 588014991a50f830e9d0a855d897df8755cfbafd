@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "41d1503e_55652cb4",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-18T21:50:25Z",
+      "side": 1,
+      "message": "Right. Perhaps even a bool will do.\nIs there any protocol that specifies another padding character?",
+      "parentUuid": "21e37c20_8cd84786",
+      "revId": "588014991a50f830e9d0a855d897df8755cfbafd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21e37c20_acd3036b",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 6
