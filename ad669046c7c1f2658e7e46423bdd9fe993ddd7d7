@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41d1503e_d5625c82",
+        "filename": "src/cmd/ld/elf.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-18T22:32:29Z",
+      "side": 1,
+      "message": "add a comment \"// fallthrough\" before this line.",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 10
+      },
+      "revId": "ad669046c7c1f2658e7e46423bdd9fe993ddd7d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
