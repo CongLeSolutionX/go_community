@@ -22,6 +22,30 @@
       "revId": "c63c06cb284da80c4011a379b5773a00b9c3986c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21e37c20_ecc90bbb",
+        "filename": "src/cmd/ld/elf.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2014-12-18T21:23:29Z",
+      "side": 1,
+      "message": "I was wondering about that as well, but it wasn\u0027t clear to be that ctxt was visible at this point in the program; i\u0027m used to parts of liblink where ctxt is passed in as an argument",
+      "parentUuid": "41d1503e_f501d8fb",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "c63c06cb284da80c4011a379b5773a00b9c3986c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
