@@ -18,14 +18,12 @@ package mail
 import (
 	"bufio"
 	"bytes"
-	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
+	"mime"
 	"net/textproto"
-	"strconv"
 	"strings"
 	"time"
 	"unicode"
@@ -168,33 +166,10 @@ func (a *Address) String() string {
 		}
 	}
 	if allPrintable {
-		b := bytes.NewBufferString(`"`)
-		for i := 0; i < len(a.Name); i++ {
-			if !isQtext(a.Name[i]) && !isWSP(a.Name[i]) {
-				b.WriteByte('\\')
-			}
-			b.WriteByte(a.Name[i])
-		}
-		b.WriteString(`" `)
-		b.WriteString(s)
-		return b.String()
+		return `"` + a.Name + `" ` + s
 	}
 
-	// UTF-8 "Q" encoding
-	b := bytes.NewBufferString("=?utf-8?q?")
-	for i := 0; i < len(a.Name); i++ {
-		switch c := a.Name[i]; {
-		case c == ' ':
-			b.WriteByte('_')
-		case isVchar(c) && c != '=' && c != '?' && c != '_':
-			b.WriteByte(c)
-		default:
-			fmt.Fprintf(b, "=%02X", c)
-		}
-	}
-	b.WriteString("?= ")
-	b.WriteString(s)
-	return b.String()
+	return mime.Q.NewHeaderEncoder("UTF-8").Encode(a.Name) + " " + s
 }
 
 type addrParser []byte
@@ -352,7 +327,33 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 
 		// RFC 2047 encoded-word starts with =?, ends with ?=, and has two other ?s.
 		if err == nil && strings.HasPrefix(word, "=?") && strings.HasSuffix(word, "?=") && strings.Count(word, "?") == 4 {
-			word, err = decodeRFC2047Word(word)
+			var charset string
+			word, charset, err = mime.DecodeHeader(word)
+			if err != nil {
+				return "", err
+			}
+			switch charset {
+			case "ISO-8859-1":
+				buf := make([]rune, len(word))
+				for i := 0; i < len(word); i++ {
+					buf[i] = rune(word[i])
+				}
+				word = string(buf)
+			case "US-ASCII":
+				buf := make([]rune, len(word))
+				for i := 0; i < len(word); i++ {
+					c := word[i]
+					if c >= 0x80 {
+						buf[i] = unicode.ReplacementChar
+					} else {
+						buf[i] = rune(c)
+					}
+				}
+				word = string(buf)
+			case "UTF-8":
+			default:
+				return "", fmt.Errorf("charset not supported: %q", charset)
+			}
 		}
 
 		if err != nil {
@@ -438,86 +439,6 @@ func (p *addrParser) empty() bool {
 
 func (p *addrParser) len() int {
 	return len(*p)
-}
-
-func decodeRFC2047Word(s string) (string, error) {
-	fields := strings.Split(s, "?")
-	if len(fields) != 5 || fields[0] != "=" || fields[4] != "=" {
-		return "", errors.New("address not RFC 2047 encoded")
-	}
-	charset, enc := strings.ToLower(fields[1]), strings.ToLower(fields[2])
-	if charset != "us-ascii" && charset != "iso-8859-1" && charset != "utf-8" {
-		return "", fmt.Errorf("charset not supported: %q", charset)
-	}
-
-	in := bytes.NewBufferString(fields[3])
-	var r io.Reader
-	switch enc {
-	case "b":
-		r = base64.NewDecoder(base64.StdEncoding, in)
-	case "q":
-		r = qDecoder{r: in}
-	default:
-		return "", fmt.Errorf("RFC 2047 encoding not supported: %q", enc)
-	}
-
-	dec, err := ioutil.ReadAll(r)
-	if err != nil {
-		return "", err
-	}
-
-	switch charset {
-	case "us-ascii":
-		b := new(bytes.Buffer)
-		for _, c := range dec {
-			if c >= 0x80 {
-				b.WriteRune(unicode.ReplacementChar)
-			} else {
-				b.WriteRune(rune(c))
-			}
-		}
-		return b.String(), nil
-	case "iso-8859-1":
-		b := new(bytes.Buffer)
-		for _, c := range dec {
-			b.WriteRune(rune(c))
-		}
-		return b.String(), nil
-	case "utf-8":
-		return string(dec), nil
-	}
-	panic("unreachable")
-}
-
-type qDecoder struct {
-	r       io.Reader
-	scratch [2]byte
-}
-
-func (qd qDecoder) Read(p []byte) (n int, err error) {
-	// This method writes at most one byte into p.
-	if len(p) == 0 {
-		return 0, nil
-	}
-	if _, err := qd.r.Read(qd.scratch[:1]); err != nil {
-		return 0, err
-	}
-	switch c := qd.scratch[0]; {
-	case c == '=':
-		if _, err := io.ReadFull(qd.r, qd.scratch[:2]); err != nil {
-			return 0, err
-		}
-		x, err := strconv.ParseInt(string(qd.scratch[:2]), 16, 64)
-		if err != nil {
-			return 0, fmt.Errorf("mail: invalid RFC 2047 encoding: %q", qd.scratch[:2])
-		}
-		p[0] = byte(x)
-	case c == '_':
-		p[0] = ' '
-	default:
-		p[0] = c
-	}
-	return 1, nil
 }
 
 var atextChars = []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZ" +

@@ -1,8 +1,8 @@
-// Copyright 2012 The Go Authors. All rights reserved.
+// Copyright 2014 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package multipart
+package quotedprintable
 
 import (
 	"bufio"
@@ -11,6 +11,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"regexp"
 	"sort"
@@ -18,6 +19,34 @@ import (
 	"testing"
 	"time"
 )
+
+func ExampleEncodeToString() {
+	data := []byte("¡Hola, señor!")
+	str := EncodeToString(data)
+	fmt.Println(str)
+	// Output:
+	// =C2=A1Hola, se=C3=B1or!
+}
+
+func ExampleDecodeString() {
+	str := "=C2=A1Hola, se=C3=B1or!"
+	data, err := DecodeString(str)
+	if err != nil {
+		fmt.Println("error:", err)
+		return
+	}
+	fmt.Printf("%s\n", data)
+	// Output:
+	// ¡Hola, señor!
+}
+
+func ExampleNewEncoder() {
+	input := []byte("Café")
+	encoder := NewEncoder(os.Stdout)
+	encoder.Write(input)
+	// Output:
+	// Caf=C3=A9
+}
 
 func TestQuotedPrintable(t *testing.T) {
 	tests := []struct {
@@ -30,14 +59,14 @@ func TestQuotedPrintable(t *testing.T) {
 		{in: "foo bar=\n", want: "foo bar"},
 		{in: "foo bar\n", want: "foo bar\n"}, // somewhat lax.
 		{in: "foo bar=0", want: "foo bar", err: io.ErrUnexpectedEOF},
-		{in: "foo bar=ab", want: "foo bar", err: "multipart: invalid quoted-printable hex byte 0x61"},
+		{in: "foo bar=ab", want: "foo bar", err: "quotedprintable: invalid quoted-printable hex byte 0x61"},
 		{in: "foo bar=0D=0A", want: "foo bar\r\n"},
 		{in: " A B        \r\n C ", want: " A B\r\n C"},
 		{in: " A B =\r\n C ", want: " A B  C"},
 		{in: " A B =\n C ", want: " A B  C"}, // lax. treating LF as CRLF
 		{in: "foo=\nbar", want: "foobar"},
-		{in: "foo\x00bar", want: "foo", err: "multipart: invalid unescaped byte 0x00 in quoted-printable body"},
-		{in: "foo bar\xff", want: "foo bar", err: "multipart: invalid unescaped byte 0xff in quoted-printable body"},
+		{in: "foo\x00bar", want: "foo", err: "quotedprintable: invalid unescaped byte 0x00 in quoted-printable body"},
+		{in: "foo bar\xff", want: "foo bar", err: "quotedprintable: invalid unescaped byte 0xff in quoted-printable body"},
 
 		// Equal sign.
 		{in: "=3D30\n", want: "=30\n"},
@@ -56,8 +85,8 @@ func TestQuotedPrintable(t *testing.T) {
 		// Different types of soft line-breaks.
 		{in: "foo=\r\nbar", want: "foobar"},
 		{in: "foo=\nbar", want: "foobar"},
-		{in: "foo=\rbar", want: "foo", err: "multipart: invalid quoted-printable hex byte 0x0d"},
-		{in: "foo=\r\r\r \nbar", want: "foo", err: `multipart: invalid bytes after =: "\r\r\r \n"`},
+		{in: "foo=\rbar", want: "foo", err: "quotedprintable: invalid quoted-printable hex byte 0x0d"},
+		{in: "foo=\r\r\r \nbar", want: "foo", err: `quotedprintable: invalid bytes after =: "\r\r\r \n"`},
 
 		// Example from RFC 2045:
 		{in: "Now's the time =\n" + "for all folk to come=\n" + " to the aid of their country.",
@@ -65,7 +94,7 @@ func TestQuotedPrintable(t *testing.T) {
 	}
 	for _, tt := range tests {
 		var buf bytes.Buffer
-		_, err := io.Copy(&buf, newQuotedPrintableReader(strings.NewReader(tt.in)))
+		_, err := io.Copy(&buf, NewDecoder(strings.NewReader(tt.in)))
 		if got := buf.String(); got != tt.want {
 			t.Errorf("for %q, got %q; want %q", tt.in, got, tt.want)
 		}
@@ -116,7 +145,7 @@ func TestQPExhaustive(t *testing.T) {
 			return
 		}
 		buf.Reset()
-		_, err := io.Copy(&buf, newQuotedPrintableReader(strings.NewReader(s)))
+		_, err := io.Copy(&buf, NewDecoder(strings.NewReader(s)))
 		if err != nil {
 			errStr := err.Error()
 			if strings.Contains(errStr, "invalid bytes after =:") {
@@ -193,12 +222,92 @@ func TestQPExhaustive(t *testing.T) {
 	got := strings.Join(outcomes, "\n")
 	want := `OK: 21576
 invalid bytes after =: 3397
-multipart: invalid quoted-printable hex byte 0x0a: 1400
-multipart: invalid quoted-printable hex byte 0x0d: 2700
-multipart: invalid quoted-printable hex byte 0x20: 2490
-multipart: invalid quoted-printable hex byte 0x3d: 440
-unexpected EOF: 3122`
+quotedprintable: invalid quoted-printable hex byte 0x0a: 1190
+quotedprintable: invalid quoted-printable hex byte 0x0d: 3325
+quotedprintable: invalid quoted-printable hex byte 0x20: 3325
+quotedprintable: invalid quoted-printable hex byte 0x3d: 810
+unexpected EOF: 1502`
 	if got != want {
 		t.Errorf("Got:\n%s\nWant:\n%s", got, want)
+	}
+}
+
+func TestEncodeToString(t *testing.T) {
+	tests := []struct {
+		in, want string
+	}{
+		{in: "", want: ""},
+		{in: "foo bar", want: "foo bar"},
+		{in: "foo bar=", want: "foo bar=3D"},
+		{in: "foo bar\n", want: "foo bar\n"},
+		{in: "foo bar\r\n", want: "foo bar\r\n"},
+		{in: "foo bar ", want: "foo bar=20"},
+		{in: "foo bar  ", want: "foo bar =20"},
+		{in: "foo bar \n", want: "foo bar=20\n"},
+		{in: "foo bar  \n", want: "foo bar =20\n"},
+		{in: "foo bar  \n ", want: "foo bar =20\n=20"},
+		{in: "résumé", want: "r=C3=A9sum=C3=A9"},
+		{in: "\t !\"#$%&'()*+,-./ :;<>?@[\\]^_`{|}~", want: "\t !\"#$%&'()*+,-./ :;<>?@[\\]^_`{|}~"},
+	}
+
+	for _, tt := range tests {
+		got := EncodeToString([]byte(tt.in))
+		if got != tt.want {
+			t.Errorf("EncodeToString(%q), got %q; want %q", tt.in, got, tt.want)
+		}
+	}
+}
+
+type brokenWriter struct {
+	errorByte int
+	*bytes.Buffer
+}
+
+func (w *brokenWriter) Write(p []byte) (int, error) {
+	for i, b := range p {
+		if i == w.errorByte {
+			return i, errors.New("Broken writer error")
+		}
+		w.WriteByte(b)
+	}
+
+	return len(p), nil
+}
+
+func newBrokenWriter(l int) *brokenWriter {
+	return &brokenWriter{l, new(bytes.Buffer)}
+}
+
+func TestEncoder(t *testing.T) {
+	tests := []struct {
+		in, want     string
+		errorByte, n int
+		isError      bool
+	}{
+		{in: "a", want: "", errorByte: 0, n: 0, isError: true},
+		{in: "a", want: "a", errorByte: 1, n: 1, isError: false},
+		{in: "=", want: "=", errorByte: 1, n: 0, isError: true},
+		{in: "=", want: "=3", errorByte: 2, n: 0, isError: true},
+		{in: "=", want: "=3D", errorByte: 3, n: 1, isError: false},
+		{in: "==", want: "=3D", errorByte: 3, n: 1, isError: true},
+		{in: "==", want: "=3D=", errorByte: 4, n: 1, isError: true},
+		{in: "==", want: "=3D=3", errorByte: 5, n: 1, isError: true},
+		{in: " \r\n", want: "=20\r", errorByte: 4, n: 2, isError: true},
+	}
+
+	for _, tt := range tests {
+		w := newBrokenWriter(tt.errorByte)
+		n, err := NewEncoder(w).Write([]byte(tt.in))
+		if tt.isError && (err == nil) {
+			t.Errorf("NewEncoder.Write(%q) with error at byte %d should return an error", tt.in, tt.errorByte)
+		} else if !tt.isError && (err != nil) {
+			t.Errorf("NewEncoder.Write(%q) with error at byte %d should not return an error", tt.in, tt.errorByte)
+		}
+		if w.String() != tt.want {
+			t.Errorf("NewEncoder.Write(%q) with error at byte %d, got %q; want %q", tt.in, tt.errorByte, w.String(), tt.want)
+		}
+		if n != tt.n {
+			t.Errorf("NewEncoder.Write(%q) with error at byte %d, got n=%d; want n=%d", tt.in, tt.errorByte, n, tt.n)
+		}
 	}
 }

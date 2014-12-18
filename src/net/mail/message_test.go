@@ -214,6 +214,16 @@ func TestAddressParsing(t *testing.T) {
 				},
 			},
 		},
+		// RFC 2047 ASCII address.
+		{
+			`=?us-ascii?q?John_Doe?= <john@example.com>`,
+			[]*Address{
+				{
+					Name:    `John Doe`,
+					Address: "john@example.com",
+				},
+			},
+		},
 		// RFC 2047, Section 8.
 		{
 			`=?ISO-8859-1?Q?Andr=E9?= Pirard <PIRARD@vm1.ulg.ac.be>`,
@@ -294,7 +304,7 @@ func TestAddressFormatting(t *testing.T) {
 		{
 			// note the ö (o with an umlaut)
 			&Address{Name: "Böb", Address: "bob@example.com"},
-			`=?utf-8?q?B=C3=B6b?= <bob@example.com>`,
+			`=?UTF-8?Q?B=C3=B6b?= <bob@example.com>`,
 		},
 		{
 			&Address{Name: "Bob Jane", Address: "bob@example.com"},
@@ -302,7 +312,7 @@ func TestAddressFormatting(t *testing.T) {
 		},
 		{
 			&Address{Name: "Böb Jacöb", Address: "bob@example.com"},
-			`=?utf-8?q?B=C3=B6b_Jac=C3=B6b?= <bob@example.com>`,
+			`=?UTF-8?Q?B=C3=B6b_Jac=C3=B6b?= <bob@example.com>`,
 		},
 	}
 	for _, test := range tests {
