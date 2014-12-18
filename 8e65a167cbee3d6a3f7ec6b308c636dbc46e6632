@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21e37c20_ac21c3c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2014-12-18T23:59:49Z",
+      "side": 1,
+      "message": "s/fix build on nacl and windows/fix build on windows and skip it on nacl/",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "8e65a167cbee3d6a3f7ec6b308c636dbc46e6632",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
