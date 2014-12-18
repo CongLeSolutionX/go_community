@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0194b84f_cb2e95a8",
+        "filename": "misc/chrome/gophertool/gopher.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-18T05:16:37Z",
+      "side": 1,
+      "message": "I think the /cl/ handler requires 8 hex digits now instead of 6? Verify before submitting, but don\u0027t wait for me.",
+      "revId": "9d324ce285e87598eb171692432a9c79eb40576a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
