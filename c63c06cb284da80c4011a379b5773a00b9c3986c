@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41d1503e_f501d8fb",
+        "filename": "src/cmd/ld/elf.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-18T21:21:00Z",
+      "side": 1,
+      "message": "use ctxt-\u003earch-\u003eendian \u003d\u003d BigEndian instead?",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "c63c06cb284da80c4011a379b5773a00b9c3986c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
