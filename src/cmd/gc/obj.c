@@ -260,7 +260,6 @@ stringsym(char *s, int len)
 			m = len-n;
 		off = dsname(sym, off, s+n, m);
 	}
-	off = duint8(sym, off, 0);  // terminating NUL for runtime
 	off = (off+widthptr-1)&~(widthptr-1);  // round to pointer alignment
 	ggloblsym(sym, off, DUPOK|RODATA);
 
