@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c138e05e_448a4079",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-19T21:21:39Z",
+      "side": 1,
+      "message": "Somehow you are making commits without the gofmt hook being enforced. Please make sure you have the latest git-codereview plugin (go get -u golang.org/x/review/git-codereview) and that you\u0027re using it instead of the old git-review. Then please run \u0027git gofmt\u0027 and \u0027git mail\u0027 again.",
+      "range": {
+        "startLine": 235,
+        "startChar": 2,
+        "endLine": 235,
+        "endChar": 8
+      },
+      "revId": "2d9cef340669ee0a1f3f16cd94e2003dcf7d4544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
