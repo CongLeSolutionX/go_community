@@ -144,6 +144,7 @@ func newChild(rwc io.ReadWriteCloser, handler http.Handler) *child {
 
 func (c *child) serve() {
 	defer c.conn.Close()
+	defer c.cleanUp()
 	var rec record
 	for {
 		if err := rec.read(c.conn.rwc); err != nil {
@@ -232,6 +233,9 @@ func (c *child) handleRecord(rec *record) error {
 		delete(c.requests, rec.h.Id)
 		c.mu.Unlock()
 		c.conn.writeEndRequest(rec.h.Id, 0, statusRequestComplete)
+		if req.pw != nil {
+			req.pw.Close()
+		}
 		if !req.keepConn {
 			// connection will close upon return
 			return errCloseConn
@@ -274,6 +278,16 @@ func (c *child) serveRequest(req *request, body io.ReadCloser) {
 
 	if !req.keepConn {
 		c.conn.Close()
+	}
+}
+
+func (c *child) cleanUp() {
+	for _, req := range c.requests {
+		if req.pw != nil {
+			// race with call to Close in c.serveRequest doesn't matter because
+			// Pipe(Reader|Writer).Close are idempotent
+			req.pw.Close()
+		}
 	}
 }
 

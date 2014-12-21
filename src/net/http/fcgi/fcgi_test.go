@@ -8,6 +8,8 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"io/ioutil"
+	"net/http"
 	"testing"
 )
 
@@ -146,5 +148,76 @@ func TestGetValues(t *testing.T) {
 		"\x00\x00\x00\x00\x00\x00\x01\n\x00\x00\x00\x00\x00\x00"
 	if got := string(wc.buf); got != want {
 		t.Errorf(" got: %q\nwant: %q\n", got, want)
+	}
+}
+
+type readOnlyConn struct {
+	buf []byte
+}
+
+func (*readOnlyConn) Close() error {
+	return nil
+}
+
+func (c *readOnlyConn) Read(p []byte) (int, error) {
+	n := copy(p, c.buf)
+	c.buf = c.buf[n:]
+	if len(c.buf) > 0 {
+		return n, nil
+	} else {
+		return n, io.EOF
+	}
+}
+
+func (*readOnlyConn) Write(p []byte) (int, error) {
+	return 0, errors.New("Read-only")
+}
+
+var streamBeginTypeStdin = bytes.Join([][]byte{
+	// set up request 1
+	{1, byte(typeBeginRequest), 0, 1, 0, 8, 0, 0},
+	{0, byte(roleResponder), 0, 0, 0, 0, 0, 0},
+	// add required parameters to request 1
+	{1, byte(typeParams), 0, 1, 0, 19, 0, 0},
+	{14, 3}, []byte("REQUEST_METHOD"), []byte("GET"),
+	{1, byte(typeParams), 0, 1, 0, 25, 0, 0},
+	{15, 8}, []byte("SERVER_PROTOCOL"), []byte("HTTP/1.1"),
+	{1, byte(typeParams), 0, 1, 0, 0, 0, 0},
+	{},
+	// begin sending body of request 1
+	{1, byte(typeStdin), 0, 1, 0, 16, 0, 0},
+	[]byte("0123456789abcdef"),
+},
+	nil)
+
+var cleanUpTests = [][]byte{
+	// confirm that child.handleRecord closes req.pw after aborting req
+	bytes.Join([][]byte{
+		streamBeginTypeStdin,
+		{1, byte(typeAbortRequest), 0, 1, 0, 0, 0, 0},
+		{},
+	},
+		nil),
+	// confirm that child.serve closes all pipes after error reading record
+	bytes.Join([][]byte{
+		streamBeginTypeStdin,
+		{},
+	},
+		nil),
+}
+
+func TestChildServeCleansUp(t *testing.T) {
+	for _, test := range cleanUpTests {
+		rc := &readOnlyConn{buf: test}
+		done := make(chan bool)
+		c := newChild(rc, http.HandlerFunc(func(
+			w http.ResponseWriter,
+			r *http.Request,
+		) {
+			ioutil.ReadAll(r.Body)
+			done <- true
+		}))
+		go c.serve()
+		<-done
 	}
 }
