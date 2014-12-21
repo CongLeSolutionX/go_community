@@ -62,18 +62,29 @@ func ParseUint(s string, base int, bitSize int) (n uint64, err error) {
 		// valid base; nothing to do
 
 	case base == 0:
-		// Look for octal, hex prefix.
-		switch {
-		case s[0] == '0' && len(s) > 1 && (s[1] == 'x' || s[1] == 'X'):
-			base = 16
-			s = s[2:]
-			if len(s) < 1 {
-				err = ErrSyntax
-				goto Error
+		// Look for binary, octal, hex prefix.
+		if s[0] == '0' && len(s) > 1 {
+			hasPrefix := true
+			switch s[1] {
+			case 'x', 'X':
+				base = 16
+			case 'o':
+				base = 8
+			case 'b':
+				base = 2
+			default:
+				base = 8
+				hasPrefix = false
 			}
-		case s[0] == '0':
-			base = 8
-		default:
+
+			if hasPrefix {
+				s = s[2:]
+				if len(s) < 1 {
+					err = ErrSyntax
+					goto Error
+				}
+			}
+		} else {
 			base = 10
 		}
 
