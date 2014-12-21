@@ -33,6 +33,24 @@
       "revId": "eeb73cfcaf72016eb5cc8391352a93e6ea8d83d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c138e05e_b0eca61c",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-21T07:53:28Z",
+      "side": 1,
+      "message": "I agree that WithPadding is a better name than SetPadding in this context.",
+      "parentUuid": "c121c032_7cea75af",
+      "revId": "eeb73cfcaf72016eb5cc8391352a93e6ea8d83d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
