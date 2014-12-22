@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61cad4df_29ed09c6",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T23:58:28Z",
+      "side": 1,
+      "message": "Move the iscgo check into save_g and drop this function?",
+      "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_e9f2d1aa",
+        "filename": "src/runtime/rt0_linux_ppc64le.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T23:58:28Z",
+      "side": 1,
+      "message": "Is this correct even for cgo mode? If we\u0027re in cgo mode I would have expected the dynamic linker to have set up TLS, and this would smash it.",
+      "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_69e701e6",
+        "filename": "src/runtime/tls_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T23:58:28Z",
+      "side": 1,
+      "message": "s/as //",
+      "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
