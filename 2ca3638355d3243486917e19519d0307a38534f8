@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61cad4df_66be0e34",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T22:24:53Z",
+      "side": 1,
+      "message": "remove this leftover debugging print while you\u0027re here?",
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_06dabaa3",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T22:24:53Z",
+      "side": 1,
+      "message": "This is a little crazy, writing out the bytes of the request by hand like this, and lines 197 etc below.\n\nCan you write helper functions for some of these lines instead?  Then some of the fields should go away (I assume some are lengths, etc).",
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_c6e70267",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T22:24:53Z",
+      "side": 1,
+      "message": "I\u0027d prefer to see this written a bit more idiomatically, like:\n\n  var cleanUpTests \u003d []struct{\n      input []byte\n   }{\n       ....\n   }\n\nSo you can see that the []byte is a parameter of the test.  Then it provides a spot to add more test parameters later.  And avoids the [][]byte",
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_e6e2fe58",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T22:24:53Z",
+      "side": 1,
+      "message": "test is conventionally spelled \"tt\" here, for whatever historical reason. Oh, but I see it\u0027s not spelled like that above. I\u0027d still go with \"tt\", as it\u0027s far more common in the standard library. I think this code was just old and also not written by the usual stdlib people.",
+      "range": {
+        "startLine": 210,
+        "startChar": 8,
+        "endLine": 210,
+        "endChar": 12
+      },
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
