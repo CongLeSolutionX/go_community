@@ -16,6 +16,24 @@
       "revId": "626be8935069533bf47a033f92640d57db4aabef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_a96d79f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-22T23:03:32Z",
+      "side": 1,
+      "message": "Done, but gerrit won\u0027t let me push the change (it says \"no changes made\").  Hopefully when there\u0027s a more substantial change it will let me.  If it turns out our rebasing adventure broke things, I\u0027ll abandon the CLs and re-mail.",
+      "parentUuid": "61cad4df_09dbed80",
+      "revId": "626be8935069533bf47a033f92640d57db4aabef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
