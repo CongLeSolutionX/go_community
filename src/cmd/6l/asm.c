@@ -396,6 +396,15 @@ archreloc(Reloc *r, LSym *s, vlong *val)
 	return -1;
 }
 
+vlong
+archrelocvariant(Reloc *r, LSym *s, vlong t)
+{
+	USED(r);
+	USED(s);
+	USED(t);
+	sysfatal("unexpected relocation variant");
+}
+
 void
 elfsetupplt(void)
 {
