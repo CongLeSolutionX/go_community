@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61cad4df_c6d8a287",
+        "filename": "src/cmd/8g/ggen.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T19:47:51Z",
+      "side": 1,
+      "message": "Weird spacing here. Use tabs. (Or maybe it\u0027s Gerrit, but double-check.)",
+      "revId": "d8fa531d6212ddd02c5b9ab7b93e2bbcbeac44a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_66e8ce0c",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T19:47:51Z",
+      "side": 1,
+      "message": "The memmove below does that.",
+      "revId": "d8fa531d6212ddd02c5b9ab7b93e2bbcbeac44a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_a6f2c6fb",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T19:47:51Z",
+      "side": 1,
+      "message": "frame :\u003d getcallersp(unsafe.Pointer(\u0026siz))\nDelete next three lines.\n\nAlso, given that now it\u0027s just the callersp, s/frame/sp/ everywhere, including in the defer struct field name.",
+      "revId": "d8fa531d6212ddd02c5b9ab7b93e2bbcbeac44a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_e6ecbe1d",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T19:47:51Z",
+      "side": 1,
+      "message": "frame :\u003d getcallersp(uintptr(\u0026arg0))\ndelete next three lines",
+      "revId": "d8fa531d6212ddd02c5b9ab7b93e2bbcbeac44a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_2607f644",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-22T19:47:51Z",
+      "side": 1,
+      "message": "s/frame/sp/\n\n// sp at time of defer",
+      "revId": "d8fa531d6212ddd02c5b9ab7b93e2bbcbeac44a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
