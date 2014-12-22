@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "015598ac_83503e28",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "the receiver is named \"e\" below, not enc.  Considering that all the existing methods are on a receiver named \"enc\" (see http://golang.org/pkg/encoding/base64/), I\u0027d rename e on the following three lines.",
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_436b26d3",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "same as next comment",
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_a3553a17",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "drop the \"0\" in \"0:\".  that\u0027s an old form.  I realize it existed in the old version you\u0027re modifying, but as long as you\u0027re doing another round to fix the receiver, we might as well modernize this code while you\u0027re touching it.",
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_6368a2d5",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "we never said negative is special (only NoPadding), so I\u0027d write this in a more self-documenting way, like:\n\n   if enc.padChar \u003d\u003d NoPadding {\n        return (n*8 + 5) / 6\n   }\n   return (n + 2) / 3 * 4 // padded",
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_03652efc",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "likewise, \u003d\u003d NoPadding ?\n\nAt least this one has comments, though.",
+      "range": {
+        "startLine": 432,
+        "startChar": 8,
+        "endLine": 432,
+        "endChar": 15
+      },
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_2362aaf5",
+        "filename": "src/encoding/base64/base64_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "I don\u0027t actually propose you change this (it\u0027s just test code and clarity counts more than performance), but just as an aside: I realized you could do the same thing as this with fewer lines \u0026 runtime allocations with:\n\n   var urlRef \u003d strings.NewReplacer(\"+\", \"-\", \"/\", \"_\").Replace\n\nOf course, then it\u0027s a (func) variable instead of an immutable func, not that Go generally cares about immutability.",
+      "range": {
+        "startLine": 54,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 11
+      },
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_c3bb96e7",
+        "filename": "src/encoding/base64/base64_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "Per convention, the test case is called \"tt\".  I\u0027m not sure what it stands for.  Probably because \"t\" is taken by the *testing.T.  Don\u0027t worry about the copy-by-value:\n\n    for i, tt :\u003d range encodingTests {\n         ...",
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "015598ac_e3c01260",
+        "filename": "src/encoding/base64/base64_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-22T00:38:26Z",
+      "side": 1,
+      "message": "likewise, delete line and do \"for i, tt :\u003d \" above.\n\nit\u0027s not big enough to worry about the copy. idiomatic matters more. as it is, it reads like the encodingTest is very large (or has some non-copyable state) and we\u0027re taking extra care to not copy it.",
+      "revId": "7bd1a00cb0b2bb3424fe93de67110535dbbf90da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
