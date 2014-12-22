@@ -772,8 +772,16 @@ reswitch:
 			if(!looktypedot(n, t, 0)) {
 				if(looktypedot(n, t, 1))
 					yyerror("%N undefined (cannot refer to unexported method %S)", n, n->right->sym);
-				else
-					yyerror("%N undefined (type %T has no method %S)", n, t, n->right->sym);
+				else {
+					if(isptr[t->etype] && t->type->etype != TINTER) {
+						t = t->type;
+					}
+					if(!lookdot1(n, r->sym, t, t->type, 1)) {
+						yyerror("%N undefined (type %T has no method %S)", n, n->left->type, n->right->sym);
+					} else {
+						yyerror("%N undefined (type %T used as instance of %T)", n, n->left->type, n->left->type);
+					}
+				}
 				goto error;
 			}
 			if(n->type->etype != TFUNC || n->type->thistuple != 1) {

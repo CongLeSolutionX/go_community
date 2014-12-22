@@ -1,10 +1,14 @@
-// errorcheckdir
-
 // Copyright 2014 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Verify that type checking produces the correct error messages
-// Does not compile.
+package foo
 
-package ignored
+type Foo struct {
+	Bar string
+	baz string
+}
+
+type Foo2 *Foo
+
+func (Foo) bar() {}
