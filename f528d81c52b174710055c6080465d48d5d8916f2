@@ -70,6 +70,30 @@
       "revId": "f528d81c52b174710055c6080465d48d5d8916f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_dad3416a",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T15:17:10Z",
+      "side": 1,
+      "message": "Interesting.  However, this isn\u0027t actually a problem on ppc64 (and I assume it isn\u0027t a problem on arm) because rt_sigreturn restores all GPRs from the signal context when sigtramp returns.  Hence, the kernel will take care of restoring g to what it was even if this race does happen (and our \"restore g\" at the end of sigtramp is unnecessary, but *shrug*).",
+      "parentUuid": "816348c3_5710ecc2",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 20
+      },
+      "revId": "f528d81c52b174710055c6080465d48d5d8916f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
