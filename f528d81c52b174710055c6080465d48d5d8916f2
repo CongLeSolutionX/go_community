@@ -46,6 +46,30 @@
       "revId": "f528d81c52b174710055c6080465d48d5d8916f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_5710ecc2",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T06:51:42Z",
+      "side": 1,
+      "message": "Actually, I was thinking about one possible problem of setting\ng before the TLS.\n\nIs it possible that a asynchronous signal comes between we\nupdate g (the register) and the TLS slot? As when cgo is enabled\nsigtramp will always load g from TLS, i think that could potentially\nlead to problem when the g in TLS is wrong (zero, basically).\n\nHow about update g\u0027s TLS slot and then update the g register?\nAnd then ARM\u0027s setg name makes more sense. But I do need to\nchange asm_arm.s.",
+      "parentUuid": "61cad4df_29722952",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 20
+      },
+      "revId": "f528d81c52b174710055c6080465d48d5d8916f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
