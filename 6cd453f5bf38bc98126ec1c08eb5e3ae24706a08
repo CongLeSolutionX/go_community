@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "816348c3_57be2c33",
+        "filename": "include/link.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T07:38:52Z",
+      "side": 1,
+      "message": "does variant needs to be a int32?\nI can\u0027t imagine more than a couple variants for a given relocation.\n\nif so, could we use uchar variant, and place the field after done?",
+      "range": {
+        "startLine": 80,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 6
+      },
+      "revId": "6cd453f5bf38bc98126ec1c08eb5e3ae24706a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
