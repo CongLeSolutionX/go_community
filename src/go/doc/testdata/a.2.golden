@@ -39,6 +39,8 @@ NOTE(bam)	This note which contains a (parenthesized) subphrase
 
 NOTE(xxx)	The ':' after the marker and uid is optional.
 
+NOTE()	NO uid - should show up.
+
 
 SECBUGS
 SECBUG(uid)	sec hole 0
@@ -49,4 +51,6 @@ TODOS
 TODO(uid)	todo0
 
 TODO(uid)	todo1
+
+TODO()	not ignored
 

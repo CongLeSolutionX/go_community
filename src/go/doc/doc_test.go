@@ -134,7 +134,7 @@ func test(t *testing.T, mode Mode) {
 
 		// compare
 		if !bytes.Equal(got, want) {
-			t.Errorf("package %s\n\tgot:\n%s\n\twant:\n%s", pkg.Name, got, want)
+			t.Errorf("package %s\n\tgot(%s):\n%s\n\twant(%s):\n%s", pkg.Name, importpath, got, golden, want)
 		}
 	}
 }
@@ -143,4 +143,36 @@ func Test(t *testing.T) {
 	test(t, 0)
 	test(t, AllDecls)
 	test(t, AllMethods)
+}
+
+var parsenote_tests = []struct {
+	txt    string
+	uid    string
+	marker string
+	body   string
+	err    bool
+}{
+	{"", "", "", "", false},
+	{"BUG(rsc): Slow implementation.", "rsc", "BUG", "Slow implementation.", true},
+	{"BUG(): An other bug declaration.", "", "BUG", "An other bug declaration.", true},
+	{"BUG", "", "", "", false},
+	{"NOTE(uid): Description.", "uid", "NOTE", "Description.", true},
+}
+
+func TestParseNote(t *testing.T) {
+	for _, e := range parsenote_tests {
+		uid, body, marker, err := parseNote(e.txt)
+		if err != e.err {
+			t.Errorf("got err = %t; want %t for %q\n", err, e.err, e.txt)
+		}
+		if uid != e.uid {
+			t.Errorf("got uid = %q; want %q for %q\n", uid, e.uid, e.txt)
+		}
+		if marker != e.marker {
+			t.Errorf("got marker = %q; want %q for %q\n", marker, e.marker, e.txt)
+		}
+		if body != e.body {
+			t.Errorf("got body = %q; want %q for %q\n", body, e.body, e.txt)
+		}
+	}
 }
