@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61cad4df_491cc504",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T01:31:49Z",
+      "side": 1,
+      "message": "could we make the power64 assembly code use arm\u0027s\nexisting naming convention?\n\ne.g.\nMOVD gobuf_g(R5), R3\nBL setg\u003c\u003e(SB) // copy R3 to g and store it in TLS if necessary",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 20
+      },
+      "revId": "f528d81c52b174710055c6080465d48d5d8916f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
