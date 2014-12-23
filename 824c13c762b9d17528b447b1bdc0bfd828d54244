@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "61cad4df_890cfde1",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T01:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61cad4df_29ed09c6",
+      "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61cad4df_e9f2d1aa",
         "filename": "src/runtime/rt0_linux_ppc64le.s",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "61cad4df_29fce942",
+        "filename": "src/runtime/rt0_linux_ppc64le.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T01:29:19Z",
+      "side": 1,
+      "message": "This whole entry point is wrong for dynamic linking, but that\u0027s okay because there\u0027s no cgo as of this patch.  The patch that adds cgo also updates this entry point to support entry from the dynamic linker.",
+      "parentUuid": "61cad4df_e9f2d1aa",
+      "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61cad4df_69e701e6",
         "filename": "src/runtime/tls_ppc64x.s",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2014-12-22T23:58:28Z",
       "side": 1,
       "message": "s/as //",
+      "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61cad4df_09f92d53",
+        "filename": "src/runtime/tls_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T01:29:19Z",
+      "side": 1,
+      "message": "Done (was copied from tls_arm.s)",
+      "parentUuid": "61cad4df_69e701e6",
       "revId": "824c13c762b9d17528b447b1bdc0bfd828d54244",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
