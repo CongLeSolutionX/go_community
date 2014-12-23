@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61cad4df_c98d5514",
+        "filename": "src/cmd/ld/ldelf.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2014-12-23T00:00:57Z",
+      "side": 1,
+      "message": "Please move declaration to top of function.",
+      "revId": "f4c6e0128ee7a510ab505b6520f5e89dfe3223ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
