@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_811cfc05",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2014-12-23T20:46:20Z",
+      "side": 1,
+      "message": "Remove the empty comment line.\nCapitalize \"rotate\" on the next line (I know this is different from the symMerge comment above, but it matches the comment line just before this one).",
+      "revId": "6dbde021259aefd7d613247522d72d855cab11fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
