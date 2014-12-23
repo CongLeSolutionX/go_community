@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "816348c3_17c4b44d",
+        "filename": "misc/cgo/test/backdoor/thunk.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "note, I have CL that will get rid of the backdoor package,\nso we don\u0027t need to maintain assembly stubs like this.\njust removing this file from this CL will do.\n\ngolang.org/cl/1888",
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_d756bcd2",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "where is linux/ppc64?",
+      "range": {
+        "startLine": 270,
+        "startChar": 8,
+        "endLine": 270,
+        "endChar": 15
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_374e1836",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "call runtime.reginit again just in case?",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_f7c82035",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "update copyright year for new files?\nsame for other new files.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_97e284aa",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "could we make these constant (-36*8-3*8)\nand same below?\n\n#define CALLEE_SAVED_REGISTER (18+18)  // R14 to R31 and F14 to F31\nMOVD\tR14, (-8*CALLEE_SAVED_REGISTERS)(R1)\nMOVD\tR15, (-8*(CALLEE_SAVED_REGISTERS-1))(R1)\n// ....",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_f7e100a5",
+        "filename": "src/runtime/cgo/gcc_ppc64x.S",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "I think the ppc64 abi has standard functions to save and\nrestore all the callee-saved registers, can we use them?\n(e.g. _savegpr0_14 and _savefpr_14)\n\nand then we can get rid most of the 64 register names defines.\n\nDoes gas have ways to set register name prefixes for ppc?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 8
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_37f45863",
+        "filename": "src/runtime/rt0_linux_ppc64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "colon after ).\n\nI was confused by this comment initially.\nI was thinking that you\u0027re referring to entry point abi used by the ld-linux.so\n(the dynamic linker).\n\nI suggest use \"dynamic linking\", rather than \"dynamic linker\".",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_57f1cc71",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T04:35:02Z",
+      "side": 1,
+      "message": "if this might cause problem, we\u0027d better handle it now by storing\nthe envp pointer in _rt0_ppc64_linux to some variable, and use\nthe variable here if it\u0027s not nil.",
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
