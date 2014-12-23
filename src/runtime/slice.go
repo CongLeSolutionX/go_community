@@ -81,12 +81,15 @@ func growslice(t *slicetype, old sliceStruct, n int64) sliceStruct {
 	var p unsafe.Pointer
 	if et.kind&kindNoPointers != 0 {
 		p = rawmem(capmem)
+		memmove(p, old.array, lenmem)
 		memclr(add(p, lenmem), capmem-lenmem)
 	} else {
 		// Note: can't use rawmem (which avoids zeroing of memory), because then GC can scan unitialized memory
 		p = newarray(et, uintptr(newcap))
+		for i := 0; i < old.len; i++ {
+			writebarrierfat(et, add(p, uintptr(i)*et.size), add(old.array, uintptr(i)*et.size))
+		}
 	}
-	memmove(p, old.array, lenmem)
 
 	return sliceStruct{p, old.len, newcap}
 }
