@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_a1c9f8bb",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T16:48:17Z",
+      "side": 1,
+      "message": "The * means 0 or more. I think you mean ? (0 or 1)\n\nYou should also write tests for this regexp now. Add a table-driven test (https://github.com/golang/go/wiki/TableDrivenTests) to reader_test.go or doc_test.go, whichever exists.\n\nI\u0027d probably break readNote up in half and test the new half instead.  Something like:\n\n   func parseNote(text string) (uid, body string, ok bool) {\n       ...\n   }\n\nAnd then make the (r *reader) readNote half be the only half which touches the go/ast package, and then just calls parseNote.\n\nTest write TestParseNote with a bunch of cases in a table, to test your regexp.",
+      "revId": "e5ca25bdfa5152139817b52065ec986ba107b21d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_7e38710d",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T16:48:17Z",
+      "side": 1,
+      "message": "move this down inside the \"if body !\u003d \"\"\" block",
+      "range": {
+        "startLine": 411,
+        "startChar": 8,
+        "endLine": 411,
+        "endChar": 10
+      },
+      "revId": "e5ca25bdfa5152139817b52065ec986ba107b21d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
