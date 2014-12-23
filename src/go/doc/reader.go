@@ -400,7 +400,7 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 }
 
 var (
-	noteMarker    = `([A-Z][A-Z]+)\(([^)]+)\):?`                    // MARKER(uid), MARKER at least 2 chars, uid at least 1 char
+	noteMarker    = `([A-Z][A-Z]+)[ ]*(\(([^)]+)\)*)*:?`            // MARKER(uid), MARKER at least 2 chars, uid at least 1 char
 	noteMarkerRx  = regexp.MustCompile(`^[ \t]*` + noteMarker)      // MARKER(uid) at text start
 	noteCommentRx = regexp.MustCompile(`^/[/*][ \t]*` + noteMarker) // MARKER(uid) at comment start
 )
@@ -408,6 +408,7 @@ var (
 // readNote collects a single note from a sequence of comments.
 //
 func (r *reader) readNote(list []*ast.Comment) {
+	uid := ""
 	text := (&ast.CommentGroup{List: list}).Text()
 	if m := noteMarkerRx.FindStringSubmatchIndex(text); m != nil {
 		// The note body starts after the marker.
@@ -417,10 +418,15 @@ func (r *reader) readNote(list []*ast.Comment) {
 		body := clean(text[m[1]:], keepNL)
 		if body != "" {
 			marker := text[m[2]:m[3]]
+			// The UID is not mandatory, so if it's not
+			// specified we will assign an empter string.
+			if m[6] != -1 {
+				uid = text[m[6]:m[7]]
+			}
 			r.notes[marker] = append(r.notes[marker], &Note{
 				Pos:  list[0].Pos(),
 				End:  list[len(list)-1].End(),
-				UID:  text[m[4]:m[5]],
+				UID:  uid,
 				Body: body,
 			})
 		}
