@@ -39,6 +39,15 @@ var DefaultTransport RoundTripper = &Transport{
 	TLSHandshakeTimeout: 10 * time.Second,
 }
 
+var (
+	ErrNilRequestUrl            = errors.New("http: nil Request.URL")
+	ErrNilRequestHeader         = errors.New("http: nil Request.Header")
+	ErrNoHostInRequestUrl       = errors.New("http: no Host in request URL")
+	ErrRequestCanceled          = errors.New("net/http: request canceled while waiting for connection")
+	ErrBrokenConnection         = errors.New("http: can't write HTTP request on broken connection")
+	ErrReadOnClosedResponseBody = errors.New("http: read on closed response body")
+)
+
 // DefaultMaxIdleConnsPerHost is the default value of Transport's
 // MaxIdleConnsPerHost.
 const DefaultMaxIdleConnsPerHost = 2
@@ -191,11 +200,11 @@ func (tr *transportRequest) extraHeaders() Header {
 func (t *Transport) RoundTrip(req *Request) (resp *Response, err error) {
 	if req.URL == nil {
 		req.closeBody()
-		return nil, errors.New("http: nil Request.URL")
+		return nil, ErrNilRequestUrl
 	}
 	if req.Header == nil {
 		req.closeBody()
-		return nil, errors.New("http: nil Request.Header")
+		return nil, ErrNilRequestHeader
 	}
 	if req.URL.Scheme != "http" && req.URL.Scheme != "https" {
 		t.altMu.RLock()
@@ -212,7 +221,7 @@ func (t *Transport) RoundTrip(req *Request) (resp *Response, err error) {
 	}
 	if req.URL.Host == "" {
 		req.closeBody()
-		return nil, errors.New("http: no Host in request URL")
+		return nil, ErrNoHostInRequestUrl
 	}
 	treq := &transportRequest{Request: req}
 	cm, err := t.connectMethodForRequest(treq)
@@ -536,7 +545,7 @@ func (t *Transport) getConn(req *Request, cm connectMethod) (*persistConn, error
 		return pc, nil
 	case <-cancelc:
 		handlePendingDial()
-		return nil, errors.New("net/http: request canceled while waiting for connection")
+		return nil, ErrRequestCanceled
 	}
 }
 
@@ -945,7 +954,7 @@ func (pc *persistConn) writeLoop() {
 		select {
 		case wr := <-pc.writech:
 			if pc.isBroken() {
-				wr.ch <- errors.New("http: can't write HTTP request on broken connection")
+				wr.ch <- ErrBrokenConnection
 				continue
 			}
 			err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra)
@@ -1190,7 +1199,7 @@ func (es *bodyEOFSignal) Read(p []byte) (n int, err error) {
 	closed, rerr := es.closed, es.rerr
 	es.mu.Unlock()
 	if closed {
-		return 0, errors.New("http: read on closed response body")
+		return 0, ErrReadOnClosedResponseBody
 	}
 	if rerr != nil {
 		return 0, rerr
