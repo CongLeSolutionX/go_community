@@ -36,5 +36,4 @@ package a
 
 // NOTE(xxx) The ':' after the marker and uid is optional.
 
-// NOTE(): NO uid - should not show up.
-// NOTE()  NO uid - should not show up.
+// NOTE(): NO uid - should show up.
