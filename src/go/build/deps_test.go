@@ -252,7 +252,7 @@ var pkgDeps = map[string][]string{
 
 	// Uses of networking.
 	"log/syslog":    {"L4", "OS", "net"},
-	"net/mail":      {"L4", "NET", "OS"},
+	"net/mail":      {"L4", "NET", "OS", "net/mail/internal"},
 	"net/textproto": {"L4", "OS", "net"},
 
 	// Core crypto.
@@ -311,7 +311,7 @@ var pkgDeps = map[string][]string{
 	"crypto/x509/pkix": {"L4", "CRYPTO-MATH"},
 
 	// Simple net+crypto-aware packages.
-	"mime/multipart": {"L4", "OS", "mime", "crypto/rand", "net/textproto"},
+	"mime/multipart": {"L4", "OS", "mime", "crypto/rand", "net/textproto", "mime/multipart/internal"},
 	"net/smtp":       {"L4", "CRYPTO", "NET", "crypto/tls"},
 
 	// HTTP, kingpin of dependencies.
