@@ -1133,19 +1133,6 @@ func (tx *Tx) Rollback() error {
 //
 // To use an existing prepared statement on this transaction, see Tx.Stmt.
 func (tx *Tx) Prepare(query string) (*Stmt, error) {
-	// TODO(bradfitz): We could be more efficient here and either
-	// provide a method to take an existing Stmt (created on
-	// perhaps a different Conn), and re-create it on this Conn if
-	// necessary. Or, better: keep a map in DB of query string to
-	// Stmts, and have Stmt.Execute do the right thing and
-	// re-prepare if the Conn in use doesn't have that prepared
-	// statement.  But we'll want to avoid caching the statement
-	// in the case where we only call conn.Prepare implicitly
-	// (such as in db.Exec or tx.Exec), but the caller package
-	// can't be holding a reference to the returned statement.
-	// Perhaps just looking at the reference count (by noting
-	// Stmt.Close) would be enough. We might also want a finalizer
-	// on Stmt to drop the reference count.
 	dc, err := tx.grabConn()
 	if err != nil {
 		return nil, err
@@ -1173,8 +1160,9 @@ func (tx *Tx) Prepare(query string) (*Stmt, error) {
 	return stmt, nil
 }
 
-// Stmt returns a transaction-specific prepared statement from
-// an existing statement.
+// Stmt returns a transaction-specific prepared statement from an existing
+// statement.  The statement must not have been closed and it must have been
+// prepared on the *sql.DB object.
 //
 // Example:
 //  updateMoney, err := db.Prepare("UPDATE balance SET money=money+? WHERE id=?")
@@ -1183,11 +1171,6 @@ func (tx *Tx) Prepare(query string) (*Stmt, error) {
 //  ...
 //  res, err := tx.Stmt(updateMoney).Exec(123.45, 98293203)
 func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
-	// TODO(bradfitz): optimize this. Currently this re-prepares
-	// each time.  This is fine for now to illustrate the API but
-	// we should really cache already-prepared statements
-	// per-Conn. See also the big comment in Tx.Prepare.
-
 	if tx.db != stmt.db {
 		return &Stmt{stickyErr: errors.New("sql: Tx.Stmt: statement from different database used")}
 	}
@@ -1195,9 +1178,44 @@ func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
 	if err != nil {
 		return &Stmt{stickyErr: err}
 	}
-	dc.Lock()
-	si, err := dc.ci.Prepare(stmt.query)
-	dc.Unlock()
+
+	stmt.mu.Lock()
+	if stmt.closed {
+		stmt.mu.Unlock()
+		return &Stmt{stickyErr: errors.New("sql: Tx.Stmt: statement is closed")}
+	}
+
+	if stmt.tx != nil {
+		stmt.mu.Unlock()
+		return &Stmt{stickyErr: errors.New("sql: Tx.Stmt: in-transaction statement used")}
+	}
+
+	// See if we've already been prepared on this connection, and reuse that
+	// statement if possible.
+	var si driver.Stmt
+	for i := 0; i < len(stmt.css); i++ {
+		ssi := stmt.css[i]
+		if ssi.dc == dc {
+			si = ssi.si
+			break
+		}
+		// Remove dead connections from the parent's statement list
+		stmt.db.mu.Lock()
+		if ssi.dc.dbmuClosed {
+			stmt.css[i] = stmt.css[len(stmt.css)-1]
+			stmt.css = stmt.css[:len(stmt.css)-1]
+			i--
+		}
+		stmt.db.mu.Unlock()
+	}
+	stmt.mu.Unlock()
+	if si == nil {
+		cs, err := stmt.prepareOnConn(dc)
+		if err != nil {
+			return &Stmt{stickyErr: err}
+		}
+		si = cs.si
+	}
 	txs := &Stmt{
 		db: tx.db,
 		tx: tx,
@@ -1205,9 +1223,10 @@ func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
 			Locker: dc,
 			si:     si,
 		},
-		query:     stmt.query,
-		stickyErr: err,
+		parentStmt: stmt,
+		query:      stmt.query,
 	}
+	tx.db.addDep(stmt, txs)
 	tx.stmts.Lock()
 	tx.stmts.v = append(tx.stmts.v, txs)
 	tx.stmts.Unlock()
@@ -1285,6 +1304,9 @@ type Stmt struct {
 	// If in a transaction, else both nil:
 	tx   *Tx
 	txsi *driverStmt
+
+	// Only if we came from another Stmt
+	parentStmt *Stmt
 
 	mu     sync.Mutex // protects the rest of the fields
 	closed bool
@@ -1412,19 +1434,30 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 	s.mu.Unlock()
 
 	// No luck; we need to prepare the statement on this connection
-	dc.Lock()
-	si, err = dc.prepareLocked(s.query)
-	dc.Unlock()
+	cs, err := s.prepareOnConn(dc)
 	if err != nil {
 		s.db.putConn(dc, err)
 		return nil, nil, nil, err
 	}
-	s.mu.Lock()
+
+	return dc, dc.releaseConn, cs.si, nil
+}
+
+// prepareOnConn prepares the query in Stmt on dc and adds it to the list of
+// open connStmt on the statement.  Assumes the caller is not holding locks on
+// either object.
+func (s *Stmt) prepareOnConn(dc *driverConn) (connStmt, error) {
+	dc.Lock()
+	si, err := dc.prepareLocked(s.query)
+	dc.Unlock()
+	if err != nil {
+		return connStmt{}, err
+	}
 	cs := connStmt{dc, si}
+	s.mu.Lock()
 	s.css = append(s.css, cs)
 	s.mu.Unlock()
-
-	return dc, dc.releaseConn, si, nil
+	return cs, nil
 }
 
 // Query executes a prepared query statement with the given arguments
@@ -1529,9 +1562,16 @@ func (s *Stmt) Close() error {
 	s.closed = true
 
 	if s.tx != nil {
-		s.txsi.Close()
+		var err error
+		if s.parentStmt != nil {
+			// If parentStmt is set, we must not close s.txsi since it's stored
+			// in the css array of the parentStmt.
+			err = s.db.removeDep(s.parentStmt, s)
+		} else {
+			s.txsi.Close()
+		}
 		s.mu.Unlock()
-		return nil
+		return err
 	}
 	s.mu.Unlock()
 
