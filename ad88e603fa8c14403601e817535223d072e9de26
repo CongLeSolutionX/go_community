@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "816348c3_7ae5d532",
+        "filename": "misc/cgo/test/backdoor/thunk.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "Cool.  If 1888 goes in first, I\u0027ll just drop this file.",
+      "parentUuid": "816348c3_17c4b44d",
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816348c3_d756bcd2",
         "filename": "src/go/build/build.go",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2014-12-23T04:35:02Z",
       "side": 1,
       "message": "where is linux/ppc64?",
+      "range": {
+        "startLine": 270,
+        "startChar": 8,
+        "endLine": 270,
+        "endChar": 15
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_9af2a9fc",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "Not supported by cgo yet (darn function descriptors).",
+      "parentUuid": "816348c3_d756bcd2",
       "range": {
         "startLine": 270,
         "startChar": 8,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "816348c3_baf76deb",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "If _cgo_init is clobbering callee-save registers, we have bigger problems on our hands.",
+      "parentUuid": "816348c3_374e1836",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816348c3_f7c82035",
         "filename": "src/runtime/cgo/asm_ppc64x.s",
         "patchSetId": 4
@@ -76,6 +142,30 @@
       "writtenOn": "2014-12-23T04:35:02Z",
       "side": 1,
       "message": "update copyright year for new files?\nsame for other new files.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_daec211e",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "Done.  (Also gcc_linux_ppc64.c and gcc_ppc64x.S.)",
+      "parentUuid": "816348c3_f7c82035",
       "range": {
         "startLine": 1,
         "startChar": 13,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "816348c3_7a2cf5ae",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "I changed 24 to 3*8.  I don\u0027t think changing save/restoreregs2 improves their readability, and I want the number there to match the number here.",
+      "parentUuid": "816348c3_97e284aa",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816348c3_f7e100a5",
         "filename": "src/runtime/cgo/gcc_ppc64x.S",
         "patchSetId": 4
@@ -122,6 +236,30 @@
       "writtenOn": "2014-12-23T04:35:02Z",
       "side": 1,
       "message": "I think the ppc64 abi has standard functions to save and\nrestore all the callee-saved registers, can we use them?\n(e.g. _savegpr0_14 and _savefpr_14)\n\nand then we can get rid most of the 64 register names defines.\n\nDoes gas have ways to set register name prefixes for ppc?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 8
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_1a0cd95c",
+        "filename": "src/runtime/cgo/gcc_ppc64x.S",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "I thought so, too, but if I try to use, e.g. _savegpr1_14, the link fails with an undefined symbol.\n\ngas does have a way to enable symbolic register names!  I\u0027ve enabled it and nuked all the #defines.",
+      "parentUuid": "816348c3_f7e100a5",
       "range": {
         "startLine": 115,
         "startChar": 0,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "816348c3_7a13157f",
+        "filename": "src/runtime/rt0_linux_ppc64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "816348c3_37f45863",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "816348c3_57f1cc71",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 4
@@ -168,6 +330,24 @@
       "writtenOn": "2014-12-23T04:35:02Z",
       "side": 1,
       "message": "if this might cause problem, we\u0027d better handle it now by storing\nthe envp pointer in _rt0_ppc64_linux to some variable, and use\nthe variable here if it\u0027s not nil.",
+      "revId": "ad88e603fa8c14403601e817535223d072e9de26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_9a40e968",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:47Z",
+      "side": 1,
+      "message": "It doesn\u0027t cause problems right now because Linux always lays out the initial stack this way.  I would like to handle this more robustly, but that\u0027s a future CL.",
+      "parentUuid": "816348c3_57f1cc71",
       "revId": "ad88e603fa8c14403601e817535223d072e9de26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
