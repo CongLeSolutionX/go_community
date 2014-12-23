@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_e14060d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "move (not moved)\n\nAnd don\u0027t say \"some code\" ... say what code.",
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_215b28ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "concerning RFC 2047 (example of such code) from net/mail ...",
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_415834cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "exported",
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_01462cf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "Instead of \"Concerns\", the usual word is \"Updates\".  And you can drop the period at the end of the sentence",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_61553092",
+        "filename": "src/internal/mime/header.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "copyright header",
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_c1b0c486",
+        "filename": "src/internal/mime/header.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "docs",
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_e1b5c073",
+        "filename": "src/internal/mime/header.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T21:16:00Z",
+      "side": 1,
+      "message": "docs?\n\nfor instance neither of these mention RFC 2047 words, which was apparently important enough for the old version to contain.",
+      "revId": "abad4eac6afa7062b798547df12ce737e6de0208",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
