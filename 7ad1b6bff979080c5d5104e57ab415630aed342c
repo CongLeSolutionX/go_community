@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "816348c3_97cfe46d",
+        "filename": "src/cmd/ld/ldelf.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-23T03:40:10Z",
+      "side": 1,
+      "message": "diag(\"....\", pn, sym.other)\n\nperhaps we can also given the name of the symbol too\n(or at least the symbol index)",
+      "revId": "7ad1b6bff979080c5d5104e57ab415630aed342c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
