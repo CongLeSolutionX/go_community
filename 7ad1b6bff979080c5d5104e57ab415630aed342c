@@ -16,6 +16,24 @@
       "revId": "7ad1b6bff979080c5d5104e57ab415630aed342c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816348c3_1ade9970",
+        "filename": "src/cmd/ld/ldelf.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2014-12-23T16:44:21Z",
+      "side": 1,
+      "message": "Done.  And added s-\u003ename.",
+      "parentUuid": "816348c3_97cfe46d",
+      "revId": "7ad1b6bff979080c5d5104e57ab415630aed342c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
