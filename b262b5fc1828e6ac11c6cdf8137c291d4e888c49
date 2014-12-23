@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_0140ec62",
+        "filename": "src/net/mail/internal/encodedword.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-23T17:39:40Z",
+      "side": 1,
+      "message": "this file appears to be a bunch of new code.  Please don\u0027t mix new code into a CL that\u0027s about moving things.",
+      "revId": "b262b5fc1828e6ac11c6cdf8137c291d4e888c49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
