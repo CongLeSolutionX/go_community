@@ -879,24 +879,27 @@ func (db *DB) Exec(query string, args ...interface{}) (Result, error) {
 	return res, err
 }
 
-func (db *DB) exec(query string, args []interface{}) (res Result, err error) {
-	dc, err := db.conn()
+func (db *DB) exec(query string, args []interface{}) (Result, error) {
+	ci, err := db.conn()
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		db.putConn(dc, err)
-	}()
 
+	return db.execConn(ci, ci.releaseConn, query, args)
+}
+
+func (db *DB) execConn(dc *driverConn, releaseConn func(error), query string, args []interface{}) (res Result, err error) {
 	if execer, ok := dc.ci.(driver.Execer); ok {
 		dargs, err := driverArgs(nil, args)
 		if err != nil {
+			releaseConn(err)
 			return nil, err
 		}
 		dc.Lock()
 		resi, err := execer.Exec(query, dargs)
 		dc.Unlock()
 		if err != driver.ErrSkip {
+			releaseConn(err)
 			if err != nil {
 				return nil, err
 			}
@@ -908,10 +911,16 @@ func (db *DB) exec(query string, args []interface{}) (res Result, err error) {
 	si, err := dc.ci.Prepare(query)
 	dc.Unlock()
 	if err != nil {
+		releaseConn(err)
 		return nil, err
 	}
-	defer withLock(dc, func() { si.Close() })
-	return resultFromStatement(driverStmt{dc, si}, args...)
+
+	res, err = resultFromStatement(driverStmt{dc, si}, args...)
+	dc.Lock()
+	si.Close()
+	dc.Unlock()
+	releaseConn(err)
+	return res, err
 }
 
 // Query executes a query that returns rows, typically a SELECT.
@@ -1220,32 +1229,8 @@ func (tx *Tx) Exec(query string, args ...interface{}) (Result, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	if execer, ok := dc.ci.(driver.Execer); ok {
-		dargs, err := driverArgs(nil, args)
-		if err != nil {
-			return nil, err
-		}
-		dc.Lock()
-		resi, err := execer.Exec(query, dargs)
-		dc.Unlock()
-		if err == nil {
-			return driverResult{dc, resi}, nil
-		}
-		if err != driver.ErrSkip {
-			return nil, err
-		}
-	}
-
-	dc.Lock()
-	si, err := dc.ci.Prepare(query)
-	dc.Unlock()
-	if err != nil {
-		return nil, err
-	}
-	defer withLock(dc, func() { si.Close() })
-
-	return resultFromStatement(driverStmt{dc, si}, args...)
+	releaseConn := func(error) {}
+	return tx.db.execConn(dc, releaseConn, query, args)
 }
 
 // Query executes a query that returns rows, typically a SELECT.
