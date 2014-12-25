@@ -1361,7 +1361,7 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 	}
 
 	// In a transaction, we always use the connection that the
-	// transaction was created on.
+	// statement was created on.
 	if s.tx != nil {
 		s.mu.Unlock()
 		ci, err = s.tx.grabConn() // blocks, waiting for the connection.
