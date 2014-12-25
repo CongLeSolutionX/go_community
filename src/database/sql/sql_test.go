@@ -441,6 +441,156 @@ func TestExec(t *testing.T) {
 	}
 }
 
+func TestAcquireConn(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+
+	exec(t, db, "CREATE|t|id=int32,name=string")
+
+	cn, err := db.AcquireConn()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cn.Release()
+
+	_, err = cn.Exec("INSERT|t|id=1,name=?", "Bertil")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var name string
+	err = cn.QueryRow("SELECT|t|name|id=?", 1).Scan(&name)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if name != "Bertil" {
+		t.Fatalf("name should be Bertil, got: %q", name)
+	}
+
+	err = cn.Release()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAcquireConnTxn(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+
+	exec(t, db, "CREATE|t|id=int32,name=string")
+
+	cn, err := db.AcquireConn()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cn.Release()
+
+	tx, err := cn.Begin()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer tx.Rollback()
+
+	// In txn; can't use the connection
+	_, err = cn.Begin()
+	if err != ErrInTransaction {
+		t.Fatalf("expected ErrInTransaction; got %+#v", err)
+	}
+	_, err = cn.Exec("")
+	if err != ErrInTransaction {
+		t.Fatalf("expected ErrInTransaction; got %+#v", err)
+	}
+	_, err = cn.Query("")
+	if err != ErrInTransaction {
+		t.Fatalf("expected ErrInTransaction; got %+#v", err)
+	}
+
+	_, err = tx.Exec("INSERT|t|id=1,name=?", "Bertil")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// The conn should not have been released, but it should be usable again
+	var name string
+	err = cn.QueryRow("SELECT|t|name|id=?", 1).Scan(&name)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if name != "Bertil" {
+		t.Fatalf("name should be Bertil, got: %q", name)
+	}
+
+	err = cn.Release()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAcquireConnPrepare(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+
+	exec(t, db, "CREATE|t|id=int32,name=string")
+
+	cn, err := db.AcquireConn()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cn.Release()
+
+	stmt, err := cn.Prepare("INSERT|t|id=1,name=?")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = stmt.Exec("Conan")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// should close stmt
+	err = cn.Release()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAcquireConnStmt(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+
+	exec(t, db, "CREATE|t|id=int32,name=string")
+
+	dbstmt, err := db.Prepare("INSERT|t|id=1,name=?")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer dbstmt.Close()
+
+	cn, err := db.AcquireConn()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cn.Release()
+
+	cnstmt := cn.Stmt(dbstmt)
+	_, err = cnstmt.Exec("Conan")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// should close stmt
+	err = cn.Release()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestTxPrepare(t *testing.T) {
 	db := newTestDB(t, "")
 	defer closeDB(t, db)

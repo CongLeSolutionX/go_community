@@ -879,24 +879,27 @@ func (db *DB) Exec(query string, args ...interface{}) (Result, error) {
 	return res, err
 }
 
-func (db *DB) exec(query string, args []interface{}) (res Result, err error) {
-	dc, err := db.conn()
+func (db *DB) exec(query string, args []interface{}) (Result, error) {
+	ci, err := db.conn()
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		db.putConn(dc, err)
-	}()
 
+	return db.execConn(ci, ci.releaseConn, query, args)
+}
+
+func (db *DB) execConn(dc *driverConn, releaseConn func(error), query string, args []interface{}) (res Result, err error) {
 	if execer, ok := dc.ci.(driver.Execer); ok {
 		dargs, err := driverArgs(nil, args)
 		if err != nil {
+			releaseConn(err)
 			return nil, err
 		}
 		dc.Lock()
 		resi, err := execer.Exec(query, dargs)
 		dc.Unlock()
 		if err != driver.ErrSkip {
+			releaseConn(err)
 			if err != nil {
 				return nil, err
 			}
@@ -908,10 +911,16 @@ func (db *DB) exec(query string, args []interface{}) (res Result, err error) {
 	si, err := dc.ci.Prepare(query)
 	dc.Unlock()
 	if err != nil {
+		releaseConn(err)
 		return nil, err
 	}
-	defer withLock(dc, func() { si.Close() })
-	return resultFromStatement(driverStmt{dc, si}, args...)
+
+	res, err = resultFromStatement(driverStmt{dc, si}, args...)
+	dc.Lock()
+	si.Close()
+	dc.Unlock()
+	releaseConn(err)
+	return res, err
 }
 
 // Query executes a query that returns rows, typically a SELECT.
@@ -1029,10 +1038,211 @@ func (db *DB) begin() (tx *Tx, err error) {
 		return nil, err
 	}
 	return &Tx{
-		db:  db,
-		dc:  dc,
-		txi: txi,
+		db:          db,
+		dc:          dc,
+		releaseConn: dc.releaseConn,
+		txi:         txi,
 	}, nil
+}
+
+// AcquireConn acquires a free standalone connection from the
+// connection pool.  The returned connection is not safe for
+// concurrent use from multiples goroutines.
+func (db *DB) AcquireConn() (cn *Conn, err error) {
+	for i := 0; i < maxBadConnRetries; i++ {
+		cn, err = db.acquireConn()
+		if err != driver.ErrBadConn {
+			break
+		}
+	}
+	return cn, err
+}
+
+func (db *DB) acquireConn() (*Conn, error) {
+	dc, err := db.conn()
+	if err != nil {
+		return nil, err
+	}
+	return &Conn{
+		db: db,
+		dc: dc,
+	}, nil
+}
+
+// Conn is a standalone connection extracted from a *DB.
+//
+// After a call to Release, all operations on the connection fail with
+// ErrConnectionReleased.
+type Conn struct {
+	db *DB
+
+	// dc is owned until Release() is called
+	dc *driverConn
+
+	// Set to true once the connection has been released back into the pool,
+	// and the Conn object should not be used anymore
+	released bool
+
+	// True if there is an unfinished transaction open.  All operations return
+	// ErrInTransaction until the transaction has been committed or rolled back.
+	inTxn bool
+
+	// All Stmts prepared for this connection alone.  These will be closed
+	// when the connection is released back into the pool.
+	stmts struct {
+		sync.Mutex
+		v []*Stmt
+	}
+}
+
+var ErrConnectionReleased = errors.New("sql: Connection has already been released")
+var ErrInTransaction = errors.New("sql: Connection is in a transaction")
+
+func (cn *Conn) grabConn() (*driverConn, error) {
+	if cn.released {
+		return nil, ErrConnectionReleased
+	}
+	if cn.inTxn {
+		return nil, ErrInTransaction
+	}
+	return cn.dc, nil
+}
+
+// Releases the connection back into the free connection pool.
+func (cn *Conn) Release() error {
+	if cn.released {
+		return ErrConnectionReleased
+	}
+
+	cn.stmts.Lock()
+	for _, stmt := range cn.stmts.v {
+		stmt.Close()
+	}
+	cn.stmts.Unlock()
+
+	cn.db.putConn(cn.dc, nil)
+	cn.released = true
+	return nil
+}
+
+// Called by *Tx.close() after the transaction has been committed or rolled back.
+func (cn *Conn) transactionEnd(error) {
+	cn.inTxn = false
+}
+
+// Begin starts a transaction. The isolation level is dependent on
+// the driver.
+func (cn *Conn) Begin() (*Tx, error) {
+	dc, err := cn.grabConn()
+	if err != nil {
+		return nil, err
+	}
+	dc.Lock()
+	txi, err := dc.ci.Begin()
+	dc.Unlock()
+	if err != nil {
+		return nil, err
+	}
+
+	cn.inTxn = true
+	return &Tx{
+		db:          cn.db,
+		dc:          dc,
+		releaseConn: cn.transactionEnd,
+		txi:         txi,
+	}, nil
+}
+
+// Exec executes a query that doesn't return rows.
+// For example: an INSERT and UPDATE.
+func (cn *Conn) Exec(query string, args ...interface{}) (Result, error) {
+	dc, err := cn.grabConn()
+	if err != nil {
+		return nil, err
+	}
+	releaseConn := func(error) {}
+	return cn.db.execConn(dc, releaseConn, query, args)
+}
+
+// Query executes a query that returns rows, typically a SELECT.
+func (cn *Conn) Query(query string, args ...interface{}) (*Rows, error) {
+	dc, err := cn.grabConn()
+	if err != nil {
+		return nil, err
+	}
+	releaseConn := func(error) {}
+	return cn.db.queryConn(dc, releaseConn, query, args)
+}
+
+// QueryRow executes a query that is expected to return at most one row.
+// QueryRow always return a non-nil value. Errors are deferred until
+// Row's Scan method is called.
+func (cn *Conn) QueryRow(query string, args ...interface{}) *Row {
+	rows, err := cn.Query(query, args...)
+	return &Row{rows: rows, err: err}
+}
+
+// Stmt returns a transaction-specific prepared statement from
+// an existing statement.
+func (cn *Conn) Stmt(stmt *Stmt) *Stmt {
+	if cn.db != stmt.db {
+		return &Stmt{stickyErr: errors.New("sql: Tx.Stmt: statement from different database used")}
+	}
+	dc, err := cn.grabConn()
+	if err != nil {
+		return &Stmt{stickyErr: err}
+	}
+	dc.Lock()
+	si, err := dc.ci.Prepare(stmt.query)
+	dc.Unlock()
+	cns := &Stmt{
+		db: cn.db,
+		cn: cn,
+		connsi: &driverStmt{
+			Locker: dc,
+			si:     si,
+		},
+		query:     stmt.query,
+		stickyErr: err,
+	}
+	cn.stmts.Lock()
+	cn.stmts.v = append(cn.stmts.v, cns)
+	cn.stmts.Unlock()
+	return cns
+}
+
+// Prepare creates a prepared statement for use with a connection.
+//
+// The returned statement is only prepared on the associated connection, and
+// can no longer be used once the connection has been released.
+//
+// To use an existing prepared statement on this connection, see Conn.Stmt.
+func (cn *Conn) Prepare(query string) (*Stmt, error) {
+	dc, err := cn.grabConn()
+	if err != nil {
+		return nil, err
+	}
+
+	dc.Lock()
+	si, err := dc.ci.Prepare(query)
+	dc.Unlock()
+	if err != nil {
+		return nil, err
+	}
+
+	stmt := &Stmt{
+		db: cn.db,
+		cn: cn,
+		connsi: &driverStmt{
+			Locker: dc,
+			si:     si,
+		},
+		query: query,
+	}
+	cn.stmts.Lock()
+	cn.stmts.v = append(cn.stmts.v, stmt)
+	cn.stmts.Unlock()
+	return stmt, nil
 }
 
 // Driver returns the database's underlying driver.
@@ -1050,9 +1260,10 @@ type Tx struct {
 	db *DB
 
 	// dc is owned exclusively until Commit or Rollback, at which point
-	// it's returned with putConn.
-	dc  *driverConn
-	txi driver.Tx
+	// it's returned with releaseConn.
+	dc          *driverConn
+	releaseConn func(error)
+	txi         driver.Tx
 
 	// done transitions from false to true exactly once, on Commit
 	// or Rollback. once done, all operations fail with
@@ -1074,7 +1285,7 @@ func (tx *Tx) close() {
 		panic("double close") // internal error
 	}
 	tx.done = true
-	tx.db.putConn(tx.dc, nil)
+	tx.releaseConn(nil)
 	tx.dc = nil
 	tx.txi = nil
 }
@@ -1160,7 +1371,7 @@ func (tx *Tx) Prepare(query string) (*Stmt, error) {
 	stmt := &Stmt{
 		db: tx.db,
 		tx: tx,
-		txsi: &driverStmt{
+		connsi: &driverStmt{
 			Locker: dc,
 			si:     si,
 		},
@@ -1200,7 +1411,7 @@ func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
 	txs := &Stmt{
 		db: tx.db,
 		tx: tx,
-		txsi: &driverStmt{
+		connsi: &driverStmt{
 			Locker: dc,
 			si:     si,
 		},
@@ -1220,32 +1431,8 @@ func (tx *Tx) Exec(query string, args ...interface{}) (Result, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	if execer, ok := dc.ci.(driver.Execer); ok {
-		dargs, err := driverArgs(nil, args)
-		if err != nil {
-			return nil, err
-		}
-		dc.Lock()
-		resi, err := execer.Exec(query, dargs)
-		dc.Unlock()
-		if err == nil {
-			return driverResult{dc, resi}, nil
-		}
-		if err != driver.ErrSkip {
-			return nil, err
-		}
-	}
-
-	dc.Lock()
-	si, err := dc.ci.Prepare(query)
-	dc.Unlock()
-	if err != nil {
-		return nil, err
-	}
-	defer withLock(dc, func() { si.Close() })
-
-	return resultFromStatement(driverStmt{dc, si}, args...)
+	releaseConn := func(error) {}
+	return tx.db.execConn(dc, releaseConn, query, args)
 }
 
 // Query executes a query that returns rows, typically a SELECT.
@@ -1281,9 +1468,12 @@ type Stmt struct {
 
 	closemu sync.RWMutex // held exclusively during close, for read otherwise.
 
-	// If in a transaction, else both nil:
-	tx   *Tx
-	txsi *driverStmt
+	// If in a transaction
+	tx *Tx
+	// If prepared on a standalone connection
+	cn *Conn
+	// Only if either of the above is set
+	connsi *driverStmt
 
 	mu     sync.Mutex // protects the rest of the fields
 	closed bool
@@ -1360,16 +1550,26 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 		return
 	}
 
-	// In a transaction, we always use the connection that the
-	// transaction was created on.
-	if s.tx != nil {
+	// If in a transaction or prepared on a standalone connection, we must not
+	// attempt to use any other connections.
+	if s.connsi != nil {
 		s.mu.Unlock()
-		ci, err = s.tx.grabConn() // blocks, waiting for the connection.
-		if err != nil {
-			return
+
+		if s.tx != nil {
+			ci, err = s.tx.grabConn() // blocks, waiting for the connection.
+			if err != nil {
+				return
+			}
+		} else if s.cn != nil {
+			ci, err = s.cn.grabConn() // blocks, waiting for the connection.
+			if err != nil {
+				return
+			}
+		} else {
+			panic("oops")
 		}
 		releaseConn = func(error) {}
-		return ci, releaseConn, s.txsi.si, nil
+		return ci, releaseConn, s.connsi.si, nil
 	}
 
 	for i := 0; i < len(s.css); i++ {
@@ -1527,8 +1727,8 @@ func (s *Stmt) Close() error {
 	}
 	s.closed = true
 
-	if s.tx != nil {
-		s.txsi.Close()
+	if s.connsi != nil {
+		s.connsi.Close()
 		s.mu.Unlock()
 		return nil
 	}
