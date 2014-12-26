@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_ebf201ab",
+        "filename": "src/syscall/zerrors_darwin_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2014-12-26T07:28:41Z",
+      "side": 1,
+      "message": "can we leave this as it is, and twiddle supportsCloseOnExec in sys_darwin.go instead?",
+      "range": {
+        "startLine": 675,
+        "startChar": 3,
+        "endLine": 675,
+        "endChar": 12
+      },
+      "revId": "7082da4ff96c9098960bf3c545ca2c962382c500",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
