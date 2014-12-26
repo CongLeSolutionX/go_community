@@ -66,6 +66,9 @@ enum {
 	MACHO_CPU_AMD64 = (1<<24)|7,
 	MACHO_CPU_386 = 7,
 	MACHO_SUBCPU_X86 = 3,
+	MACHO_CPU_ARM = 12,
+	MACHO_SUBCPU_ARM = 0,
+	MACHO_SUBCPU_ARMV7 = 9,
 
 	MACHO32SYMSIZE = 12,
 	MACHO64SYMSIZE = 16,
@@ -79,6 +82,17 @@ enum {
 	MACHO_X86_64_RELOC_SIGNED_1 = 6,
 	MACHO_X86_64_RELOC_SIGNED_2 = 7,
 	MACHO_X86_64_RELOC_SIGNED_4 = 8,
+	
+	MACHO_ARM_RELOC_VANILLA = 0,	/* generic relocation as discribed above */
+	MACHO_ARM_RELOC_PAIR = 1,	/* the second relocation entry of a pair */
+	MACHO_ARM_RELOC_SECTDIFF = 2,	/* a PAIR follows with subtract symbol value */
+	MACHO_ARM_RELOC_LOCAL_SECTDIFF = 3, /* like ARM_RELOC_SECTDIFF, but the symbol referenced was local.  */
+	MACHO_ARM_RELOC_PB_LA_PTR = 4, /* prebound lazy pointer */
+	MACHO_ARM_RELOC_BR24 = 5,	/* 24 bit branch displacement (to a word address) */
+	MACHO_ARM_THUMB_RELOC_BR22 = 6, /* 22 bit branch displacement (to a half-word address) */
+	MACHO_ARM_THUMB_32BIT_BRANCH = 7,
+	MACHO_ARM_RELOC_HALF = 8,
+	MACHO_ARM_RELOC_HALF_SECTDIFF = 9,
 	
 	MACHO_GENERIC_RELOC_VANILLA = 0,
 	
