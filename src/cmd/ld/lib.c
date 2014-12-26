@@ -257,7 +257,10 @@ loadlib(void)
 	}
 	
 	tlsg = linklookup(ctxt, "runtime.tlsg", 0);
-	tlsg->type = STLSBSS;
+	// if runtime.tlsg has been declared in the runtime package, then
+	// keep its type.
+	if(tlsg->type == 0)
+		tlsg->type = STLSBSS;
 	tlsg->size = PtrSize;
 	tlsg->hide = 1;
 	tlsg->reachable = 1;
