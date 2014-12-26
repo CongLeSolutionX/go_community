@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c14e2056_d446b2a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-26T06:49:36Z",
+      "side": 1,
+      "message": "this should be \"go/doc\".",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "e5ca25bdfa5152139817b52065ec986ba107b21d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_a1c9f8bb",
         "filename": "src/go/doc/reader.go",
         "patchSetId": 1
