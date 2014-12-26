@@ -694,7 +694,7 @@ install(char *dir)
 		}
 		// disable word wrapping in error messages
 		vadd(&gccargs, "-fmessage-length=0");
-		if(streq(gohostos, "darwin")) {
+		if(streq(gohostos, "darwin") && !streq(gohostarch, "arm")) {
 			// golang.org/issue/5261
 			vadd(&gccargs, "-mmacosx-version-min=10.6");
 		}
