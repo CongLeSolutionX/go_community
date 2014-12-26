@@ -365,6 +365,10 @@ asmbmacho(void)
 		mh->cpu = MACHO_CPU_386;
 		mh->subcpu = MACHO_SUBCPU_X86;
 		break;
+	case '5':
+		mh->cpu = MACHO_CPU_ARM;
+		mh->subcpu = MACHO_SUBCPU_ARMV7;
+		break;
 	}
 	
 	ms = nil;
@@ -428,6 +432,12 @@ asmbmacho(void)
 			ml->data[0] = 1;	/* thread type */
 			ml->data[1] = 16;	/* word count */
 			ml->data[2+10] = entryvalue();	/* start pc */
+			break;
+		case '5':
+			ml = newMachoLoad(5, 17+2);	/* unix thread */
+			ml->data[0] = 1;	/* thread type */
+			ml->data[1] = 17;	/* word count */
+			ml->data[2+15] = entryvalue();	/* start pc */
 			break;
 		}
 	}
