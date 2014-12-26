@@ -712,6 +712,11 @@ main(int argc, char **argv)
 			gohostarch = "ppc64le";
 		else if(contains(u.machine, "ppc64"))
 			gohostarch = "ppc64";
+#ifdef __APPLE__
+		// on Darwin/ARM, u.machine might not contain "arm".
+		else if(contains(u.version, "RELEASE_ARM_"))
+			gohostarch = "arm";
+#endif
 		else
 			fatal("unknown architecture: %s", u.machine);
 	}
