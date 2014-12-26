@@ -36,7 +36,7 @@ func fromHex(b byte) (byte, error) {
 	case b >= 'A' && b <= 'F':
 		return b - 'A' + 10, nil
 	}
-	return 0, fmt.Errorf("multipart: invalid quoted-printable hex byte 0x%02x", b)
+	return 0, fmt.Errorf("quotedprintable: invalid quoted-printable hex byte 0x%02x", b)
 }
 
 func (q *qpReader) readHexByte(v []byte) (b byte, err error) {
@@ -84,7 +84,7 @@ func (q *qpReader) Read(p []byte) (n int, err error) {
 				rightStripped := wholeLine[len(q.line):]
 				q.line = q.line[:len(q.line)-1]
 				if !bytes.HasPrefix(rightStripped, lf) && !bytes.HasPrefix(rightStripped, crlf) {
-					q.rerr = fmt.Errorf("multipart: invalid bytes after =: %q", rightStripped)
+					q.rerr = fmt.Errorf("quotedprintable: invalid bytes after =: %q", rightStripped)
 				}
 			} else if hasLF {
 				if hasCR {
@@ -107,7 +107,7 @@ func (q *qpReader) Read(p []byte) (n int, err error) {
 		case b == '\t' || b == '\r' || b == '\n':
 			break
 		case b < ' ' || b > '~':
-			return n, fmt.Errorf("multipart: invalid unescaped byte 0x%02x in quoted-printable body", b)
+			return n, fmt.Errorf("quotedprintable: invalid unescaped byte 0x%02x in quoted-printable body", b)
 		}
 		p[0] = b
 		p = p[1:]
