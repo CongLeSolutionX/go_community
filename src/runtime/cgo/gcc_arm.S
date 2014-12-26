@@ -11,6 +11,14 @@
 #define EXT(s) s
 #endif
 
+// Apple's ld64 want 4-byte alignment for ARM code sections, but
+// its .align is actually .p2align for GNU as.
+#if defined(__APPLE__)
+	.align	2
+#else
+	.p2align 2
+#endif
+
 /*
  * void crosscall_arm1(void (*fn)(void), void (*setg_gcc)(void *g), void *g)
  *
