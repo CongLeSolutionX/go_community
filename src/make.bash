@@ -121,10 +121,12 @@ case "$GOHOSTARCH" in
 386) mflag=-m32;;
 amd64) mflag=-m64;;
 esac
-if [ "$(uname)" == "Darwin" ]; then
-	# golang.org/issue/5261
+case "$(uname)-$(uname -m)" in
+Darwin-i386 | Darwin-x86_64)
+	# golang.org/issue/5261, but only set for OS X.
 	mflag="$mflag -mmacosx-version-min=10.6"
-fi
+	;;
+esac
 # if gcc does not exist and $CC is not set, try clang if available.
 if [ -z "$CC" -a -z "$(type -t gcc)" -a -n "$(type -t clang)" ]; then
 	export CC=clang CXX=clang++
