@@ -388,6 +388,10 @@ func main() {
 			gohostarch = "ppc64le"
 		case strings.Contains(out, "ppc64"):
 			gohostarch = "ppc64"
+		case gohostos == "darwin":
+			if strings.Contains(run("", CheckExit, "uname", "-v"), "RELEASE_ARM_") {
+				gohostarch = "arm"
+			}
 		default:
 			fatal("unknown architecture: %s", out)
 		}
@@ -451,6 +455,12 @@ func cansse2() bool {
 func xgetgoarm() string {
 	if goos == "nacl" {
 		// NaCl guarantees VFPv3 and is always cross-compiled.
+		return "7"
+	}
+	if goos == "darwin" {
+		// Assume all darwin/arm devices are have VFPv3. This
+		// port is also mostly cross-compiled, so it makes little
+		// sense to auto-detect the setting.
 		return "7"
 	}
 	if gohostarch != "arm" || goos != gohostos {
