@@ -599,7 +599,7 @@ func (d *decodeState) object(v reflect.Value) {
 			case string:
 				d.literalStore([]byte(qv), subv, true)
 			default:
-				d.saveError(fmt.Errorf("json: invalid use of ,string struct tag, trying to unmarshal unquoted value into %v", item, v.Type()))
+				d.saveError(fmt.Errorf("json: invalid use of ,string struct tag, trying to unmarshal unquoted value into string"))
 			}
 		} else {
 			d.value(subv)
