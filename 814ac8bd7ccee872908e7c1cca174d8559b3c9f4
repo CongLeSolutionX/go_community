@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8158a81b_d2c32218",
+        "filename": "src/runtime/cgo/gcc_arm.S",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2014-12-27T04:31:12Z",
+      "side": 1,
+      "message": "For gas on ARM, .align 2 is the same as .p2align 2.  I think we could always use .align here.",
+      "revId": "814ac8bd7ccee872908e7c1cca174d8559b3c9f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_f2c82635",
+        "filename": "src/runtime/cgo/gcc_darwin_arm.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2014-12-27T04:31:12Z",
+      "side": 1,
+      "message": "It\u0027s not a great idea to #define a name starting with PTHREAD when #include\u0027ing \u003cpthread.h\u003e.  Use a different prefix.",
+      "revId": "814ac8bd7ccee872908e7c1cca174d8559b3c9f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_12ce8a3e",
+        "filename": "src/runtime/cgo/gcc_darwin_arm.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2014-12-27T04:31:12Z",
+      "side": 1,
+      "message": "I\u0027m sure I\u0027m missing something but I don\u0027t see how this can be right.  In runtime/tls_arm.s, on non-Android platforms, tlsg is a special linker symbol.  As far as I can see it can only be changed on Android.  I don\u0027t understand what this assignment will do.",
+      "revId": "814ac8bd7ccee872908e7c1cca174d8559b3c9f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
