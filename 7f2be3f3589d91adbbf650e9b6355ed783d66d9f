@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8158a81b_92e27aaa",
+        "filename": "misc/cgo/test/issue7978.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2014-12-27T04:38:19Z",
+      "side": 1,
+      "message": "It doesn\u0027t make much sense to only test __GNUC_MINOR__.  This test will be true for 4.3, false for 5.0.  I can see that it might work OK for this specific case, but it doesn\u0027t seem like the right thing to do.  Instead of worrying about testing APPLE and ARM, I suggest something like\n\n#if defined(__clang__) || __GNUC_MAJOR__ \u003e\u003d 5 || (__GNUC_MAJOR__ \u003d\u003d 4 \u0026\u0026 __GNUC_MINOR__ \u003e 2)\n#define HAS_SYNC_FETCH_AND_ADD 1\n#else\n#define HAS_SYNC_FETCH_AND_ADD 0\n#endif\n\nHere I\u0027m assuming you are right about GCC 4.1 not having a working sync_fetch_and_add.  The extension was introduced in 4.1, so it\u0027s definitely missing in 4.0.",
+      "revId": "7f2be3f3589d91adbbf650e9b6355ed783d66d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
