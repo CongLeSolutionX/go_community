@@ -16,6 +16,24 @@
       "revId": "7f2be3f3589d91adbbf650e9b6355ed783d66d9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c14e2056_b75bf04a",
+        "filename": "misc/cgo/test/issue7978.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-27T06:10:20Z",
+      "side": 1,
+      "message": "I did some investigation, and it seems the gcc on ios is 4.2.1,\nand it does support __sync_fetch_and_add, however, it couldn\u0027t\ninline the definition of that primitive, and instead calls the\nprimitive in libSystem.\n\nBut on ios, libSystem doesn\u0027t have that primitive, as clang will\nexpand the definition inline.\n\nso it\u0027s not gcc\u0027s fault. I will change the condition to require\nclang on ios.",
+      "parentUuid": "8158a81b_92e27aaa",
+      "revId": "7f2be3f3589d91adbbf650e9b6355ed783d66d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
