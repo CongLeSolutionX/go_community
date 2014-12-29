@@ -103,6 +103,24 @@
       "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a185ac8b_c6a9b696",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5815
+      },
+      "writtenOn": "2014-12-29T18:44:30Z",
+      "side": 1,
+      "message": "I\u0027ve left the strings the same so that it maintains backwards compatibility with users who were doing string comparison - none of the error strings should have changed.",
+      "parentUuid": "618f34ae_e7d9503b",
+      "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
