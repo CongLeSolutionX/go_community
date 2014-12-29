@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8158a81b_95f8a48d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2014-12-29T17:23:37Z",
+      "side": 1,
+      "message": "Can you wrap these long description lines?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 126
+      },
+      "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_c7d45406",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
@@ -13,6 +36,29 @@
       "writtenOn": "2014-12-29T05:34:33Z",
       "side": 1,
       "message": "In Go style, acronyms are all the same case.  So URL here.\n\nBut I don\u0027t think user error errors are worth putting into variables. You\u0027ll never test against it, because you shouldn\u0027t be doing it in the first place. The error is just an FYI-you\u0027re-doing-it-wrong nudge.  Only errors that happen randomly at runtime and will be checked and retried need variables.",
+      "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_f5de5020",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2014-12-29T17:23:37Z",
+      "side": 1,
+      "message": "Cancelled",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 19
+      },
       "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
