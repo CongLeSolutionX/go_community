@@ -87,7 +87,7 @@ func growslice(t *slicetype, old sliceStruct, n int64) sliceStruct {
 		// Note: can't use rawmem (which avoids zeroing of memory), because then GC can scan unitialized memory
 		p = newarray(et, uintptr(newcap))
 		for i := 0; i < old.len; i++ {
-			writebarrierfat(et, add(p, uintptr(i)*et.size), add(old.array, uintptr(i)*et.size))
+			typedmemmove(et, add(p, uintptr(i)*et.size), add(old.array, uintptr(i)*et.size))
 		}
 	}
 
