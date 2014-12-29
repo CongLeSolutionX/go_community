@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "618f34ae_674b8025",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-29T18:24:28Z",
+      "side": 1,
+      "message": "No, it\u0027s Canceled:\n\nhttp://godoc.org/golang.org/x/net/context#pkg-variables\n\nAnd syscall.ECANCELED (not that that one is much precedent, being auto-generated)",
+      "parentUuid": "8158a81b_f5de5020",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_e7d9503b",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
