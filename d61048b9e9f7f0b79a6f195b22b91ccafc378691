@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8158a81b_55163c70",
+        "filename": "src/runtime/cgo/gcc_arm.S",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2014-12-29T16:33:28Z",
+      "side": 1,
+      "message": "s/want/wants or uses",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "d61048b9e9f7f0b79a6f195b22b91ccafc378691",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
