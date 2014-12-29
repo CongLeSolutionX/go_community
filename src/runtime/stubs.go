@@ -14,7 +14,7 @@ const regSize = 4 << (^uintreg(0) >> 63) // unsafe.Sizeof(uintreg(0)) but an ide
 // Should be a built-in for unsafe.Pointer?
 //go:nosplit
 func add(p unsafe.Pointer, x uintptr) unsafe.Pointer {
-	return unsafe.Pointer(uintptr(p) + x)
+	return unsafe.Pointer(uintptr(noescape(p)) + x)
 }
 
 // n must be a power of 2
