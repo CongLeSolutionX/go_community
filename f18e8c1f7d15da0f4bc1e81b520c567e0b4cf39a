@@ -121,6 +121,24 @@
       "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_07c9dc36",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2014-12-29T18:53:56Z",
+      "side": 1,
+      "message": "A noble goal, but we\u0027ve never promised such backwards compatibility. Nobody should\u0027ve been causing or checking for most of these errors in the first place.",
+      "parentUuid": "a185ac8b_c6a9b696",
+      "revId": "f18e8c1f7d15da0f4bc1e81b520c567e0b4cf39a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
