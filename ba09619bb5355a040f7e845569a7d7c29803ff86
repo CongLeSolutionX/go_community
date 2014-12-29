@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_47cbe42d",
+        "filename": "misc/ios/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-29T19:07:11Z",
+      "side": 1,
+      "message": "I\u0027m 99.9% sure you can\u0027t get the system roots on a non-jailbroken iOS device.\n\nOne kinda lousy option is to include all known iOS system roots in the x509 package itself (e.g. from http://support.apple.com/en-us/HT5012), and then use SecTrustEvaluate to check each of them at startup to ensure that they are still trusted by the actual running OS.\n\nAnother--even worse--option is to provide a code path that passes through to SecTrustEvaluate on an as-needed basis.\n\nIn the meantime, though, it may be better to have x509 build with an empty set of roots than to have it not build at all.",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_e7c31018",
+        "filename": "misc/ios/clangwrap.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-29T19:07:11Z",
+      "side": 1,
+      "message": "This will break down if the developer has multiple copies of Xcode installed, which is common during iOS beta periods. I\u0027d recommend something like:\n\n\n# This uses the latest available iOS SDK, which is recommended.\n# To select a specific SDK, run \u0027xcodebuild -showsdks\u0027\n# to see the available SDKs and replace iphoneos with one of them.\nSDK\u003diphoneos\nSDK_PATH\u003d`xcrun --sdk $SDK --show-sdk-path`\nCLANG\u003d`xcrun --sdk $SDK --find clang`\nexec $CLANG -arch armv7 -isysroot $SDK_PATH \"$@\"\n\n\nYou could then also change the NOTE above to only suggest updating the deployment target. Also, I\u0027m not sure, but you might want to add the other supported architectures:\n\n\nexec $CLANG -arch armv7 -arch armv7s -arch arm64 -isysroot $SDK_PATH \"$@\"",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
