@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_47a04476",
+        "filename": "src/sync/atomic/asm_darwin_arm.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2014-12-29T16:51:45Z",
+      "side": 1,
+      "message": "I see asm_nacl_arm.s also has $-4 here, but I don\u0027t understand why. Can you explain it?",
+      "revId": "1a9534c63fb0713ea988ef2769957301885e9bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
