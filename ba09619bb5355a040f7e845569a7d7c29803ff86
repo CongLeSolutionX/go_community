@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6126549e_89cfbd6d",
+        "filename": "misc/ios/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-30T05:05:19Z",
+      "side": 1,
+      "message": "Right, that is also my assumption that stock iOS doesn\u0027t expose the\nsystem root.\n\nI will add another CL to the series to disable the problematic cgo\ncode in crypto/x509 so that it builds.\n\nAnd there is also no /usr/bin/security program, so we can\u0027t also\nrun the test on iOS.\n\nWe do need to figure out a way to get a list of system root though.\nWe probably would end up getting the list from the apple support\npage you mentioned, but I\u0027m still not sure where do we put the\nsystem root. I don\u0027t think we can put them in the master repo, but\nwhat about x/mobile? Or the user need to get the root certificates\nthemselves if they need TLS?\n\nYet another alternative is that we make crypto/x509 returns a\nsentinel root ca list, and make crypto/x509.Certificate.Verify if\ngiven the special sentinel root ca list, use the system to verify\nthe given certificate. And if the user tries to add CA to the system\nroot CA list, we also add (temporarily) add these CAs to the system\nroot before verifying a certificate. If this is deemed too complicated,\nwe can just say on iOS, you can only use the system root or use\ncgo to add root CAs into the system root.",
+      "parentUuid": "618f34ae_47cbe42d",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_e7c31018",
         "filename": "misc/ios/clangwrap.sh",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-29T19:07:11Z",
       "side": 1,
       "message": "This will break down if the developer has multiple copies of Xcode installed, which is common during iOS beta periods. I\u0027d recommend something like:\n\n\n# This uses the latest available iOS SDK, which is recommended.\n# To select a specific SDK, run \u0027xcodebuild -showsdks\u0027\n# to see the available SDKs and replace iphoneos with one of them.\nSDK\u003diphoneos\nSDK_PATH\u003d`xcrun --sdk $SDK --show-sdk-path`\nCLANG\u003d`xcrun --sdk $SDK --find clang`\nexec $CLANG -arch armv7 -isysroot $SDK_PATH \"$@\"\n\n\nYou could then also change the NOTE above to only suggest updating the deployment target. Also, I\u0027m not sure, but you might want to add the other supported architectures:\n\n\nexec $CLANG -arch armv7 -arch armv7s -arch arm64 -isysroot $SDK_PATH \"$@\"",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_293c09b2",
+        "filename": "misc/ios/clangwrap.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-30T05:05:19Z",
+      "side": 1,
+      "message": "Perhaps this is the way to go. I was using an very old version of iOS SDK\n(and my tests are on a even older version of iOS, 5.1.1).\n\nThe problem is that, with my xcode 4.6, xcrun doesn\u0027t support --show-sdk-path.\n\nthere is no support for arm64 yet, and the object file produced by 5l will\nhave SUBARCH set to armv7, so I\u0027m not sure compiling for -arch armv7 and\n-arch arm64 will do any good.\n\nIs armv7s required in the final binary? We will need to tweak the cmd/5l to\nproduce an object file with SUBARCH armv7s.\n\nI\u0027m waiting for the linux/arm64 port to be ready to start the port to\ndarwin/arm64.",
+      "parentUuid": "618f34ae_e7c31018",
       "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
