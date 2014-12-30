@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_92c1ac2e",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "ToNearestEven?",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_c7ed344a",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "It might be worth preallocating a backing array for the nat slice that is big enough to hold a float64\u0027s mantissa. That is, add a field to Float like\n\nmantArr [64/_W]Word\n\nand then the initial mant in SetFloat64 can be set to nat(mantArr[:]), avoiding an alloc.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_c7c454d4",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "Is it worth having an \"Unknown\" or \"Not Set\" Accuracy?\n\nFor example, consider a hypotenuse function that hides a complicated calculation, for which assigning an overall Accuracy to the result is not possible. The user doesn\u0027t care about the Accuracy of the last operation; further, the last operation might also easily vary based on the input values. (See e.g. issue 8909.) It might be nice to be able to represent that in the result.\n\nAn obvious choice is -128, since -(-128) \u003d\u003d -128.\n\nOr maybe I just don\u0027t understand the purpose of Accuracy.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_07cf1cec",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "Given that these values are documented explicitly above, it might be better to export them.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_e7c950e9",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "Here and below, consider using tools/cmd/stringer to generate these String functions.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_e7e23059",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "Nit: Move this line near to where mode is first used (converting ToXInf modes).",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_12f83c88",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "I don\u0027t see why this must be true. In particular, z.prec could have just been set to 0 by Round before this call.\n\nAnd if z.prec is 0, bad things can happen below.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_2725f846",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "This phrasing is confusing. It refers to the receiver being overwritten; while true, the key point is that the operand may be overwritten. Perhaps something like:\n\nFor unary and binary operations the result is the receiver, usually named z. If one or both of the operands is the receiver, for example z.Add(x, z), the operand may be overwritten and its memory reused.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_47da04a5",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:16:15Z",
+      "side": 1,
+      "message": "Nit: Don\u0027t shadow x.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
