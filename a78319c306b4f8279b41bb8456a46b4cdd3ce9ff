@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee79192_6b91f12f",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T22:42:01Z",
+      "side": 1,
+      "message": "//  us % 1e9 fits into a uintptr",
+      "range": {
+        "startLine": 81,
+        "startChar": 29,
+        "endLine": 81,
+        "endChar": 50
+      },
+      "revId": "a78319c306b4f8279b41bb8456a46b4cdd3ce9ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee79192_4bf4ed93",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T22:42:01Z",
+      "side": 1,
+      "message": "add comment here\n\n// us \u003c 10\n\nto match the comments (// u \u003c base) below?",
+      "revId": "a78319c306b4f8279b41bb8456a46b4cdd3ce9ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee79192_cb991d56",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T22:42:01Z",
+      "side": 1,
+      "message": "remove this empty line - we don\u0027t usually have a \"spacer\" line before a closing }",
+      "revId": "a78319c306b4f8279b41bb8456a46b4cdd3ce9ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
