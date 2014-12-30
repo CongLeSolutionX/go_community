@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8158a81b_3edb5581",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "if u \u003d\u003d 0 {\n   if append_ {\n      d \u003d append(dst, \u00270\u0027)\n      return\n   }\n   s \u003d \"0\"\n   return\n}\n// u !\u003d 0\n\nand all loops below get simpler\n\nperhaps try in 2nd CL to see if it leads to additional improvement (it may not because there\u0027s more code executed for the least-significant digit, offsetting thw in of a simpler loop condition).",
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_fe3f0dd7",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "This comment is not quite right: Even on a 32bit platform, a uint could be 64bits (the spec doesn\u0027t make guarantees in that respect, but it does recommend that on a 32bit-platform, uintptr is 32bits).\n\nLeave comment away here and instead:\n\nif ^uintptr(0)\u003e\u003e32 \u003d\u003d 0 {\n   // on 32bit platform, avoid 64bit division for individual digits\n   for u \u003e\u003d 1\u003c\u003c32 {\n      q :\u003d u/1e9\n      ...\n   }\n   // u \u003c 1\u003c\u003c32\n}\n\n...",
+      "range": {
+        "startLine": 78,
+        "startChar": 5,
+        "endLine": 78,
+        "endChar": 56
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_3e135552",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "s/63/32/ seems more direct",
+      "range": {
+        "startLine": 79,
+        "startChar": 5,
+        "endLine": 79,
+        "endChar": 22
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_be2f4578",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "use uintptr, not uint",
+      "range": {
+        "startLine": 80,
+        "startChar": 19,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_fef1cdf6",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "s/1.0e9/1e9/",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_3e04353d",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_5e01f92b",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "extra blank after \u003c ?",
+      "range": {
+        "startLine": 82,
+        "startChar": 41,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_fecaad7a",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "// u guaranteed to fit into a uintptr",
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_fe554d16",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "use uintptr",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 12
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_83b14e54",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "Why the change from uintptr to uint? uintptr is the supposed to be the natural size of pointer (which on modern machines is the size of a general-purpose machine register). On a 32bit machine this is very likely 32bits.\n\nOn the other hand, uint is not guaranteed to be 32bits on a 32bit machine. Is the compiler doing something different?\n\nApplies to all uintptr -\u003e uint changes.",
+      "range": {
+        "startLine": 109,
+        "startChar": 7,
+        "endLine": 109,
+        "endChar": 11
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_633b8a0b",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "The reason why this is u \u003e\u003d b (rather than u \u003e 0) is the case u \u003d\u003d 0.\n\nIt would make all this code simpler and shorter by special-casing u\u003d\u003d0 in the beginning and then we can do\n\nfor u \u003e 0 { ...\n\nhere (and everywhere else). Comparison with 0 is less machine code to run. And the code after the loop is not needed.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 12
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8158a81b_bece65bf",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2014-12-30T00:05:52Z",
+      "side": 1,
+      "message": "These two lines can go if u\u003d\u003d0 is special cased.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "55f3a072996f9350ee0b4a2d737966dd42e89ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
