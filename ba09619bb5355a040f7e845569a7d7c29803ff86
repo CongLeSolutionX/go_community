@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "618f34ae_3268d88d",
+        "filename": "misc/ios/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:39:57Z",
+      "side": 1,
+      "message": "Hmm. Another alternative yet is to provide a cgo-based http.RoundTripper that calls through to Cocoa or Core Foundation http handlers, which would then do the default cert verification. That would presumably go in x/mobile.\n\nI don\u0027t really have much of an opinion about what to do here. It\u0027s a mess.",
+      "parentUuid": "6126549e_89cfbd6d",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_e7c31018",
         "filename": "misc/ios/clangwrap.sh",
         "patchSetId": 5
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Perhaps this is the way to go. I was using an very old version of iOS SDK\n(and my tests are on a even older version of iOS, 5.1.1).\n\nThe problem is that, with my xcode 4.6, xcrun doesn\u0027t support --show-sdk-path.\n\nthere is no support for arm64 yet, and the object file produced by 5l will\nhave SUBARCH set to armv7, so I\u0027m not sure compiling for -arch armv7 and\n-arch arm64 will do any good.\n\nIs armv7s required in the final binary? We will need to tweak the cmd/5l to\nproduce an object file with SUBARCH armv7s.\n\nI\u0027m waiting for the linux/arm64 port to be ready to start the port to\ndarwin/arm64.",
       "parentUuid": "618f34ae_e7c31018",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_1283dce1",
+        "filename": "misc/ios/clangwrap.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-30T19:39:57Z",
+      "side": 1,
+      "message": "Regarding xcrun and the default deployment target, it depends on who the audience is. Assuming we\u0027re targeting mainstream iOS developers, my experience from years of writing iOS libraries is that pretty much everyone uses a recent Xcode version due to pressure from Apple (see e.g. the article referenced below). And folks usually have as a deployment target one or at most two major iOS versions back.\n\nAs for architectures, I was wrong. We can leave out armv7s. However, if we want apps to be able to be submitted to the App Store, we\u0027ll need arm64 soon: http://arstechnica.com/apple/2014/10/apple-beginning-february-2015-app-store-submissions-need-to-be-64-bit/",
+      "parentUuid": "6126549e_293c09b2",
       "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
