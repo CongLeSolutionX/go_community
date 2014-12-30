@@ -109,6 +109,21 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	outreq := new(http.Request)
 	*outreq = *req // includes shallow copies of maps, but okay
 
+	go func() {
+		cn, ok := rw.(http.CloseNotifier)
+		if !ok {
+			// In this case, rw may have been wrapped and there is nothing
+			// that can be done.
+			return
+		}
+		<-cn.CloseNotify()
+		t, ok := transport.(*http.Transport)
+		if !ok {
+			return
+		}
+		t.CancelRequest(outreq)
+	}()
+
 	p.Director(outreq)
 	outreq.Proto = "HTTP/1.1"
 	outreq.ProtoMajor = 1
