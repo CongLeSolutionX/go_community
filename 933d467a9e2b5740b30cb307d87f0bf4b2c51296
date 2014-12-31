@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_ed0bf116",
+        "filename": "misc/ios/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-31T23:17:31Z",
+      "side": 1,
+      "message": "Consider adding instructions for running a built program on a device.",
+      "revId": "933d467a9e2b5740b30cb307d87f0bf4b2c51296",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
