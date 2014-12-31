@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6126549e_0ced9bc5",
+        "filename": "misc/ios/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-31T06:18:50Z",
+      "side": 1,
+      "message": "Yeah, we should provide an alternative net/http.DefaultTransport.\n(perhaps we should override the DefaultTransport in net/http on\niOS, because that\u0027s probably what 99% of the users need.)\n\nHowever, I think we still need to get crypto/tls working (by providing\na cgo x509.Certificate.Verify replacement), so that people who need\ncustom TLS protocol can do that.",
+      "parentUuid": "618f34ae_3268d88d",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_e7c31018",
         "filename": "misc/ios/clangwrap.sh",
         "patchSetId": 5
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Regarding xcrun and the default deployment target, it depends on who the audience is. Assuming we\u0027re targeting mainstream iOS developers, my experience from years of writing iOS libraries is that pretty much everyone uses a recent Xcode version due to pressure from Apple (see e.g. the article referenced below). And folks usually have as a deployment target one or at most two major iOS versions back.\n\nAs for architectures, I was wrong. We can leave out armv7s. However, if we want apps to be able to be submitted to the App Store, we\u0027ll need arm64 soon: http://arstechnica.com/apple/2014/10/apple-beginning-february-2015-app-store-submissions-need-to-be-64-bit/",
       "parentUuid": "6126549e_293c09b2",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_2cea57ae",
+        "filename": "misc/ios/clangwrap.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-31T06:18:50Z",
+      "side": 1,
+      "message": "I\u0027ll modify the clangwrap.sh script as you suggested.\nI appreciate if you could help test it with latest Xcode.\nThanks!\n\nYes, the linux/arm64 port is being worked on atm by\nAram, and I\u0027m monitoring its progress closely.\n\nI will probably write initial cgo support for it, just for\nDarwin/ARM64. I also really hope that this port could\ngo in before the cut-off in Feb, so that some one\ndetermined enough could still get one App in Go\napproved.",
+      "parentUuid": "618f34ae_1283dce1",
       "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
