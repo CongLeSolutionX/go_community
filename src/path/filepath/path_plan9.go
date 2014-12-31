@@ -32,3 +32,15 @@ func splitList(path string) []string {
 func abs(path string) (string, error) {
 	return unixAbs(path)
 }
+
+// Join joins any number of path elements into a single path, adding
+// a Separator if necessary. The result is Cleaned, in particular
+// all empty strings are ignored.
+func Join(elem ...string) string {
+	for i, e := range elem {
+		if e != "" {
+			return Clean(strings.Join(elem[i:], string(Separator)))
+		}
+	}
+	return ""
+}
