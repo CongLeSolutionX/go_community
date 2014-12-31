@@ -242,6 +242,7 @@ var jointests = []JoinTest{
 
 	// one parameter
 	{[]string{""}, ""},
+	{[]string{"/"}, "/"},
 	{[]string{"a"}, "a"},
 
 	// two parameters
@@ -249,10 +250,25 @@ var jointests = []JoinTest{
 	{[]string{"a", ""}, "a"},
 	{[]string{"", "b"}, "b"},
 	{[]string{"/", "a"}, "/a"},
+	{[]string{"/", "a", "b"}, "/a/b"},
+	{[]string{"/", "a/b"}, "/a/b"},
 	{[]string{"/", ""}, "/"},
+	{[]string{"//", "a"}, "/a"},
 	{[]string{"a/", "b"}, "a/b"},
 	{[]string{"a/", ""}, "a"},
 	{[]string{"", ""}, ""},
+
+	// three parameters
+	{[]string{"", "/", "a/b"}, "/a/b"},
+	{[]string{"/", "", "a/b"}, "/a/b"},
+	{[]string{"/", "/", "a/b"}, "/a/b"},
+	{[]string{"/", "", "/a/b"}, "/a/b"},
+	{[]string{"//", "a", "b"}, "/a/b"},
+}
+
+var unixjointests = []JoinTest{
+	{[]string{`\`, `a`}, `\/a`},
+	{[]string{`\\`, `a`}, `\\/a`},
 }
 
 var winjointests = []JoinTest{
@@ -263,21 +279,23 @@ var winjointests = []JoinTest{
 	{[]string{`C:`, `Windows`}, `C:\Windows`},
 	{[]string{`\\host\share`, `foo`}, `\\host\share\foo`},
 	{[]string{`//host/share`, `foo/bar`}, `\\host\share\foo\bar`},
-}
-
-// join takes a []string and passes it to Join.
-func join(elem []string, args ...string) string {
-	args = elem
-	return filepath.Join(args...)
+	{[]string{`\`, `a`}, `\a`},
+	{[]string{`\`, `a`, `b`}, `\a\b`},
+	{[]string{`\\`, `a`}, `\a`},
+	{[]string{`\\`, `a\b`}, `\a\b`},
+	{[]string{`\\`, `a`, `b`}, `\a\b`},
 }
 
 func TestJoin(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		jointests = append(jointests, winjointests...)
+	} else {
+		jointests = append(jointests, unixjointests...)
 	}
 	for _, test := range jointests {
-		if p := join(test.elem); p != filepath.FromSlash(test.path) {
-			t.Errorf("join(%q) = %q, want %q", test.elem, p, test.path)
+		expected := filepath.FromSlash(test.path)
+		if p := filepath.Join(test.elem...); p != expected {
+			t.Errorf("join(%q) = %q, want %q", test.elem, p, expected)
 		}
 	}
 }

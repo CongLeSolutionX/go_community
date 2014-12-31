@@ -198,9 +198,17 @@ func Split(path string) (dir, file string) {
 // all empty strings are ignored.
 func Join(elem ...string) string {
 	for i, e := range elem {
-		if e != "" {
-			return Clean(strings.Join(elem[i:], string(Separator)))
+		switch e {
+		case "":
+			continue
+		case `\`, `/`:
+			// Prevent creation of a UNC path on Windows when told to join at least
+			// three non-empty path elements, where the first one is `\` or `/`.
+			// Prevent this from happening by creating a `\\\` prefix, which is not
+			// deemed to be a UNC path prefix. See golang.org/issue/9167.
+			return Clean(strings.Join(append([]string{""}, elem[i:]...), string(Separator)))
 		}
+		return Clean(strings.Join(elem[i:], string(Separator)))
 	}
 	return ""
 }
