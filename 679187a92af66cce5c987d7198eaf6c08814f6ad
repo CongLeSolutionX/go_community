@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_dc4b45f8",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2014-12-31T09:03:10Z",
+      "side": 1,
+      "message": "I think this condition is simple enough to not to pay for filepath.FromSlash call. Most filepath.Join callers would not care about our edge case. Please make it fast for them.",
+      "range": {
+        "startLine": 202,
+        "startChar": 6,
+        "endLine": 202,
+        "endChar": 15
+      },
+      "revId": "679187a92af66cce5c987d7198eaf6c08814f6ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_9c79bd33",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2014-12-31T09:03:10Z",
+      "side": 1,
+      "message": "If I pass my slice []string to filepath.Join, I don\u0027t want any slice elements change. Why are you changing it here?",
+      "range": {
+        "startLine": 206,
+        "startChar": 14,
+        "endLine": 206,
+        "endChar": 16
+      },
+      "revId": "679187a92af66cce5c987d7198eaf6c08814f6ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
