@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6126549e_acfd677c",
+        "filename": "src/runtime/os1_windows_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-31T05:58:07Z",
+      "side": 1,
+      "message": "use a const, defined in two files?\n\nand in the test, rebuild the runtime without another build tag\nto disable our crash handler?",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_ccf2a3ab",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2014-12-31T05:58:07Z",
+      "side": 1,
+      "message": "what will happen if the WER dialogue is shown?\nshould we also handle that case, and kill the process?",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
