@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e17b245e_dce7c5b8",
+        "filename": "src/runtime/os1_windows_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2014-12-31T07:14:26Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you\u0027re after. I think my proposal is simple enough as is. If you don\u0027t like duplicate code, I agree we should rewrite our exception handlers code. Now that it is in Go, we can make it simpler.",
+      "parentUuid": "6126549e_acfd677c",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6126549e_ccf2a3ab",
         "filename": "src/runtime/syscall_windows_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-31T05:58:07Z",
       "side": 1,
       "message": "what will happen if the WER dialogue is shown?\nshould we also handle that case, and kill the process?",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_fcdc89f3",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2014-12-31T07:14:26Z",
+      "side": 1,
+      "message": "The test will hang here forever. It is OK with me. If I am running this test manually, I will just click the button. On the builder we have timeout for these tests.",
+      "parentUuid": "6126549e_ccf2a3ab",
       "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
