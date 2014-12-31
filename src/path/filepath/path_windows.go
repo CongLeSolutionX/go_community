@@ -108,3 +108,20 @@ func splitList(path string) []string {
 func abs(path string) (string, error) {
 	return syscall.FullPath(path)
 }
+
+func join(elem ...string) string {
+	for i, e := range elem {
+		switch e {
+		case `\`, `/`:
+			// Prevent creation of a UNC path on Windows when told to join at least
+			// three non-empty path elements, where the first one is `\` or `/`.
+			// Prevent this from happening by creating a `\\\` prefix, which is not
+			// deemed to be a UNC path prefix. See golang.org/issue/9167.
+			return Clean(strings.Join(append([]string{""}, elem[i:]...), string(Separator)))
+		case "":
+			continue
+		}
+		return Clean(strings.Join(elem[i:], string(Separator)))
+	}
+	return ""
+}

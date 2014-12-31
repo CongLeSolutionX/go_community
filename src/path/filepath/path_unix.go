@@ -34,3 +34,7 @@ func splitList(path string) []string {
 func abs(path string) (string, error) {
 	return unixAbs(path)
 }
+
+func join(elem ...string) string {
+	return unixJoin(elem...)
+}
