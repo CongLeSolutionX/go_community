@@ -199,6 +199,12 @@ func Split(path string) (dir, file string) {
 func Join(elem ...string) string {
 	for i, e := range elem {
 		if e != "" {
+			if FromSlash(e) == string(Separator) {
+				// On Windows, a single '\' or '/' should not yield a UNC path.
+				// Zero the element in order to prevent creation of a UNC path when
+				// concatenating with Separator.
+				elem[i] = ""
+			}
 			return Clean(strings.Join(elem[i:], string(Separator)))
 		}
 	}
