@@ -32,3 +32,29 @@ func splitList(path string) []string {
 func abs(path string) (string, error) {
 	return unixAbs(path)
 }
+
+func join(elem ...string) string {
+	// If there's a bug here, fix the logic in ./path_unix.go too.
+	for i, e := range elem {
+		backslashRooted := func(elem string) bool {
+			for _, c := range elem {
+				if c != '\\' {
+					return false
+				}
+			}
+			return true
+		}(e)
+
+		switch {
+		default:
+			return Clean(strings.Join(elem[i:], string(Separator)))
+		case e == "":
+			continue
+		case backslashRooted:
+			// If the first element is composed by backslashes only, replace it with a single
+			// Separator in order to prevent `\/` path prefixes from being created.
+			return Clean(strings.Join(append([]string{string(Separator)}, elem[i+1:]...), string(Separator)))
+		}
+	}
+	return ""
+}
