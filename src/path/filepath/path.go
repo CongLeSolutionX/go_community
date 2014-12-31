@@ -9,6 +9,7 @@ package filepath
 import (
 	"errors"
 	"os"
+	"runtime"
 	"sort"
 	"strings"
 )
@@ -199,6 +200,12 @@ func Split(path string) (dir, file string) {
 func Join(elem ...string) string {
 	for i, e := range elem {
 		if e != "" {
+			if runtime.GOOS == "windows" && (e == "\\" || e == "/") {
+				// On Windows, a single '\' or '/' should not yield a UNC path.
+				// Zero the element in order to prevent creation of a UNC path when
+				// concatenating with Separator. See golang.org/issue/9167
+				return Clean(strings.Join(append([]string{""}, elem[i+1:]...), string(Separator)))
+			}
 			return Clean(strings.Join(elem[i:], string(Separator)))
 		}
 	}
