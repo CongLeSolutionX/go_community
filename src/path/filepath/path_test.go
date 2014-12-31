@@ -263,12 +263,10 @@ var winjointests = []JoinTest{
 	{[]string{`C:`, `Windows`}, `C:\Windows`},
 	{[]string{`\\host\share`, `foo`}, `\\host\share\foo`},
 	{[]string{`//host/share`, `foo/bar`}, `\\host\share\foo\bar`},
-}
-
-// join takes a []string and passes it to Join.
-func join(elem []string, args ...string) string {
-	args = elem
-	return filepath.Join(args...)
+	{[]string{`\`, `foo`}, `\foo`},
+	{[]string{`/`, `foo`}, `\foo`},
+	{[]string{`\`, `foo`, `bar`}, `\foo\bar`},
+	{[]string{`/`, `foo`, `bar`}, `\foo\bar`},
 }
 
 func TestJoin(t *testing.T) {
@@ -276,7 +274,7 @@ func TestJoin(t *testing.T) {
 		jointests = append(jointests, winjointests...)
 	}
 	for _, test := range jointests {
-		if p := join(test.elem); p != filepath.FromSlash(test.path) {
+		if p := filepath.Join(test.elem...); p != filepath.FromSlash(test.path) {
 			t.Errorf("join(%q) = %q, want %q", test.elem, p, test.path)
 		}
 	}
