@@ -193,18 +193,6 @@ func Split(path string) (dir, file string) {
 	return path[:i+1], path[i+1:]
 }
 
-// Join joins any number of path elements into a single path, adding
-// a Separator if necessary. The result is Cleaned, in particular
-// all empty strings are ignored.
-func Join(elem ...string) string {
-	for i, e := range elem {
-		if e != "" {
-			return Clean(strings.Join(elem[i:], string(Separator)))
-		}
-	}
-	return ""
-}
-
 // Ext returns the file name extension used by path.
 // The extension is the suffix beginning at the final dot
 // in the final element of path; it is empty if there is
