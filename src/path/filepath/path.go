@@ -9,6 +9,7 @@ package filepath
 import (
 	"errors"
 	"os"
+	"runtime"
 	"sort"
 	"strings"
 )
@@ -197,10 +198,51 @@ func Split(path string) (dir, file string) {
 // a Separator if necessary. The result is Cleaned, in particular
 // all empty strings are ignored.
 func Join(elem ...string) string {
+	if runtime.GOOS == "windows" {
+		return winJoin(elem...)
+	}
 	for i, e := range elem {
 		if e != "" {
 			return Clean(strings.Join(elem[i:], string(Separator)))
 		}
+	}
+	return ""
+}
+
+func winJoin(elem ...string) string {
+	nextNonEmpty := func(elem ...string) int {
+		for i, e := range elem {
+			if e != "" {
+				return i
+			}
+		}
+		return -1
+	}
+
+	for i, e := range elem {
+		switch e {
+		case "":
+			continue
+		case `\`, `/`:
+			// A '\' or '/' should not yield a UNC path on Windows if it is followed
+			// by at least one non-empty element.
+			if nextNonEmpty(elem[i+1:]...) != -1 {
+				// Zero the element in order to prevent creation of a UNC path when
+				// concatenating with Separator. See golang.org/issue/9167
+				return Clean(strings.Join(append([]string{""}, elem[i+1:]...), string(Separator)))
+			}
+		case `\\`, `\/`, `//`, `/\`:
+			// A `\\` prefix could yield a UNC path on Windows if it is followed by
+			// at least two non-empty elements.
+			j := nextNonEmpty(elem[i+1:]...)
+			if j != -1 && nextNonEmpty(elem[j+1:]...) != -1 {
+				// Replace the element with a single `\` in order to allow creation
+				// of a possible UNC path when concatenating with Separator, since
+				// `\\\` is not considered to be a UNC path prefix.
+				return Clean(strings.Join(append([]string{`\`}, elem[i+1:]...), string(Separator)))
+			}
+		}
+		return Clean(strings.Join(elem[i:], string(Separator)))
 	}
 	return ""
 }
