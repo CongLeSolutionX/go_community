@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_7cba39e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2014-12-31T00:44:41Z",
+      "side": 1,
+      "message": "insert a blank line between the subject line \u0026 descr",
+      "revId": "6b3b00c0ee224fa3ff677e5fc1a4da61c019e922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
