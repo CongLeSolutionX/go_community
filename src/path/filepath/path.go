@@ -197,6 +197,10 @@ func Split(path string) (dir, file string) {
 // a Separator if necessary. The result is Cleaned, in particular
 // all empty strings are ignored.
 func Join(elem ...string) string {
+	return join(elem...)
+}
+
+func unixJoin(elem ...string) string {
 	for i, e := range elem {
 		if e != "" {
 			return Clean(strings.Join(elem[i:], string(Separator)))
