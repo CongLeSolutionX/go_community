@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "618f34ae_ad01e9fc",
+        "filename": "misc/ios/README",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-31T23:17:20Z",
+      "side": 1,
+      "message": "Agreed on all counts.",
+      "parentUuid": "6126549e_0ced9bc5",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_e7c31018",
         "filename": "misc/ios/clangwrap.sh",
         "patchSetId": 5
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "I\u0027ll modify the clangwrap.sh script as you suggested.\nI appreciate if you could help test it with latest Xcode.\nThanks!\n\nYes, the linux/arm64 port is being worked on atm by\nAram, and I\u0027m monitoring its progress closely.\n\nI will probably write initial cgo support for it, just for\nDarwin/ARM64. I also really hope that this port could\ngo in before the cut-off in Feb, so that some one\ndetermined enough could still get one App in Go\napproved.",
       "parentUuid": "618f34ae_1283dce1",
+      "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618f34ae_cd063512",
+        "filename": "misc/ios/clangwrap.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2014-12-31T23:17:20Z",
+      "side": 1,
+      "message": "Everything builds as expected here with the new script (i.e. x509 fails). I haven\u0027t experimented with getting stuff onto the phone yet, but this part at least gets a thumbs up.",
+      "parentUuid": "6126549e_2cea57ae",
       "revId": "ba09619bb5355a040f7e845569a7d7c29803ff86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
