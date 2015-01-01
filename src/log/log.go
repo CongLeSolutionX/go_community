@@ -58,22 +58,29 @@ func New(out io.Writer, prefix string, flag int) *Logger {
 var std = New(os.Stderr, "", LstdFlags)
 
 // Cheap integer to fixed-width decimal ASCII.  Give a negative width to avoid zero-padding.
-// Knows the buffer has capacity.
 func itoa(buf *[]byte, i int, wid int) {
-	var u uint = uint(i)
-	if u == 0 && wid <= 1 {
-		*buf = append(*buf, '0')
+	if i < 0 {
+		*buf = append(*buf, '-')
+		i = -i
+		wid--
+	}
+	u := uint(i)
+	if u < 10 && wid <= 1 { // for single digit numbers avoid b append to buf
+		*buf = append(*buf, byte('0'+u))
 		return
 	}
-
 	// Assemble decimal in reverse order.
-	var b [32]byte
-	bp := len(b)
-	for ; u > 0 || wid > 0; u /= 10 {
-		bp--
+	var b [20]byte
+	bp := len(b) - 1
+	for u >= 10 || wid > 1 {
 		wid--
-		b[bp] = byte(u%10) + '0'
+		q := u / 10
+		b[bp] = byte('0' + u - q*10)
+		bp--
+		u = q
 	}
+	// u < 10
+	b[bp] = byte('0' + u)
 	*buf = append(*buf, b[bp:]...)
 }
 
