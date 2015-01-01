@@ -359,6 +359,54 @@ func Stable(data Interface) {
 // Having the caller check this condition eliminates many leaf recursion calls,
 // which improves performance.
 func symMerge(data Interface, a, m, b int) {
+	// Avoid unnecessary recursions of symMerge
+	// by direct insertion of data[a] into data[m:b]
+	// if data[a:m] only contains one element.
+	if m-a == 1 {
+		// binary search for correct position of data[a]
+		minpos := a
+		maxpos := b
+		for minpos < maxpos {
+			c := minpos + (maxpos-minpos)/2
+			if data.Less(c, a) {
+				minpos = c + 1
+			} else {
+				maxpos = c
+			}
+		}
+		// If all elements in data[m:b] are smaller then minpos equals m
+		// else minpos is the lowest position with data[a] <= data[minpos].
+		// Swap values until data[a] reaches the position before minpos.
+		for i := a; i < minpos-1; i++ {
+			data.Swap(i, i+1)
+		}
+		return
+	}
+
+	// Avoid unnecessary recursions of symMerge
+	// by direct insertion of data[m] into data[a:m]
+	// if data[m:b] only contains one element.
+	if b-m == 1 {
+		// binary search for correct position of data[m]
+		minpos := a
+		maxpos := m
+		for minpos < maxpos {
+			c := minpos + (maxpos-minpos)/2
+			if !data.Less(m, c) {
+				minpos = c + 1
+			} else {
+				maxpos = c
+			}
+		}
+		// Minpos is the highest position with data[m] < data[minpos]
+		// or minpos equals m if all elements in data[a:m] are smaller.
+		// Swap values until data[m] reaches position minpos.
+		for j := m; j > minpos; j-- {
+			data.Swap(j, j-1)
+		}
+		return
+	}
+
 	mid := a + (b-a)/2
 	n := mid + m
 	var start, r int
