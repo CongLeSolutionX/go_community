@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "618f34ae_cdd47506",
+        "filename": "src/runtime/cgo/gcc_openbsd_amd64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-01T01:46:16Z",
+      "side": 1,
+      "message": "Is there any need to do this here any more? (Same for x86.)",
+      "revId": "8a1bea5024b52ab62ce4c24472c5db5cf50fefcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
