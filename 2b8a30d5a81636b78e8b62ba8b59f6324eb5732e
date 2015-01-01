@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c180e07b_cae7f7b8",
+        "filename": "src/net/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2015-01-01T00:56:16Z",
+      "side": 1,
+      "message": "Please keep the special case for 0:\nif val \u003d\u003d 0 {\n\treturn \"0\"\n}\n\nin order to save an allocation.",
+      "revId": "2b8a30d5a81636b78e8b62ba8b59f6324eb5732e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
