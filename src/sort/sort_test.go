@@ -187,6 +187,58 @@ func BenchmarkStableInt64K(b *testing.B) {
 	}
 }
 
+func BenchmarkSortSorted(b *testing.B) {
+	b.StopTimer()
+	data := make([]int, 1<<16)
+	for i := range data {
+		data[i] = i
+	}
+	for i := 0; i < b.N; i++ {
+		b.StartTimer()
+		Ints(data)
+		b.StopTimer()
+	}
+}
+
+func BenchmarkStableSorted(b *testing.B) {
+	b.StopTimer()
+	data := make([]int, 1<<16)
+	for i := range data {
+		data[i] = i
+	}
+	for i := 0; i < b.N; i++ {
+		b.StartTimer()
+		Stable(IntSlice(data))
+		b.StopTimer()
+	}
+}
+
+func BenchmarkSortReverseSorted(b *testing.B) {
+	b.StopTimer()
+	data := make([]int, 1<<16)
+	for i := range data {
+		data[i] = len(data) - i
+	}
+	for i := 0; i < b.N; i++ {
+		b.StartTimer()
+		Ints(data)
+		b.StopTimer()
+	}
+}
+
+func BenchmarkStableReverseSorted(b *testing.B) {
+	b.StopTimer()
+	data := make([]int, 1<<16)
+	for i := range data {
+		data[i] = len(data) - i
+	}
+	for i := 0; i < b.N; i++ {
+		b.StartTimer()
+		Stable(IntSlice(data))
+		b.StopTimer()
+	}
+}
+
 const (
 	_Sawtooth = iota
 	_Rand
