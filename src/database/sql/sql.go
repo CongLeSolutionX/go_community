@@ -224,10 +224,13 @@ type DB struct {
 	// goroutine to exit.
 	openerCh chan struct{}
 	closed   bool
-	dep      map[finalCloser]depSet
 	lastPut  map[*driverConn]string // stacktrace of last conn's put; debug only
 	maxIdle  int                    // zero means defaultMaxIdleConns; negative means 0
 	maxOpen  int                    // <= 0 means unlimited
+
+	// Split from mu to avoid lock contention when using prepared statement in paralle.
+	depmu sync.Mutex
+	dep   map[finalCloser]depSet
 }
 
 // driverConn wraps a driver.Conn with a mutex, to
@@ -291,7 +294,7 @@ func (dc *driverConn) closeDBLocked() func() error {
 		return func() error { return errors.New("sql: duplicate driverConn close") }
 	}
 	dc.closed = true
-	return dc.db.removeDepLocked(dc, dc)
+	return dc.db.removeDep(dc, dc)
 }
 
 func (dc *driverConn) Close() error {
@@ -306,7 +309,7 @@ func (dc *driverConn) Close() error {
 	// And now updates that require holding dc.mu.Lock.
 	dc.db.mu.Lock()
 	dc.dbmuClosed = true
-	fn := dc.db.removeDepLocked(dc, dc)
+	fn := dc.db.removeDep(dc, dc)
 	dc.db.mu.Unlock()
 	return fn()
 }
@@ -361,12 +364,7 @@ type finalCloser interface {
 // called until all of x's dependencies are removed with removeDep.
 func (db *DB) addDep(x finalCloser, dep interface{}) {
 	//println(fmt.Sprintf("addDep(%T %p, %T %p)", x, x, dep, dep))
-	db.mu.Lock()
-	defer db.mu.Unlock()
-	db.addDepLocked(x, dep)
-}
-
-func (db *DB) addDepLocked(x finalCloser, dep interface{}) {
+	db.depmu.Lock()
 	if db.dep == nil {
 		db.dep = make(map[finalCloser]depSet)
 	}
@@ -376,22 +374,17 @@ func (db *DB) addDepLocked(x finalCloser, dep interface{}) {
 		db.dep[x] = xdep
 	}
 	xdep[dep] = true
+	db.depmu.Unlock()
 }
 
 // removeDep notes that x no longer depends on dep.
 // If x still has dependencies, nil is returned.
 // If x no longer has any dependencies, its finalClose method will be
 // called and its error value will be returned.
-func (db *DB) removeDep(x finalCloser, dep interface{}) error {
-	db.mu.Lock()
-	fn := db.removeDepLocked(x, dep)
-	db.mu.Unlock()
-	return fn()
-}
-
-func (db *DB) removeDepLocked(x finalCloser, dep interface{}) func() error {
+func (db *DB) removeDep(x finalCloser, dep interface{}) func() error {
 	//println(fmt.Sprintf("removeDep(%T %p, %T %p)", x, x, dep, dep))
-
+	db.depmu.Lock()
+	defer db.depmu.Unlock()
 	xdep, ok := db.dep[x]
 	if !ok {
 		panic(fmt.Sprintf("unpaired removeDep: no deps for %T", x))
@@ -612,7 +605,7 @@ func (db *DB) openNewConnection() {
 		ci: ci,
 	}
 	if db.putConnDBLocked(dc, err) {
-		db.addDepLocked(dc, dc)
+		db.addDep(dc, dc)
 		db.numOpen++
 	} else {
 		ci.Close()
@@ -672,7 +665,7 @@ func (db *DB) conn() (*driverConn, error) {
 		db: db,
 		ci: ci,
 	}
-	db.addDepLocked(dc, dc)
+	db.addDep(dc, dc)
 	dc.inUse = true
 	db.mu.Unlock()
 	return dc, nil
@@ -1385,7 +1378,6 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 			s.css = s.css[:len(s.css)-1]
 			i--
 		}
-
 	}
 	s.mu.Unlock()
 
@@ -1454,7 +1446,7 @@ func (s *Stmt) Query(args ...interface{}) (*Rows, error) {
 			s.db.addDep(s, rows)
 			rows.releaseConn = func(err error) {
 				releaseConn(err)
-				s.db.removeDep(s, rows)
+				s.db.removeDep(s, rows)()
 			}
 			return rows, nil
 		}
@@ -1534,7 +1526,7 @@ func (s *Stmt) Close() error {
 	}
 	s.mu.Unlock()
 
-	return s.db.removeDep(s, s)
+	return s.db.removeDep(s, s)()
 }
 
 func (s *Stmt) finalClose() error {
