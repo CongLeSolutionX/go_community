@@ -317,6 +317,7 @@ func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 func Stable(data Interface) {
 	n := data.Len()
 	blockSize := 20 // must be > 0
+
 	a, b := 0, blockSize
 	for b <= n {
 		insertionSort(data, a, b)
@@ -326,13 +327,17 @@ func Stable(data Interface) {
 	insertionSort(data, a, n)
 
 	for blockSize < n {
-		a, b = 0, 2*blockSize
+		a, m, b := 0, blockSize, 2*blockSize
 		for b <= n {
-			symMerge(data, a, a+blockSize, b)
+			if data.Less(m, m-1) {
+				// Only merge if there are smaller elements in second block.
+				symMerge(data, a, m, b)
+			}
 			a = b
-			b += 2 * blockSize
+			m = a + blockSize
+			b = m + blockSize
 		}
-		if m := a + blockSize; m < n {
+		if m < n {
 			symMerge(data, a, m, n)
 		}
 		blockSize *= 2
@@ -359,6 +364,29 @@ func Stable(data Interface) {
 // Having the caller check this condition eliminates many leaf recursion calls,
 // which improves performance.
 func symMerge(data Interface, a, m, b int) {
+	// Avoid unnecessary recursions of symMerge
+	// by direct insertion of data[a] into data[m:b]
+	// if data[a:m] only contains one element.
+	if m-a == 1 {
+		// binary search for correct position of data[a]
+		if data.Less(m, a) {
+			min := m
+			for min < b {
+				c := min + (b-min)/2
+				if data.Less(c, a) {
+					min = c + 1
+				} else {
+					b = c
+				}
+			}
+			// swap values until data[a] reaches correct position
+			for i := a; i < min-1; i++ {
+				data.Swap(i, i+1)
+			}
+		}
+		return
+	}
+
 	mid := a + (b-a)/2
 	n := mid + m
 	var start, r int
