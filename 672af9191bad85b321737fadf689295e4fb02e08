@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c180e07b_0a1abfdd",
+        "filename": "src/cmd/gc/subr.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-01T22:19:17Z",
+      "side": 1,
+      "message": "https://golang.org/issue/new",
+      "revId": "672af9191bad85b321737fadf689295e4fb02e08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
