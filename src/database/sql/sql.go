@@ -224,10 +224,12 @@ type DB struct {
 	// goroutine to exit.
 	openerCh chan struct{}
 	closed   bool
-	dep      map[finalCloser]depSet
 	lastPut  map[*driverConn]string // stacktrace of last conn's put; debug only
 	maxIdle  int                    // zero means defaultMaxIdleConns; negative means 0
 	maxOpen  int                    // <= 0 means unlimited
+
+	depmu sync.Mutex
+	dep   map[finalCloser]depSet
 }
 
 // driverConn wraps a driver.Conn with a mutex, to
@@ -361,9 +363,9 @@ type finalCloser interface {
 // called until all of x's dependencies are removed with removeDep.
 func (db *DB) addDep(x finalCloser, dep interface{}) {
 	//println(fmt.Sprintf("addDep(%T %p, %T %p)", x, x, dep, dep))
-	db.mu.Lock()
-	defer db.mu.Unlock()
+	db.depmu.Lock()
 	db.addDepLocked(x, dep)
+	db.depmu.Unlock()
 }
 
 func (db *DB) addDepLocked(x finalCloser, dep interface{}) {
@@ -383,9 +385,9 @@ func (db *DB) addDepLocked(x finalCloser, dep interface{}) {
 // If x no longer has any dependencies, its finalClose method will be
 // called and its error value will be returned.
 func (db *DB) removeDep(x finalCloser, dep interface{}) error {
-	db.mu.Lock()
+	db.depmu.Lock()
 	fn := db.removeDepLocked(x, dep)
-	db.mu.Unlock()
+	db.depmu.Unlock()
 	return fn()
 }
 
@@ -612,7 +614,9 @@ func (db *DB) openNewConnection() {
 		ci: ci,
 	}
 	if db.putConnDBLocked(dc, err) {
+		db.depmu.Lock()
 		db.addDepLocked(dc, dc)
+		db.depmu.Unlock()
 		db.numOpen++
 	} else {
 		ci.Close()
@@ -1385,7 +1389,6 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 			s.css = s.css[:len(s.css)-1]
 			i--
 		}
-
 	}
 	s.mu.Unlock()
 
