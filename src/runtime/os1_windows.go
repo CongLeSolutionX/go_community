@@ -241,7 +241,9 @@ func semacreate() uintptr {
 
 func newosproc(mp *m, stk unsafe.Pointer) {
 	const _STACK_SIZE_PARAM_IS_A_RESERVATION = 0x00010000
-	thandle := stdcall6(_CreateThread, 0, 0x20000,
+	// see ../cmd/ld/pe.c:/SizeOfStackReserve for reasons for the 1MB/2MB stack
+	// reservation size here.
+	thandle := stdcall6(_CreateThread, 0, unsafe.Sizeof(uintptr(0))/4*0x100000,
 		funcPC(tstart_stdcall), uintptr(unsafe.Pointer(mp)),
 		_STACK_SIZE_PARAM_IS_A_RESERVATION, 0)
 	if thandle == 0 {

@@ -696,11 +696,14 @@ asmbpe(void)
 	// (runtime knows whether cgo is enabled or not).
 	// If you change stack reserve sizes here,
 	// change STACKSIZE in runtime/cgo/gcc_windows_{386,amd64}.c as well.
+	// Because the reservation size is not committed, and because the syscall
+	// package can load arbitrary DLL without using cgo, it makes sense to
+	// set the same stack reservation size for both cases, and only limit
+	// the stack commit size when cgo is not used.
+	set(SizeOfStackReserve, pe64 ? 0x00200000 : 0x00100000);
 	if(!iscgo) {
-		set(SizeOfStackReserve, 0x00010000);
 		set(SizeOfStackCommit, 0x0000ffff);
 	} else {
-		set(SizeOfStackReserve, pe64 ? 0x00200000 : 0x00100000);
 		// account for 2 guard pages
 		set(SizeOfStackCommit, (pe64 ? 0x00200000 : 0x00100000) - 0x2000);
 	}
