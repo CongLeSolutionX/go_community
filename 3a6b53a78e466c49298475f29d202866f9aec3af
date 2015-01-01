@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6126549e_cc8e23c0",
+        "filename": "src/runtime/os1_windows_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-01T07:39:36Z",
+      "side": 1,
+      "message": "I wanted to make it a const so that we don\u0027t leave test code in\nthe actual runtime function.\n\nBut now i realized that it\u0027s probably not worth the trouble, so\nyour current code LGTM.",
+      "parentUuid": "e17b245e_dce7c5b8",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6126549e_ccf2a3ab",
         "filename": "src/runtime/syscall_windows_test.go",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "The test will hang here forever. It is OK with me. If I am running this test manually, I will just click the button. On the builder we have timeout for these tests.",
       "parentUuid": "6126549e_ccf2a3ab",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_0c891bb6",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-01T07:39:36Z",
+      "side": 1,
+      "message": "The timeout kill mechanism will kill the runtime.test.exe process, but\nit won\u0027t kill the process displaying the dialogue. (And such processes will\naccumulate on the builder, not a good thing.)\n\nI\u0027d still suggest that we add a timeout and kill the cmd ourselves after\nwaiting, say, 30 seconds.",
+      "parentUuid": "e17b245e_fcdc89f3",
       "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
