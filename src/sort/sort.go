@@ -316,24 +316,33 @@ func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 // data.Less and O(n*log(n)*log(n)) calls to data.Swap.
 func Stable(data Interface) {
 	n := data.Len()
-	blockSize := 20 // must be > 0
-	a, b := 0, blockSize
-	for b <= n {
-		insertionSort(data, a, b)
-		a = b
-		b += blockSize
+	blockSize := 16 // must be > 0
+
+	start, end := 0, blockSize
+	for end <= n {
+		insertionSort(data, start, end)
+		start = end
+		end += blockSize
 	}
-	insertionSort(data, a, n)
+	insertionSort(data, start, n)
 
 	for blockSize < n {
-		a, b = 0, 2*blockSize
-		for b <= n {
-			symMerge(data, a, a+blockSize, b)
-			a = b
-			b += 2 * blockSize
+		start, mid, end := 0, blockSize, 2*blockSize
+		for end <= n {
+			if data.Less(end-1, start) {
+				// Swap entire blocks if last element of second block is
+				// less than first element of first block.
+				swapRange(data, start, mid, blockSize)
+			} else if data.Less(mid, mid-1) {
+				// Only merge if there are smaller elements in second block.
+				symMerge(data, start, mid, end)
+			}
+			start = end
+			mid = start + blockSize
+			end = mid + blockSize
 		}
-		if m := a + blockSize; m < n {
-			symMerge(data, a, m, n)
+		if mid < n {
+			symMerge(data, start, mid, n)
 		}
 		blockSize *= 2
 	}
@@ -359,6 +368,16 @@ func Stable(data Interface) {
 // Having the caller check this condition eliminates many leaf recursion calls,
 // which improves performance.
 func symMerge(data Interface, a, m, b int) {
+	// Avoid unnecessary recursions of symMerge
+	// by direct insertion of data[a] into data[m:b]
+	// if data[a:m] only contains one element.
+	if m-a == 1 {
+		for i := a; i < b-1 && data.Less(i+1, i); i++ {
+			data.Swap(i+1, i)
+		}
+		return
+	}
+
 	mid := a + (b-a)/2
 	n := mid + m
 	var start, r int
@@ -373,10 +392,10 @@ func symMerge(data Interface, a, m, b int) {
 
 	for start < r {
 		c := start + (r-start)/2
-		if !data.Less(p-c, c) {
-			start = c + 1
-		} else {
+		if data.Less(p-c, c) {
 			r = c
+		} else {
+			start = c + 1
 		}
 	}
 
