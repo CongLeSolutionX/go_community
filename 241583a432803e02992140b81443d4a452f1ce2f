@@ -16,6 +16,24 @@
       "revId": "241583a432803e02992140b81443d4a452f1ce2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_f72102c6",
+        "filename": "src/net/dialgoogle_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-01T05:23:07Z",
+      "side": 0,
+      "message": "reverted",
+      "parentUuid": "618f34ae_6d160171",
+      "revId": "241583a432803e02992140b81443d4a452f1ce2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
