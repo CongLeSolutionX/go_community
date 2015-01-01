@@ -16,6 +16,24 @@
       "revId": "8a1bea5024b52ab62ce4c24472c5db5cf50fefcd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_ac0c87e1",
+        "filename": "src/runtime/cgo/gcc_openbsd_amd64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-01T01:59:39Z",
+      "side": 1,
+      "message": "yes, because in our _cgo_sys_thread_start function below (line 150),\nwe call sys_pthread_create to bypass our wrapper function, so we\nstill need to make sure sys_pthread_create is initialized before call to \n_cgo_sys_thread_start.\n\nor we can do the pthread_once just before calling sys_pthread_create\nin _cgo_sys_thread_start. I\u0027m fine either way.",
+      "parentUuid": "618f34ae_cdd47506",
+      "revId": "8a1bea5024b52ab62ce4c24472c5db5cf50fefcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
