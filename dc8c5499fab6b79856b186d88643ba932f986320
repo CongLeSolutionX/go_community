@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_57654eb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T06:56:12Z",
+      "side": 1,
+      "message": "Still do not like your message. I would just say this:\n\nSome DLL functions use large stacks. But Go sets maximum thread size to 64K. Increase that to 1M on 386 and 2M on amd64 to make it similar to what most Windows programs do.",
+      "revId": "dc8c5499fab6b79856b186d88643ba932f986320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_979a7648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T06:56:12Z",
+      "side": 1,
+      "message": "I am surprised with you discovery that number of threads does not change. Do you have a program I can run here to test your discovery. Thank you.\n\nMy thinking goes along these lines. There are about 2G of virtual address space in Go process (on 386). Some of that is reserved by Go runtime (about 700M). Some of that is reserved by system. So roughly we have about 1G to create thread stacks. If we make reserved stack space 1M, then we can create max about 1000 threads. For 64K reserved stack space, we can have about 16000 threads.",
+      "revId": "dc8c5499fab6b79856b186d88643ba932f986320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_b75cdaf4",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T06:56:12Z",
+      "side": 1,
+      "message": "And why \"initial commit size\" for non-cgo and cgo programs is different?",
+      "revId": "dc8c5499fab6b79856b186d88643ba932f986320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
