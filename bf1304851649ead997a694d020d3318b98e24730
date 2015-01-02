@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_97e436e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T06:00:02Z",
+      "side": 1,
+      "message": "I think you should rewrite the \"Because the reservation size is not the actual size committed\" part. I don\u0027t understand what you are trying to say here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "bf1304851649ead997a694d020d3318b98e24730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_77c4123d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T06:00:02Z",
+      "side": 1,
+      "message": "Please add that this change decreases maximum number of possible threads. It would be nice to do small experiment to discover these numbers before and after the change for both 386 and amd64. And list these results here.",
+      "revId": "bf1304851649ead997a694d020d3318b98e24730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_d7931e3b",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T06:00:02Z",
+      "side": 1,
+      "message": "This comment is not useful. Unless you know context - the issue we are trying to fix. If you want to say that setting \"commit size\" to 0x0000ffff saves memory, just do that. But why not for cgo? Why 0x0000ffff (some uneven number)? These need explaining too.",
+      "range": {
+        "startLine": 699,
+        "startChar": 67,
+        "endLine": 699,
+        "endChar": 74
+      },
+      "revId": "bf1304851649ead997a694d020d3318b98e24730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
