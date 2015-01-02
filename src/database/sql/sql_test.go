@@ -1765,16 +1765,17 @@ func doConcurrentTest(t testing.TB, ct concurrentTest) {
 }
 
 func manyConcurrentQueries(t testing.TB) {
-	maxProcs, numReqs := 16, 500
+	maxProcs, numReqs, concurrency := 32, 1000, 200
 	if testing.Short() {
-		maxProcs, numReqs = 4, 50
+		t.Skip("skipping in short mode")
 	}
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(maxProcs))
 
-	db := newTestDB(t, "people")
+	db := newTestDB(t, "magicquery")
+	db.SetMaxIdleConns(100)
 	defer closeDB(t, db)
 
-	stmt, err := db.Prepare("SELECT|people|name|")
+	stmt, err := db.Prepare("SELECT|magicquery|op|op=?,millis=?")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1786,10 +1787,10 @@ func manyConcurrentQueries(t testing.TB) {
 	reqs := make(chan bool)
 	defer close(reqs)
 
-	for i := 0; i < maxProcs*2; i++ {
+	for i := 0; i < concurrency; i++ {
 		go func() {
 			for range reqs {
-				rows, err := stmt.Query()
+				rows, err := stmt.Query("sleep", 1)
 				if err != nil {
 					t.Errorf("error on query:  %v", err)
 					wg.Done()
@@ -1983,5 +1984,12 @@ func BenchmarkConcurrentRandom(b *testing.B) {
 	ct := new(concurrentRandomTest)
 	for i := 0; i < b.N; i++ {
 		doConcurrentTest(b, ct)
+	}
+}
+
+func BenchmarkManyConcurrentQuery(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		manyConcurrentQueries(b)
 	}
 }
