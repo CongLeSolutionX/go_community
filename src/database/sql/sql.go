@@ -217,6 +217,7 @@ type DB struct {
 	connRequests []chan connRequest
 	numOpen      int
 	pendingOpens int
+	numClosed    int64
 	// Used to signal the need for new connections
 	// a goroutine running connectionOpener() reads on this chan and
 	// maybeOpenNewConnections sends on the chan (one send per needed connection)
@@ -246,7 +247,7 @@ type driverConn struct {
 	// guarded by db.mu
 	inUse      bool
 	onPut      []func() // code (with db.mu held) run when conn is next returned
-	dbmuClosed bool     // same as closed, but guarded by db.mu, for connIfFree
+	dbmuClosed bool     // same as closed, but guarded by db.mu, for connStmt
 }
 
 func (dc *driverConn) releaseConn(err error) {
@@ -326,6 +327,7 @@ func (dc *driverConn) finalClose() error {
 
 	dc.db.mu.Lock()
 	dc.db.numOpen--
+	dc.db.numClosed++
 	dc.db.maybeOpenNewConnections()
 	dc.db.mu.Unlock()
 
@@ -683,42 +685,6 @@ var (
 	errConnBusy   = errors.New("database/sql: internal sentinel error: conn is busy")
 )
 
-// connIfFree returns (wanted, nil) if wanted is still a valid conn and
-// isn't in use.
-//
-// The error is errConnClosed if the connection if the requested connection
-// is invalid because it's been closed.
-//
-// The error is errConnBusy if the connection is in use.
-func (db *DB) connIfFree(wanted *driverConn) (*driverConn, error) {
-	db.mu.Lock()
-	defer db.mu.Unlock()
-	if wanted.dbmuClosed {
-		return nil, errConnClosed
-	}
-	if wanted.inUse {
-		return nil, errConnBusy
-	}
-	idx := -1
-	for ii, v := range db.freeConn {
-		if v == wanted {
-			idx = ii
-			break
-		}
-	}
-	if idx >= 0 {
-		db.freeConn = append(db.freeConn[:idx], db.freeConn[idx+1:]...)
-		wanted.inUse = true
-		return wanted, nil
-	}
-	// TODO(bradfitz): shouldn't get here. After Go 1.1, change this to:
-	// panic("connIfFree call requested a non-closed, non-busy, non-free conn")
-	// Which passes all the tests, but I'm too paranoid to include this
-	// late in Go 1.1.
-	// Instead, treat it like a busy connection:
-	return nil, errConnBusy
-}
-
 // putConnHook is a hook for testing.
 var putConnHook func(*DB, *driverConn)
 
@@ -855,10 +821,14 @@ func (db *DB) prepare(query string) (*Stmt, error) {
 		db.putConn(dc, err)
 		return nil, err
 	}
+	db.mu.Lock()
+	numClosed := db.numClosed
+	db.mu.Unlock()
 	stmt := &Stmt{
-		db:    db,
-		query: query,
-		css:   []connStmt{{dc, si}},
+		db:            db,
+		query:         query,
+		css:           []connStmt{{dc, si}},
+		lastNumClosed: numClosed,
 	}
 	db.addDep(stmt, stmt)
 	db.putConn(dc, nil)
@@ -1293,6 +1263,10 @@ type Stmt struct {
 	// used if tx == nil and one is found that has idle
 	// connections.  If tx != nil, txsi is always used.
 	css []connStmt
+
+	// lastNumClosed is copied from db.numClosed when DB.prepare()
+	// and css is garbage collected.
+	lastNumClosed int64
 }
 
 // Exec executes a prepared statement with the given arguments and
@@ -1372,27 +1346,24 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 		return ci, releaseConn, s.txsi.si, nil
 	}
 
-	for i := 0; i < len(s.css); i++ {
-		v := s.css[i]
-		_, err := s.db.connIfFree(v.dc)
-		if err == nil {
-			s.mu.Unlock()
-			return v.dc, v.dc.releaseConn, v.si, nil
+	// Lazily remove dead conn from our freelist.
+	s.db.mu.Lock()
+	dbClosed := s.db.numClosed
+	if dbClosed-s.lastNumClosed > int64(s.db.numOpen/2) {
+		j := 0
+		for i := 0; i < len(s.css); i++ {
+			v := s.css[i]
+			if !v.dc.dbmuClosed {
+				s.css[j] = v
+				j++
+			}
 		}
-		if err == errConnClosed {
-			// Lazily remove dead conn from our freelist.
-			s.css[i] = s.css[len(s.css)-1]
-			s.css = s.css[:len(s.css)-1]
-			i--
-		}
-
+		s.css = s.css[:j]
 	}
+	s.lastNumClosed = dbClosed
+	s.db.mu.Unlock()
 	s.mu.Unlock()
 
-	// If all connections are busy, either wait for one to become available (if
-	// we've already hit the maximum number of open connections) or create a
-	// new one.
-	//
 	// TODO(bradfitz): or always wait for one? make configurable later?
 	dc, err := s.db.conn()
 	if err != nil {
