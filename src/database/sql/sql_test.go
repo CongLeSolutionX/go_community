@@ -1832,15 +1832,15 @@ func TestIssue6081(t *testing.T) {
 		*err = driver.ErrBadConn
 	}
 	defer func() { rowsCloseHook = nil }()
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 20; i++ {
 		rows, err := stmt.Query()
 		if err != nil {
 			t.Fatal(err)
 		}
 		rows.Close()
 	}
-	if n := len(stmt.css); n > 1 {
-		t.Errorf("len(css slice) = %d; want <= 1", n)
+	if n := len(stmt.css); n > 10 {
+		t.Errorf("len(css slice) = %d; want <= 10", n)
 	}
 	stmt.Close()
 	if n := len(stmt.css); n != 0 {
