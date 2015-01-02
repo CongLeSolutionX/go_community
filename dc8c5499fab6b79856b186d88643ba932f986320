@@ -86,6 +86,24 @@
       "revId": "dc8c5499fab6b79856b186d88643ba932f986320",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_175ca6ef",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-02T07:04:32Z",
+      "side": 1,
+      "message": "Fine. If \"initial commit size\" value does not matter, then lets pick a value and use it for both non-cgo and cgo scenarios.",
+      "parentUuid": "6126549e_2ca7b717",
+      "revId": "dc8c5499fab6b79856b186d88643ba932f986320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
