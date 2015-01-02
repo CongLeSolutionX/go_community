@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef89d38_7d4417ec",
+        "filename": "misc/ios/README",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-02T21:36:31Z",
+      "side": 1,
+      "message": "To get this to work here, I had to add to the codesign invocation\n\n--entitlements Entitlements.plist\n\nwhere Entitlements.plist looks like:\n\n\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e\n\u003c!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"\u003e\n\u003cplist version\u003d\"1.0\"\u003e\n\u003cdict\u003e\n    \u003ckey\u003eget-task-allow\u003c/key\u003e\n    \u003ctrue/\u003e\n\u003c/dict\u003e\n\u003c/plist\u003e\n\nBoy, it didn\u0027t take long for me to remember how deeply I detest iOS code signing.\n\nAnd with that, it works! Sadly, ios-deploy and/or lldb leaves my terminal in raw mode. :( I guess I\u0027ll have to file that one upstream. Meanwhile, I wrapped these commands in a bash script that also starts with \u0027save_state\u003d$(stty -g)\u0027 and ends with \u0027stty \"$save_state\"\u0027.\n\nI think it\u0027d be nice to include an entire well-structured working app, including helloworld.go and Entitlements.plist. These instructions could instead be a nicely commented bash script. Then the instructions would just be to run the bash script and edit as desired.",
+      "revId": "98a07137780a0e4798b7a96b92a0c88cd2a2036b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_5d495b02",
+        "filename": "misc/ios/README",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-02T21:36:31Z",
+      "side": 1,
+      "message": "Consider adding --uninstall.",
+      "revId": "98a07137780a0e4798b7a96b92a0c88cd2a2036b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_3d3e8f4e",
+        "filename": "misc/ios/README",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-02T21:36:31Z",
+      "side": 1,
+      "message": "I didn\u0027t have to enter \"run\" -- it started on its own. Not sure whether this is an ios-deploy version difference.\n\n$ ios-deploy -V\n1.3.2",
+      "revId": "98a07137780a0e4798b7a96b92a0c88cd2a2036b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
