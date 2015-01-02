@@ -1765,13 +1765,14 @@ func doConcurrentTest(t testing.TB, ct concurrentTest) {
 }
 
 func manyConcurrentQueries(t testing.TB) {
-	maxProcs, numReqs := 16, 500
+	maxProcs, numReqs := 32, 1000
 	if testing.Short() {
-		maxProcs, numReqs = 4, 50
+		maxProcs, numReqs = 4, 100
 	}
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(maxProcs))
 
 	db := newTestDB(t, "people")
+	db.SetMaxIdleConns(100)
 	defer closeDB(t, db)
 
 	stmt, err := db.Prepare("SELECT|people|name|")
@@ -1786,10 +1787,13 @@ func manyConcurrentQueries(t testing.TB) {
 	reqs := make(chan bool)
 	defer close(reqs)
 
-	for i := 0; i < maxProcs*2; i++ {
+	for i := 0; i < 200; i++ {
 		go func() {
 			for range reqs {
 				rows, err := stmt.Query()
+				// To emulate round trip time.
+				// Without this sleep, number of opened conns doesn't grow.
+				time.Sleep(time.Millisecond)
 				if err != nil {
 					t.Errorf("error on query:  %v", err)
 					wg.Done()
@@ -1983,5 +1987,12 @@ func BenchmarkConcurrentRandom(b *testing.B) {
 	ct := new(concurrentRandomTest)
 	for i := 0; i < b.N; i++ {
 		doConcurrentTest(b, ct)
+	}
+}
+
+func BenchmarkManyConcurrentQuery(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		manyConcurrentQueries(b)
 	}
 }
