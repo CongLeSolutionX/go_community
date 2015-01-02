@@ -696,9 +696,17 @@ asmbpe(void)
 	// (runtime knows whether cgo is enabled or not).
 	// If you change stack reserve sizes here,
 	// change STACKSIZE in runtime/cgo/gcc_windows_{386,amd64}.c as well.
+	//
+	// The stack reservation in PE header only affects the initial thread,
+	// but the stack commit affects all threads, so we set it to as low as
+	// possible when cgo is not used. (The original value of 65535 seems to
+	// cause all the thread stack to be 1MB on Windows XP.)
+	// Although Go runs fine with 64KB stack reservation, we set the stack
+	// reservation to 128KB to match the value used when creating threads
+	// in the runtime.
 	if(!iscgo) {
-		set(SizeOfStackReserve, 0x00010000);
-		set(SizeOfStackCommit, 0x0000ffff);
+		set(SizeOfStackReserve, 0x00020000);
+		set(SizeOfStackCommit, 0x00001000);
 	} else {
 		set(SizeOfStackReserve, pe64 ? 0x00200000 : 0x00100000);
 		// account for 2 guard pages
