@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ef89d38_fda26737",
+        "filename": "misc/ios/README",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-02T21:49:54Z",
+      "side": 1,
+      "message": "Sorry for not reading this CL earlier (I\u0027m putting it off until rsc is back). I actually have that shell script and this silly Entitlements.plist as part of an almost-ready darwin-arm builder.\n\nI think what\u0027s here is fine for the README. Ultimately I would like to package up this logic for people to use in a tool. The email break over christmas got me github.com/crawshaw/apk, which builds an apk. My original plan was to roll it into the go tool, so when you go build with GOOS\u003dandroid, you get an apk.\n\nBut none of that makes sense for ios, and I\u0027d like similar build stories. So right now I\u0027m wondering about golang.org/x/mobile/cmd/gomobile, to both build .apks and iOS apps.",
+      "parentUuid": "4ef89d38_7d4417ec",
+      "revId": "98a07137780a0e4798b7a96b92a0c88cd2a2036b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef89d38_5d495b02",
         "filename": "misc/ios/README",
         "patchSetId": 7
