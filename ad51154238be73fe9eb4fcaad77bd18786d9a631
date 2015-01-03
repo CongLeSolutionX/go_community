@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef89d38_9dbda336",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-03T00:41:44Z",
+      "side": 1,
+      "message": "swapRange? Squinting at it, looks like this for loop is equivalent to:\n\n\t\t\tswapRange(data, a+1, a, min-a-1)",
+      "revId": "ad51154238be73fe9eb4fcaad77bd18786d9a631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_3dcd6ff7",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-03T00:41:44Z",
+      "side": 1,
+      "message": "Instead of StopTimer here and StartTimer/StopTimer on every iteration, do a single ResetTimer after populating data.",
+      "revId": "ad51154238be73fe9eb4fcaad77bd18786d9a631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_1dd2b393",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-03T00:41:44Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "ad51154238be73fe9eb4fcaad77bd18786d9a631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_ddb32b68",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-03T00:41:44Z",
+      "side": 1,
+      "message": "This benchmark doesn\u0027t measure what you want. The Sorted benchmark is the only one that can work on the same slice untouched multiple times. You\u0027ll want to go back to populating the reversed data for each call to Ints.\n\nAlternatively, you could be clever and do b.N / 2 iterations and sort once forward and then once reversed on every iteration.",
+      "revId": "ad51154238be73fe9eb4fcaad77bd18786d9a631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
