@@ -22,6 +22,47 @@
       "revId": "19d23bc527f2e862d1053dcdc108efc6c1cdc6fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_17e82636",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-04T04:21:38Z",
+      "side": 1,
+      "message": "I just think \"If this loop fast enough, I can use 0 as threshold of `dbClosed-s.lastNumClosed`.  So let make it fast as possible.\" \n\nconnStmt may be 24~byte and len(s.css) may be 100~ on high concurrent load.  And most of s.css is alive.\nWhen threshold is 0, there is at most 1 dead connections in s.css.\n\nOld algorithm copies all alive objects.  It cause 2400byte~ memcpy with bound check.  I It may cause many `writebarrier()`, but I\u0027m not sure.  So it may not be fast enough.\n\nNew algorithm copies at most one object.  It should be fast enough.",
+      "parentUuid": "c180e07b_557f0c97",
+      "range": {
+        "startLine": 1330,
+        "startChar": 0,
+        "endLine": 1344,
+        "endChar": 3
+      },
+      "revId": "19d23bc527f2e862d1053dcdc108efc6c1cdc6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_f7e2e258",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-04T04:21:38Z",
+      "side": 1,
+      "message": "It\u0027s not \"another pass\" for now.  I\u0027ll fix this comment.",
+      "revId": "19d23bc527f2e862d1053dcdc108efc6c1cdc6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
