@@ -46,6 +46,23 @@
       "revId": "474ab8b1fa809efd92ba13c82fe52705752f2434",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e2481a4_79bf83d4",
+        "filename": "src/net/parse.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-05T18:41:35Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "revId": "474ab8b1fa809efd92ba13c82fe52705752f2434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
