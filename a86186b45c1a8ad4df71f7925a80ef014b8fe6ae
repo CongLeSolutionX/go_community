@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6e2481a4_367118fc",
+        "filename": "src/path/filepath/path_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-05T18:07:58Z",
+      "side": 1,
+      "message": "This should be implemented by keeping Join with the doc comment in path.go and having it call a new join function.  See Abs/abs.",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_a9d55ecb",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 7
@@ -260,6 +277,57 @@
       "side": 1,
       "message": "Agree.",
       "parentUuid": "e17b245e_69227640",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e2481a4_39258bd2",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-05T18:07:58Z",
+      "side": 1,
+      "message": "I suggest a general comment briefly explaining that all these contortions are to avoid having Clean detect a UNC path that should not be there.  (At least, that is my understanding of what is going on.)",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e2481a4_764e70bf",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-05T18:07:58Z",
+      "side": 1,
+      "message": "Add a period at the end of the sentence.",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e2481a4_d932170d",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-05T18:07:58Z",
+      "side": 1,
+      "message": "I don\u0027t understand the goal here.  It looks like you want to generate a UNC path if the argument is \u0027\\\\\u0027.  But this code is sufficiently complex that I can\u0027t easily predict what will happen.  Can we write down a simple rule, in a comment, explaining how Join behaves on Windows?",
       "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
