@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef89d38_23f9ce8b",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5903
+      },
+      "writtenOn": "2015-01-05T23:35:54Z",
+      "side": 1,
+      "message": "If the CloseNotifier triggers very quickly (like if the client sends a request and then immediately closes their connection), it seems like this call could happen before the call to transport.RoundTrip begins. This would cause the backend request to continue even though the user is no longer interested in the response. It seems to me that correct use of http.Transport.CancelRequest involves repeating the call until we confirm that http.Transport.RoundTrip has returned.\n\nIs this an accurate analysis?",
+      "revId": "851cc1d49545d10100adbfa528f98aee06dea3e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
