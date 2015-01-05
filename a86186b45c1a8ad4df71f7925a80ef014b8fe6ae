@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "6126549e_baed994a",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5888
+      },
+      "writtenOn": "2015-01-05T19:03:15Z",
+      "side": 1,
+      "message": "If I understand correctly, I disagree. Why shouldn\u0027t you be able to use join to build up a UNC path?",
+      "parentUuid": "e17b245e_69f99652",
+      "range": {
+        "startLine": 278,
+        "startChar": 48,
+        "endLine": 278,
+        "endChar": 51
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_4925b245",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 7
@@ -294,6 +318,41 @@
       "writtenOn": "2015-01-05T18:07:58Z",
       "side": 1,
       "message": "I suggest a general comment briefly explaining that all these contortions are to avoid having Clean detect a UNC path that should not be there.  (At least, that is my understanding of what is going on.)",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_f582c2db",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5888
+      },
+      "writtenOn": "2015-01-05T19:03:15Z",
+      "side": 1,
+      "message": "Not really caused by clean. It is string.Join creating a path that IS a UNC path.",
+      "parentUuid": "6e2481a4_39258bd2",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126549e_5ad7457b",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5888
+      },
+      "writtenOn": "2015-01-05T19:03:15Z",
+      "side": 1,
+      "message": "Why check if non empty? I see maybe checking is the next one is a slash. Wouldn\u0027t this still cause a UNC path: Join(\"/\", \"\", \"test/test\") ?",
       "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
