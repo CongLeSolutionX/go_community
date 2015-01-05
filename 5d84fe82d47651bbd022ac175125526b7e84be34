@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef89d38_e300862c",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T18:10:31Z",
+      "side": 1,
+      "message": "could even just:\n\n  if cn, ok :\u003d rw.(http.CloseNotifier); ok {\n     if tr, ok :\u003d transport.(*http.Transport); ok {\n          ...\n     }\n   }\n\nThat reads obviously enough to me.",
+      "revId": "5d84fe82d47651bbd022ac175125526b7e84be34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_43ea9a04",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T18:10:31Z",
+      "side": 1,
+      "message": "I don\u0027t follow this comment. Just delete it?",
+      "revId": "5d84fe82d47651bbd022ac175125526b7e84be34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_23ef8e14",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T18:10:31Z",
+      "side": 1,
+      "message": "change first transport to \"tr\" so they\u0027re not the same? This works, but it\u0027s a bit long and slightly confusing having it shadow with a different type.",
+      "revId": "5d84fe82d47651bbd022ac175125526b7e84be34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
