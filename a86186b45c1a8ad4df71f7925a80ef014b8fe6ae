@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c180e07b_d5623c82",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-05T12:04:38Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "e17b245e_a9d55ecb",
+      "range": {
+        "startLine": 259,
+        "startChar": 30,
+        "endLine": 259,
+        "endChar": 31
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_e9e766b8",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-05T04:24:05Z",
       "side": 1,
       "message": "I think result should be /a, not \\/a here (just like filepath.Join(\"//\", \"a\") is \"/a\").",
+      "range": {
+        "startLine": 260,
+        "startChar": 26,
+        "endLine": 260,
+        "endChar": 29
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_35728852",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-05T12:04:38Z",
+      "side": 1,
+      "message": "Do you mean that filepath.Join(`\\`, `a`) \u003d `/a` on Unix and `\\a` on Windows?",
+      "parentUuid": "e17b245e_e9e766b8",
       "range": {
         "startLine": 260,
         "startChar": 26,
@@ -124,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "c180e07b_751fb0fa",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-05T12:04:38Z",
+      "side": 1,
+      "message": "Good point. Agree.",
+      "parentUuid": "e17b245e_69f99652",
+      "range": {
+        "startLine": 278,
+        "startChar": 48,
+        "endLine": 278,
+        "endChar": 51
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_4925b245",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 7
@@ -141,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "c180e07b_951c3406",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-05T12:04:38Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "e17b245e_4925b245",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_69227640",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 7
@@ -152,6 +242,24 @@
       "writtenOn": "2015-01-05T04:24:05Z",
       "side": 1,
       "message": "Same, it is \\host\\share\\foo\\bar.",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_b55db8c9",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-05T12:04:38Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "e17b245e_69227640",
       "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
