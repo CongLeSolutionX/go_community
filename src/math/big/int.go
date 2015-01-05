@@ -734,10 +734,13 @@ func (z *Int) binaryGCD(a, b *Int) *Int {
 	return z.Lsh(u, k)
 }
 
-// ProbablyPrime performs n Miller-Rabin tests to check whether x is prime.
+// ProbablyPrime performs n (must be >0) Miller-Rabin tests to check whether x is prime.
 // If it returns true, x is prime with probability 1 - 1/4^n.
 // If it returns false, x is not prime.
 func (x *Int) ProbablyPrime(n int) bool {
+	if n <= 0 {
+		panic("non-positive n for ProbablyPrime")
+	}
 	return !x.neg && x.abs.probablyPrime(n)
 }
 
