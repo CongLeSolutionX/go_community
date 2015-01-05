@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "e17b245e_4c82202d",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-05T06:55:35Z",
+      "side": 1,
+      "message": "filepath.Clean doesn\u0027t remove backslash on non-Windows OSs, I think.",
+      "parentUuid": "e17b245e_69f43664",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_69f99652",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 7
