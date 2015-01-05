@@ -989,6 +989,22 @@ func TestProbablyPrime(t *testing.T) {
 			break
 		}
 	}
+
+	// check that ProbablyPrime panics if n <= 0
+	shouldPanic := func(i int, f func(int)) {
+		defer func() {
+			if recover() == nil {
+				t.Fatalf("expected panic from ProbablyPrime(%d)", i)
+			}
+		}()
+		f(i)
+	}
+	c := new(Int).SetInt64(11)
+	for _, i := range []int{-1, 0} {
+		shouldPanic(i, func(i int) {
+			c.ProbablyPrime(i)
+		})
+	}
 }
 
 type intShiftTest struct {
