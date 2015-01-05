@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_ec45b476",
+        "filename": "src/crypto/x509/root_nacl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-05T06:47:33Z",
+      "side": 1,
+      "message": "// nacl has no access to the filesystem.",
+      "revId": "35132a6be8cbfd6be2adfb1096e6f4de6c9cea4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_0c3bb8ef",
+        "filename": "src/crypto/x509/root_nacl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-05T06:47:33Z",
+      "side": 1,
+      "message": "nit: var certFiles []string",
+      "revId": "35132a6be8cbfd6be2adfb1096e6f4de6c9cea4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
