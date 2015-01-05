@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef89d38_c03b4008",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T17:38:52Z",
+      "side": 1,
+      "message": "you can do this test outside of the goroutine, so you don\u0027t even start the goroutine in the normal case.\n\nlikewise with the *http.Transport check.",
+      "revId": "85682dd63542315f95c201eb1bf601f1eb5ebfc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_43d3ba68",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T17:38:52Z",
+      "side": 1,
+      "message": "this doesn\u0027t fire at the end of a request.  so you\u0027ll keep a lot of goroutines active blocked for too long.\n\nyou\u0027ll want to do something like:\n\n    // In ServeHTTP, outside of your goroutine:\n    if ..... (those two conditions above) .... {\n        reqDone :\u003d make(chan struct{})\n        defer close(reqDone)\n        closeNotifier :\u003d cn.CloseNotify()\n        go func() {\n         select {\n         case \u003c-closeNotifier:\n            t.CancelRequest(outreq)\n         case \u003c-reqDone:\n         }\n        }()\n    }",
+      "revId": "85682dd63542315f95c201eb1bf601f1eb5ebfc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
