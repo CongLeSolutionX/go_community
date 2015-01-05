@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_a9d55ecb",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-05T04:24:05Z",
+      "side": 1,
+      "message": "I think these tests should work on windows too. Just add them to jointests.",
+      "range": {
+        "startLine": 259,
+        "startChar": 30,
+        "endLine": 259,
+        "endChar": 31
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_e9e766b8",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-05T04:24:05Z",
+      "side": 1,
+      "message": "I think result should be /a, not \\/a here (just like filepath.Join(\"//\", \"a\") is \"/a\").",
+      "range": {
+        "startLine": 260,
+        "startChar": 26,
+        "endLine": 260,
+        "endChar": 29
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_69f43664",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-05T04:24:05Z",
+      "side": 1,
+      "message": "I think result should be /a, not \\\\/a here.",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_69f99652",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-05T04:24:05Z",
+      "side": 1,
+      "message": "I disagree with your interpretation here. I think this should result in \\host\\share. We should not produce UNC path unless first filepath.Join parameter starts with full UNC path (similar to C:). We always threat whole \\\\server\\share as \"volume label\", like C:.",
+      "range": {
+        "startLine": 278,
+        "startChar": 48,
+        "endLine": 278,
+        "endChar": 51
+      },
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_4925b245",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-05T04:24:05Z",
+      "side": 1,
+      "message": "As above, this should be \\host\\share\\foo (you should use more suitable names here - otherwise it is confusing).",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_69227640",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-05T04:24:05Z",
+      "side": 1,
+      "message": "Same, it is \\host\\share\\foo\\bar.",
+      "revId": "a86186b45c1a8ad4df71f7925a80ef014b8fe6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
