@@ -87,6 +87,24 @@
       "revId": "9c77e12afdcd513f6a4b1b1f2f797c3e99c33be1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_f1996887",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-05T20:19:12Z",
+      "side": 1,
+      "message": "I see, you didn\u0027t really want -mregnames as such, you wanted the fact that passing -mregnames to GCC causes GCC to pass -mregnames to the assembler.",
+      "parentUuid": "6126549e_1572fe51",
+      "revId": "9c77e12afdcd513f6a4b1b1f2f797c3e99c33be1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
