@@ -1316,7 +1316,7 @@ func (z nat) expNN(x, y, m nat) nat {
 	return z.norm()
 }
 
-// expNNWindowed calculates x**y mod m using a fixed, 4-bit window.
+// expNNWindowed calculates x**y mod m using a fixed, sliding 4-bit window.
 func (z nat) expNNWindowed(x, y, m nat) nat {
 	// zz and r are used to avoid allocating in mul and div as otherwise
 	// the arguments would alias.
@@ -1339,40 +1339,45 @@ func (z nat) expNNWindowed(x, y, m nat) nat {
 
 	z = z.setWord(1)
 
+	// Use go test -bench=".*" in crypto/rsa to check
+	// performance before making changes.
 	for i := len(y) - 1; i >= 0; i-- {
 		yi := y[i]
-		for j := 0; j < _W; j += n {
-			if i != len(y)-1 || j != 0 {
-				// Unrolled loop for significant performance
-				// gain.  Use go test -bench=".*" in crypto/rsa
-				// to check performance before making changes.
+		for j := 0; j < _W; {
+			// We square while the current bit of the exponent is 0.
+			for j < _W && yi>>(_W-1) == 0 {
 				zz = zz.mul(z, z)
 				zz, z = z, zz
 				zz, r = zz.div(r, z, m)
 				z, r = r, z
 
-				zz = zz.mul(z, z)
-				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
-				z, r = r, z
-
-				zz = zz.mul(z, z)
-				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
-				z, r = r, z
-
-				zz = zz.mul(z, z)
-				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
-				z, r = r, z
+				yi <<= 1
+				j++
 			}
 
-			zz = zz.mul(z, powers[yi>>(_W-n)])
-			zz, z = z, zz
-			zz, r = zz.div(r, z, m)
-			z, r = r, z
+			if j < _W {
+				// The current bit of the exponent is 1.
+				// Square and multiply the result by the remaining (up to n) bits.
+				bits := uint(n)
+				if j+n > _W {
+					bits = uint(_W - j)
+				}
 
-			yi <<= n
+				for i := 0; i < int(bits); i++ {
+					zz = zz.mul(z, z)
+					zz, z = z, zz
+					zz, r = zz.div(r, z, m)
+					z, r = r, z
+				}
+
+				zz = zz.mul(z, powers[yi>>(_W-bits)])
+				zz, z = z, zz
+				zz, r = zz.div(r, z, m)
+				z, r = r, z
+
+				yi <<= bits
+				j += int(bits)
+			}
 		}
 	}
 
