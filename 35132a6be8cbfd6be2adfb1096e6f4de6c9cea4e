@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e17b245e_ac9acc47",
+        "filename": "src/crypto/x509/root_nacl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-05T11:06:14Z",
+      "side": 1,
+      "message": "yes--current nacl port doesn\u0027t have this capability\n\nno--nacl and pnacl provide restricted file system access\n\ni, kinda, look forward to see what happens upcoming playgound+gopherjs lands. ;)",
+      "parentUuid": "e17b245e_ec45b476",
+      "revId": "35132a6be8cbfd6be2adfb1096e6f4de6c9cea4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_0c3bb8ef",
         "filename": "src/crypto/x509/root_nacl.go",
         "patchSetId": 2
