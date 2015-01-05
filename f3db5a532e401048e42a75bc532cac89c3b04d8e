@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef89d38_2000a473",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T04:07:41Z",
+      "side": 1,
+      "message": "wrap this at 72 or 76 or 80 or something. Long lines don\u0027t play well with various git tools. The git community says \u003c\u003d 80 or less here.",
+      "revId": "f3db5a532e401048e42a75bc532cac89c3b04d8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef89d38_40fbb01d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-05T04:07:41Z",
+      "side": 1,
+      "message": "Let\u0027s still with \"Fixes\" for consistency, even though this works now.",
+      "revId": "f3db5a532e401048e42a75bc532cac89c3b04d8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
