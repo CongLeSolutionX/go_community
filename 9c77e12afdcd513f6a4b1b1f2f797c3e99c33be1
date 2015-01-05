@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6126549e_95942ed6",
+        "filename": "misc/cgo/test/backdoor/thunk.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-01-05T19:36:21Z",
+      "side": 1,
+      "message": "The TestCgoExternalThreadSIGPROF test that was recently added on master freezes on ppc64.  I\u0027m tracking down the problem before I post an updated series.",
+      "parentUuid": "6126549e_d51146fc",
+      "revId": "9c77e12afdcd513f6a4b1b1f2f797c3e99c33be1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e2481a4_f9703347",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 5
