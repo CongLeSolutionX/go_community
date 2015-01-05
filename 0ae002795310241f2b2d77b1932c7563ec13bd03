@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce3acdc4_77a56893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-05T23:09:26Z",
+      "side": 1,
+      "message": "Josh reported a better number here (albeit different machine).\n\nCare to re-measure with latest code and update if necessary?",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_d7a53410",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-05T23:09:26Z",
+      "side": 1,
+      "message": "I\u0027m mostly ok with this but I am bothered by the fact that these two binary searches are not symmetric (use of data.Less in if). I may be wrong but it smells...\n\nAre you sure that it\u0027s not possible to use the same binary search (possibly factored out) for both cases?",
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
