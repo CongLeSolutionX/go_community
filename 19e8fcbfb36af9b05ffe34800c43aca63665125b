@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "e17b245e_ffc39817",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-06T03:05:22Z",
+      "side": 1,
+      "message": "Symlink require Administrator privileges, But junction is not. So the test of junction is possible to run even if the test of symlink is not.",
+      "parentUuid": "e17b245e_ff5638d2",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_3f82602c",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 2
