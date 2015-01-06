@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "e17b245e_ff5638d2",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:59:51Z",
+      "side": 1,
+      "message": "Sure directory junction is not symlink. But I suspect OS level required to support either should be the same. Lets keep this staff as simple as we can.",
+      "parentUuid": "e17b245e_7f722881",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_3f82602c",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 2
