@@ -16,6 +16,24 @@
       "revId": "851cc1d49545d10100adbfa528f98aee06dea3e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_45586afc",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-06T00:59:41Z",
+      "side": 1,
+      "message": "That is indeed an issue. Your proposal seems like it could work and despite being kinda disgusting, at least is minimally invasive.\n\nThe other way might be to replace the outgoing request\u0027s Body field with one that does trigger a notification to this code when it\u0027s first Read, as a signal that the Transport is actively reading it (and thus knows about outreq).\n\nThen this code could read from CloseNotify, and then read from that new channel (tickled once by Request.Body.Read), and then call tr.CancelRequest.\n\nAt least that latter way doesn\u0027t involve any time.Sleep calls or loops.",
+      "parentUuid": "4ef89d38_23f9ce8b",
+      "revId": "851cc1d49545d10100adbfa528f98aee06dea3e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
