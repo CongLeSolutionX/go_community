@@ -579,8 +579,8 @@ func GCcheckmarkdisable() {
 // gctimes records the time in nanoseconds of each phase of the concurrent GC.
 type gctimes struct {
 	sweepterm     int64 // stw
-	scan          int64 // stw
-	installmarkwb int64
+	scan          int64
+	installmarkwb int64 // stw
 	mark          int64
 	markterm      int64 // stw
 	sweep         int64
@@ -601,7 +601,7 @@ type gcchronograph struct {
 
 var gctimer gcchronograph
 
-// GCstarttimes initializes the gc timess. All previous timess are lost.
+// GCstarttimes initializes the gc times. All previous times are lost.
 func GCstarttimes(verbose int64) {
 	gctimer = gcchronograph{verbose: verbose}
 }
