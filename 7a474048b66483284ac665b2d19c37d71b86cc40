@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c180e07b_9048c228",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e17b245e_0c79f8ed",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e26ddb6_2d154de4",
         "filename": "src/path/filepath/path.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-05T23:50:26Z",
       "side": 1,
       "message": "This don\u0027t seem to work on Unix: https://play.golang.org/p/TVQAfXklKZ",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_704b3e25",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e26ddb6_2d154de4",
       "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2015-01-05T22:43:47Z",
       "side": 1,
       "message": "Leave as is. This should work as is on both unix and windows.",
+      "parentUuid": "e17b245e_4c9300ba",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_d0616aa7",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "e17b245e_4c9300ba",
       "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "c180e07b_f0566ed2",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e17b245e_6c90c4ac",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_8c8d0892",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 8
@@ -123,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "c180e07b_105cb2ef",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e17b245e_8c8d0892",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_2c731c08",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 8
@@ -134,6 +224,24 @@
       "writtenOn": "2015-01-05T22:43:47Z",
       "side": 1,
       "message": "These should run on both unix and windows. Move them up into jointests.",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_3068d68d",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "I disagree on adding \u0027em to jointests because it\u0027s a somewhat different issue. \n\nLets keep the fix for issue #9167 to a minimum and open a new ticket for the Unix case?",
+      "parentUuid": "e17b245e_2c731c08",
       "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -231,6 +339,72 @@
       "writtenOn": "2015-01-05T22:43:47Z",
       "side": 1,
       "message": "Add\n{[]string{`/`, `a`, `b`}, `\\a\\b`},\nas mentioned on issue 9167.",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_504e3a36",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e17b245e_4c414086",
+      "range": {
+        "startLine": 286,
+        "startChar": 33,
+        "endLine": 286,
+        "endChar": 36
+      },
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_70725e81",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Lets keep the fix for issue #9167 to a minimum and open a new ticket for the `\\\\` prefix? \n\nThat said, I\u0027d argue that we remove lines 284-286 in this patch (the newly introduced `\\\\` test cases) and leave \u0027em for later.",
+      "parentUuid": "e17b245e_6c3e04fd",
+      "range": {
+        "startLine": 286,
+        "startChar": 33,
+        "endLine": 286,
+        "endChar": 36
+      },
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c180e07b_3051b6d9",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-06T06:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e17b245e_0c47389e",
       "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
