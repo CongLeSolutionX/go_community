@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae583942_e835f3f6",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-06T16:44:16Z",
+      "side": 1,
+      "message": "a sync.Once is overkill because an io.Reader is not to be read from multiple goroutines.\n\nalso, you\u0027re using a closure here as your Once func, which allocates each time.  At least if you wrote this as:\n\n... Read(..) {\n    c.once.Do(c.startCancel)\n...\n}\n\nfunc (c *cancellationBodyWrapper) startCancel() {\n   go func() {\n      select {\n}\n\n.... then it wouldn\u0027t allocate for each Read.\n\nBut honestly I\u0027d just ditch the sync.Once and nil the func out once you run it.\n\nAlso, why does this type need to know all the channel stuff?  Just pass that in a closure which gets run.\n\nThen this type is just:\n\ntype runOnFirstRead struct {\n    io.Reader\n    fn func()  // Run before the first Read, then set nil\n}\n\nAnd you can make a ReadCloser for outreq.Body like:\n\n   outreq.Body \u003d struct { \n        io.Reader\n        io.Closer\n    }{\n         Reader: \u0026runOnFirstRead{\n              Reader: outreq.Body,\n              fn: func() {\n                     go func() {\n                            select .............\n                     },\n              },\n         },\n         Closer: outreq.Body,\n     }   \n\n\nThen at least your logic isn\u0027t spread across a helper type.",
+      "revId": "0f99d3956e605ef01dc88e82ec3bc2e3f513307e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
