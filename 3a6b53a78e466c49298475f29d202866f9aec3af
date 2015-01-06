@@ -105,6 +105,24 @@
       "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_1fbbdc66",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T04:41:39Z",
+      "side": 1,
+      "message": "I have added cmd.Process.Kill() to kill broken process (after small pause). The broken process gets killed. But \"Dr Watson\" process that displays WER dialogue still remains opened (with dialogue and all). I don\u0027t see how we can kill that.\n\nI don\u0027t think it is important anyway. This test is unlikely to break without someone noticing. And once we notice that we\u0027ll fix and clean up.",
+      "parentUuid": "6126549e_0c891bb6",
+      "revId": "3a6b53a78e466c49298475f29d202866f9aec3af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
