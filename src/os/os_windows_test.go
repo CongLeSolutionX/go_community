@@ -8,6 +8,8 @@ import (
 	"testing"
 )
 
+var supportJunctionLinks = true
+
 func init() {
 	tmpdir, err := ioutil.TempDir("", "symtest")
 	if err != nil {
@@ -16,14 +18,21 @@ func init() {
 	defer os.RemoveAll(tmpdir)
 
 	err = os.Symlink("target", filepath.Join(tmpdir, "symlink"))
+	if err != nil {
+		err = err.(*os.LinkError).Err
+		switch err {
+		case syscall.EWINDOWS, syscall.ERROR_PRIVILEGE_NOT_HELD:
+			supportsSymlinks = false
+		}
+	}
+
+	err = exec.Command("cmd", "/c", "mklink", "/J", "target", tmpdir).Run()
 	if err == nil {
 		return
 	}
 
-	err = err.(*os.LinkError).Err
-	switch err {
-	case syscall.EWINDOWS, syscall.ERROR_PRIVILEGE_NOT_HELD:
-		supportsSymlinks = false
+	if _, ok := err.(*exec.ExitError); ok {
+		supportJunctionLinks = false
 	}
 }
 
@@ -77,5 +86,37 @@ func TestSameWindowsFile(t *testing.T) {
 	}
 	if !os.SameFile(ia1, ia3) {
 		t.Errorf("files should be same")
+	}
+}
+
+func TestReadlink(t *testing.T) {
+	if !supportJunctionLinks {
+		t.Skipf("skipping on %s", runtime.GOOS)
+	}
+
+	// test only junction because creating symbolic synk require administrator
+	// privilege.
+	dir, err := ioutil.TempDir("", "go-build")
+	if err != nil {
+		t.Fatalf("failed to create temp directory: %v", err)
+	}
+	defer os.RemoveAll(dir)
+
+	link := filepath.Join(filepath.Dir(dir), filepath.Base(dir)+"-link")
+
+	err = exec.Command("cmd", "/c", "mklink", "/J", link, dir).Run()
+	if err != nil {
+		t.Fatalf("failed to run mklink %v %v: %v", link, dir, err)
+	}
+	defer os.Remove(link)
+
+	fi, err := os.Stat(link)
+	if err != nil {
+		t.Fatalf("failed to stat link %v: %v", link, err)
+	}
+	expected := filepath.Base(dir)
+	got := fi.Name()
+	if !fi.IsDir() || expected != got {
+		t.Fatalf("should be %v but %v", expected, got)
 	}
 }
