@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "e17b245e_5db00c01",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T12:57:07Z",
+      "side": 1,
+      "message": "How do you know it is a different issue? Perhaps the solution to all these problems is one and the same. I don\u0027t understand why you refusing to add new test. I am not looking to fix one particular issue with filepath.Join. I would like to resolve every single problem we are aware of. I think more different test we have, better chance we have to come up with best possible decision. Leaving tests, that might break with your proposed solution - where is advantage in that?",
+      "parentUuid": "c180e07b_3068d68d",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e17b245e_4c586084",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 8
@@ -405,6 +423,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e17b245e_0c47389e",
+      "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_7dadd0a3",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T12:57:07Z",
+      "side": 1,
+      "message": "You can open as many issue tickets as you like. But we would still have to add all these tests in here, and find solution that fit them. Why delay?",
+      "parentUuid": "c180e07b_70725e81",
+      "range": {
+        "startLine": 286,
+        "startChar": 33,
+        "endLine": 286,
+        "endChar": 36
+      },
       "revId": "7a474048b66483284ac665b2d19c37d71b86cc40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
