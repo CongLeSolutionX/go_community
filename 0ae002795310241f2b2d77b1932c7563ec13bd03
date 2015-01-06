@@ -39,6 +39,115 @@
       "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_9a0b5196",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-06T00:45:57Z",
+      "side": 1,
+      "message": "Ok - I understand.",
+      "parentUuid": "ce3acdc4_d7a53410",
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_25efa614",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-06T00:45:57Z",
+      "side": 1,
+      "message": "Ok, I think then these comments can be much more precise, and they can put the explanation before the search (so it becomes clear what the code is trying to do), rather than after the fact:\n\n// use binary search to find the smallest index minpos such that data[a] \u003c\u003d data[minpos] for m \u003c\u003d minpos \u003c b\n\nI\u0027d also prefer using i, j, h (h as in half) instead of minpos, maxpos, c; or if you want, start, end, mid, as the code does further below.\n\nThe problem with using long indices such as minpos, maxpos is that they imply meaning which can be misleading in an algorithm like binary search which is surprisingly subtle (see E.W.Dijkstra on that topic...).",
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_a5fa76ca",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-06T00:45:57Z",
+      "side": 1,
+      "message": "This is a confusing comment. I had to read it multiple times to understand what you\u0027re saying. First of all, I think it should be s/smaller/larger/. Then, what you are trying to say is \"all elements ... are larger _than_ data[a], _then_ minpos \u003d\u003d m. (then vs than, it\u0027s too close).\n\nJust leave this first sentence away since we explain this in the beginning of the search.",
+      "range": {
+        "startLine": 377,
+        "startChar": 38,
+        "endLine": 377,
+        "endChar": 45
+      },
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_e532be0c",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-06T00:45:57Z",
+      "side": 1,
+      "message": "leave this sentence in the comment",
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_0515c231",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-06T00:45:57Z",
+      "side": 1,
+      "message": "apply similar comment here",
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_e5119e45",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-06T00:45:57Z",
+      "side": 1,
+      "message": "leave first sentence away, as above.",
+      "revId": "0ae002795310241f2b2d77b1932c7563ec13bd03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
