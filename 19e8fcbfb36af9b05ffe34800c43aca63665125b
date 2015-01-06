@@ -1,0 +1,317 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e17b245e_7f3948c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "syscall: make Readlink handle directory junction on windows",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_1f7d9ca0",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Remove. Just use supportsSymlinks for what you need.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_3f82602c",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Revert all your changes from init.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_df7254d4",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/supportJunctionLinks/supportsSymlinks/",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_9f89ac4d",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/skipping on %s/skipping because symlinks are not supported/",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_5f7f2497",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Remove this comment. Your test is named TestStatJunctionLink. Lets not worry about anything but junction.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_1f567c22",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Is it possible to create this link without help of cmd.exe? If not, should we be fixing that too?",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_7f8ce85b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Use CombinedOutput instead of Run here. Lets see what cmd says when it fails.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_bf567023",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/should be %v but %v/link should point to %v but points to %v instead/",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_ff0b9816",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "This expression is already long enough. Do not make it even longer. Leave uintptr(bytesReturned) \u003c unsafe.Sizeof(*rdb) here, but move check for rdb.ReparseTag to a new case statement below. You won\u0027t need if statement below then.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_9f1d2c5b",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "This line is too long. Split it into 2 separate statements.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_1f2afc67",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Maybe move that line (and some of line before) out of if block. It is the same as below else block.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_7f930868",
+        "filename": "src/syscall/ztypes_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/byte/uint16/\n\nrevert your change. PathBuffer holds wide chars, not ansi text.",
+      "range": {
+        "startLine": 1092,
+        "startChar": 25,
+        "endLine": 1092,
+        "endChar": 29
+      },
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_bf0110fd",
+        "filename": "src/syscall/ztypes_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/byte/uint16/",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_9f90cc5b",
+        "filename": "src/syscall/ztypes_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "Delete this struct. You don\u0027t need it.",
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_dfa97496",
+        "filename": "src/syscall/ztypes_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/genericReparseBuffer/byte/\n\nkeep it simple.",
+      "range": {
+        "startLine": 1113,
+        "startChar": 15,
+        "endLine": 1113,
+        "endChar": 35
+      },
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e17b245e_ffc5586d",
+        "filename": "src/syscall/ztypes_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-06T02:08:27Z",
+      "side": 1,
+      "message": "s/IO_REPARSE_TAG_MOUNT_POINT/_IO_REPARSE_TAG_MOUNT_POINT/\nso it is not exported from syscall.",
+      "range": {
+        "startLine": 1119,
+        "startChar": 1,
+        "endLine": 1119,
+        "endChar": 27
+      },
+      "revId": "19e8fcbfb36af9b05ffe34800c43aca63665125b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
