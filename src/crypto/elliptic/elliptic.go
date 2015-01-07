@@ -318,6 +318,9 @@ func Unmarshal(curve Curve, data []byte) (x, y *big.Int) {
 	}
 	x = new(big.Int).SetBytes(data[1 : 1+byteLen])
 	y = new(big.Int).SetBytes(data[1+byteLen:])
+	if !curve.Params().IsOnCurve(x, y) {
+		x, y = nil
+	}
 	return
 }
 
