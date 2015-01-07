@@ -289,6 +289,79 @@ var urltests = []URLTest{
 		},
 		"",
 	},
+	// host and port components of authority
+	{
+		"http://192.168.0.1/",
+		&URL{
+			Scheme: "http",
+			Host:   "192.168.0.1",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://192.168.0.1:8080/",
+		&URL{
+			Scheme: "http",
+			Host:   "192.168.0.1:8080",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://[fe80::1]/",
+		&URL{
+			Scheme: "http",
+			Host:   "[fe80::1]",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://[fe80::1]:8080/",
+		&URL{
+			Scheme: "http",
+			Host:   "[fe80::1]:8080",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://[fe80::1%25en0]/",
+		&URL{
+			Scheme: "http",
+			Host:   "[fe80::1%25en0]",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://[fe80::1%25en0]:8080/",
+		&URL{
+			Scheme: "http",
+			Host:   "[fe80::1%25en0]:8080",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://[fe80::1%25%65%6e%30-._~]/",
+		&URL{
+			Scheme: "http",
+			Host:   "[fe80::1%25%65%6e%30-._~]",
+			Path:   "/",
+		},
+		"",
+	},
+	{
+		"http://[fe80::1%25%65%6e%30-._~]:8080/",
+		&URL{
+			Scheme: "http",
+			Host:   "[fe80::1%25%65%6e%30-._~]:8080",
+			Path:   "/",
+		},
+		"",
+	},
 }
 
 // more useful string for debugging than fmt's struct printer
@@ -358,9 +431,31 @@ var parseRequestURLTests = []struct {
 	{"/", true},
 	{pathThatLooksSchemeRelative, true},
 	{"//not.a.user@%66%6f%6f.com/just/a/path/also", true},
+	{"*", true},
+	{"http://192.168.0.1/", true},
+	{"http://192.168.0.1:8080/", true},
+	{"http://[fe80::1]/", true},
+	{"http://[fe80::1]:8080/", true},
+	{"http://[fe80::1%25en0]/", true},
+	{"http://[fe80::1%25en0]:8080/", true},
+	{"http://[fe80::1%25%65%6e%30-._~]/", true},
+	{"http://[fe80::1%25%65%6e%30-._~]:8080/", true},
+
 	{"foo.html", false},
 	{"../dir/", false},
-	{"*", true},
+	{"http://192.168.0.%31/", false},
+	{"http://192.168.0.%31:8080/", false},
+	{"http://[fe80::%31]/", false},
+	{"http://[fe80::%31]:8080/", false},
+	{"http://[fe80::%31%25en0]/", false},
+	{"http://[fe80::%31%25en0]:8080/", false},
+
+	// These two cases are valid as textunal representations as
+	// described in RFC 4007, but are not valid as address
+	// literals with IPv6 zone identifiers in URIs as described in
+	// RFC 6874.
+	{"http://[fe80::1%en0]/", false},
+	{"http://[fe80::1%en0]:8080/", false},
 }
 
 func TestParseRequestURI(t *testing.T) {
