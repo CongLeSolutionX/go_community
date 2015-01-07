@@ -401,10 +401,6 @@ func parse(rawurl string, viaRequest bool) (url *URL, err error) {
 		if err != nil {
 			goto Error
 		}
-		if strings.Contains(url.Host, "%") {
-			err = errors.New("hexadecimal escape in host")
-			goto Error
-		}
 	}
 	if url.Path, err = unescape(rest, encodePath); err != nil {
 		goto Error
@@ -418,26 +414,68 @@ Error:
 func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 	i := strings.LastIndex(authority, "@")
 	if i < 0 {
-		host = authority
-		return
+		host, err = parseHost(authority)
+	} else {
+		host, err = parseHost(authority[i+1:])
 	}
-	userinfo, host := authority[:i], authority[i+1:]
+	if err != nil {
+		return nil, "", err
+	}
+	if i < 0 {
+		return nil, host, nil
+	}
+	userinfo := authority[:i]
 	if strings.Index(userinfo, ":") < 0 {
 		if userinfo, err = unescape(userinfo, encodeUserPassword); err != nil {
-			return
+			return nil, "", err
 		}
 		user = User(userinfo)
 	} else {
 		username, password := split(userinfo, ":", true)
 		if username, err = unescape(username, encodeUserPassword); err != nil {
-			return
+			return nil, "", err
 		}
 		if password, err = unescape(password, encodeUserPassword); err != nil {
-			return
+			return nil, "", err
 		}
 		user = UserPassword(username, password)
 	}
-	return
+	return user, host, nil
+}
+
+// parseHost parses host as an authority without user information.
+func parseHost(host string) (string, error) {
+	if len(host) == 0 {
+		return host, nil
+	}
+	switch host[0] {
+	case '[': // IP-Literal in RFC 3986, RFC 6874
+		i := strings.Index(host[1:], `]`)
+		if i < 0 {
+			return "", errors.New("missing ']' in host")
+		}
+		j := strings.Index(host[1:1+i], `%25`)
+		switch {
+		case j < 0: // IPv6address in RFC 3986
+			if strings.Contains(host[1:1+i], `%`) {
+				return "", errors.New("hexadecimal escape in host")
+			}
+		default: // IPv6addrz in RFC 6874
+			if strings.Contains(host[1:1+j], `%`) {
+				return "", errors.New("hexadecimal escape in host")
+			}
+		}
+	default: // IPv4address or reg-name in RFC 3986
+		// Note that the reg-name is allowed to use the
+		// percent-encoded form in RFC but we don't use it for
+		// now to avoid messing up with the gap between
+		// allowed characters in URI and allowed characters in
+		// DNS.
+		if strings.Contains(host, `%`) {
+			return "", errors.New("hexadecimal escape in host")
+		}
+	}
+	return host, nil
 }
 
 // String reassembles the URL into a valid URL string.
