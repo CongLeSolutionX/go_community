@@ -34,6 +34,24 @@
       "revId": "3f53119a60e4c1dd0b3c43e7a70fd44884bc7d04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e4d29af_622792a2",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-07T22:04:46Z",
+      "side": 1,
+      "message": "I don\u0027t know any of these RFCs.\n\nI\u0027m reading this code from the perspective of somebody who will come and read and maintain this code later. Your code needs to be clear and well-documented.\n\nI honestly didn\u0027t know %25 was a standard. I thought that was the net/url package over-escaping something and you were compensating here.\n\nMakes sense now.\n\nBut after line 451, I\u0027d also add:\n\n    // (the %25 is the encoding of \"%\" in a URL; see RFC 6874)",
+      "parentUuid": "4e697d05_b5a8c0e9",
+      "revId": "3f53119a60e4c1dd0b3c43e7a70fd44884bc7d04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
