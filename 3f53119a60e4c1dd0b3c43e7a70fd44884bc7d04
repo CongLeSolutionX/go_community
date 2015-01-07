@@ -16,6 +16,24 @@
       "revId": "3f53119a60e4c1dd0b3c43e7a70fd44884bc7d04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e697d05_b5a8c0e9",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-07T22:01:10Z",
+      "side": 1,
+      "message": "\u003e why is this %25 here?\n\ni don\u0027t understand. doesn\u0027t rfc6847 describe the reason why we use \"%25\" here?\n\nhttps://tools.ietf.org/html/rfc6874\n\n   In a URI, a literal IPv6 address is always embedded between \"[\" and\n   \"]\".  This document specifies how a \u003czone_id\u003e can be appended to the\n   address.  According to URI syntax [RFC3986], \"%\" is always treated as\n   an escape character in a URI, so, according to the established URI\n   syntax [RFC3986] any occurrences of literal \"%\" symbols in a URI MUST\n   be percent-encoded and represented in the form \"%25\".  Thus, the\n   scoped address fe80::a%en1 would appear in a URI as\n   http://[fe80::a%25en1].",
+      "parentUuid": "ee2f91b3_a267debe",
+      "revId": "3f53119a60e4c1dd0b3c43e7a70fd44884bc7d04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
