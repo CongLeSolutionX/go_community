@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e630529_f9fd0fc6",
+        "filename": "src/crypto/elliptic/elliptic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-01-07T18:46:00Z",
+      "side": 1,
+      "message": "// Unmarshal converts a point, serialized by Marshal, into an x, y pair. It is an error if the point is not on the curve. On error, x \u003d nil.",
+      "revId": "e1a4d70efb465213cab8e5fdb085cc94b801c05c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
