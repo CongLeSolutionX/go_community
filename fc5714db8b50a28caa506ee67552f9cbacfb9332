@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e4d29af_9f9f97f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-07T20:22:37Z",
+      "side": 1,
+      "message": "If this is fixing the issue, say \u0027Fixes #9452\u0027. If not, just mention it as #9452 somewhere, like \u0027For #9452\u0027. Don\u0027t give the full URL - the various displays\nknow to link #nnnn. If you do need to use an issue URL at some point,\nplease use golang.org/issue/9452, which will work even after we move to\nour next code hosting platform.",
+      "revId": "fc5714db8b50a28caa506ee67552f9cbacfb9332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e630529_d9713378",
         "filename": "src/crypto/ecdsa/ecdsa.go",
         "patchSetId": 1
