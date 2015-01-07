@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeb4b9b0_a896fb21",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-07T06:12:21Z",
+      "side": 0,
+      "message": "This is used as $g_end in sys_windows_*.s\nSame for $m_end.\nWe could change the -asmhdr code in the Go compiler to emit xxx_end for all types xxx instead.",
+      "revId": "5f179c7cef24c74627632ca1b9df8d5ea3912ace",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
