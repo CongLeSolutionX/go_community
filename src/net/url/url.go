@@ -401,10 +401,6 @@ func parse(rawurl string, viaRequest bool) (url *URL, err error) {
 		if err != nil {
 			goto Error
 		}
-		if strings.Contains(url.Host, "%") {
-			err = errors.New("hexadecimal escape in host")
-			goto Error
-		}
 	}
 	if url.Path, err = unescape(rest, encodePath); err != nil {
 		goto Error
@@ -418,26 +414,69 @@ Error:
 func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 	i := strings.LastIndex(authority, "@")
 	if i < 0 {
-		host = authority
-		return
+		host, err = parseHost(authority)
+	} else {
+		host, err = parseHost(authority[i+1:])
 	}
-	userinfo, host := authority[:i], authority[i+1:]
+	if err != nil {
+		return nil, "", err
+	}
+	if i < 0 {
+		return nil, host, nil
+	}
+	userinfo := authority[:i]
 	if strings.Index(userinfo, ":") < 0 {
 		if userinfo, err = unescape(userinfo, encodeUserPassword); err != nil {
-			return
+			return nil, "", err
 		}
 		user = User(userinfo)
 	} else {
 		username, password := split(userinfo, ":", true)
 		if username, err = unescape(username, encodeUserPassword); err != nil {
-			return
+			return nil, "", err
 		}
 		if password, err = unescape(password, encodeUserPassword); err != nil {
-			return
+			return nil, "", err
 		}
 		user = UserPassword(username, password)
 	}
-	return
+	return user, host, nil
+}
+
+// parseHost parses host as an authority without user information.
+func parseHost(host string) (string, error) {
+	litOrName := host
+	if strings.HasPrefix(host, "[") {
+		// Parse an IP-Literal in RFC 3986 and RFC 6874.
+		// E.g., "[fe80::1], "[fe80::1%25en0]"
+		//
+		// RFC 4007 defines "%" as a delimiter character in
+		// the textual representation of IPv6 addresses.
+		// Per RFC 6874, in URIs that "%" is encoded as "%25".
+		i := strings.Index(host[1:], "]")
+		if i < 0 {
+			return "", errors.New("missing ']' in host")
+		}
+		// Parse a host subcomponent without a ZoneID in RFC
+		// 6874 because the ZoneID is allowed to use the
+		// percent encoded form.
+		j := strings.Index(host[1:1+i], "%25")
+		if j < 0 {
+			litOrName = host[1 : 1+i]
+		} else {
+			litOrName = host[1 : 1+j]
+		}
+	}
+	// A URI containing an IP-Literal without a ZoneID or
+	// IPv4address in RFC 3986 and RFC 6847 must not be
+	// percent-encoded. A URI containing a reg-name in RFC 3986 is
+	// allowed to be percent-encoded, though we don't use it for
+	// now to avoid messing up with the gap between allowed
+	// characters in URI and allowed characters in DNS.
+	if strings.Contains(litOrName, "%") {
+		return "", errors.New("hexadecimal escape in host")
+	}
+	return host, nil
 }
 
 // String reassembles the URL into a valid URL string.
