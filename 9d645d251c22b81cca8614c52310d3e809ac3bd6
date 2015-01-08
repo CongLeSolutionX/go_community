@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e144987_24fad283",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-08T00:45:41Z",
+      "side": 1,
+      "message": "no need for parens around unsafe.Pointer",
+      "revId": "9d645d251c22b81cca8614c52310d3e809ac3bd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e144987_44f9ce8a",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-08T00:45:41Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 179,
+        "startChar": 9,
+        "endLine": 179,
+        "endChar": 15
+      },
+      "revId": "9d645d251c22b81cca8614c52310d3e809ac3bd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e144987_04919630",
+        "filename": "src/runtime/staticints_gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-08T00:45:41Z",
+      "side": 1,
+      "message": "maybe just hardwire the file name and get rid of the flag parsing?",
+      "revId": "9d645d251c22b81cca8614c52310d3e809ac3bd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
