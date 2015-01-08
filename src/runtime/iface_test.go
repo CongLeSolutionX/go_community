@@ -136,3 +136,20 @@ func BenchmarkAssertE2E(b *testing.B) {
 		e_ = e
 	}
 }
+
+func TestSmallIntInterface(t *testing.T) {
+	var i interface{}
+	n := testing.AllocsPerRun(100, func() {
+		i = int(7)
+	})
+	if n != 0 {
+		t.Errorf("AllocsPerRun for eface(7) = %v, want 0", n)
+	}
+	var j I2
+	n = testing.AllocsPerRun(100, func() {
+		j = TM(8)
+	})
+	if n != 0 {
+		t.Errorf("AllocsPerRun for iface(7) = %v, want 0", n)
+	}
+}

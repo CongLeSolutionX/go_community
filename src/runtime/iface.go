@@ -130,16 +130,31 @@ func typ2Itab(t *_type, inter *interfacetype, cache **itab) *itab {
 	return tab
 }
 
+//go:generate go run staticints_gen.go -- staticints.go
+//
+// The above line generates:
+// var staticints [...]uintptr = {0,1,2,...,1023}
+
 func convT2E(t *_type, elem unsafe.Pointer) (e interface{}) {
 	ep := (*eface)(unsafe.Pointer(&e))
 	if isDirectIface(t) {
 		ep._type = t
 		typedmemmove(t, unsafe.Pointer(&ep.data), elem)
 	} else {
-		x := newobject(t)
+		var x unsafe.Pointer
+		if t.size == ptrSize && t.align == ptrSize {
+			// TODO: handle other sizes/alignments (e.g. runes, bytes, ...)
+			v := *(*uintptr)(elem)
+			if v < uintptr(len(staticints)) {
+				x = (unsafe.Pointer)(&staticints[v])
+				goto skipalloc
+			}
+		}
+		x = newobject(t)
 		// TODO: We allocate a zeroed object only to overwrite it with
 		// actual data.  Figure out how to avoid zeroing.  Also below in convT2I.
 		typedmemmove(t, x, elem)
+	skipalloc:
 		ep._type = t
 		ep.data = x
 	}
@@ -157,8 +172,17 @@ func convT2I(t *_type, inter *interfacetype, cache **itab, elem unsafe.Pointer) 
 		pi.tab = tab
 		typedmemmove(t, unsafe.Pointer(&pi.data), elem)
 	} else {
-		x := newobject(t)
+		var x unsafe.Pointer
+		if t.size == ptrSize && t.align == ptrSize {
+			v := *(*uintptr)(elem)
+			if v < uintptr(len(staticints)) {
+				x = (unsafe.Pointer)(&staticints[v])
+				goto skipalloc
+			}
+		}
+		x = newobject(t)
 		typedmemmove(t, x, elem)
+	skipalloc:
 		pi.tab = tab
 		pi.data = x
 	}
