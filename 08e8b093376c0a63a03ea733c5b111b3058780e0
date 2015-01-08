@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e114599_03aa2e64",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-08T01:30:58Z",
+      "side": 1,
+      "message": "Don\u0027t say \"we\"; it makes it sounds like Go is unique. This applies to everybody.\n\n  // RFC 4007 defines \"%\" as a delimiter character in\n  // the textual representation of IPv6 addresses.\n  // Per RFC 6884, in URIs that \"%\" is encoded as \"%25\".",
+      "revId": "08e8b093376c0a63a03ea733c5b111b3058780e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
