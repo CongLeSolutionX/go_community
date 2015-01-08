@@ -52,6 +52,24 @@
       "revId": "3f53119a60e4c1dd0b3c43e7a70fd44884bc7d04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e697d05_b8039537",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-08T01:22:31Z",
+      "side": 1,
+      "message": "\u003e Your code needs to be clear and well-documented.\n\nyup, thanks for the suggestion. added a comment.\n\ni thought it was crystal clear and you were trying to suggest something else. (and i have to read it out from between lines.)",
+      "parentUuid": "2e4d29af_622792a2",
+      "revId": "3f53119a60e4c1dd0b3c43e7a70fd44884bc7d04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
