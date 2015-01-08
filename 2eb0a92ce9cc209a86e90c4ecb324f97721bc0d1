@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ced00d12_614e968d",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-08T02:15:20Z",
+      "side": 1,
+      "message": "we don\u0027t unescape the %25 here down to %?  I would expect Host to be a valid literal.",
+      "revId": "2eb0a92ce9cc209a86e90c4ecb324f97721bc0d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced00d12_81539a2e",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-08T02:15:20Z",
+      "side": 1,
+      "message": "why isn\u0027t this an error? What does this mean?",
+      "revId": "2eb0a92ce9cc209a86e90c4ecb324f97721bc0d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
