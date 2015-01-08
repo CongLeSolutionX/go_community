@@ -144,6 +144,66 @@ walkrange(Node *n)
 		fatal("walkrange");
 
 	case TARRAY:
+		// Lower n into runtime·memclr if possible, for
+		// fast zeroing of slices and arrays (issue 5373).
+		// Look for instances of
+		//
+		// for i := range a {
+		// 	a[i] = zero
+		// }
+		//
+		// in which the evaluation of a is side-effect-free.
+		if(!debug['N'])
+		if(!flag_race)
+		if(v1 != N)
+		if(v2 == N)
+		if(n->nbody != nil)
+		if(n->nbody->n != N)	// at least one statement in body
+		if(n->nbody->next == nil) {	// at most one statement in body
+			tmp = n->nbody->n;	// first statement of body
+			if(tmp->op == OAS)
+			if(tmp->left->op == OINDEX)
+			if(samesafeexpr(tmp->left->left, a))
+			if(tmp->left->right == v1)
+			if(t->type->width > 0)
+			if(iszero(tmp->right)) {
+				// Convert to
+				// {
+				// 	hp = &a[0]
+				// 	hn = len(a)*sizeof(elem(a))
+				// 	memclr(hp, hn)
+				// }
+				n->op = OBLOCK;
+				n->nbody = nil;
+				n->ntest = nil;
+				n->nincr = nil;
+
+				// hp = &a[0]
+				hp = temp(ptrto(types[TUINT8]));
+				tmp = nod(OINDEX, a, nodintconst(0));
+				tmp->bounded = 1;
+				tmp = nod(OADDR, tmp, N);
+				tmp = nod(OCONVNOP, tmp, N);
+				n->list = list(n->list, nod(OAS, hp, tmp));
+
+				// hn = len(a) * sizeof(elem(a))
+				hn = temp(types[TUINTPTR]);
+				tmp = nod(OLEN, a, N);
+				tmp = nod(OMUL, tmp, nodintconst(t->type->width));
+				tmp = conv(tmp, types[TUINTPTR]);
+				n->list = list(n->list, nod(OAS, hn, tmp));
+
+				// memclr(hp, hn)
+				fn = mkcall("memclr", T, nil, hp, hn);
+				n->list = list(n->list, fn);
+
+				typechecklist(n->list, Etop);
+				walkstmt(&n);
+				lineno = lno;
+				return;
+			}
+		}
+
 		// orderstmt arranged for a copy of the array/slice variable if needed.
 		ha = a;
 		hv1 = temp(types[TINT]);
