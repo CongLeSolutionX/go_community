@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee5d11c_7505e282",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-09T19:01:34Z",
+      "side": 1,
+      "message": "I think we should move this call to CloseNotify up earlier, before we send the request.  Otherwise if the request is canceled at the right time, there\u0027s a window where no closenotify chan has been requested, so we\u0027re not notified.\n\nI\u0027d put this up after the second if:\n\n     clientGone :\u003d \u003c-closeNotifier.CloseNotify()\n\nAnd then here:\n\n     case \u003c-clientGone:\n         ...\n     case \u003c-reqDone:\n\nI wouldn\u0027t worry about testing this case... it would be pretty invasive to add all the hooks to reliably force this race.",
+      "revId": "3be2de5d8f3d027dd64f28418bb5147a90d288b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
