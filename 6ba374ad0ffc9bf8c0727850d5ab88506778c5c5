@@ -16,6 +16,24 @@
       "revId": "6ba374ad0ffc9bf8c0727850d5ab88506778c5c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb22512_1bbebb30",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5822
+      },
+      "writtenOn": "2015-01-09T19:42:30Z",
+      "side": 1,
+      "message": "Already rectified. I realised the mistake immediately after pushing. I read the change from my phone so only had the gist of the change in my working registers.",
+      "parentUuid": "eee5d11c_755ba280",
+      "revId": "6ba374ad0ffc9bf8c0727850d5ab88506778c5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
