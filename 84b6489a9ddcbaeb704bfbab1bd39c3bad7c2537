@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eee5d11c_58f1f56f",
+        "filename": "src/cmd/gc/range.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-01-09T21:42:21Z",
+      "side": 1,
+      "message": "Very nice.\n\nThe spec (http://golang.org/ref/spec#For_statements) says: \"Function calls on the left are evaluated once per iteration.\" So f should be evaluated 8 times, it appears.\n\nWill fix and add tests.",
+      "parentUuid": "0ef945d6_46db54a7",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 22
+      },
+      "revId": "84b6489a9ddcbaeb704bfbab1bd39c3bad7c2537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ef945d6_06879c72",
         "filename": "test/fixedbugs/issue5373.go",
         "patchSetId": 2
