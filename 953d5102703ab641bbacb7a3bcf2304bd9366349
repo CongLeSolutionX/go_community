@@ -33,6 +33,24 @@
       "revId": "953d5102703ab641bbacb7a3bcf2304bd9366349",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2eb529f8_9c7ac5df",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5822
+      },
+      "writtenOn": "2015-01-09T18:43:34Z",
+      "side": 1,
+      "message": "Yes, the get fails without it. Apologies, I misunderstood this question before.",
+      "parentUuid": "ae583942_a88a5b41",
+      "revId": "953d5102703ab641bbacb7a3bcf2304bd9366349",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
