@@ -43,6 +43,8 @@ var valids = []string{
 	`package p; func _() { map[int]int{}[0]++; map[int]int{}[0] += 1 }`,
 	`package p; func _(x interface{f()}) { interface{f()}(x).f() }`,
 	`package p; func _(x chan int) { chan int(x) <- 0 }`,
+	`package p; var _ = map[P]int{P{}:0, {}:1}`,
+	`package p; var _ = map[*P]int{&P{}:0, {}:1}`,
 }
 
 func TestValid(t *testing.T) {
