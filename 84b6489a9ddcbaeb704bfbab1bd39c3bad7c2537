@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ef945d6_46db54a7",
+        "filename": "src/cmd/gc/range.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-01-09T21:30:49Z",
+      "side": 1,
+      "message": "Hmmm, another weird case popped into my head.\n\nThis line evaluates i only once.  What if i has side effects?\n\nfunc f() int {\n\tprintln(\"in f\")\n\treturn 0\n}\n\nfunc main() {\n\tvar a [8]int\n\tvar b [1]int\n\tfor b[f()] \u003d range a {\n\t}\n\tprintln(b[0])\n}\n\nprints \"in f\" 8 times.  You probably want to restrict i to be a plain variable.  (Should f() be evaluated 8 times?  I\u0027m kind of thinking \"no\", but I must consult the spec to understand.)\n\nSide effects can also modify a in ways that make this optimization invalid.",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 22
+      },
+      "revId": "84b6489a9ddcbaeb704bfbab1bd39c3bad7c2537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ef945d6_06879c72",
+        "filename": "test/fixedbugs/issue5373.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-01-09T21:30:49Z",
+      "side": 1,
+      "message": "Added some tests for a side-effecting i (and s, for that matter).",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 2
+      },
+      "revId": "84b6489a9ddcbaeb704bfbab1bd39c3bad7c2537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
