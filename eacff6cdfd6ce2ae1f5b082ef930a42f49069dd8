@@ -34,6 +34,24 @@
       "revId": "eacff6cdfd6ce2ae1f5b082ef930a42f49069dd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee5d11c_98307d88",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-01-09T21:49:51Z",
+      "side": 1,
+      "message": "Oh, quite right.  Somehow I misread \"P{}:0\" as the key and \"{}:1\" as the value...",
+      "parentUuid": "0ef945d6_e9533131",
+      "revId": "eacff6cdfd6ce2ae1f5b082ef930a42f49069dd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
