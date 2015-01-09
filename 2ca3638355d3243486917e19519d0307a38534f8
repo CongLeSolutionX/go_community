@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e81b519_0dfa7583",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-09T03:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61cad4df_66be0e34",
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61cad4df_06dabaa3",
         "filename": "src/net/http/fcgi/fcgi_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-22T22:24:53Z",
       "side": 1,
       "message": "This is a little crazy, writing out the bytes of the request by hand like this, and lines 197 etc below.\n\nCan you write helper functions for some of these lines instead?  Then some of the fields should go away (I assume some are lengths, etc).",
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e81b519_4ddd4d24",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-09T03:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61cad4df_06dabaa3",
       "revId": "2ca3638355d3243486917e19519d0307a38534f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8e81b519_8dc66557",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-09T03:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61cad4df_c6e70267",
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61cad4df_e6e2fe58",
         "filename": "src/net/http/fcgi/fcgi_test.go",
         "patchSetId": 1
@@ -64,6 +118,30 @@
       "writtenOn": "2014-12-22T22:24:53Z",
       "side": 1,
       "message": "test is conventionally spelled \"tt\" here, for whatever historical reason. Oh, but I see it\u0027s not spelled like that above. I\u0027d still go with \"tt\", as it\u0027s far more common in the standard library. I think this code was just old and also not written by the usual stdlib people.",
+      "range": {
+        "startLine": 210,
+        "startChar": 8,
+        "endLine": 210,
+        "endChar": 12
+      },
+      "revId": "2ca3638355d3243486917e19519d0307a38534f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e81b519_cdd05d0a",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-09T03:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61cad4df_e6e2fe58",
       "range": {
         "startLine": 210,
         "startChar": 8,
