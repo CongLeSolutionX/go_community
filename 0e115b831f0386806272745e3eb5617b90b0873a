@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee995184_b5a52a11",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-09T02:26:01Z",
+      "side": 1,
+      "message": "Sorry for confusion, but I am not sure now that we should add tests containing \\ into jointest. New tests you have added (as per my suggestion) contradict what filepath.Clean does. filepath.Clean behaviour differs considerable between unix and windows.\n\nFor example this program http://play.golang.org/p/31r6-5pLHt prints\n\n\\\t-\u003e\t\\\n/\t-\u003e\t/\n/\\/\t-\u003e\t/\\\n/\\//a\t-\u003e\t/\\/a\n/\\/a\t-\u003e\t/\\/a\n\non unix, but\n\n\\       -\u003e      \\\n/       -\u003e      \\\n/\\/     -\u003e      \\\n/\\//a   -\u003e      \\a\n/\\/a    -\u003e      \\a\n\non windows.\n\nI don\u0027t think we should make filepath.Clean and filepath.Join behave differently. So, unless we agree that filepath.Clean treatment of \\ is broken, I suggest we should leave unix filepath.Join alone and just fix windows.\n\nIan, Dave. What do you think?",
+      "revId": "0e115b831f0386806272745e3eb5617b90b0873a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
