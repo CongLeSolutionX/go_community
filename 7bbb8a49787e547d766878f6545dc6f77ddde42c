@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e81b519_8add6b9d",
+        "filename": "src/cmd/gc/range.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-01-09T01:15:11Z",
+      "side": 1,
+      "message": "What if i is already defined and the code uses \u003d instead of :\u003d?\nDon\u0027t you need to set the final i value for after the loop?",
+      "range": {
+        "startLine": 151,
+        "startChar": 14,
+        "endLine": 151,
+        "endChar": 19
+      },
+      "revId": "7bbb8a49787e547d766878f6545dc6f77ddde42c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
