@@ -80,15 +80,17 @@ func medianOfThree(data Interface, a, b, c int) {
 	m0 := b
 	m1 := a
 	m2 := c
-	// bubble sort on 3 elements
+	// sort 3 elements
 	if data.Less(m1, m0) {
 		data.Swap(m1, m0)
 	}
+	// now data[m0] <= data[m1]
 	if data.Less(m2, m1) {
 		data.Swap(m2, m1)
-	}
-	if data.Less(m1, m0) {
-		data.Swap(m1, m0)
+		// now data[m0] <= data[m2] & data[m1] < data[m2]
+		if data.Less(m1, m0) {
+			data.Swap(m1, m0)
+		}
 	}
 	// now data[m0] <= data[m1] <= data[m2]
 }
