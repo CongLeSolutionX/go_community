@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eb22512_bbdc6729",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2015-01-09T12:16:37Z",
+      "side": 0,
+      "message": "These are just a copy of the bytes tests. While i change the format code for strings to work on the \"TODO: Avoid buffer by pre-padding.\" in format.go:fmt_sbx they were not failing. \n\nOnly \n{\"%x\", I(23), `3c32333e`},\n{\"%#x\", I(23), `0x3c32333e`},\n{\"%# x\", I(23), `0x3c 0x32 0x33 0x3e`},\nfurther down did.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 42
+      },
+      "revId": "7b2524217e1128e8d8a7b9f9c253bf5b86dc301e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
