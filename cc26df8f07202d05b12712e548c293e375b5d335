@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee5d11c_1562162e",
+        "filename": "src/runtime/print1_write.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-09T19:37:43Z",
+      "side": 1,
+      "message": "2009?",
+      "revId": "cc26df8f07202d05b12712e548c293e375b5d335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
