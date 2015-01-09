@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee5d11c_755ba280",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-09T19:36:26Z",
+      "side": 1,
+      "message": "At least my name said something.\n\nNaming this \"notifyChan\" isn\u0027t quite so bad as naming a variable \"variable\" or \"stuff\", but it\u0027s kinda bad. All chans notify... the question is what they notify you of.\n\nNotice below it says:\n\n    case \u003c-reqDone:\n\nSo you know what that case represents.  If it were:\n\n   case \u003c-stuff:\n\nOr:\n\n   case \u003c-ch0:\n\nOr:\n\n    case \u003c-notifyChan:\n\n.... it\u0027s not as obvious what it means.",
+      "revId": "6ba374ad0ffc9bf8c0727850d5ab88506778c5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
