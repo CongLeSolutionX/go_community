@@ -214,6 +214,9 @@ func TestReverseProxyFlushInterval(t *testing.T) {
 }
 
 func TestReverseProxyCancellation(t *testing.T) {
+	if runtime.GOOS == "plan9" {
+		t.Skip("skipping test; see http://golang.org/issue/7237")
+	}
 	const backendResponse = "I am the backend"
 
 	reqInFlight := make(chan struct{})
