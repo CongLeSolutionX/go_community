@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee5d11c_9be8773b",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-10T01:46:22Z",
+      "side": 1,
+      "message": "remove these assignments? It shouldn\u0027t matter if the compiler is doing the right thing, but it also doesn\u0027t add much to readability. Either rename the arguments appropriately or rename the mx\u0027s inside.",
+      "revId": "3743e7f1403dabdf6179effcc2078184cf027cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee5d11c_5bb44f50",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-10T01:46:22Z",
+      "side": 1,
+      "message": "leave away the \u0027now\u0027 here and below - stating just the invariant is fine",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 7
+      },
+      "revId": "3743e7f1403dabdf6179effcc2078184cf027cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee5d11c_7bb71357",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-10T01:46:22Z",
+      "side": 1,
+      "message": "s/\u003c/\u003c\u003d/ for the last \u003c",
+      "range": {
+        "startLine": 90,
+        "startChar": 41,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "3743e7f1403dabdf6179effcc2078184cf027cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee5d11c_1bbec730",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-10T01:46:22Z",
+      "side": 1,
+      "message": "s/\u0026/\u0026\u0026/",
+      "range": {
+        "startLine": 90,
+        "startChar": 30,
+        "endLine": 90,
+        "endChar": 31
+      },
+      "revId": "3743e7f1403dabdf6179effcc2078184cf027cb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
