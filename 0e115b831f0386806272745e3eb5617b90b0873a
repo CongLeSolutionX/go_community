@@ -34,6 +34,24 @@
       "revId": "0e115b831f0386806272745e3eb5617b90b0873a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae02f9b8_f87631c3",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-10T22:33:16Z",
+      "side": 1,
+      "message": "I considered fixing filepath.Clean in another CL. Unfortunately fileapth.Join implementation uses filepath.Clean. So we would have to fix filepath.Clean first. I am happy to do that, but I am not certain what the correct treatment of \\ on unix should be. So I would like input from someone who knows. Alternatively, like I said before, we could just leave non-windows code as is. I will wait some more.",
+      "parentUuid": "eee5d11c_db7b9f5d",
+      "revId": "0e115b831f0386806272745e3eb5617b90b0873a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
