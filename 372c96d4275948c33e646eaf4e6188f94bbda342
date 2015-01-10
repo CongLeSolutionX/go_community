@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ef945d6_5702dc7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-10T00:11:34Z",
+      "side": 1,
+      "message": "Also add:\nUpdate #7237",
+      "revId": "372c96d4275948c33e646eaf4e6188f94bbda342",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
