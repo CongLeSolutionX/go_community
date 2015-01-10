@@ -16,6 +16,24 @@
       "revId": "0e115b831f0386806272745e3eb5617b90b0873a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eee5d11c_db7b9f5d",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5888
+      },
+      "writtenOn": "2015-01-10T14:43:25Z",
+      "side": 1,
+      "message": "This might not be ideal for clean on unix but understandable:\n/\\/a\t-\u003e\t/\\/a\n\nBut passing in the below to join for unix just makes no sense:\n`\\`, `a` -\u003e  `/\\/a`\n\nThis is actually due to join adding extra slash which is the same issue as with UNC paths. I don\u0027t mind ignoring it and consider fixing it in another CL, if that is what every one else wants to do.",
+      "parentUuid": "ee995184_b5a52a11",
+      "revId": "0e115b831f0386806272745e3eb5617b90b0873a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
