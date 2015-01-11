@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e1c811f_167e5c9a",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1992,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-01-11T11:17:49Z",
+      "side": 1,
+      "message": "The benchmark is all wrong. It must not hardcode GOMAXPROCS, it must not recreate the database N times, it must not use channel to distribute work (it alone can hinder scalability).\n\nIt should look along the lines of:\n\nfunc BenchmarkManyConcurrentQuery(b *testing.B) {\n\tb.ReportAllocs()\n\n\tconst parallelism \u003d 4\n\tdb :\u003d newTestDB(b, \"people\")\n\tdefer closeDB(b, db)\n\tdb.SetMaxIdleConns(runtime.GOMAXPROCS(0) * parallelism)\n\n\tstmt, err :\u003d db.Prepare(\"SELECT|people|name|\")\n\tif err !\u003d nil {\n\t\tb.Fatal(err)\n\t}\n\tdefer stmt.Close()\n\n\tb.SetParallelism(parallelism)\n\tb.RunParallel(func(pb *testing.PB) {\n\t\tfor pb.Next() {\n\t\t\trows, err :\u003d stmt.Query()\n\t\t\tif err !\u003d nil {\n\t\t\t\tb.Errorf(\"error on query:  %v\", err)\n\t\t\t\treturn\n\t\t\t}\n\n\t\t\tvar name string\n\t\t\tfor rows.Next() {\n\t\t\t\trows.Scan(\u0026name)\n\t\t\t}\n\t\t\trows.Close()\n\t\t}\n\t})\n}",
+      "range": {
+        "startLine": 1992,
+        "startChar": 1,
+        "endLine": 1992,
+        "endChar": 4
+      },
+      "revId": "cfa449702a4bd1a97da690dbd11fb67c7936c83b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
