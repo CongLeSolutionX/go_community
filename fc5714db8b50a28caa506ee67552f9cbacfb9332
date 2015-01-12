@@ -308,6 +308,30 @@
       "revId": "fc5714db8b50a28caa506ee67552f9cbacfb9332",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef09d0f_46b948ba",
+        "filename": "src/crypto/ecdsa/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-01-12T20:48:52Z",
+      "side": 1,
+      "message": "Yes, it can be folded into ecdsa.go.",
+      "parentUuid": "0e114599_438b8602",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 13
+      },
+      "revId": "fc5714db8b50a28caa506ee67552f9cbacfb9332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
