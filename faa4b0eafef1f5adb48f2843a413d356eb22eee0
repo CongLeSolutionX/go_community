@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef09d0f_66e564dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-01-12T20:48:56Z",
+      "side": 1,
+      "message": "Since this is on the path to submission, \"This is a first stab\" can be removed.",
+      "revId": "faa4b0eafef1f5adb48f2843a413d356eb22eee0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef09d0f_a6a92c72",
+        "filename": "src/crypto/ecdsa/ecdsa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-01-12T20:48:56Z",
+      "side": 1,
+      "message": "XORs, although it doesn\u0027t really matter.",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "faa4b0eafef1f5adb48f2843a413d356eb22eee0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
