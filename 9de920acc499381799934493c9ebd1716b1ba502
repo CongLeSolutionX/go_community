@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2efd29e9_7f368bd1",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-01-12T16:17:19Z",
+      "side": 1,
+      "message": "\"checkmark\" is getting overloaded with gccheckmark. Perhaps usecheckmarkbits or checkmarkencode. I could be easily swayed so it is up to you.",
+      "revId": "9de920acc499381799934493c9ebd1716b1ba502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
