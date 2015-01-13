@@ -1,4 +1,4 @@
-// run
+// skip
 
 // Copyright 2011 The Go Authors.  All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -11,22 +11,8 @@ package main
 
 import "unsafe"
 
-// Having a big address space means that indexing
-// at a 256 MB offset from a nil pointer might not
-// cause a memory access fault. This test checks
-// that Go is doing the correct explicit checks to catch
-// these nil pointer accesses, not just relying on the hardware.
-var dummy [256 << 20]byte // give us a big address space
-
 func main() {
-	// the test only tests what we intend to test
-	// if dummy starts in the first 256 MB of memory.
-	// otherwise there might not be anything mapped
-	// at the address that might be accidentally
-	// dereferenced below.
-	if uintptr(unsafe.Pointer(&dummy)) > 256<<20 {
-		panic("dummy too far out")
-	}
+	sanityCheck()
 
 	shouldPanic(p1)
 	shouldPanic(p2)
@@ -57,14 +43,15 @@ func shouldPanic(f func()) {
 
 func p1() {
 	// Array index.
-	var p *[1 << 30]byte = nil
-	println(p[256<<20]) // very likely to be inside dummy, but should panic
+	var p *[maxlen]byte = nil
+	// very likely to be inside dummy, but should panic
+	println(p[inMaxlenArray])
 }
 
 var xb byte
 
 func p2() {
-	var p *[1 << 30]byte = nil
+	var p *[maxlen]byte = nil
 	xb = 123
 
 	// Array index.
@@ -73,12 +60,12 @@ func p2() {
 
 func p3() {
 	// Array to slice.
-	var p *[1 << 30]byte = nil
+	var p *[maxlen]byte = nil
 	var x []byte = p[0:] // should panic
 	_ = x
 }
 
-var q *[1 << 30]byte
+var q *[maxlen]byte
 
 func p4() {
 	// Array to slice.
@@ -93,18 +80,18 @@ func fb([]byte) {
 
 func p5() {
 	// Array to slice.
-	var p *[1 << 30]byte = nil
+	var p *[maxlen]byte = nil
 	fb(p[0:]) // should crash
 }
 
 func p6() {
 	// Array to slice.
-	var p *[1 << 30]byte = nil
+	var p *[maxlen]byte = nil
 	var _ []byte = p[10 : len(p)-10] // should crash
 }
 
 type T struct {
-	x [256 << 20]byte
+	x [inMemSize]byte
 	i int
 }
 
