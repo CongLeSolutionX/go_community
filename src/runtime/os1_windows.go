@@ -42,6 +42,9 @@ import (
 //go:cgo_import_dynamic runtime._timeBeginPeriod timeBeginPeriod "winmm.dll"
 
 var (
+	// Following syscalls are available on every Windows PC.
+	// All these variables are set by Windows executable
+	// loader before Go program starts.
 	_AddVectoredExceptionHandler,
 	_CloseHandle,
 	_CreateEventA,
@@ -74,9 +77,26 @@ var (
 	_WaitForSingleObject,
 	_WriteFile,
 	_timeBeginPeriod stdFunction
+
+	// Following syscalls are only available on some Windows PCs.
+	// We will load syscalls, if available, before using them.
+	_AddVectoredContinueHandler,
+	_GetQueuedCompletionStatusEx stdFunction
 )
 
-var _GetQueuedCompletionStatusEx stdFunction
+var (
+	kernel32Name                    = []byte("kernel32.dll\x00")
+	addVectoredContinueHandlerName  = []byte("AddVectoredContinueHandler\x00")
+	getQueuedCompletionStatusExName = []byte("GetQueuedCompletionStatusEx\x00")
+)
+
+func loadOptionalSyscalls() {
+	l := stdcall1(_LoadLibraryA, uintptr(unsafe.Pointer(&kernel32Name[0])))
+	if l != 0 {
+		_AddVectoredContinueHandler = stdFunction(unsafe.Pointer(stdcall2(_GetProcAddress, l, uintptr(unsafe.Pointer(&addVectoredContinueHandlerName[0])))))
+		_GetQueuedCompletionStatusEx = stdFunction(unsafe.Pointer(stdcall2(_GetProcAddress, l, uintptr(unsafe.Pointer(&getQueuedCompletionStatusExName[0])))))
+	}
+}
 
 // in sys_windows_386.s and sys_windows_amd64.s
 func externalthreadhandler()
@@ -117,34 +137,24 @@ func disableWER() {
 	stdcall1(_SetErrorMode, uintptr(errormode)|SEM_FAILCRITICALERRORS|SEM_NOGPFAULTERRORBOX|SEM_NOOPENFILEERRORBOX)
 }
 
-var (
-	kernel32Name                    = []byte("kernel32.dll\x00")
-	addVectoredContinueHandlerName  = []byte("AddVectoredContinueHandler\x00")
-	getQueuedCompletionStatusExName = []byte("GetQueuedCompletionStatusEx\x00")
-)
-
 func osinit() {
 	setBadSignalMsg()
 
-	kernel32 := stdcall1(_LoadLibraryA, uintptr(unsafe.Pointer(&kernel32Name[0])))
+	loadOptionalSyscalls()
 
 	disableWER()
 
 	externalthreadhandlerp = funcPC(externalthreadhandler)
 
 	stdcall2(_AddVectoredExceptionHandler, 1, funcPC(exceptiontramp))
-	addVectoredContinueHandler := uintptr(0)
-	if kernel32 != 0 {
-		addVectoredContinueHandler = stdcall2(_GetProcAddress, kernel32, uintptr(unsafe.Pointer(&addVectoredContinueHandlerName[0])))
-	}
-	if addVectoredContinueHandler == 0 || unsafe.Sizeof(&kernel32) == 4 {
+	if _AddVectoredContinueHandler == nil || unsafe.Sizeof(&_AddVectoredContinueHandler) == 4 {
 		// use SetUnhandledExceptionFilter for windows-386 or
 		// if VectoredContinueHandler is unavailable.
 		// note: SetUnhandledExceptionFilter handler won't be called, if debugging.
 		stdcall1(_SetUnhandledExceptionFilter, funcPC(lastcontinuetramp))
 	} else {
-		stdcall2(stdFunction(unsafe.Pointer(addVectoredContinueHandler)), 1, funcPC(firstcontinuetramp))
-		stdcall2(stdFunction(unsafe.Pointer(addVectoredContinueHandler)), 0, funcPC(lastcontinuetramp))
+		stdcall2(_AddVectoredContinueHandler, 1, funcPC(firstcontinuetramp))
+		stdcall2(_AddVectoredContinueHandler, 0, funcPC(lastcontinuetramp))
 	}
 
 	stdcall2(_SetConsoleCtrlHandler, funcPC(ctrlhandler), 1)
@@ -158,10 +168,6 @@ func osinit() {
 	// equivalent threads that all do a mix of GUI, IO, computations, etc.
 	// In such context dynamic priority boosting does nothing but harm, so we turn it off.
 	stdcall2(_SetProcessPriorityBoost, currentProcess, 1)
-
-	if kernel32 != 0 {
-		_GetQueuedCompletionStatusEx = stdFunction(unsafe.Pointer(stdcall2(_GetProcAddress, kernel32, uintptr(unsafe.Pointer(&getQueuedCompletionStatusExName[0])))))
-	}
 }
 
 //go:nosplit
