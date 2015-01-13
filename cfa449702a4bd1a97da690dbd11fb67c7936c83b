@@ -22,6 +22,30 @@
       "revId": "cfa449702a4bd1a97da690dbd11fb67c7936c83b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8a959b_62ee1895",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1992,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-13T12:37:17Z",
+      "side": 1,
+      "message": "I\u0027ve reused existing manyConcurrentQueries().\nIt was not called anywhere. Should I remove it?",
+      "parentUuid": "6e1c811f_167e5c9a",
+      "range": {
+        "startLine": 1992,
+        "startChar": 1,
+        "endLine": 1992,
+        "endChar": 4
+      },
+      "revId": "cfa449702a4bd1a97da690dbd11fb67c7936c83b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
