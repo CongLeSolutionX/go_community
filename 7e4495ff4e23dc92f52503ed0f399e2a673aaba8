@@ -22,6 +22,30 @@
       "revId": "7e4495ff4e23dc92f52503ed0f399e2a673aaba8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8a959b_e2b8686b",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1941,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-13T16:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e8a959b_824f9c01",
+      "range": {
+        "startLine": 1941,
+        "startChar": 16,
+        "endLine": 1941,
+        "endChar": 26
+      },
+      "revId": "7e4495ff4e23dc92f52503ed0f399e2a673aaba8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
