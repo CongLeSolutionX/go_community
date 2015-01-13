@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e8a959b_a2d2e014",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-13T10:47:56Z",
+      "side": 1,
+      "message": "Added the comment.",
+      "parentUuid": "ee7b115e_c5d7ec03",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7b115e_e5dcf02a",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-13T06:59:06Z",
       "side": 1,
       "message": "\u003c\u003d ?  won\u0027t it only be \u003d\u003d ?",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8a959b_82331cdf",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-13T10:47:56Z",
+      "side": 1,
+      "message": "Changed it for \u003d\u003d. I agree, I don\u0027t see how is it possible for \"i \u003c from\". I copied the code from syscall.",
+      "parentUuid": "ee7b115e_e5dcf02a",
       "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8e8a959b_e2dce82a",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-13T10:47:56Z",
+      "side": 1,
+      "message": "Changed to use i. Debugging dregs.",
+      "parentUuid": "ee7b115e_25c7b855",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7b115e_85cec46c",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-01-13T06:59:06Z",
       "side": 1,
       "message": "p \u003d p[1:] // skip nil byte",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8a959b_42c4b44e",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-13T10:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7b115e_85cec46c",
       "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
