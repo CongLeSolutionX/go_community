@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee7b115e_c5d7ec03",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-13T06:59:06Z",
+      "side": 1,
+      "message": "this is all a little better, I guess, but I still don\u0027t think it\u0027s very Go-like.\n\nIt could do with some comments.\n\nLike:\n\n  // strings is a pointer to environment variable pairs in the form:\n  //     \"envA\u003dvalA\\x00envB\u003dvalB\\x00\\x00\"\n  // Two consecutive zero bytes end the list.",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7b115e_e5dcf02a",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-13T06:59:06Z",
+      "side": 1,
+      "message": "\u003c\u003d ?  won\u0027t it only be \u003d\u003d ?",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7b115e_25c7b855",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-13T06:59:06Z",
+      "side": 1,
+      "message": "why j now? i still seems okay.",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee7b115e_85cec46c",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-13T06:59:06Z",
+      "side": 1,
+      "message": "p \u003d p[1:] // skip nil byte",
+      "revId": "c9229ce62118d9b9992b2758ff1f92696c239880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
