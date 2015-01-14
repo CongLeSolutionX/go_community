@@ -56,6 +56,24 @@
       "revId": "0dd836a6523d274b77786198282abd24588a8ac5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e44e539_7187d071",
+        "filename": "src/runtime/signal_amd64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-14T18:34:41Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "0e44e539_31b46850",
+      "revId": "0dd836a6523d274b77786198282abd24588a8ac5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
