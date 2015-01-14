@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e44e539_1f15b331",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-01-14T22:12:11Z",
+      "side": 1,
+      "message": "Add a comment explaining the atomicloaduintptr.",
+      "revId": "2286e361ab701300c3b8a1f26530b646d12d16e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
