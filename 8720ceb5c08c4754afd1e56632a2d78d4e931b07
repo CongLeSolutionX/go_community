@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e96a5c9_7e1ced5b",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-14T03:03:29Z",
+      "side": 1,
+      "message": "by the",
+      "revId": "8720ceb5c08c4754afd1e56632a2d78d4e931b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e96a5c9_9e27f9a3",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-14T03:03:29Z",
+      "side": 1,
+      "message": "\"before the program\" or \"before the Go program\"",
+      "revId": "8720ceb5c08c4754afd1e56632a2d78d4e931b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e96a5c9_be2cb588",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-14T03:03:29Z",
+      "side": 1,
+      "message": "rather than uintptr(unsafe.Pointer(\u0026kernel32Name[0])) I wonder if it\u0027d be better to have:\n\n   l :\u003d stdcall1(_LoadLibraryA, uintptrStr(\"kernel32.dll\\x00\"))\n\n... and add func uintptrStr (with some unsafe) to reduce the init load of the []byte.",
+      "revId": "8720ceb5c08c4754afd1e56632a2d78d4e931b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e96a5c9_de21818f",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-14T03:03:29Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "8720ceb5c08c4754afd1e56632a2d78d4e931b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
