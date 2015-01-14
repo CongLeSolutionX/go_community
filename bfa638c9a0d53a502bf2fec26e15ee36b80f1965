@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e44e539_f18ae0fd",
+        "filename": "src/syscall/asm_darwin_arm.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-14T14:30:53Z",
+      "side": 1,
+      "message": "I was having trouble following along with this so I switched this to name+(NN)FP in golang.org/cl/2746. I have a tiny script to do it automatically I\u0027ll email you out of band.",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "bfa638c9a0d53a502bf2fec26e15ee36b80f1965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e44e539_7197d01f",
+        "filename": "src/syscall/asm_darwin_arm.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-14T14:30:53Z",
+      "side": 1,
+      "message": "Is R1 meaningful if there was an error? The other darwin platforms set this to -1.",
+      "revId": "bfa638c9a0d53a502bf2fec26e15ee36b80f1965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
