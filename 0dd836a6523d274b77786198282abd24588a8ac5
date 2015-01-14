@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e44e539_510f34a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-01-14T18:33:50Z",
+      "side": 1,
+      "message": "Remove repetition.",
+      "range": {
+        "startLine": 12,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "0dd836a6523d274b77786198282abd24588a8ac5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e44e539_f11660b6",
+        "filename": "src/runtime/signal_amd64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-01-14T18:33:50Z",
+      "side": 1,
+      "message": "Unintentional change?",
+      "revId": "0dd836a6523d274b77786198282abd24588a8ac5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e44e539_31b46850",
+        "filename": "src/runtime/signal_amd64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-01-14T18:33:50Z",
+      "side": 1,
+      "message": "What happens if multiple threads crash (or are signaled) simultaneously?  I think in the worst case the failsafe below will kick in.",
+      "revId": "0dd836a6523d274b77786198282abd24588a8ac5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
