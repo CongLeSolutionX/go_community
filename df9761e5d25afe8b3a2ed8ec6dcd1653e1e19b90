@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab666b10_782e8181",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-15T22:21:45Z",
+      "side": 1,
+      "message": "them from the",
+      "revId": "df9761e5d25afe8b3a2ed8ec6dcd1653e1e19b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab666b10_b81ad95d",
         "filename": "misc/makerelease/makerelease.go",
         "patchSetId": 1
