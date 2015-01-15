@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e96a5c9_04a55cb8",
+        "filename": "src/syscall/asm_linux_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-15T02:01:06Z",
+      "side": 1,
+      "message": "Remove this comment.",
+      "revId": "d3444fb02a74a8d3a312285fcbc1f757725cf30f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e96a5c9_249a587c",
+        "filename": "src/syscall/asm_linux_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-15T02:01:06Z",
+      "side": 1,
+      "message": "Seems like this and the following functions should have func comments.",
+      "revId": "d3444fb02a74a8d3a312285fcbc1f757725cf30f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
