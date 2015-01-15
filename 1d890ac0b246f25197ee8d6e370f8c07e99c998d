@@ -34,6 +34,24 @@
       "revId": "1d890ac0b246f25197ee8d6e370f8c07e99c998d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b7a7baa_9417a469",
+        "filename": "misc/makerelease/makerelease.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-15T23:32:56Z",
+      "side": 1,
+      "message": "I had similar idea - to remove file regardless of it have \"read-only\" flag. But then it is not how Windows DeleteFile API works (and that is what we use to \"delete\" files). This behavior is specifically mentioned in http://msdn.microsoft.com/en-us/library/windows/desktop/aa363915%28v\u003dvs.85%29.aspx\n\n\"... If the file is a read-only file, the function fails with ERROR_ACCESS_DENIED. ...\"\n\nPerhaps it will be surprising for our users.",
+      "parentUuid": "2ba19b5e_9cbfc52c",
+      "revId": "1d890ac0b246f25197ee8d6e370f8c07e99c998d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
