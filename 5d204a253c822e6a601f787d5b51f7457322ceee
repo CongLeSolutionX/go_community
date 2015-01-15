@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e8a959b_b3f95091",
+        "filename": "src/strings/strings_decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-01-15T02:33:01Z",
+      "side": 1,
+      "message": "// In most cases it is simpler to use the built in comparison operators (\u003d\u003d, \u003c, \u003e, and so on).",
+      "revId": "5d204a253c822e6a601f787d5b51f7457322ceee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
