@@ -16,6 +16,24 @@
       "revId": "4996eae4a02da465c50c57d8572bcb25deacb06c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2473a4_d9ae97a3",
+        "filename": "src/strings/strings_decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-01-15T16:32:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab3f4bb4_d0c89c34",
+      "revId": "4996eae4a02da465c50c57d8572bcb25deacb06c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
