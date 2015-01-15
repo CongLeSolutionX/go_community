@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b7a7baa_34f010ef",
+        "filename": "misc/makerelease/makerelease.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-15T22:26:28Z",
+      "side": 1,
+      "message": "I have encountered similar problem recently. Git sets \"read-only\" flag onto some \"repo\" files. I just need to reset that flag. See changes I have made to (*gitTest).done here https://go-review.googlesource.com/#/c/2089/3/git-codereview/util_test.go",
+      "revId": "1d890ac0b246f25197ee8d6e370f8c07e99c998d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
