@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab3f4bb4_d0c89c34",
+        "filename": "src/strings/strings_decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-15T16:27:45Z",
+      "side": 1,
+      "message": "*.goc files no longer exist.\n\nI\u0027ve sent you https://go-review.googlesource.com/2890 as well.",
+      "revId": "4996eae4a02da465c50c57d8572bcb25deacb06c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
