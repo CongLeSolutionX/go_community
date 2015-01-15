@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e96a5c9_e44dd08f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-15T01:42:42Z",
+      "side": 1,
+      "message": "For Go the topic sentence is usually lower case, no period.  So\n\nruntime: fix runtime-gdb script loading",
+      "revId": "a92b3debd96808433d72823f2a86dcbc4aaa6f31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e96a5c9_4465a4fd",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-15T01:42:42Z",
+      "side": 1,
+      "message": "Use ioutil.WriteFile.",
+      "revId": "a92b3debd96808433d72823f2a86dcbc4aaa6f31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
