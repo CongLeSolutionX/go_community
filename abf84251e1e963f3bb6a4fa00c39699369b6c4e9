@@ -16,6 +16,24 @@
       "revId": "abf84251e1e963f3bb6a4fa00c39699369b6c4e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ba19b5e_3f7543e8",
+        "filename": "src/syscall/asm_linux_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-16T15:53:33Z",
+      "side": 1,
+      "message": "I failed to script and test correctly. (Because cgo-enabled cross-compilers don\u0027t coexist well I have an overly complex setup.) When I go test syscall with this bad code:\n\n--- FAIL: TestPassFD (5.03s)\n\tsyscall_unix_test.go:141: timeout reading from unix socket\n\tsyscall_unix_test.go:131: expected 1 SocketControlMessage; got scms \u003d []syscall.SocketControlMessage(nil)\n\nSo I believe it is adequately tested.",
+      "parentUuid": "0e96a5c9_04ce3c92",
+      "revId": "abf84251e1e963f3bb6a4fa00c39699369b6c4e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
