@@ -16,6 +16,24 @@
       "revId": "d9a7c60f9c136711ac0e8f17cd229c934297be8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ba19b5e_a589444f",
+        "filename": "misc/android/go_android_exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-01-16T21:34:04Z",
+      "side": 1,
+      "message": "You\u0027re right. Returning just subdir now.",
+      "parentUuid": "2ba19b5e_bf3393df",
+      "revId": "d9a7c60f9c136711ac0e8f17cd229c934297be8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
