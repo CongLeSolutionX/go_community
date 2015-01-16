@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba19b5e_62f0123b",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5888
+      },
+      "writtenOn": "2015-01-16T20:06:40Z",
+      "side": 1,
+      "message": "I believe this is too complex. In addition, this forces an extra call to FromSlash and volumeNameLen during the common case. It still cannot be used to create a UNC path because it requires the first element to be a full UNC path. What does the added complexity fix over patch set 10? I think we should just be fixing the one case where the first element is a slash.",
+      "revId": "f7af18544b368f024d89d4dfb4864aafa1629c05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
