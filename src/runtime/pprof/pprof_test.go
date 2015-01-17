@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"fmt"
 	"math/big"
+	"os"
 	"os/exec"
 	"regexp"
 	"runtime"
@@ -72,6 +73,9 @@ func TestCPUProfile(t *testing.T) {
 }
 
 func TestCPUProfileMultithreaded(t *testing.T) {
+	if os.Getenv("IN_QEMU") == "1" {
+		t.Skip("skipping the flaky test in QEMU; see golang.org/issue/9605")
+	}
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(2))
 	testCPUProfile(t, []string{"runtime/pprof_test.cpuHog1", "runtime/pprof_test.cpuHog2"}, func() {
 		c := make(chan int)
