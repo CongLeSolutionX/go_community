@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"fmt"
 	"math/big"
+	"os"
 	"os/exec"
 	"regexp"
 	"runtime"
@@ -184,6 +185,13 @@ func testCPUProfile(t *testing.T, need []string, f func()) {
 	if !ok {
 		if badOS[runtime.GOOS] {
 			t.Skipf("ignoring failure on %s; see golang.org/issue/6047", runtime.GOOS)
+			return
+		}
+		// Ignore the failure if tests are running in a QEMU-based emulator.
+		// IN_QEMU environmental should be set manually before running the tests.
+		// IN_QEMU=1 indicates that the tests are running in QEMU. See issue 9605.
+		if os.Getenv("IN_QEMU") == "1" {
+			t.Skip("ignore the failure in QEMU; see golang.org/issue/9605")
 			return
 		}
 		t.FailNow()
