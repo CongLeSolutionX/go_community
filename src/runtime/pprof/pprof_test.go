@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"fmt"
 	"math/big"
+	"os"
 	"os/exec"
 	"regexp"
 	"runtime"
@@ -20,6 +21,16 @@ import (
 	"time"
 	"unsafe"
 )
+
+// inQemu is true if the tests are running in a QEMU-based
+// emulator. It should be manually set as an environmental variable.
+// IN_QEMU=1 indicates that the tests are running in QEMU.
+// See issue 9605.
+var inQemu bool
+
+func init() {
+	inQemu = os.Getenv("IN_QEMU") == "1"
+}
 
 func cpuHogger(f func()) {
 	// We only need to get one 100 Hz clock tick, so we've got
@@ -72,6 +83,10 @@ func TestCPUProfile(t *testing.T) {
 }
 
 func TestCPUProfileMultithreaded(t *testing.T) {
+	if inQemu {
+		t.Skip("skipping the flaky test in QEMU; see golang.org/issue/9605")
+		return
+	}
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(2))
 	testCPUProfile(t, []string{"runtime/pprof_test.cpuHog1", "runtime/pprof_test.cpuHog2"}, func() {
 		c := make(chan int)
@@ -184,6 +199,10 @@ func testCPUProfile(t *testing.T, need []string, f func()) {
 	if !ok {
 		if badOS[runtime.GOOS] {
 			t.Skipf("ignoring failure on %s; see golang.org/issue/6047", runtime.GOOS)
+			return
+		}
+		if inQemu {
+			t.Skip("skipping the flaky test in QEMU; see golang.org/issue/9605")
 			return
 		}
 		t.FailNow()
