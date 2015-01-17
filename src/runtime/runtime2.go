@@ -195,7 +195,8 @@ type g struct {
 	param        unsafe.Pointer // passed parameter on wakeup
 	atomicstatus uint32
 	goid         int64
-	waitsince    int64  // approx time when the g become blocked
+	waitsince    int64 // approx time when the g become blocked
+	waitsincegc  int64
 	waitreason   string // if status==gwaiting
 	schedlink    *g
 	issystem     bool // do not output in stack dump, ignore in deadlock detector
@@ -215,6 +216,10 @@ type g struct {
 	gopc         uintptr // pc of go statement that created this goroutine
 	racectx      uintptr
 	waiting      *sudog // sudog structures this g is waiting on (that have a valid elem ptr)
+
+	// lists of workbufs for caching stack scans
+	wbfull    uint64
+	wbpartial uint64
 }
 
 type mts struct {

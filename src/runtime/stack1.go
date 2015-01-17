@@ -706,11 +706,15 @@ func newstack() {
 			throw("runtime: g is running but p is not")
 		}
 		if gp.preemptscan {
-			for !castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
-				// Likely to be racing with the GC as it sees a _Gwaiting and does the stack scan.
-				// If so this stack will be scanned twice which does not change correctness.
+			if castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
+				gcphasework(gp)
+			} else {
+				for !castogscanstatus(gp, _Gwaiting, _Gscanwaiting) {
+					// someone else is scanning. It might be a
+					// stackcaching one, so do nothing.
+				}
 			}
-			gcphasework(gp)
+
 			casfrom_Gscanstatus(gp, _Gscanwaiting, _Gwaiting)
 			casgstatus(gp, _Gwaiting, _Grunning)
 			gp.stackguard0 = gp.stack.lo + _StackGuard

@@ -564,6 +564,7 @@ func markroot(desc *parfor, i uint32) {
 		status := readgstatus(gp) // We are not in a scan state
 		if (status == _Gwaiting || status == _Gsyscall) && gp.waitsince == 0 {
 			gp.waitsince = work.tstart
+			gp.waitsincegc = gctimer.count
 		}
 
 		// Shrink a stack if not much of it is being used but not in the scan phase.
@@ -733,6 +734,41 @@ func getfull(b *workbuf) *workbuf {
 	}
 }
 
+// copywork copies the workbufs from head into the partial/full lists.
+// When mark is set, we also mark the object in the heap bitmap.
+// Note that this function is not reentrant and only works when
+// it has exclusive access to the lfstack at head.
+func copywork(head *uint64, mark bool) {
+	var newhead uint64
+	copybuf := getpartialorempty()
+	wb := (*workbuf)(lfstackpop(head))
+	for wb != nil {
+		for i := uintptr(0); i < wb.nobj; i++ {
+			if mark {
+				heapBitsForAddr(wb.obj[i]).setMarked()
+			}
+			if copybuf.nobj >= uintptr(len(copybuf.obj)) {
+				copybuf = getempty(copybuf)
+			}
+			copybuf.obj[copybuf.nobj] = wb.obj[i]
+			copybuf.nobj++
+		}
+		lfstackpush(&newhead, &wb.node)
+		wb = (*workbuf)(lfstackpop(head))
+	}
+	putpartial(copybuf)
+	*head = newhead
+}
+
+func emptywork(head *uint64) {
+	wb := (*workbuf)(lfstackpop(head))
+	for wb != nil {
+		wb.nobj = 0
+		putempty(wb)
+		wb = (*workbuf)(lfstackpop(head))
+	}
+}
+
 //go:nowritebarrier
 func handoff(b *workbuf) *workbuf {
 	// Make new buffer with half of b's pointers.
@@ -839,7 +875,8 @@ func scanstack(gp *g) {
 		throw("scanstack - bad status")
 	}
 
-	switch readgstatus(gp) &^ _Gscan {
+	status := readgstatus(gp) &^ _Gscan
+	switch status {
 	default:
 		print("runtime: gp=", gp, ", goid=", gp.goid, ", gp->atomicstatus=", readgstatus(gp), "\n")
 		throw("mark - bad status")
@@ -859,9 +896,44 @@ func scanstack(gp *g) {
 	if mp != nil && mp.helpgc != 0 {
 		throw("can't scan gchelper stack")
 	}
+	var stackcache bool
+	var tmpfull uint64
+	var tmppartial uint64
+	if gp.waitsincegc == 0 && (gp.wbfull != 0 || gp.wbpartial != 0) {
+		emptywork(&gp.wbfull)
+		emptywork(&gp.wbpartial)
+	}
+	if (status == _Gsyscall || status == _Gwaiting) && gcphase == _GCscan {
+		// TODO(dmo): this will need to be updated to switch out the P
+		// workbuf lists once we switch to those.
+		if gp.wbfull != 0 || gp.wbpartial != 0 {
+			copywork(&gp.wbfull, true)
+			copywork(&gp.wbpartial, true)
+			return
+		}
+		if gp.waitsincegc > 0 && gctimer.count-gp.waitsincegc >= 1 {
+			tmpfull = work.full
+			tmppartial = work.partial
+			work.full = 0
+			work.partial = 0
+			stackcache = true
+		}
+	}
 
 	gentraceback(^uintptr(0), ^uintptr(0), 0, gp, 0, nil, 0x7fffffff, scanframe, nil, 0)
 	tracebackdefers(gp, scanframe, nil)
+
+	if !stackcache {
+		return
+	}
+
+	gp.wbfull = work.full
+	gp.wbpartial = work.partial
+	work.full = tmpfull
+	work.partial = tmppartial
+
+	copywork(&gp.wbfull, false)
+	copywork(&gp.wbpartial, false)
 }
 
 // Shade the object if it isn't already.

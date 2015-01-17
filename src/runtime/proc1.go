@@ -1222,6 +1222,8 @@ func execute(gp *g) {
 
 	casgstatus(gp, _Grunnable, _Grunning)
 	gp.waitsince = 0
+	gp.waitsincegc = 0
+
 	gp.preempt = false
 	gp.stackguard0 = gp.stack.lo + _StackGuard
 	_g_.m.p.schedtick++
@@ -1738,6 +1740,7 @@ func exitsyscall(dummy int32) {
 	}
 
 	_g_.waitsince = 0
+	_g_.waitsincegc = 0
 	if exitsyscallfast() {
 		if _g_.m.mcache == nil {
 			throw("lost mcache")
