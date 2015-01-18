@@ -16,6 +16,24 @@
       "revId": "f7af18544b368f024d89d4dfb4864aafa1629c05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbbf1f8b_0cccf7f8",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-18T04:47:17Z",
+      "side": 1,
+      "message": "I agree the code is bit complicated. It also should be as fast as possible (and do not allocate memory) for most common case. I tried to do something like that here http://play.golang.org/p/uMDqQxjzcH I suggest you use my code instead. Feel free to improve it as you see fit.",
+      "parentUuid": "2ba19b5e_62f0123b",
+      "revId": "f7af18544b368f024d89d4dfb4864aafa1629c05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
