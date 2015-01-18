@@ -34,6 +34,24 @@
       "revId": "f7af18544b368f024d89d4dfb4864aafa1629c05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbd63fdb_34b33ede",
+        "filename": "src/path/filepath/path_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5555
+      },
+      "writtenOn": "2015-01-18T19:32:38Z",
+      "side": 1,
+      "message": "http://play.golang.org/p/uMDqQxjzcH looks good.\n\nHowever, line 29 will always evaluate to false.\n\nReasoning:\n - at line 29, we know that p is a UNC path\n - at line 29, we know that the first element is NOT a UNC path\n\nHence, we can deduce that the two first elements have created a UNC path.\n\nWe can also deduce that rest[0] !\u003d \u0027\\\\\u0027 on line 29.\nBecause if rest[0] \u003d\u003d \u0027\\\\\u0027, it would have resulted in a `\\\\` prefix for\nelem[1:] on line 16 since we are joining with Separator. That would not\nhave been a UNC path and p would have been returned on line 20.",
+      "parentUuid": "cbbf1f8b_0cccf7f8",
+      "revId": "f7af18544b368f024d89d4dfb4864aafa1629c05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
