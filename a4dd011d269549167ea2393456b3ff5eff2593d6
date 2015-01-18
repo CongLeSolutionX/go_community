@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbd63fdb_54fb6286",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2015-01-18T14:06:46Z",
+      "side": 1,
+      "message": "It says it must have been prepared on the same *sql.DB, which is the connection pool, not the connection.",
+      "parentUuid": "cbd63fdb_54d28218",
+      "revId": "a4dd011d269549167ea2393456b3ff5eff2593d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbd63fdb_9436aad0",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "cbd63fdb_7400e6df",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2015-01-18T14:06:46Z",
+      "side": 1,
+      "message": "This code is just exactly what *Stmt.connStmt does right now.  There\u0027s probably going to be changes to connStmt in the near future, so I haven\u0027t bothered to try and make this code do anything different.",
+      "parentUuid": "cbd63fdb_b433aedf",
+      "revId": "a4dd011d269549167ea2393456b3ff5eff2593d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbd63fdb_74d78607",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2015-01-18T11:24:10Z",
       "side": 1,
       "message": "Is there a reason I\u0027m overlooking to not just defer s.mu.Unlock()?",
+      "revId": "a4dd011d269549167ea2393456b3ff5eff2593d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbd63fdb_14f5da90",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2015-01-18T14:06:46Z",
+      "side": 1,
+      "message": "We must not be holding s.mu when calling s.db.removeDep()",
+      "parentUuid": "cbd63fdb_74d78607",
       "revId": "a4dd011d269549167ea2393456b3ff5eff2593d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
