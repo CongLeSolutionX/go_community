@@ -22,6 +22,30 @@
       "revId": "61067b229e87f314c9648300215fbf58e8f56802",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab390b03_20f58a2a",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-18T19:47:30Z",
+      "side": 1,
+      "message": "Done.\n\nI did it all on one line (despite it looking bad in the source here) because the newlines are rendered in the resulting HTML.\n\nBut this works.",
+      "parentUuid": "ab390b03_0085e69a",
+      "range": {
+        "startLine": 18,
+        "startChar": 137,
+        "endLine": 18,
+        "endChar": 140
+      },
+      "revId": "61067b229e87f314c9648300215fbf58e8f56802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
