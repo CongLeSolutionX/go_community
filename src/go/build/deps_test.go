@@ -375,6 +375,10 @@ var allowedErrors = map[osPkg]bool{
 	osPkg{"plan9", "log/syslog"}:   true,
 }
 
+var internalPkgs = map[osPkg][]string{
+	osPkg{"windows", "net"}: []string{"internal/syscall/windows"},
+}
+
 func TestDependencies(t *testing.T) {
 	if runtime.GOOS == "nacl" {
 		// NaCl tests run in a limited file system and we do not
@@ -383,12 +387,18 @@ func TestDependencies(t *testing.T) {
 	}
 	var all []string
 
+	ctxt := Default
+	for osPkg, deps := range internalPkgs {
+		if osPkg.goos == ctxt.GOOS {
+			pkgDeps[osPkg.pkg] = append(pkgDeps[osPkg.pkg], deps...)
+		}
+	}
+
 	for k := range pkgDeps {
 		all = append(all, k)
 	}
 	sort.Strings(all)
 
-	ctxt := Default
 	test := func(mustImport bool) {
 		for _, pkg := range all {
 			if isMacro(pkg) {
