@@ -373,6 +373,11 @@ type osPkg struct {
 var allowedErrors = map[osPkg]bool{
 	osPkg{"windows", "log/syslog"}: true,
 	osPkg{"plan9", "log/syslog"}:   true,
+
+	// TODO(mattn): Fixing dependency of net package for windows. On windows,
+	// net is depend on internal/syscall/windows. Since it's an OS specific
+	// package, ignore especially.
+	osPkg{"windows", "internal/syscall/windows"}: true,
 }
 
 func TestDependencies(t *testing.T) {
