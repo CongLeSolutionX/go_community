@@ -399,7 +399,7 @@ func foo60a(i *int) *int { // ERROR "i does not escape"
 }
 
 // assigning to a struct field  is like assigning to the struct
-func foo61(i *int) *int { // ERROR "leaking param: i"
+func foo61(i *int) *int { // ERROR "i does not escape"
 	type S struct {
 		a, b *int
 	}
@@ -1492,3 +1492,148 @@ func g() (x interface{}) { // ERROR "moved to heap: x"
 	x = &x // ERROR "&x escapes to heap"
 	return
 }
+
+var sink interface{}
+
+// Test flow through fields.
+
+type Fields struct {
+       i  int
+       p1 *int
+       p2 *int
+}
+
+func fieldFlow0() *int {
+	i := 0 // ERROR "moved to heap: i"
+	var f Fields // ERROR "moved to heap: f"
+	f.p1 = &i // ERROR "&i escapes to heap"
+	return &f.i // ERROR "&f.i escapes to heap"
+}
+
+func fieldFlow1() *int {
+	i := 0 // ERROR "moved to heap: i"
+	var f Fields
+	f.p1 = &i // ERROR "&i escapes to heap"
+	return f.p1
+}
+
+func fieldFlow2() *int {
+	i := 0
+	var f Fields
+	f.p1 = &i // ERROR "&i does not escape"
+	return f.p2
+}
+
+func fieldFlow3() int {
+	i := 0
+	var f Fields
+	f.p1 = &i // ERROR "&i does not escape"
+	return f.i
+}
+
+func fieldFlow4() Fields {
+	i := 0 // ERROR "moved to heap: i"
+	var f Fields
+	f.p1 = &i // ERROR "&i escapes to heap"
+	return f
+}
+
+func fieldFlow5() {
+	i := 0
+	var f Fields
+	f.p1 = &i // ERROR "&i does not escape"
+	sink = f.p2
+}
+
+func fieldFlow6() {
+	i := 0
+	f := Fields{0, &i, nil} // ERROR "&i does not escape"
+	sink = f.i
+}
+
+func fieldFlow7() {
+	i := 0 // ERROR "moved to heap: i"
+	f := Fields{0, &i, nil} // ERROR "&i escapes to heap"
+	sink = f.p1
+}
+
+func fieldFlow8() {
+	i := 0
+	f := Fields{0, &i, nil} // ERROR "&i does not escape"
+	sink = f.p2
+}
+
+func fieldFlow9() {
+	i := 0 // ERROR "moved to heap: i"
+	f := Fields{0, &i, nil} // ERROR "&i escapes to heap"
+	sink = f
+}
+
+func fieldFlow10() {
+	i := 0 // ERROR "moved to heap: i"
+	f := Fields{0, &i, nil} // ERROR "moved to heap: f" "&i escapes to heap"
+	sink = &f // ERROR "&f escapes to heap"
+}
+
+func fieldFlow11() {
+	i := 0
+	f := &Fields{0, &i, nil} // ERROR "&i does not escape" "&Fields literal does not escape"
+	sink = f.i
+}
+
+func fieldFlow12() {
+	i := 0 // ERROR "moved to heap: i"
+	f := &Fields{0, &i, nil} // ERROR "&i escapes to heap" "&Fields literal does not escape"
+	sink = f.p1
+}
+
+func fieldFlow13() {
+	i := 0 // ERROR "moved to heap: i"
+	f := &Fields{0, &i, nil} // ERROR "&i escapes to heap" "&Fields literal does not escape"
+	sink = f.p2
+}
+
+func fieldFlow14() {
+	i := 0 // ERROR "moved to heap: i"
+	f := &Fields{0, &i, nil} // ERROR "&i escapes to heap" "&Fields literal escapes to heap"
+	sink = f
+}
+
+func fieldFlow15() {
+	i := 0 // ERROR "moved to heap: i"
+	f := &Fields{0, &i, nil} // ERROR "&i escapes to heap" "&Fields literal does not escape"
+	sink = *f
+}
+
+func fieldFlow16() {
+	i := 0
+	var f1 Fields
+	f1.p1 = &i // ERROR "&i does not escape"
+	f2 := f1
+	sink = f2.p2
+}
+
+func fieldFlow17() {
+	i := 0 // ERROR "moved to heap: i"
+	var f1 Fields
+	f1.p1 = &i // ERROR "&i escapes to heap"
+	f2 := f1
+	sink = f2.p1
+}
+
+var alwaysFalse = false
+
+func passStruct(f Fields) Fields { // ERROR "leaking param: f to result ~r1"
+	for alwaysFalse {} // don't inline
+	return f
+}
+
+func fieldFlow18() {
+	i := 0
+	var f1 Fields
+	// BOGUS!
+	f1.p1 = &i // ERROR "&i does not escape"
+	f2 := passStruct(f1)
+	sink = f2.p1
+}
+

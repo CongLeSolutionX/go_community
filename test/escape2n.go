@@ -399,7 +399,7 @@ func foo60a(i *int) *int { // ERROR "i does not escape"
 }
 
 // assigning to a struct field  is like assigning to the struct
-func foo61(i *int) *int { // ERROR "leaking param: i"
+func foo61(i *int) *int { // ERROR "i does not escape"
 	type S struct {
 		a, b *int
 	}
