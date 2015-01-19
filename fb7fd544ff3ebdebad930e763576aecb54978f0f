@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb586371_fdb18351",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-19T18:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab390b03_c052deda",
+      "revId": "fb7fd544ff3ebdebad930e763576aecb54978f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab390b03_a04fda32",
         "filename": "src/net/http/fcgi/fcgi_test.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "eb586371_5d7cefda",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-19T18:16:01Z",
+      "side": 1,
+      "message": "I don\u0027t understand. newChild takes a ReadWriteCloser, but bytes.NewReader returns a Reader.",
+      "parentUuid": "ab390b03_a04fda32",
+      "revId": "fb7fd544ff3ebdebad930e763576aecb54978f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab390b03_004de639",
         "filename": "src/net/http/fcgi/fcgi_test.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-01-17T21:20:28Z",
       "side": 1,
       "message": "drop the \"_, _ \u003d \"\n\nOr write:\n\n   io.Copy(ioutil.Discard, r.Body) // ignore errors",
+      "revId": "fb7fd544ff3ebdebad930e763576aecb54978f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_bd59cb87",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5751
+      },
+      "writtenOn": "2015-01-19T18:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab390b03_004de639",
       "revId": "fb7fd544ff3ebdebad930e763576aecb54978f0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
