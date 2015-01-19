@@ -337,6 +337,8 @@ struct	Node
 	// Escape analysis.
 	NodeList* escflowsrc;	// flow(this, src)
 	NodeList* escretval;	// on OCALLxxx, list of dummy return values
+	NodeList* escfields;	// field identifiers for struct ONAMEs
+	Node*     escparam;
 	int	escloopdepth;	// -1: global, 0: return variables, 1:function top level, increased inside function for every loop or label to mark scopes
 
 	Sym*	sym;		// various

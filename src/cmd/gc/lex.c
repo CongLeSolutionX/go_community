@@ -204,9 +204,18 @@ main(int argc, char *argv[])
 	NodeList *l;
 	char *p;
 
-#ifdef	SIGBUS	
-	signal(SIGBUS, fault);
-	signal(SIGSEGV, fault);
+#ifdef	SIGBUS
+	stack_t ss;
+	ss.ss_sp = mal(SIGSTKSZ);
+	ss.ss_size = SIGSTKSZ;
+	ss.ss_flags = 0;
+	sigaltstack(&ss, NULL);
+
+	struct sigaction sa;
+	sa.sa_handler = fault;
+	sa.sa_flags = SA_ONSTACK;
+	sigaction(SIGBUS, &sa, NULL);
+	sigaction(SIGSEGV, &sa, NULL);
 #endif
 
 #ifdef	PLAN9
