@@ -1031,9 +1031,9 @@ dodata(void)
 	sect->align = maxalign(s, SBSS-1);
 	datsize = rnd(datsize, sect->align);
 	sect->vaddr = datsize;
-	linklookup(ctxt, "runtime.data", 0)->sect = sect;
-	linklookup(ctxt, "runtime.edata", 0)->sect = sect;
-	gcdata = linklookup(ctxt, "runtime.gcdata", 0);
+	linklookup(ctxt, "runtime/internal/gc.Data", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/gc.Edata", 0)->sect = sect;
+	gcdata = linklookup(ctxt, "runtime/internal/gc.Gcdata", 0);
 	proggeninit(&gen, gcdata);
 	for(; s != nil && s->type < SBSS; s = s->next) {
 		if(s->type == SINITARR) {
@@ -1055,9 +1055,9 @@ dodata(void)
 	sect->align = maxalign(s, SNOPTRBSS-1);
 	datsize = rnd(datsize, sect->align);
 	sect->vaddr = datsize;
-	linklookup(ctxt, "runtime.bss", 0)->sect = sect;
-	linklookup(ctxt, "runtime.ebss", 0)->sect = sect;
-	gcbss = linklookup(ctxt, "runtime.gcbss", 0);
+	linklookup(ctxt, "runtime/internal/gc.Bss", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/gc.Ebss", 0)->sect = sect;
+	gcbss = linklookup(ctxt, "runtime/internal/gc.Gcbss", 0);
 	proggeninit(&gen, gcbss);
 	for(; s != nil && s->type < SNOPTRBSS; s = s->next) {
 		s->sect = sect;
@@ -1074,8 +1074,8 @@ dodata(void)
 	sect->align = maxalign(s, SNOPTRBSS);
 	datsize = rnd(datsize, sect->align);
 	sect->vaddr = datsize;
-	linklookup(ctxt, "runtime.noptrbss", 0)->sect = sect;
-	linklookup(ctxt, "runtime.enoptrbss", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/finalize.noptrbss", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/finalize.enoptrbss", 0)->sect = sect;
 	for(; s != nil && s->type == SNOPTRBSS; s = s->next) {
 		datsize = aligndatsize(datsize, s);
 		s->sect = sect;
@@ -1083,7 +1083,7 @@ dodata(void)
 		growdatsize(&datsize, s);
 	}
 	sect->len = datsize - sect->vaddr;
-	linklookup(ctxt, "runtime.end", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/schedinit.end", 0)->sect = sect;
 
 	// 6g uses 4-byte relocation offsets, so the entire segment must fit in 32 bits.
 	if(datsize != (uint32)datsize) {
@@ -1186,6 +1186,7 @@ dodata(void)
 	sect->align = maxalign(s, SPCLNTAB-1);
 	datsize = rnd(datsize, sect->align);
 	sect->vaddr = datsize;
+	// TODO(matloob): Fix these once we handle linux and vDSO.
 	linklookup(ctxt, "runtime.symtab", 0)->sect = sect;
 	linklookup(ctxt, "runtime.esymtab", 0)->sect = sect;
 	for(; s != nil && s->type < SPCLNTAB; s = s->next) {
@@ -1202,8 +1203,8 @@ dodata(void)
 	sect->align = maxalign(s, SELFROSECT-1);
 	datsize = rnd(datsize, sect->align);
 	sect->vaddr = datsize;
-	linklookup(ctxt, "runtime.pclntab", 0)->sect = sect;
-	linklookup(ctxt, "runtime.epclntab", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/schedinit.pclntab", 0)->sect = sect;
+	linklookup(ctxt, "runtime/internal/schedinit.epclntab", 0)->sect = sect;
 	for(; s != nil && s->type < SELFROSECT; s = s->next) {
 		datsize = aligndatsize(datsize, s);
 		s->sect = sect;
@@ -1375,25 +1376,25 @@ address(void)
 	xdefine("runtime.typelink", SRODATA, typelink->vaddr);
 	xdefine("runtime.etypelink", SRODATA, typelink->vaddr + typelink->len);
 
-	sym = linklookup(ctxt, "runtime.gcdata", 0);
+	sym = linklookup(ctxt, "runtime/internal/gc.Gcdata", 0);
 	xdefine("runtime.egcdata", SRODATA, symaddr(sym) + sym->size);
 	linklookup(ctxt, "runtime.egcdata", 0)->sect = sym->sect;
 
-	sym = linklookup(ctxt, "runtime.gcbss", 0);
+	sym = linklookup(ctxt, "runtime/internal/gc.Gcbss", 0);
 	xdefine("runtime.egcbss", SRODATA, symaddr(sym) + sym->size);
 	linklookup(ctxt, "runtime.egcbss", 0)->sect = sym->sect;
 
 	xdefine("runtime.symtab", SRODATA, symtab->vaddr);
 	xdefine("runtime.esymtab", SRODATA, symtab->vaddr + symtab->len);
-	xdefine("runtime.pclntab", SRODATA, pclntab->vaddr);
-	xdefine("runtime.epclntab", SRODATA, pclntab->vaddr + pclntab->len);
+	xdefine("runtime/internal/schedinit.pclntab", SRODATA, pclntab->vaddr);
+	xdefine("runtime/internal/schedinit.epclntab", SRODATA, pclntab->vaddr + pclntab->len);
 	xdefine("runtime.noptrdata", SNOPTRDATA, noptr->vaddr);
 	xdefine("runtime.enoptrdata", SNOPTRDATA, noptr->vaddr + noptr->len);
-	xdefine("runtime.bss", SBSS, bss->vaddr);
-	xdefine("runtime.ebss", SBSS, bss->vaddr + bss->len);
-	xdefine("runtime.data", SDATA, data->vaddr);
-	xdefine("runtime.edata", SDATA, data->vaddr + data->len);
-	xdefine("runtime.noptrbss", SNOPTRBSS, noptrbss->vaddr);
-	xdefine("runtime.enoptrbss", SNOPTRBSS, noptrbss->vaddr + noptrbss->len);
-	xdefine("runtime.end", SBSS, segdata.vaddr + segdata.len);
+	xdefine("runtime/internal/gc.Bss", SBSS, bss->vaddr);
+	xdefine("runtime/internal/gc.Ebss", SBSS, bss->vaddr + bss->len);
+	xdefine("runtime/internal/gc.Data", SDATA, data->vaddr);
+	xdefine("runtime/internal/gc.Edata", SDATA, data->vaddr + data->len);
+	xdefine("runtime/internal/finalize.noptrbss", SNOPTRBSS, noptrbss->vaddr);
+	xdefine("runtime/internal/finalize.enoptrbss", SNOPTRBSS, noptrbss->vaddr + noptrbss->len);
+	xdefine("runtime/internal/schedinit.end", SBSS, segdata.vaddr + segdata.len);
 }

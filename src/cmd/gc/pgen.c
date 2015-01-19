@@ -164,12 +164,12 @@ compile(Node *fn)
 	Sym *gclocals;
 
 	if(newproc == N) {
-		newproc = sysfunc("newproc");
-		deferproc = sysfunc("deferproc");
-		deferreturn = sysfunc("deferreturn");
-		panicindex = sysfunc("panicindex");
-		panicslice = sysfunc("panicslice");
-		throwreturn = sysfunc("throwreturn");
+		newproc = sysfunc("newproc", runtimepkg);
+		deferproc = sysfunc("deferproc", runtimepkg);
+		deferreturn = sysfunc("deferreturn", deferspkg);
+		panicindex = sysfunc("panicindex", runtimepkg);
+		panicslice = sysfunc("panicslice", runtimepkg);
+		throwreturn = sysfunc("throwreturn", runtimepkg);
 	}
 
 	lno = setlineno(fn);

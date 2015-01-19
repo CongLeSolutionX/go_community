@@ -1030,9 +1030,9 @@ defgotype(LSym *gotype)
 		newattr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0);
 		nfields = decodetype_ifacemethodcount(gotype);
 		if (nfields == 0)
-			s = lookup_or_diag("type.runtime.eface");
+			s = lookup_or_diag("type.runtime/internal/core.Eface");
 		else
-			s = lookup_or_diag("type.runtime.iface");
+			s = lookup_or_diag("type.runtime/internal/hash.Iface");
 		newrefattr(die, DW_AT_type, defgotype(s));
 		break;
 
@@ -1161,7 +1161,7 @@ synthesizestringtypes(DWDie* die)
 {
 	DWDie *prototype;
 
-	prototype = walktypedef(defgotype(lookup_or_diag("type.runtime._string")));
+	prototype = walktypedef(defgotype(lookup_or_diag("type.runtime/internal/printf.String")));
 	if (prototype == nil)
 		return;
 
@@ -1177,7 +1177,7 @@ synthesizeslicetypes(DWDie *die)
 {
 	DWDie *prototype, *elem;
 
-	prototype = walktypedef(defgotype(lookup_or_diag("type.runtime.slice")));
+	prototype = walktypedef(defgotype(lookup_or_diag("type.runtime/internal/core.Slice")));
 	if (prototype == nil)
 		return;
 
@@ -1186,7 +1186,7 @@ synthesizeslicetypes(DWDie *die)
 			continue;
 		copychildren(die, prototype);
 		elem = (DWDie*) getattr(die, DW_AT_go_elem)->data;
-		substitutetype(die, "array", defptrto(elem));
+		substitutetype(die, "Array", defptrto(elem));
 	}
 }
 
@@ -1221,8 +1221,8 @@ synthesizemaptypes(DWDie *die)
 	int keysize, valsize;
 	DWAttr *a;
 
-	hash		= walktypedef(defgotype(lookup_or_diag("type.runtime.hmap")));
-	bucket		= walktypedef(defgotype(lookup_or_diag("type.runtime.bmap")));
+	hash		= walktypedef(defgotype(lookup_or_diag("type.runtime/internal/maps.Hmap")));
+	bucket		= walktypedef(defgotype(lookup_or_diag("type.runtime/internal/maps.bmap")));
 
 	if (hash == nil)
 		return;
@@ -1319,9 +1319,9 @@ synthesizechantypes(DWDie *die)
 	DWAttr *a;
 	int elemsize, sudogsize;
 
-	sudog = walktypedef(defgotype(lookup_or_diag("type.runtime.sudog")));
-	waitq = walktypedef(defgotype(lookup_or_diag("type.runtime.waitq")));
-	hchan = walktypedef(defgotype(lookup_or_diag("type.runtime.hchan")));
+	sudog = walktypedef(defgotype(lookup_or_diag("type.runtime/internal/core.Sudog")));
+	waitq = walktypedef(defgotype(lookup_or_diag("type.runtime/internal/channels.waitq")));
+	hchan = walktypedef(defgotype(lookup_or_diag("type.runtime/internal/channels.Hchan")));
 	if (sudog == nil || waitq == nil || hchan == nil)
 		return;
 
@@ -1339,7 +1339,7 @@ synthesizechantypes(DWDie *die)
 			mkinternaltypename("sudog",
 				getattr(elemtype, DW_AT_name)->data, nil));
 		copychildren(dws, sudog);
-		substitutetype(dws, "elem", elemtype);
+		substitutetype(dws, "Elem", elemtype);
 		newattr(dws, DW_AT_byte_size, DW_CLS_CONSTANT,
 			sudogsize + (elemsize > 8 ? elemsize - 8 : 0), nil);
 
@@ -1356,8 +1356,8 @@ synthesizechantypes(DWDie *die)
 		dwh = newdie(&dwtypes, DW_ABRV_STRUCTTYPE,
 			mkinternaltypename("hchan", getattr(elemtype, DW_AT_name)->data, nil));
 		copychildren(dwh, hchan);
-		substitutetype(dwh, "recvq", dww);
-		substitutetype(dwh, "sendq", dww);
+		substitutetype(dwh, "Recvq", dww);
+		substitutetype(dwh, "Sendq", dww);
 		newattr(dwh, DW_AT_byte_size, DW_CLS_CONSTANT,
 			getattr(hchan, DW_AT_byte_size)->value, nil);
 
@@ -2066,9 +2066,9 @@ dwarfemitdebugsections(void)
 	newattr(die, DW_AT_go_kind, DW_CLS_CONSTANT, KindUintptr, 0);
 
 	// Needed by the prettyprinter code for interface inspection.
-	defgotype(lookup_or_diag("type.runtime._type"));
-	defgotype(lookup_or_diag("type.runtime.interfacetype"));
-	defgotype(lookup_or_diag("type.runtime.itab"));
+	defgotype(lookup_or_diag("type.runtime/internal/core.Type"));
+	defgotype(lookup_or_diag("type.runtime/internal/core.Interfacetype"));
+	defgotype(lookup_or_diag("type.runtime/internal/core.Itab"));
 
 	genasmsym(defdwsymb);
 
