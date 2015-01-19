@@ -6,6 +6,7 @@ package debug
 
 import (
 	"runtime"
+	"runtime/internal/prof"
 	"sort"
 	"time"
 )
@@ -34,7 +35,7 @@ func ReadGCStats(stats *GCStats) {
 	// to the caller and the other will be used as transfer buffer
 	// for end times history and as a temporary buffer for
 	// computing quantiles.
-	const maxPause = len(((*runtime.MemStats)(nil)).PauseNs)
+	const maxPause = len(((*prof.MemStats)(nil)).PauseNs)
 	if cap(stats.Pause) < 2*maxPause+3 {
 		stats.Pause = make([]time.Duration, 2*maxPause+3)
 	}

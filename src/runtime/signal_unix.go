@@ -6,9 +6,12 @@
 
 package runtime
 
-import _ "unsafe" // for go:linkname
+import (
+	_lock "runtime/internal/lock"
+	_ "unsafe"
+)
 
 //go:linkname os_sigpipe os.sigpipe
 func os_sigpipe() {
-	systemstack(sigpipe)
+	_lock.Systemstack(sigpipe)
 }

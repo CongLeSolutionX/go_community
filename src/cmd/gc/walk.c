@@ -1817,7 +1817,7 @@ walkprint(Node *nn, NodeList **init)
 	// Hoist all the argument evaluation up before the lock.
 	walkexprlistcheap(all, init);
 
-	calls = list(calls, mkcall("printlock", T, init));
+	calls = list(calls, mkcall("Printlock", T, init));
 
 	for(l=all; l; l=l->next) {
 		if(notfirst) {
@@ -1900,7 +1900,7 @@ walkprint(Node *nn, NodeList **init)
 	if(op == OPRINTN)
 		calls = list(calls, mkcall("printnl", T, nil));
 
-	calls = list(calls, mkcall("printunlock", T, init));
+	calls = list(calls, mkcall("Printunlock", T, init));
 
 	typechecklist(calls, Etop);
 	walkexprlist(calls, init);

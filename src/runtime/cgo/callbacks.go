@@ -75,19 +75,19 @@ var _cgo_init = &x_cgo_init
 
 //go:cgo_import_static x_cgo_malloc
 //go:linkname x_cgo_malloc x_cgo_malloc
-//go:linkname _cgo_malloc _cgo_malloc
+//go:linkname _cgo_malloc runtime/internal/cgo.Cgo_malloc
 var x_cgo_malloc byte
 var _cgo_malloc = &x_cgo_malloc
 
 //go:cgo_import_static x_cgo_free
 //go:linkname x_cgo_free x_cgo_free
-//go:linkname _cgo_free _cgo_free
+//go:linkname _cgo_free runtime/internal/cgo.Cgo_free
 var x_cgo_free byte
 var _cgo_free = &x_cgo_free
 
 //go:cgo_import_static x_cgo_thread_start
 //go:linkname x_cgo_thread_start x_cgo_thread_start
-//go:linkname _cgo_thread_start _cgo_thread_start
+//go:linkname _cgo_thread_start runtime/internal/sched.Cgo_thread_start
 var x_cgo_thread_start byte
 var _cgo_thread_start = &x_cgo_thread_start
 

@@ -604,7 +604,7 @@ static struct {
 		"$GOROOT/pkg/obj/$GOHOSTOS_$GOHOSTARCH/libbio.a",
 		"$GOROOT/pkg/obj/$GOHOSTOS_$GOHOSTARCH/lib9.a",
 	}},
-	{"runtime", {
+	{"runtime/internal/schedinit", {
 		"zaexperiment.h",
 		"zversion.go",
 	}},
@@ -882,7 +882,7 @@ install(char *dir)
 		goto out;
 
 	// For package runtime, copy some files into the work space.
-	if(streq(dir, "runtime")) {
+	if(streq(dir, "runtime") || hasprefix(dir, "runtime/")) {
 		copyfile(bpathf(&b, "%s/pkg/%s_%s/textflag.h", goroot, goos, goarch),
 			bpathf(&b1, "%s/src/cmd/ld/textflag.h", goroot), 0);
 		copyfile(bpathf(&b, "%s/pkg/%s_%s/funcdata.h", goroot, goos, goarch),
@@ -947,7 +947,7 @@ install(char *dir)
 		else
 			vadd(&compile, dir);
 
-		if(streq(dir, "runtime")) {
+		if(streq(dir, "runtime") || hasprefix(dir, "runtime/")) {
 			vadd(&compile, "-+");
 			vadd(&compile, "-asmhdr");
 			bpathf(&b1, "%s/go_asm.h", workdir);
@@ -1295,7 +1295,32 @@ static char *buildorder[] = {
 	// back when there were build scripts.  Will have to
 	// be maintained by hand, but shouldn't change very
 	// often.
+	"runtime/internal/core",
+	"runtime/internal/lock",
+	"runtime/internal/sched",
+	"runtime/internal/sem",
+	"runtime/internal/gc",
+	"runtime/internal/prof",
+	"runtime/internal/channels",
+	"runtime/internal/hash",
+	"runtime/internal/heapdump",
+	"runtime/internal/maps",
+	"runtime/internal/netpoll",
+	"runtime/internal/ifacestuff",
+	"runtime/internal/vdso",
+	"runtime/internal/printf",
+	"runtime/internal/strings",
+	"runtime/internal/fp",
+	"runtime/internal/schedinit",
+	"runtime/internal/finalize",
+	"runtime/internal/cgo",
+	"runtime/internal/sync",
+	"runtime/internal/check",
+	"runtime/internal/stackwb",
+	"runtime/internal/defers",
+	"runtime/internal/seq",
 	"runtime",
+	// 	"runtime",
 	"errors",
 	"sync/atomic",
 	"sync",

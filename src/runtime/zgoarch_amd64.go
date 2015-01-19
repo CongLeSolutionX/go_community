@@ -2,8 +2,6 @@
 
 package runtime
 
-const theGoarch = `amd64`
-
 const goarch_386 = 0
 const goarch_amd64 = 1
 const goarch_amd64p32 = 0

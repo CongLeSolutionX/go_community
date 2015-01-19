@@ -14,6 +14,8 @@ import (
 	"fmt"
 	"io"
 	"runtime"
+	"runtime/internal/lock"
+	"runtime/internal/prof"
 	"sort"
 	"strings"
 	"sync"
@@ -358,7 +360,7 @@ func printStackRecord(w io.Writer, stk []uintptr, allFrames bool) {
 
 // Interface to system profiles.
 
-type byInUseBytes []runtime.MemProfileRecord
+type byInUseBytes []prof.MemProfileRecord
 
 func (x byInUseBytes) Len() int           { return len(x) }
 func (x byInUseBytes) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
@@ -372,7 +374,7 @@ func WriteHeapProfile(w io.Writer) error {
 
 // countHeap returns the number of records in the heap profile.
 func countHeap() int {
-	n, _ := runtime.MemProfile(nil, true)
+	n, _ := prof.MemProfile(nil, true)
 	return n
 }
 
@@ -384,14 +386,14 @@ func writeHeap(w io.Writer, debug int) error {
 	// the two calls—so allocate a few extra records for safety
 	// and also try again if we're very unlucky.
 	// The loop should only execute one iteration in the common case.
-	var p []runtime.MemProfileRecord
-	n, ok := runtime.MemProfile(nil, true)
+	var p []prof.MemProfileRecord
+	n, ok := prof.MemProfile(nil, true)
 	for {
 		// Allocate room for a slightly bigger profile,
 		// in case a few more entries have been added
 		// since the call to MemProfile.
-		p = make([]runtime.MemProfileRecord, n+50)
-		n, ok = runtime.MemProfile(p, true)
+		p = make([]prof.MemProfileRecord, n+50)
+		n, ok = prof.MemProfile(p, true)
 		if ok {
 			p = p[0:n]
 			break
@@ -409,7 +411,7 @@ func writeHeap(w io.Writer, debug int) error {
 		w = tw
 	}
 
-	var total runtime.MemProfileRecord
+	var total prof.MemProfileRecord
 	for i := range p {
 		r := &p[i]
 		total.AllocBytes += r.AllocBytes
@@ -424,7 +426,7 @@ func writeHeap(w io.Writer, debug int) error {
 	fmt.Fprintf(w, "heap profile: %d: %d [%d: %d] @ heap/%d\n",
 		total.InUseObjects(), total.InUseBytes(),
 		total.AllocObjects, total.AllocBytes,
-		2*runtime.MemProfileRate)
+		2*lock.MemProfileRate)
 
 	for i := range p {
 		r := &p[i]
@@ -480,13 +482,13 @@ func writeHeap(w io.Writer, debug int) error {
 
 // countThreadCreate returns the size of the current ThreadCreateProfile.
 func countThreadCreate() int {
-	n, _ := runtime.ThreadCreateProfile(nil)
+	n, _ := prof.ThreadCreateProfile(nil)
 	return n
 }
 
 // writeThreadCreate writes the current runtime ThreadCreateProfile to w.
 func writeThreadCreate(w io.Writer, debug int) error {
-	return writeRuntimeProfile(w, debug, "threadcreate", runtime.ThreadCreateProfile)
+	return writeRuntimeProfile(w, debug, "threadcreate", prof.ThreadCreateProfile)
 }
 
 // countGoroutine returns the number of goroutines.
@@ -523,20 +525,20 @@ func writeGoroutineStacks(w io.Writer) error {
 	return err
 }
 
-func writeRuntimeProfile(w io.Writer, debug int, name string, fetch func([]runtime.StackRecord) (int, bool)) error {
+func writeRuntimeProfile(w io.Writer, debug int, name string, fetch func([]prof.StackRecord) (int, bool)) error {
 	// Find out how many records there are (fetch(nil)),
 	// allocate that many records, and get the data.
 	// There's a race—more records might be added between
 	// the two calls—so allocate a few extra records for safety
 	// and also try again if we're very unlucky.
 	// The loop should only execute one iteration in the common case.
-	var p []runtime.StackRecord
+	var p []prof.StackRecord
 	n, ok := fetch(nil)
 	for {
 		// Allocate room for a slightly bigger profile,
 		// in case a few more entries have been added
 		// since the call to ThreadProfile.
-		p = make([]runtime.StackRecord, n+10)
+		p = make([]prof.StackRecord, n+10)
 		n, ok = fetch(p)
 		if ok {
 			p = p[0:n]
@@ -548,7 +550,7 @@ func writeRuntimeProfile(w io.Writer, debug int, name string, fetch func([]runti
 	return printCountProfile(w, debug, name, runtimeProfile(p))
 }
 
-type runtimeProfile []runtime.StackRecord
+type runtimeProfile []prof.StackRecord
 
 func (p runtimeProfile) Len() int              { return len(p) }
 func (p runtimeProfile) Stack(i int) []uintptr { return p[i].Stack() }
@@ -584,7 +586,7 @@ func StartCPUProfile(w io.Writer) error {
 		return fmt.Errorf("cpu profiling already in use")
 	}
 	cpu.profiling = true
-	runtime.SetCPUProfileRate(hz)
+	prof.SetCPUProfileRate(hz)
 	go profileWriter(w)
 	return nil
 }
@@ -611,11 +613,11 @@ func StopCPUProfile() {
 		return
 	}
 	cpu.profiling = false
-	runtime.SetCPUProfileRate(0)
+	prof.SetCPUProfileRate(0)
 	<-cpu.done
 }
 
-type byCycles []runtime.BlockProfileRecord
+type byCycles []prof.BlockProfileRecord
 
 func (x byCycles) Len() int           { return len(x) }
 func (x byCycles) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
@@ -623,17 +625,17 @@ func (x byCycles) Less(i, j int) bool { return x[i].Cycles > x[j].Cycles }
 
 // countBlock returns the number of records in the blocking profile.
 func countBlock() int {
-	n, _ := runtime.BlockProfile(nil)
+	n, _ := prof.BlockProfile(nil)
 	return n
 }
 
 // writeBlock writes the current blocking profile to w.
 func writeBlock(w io.Writer, debug int) error {
-	var p []runtime.BlockProfileRecord
-	n, ok := runtime.BlockProfile(nil)
+	var p []prof.BlockProfileRecord
+	n, ok := prof.BlockProfile(nil)
 	for {
-		p = make([]runtime.BlockProfileRecord, n+50)
-		n, ok = runtime.BlockProfile(p)
+		p = make([]prof.BlockProfileRecord, n+50)
+		n, ok = prof.BlockProfile(p)
 		if ok {
 			p = p[:n]
 			break

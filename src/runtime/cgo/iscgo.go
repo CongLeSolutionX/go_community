@@ -13,7 +13,7 @@ package cgo
 
 import _ "unsafe" // for go:linkname
 
-//go:linkname _iscgo runtime.iscgo
+//go:linkname _iscgo runtime/internal/sched.Iscgo
 var _iscgo bool = true
 
 //go:linkname _needextram runtime.needextram
