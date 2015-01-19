@@ -46,14 +46,14 @@ noreturn(Prog *p)
 	static Sym*	symlist[10];
 
 	if(symlist[0] == S) {
-		symlist[0] = pkglookup("panicindex", runtimepkg);
-		symlist[1] = pkglookup("panicslice", runtimepkg);
-		symlist[2] = pkglookup("throwinit", runtimepkg);
-		symlist[3] = pkglookup("gopanic", runtimepkg);
+		symlist[0] = pkglookup("panicindex", corepkg);
+		symlist[1] = pkglookup("panicslice", corepkg);
+		symlist[2] = pkglookup("throwinit", corepkg);
+		symlist[3] = pkglookup("gopanic", corepkg);
 		symlist[4] = pkglookup("panicwrap", runtimepkg);
-		symlist[5] = pkglookup("throwreturn", runtimepkg);
-		symlist[6] = pkglookup("selectgo", runtimepkg);
-		symlist[7] = pkglookup("block", runtimepkg);
+		symlist[5] = pkglookup("throwreturn", corepkg);
+		symlist[6] = pkglookup("selectgo", corepkg);
+		symlist[7] = pkglookup("block", corepkg);
 	}
 
 	if(p->to.node == nil)

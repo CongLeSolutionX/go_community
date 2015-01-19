@@ -46,8 +46,7 @@
 //	- nr [int]
 //	- r [nr relocations, sorted by off]
 //
-// If type == STEXT, there are a few more fields:
-//
+// If type == STEXT, there are a few more fields://
 //	- args [int]
 //	- locals [int]
 //	- nosplit [int]
@@ -588,8 +587,9 @@ readsym(Link *ctxt, Biobuf *f, char *pkg, char *pn)
 		}
 		if((s->type == SDATA || s->type == SBSS || s->type == SNOPTRBSS) && s->np == 0 && s->nr == 0)
 			goto overwrite;
-		if(s->type != SBSS && s->type != SNOPTRBSS && !dupok && !s->dupok)
+		if(s->type != SBSS && s->type != SNOPTRBSS && !dupok && !s->dupok) {
 			sysfatal("duplicate symbol %s (types %d and %d) in %s and %s", s->name, s->type, t, s->file, pn);
+		}
 		if(s->np > 0) {
 			dup = s;
 			s = linknewsym(ctxt, ".dup", ndup++); // scratch

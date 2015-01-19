@@ -1634,15 +1634,33 @@ deep(Type *t)
 	return nt;
 }
 
+Sym*
+runtimelookup(char *name) {
+	Sym* s;
+	s = pkglookup(name, corepkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, wbpkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, runtimepkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, hashpkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, schedpkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, printfpkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, stringspkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, mapspkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, ifacestuffpkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, seqpkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, deferspkg); if (!(s == S || s->def == N)) goto done;
+	s = pkglookup(name, channelspkg); if (!(s == S || s->def == N)) goto done;
+	fatal("syslook: can't find runtime.%s (see subr.c:runtimelookup)", name);
+ done:
+	return s;
+}
+
 Node*
 syslook(char *name, int copy)
 {
 	Sym *s;
 	Node *n;
 
-	s = pkglookup(name, runtimepkg);
-	if(s == S || s->def == N)
-		fatal("syslook: can't find runtime.%s", name);
+	s = runtimelookup(name);
 
 	if(!copy)
 		return s->def;
@@ -2628,7 +2646,7 @@ hashmem(Type *t)
 	Node *tfn, *n;
 	Sym *sym;
 	
-	sym = pkglookup("memhash", runtimepkg);
+	sym = pkglookup("memhash", hashpkg);
 
 	n = newname(sym);
 	n->class = PFUNC;
@@ -2654,25 +2672,25 @@ hashfor(Type *t)
 	case AMEM:
 		return hashmem(t);
 	case AINTER:
-		sym = pkglookup("interhash", runtimepkg);
+		sym = pkglookup("interhash", hashpkg);
 		break;
 	case ANILINTER:
-		sym = pkglookup("nilinterhash", runtimepkg);
+		sym = pkglookup("nilinterhash", hashpkg);
 		break;
 	case ASTRING:
-		sym = pkglookup("strhash", runtimepkg);
+		sym = pkglookup("strhash", hashpkg);
 		break;
 	case AFLOAT32:
-		sym = pkglookup("f32hash", runtimepkg);
+		sym = pkglookup("f32hash", hashpkg);
 		break;
 	case AFLOAT64:
-		sym = pkglookup("f64hash", runtimepkg);
+		sym = pkglookup("f64hash", hashpkg);
 		break;
 	case ACPLX64:
-		sym = pkglookup("c64hash", runtimepkg);
+		sym = pkglookup("c64hash", hashpkg);
 		break;
 	case ACPLX128:
-		sym = pkglookup("c128hash", runtimepkg);
+		sym = pkglookup("c128hash", hashpkg);
 		break;
 	default:
 		sym = typesymprefix(".hash", t);

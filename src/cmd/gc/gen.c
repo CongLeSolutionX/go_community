@@ -19,11 +19,11 @@ static Label *labellist;
 static Label *lastlabel;
 
 Node*
-sysfunc(char *name)
+sysfunc(char *name, Pkg *pkg)
 {
 	Node *n;
 
-	n = newname(pkglookup(name, runtimepkg));
+	n = newname(pkglookup(name, pkg));
 	n->class = PFUNC;
 	return n;
 }
