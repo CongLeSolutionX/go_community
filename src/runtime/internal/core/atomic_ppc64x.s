@@ -1,0 +1,40 @@
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// +build ppc64 ppc64le
+
+#include "textflag.h"
+
+// uint32 runtime∕internal∕lock·Atomicload(uint32 volatile* addr)
+TEXT runtime∕internal∕lock·Atomicload(SB),NOSPLIT,$-8-12
+	MOVD	0(FP), R3
+	SYNC
+	MOVWZ	0(R3), R3
+	CMPW	R3, R3, CR7
+	BC	4, 30, 1(PC) // bne- cr7,0x4
+	ISYNC
+	MOVW	R3, ret+8(FP)
+	RETURN
+
+// uint64 runtime∕internal∕sched·Atomicload64(uint64 volatile* addr)
+TEXT runtime∕internal∕sched·Atomicload64(SB),NOSPLIT,$-8-16
+	MOVD	0(FP), R3
+	SYNC
+	MOVD	0(R3), R3
+	CMP	R3, R3, CR7
+	BC	4, 30, 1(PC) // bne- cr7,0x4
+	ISYNC
+	MOVD	R3, ret+8(FP)
+	RETURN
+
+// void *runtime∕internal∕prof·Atomicloadp(void *volatile *addr)
+TEXT runtime∕internal∕prof·Atomicloadp(SB),NOSPLIT,$-8-16
+	MOVD	0(FP), R3
+	SYNC
+	MOVD	0(R3), R3
+	CMP	R3, R3, CR7
+	BC	4, 30, 1(PC) // bne- cr7,0x4
+	ISYNC
+	MOVD	R3, ret+8(FP)
+	RETURN

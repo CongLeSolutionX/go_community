@@ -566,7 +566,7 @@ markflood(void)
 static char*
 markextra[] =
 {
-	"runtime.morestack",
+	"runtime/internal/schedinit.morestack",
 	"runtime.morestackx",
 
 	"runtime.morestack00",

@@ -104,7 +104,7 @@ void	mkzgoos(char*, char*);
 void	mkzruntimedefs(char*, char*);
 void	mkzversion(char*, char*);
 void	mkzexperiment(char*, char*);
-
+void	mkzversionschedinit(char*, char*);
 // buildgo.c
 void	mkzdefaultcc(char*, char*);
 
