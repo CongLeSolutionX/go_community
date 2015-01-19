@@ -14,66 +14,66 @@ static struct {
 	// is converted by bisonerrors into the yystate and yychar caused
 	// by that token list.
 
-	{222, ',',
+	{240, ',',
 	"unexpected comma during import block"},
 
-	{32, ';',
+	{42, ';',
 	"missing import path; require quoted string"},
 
-	{380, ';',
+	{402, ';',
 	"missing { after if clause"},
 
-	{401, ';',
+	{423, ';',
 	"missing { after switch clause"},
 
-	{239, ';',
+	{257, ';',
 	"missing { after for clause"},
 
-	{478, LBODY,
+	{504, LBODY,
 	"missing { after for clause"},
 
-	{22, '{',
+	{28, '{',
 	"unexpected semicolon or newline before {"},
 
-	{145, ';',
+	{159, ';',
 	"unexpected semicolon or newline in type declaration"},
 
-	{37, '}',
+	{47, '}',
 	"unexpected } in channel type"},
 	
-	{37, ')',
+	{47, ')',
 	"unexpected ) in channel type"},
 	
-	{37, ',',
+	{47, ',',
 	"unexpected comma in channel type"},
 
-	{441, LELSE,
+	{463, LELSE,
 	"unexpected semicolon or newline before else"},
 
-	{259, ',',
+	{277, ',',
 	"name list not allowed in interface type"},
 
-	{239, LVAR,
+	{257, LVAR,
 	"var declaration not allowed in for initializer"},
 
-	{65, '{',
+	{75, '{',
 	"unexpected { at end of statement"},
 
-	{379, '{',
+	{401, '{',
 	"unexpected { at end of statement"},
 	
-	{126, ';',
+	{140, ';',
 	"argument to go/defer must be function call"},
 	
-	{428, ';',
+	{450, ';',
 	"need trailing comma before newline in composite literal"},
 	
-	{439, ';',
+	{461, ';',
 	"need trailing comma before newline in composite literal"},
 	
-	{113, LNAME,
+	{127, LNAME,
 	"nested func not allowed"},
 
-	{647, ';',
+	{685, ';',
 	"else must be followed by if or statement block"}
 };

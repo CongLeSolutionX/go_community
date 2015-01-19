@@ -185,7 +185,7 @@ loadlib(void)
 	char* cgostrsym;
 
 	if(flag_shared) {
-		s = linklookup(ctxt, "runtime.islibrary", 0);
+		s = linklookup(ctxt, "core.islibrary", 0);
 		s->dupok = 1;
 		adduint8(ctxt, s, 1);
 	}

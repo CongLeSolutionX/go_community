@@ -11,7 +11,7 @@
 *.rej
 *.exe
 .*.swp
-core
+# core
 *.cgo*.go
 *.cgo*.c
 _cgo_*

@@ -26,74 +26,21 @@
 
 package runtime
 
-import "unsafe"
-
-var sig struct {
-	note   note
-	mask   [(_NSIG + 31) / 32]uint32
-	wanted [(_NSIG + 31) / 32]uint32
-	recv   [(_NSIG + 31) / 32]uint32
-	state  uint32
-	inuse  bool
-}
-
-const (
-	sigIdle = iota
-	sigReceiving
-	sigSending
+import (
+	_core "runtime/internal/core"
+	_lock "runtime/internal/lock"
+	_sched "runtime/internal/sched"
+	"unsafe"
 )
-
-// Called from sighandler to send a signal back out of the signal handling thread.
-// Reports whether the signal was sent. If not, the caller typically crashes the program.
-func sigsend(s uint32) bool {
-	bit := uint32(1) << uint(s&31)
-	if !sig.inuse || s < 0 || int(s) >= 32*len(sig.wanted) || sig.wanted[s/32]&bit == 0 {
-		return false
-	}
-
-	// Add signal to outgoing queue.
-	for {
-		mask := sig.mask[s/32]
-		if mask&bit != 0 {
-			return true // signal already in queue
-		}
-		if cas(&sig.mask[s/32], mask, mask|bit) {
-			break
-		}
-	}
-
-	// Notify receiver that queue has new bit.
-Send:
-	for {
-		switch atomicload(&sig.state) {
-		default:
-			throw("sigsend: inconsistent state")
-		case sigIdle:
-			if cas(&sig.state, sigIdle, sigSending) {
-				break Send
-			}
-		case sigSending:
-			// notification already pending
-			break Send
-		case sigReceiving:
-			if cas(&sig.state, sigReceiving, sigIdle) {
-				notewakeup(&sig.note)
-				break Send
-			}
-		}
-	}
-
-	return true
-}
 
 // Called to receive the next queued signal.
 // Must only be called from a single goroutine at a time.
 func signal_recv() uint32 {
 	for {
 		// Serve any signals from local copy.
-		for i := uint32(0); i < _NSIG; i++ {
-			if sig.recv[i/32]&(1<<(i&31)) != 0 {
-				sig.recv[i/32] &^= 1 << (i & 31)
+		for i := uint32(0); i < _core.NSIG; i++ {
+			if _sched.Sig.Recv[i/32]&(1<<(i&31)) != 0 {
+				_sched.Sig.Recv[i/32] &^= 1 << (i & 31)
 				return i
 			}
 		}
@@ -101,58 +48,58 @@ func signal_recv() uint32 {
 		// Wait for updates to be available from signal sender.
 	Receive:
 		for {
-			switch atomicload(&sig.state) {
+			switch _lock.Atomicload(&_sched.Sig.State) {
 			default:
-				throw("signal_recv: inconsistent state")
-			case sigIdle:
-				if cas(&sig.state, sigIdle, sigReceiving) {
-					notetsleepg(&sig.note, -1)
-					noteclear(&sig.note)
+				_lock.Throw("signal_recv: inconsistent state")
+			case _sched.SigIdle:
+				if _sched.Cas(&_sched.Sig.State, _sched.SigIdle, _sched.SigReceiving) {
+					_sched.Notetsleepg(&_sched.Sig.Note, -1)
+					_sched.Noteclear(&_sched.Sig.Note)
 					break Receive
 				}
-			case sigSending:
-				if cas(&sig.state, sigSending, sigIdle) {
+			case _sched.SigSending:
+				if _sched.Cas(&_sched.Sig.State, _sched.SigSending, _sched.SigIdle) {
 					break Receive
 				}
 			}
 		}
 
 		// Incorporate updates from sender into local copy.
-		for i := range sig.mask {
-			sig.recv[i] = xchg(&sig.mask[i], 0)
+		for i := range _sched.Sig.Mask {
+			_sched.Sig.Recv[i] = xchg(&_sched.Sig.Mask[i], 0)
 		}
 	}
 }
 
 // Must only be called from a single goroutine at a time.
 func signal_enable(s uint32) {
-	if !sig.inuse {
+	if !_sched.Sig.Inuse {
 		// The first call to signal_enable is for us
 		// to use for initialization.  It does not pass
 		// signal information in m.
-		sig.inuse = true // enable reception of signals; cannot disable
-		noteclear(&sig.note)
+		_sched.Sig.Inuse = true // enable reception of signals; cannot disable
+		_sched.Noteclear(&_sched.Sig.Note)
 		return
 	}
 
-	if int(s) >= len(sig.wanted)*32 {
+	if int(s) >= len(_sched.Sig.Wanted)*32 {
 		return
 	}
-	sig.wanted[s/32] |= 1 << (s & 31)
+	_sched.Sig.Wanted[s/32] |= 1 << (s & 31)
 	sigenable(s)
 }
 
 // Must only be called from a single goroutine at a time.
 func signal_disable(s uint32) {
-	if int(s) >= len(sig.wanted)*32 {
+	if int(s) >= len(_sched.Sig.Wanted)*32 {
 		return
 	}
-	sig.wanted[s/32] &^= 1 << (s & 31)
+	_sched.Sig.Wanted[s/32] &^= 1 << (s & 31)
 	sigdisable(s)
 }
 
 // This runs on a foreign stack, without an m or a g.  No stack split.
 //go:nosplit
 func badsignal(sig uintptr) {
-	cgocallback(unsafe.Pointer(funcPC(sigsend)), noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig))
+	cgocallback(unsafe.Pointer(_lock.FuncPC(_sched.Sigsend)), _core.Noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig))
 }

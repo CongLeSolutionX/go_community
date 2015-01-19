@@ -566,20 +566,20 @@ markflood(void)
 static char*
 markextra[] =
 {
-	"runtime.morestack",
-	"runtime.morestackx",
+	"runtime/internal/core.morestack",
+	"runtime/internal/core.morestackx",
 
-	"runtime.morestack00",
-	"runtime.morestack10",
-	"runtime.morestack01",
-	"runtime.morestack11",
+	"runtime/internal/core.morestack00",
+	"runtime/internal/core.morestack10",
+	"runtime/internal/core.morestack01",
+	"runtime/internal/core.morestack11",
 
-	"runtime.morestack8",
-	"runtime.morestack16",
-	"runtime.morestack24",
-	"runtime.morestack32",
-	"runtime.morestack40",
-	"runtime.morestack48",
+	"runtime∕internal∕core.morestack8",
+	"runtime∕internal∕core.morestack16",
+	"runtime∕internal∕core.morestack24",
+	"runtime∕internal∕core.morestack32",
+	"runtime∕internal∕core.morestack40",
+	"runtime∕internal∕core.morestack48",
 	
 	// on arm, lock in the div/mod helpers too
 	"_div",
