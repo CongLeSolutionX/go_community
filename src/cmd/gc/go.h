@@ -886,9 +886,20 @@ EXTERN	Pkg*	importpkg;	// package being imported
 EXTERN	Pkg*	structpkg;	// package that declared struct, during import
 EXTERN	Pkg*	builtinpkg;	// fake package for builtins
 EXTERN	Pkg*	gostringpkg;	// fake pkg for Go strings
-EXTERN	Pkg*	itabpkg;	// fake pkg for itab cache
-EXTERN	Pkg*	runtimepkg;	// package runtime
+EXTERN	Pkg*	itabpkg;	  // fake pkg for itab cache
+EXTERN  Pkg*    corepkg;      // package runtime/internal/core
+EXTERN  Pkg*    schedpkg;     // package runtime/internal/sched
+EXTERN  Pkg*    channelspkg;  // package runtime/internal/channels
+EXTERN  Pkg*    mapspkg;      // package runtime/internal/maps
+EXTERN  Pkg*    hashpkg;      // package runtime/internal/hash
+EXTERN  Pkg*    printfpkg;    // package runtime/internal/printf
+EXTERN  Pkg*    stringspkg;   // package runtime/internal/strings
+EXTERN  Pkg*    wbpkg;        // package runtime/internal/stackwb
+EXTERN  Pkg*    deferspkg;    // package runtime/internal/defers
+EXTERN  Pkg*    seqpkg;       // package runtime/internal/seq
+EXTERN	Pkg*	runtimepkg;	  // package runtime
 EXTERN	Pkg*	racepkg;	// package runtime/race
+EXTERN  Pkg*    ifacestuffpkg;  // package runtime/internal/ifacestuff
 EXTERN	Pkg*	stringpkg;	// fake package for C strings
 EXTERN	Pkg*	typepkg;	// fake package for runtime type info (headers)
 EXTERN	Pkg*	typelinkpkg;	// fake package for runtime type info (data)
@@ -898,6 +909,17 @@ EXTERN	Pkg*	trackpkg;	// fake package for field tracking
 EXTERN	Pkg*	rawpkg;	// fake package for raw symbol names
 EXTERN	Pkg*	phash[128];
 EXTERN	int	tptr;		// either TPTR32 or TPTR64
+extern	char*	coreimport;
+extern  char*	channelsimport;
+extern  char*	mapsimport;
+extern  char*	schedimport;
+extern	char*	hashimport;
+extern  char*	ifacestuffimport;
+extern	char*	printfimport;
+extern  char*	stringsimport;
+extern  char*	wbimport;
+extern	char*	defersimport;
+extern  char*	seqimport;
 extern	char*	runtimeimport;
 extern	char*	unsafeimport;
 EXTERN	char*	myimportpath;
@@ -1186,7 +1208,7 @@ void	checklabels(void);
 int	dotoffset(Node *n, int64 *oary, Node **nn);
 void	gen(Node *n);
 void	genlist(NodeList *l);
-Node*	sysfunc(char *name);
+Node*	sysfunc(char *name, Pkg* pkg);
 void	tempname(Node *n, Type *t);
 Node*	temp(Type*);
 
@@ -1407,6 +1429,7 @@ Node*	nodintconst(int64 v);
 Node*	nodfltconst(Mpflt *v);
 Node*	nodnil(void);
 int	parserline(void);
+Sym*    runtimelookup(char *name);
 Sym*	pkglookup(char *name, Pkg *pkg);
 int	powtwo(Node *n);
 Type*	ptrto(Type *t);

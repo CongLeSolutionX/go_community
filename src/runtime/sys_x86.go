@@ -6,34 +6,38 @@
 
 package runtime
 
-import "unsafe"
+import (
+	_core "runtime/internal/core"
+	_lock "runtime/internal/lock"
+	"unsafe"
+)
 
 // adjust Gobuf as it if executed a call to fn with context ctxt
 // and then did an immediate gosave.
-func gostartcall(buf *gobuf, fn, ctxt unsafe.Pointer) {
-	sp := buf.sp
-	if regSize > ptrSize {
-		sp -= ptrSize
+func gostartcall(buf *_core.Gobuf, fn, ctxt unsafe.Pointer) {
+	sp := buf.Sp
+	if _lock.RegSize > _core.PtrSize {
+		sp -= _core.PtrSize
 		*(*uintptr)(unsafe.Pointer(sp)) = 0
 	}
-	sp -= ptrSize
-	*(*uintptr)(unsafe.Pointer(sp)) = buf.pc
-	buf.sp = sp
-	buf.pc = uintptr(fn)
-	buf.ctxt = ctxt
+	sp -= _core.PtrSize
+	*(*uintptr)(unsafe.Pointer(sp)) = buf.Pc
+	buf.Sp = sp
+	buf.Pc = uintptr(fn)
+	buf.Ctxt = ctxt
 }
 
 // Called to rewind context saved during morestack back to beginning of function.
 // To help us, the linker emits a jmp back to the beginning right after the
 // call to morestack. We just have to decode and apply that jump.
-func rewindmorestack(buf *gobuf) {
-	pc := (*[8]byte)(unsafe.Pointer(buf.pc))
+func rewindmorestack(buf *_core.Gobuf) {
+	pc := (*[8]byte)(unsafe.Pointer(buf.Pc))
 	if pc[0] == 0xe9 { // jmp 4-byte offset
-		buf.pc = buf.pc + 5 + uintptr(int64(*(*int32)(unsafe.Pointer(&pc[1]))))
+		buf.Pc = buf.Pc + 5 + uintptr(int64(*(*int32)(unsafe.Pointer(&pc[1]))))
 		return
 	}
 	if pc[0] == 0xeb { // jmp 1-byte offset
-		buf.pc = buf.pc + 2 + uintptr(int64(*(*int8)(unsafe.Pointer(&pc[1]))))
+		buf.Pc = buf.Pc + 2 + uintptr(int64(*(*int8)(unsafe.Pointer(&pc[1]))))
 		return
 	}
 	if pc[0] == 0xcc {
@@ -49,6 +53,6 @@ func rewindmorestack(buf *gobuf) {
 		// running under gdb anyhow.
 		return
 	}
-	print("runtime: pc=", pc, " ", hex(pc[0]), " ", hex(pc[1]), " ", hex(pc[2]), " ", hex(pc[3]), " ", hex(pc[4]), "\n")
-	throw("runtime: misuse of rewindmorestack")
+	print("runtime: pc=", pc, " ", _core.Hex(pc[0]), " ", _core.Hex(pc[1]), " ", _core.Hex(pc[2]), " ", _core.Hex(pc[3]), " ", _core.Hex(pc[4]), "\n")
+	_lock.Throw("runtime: misuse of rewindmorestack")
 }

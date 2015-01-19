@@ -129,6 +129,22 @@ file:
 		xtop = concat(xtop, $4);
 	}
 
+loadsys:
+	loadcore
+	loadmaps
+	loadwb
+	loadsched
+	loadchannels
+	loadhash
+	loadprintf
+	loadstrings
+	loadifacestuff
+	loadseq
+	loaddefers
+	loadruntime
+	{
+	}
+
 package:
 	%prec NotPackage
 	{
@@ -141,19 +157,15 @@ package:
 		mkpackage($2->name);
 	}
 
-/*
- * this loads the definitions for the low-level runtime functions,
- * so that the compiler can generate calls to them,
- * but does not make the name "runtime" visible as a package.
- */
-loadsys:
+loadcore:
 	{
-		importpkg = runtimepkg;
+		importpkg = corepkg;
+		if(debug['A']) {
+			cannedimports("core.builtin", "package core\n\n$$\n\n");
+		} else {
+			cannedimports("core.builtin", coreimport);
+		}
 
-		if(debug['A'])
-			cannedimports("runtime.builtin", "package runtime\n\n$$\n\n");
-		else
-			cannedimports("runtime.builtin", runtimeimport);
 		curio.importsafe = 1;
 	}
 	import_package
@@ -161,6 +173,207 @@ loadsys:
 	{
 		importpkg = nil;
 	}
+
+loadchannels:
+	{
+		importpkg = channelspkg;
+		if(debug['A']) {
+			cannedimports("channels.builtin", "package channels\n\n$$\n\n");
+		} else {
+			cannedimports("channels.builtin", channelsimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadseq:
+	{
+		importpkg = seqpkg;
+		if(debug['A']) {
+			cannedimports("seq.builtin", "package seq\n\n$$\n\n");
+		} else {
+			cannedimports("seq.builtin", seqimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loaddefers:
+	{
+		importpkg = deferspkg;
+		if(debug['A']) {
+			cannedimports("defers.builtin", "package defers\n\n$$\n\n");
+		} else {
+			cannedimports("defers.builtin", defersimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadruntime:
+	{
+		importpkg = runtimepkg;
+		if(debug['A']) {
+			cannedimports("runtime.builtin", "package runtime\n\n$$\n\n");
+		} else {
+			cannedimports("runtime.builtin", runtimeimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadsched:
+	{
+		importpkg = schedpkg;
+		if(debug['A']) {
+			cannedimports("sched.builtin", "package sched\n\n$$\n\n");
+		} else {
+			cannedimports("sched.builtin", schedimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadhash:
+	{
+		importpkg = hashpkg;
+		if(debug['A']) {
+			cannedimports("hash.builtin", "package hash\n\n$$\n\n");
+		} else {
+			cannedimports("hash.builtin", hashimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadprintf:
+	{
+		importpkg = printfpkg;
+		if(debug['A']) {
+			cannedimports("printf.builtin", "package printf\n\n$$\n\n");
+		} else {
+			cannedimports("printf.builtin", printfimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadifacestuff:
+	{
+		importpkg = ifacestuffpkg;
+		if(debug['A']) {
+			cannedimports("ifacestuff.builtin", "package ifacestuff\n\n$$\n\n");
+		} else {
+			cannedimports("ifacestuff.builtin", ifacestuffimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadstrings:
+	{
+		importpkg = stringspkg;
+		if(debug['A']) {
+			cannedimports("strings.builtin", "package strings\n\n$$\n\n");
+		} else {
+			cannedimports("strings.builtin", stringsimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+loadmaps:
+	{
+		importpkg = mapspkg;
+		if(debug['A']) {
+			cannedimports("maps.builtin", "package maps\n\n$$\n\n");
+		} else {
+			cannedimports("maps.builtin", mapsimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+
+/*
+ * this loads the definitions for the low-level runtime functions,
+ * so that the compiler can generate calls to them,
+ * but does not make the name "runtime" visible as a package.
+ */
+loadwb:
+	{
+		importpkg = wbpkg;
+			if(debug['A']) {
+				cannedimports("stackwb.builtin", "package stackwb\n\n$$\n\n");
+			} else {
+				cannedimports("stackwb.builtin", wbimport);
+			}
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
 
 imports:
 |	imports import ';'
