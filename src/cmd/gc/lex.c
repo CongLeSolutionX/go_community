@@ -237,6 +237,42 @@ main(int argc, char *argv[])
 	unsafepkg = mkpkg(strlit("unsafe"));
 	unsafepkg->name = "unsafe";
 
+	// XXX runtime core package
+	corepkg = mkpkg(strlit("runtime/internal/core"));
+	corepkg->name = "core";
+
+    hashpkg = mkpkg(strlit("runtime/internal/hash"));
+	hashpkg->name = "hash";
+	
+    printfpkg = mkpkg(strlit("runtime/internal/printf"));
+	printfpkg->name = "printf";
+
+    ifacestuffpkg = mkpkg(strlit("runtime/internal/ifacestuff"));
+	ifacestuffpkg->name = "ifacestuff";
+
+	channelspkg = mkpkg(strlit("runtime/internal/channels"));
+	channelspkg->name = "channels";
+
+	seqpkg = mkpkg(strlit("runtime/internal/seq"));
+	seqpkg->name = "seq";
+
+	deferspkg = mkpkg(strlit("runtime/internal/defers"));
+	deferspkg->name = "defers";
+
+	
+    stringspkg = mkpkg(strlit("runtime/internal/strings"));
+	stringspkg->name = "strings";
+
+    mapspkg = mkpkg(strlit("runtime/internal/maps"));
+	mapspkg->name = "maps";
+
+	
+	schedpkg = mkpkg(strlit("runtime/internal/sched"));
+	schedpkg->name = "sched";
+	
+	wbpkg = mkpkg(strlit("runtime/internal/stackwb"));
+	wbpkg->name = "stackwb";
+	
 	// real package, referred to by generated runtime calls
 	runtimepkg = mkpkg(strlit("runtime"));
 	runtimepkg->name = "runtime";
