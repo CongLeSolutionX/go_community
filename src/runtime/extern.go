@@ -81,6 +81,12 @@ of the run-time system.
 */
 package runtime
 
+import (
+	_lock "runtime/internal/lock"
+	_sched "runtime/internal/sched"
+	_schedinit "runtime/internal/schedinit"
+)
+
 // Caller reports file and line number information about function invocations on
 // the calling goroutine's stack.  The argument skip is the number of stack frames
 // to ascend, with 0 identifying the caller of Caller.  (For historical reasons the
@@ -92,10 +98,10 @@ func Caller(skip int) (pc uintptr, file string, line int, ok bool) {
 	// and what it called, so that we can see if it
 	// "called" sigpanic.
 	var rpc [2]uintptr
-	if callers(1+skip-1, &rpc[0], 2) < 2 {
+	if _sched.Callers(1+skip-1, &rpc[0], 2) < 2 {
 		return
 	}
-	f := findfunc(rpc[1])
+	f := _lock.Findfunc(rpc[1])
 	if f == nil {
 		// TODO(rsc): Probably a bug?
 		// The C version said "have retpc at least"
@@ -105,14 +111,14 @@ func Caller(skip int) (pc uintptr, file string, line int, ok bool) {
 	}
 	pc = rpc[1]
 	xpc := pc
-	g := findfunc(rpc[0])
+	g := _lock.Findfunc(rpc[0])
 	// All architectures turn faults into apparent calls to sigpanic.
 	// If we see a call to sigpanic, we do not back up the PC to find
 	// the line number of the call instruction, because there is no call.
-	if xpc > f.entry && (g == nil || g.entry != funcPC(sigpanic)) {
+	if xpc > f.Entry && (g == nil || g.Entry != _lock.FuncPC(_sched.Sigpanic)) {
 		xpc--
 	}
-	file, line32 := funcline(f, xpc)
+	file, line32 := _lock.Funcline(f, xpc)
 	line = int(line32)
 	ok = true
 	return
@@ -139,14 +145,14 @@ func Callers(skip int, pc []uintptr) int {
 	if len(pc) == 0 {
 		return 0
 	}
-	return callers(skip, &pc[0], len(pc))
+	return _sched.Callers(skip, &pc[0], len(pc))
 }
 
 // GOROOT returns the root of the Go tree.
 // It uses the GOROOT environment variable, if set,
 // or else the root used during the Go build.
 func GOROOT() string {
-	s := gogetenv("GOROOT")
+	s := _schedinit.Gogetenv("GOROOT")
 	if s != "" {
 		return s
 	}
@@ -157,13 +163,5 @@ func GOROOT() string {
 // It is either the commit hash and date at the time of the build or,
 // when possible, a release tag like "go1.3".
 func Version() string {
-	return theVersion
+	return _schedinit.TheVersion
 }
-
-// GOOS is the running program's operating system target:
-// one of darwin, freebsd, linux, and so on.
-const GOOS string = theGoos
-
-// GOARCH is the running program's architecture target:
-// 386, amd64, or arm.
-const GOARCH string = theGoarch

@@ -347,6 +347,15 @@ symtab(void)
 
 	// Define these so that they'll get put into the symbol table.
 	// data.c:/^address will provide the actual values.
+
+	xdefine("runtime/internal/gc.Bss", SBSS, 0);
+	xdefine("runtime/internal/gc.Ebss", SBSS, 0);
+	xdefine("runtime/internal/gc.Data", SDATA, 0);
+	xdefine("runtime/internal/gc.Edata", SDATA, 0);
+	xdefine("runtime/internal/finalize.noptrbss", SNOPTRBSS, 0);
+	xdefine("runtime/internal/finalize.enoptrbss", SNOPTRBSS, 0);
+	xdefine("runtime/internal/schedinit.end", SBSS, 0);
+
 	xdefine("runtime.text", STEXT, 0);
 	xdefine("runtime.etext", STEXT, 0);
 	xdefine("runtime.typelink", SRODATA, 0);
@@ -355,31 +364,25 @@ symtab(void)
 	xdefine("runtime.erodata", SRODATA, 0);
 	xdefine("runtime.noptrdata", SNOPTRDATA, 0);
 	xdefine("runtime.enoptrdata", SNOPTRDATA, 0);
-	xdefine("runtime.data", SDATA, 0);
-	xdefine("runtime.edata", SDATA, 0);
-	xdefine("runtime.bss", SBSS, 0);
-	xdefine("runtime.ebss", SBSS, 0);
-	xdefine("runtime.noptrbss", SNOPTRBSS, 0);
-	xdefine("runtime.enoptrbss", SNOPTRBSS, 0);
-	xdefine("runtime.end", SBSS, 0);
-	xdefine("runtime.epclntab", SRODATA, 0);
+
+	xdefine("runtime/internal/schedinit.epclntab", SRODATA, 0);
 	xdefine("runtime.esymtab", SRODATA, 0);
 
 	// garbage collection symbols
-	s = linklookup(ctxt, "runtime.gcdata", 0);
+	s = linklookup(ctxt, "runtime/internal/gc.Gcdata", 0);
 	s->type = SRODATA;
 	s->size = 0;
 	s->reachable = 1;
 	xdefine("runtime.egcdata", SRODATA, 0);
 
-	s = linklookup(ctxt, "runtime.gcbss", 0);
+	s = linklookup(ctxt, "runtime/internal/gc.Gcbss", 0);
 	s->type = SRODATA;
 	s->size = 0;
 	s->reachable = 1;
 	xdefine("runtime.egcbss", SRODATA, 0);
 
 	// pseudo-symbols to mark locations of type, string, and go string data.
-	s = linklookup(ctxt, "type.*", 0);
+	s = linklookup(ctxt, "Type.*", 0);
 	s->type = STYPE;
 	s->size = 0;
 	s->reachable = 1;
@@ -411,7 +414,7 @@ symtab(void)
 	for(s = ctxt->allsym; s != S; s = s->allsym) {
 		if(!s->reachable || s->special || s->type != SRODATA)
 			continue;
-		if(strncmp(s->name, "type.", 5) == 0) {
+		if(strncmp(s->name, "Type.", 5) == 0) {
 			s->type = STYPE;
 			s->hide = 1;
 			s->outer = symtype;

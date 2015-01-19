@@ -17,7 +17,7 @@
 // Trap # in AX, args in DI SI DX, return in AX DX
 
 TEXT	·Syscall(SB),NOSPLIT,$0-56
-	CALL	runtime·entersyscall(SB)
+	CALL	runtime∕internal∕cgo·entersyscall(SB)
 	MOVQ	16(SP), DI
 	MOVQ	24(SP), SI
 	MOVQ	32(SP), DX
@@ -31,17 +31,17 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	MOVQ	$-1, 40(SP)	// r1
 	MOVQ	$0, 48(SP)	// r2
 	MOVQ	AX, 56(SP)  // errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB) // EEEK!!!
 	RET
 ok:
 	MOVQ	AX, 40(SP)	// r1
 	MOVQ	DX, 48(SP)	// r2
 	MOVQ	$0, 56(SP)	// errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-80
-	CALL	runtime·entersyscall(SB)
+	CALL	runtime∕internal∕cgo·entersyscall(SB)
 	MOVQ	16(SP), DI
 	MOVQ	24(SP), SI
 	MOVQ	32(SP), DX
@@ -55,13 +55,13 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-80
 	MOVQ	$-1, 64(SP)	// r1
 	MOVQ	$0, 72(SP)	// r2
 	MOVQ	AX, 80(SP)  // errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 ok6:
 	MOVQ	AX, 64(SP)	// r1
 	MOVQ	DX, 72(SP)	// r2
 	MOVQ	$0, 80(SP)	// errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 
 TEXT ·RawSyscall(SB),NOSPLIT,$0-56

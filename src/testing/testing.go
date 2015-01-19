@@ -585,7 +585,7 @@ func RunTests(matchString func(pat, str string) (bool, error), tests []InternalT
 // before runs before all testing.
 func before() {
 	if *memProfileRate > 0 {
-		runtime.MemProfileRate = *memProfileRate
+		*runtime.MemProfileRate = *memProfileRate
 	}
 	if *cpuProfile != "" {
 		f, err := os.Create(toOutputDir(*cpuProfile))
