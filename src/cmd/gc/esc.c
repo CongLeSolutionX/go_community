@@ -195,6 +195,8 @@ static void escflows(EscState*, Node *dst, Node *src);
 static void escflood(EscState*, Node *dst);
 static void escwalk(EscState*, int level, Node *dst, Node *src);
 static void esctag(EscState*, Node *func);
+static Node* escfielddst(EscState *e, Node *n);
+static Node* escfieldsrc(EscState *e, Node *n);
 
 struct EscState {
 	// Fake node that all
@@ -210,6 +212,8 @@ struct EscState {
 	// we create a link funcParam <- x to record that fact.
 	// The funcParam node is handled specially in escflood.
 	Node	funcParam;	
+
+	NodeList*	structs;
 	
 	NodeList*	dsts;		// all dst nodes
 	int	loopdepth;	// for detecting nested loop scopes
@@ -303,6 +307,9 @@ analyze(NodeList *all, int recursive)
 	for(l=all; l; l=l->next)
 		if(l->n->op == ODCLFUNC)
 			esctag(e, l->n);
+
+	for(l=e->structs; l; l=l->next)
+		l->n->escfields = nil;
 
 	if(debug['m']) {
 		for(l=e->noesc; l; l=l->next)
@@ -612,8 +619,9 @@ esc(EscState *e, Node *n, Node *up)
 
 	case OSTRUCTLIT:
 		// Link values to struct.
+		n->escloopdepth = e->loopdepth;
 		for(ll=n->list; ll; ll=ll->next)
-			escassign(e, n, ll->n->right);
+			escassign(e, nod(ODOT, n, ll->n->left), ll->n->right);
 		break;
 	
 	case OPTRLIT:
@@ -621,6 +629,7 @@ esc(EscState *e, Node *n, Node *up)
 		e->noesc = list(e->noesc, n);
 		n->escloopdepth = e->loopdepth;
 		// Contents make it to memory, lose track.
+		// ASSIGN TO N?
 		escassign(e, &e->theSink, n->left);
 		break;
 	
@@ -729,7 +738,7 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OCONVIFACE:
 	case OCONVNOP:
 	case OMAPLIT:
-	case OSTRUCTLIT:
+	//case OSTRUCTLIT:
 	case OCALLPART:
 		break;
 
@@ -737,8 +746,8 @@ escassign(EscState *e, Node *dst, Node *src)
 		if(dst->class == PEXTERN)
 			dst = &e->theSink;
 		break;
-	case ODOT:	      // treat "dst.x  = src" as "dst = src"
-		escassign(e, dst->left, src);
+	case ODOT:
+		escassign(e, escfielddst(e, dst), src);
 		return;
 	case OINDEX:
 		if(isfixedarray(dst->left->type)) {
@@ -771,7 +780,6 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OPTRLIT:
 	case OARRAYLIT:
 	case OMAPLIT:
-	case OSTRUCTLIT:
 	case OMAKECHAN:
 	case OMAKEMAP:
 	case OMAKESLICE:
@@ -779,6 +787,11 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OCLOSURE:
 	case OCALLPART:
 		escflows(e, dst, src);
+		break;
+
+	case OSTRUCTLIT:
+		for(ll=src->list; ll; ll=ll->next)
+			escassign(e, nod(ODOT, dst, ll->n->left), nod(ODOT, src, ll->n->left));
 		break;
 
 	case OCALLMETH:
@@ -794,7 +807,8 @@ escassign(EscState *e, Node *dst, Node *src)
 		// A non-pointer escaping from a struct does not concern us.
 		if(src->type && !haspointers(src->type))
 			break;
-		// fallthrough
+		escassign(e, dst, escfieldsrc(e, src));
+		break;
 	case OCONV:
 	case OCONVIFACE:
 	case OCONVNOP:
@@ -1278,4 +1292,116 @@ esctag(EscState *e, Node *func)
 	}
 
 	curfn = savefn;
+}
+
+static Node*
+escfield(EscState *e, Node *base, Node *fld)
+{
+	NodeList *ll;
+	Node *f;
+
+	if(base->op != ONAME && base->op != OSTRUCTLIT)
+		fatal("escfield: bad base, want ONAME/OSTRUCTLIT, got %O", base->op);
+	if(fld->op != ONAME)
+		fatal("escfield: bad fld, want ONAME, got %O", fld->op);
+	for(ll = base->escfields; ll; ll = ll->next) {
+		if(ll->n->sym == fld->sym)
+			return ll->n;
+	}
+	f = nod(ONAME, N, N);
+	f->sym = fld->sym;
+	f->escloopdepth = base->escloopdepth;
+	base->escfields = list(base->escfields, f);
+	e->structs = list(e->structs, base);
+	escflows(e, base, f);
+	//print("flow: %+N <- %+N\n", base, fld);
+	return f;
+}
+
+static Node*
+escfielddst(EscState *e, Node *n)
+{
+	Node *base;
+
+	if(n->op != ODOT)
+		fatal("escfielddst: want ODOT, got %O", n->op);
+	base = n->left;
+loop:
+	switch(base->op) {
+	case ONAME:
+	case OSTRUCTLIT:
+		break;
+
+	case OINDEX:
+		if(!isfixedarray(base->left->type))
+			return &e->theSink;
+		base = base->left;
+		goto loop;
+	case ODOT:
+		base = escfielddst(e, base);
+		break;
+	case OIND:
+	case ODOTPTR:
+	//case OCALLMETH: // ??? obj.meth().fld
+	//case OCALLINTER: // ??? iface.meth().fld
+	//case ODOTTYPE: // ??? iface.(Type).fld
+		return &e->theSink;
+	default:
+		print("escfielddst: unknown ODOT base: %O\n", base->op);
+		return &e->theSink;
+		//fatal("escfielddst: unknown ODOT base: %O", base->op);
+	}
+
+	if(base == N)
+		fatal("escfielddst: base is nil");
+	if(base == &e->theSink)
+		return base;
+	return escfield(e, base, n->right);
+}
+
+static Node*
+escfieldsrc(EscState *e, Node *n)
+{
+	Node *base;
+
+	if(n->op != ODOT)
+		fatal("escfieldsrc: want ODOT, got %O", n->op);
+	base = n->left;
+loop:
+	switch(base->op) {
+	case ONAME:
+	case OSTRUCTLIT:
+		break;
+
+	case OCONVIFACE:
+		//!!! call escfield recursively?
+		base = base->left;
+		goto loop;
+
+	case OINDEX:
+		if(isfixedarray(base->left->type)) {
+			base = base->left;
+			goto loop;
+		}
+		break;
+	case ODOT:
+		base = escfieldsrc(e, base);
+		break;
+	case OIND:
+	case ODOTPTR:
+	case OCALLMETH: // ??? obj.meth().fld
+	case OCALLINTER: // ??? iface.meth().fld
+	case ODOTTYPE: // ??? iface.(Type).fld
+		return n;
+	default:
+		//print("escfieldsrc: unknown ODOT base: %O\n", base->op);
+		//return &e->theSink;
+		fatal("escfieldsrc: unknown ODOT base: %O", base->op);
+	}
+
+	if(base == N || base == &e->theSink)
+		fatal("escfieldsrc: base is nil or sink");
+	if(base->class == PPARAM || base->class == PPARAMOUT || base->class == PPARAMREF)
+		return base;
+	return escfield(e, base, n->right);
 }

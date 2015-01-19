@@ -115,18 +115,19 @@ func foo19(y int) {
 type Bar struct {
 	i  int
 	ii *int
+	iii *int
 }
 
 func NewBar() *Bar {
-	return &Bar{42, nil} // ERROR "&Bar literal escapes to heap"
+	return &Bar{42, nil, nil} // ERROR "&Bar literal escapes to heap"
 }
 
 func NewBarp(x *int) *Bar { // ERROR "leaking param: x"
-	return &Bar{42, x} // ERROR "&Bar literal escapes to heap"
+	return &Bar{42, x, nil} // ERROR "&Bar literal escapes to heap"
 }
 
 func NewBarp2(x *int) *Bar { // ERROR "x does not escape"
-	return &Bar{*x, nil} // ERROR "&Bar literal escapes to heap"
+	return &Bar{*x, nil, nil} // ERROR "&Bar literal escapes to heap"
 }
 
 func (b *Bar) NoLeak() int { // ERROR "b does not escape"
@@ -149,6 +150,12 @@ func (b Bar) LeaksToo() *int { // ERROR "leaking param: b"
 	v := 0    // ERROR "moved to heap: v"
 	b.ii = &v // ERROR "&v escapes"
 	return b.ii
+}
+
+func (b Bar) LeaksToo2() *int { // ERROR "leaking param: b"
+	v := 0    // ERROR "moved to heap: v"
+	b.ii = &v // ERROR "&v escapes"
+	return b.iii
 }
 
 func (b *Bar) LeaksABit() *int { // ERROR "leaking param b content to result ~r0"
@@ -399,7 +406,7 @@ func foo60a(i *int) *int { // ERROR "i does not escape"
 }
 
 // assigning to a struct field  is like assigning to the struct
-func foo61(i *int) *int { // ERROR "leaking param: i"
+func foo61(i *int) *int { // ERROR "i does not escape"
 	type S struct {
 		a, b *int
 	}
