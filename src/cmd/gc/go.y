@@ -147,13 +147,43 @@ package:
  * but does not make the name "runtime" visible as a package.
  */
 loadsys:
+	loadcore
+	loadlock
+	loadsched
+	loadsem
+	loadgc
+	loadprof
+	loadchannels
+	loadhash
+	loadheapdump
+	loadmaps
+	loadnetpoll
+	loadifacestuff
+	loadvdso
+	loadprintf
+	loadstrings
+	loadfp
+	loadschedinit
+	loadfinalize
+	loadcgo
+	loadsync
+	loadcheck
+	loadstackwb
+	loaddefers
+	loadseq
+	loadruntime
 	{
-		importpkg = runtimepkg;
+	}
 
-		if(debug['A'])
-			cannedimports("runtime.builtin", "package runtime\n\n$$\n\n");
-		else
-			cannedimports("runtime.builtin", runtimeimport);
+loadcore:
+	{
+		importpkg = corepkg;
+		if(debug['A']) {
+			cannedimports("core.builtin", "package core\n\n$$\n\n");
+		} else {
+			cannedimports("core.builtin", coreimport);
+		}
+
 		curio.importsafe = 1;
 	}
 	import_package
@@ -161,6 +191,415 @@ loadsys:
 	{
 		importpkg = nil;
 	}
+
+loadlock:
+	{
+		importpkg = lockpkg;
+		if(debug['A']) {
+			cannedimports("lock.builtin", "package lock\n\n$$\n\n");
+		} else {
+			cannedimports("lock.builtin", lockimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadsched:
+	{
+		importpkg = schedpkg;
+		if(debug['A']) {
+			cannedimports("sched.builtin", "package sched\n\n$$\n\n");
+		} else {
+			cannedimports("sched.builtin", schedimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadsem:
+	{
+		importpkg = sempkg;
+		if(debug['A']) {
+			cannedimports("sem.builtin", "package sem\n\n$$\n\n");
+		} else {
+			cannedimports("sem.builtin", semimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadgc:
+	{
+		importpkg = gcpkg;
+		if(debug['A']) {
+			cannedimports("gc.builtin", "package gc\n\n$$\n\n");
+		} else {
+			cannedimports("gc.builtin", gcimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadprof:
+	{
+		importpkg = profpkg;
+		if(debug['A']) {
+			cannedimports("prof.builtin", "package prof\n\n$$\n\n");
+		} else {
+			cannedimports("prof.builtin", profimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadchannels:
+	{
+		importpkg = channelspkg;
+		if(debug['A']) {
+			cannedimports("channels.builtin", "package channels\n\n$$\n\n");
+		} else {
+			cannedimports("channels.builtin", channelsimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadhash:
+	{
+		importpkg = hashpkg;
+		if(debug['A']) {
+			cannedimports("hash.builtin", "package hash\n\n$$\n\n");
+		} else {
+			cannedimports("hash.builtin", hashimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadheapdump:
+	{
+		importpkg = heapdumppkg;
+		if(debug['A']) {
+			cannedimports("heapdump.builtin", "package heapdump\n\n$$\n\n");
+		} else {
+			cannedimports("heapdump.builtin", heapdumpimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadmaps:
+	{
+		importpkg = mapspkg;
+		if(debug['A']) {
+			cannedimports("maps.builtin", "package maps\n\n$$\n\n");
+		} else {
+			cannedimports("maps.builtin", mapsimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadnetpoll:
+	{
+		importpkg = netpollpkg;
+		if(debug['A']) {
+			cannedimports("netpoll.builtin", "package netpoll\n\n$$\n\n");
+		} else {
+			cannedimports("netpoll.builtin", netpollimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadifacestuff:
+	{
+		importpkg = ifacestuffpkg;
+		if(debug['A']) {
+			cannedimports("ifacestuff.builtin", "package ifacestuff\n\n$$\n\n");
+		} else {
+			cannedimports("ifacestuff.builtin", ifacestuffimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadvdso:
+	{
+		importpkg = vdsopkg;
+		if(debug['A']) {
+			cannedimports("vdso.builtin", "package vdso\n\n$$\n\n");
+		} else {
+			cannedimports("vdso.builtin", vdsoimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadprintf:
+	{
+		importpkg = printfpkg;
+		if(debug['A']) {
+			cannedimports("printf.builtin", "package printf\n\n$$\n\n");
+		} else {
+			cannedimports("printf.builtin", printfimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadstrings:
+	{
+		importpkg = stringspkg;
+		if(debug['A']) {
+			cannedimports("strings.builtin", "package strings\n\n$$\n\n");
+		} else {
+			cannedimports("strings.builtin", stringsimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadfp:
+	{
+		importpkg = fppkg;
+		if(debug['A']) {
+			cannedimports("fp.builtin", "package fp\n\n$$\n\n");
+		} else {
+			cannedimports("fp.builtin", fpimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadschedinit:
+	{
+		importpkg = schedinitpkg;
+		if(debug['A']) {
+			cannedimports("schedinit.builtin", "package schedinit\n\n$$\n\n");
+		} else {
+			cannedimports("schedinit.builtin", schedinitimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadfinalize:
+	{
+		importpkg = finalizepkg;
+		if(debug['A']) {
+			cannedimports("finalize.builtin", "package finalize\n\n$$\n\n");
+		} else {
+			cannedimports("finalize.builtin", finalizeimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadcgo:
+	{
+		importpkg = cgopkg;
+		if(debug['A']) {
+			cannedimports("cgo.builtin", "package cgo\n\n$$\n\n");
+		} else {
+			cannedimports("cgo.builtin", cgoimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadsync:
+	{
+		importpkg = syncpkg;
+		if(debug['A']) {
+			cannedimports("sync.builtin", "package sync\n\n$$\n\n");
+		} else {
+			cannedimports("sync.builtin", syncimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadcheck:
+	{
+		importpkg = checkpkg;
+		if(debug['A']) {
+			cannedimports("check.builtin", "package check\n\n$$\n\n");
+		} else {
+			cannedimports("check.builtin", checkimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadstackwb:
+	{
+		importpkg = stackwbpkg;
+		if(debug['A']) {
+			cannedimports("stackwb.builtin", "package stackwb\n\n$$\n\n");
+		} else {
+			cannedimports("stackwb.builtin", stackwbimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loaddefers:
+	{
+		importpkg = deferspkg;
+		if(debug['A']) {
+			cannedimports("defers.builtin", "package defers\n\n$$\n\n");
+		} else {
+			cannedimports("defers.builtin", defersimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadseq:
+	{
+		importpkg = seqpkg;
+		if(debug['A']) {
+			cannedimports("seq.builtin", "package seq\n\n$$\n\n");
+		} else {
+			cannedimports("seq.builtin", seqimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
+loadruntime:
+	{
+		importpkg = runtimepkg;
+		if(debug['A']) {
+			cannedimports("runtime.builtin", "package runtime\n\n$$\n\n");
+		} else {
+			cannedimports("runtime.builtin", runtimeimport);
+		}
+
+		curio.importsafe = 1;
+	}
+	import_package
+	import_there
+	{
+		importpkg = nil;
+	}
+
 
 imports:
 |	imports import ';'

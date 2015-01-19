@@ -23,7 +23,20 @@ sysfunc(char *name)
 {
 	Node *n;
 
-	n = newname(pkglookup(name, runtimepkg));
+	// TODO(matloob): It would be better to know the correct
+	// package name at the callsite but this is easier to do
+	// for now.
+	Pkg *pkg = runtimepkg;
+	if (strcmp(name, "panicdivide") == 0) pkg = schedpkg;
+	else if (strcmp(name, "newproc") == 0) pkg = runtimepkg;
+	else if (strcmp(name, "deferproc") == 0) pkg = runtimepkg;
+	else if (strcmp(name, "deferreturn") == 0) pkg = deferspkg;
+	else if (strcmp(name, "panicindex") == 0) pkg = runtimepkg;
+	else if (strcmp(name, "panicslice") == 0) pkg = runtimepkg;
+	else if (strcmp(name, "throwreturn") == 0) pkg = runtimepkg;
+	else yyerror("sysfunc: failed to lookup %s", name);
+
+	n = newname(pkglookup(name, pkg));
 	n->class = PFUNC;
 	return n;
 }

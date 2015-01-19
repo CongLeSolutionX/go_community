@@ -264,7 +264,7 @@ addstacksplit(Link *ctxt, LSym *cursym)
 	autosize = 0;
 
 	if(ctxt->symmorestack[0] == nil) {
-		ctxt->symmorestack[0] = linklookup(ctxt, "runtime.morestack", 0);
+		ctxt->symmorestack[0] = linklookup(ctxt, "runtime/internal/schedinit.morestack", 0);
 		ctxt->symmorestack[1] = linklookup(ctxt, "runtime.morestack_noctxt", 0);
 	}
 

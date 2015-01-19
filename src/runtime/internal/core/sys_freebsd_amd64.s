@@ -1,0 +1,358 @@
+// Copyright 2009 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+//
+// System calls and other sys.stuff for AMD64, FreeBSD
+// /usr/src/sys/kern/syscalls.master for syscall numbers.
+//
+
+#include "go_asm.h"
+#include "go_tls.h"
+#include "textflag.h"
+
+// FreeBSD 8, FreeBSD 9, and older versions that I have checked
+// do not restore R10 on Exit from a "restarted" system call
+// if you use the SYSCALL instruction. This means that, for example,
+// if a signal arrives while the wait4 system call is executing,
+// the wait4 internally returns ERESTART, which makes the kernel
+// back up the PC to execute the SYSCALL instruction a second time.
+// However, since the kernel does not restore R10, the fourth
+// argument to the system call has been lost. (FreeBSD 9 also fails
+// to restore the fifth and sixth arguments, R8 and R9, although
+// some earlier versions did restore those correctly.)
+// The broken code is in fast_syscall in FreeBSD's amd64/amd64/exception.S.
+// It restores only DI, SI, DX, AX, and RFLAGS on system call return.
+// http://fxr.watson.org/fxr/source/amd64/amd64/exception.S?v=FREEBSD91#L399
+//
+// The INT $0x80 system call path (int0x80_syscall in FreeBSD's 
+// amd64/ia32/ia32_exception.S) does not have this problem,
+// but it expects the third argument in R10. Instead of rewriting
+// all the assembly in this file, #define SYSCALL to a safe simulation
+// using INT $0x80.
+//
+// INT $0x80 is a little slower than SYSCALL, but correctness wins.
+//
+// See golang.org/issue/6372.
+#define SYSCALL MOVQ R10, CX; INT $0x80
+	
+TEXT runtime·sys_umtx_op(SB),NOSPLIT,$0
+	MOVQ addr+0(FP), DI
+	MOVL mode+8(FP), SI
+	MOVL val+12(FP), DX
+	MOVQ ptr2+16(FP), R10
+	MOVQ ts+24(FP), R8
+	MOVL $454, AX
+	SYSCALL
+	MOVL	AX, ret+32(FP)
+	RET
+
+TEXT runtime·thr_new(SB),NOSPLIT,$0
+	MOVQ param+0(FP), DI
+	MOVL size+8(FP), SI
+	MOVL $455, AX
+	SYSCALL
+	RET
+
+TEXT runtime·thr_start(SB),NOSPLIT,$0
+	MOVQ	DI, R13 // m
+
+	// set up FS to point at m->tls
+	LEAQ	M_Tls(R13), DI
+	CALL	runtime·settls(SB)	// smashes DI
+
+	// set up m, g
+	get_tls(CX)
+	MOVQ	M_G0(R13), DI
+	MOVQ	R13, G_M(DI)
+	MOVQ	DI, g(CX)
+
+	CALL	runtime·stackcheck(SB)
+	CALL	runtime∕internal∕sched·Mstart(SB)
+
+	MOVQ 0, AX			// Crash (not reached)
+
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕core·Exit(SB),NOSPLIT,$-8
+	MOVL	code+0(FP), DI		// arg 1 Exit status
+	MOVL	$1, AX
+	SYSCALL
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+TEXT runtime·exit1(SB),NOSPLIT,$-8
+	MOVL	code+0(FP), DI		// arg 1 Exit status
+	MOVL	$431, AX
+	SYSCALL
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+TEXT runtime∕internal∕hash·open(SB),NOSPLIT,$-8
+	MOVQ	name+0(FP), DI		// arg 1 pathname
+	MOVL	mode+8(FP), SI		// arg 2 flags
+	MOVL	perm+12(FP), DX		// arg 3 mode
+	MOVL	$5, AX
+	SYSCALL
+	MOVL	AX, ret+16(FP)
+	RET
+
+TEXT runtime∕internal∕hash·close(SB),NOSPLIT,$-8
+	MOVL	fd+0(FP), DI		// arg 1 fd
+	MOVL	$6, AX
+	SYSCALL
+	MOVL	AX, ret+8(FP)
+	RET
+
+TEXT runtime∕internal∕hash·read(SB),NOSPLIT,$-8
+	MOVL	fd+0(FP), DI		// arg 1 fd
+	MOVQ	p+8(FP), SI		// arg 2 Buf
+	MOVL	n+16(FP), DX		// arg 3 count
+	MOVL	$3, AX
+	SYSCALL
+	MOVL	AX, ret+24(FP)
+	RET
+
+TEXT runtime∕internal∕core·Write(SB),NOSPLIT,$-8
+	MOVQ	fd+0(FP), DI		// arg 1 fd
+	MOVQ	p+8(FP), SI		// arg 2 Buf
+	MOVL	n+16(FP), DX		// arg 3 count
+	MOVL	$4, AX
+	SYSCALL
+	MOVL	AX, ret+24(FP)
+	RET
+
+TEXT runtime·getrlimit(SB),NOSPLIT,$-8
+	MOVL	kind+0(FP), DI
+	MOVQ	limit+8(FP), SI
+	MOVL	$194, AX
+	SYSCALL
+	MOVL	AX, ret+16(FP)
+	RET
+
+TEXT runtime∕internal∕lock·Raise(SB),NOSPLIT,$16
+	// thr_self(&8(SP))
+	LEAQ	8(SP), DI	// arg 1 &8(SP)
+	MOVL	$432, AX
+	SYSCALL
+	// thr_kill(self, SIGPIPE)
+	MOVQ	8(SP), DI	// arg 1 id
+	MOVL	Sig+0(FP), SI	// arg 2
+	MOVL	$433, AX
+	SYSCALL
+	RET
+
+TEXT runtime∕internal∕sched·setitimer(SB), NOSPLIT, $-8
+	MOVL	mode+0(FP), DI
+	MOVQ	new+8(FP), SI
+	MOVQ	old+16(FP), DX
+	MOVL	$83, AX
+	SYSCALL
+	RET
+
+// func now() (sec int64, nsec int32)
+TEXT time·now(SB), NOSPLIT, $32
+	MOVL	$232, AX
+	MOVQ	$0, DI		// CLOCK_REALTIME
+	LEAQ	8(SP), SI
+	SYSCALL
+	MOVQ	8(SP), AX	// sec
+	MOVQ	16(SP), DX	// nsec
+
+	// sec is in AX, nsec in DX
+	MOVQ	AX, sec+0(FP)
+	MOVL	DX, nsec+8(FP)
+	RET
+
+TEXT runtime∕internal∕lock·Nanotime(SB), NOSPLIT, $32
+	MOVL	$232, AX
+	// We can use CLOCK_MONOTONIC_FAST here when we drop
+	// support for FreeBSD 8-STABLE.
+	MOVQ	$4, DI		// CLOCK_MONOTONIC
+	LEAQ	8(SP), SI
+	SYSCALL
+	MOVQ	8(SP), AX	// sec
+	MOVQ	16(SP), DX	// nsec
+
+	// sec is in AX, nsec in DX
+	// return nsec in AX
+	IMULQ	$1000000000, AX
+	ADDQ	DX, AX
+	MOVQ	AX, ret+0(FP)
+	RET
+
+TEXT runtime∕internal∕lock·Sigaction(SB),NOSPLIT,$-8
+	MOVL	Sig+0(FP), DI		// arg 1 Sig
+	MOVQ	new+8(FP), SI		// arg 2 act
+	MOVQ	old+16(FP), DX		// arg 3 oact
+	MOVL	$416, AX
+	SYSCALL
+	JCC	2(PC)
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+TEXT runtime∕internal∕lock·sigtramp(SB),NOSPLIT,$64
+	get_tls(BX)
+
+	// check that g exists
+	MOVQ	g(BX), R10
+	CMPQ	R10, $0
+	JNE	5(PC)
+	MOVQ	DI, 0(SP)
+	MOVQ	$runtime·badsignal(SB), AX
+	CALL	AX
+	RET
+
+	// Save g
+	MOVQ	R10, 40(SP)
+	
+	// g = m->signal
+	MOVQ	G_M(R10), BP
+	MOVQ	M_Gsignal(BP), BP
+	MOVQ	BP, g(BX)
+	
+	MOVQ	DI, 0(SP)
+	MOVQ	SI, 8(SP)
+	MOVQ	DX, 16(SP)
+	MOVQ	R10, 24(SP)
+
+	CALL	runtime∕internal∕sched·Sighandler(SB)
+
+	// restore g
+	get_tls(BX)
+	MOVQ	40(SP), R10
+	MOVQ	R10, g(BX)
+	RET
+
+TEXT runtime∕internal∕lock·Mmap(SB),NOSPLIT,$0
+	MOVQ	addr+0(FP), DI		// arg 1 addr
+	MOVQ	n+8(FP), SI		// arg 2 len
+	MOVL	prot+16(FP), DX		// arg 3 prot
+	MOVL	flags+20(FP), R10		// arg 4 flags
+	MOVL	fd+24(FP), R8		// arg 5 fid
+	MOVL	off+28(FP), R9		// arg 6 offset
+	MOVL	$477, AX
+	SYSCALL
+	MOVQ	AX, ret+32(FP)
+	RET
+
+TEXT runtime∕internal∕sched·munmap(SB),NOSPLIT,$0
+	MOVQ	addr+0(FP), DI		// arg 1 addr
+	MOVQ	n+8(FP), SI		// arg 2 len
+	MOVL	$73, AX
+	SYSCALL
+	JCC	2(PC)
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+TEXT runtime·madvise(SB),NOSPLIT,$0
+	MOVQ	addr+0(FP), DI
+	MOVQ	n+8(FP), SI
+	MOVL	flags+16(FP), DX
+	MOVQ	$75, AX	// madvise
+	SYSCALL
+	// ignore failure - maybe pages are const_Locked
+	RET
+	
+TEXT runtime∕internal∕core·sigaltstack(SB),NOSPLIT,$-8
+	MOVQ	new+8(SP), DI
+	MOVQ	old+16(SP), SI
+	MOVQ	$53, AX
+	SYSCALL
+	JCC	2(PC)
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+TEXT runtime∕internal∕core·Usleep(SB),NOSPLIT,$16
+	MOVL	$0, DX
+	MOVL	usec+0(FP), AX
+	MOVL	$1000000, CX
+	DIVL	CX
+	MOVQ	AX, 0(SP)		// tv_sec
+	MOVL	$1000, AX
+	MULL	DX
+	MOVQ	AX, 8(SP)		// tv_nsec
+
+	MOVQ	SP, DI			// arg 1 - rqtp
+	MOVQ	$0, SI			// arg 2 - rmtp
+	MOVL	$240, AX		// sys_nanosleep
+	SYSCALL
+	RET
+
+// set tls base to DI
+TEXT runtime·settls(SB),NOSPLIT,$8
+	ADDQ	$16, DI	// adjust for ELF: wants to use -16(FS) and -8(FS) for g and m
+	MOVQ	DI, 0(SP)
+	MOVQ	SP, SI
+	MOVQ	$129, DI	// AMD64_SET_FSBASE
+	MOVQ	$165, AX	// sysarch
+	SYSCALL
+	JCC	2(PC)
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+TEXT runtime·sysctl(SB),NOSPLIT,$0
+	MOVQ	mib+0(FP), DI		// arg 1 - name
+	MOVL	miblen+8(FP), SI		// arg 2 - namelen
+	MOVQ	out+16(FP), DX		// arg 3 - oldp
+	MOVQ	size+24(FP), R10		// arg 4 - oldlenp
+	MOVQ	dst+32(FP), R8		// arg 5 - newp
+	MOVQ	ndst+40(FP), R9		// arg 6 - newlen
+	MOVQ	$202, AX		// sys___sysctl
+	SYSCALL
+	JCC 4(PC)
+	NEGQ	AX
+	MOVL	AX, ret+48(FP)
+	RET
+	MOVL	$0, AX
+	MOVL	AX, ret+48(FP)
+	RET
+
+TEXT runtime∕internal∕core·Osyield(SB),NOSPLIT,$-4
+	MOVL	$331, AX		// sys_sched_yield
+	SYSCALL
+	RET
+
+TEXT runtime∕internal∕core·Sigprocmask(SB),NOSPLIT,$0
+	MOVL	$3, DI			// arg 1 - how (SIG_SETMASK)
+	MOVQ	new+0(FP), SI		// arg 2 - set
+	MOVQ	old+8(FP), DX		// arg 3 - oset
+	MOVL	$340, AX		// sys_sigprocmask
+	SYSCALL
+	JAE	2(PC)
+	MOVL	$0xf1, 0xf1  // Crash
+	RET
+
+// int32 runtime∕internal∕netpoll·kqueue(void);
+TEXT runtime∕internal∕netpoll·kqueue(SB),NOSPLIT,$0
+	MOVQ	$0, DI
+	MOVQ	$0, SI
+	MOVQ	$0, DX
+	MOVL	$362, AX
+	SYSCALL
+	JCC	2(PC)
+	NEGQ	AX
+	MOVL	AX, ret+0(FP)
+	RET
+
+// int32 runtime∕internal∕sched·Kevent(int Kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT runtime∕internal∕sched·Kevent(SB),NOSPLIT,$0
+	MOVL	fd+0(FP), DI
+	MOVQ	ev1+8(FP), SI
+	MOVL	nev1+16(FP), DX
+	MOVQ	ev2+24(FP), R10
+	MOVL	nev2+32(FP), R8
+	MOVQ	ts+40(FP), R9
+	MOVL	$363, AX
+	SYSCALL
+	JCC	2(PC)
+	NEGQ	AX
+	MOVL	AX, ret+48(FP)
+	RET
+
+// void runtime∕internal∕netpoll·closeonexec(int32 fd);
+TEXT runtime∕internal∕netpoll·closeonexec(SB),NOSPLIT,$0
+	MOVL	fd+0(FP), DI	// fd
+	MOVQ	$2, SI		// F_SETFD
+	MOVQ	$1, DX		// FD_CLOEXEC
+	MOVL	$92, AX		// fcntl
+	SYSCALL
+	RET

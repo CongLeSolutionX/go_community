@@ -1054,7 +1054,7 @@ dostkcheck(void)
 	Chain ch;
 	LSym *s;
 
-	morestack = linklookup(ctxt, "runtime.morestack", 0);
+	morestack = linklookup(ctxt, "runtime/internal/schedinit.morestack", 0);
 	newstack = linklookup(ctxt, "runtime.newstack", 0);
 
 	// Every splitting function ensures that there are at least StackLimit
@@ -1164,7 +1164,8 @@ stkcheck(Chain *up, int depth)
 
 				// If this is a call to morestack, we've just raised our limit back
 				// to StackLimit beyond the frame size.
-				if(strncmp(r->sym->name, "runtime.morestack", 17) == 0) {
+				// Check against both morestack and morestack.*
+				if(strncmp(r->sym->name, "runtime/internal/schedinit.morestack", 36) == 0 || strncmp(r->sym->name, "runtime.morestack", 17) == 0) {
 					limit = StackLimit + s->locals;
 					if(HasLinkRegister)
 						limit += RegSize;
@@ -1391,7 +1392,9 @@ genasmsym(void (*put)(LSym*, char*, int, vlong, vlong, int, LSym*))
 		case SNOPTRBSS:
 			if(!s->reachable)
 				continue;
-			if(s->np > 0)
+			// TODO(matloob): The code here doesn't like Gcbss and Gcdata being
+			// exported (initial capitalized letter) identifiers.
+			if(s->np > 0 && !(strcmp(s->name, "runtime/internal/gc.Gcbss") == 0 || strcmp(s->name, "runtime/internal/gc.Gcdata") == 0))
 				diag("%s should not be bss (size=%d type=%d special=%d)", s->name, (int)s->np, s->type, s->special);
 			put(s, s->name, 'B', symaddr(s), s->size, s->version, s->gotype);
 			continue;

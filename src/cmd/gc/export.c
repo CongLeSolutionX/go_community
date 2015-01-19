@@ -443,6 +443,15 @@ importimport(Sym *s, Strlit *z)
 	} else if(strcmp(p->name, s->name) != 0)
 		yyerror("conflicting names %s and %s for package \"%Z\"", p->name, s->name, p->path);
 	
+	// HACK(matloob): Skip cycle check for runtime. There seems to be a hidden
+	// import of the runtime package by other packages, but we know there's
+	// no cycle.
+	//
+	// if(hasprefix(importpkg->path->s, "runtime/")) {
+	if(strncmp(importpkg->path->s, "runtime/", 8) == 0) {
+		return;
+	}
+
 	if(!incannedimport && myimportpath != nil && strcmp(z->s, myimportpath) == 0) {
 		yyerror("import \"%Z\": package depends on \"%Z\" (import cycle)", importpkg->path, z);
 		errorexit();

@@ -237,6 +237,81 @@ main(int argc, char *argv[])
 	unsafepkg = mkpkg(strlit("unsafe"));
 	unsafepkg->name = "unsafe";
 
+	stackwbpkg = mkpkg(strlit("runtime/internal/stackwb"));
+	stackwbpkg->name = "stackwb";
+
+	lockpkg = mkpkg(strlit("runtime/internal/lock"));
+	lockpkg->name = "lock";
+
+	deferspkg = mkpkg(strlit("runtime/internal/defers"));
+	deferspkg->name = "defers";
+
+	schedpkg = mkpkg(strlit("runtime/internal/sched"));
+	schedpkg->name = "sched";
+
+	seqpkg = mkpkg(strlit("runtime/internal/seq"));
+	seqpkg->name = "seq";
+
+	sempkg = mkpkg(strlit("runtime/internal/sem"));
+	sempkg->name = "sem";
+
+	runtimepkg = mkpkg(strlit("runtime"));
+	runtimepkg->name = "runtime";
+
+	gcpkg = mkpkg(strlit("runtime/internal/gc"));
+	gcpkg->name = "gc";
+
+	profpkg = mkpkg(strlit("runtime/internal/prof"));
+	profpkg->name = "prof";
+
+	channelspkg = mkpkg(strlit("runtime/internal/channels"));
+	channelspkg->name = "channels";
+
+	hashpkg = mkpkg(strlit("runtime/internal/hash"));
+	hashpkg->name = "hash";
+
+	heapdumppkg = mkpkg(strlit("runtime/internal/heapdump"));
+	heapdumppkg->name = "heapdump";
+
+	mapspkg = mkpkg(strlit("runtime/internal/maps"));
+	mapspkg->name = "maps";
+
+	netpollpkg = mkpkg(strlit("runtime/internal/netpoll"));
+	netpollpkg->name = "netpoll";
+
+	ifacestuffpkg = mkpkg(strlit("runtime/internal/ifacestuff"));
+	ifacestuffpkg->name = "ifacestuff";
+
+	vdsopkg = mkpkg(strlit("runtime/internal/vdso"));
+	vdsopkg->name = "vdso";
+
+	printfpkg = mkpkg(strlit("runtime/internal/printf"));
+	printfpkg->name = "printf";
+
+	stringspkg = mkpkg(strlit("runtime/internal/strings"));
+	stringspkg->name = "strings";
+
+	fppkg = mkpkg(strlit("runtime/internal/fp"));
+	fppkg->name = "fp";
+
+	schedinitpkg = mkpkg(strlit("runtime/internal/schedinit"));
+	schedinitpkg->name = "schedinit";
+
+	finalizepkg = mkpkg(strlit("runtime/internal/finalize"));
+	finalizepkg->name = "finalize";
+
+	cgopkg = mkpkg(strlit("runtime/internal/cgo"));
+	cgopkg->name = "cgo";
+
+	syncpkg = mkpkg(strlit("runtime/internal/sync"));
+	syncpkg->name = "sync";
+
+	checkpkg = mkpkg(strlit("runtime/internal/check"));
+	checkpkg->name = "check";
+
+	corepkg = mkpkg(strlit("runtime/internal/core"));
+	corepkg->name = "core";
+
 	// real package, referred to by generated runtime calls
 	runtimepkg = mkpkg(strlit("runtime"));
 	runtimepkg->name = "runtime";
