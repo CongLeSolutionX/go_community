@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "eb586371_9d65e702",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_e9339510",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbf1f8b_a92d9dae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -59,6 +83,30 @@
       "writtenOn": "2015-01-16T02:19:08Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_fd6223f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_a92d9dae",
       "range": {
         "startLine": 9,
         "startChar": 8,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "eb586371_3dbe5bd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_496c21f8",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbf1f8b_09eb8907",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 8
@@ -105,6 +177,30 @@
       "writtenOn": "2015-01-16T02:19:08Z",
       "side": 1,
       "message": "numClosed?",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 18
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_5dcd0f94",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_09eb8907",
       "range": {
         "startLine": 215,
         "startChar": 4,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "eb586371_bdb1cb04",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_c9049143",
+      "range": {
+        "startLine": 216,
+        "startChar": 9,
+        "endLine": 216,
+        "endChar": 19
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbf1f8b_0924e9d5",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 8
@@ -151,6 +271,30 @@
       "writtenOn": "2015-01-16T02:19:08Z",
       "side": 1,
       "message": "if this is a line comment for dbmClosed, pls move back to the previous pos. otherwise, you need to make it as a complete sentence.",
+      "range": {
+        "startLine": 253,
+        "startChar": 1,
+        "endLine": 253,
+        "endChar": 68
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_9dae87a2",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_0924e9d5",
       "range": {
         "startLine": 253,
         "startChar": 1,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "eb586371_ddb8ffe4",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_2929adac",
+      "range": {
+        "startLine": 1268,
+        "startChar": 51,
+        "endLine": 1268,
+        "endChar": 63
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbf1f8b_a914bd64",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 8
@@ -197,6 +365,30 @@
       "writtenOn": "2015-01-16T02:19:08Z",
       "side": 1,
       "message": "removeClosedStmtLocked removes (or drops?) blah blah...",
+      "range": {
+        "startLine": 1324,
+        "startChar": 3,
+        "endLine": 1324,
+        "endChar": 16
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_3da77bc7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_a914bd64",
       "range": {
         "startLine": 1324,
         "startChar": 3,
@@ -232,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "eb586371_5da6afc7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Old code tried to chose connection already prepared.  It was first pass.\nSince I removed first pass, I dropped \"another pass\" from this comment.",
+      "parentUuid": "cbbf1f8b_29420d6f",
+      "range": {
+        "startLine": 1384,
+        "startChar": 1,
+        "endLine": 1384,
+        "endChar": 42
+      },
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbf1f8b_c936d103",
         "filename": "src/database/sql/sql_test.go",
         "patchSetId": 8
@@ -243,6 +459,24 @@
       "writtenOn": "2015-01-16T02:19:08Z",
       "side": 1,
       "message": "it think b.Error(err) is enough",
+      "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_bd9a6b78",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1959,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-19T08:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbf1f8b_c936d103",
       "revId": "9030155dbe3d39f9cace1f8e30a82957e1ae80d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
