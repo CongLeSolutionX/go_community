@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb586371_dd391f10",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-19T18:28:41Z",
+      "side": 1,
+      "message": "Should this be CloseWithError and then some errAborted or something?\n\nWe wouldn\u0027t want the handler to get an EOF from the request body and mistakenly take some action if the request was canceled, right?\n\nIf not, this is worth of a comment about why a normal Close is okay.",
+      "revId": "ec13d302296a4bebbb25d612e96fe841980d01b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb586371_40c882b7",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-19T18:28:41Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "ec13d302296a4bebbb25d612e96fe841980d01b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
