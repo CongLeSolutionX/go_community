@@ -5,125 +5,80 @@
 package net
 
 import (
+	"internal/syscall/windows"
 	"os"
 	"syscall"
+	"unicode/utf16"
 	"unsafe"
 )
-
-func bytePtrToString(p *uint8) string {
-	a := (*[10000]uint8)(unsafe.Pointer(p))
-	i := 0
-	for a[i] != 0 {
-		i++
-	}
-	return string(a[:i])
-}
-
-func getAdapterList() (*syscall.IpAdapterInfo, error) {
-	b := make([]byte, 1000)
-	l := uint32(len(b))
-	a := (*syscall.IpAdapterInfo)(unsafe.Pointer(&b[0]))
-	// TODO(mikio): GetAdaptersInfo returns IP_ADAPTER_INFO that
-	// contains IPv4 address list only. We should use another API
-	// for fetching IPv6 stuff from the kernel.
-	err := syscall.GetAdaptersInfo(a, &l)
-	if err == syscall.ERROR_BUFFER_OVERFLOW {
-		b = make([]byte, l)
-		a = (*syscall.IpAdapterInfo)(unsafe.Pointer(&b[0]))
-		err = syscall.GetAdaptersInfo(a, &l)
-	}
-	if err != nil {
-		return nil, os.NewSyscallError("GetAdaptersInfo", err)
-	}
-	return a, nil
-}
-
-func getInterfaceList() ([]syscall.InterfaceInfo, error) {
-	s, err := sysSocket(syscall.AF_INET, syscall.SOCK_DGRAM, syscall.IPPROTO_UDP)
-	if err != nil {
-		return nil, os.NewSyscallError("Socket", err)
-	}
-	defer syscall.Closesocket(s)
-
-	ii := [20]syscall.InterfaceInfo{}
-	ret := uint32(0)
-	size := uint32(unsafe.Sizeof(ii))
-	err = syscall.WSAIoctl(s, syscall.SIO_GET_INTERFACE_LIST, nil, 0, (*byte)(unsafe.Pointer(&ii[0])), size, &ret, nil, 0)
-	if err != nil {
-		return nil, os.NewSyscallError("WSAIoctl", err)
-	}
-	c := ret / uint32(unsafe.Sizeof(ii[0]))
-	return ii[:c-1], nil
-}
 
 // If the ifindex is zero, interfaceTable returns mappings of all
 // network interfaces.  Otherwise it returns a mapping of a specific
 // interface.
 func interfaceTable(ifindex int) ([]Interface, error) {
-	ai, err := getAdapterList()
-	if err != nil {
-		return nil, err
+	var (
+		err error
+		ift []Interface
+	)
+
+	var size uint32
+	err = windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, nil, &size)
+	if err != nil && err.(syscall.Errno) != syscall.ERROR_BUFFER_OVERFLOW {
+		return nil, os.NewSyscallError("GetAdaptersAddresses", err)
 	}
 
-	ii, err := getInterfaceList()
+	c := size / uint32(unsafe.Sizeof(windows.IpAdapterAddresses{}))
+	addrs := make([]windows.IpAdapterAddresses, c)
+	err = windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, &addrs[0], &size)
 	if err != nil {
-		return nil, err
+		return nil, os.NewSyscallError("GetAdaptersAddresses", err)
 	}
 
-	var ift []Interface
-	for ; ai != nil; ai = ai.Next {
-		index := ai.Index
+	var ptable *windows.IpInterfaceNameInfo
+	err = windows.NhpAllocateAndGetInterfaceInfoFromStack(&ptable, &size, true, windows.GetProcessHeap(), 0)
+	if err != nil {
+		return nil, os.NewSyscallError("NhpAllocateAndGetInterfaceInfoFromStack", err)
+	}
+	paddr := &addrs[0]
+	for paddr != nil {
+		index := paddr.IfIndex
+		if paddr.Ipv6IfIndex != 0 {
+			index = paddr.Ipv6IfIndex
+		}
 		if ifindex == 0 || ifindex == int(index) {
 			var flags Flags
-
-			row := syscall.MibIfRow{Index: index}
-			e := syscall.GetIfEntry(&row)
-			if e != nil {
-				return nil, os.NewSyscallError("GetIfEntry", e)
+			if paddr.Flags&windows.IfOperStatusUp != 0 {
+				flags |= windows.IFF_UP
 			}
-
-			for _, ii := range ii {
-				ip := (*syscall.RawSockaddrInet4)(unsafe.Pointer(&ii.Address)).Addr
-				ipv4 := IPv4(ip[0], ip[1], ip[2], ip[3])
-				ipl := &ai.IpAddressList
-				for ipl != nil {
-					ips := bytePtrToString(&ipl.IpAddress.String[0])
-					if ipv4.Equal(parseIPv4(ips)) {
-						break
+			if paddr.IfType&windows.IF_TYPE_SOFTWARE_LOOPBACK != 0 {
+				flags |= windows.IFF_LOOPBACK
+			}
+			tables := (*[100]windows.IpInterfaceNameInfo)(unsafe.Pointer(ptable))
+			for n := 0; n < int(size); n++ {
+				if index == tables[n].Index {
+					if tables[n].AccessType&windows.IF_ACCESS_BROADCAST != 0 {
+						flags |= windows.IFF_BROADCAST
 					}
-					ipl = ipl.Next
-				}
-				if ipl == nil {
-					continue
-				}
-				if ii.Flags&syscall.IFF_UP != 0 {
-					flags |= FlagUp
-				}
-				if ii.Flags&syscall.IFF_LOOPBACK != 0 {
-					flags |= FlagLoopback
-				}
-				if ii.Flags&syscall.IFF_BROADCAST != 0 {
-					flags |= FlagBroadcast
-				}
-				if ii.Flags&syscall.IFF_POINTTOPOINT != 0 {
-					flags |= FlagPointToPoint
-				}
-				if ii.Flags&syscall.IFF_MULTICAST != 0 {
-					flags |= FlagMulticast
+					if tables[n].AccessType&windows.IF_ACCESS_POINT_TO_POINT != 0 {
+						flags |= windows.IFF_POINTOPOINT
+					}
+					if tables[n].AccessType&windows.IF_ACCESS_POINT_TO_MULTI_POINT != 0 {
+						flags |= windows.IFF_MULTICAST
+					}
 				}
 			}
-
-			name := bytePtrToString(&ai.AdapterName[0])
-
 			ifi := Interface{
 				Index:        int(index),
-				MTU:          int(row.Mtu),
-				Name:         name,
-				HardwareAddr: HardwareAddr(row.PhysAddr[:row.PhysAddrLen]),
-				Flags:        flags}
+				MTU:          int(paddr.Mtu),
+				Name:         utf16PtrToString(paddr.FriendlyName),
+				HardwareAddr: HardwareAddr(paddr.PhysicalAddress[:]),
+				Flags:        flags,
+			}
 			ift = append(ift, ifi)
 		}
+		paddr = (*windows.IpAdapterAddresses)(unsafe.Pointer(paddr.Next))
 	}
+
 	return ift, nil
 }
 
@@ -131,28 +86,116 @@ func interfaceTable(ifindex int) ([]Interface, error) {
 // network interfaces.  Otherwise it returns addresses for a specific
 // interface.
 func interfaceAddrTable(ifi *Interface) ([]Addr, error) {
-	ai, err := getAdapterList()
-	if err != nil {
-		return nil, err
+	var (
+		err  error
+		ifat []Addr
+	)
+
+	var size uint32
+	err = windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, nil, &size)
+	if err != nil && err.(syscall.Errno) != syscall.ERROR_BUFFER_OVERFLOW {
+		return nil, os.NewSyscallError("GetAdaptersAddresses", err)
 	}
 
-	var ifat []Addr
-	for ; ai != nil; ai = ai.Next {
-		index := ai.Index
+	c := size / uint32(unsafe.Sizeof(windows.IpAdapterAddresses{}))
+	addrs := make([]windows.IpAdapterAddresses, c)
+	err = windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, &addrs[0], &size)
+	if err != nil {
+		return nil, os.NewSyscallError("GetAdaptersAddresses", err)
+	}
+
+	paddr := &addrs[0]
+	for paddr != nil {
+		index := paddr.IfIndex
+		if paddr.Ipv6IfIndex != 0 {
+			index = paddr.Ipv6IfIndex
+		}
 		if ifi == nil || ifi.Index == int(index) {
-			ipl := &ai.IpAddressList
-			for ; ipl != nil; ipl = ipl.Next {
-				ifa := IPAddr{IP: parseIPv4(bytePtrToString(&ipl.IpAddress.String[0]))}
-				ifat = append(ifat, ifa.toAddr())
+			puni := paddr.FirstUnicastAddress
+			for puni != nil {
+				if puni.Flags&windows.IP_ADAPTER_ADDRESS_DNS_ELIGIBLE != 0 &&
+					puni.Flags&windows.IP_ADAPTER_ADDRESS_TRANSIENT == 0 {
+					if sa, err := puni.Address.Sockaddr.Sockaddr(); err == nil {
+						switch sav := sa.(type) {
+						case *syscall.SockaddrInet4:
+							ifa := &IPNet{IP: make(IP, IPv4len), Mask: CIDRMask(int(puni.OnLinkPrefixLength), 8*IPv4len)}
+							copy(ifa.IP, sav.Addr[:])
+							ifat = append(ifat, ifa)
+						case *syscall.SockaddrInet6:
+							ifa := &IPNet{IP: make(IP, IPv6len), Mask: CIDRMask(int(puni.OnLinkPrefixLength), 8*IPv6len)}
+							copy(ifa.IP, sav.Addr[:])
+							ifat = append(ifat, ifa)
+						}
+					}
+				}
+				puni = (*windows.IpAdapterUnicastAddress)(unsafe.Pointer(puni.Next))
 			}
 		}
+		paddr = (*windows.IpAdapterAddresses)(unsafe.Pointer(paddr.Next))
 	}
+
 	return ifat, nil
 }
 
 // interfaceMulticastAddrTable returns addresses for a specific
 // interface.
 func interfaceMulticastAddrTable(ifi *Interface) ([]Addr, error) {
-	// TODO(mikio): Implement this like other platforms.
-	return nil, nil
+	var (
+		err  error
+		ifat []Addr
+	)
+
+	var size uint32
+	err = windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, nil, &size)
+	if err != nil && err.(syscall.Errno) != syscall.ERROR_BUFFER_OVERFLOW {
+		return nil, os.NewSyscallError("GetAdaptersAddresses", err)
+	}
+
+	c := size / uint32(unsafe.Sizeof(windows.IpAdapterAddresses{}))
+	addrs := make([]windows.IpAdapterAddresses, c)
+	err = windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, &addrs[0], &size)
+	if err != nil {
+		return nil, os.NewSyscallError("GetAdaptersAddresses", err)
+	}
+
+	paddr := &addrs[0]
+	for paddr != nil {
+		index := paddr.IfIndex
+		if paddr.Ipv6IfIndex != 0 {
+			index = paddr.Ipv6IfIndex
+		}
+		if ifi == nil || ifi.Index == int(index) {
+			pmul := paddr.FirstMulticastAddress
+			for pmul != nil {
+				if pmul.Flags&windows.IP_ADAPTER_ADDRESS_DNS_ELIGIBLE != 0 &&
+					pmul.Flags&windows.IP_ADAPTER_ADDRESS_TRANSIENT == 0 {
+					if sa, err := pmul.Address.Sockaddr.Sockaddr(); err == nil {
+						switch sav := sa.(type) {
+						case *syscall.SockaddrInet4:
+							ifa := &IPAddr{IP: make(IP, IPv4len)}
+							copy(ifa.IP, sav.Addr[:])
+							ifat = append(ifat, ifa.toAddr())
+						case *syscall.SockaddrInet6:
+							ifa := &IPAddr{IP: make(IP, IPv6len)}
+							copy(ifa.IP, sav.Addr[:])
+							ifat = append(ifat, ifa.toAddr())
+						}
+					}
+				}
+				pmul = (*windows.IpAdapterMulticastAddress)(unsafe.Pointer(pmul.Next))
+			}
+		}
+		paddr = (*windows.IpAdapterAddresses)(unsafe.Pointer(paddr.Next))
+	}
+
+	return ifat, nil
+}
+
+func utf16PtrToString(p *uint16) string {
+	a := (*[10000]uint16)(unsafe.Pointer(p))
+	i := 0
+	for a[i] != 0 {
+		i++
+	}
+	return string(utf16.Decode(a[:i]))
 }
