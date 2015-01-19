@@ -4,7 +4,14 @@
 
 package runtime
 
-import "unsafe"
+import (
+	_cgo "runtime/internal/cgo"
+	_core "runtime/internal/core"
+	_gc "runtime/internal/gc"
+	_lock "runtime/internal/lock"
+	_sched "runtime/internal/sched"
+	_ "unsafe"
+)
 
 //go:linkname runtime_init runtime.init
 func runtime_init()
@@ -17,22 +24,22 @@ func main_main()
 
 // The main goroutine.
 func main() {
-	g := getg()
+	g := _core.Getg()
 
 	// Racectx of m0->g0 is used only as the parent of the main goroutine.
 	// It must not be used for anything else.
-	g.m.g0.racectx = 0
+	g.M.G0.Racectx = 0
 
 	// Max stack size is 1 GB on 64-bit, 250 MB on 32-bit.
 	// Using decimal instead of binary GB and MB because
 	// they look nicer in the stack overflow failure message.
-	if ptrSize == 8 {
+	if _core.PtrSize == 8 {
 		maxstacksize = 1000000000
 	} else {
 		maxstacksize = 250000000
 	}
 
-	systemstack(newsysmon)
+	_lock.Systemstack(newsysmon)
 
 	// Lock the main goroutine onto this, the main OS thread,
 	// during initialization.  Most programs won't care, but a few
@@ -40,10 +47,10 @@ func main() {
 	// Those can arrange for main.main to run in the main thread
 	// by calling runtime.LockOSThread during initialization
 	// to preserve the lock.
-	lockOSThread()
+	_cgo.LockOSThread()
 
-	if g.m != &m0 {
-		throw("runtime.main not on m0")
+	if g.M != &_core.M0 {
+		_lock.Throw("runtime.main not on m0")
 	}
 
 	runtime_init() // must be before defer
@@ -52,28 +59,28 @@ func main() {
 	needUnlock := true
 	defer func() {
 		if needUnlock {
-			unlockOSThread()
+			_cgo.UnlockOSThread()
 		}
 	}()
 
-	memstats.enablegc = true // now that runtime is initialized, GC is okay
+	_lock.Memstats.Enablegc = true // now that runtime is initialized, GC is okay
 
-	if iscgo {
-		if _cgo_thread_start == nil {
-			throw("_cgo_thread_start missing")
+	if _sched.Iscgo {
+		if _sched.Cgo_thread_start == nil {
+			_lock.Throw("_cgo_thread_start missing")
 		}
-		if _cgo_malloc == nil {
-			throw("_cgo_malloc missing")
+		if _cgo.Cgo_malloc == nil {
+			_lock.Throw("_cgo_malloc missing")
 		}
-		if _cgo_free == nil {
-			throw("_cgo_free missing")
+		if _cgo.Cgo_free == nil {
+			_lock.Throw("_cgo_free missing")
 		}
-		if GOOS != "windows" {
+		if _lock.GOOS != "windows" {
 			if _cgo_setenv == nil {
-				throw("_cgo_setenv missing")
+				_lock.Throw("_cgo_setenv missing")
 			}
 			if _cgo_unsetenv == nil {
-				throw("_cgo_unsetenv missing")
+				_lock.Throw("_cgo_unsetenv missing")
 			}
 		}
 	}
@@ -81,10 +88,10 @@ func main() {
 	main_init()
 
 	needUnlock = false
-	unlockOSThread()
+	_cgo.UnlockOSThread()
 
 	main_main()
-	if raceenabled {
+	if _sched.Raceenabled {
 		racefini()
 	}
 
@@ -92,11 +99,11 @@ func main() {
 	// another goroutine at the same time as main returns,
 	// let the other goroutine finish printing the panic trace.
 	// Once it does, it will exit. See issue 3934.
-	if panicking != 0 {
-		gopark(nil, nil, "panicwait")
+	if _lock.Panicking != 0 {
+		_sched.Gopark(nil, nil, "panicwait")
 	}
 
-	exit(0)
+	_core.Exit(0)
 	for {
 		var x *int32
 		*x = 0
@@ -109,130 +116,30 @@ func init() {
 }
 
 func forcegchelper() {
-	forcegc.g = getg()
-	forcegc.g.issystem = true
+	forcegc.g = _core.Getg()
+	forcegc.g.Issystem = true
 	for {
-		lock(&forcegc.lock)
+		_lock.Lock(&forcegc.lock)
 		if forcegc.idle != 0 {
-			throw("forcegc: phase error")
+			_lock.Throw("forcegc: phase error")
 		}
-		atomicstore(&forcegc.idle, 1)
-		goparkunlock(&forcegc.lock, "force gc (idle)")
+		_lock.Atomicstore(&forcegc.idle, 1)
+		_sched.Goparkunlock(&forcegc.lock, "force gc (idle)")
 		// this goroutine is explicitly resumed by sysmon
-		if debug.gctrace > 0 {
+		if _lock.Debug.Gctrace > 0 {
 			println("GC forced")
 		}
-		gogc(1)
+		_gc.Gogc(1)
 	}
-}
-
-//go:nosplit
-
-// Gosched yields the processor, allowing other goroutines to run.  It does not
-// suspend the current goroutine, so execution resumes automatically.
-func Gosched() {
-	mcall(gosched_m)
-}
-
-// Puts the current goroutine into a waiting state and calls unlockf.
-// If unlockf returns false, the goroutine is resumed.
-func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason string) {
-	mp := acquirem()
-	gp := mp.curg
-	status := readgstatus(gp)
-	if status != _Grunning && status != _Gscanrunning {
-		throw("gopark: bad g status")
-	}
-	mp.waitlock = lock
-	mp.waitunlockf = *(*unsafe.Pointer)(unsafe.Pointer(&unlockf))
-	gp.waitreason = reason
-	releasem(mp)
-	// can't do anything that might move the G between Ms here.
-	mcall(park_m)
-}
-
-// Puts the current goroutine into a waiting state and unlocks the lock.
-// The goroutine can be made runnable again by calling goready(gp).
-func goparkunlock(lock *mutex, reason string) {
-	gopark(parkunlock_c, unsafe.Pointer(lock), reason)
-}
-
-func goready(gp *g) {
-	systemstack(func() {
-		ready(gp)
-	})
-}
-
-//go:nosplit
-func acquireSudog() *sudog {
-	c := gomcache()
-	s := c.sudogcache
-	if s != nil {
-		if s.elem != nil {
-			throw("acquireSudog: found s.elem != nil in cache")
-		}
-		c.sudogcache = s.next
-		s.next = nil
-		return s
-	}
-
-	// Delicate dance: the semaphore implementation calls
-	// acquireSudog, acquireSudog calls new(sudog),
-	// new calls malloc, malloc can call the garbage collector,
-	// and the garbage collector calls the semaphore implementation
-	// in stoptheworld.
-	// Break the cycle by doing acquirem/releasem around new(sudog).
-	// The acquirem/releasem increments m.locks during new(sudog),
-	// which keeps the garbage collector from being invoked.
-	mp := acquirem()
-	p := new(sudog)
-	if p.elem != nil {
-		throw("acquireSudog: found p.elem != nil after new")
-	}
-	releasem(mp)
-	return p
-}
-
-//go:nosplit
-func releaseSudog(s *sudog) {
-	if s.elem != nil {
-		throw("runtime: sudog with non-nil elem")
-	}
-	if s.selectdone != nil {
-		throw("runtime: sudog with non-nil selectdone")
-	}
-	if s.next != nil {
-		throw("runtime: sudog with non-nil next")
-	}
-	if s.prev != nil {
-		throw("runtime: sudog with non-nil prev")
-	}
-	if s.waitlink != nil {
-		throw("runtime: sudog with non-nil waitlink")
-	}
-	gp := getg()
-	if gp.param != nil {
-		throw("runtime: releaseSudog with non-nil gp.param")
-	}
-	c := gomcache()
-	s.next = c.sudogcache
-	c.sudogcache = s
-}
-
-// funcPC returns the entry PC of the function f.
-// It assumes that f is a func value. Otherwise the behavior is undefined.
-//go:nosplit
-func funcPC(f interface{}) uintptr {
-	return **(**uintptr)(add(unsafe.Pointer(&f), ptrSize))
 }
 
 // called from assembly
-func badmcall(fn func(*g)) {
-	throw("runtime: mcall called on m->g0 stack")
+func badmcall(fn func(*_core.G)) {
+	_lock.Throw("runtime: mcall called on m->g0 stack")
 }
 
-func badmcall2(fn func(*g)) {
-	throw("runtime: mcall function returned")
+func badmcall2(fn func(*_core.G)) {
+	_lock.Throw("runtime: mcall function returned")
 }
 
 func badreflectcall() {
@@ -240,35 +147,6 @@ func badreflectcall() {
 }
 
 func lockedOSThread() bool {
-	gp := getg()
-	return gp.lockedm != nil && gp.m.lockedg != nil
-}
-
-func newP() *p {
-	return new(p)
-}
-
-func newM() *m {
-	return new(m)
-}
-
-func newG() *g {
-	return new(g)
-}
-
-var (
-	allgs    []*g
-	allglock mutex
-)
-
-func allgadd(gp *g) {
-	if readgstatus(gp) == _Gidle {
-		throw("allgadd: bad status Gidle")
-	}
-
-	lock(&allglock)
-	allgs = append(allgs, gp)
-	allg = &allgs[0]
-	allglen = uintptr(len(allgs))
-	unlock(&allglock)
+	gp := _core.Getg()
+	return gp.Lockedm != nil && gp.M.Lockedg != nil
 }

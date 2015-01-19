@@ -705,7 +705,7 @@ dodiv(int op, Node *nl, Node *nr, Node *res)
 		gins(optoas(OCMP, t), &n3, &n4);
 		p1 = gbranch(optoas(ONE, t), T, +1);
 		if(panicdiv == N)
-			panicdiv = sysfunc("panicdivide");
+			panicdiv = sysfunc("panicdivide", schedpkg);
 		ginscall(panicdiv, -1);
 		patch(p1, pc);
 	}

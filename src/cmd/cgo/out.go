@@ -1169,18 +1169,18 @@ void *_CMalloc(size_t);
 `
 
 const goProlog = `
-//go:linkname _cgo_runtime_cgocall_errno runtime.cgocall_errno
+//go:linkname _cgo_runtime_cgocall_errno runtime/internal/cgo.cgocall_errno
 func _cgo_runtime_cgocall_errno(unsafe.Pointer, uintptr) int32
 
-//go:linkname _cgo_runtime_cmalloc runtime.cmalloc
+//go:linkname _cgo_runtime_cmalloc runtime/internal/cgo.cmalloc
 func _cgo_runtime_cmalloc(uintptr) unsafe.Pointer
 
-//go:linkname _cgo_runtime_cgocallback runtime.cgocallback
+//go:linkname _cgo_runtime_cgocallback runtime/internal/cgo.cgocallback
 func _cgo_runtime_cgocallback(unsafe.Pointer, unsafe.Pointer, uintptr)
 `
 
 const goStringDef = `
-//go:linkname _cgo_runtime_gostring runtime.gostring
+//go:linkname _cgo_runtime_gostring runtime/internal/strings.gostring
 func _cgo_runtime_gostring(*_Ctype_char) string
 
 func _Cfunc_GoString(p *_Ctype_char) string {
