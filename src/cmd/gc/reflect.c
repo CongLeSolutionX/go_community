@@ -727,7 +727,7 @@ dcommontype(Sym *s, int ot, Type *t)
 
 	sizeofAlg = 2*widthptr;
 	if(algarray == nil)
-		algarray = pkglookup("algarray", runtimepkg);
+		algarray = pkglookup("algarray", hashpkg);
 	dowidth(t);
 	alg = algtype(t);
 	algsym = S;

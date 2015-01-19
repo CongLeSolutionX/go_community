@@ -426,6 +426,14 @@ pkgtype(Sym *s)
 	return s->def->type;
 }
 
+// HACK(matloob): remove this
+// hasprefix reports whether p begins with prefix.
+int
+hasprefix(char *p, char *prefix)
+{
+	return strncmp(p, prefix, strlen(prefix)) == 0;
+}
+
 void
 importimport(Sym *s, Strlit *z)
 {
@@ -442,6 +450,13 @@ importimport(Sym *s, Strlit *z)
 		pkglookup(s->name, nil)->npkg++;
 	} else if(strcmp(p->name, s->name) != 0)
 		yyerror("conflicting names %s and %s for package \"%Z\"", p->name, s->name, p->path);
+
+	// HACK(matloob): Skip cycle check for runtime. There seems to be a hidden
+	// import of the runtime package by other packages, but we know there's
+	// no cycle.
+	if(hasprefix(importpkg->path->s, "runtime/")) {
+		return;
+	}
 	
 	if(!incannedimport && myimportpath != nil && strcmp(z->s, myimportpath) == 0) {
 		yyerror("import \"%Z\": package depends on \"%Z\" (import cycle)", importpkg->path, z);

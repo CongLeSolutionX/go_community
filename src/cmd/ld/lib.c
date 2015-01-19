@@ -185,11 +185,12 @@ loadlib(void)
 	char* cgostrsym;
 
 	if(flag_shared) {
-		s = linklookup(ctxt, "runtime.islibrary", 0);
+		s = linklookup(ctxt, "core.islibrary", 0);
 		s->dupok = 1;
 		adduint8(ctxt, s, 1);
 	}
 
+	loadinternal("runtime/internal/core");
 	loadinternal("runtime");
 	if(thechar == '5')
 		loadinternal("math");
@@ -458,7 +459,9 @@ const char *internalpkg[] = {
 	"net",
 	"os/user",
 	"runtime/cgo",
-	"runtime/race"
+	"runtime/race",
+	// XXX inserting runtime packages here
+	"runtime/internal/core"
 };
 
 void
@@ -1121,8 +1124,9 @@ stkcheck(Chain *up, int depth)
 		// external function.
 		// should never be called directly.
 		// only diagnose the direct caller.
+		
 		if(depth == 1 && s->type != SXREF)
-			diag("call to external function %s", s->name);
+		  diag("call to external function %s", s->name);
 		return -1;
 	}
 
@@ -1164,6 +1168,7 @@ stkcheck(Chain *up, int depth)
 
 				// If this is a call to morestack, we've just raised our limit back
 				// to StackLimit beyond the frame size.
+				//if(strncmp(r->sym->name, "runtime/internal/core.morestack", 17) == 0) {
 				if(strncmp(r->sym->name, "runtime.morestack", 17) == 0) {
 					limit = StackLimit + s->locals;
 					if(HasLinkRegister)

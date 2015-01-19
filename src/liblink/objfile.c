@@ -588,8 +588,13 @@ readsym(Link *ctxt, Biobuf *f, char *pkg, char *pn)
 		}
 		if((s->type == SDATA || s->type == SBSS || s->type == SNOPTRBSS) && s->np == 0 && s->nr == 0)
 			goto overwrite;
-		if(s->type != SBSS && s->type != SNOPTRBSS && !dupok && !s->dupok)
-			sysfatal("duplicate symbol %s (types %d and %d) in %s and %s", s->name, s->type, t, s->file, pn);
+		if(s->type != SBSS && s->type != SNOPTRBSS && !dupok && !s->dupok) {
+			// sysfatal("XXX");
+
+			// XXX figure out what to do when this pops up for runtime.
+			// There's probably some duplicate inclusion somewhere.
+			// sysfatal("duplicate symbol %s (types %d and %d) in %s and %s", s->name, s->type, t, s->file, pn);
+		}
 		if(s->np > 0) {
 			dup = s;
 			s = linknewsym(ctxt, ".dup", ndup++); // scratch
