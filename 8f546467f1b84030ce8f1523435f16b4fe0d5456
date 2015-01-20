@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb5d5f61_3cae5d29",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-20T17:55:14Z",
+      "side": 1,
+      "message": "// inQEMU is whether the tests are running inside QEMU,\n// which isn\u0027t perfect at emulating everything. \n// This controls whether some test failures are ignored.\n// The environment variable is set by certain Go builders.\n// See golang.org/issue/9605",
+      "revId": "8f546467f1b84030ce8f1523435f16b4fe0d5456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5d5f61_9c6cc974",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-20T17:55:14Z",
+      "side": 1,
+      "message": "var inQEMU \u003d os.Getenv(\"IN_QEMU\") \u003d\u003d \"1\"\n\nNo need for the init block.\n\nAnd inQEMU per https://github.com/golang/go/wiki/CodeReviewComments#initialisms ... QEMU seems to be an acronym and is always written in the same case.",
+      "revId": "8f546467f1b84030ce8f1523435f16b4fe0d5456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5d5f61_7cb8d567",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-20T17:55:14Z",
+      "side": 1,
+      "message": "\"skipping test in QEMU; see ...\"",
+      "revId": "8f546467f1b84030ce8f1523435f16b4fe0d5456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5d5f61_5cbd1156",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-20T17:55:14Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "8f546467f1b84030ce8f1523435f16b4fe0d5456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
