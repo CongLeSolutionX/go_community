@@ -12,6 +12,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 )
@@ -88,6 +89,7 @@ func bootstrapBuildTools() {
 	// Copy binaries into tool binary directory.
 	for _, name := range bootstrapDirs {
 		if !strings.Contains(name, "/") {
+			fmt.Printf("install %s %s\n", pathf("%s/%s%s", tooldir, name, exe), pathf("%s/bin/%s%s", workspace, name, exe))
 			copyfile(pathf("%s/%s%s", tooldir, name, exe), pathf("%s/bin/%s%s", workspace, name, exe), 1)
 		}
 	}
