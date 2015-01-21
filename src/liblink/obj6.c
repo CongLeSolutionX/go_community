@@ -276,11 +276,6 @@ progedit(Link *ctxt, Prog *p)
 			memmove(&i32, &f32, 4);
 			sprint(literal, "$f32.%08ux", i32);
 			s = linklookup(ctxt, literal, 0);
-			if(s->type == 0) {
-				s->type = SRODATA;
-				adduint32(ctxt, s, i32);
-				s->reachable = 0;
-			}
 			p->from.type = D_EXTERN;
 			p->from.sym = s;
 			p->from.offset = 0;
@@ -320,11 +315,6 @@ progedit(Link *ctxt, Prog *p)
 			memmove(&i64, &p->from.u.dval, 8);
 			sprint(literal, "$f64.%016llux", i64);
 			s = linklookup(ctxt, literal, 0);
-			if(s->type == 0) {
-				s->type = SRODATA;
-				adduint64(ctxt, s, i64);
-				s->reachable = 0;
-			}
 			p->from.type = D_EXTERN;
 			p->from.sym = s;
 			p->from.offset = 0;
