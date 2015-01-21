@@ -52,6 +52,24 @@
       "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_330a10c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T10:09:17Z",
+      "side": 1,
+      "message": "Okay, I added simple test to check net.Interface#Addr#String() is contained in output of ipconfig.\nBut output of ipconfig is a strings in my locale, so couldn\u0027t check Interafce#Name(). I tried to parse output of \"netsh interface show interface\". But it\u0027s not have regularity format.",
+      "parentUuid": "4beecfc7_b3c5604f",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
