@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "4beecfc7_93b2e464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "I\u0027ve make address by PrefixLen in the change. So should be work.",
+      "parentUuid": "4beecfc7_938784a4",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4beecfc7_f326c822",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 3
@@ -102,6 +120,30 @@
       "writtenOn": "2015-01-21T12:53:23Z",
       "side": 1,
       "message": "delete bytePtrToString if unsed",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_13f0b420",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_f326c822",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -131,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "4beecfc7_f3bfe82a",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_d30aac90",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4beecfc7_331970ea",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 3
@@ -142,6 +202,24 @@
       "writtenOn": "2015-01-21T12:53:23Z",
       "side": 1,
       "message": "drop blank line",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_33eb303a",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_331970ea",
       "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -165,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "4beecfc7_73e5b862",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_33f0503a",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4beecfc7_7313f8c9",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 3
@@ -176,6 +272,24 @@
       "writtenOn": "2015-01-21T12:53:23Z",
       "side": 1,
       "message": "no error check?",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_53ea3c32",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_7313f8c9",
       "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -205,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "4beecfc7_53a35c0e",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_73fad819",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 54
+      },
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4beecfc7_932944f5",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 3
@@ -222,6 +360,24 @@
     },
     {
       "key": {
+        "uuid": "4beecfc7_b3de0095",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_932944f5",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4beecfc7_53ffdc07",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 3
@@ -233,6 +389,30 @@
       "writtenOn": "2015-01-21T12:53:23Z",
       "side": 1,
       "message": "use a type switch",
+      "range": {
+        "startLine": 174,
+        "startChar": 6,
+        "endLine": 174,
+        "endChar": 54
+      },
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_739e58ca",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-21T13:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_53ffdc07",
       "range": {
         "startLine": 174,
         "startChar": 6,
