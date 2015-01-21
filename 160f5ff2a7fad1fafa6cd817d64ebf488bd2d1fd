@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bc24f1f_9ccfb16a",
+        "filename": "src/internal/mime/header.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 6230
+      },
+      "writtenOn": "2015-01-21T14:30:59Z",
+      "side": 1,
+      "message": "This is very limiting in current implementation. Is there a chance to add hook for custom charset?\nMaybe something like CharsetReader in encoding/xml?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 1
+      },
+      "revId": "160f5ff2a7fad1fafa6cd817d64ebf488bd2d1fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
