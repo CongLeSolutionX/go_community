@@ -17,8 +17,10 @@ func init() {
 	if err != nil {
 		return
 	}
+	println("OSREL", len(osver), osver)
 	var i int
 	for i = range osver {
+		println("OSREL-", i)
 		if osver[i] != '.' {
 			continue
 		}

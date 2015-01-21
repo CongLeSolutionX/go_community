@@ -1492,3 +1492,31 @@ func g() (x interface{}) { // ERROR "moved to heap: x"
 	x = &x // ERROR "&x escapes to heap"
 	return
 }
+
+
+
+package main
+
+import "strings"
+
+var m = make(map[string]string)
+
+func split(s string) []string {
+	ss := make([]string, 2)
+	ss[0] = s[1:2]
+	ss[1] = s[2:3]
+	return ss
+}
+
+func main() {
+	b := make([]byte, 20)
+	s1 := string(b)
+	ss := strings.SplitN(s1, "-", 2)
+	key := ss[0]
+	m[key] = "v"
+	//m[string(b)] = "v"
+}
+
+
+
+

@@ -58,6 +58,12 @@ static void	orderexprlistinplace(NodeList*, Order*);
 void
 order(Node *fn)
 {
+	char s[50];
+
+	if(debug['W']) {
+		snprint(s, sizeof(s), "before order %S", curfn->nname->sym);
+		dumplist(s, curfn->nbody);
+	}
 	orderblock(&fn->nbody);
 }
 

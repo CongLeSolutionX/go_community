@@ -8,7 +8,7 @@ import (
 	"unsafe"
 )
 
-func concatstrings(a []string) string {
+func concatstrings(buf *[32]byte, a []string) string {
 	idx := 0
 	l := 0
 	count := 0
@@ -28,8 +28,43 @@ func concatstrings(a []string) string {
 		return ""
 	}
 	if count == 1 {
-		return a[idx]
+		s := a[idx]
+		if buf == nil {
+			ptr := uintptr((*stringStruct)(unsafe.Pointer(&s)).str)
+			arena_start := uintptr(unsafe.Pointer(mheap_.arena_start))
+			arena_used := uintptr(unsafe.Pointer(mheap_.arena_used))
+			if ptr >= arena_start && ptr < arena_used {
+				q := (ptr - arena_start) >> pageShift
+				span := *(**mspan)(add(unsafe.Pointer(mheap_.spans), q*ptrSize))
+				if span != nil && span.state == _MSpanStack {
+					//println("UNLINK", s)
+					tmps, tmpb := rawstring(len(s))
+					copy(tmpb, s)
+					s = tmps
+				}
+			}
+		}
+		return s
 	}
+
+	var s string
+	var c []byte
+	if buf != nil && l <= len(buf) {
+		c = buf[:l]
+		s = slicebytetostringtmp(c)
+
+		if false {
+			var pcs [2]uintptr
+			callers(1, &pcs[0], 2)
+			pc := pcs[1]
+			f := findfunc(pc)
+			file, line := funcline(f, pc)
+			println("BINGO", funcname(f), file, line)
+		}
+	} else {
+		s, c = rawstring(l)
+	}
+
 	s, b := rawstring(l)
 	l = 0
 	for _, x := range a {
@@ -39,30 +74,58 @@ func concatstrings(a []string) string {
 	return s
 }
 
-func concatstring2(a [2]string) string {
-	return concatstrings(a[:])
+func concatstring2(buf *[32]byte, a [2]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func concatstring3(a [3]string) string {
-	return concatstrings(a[:])
+func concatstring3(buf *[32]byte, a [3]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func concatstring4(a [4]string) string {
-	return concatstrings(a[:])
+func concatstring4(buf *[32]byte, a [4]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func concatstring5(a [5]string) string {
-	return concatstrings(a[:])
+func concatstring5(buf *[32]byte, a [5]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func slicebytetostring(b []byte) string {
-	if raceenabled && len(b) > 0 {
+func slicebytetostring(buf *[32]byte, b []byte) string {
+	ln := len(b)
+	if ln == 0 {
+		return ""
+	}
+	/*
+	   println("slicebytetostring CALL", len(b))
+	   if buf != nil {
+	   	println("slicebytetostring NOESC", len(b))
+	   	if ln <= len(buf) {
+	   		println("slicebytetostring BINGO", len(b))
+	   		println("slicebytetostring BINGA", slicebytetostringtmp(b))
+	   	}
+	   }
+	*/
+	if raceenabled && ln > 0 {
 		racereadrangepc(unsafe.Pointer(&b[0]),
-			uintptr(len(b)),
+			uintptr(ln),
 			getcallerpc(unsafe.Pointer(&b)),
 			funcPC(slicebytetostring))
 	}
-	s, c := rawstring(len(b))
+	var s string
+	var c []byte
+	if buf != nil && ln <= len(buf) {
+		c = buf[:ln]
+		s = slicebytetostringtmp(c)
+
+		if false {
+			pc := getcallerpc(unsafe.Pointer(&buf))
+			f := findfunc(pc)
+			file, line := funcline(f, pc)
+			println("BINGO", funcname(f), file, line)
+		}
+	} else {
+		s, c = rawstring(ln)
+	}
 	copy(c, b)
 	return s
 }
