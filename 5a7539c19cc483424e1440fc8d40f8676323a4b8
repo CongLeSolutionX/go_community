@@ -70,6 +70,24 @@
       "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_938784a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-21T12:22:28Z",
+      "side": 1,
+      "message": "nope. we use ::/0 to \u003csome\u003e/128 prefixes on unicast, anycast and multicast addresses.",
+      "parentUuid": "4beecfc7_73c81886",
+      "revId": "5a7539c19cc483424e1440fc8d40f8676323a4b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
