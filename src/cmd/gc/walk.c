@@ -1370,8 +1370,15 @@ walkexpr(Node **np, NodeList **init)
 		goto ret;
 
 	case OARRAYBYTESTR:
-		// slicebytetostring([]byte) string;
-		n = mkcall("slicebytetostring", n->type, init, n->left);
+		a = nodnil();
+		if(n->esc == EscNone) {
+			// Create temporary buffer for string on stack.
+			// Constant 32 is known to runtime.
+			t = aindex(nodintconst(32), types[TUINT8]); // [32]byte
+			a = nod(OADDR, temp(t), N);
+		}
+		// slicebytetostring([]byte, *byte) string;
+		n = mkcall("slicebytetostring", n->type, init, a, n->left);
 		goto ret;
 
 	case OARRAYBYTESTRTMP:
@@ -2710,7 +2717,7 @@ writebarrierfn(char *name, Type *l, Type *r)
 static Node*
 addstr(Node *n, NodeList **init)
 {
-	Node *r, *cat, *slice;
+	Node *r, *cat, *slice, *buf;
 	NodeList *args, *l;
 	int c;
 	Type *t;
@@ -2720,8 +2727,16 @@ addstr(Node *n, NodeList **init)
 	if(c < 2)
 		yyerror("addstr count %d too small", c);
 
+	buf = nodnil();
+	if(n->esc == EscNone) {
+		// Create temporary buffer for string on stack.
+		// Constant 32 is known to runtime.
+		t = aindex(nodintconst(32), types[TUINT8]); // [32]byte
+		buf = nod(OADDR, temp(t), N);
+	}
+
 	// build list of string arguments
-	args = nil;
+	args = list1(buf);
 	for(l=n->list; l != nil; l=l->next)
 		args = list(args, conv(l->n, types[TSTRING]));
 
@@ -2737,9 +2752,10 @@ addstr(Node *n, NodeList **init)
 		t->bound = -1;
 		slice = nod(OCOMPLIT, N, typenod(t));
 		slice->alloc = n->alloc;
-		slice->list = args;
+		slice->list = args->next; // skip buf arg
+		args = list1(buf);
+		args = list(args, slice);
 		slice->esc = EscNone;
-		args = list1(slice);
 	}
 	cat = syslook(namebuf, 1);
 	r = nod(OCALL, cat, N);

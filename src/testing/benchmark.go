@@ -118,6 +118,7 @@ func (b *B) runN(n int) {
 	// by clearing garbage from previous runs.
 	runtime.GC()
 	b.N = n
+	b.showAllocResult = true
 	b.parallelism = 1
 	b.ResetTimer()
 	b.StartTimer()

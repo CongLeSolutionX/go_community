@@ -1492,3 +1492,64 @@ func g() (x interface{}) { // ERROR "moved to heap: x"
 	x = &x // ERROR "&x escapes to heap"
 	return
 }
+
+// String operations.
+
+var sink interface{}
+
+func slicebytetostring0() {
+	b := make([]byte, 20) // ERROR "does not escape"
+	s := string(b)        // ERROR "string\(b\) does not escape"
+	_ = s
+}
+
+func slicebytetostring1() {
+	b := make([]byte, 20) // ERROR "does not escape"
+	s := string(b)        // ERROR "string\(b\) does not escape"
+	s1 := s[0:1]
+	_ = s1
+}
+
+func slicebytetostring2() {
+	b := make([]byte, 20) // ERROR "does not escape"
+	s := string(b)        // ERROR "string\(b\) escapes to heap"
+	s1 := s[0:1]          // ERROR "moved to heap: s1"
+	sink = &s1            // ERROR "&s1 escapes to heap"
+}
+
+func slicebytetostring3() {
+	b := make([]byte, 20) // ERROR "does not escape"
+	s := string(b)        // ERROR "string\(b\) escapes to heap"
+	s1 := s[0:1]
+	sink = s1
+}
+
+func addstr0() {
+	s0 := "a"
+	s1 := "b"
+	s := s0 + s1 // ERROR "s0 \+ s1 does not escape"
+	_ = s
+}
+
+func addstr1() {
+	s0 := "a"
+	s1 := "b"
+	s := "c"
+	s += s0 + s1 // ERROR "s0 \+ s1 does not escape"
+	_ = s
+}
+
+func addstr2() {
+	b := make([]byte, 20) // ERROR "does not escape"
+	s0 := "a"
+	s := string(b) + s0 // ERROR "string\(b\) does not escape" "string\(b\) \+ s0 does not escape"
+	_ = s
+}
+
+func addstr3() {
+	s0 := "a"
+	s1 := "b"
+	s := s0 + s1 // ERROR "s0 \+ s1 escapes to heap"
+	s2 := s[0:1]
+	sink = s2
+}
