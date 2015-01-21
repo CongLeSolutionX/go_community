@@ -364,12 +364,12 @@ func (r *Request) WriteProxy(w io.Writer) error {
 
 // extraHeaders may be nil
 func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header) error {
-	host := req.Host
+	host := wireFormatHost(req.Host)
 	if host == "" {
 		if req.URL == nil {
 			return errors.New("http: Request.Write on Request with no Host or URL set")
 		}
-		host = req.URL.Host
+		host = wireFormatHost(req.URL.Host)
 	}
 
 	ruri := req.URL.RequestURI()
@@ -454,6 +454,26 @@ func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header) err
 		return bw.Flush()
 	}
 	return nil
+}
+
+// wireFormatHost returns a host subcomponent or a pair of host and
+// port subcomponents which is valid for the wire protocol.
+//
+// According to RFC 6874, an HTTP client, proxy, or other intermediary
+// must remove any IPv6 zone identifier attached to an outgoing URI.
+func wireFormatHost(host string) string {
+	if strings.HasPrefix(host, "[") {
+		i := strings.LastIndex(host, "]")
+		if i < 0 {
+			return host
+		}
+		j := strings.LastIndex(host[:i], "%")
+		if j < 0 {
+			return host
+		}
+		host = strings.Join([]string{host[:j], host[i:]}, "")
+	}
+	return host
 }
 
 // ParseHTTPVersion parses a HTTP version string.
