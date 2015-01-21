@@ -158,3 +158,14 @@ func TestGostringnocopy(t *testing.T) {
 		t.Errorf("want %d, got %d", max+9, newmax)
 	}
 }
+
+func TestStringOnStack(t *testing.T) {
+	s := ""
+	for i := 0; i < 3; i++ {
+		s = "a" + s + "b" + s + "c"
+	}
+
+	if want := "aaabcbabccbaabcbabccc"; s != want {
+		t.Fatalf("want: '%v', got '%v'", want, s)
+	}
+}
