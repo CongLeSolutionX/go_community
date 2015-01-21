@@ -500,6 +500,7 @@ func Sysctl(name string) (value string, err error) {
 
 	// Read into buffer of that size.
 	buf := make([]byte, n)
+println("SYSCTL", n)
 	if err = sysctl(mib, &buf[0], &n, nil, 0); err != nil {
 		return "", err
 	}
@@ -508,6 +509,7 @@ func Sysctl(name string) (value string, err error) {
 	if n > 0 && buf[n-1] == '\x00' {
 		n--
 	}
+println("SYSCTL1", string(buf[0:n]))
 	return string(buf[0:n]), nil
 }
 

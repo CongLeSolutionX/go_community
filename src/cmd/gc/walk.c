@@ -1370,8 +1370,16 @@ walkexpr(Node **np, NodeList **init)
 		goto ret;
 
 	case OARRAYBYTESTR:
-		// slicebytetostring([]byte) string;
-		n = mkcall("slicebytetostring", n->type, init, n->left);
+		if(n->esc == EscNone) {
+			print("OARRAYBYTESTR EscNone\n");
+			// slicebytetostring([]byte, *byte) string;
+			//t = aindex(notintconst(32), t->type); // [r]T
+			//var = temp(t);
+			n = mkcall("slicebytetostring", n->type, init, n->left, nodnil());
+		} else {
+			// slicebytetostring([]byte, *byte) string;
+			n = mkcall("slicebytetostring", n->type, init, n->left, nodnil());
+		}
 		goto ret;
 
 	case OARRAYBYTESTRTMP:

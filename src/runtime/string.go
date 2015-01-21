@@ -55,7 +55,7 @@ func concatstring5(a [5]string) string {
 	return concatstrings(a[:])
 }
 
-func slicebytetostring(b []byte) string {
+func slicebytetostring(b []byte, buf *byte) string {
 	if raceenabled && len(b) > 0 {
 		racereadrangepc(unsafe.Pointer(&b[0]),
 			uintptr(len(b)),
