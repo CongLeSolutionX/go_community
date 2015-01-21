@@ -455,6 +455,214 @@ var reqWriteTests = []reqWriteTest{
 			"ALL-CAPS: x\r\n" +
 			"\r\n",
 	},
+
+	// Request with host subcomponent; DNS registered name
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "www.example.com",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: www.example.com\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host and port subcomponents; DNS registered name
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "www.example.com:8080",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: www.example.com:8080\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host subcomponent; IPv4 address
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "192.168.0.1",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: 192.168.0.1\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host and port subcomponents; IPv4 address
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "192.168.0.1:8080",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: 192.168.0.1:8080\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host subcomponent; IP-literal; IPv6 address
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "[fe80::1]",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host and port subcomponents; IP-literal; IPv6 address
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "[fe80::1]:8080",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]:8080\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host subcomponent; IP-literal; IPv6 address with zone identifier
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "[fe80::1%en0]",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host and port subcomponents; IP-literal; IPv6 address with zone identifier
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "[fe80::1%en0]:8080",
+				Path:   "/",
+			},
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]:8080\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host subcomponent; IP-literal; IPv6 address
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "www.example.com",
+				Path:   "/",
+			},
+			Host: "[fe80::1]",
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host and port subcomponents; IP-literal; IPv6 address
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "www.example.com",
+				Path:   "/",
+			},
+			Host: "[fe80::1]:8080",
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]:8080\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host subcomponent; IP-literal; IPv6 address with zone identifier
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "www.example.com",
+				Path:   "/",
+			},
+			Host: "[fe80::1%en0]",
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
+
+	// Request with host and port subcomponents; IP-literal; IPv6 address with zone identifier
+	{
+		Req: Request{
+			Method: "GET",
+			URL: &url.URL{
+				Scheme: "http",
+				Host:   "www.example.com",
+				Path:   "/",
+			},
+			Host: "[fe80::1%en0]:8080",
+		},
+
+		WantWrite: "GET / HTTP/1.1\r\n" +
+			"Host: [fe80::1]:8080\r\n" +
+			"User-Agent: Go 1.1 package http\r\n" +
+			"\r\n",
+	},
 }
 
 func TestRequestWrite(t *testing.T) {
