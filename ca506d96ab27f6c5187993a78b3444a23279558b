@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4beecfc7_f6feb6bf",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-21T16:32:53Z",
+      "side": 1,
+      "message": "You could change this to\n\n    pub, priv interface{}\n\n.. without breaking the API checker, and removing some interface{} from the godoc.",
+      "revId": "ca506d96ab27f6c5187993a78b3444a23279558b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_d6fbbacd",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-21T16:32:53Z",
+      "side": 1,
+      "message": "just return this directly?\n\n    return asn1.Marshal(....)",
+      "revId": "ca506d96ab27f6c5187993a78b3444a23279558b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4beecfc7_161f0287",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1584,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-21T16:32:53Z",
+      "side": 1,
+      "message": "return nil, errors.New(...)\n\nAvoid named return parameters and naked returns in all but the smallest functions.  See https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters",
+      "revId": "ca506d96ab27f6c5187993a78b3444a23279558b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
