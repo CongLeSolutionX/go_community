@@ -8,7 +8,15 @@ import (
 	"unsafe"
 )
 
-func concatstrings(a []string) string {
+// The constant is known to the compiler.
+// There is no fundamental theory behind this number.
+const tmpStringBufSize = 32
+
+type tmpBuf [tmpStringBufSize]byte
+
+// Buf is a fixed-size buffer for the result,
+// it is not nil if the result does not escape.
+func concatstrings(buf *tmpBuf, a []string) string {
 	idx := 0
 	l := 0
 	count := 0
@@ -28,9 +36,28 @@ func concatstrings(a []string) string {
 		return ""
 	}
 	if count == 1 {
-		return a[idx]
+		s := a[idx]
+		// Subtle special case.
+		// Compiler treats arguments of OADDSTR as non-escaping
+		// (usually we allocate a new string for result).
+		// However, in this case we return the argument as result.
+		// If the argument was allocated on stack, we need to promote it to heap now.
+		// But if result of this operation also does not escape (buf != nil),
+		// then we don't need to promote the argument to heap. The result
+		// has has the same or shorter lifetime.
+		if buf == nil {
+			ptr := uintptr((*stringStruct)(unsafe.Pointer(&s)).str)
+			stk := getg().stack
+			if ptr >= stk.lo && ptr < stk.hi {
+				tmps, tmpb := rawstring(len(s))
+				copy(tmpb, s)
+				s = tmps
+			}
+		}
+		return s
 	}
-	s, b := rawstring(l)
+
+	s, b := rawstringtmp(buf, l)
 	l = 0
 	for _, x := range a {
 		copy(b[l:], x)
@@ -39,32 +66,52 @@ func concatstrings(a []string) string {
 	return s
 }
 
-func concatstring2(a [2]string) string {
-	return concatstrings(a[:])
+func concatstring2(buf *tmpBuf, a [2]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func concatstring3(a [3]string) string {
-	return concatstrings(a[:])
+func concatstring3(buf *tmpBuf, a [3]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func concatstring4(a [4]string) string {
-	return concatstrings(a[:])
+func concatstring4(buf *tmpBuf, a [4]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func concatstring5(a [5]string) string {
-	return concatstrings(a[:])
+func concatstring5(buf *tmpBuf, a [5]string) string {
+	return concatstrings(buf, a[:])
 }
 
-func slicebytetostring(b []byte) string {
-	if raceenabled && len(b) > 0 {
+// Buf is a fixed-size buffer for the result,
+// it is not nil if the result does not escape.
+// Constant 32 is known to the compiler.
+func slicebytetostring(buf *tmpBuf, b []byte) string {
+	l := len(b)
+	if l == 0 {
+		// Turns out to be a relatively common case.
+		// Consider that you want parse out data between parens in "foo()bar",
+		// you find the indices and convert the subslice to string.
+		return ""
+	}
+	if raceenabled && l > 0 {
 		racereadrangepc(unsafe.Pointer(&b[0]),
-			uintptr(len(b)),
+			uintptr(l),
 			getcallerpc(unsafe.Pointer(&b)),
 			funcPC(slicebytetostring))
 	}
-	s, c := rawstring(len(b))
+	s, c := rawstringtmp(buf, l)
 	copy(c, b)
 	return s
+}
+
+func rawstringtmp(buf *tmpBuf, l int) (s string, b []byte) {
+	if buf != nil && l <= len(buf) {
+		b = buf[:l]
+		s = slicebytetostringtmp(b)
+	} else {
+		s, b = rawstring(l)
+	}
+	return
 }
 
 func slicebytetostringtmp(b []byte) string {
