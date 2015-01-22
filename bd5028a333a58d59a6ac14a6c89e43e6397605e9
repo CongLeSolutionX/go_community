@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b763314_ef86f13d",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-22T08:06:51Z",
+      "side": 1,
+      "message": "please use existing test cases in interface_test.go. now we are sure that nacl, plan9 and solaris don\u0027t support interfaces+ifi.addr, and nacl, plan9, solaris, dragonfly, netbsd and openbsd don\u0027t support ifi.multicastaddr.\n\ninstead please put test cases which require windows-specific configuration. for example, a test that tries interface identification on layer2-encap such as dot1q, layer3-encap such as ip-over-ip.",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
