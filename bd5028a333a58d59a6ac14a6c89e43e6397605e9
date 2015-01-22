@@ -22,6 +22,30 @@
       "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_8f9add78",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-22T08:47:03Z",
+      "side": 1,
+      "message": "Currently, tests for Interfaces/InterfaceAddrs are already working on windows. The tests I added is in interface_windows_test.go. so it run just on windows. I\u0027m thinking this tests are regression test for .#5395.",
+      "parentUuid": "6b763314_ef86f13d",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
