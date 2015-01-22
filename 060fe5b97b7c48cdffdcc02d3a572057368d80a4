@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b763314_2cbd7789",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-22T05:44:33Z",
+      "side": 1,
+      "message": "This does not build. I get this error\n\n# net\nnet\\interface_windows.go:119: undefined: sav\nnet\\interface_windows.go:122: undefined: sav4\nnet\\interface_windows.go:126: undefined: sav6\nnet\\interface_windows.go:173: undefined: sav\nnet\\interface_windows.go:173: use of .(type) outside type switch\nnet\\interface_windows.go:180: undefined: sav6\n\nwhile building.",
+      "revId": "060fe5b97b7c48cdffdcc02d3a572057368d80a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
