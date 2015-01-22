@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b763314_eca8bf16",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-22T06:20:23Z",
+      "side": 1,
+      "message": "Now the tests fail here:\n\nC:\\\u003ego test net -short\n--- FAIL: TestInterfaces (0.00s)\n        interface_test.go:57: Interfaces failed: GetAdaptersAddresses: The file name is too long.\n--- FAIL: TestInterfaceAddrs (0.00s)\n        interface_test.go:86: InterfaceAddrs failed: GetAdaptersAddresses: The file name is too long.\n--- FAIL: TestInterfacesWindows (0.23s)\n        interface_windows_test.go:22: Interface failed: GetAdaptersAddresses: The file name is too long.\n--- FAIL: TestInterfaceAddrsWindows (0.25s)\n        interface_windows_test.go:58: Interface failed: GetAdaptersAddresses: The file name is too long.\nFAIL\nFAIL    net     4.187s",
+      "revId": "85c7e77e6cf6e74e6d08b96a380b54dc18bf624b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
