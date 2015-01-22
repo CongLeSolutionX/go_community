@@ -367,6 +367,10 @@ func (r *Request) WriteProxy(w io.Writer) error {
 	return r.write(w, true, nil)
 }
 
+// ErrMissingHost is returned by Write when there is no Host or URL present in
+// the Request.
+var ErrMissingHost = errors.New("http: Request.Write on Request with no Host or URL set")
+
 // extraHeaders may be nil
 func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header) error {
 	// According to RFC 6874, an HTTP client, proxy, or other
@@ -375,7 +379,7 @@ func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header) err
 	host := removeZone(req.Host)
 	if host == "" {
 		if req.URL == nil {
-			return errors.New("http: Request.Write on Request with no Host or URL set")
+			return ErrMissingHost
 		}
 		host = removeZone(req.URL.Host)
 	}
@@ -983,4 +987,12 @@ func (r *Request) closeBody() {
 	if r.Body != nil {
 		r.Body.Close()
 	}
+}
+
+func (r *Request) isReplayable() bool {
+	return r.Body == nil &&
+		(r.Method == "GET" ||
+			r.Method == "HEAD" ||
+			r.Method == "OPTIONS" ||
+			r.Method == "TRACE")
 }
