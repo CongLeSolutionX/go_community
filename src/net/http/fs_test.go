@@ -927,7 +927,7 @@ func TestLinuxSendfile(t *testing.T) {
 		t.Skipf("skipping; failed to start straced child: %v", err)
 	}
 
-	res, err := Get(fmt.Sprintf("http://%s/", ln.Addr()))
+	res, err := Post(fmt.Sprintf("http://%s/", ln.Addr()), "", nil)
 	if err != nil {
 		t.Fatalf("http client error: %v", err)
 	}
@@ -938,7 +938,7 @@ func TestLinuxSendfile(t *testing.T) {
 	res.Body.Close()
 
 	// Force child to exit cleanly.
-	Get(fmt.Sprintf("http://%s/quit", ln.Addr()))
+	Post(fmt.Sprintf("http://%s/quit", ln.Addr()), "", nil)
 	child.Wait()
 
 	rx := regexp.MustCompile(`sendfile(64)?\(\d+,\s*\d+,\s*NULL,\s*\d+\)\s*=\s*\d+\s*\n`)
@@ -963,7 +963,7 @@ func getBody(t *testing.T, testName string, req Request) (*Response, []byte) {
 
 // TestLinuxSendfileChild isn't a real test. It's used as a helper process
 // for TestLinuxSendfile.
-func TestLinuxSendfileChild(*testing.T) {
+func TestLinuxSendfile(*testing.T) {
 	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
 		return
 	}
