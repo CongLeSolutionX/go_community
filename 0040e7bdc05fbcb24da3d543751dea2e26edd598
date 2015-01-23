@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba3cbb1_259744d9",
+        "filename": "src/go/parser/short_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-01-23T14:27:23Z",
+      "side": 1,
+      "message": "Add:\n  `package p; const x int`",
+      "revId": "0040e7bdc05fbcb24da3d543751dea2e26edd598",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
