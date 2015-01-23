@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b763314_558796f7",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T01:56:33Z",
+      "side": 1,
+      "message": "Could you please figure out what address was given, what output of ipconfig was given?",
+      "parentUuid": "6b763314_55aeb677",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_ef86f13d",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -83,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "6b763314_1576fe77",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T01:56:33Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "6b763314_352e9a80",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_55231697",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -94,6 +130,24 @@
       "writtenOn": "2015-01-23T01:47:51Z",
       "side": 1,
       "message": "Remove if not needed.",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_357bfa5e",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T01:56:33Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "6b763314_55231697",
       "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -117,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "6b763314_558076d6",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T01:56:33Z",
+      "side": 1,
+      "message": "as i said, output of ipconfig contains multi-byte characters in my locale. so can\u0027t check where the section is there.\n\nipmask is IP(and)MASK. so i named ipmask. what is good you thought?",
+      "parentUuid": "6b763314_d51d4659",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_f51a425e",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -134,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "6b763314_f597a21e",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T01:56:33Z",
+      "side": 1,
+      "message": "Because if you have two interfaces, and both has same netmask, this test can\u0027t check which netmask is matched in the output.",
+      "parentUuid": "6b763314_f51a425e",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_953caeb3",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -145,6 +235,24 @@
       "writtenOn": "2015-01-23T01:47:51Z",
       "side": 1,
       "message": "All same comments in this block as in previous function.",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_758572e5",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T01:56:33Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "6b763314_953caeb3",
       "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
