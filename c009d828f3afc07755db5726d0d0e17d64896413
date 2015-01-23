@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6b763314_80754aea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "I can\u0027t explain it in short since I\u0027m not good at English.\nIn long:\n\nPreviously, Stmt.connStmt() locks Stmt.mu and calls DB.connIfFree() repeatedly.\nAdditionally, DB.connIfFree() locks DB.mu.\nSo there were two lock contension.\n\n1) Concurrent stmt users conflict on Stmt.mu.\n2) DB.addDep(), DB.removeDep() and DB.connIfFree() conflict on DB.mu.\n\n\nShould I write long version?",
+      "parentUuid": "6b763314_155c3ec9",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_15335e98",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "6b763314_a0596687",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_15335e98",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_c0566256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb586371_23c758da",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_7532d291",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-23T03:10:53Z",
       "side": 1,
       "message": "makes use of the first unused connection in idle connection pool to reduce lock contention without making it complicated.",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_e0635e31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_7532d291",
       "range": {
         "startLine": 12,
         "startChar": 37,
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "6b763314_204f36ba",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_930ae441",
+      "range": {
+        "startLine": 215,
+        "startChar": 35,
+        "endLine": 215,
+        "endChar": 45
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_4054324a",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4beecfc7_f3308806",
+      "range": {
+        "startLine": 215,
+        "startChar": 46,
+        "endLine": 215,
+        "endChar": 76
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_5566b698",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 10
@@ -179,6 +323,54 @@
         "startChar": 31,
         "endLine": 216,
         "endChar": 38
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_a042468b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_b56c4a74",
+      "range": {
+        "startLine": 216,
+        "startChar": 31,
+        "endLine": 216,
+        "endChar": 38
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_804e2ab8",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_5566b698",
+      "range": {
+        "startLine": 216,
+        "startChar": 18,
+        "endLine": 216,
+        "endChar": 21
       },
       "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -232,6 +424,54 @@
     },
     {
       "key": {
+        "uuid": "6b763314_e03c3e02",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_f576c23f",
+      "range": {
+        "startLine": 1268,
+        "startChar": 12,
+        "endLine": 1268,
+        "endChar": 14
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_c03f42f4",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_354a1af8",
+      "range": {
+        "startLine": 1267,
+        "startChar": 45,
+        "endLine": 1268,
+        "endChar": 33
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_553f9648",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 10
@@ -243,6 +483,30 @@
       "writtenOn": "2015-01-23T03:10:53Z",
       "side": 1,
       "message": "must ?",
+      "range": {
+        "startLine": 1324,
+        "startChar": 8,
+        "endLine": 1324,
+        "endChar": 14
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_003a3a03",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "I\u0027ve removed this line like other *Locked function\u0027s comments.",
+      "parentUuid": "6b763314_553f9648",
       "range": {
         "startLine": 1324,
         "startChar": 8,
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "6b763314_3bcdabc7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_754492ea",
+      "range": {
+        "startLine": 1326,
+        "startChar": 1,
+        "endLine": 1326,
+        "endChar": 34
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_b5552a94",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 10
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "6b763314_5bd26766",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b763314_b5552a94",
+      "range": {
+        "startLine": 1383,
+        "startChar": 1,
+        "endLine": 1383,
+        "endChar": 42
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb586371_a3db68a4",
         "filename": "src/database/sql/sql_test.go",
         "patchSetId": 10
@@ -312,6 +624,30 @@
       "writtenOn": "2015-01-23T03:10:53Z",
       "side": 1,
       "message": "Queries ?",
+      "range": {
+        "startLine": 1939,
+        "startChar": 28,
+        "endLine": 1939,
+        "endChar": 33
+      },
+      "revId": "c009d828f3afc07755db5726d0d0e17d64896413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_9bdbff7d",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1939,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2015-01-23T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb586371_a3db68a4",
       "range": {
         "startLine": 1939,
         "startChar": 28,
