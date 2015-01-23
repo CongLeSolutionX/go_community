@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b75533d_2e1b6765",
+        "filename": "src/cmd/gc/popt.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-01-23T18:13:57Z",
+      "side": 1,
+      "message": "else if?",
+      "range": {
+        "startLine": 594,
+        "startChar": 2,
+        "endLine": 594,
+        "endChar": 4
+      },
+      "revId": "cb272ffc52f200dfc903c57020de975db7787d2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b75533d_0e1eab54",
+        "filename": "src/cmd/gc/unsafe.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-01-23T18:13:57Z",
+      "side": 1,
+      "message": "fine but why not\ns \u003d fn-\u003esym\nif (s \u003d\u003d S)",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "cb272ffc52f200dfc903c57020de975db7787d2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
