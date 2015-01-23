@@ -12,7 +12,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rsa"
-	_ "crypto/sha1"
+	"crypto/sha1"
 	_ "crypto/sha256"
 	_ "crypto/sha512"
 	"crypto/x509/pkix"
@@ -513,8 +513,15 @@ type Certificate struct {
 	IPAddresses    []net.IP
 
 	// Name constraints
-	PermittedDNSDomainsCritical bool // if true then the name constraints are marked critical.
-	PermittedDNSDomains         []string
+	NameConstraintsCritical bool // if true then the name constraints are marked critical.
+	PermittedDNSDomains     []string
+	ExcludedDNSDomains      []string
+	PermittedEmailDomains   []string
+	ExcludedEmailDomains    []string
+	PermittedIPAddresses    []net.IPNet
+	ExcludedIPAddresses     []net.IPNet
+	PermittedDirectoryNames []pkix.Name
+	ExcludedDirectoryNames  []pkix.Name
 
 	// CRL Distribution Points
 	CRLDistributionPoints []string
@@ -703,7 +710,7 @@ type nameConstraints struct {
 }
 
 type generalSubtree struct {
-	Name string `asn1:"tag:2,optional,ia5"`
+	Value asn1.RawValue `asn1:"optional"`
 }
 
 // RFC 5280, 4.2.2.1
@@ -955,19 +962,70 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 					return nil, err
 				}
 
-				if len(constraints.Excluded) > 0 && e.Critical {
-					return out, UnhandledCriticalExtension{}
-				}
-
 				for _, subtree := range constraints.Permitted {
-					if len(subtree.Name) == 0 {
+					if len(subtree.Value.Bytes) == 0 {
 						if e.Critical {
 							return out, UnhandledCriticalExtension{}
 						}
 						continue
 					}
-					out.PermittedDNSDomains = append(out.PermittedDNSDomains, subtree.Name)
+
+					switch subtree.Value.Tag {
+					case 1:
+						out.PermittedEmailDomains = append(out.PermittedEmailDomains, string(subtree.Value.Bytes))
+					case 2:
+						out.PermittedDNSDomains = append(out.PermittedDNSDomains, string(subtree.Value.Bytes))
+					case 4:
+						var rawdn pkix.RDNSequence
+						if _, err := asn1.Unmarshal(subtree.Value.Bytes, &rawdn); err != nil {
+							return out, err
+						}
+						var dn pkix.Name
+						dn.FillFromRDNSequence(&rawdn)
+						out.PermittedDirectoryNames = append(out.PermittedDirectoryNames, dn)
+					case 7:
+						switch len(subtree.Value.Bytes) {
+						case net.IPv4len * 2:
+							out.PermittedIPAddresses = append(out.PermittedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv4len], subtree.Value.Bytes[net.IPv4len:]})
+						case net.IPv6len * 2:
+							out.PermittedIPAddresses = append(out.PermittedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv6len], subtree.Value.Bytes[net.IPv6len:]})
+						default:
+							return out, errors.New("x509: certificate name constraint contained IP address range of length " + strconv.Itoa(len(subtree.Value.Bytes)))
+						}
+					}
 				}
+				for _, subtree := range constraints.Excluded {
+					if len(subtree.Value.Bytes) == 0 {
+						if e.Critical {
+							return out, UnhandledCriticalExtension{}
+						}
+						continue
+					}
+					switch subtree.Value.Tag {
+					case 1:
+						out.ExcludedEmailDomains = append(out.ExcludedEmailDomains, string(subtree.Value.Bytes))
+					case 2:
+						out.ExcludedDNSDomains = append(out.ExcludedDNSDomains, string(subtree.Value.Bytes))
+					case 4:
+						var rawdn pkix.RDNSequence
+						if _, err := asn1.Unmarshal(subtree.Value.Bytes, &rawdn); err != nil {
+							return out, err
+						}
+						var dn pkix.Name
+						dn.FillFromRDNSequence(&rawdn)
+						out.ExcludedDirectoryNames = append(out.ExcludedDirectoryNames, dn)
+					case 7:
+						switch len(subtree.Value.Bytes) {
+						case net.IPv4len * 2:
+							out.ExcludedIPAddresses = append(out.ExcludedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv4len], subtree.Value.Bytes[net.IPv4len:]})
+						case net.IPv6len * 2:
+							out.ExcludedIPAddresses = append(out.ExcludedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv6len], subtree.Value.Bytes[net.IPv6len:]})
+						default:
+							return out, errors.New("x509: certificate name constraint contained IP address range of length " + strconv.Itoa(len(subtree.Value.Bytes)))
+						}
+					}
+				}
+
 				continue
 
 			case 31:
@@ -1335,15 +1393,49 @@ func buildExtensions(template *Certificate) (ret []pkix.Extension, err error) {
 		n++
 	}
 
-	if len(template.PermittedDNSDomains) > 0 &&
+	if (len(template.PermittedEmailDomains) > 0 || len(template.PermittedDNSDomains) > 0 || len(template.PermittedDirectoryNames) > 0 ||
+		len(template.PermittedIPAddresses) > 0 || len(template.ExcludedEmailDomains) > 0 || len(template.ExcludedDNSDomains) > 0 ||
+		len(template.ExcludedDirectoryNames) > 0 || len(template.ExcludedIPAddresses) > 0) &&
 		!oidInExtensions(oidExtensionNameConstraints, template.ExtraExtensions) {
 		ret[n].Id = oidExtensionNameConstraints
-		ret[n].Critical = template.PermittedDNSDomainsCritical
+		ret[n].Critical = template.NameConstraintsCritical
 
 		var out nameConstraints
-		out.Permitted = make([]generalSubtree, len(template.PermittedDNSDomains))
-		for i, permitted := range template.PermittedDNSDomains {
-			out.Permitted[i] = generalSubtree{Name: permitted}
+		for _, permitted := range template.PermittedEmailDomains {
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 1, Class: 2, Bytes: []byte(permitted)}})
+		}
+		for _, excluded := range template.ExcludedEmailDomains {
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 1, Class: 2, Bytes: []byte(excluded)}})
+		}
+		for _, permitted := range template.PermittedDNSDomains {
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 2, Class: 2, Bytes: []byte(permitted)}})
+		}
+		for _, excluded := range template.ExcludedDNSDomains {
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 2, Class: 2, Bytes: []byte(excluded)}})
+		}
+		for _, permitted := range template.PermittedDirectoryNames {
+			var dn []byte
+			dn, err = asn1.Marshal(permitted.ToRDNSequence())
+			if err != nil {
+				return
+			}
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 4, Class: 2, IsCompound: true, Bytes: dn}})
+		}
+		for _, excluded := range template.ExcludedDirectoryNames {
+			var dn []byte
+			dn, err = asn1.Marshal(excluded.ToRDNSequence())
+			if err != nil {
+				return
+			}
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 4, Class: 2, IsCompound: true, Bytes: dn}})
+		}
+		for _, permitted := range template.PermittedIPAddresses {
+			ip := append(permitted.IP, permitted.Mask...)
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 7, Class: 2, Bytes: ip}})
+		}
+		for _, excluded := range template.ExcludedIPAddresses {
+			ip := append(excluded.IP, excluded.Mask...)
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 7, Class: 2, Bytes: ip}})
 		}
 		ret[n].Value, err = asn1.Marshal(out)
 		if err != nil {
@@ -1389,14 +1481,14 @@ func subjectBytes(cert *Certificate) ([]byte, error) {
 	return asn1.Marshal(cert.Subject.ToRDNSequence())
 }
 
-// signingParamsForPublicKey returns the parameters to use for signing with
+// signingParamsForPrivateKey returns the parameters to use for signing with
 // priv. If requestedSigAlgo is not zero then it overrides the default
 // signature algorithm.
-func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgorithm) (hashFunc crypto.Hash, sigAlgo pkix.AlgorithmIdentifier, err error) {
+func signingParamsForPrivateKey(priv interface{}, requestedSigAlgo SignatureAlgorithm) (hashFunc crypto.Hash, sigAlgo pkix.AlgorithmIdentifier, err error) {
 	var pubType PublicKeyAlgorithm
 
-	switch pub := pub.(type) {
-	case *rsa.PublicKey:
+	switch priv := priv.(type) {
+	case *rsa.PrivateKey:
 		pubType = RSA
 		hashFunc = crypto.SHA256
 		sigAlgo.Algorithm = oidSignatureSHA256WithRSA
@@ -1404,10 +1496,10 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 			Tag: 5,
 		}
 
-	case *ecdsa.PublicKey:
+	case *ecdsa.PrivateKey:
 		pubType = ECDSA
 
-		switch pub.Curve {
+		switch priv.Curve {
 		case elliptic.P224(), elliptic.P256():
 			hashFunc = crypto.SHA256
 			sigAlgo.Algorithm = oidSignatureECDSAWithSHA256
@@ -1422,7 +1514,7 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 		}
 
 	default:
-		err = errors.New("x509: only RSA and ECDSA keys supported")
+		err = errors.New("x509: only RSA and ECDSA private keys supported")
 	}
 
 	if err != nil {
@@ -1460,7 +1552,7 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 // CreateCertificate creates a new certificate based on a template. The
 // following members of template are used: SerialNumber, Subject, NotBefore,
 // NotAfter, KeyUsage, ExtKeyUsage, UnknownExtKeyUsage, BasicConstraintsValid,
-// IsCA, MaxPathLen, SubjectKeyId, DNSNames, PermittedDNSDomainsCritical,
+// IsCA, MaxPathLen, SubjectKeyId, DNSNames, NameConstraintsCritical,
 // PermittedDNSDomains, SignatureAlgorithm.
 //
 // The certificate is signed by parent. If parent is equal to template then the
@@ -1469,15 +1561,10 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 //
 // The returned slice is the certificate in DER encoding.
 //
-// All keys types that are implemented via crypto.Signer are supported (This
-// includes *rsa.PublicKey and *ecdsa.PublicKey.)
-func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv interface{}) (cert []byte, err error) {
-	key, ok := priv.(crypto.Signer)
-	if !ok {
-		return nil, errors.New("x509: certificate private key does not implement crypto.Signer")
-	}
-
-	hashFunc, signatureAlgorithm, err := signingParamsForPublicKey(key.Public(), template.SignatureAlgorithm)
+// The only supported key types are RSA and ECDSA (*rsa.PublicKey or
+// *ecdsa.PublicKey for pub, *rsa.PrivateKey or *ecdsa.PrivateKey for priv).
+func CreateCertificate(rand io.Reader, template, parent *Certificate, pub interface{}, priv interface{}) (cert []byte, err error) {
+	hashFunc, signatureAlgorithm, err := signingParamsForPrivateKey(priv, template.SignatureAlgorithm)
 	if err != nil {
 		return nil, err
 	}
@@ -1485,6 +1572,10 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	publicKeyBytes, publicKeyAlgorithm, err := marshalPublicKey(pub)
 	if err != nil {
 		return nil, err
+	}
+
+	if err != nil {
+		return
 	}
 
 	if len(parent.SubjectKeyId) > 0 {
@@ -1530,17 +1621,30 @@ func CreateCertificate(rand io.Reader, template, parent *Certificate, pub, priv 
 	digest := h.Sum(nil)
 
 	var signature []byte
-	signature, err = key.Sign(rand, digest, hashFunc)
+
+	switch priv := priv.(type) {
+	case *rsa.PrivateKey:
+		signature, err = rsa.SignPKCS1v15(rand, priv, hashFunc, digest)
+	case *ecdsa.PrivateKey:
+		var r, s *big.Int
+		if r, s, err = ecdsa.Sign(rand, priv, digest); err == nil {
+			signature, err = asn1.Marshal(ecdsaSignature{r, s})
+		}
+	default:
+		panic("internal error")
+	}
+
 	if err != nil {
 		return
 	}
 
-	return asn1.Marshal(certificate{
+	cert, err = asn1.Marshal(certificate{
 		nil,
 		c,
 		signatureAlgorithm,
 		asn1.BitString{Bytes: signature, BitLength: len(signature) * 8},
 	})
+	return
 }
 
 // pemCRLPrefix is the magic string that indicates that we have a PEM encoded
@@ -1576,20 +1680,18 @@ func ParseDERCRL(derBytes []byte) (certList *pkix.CertificateList, err error) {
 
 // CreateCRL returns a DER encoded CRL, signed by this Certificate, that
 // contains the given list of revoked certificates.
+//
+// The only supported key type is RSA (*rsa.PrivateKey for priv).
 func (c *Certificate) CreateCRL(rand io.Reader, priv interface{}, revokedCerts []pkix.RevokedCertificate, now, expiry time.Time) (crlBytes []byte, err error) {
-	key, ok := priv.(crypto.Signer)
+	rsaPriv, ok := priv.(*rsa.PrivateKey)
 	if !ok {
-		return nil, errors.New("x509: certificate private key does not implement crypto.Signer")
+		return nil, errors.New("x509: non-RSA private keys not supported")
 	}
-
-	hashFunc, signatureAlgorithm, err := signingParamsForPublicKey(key.Public(), 0)
-	if err != nil {
-		return nil, err
-	}
-
 	tbsCertList := pkix.TBSCertificateList{
-		Version:             1,
-		Signature:           signatureAlgorithm,
+		Version: 1,
+		Signature: pkix.AlgorithmIdentifier{
+			Algorithm: oidSignatureSHA1WithRSA,
+		},
 		Issuer:              c.Subject.ToRDNSequence(),
 		ThisUpdate:          now.UTC(),
 		NextUpdate:          expiry.UTC(),
@@ -1612,20 +1714,21 @@ func (c *Certificate) CreateCRL(rand io.Reader, priv interface{}, revokedCerts [
 		return
 	}
 
-	h := hashFunc.New()
+	h := sha1.New()
 	h.Write(tbsCertListContents)
 	digest := h.Sum(nil)
 
-	var signature []byte
-	signature, err = key.Sign(rand, digest, hashFunc)
+	signature, err := rsa.SignPKCS1v15(rand, rsaPriv, crypto.SHA1, digest)
 	if err != nil {
 		return
 	}
 
 	return asn1.Marshal(pkix.CertificateList{
-		TBSCertList:        tbsCertList,
-		SignatureAlgorithm: signatureAlgorithm,
-		SignatureValue:     asn1.BitString{Bytes: signature, BitLength: len(signature) * 8},
+		TBSCertList: tbsCertList,
+		SignatureAlgorithm: pkix.AlgorithmIdentifier{
+			Algorithm: oidSignatureSHA1WithRSA,
+		},
+		SignatureValue: asn1.BitString{Bytes: signature, BitLength: len(signature) * 8},
 	})
 }
 
@@ -1699,24 +1802,26 @@ var oidExtensionRequest = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 14}
 //
 // The returned slice is the certificate request in DER encoding.
 //
-// All keys types that are implemented via crypto.Signer are supported (This
-// includes *rsa.PublicKey and *ecdsa.PublicKey.)
+// The only supported key types are RSA (*rsa.PrivateKey) and ECDSA
+// (*ecdsa.PrivateKey).
 func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv interface{}) (csr []byte, err error) {
-	key, ok := priv.(crypto.Signer)
-	if !ok {
-		return nil, errors.New("x509: certificate private key does not implement crypto.Signer")
-	}
-
-	var hashFunc crypto.Hash
-	var sigAlgo pkix.AlgorithmIdentifier
-	hashFunc, sigAlgo, err = signingParamsForPublicKey(key.Public(), template.SignatureAlgorithm)
+	hashFunc, sigAlgo, err := signingParamsForPrivateKey(priv, template.SignatureAlgorithm)
 	if err != nil {
 		return nil, err
 	}
 
 	var publicKeyBytes []byte
 	var publicKeyAlgorithm pkix.AlgorithmIdentifier
-	publicKeyBytes, publicKeyAlgorithm, err = marshalPublicKey(key.Public())
+
+	switch priv := priv.(type) {
+	case *rsa.PrivateKey:
+		publicKeyBytes, publicKeyAlgorithm, err = marshalPublicKey(&priv.PublicKey)
+	case *ecdsa.PrivateKey:
+		publicKeyBytes, publicKeyAlgorithm, err = marshalPublicKey(&priv.PublicKey)
+	default:
+		panic("internal error")
+	}
+
 	if err != nil {
 		return nil, err
 	}
@@ -1828,7 +1933,18 @@ func CreateCertificateRequest(rand io.Reader, template *CertificateRequest, priv
 	digest := h.Sum(nil)
 
 	var signature []byte
-	signature, err = key.Sign(rand, digest, hashFunc)
+	switch priv := priv.(type) {
+	case *rsa.PrivateKey:
+		signature, err = rsa.SignPKCS1v15(rand, priv, hashFunc, digest)
+	case *ecdsa.PrivateKey:
+		var r, s *big.Int
+		if r, s, err = ecdsa.Sign(rand, priv, digest); err == nil {
+			signature, err = asn1.Marshal(ecdsaSignature{r, s})
+		}
+	default:
+		panic("internal error")
+	}
+
 	if err != nil {
 		return
 	}
