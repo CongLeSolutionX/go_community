@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "6b763314_15b8be98",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-01-23T02:11:43Z",
+      "side": 1,
+      "message": "Ah, 127.0.0.1/0 is that. I don\u0027t get loop-back address from Interfaces() on my PC.",
+      "parentUuid": "6b763314_8f9add78",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_352e9a80",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
