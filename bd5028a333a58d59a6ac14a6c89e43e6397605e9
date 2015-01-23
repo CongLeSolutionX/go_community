@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b763314_55aeb677",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T01:47:51Z",
+      "side": 1,
+      "message": "This still fails on my windows xp:\n\n...\n--- FAIL: TestInterfacesWindows (0.36s)\n        interface_windows_test.go:42: interface address is not contained in output of ipconfig: 127.0.0.1/0\n--- FAIL: TestInterfaceAddrsWindows (0.25s)\n        interface_windows_test.go:67: interface address is not contained in output of ipconfig: 127.0.0.1/0\nFAIL\nFAIL    net     5.094s",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_ef86f13d",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -43,6 +60,91 @@
         "endLine": 13,
         "endChar": 26
       },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_352e9a80",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T01:47:51Z",
+      "side": 1,
+      "message": "Perhaps you can try and search for it anyway, and if not found skip some tests below. Maybe t.Log the fact that you skipped some tests for that interface.",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_55231697",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T01:47:51Z",
+      "side": 1,
+      "message": "Remove if not needed.",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_d51d4659",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T01:47:51Z",
+      "side": 1,
+      "message": "ipmask[0] contains address. Why is it called ipmask then?\n\nAlso strings.Contains(output, ipmask[0]) is too general. Surely there is ip address there somewhere. Perhaps you can find appropriate interface section in the output (with regexp and i.Name) and use correct line in that section. Same for checking netmask value below.",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_f51a425e",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T01:47:51Z",
+      "side": 1,
+      "message": "Well do that. That is whole point of your change. Isn\u0027t it?",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_953caeb3",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T01:47:51Z",
+      "side": 1,
+      "message": "All same comments in this block as in previous function.",
       "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
