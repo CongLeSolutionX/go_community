@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6b763314_401fd285",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T04:39:54Z",
+      "side": 1,
+      "message": "C:\\\u003eipconfig\n\nWindows IP Configuration\n\n\nEthernet adapter Local Area Connection:\n\n        Connection-specific DNS Suffix  . : sge.local\n        IP Address. . . . . . . . . . . . : 10.0.9.224\n        Subnet Mask . . . . . . . . . . . : 255.255.255.0\n        Default Gateway . . . . . . . . . : 10.0.9.254\n\nC:\\\u003e",
+      "parentUuid": "6b763314_558796f7",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_ef86f13d",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -261,6 +279,24 @@
     },
     {
       "key": {
+        "uuid": "6b763314_c0010231",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T04:39:54Z",
+      "side": 1,
+      "message": "If you not using ipconfig output, don\u0027t call it altogether. Just check that mask values are reasonable (mikio might help you here) and be done with that.\n\nBut I would find English speaking computer (our builders use English) and do what I suggested. Up to you.",
+      "parentUuid": "6b763314_558076d6",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_f51a425e",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
@@ -290,6 +326,24 @@
       "side": 1,
       "message": "Because if you have two interfaces, and both has same netmask, this test can\u0027t check which netmask is matched in the output.",
       "parentUuid": "6b763314_f51a425e",
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b763314_00fcfac5",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-23T04:39:54Z",
+      "side": 1,
+      "message": "Like I said, you can separate ipconfig output into different interface related sections. Then each section will have only one mask.",
+      "parentUuid": "6b763314_f597a21e",
       "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
