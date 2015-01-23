@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "6b763314_55db16f8",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-23T02:29:00Z",
+      "side": 1,
+      "message": "the test cases in interface_test.go are old and loosely because at that time all of the first class ports didn\u0027t implement this functionality. while we are here, you can update, extend, make existing test cases more strictly; e.g., adding type-assertions to the returned values of ifi.addrs and ifi.multicastaddrs, verifying address families using by using parsecidr, parseip, to4/to16 and supportsIPv6/supportsIPv4 variable, etc.\n\nin addition, your test cases look weird. for example,\n\n\u003e ip :\u003d addr.String()\n\nwhy string? we know that addr must be IPNet.\n\n\u003e ipmask :\u003d strings.Split(ip, \"/\")\n\u003e if len(ipmask) !\u003d 2 \n\nwhat\u0027s the assumption on this test? all prefix lengths must be represented two digits?",
+      "parentUuid": "6b763314_8f9add78",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_352e9a80",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
