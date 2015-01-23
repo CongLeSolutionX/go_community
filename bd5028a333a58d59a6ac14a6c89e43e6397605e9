@@ -198,6 +198,30 @@
     },
     {
       "key": {
+        "uuid": "6b763314_0005dab1",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-23T07:15:14Z",
+      "side": 1,
+      "message": "i\u0027d recommend you not to use ipconfig, at least for testing exposed api. it\u0027s fine you want to stick to some windows-specific stuff and to write tests for it. but we need test cases for exposed api as the primary goal of this cl.",
+      "parentUuid": "6b763314_00987a4d",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_352e9a80",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
