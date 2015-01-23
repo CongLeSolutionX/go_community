@@ -72,11 +72,6 @@ func TestAcceptTimeout(t *testing.T) {
 }
 
 func TestReadTimeout(t *testing.T) {
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("skipping test on %q", runtime.GOOS)
-	}
-
 	ln := newLocalListener(t)
 	defer ln.Close()
 	c, err := DialTCP("tcp", nil, ln.Addr().(*TCPAddr))
@@ -130,11 +125,6 @@ func TestReadTimeout(t *testing.T) {
 }
 
 func TestWriteTimeout(t *testing.T) {
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("skipping test on %q", runtime.GOOS)
-	}
-
 	ln := newLocalListener(t)
 	defer ln.Close()
 	c, err := DialTCP("tcp", nil, ln.Addr().(*TCPAddr))
@@ -323,11 +313,6 @@ func TestTimeoutAccept(t *testing.T) {
 }
 
 func TestReadWriteDeadline(t *testing.T) {
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("skipping test on %q", runtime.GOOS)
-	}
-
 	const (
 		readTimeout  = 50 * time.Millisecond
 		writeTimeout = 250 * time.Millisecond
@@ -421,11 +406,6 @@ func TestVariousDeadlines4Proc(t *testing.T) {
 }
 
 func testVariousDeadlines(t *testing.T, maxProcs int) {
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("skipping test on %q", runtime.GOOS)
-	}
-
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(maxProcs))
 	ln := newLocalListener(t)
 	defer ln.Close()
