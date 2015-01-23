@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb33037d_886dbb70",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "618f34ae_92c1ac2e",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_c7ed344a",
         "filename": "src/math/big/float.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-30T19:16:15Z",
       "side": 1,
       "message": "It might be worth preallocating a backing array for the nat slice that is big enough to hold a float64\u0027s mantissa. That is, add a field to Float like\n\nmantArr [64/_W]Word\n\nand then the initial mant in SetFloat64 can be set to nat(mantArr[:]), avoiding an alloc.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb33037d_480b3396",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "maybe, but that\u0027s not what I meant with making this more efficient (even though it would make this more efficient) - but in general that backing array is likely too small anyway because this package is supposed to be used for large numbers.",
+      "parentUuid": "618f34ae_c7ed344a",
       "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "eb33037d_e896c7da",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "You do understand the purpose of Accuracy but it is the intent to always compute it correctly for one basic operation inly. But the point here is that accuracy only needs to be determined for one basic operation, not a sequence; and for now we can. If we need another mode, we can introduce it later.\n\nLet\u0027s say we want to compute (a+b) + (c+d) and a+b returns a below (accuracy), and (c+d) and above. One could argue now that it\u0027s not possible to say anything about (a+b) + (c+d) vs the exact result since the first half is below the correct result for the first half, and the 2nd half is above. So the final accuracy is unknown.\n\nBut we don\u0027t care for the purpose here. Accuracy is always for the last operation assuming its inputs were accurate.\n\nIf we end up supporting more complex operations (sin, cos, etc.) we may have to revisit. Fine to it then.",
+      "parentUuid": "618f34ae_c7c454d4",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_07cf1cec",
         "filename": "src/math/big/float.go",
         "patchSetId": 7
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "eb33037d_e8c1e7c5",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "618f34ae_07cf1cec",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_e7c950e9",
         "filename": "src/math/big/float.go",
         "patchSetId": 7
@@ -81,6 +153,24 @@
       "writtenOn": "2014-12-30T19:16:15Z",
       "side": 1,
       "message": "Here and below, consider using tools/cmd/stringer to generate these String functions.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb33037d_68a877e8",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "not worth it for now",
+      "parentUuid": "618f34ae_e7c950e9",
       "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "eb33037d_e87c87df",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "618f34ae_e7e23059",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 5
+      },
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "618f34ae_12f83c88",
         "filename": "src/math/big/float.go",
         "patchSetId": 7
@@ -121,6 +235,24 @@
       "writtenOn": "2014-12-30T19:16:15Z",
       "side": 1,
       "message": "I don\u0027t see why this must be true. In particular, z.prec could have just been set to 0 by Round before this call.\n\nAnd if z.prec is 0, bad things can happen below.",
+      "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb33037d_689157ae",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T01:06:31Z",
+      "side": 1,
+      "message": "it\u0027s true now after validate",
+      "parentUuid": "618f34ae_12f83c88",
       "revId": "feb7f59d7edcb69dad1e0930bb79d79c0143e609",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
