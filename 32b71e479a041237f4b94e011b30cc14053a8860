@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b75533d_0e9b0b4e",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1370,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T19:14:49Z",
+      "side": 1,
+      "message": "not needed - IsGraphic contains the same fast path already as IsLetter",
+      "parentUuid": "ab8bcb6e_90f4f495",
+      "revId": "32b71e479a041237f4b94e011b30cc14053a8860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8bcb6e_50ef6cc0",
         "filename": "src/go/printer/testdata/declarations.input",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-23T17:18:42Z",
       "side": 1,
       "message": "NB: trailing space",
+      "revId": "32b71e479a041237f4b94e011b30cc14053a8860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b75533d_ee7a3f59",
+        "filename": "src/go/printer/testdata/declarations.input",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T19:14:49Z",
+      "side": 1,
+      "message": "that\u0027s ok - we it\u0027s the input which can and should contain garbage white space (even if this one was not intended) - we care that it\u0027s gone in the golden files",
+      "parentUuid": "ab8bcb6e_50ef6cc0",
       "revId": "32b71e479a041237f4b94e011b30cc14053a8860",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
