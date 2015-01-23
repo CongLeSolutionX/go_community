@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab02ebb8_58fc7dc6",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "Of course, prec controls memory use and time requirements, but its also relevant  to reason about operations. For instance, to get IEEE floating-point emulation, the precision must be set to match.\n\nAlso, because prec is used to determine the result precision, we need to set it even for a zero, if that zero variable is later used as a result argument.\n\nPrec \u003d\u003d 0 could mean \"as precise as possible\" which would work for +,-,* but lead to even growing numbers. For / it does not in general since some fractions cannot be represented in finite form.",
+      "parentUuid": "8bee0733_bf4497ed",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8bcb6e_f3a8ea6c",
         "filename": "src/math/big/float.go",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-23T22:36:36Z",
       "side": 1,
       "message": "I think yes, since it\u0027s there in the representation, there in the docstring\u0027s explanation of the abstraction, and present in IEEE 754.",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab02ebb8_b81959a4",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "yes - removed this entry",
+      "parentUuid": "ab8bcb6e_f3a8ea6c",
       "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ab02ebb8_981e1588",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "ab8bcb6e_13c24e34",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8bcb6e_937f1e48",
         "filename": "src/math/big/float.go",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2015-01-23T22:36:36Z",
       "side": 1,
       "message": "I don\u0027t claim to fully understand this.",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab02ebb8_f823d1cd",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "ACK\n\nIt _is_ extensively tested.",
+      "parentUuid": "ab8bcb6e_937f1e48",
       "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ab02ebb8_d8288dab",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "not really: _W is a constant and so is _W - 1. z.prec is not. The evaluation for z.prec + _W - 1 is defined as (z.prec + _W) - 1 which is two binary ops at runtime vs one in the written form.\n\nIf a compiler doesn\u0027s reassociate (which may be ok in this case since its not observable), then the form w/o the ()\u0027s is more code and slower.",
+      "parentUuid": "ab8bcb6e_f391ca32",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8bcb6e_739e3a3f",
         "filename": "src/math/big/float.go",
         "patchSetId": 12
@@ -98,6 +188,24 @@
       "writtenOn": "2015-01-23T22:36:36Z",
       "side": 1,
       "message": "// move last n words to front",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab858b8b_c0cc3ecd",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8bcb6e_739e3a3f",
       "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "ab858b8b_00d70655",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bee0733_7faccf29",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb0d5feb_99473b80",
         "filename": "src/math/big/float.go",
         "patchSetId": 12
@@ -149,6 +275,24 @@
       "writtenOn": "2015-01-23T22:36:36Z",
       "side": 1,
       "message": "typo: adjusted",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab858b8b_40d90e84",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb0d5feb_99473b80",
       "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "ab858b8b_80e31632",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "adjusted TODO",
+      "parentUuid": "cb0d5feb_3980af24",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8bcb6e_f3ff8a6f",
         "filename": "src/math/big/nat_test.go",
         "patchSetId": 12
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "ab858b8b_c0f51ee3",
+        "filename": "src/math/big/nat_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "The s or sticky bit is called that because it\u0027s the OR of all bits after the rounding bit - that is, if there\u0027s a single 1 bit in there it \"sticks\".\n\nNaming borrowed from the paper mentioned in Float.Add.",
+      "parentUuid": "ab8bcb6e_f3ff8a6f",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab8bcb6e_93f4fe95",
         "filename": "src/math/big/rat.go",
         "patchSetId": 12
@@ -200,6 +380,24 @@
       "writtenOn": "2015-01-23T22:36:36Z",
       "side": 1,
       "message": "neg, err :\u003d scanSign(r)\nif err !\u003d nil { ... } \n\n?",
+      "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab858b8b_4002ee35",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-01-23T23:43:13Z",
+      "side": 1,
+      "message": "sure but then I need to mention the err in the return - that\u0027s fine too, it\u0027s just not consistent with the rest of this code",
+      "parentUuid": "ab8bcb6e_93f4fe95",
       "revId": "b27dbf42f4dc71c026bb83636af12df92b968d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
