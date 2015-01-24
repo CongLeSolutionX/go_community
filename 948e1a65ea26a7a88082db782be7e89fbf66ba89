@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bd5277b_2a9b3f80",
+        "filename": "src/runtime/cgo/gcc_arm.S",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-24T18:59:07Z",
+      "side": 1,
+      "message": "wants",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "948e1a65ea26a7a88082db782be7e89fbf66ba89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd5277b_aaa60fc7",
+        "filename": "src/runtime/cgo/gcc_darwin_arm.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-24T18:59:07Z",
+      "side": 1,
+      "message": "PTHREAD_KEYS_MAX appears to be defined in limits.h as part of iPhoneOS8.1. Is there some reason you are defining your own?",
+      "revId": "948e1a65ea26a7a88082db782be7e89fbf66ba89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
