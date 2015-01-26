@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab858b8b_e37f8c46",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5830
+      },
+      "writtenOn": "2015-01-26T02:22:04Z",
+      "side": 1,
+      "message": "This name is, alas, no longer particularly apt. Candidate for a go fix rewrite?",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab858b8b_63745c69",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 5830
+      },
+      "writtenOn": "2015-01-26T02:22:04Z",
+      "side": 1,
+      "message": "? given the following lines",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab858b8b_e3586cfe",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5830
+      },
+      "writtenOn": "2015-01-26T02:22:04Z",
+      "side": 1,
+      "message": "Need a test with the critical bit set, I think.",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
