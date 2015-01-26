@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8bd5277b_ea4807b0",
+        "filename": "src/runtime/rt0_darwin_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-26T08:03:23Z",
+      "side": 1,
+      "message": "you\u0027re right. Removed.",
+      "parentUuid": "ee7b115e_82ba3adb",
+      "revId": "621256205de9d0b5b1f671607d8215aadab62750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7b115e_c27b625d",
         "filename": "src/runtime/sys_darwin_arm.s",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2015-01-13T02:35:13Z",
       "side": 1,
       "message": "Looks like you\u0027re using the stack here. 8?",
+      "range": {
+        "startLine": 195,
+        "startChar": 35,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "621256205de9d0b5b1f671607d8215aadab62750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd5277b_0a40fb82",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-26T08:03:23Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter here, because we\u0027re using reserved system\nstack. I don\u0027t want to let the assembler and liblink calcuate\nstack pointer for me (that\u0027s way I used R13 (not SP) exclusively\nbelow.",
+      "parentUuid": "ee7b115e_c27b625d",
       "range": {
         "startLine": 195,
         "startChar": 35,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "8bd5277b_6a3d37fb",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-26T08:03:23Z",
+      "side": 1,
+      "message": "Actually, it seems all the iOS kernel I tried has this problem.\nI haven\u0027t tried anything newer than iOS 5.1.1, though.",
+      "parentUuid": "ee7b115e_226b2e8f",
+      "range": {
+        "startLine": 223,
+        "startChar": 10,
+        "endLine": 223,
+        "endChar": 14
+      },
+      "revId": "621256205de9d0b5b1f671607d8215aadab62750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7b115e_22524edb",
         "filename": "src/runtime/sys_darwin_arm.s",
         "patchSetId": 4
@@ -76,6 +142,24 @@
       "writtenOn": "2015-01-13T02:35:13Z",
       "side": 1,
       "message": "This needs some context.",
+      "revId": "621256205de9d0b5b1f671607d8215aadab62750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd5277b_4a3af304",
+        "filename": "src/runtime/sys_darwin_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-26T08:03:23Z",
+      "side": 1,
+      "message": "most likely left over dreg.\nI\u0027ve removed those misleading commented out code.",
+      "parentUuid": "ee7b115e_22524edb",
       "revId": "621256205de9d0b5b1f671607d8215aadab62750",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
