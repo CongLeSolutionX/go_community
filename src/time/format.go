@@ -39,6 +39,44 @@ import "errors"
 // offset for the UTC zone.  Thus:
 //	Z0700  Z or ±hhmm
 //	Z07:00 Z or ±hh:mm
+//
+// To be clear, each date element of the format is unique so that it can
+// be parsed unambiguously:
+//  The month is always represented by 1: "January", "Jan", "1", "01".
+//  The day of the month is always 2: "2", "_2", "02".
+//  The hour is always 3: "3", "03", "_3" or "15", which is 3 in 24-hour time.
+//  ...and so on with 4 being minutes, 5, seconds, 6 year ("2006" or "06").
+//  The period is always "PM" or "pm", specifically not "AM" or "am".
+//  The timezone is always "MST", which is Z0700 or "-700" in ISO8601.
+//  ".0", ".00", and so on includes trailing zeros.  ".9" and so on omits zeros.
+//  The day of week is always "Mon" or "Monday". Unlike months, there is no
+//    number associated with the day of the week.
+// Some of the elements can be prefixed with a modifier:
+//   Prepend a 0 to zero-fill single-digits: "01", "02", "03", "04", "05, "06"
+//   Prepend a space so that days are fixed-width: "_2"
+//   No other elements permit "_" or "0" even though that might be useful.
+//
+// The formatter will output any unrecognized runes verbatim.  Thus
+// time.Format("Date: 02-Jan-2006") will output "Date:" and the
+// hyphens as expected.  Over-use of this is risky. For example,
+// time.Format("Your shipment arrives in January") will result in
+// "Your shiament arrives in December" if the datestamp is on an early
+// on a December morning because "pm" appears in the word "shipment".
+//
+// When layouts are used for parsing each date element may not apear
+// more than once or the function will return an error.
+// When used for formating, elements can be used multiple times:
+//   time.Format("January, oh, January, you are #1 in my book!")
+// results in "December, oh, December, you are #12 in my book!"
+//
+// Examples:
+//   time.Kitchen == "3:04PM" which outputs "12:01PM" a minute after noon.
+//   "2006-02-03" is YYYY-MM-DD which is favored by geeks.
+//   "20060203" is YYYYMMDD which is very compact.
+//   "200623" is YYYYMD which would confusingly format as 1968122 on both
+//      January 22nd and December 2nd, so please don't do that,
+//      nor "2006023", nor "2006203". As input to time.Parse such
+//      layout strings will return unexpected results.
 const (
 	ANSIC       = "Mon Jan _2 15:04:05 2006"
 	UnixDate    = "Mon Jan _2 15:04:05 MST 2006"
