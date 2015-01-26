@@ -400,13 +400,19 @@ func (t Time) String() string {
 	return t.Format("2006-01-02 15:04:05.999999999 -0700 MST")
 }
 
-// Format returns a textual representation of the time value formatted
-// according to layout, which defines the format by showing how the reference
-// time, defined to be
-//	Mon Jan 2 15:04:05 -0700 MST 2006
-// would be displayed if it were the value; it serves as an example of the
-// desired output. The same display rules will then be applied to the time
+// Format returns a string representation of the time value formatted
+// according to layout.
+// The layout string serves as an example of the desired output.
+// It specifies how the "reference time" would be formatted if it were the Time
 // value.
+//
+// The reference time,
+//	Mon Jan 2 15:04:05 2006 -0700 MST
+// was chosen to be easy to remember; its values correspond with the order
+// of their appearance here:
+//	Mon Jan 2 15:04:05 2006 -0700 MST
+//	  0   1 2  3  4  5    6     7
+//
 // Predefined layouts ANSIC, UnixDate, RFC3339 and others describe standard
 // and convenient representations of the reference time. For more information
 // about the formats and the definition of the reference time, see the
