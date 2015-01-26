@@ -16,6 +16,24 @@
       "revId": "6aab0e0406e29ef84841330e5aec6838b5a518f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd5277b_8dc24567",
+        "filename": "src/syscall/syscall_darwin_arm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-01-26T14:10:10Z",
+      "side": 1,
+      "message": "it does look identical. maybe there is a case for syscall_darwin_32bit.go.",
+      "parentUuid": "ab858b8b_66d62ad7",
+      "revId": "6aab0e0406e29ef84841330e5aec6838b5a518f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
