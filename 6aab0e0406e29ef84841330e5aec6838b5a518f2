@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab858b8b_66d62ad7",
+        "filename": "src/syscall/syscall_darwin_arm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-26T13:20:15Z",
+      "side": 1,
+      "message": "how much of this file is copied from _darwin_386.go ?",
+      "revId": "6aab0e0406e29ef84841330e5aec6838b5a518f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
