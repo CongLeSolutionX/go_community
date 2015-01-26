@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bab5bf1_6cef1b8f",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2015-01-26T08:16:54Z",
+      "side": 1,
+      "message": "I agree that this should be renamed to \"NameConstraintsCritical\". Would that be a separate change for GO 2.0? \n\nAny idea/documentation how to add this go fix?",
+      "parentUuid": "ab858b8b_e37f8c46",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab858b8b_63745c69",
         "filename": "src/crypto/x509/x509.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2bab5bf1_4cecdf98",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2015-01-26T08:16:54Z",
+      "side": 1,
+      "message": "Thanks, this is now duplicate. Lines removed.",
+      "parentUuid": "ab858b8b_63745c69",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab858b8b_e3586cfe",
         "filename": "src/crypto/x509/x509_test.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-01-26T02:22:04Z",
       "side": 1,
       "message": "Need a test with the critical bit set, I think.",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bab5bf1_2cf5135f",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2015-01-26T08:16:54Z",
+      "side": 1,
+      "message": "Critical Name Constraints can be set but not be handled for now as we are not actually checking the any constraints. This first step is needed before we can actually start enforcing the constraints when marked critical.",
+      "parentUuid": "ab858b8b_e3586cfe",
       "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
