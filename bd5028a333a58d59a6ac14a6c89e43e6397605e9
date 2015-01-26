@@ -270,6 +270,30 @@
     },
     {
       "key": {
+        "uuid": "ab858b8b_23efb4c1",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-26T01:15:03Z",
+      "side": 1,
+      "message": "Mikio, I suggest you propose the test change. You know that area well. Please make change that covers broken issue 5395 scenario and post it here. Hopefully mattn and me will be able to make it pass on windows. Thank you.",
+      "parentUuid": "ab858b8b_40982e81",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "bd5028a333a58d59a6ac14a6c89e43e6397605e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b763314_352e9a80",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 10
