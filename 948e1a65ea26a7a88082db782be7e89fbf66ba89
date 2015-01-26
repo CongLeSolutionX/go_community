@@ -39,6 +39,24 @@
       "revId": "948e1a65ea26a7a88082db782be7e89fbf66ba89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bd5277b_4a34b3c7",
+        "filename": "src/runtime/cgo/gcc_darwin_arm.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-26T08:03:11Z",
+      "side": 1,
+      "message": "Ah, you\u0027re right. I was worried about it not being defined in\nearlier SDKs, and I just checked it\u0027s also in 5.1 and 6.1 SDK.\n\nI will include \u003climits.h\u003e and use PTHREAD_KEYS_MAX instead.",
+      "parentUuid": "8bd5277b_aaa60fc7",
+      "revId": "948e1a65ea26a7a88082db782be7e89fbf66ba89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
