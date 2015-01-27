@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b232f8e_05a812e7",
+        "filename": "src/cmd/gc/walk.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-01-27T00:11:36Z",
+      "side": 1,
+      "message": "args are backwards in comment",
+      "range": {
+        "startLine": 1382,
+        "startChar": 23,
+        "endLine": 1382,
+        "endChar": 36
+      },
+      "revId": "1cf69b6cf5df449b67255f3ab8b1785c04972727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
