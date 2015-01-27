@@ -259,16 +259,6 @@ type rtype struct {
 	zero          unsafe.Pointer    // pointer to zero value
 }
 
-// a copy of runtime.typeAlg
-type typeAlg struct {
-	// function for hashing objects of this type
-	// (ptr to object, size, seed) -> hash
-	hash func(unsafe.Pointer, uintptr, uintptr) uintptr
-	// function for comparing objects of this type
-	// (ptr to object A, ptr to object B, size) -> ==?
-	equal func(unsafe.Pointer, unsafe.Pointer, uintptr) bool
-}
-
 // Method on non-interface type
 type method struct {
 	name    *string        // name of method
@@ -1739,12 +1729,7 @@ func SliceOf(t Type) Type {
 //
 // If the resulting type would be larger than the available address space,
 // ArrayOf panics.
-//
-// TODO(rsc): Unexported for now. Export once the alg field is set correctly
-// for the type. This may require significant work.
-//
-// TODO(rsc): TestArrayOf is also disabled. Re-enable.
-func arrayOf(count int, elem Type) Type {
+func ArrayOf(count int, elem Type) Type {
 	typ := elem.(*rtype)
 	slice := SliceOf(elem)
 
@@ -1768,7 +1753,6 @@ func arrayOf(count int, elem Type) Type {
 	prototype := *(**arrayType)(unsafe.Pointer(&iarray))
 	array := new(arrayType)
 	*array = *prototype
-	// TODO: Set extra kind bits correctly.
 	array.string = &s
 	array.hash = fnv1(typ.hash, '[')
 	for n := uint32(count); n > 0; n >>= 8 {
@@ -1783,14 +1767,35 @@ func arrayOf(count int, elem Type) Type {
 	array.size = typ.size * uintptr(count)
 	array.align = typ.align
 	array.fieldAlign = typ.fieldAlign
-	// TODO: array.alg
-	// TODO: array.gc
 	// TODO:
 	array.uncommonType = nil
 	array.ptrToThis = nil
 	array.zero = unsafe.Pointer(&make([]byte, array.size)[0])
 	array.len = uintptr(count)
 	array.slice = slice.(*rtype)
+
+	var gc gcProg
+	for i := 0; i < count; i++ {
+		gc.appendProg(typ)
+	}
+
+	var hasPtr bool
+	array.gc[0], hasPtr = gc.finalize()
+	if !hasPtr {
+		array.kind |= kindNoPointers
+	} else {
+		array.kind &^= kindNoPointers
+	}
+
+	array.alg = algtype(array)
+
+	switch {
+	case count == 1 && !ifaceIndir(typ):
+		// array of 1 direct iface type can be direct
+		array.kind |= kindDirectIface
+	default:
+		array.kind &^= kindDirectIface
+	}
 
 	return cachePut(ckey, &array.rtype)
 }
