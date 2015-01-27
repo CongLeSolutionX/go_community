@@ -96,6 +96,107 @@ var algarray = [alg_max]typeAlg{
 	alg_CPLX128:  {c128hash, c128equal},
 }
 
+// algtype1 returns the index into algarray or -1 and the associated typeAlg (or
+// nil)
+//
+// algtype1 is modeled after cmd/internal/gc/subr.go's algtype1
+func algtype1(t *_type) (int, *typeAlg) {
+	kind := t.kind & kindMask
+	switch kind {
+	case kindInt8, kindInt16, kindInt32, kindInt64,
+		kindUint8, kindUint16, kindUint32, kindUint64,
+		kindInt, kindUint, kindUintptr,
+		kindBool,
+		kindPtr,
+		kindChan, kindUnsafePointer:
+		return alg_MEM, &algarray[alg_MEM]
+
+	case kindFunc, kindMap:
+		return alg_NOEQ, &algarray[alg_NOEQ]
+
+	case kindFloat32:
+		return alg_FLOAT32, &algarray[alg_FLOAT32]
+
+	case kindFloat64:
+		return alg_FLOAT64, &algarray[alg_FLOAT64]
+
+	case kindComplex64:
+		return alg_CPLX64, &algarray[alg_CPLX64]
+
+	case kindComplex128:
+		return alg_CPLX128, &algarray[alg_CPLX128]
+
+	case kindString:
+		return alg_STRING, &algarray[alg_STRING]
+
+	case kindInterface:
+		mt := (*interfacetype)(unsafe.Pointer(t))
+		if len(mt.mhdr) <= 0 {
+			return alg_NILINTER, &algarray[alg_NILINTER]
+		}
+		return alg_INTER, &algarray[alg_INTER]
+
+	case kindArray:
+		at := (*slicetype)(unsafe.Pointer(t))
+		et := at.elem
+		alg := et.alg
+		if alg == nil {
+			panic("runtime: type " + *et.x.name + " has nil typeAlg")
+		}
+		return -1, alg
+
+	case kindSlice:
+		return alg_SLICE, &algarray[alg_SLICE]
+
+	case kindStruct:
+		panic("not implemented")
+
+	default:
+		n := "???"
+		if t.x != nil && t.x.name != nil {
+			n = *t.x.name
+		}
+		panic("runtime: unknown kind (type=" + n + ")")
+	}
+
+	return 0, nil
+}
+
+// algtype returns the correct typeAlg for the given _type.
+//
+// algtype is modeled after cmd/internal/gc/subr.go's algtype
+func algtype(t *_type) *typeAlg {
+	i, alg := algtype1(t)
+	if i == alg_MEM || i == alg_NOEQ {
+		switch t.size {
+		case 0:
+			i += alg_MEM0 - alg_MEM
+		case 1:
+			i += alg_MEM8 - alg_MEM
+		case 2:
+			i += alg_MEM16 - alg_MEM
+		case 4:
+			i += alg_MEM32 - alg_MEM
+		case 8:
+			i += alg_MEM64 - alg_MEM
+		case 16:
+			i += alg_MEM128 - alg_MEM
+		}
+		alg = &algarray[i]
+	}
+
+	if alg == nil {
+		panic("reflect: nil typeAlg for type " + *t.x.name)
+	}
+
+	return alg
+}
+
+//go:linkname reflect_algtype reflect.algtype
+func reflect_algtype(t *_type) *typeAlg {
+	return algtype(t)
+}
+
 var useAeshash bool
 
 // in asm_*.s
