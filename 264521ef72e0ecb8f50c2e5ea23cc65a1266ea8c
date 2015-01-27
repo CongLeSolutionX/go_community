@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77f61b4b_a2828011",
+        "filename": "src/net/interface_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-27T05:59:32Z",
+      "side": 1,
+      "message": "This fails on my windows:\n\nC:\\go\\root\\src\\net\u003ego test -short\n--- FAIL: TestInterfaces (0.00s)\n        interface_test.go:72: \"{XXXXXXXXXXXXXXXXXXXXXXXXXXX}\": flags \"up|broadcast|multicast\", ifindex 2, mtu 1500\n        interface_test.go:73: hardware address \"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\"\n        interface_test.go:160: unexpected type: *net.IPAddr\n        interface_test.go:88: got 0; want more than or equal one\n--- FAIL: TestInterfaceAddrs (0.00s)\n        interface_test.go:160: unexpected type: *net.IPAddr\n        interface_test.go:113: got 0; want more than or equal one\nFAIL\nexit status 1\nFAIL    net     3.781s\n\nPerhaps you Skip (re issue 5395) these tests on windows. And then mattn will enable them again once he implements all windows code.",
+      "revId": "264521ef72e0ecb8f50c2e5ea23cc65a1266ea8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
