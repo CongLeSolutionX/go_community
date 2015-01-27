@@ -96,6 +96,14 @@ var algarray = [alg_max]typeAlg{
 	alg_CPLX128:  {c128hash, c128equal},
 }
 
+//go:linkname reflect_algarray reflect.algarray
+func reflect_algarray(i int) *typeAlg {
+	if i < 0 || i >= alg_max {
+		return nil
+	}
+	return &algarray[i]
+}
+
 var useAeshash bool
 
 // in asm_*.s
