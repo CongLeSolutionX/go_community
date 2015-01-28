@@ -140,21 +140,9 @@ func lookupTXT(name string) ([]string, error) {
 }
 
 func lookupAddr(addr string) ([]string, error) {
-	names := lookupStaticAddr(addr)
-	if len(names) > 0 {
-		return names, nil
+	ptrs, err, ok := cgoLookupPTRName(addr)
+	if !ok {
+		ptrs, err = goLookupPTRName(addr)
 	}
-	arpa, err := reverseaddr(addr)
-	if err != nil {
-		return nil, err
-	}
-	_, rrs, err := lookup(arpa, dnsTypePTR)
-	if err != nil {
-		return nil, err
-	}
-	ptrs := make([]string, len(rrs))
-	for i, rr := range rrs {
-		ptrs[i] = rr.(*dnsRR_PTR).Ptr
-	}
-	return ptrs, nil
+	return ptrs, err
 }
