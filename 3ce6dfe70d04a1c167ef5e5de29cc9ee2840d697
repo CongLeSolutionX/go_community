@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78347c3_65eee015",
+        "filename": "src/cmd/gc/walk.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-28T14:55:23Z",
+      "side": 1,
+      "message": "You could even drop the widthptr check, since isdirectiface implies pointer.",
+      "revId": "3ce6dfe70d04a1c167ef5e5de29cc9ee2840d697",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
