@@ -203,14 +203,7 @@ struct EscState {
 	//   - assignments to global variables
 	// flow to.
 	Node	theSink;
-	
-	// If an analyzed function is recorded to return
-	// pieces obtained via indirection from a parameter,
-	// and later there is a call f(x) to that function,
-	// we create a link funcParam <- x to record that fact.
-	// The funcParam node is handled specially in escflood.
-	Node	funcParam;	
-	
+
 	NodeList*	dsts;		// all dst nodes
 	int	loopdepth;	// for detecting nested loop scopes
 	int	pdepth;		// for debug printing in recursions.
@@ -276,12 +269,6 @@ analyze(NodeList *all, int recursive)
 	e->theSink.sym = lookup(".sink");
 	e->theSink.escloopdepth = -1;
 	e->recursive = recursive;
-	
-	e->funcParam.op = ONAME;
-	e->funcParam.orig = &e->funcParam;
-	e->funcParam.class = PAUTO;
-	e->funcParam.sym = lookup(".param");
-	e->funcParam.escloopdepth = 10000000;
 	
 	for(l=all; l; l=l->next)
 		if(l->n->op == ODCLFUNC)
@@ -621,8 +608,25 @@ esc(EscState *e, Node *n, Node *up)
 
 	case OCONV:
 	case OCONVNOP:
-	case OCONVIFACE:
 		escassign(e, n, n->left);
+		break;
+
+	case OCONVIFACE:
+		n->esc = EscNone; // until proven otherwise
+		e->noesc = list(e->noesc, n);
+		n->escloopdepth = e->loopdepth;
+		if(isinter(n->type) && isinter(n->left->type))
+			escassign(e, n, n->left);
+		else if(isinter(n->type)) {
+			Node *fake;
+			fake = nod(OADDR, nod(OXXX, N, N), N);
+			fake->type = ptrto(types[TINT]);
+			fake->left->type = types[TINT];
+			escassign(e, n, fake);
+			escassign(e, fake->left, n->left);
+		}
+		else
+			escassign(e, n, nod(OIND, n->left, N));
 		break;
 
 	case OARRAYLIT:
@@ -757,8 +761,8 @@ escassign(EscState *e, Node *dst, Node *src)
 		return;
 
 	if(debug['m'] > 1)
-		print("%L:[%d] %S escassign: %hN(%hJ) = %hN(%hJ)\n", lineno, e->loopdepth,
-		      (curfn && curfn->nname) ? curfn->nname->sym : S, dst, dst, src, src);
+		print("%L:[%d] %S escassign: %hN(%O %hJ) = %hN(%O %hJ)\n", lineno, e->loopdepth,
+		      (curfn && curfn->nname) ? curfn->nname->sym : S, dst, dst->op, dst, src, src->op, src);
 
 	setlineno(dst);
 	
@@ -778,6 +782,7 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OSTRUCTLIT:
 	case OPTRLIT:
 	case OCALLPART:
+	case OXXX: // fake node from OCONVIFACE
 		break;
 
 	case ONAME:
@@ -831,6 +836,7 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OCLOSURE:
 	case OCALLPART:
 	case ORUNESTR:
+	case OCONVIFACE:
 		escflows(e, dst, src);
 		break;
 
@@ -849,12 +855,9 @@ escassign(EscState *e, Node *dst, Node *src)
 			break;
 		// fallthrough
 	case OCONV:
-	case OCONVIFACE:
 	case OCONVNOP:
 	case ODOTMETH:	// treat recv.meth as a value with recv in it, only happens in ODEFER and OPROC
 			// iface.method already leaks iface in esccall, no need to put in extra ODOTINTER edge here
-	case ODOTTYPE:
-	case ODOTTYPE2:
 	case OSLICE:
 	case OSLICE3:
 	case OSLICEARR:
@@ -862,6 +865,11 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OSLICESTR:
 		// Conversions, field access, slice all preserve the input value.
 		escassign(e, dst, src->left);
+		break;
+
+	case ODOTTYPE:
+	case ODOTTYPE2:
+		escassign(e, dst, nod(OIND, src->left, N));
 		break;
 
 	case OAPPEND:
@@ -904,6 +912,7 @@ escassign(EscState *e, Node *dst, Node *src)
 static int
 escassignfromtag(EscState *e, Strlit *note, NodeList *dsts, Node *src)
 {
+	NodeList *d;
 	int em, em0;
 	
 	em = parsetag(note);
@@ -918,8 +927,10 @@ escassignfromtag(EscState *e, Strlit *note, NodeList *dsts, Node *src)
 	
 	// If content inside parameter (reached via indirection)
 	// escapes back to results, mark as such.
-	if(em & EscContentEscapes)
-		escassign(e, &e->funcParam, src);
+	if(em & EscContentEscapes) {
+		for(d = dsts; d; d=d->next)
+			escassign(e, d->n, nod(OIND, src, N));
+	}
 
 	em0 = em;
 	for(em >>= EscReturnBits; em && dsts; em >>= 1, dsts=dsts->next)
@@ -1042,8 +1053,12 @@ esccall(EscState *e, Node *n, Node *up)
 	if(n->op != OCALLFUNC) {
 		t = getthisx(fntype)->type;
 		src = n->left->left;
-		if(haspointers(t->type))
-			escassignfromtag(e, t->note, n->escretval, src);
+		if(n->op == OCALLINTER) {
+			escassign(e, &e->theSink, nod(OIND, src, N));
+		} else {
+			if(haspointers(t->type))
+				escassignfromtag(e, t->note, n->escretval, src);
+		}
 	}
 	
 	for(t=getinargx(fntype)->type; ll; ll=ll->next) {
@@ -1152,25 +1167,11 @@ escflood(EscState *e, Node *dst)
 	}
 }
 
-// There appear to be some loops in the escape graph, causing
-// arbitrary recursion into deeper and deeper levels.
-// Cut this off safely by making minLevel sticky: once you
-// get that deep, you cannot go down any further but you also
-// cannot go up any further. This is a conservative fix.
-// Making minLevel smaller (more negative) would handle more
-// complex chains of indirections followed by address-of operations,
-// at the cost of repeating the traversal once for each additional
-// allowed level when a loop is encountered. Using -2 suffices to
-// pass all the tests we have written so far, which we assume matches
-// the level of complexity we want the escape analysis code to handle.
-#define MinLevel (-2)
-/*c2go enum { MinLevel = -2 };*/
-
 static void
 escwalk(EscState *e, int level, Node *dst, Node *src)
 {
 	NodeList *ll;
-	int leaks, newlevel;
+	int leaks;
 
 	if(src->walkgen == walkgen && src->esclevel <= level)
 		return;
@@ -1181,13 +1182,19 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 		print("escwalk: level:%d depth:%d %.*s %hN(%hJ) scope:%S[%d]\n",
 		      level, e->pdepth, e->pdepth, "\t\t\t\t\t\t\t\t\t\t", src, src,
 		      (src->curfn && src->curfn->nname) ? src->curfn->nname->sym : S, src->escloopdepth);
+	if(level < -1)
+		fatal("escwalk: bad level %d", level);
 
 	e->pdepth++;
 
 	// Input parameter flowing to output parameter?
 	if(dst->op == ONAME && dst->class == PPARAMOUT && dst->vargen <= 20) {
 		if(src->op == ONAME && src->class == PPARAM && src->curfn == dst->curfn && src->esc != EscScope && src->esc != EscHeap) {
-			if(level == 0) {
+			if(level < 0) {
+				// Can't be here with level<0.
+				// The OADDR case below should have been marked src as EscHeap already.
+				fatal("escwalk: level<0");
+			} else if(level == 0) {
 				if(debug['m'])
 					warnl(src->lineno, "leaking param: %hN to result %S", src, dst->sym);
 				if((src->esc&EscMask) != EscReturn)
@@ -1205,11 +1212,7 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 		}
 	}
 
-	// The second clause is for values pointed at by an object passed to a call
-	// that returns something reached via indirect from the object.
-	// We don't know which result it is or how many indirects, so we treat it as leaking.
-	leaks = level <= 0 && dst->escloopdepth < src->escloopdepth ||
-		level < 0 && dst == &e->funcParam && haspointers(src->type);
+	leaks = level <= 0 && dst->escloopdepth < src->escloopdepth;
 
 	switch(src->op) {
 	case ONAME:
@@ -1233,13 +1236,10 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 		if(leaks) {
 			src->esc = EscHeap;
 			addrescapes(src->left);
-			if(debug['m'])
+			if(debug['m'] && src->left->op != OXXX)
 				warnl(src->lineno, "%hN escapes to heap", src);
 		}
-		newlevel = level;
-		if(level > MinLevel)
-			newlevel--;
-		escwalk(e, newlevel, dst, src->left);
+		escwalk(e, level-1, dst, src->left);
 		break;
 
 	case OARRAYLIT:
@@ -1260,6 +1260,7 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 	case OCLOSURE:
 	case OCALLPART:
 	case ORUNESTR:
+	case OCONVIFACE:
 		if(leaks) {
 			src->esc = EscHeap;
 			if(debug['m'])
@@ -1285,13 +1286,12 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 	case ODOTPTR:
 	case OINDEXMAP:
 	case OIND:
-		newlevel = level;
-		if(level > MinLevel)
-			newlevel++;
-		escwalk(e, newlevel, dst, src->left);
+		escwalk(e, level+1, dst, src->left);
 	}
 
 recurse:
+	if(level < 0)
+		level = 0;
 	for(ll=src->escflowsrc; ll; ll=ll->next)
 		escwalk(e, level, dst, ll->n);
 

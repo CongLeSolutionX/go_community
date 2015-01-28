@@ -1003,8 +1003,22 @@ walkexpr(Node **np, NodeList **init)
 				ll = list(ll, nod(OADDR, n->left, N));
 			else
 				ll = list(ll, nod(OADDR, copyexpr(n->left, n->left->type, init), N));
+			dowidth(n->left->type);
+			r = nodnil();
+			if(n->esc == EscNone && n->left->type->width <= 1024) {
+				// Allocate stack buffer for value stored in interface.
+				r = temp(n->left->type);
+				r = nod(OAS, r, N);  // zero temp
+				typecheck(&r, Etop);
+				*init = list(*init, r);
+				r = nod(OADDR, r->left, N);
+				typecheck(&r, Erv);
+			}
+			ll = list(ll, r);
 		}
 		argtype(fn, n->left->type);
+		if(!isinter(n->left->type))
+			argtype(fn, n->left->type);
 		argtype(fn, n->type);
 		dowidth(fn->type);
 		n = nod(OCALL, fn, N);
