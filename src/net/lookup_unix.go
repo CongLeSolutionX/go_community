@@ -144,25 +144,10 @@ func lookupTXT(name string) (txt []string, err error) {
 	return
 }
 
-func lookupAddr(addr string) (name []string, err error) {
-	name = lookupStaticAddr(addr)
-	if len(name) > 0 {
-		return
+func lookupAddr(addr string) ([]string, error) {
+	names, err, ok := cgoLookupPTRName(addr)
+	if !ok {
+		names, err = goLookupPTRName(addr)
 	}
-	var arpa string
-	arpa, err = reverseaddr(addr)
-	if err != nil {
-		return
-	}
-	var records []dnsRR
-	_, records, err = lookup(arpa, dnsTypePTR)
-	if err != nil {
-		return
-	}
-	name = make([]string, len(records))
-	for i := range records {
-		r := records[i].(*dnsRR_PTR)
-		name[i] = r.Ptr
-	}
-	return
+	return names, err
 }
