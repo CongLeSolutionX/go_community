@@ -621,7 +621,13 @@ esc(EscState *e, Node *n, Node *up)
 
 	case OCONV:
 	case OCONVNOP:
+		escassign(e, n, n->left);
+		break;
+
 	case OCONVIFACE:
+		n->esc = EscNone; // until proven otherwise
+		e->noesc = list(e->noesc, n);
+		n->escloopdepth = e->loopdepth;
 		escassign(e, n, n->left);
 		break;
 
@@ -830,6 +836,7 @@ escassign(EscState *e, Node *dst, Node *src)
 	case OCLOSURE:
 	case OCALLPART:
 	case ORUNESTR:
+	case OCONVIFACE:
 		escflows(e, dst, src);
 		break;
 
@@ -848,7 +855,6 @@ escassign(EscState *e, Node *dst, Node *src)
 			break;
 		// fallthrough
 	case OCONV:
-	case OCONVIFACE:
 	case OCONVNOP:
 	case ODOTMETH:	// treat recv.meth as a value with recv in it, only happens in ODEFER and OPROC
 			// iface.method already leaks iface in esccall, no need to put in extra ODOTINTER edge here
@@ -1256,6 +1262,7 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 	case OCLOSURE:
 	case OCALLPART:
 	case ORUNESTR:
+	case OCONVIFACE:
 		if(leaks) {
 			src->esc = EscHeap;
 			if(debug['m'])
