@@ -421,3 +421,30 @@ func goLookupCNAME(name string) (cname string, err error) {
 	cname = rr[0].(*dnsRR_CNAME).Cname
 	return
 }
+
+// goLookupPTRName is the native Go implementation of LookupAddr.
+// Used only if cgoLookupPTRName refuses to handle the request
+// (that is, only if cgoLookupPTRName is the stub in cgo_stub.go).
+// Normally we let cgo use the C library resolver instead of
+// depending on our lookup code, so that Go and C get the same
+// answers.
+func goLookupPTRName(addr string) ([]string, error) {
+	names := lookupStaticAddr(addr)
+	if len(names) > 0 {
+		return names, nil
+	}
+	arpa, err := reverseaddr(addr)
+	if err != nil {
+		return nil, err
+	}
+	_, rrs, err := lookup(arpa, dnsTypePTR)
+	if err != nil {
+		return nil, err
+	}
+	names = make([]string, len(rrs))
+	for i := range rrs {
+		r := rrs[i].(*dnsRR_PTR)
+		names[i] = r.Ptr
+	}
+	return names, nil
+}
