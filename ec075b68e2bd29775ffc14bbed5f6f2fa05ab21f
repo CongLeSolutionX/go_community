@@ -45,6 +45,54 @@
       "revId": "ec075b68e2bd29775ffc14bbed5f6f2fa05ab21f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f79dab26_5ec7f19a",
+        "filename": "src/runtime/pprof/trace_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-01-28T19:28:37Z",
+      "side": 1,
+      "message": "plan9 is already here",
+      "parentUuid": "578037c4_7604508d",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "ec075b68e2bd29775ffc14bbed5f6f2fa05ab21f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f79dab26_bb3ac710",
+        "filename": "src/runtime/pprof/trace_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-01-28T19:28:37Z",
+      "side": 1,
+      "message": "I\u0027ve added nacl just in TestTraceSymbolize, because the rest of the tests seem to work",
+      "parentUuid": "3794a3fe_83f9a20d",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "ec075b68e2bd29775ffc14bbed5f6f2fa05ab21f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
