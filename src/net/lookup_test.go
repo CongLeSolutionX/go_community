@@ -118,31 +118,42 @@ func TestLookupGmailTXT(t *testing.T) {
 	}
 }
 
-var lookupGooglePublicDNSAddrs = []struct {
+var lookupAddrTests = []struct {
 	addr string
 	name string
+	err  error
 }{
-	{"8.8.8.8", ".google.com."},
-	{"8.8.4.4", ".google.com."},
-	{"2001:4860:4860::8888", ".google.com."},
-	{"2001:4860:4860::8844", ".google.com."},
+	{"127.0.0.1", "localhost", nil},
+
+	{"8.8.8.8", ".google.com", nil},
+	{"8.8.4.4", ".google.com", nil},
+	{"2001:4860:4860::8888", ".google.com", nil},
+	{"2001:4860:4860::8844", ".google.com", nil},
+
+	// Perhaps it might be good to use AS112 DNS services as
+	// described in RFC 6304.
+	// See https://www.as112.net/ for further information.
+	{"10.0.0.0", "", &DNSError{Name: "10.0.0.0"}},
 }
 
-func TestLookupGooglePublicDNSAddr(t *testing.T) {
+func TestLookupAddr(t *testing.T) {
 	if testing.Short() || !*testExternal {
-		t.Skip("skipping test to avoid external network")
+		t.Skip("avoid external network")
 	}
 
-	for _, tt := range lookupGooglePublicDNSAddrs {
+	for _, tt := range lookupAddrTests {
 		names, err := LookupAddr(tt.addr)
-		if err != nil {
+		if err != nil && tt.err == nil {
 			t.Fatal(err)
+		}
+		if tt.err != nil {
+			continue
 		}
 		if len(names) == 0 {
 			t.Error("got no record")
 		}
 		for _, name := range names {
-			if !strings.HasSuffix(name, tt.name) {
+			if !strings.HasSuffix(name, tt.name) && !strings.HasSuffix(name, tt.name+".") {
 				t.Errorf("got %q; want a record containing %q", name, tt.name)
 			}
 		}
