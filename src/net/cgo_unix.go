@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !netgo
+// +build cgo,!netgo
 // +build darwin dragonfly freebsd linux netbsd openbsd
 
 package net
@@ -77,7 +77,7 @@ func cgoLookupPTRName(addr string) ([]string, error, bool) {
 
 	ip := ParseIP(addr)
 	if ip == nil {
-		return nil, &AddrError{Err: "non-IP address", Addr: addr}, false
+		return nil, &AddrError{Err: "non-IP address", Addr: addr}, true
 	}
 	ptr, err := intsocket.GetnameinfoPTR(ip)
 	if err != nil {
