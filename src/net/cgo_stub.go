@@ -23,3 +23,7 @@ func cgoLookupIP(name string) (addrs []IP, err error, completed bool) {
 func cgoLookupCNAME(name string) (cname string, err error, completed bool) {
 	return "", nil, false
 }
+
+func cgoLookupPTRName(addr string) (names []string, err error, completed bool) {
+	return nil, nil, false
+}

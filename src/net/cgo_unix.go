@@ -19,6 +19,8 @@ package net
 import "C"
 
 import (
+	"errors"
+	"os"
 	"syscall"
 	"unsafe"
 )
@@ -152,6 +154,44 @@ func cgoLookupIP(name string) (addrs []IP, err error, completed bool) {
 func cgoLookupCNAME(name string) (cname string, err error, completed bool) {
 	_, cname, err, completed = cgoLookupIPCNAME(name)
 	return
+}
+
+func cgoLookupPTRName(addr string) ([]string, error, bool) {
+	acquireThread()
+	defer releaseThread()
+
+	ip := ParseIP(addr)
+	if ip == nil {
+		return nil, &AddrError{Err: "non-IP address", Addr: addr}, false
+	}
+	sa, salen, err := cgoSockaddr(ip)
+	if err != nil {
+		return nil, err, false
+	}
+	var b [C.NI_MAXHOST]byte
+	errno, _ := C.getnameinfo(sa, salen, (*C.char)(unsafe.Pointer(&b[0])), C.NI_MAXHOST, nil, 0, C.NI_NAMEREQD)
+	if errno != 0 {
+		return nil, os.NewSyscallError("getnameinfo", errors.New(C.GoString(C.gai_strerror(errno)))), false
+	}
+	var name []byte
+	for i := 0; i < len(b); i++ {
+		if b[i] != 0 {
+			continue
+		}
+		name = make([]byte, i)
+		copy(name, b[:i])
+		break
+	}
+	return []string{string(name)}, nil, true
+}
+
+func cgoSockaddr(ip IP) (*C.struct_sockaddr, C.socklen_t, error) {
+	if ip4 := ip.To4(); ip4 != nil {
+		return cgoSockaddrInet4(ip4), C.socklen_t(syscall.SizeofSockaddrInet4), nil
+	} else if ip6 := ip.To16(); ip6 != nil {
+		return cgoSockaddrInet6(ip6), C.socklen_t(syscall.SizeofSockaddrInet6), nil
+	}
+	return nil, 0, InvalidAddrError("unexpected socket family")
 }
 
 func copyIP(x IP) IP {

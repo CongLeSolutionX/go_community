@@ -116,10 +116,10 @@ var lookupGooglePublicDNSAddrs = []struct {
 	addr string
 	name string
 }{
-	{"8.8.8.8", ".google.com."},
-	{"8.8.4.4", ".google.com."},
-	{"2001:4860:4860::8888", ".google.com."},
-	{"2001:4860:4860::8844", ".google.com."},
+	{"8.8.8.8", ".google.com"},
+	{"8.8.4.4", ".google.com"},
+	{"2001:4860:4860::8888", ".google.com"},
+	{"2001:4860:4860::8844", ".google.com"},
 }
 
 func TestLookupGooglePublicDNSAddr(t *testing.T) {
@@ -136,7 +136,7 @@ func TestLookupGooglePublicDNSAddr(t *testing.T) {
 			t.Error("got no record")
 		}
 		for _, name := range names {
-			if !strings.HasSuffix(name, tt.name) {
+			if !strings.HasSuffix(name, tt.name) && !strings.HasSuffix(name, tt.name+".") {
 				t.Errorf("got %q; want a record containing %q", name, tt.name)
 			}
 		}
