@@ -1473,3 +1473,38 @@ func TestFuzzOneByte(t *testing.T) {
 		}
 	}
 }
+
+// rndReader provides pseudo-random data via the io.Reader interface
+//
+// This is similar to crypto/rand.Reader, but based on math/rand since
+// the quality of the random data does not matter.
+type rndReader struct{}
+
+func (r *rndReader) Read(p []byte) (int, error) {
+	n := len(p)
+	var u uint32
+	for i := 0; i < n; i++ {
+		if i%4 == 0 {
+			u = rand.Uint32()
+		}
+		p[i] = byte(u)
+		u = u >> 8
+	}
+	return n, nil
+}
+
+// Decoding random input should never panic, see issue #9649.
+func TestDecodeRandomData(t *testing.T) {
+	if !*doFuzzTests {
+		t.Logf("disabled; run with -gob.fuzz to enable")
+		return
+	}
+
+	type Foo struct{}
+	rng := &rndReader{}
+	dec := NewDecoder(rng)
+	for i := 0; i < 1000; i++ {
+		var f Foo
+		dec.Decode(&f)
+	}
+}
