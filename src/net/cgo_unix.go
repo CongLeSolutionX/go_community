@@ -169,6 +169,71 @@ func cgoLookupCNAME(name string) (cname string, err error, completed bool) {
 	return
 }
 
+// These are roughly enough for the following:
+//
+// Source		Encoding			Maximum length of single name entry
+// Unicast DNS		ASCII or			<=253 + a NUL terminator
+//			Unicode in RFC 5892		252 * total number of labels + delimiters + a NUL terminator
+// Multicast DNS	UTF-8 in RFC 5198 or		<=253 + a NUL terminator
+//			the same as unicast DNS ASCII	<=253 + a NUL terminator
+// Local database	various				depends on implementation
+const (
+	nameinfoLen    = 64
+	maxNameinfoLen = 4096
+)
+
+func cgoLookupPTR(addr string) ([]string, error, bool) {
+	acquireThread()
+	defer releaseThread()
+
+	ip := ParseIP(addr)
+	if ip == nil {
+		return nil, &DNSError{Err: "invalid address", Name: addr}, true
+	}
+	sa, salen, err := cgoSockaddr(ip)
+	if err != nil {
+		return nil, &DNSError{Err: err.Error(), Name: addr}, true
+	}
+	var b []byte
+	var gerrno int
+	for l := nameinfoLen; l <= maxNameinfoLen; l *= 2 {
+		b = make([]byte, l)
+		gerrno, err = cgoNameinfoPTR(b, sa, salen)
+		if gerrno == 0 || gerrno != C.EAI_OVERFLOW {
+			break
+		}
+	}
+	if gerrno != 0 {
+		switch gerrno {
+		case C.EAI_SYSTEM:
+			if err == nil { // see golang.org/issue/6232
+				err = syscall.EMFILE
+			}
+		default:
+			err = addrinfoErrno(gerrno)
+		}
+		return nil, &DNSError{Err: err.Error(), Name: addr}, true
+	}
+
+	for i := 0; i < len(b); i++ {
+		if b[i] != 0 {
+			continue
+		}
+		b = b[:i]
+		break
+	}
+	return []string{string(b)}, nil, true
+}
+
+func cgoSockaddr(ip IP) (*C.struct_sockaddr, C.socklen_t, error) {
+	if ip4 := ip.To4(); ip4 != nil {
+		return cgoSockaddrInet4(ip4), C.socklen_t(syscall.SizeofSockaddrInet4), nil
+	} else if ip6 := ip.To16(); ip6 != nil {
+		return cgoSockaddrInet6(ip6), C.socklen_t(syscall.SizeofSockaddrInet6), nil
+	}
+	return nil, 0, &AddrError{Err: "invalid address", Addr: ip.String()}
+}
+
 func copyIP(x IP) IP {
 	if len(x) < 16 {
 		return x.To16()
