@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3794a3fe_83f9a20d",
+        "filename": "src/runtime/pprof/trace_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-01-28T18:52:51Z",
+      "side": 1,
+      "message": "also nacl, which can\u0027t run the \"go\" binary for addr2line",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "ec075b68e2bd29775ffc14bbed5f6f2fa05ab21f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
