@@ -339,3 +339,12 @@ func TestSectionReader_Size(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkCopyEmpty(b *testing.B) {
+	b.ReportAllocs()
+	var dst Buffer
+	var src Buffer
+	for i := 0; i < b.N; i++ {
+		Copy(&dst, &src)
+	}
+}

@@ -14,6 +14,7 @@ package io
 
 import (
 	"errors"
+	"sync"
 )
 
 // ErrShortWrite means that a write accepted fewer bytes than requested
@@ -357,11 +358,11 @@ func Copy(dst Writer, src Reader) (written int64, err error) {
 	if rt, ok := dst.(ReaderFrom); ok {
 		return rt.ReadFrom(src)
 	}
-	buf := make([]byte, 32*1024)
+	buf := copyBufPool.Get().(*[]byte)
 	for {
-		nr, er := src.Read(buf)
+		nr, er := src.Read(*buf)
 		if nr > 0 {
-			nw, ew := dst.Write(buf[0:nr])
+			nw, ew := dst.Write((*buf)[0:nr])
 			if nw > 0 {
 				written += int64(nw)
 			}
@@ -382,8 +383,14 @@ func Copy(dst Writer, src Reader) (written int64, err error) {
 			break
 		}
 	}
+	copyBufPool.Put(buf)
 	return written, err
 }
+
+var copyBufPool = sync.Pool{New: func() interface{} {
+	b := make([]byte, 32*1024)
+	return &b
+}}
 
 // LimitReader returns a Reader that reads from r
 // but stops with EOF after n bytes.
