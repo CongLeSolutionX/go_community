@@ -1473,3 +1473,28 @@ func TestFuzzOneByte(t *testing.T) {
 		}
 	}
 }
+
+// Don't crash, just give error with invalid type id.
+// Issue 9649.
+func TestErrorInvalidTypeId(t *testing.T) {
+	data := []byte{1, 0}
+	var buf bytes.Buffer
+	buf.Write(data)
+	buf.Write(data)
+
+	type Foo struct{}
+	var foo Foo
+	d := NewDecoder(&buf)
+	err := d.Decode(&foo)
+	if err != errBadType {
+		t.Fatal("decode: expected %s, got %s", errBadType, err)
+	}
+	// Running the decoder again on the invalid data should be
+	// equivalent to using a new decoder:
+	//
+	// d = NewDecoder(&buf)
+	err = d.Decode(&foo)
+	if err != errBadType {
+		t.Fatal("decode: expected %s, got %s", errBadType, err)
+	}
+}
