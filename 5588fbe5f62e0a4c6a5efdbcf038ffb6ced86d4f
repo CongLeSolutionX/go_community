@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78347c3_a5daa81d",
+        "filename": "src/cmd/gc/walk.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-28T19:05:15Z",
+      "side": 1,
+      "message": "Use enum for constants, please.",
+      "revId": "5588fbe5f62e0a4c6a5efdbcf038ffb6ced86d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d78347c3_6504a0f6",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-28T19:05:15Z",
+      "side": 1,
+      "message": "// concatstrings implements a Go string concatenation x+y+z+...\n// The operands are passed in the slice a.\n// If buf !\u003d nil, the compiler has determined that the result does not\n// escape the calling function, so the string data can be stored in buf\n// if small enough.",
+      "revId": "5588fbe5f62e0a4c6a5efdbcf038ffb6ced86d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d78347c3_8509a40f",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-28T19:05:15Z",
+      "side": 1,
+      "message": "We can at least make this less special by not doing the allocation here. The code below will handle it just fine.\n\n// If there is just one string and either it is not on the stack\n// or our result does not escape the calling frame (buf !\u003d nil),\n// then we can return that string directly.\nif count \u003d\u003d 1 \u0026\u0026 (buf !\u003d nil || !stringDataOnStack(a[idx])) {\n    return a[idx]\n}\n\nand later\n\n// stringDataOnStack reports whether the string\u0027s data is\n// stored on the current goroutine\u0027s stack.\nfunc stringDataOnStack(s string) bool {\n    ptr :\u003d uintptr((*stringStruct)(unsafe.Pointer(\u0026s)).str)\n    stk :\u003d getg().stack\n    return stk.lo \u003c\u003d ptr \u0026\u0026 ptr \u003c stk.hi\n}",
+      "revId": "5588fbe5f62e0a4c6a5efdbcf038ffb6ced86d4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
