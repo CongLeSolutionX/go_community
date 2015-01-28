@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78347c3_654a606d",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-01-28T15:46:20Z",
+      "side": 1,
+      "message": "This function would be easier to read as:\n i :\u003d len(x)",
+      "revId": "f4a2617765273add97fb52c101baaf071fdb9705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3794a3fe_60156c6b",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-01-28T15:46:20Z",
+      "side": 1,
+      "message": "// PString returns x as a string in the format\n//     [\"-\"] \"0.\" mantissa \"p\" exponent\n// with...\n\ngodoc will do a nicer job this way.",
+      "revId": "f4a2617765273add97fb52c101baaf071fdb9705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
