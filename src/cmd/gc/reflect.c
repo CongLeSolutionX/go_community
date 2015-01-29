@@ -116,7 +116,7 @@ enum {
 	MAXVALSIZE = 128,
 };
 
-static Type*
+Type*
 mapbucket(Type *t)
 {
 	Type *keytype, *valtype;
@@ -197,7 +197,7 @@ mapbucket(Type *t)
 // we include only enough information to generate a correct GC
 // program for it.
 // Make sure this stays in sync with ../../runtime/hashmap.go!
-static Type*
+Type*
 hmap(Type *t)
 {
 	Type *h, *bucket;
