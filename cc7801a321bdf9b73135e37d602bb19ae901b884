@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f79dab26_6182526c",
+        "filename": "src/cmd/9g/gsubr.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-01-29T19:15:25Z",
+      "side": 1,
+      "message": "The \"- REG_R0\" business is quite unfortunate, but overall it is much better.",
+      "revId": "cc7801a321bdf9b73135e37d602bb19ae901b884",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
