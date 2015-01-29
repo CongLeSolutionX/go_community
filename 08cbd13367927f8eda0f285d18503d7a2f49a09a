@@ -16,6 +16,24 @@
       "revId": "08cbd13367927f8eda0f285d18503d7a2f49a09a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d78347c3_16206c97",
+        "filename": "src/runtime/cgo/gcc_arm.S",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-01-29T07:04:26Z",
+      "side": 1,
+      "message": "I mean:\n.align N means align to 2**N bytes.\n\nI\u0027ve reworded the comment to be more clear.",
+      "parentUuid": "ab858b8b_c6e536b5",
+      "revId": "08cbd13367927f8eda0f285d18503d7a2f49a09a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
