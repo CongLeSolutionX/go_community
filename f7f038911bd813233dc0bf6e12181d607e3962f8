@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7620b23_339b28e3",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-29T07:45:18Z",
+      "side": 1,
+      "message": "Can uname be called with -m and -v  to avoid having to do the extra uname in the Darwin case?",
+      "revId": "f7f038911bd813233dc0bf6e12181d607e3962f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7620b23_73a5a01b",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-29T07:45:18Z",
+      "side": 1,
+      "message": "That\u0027s odd, I thouh we defaulted to goarm\u003d6 when cross compiling.",
+      "revId": "f7f038911bd813233dc0bf6e12181d607e3962f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
