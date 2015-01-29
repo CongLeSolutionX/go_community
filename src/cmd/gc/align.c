@@ -18,8 +18,10 @@ static int defercalc;
 vlong
 rnd(vlong o, vlong r)
 {
-	if(r < 1 || r > 8 || (r&(r-1)) != 0)
+	if(r < 1 || r > 8 || (r&(r-1)) != 0) {
+		warn("rnd: o=%lld r=%lld", o, r);
 		fatal("rnd");
+	}
 	return (o+r-1)&~(r-1);
 }
 
