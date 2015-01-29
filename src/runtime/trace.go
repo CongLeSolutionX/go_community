@@ -208,8 +208,15 @@ func StopTrace() {
 		traceFullQueue(buf)
 	}
 
-	trace.ticksEnd = cputicks()
-	trace.timeEnd = nanotime()
+	for {
+		trace.ticksEnd = cputicks()
+		trace.timeEnd = nanotime()
+		// Windows time can tick only every 15ms, wait for at least one tick.
+		if trace.timeEnd != trace.timeStart {
+			break
+		}
+	}
+
 	trace.enabled = false
 	trace.shutdown = true
 	trace.stackTab.dump()
