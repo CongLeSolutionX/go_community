@@ -1320,7 +1320,9 @@ Sym*	typenamesym(Type *t);
 Sym*	tracksym(Type *t);
 Sym*	typesymprefix(char *prefix, Type *t);
 int	haspointers(Type *t);
+Type*	hmap(Type *t);
 Type*	hiter(Type* t);
+Type*	mapbucket(Type *t);
 
 /*
  *	select.c
