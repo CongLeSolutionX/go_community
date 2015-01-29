@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f79dab26_04ffdcbd",
+        "filename": "src/encoding/gob/codec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-01-29T20:02:34Z",
+      "side": 1,
+      "message": "Maybe something like this belongs in math/rand or io/ioutil?",
+      "revId": "ec79b2cfcc8ba642e6a7e960b2d1fd0acbf13e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f79dab26_24e8d803",
+        "filename": "src/encoding/gob/codec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-01-29T20:02:34Z",
+      "side": 1,
+      "message": "There are several fuzz tests in encoding/gob. Are any of them run on the builders?",
+      "revId": "ec79b2cfcc8ba642e6a7e960b2d1fd0acbf13e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f79dab26_e4019032",
+        "filename": "src/encoding/gob/codec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1506,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-01-29T20:02:34Z",
+      "side": 1,
+      "message": "On my machine I had to loop at least 100 times to reliably get the panic so I picked this number from nowhere in particular.",
+      "revId": "ec79b2cfcc8ba642e6a7e960b2d1fd0acbf13e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
