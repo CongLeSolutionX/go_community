@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "77a8db90_8fbe55b0",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-29T23:20:53Z",
+      "side": 1,
+      "message": "If there is not already, could you please raise a tracking bug for this as arm64 will also have the same limitation.",
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a8db90_afbb19bf",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-29T23:20:53Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_b18b9a32",
         "filename": "include/link.h",
         "patchSetId": 1
@@ -131,6 +165,23 @@
     },
     {
       "key": {
+        "uuid": "578d9743_2ecc87bd",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-29T23:20:53Z",
+      "side": 1,
+      "message": "could this be called `kind` instead, ie KIND_EXTERN, KIND_AUTO, rather than NAME_EXTERN, NAME_AUTO ?",
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_5197d659",
         "filename": "include/link.h",
         "patchSetId": 1
@@ -142,6 +193,23 @@
       "writtenOn": "2015-01-29T18:48:28Z",
       "side": 1,
       "message": "Missing tab",
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "578d9743_0ec7cb9b",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-01-29T23:20:53Z",
+      "side": 1,
+      "message": "as above",
       "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
