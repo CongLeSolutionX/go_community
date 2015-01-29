@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "f79dab26_e15c226f",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-01-29T19:23:36Z",
+      "side": 1,
+      "message": "I used to use from3, but then the -S debug output was printing things in the wrong order. An alternative would be to also reverse the order in the assembler, but then the instruction wouldn\u0027t follow the usual operand order convention.\n\n(Rn) is read-write in the sense that its status (but not value) is queried, and that status is written in Rs.",
+      "parentUuid": "57f117a1_d173c67b",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_5197d659",
         "filename": "include/link.h",
         "patchSetId": 1
