@@ -1083,6 +1083,24 @@ elif ! grep "$GOARCH test3.go p xyzp/test3.go/123" testdata/std.out > /dev/null;
 	ok=false
 fi
 
+TEST 'go generate -run selects'
+if ! ./testgo generate -run echo ./testdata/generate/test3.go > testdata/std.out; then
+	echo "go test ./testdata/generate/test3.go -run echo failed to run"
+	ok=false
+elif ! grep "$GOARCH test3.go p xyzp/test3.go/123" testdata/std.out > /dev/null; then
+	echo "go test ./testdata/generate/test3.go -run echo generated wrong output"
+	ok=false
+fi
+
+TEST 'go generate -run rejects'
+if ! ./testgo generate -run xxx ./testdata/generate/test3.go > testdata/std.out; then
+	echo "go test ./testdata/generate/test3.go -run xxx failed to run"
+	ok=false
+elif grep "$GOARCH test3.go p xyzp/test3.go/123" testdata/std.out > /dev/null; then
+	echo "go test ./testdata/generate/test3.go -run xxx generated wrong output"
+	ok=false
+fi
+
 TEST go get works with vanity wildcards
 d=$(mktemp -d -t testgoXXX)
 export GOPATH=$d

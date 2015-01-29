@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -119,7 +120,11 @@ For more about specifying packages, see 'go help packages'.
 	`,
 }
 
-var generateRunFlag string // generate -run flag
+// generate -run flag
+var (
+	generateRunFlag string
+	generateRun     *regexp.Regexp
+)
 
 func init() {
 	addBuildFlags(cmdGenerate)
@@ -127,6 +132,13 @@ func init() {
 }
 
 func runGenerate(cmd *Command, args []string) {
+	if generateRunFlag != "" {
+		var err error
+		generateRun, err = regexp.Compile(generateRunFlag)
+		if err != nil {
+			log.Fatalf("generate: -run: %s", err)
+		}
+	}
 	// Even if the arguments are .go files, this loop suffices.
 	for _, pkg := range packages(args) {
 		for _, file := range pkg.gofiles {
@@ -227,6 +239,10 @@ func (g *Generator) run() (ok bool) {
 		}
 		if words[0] == "-command" {
 			g.setShorthand(words)
+			continue
+		}
+		// words[0] is the command. Make sure it's allowed to be run.
+		if generateRun != nil && !generateRun.MatchString(words[0]) {
 			continue
 		}
 		// Run the command line.
