@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "770c5b78_af95f9a1",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2015-01-29T19:10:05Z",
+      "side": 1,
+      "message": "s/Effective of/Effective/",
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_b18b9a32",
         "filename": "include/link.h",
         "patchSetId": 1
