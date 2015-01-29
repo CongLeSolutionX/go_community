@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7cbeb3a_6e31ef99",
+        "filename": "src/net/cgo_posixsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-29T01:32:33Z",
+      "side": 1,
+      "message": "I don\u0027t think cgo_posixsock.go is a good name for this file.  It\u0027s not used on many systems that are POSIX.  This can simply be put into cgo_linux.go; files with a _linux extension are built for android systems.",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cbeb3a_ee1cff0d",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-29T01:32:33Z",
+      "side": 1,
+      "message": "This does not look right.  Shouldn\u0027t it be\n    _, errno :\u003d ...\n?",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cbeb3a_8e19bb1c",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-29T01:32:33Z",
+      "side": 1,
+      "message": "We\u0027re going to return a string.  There is no need to copy b into a new []byte.",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cbeb3a_8e70db42",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-29T01:32:33Z",
+      "side": 1,
+      "message": "Should we instead add a \u0027.\u0027 to the getnameinfo result, so that we return consistent results with previous versions of Go?",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
