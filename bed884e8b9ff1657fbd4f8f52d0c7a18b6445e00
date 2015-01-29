@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7cbeb3a_6e656fac",
+        "filename": "src/net/interface_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-29T01:02:15Z",
+      "side": 1,
+      "message": "A type switch with a single case is useless.  This should become a type assertion.",
+      "revId": "bed884e8b9ff1657fbd4f8f52d0c7a18b6445e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
