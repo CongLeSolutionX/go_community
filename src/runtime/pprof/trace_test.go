@@ -20,8 +20,6 @@ func skipTraceTestsIfNeeded(t *testing.T) {
 	switch runtime.GOOS {
 	case "solaris":
 		t.Skip("skipping: solaris timer can go backwards which is incompatible with tracer (http://golang.org/issue/8976)")
-	case "windows":
-		t.Skip("skipping: windows tests fail with 'failed to parse trace: no traceEvFrequency event'")
 	case "android":
 		t.Skip("skipping: android tests fail with 'failed to parse trace: g 2 is not runnable before traceEvGoWaiting'")
 	case "plan9":
@@ -233,7 +231,7 @@ eventLoop:
 		for _, f := range ev.stk {
 			if strings.HasSuffix(f.file, "trace_test.go") &&
 				strings.HasSuffix(f.fn, "pprof_test.TestTraceSymbolize") &&
-				f.line == 217 {
+				f.line == 215 {
 				found = true
 				break eventLoop
 			}
