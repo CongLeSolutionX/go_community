@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "f79dab26_c1dec68a",
+        "filename": "include/link.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-01-29T18:49:23Z",
+      "side": 1,
+      "message": "Interesting, I didn\u0027t know about this one. Perhaps I can use it in 7a for STXR. I previously introduced a p.to3 field for this case. This one seems better because (among other things) can be used in optab without adding another column.\n\nBut on the other hand the instruction STXR Rt, (Rn), Rs and will become STXR Rt, (Rn, Rs) -- Rn loses its indirect, although semantically it\u0027s there. Apart from that arm64 has (unimplemented in liblink) instructions that actually do operate on pair of registers which are more on equal footing.",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "8da9c3e4e2d8c0d4019ca2ceb2de7493ee304f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_5197d659",
         "filename": "include/link.h",
         "patchSetId": 1
