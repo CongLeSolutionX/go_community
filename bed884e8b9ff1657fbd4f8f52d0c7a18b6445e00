@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7620b23_f32c1097",
+        "filename": "src/net/interface_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-01-29T06:06:57Z",
+      "side": 0,
+      "message": "This still fails on my windows xp:\n\n--- FAIL: TestInterfaces (0.00s)\n        interface_test.go:72: \"Local Area Connection\": flags \"up|loopback|pointtopoint\", ifindex 2, mtu 1500\n        interface_test.go:73: hardware address \"XX:XX:XX:XX:XX:XX:XX:XX\"\n        interface_test.go:159: unexpected prefix length: 0/32\n        interface_test.go:191: joined group address \"224.0.0.1\"\n        interface_test.go:191: joined group address \"XXX.XX.XXX.XXX\"\n        interface_test.go:191: joined group address \"XXX.XX.XX.XX\"\n        interface_test.go:191: joined group address \"XXX.XXX.XXX.XXX\"\n        interface_test.go:72: \"MS TCP Loopback interface\": flags \"up|broadcast\", ifindex 1, mtu 1520\n        interface_test.go:73: hardware address \"00:00:00:00:00:00:00:00\"\n        interface_test.go:159: unexpected prefix length: 0/32\n        interface_test.go:191: joined group address \"224.0.0.1\"\n        interface_test.go:88: got 0; want more than or equal to one\n--- FAIL: TestInterfaceAddrs (0.00s)\n        interface_test.go:159: unexpected prefix length: 0/32\n        interface_test.go:159: unexpected prefix length: 0/32\n        interface_test.go:125: got 0; want more than or equal to one\nFAIL\nFAIL    net     4.859s",
+      "revId": "bed884e8b9ff1657fbd4f8f52d0c7a18b6445e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
