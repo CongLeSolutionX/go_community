@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "770c5b78_32984e8c",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5315
+      },
+      "writtenOn": "2015-01-29T21:19:39Z",
+      "side": 1,
+      "message": "See, e.g.,  https://golang.org/src/cmd/fix/netipv6zone.go for a very complicated example.\n\n(I can\u0027t speak as to whether this would be possible, and whether a shim is required.)",
+      "parentUuid": "2bab5bf1_6cef1b8f",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab858b8b_63745c69",
         "filename": "src/crypto/x509/x509.go",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "770c5b78_b28b9e32",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 5315
+      },
+      "writtenOn": "2015-01-29T21:19:39Z",
+      "side": 1,
+      "message": "Not duplicate. Wrong; see comment re tests.",
+      "parentUuid": "2bab5bf1_4cecdf98",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab858b8b_e3586cfe",
         "filename": "src/crypto/x509/x509_test.go",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "Critical Name Constraints can be set but not be handled for now as we are not actually checking the any constraints. This first step is needed before we can actually start enforcing the constraints when marked critical.",
       "parentUuid": "ab858b8b_e3586cfe",
+      "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770c5b78_129d4a7c",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5315
+      },
+      "writtenOn": "2015-01-29T21:19:39Z",
+      "side": 1,
+      "message": "Your previous patch would fail due to an unrecognized critical extension if there was *any* excluded subtree. Please actually test for this.",
+      "parentUuid": "2bab5bf1_2cf5135f",
       "revId": "e3bf8a089995e9bc2b647e5a21719a5c0600d3ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
