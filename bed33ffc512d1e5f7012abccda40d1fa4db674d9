@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "578d9743_d14726db",
+        "filename": "src/net/cgo_posixsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-30T07:54:27Z",
+      "side": 1,
+      "message": "that\u0027s unfortunate that the declaration of sockaddr_in/in6 in posix looks a bit different from conventional BSD, and cgo_linux.go will never be included in android build. will change this file name to cgo_linuxsock.go.",
+      "parentUuid": "f7cbeb3a_6e31ef99",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cbeb3a_ee1cff0d",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-29T01:32:33Z",
       "side": 1,
       "message": "This does not look right.  Shouldn\u0027t it be\n    _, errno :\u003d ...\n?",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "578d9743_71811262",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-30T07:54:27Z",
+      "side": 1,
+      "message": "nope, iirc, cgpcall via asmcgcall returns an errno, and something that implements built-in error interface if needed. will add a test case.",
+      "parentUuid": "f7cbeb3a_ee1cff0d",
       "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "578d9743_1169ae12",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-30T07:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7cbeb3a_8e19bb1c",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cbeb3a_8e70db42",
         "filename": "src/net/lookup_test.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-01-29T01:32:33Z",
       "side": 1,
       "message": "Should we instead add a \u0027.\u0027 to the getnameinfo result, so that we return consistent results with previous versions of Go?",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "578d9743_942f4cb3",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-01-30T07:54:27Z",
+      "side": 1,
+      "message": "i\u0027m ambivalent. when the source is a local database such as /etc/hosts, both non-cgo and current cgo lookupaddr return a non-fqdn (i mean without root, no root-dot) record. but when the source is an authoritative or recursive server, non-cgo lookupaddr returns a fqdn record, and cgo lookupaddr returns a non-fqdn record (w/o root-dot).\n\nis there a good compromise for this?",
+      "parentUuid": "f7cbeb3a_8e70db42",
       "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
