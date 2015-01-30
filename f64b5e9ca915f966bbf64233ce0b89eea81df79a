@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b7d09310_44a6005b",
+        "filename": "src/cmd/5g/peep.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:29Z",
+      "side": 1,
+      "message": "This is a bug in the original code, made clear by the new structure.\nI added a TODO.\nI\u0027m not bold enough to try to change this now.\nI bet it will affect the generated code.\nThanks.",
+      "parentUuid": "57f117a1_51ba36bf",
+      "revId": "f64b5e9ca915f966bbf64233ce0b89eea81df79a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_b1a55a94",
         "filename": "src/liblink/list5.c",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b7d09310_64ab0422",
+        "filename": "src/liblink/list5.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:29Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "57f117a1_b1a55a94",
+      "revId": "f64b5e9ca915f966bbf64233ce0b89eea81df79a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f117a1_117eee4c",
         "filename": "src/liblink/obj5.c",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-01-29T19:18:13Z",
       "side": 1,
       "message": "isfloatreg?",
+      "revId": "f64b5e9ca915f966bbf64233ce0b89eea81df79a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7d09310_84b0088e",
+        "filename": "src/liblink/obj5.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:29Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "57f117a1_117eee4c",
       "revId": "f64b5e9ca915f966bbf64233ce0b89eea81df79a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
