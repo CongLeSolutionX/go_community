@@ -16,6 +16,24 @@
       "revId": "573a7d815f21fa1c2722dff1b5b0d9bea8d24f54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57d4b72d_76db9076",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-01-30T08:35:17Z",
+      "side": 1,
+      "message": "It is expected to be looping only in tests.\nIt means that you traced for less than 15ms.\nIf it is a test, then spinning is not an issue.\nAnd net/http/pprof does not allow to trace for less than a second.\n\nAnd, yes, this is inside of stoptheworld, so we can\u0027t Gosched here. I will add osyield just in case.",
+      "parentUuid": "770c5b78_32de8ee2",
+      "revId": "573a7d815f21fa1c2722dff1b5b0d9bea8d24f54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
