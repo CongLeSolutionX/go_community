@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b7d09310_a47b4c10",
+        "filename": "src/cmd/8a/a.y",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:55Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b7d09310_41a6f25a",
+      "revId": "d662e6a724ebdc4c68d79d70dcd375324e219a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7d09310_011a2ae6",
         "filename": "src/cmd/8g/peep.c",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-29T23:34:33Z",
       "side": 1,
       "message": "Rename t to r or reg",
+      "revId": "d662e6a724ebdc4c68d79d70dcd375324e219a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7d09310_c4785016",
+        "filename": "src/cmd/8g/peep.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:55Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b7d09310_011a2ae6",
       "revId": "d662e6a724ebdc4c68d79d70dcd375324e219a08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b7d09310_e475541b",
+        "filename": "src/liblink/asm8.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:55Z",
+      "side": 1,
+      "message": "Yes. I mistype this a lot. There\u0027s a go vet module for the variant of this mistake with equality. Thanks.",
+      "parentUuid": "b7d09310_a1e7be61",
+      "revId": "d662e6a724ebdc4c68d79d70dcd375324e219a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7d09310_c19202b7",
         "filename": "src/liblink/asm8.c",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-01-29T23:34:33Z",
       "side": 1,
       "message": "More parens, please.",
+      "revId": "d662e6a724ebdc4c68d79d70dcd375324e219a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7d09310_04731836",
+        "filename": "src/liblink/asm8.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2068,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-01-30T03:12:55Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b7d09310_c19202b7",
       "revId": "d662e6a724ebdc4c68d79d70dcd375324e219a08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
