@@ -6,6 +6,7 @@ package pprof_test
 
 import (
 	"bytes"
+	"internal/trace"
 	"net"
 	"os"
 	"runtime"
@@ -68,7 +69,7 @@ func TestTrace(t *testing.T) {
 		t.Fatalf("failed to start tracing: %v", err)
 	}
 	StopTrace()
-	_, err := parseTrace(buf)
+	_, err := trace.Parse(buf)
 	if err != nil {
 		t.Fatalf("failed to parse trace: %v", err)
 	}
@@ -200,7 +201,7 @@ func TestTraceStress(t *testing.T) {
 	runtime.GOMAXPROCS(procs)
 
 	StopTrace()
-	_, err = parseTrace(buf)
+	_, err = trace.Parse(buf)
 	if err != nil {
 		t.Fatalf("failed to parse trace: %v", err)
 	}
@@ -217,24 +218,24 @@ func TestTraceSymbolize(t *testing.T) {
 	}
 	runtime.GC()
 	StopTrace()
-	events, err := parseTrace(buf)
+	events, err := trace.Parse(buf)
 	if err != nil {
 		t.Fatalf("failed to parse trace: %v", err)
 	}
-	err = symbolizeTrace(events, os.Args[0])
+	err = trace.Symbolize(events, os.Args[0])
 	if err != nil {
 		t.Fatalf("failed to symbolize trace: %v", err)
 	}
 	found := false
 eventLoop:
 	for _, ev := range events {
-		if ev.typ != traceEvGCStart {
+		if ev.Type != trace.EvGCStart {
 			continue
 		}
-		for _, f := range ev.stk {
-			if strings.HasSuffix(f.file, "trace_test.go") &&
-				strings.HasSuffix(f.fn, "pprof_test.TestTraceSymbolize") &&
-				f.line == 218 {
+		for _, f := range ev.Stk {
+			if strings.HasSuffix(f.File, "trace_test.go") &&
+				strings.HasSuffix(f.Fn, "pprof_test.TestTraceSymbolize") &&
+				f.Line == 219 {
 				found = true
 				break eventLoop
 			}
