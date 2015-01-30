@@ -71,7 +71,7 @@ extern "C" {
 #include <ctype.h>	/* for tolower */
 #include <time.h>
 
-#ifndef PLAN9
+#ifdef PLAN9
 #include <signal.h>
 #endif
 
