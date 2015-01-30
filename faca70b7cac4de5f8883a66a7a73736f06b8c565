@@ -22,6 +22,30 @@
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e5071d_12734c37",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5975
+      },
+      "writtenOn": "2015-01-30T15:16:17Z",
+      "side": 1,
+      "message": "ignore this",
+      "parentUuid": "d7e5071d_329f70f9",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 29
+      },
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
