@@ -58,7 +58,6 @@ extern "C" {
 #define _FILE_OFFSET_BITS 64
 
 #include <inttypes.h>
-
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -70,10 +69,6 @@ extern "C" {
 #include <math.h>
 #include <ctype.h>	/* for tolower */
 #include <time.h>
-
-#ifndef PLAN9
-#include <signal.h>
-#endif
 
 /*
  * OS-specific crap
