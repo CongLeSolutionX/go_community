@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "978b8f6f_b961e378",
+        "filename": "src/net/cgo_posixsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-01-31T01:57:14Z",
+      "side": 1,
+      "message": "Argh, there is a cgo_android.go.  I guess we can\u0027t use cgo_linux.go here.  OK cgo_linuxsock.go, then.",
+      "parentUuid": "17515fa8_dc038ded",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cbeb3a_ee1cff0d",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 1
