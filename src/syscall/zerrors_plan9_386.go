@@ -34,6 +34,7 @@ var (
 	EMFILE       = NewError("no free file descriptors")
 	EIO          = NewError("i/o error")
 	ENAMETOOLONG = NewError("file name too long")
+	EROFS        = NewError("read only file system")
 	EINTR        = NewError("interrupted")
 	EPERM        = NewError("permission denied")
 	EBUSY        = NewError("no free devices")
