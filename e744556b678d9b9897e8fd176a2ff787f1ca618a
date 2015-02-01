@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "57f3d71a_3edb6977",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-01T23:30:48Z",
+      "side": 1,
+      "message": "net/interface_windows.go is part of net package. So you have to add \"net depends on internal/syscall/windows package\" to pkgDeps in TestDependencies. Nothing else needs to be changed here. Please do that and test that it works.",
+      "parentUuid": "578d9743_94010c34",
+      "revId": "e744556b678d9b9897e8fd176a2ff787f1ca618a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "578d9743_710e72ae",
         "filename": "src/internal/syscall/windows/syscall_windows.go",
         "patchSetId": 16
