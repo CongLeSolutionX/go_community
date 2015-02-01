@@ -34,6 +34,24 @@
       "revId": "8926e9691ba396bfe32a51105e9bedc8aaa35f5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7769bb73_07445636",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-01T07:21:56Z",
+      "side": 1,
+      "message": "It\u0027s not related to instruction encoding at all.\n\nN(PC) always jumps to the N-th instruction below.\n(The current one is 0(PC), the next one is 1(PC),\netc.).\n\nIt doesn\u0027t matter how many bytes each instruction\nproduce and how many machine instructions each\npseudo instruction corresponds to.\n\nIt\u0027s perfectly fine to use if you only want to skip\nover one or two instructions. For longer distance\njumps/branches, use labels, and they are function\nlocal now.",
+      "parentUuid": "f79dab26_e19422de",
+      "revId": "8926e9691ba396bfe32a51105e9bedc8aaa35f5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
