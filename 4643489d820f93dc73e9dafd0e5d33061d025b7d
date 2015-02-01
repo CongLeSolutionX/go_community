@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97162fdb_d8914d39",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-02-01T13:23:41Z",
+      "side": 1,
+      "message": "GET methods may have bodies, so you need to make sure that the error came from before any input was consumed from it. Otherwise you can\u0027t do this retry.",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
