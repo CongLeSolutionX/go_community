@@ -281,6 +281,9 @@ Jconv(Fmt *fp)
 	if(n->addrtaken != 0)
 		fmtprint(fp, " addrtaken");
 
+	fmtprint(fp, " dd(%d)", n->decldepth);
+	fmtprint(fp, " sd(%d)", n->stmtdepth);
+
 	if(n->assigned != 0)
 		fmtprint(fp, " assigned");
 

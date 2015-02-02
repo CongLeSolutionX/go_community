@@ -810,7 +810,7 @@ inlvar(Node *var)
 	// escape analysis is done, treat all local vars as escaping.
 	// See issue 9537.
 	if(var->esc == EscHeap || (inl_nonlocal && var->op == ONAME))
-		addrescapes(n);
+		addrescapes(n, 0);
 
 	curfn->dcl = list(curfn->dcl, n);
 	return n;

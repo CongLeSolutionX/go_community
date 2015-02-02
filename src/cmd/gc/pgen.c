@@ -516,7 +516,7 @@ movelargefn(Node *fn)
 	for(l=fn->dcl; l != nil; l=l->next) {
 		n = l->n;
 		if(n->class == PAUTO && n->type != T && n->type->width > MaxStackVarSize)
-			addrescapes(n);
+			addrescapes(n, 0);
 	}
 }
 
