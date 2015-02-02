@@ -1,4 +1,4 @@
-// +build amd64
+// +test amd64
 // compile
 
 // Copyright 2013 The Go Authors.  All rights reserved.

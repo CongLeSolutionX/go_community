@@ -344,7 +344,7 @@ func shouldTest(src string, goos, goarch string) (ok bool, whyNot string) {
 			GOARCH: goarch,
 		}
 		words := strings.Fields(line)
-		if words[0] == "+build" {
+		if words[0] == "+test" {
 			ok := false
 			for _, word := range words[1:] {
 				if ctxt.match(word) {
@@ -425,7 +425,7 @@ func (t *test) run() {
 		return
 	}
 	action := t.src[:pos]
-	if nl := strings.Index(action, "\n"); nl >= 0 && strings.Contains(action[:nl], "+build") {
+	if nl := strings.Index(action, "\n"); nl >= 0 && strings.Contains(action[:nl], "+test") {
 		// skip first line
 		action = action[nl+1:]
 	}
@@ -925,26 +925,26 @@ func checkShouldTest() {
 	assertNot := func(ok bool, _ string) { assert(!ok, "") }
 
 	// Simple tests.
-	assert(shouldTest("// +build linux", "linux", "arm"))
-	assert(shouldTest("// +build !windows", "linux", "arm"))
-	assertNot(shouldTest("// +build !windows", "windows", "amd64"))
+	assert(shouldTest("// +test linux", "linux", "arm"))
+	assert(shouldTest("// +test !windows", "linux", "arm"))
+	assertNot(shouldTest("// +test !windows", "windows", "amd64"))
 
 	// A file with no build tags will always be tested.
 	assert(shouldTest("// This is a test.", "os", "arch"))
 
 	// Build tags separated by a space are OR-ed together.
-	assertNot(shouldTest("// +build arm 386", "linux", "amd64"))
+	assertNot(shouldTest("// +test arm 386", "linux", "amd64"))
 
 	// Build tags separated by a comma are AND-ed together.
-	assertNot(shouldTest("// +build !windows,!plan9", "windows", "amd64"))
-	assertNot(shouldTest("// +build !windows,!plan9", "plan9", "386"))
+	assertNot(shouldTest("// +test !windows,!plan9", "windows", "amd64"))
+	assertNot(shouldTest("// +test !windows,!plan9", "plan9", "386"))
 
 	// Build tags on multiple lines are AND-ed together.
-	assert(shouldTest("// +build !windows\n// +build amd64", "linux", "amd64"))
-	assertNot(shouldTest("// +build !windows\n// +build amd64", "windows", "amd64"))
+	assert(shouldTest("// +test !windows\n// +test amd64", "linux", "amd64"))
+	assertNot(shouldTest("// +test !windows\n// +test amd64", "windows", "amd64"))
 
 	// Test that (!a OR !b) matches anything.
-	assert(shouldTest("// +build !windows !plan9", "windows", "amd64"))
+	assert(shouldTest("// +test !windows !plan9", "windows", "amd64"))
 }
 
 // envForDir returns a copy of the environment

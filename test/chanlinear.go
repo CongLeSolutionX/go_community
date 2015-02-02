@@ -1,4 +1,4 @@
-// +build darwin linux
+// +test darwin linux
 // run
 
 // Copyright 2014 The Go Authors. All rights reserved.
