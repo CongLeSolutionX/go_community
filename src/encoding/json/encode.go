@@ -315,10 +315,10 @@ func valueEncoder(v reflect.Value) encoderFunc {
 
 func typeEncoder(t reflect.Type) encoderFunc {
 	encoderCache.RLock()
-	f := encoderCache.m[t]
+	f0 := encoderCache.m[t]
 	encoderCache.RUnlock()
-	if f != nil {
-		return f
+	if f0 != nil {
+		return f0
 	}
 
 	// To deal with recursive types, populate the map with an
@@ -331,6 +331,7 @@ func typeEncoder(t reflect.Type) encoderFunc {
 	}
 	var wg sync.WaitGroup
 	wg.Add(1)
+	var f encoderFunc
 	encoderCache.m[t] = func(e *encodeState, v reflect.Value, quoted bool) {
 		wg.Wait()
 		f(e, v, quoted)

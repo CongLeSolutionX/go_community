@@ -327,6 +327,7 @@ func init() {
 
 func TestResolveTCPAddr(t *testing.T) {
 	for _, tt := range resolveTCPAddrTests {
+		println("RESOLVE:", tt.litAddrOrName)
 		addr, err := ResolveTCPAddr(tt.net, tt.litAddrOrName)
 		if err != tt.err {
 			t.Fatalf("ResolveTCPAddr(%q, %q) failed: %v", tt.net, tt.litAddrOrName, err)

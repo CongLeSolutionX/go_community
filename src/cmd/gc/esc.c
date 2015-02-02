@@ -631,6 +631,7 @@ esc(EscState *e, Node *n, Node *up)
 			e->noesc = list(e->noesc, n);
 			n->escloopdepth = e->loopdepth;
 			// Values make it to memory, lose track.
+			//!!! don't leak to sink
 			for(ll=n->list; ll; ll=ll->next)
 				escassign(e, &e->theSink, ll->n->right);
 		} else {
@@ -666,6 +667,7 @@ esc(EscState *e, Node *n, Node *up)
 		n->esc = EscNone;  // until proven otherwise
 		e->noesc = list(e->noesc, n);
 		n->escloopdepth = e->loopdepth;
+		//!!! more precise tracking
 		// Keys and values make it to memory, lose track.
 		for(ll=n->list; ll; ll=ll->next) {
 			escassign(e, &e->theSink, ll->n->left);
@@ -801,6 +803,7 @@ escassign(EscState *e, Node *dst, Node *src)
 		dst = &e->theSink;  // lose track of dereference
 		break;
 	case OINDEXMAP:
+		//!!! more precise tracking
 		// lose track of key and value
 		escassign(e, &e->theSink, dst->right);
 		dst = &e->theSink;
@@ -872,6 +875,8 @@ escassign(EscState *e, Node *dst, Node *src)
 		// Index of array preserves input value.
 		if(isfixedarray(src->left->type))
 			escassign(e, dst, src->left);
+		//else
+		//	escflows(e, dst, src);
 		break;
 
 	case OADD:
