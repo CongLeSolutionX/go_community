@@ -179,6 +179,11 @@ walkstmt(Node **np)
 
 	setlineno(n);
 
+	curfn->stmtdepth++;
+	curfn->stmtstack = list(curfn->stmtstack, nod(OXXX, n, N));
+
+	//print("<<<<<<<<<<<<<<<<<<<<<<<< %S %d\n", curfn->nname->sym, curfn->stmtdepth);
+
 	walkstmtlist(n->ninit);
 
 	switch(n->op) {
@@ -235,12 +240,19 @@ walkstmt(Node **np)
 		addinit(&n, init);
 		break;
 
-	case OBREAK:
 	case ODCL:
+		n->left->stmtdepth = curfn->stmtdepth;
+		n->left->walkloopdepth = curfn->walkloopdepth;
+		break;
+
+	case OLABEL:
+		curfn->walkloopdepth++;
+		break;
+
+	case OBREAK:
 	case OCONTINUE:
 	case OFALL:
 	case OGOTO:
-	case OLABEL:
 	case ODCLCONST:
 	case ODCLTYPE:
 	case OCHECKNIL:
@@ -281,11 +293,15 @@ walkstmt(Node **np)
 			walkstmtlist(n->ntest->ninit);
 			init = n->ntest->ninit;
 			n->ntest->ninit = nil;
+			curfn->walkloopdepth++;
 			walkexpr(&n->ntest, &init);
 			addinit(&n->ntest, init);
+		} else {
+			curfn->walkloopdepth++;
 		}
 		walkstmt(&n->nincr);
 		walkstmtlist(n->nbody);
+		curfn->walkloopdepth--;
 		break;
 
 	case OIF:
@@ -373,7 +389,32 @@ walkstmt(Node **np)
 
 	if(n->op == ONAME)
 		fatal("walkstmt ended up with name: %+N", n);
-	
+
+	//print(">>>>>>>>>>>>>>>>>>>>>>>> %S %d\n", curfn->nname->sym, curfn->stmtdepth);
+
+	Node *nopinit;
+	if(curfn->stmtstack->next == nil) {
+		nopinit = curfn->stmtstack->n;
+		curfn->stmtstack = nil;
+		curfn->stmtstack = nil;
+	//} else if(curfn->stmtstack->next->next == nil) {
+	//	curfn->stmtstack->next = nil;
+	//	curfn->stmtstack->end = curfn->stmtstack;
+	} else {
+		NodeList *prev;
+		prev = curfn->stmtstack;
+		while(prev->next->next != nil)
+			prev = prev->next;
+		nopinit = prev->next->n;
+		prev->next = nil;
+		curfn->stmtstack->end = prev;
+	}
+	if(nopinit->left != *np)
+		fatal("broken pop stmtstack");
+	n->ninit = concat(nopinit->ninit, n->ninit);
+
+	curfn->stmtdepth--;
+
 	*np = n;
 }
 
@@ -613,6 +654,93 @@ walkexpr(Node **np, NodeList **init)
 		goto ret;
 
 	case ONAME:
+		//print("WALK NAME %hN\n", n);
+		if(n->stmtdepth == 0) {
+			n->stmtdepth = curfn->stmtdepth;
+			n->walkloopdepth = curfn->walkloopdepth;
+		}
+
+
+		{
+		Node *base;
+		base = n;
+		if(!curfn->walkingwritebarrier && base->op == ONAME &&
+				(base->class == (PAUTO|PHEAP) || base->class == (PPARAM|PHEAP) || base->class == (PPARAMOUT|PHEAP)) &&
+				base->heapcopy == N && base->heapaddr == N &&
+				n->walkloopdepth != curfn->walkloopdepth) {
+			// create stack variable to hold pointer to heap
+			//Node *oldfn;
+			//oldfn = curfn;
+			//curfn = base->curfn;
+/*
+			if(base->class == (PPARAM|PHEAP) || base->class == (PPARAMOUT|PHEAP)) {
+				n->stackparam = nod(OPARAM, n, N);
+				n->stackparam->type = n->type;
+				n->stackparam->addable = 1;
+				if(n->xoffset == BADWIDTH)
+					fatal("addrescapes before param assignment");
+				n->stackparam->xoffset = n->xoffset;
+			}
+*/
+
+			var = temp(base->type);
+			var->class |= PHEAP;
+			var->addable = 0;
+			var->ullman = 2;
+			var->xoffset = 0;
+
+			//!!! what about write barriers
+			var->heapaddr = temp(ptrto(base->type));
+			snprint(buf, sizeof buf, "&%S", base->sym);
+			var->heapaddr->sym = lookup(buf);
+			var->heapaddr->orig->sym = var->heapaddr->sym;
+			var->esc = EscHeap;
+			if(debug['m'])
+				print("%L: moved to heap: %N\n", n->lineno, base);
+
+			base->class &= ~PHEAP;
+			base->heapcopy = var;
+
+			NodeList *iter;
+			int ii;
+//print("XXX %S fsd=%d sd=%d ss=%p\n", curfn->nname->sym, curfn->stmtdepth, base->stmtdepth,  curfn->stmtstack);
+			if(base->class == PPARAM || base->class == PPARAMOUT)
+				base->stmtdepth = 1;
+
+			if(base->stmtdepth == 0)
+				fatal("no stmtdepth");
+			for(iter = curfn->stmtstack, ii = 1; ii < base->stmtdepth; ii++)
+				iter = iter->next;
+			Node *tmp;
+			tmp = nod(ODCL, var, N);
+			typecheck(&tmp, Etop);
+			iter->n->ninit = list(iter->n->ninit, tmp);
+			tmp = nod(OAS, var, base);
+			typecheck(&tmp, Etop);
+			iter->n->ninit = list(iter->n->ninit, tmp);
+
+
+/*
+			// generate allocation & copying code
+			if(compiling_runtime)
+				yyerror("%N escapes to heap, not allowed in runtime.", v);
+			if((v->class & ~PHEAP) = PPARAM) {
+				as = nod(OAS, v, v->stackparam);
+				v->stackparam->typecheck = 1;
+				typecheck(&as, Etop);
+				as = applywritebarrier(as, &nn);
+				nn = list(nn, as);
+			}
+*/
+
+
+
+			//curfn = oldfn;
+		}
+		}
+
+		if(n->heapcopy != nil)
+			n = n->heapcopy; 
 		if(!(n->class & PHEAP) && n->class != PPARAMREF)
 			n->addable = 1;
 		goto ret;
@@ -1218,6 +1346,82 @@ walkexpr(Node **np, NodeList **init)
 		goto ret;
 
 	case OADDR:
+		{
+		Node *base;
+		base = outervalue(n->left);
+		if(!curfn->walkingwritebarrier && base->op == ONAME &&
+				(base->class == (PAUTO|PHEAP) || base->class == (PPARAM|PHEAP) || base->class == (PPARAMOUT|PHEAP)) &&
+				base->heapcopy == N && base->heapaddr == N) {
+			// create stack variable to hold pointer to heap
+			//Node *oldfn;
+			//oldfn = curfn;
+			//curfn = base->curfn;
+/*
+			if(base->class == (PPARAM|PHEAP) || base->class == (PPARAMOUT|PHEAP)) {
+				n->stackparam = nod(OPARAM, n, N);
+				n->stackparam->type = n->type;
+				n->stackparam->addable = 1;
+				if(n->xoffset == BADWIDTH)
+					fatal("addrescapes before param assignment");
+				n->stackparam->xoffset = n->xoffset;
+			}
+*/
+
+			var = temp(base->type);
+			var->class |= PHEAP;
+			var->addable = 0;
+			var->ullman = 2;
+			var->xoffset = 0;
+
+			//!!! what about write barriers
+			var->heapaddr = temp(ptrto(base->type));
+			snprint(buf, sizeof buf, "&%S", base->sym);
+			var->heapaddr->sym = lookup(buf);
+			var->heapaddr->orig->sym = var->heapaddr->sym;
+			var->esc = EscHeap;
+			if(debug['m'])
+				print("%L: moved to heap: %N\n", n->lineno, base);
+
+			base->class &= ~PHEAP;
+			base->heapcopy = var;
+
+			NodeList *iter;
+			int ii;
+//print("XXX %S fsd=%d sd=%d ss=%p\n", curfn->nname->sym, curfn->stmtdepth, base->stmtdepth,  curfn->stmtstack);
+			if(base->class == PPARAM || base->class == PPARAMOUT)
+				base->stmtdepth = 1;
+
+			if(base->stmtdepth == 0)
+				fatal("no stmtdepth");
+			for(iter = curfn->stmtstack, ii = 1; ii < base->stmtdepth; ii++)
+				iter = iter->next;
+			Node *tmp;
+			tmp = nod(ODCL, var, N);
+			typecheck(&tmp, Etop);
+			iter->n->ninit = list(iter->n->ninit, tmp);
+			tmp = nod(OAS, var, base);
+			typecheck(&tmp, Etop);
+			iter->n->ninit = list(iter->n->ninit, tmp);
+
+
+/*
+			// generate allocation & copying code
+			if(compiling_runtime)
+				yyerror("%N escapes to heap, not allowed in runtime.", v);
+			if((v->class & ~PHEAP) = PPARAM) {
+				as = nod(OAS, v, v->stackparam);
+				v->stackparam->typecheck = 1;
+				typecheck(&as, Etop);
+				as = applywritebarrier(as, &nn);
+				nn = list(nn, as);
+			}
+*/
+
+
+
+			//curfn = oldfn;
+		}
+		}
 		walkexpr(&n->left, init);
 		goto ret;
 
@@ -2063,7 +2267,15 @@ applywritebarrier(Node *n, NodeList **init)
 	static Bvec *bv;
 	char name[32];
 
+	Node *base;
+	base = /*outervalue*/(n->left);
+	if(base->op == ONAME && base->heapcopy)
+		n->left = base->heapcopy;
+
 	if(n->left && n->right && needwritebarrier(n->left, n->right)) {
+		if(curfn->walkingwritebarrier)
+			yyerror("recursive write barrier");
+		curfn->walkingwritebarrier = 1;
 		if(curfn && curfn->nowritebarrier)
 			yyerror("write barrier prohibited");
 		t = n->left->type;
@@ -2121,6 +2333,7 @@ applywritebarrier(Node *n, NodeList **init)
 			n = mkcall1(writebarrierfn("typedmemmove", t, r->left->type), T, init,
 				typename(t), l, r);
 		}
+		curfn->walkingwritebarrier = 0;
 	}
 	return n;
 }
@@ -2540,7 +2753,7 @@ paramstoheap(Type **argin, int out)
 {
 	Type *t;
 	Iter savet;
-	Node *v, *as;
+	Node *v /*, *as*/;
 	NodeList *nn;
 
 	nn = nil;
@@ -2549,8 +2762,8 @@ paramstoheap(Type **argin, int out)
 		if(v && v->sym && v->sym->name[0] == '~' && v->sym->name[1] == 'r') // unnamed result
 			v = N;
 		// For precise stacks, the garbage collector assumes results
-		// are always live, so zero them always.
-		if(out) {
+		// are always live, so zero them always (heap params are already zero).
+		if(out && (v == N || !(v->class & PHEAP))) {
 			// Defer might stop a panic and show the
 			// return values as they exist at the time of panic.
 			// Make sure to zero them on entry to the function.
@@ -2559,6 +2772,7 @@ paramstoheap(Type **argin, int out)
 		if(v == N || !(v->class & PHEAP))
 			continue;
 
+/*
 		// generate allocation & copying code
 		if(compiling_runtime)
 			yyerror("%N escapes to heap, not allowed in runtime.", v);
@@ -2572,6 +2786,7 @@ paramstoheap(Type **argin, int out)
 			as = applywritebarrier(as, &nn);
 			nn = list(nn, as);
 		}
+*/
 	}
 	return nn;
 }
@@ -2590,9 +2805,12 @@ returnsfromheap(Type **argin)
 	nn = nil;
 	for(t = structfirst(&savet, argin); t != T; t = structnext(&savet)) {
 		v = t->nname;
-		if(v == N || v->class != (PHEAP|PPARAMOUT))
+		//if(v == N || v->class != (PHEAP|PPARAMOUT))
+		//	continue;
+		//nn = list(nn, nod(OAS, v->stackparam, v));
+		if(v == N || v->class != PPARAMOUT || v->heapcopy == N)
 			continue;
-		nn = list(nn, nod(OAS, v->stackparam, v));
+		nn = list(nn, nod(OAS, v, v->heapcopy));
 	}
 	return nn;
 }

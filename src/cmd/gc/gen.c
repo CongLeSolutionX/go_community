@@ -34,7 +34,7 @@ sysfunc(char *name)
  * as needing to move to the heap.
  */
 void
-addrescapes(Node *n)
+addrescapes(Node *n, int delay)
 {
 	char buf[100];
 	Node *oldfn;
@@ -56,7 +56,7 @@ addrescapes(Node *n)
 
 		switch(n->class) {
 		case PPARAMREF:
-			addrescapes(n->defn);
+			addrescapes(n->defn, delay);
 			break;
 		case PPARAM:
 		case PPARAMOUT:
@@ -66,6 +66,9 @@ addrescapes(Node *n)
 			// (we're in the function body)
 			// so the param already has a valid xoffset.
 
+			n->class |= PHEAP;
+
+			if(!delay) {
 			// expression to refer to stack copy
 			n->stackparam = nod(OPARAM, n, N);
 			n->stackparam->type = n->type;
@@ -75,8 +78,6 @@ addrescapes(Node *n)
 			n->stackparam->xoffset = n->xoffset;
 			// fallthrough
 
-		case PAUTO:
-			n->class |= PHEAP;
 			n->addable = 0;
 			n->ullman = 2;
 			n->xoffset = 0;
@@ -92,6 +93,29 @@ addrescapes(Node *n)
 			if(debug['m'])
 				print("%L: moved to heap: %N\n", n->lineno, n);
 			curfn = oldfn;
+			}
+			break;
+
+		case PAUTO:
+			n->class |= PHEAP;
+
+			if(!delay) {
+			n->addable = 0;
+			n->ullman = 2;
+			n->xoffset = 0;
+
+			// create stack variable to hold pointer to heap
+			oldfn = curfn;
+			curfn = n->curfn;
+			n->heapaddr = temp(ptrto(n->type));
+			snprint(buf, sizeof buf, "&%S", n->sym);
+			n->heapaddr->sym = lookup(buf);
+			n->heapaddr->orig->sym = n->heapaddr->sym;
+			n->esc = EscHeap;
+			if(debug['m'])
+				print("%L: moved to heap: %N\n", n->lineno, n);
+			curfn = oldfn;
+			}
 			break;
 		}
 		break;
@@ -108,7 +132,7 @@ addrescapes(Node *n)
 		// escape--the pointer inside x does, but that
 		// is always a heap pointer anyway.
 		if(!isslice(n->left->type))
-			addrescapes(n->left);
+			addrescapes(n->left, delay);
 		break;
 	}
 }

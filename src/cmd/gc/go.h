@@ -341,6 +341,12 @@ struct	Node
 	// OARRAYLIT, OMAPLIT, OSTRUCTLIT.
 	InitPlan*	initplan;
 
+	NodeList*	stmtstack;
+	int	stmtdepth;
+	Node*	heapcopy;
+	uchar	walkingwritebarrier;
+	int	walkloopdepth;
+
 	// Escape analysis.
 	NodeList* escflowsrc;	// flow(this, src)
 	NodeList* escretval;	// on OCALLxxx, list of dummy return values
@@ -1180,7 +1186,7 @@ void	dumplist(char *s, NodeList *l);
 /*
  *	gen.c
  */
-void	addrescapes(Node *n);
+void	addrescapes(Node *n, int delay);
 void	cgen_as(Node *nl, Node *nr);
 void	cgen_callmeth(Node *n, int proc);
 void	cgen_eface(Node* n, Node* res);
