@@ -14,8 +14,8 @@ static	Node*	applywritebarrier(Node*, NodeList**);
 static	Node*	mapfn(char*, Type*);
 static	Node*	mapfndel(char*, Type*);
 static	Node*	ascompatee1(int, Node*, Node*, NodeList**);
-static	NodeList*	ascompatee(int, NodeList*, NodeList*, NodeList**);
-static	NodeList*	ascompatet(int, NodeList*, Type**, int, NodeList**);
+static	NodeList*	ascompatee(Node*, int, NodeList*, NodeList*, NodeList**);
+static	NodeList*	ascompatet(Node*, int, NodeList*, Type**, int, NodeList**);
 static	NodeList*	ascompatte(int, Node*, int, Type**, NodeList*, int, NodeList**);
 static	Node*	convas(Node*, NodeList**);
 static	void	heapmoves(void);
@@ -336,13 +336,13 @@ walkstmt(Node **np)
 				f = n->list->n;
 				if(f->op != OCALLFUNC && f->op != OCALLMETH && f->op != OCALLINTER)
 					fatal("expected return of call, have %N", f);
-				n->list = concat(list1(f), ascompatet(n->op, rl, &f->type, 0, &n->ninit));
+				n->list = concat(list1(f), ascompatet(n, n->op, rl, &f->type, 0, &n->ninit));
 				break;
 			}
 
 			// move function calls out, to make reorder3's job easier.
 			walkexprlistsafe(n->list, &n->ninit);
-			ll = ascompatee(n->op, rl, n->list, &n->ninit);
+			ll = ascompatee(n, n->op, rl, n->list, &n->ninit);
 			n->list = reorder3(ll);
 			break;
 		}
@@ -711,6 +711,7 @@ walkexpr(Node **np, NodeList **init)
 		if(n->left != N && n->right != N) {
 			r = convas(nod(OAS, n->left, n->right), init);
 			r->dodata = n->dodata;
+			r->colas = n->colas;
 			n = r;
 			n = applywritebarrier(n, init);
 		}
@@ -722,7 +723,7 @@ walkexpr(Node **np, NodeList **init)
 		n->ninit = nil;
 		walkexprlistsafe(n->list, init);
 		walkexprlistsafe(n->rlist, init);
-		ll = ascompatee(OAS, n->list, n->rlist, init);
+		ll = ascompatee(n, OAS, n->list, n->rlist, init);
 		ll = reorder3(ll);
 		for(lr = ll; lr != nil; lr = lr->next)
 			lr->n = applywritebarrier(lr->n, init);
@@ -737,7 +738,7 @@ walkexpr(Node **np, NodeList **init)
 		walkexprlistsafe(n->list, init);
 		walkexpr(&r, init);
 
-		ll = ascompatet(n->op, n->list, &r->type, 0, init);
+		ll = ascompatet(n, n->op, n->list, &r->type, 0, init);
 		for(lr = ll; lr != nil; lr = lr->next)
 			lr->n = applywritebarrier(lr->n, init);
 		n = liststmt(concat(list1(r), ll));
@@ -1503,9 +1504,10 @@ ascompatee1(int op, Node *l, Node *r, NodeList **init)
 }
 
 static NodeList*
-ascompatee(int op, NodeList *nl, NodeList *nr, NodeList **init)
+ascompatee(Node *n, int op, NodeList *nl, NodeList *nr, NodeList **init)
 {
 	NodeList *ll, *lr, *nn;
+	Node *a;
 
 	/*
 	 * check assign expression list to
@@ -1524,7 +1526,10 @@ ascompatee(int op, NodeList *nl, NodeList *nr, NodeList **init)
 		// Do not generate 'x = x' during return. See issue 4014.
 		if(op == ORETURN && ll->n == lr->n)
 			continue;
-		nn = list(nn, ascompatee1(op, ll->n, lr->n, init));
+		a = ascompatee1(op, ll->n, lr->n, init);
+		if(n->op == OAS2 && n->colas && ll->n->op == ONAME && ll->n->defn == n)
+			a->colas = 1;
+		nn = list(nn, a);
 	}
 
 	// cannot happen: caller checked that lists had same length
@@ -1555,7 +1560,7 @@ fncall(Node *l, Type *rt)
 }
 
 static NodeList*
-ascompatet(int op, NodeList *nl, Type **nr, int fp, NodeList **init)
+ascompatet(Node *n, int op, NodeList *nl, Type **nr, int fp, NodeList **init)
 {
 	Node *l, *tmp, *a;
 	NodeList *ll;
@@ -1592,12 +1597,16 @@ ascompatet(int op, NodeList *nl, Type **nr, int fp, NodeList **init)
 			typecheck(&tmp, Erv);
 			a = nod(OAS, l, tmp);
 			a = convas(a, init);
+			if(n->op == OAS2FUNC && n->colas && l->op == ONAME && l->defn == n)
+				a->colas = 1;
 			mm = list(mm, a);
 			l = tmp;
 		}
 
 		a = nod(OAS, l, arch.nodarg(r, fp));
 		a = convas(a, init);
+		if(n->op == OAS2FUNC && n->colas && l->op == ONAME && l->defn == n)
+			a->colas = 1;
 		ullmancalc(a);
 		if(a->ullman >= UINF) {
 			dump("ascompatet ucount", a);
@@ -1939,8 +1948,7 @@ isstack(Node *n)
 {
 	Node *defn;
 
-	while(n->op == ODOT || n->op == OPAREN || n->op == OCONVNOP || n->op == OINDEX && isfixedarray(n->left->type))
-		n = n->left;
+	n = outervalue(n);
 
 	// If n is *autotmp and autotmp = &foo, replace n with foo.
 	// We introduce such temps when initializing struct literals.
@@ -1971,8 +1979,7 @@ isstack(Node *n)
 static int
 isglobal(Node *n)
 {
-	while(n->op == ODOT || n->op == OPAREN || n->op == OCONVNOP || n->op == OINDEX && isfixedarray(n->left->type))
-		n = n->left;
+	n = outervalue(n);
 
 	switch(n->op) {
 	case ONAME:
@@ -2329,9 +2336,11 @@ reorder3save(Node **np, NodeList *all, NodeList *stop, NodeList **early)
  */
 Node*
 outervalue(Node *n)
-{	
+{
 	for(;;) {
-		if(n->op == ODOT || n->op == OPAREN) {
+		if(n->op == OXDOT)
+			fatal("OXDOT in walk");
+		if(n->op == ODOT || n->op == OPAREN || n->op == OCONVNOP) {
 			n = n->left;
 			continue;
 		}
@@ -2341,6 +2350,7 @@ outervalue(Node *n)
 		}
 		break;
 	}
+
 	return n;
 }
 
