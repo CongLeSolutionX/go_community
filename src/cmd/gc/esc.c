@@ -1231,7 +1231,7 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 	case OADDR:
 		if(leaks) {
 			src->esc = EscHeap;
-			addrescapes(src->left);
+			addrescapes(src->left, 1);
 			if(debug['m'])
 				warnl(src->lineno, "%hN escapes to heap", src);
 		}
