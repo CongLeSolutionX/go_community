@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7120b0d_939c3c81",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-02T19:07:18Z",
+      "side": 1,
+      "message": "} else {\n    prefix \u003d commonPrefix(prefix, line)\n}",
+      "revId": "8abb6816b8d21657387be11cd37dcb8fbc03bbcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7120b0d_53ac64b3",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-02T19:07:18Z",
+      "side": 1,
+      "message": "move this to the start of the previous if block",
+      "revId": "8abb6816b8d21657387be11cd37dcb8fbc03bbcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
