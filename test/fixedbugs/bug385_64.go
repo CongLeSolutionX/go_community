@@ -1,4 +1,4 @@
-// +build amd64
+// +test amd64
 // errorcheck
 
 // Copyright 2011 The Go Authors.  All rights reserved.
