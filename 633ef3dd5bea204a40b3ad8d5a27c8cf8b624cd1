@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57f3d71a_3e5ec92d",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-02T01:10:34Z",
+      "side": 1,
+      "message": "I just noticed - in https://msdn.microsoft.com/en-us/library/windows/desktop/aa366326(v\u003dvs.85).aspx it says: \"[This function is no longer available for use as of Windows Vista. Instead, use the GetAdaptersAddresses function and the associated IP_ADAPTER_ADDRESSES structure.]\". Can you implement this functionality without using NhpAllocateAndGetInterfaceInfoFromStack?",
+      "revId": "633ef3dd5bea204a40b3ad8d5a27c8cf8b624cd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
