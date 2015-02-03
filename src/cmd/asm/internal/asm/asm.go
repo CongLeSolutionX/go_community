@@ -39,6 +39,14 @@ func (p *Parser) symbolType(a *addr.Addr) int {
 	return 0
 }
 
+// staticVersion reports whether the data's Symbol has <>, as in data<>.
+func staticVersion(a *addr.Addr) int {
+	if a.Symbol != "" && a.IsStatic {
+		return 1
+	}
+	return 0
+}
+
 // TODO: configure the architecture
 
 // TODO: This is hacky and irregular. When obj settles down, rewrite for simplicity.
@@ -53,7 +61,6 @@ func (p *Parser) addrToAddr(a *addr.Addr) obj.Addr {
 		// a<>(SB) = STATIC,NONE
 		// The call to symbolType does the first column; we need to fix up Index here.
 		out.Type = int16(p.symbolType(a))
-		out.Sym = obj.Linklookup(p.linkCtxt, a.Symbol, 0)
 		if a.IsImmediateAddress {
 			// Index field says whether it's a static.
 			switch a.Register {
@@ -67,6 +74,7 @@ func (p *Parser) addrToAddr(a *addr.Addr) obj.Addr {
 				p.errorf("can't handle immediate address of %s not (SB)\n", a.Symbol)
 			}
 		}
+		out.Sym = obj.Linklookup(p.linkCtxt, a.Symbol, staticVersion(a))
 	} else if a.Has(addr.Register) {
 		// TODO: SP is tricky, and this isn't good enough.
 		// SP = D_SP
@@ -217,7 +225,7 @@ func (p *Parser) asmText(word string, operands [][]lex.Token) {
 		From: obj.Addr{
 			Type:  int16(p.symbolType(&nameAddr)),
 			Index: uint8(p.arch.D_NONE),
-			Sym:   obj.Linklookup(p.linkCtxt, name, 0),
+			Sym:   obj.Linklookup(p.linkCtxt, name, staticVersion(&nameAddr)),
 			Scale: flag,
 		},
 		To: obj.Addr{
@@ -282,7 +290,7 @@ func (p *Parser) asmData(word string, operands [][]lex.Token) {
 		From: obj.Addr{
 			Type:   int16(p.symbolType(&nameAddr)),
 			Index:  uint8(p.arch.D_NONE),
-			Sym:    obj.Linklookup(p.linkCtxt, name, 0),
+			Sym:    obj.Linklookup(p.linkCtxt, name, staticVersion(&nameAddr)),
 			Offset: nameAddr.Offset,
 			Scale:  scale,
 		},
@@ -335,7 +343,7 @@ func (p *Parser) asmGlobl(word string, operands [][]lex.Token) {
 		From: obj.Addr{
 			Type:   int16(p.symbolType(&nameAddr)),
 			Index:  uint8(p.arch.D_NONE),
-			Sym:    obj.Linklookup(p.linkCtxt, name, 0),
+			Sym:    obj.Linklookup(p.linkCtxt, name, staticVersion(&nameAddr)),
 			Offset: nameAddr.Offset,
 			Scale:  scale,
 		},
@@ -425,7 +433,7 @@ func (p *Parser) asmFuncData(word string, operands [][]lex.Token) {
 		To: obj.Addr{
 			Type:   int16(p.symbolType(&nameAddr)),
 			Index:  uint8(p.arch.D_NONE),
-			Sym:    obj.Linklookup(p.linkCtxt, name, 0),
+			Sym:    obj.Linklookup(p.linkCtxt, name, staticVersion(&nameAddr)),
 			Offset: value1,
 		},
 	}
@@ -485,7 +493,7 @@ func (p *Parser) asmJump(op int, a []addr.Addr) {
 		}
 		prog.To = obj.Addr{
 			Type:   int16(p.arch.D_BRANCH),
-			Sym:    obj.Linklookup(p.linkCtxt, target.Symbol, 0),
+			Sym:    obj.Linklookup(p.linkCtxt, target.Symbol, staticVersion(target)),
 			Index:  uint8(p.arch.D_NONE),
 			Offset: target.Offset,
 		}
