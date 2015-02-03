@@ -142,15 +142,15 @@ func (c *conn) hijack() (rwc net.Conn, buf *bufio.ReadWriter, err error) {
 	if c.hijackedv {
 		return nil, nil, ErrHijacked
 	}
-	if c.closeNotifyc != nil {
-		return nil, nil, errors.New("http: Hijack is incompatible with use of CloseNotifier")
-	}
 	c.hijackedv = true
 	rwc = c.rwc
 	buf = c.buf
 	c.rwc = nil
 	c.buf = nil
 	c.setState(rwc, StateHijacked)
+	if c.closeNotifyc != nil {
+		rwc = &otherReaderConn{Conn: rwc, r: &c.sr}
+	}
 	return
 }
 
@@ -215,6 +215,15 @@ func (sr *liveSwitchReader) Read(p []byte) (n int, err error) {
 	r := sr.r
 	sr.Unlock()
 	return r.Read(p)
+}
+
+type otherReaderConn struct {
+	net.Conn
+	r io.Reader
+}
+
+func (c *otherReaderConn) Read(p []byte) (n int, err error) {
+	return c.r.Read(p)
 }
 
 // This should be >= 512 bytes for DetectContentType,
