@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97538ffc_f0f2e024",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-03T19:49:54Z",
+      "side": 1,
+      "message": "sounds like it returns a bool but does not",
+      "revId": "c357ab980a51dd479e11bfd67cb02a3157ab1eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
