@@ -2124,6 +2124,56 @@ func TestDoubleHijack(t *testing.T) {
 	<-conn.closec
 }
 
+// See golang.org/issue/9763
+func TestHijackAfterCloseNotify(t *testing.T) {
+	req := reqBytes("GET / HTTP/1.1\nHost: golang.org")
+	var buf bytes.Buffer
+	closeNotifyc := make(chan bool, 1)
+	wrotec := make(chan bool)
+	conn := &rwTestConn{
+		Reader: bytes.NewReader(req),
+		Writer: &buf,
+		closec: make(chan bool, 1),
+	}
+	handler := HandlerFunc(func(rw ResponseWriter, r *Request) {
+		cn, ok := rw.(CloseNotifier)
+		if !ok {
+			t.Errorf("rw is not a CloseNotifier; got: %#v", rw)
+			return
+		}
+		cnc := cn.CloseNotify()
+		conn, bufrw, err := rw.(Hijacker).Hijack()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		go func() {
+			bufrw.Write([]byte("[hijack-to-bufw]"))
+			bufrw.Flush()
+			conn.Write([]byte("[hijack-to-conn]"))
+			wrotec <- true
+			closeNotifyc <- (<-cnc)
+			conn.Close()
+		}()
+	})
+	ln := &oneConnListener{conn: conn}
+	go Serve(ln, handler)
+	select {
+	case <-wrotec:
+	case <-time.After(5 * time.Second):
+		t.Fatalf("timeout waiting for wrotec")
+	}
+	if g, w := buf.String(), "[hijack-to-bufw][hijack-to-conn]"; g != w {
+		t.Errorf("wrote %q; want %q", g, w)
+	}
+	conn.Close()
+	select {
+	case <-closeNotifyc:
+	case <-time.After(5 * time.Second):
+		t.Fatalf("timeout waiting for closeNotifyc")
+	}
+}
+
 // http://code.google.com/p/go/issues/detail?id=5955
 // Note that this does not test the "request too large"
 // exit path from the http server. This is intentional;
