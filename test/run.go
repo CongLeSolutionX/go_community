@@ -417,7 +417,8 @@ func (t *test) run() {
 		t.err = errors.New("double newline not found")
 		return
 	}
-	if ok, why := shouldTest(t.src, goos, goarch); !ok {
+	// Check for build constraints only upto the first blank line.
+	if ok, why := shouldTest(t.src[:pos], goos, goarch); !ok {
 		t.action = "skip"
 		if *showSkips {
 			fmt.Printf("%-20s %-20s: %s\n", t.action, t.goFileName(), why)
