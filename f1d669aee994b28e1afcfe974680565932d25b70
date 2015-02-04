@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c2648b6_ed93c5f3",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-04T03:23:06Z",
+      "side": 0,
+      "message": "I\u0027d also remove -ccflags. (Or document it as ignored,\npreserved for backward compatibility)\n\nHowever, I think it is probably better to given an\nerror for use of -ccflags and prompt the users to\nupdate their build script and code.\n\nWe probably need to discuss this a little more, so\nI\u0027m also fine to submit this CL as is.",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 9
+      },
+      "revId": "f1d669aee994b28e1afcfe974680565932d25b70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
