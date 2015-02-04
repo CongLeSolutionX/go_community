@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc1af065_b301b8aa",
+        "filename": "src/cmd/gc/reflect.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-04T01:10:56Z",
+      "side": 1,
+      "message": "Much nicer.",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1af065_93febc34",
+        "filename": "src/cmd/gc/reflect.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-04T01:10:56Z",
+      "side": 1,
+      "message": "s/respresenting/representing/ while you\u0027re here",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1af065_730440bf",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-04T01:10:56Z",
+      "side": 1,
+      "message": "This comment isn\u0027t quite right--if the size is large, it is possible that h !\u003d nil and buckets \u003d\u003d nil.\n\nPerhaps something like\n\n// If the compiler has determined that the map or the first bucket\n// can be created on the stack, h and/or buckets may be non-nil.\n// If h !\u003d nil, the map can be created directly in h.\n// If buckets !\u003d nil, buckets can be used as the first bucket.",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1af065_f3205044",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-04T01:10:56Z",
+      "side": 1,
+      "message": "I haven\u0027t thought this through all the way, but it looks like if we provide a large hint, we\u0027ll allocate space on the stack for the first bucket but then immediately abandon it here.",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
