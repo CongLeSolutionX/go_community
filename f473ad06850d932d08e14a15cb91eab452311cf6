@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "dc836cc3_62dc9620",
+        "filename": "src/cmd/gc/reflect.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-04T09:41:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1af065_93febc34",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1af065_730440bf",
         "filename": "src/runtime/hashmap.go",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "1c1ee459_7ab09110",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-04T09:41:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1af065_730440bf",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1af065_f3205044",
         "filename": "src/runtime/hashmap.go",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2015-02-04T01:10:56Z",
       "side": 1,
       "message": "I haven\u0027t thought this through all the way, but it looks like if we provide a large hint, we\u0027ll allocate space on the stack for the first bucket but then immediately abandon it here.",
+      "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1ee459_1abf5ddf",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-04T09:41:23Z",
+      "side": 1,
+      "message": "Yes, that is correct.\n\nWe probably can look at cap in the compiler. If it is provided and is const and is greater than, say, 8, then don\u0027t allocate bucket on stack. I am not sure it is worth it.",
+      "parentUuid": "fc1af065_f3205044",
       "revId": "f473ad06850d932d08e14a15cb91eab452311cf6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
