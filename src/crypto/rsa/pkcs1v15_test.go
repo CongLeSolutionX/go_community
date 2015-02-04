@@ -50,6 +50,20 @@ var decryptPKCS1v15Tests = []DecryptPKCS1v15Test{
 	},
 }
 
+func TestPKCS1v15Decrypter(t *testing.T) {
+	for i, test := range decryptPKCS1v15Tests {
+		out := make([]byte, 256)
+		length, err := rsaPrivateKey.Decrypt(nil, decodeBase64(test.in), out, &PKCS1v15Options{SessionKey: false})
+		if err != nil {
+			t.Errorf("#%d error decrypting", i)
+		}
+		want := []byte(test.out)
+		if !bytes.Equal(out[:length], want) {
+			t.Errorf("#%d got:%#v want:%#v", i, out, want)
+		}
+	}
+}
+
 func TestDecryptPKCS1v15(t *testing.T) {
 	for i, test := range decryptPKCS1v15Tests {
 		out, err := DecryptPKCS1v15(nil, rsaPrivateKey, decodeBase64(test.in))
@@ -224,6 +238,26 @@ func TestUnpaddedSignature(t *testing.T) {
 	}
 	if err := VerifyPKCS1v15(&rsaPrivateKey.PublicKey, crypto.Hash(0), msg, sig); err != nil {
 		t.Fatalf("signature failed to verify: %s", err)
+	}
+}
+
+func TestShortSessionKeyDecrypter(t *testing.T) {
+	// This tests that attempting to decrypt a session key where the
+	// ciphertext is too small doesn't run outside the array bounds.
+	ciphertext, err := EncryptPKCS1v15(rand.Reader, &rsaPrivateKey.PublicKey, []byte{1})
+	if err != nil {
+		t.Fatalf("Failed to encrypt short message: %s", err)
+	}
+
+	var key [32]byte
+	if _, err := rsaPrivateKey.Decrypt(nil, ciphertext, key[:], &PKCS1v15Options{SessionKey: true}); err != nil {
+		t.Fatalf("Failed to decrypt short message: %s", err)
+	}
+
+	for _, v := range key {
+		if v != 0 {
+			t.Fatal("key was modified when ciphertext was invalid")
+		}
 	}
 }
 

@@ -189,6 +189,48 @@ type testEncryptOAEPStruct struct {
 	msgs    []testEncryptOAEPMessage
 }
 
+func TestDecrypt(t *testing.T) {
+	random := rand.Reader
+
+	sha1 := sha1.New()
+	n := new(big.Int)
+	d := new(big.Int)
+	for i, test := range testEncryptOAEPData {
+		n.SetString(test.modulus, 16)
+		d.SetString(test.d, 16)
+		private := new(PrivateKey)
+		private.PublicKey = PublicKey{n, test.e}
+		private.D = d
+
+		for j, message := range test.msgs {
+			out := make([]byte, 256)
+			length, err := private.Decrypt(nil, message.out, out, &OAEPOptions{Hash: sha1})
+			if err != nil {
+				t.Errorf("#%d,%d error: %s", i, j, err)
+			} else if !bytes.Equal(out[:length], message.in) {
+				t.Errorf("#%d,%d bad result: %#v (want %#v)", i, j, out, message.in)
+			}
+
+			// Decrypt with blinding.
+			length, err = private.Decrypt(random, message.out, out, &OAEPOptions{Hash: sha1})
+			if err != nil {
+				t.Errorf("#%d,%d (blind) error: %s", i, j, err)
+			} else if !bytes.Equal(out[:length], message.in) {
+				t.Errorf("#%d,%d (blind) bad result: %#v (want %#v)", i, j, out, message.in)
+			}
+
+			// Decrypt with bad options
+			length, err = private.Decrypt(nil, message.out, out, nil)
+			if err == nil {
+				t.Errorf("#%d,%d error expected: %s", i, j, err)
+			}
+		}
+		if testing.Short() {
+			break
+		}
+	}
+}
+
 func TestEncryptOAEP(t *testing.T) {
 	sha1 := sha1.New()
 	n := new(big.Int)
