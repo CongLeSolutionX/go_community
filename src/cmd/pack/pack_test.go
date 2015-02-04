@@ -257,13 +257,7 @@ func TestLargeDefs(t *testing.T) {
 		}
 	}
 
-	n := 10000
-	if testing.Short() {
-		// Issue 9656: 10,000 is too aggressive for several
-		// builders, with ~120 MB of disk consumed. 1,000 is
-		// still enough to exercise the old bug.
-		n = 1000
-	}
+	n := 1000
 	printf("package large\n\ntype T struct {\n")
 	for i := 0; i < n; i++ {
 		printf("f%d int `tag:\"", i)
