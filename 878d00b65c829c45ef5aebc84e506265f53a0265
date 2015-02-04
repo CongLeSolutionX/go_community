@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcd1ace3_d27524b6",
+        "filename": "src/cmd/pack/pack_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-02-04T21:41:51Z",
+      "side": 1,
+      "message": "why not just set n to 1000 and drop the short?",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 11
+      },
+      "revId": "878d00b65c829c45ef5aebc84e506265f53a0265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
