@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c665411_185bc5ef",
+        "filename": "src/cmd/5g/galign.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-04T16:53:24Z",
+      "side": 1,
+      "message": "We should probably define a REGCTXT enum value for this.",
+      "revId": "91a32055942b08a82eef3157a10ae4c2a6db69c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c665411_7857619d",
+        "filename": "src/cmd/gc/gsubr.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-04T16:53:24Z",
+      "side": 1,
+      "message": "9g/gsubr.c still has most of this.",
+      "revId": "91a32055942b08a82eef3157a10ae4c2a6db69c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c665411_783201a2",
+        "filename": "src/cmd/gc/gsubr.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-04T16:53:24Z",
+      "side": 1,
+      "message": "This and fixautoused and samereg are still defined in 9g/ggen.c.",
+      "revId": "91a32055942b08a82eef3157a10ae4c2a6db69c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
