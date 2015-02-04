@@ -14,6 +14,12 @@ import (
 
 // This file implements encryption and decryption using PKCS#1 v1.5 padding.
 
+// PKCS1v15Options implements crypto.DecrypterOpts and provides an option to
+// perform TLS session key decryption in Decrypt.
+type PKCS1v15Options struct {
+	SessionKey bool
+}
+
 // EncryptPKCS1v15 encrypts the given message with RSA and the padding scheme from PKCS#1 v1.5.
 // The message must be no longer than the length of the public modulus minus 11 bytes.
 // WARNING: use of this function to encrypt plaintexts other than session keys

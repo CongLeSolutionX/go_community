@@ -24,6 +24,14 @@ type PublicKey struct {
 	E int      // public exponent
 }
 
+// OAEPOptions provides the hash and the label to be used in OAEP
+// decryption through the crypto.Decrypter interface as a
+// crypto.DecrypterOpts
+type OAEPOptions struct {
+	hash  hash.Hash
+	label []byte
+}
+
 var (
 	errPublicModulus       = errors.New("crypto/rsa: missing public modulus")
 	errPublicExponentSmall = errors.New("crypto/rsa: public exponent too small")
@@ -75,6 +83,29 @@ func (priv *PrivateKey) Sign(rand io.Reader, msg []byte, opts crypto.SignerOpts)
 	}
 
 	return SignPKCS1v15(rand, priv, opts.HashFunc(), msg)
+}
+
+// Decrypt decrypts with an RSA private key. If opts is of type *OAEPOptions
+// then OAEP padding is expected, otherwise PKCS#1 v1.5 padding is expected.
+func (priv *PrivateKey) Decrypt(rand io.Reader, ciphertext []byte, msg []byte, opts crypto.DecrypterOpts) (err error) {
+	switch o := opts.(type) {
+	case *OAEPOptions:
+		out, err := DecryptOAEP(o.hash, rand, priv, ciphertext, o.label)
+		if err != nil {
+			copy(msg, out)
+		}
+		return err
+	case *PKCS1v15Options:
+		if o.SessionKey {
+			return DecryptPKCS1v15SessionKey(rand, priv, ciphertext, msg)
+		} else {
+			out, err := DecryptPKCS1v15(rand, priv, ciphertext)
+			if err != nil {
+				copy(msg, out)
+			}
+		}
+	}
+	return
 }
 
 type PrecomputedValues struct {

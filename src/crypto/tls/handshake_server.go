@@ -197,7 +197,11 @@ Curves:
 		}
 	}
 
-	_, hs.ecdsaOk = hs.cert.PrivateKey.(*ecdsa.PrivateKey)
+	priv, ok := hs.cert.PrivateKey.(crypto.Signer)
+	if !ok {
+		err = errors.New("tls: certificate private key does not implement crypto.Signer")
+	}
+	_, hs.ecdsaOk = priv.Public().(*ecdsa.PublicKey)
 
 	if hs.checkForResumption() {
 		return true, nil
