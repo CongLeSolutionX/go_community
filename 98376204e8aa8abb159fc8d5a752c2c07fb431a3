@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3caba858_68fa3b01",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-05T07:32:28Z",
+      "side": 0,
+      "message": "this might be referring to the Close method.",
+      "range": {
+        "startLine": 676,
+        "startChar": 50,
+        "endLine": 676,
+        "endChar": 56
+      },
+      "revId": "98376204e8aa8abb159fc8d5a752c2c07fb431a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
