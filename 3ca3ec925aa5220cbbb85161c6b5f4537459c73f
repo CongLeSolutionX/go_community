@@ -824,6 +824,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_92377c5c",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-05T04:36:29Z",
+      "side": 1,
+      "message": "Change your loop to say:\n\nfor ; paddr !\u003d nil; paddr \u003d paddr.Next {\n\nAnd same everywhere else.",
+      "parentUuid": "dcfd2c74_f24888ed",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_12ff2c70",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
