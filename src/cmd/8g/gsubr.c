@@ -2400,5 +2400,6 @@ sudoaddable(int as, Node *n, Addr *a)
 	USED(n);
 	USED(a);
 
+	memset(a, 0, sizeof *a);
 	return 0;
 }
