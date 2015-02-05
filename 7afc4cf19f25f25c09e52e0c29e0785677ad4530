@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1cc26457_3d42f362",
+        "filename": "src/strconv/decimal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-05T22:36:16Z",
+      "side": 1,
+      "message": "It never grows, so this needs to cover the worst cases, more or less (there\u0027s still the trunc flag). But also, this code (decimal) is rarely invoked.",
+      "parentUuid": "7cda8034_62185872",
+      "revId": "7afc4cf19f25f25c09e52e0c29e0785677ad4530",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cda8034_c21e845b",
         "filename": "src/strconv/decimal.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1cc26457_dd7f3f91",
+        "filename": "src/strconv/decimal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-05T22:36:16Z",
+      "side": 1,
+      "message": "Fair enough. I don\u0027t want to make too many changes here. But the / and * were switched, and together with the big-endian representation which was not immediately clear, it caused me quite some confusion. Leaving as is.",
+      "parentUuid": "7cda8034_c21e845b",
+      "revId": "7afc4cf19f25f25c09e52e0c29e0785677ad4530",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cda8034_e22b887a",
         "filename": "src/strconv/decimal.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-02-05T22:29:35Z",
       "side": 1,
       "message": "ditto",
+      "revId": "7afc4cf19f25f25c09e52e0c29e0785677ad4530",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc26457_3d50331b",
+        "filename": "src/strconv/decimal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-05T22:36:16Z",
+      "side": 1,
+      "message": "Same here.\n\nMany comments in this file could be improved. Just fixing the obvious bugs.",
+      "parentUuid": "7cda8034_e22b887a",
       "revId": "7afc4cf19f25f25c09e52e0c29e0785677ad4530",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
