@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcfd2c74_35683a0d",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-05T09:10:29Z",
+      "side": 1,
+      "message": "ah, i mean in this loop, not in listing interfaces",
+      "range": {
+        "startLine": 185,
+        "startChar": 2,
+        "endLine": 185,
+        "endChar": 43
+      },
+      "revId": "d991947f5d63bef7cc25e6e0693c5b91bcba8f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
