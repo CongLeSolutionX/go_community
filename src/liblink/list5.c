@@ -222,7 +222,8 @@ RAconv(Fmt *fp)
 {
 	char str[STRINGSZ];
 	Addr *a;
-	int i, v;
+	int i;
+	vlong v;
 
 	a = va_arg(fp->args, Addr*);
 	sprint(str, "GOK-reglist");
@@ -234,13 +235,13 @@ RAconv(Fmt *fp)
 			break;
 		v = a->offset;
 		strcpy(str, "");
-		for(i=0; i<NREG; i++) {
-			if(v & (1<<i)) {
+		for(i=REG_R0; i<REG_R0+NREG; i++) {
+			if(v & (1Ull<<i)) {
 				if(str[0] == 0)
 					strcat(str, "[R");
 				else
 					strcat(str, ",R");
-				sprint(strchr(str, 0), "%d", i);
+				sprint(strchr(str, 0), "%d", i-REG_R0);
 			}
 		}
 		strcat(str, "]");
