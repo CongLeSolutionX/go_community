@@ -53,7 +53,6 @@ progedit(Link *ctxt, Prog *p)
 {
 	char literal[64];
 	LSym *s;
-	Prog *q;
 	
 	// See obj6.c for discussion of TLS.
 	if(canuselocaltls(ctxt)) {
@@ -80,27 +79,6 @@ progedit(Link *ctxt, Prog *p)
 			p->to.reg = REG_TLS;
 			p->to.scale = 0;
 			p->to.index = REG_NONE;
-		}
-	} else {
-		// As a courtesy to the C compilers, rewrite TLS local exec load as TLS initial exec load.
-		// The instruction
-		//	MOVL off(TLS), BX
-		// becomes the sequence
-		//	MOVL TLS, BX
-		//	MOVL off(BX)(TLS*1), BX
-		// This allows the C compilers to emit references to m and g using the direct off(TLS) form.
-		if(p->as == AMOVL && p->from.type == TYPE_MEM && p->from.reg == REG_TLS && p->to.type == TYPE_REG && REG_AX <= p->to.reg && p->to.reg <= REG_DI) {
-			q = appendp(ctxt, p);
-			q->as = p->as;
-			q->from.type = TYPE_MEM;
-			q->from.reg = p->to.reg;
-			q->from.index = REG_TLS;
-			q->from.scale = 2; // TODO: use 1
-			q->to = p->to;
-			p->from.type = TYPE_REG;
-			p->from.reg = REG_TLS;
-			p->from.index = REG_NONE;
-			p->from.offset = 0;
 		}
 	}
 

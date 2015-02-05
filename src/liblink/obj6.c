@@ -65,7 +65,6 @@ progedit(Link *ctxt, Prog *p)
 {
 	char literal[64];
 	LSym *s;
-	Prog *q;
 
 	// Thread-local storage references use the TLS pseudo-register.
 	// As a register, TLS refers to the thread-local storage base, and it
@@ -123,28 +122,6 @@ progedit(Link *ctxt, Prog *p)
 			p->to.reg = REG_TLS;
 			p->to.scale = 0;
 			p->to.index = REG_NONE;
-		}
-	} else {
-		// As a courtesy to the C compilers, rewrite TLS local exec load as TLS initial exec load.
-		// The instruction
-		//	MOVQ off(TLS), BX
-		// becomes the sequence
-		//	MOVQ TLS, BX
-		//	MOVQ off(BX)(TLS*1), BX
-		// This allows the C compilers to emit references to m and g using the direct off(TLS) form.
-		if((p->as == AMOVQ || p->as == AMOVL) && p->from.type == TYPE_MEM && p->from.reg == REG_TLS && p->to.type == TYPE_REG && REG_AX <= p->to.reg && p->to.reg <= REG_R15) {
-			q = appendp(ctxt, p);
-			q->as = p->as;
-			q->from = p->from;
-			q->from.type = TYPE_MEM;
-			q->from.reg = p->to.reg;
-			q->from.index = REG_TLS;
-			q->from.scale = 2; // TODO: use 1
-			q->to = p->to;
-			p->from.type = TYPE_REG;
-			p->from.reg = REG_TLS;
-			p->from.index = REG_NONE;
-			p->from.offset = 0;
 		}
 	}
 
