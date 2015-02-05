@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcd1ace3_d24e84fa",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5346
+      },
+      "writtenOn": "2015-02-05T01:20:53Z",
+      "side": 1,
+      "message": "Should this return an error for unexpected opts? i.e.:\n\n default: err \u003d errors.New(\"rsa: invalid DecrypterOpts\")",
+      "revId": "cfb69711817f2c52358e1402ad528097ed666e18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
