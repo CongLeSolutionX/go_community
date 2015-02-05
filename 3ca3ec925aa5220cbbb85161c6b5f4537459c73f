@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_d2558407",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfd2c74_f2e3682b",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcfd2c74_d2e0e421",
         "filename": "src/internal/syscall/windows/syscall_windows.go",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Unused now. Remove.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_32b05010",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfd2c74_d2e0e421",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_12b54c00",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_320d90af",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_f2794817",
         "filename": "src/internal/syscall/windows/syscall_windows.go",
         "patchSetId": 24
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Unused now. Remove.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_52bfd4dd",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_f2794817",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_92a01cbb",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_9276bc26",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcfd2c74_32efb010",
         "filename": "src/internal/syscall/windows/zsyscall_windows.go",
         "patchSetId": 24
@@ -98,6 +188,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Regenerate after changing syscall_windows.go.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_f2ad28b1",
+        "filename": "src/internal/syscall/windows/zsyscall_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfd2c74_32efb010",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_d2aaa496",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_f2cce86a",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_f247083d",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -132,6 +258,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Do not start with empty buffer. From https://msdn.microsoft.com/en-us/library/windows/desktop/aa365915%28v\u003dvs.85%29.aspx:\n\nThe recommended method of calling the GetAdaptersAddresses function is to pre-allocate a 15KB working buffer pointed to by the AdapterAddresses parameter. On typical computers, this dramatically reduces the chances that the GetAdaptersAddresses function returns ERROR_BUFFER_OVERFLOW, which would require calling GetAdaptersAddresses function multiple times.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_728db817",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_f247083d",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_5292343b",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_3236f0e3",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_720a3803",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -166,6 +328,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "This is confusing. I see no point creating this variables here. Declare them as you use them.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_52987488",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_720a3803",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_f22b687a",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_92d9dc2b",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_52aa946f",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -200,6 +398,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Shouldn\u0027t you be using FlagUp here instead? windows.IFF_UP is meaningless here in this package.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_123c2cc2",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_52aa946f",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_723138ea",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_72af987e",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_d26be484",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -234,6 +468,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "I suggest you put this whole loop in the separate function. This will help you not to make all these many mistakes. Make sure you pass as little as possible to this function, and return as little as needed.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_9262dc78",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_d26be484",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_f244083b",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_92c79c35",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_b29d0047",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -268,6 +538,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "The only external (to the IILoop for loop) variable that gets changed in the loop is \"flags\". How is restarting IILoop for loop again will help here? I think you will end up in the same places again. Infinite loop?",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_725c98be",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_b29d0047",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_52619476",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_727d584e",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_12b40cd2",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -302,6 +608,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "As above.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_b2656085",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_12b40cd2",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_b293a0f4",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "I modified this part to get flags for each interfaces. Mikio, is this right?",
+      "parentUuid": "dcd1ace3_526134a1",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_32b910c9",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -342,6 +684,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_f26fe85e",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_32b910c9",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_7266b8bc",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -353,6 +713,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Shouldn\u0027t these flags be exclusive of each other?",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_d26c646d",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_7266b8bc",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -393,6 +771,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_7235b876",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_b272e078",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_72e1d8d8",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -404,6 +800,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Move this into post statement of your for statement. Makes it easy to see how your for loop progresses.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_f24888ed",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "What do you mean \u0027Move\u0027? To get next pointer, we can\u0027t move this to another part. I should be bottom of for-loop. Right?",
+      "parentUuid": "dcd1ace3_72e1d8d8",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -427,6 +841,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_92477c3e",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_12ff2c70",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_32afd02d",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -438,6 +870,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Move this into post statement of your for statement. Makes it easy to see how your for loop progresses.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_32a0503e",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Same above",
+      "parentUuid": "dcd1ace3_32afd02d",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -461,6 +911,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_d24584d5",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Same above",
+      "parentUuid": "dcd1ace3_b24500d6",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_3204b0f3",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -472,6 +940,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "This is confusing. I see no point creating this variables here. Declare them as you use them.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_b24a8044",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd1ace3_3204b0f3",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -495,6 +981,24 @@
     },
     {
       "key": {
+        "uuid": "dcfd2c74_12a54c4e",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Same above",
+      "parentUuid": "dcd1ace3_929d5c00",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcd1ace3_52a0543e",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 24
@@ -506,6 +1010,24 @@
       "writtenOn": "2015-02-05T02:32:41Z",
       "side": 1,
       "message": "Move this into post statement of your for statement. Makes it easy to see how your for loop progresses.",
+      "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd2c74_72aad81d",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-05T04:21:31Z",
+      "side": 1,
+      "message": "Same above",
+      "parentUuid": "dcd1ace3_52a0543e",
       "revId": "3ca3ec925aa5220cbbb85161c6b5f4537459c73f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
