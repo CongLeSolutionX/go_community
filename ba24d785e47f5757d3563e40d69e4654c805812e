@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c3d744f_60217246",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-06T17:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c90c099_afed1914",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c90c099_6f00912e",
         "filename": "src/math/big/float.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-06T14:49:41Z",
       "side": 1,
       "message": "maxExp \u003d math.MaxInt32",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3d744f_801ef601",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-06T17:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c90c099_6f00912e",
       "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9c3d744f_201b6a14",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-06T17:19:41Z",
+      "side": 1,
+      "message": "Leaving as is. I want to emphasize that it\u0027s one less then -maxExp.",
+      "parentUuid": "7c90c099_0ffd45c1",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c90c099_ef41e15e",
         "filename": "src/math/big/float_test.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-06T14:49:41Z",
       "side": 1,
       "message": "Make clear that you mean \"uninitialized value\", not \"floating point zero\".",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c3d744f_60665291",
+        "filename": "src/math/big/float_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-06T17:19:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c90c099_ef41e15e",
       "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
