@@ -16,6 +16,24 @@
       "revId": "24423518439c6e2edcdc8bb68de33256a19ecd78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc6cb049_a3797a18",
+        "filename": "test/fixedbugs/issue9355.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5211
+      },
+      "writtenOn": "2015-02-06T02:26:34Z",
+      "side": 1,
+      "message": "Done. I initially copied the chdir/check pattern from bug248.go in the same directory. Let me know if you\u0027d like me to change the Println over there as well while I\u0027m here?",
+      "parentUuid": "fc6cb049_834e3ef9",
+      "revId": "24423518439c6e2edcdc8bb68de33256a19ecd78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
