@@ -225,36 +225,48 @@ capturevars(Node *xfunc)
 		typecheck(&outer, Erv);
 		func->enter = list(func->enter, outer);
 
-		// declare variables holding addresses taken from closure
-		// and initialize in entry prologue.
-		addr = nod(ONAME, N, N);
-		p = smprint("&%s", v->sym->name);
-		addr->sym = lookup(p);
-		free(p);
-		addr->ntype = nod(OIND, typenod(v->type), N);
-		addr->class = PAUTO;
-		addr->addable = 1;
-		addr->ullman = 1;
-		addr->used = 1;
-		addr->curfn = xfunc;
-		xfunc->dcl = list(xfunc->dcl, addr);
-		v->heapaddr = addr;
+		// cv is a reference into the closure variable.
 		cv = nod(OCLOSUREVAR, N, N);
 		if(v->byval) {
 			cv->type = v->type;
 			offset = rnd(offset, v->type->align);
 			cv->xoffset = offset;
 			offset += v->type->width;
-			body = list(body, nod(OAS, addr, nod(OADDR, cv, N)));
 		} else {
-			v->closure->addrtaken = 1;
 			cv->type = ptrto(v->type);
 			offset = rnd(offset, widthptr);
 			cv->xoffset = offset;
 			offset += widthptr;
+			v->closure->addrtaken = 1;
+		}
+
+		if(v->byval && v->type->width <= 2*widthptr) {
+			// demote PPARAMREF to plain PAUTO
+			v->class = PAUTO;
+			v->ullman = 1;
+			xfunc->dcl = list(xfunc->dcl, v);
+			body = list(body, nod(OAS, v, cv));
+		} else {
+			// declare variables holding addresses taken from closure
+			// and initialize in entry prologue.
+			addr = nod(ONAME, N, N);
+			p = smprint("&%s", v->sym->name);
+			addr->sym = lookup(p);
+			free(p);
+			addr->ntype = nod(OIND, typenod(v->type), N);
+			addr->class = PAUTO;
+			addr->addable = 1;
+			addr->ullman = 1;
+			addr->used = 1;
+			addr->curfn = xfunc;
+			xfunc->dcl = list(xfunc->dcl, addr);
+			v->heapaddr = addr;
+			if(v->byval)
+				cv = nod(OADDR, cv, N);
 			body = list(body, nod(OAS, addr, cv));
 		}
 	}
+
 	typechecklist(body, Etop);
 	walkstmtlist(body);
 	xfunc->enter = body;

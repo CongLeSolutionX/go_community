@@ -1218,9 +1218,10 @@ escwalk(EscState *e, int level, Node *dst, Node *src)
 				warnl(src->lineno, "leaking param: %hN", src);
 		}
 
-		// Treat a PPARAMREF closure variable as equivalent to the
-		// original variable.
-		if(src->class == PPARAMREF) {
+		// Treat a closure variable as equivalent to the original variable.
+		// Note that it is not necessary PPARAMREF, because capturevars
+		// could demote it to PAUTO.
+		if(src->closure) {
 			if(leaks && debug['m'])
 				warnl(src->lineno, "leaking closure reference %hN", src);
 			escwalk(e, level, dst, src->closure);
