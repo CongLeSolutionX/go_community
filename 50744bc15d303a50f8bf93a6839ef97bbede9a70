@@ -33,6 +33,24 @@
       "revId": "50744bc15d303a50f8bf93a6839ef97bbede9a70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0cc6a_dab4c505",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-06T06:46:31Z",
+      "side": 1,
+      "message": "Because total bytes of addrs should be greater than size.",
+      "parentUuid": "dcfd2c74_06a18a84",
+      "revId": "50744bc15d303a50f8bf93a6839ef97bbede9a70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
