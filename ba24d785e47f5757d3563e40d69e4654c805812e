@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c90c099_afed1914",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-06T14:49:41Z",
+      "side": 1,
+      "message": "How about:\n\n  The zero (uninitialized) value...\n\nsince Floats have a logical zero value (two in fact!) distinct from their \"representational\" zero, and there are many non-\"zero\" representations that denote one of these two logical zero values.",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c90c099_6f00912e",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-06T14:49:41Z",
+      "side": 1,
+      "message": "maxExp \u003d math.MaxInt32",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c90c099_0ffd45c1",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-06T14:49:41Z",
+      "side": 1,
+      "message": "infExp \u003d math.MinInt32",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c90c099_ef41e15e",
+        "filename": "src/math/big/float_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-06T14:49:41Z",
+      "side": 1,
+      "message": "Make clear that you mean \"uninitialized value\", not \"floating point zero\".",
+      "revId": "ba24d785e47f5757d3563e40d69e4654c805812e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
