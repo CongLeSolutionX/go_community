@@ -111,6 +111,12 @@ go run $GOROOT/test/run.go - . || exit 1
 ) || exit $?
 
 [ "$CGO_ENABLED" != 1 ] ||
+[ "x$FC" == x ] ||
+(xcd ../misc/cgo/fortran
+go run $GOROOT/test/run.go - . || exit 1
+) || exit $?
+
+[ "$CGO_ENABLED" != 1 ] ||
 (xcd ../misc/cgo/test
 # cgo tests inspect the traceback for runtime functions
 extlink=0
