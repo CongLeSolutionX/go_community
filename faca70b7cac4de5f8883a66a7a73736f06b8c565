@@ -2,6 +2,261 @@
   "comments": [
     {
       "key": {
+        "uuid": "312673b6_0d7051c1",
+        "filename": "src/cmd/trace/goroutines.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "http.HandleFunc(\"/goroutines\", httpGoroutines)",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_0e3debeb",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "http.HandleFunc(\"/\", httpMain)",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "312673b6_4d43f967",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "you don\u0027t need this to be a template if you never inject any data into it",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "312673b6_2d38adfb",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "make this a function that returns an error, and decouple it from the http serving\nhave it take an io.Writer instead of http.ResponseWriter",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "312673b6_0d3df1eb",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "you should move this error reporting into httpTrace and use http.Error to report the errors (so that it sends an appropriate status code also)",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_ee317f16",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "this should also return an error, instead of writing out the error in the output",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "312673b6_cd2ec9b8",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "check the error",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11332ff6_ac14a368",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "check the error",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "312673b6_ed318516",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "defer os.Remove(blockf.Name())\nput this right after creating the temp file",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "312673b6_ad2b7da6",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "I think you can use http.ServeContent here instead",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_ce2ec3b8",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "defer os.Remove(svgFilename)\nand move it to directly after running \u0027go tool pprof\u0027",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11332ff6_8c11e778",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "this should probably be a method on tracecontext.",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11332ff6_4c43ff67",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "can\u0027t you use the json package to do this? seems needlessly error prone",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_4e665315",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "what\u0027s this for?",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c2520ee_ca9ae304",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "Needs package documentation.",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7e5071d_329f70f9",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 4
@@ -43,6 +298,97 @@
         "endLine": 22,
         "endChar": 29
       },
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11332ff6_ec0aab48",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "just put this in a closure in func main",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_8e11db78",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "comment, probably should be a longer name too",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_6e3eafed",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "add a helper function, dief, to reduce this repetition",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51292784_4e43f367",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "no need to check err !\u003d nil here, if Serve returns then err !\u003d nil",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 11
+      },
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11332ff6_cc07ef3e",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-02-07T13:15:36Z",
+      "side": 1,
+      "message": "you don\u0027t need the goroutine above; launch the browser and then start serving on the next line. all that matters is that we\u0027re listening on the port before we open the browser.",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
