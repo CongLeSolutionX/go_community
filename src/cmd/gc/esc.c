@@ -975,6 +975,9 @@ esccall(EscState *e, Node *n, Node *up)
 			ll = a->escretval;
 	}
 
+	if(fn && fn->op == OCLOSURE)
+		fn = fn->closure->nname;
+
 	if(fn && fn->op == ONAME && fn->class == PFUNC && fn->defn && fn->defn->nbody && fn->ntype && fn->defn->esc < EscFuncTagged) {
 		// function in same mutually recursive group.  Incorporate into flow graph.
 //		print("esc local fn: %N\n", fn->ntype);
