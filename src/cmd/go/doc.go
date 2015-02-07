@@ -419,6 +419,7 @@ syntax of package template.  The default output is equivalent to -f
         CXXFiles       []string // .cc, .cxx and .cpp source files
         MFiles         []string // .m source files
         HFiles         []string // .h, .hh, .hpp and .hxx source files
+        FFiles         []string // .f, .F and .f90 FORTRAN source files
         SFiles         []string // .s source files
         SwigFiles      []string // .swig files
         SwigCXXFiles   []string // .swigcxx files
