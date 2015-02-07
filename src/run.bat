@@ -90,6 +90,13 @@ go run "%GOROOT%\test\run.go" - ..\misc\cgo\stdio
 if errorlevel 1 goto fail
 echo.
 
+if x%FC% == x goto nogfortran
+echo ##### ..\misc\cgo\fortran
+go run "%GOROOT%\test\run.go" - ..\misc\cgo\fortran
+if errorlevel 1 goto fail
+echo.
+:nogfortran
+
 :: cgo tests inspect the traceback for runtime functions
 set OLDGOTRACEBACK=%GOTRACEBACK%
 set GOTRACEBACK=2
