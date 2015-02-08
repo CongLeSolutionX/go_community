@@ -15,23 +15,11 @@ import (
 // runs and calls Done when finished.  At the same time,
 // Wait can be used to block until all goroutines have finished.
 type WaitGroup struct {
-	m       Mutex
-	counter int32
-	waiters int32
-	sema    *uint32
+	state uint64
+	//counter int32
+	//waiters int32
+	sema uint32
 }
-
-// WaitGroup creates a new semaphore each time the old semaphore
-// is released. This is to avoid the following race:
-//
-// G1: Add(1)
-// G1: go G2()
-// G1: Wait() // Context switch after Unlock() and before Semacquire().
-// G2: Done() // Release semaphore: sema == 1, waiters == 0. G1 doesn't run yet.
-// G3: Wait() // Finds counter == 0, waiters == 0, doesn't block.
-// G3: Add(1) // Makes counter == 1, waiters == 0.
-// G3: go G4()
-// G3: Wait() // G1 still hasn't run, G3 finds sema == 1, unblocked! Bug.
 
 // Add adds delta, which may be negative, to the WaitGroup counter.
 // If the counter becomes zero, all goroutines blocked on Wait are released.
@@ -46,7 +34,7 @@ type WaitGroup struct {
 // See the WaitGroup example.
 func (wg *WaitGroup) Add(delta int) {
 	if raceenabled {
-		_ = wg.m.state // trigger nil deref early
+		_ = wg.state // trigger nil deref early
 		if delta < 0 {
 			// Synchronize decrements with Wait.
 			raceReleaseMerge(unsafe.Pointer(wg))
@@ -54,7 +42,9 @@ func (wg *WaitGroup) Add(delta int) {
 		raceDisable()
 		defer raceEnable()
 	}
-	v := atomic.AddInt32(&wg.counter, int32(delta))
+	state := atomic.AddUint64(&wg.state, uint64(delta)<<32)
+	v := int32(state >> 32)
+	w := uint32(state)
 	if raceenabled {
 		if delta > 0 && v == int32(delta) {
 			// The first increment must be synchronized with Wait.
@@ -66,18 +56,13 @@ func (wg *WaitGroup) Add(delta int) {
 	if v < 0 {
 		panic("sync: negative WaitGroup counter")
 	}
-	if v > 0 || atomic.LoadInt32(&wg.waiters) == 0 {
+	if v > 0 || w == 0 {
 		return
 	}
-	wg.m.Lock()
-	if atomic.LoadInt32(&wg.counter) == 0 {
-		for i := int32(0); i < wg.waiters; i++ {
-			runtime_Semrelease(wg.sema)
-		}
-		wg.waiters = 0
-		wg.sema = nil
+	atomic.StoreUint64(&wg.state, 0)
+	for ; w != 0; w-- {
+		runtime_Semrelease(&wg.sema)
 	}
-	wg.m.Unlock()
 }
 
 // Done decrements the WaitGroup counter.
@@ -88,50 +73,34 @@ func (wg *WaitGroup) Done() {
 // Wait blocks until the WaitGroup counter is zero.
 func (wg *WaitGroup) Wait() {
 	if raceenabled {
-		_ = wg.m.state // trigger nil deref early
+		_ = wg.state // trigger nil deref early
 		raceDisable()
 	}
-	if atomic.LoadInt32(&wg.counter) == 0 {
-		if raceenabled {
-			raceEnable()
-			raceAcquire(unsafe.Pointer(wg))
+	for {
+		state := atomic.LoadUint64(&wg.state)
+		v := int32(state >> 32)
+		w := uint32(state)
+		if v == 0 {
+			if raceenabled {
+				raceEnable()
+				raceAcquire(unsafe.Pointer(wg))
+			}
+			return
 		}
-		return
-	}
-	wg.m.Lock()
-	w := atomic.AddInt32(&wg.waiters, 1)
-	// This code is racing with the unlocked path in Add above.
-	// The code above modifies counter and then reads waiters.
-	// We must modify waiters and then read counter (the opposite order)
-	// to avoid missing an Add.
-	if atomic.LoadInt32(&wg.counter) == 0 {
-		atomic.AddInt32(&wg.waiters, -1)
-		if raceenabled {
-			raceEnable()
-			raceAcquire(unsafe.Pointer(wg))
-			raceDisable()
+		if atomic.CompareAndSwapUint64(&wg.state, state, state+1) {
+			if raceenabled && w == 0 {
+				// Wait must be synchronized with the first Add.
+				// Need to model this is as a write to race with the read in Add.
+				// As a consequence, can do the write only for the first waiter,
+				// otherwise concurrent Waits will race with each other.
+				raceWrite(unsafe.Pointer(&wg.sema))
+			}
+			runtime_Semacquire(&wg.sema)
+			if raceenabled {
+				raceEnable()
+				raceAcquire(unsafe.Pointer(wg))
+			}
+			return
 		}
-		wg.m.Unlock()
-		if raceenabled {
-			raceEnable()
-		}
-		return
-	}
-	if raceenabled && w == 1 {
-		// Wait must be synchronized with the first Add.
-		// Need to model this is as a write to race with the read in Add.
-		// As a consequence, can do the write only for the first waiter,
-		// otherwise concurrent Waits will race with each other.
-		raceWrite(unsafe.Pointer(&wg.sema))
-	}
-	if wg.sema == nil {
-		wg.sema = new(uint32)
-	}
-	s := wg.sema
-	wg.m.Unlock()
-	runtime_Semacquire(s)
-	if raceenabled {
-		raceEnable()
-		raceAcquire(unsafe.Pointer(wg))
 	}
 }
