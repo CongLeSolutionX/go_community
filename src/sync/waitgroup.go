@@ -19,6 +19,8 @@ type WaitGroup struct {
 	counter int32
 	waiters int32
 	sema    *uint32
+	sema0   uint32
+	second  bool
 }
 
 // WaitGroup creates a new semaphore each time the old semaphore
@@ -125,7 +127,12 @@ func (wg *WaitGroup) Wait() {
 		raceWrite(unsafe.Pointer(&wg.sema))
 	}
 	if wg.sema == nil {
-		wg.sema = new(uint32)
+		if !wg.second {
+			wg.second = true
+			wg.sema = &wg.sema0
+		} else {
+			wg.sema = new(uint32)
+		}
 	}
 	s := wg.sema
 	wg.m.Unlock()
