@@ -412,16 +412,37 @@ func (t *Transport) putIdleConn(pconn *persistConn) bool {
 	return true
 }
 
-// getIdleConnCh returns a channel to receive and return idle
-// persistent connection for the given connectMethod.
-// It may return nil, if persistent connections are not being used.
-func (t *Transport) getIdleConnCh(cm connectMethod) chan *persistConn {
+// getIdleConn returns either an existing idle connection or a channel to receive
+// and return idle persistent connection for the given connectMethod.
+// It may return nil channel, if persistent connections are not being used.
+func (t *Transport) getIdleConn(cm connectMethod) (pconn *persistConn, idleCh chan *persistConn) {
 	if t.DisableKeepAlives {
-		return nil
+		return
 	}
 	key := cm.key()
 	t.idleMu.Lock()
 	defer t.idleMu.Unlock()
+	if t.idleConn != nil {
+		for {
+			pconns, ok := t.idleConn[key]
+			if !ok {
+				break
+			}
+			if len(pconns) == 1 {
+				pconn = pconns[0]
+				delete(t.idleConn, key)
+			} else {
+				// 2 or more cached connections; pop last
+				// TODO: queue?
+				pconn = pconns[len(pconns)-1]
+				t.idleConn[key] = pconns[:len(pconns)-1]
+			}
+			if !pconn.isBroken() {
+				return
+			}
+			pconn = nil
+		}
+	}
 	t.wantIdle = false
 	if t.idleConnCh == nil {
 		t.idleConnCh = make(map[connectMethodKey]chan *persistConn)
@@ -431,34 +452,8 @@ func (t *Transport) getIdleConnCh(cm connectMethod) chan *persistConn {
 		ch = make(chan *persistConn)
 		t.idleConnCh[key] = ch
 	}
-	return ch
-}
-
-func (t *Transport) getIdleConn(cm connectMethod) (pconn *persistConn) {
-	key := cm.key()
-	t.idleMu.Lock()
-	defer t.idleMu.Unlock()
-	if t.idleConn == nil {
-		return nil
-	}
-	for {
-		pconns, ok := t.idleConn[key]
-		if !ok {
-			return nil
-		}
-		if len(pconns) == 1 {
-			pconn = pconns[0]
-			delete(t.idleConn, key)
-		} else {
-			// 2 or more cached connections; pop last
-			// TODO: queue?
-			pconn = pconns[len(pconns)-1]
-			t.idleConn[key] = pconns[:len(pconns)-1]
-		}
-		if !pconn.isBroken() {
-			return
-		}
-	}
+	idleCh = ch
+	return
 }
 
 func (t *Transport) setReqCanceler(r *Request, fn func()) {
@@ -489,39 +484,20 @@ var prePendingDial, postPendingDial func()
 // and/or setting up TLS.  If this doesn't return an error, the persistConn
 // is ready to write requests to.
 func (t *Transport) getConn(req *Request, cm connectMethod) (*persistConn, error) {
-	if pc := t.getIdleConn(cm); pc != nil {
+	pc, idleConnCh := t.getIdleConn(cm)
+	if pc != nil {
 		return pc, nil
 	}
 
-	type dialRes struct {
-		pc  *persistConn
-		err error
-	}
 	dialc := make(chan dialRes)
-
-	handlePendingDial := func() {
-		if prePendingDial != nil {
-			prePendingDial()
-		}
-		go func() {
-			if v := <-dialc; v.err == nil {
-				t.putIdleConn(v.pc)
-			}
-			if postPendingDial != nil {
-				postPendingDial()
-			}
-		}()
-	}
-
-	cancelc := make(chan struct{})
-	t.setReqCanceler(req, func() { close(cancelc) })
-
 	go func() {
 		pc, err := t.dialConn(cm)
 		dialc <- dialRes{pc, err}
 	}()
 
-	idleConnCh := t.getIdleConnCh(cm)
+	cancelc := make(chan struct{})
+	t.setReqCanceler(req, func() { close(cancelc) })
+
 	select {
 	case v := <-dialc:
 		// Our dial finished.
@@ -532,12 +508,33 @@ func (t *Transport) getConn(req *Request, cm connectMethod) (*persistConn, error
 		// else's dial that they didn't use.
 		// But our dial is still going, so give it away
 		// when it finishes:
-		handlePendingDial()
+		t.handlePendingDial(dialc)
 		return pc, nil
 	case <-cancelc:
-		handlePendingDial()
+		t.handlePendingDial(dialc)
 		return nil, errors.New("net/http: request canceled while waiting for connection")
 	}
+}
+
+type dialRes struct {
+	pc  *persistConn
+	err error
+}
+
+// handlePendingDial takes care of abondoned by getConn connections
+// by handing them off to putIdleConn.
+func (t *Transport) handlePendingDial(dialc chan dialRes) {
+	if prePendingDial != nil {
+		prePendingDial()
+	}
+	go func() {
+		if v := <-dialc; v.err == nil {
+			t.putIdleConn(v.pc)
+		}
+		if postPendingDial != nil {
+			postPendingDial()
+		}
+	}()
 }
 
 func (t *Transport) dialConn(cm connectMethod) (*persistConn, error) {

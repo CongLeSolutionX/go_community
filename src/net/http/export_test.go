@@ -65,7 +65,13 @@ func (t *Transport) IsIdleForTesting() bool {
 }
 
 func (t *Transport) RequestIdleConnChForTesting() {
-	t.getIdleConnCh(connectMethod{nil, "http", "example.com"})
+	conn, ch := t.getIdleConn(connectMethod{nil, "http", "example.com"})
+	if conn != nil {
+		panic("RequestIdleConnChForTesting: got conn")
+	}
+	if ch == nil {
+		panic("RequestIdleConnChForTesting: haven't got chan")
+	}
 }
 
 func (t *Transport) PutIdleTestConn() bool {
