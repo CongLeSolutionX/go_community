@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "715d4b31_c7445e3d",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-08T18:21:49Z",
+      "side": 1,
+      "message": "can\u0027t we use wg.sema \u003d\u003d nil for this and eliminate\nthe second bool field? (this will only save memory\non 32-bit int systems.)",
+      "range": {
+        "startLine": 130,
+        "startChar": 5,
+        "endLine": 130,
+        "endChar": 15
+      },
+      "revId": "4e31f348133c4d5ee79de113d044f1c946e468e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
