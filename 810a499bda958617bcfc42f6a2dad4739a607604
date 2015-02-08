@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "715d4b31_471cee95",
+        "filename": "src/cmd/ld/dwarf.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-08T00:50:35Z",
+      "side": 1,
+      "message": "I found another problem of this line.\n\nin some simple programs, functions in runtime/runtime.go might not be\nincluded into the final binary, so for example, a simple hello world program\npackage main; func main() { println(\"Hello world\") }\n\nwon\u0027t reference any functions defined in runtime/runtime.go.\n\nIf that\u0027s an issue, we probably need to either find another more reliable\nway to get the runtime path (use getgoroot()?) or search for \"runtime/string.go\"\ninstead.\n\nBut I guess nobody will want to debug such trivial programs with gdb.",
+      "range": {
+        "startLine": 1430,
+        "startChar": 27,
+        "endLine": 1430,
+        "endChar": 45
+      },
+      "revId": "810a499bda958617bcfc42f6a2dad4739a607604",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
