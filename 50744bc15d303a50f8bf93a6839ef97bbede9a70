@@ -87,6 +87,24 @@
       "revId": "50744bc15d303a50f8bf93a6839ef97bbede9a70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11a88f5a_84f9a6d6",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-09T06:32:47Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you are trying to say here. Sorry. Lets try again. I say if you change this line like that\n\ns|, c|, size/block+1|\n\nthen it will be good enough. This should make your new buffer bigger then \"size\" every time. I think this is all you need here - no  need to use float64 to work out this buffer size. Do you agree?",
+      "parentUuid": "f1013bf4_fe55bdb6",
+      "revId": "50744bc15d303a50f8bf93a6839ef97bbede9a70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
