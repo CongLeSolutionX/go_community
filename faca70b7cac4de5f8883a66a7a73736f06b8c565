@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_9907bb3f",
+        "filename": "src/cmd/trace/goroutines.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312673b6_0d7051c1",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51292784_0e3debeb",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "http.HandleFunc(\"/\", httpMain)",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d158b771_3a482174",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51292784_0e3debeb",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9139df03_e0844223",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312673b6_4d43f967",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "312673b6_2d38adfb",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "make this a function that returns an error, and decouple it from the http serving\nhave it take an io.Writer instead of http.ResponseWriter",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15d0362_194d6b84",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "This code is removed in the latest version.",
+      "parentUuid": "312673b6_2d38adfb",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_7942a753",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "This code is removed in the latest version.",
+      "parentUuid": "312673b6_0d3df1eb",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51292784_ee317f16",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "this should also return an error, instead of writing out the error in the output",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d158b771_fa550905",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Why?\nAll callers just want to serve profile. I wan\u0027t repetition in callers. I could wrap it into yet another function that does handle errors, but looks unnecessary.\nAlso below you suggested to use http.ServeContent and serve content does not return an error, it handles it itself. So it is not possible for this function to return all errors.",
+      "parentUuid": "51292784_ee317f16",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_79bd87e4",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312673b6_cd2ec9b8",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11332ff6_ac14a368",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "check the error",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15d0362_59c2435a",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11332ff6_ac14a368",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_b9a6ffd6",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312673b6_ed318516",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "312673b6_ad2b7da6",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "I think you can use http.ServeContent here instead",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15d0362_b920bf9c",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Used http.ServeFile which looks simpler.",
+      "parentUuid": "312673b6_ad2b7da6",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9152bf4f_38c5c994",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51292784_ce2ec3b8",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11332ff6_8c11e778",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "this should probably be a method on tracecontext.",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15d0362_d9d93329",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11332ff6_8c11e778",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "9152bf4f_58d4fd42",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "You are right!\nDone",
+      "parentUuid": "51292784_ae55b705",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11332ff6_4c43ff67",
         "filename": "src/cmd/trace/http.go",
         "patchSetId": 4
@@ -234,6 +468,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "can\u0027t you use the json package to do this? seems needlessly error prone",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15d0362_190bab09",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "I will look into using encoding/json.",
+      "parentUuid": "11332ff6_4c43ff67",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_f92a377a",
+        "filename": "src/cmd/trace/http.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "This closes outer elements generated in the beginning of this functions:\nw.Write([]byte(\"{\\\"trace.Events\\\": [\\n\"))",
+      "parentUuid": "51292784_4e665315",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c2520ee_ca9ae304",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 4
@@ -268,6 +538,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "Needs package documentation.",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d158b771_ba31d117",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c2520ee_ca9ae304",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -338,6 +626,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_1943ab68",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11332ff6_ec0aab48",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51292784_8e11db78",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 4
@@ -355,6 +661,24 @@
     },
     {
       "key": {
+        "uuid": "b15d0362_7938e7fc",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51292784_8e11db78",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51292784_6e3eafed",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 4
@@ -366,6 +690,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "add a helper function, dief, to reduce this repetition",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9139df03_409a4e84",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51292784_6e3eafed",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -395,6 +737,30 @@
     },
     {
       "key": {
+        "uuid": "9139df03_e0ad62b3",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51292784_4e43f367",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 11
+      },
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11332ff6_cc07ef3e",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 4
@@ -406,6 +772,24 @@
       "writtenOn": "2015-02-07T13:15:36Z",
       "side": 1,
       "message": "you don\u0027t need the goroutine above; launch the browser and then start serving on the next line. all that matters is that we\u0027re listening on the port before we open the browser.",
+      "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9139df03_c08dbe4a",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-09T12:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11332ff6_cc07ef3e",
       "revId": "faca70b7cac4de5f8883a66a7a73736f06b8c565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
