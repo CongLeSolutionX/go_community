@@ -69,6 +69,24 @@
       "revId": "50744bc15d303a50f8bf93a6839ef97bbede9a70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1013bf4_fe55bdb6",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-09T03:04:52Z",
+      "side": 1,
+      "message": "When GetAdaptersAddresses returns size which is just divided, +1 is needless. But it doesn\u0027t, we should adjust with +1. Do you want to remove this part? Then I\u0027ll remove.",
+      "parentUuid": "9c0814ad_882277d3",
+      "revId": "50744bc15d303a50f8bf93a6839ef97bbede9a70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
