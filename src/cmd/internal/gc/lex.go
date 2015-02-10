@@ -222,7 +222,10 @@ func Main() {
 	obj.Flagcount("x", "debug lexer", &Debug['x'])
 	obj.Flagcount("y", "debug declarations in canned imports (with -d)", &Debug['y'])
 	if Thearch.Thechar == '6' {
+		var flag_shared int
 		obj.Flagcount("largemodel", "generate code that assumes a large memory model", &flag_largemodel)
+		obj.Flagcount("shared", "generate code that can be linked into a shared library", &flag_shared)
+		Ctxt.Flag_shared = int32(flag_shared)
 	}
 
 	obj.Flagstr("cpuprofile", "file: write cpu profile to file", &cpuprofile)
