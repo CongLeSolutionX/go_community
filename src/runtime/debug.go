@@ -4,53 +4,29 @@
 
 package runtime
 
-import "unsafe"
-
-// GOMAXPROCS sets the maximum number of CPUs that can be executing
-// simultaneously and returns the previous setting.  If n < 1, it does not
-// change the current setting.
-// The number of logical CPUs on the local machine can be queried with NumCPU.
-// This call will go away when the scheduler improves.
-func GOMAXPROCS(n int) int {
-	if n > _MaxGomaxprocs {
-		n = _MaxGomaxprocs
-	}
-	lock(&sched.lock)
-	ret := int(gomaxprocs)
-	unlock(&sched.lock)
-	if n <= 0 || n == ret {
-		return ret
-	}
-
-	semacquire(&worldsema, false)
-	gp := getg()
-	gp.m.preemptoff = "GOMAXPROCS"
-	systemstack(stoptheworld)
-
-	// newprocs will be processed by starttheworld
-	newprocs = int32(n)
-
-	gp.m.preemptoff = ""
-	semrelease(&worldsema)
-	systemstack(starttheworld)
-	return ret
-}
+import (
+	_core "runtime/internal/core"
+	_gc "runtime/internal/gc"
+	_lock "runtime/internal/lock"
+	_prof "runtime/internal/prof"
+	"unsafe"
+)
 
 // NumCPU returns the number of logical CPUs on the local machine.
 func NumCPU() int {
-	return int(ncpu)
+	return int(_lock.Ncpu)
 }
 
 // NumCgoCall returns the number of cgo calls made by the current process.
 func NumCgoCall() int64 {
 	var n int64
-	for mp := (*m)(atomicloadp(unsafe.Pointer(&allm))); mp != nil; mp = mp.alllink {
-		n += int64(mp.ncgocall)
+	for mp := (*_core.M)(_prof.Atomicloadp(unsafe.Pointer(&_lock.Allm))); mp != nil; mp = mp.Alllink {
+		n += int64(mp.Ncgocall)
 	}
 	return n
 }
 
 // NumGoroutine returns the number of goroutines that currently exist.
 func NumGoroutine() int {
-	return int(gcount())
+	return int(_gc.Gcount())
 }

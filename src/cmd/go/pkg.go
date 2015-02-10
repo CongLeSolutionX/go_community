@@ -409,6 +409,55 @@ var goTools = map[string]targetDir{
 	"code.google.com/p/go.tools/cmd/vet":   stalePath,
 }
 
+var runtimeOrder = []string{
+	"unsafe",
+	"runtime/internal/core",
+	"runtime/internal/lock",
+	"runtime/internal/sched",
+	"runtime/internal/sem",
+	"runtime/internal/gc",
+	"runtime/internal/prof",
+	"runtime/internal/channels",
+	"runtime/internal/hash",
+	"runtime/internal/heapdump",
+	"runtime/internal/maps",
+	"runtime/internal/netpoll",
+	"runtime/internal/ifacestuff",
+	"runtime/internal/vdso",
+	"runtime/internal/printf",
+	"runtime/internal/strings",
+	"runtime/internal/fp",
+	"runtime/internal/schedinit",
+	"runtime/internal/finalize",
+	"runtime/internal/cgo",
+	"runtime/internal/sync",
+	"runtime/internal/check",
+	"runtime/internal/stackwb",
+	"runtime/internal/defers",
+	"runtime/internal/seq",
+	"runtime",
+}
+
+// runtimeImportOk returns true if a can import b.
+func runtimeImportOk(a, b string) bool {
+	if a == "runtime/cgo" || a == "runtime/pprof" || a == "runtime/debug" || a == "runtime/race" {
+		return true
+	}
+	ax, bx := -1, -1
+	for i, p := range runtimeOrder {
+		if a == p {
+			ax = i
+		}
+		if b == p {
+			bx = i
+		}
+	}
+	if ax < 0 || bx < 0 {
+		panic("!! runtimeImportOk(" + a + ", " + b + ")")
+	}
+	return bx < ax
+}
+
 // expandScanner expands a scanner.List error into all the errors in the list.
 // The default Error method only shows the first error.
 func expandScanner(err error) error {
@@ -583,6 +632,10 @@ func (p *Package) load(stk *importStack, bp *build.Package, err error) *Package 
 	deps := make(map[string]*Package)
 	for i, path := range importPaths {
 		if path == "C" {
+			continue
+		}
+		if strings.HasPrefix(p.ImportPath, "runtime") && !runtimeImportOk(p.ImportPath, path) {
+			// TODO(matloob): remove spurious runtime imports
 			continue
 		}
 		p1 := loadImport(path, p.Dir, stk, p.build.ImportPos[path])

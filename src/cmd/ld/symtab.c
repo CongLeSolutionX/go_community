@@ -355,31 +355,31 @@ symtab(void)
 	xdefine("runtime.erodata", SRODATA, 0);
 	xdefine("runtime.noptrdata", SNOPTRDATA, 0);
 	xdefine("runtime.enoptrdata", SNOPTRDATA, 0);
-	xdefine("runtime.data", SDATA, 0);
-	xdefine("runtime.edata", SDATA, 0);
-	xdefine("runtime.bss", SBSS, 0);
-	xdefine("runtime.ebss", SBSS, 0);
-	xdefine("runtime.noptrbss", SNOPTRBSS, 0);
-	xdefine("runtime.enoptrbss", SNOPTRBSS, 0);
-	xdefine("runtime.end", SBSS, 0);
-	xdefine("runtime.epclntab", SRODATA, 0);
+	xdefine("runtime/internal/gc.Data", SDATA, 0);
+	xdefine("runtime/internal/gc.Edata", SDATA, 0);
+	xdefine("runtime/internal/gc.Bss", SBSS, 0);
+	xdefine("runtime/internal/gc.Ebss", SBSS, 0);
+	xdefine("runtime/internal/schedinit.Noptrbss", SNOPTRBSS, 0);
+	xdefine("runtime/internal/schedinit.Enoptrbss", SNOPTRBSS, 0);
+	xdefine("runtime/internal/schedinit.end", SBSS, 0);
+	xdefine("runtime/internal/lock.Epclntab", SRODATA, 0);
 	xdefine("runtime.esymtab", SRODATA, 0);
 
 	// garbage collection symbols
-	s = linklookup(ctxt, "runtime.gcdata", 0);
+	s = linklookup(ctxt, "runtime/internal/gc.Gcdata", 0);
 	s->type = SRODATA;
 	s->size = 0;
 	s->reachable = 1;
 	xdefine("runtime.egcdata", SRODATA, 0);
 
-	s = linklookup(ctxt, "runtime.gcbss", 0);
+	s = linklookup(ctxt, "runtime/internal/gc.Gcbss", 0);
 	s->type = SRODATA;
 	s->size = 0;
 	s->reachable = 1;
 	xdefine("runtime.egcbss", SRODATA, 0);
 
 	// pseudo-symbols to mark locations of type, string, and go string data.
-	s = linklookup(ctxt, "type.*", 0);
+	s = linklookup(ctxt, "Type.*", 0);
 	s->type = STYPE;
 	s->size = 0;
 	s->reachable = 1;

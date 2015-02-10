@@ -11,5 +11,5 @@
 #define RET RETURN
 #endif
 
-TEXT ·use(SB),NOSPLIT,$0
+TEXT syscall·use(SB),NOSPLIT,$0
 	RET

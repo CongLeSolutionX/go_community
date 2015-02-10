@@ -4,7 +4,9 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"unsafe"
+)
 
 //go:cgo_export_static main
 
@@ -16,8 +18,5 @@ import "unsafe"
 //go:linkname _cgo_thread_start _cgo_thread_start
 
 var (
-	_cgo_init         unsafe.Pointer
-	_cgo_malloc       unsafe.Pointer
-	_cgo_free         unsafe.Pointer
-	_cgo_thread_start unsafe.Pointer
+	_cgo_init unsafe.Pointer
 )

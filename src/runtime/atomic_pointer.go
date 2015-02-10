@@ -4,47 +4,21 @@
 
 package runtime
 
-import "unsafe"
-
-// These functions cannot have go:noescape annotations,
-// because while ptr does not escape, new does.
-// If new is marked as not escaping, the compiler will make incorrect
-// escape analysis decisions about the pointer value being stored.
-// Instead, these are wrappers around the actual atomics (xchgp1 and so on)
-// that use noescape to convey which arguments do not escape.
-//
-// Additionally, these functions must update the shadow heap for
-// write barrier checking.
-
-//go:nosplit
-func atomicstorep(ptr unsafe.Pointer, new unsafe.Pointer) {
-	atomicstorep1(noescape(ptr), new)
-	writebarrierptr_nostore((*uintptr)(ptr), uintptr(new))
-	if mheap_.shadow_enabled {
-		writebarrierptr_noshadow((*uintptr)(noescape(ptr)))
-	}
-}
+import (
+	_core "runtime/internal/core"
+	_lock "runtime/internal/lock"
+	_sched "runtime/internal/sched"
+	"unsafe"
+)
 
 //go:nosplit
 func xchgp(ptr unsafe.Pointer, new unsafe.Pointer) unsafe.Pointer {
-	old := xchgp1(noescape(ptr), new)
-	writebarrierptr_nostore((*uintptr)(ptr), uintptr(new))
-	if mheap_.shadow_enabled {
-		writebarrierptr_noshadow((*uintptr)(noescape(ptr)))
+	old := xchgp1(_core.Noescape(ptr), new)
+	_sched.Writebarrierptr_nostore((*uintptr)(ptr), uintptr(new))
+	if _lock.Mheap_.Shadow_enabled {
+		_sched.Writebarrierptr_noshadow((*uintptr)(_core.Noescape(ptr)))
 	}
 	return old
-}
-
-//go:nosplit
-func casp(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
-	if !casp1((*unsafe.Pointer)(noescape(unsafe.Pointer(ptr))), noescape(old), new) {
-		return false
-	}
-	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
-	if mheap_.shadow_enabled {
-		writebarrierptr_noshadow((*uintptr)(noescape(unsafe.Pointer(ptr))))
-	}
-	return true
 }
 
 // Like above, but implement in terms of sync/atomic's uintptr operations.
@@ -58,10 +32,10 @@ func sync_atomic_StoreUintptr(ptr *uintptr, new uintptr)
 //go:nosplit
 func sync_atomic_StorePointer(ptr *unsafe.Pointer, new unsafe.Pointer) {
 	sync_atomic_StoreUintptr((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
-	atomicstorep1(noescape(unsafe.Pointer(ptr)), new)
-	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
-	if mheap_.shadow_enabled {
-		writebarrierptr_noshadow((*uintptr)(noescape(unsafe.Pointer(ptr))))
+	_sched.Atomicstorep1(_core.Noescape(unsafe.Pointer(ptr)), new)
+	_sched.Writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	if _lock.Mheap_.Shadow_enabled {
+		_sched.Writebarrierptr_noshadow((*uintptr)(_core.Noescape(unsafe.Pointer(ptr))))
 	}
 }
 
@@ -71,10 +45,10 @@ func sync_atomic_SwapUintptr(ptr *uintptr, new uintptr) uintptr
 //go:linkname sync_atomic_SwapPointer sync/atomic.SwapPointer
 //go:nosplit
 func sync_atomic_SwapPointer(ptr unsafe.Pointer, new unsafe.Pointer) unsafe.Pointer {
-	old := unsafe.Pointer(sync_atomic_SwapUintptr((*uintptr)(noescape(ptr)), uintptr(new)))
-	writebarrierptr_nostore((*uintptr)(ptr), uintptr(new))
-	if mheap_.shadow_enabled {
-		writebarrierptr_noshadow((*uintptr)(noescape(ptr)))
+	old := unsafe.Pointer(sync_atomic_SwapUintptr((*uintptr)(_core.Noescape(ptr)), uintptr(new)))
+	_sched.Writebarrierptr_nostore((*uintptr)(ptr), uintptr(new))
+	if _lock.Mheap_.Shadow_enabled {
+		_sched.Writebarrierptr_noshadow((*uintptr)(_core.Noescape(ptr)))
 	}
 	return old
 }
@@ -85,12 +59,12 @@ func sync_atomic_CompareAndSwapUintptr(ptr *uintptr, old, new uintptr) bool
 //go:linkname sync_atomic_CompareAndSwapPointer sync/atomic.CompareAndSwapPointer
 //go:nosplit
 func sync_atomic_CompareAndSwapPointer(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
-	if !sync_atomic_CompareAndSwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(old), uintptr(new)) {
+	if !sync_atomic_CompareAndSwapUintptr((*uintptr)(_core.Noescape(unsafe.Pointer(ptr))), uintptr(old), uintptr(new)) {
 		return false
 	}
-	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
-	if mheap_.shadow_enabled {
-		writebarrierptr_noshadow((*uintptr)(noescape(unsafe.Pointer(ptr))))
+	_sched.Writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	if _lock.Mheap_.Shadow_enabled {
+		_sched.Writebarrierptr_noshadow((*uintptr)(_core.Noescape(unsafe.Pointer(ptr))))
 	}
 	return true
 }

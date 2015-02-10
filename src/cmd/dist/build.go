@@ -550,6 +550,9 @@ var deptab = []struct {
 		"$GOROOT/pkg/obj/${GOHOSTOS}_$GOHOSTARCH/libbio.a",
 		"$GOROOT/pkg/obj/${GOHOSTOS}_$GOHOSTARCH/lib9.a",
 	}},
+	{"runtime/internal/schedinit", []string{
+		"zversion_theversion.go",
+	}},
 	{"runtime", []string{
 		"zversion.go",
 	}},
@@ -574,6 +577,7 @@ var gentab = []struct {
 	{"anames8.c", mkanames},
 	{"anames9.c", mkanames},
 	{"zdefaultcc.go", mkzdefaultcc},
+	{"zversion_theversion.go", mkzversion_theversion},
 	{"zversion.go", mkzversion},
 
 	// not generated anymore, but delete the file if we see it
@@ -790,7 +794,7 @@ func install(dir string) {
 	}
 
 	// For package runtime, copy some files into the work space.
-	if dir == "runtime" {
+	if dir == "runtime" || strings.HasPrefix(dir, "runtime/") {
 		// For use by assembly and C files.
 		copyfile(pathf("%s/pkg/%s_%s/textflag.h", goroot, goos, goarch),
 			pathf("%s/src/cmd/ld/textflag.h", goroot), 0)
@@ -853,7 +857,7 @@ func install(dir string) {
 			archive = b
 		}
 		compile := []string{pathf("%s/%sg", tooldir, gochar), "-pack", "-o", b, "-p", pkg}
-		if dir == "runtime" {
+		if dir == "runtime" || strings.HasPrefix(dir, "runtime/") {
 			compile = append(compile, "-+", "-asmhdr", pathf("%s/go_asm.h", workdir))
 		}
 		compile = append(compile, gofiles...)
@@ -1111,6 +1115,30 @@ var buildorder = []string{
 	// back when there were build scripts.  Will have to
 	// be maintained by hand, but shouldn't change very
 	// often.
+	"runtime/internal/core",
+	"runtime/internal/lock",
+	"runtime/internal/sched",
+	"runtime/internal/sem",
+	"runtime/internal/gc",
+	"runtime/internal/prof",
+	"runtime/internal/channels",
+	"runtime/internal/hash",
+	"runtime/internal/heapdump",
+	"runtime/internal/maps",
+	"runtime/internal/netpoll",
+	"runtime/internal/ifacestuff",
+	"runtime/internal/vdso",
+	"runtime/internal/printf",
+	"runtime/internal/strings",
+	"runtime/internal/fp",
+	"runtime/internal/schedinit",
+	"runtime/internal/finalize",
+	"runtime/internal/cgo",
+	"runtime/internal/sync",
+	"runtime/internal/check",
+	"runtime/internal/stackwb",
+	"runtime/internal/defers",
+	"runtime/internal/seq",
 	"runtime",
 	"errors",
 	"sync/atomic",

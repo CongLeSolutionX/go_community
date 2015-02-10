@@ -751,7 +751,7 @@ dcommontype(Sym *s, int ot, Type *t)
 
 	sizeofAlg = 2*widthptr;
 	if(algarray == nil)
-		algarray = pkglookup("algarray", runtimepkg);
+		algarray = pkglookup("algarray", hashpkg);
 	dowidth(t);
 	alg = algtype(t);
 	algsym = S;
@@ -1059,7 +1059,7 @@ dtypesym(Type *t)
 	if(tbase->sym == S)
 		dupok = DUPOK;
 
-	if(compiling_runtime &&
+	if(strcmp(localpkg->name, "runtime") == 0 &&
 			(tbase == types[tbase->etype] ||
 			tbase == bytetype ||
 			tbase == runetype ||
@@ -1309,7 +1309,7 @@ dumptypestructs(void)
 	// so this is as good as any.
 	// another possible choice would be package main,
 	// but using runtime means fewer copies in .6 files.
-	if(compiling_runtime) {
+	if(strcmp(localpkg->name, "runtime") == 0) {
 		for(i=1; i<=TBOOL; i++)
 			dtypesym(ptrto(types[i]));
 		dtypesym(ptrto(types[TSTRING]));

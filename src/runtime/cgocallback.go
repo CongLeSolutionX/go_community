@@ -4,7 +4,11 @@
 
 package runtime
 
-import "unsafe"
+import (
+	_core "runtime/internal/core"
+	_lock "runtime/internal/lock"
+	"unsafe"
+)
 
 // These functions are called from C code via cgo/callbacks.c.
 
@@ -24,17 +28,17 @@ func _cgo_allocate_internal(len uintptr) unsafe.Pointer {
 	if len == 0 {
 		len = 1
 	}
-	ret := unsafe.Pointer(&make([]unsafe.Pointer, (len+ptrSize-1)/ptrSize)[0])
-	c := new(cgomal)
-	c.alloc = ret
-	gp := getg()
-	c.next = gp.m.cgomal
-	gp.m.cgomal = c
+	ret := unsafe.Pointer(&make([]unsafe.Pointer, (len+_core.PtrSize-1)/_core.PtrSize)[0])
+	c := new(_core.Cgomal)
+	c.Alloc = ret
+	gp := _core.Getg()
+	c.Next = gp.M.Cgomal
+	gp.M.Cgomal = c
 	return ret
 }
 
 // Panic.
 
 func _cgo_panic_internal(p *byte) {
-	panic(gostringnocopy(p))
+	panic(_lock.Gostringnocopy(p))
 }

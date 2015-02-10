@@ -1636,7 +1636,7 @@ func (gcToolchain) gc(b *builder, p *Package, archive, obj string, asmhdr bool, 
 	}
 
 	gcargs := []string{"-p", p.ImportPath}
-	if p.Standard && p.ImportPath == "runtime" {
+	if p.Standard && (p.ImportPath == "runtime" || strings.HasPrefix(p.ImportPath, "runtime/internal")) {
 		// runtime compiles with a special 6g flag to emit
 		// additional reflect type data.
 		gcargs = append(gcargs, "-+")

@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System call support for AMD64, Darwin
@@ -13,8 +13,8 @@
 // func Syscall6(trap int64, a1, a2, a3, a4, a5, a6 int64) (r1, r2, err int64);
 // Trap # in AX, args in DI SI DX, return in AX DX
 
-TEXT	·Syscall(SB),NOSPLIT,$0-56
-	CALL	runtime·entersyscall(SB)
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-56
+	CALL	runtime∕internal∕cgo·entersyscall(SB)
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
 	MOVQ	a3+24(FP), DX
@@ -28,17 +28,17 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	MOVQ	$-1, r1+32(FP)
 	MOVQ	$0, r2+40(FP)
 	MOVQ	AX, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 ok:
 	MOVQ	AX, r1+32(FP)
 	MOVQ	DX, r2+40(FP)
 	MOVQ	$0, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall6(SB),NOSPLIT,$0-80
-	CALL	runtime·entersyscall(SB)
+TEXT	syscall·Syscall6(SB),NOSPLIT,$0-80
+	CALL	runtime∕internal∕cgo·entersyscall(SB)
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
 	MOVQ	a3+24(FP), DX
@@ -52,16 +52,16 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-80
 	MOVQ	$-1, r1+56(FP)
 	MOVQ	$0, r2+64(FP)
 	MOVQ	AX, err+72(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 ok6:
 	MOVQ	AX, r1+56(FP)
 	MOVQ	DX, r2+64(FP)
 	MOVQ	$0, err+72(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕sched·Exitsyscall(SB)
 	RET
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0-56
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-56
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
 	MOVQ	a3+24(FP), DX
@@ -82,7 +82,7 @@ ok1:
 	MOVQ	$0, err+48(FP)
 	RET
 
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-80
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
 	MOVQ	a3+24(FP), DX

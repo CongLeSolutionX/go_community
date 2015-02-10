@@ -6,183 +6,25 @@
 
 package runtime
 
-import "unsafe"
-
-var finlock mutex  // protects the following variables
-var fing *g        // goroutine that runs finalizers
-var finq *finblock // list of finalizers that are to be executed
-var finc *finblock // cache of free blocks
-var finptrmask [_FinBlockSize / typeBitmapScale]byte
-var fingwait bool
-var fingwake bool
-var allfin *finblock // list of all blocks
-
-var finalizer1 = [...]byte{
-	// Each Finalizer is 5 words, ptr ptr uintptr ptr ptr.
-	// Each byte describes 4 words.
-	// Need 4 Finalizers described by 5 bytes before pattern repeats:
-	//	ptr ptr uintptr ptr ptr
-	//	ptr ptr uintptr ptr ptr
-	//	ptr ptr uintptr ptr ptr
-	//	ptr ptr uintptr ptr ptr
-	// aka
-	//	ptr ptr uintptr ptr
-	//	ptr ptr ptr uintptr
-	//	ptr ptr ptr ptr
-	//	uintptr ptr ptr ptr
-	//	ptr uintptr ptr ptr
-	// Assumptions about Finalizer layout checked below.
-	typePointer | typePointer<<2 | typeScalar<<4 | typePointer<<6,
-	typePointer | typePointer<<2 | typePointer<<4 | typeScalar<<6,
-	typePointer | typePointer<<2 | typePointer<<4 | typePointer<<6,
-	typeScalar | typePointer<<2 | typePointer<<4 | typePointer<<6,
-	typePointer | typeScalar<<2 | typePointer<<4 | typePointer<<6,
-}
-
-func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot *ptrtype) {
-	lock(&finlock)
-	if finq == nil || finq.cnt == int32(len(finq.fin)) {
-		if finc == nil {
-			// Note: write barrier here, assigning to finc, but should be okay.
-			finc = (*finblock)(persistentalloc(_FinBlockSize, 0, &memstats.gc_sys))
-			finc.alllink = allfin
-			allfin = finc
-			if finptrmask[0] == 0 {
-				// Build pointer mask for Finalizer array in block.
-				// Check assumptions made in finalizer1 array above.
-				if (unsafe.Sizeof(finalizer{}) != 5*ptrSize ||
-					unsafe.Offsetof(finalizer{}.fn) != 0 ||
-					unsafe.Offsetof(finalizer{}.arg) != ptrSize ||
-					unsafe.Offsetof(finalizer{}.nret) != 2*ptrSize ||
-					unsafe.Offsetof(finalizer{}.fint) != 3*ptrSize ||
-					unsafe.Offsetof(finalizer{}.ot) != 4*ptrSize ||
-					typeBitsWidth != 2) {
-					throw("finalizer out of sync")
-				}
-				for i := range finptrmask {
-					finptrmask[i] = finalizer1[i%len(finalizer1)]
-				}
-			}
-		}
-		block := finc
-		finc = block.next
-		block.next = finq
-		finq = block
-	}
-	f := &finq.fin[finq.cnt]
-	finq.cnt++
-	f.fn = fn
-	f.nret = nret
-	f.fint = fint
-	f.ot = ot
-	f.arg = p
-	fingwake = true
-	unlock(&finlock)
-}
+import (
+	_channels "runtime/internal/channels"
+	_core "runtime/internal/core"
+	_finalize "runtime/internal/finalize"
+	_gc "runtime/internal/gc"
+	_ifacestuff "runtime/internal/ifacestuff"
+	_lock "runtime/internal/lock"
+	_maps "runtime/internal/maps"
+	_sched "runtime/internal/sched"
+	_schedinit "runtime/internal/schedinit"
+	"unsafe"
+)
 
 //go:nowritebarrier
-func iterate_finq(callback func(*funcval, unsafe.Pointer, uintptr, *_type, *ptrtype)) {
-	for fb := allfin; fb != nil; fb = fb.alllink {
-		for i := int32(0); i < fb.cnt; i++ {
-			f := &fb.fin[i]
-			callback(f.fn, f.arg, f.nret, f.fint, f.ot)
-		}
-	}
-}
-
-func wakefing() *g {
-	var res *g
-	lock(&finlock)
-	if fingwait && fingwake {
-		fingwait = false
-		fingwake = false
-		res = fing
-	}
-	unlock(&finlock)
-	return res
-}
-
-var fingCreate uint32
-
-func createfing() {
-	// start the finalizer goroutine exactly once
-	if fingCreate == 0 && cas(&fingCreate, 0, 1) {
-		go runfinq()
-	}
-}
-
-// This is the goroutine that runs all of the finalizers
-func runfinq() {
-	var (
-		frame    unsafe.Pointer
-		framecap uintptr
-	)
-
-	for {
-		lock(&finlock)
-		fb := finq
-		finq = nil
-		if fb == nil {
-			gp := getg()
-			fing = gp
-			fingwait = true
-			gp.issystem = true
-			goparkunlock(&finlock, "finalizer wait", traceEvGoBlock)
-			gp.issystem = false
-			continue
-		}
-		unlock(&finlock)
-		if raceenabled {
-			racefingo()
-		}
-		for fb != nil {
-			for i := fb.cnt; i > 0; i-- {
-				f := (*finalizer)(add(unsafe.Pointer(&fb.fin), uintptr(i-1)*unsafe.Sizeof(finalizer{})))
-
-				framesz := unsafe.Sizeof((interface{})(nil)) + uintptr(f.nret)
-				if framecap < framesz {
-					// The frame does not contain pointers interesting for GC,
-					// all not yet finalized objects are stored in finq.
-					// If we do not mark it as FlagNoScan,
-					// the last finalized object is not collected.
-					frame = mallocgc(framesz, nil, flagNoScan)
-					framecap = framesz
-				}
-
-				if f.fint == nil {
-					throw("missing type in runfinq")
-				}
-				switch f.fint.kind & kindMask {
-				case kindPtr:
-					// direct use of pointer
-					*(*unsafe.Pointer)(frame) = f.arg
-				case kindInterface:
-					ityp := (*interfacetype)(unsafe.Pointer(f.fint))
-					// set up with empty interface
-					(*eface)(frame)._type = &f.ot.typ
-					(*eface)(frame).data = f.arg
-					if len(ityp.mhdr) != 0 {
-						// convert to interface with methods
-						// this conversion is guaranteed to succeed - we checked in SetFinalizer
-						assertE2I(ityp, *(*interface{})(frame), (*fInterface)(frame))
-					}
-				default:
-					throw("bad kind in runfinq")
-				}
-				reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz))
-
-				// drop finalizer queue references to finalized object
-				f.fn = nil
-				f.arg = nil
-				f.ot = nil
-				fb.cnt = i - 1
-			}
-			next := fb.next
-			lock(&finlock)
-			fb.next = finc
-			finc = fb
-			unlock(&finlock)
-			fb = next
+func iterate_finq(callback func(*_core.Funcval, unsafe.Pointer, uintptr, *_core.Type, *_gc.Ptrtype)) {
+	for fb := _gc.Allfin; fb != nil; fb = fb.Alllink {
+		for i := int32(0); i < fb.Cnt; i++ {
+			f := &fb.Fin[i]
+			callback(f.Fn, f.Arg, f.Nret, f.Fint, f.Ot)
 		}
 	}
 }
@@ -234,25 +76,25 @@ func runfinq() {
 // If a finalizer must run for a long time, it should do so by starting
 // a new goroutine.
 func SetFinalizer(obj interface{}, finalizer interface{}) {
-	e := (*eface)(unsafe.Pointer(&obj))
-	etyp := e._type
+	e := (*_core.Eface)(unsafe.Pointer(&obj))
+	etyp := e.Type
 	if etyp == nil {
-		throw("runtime.SetFinalizer: first argument is nil")
+		_lock.Throw("runtime.SetFinalizer: first argument is nil")
 	}
-	if etyp.kind&kindMask != kindPtr {
-		throw("runtime.SetFinalizer: first argument is " + *etyp._string + ", not pointer")
+	if etyp.Kind&_channels.KindMask != _channels.KindPtr {
+		_lock.Throw("runtime.SetFinalizer: first argument is " + *etyp.String + ", not pointer")
 	}
-	ot := (*ptrtype)(unsafe.Pointer(etyp))
-	if ot.elem == nil {
-		throw("nil elem type!")
+	ot := (*_gc.Ptrtype)(unsafe.Pointer(etyp))
+	if ot.Elem == nil {
+		_lock.Throw("nil elem type!")
 	}
 
 	// find the containing object
-	_, base, _ := findObject(e.data)
+	_, base, _ := _finalize.FindObject(e.Data)
 
 	if base == nil {
 		// 0-length objects are okay.
-		if e.data == unsafe.Pointer(&zerobase) {
+		if e.Data == unsafe.Pointer(&_maps.Zerobase) {
 			return
 		}
 
@@ -264,117 +106,77 @@ func SetFinalizer(obj interface{}, finalizer interface{}) {
 		// The relevant segments are: noptrdata, data, bss, noptrbss.
 		// We cannot assume they are in any order or even contiguous,
 		// due to external linking.
-		if uintptr(unsafe.Pointer(&noptrdata)) <= uintptr(e.data) && uintptr(e.data) < uintptr(unsafe.Pointer(&enoptrdata)) ||
-			uintptr(unsafe.Pointer(&data)) <= uintptr(e.data) && uintptr(e.data) < uintptr(unsafe.Pointer(&edata)) ||
-			uintptr(unsafe.Pointer(&bss)) <= uintptr(e.data) && uintptr(e.data) < uintptr(unsafe.Pointer(&ebss)) ||
-			uintptr(unsafe.Pointer(&noptrbss)) <= uintptr(e.data) && uintptr(e.data) < uintptr(unsafe.Pointer(&enoptrbss)) {
+		if uintptr(unsafe.Pointer(&_schedinit.Noptrdata)) <= uintptr(e.Data) && uintptr(e.Data) < uintptr(unsafe.Pointer(&_schedinit.Enoptrdata)) ||
+			uintptr(unsafe.Pointer(&_gc.Data)) <= uintptr(e.Data) && uintptr(e.Data) < uintptr(unsafe.Pointer(&_gc.Edata)) ||
+			uintptr(unsafe.Pointer(&_gc.Bss)) <= uintptr(e.Data) && uintptr(e.Data) < uintptr(unsafe.Pointer(&_gc.Ebss)) ||
+			uintptr(unsafe.Pointer(&_schedinit.Noptrbss)) <= uintptr(e.Data) && uintptr(e.Data) < uintptr(unsafe.Pointer(&_schedinit.Enoptrbss)) {
 			return
 		}
-		throw("runtime.SetFinalizer: pointer not in allocated block")
+		_lock.Throw("runtime.SetFinalizer: pointer not in allocated block")
 	}
 
-	if e.data != base {
+	if e.Data != base {
 		// As an implementation detail we allow to set finalizers for an inner byte
 		// of an object if it could come from tiny alloc (see mallocgc for details).
-		if ot.elem == nil || ot.elem.kind&kindNoPointers == 0 || ot.elem.size >= maxTinySize {
-			throw("runtime.SetFinalizer: pointer not at beginning of allocated block")
+		if ot.Elem == nil || ot.Elem.Kind&_channels.KindNoPointers == 0 || ot.Elem.Size >= _sched.MaxTinySize {
+			_lock.Throw("runtime.SetFinalizer: pointer not at beginning of allocated block")
 		}
 	}
 
-	f := (*eface)(unsafe.Pointer(&finalizer))
-	ftyp := f._type
+	f := (*_core.Eface)(unsafe.Pointer(&finalizer))
+	ftyp := f.Type
 	if ftyp == nil {
 		// switch to system stack and remove finalizer
-		systemstack(func() {
-			removefinalizer(e.data)
+		_lock.Systemstack(func() {
+			_finalize.Removefinalizer(e.Data)
 		})
 		return
 	}
 
-	if ftyp.kind&kindMask != kindFunc {
-		throw("runtime.SetFinalizer: second argument is " + *ftyp._string + ", not a function")
+	if ftyp.Kind&_channels.KindMask != _channels.KindFunc {
+		_lock.Throw("runtime.SetFinalizer: second argument is " + *ftyp.String + ", not a function")
 	}
-	ft := (*functype)(unsafe.Pointer(ftyp))
-	ins := *(*[]*_type)(unsafe.Pointer(&ft.in))
-	if ft.dotdotdot || len(ins) != 1 {
-		throw("runtime.SetFinalizer: cannot pass " + *etyp._string + " to finalizer " + *ftyp._string)
+	ft := (*_finalize.Functype)(unsafe.Pointer(ftyp))
+	ins := *(*[]*_core.Type)(unsafe.Pointer(&ft.In))
+	if ft.Dotdotdot || len(ins) != 1 {
+		_lock.Throw("runtime.SetFinalizer: cannot pass " + *etyp.String + " to finalizer " + *ftyp.String)
 	}
 	fint := ins[0]
 	switch {
 	case fint == etyp:
 		// ok - same type
 		goto okarg
-	case fint.kind&kindMask == kindPtr:
-		if (fint.x == nil || fint.x.name == nil || etyp.x == nil || etyp.x.name == nil) && (*ptrtype)(unsafe.Pointer(fint)).elem == ot.elem {
+	case fint.Kind&_channels.KindMask == _channels.KindPtr:
+		if (fint.X == nil || fint.X.Name == nil || etyp.X == nil || etyp.X.Name == nil) && (*_gc.Ptrtype)(unsafe.Pointer(fint)).Elem == ot.Elem {
 			// ok - not same type, but both pointers,
 			// one or the other is unnamed, and same element type, so assignable.
 			goto okarg
 		}
-	case fint.kind&kindMask == kindInterface:
-		ityp := (*interfacetype)(unsafe.Pointer(fint))
-		if len(ityp.mhdr) == 0 {
+	case fint.Kind&_channels.KindMask == _channels.KindInterface:
+		ityp := (*_core.Interfacetype)(unsafe.Pointer(fint))
+		if len(ityp.Mhdr) == 0 {
 			// ok - satisfies empty interface
 			goto okarg
 		}
-		if assertE2I2(ityp, obj, nil) {
+		if _ifacestuff.AssertE2I2(ityp, obj, nil) {
 			goto okarg
 		}
 	}
-	throw("runtime.SetFinalizer: cannot pass " + *etyp._string + " to finalizer " + *ftyp._string)
+	_lock.Throw("runtime.SetFinalizer: cannot pass " + *etyp.String + " to finalizer " + *ftyp.String)
 okarg:
 	// compute size needed for return parameters
 	nret := uintptr(0)
-	for _, t := range *(*[]*_type)(unsafe.Pointer(&ft.out)) {
-		nret = round(nret, uintptr(t.align)) + uintptr(t.size)
+	for _, t := range *(*[]*_core.Type)(unsafe.Pointer(&ft.Out)) {
+		nret = _lock.Round(nret, uintptr(t.Align)) + uintptr(t.Size)
 	}
-	nret = round(nret, ptrSize)
+	nret = _lock.Round(nret, _core.PtrSize)
 
 	// make sure we have a finalizer goroutine
-	createfing()
+	_finalize.Createfing()
 
-	systemstack(func() {
-		if !addfinalizer(e.data, (*funcval)(f.data), nret, fint, ot) {
-			throw("runtime.SetFinalizer: finalizer already set")
+	_lock.Systemstack(func() {
+		if !_finalize.Addfinalizer(e.Data, (*_core.Funcval)(f.Data), nret, fint, ot) {
+			_lock.Throw("runtime.SetFinalizer: finalizer already set")
 		}
 	})
-}
-
-// Look up pointer v in heap.  Return the span containing the object,
-// the start of the object, and the size of the object.  If the object
-// does not exist, return nil, nil, 0.
-func findObject(v unsafe.Pointer) (s *mspan, x unsafe.Pointer, n uintptr) {
-	c := gomcache()
-	c.local_nlookup++
-	if ptrSize == 4 && c.local_nlookup >= 1<<30 {
-		// purge cache stats to prevent overflow
-		lock(&mheap_.lock)
-		purgecachedstats(c)
-		unlock(&mheap_.lock)
-	}
-
-	// find span
-	arena_start := uintptr(unsafe.Pointer(mheap_.arena_start))
-	arena_used := uintptr(unsafe.Pointer(mheap_.arena_used))
-	if uintptr(v) < arena_start || uintptr(v) >= arena_used {
-		return
-	}
-	p := uintptr(v) >> pageShift
-	q := p - arena_start>>pageShift
-	s = *(**mspan)(add(unsafe.Pointer(mheap_.spans), q*ptrSize))
-	if s == nil {
-		return
-	}
-	x = unsafe.Pointer(uintptr(s.start) << pageShift)
-
-	if uintptr(v) < uintptr(x) || uintptr(v) >= uintptr(unsafe.Pointer(s.limit)) || s.state != mSpanInUse {
-		s = nil
-		x = nil
-		return
-	}
-
-	n = uintptr(s.elemsize)
-	if s.sizeclass != 0 {
-		x = add(x, (uintptr(v)-uintptr(x))/n*n)
-	}
-	return
 }

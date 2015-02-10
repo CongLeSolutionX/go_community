@@ -897,7 +897,31 @@ EXTERN	Pkg*	structpkg;	// package that declared struct, during import
 EXTERN	Pkg*	builtinpkg;	// fake package for builtins
 EXTERN	Pkg*	gostringpkg;	// fake pkg for Go strings
 EXTERN	Pkg*	itabpkg;	// fake pkg for itab cache
-EXTERN	Pkg*	runtimepkg;	// package runtime
+EXTERN	Pkg*	corepkg;	//package runtime/internal/core
+EXTERN	Pkg*	lockpkg;	//package runtime/internal/lock
+EXTERN	Pkg*	schedpkg;	//package runtime/internal/sched
+EXTERN	Pkg*	sempkg;	//package runtime/internal/sem
+EXTERN	Pkg*	gcpkg;	//package runtime/internal/gc
+EXTERN	Pkg*	profpkg;	//package runtime/internal/prof
+EXTERN	Pkg*	channelspkg;	//package runtime/internal/channels
+EXTERN	Pkg*	hashpkg;	//package runtime/internal/hash
+EXTERN	Pkg*	heapdumppkg;	//package runtime/internal/heapdump
+EXTERN	Pkg*	mapspkg;	//package runtime/internal/maps
+EXTERN	Pkg*	netpollpkg;	//package runtime/internal/netpoll
+EXTERN	Pkg*	ifacestuffpkg;	//package runtime/internal/ifacestuff
+EXTERN	Pkg*	vdsopkg;	//package runtime/internal/vdso
+EXTERN	Pkg*	printfpkg;	//package runtime/internal/printf
+EXTERN	Pkg*	stringspkg;	//package runtime/internal/strings
+EXTERN	Pkg*	fppkg;	//package runtime/internal/fp
+EXTERN	Pkg*	schedinitpkg;	//package runtime/internal/schedinit
+EXTERN	Pkg*	finalizepkg;	//package runtime/internal/finalize
+EXTERN	Pkg*	cgopkg;	//package runtime/internal/cgo
+EXTERN	Pkg*	syncpkg;	//package runtime/internal/sync
+EXTERN	Pkg*	checkpkg;	//package runtime/internal/check
+EXTERN	Pkg*	stackwbpkg;	//package runtime/internal/stackwb
+EXTERN	Pkg*	deferspkg;	//package runtime/internal/defers
+EXTERN	Pkg*	seqpkg;	//package runtime/internal/seq
+EXTERN	Pkg*	runtimepkg;	//package runtime
 EXTERN	Pkg*	racepkg;	// package runtime/race
 EXTERN	Pkg*	stringpkg;	// fake package for C strings
 EXTERN	Pkg*	typepkg;	// fake package for runtime type info (headers)
@@ -908,6 +932,30 @@ EXTERN	Pkg*	trackpkg;	// fake package for field tracking
 EXTERN	Pkg*	rawpkg;	// fake package for raw symbol names
 EXTERN	Pkg*	phash[128];
 EXTERN	int	tptr;		// either TPTR32 or TPTR64
+extern	char*	coreimport;
+extern	char*	lockimport;
+extern	char*	schedimport;
+extern	char*	semimport;
+extern	char*	gcimport;
+extern	char*	profimport;
+extern	char*	channelsimport;
+extern	char*	hashimport;
+extern	char*	heapdumpimport;
+extern	char*	mapsimport;
+extern	char*	netpollimport;
+extern	char*	ifacestuffimport;
+extern	char*	vdsoimport;
+extern	char*	printfimport;
+extern	char*	stringsimport;
+extern	char*	fpimport;
+extern	char*	schedinitimport;
+extern	char*	finalizeimport;
+extern	char*	cgoimport;
+extern	char*	syncimport;
+extern	char*	checkimport;
+extern	char*	stackwbimport;
+extern	char*	defersimport;
+extern	char*	seqimport;
 extern	char*	runtimeimport;
 extern	char*	unsafeimport;
 EXTERN	char*	myimportpath;
@@ -1412,6 +1460,7 @@ Node*	nodintconst(int64 v);
 Node*	nodfltconst(Mpflt *v);
 Node*	nodnil(void);
 int	parserline(void);
+Sym*	runtimelookup(char *name);
 Sym*	pkglookup(char *name, Pkg *pkg);
 int	powtwo(Node *n);
 Type*	ptrto(Type *t);
