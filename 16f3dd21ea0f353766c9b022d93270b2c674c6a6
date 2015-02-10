@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "31d11340_359e3042",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-10T02:56:40Z",
+      "side": 1,
+      "message": "large enough for the longest API name to import\n\nor the like. The key is to show that this is about the largest APi name\nnot some other strings.",
+      "range": {
+        "startLine": 88,
+        "startChar": 46,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "16f3dd21ea0f353766c9b022d93270b2c674c6a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71bf0bdf_d7013c80",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 2
@@ -49,6 +72,24 @@
       "side": 1,
       "message": "minux, what do you suggest I should do here?",
       "parentUuid": "31d11340_95eaa4fd",
+      "revId": "16f3dd21ea0f353766c9b022d93270b2c674c6a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d11340_75a4a897",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-10T02:56:40Z",
+      "side": 1,
+      "message": "Use brad\u0027s suggestion.\n\nAlthough I find that rsc\u0027s rejection of CL that tries to remove\nthe nul byte in constant strings (it\u0027s CL 1822), but I don\u0027t find\nany existing use of that property, so let\u0027s don\u0027t be the first.",
+      "parentUuid": "d1e5171d_12190c18",
       "revId": "16f3dd21ea0f353766c9b022d93270b2c674c6a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
