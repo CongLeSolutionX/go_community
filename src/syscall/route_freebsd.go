@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Routing sockets and messages for FreeBSD
-
 package syscall
 
 import "unsafe"
@@ -13,6 +11,25 @@ var freebsdVersion uint32
 
 func init() {
 	freebsdVersion, _ = SysctlUint32("kern.osreldate")
+	conf, _ := Sysctl("kern.conftxt")
+	for i, j := 0, 0; j < len(conf); j++ {
+		if conf[j] != '\n' {
+			continue
+		}
+		s := conf[i:j]
+		i = j + 1
+		if len(s) > len("machine") && s[:len("machine")] == "machine" {
+			s = s[len("machine"):]
+			for k := 0; k < len(s); k++ {
+				if s[k] == ' ' || s[k] == '\t' {
+					s = s[1:]
+				}
+				break
+			}
+			freebsdConfArch = s
+			break
+		}
+	}
 }
 
 func (any *anyMessage) toRoutingMessage(b []byte) RoutingMessage {
@@ -41,7 +58,7 @@ type InterfaceAnnounceMessage struct {
 	Header IfAnnounceMsghdr
 }
 
-func (m *InterfaceAnnounceMessage) sockaddr() (sas []Sockaddr) { return nil }
+func (m *InterfaceAnnounceMessage) sockaddr() ([]Sockaddr, error) { return nil, nil }
 
 // InterfaceMulticastAddrMessage represents a routing message
 // containing network interface address entries.
@@ -50,29 +67,37 @@ type InterfaceMulticastAddrMessage struct {
 	Data   []byte
 }
 
-const rtaIfmaMask = RTA_GATEWAY | RTA_IFP | RTA_IFA
-
-func (m *InterfaceMulticastAddrMessage) sockaddr() (sas []Sockaddr) {
-	if m.Header.Addrs&rtaIfmaMask == 0 {
-		return nil
-	}
+func (m *InterfaceMulticastAddrMessage) sockaddr() ([]Sockaddr, error) {
+	var sas []Sockaddr
 	b := m.Data[:]
-	for i := uint(0); i < RTAX_MAX; i++ {
-		if m.Header.Addrs&rtaIfmaMask&(1<<i) == 0 {
+	for i := uint(0); i < RTAX_MAX && len(b) >= minRoutingSockaddrLen; i++ {
+		if m.Header.Addrs&(1<<i) == 0 {
 			continue
 		}
 		rsa := (*RawSockaddr)(unsafe.Pointer(&b[0]))
-		switch i {
-		case RTAX_IFA:
-			sa, e := anyToSockaddr((*RawSockaddrAny)(unsafe.Pointer(rsa)))
-			if e != nil {
-				return nil
+		switch rsa.Family {
+		case AF_LINK:
+			sa, err := parseSockaddrLink(b)
+			if err != nil {
+				return nil, err
 			}
 			sas = append(sas, sa)
-		case RTAX_GATEWAY, RTAX_IFP:
-			// nothing to do
+			b = b[rsaAlignOf(int(rsa.Len)):]
+		case AF_INET, AF_INET6:
+			sa, err := parseSockaddrInet(b, rsa.Family)
+			if err != nil {
+				return nil, err
+			}
+			sas = append(sas, sa)
+			b = b[rsaAlignOf(int(rsa.Len)):]
+		default:
+			sa, l, err := parseLinkLayerAdjacency(b)
+			if err != nil {
+				return nil, err
+			}
+			sas = append(sas, sa)
+			b = b[l:]
 		}
-		b = b[rsaAlignOf(int(rsa.Len)):]
 	}
-	return sas
+	return sas, nil
 }
