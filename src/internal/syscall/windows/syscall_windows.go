@@ -97,3 +97,5 @@ const (
 )
 
 //sys GetAdaptersAddresses(family uint32, flags uint32, reserved uintptr, adapterAddresses *IpAdapterAddresses, sizeOfPointer *uint32) (errcode error) = iphlpapi.GetAdaptersAddresses
+//sys GetACP() (acp uint, err error) = kernel32.GetACP
+//sys MultiByteToWideChar(codePage uint, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int, err error) = kernel32.MultiByteToWideChar

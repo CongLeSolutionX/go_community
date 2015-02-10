@@ -7,14 +7,43 @@ import "syscall"
 
 var (
 	modiphlpapi = syscall.NewLazyDLL("iphlpapi.dll")
+	modkernel32 = syscall.NewLazyDLL("kernel32.dll")
 
 	procGetAdaptersAddresses = modiphlpapi.NewProc("GetAdaptersAddresses")
+	procGetACP               = modkernel32.NewProc("GetACP")
+	procMultiByteToWideChar  = modkernel32.NewProc("MultiByteToWideChar")
 )
 
 func GetAdaptersAddresses(family uint32, flags uint32, reserved uintptr, adapterAddresses *IpAdapterAddresses, sizeOfPointer *uint32) (errcode error) {
 	r0, _, _ := syscall.Syscall6(procGetAdaptersAddresses.Addr(), 5, uintptr(family), uintptr(flags), uintptr(reserved), uintptr(unsafe.Pointer(adapterAddresses)), uintptr(unsafe.Pointer(sizeOfPointer)), 0)
 	if r0 != 0 {
 		errcode = syscall.Errno(r0)
+	}
+	return
+}
+
+func GetACP() (acp uint, err error) {
+	r0, _, e1 := syscall.Syscall(procGetACP.Addr(), 0, 0, 0, 0)
+	acp = uint(r0)
+	if acp == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func MultiByteToWideChar(codePage uint, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int, err error) {
+	r0, _, e1 := syscall.Syscall6(procMultiByteToWideChar.Addr(), 6, uintptr(codePage), uintptr(dwFlags), uintptr(unsafe.Pointer(str)), uintptr(nstr), uintptr(unsafe.Pointer(wchar)), uintptr(nwchar))
+	nwrite = int(r0)
+	if nwrite == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
 	}
 	return
 }
