@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Routing sockets and messages for NetBSD
-
 package syscall
 
 import "unsafe"
@@ -32,4 +30,4 @@ type InterfaceAnnounceMessage struct {
 	Header IfAnnounceMsghdr
 }
 
-func (m *InterfaceAnnounceMessage) sockaddr() (sas []Sockaddr) { return nil }
+func (m *InterfaceAnnounceMessage) sockaddr() ([]Sockaddr, error) { return nil, nil }
