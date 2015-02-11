@@ -755,6 +755,7 @@ prop(Flow *f, Bits ref, Bits cal)
 	Reg *r, *r1;
 	int z, i, j;
 	Var *v, *v1;
+	uint64 rbz;
 
 	for(f1 = f; f1 != nil; f1 = f1->p1) {
 		r1 = (Reg*)f1->data;
@@ -848,7 +849,8 @@ prop(Flow *f, Bits ref, Bits cal)
 		for(z=0; z<BITS; z++) {
 			ref.b[z] = (ref.b[z] & ~r1->set.b[z]) |
 				r1->use1.b[z] | r1->use2.b[z];
-			cal.b[z] &= ~(r1->set.b[z] | r1->use1.b[z] | r1->use2.b[z]);
+			rbz = r1->use1.b[z] | r1->use2.b[z];
+			cal.b[z] &= ~(r1->set.b[z] | rbz);
 			r1->refbehind.b[z] = ref.b[z];
 			r1->calbehind.b[z] = cal.b[z];
 		}
@@ -945,7 +947,7 @@ paint1(Flow *f, int bn)
 	Flow *f1;
 	Reg *r, *r1;
 	int z;
-	uint64 bb;
+	uint64 bb, rbz;
 
 	z = bn/64;
 	bb = 1LL<<(bn%64);
@@ -967,7 +969,8 @@ paint1(Flow *f, int bn)
 		r = r1;
 	}
 
-	if(LOAD(r) & ~(r->set.b[z]&~(r->use1.b[z]|r->use2.b[z])) & bb) {
+	rbz = ~(r->set.b[z]&~(r->use1.b[z]|r->use2.b[z]));
+	if(LOAD(r) & rbz & bb) {
 		change -= CLOAD * f->loop;
 	}
 	for(;;) {
@@ -1073,7 +1076,7 @@ paint3(Flow *f, int bn, uint64 rb, int rn)
 	Reg *r, *r1;
 	Prog *p;
 	int z;
-	uint64 bb;
+	uint64 bb, rbz;
 
 	z = bn/64;
 	bb = 1LL << (bn%64);
@@ -1095,7 +1098,8 @@ paint3(Flow *f, int bn, uint64 rb, int rn)
 		r = r1;
 	}
 
-	if(LOAD(r) & ~(r->set.b[z] & ~(r->use1.b[z]|r->use2.b[z])) & bb)
+	rbz = ~(r->set.b[z] & ~(r->use1.b[z]|r->use2.b[z]));
+	if(LOAD(r) & rbz & bb)
 		addmove(f, bn, rn, 0);
 	for(;;) {
 		r->act.b[z] |= bb;
@@ -1161,15 +1165,16 @@ dumpone(Flow *f, int isreg)
 	int z;
 	Bits bit;
 	Reg *r;
+	uint64 rbz;
 
 	print("%d:%P", f->loop, f->prog);
 	if(isreg) {	
 		r = (Reg*)f->data;
-		for(z=0; z<BITS; z++)
+		for(z=0; z<BITS; z++){
+			rbz = r->use1.b[z] | r->use2.b[z];
 			bit.b[z] =
 				r->set.b[z] |
-				r->use1.b[z] |
-				r->use2.b[z] |
+				rbz |
 				r->refbehind.b[z] |
 				r->refahead.b[z] |
 				r->calbehind.b[z] |
@@ -1177,6 +1182,7 @@ dumpone(Flow *f, int isreg)
 				r->regdiff.b[z] |
 				r->act.b[z] |
 					0;
+		}
 		if(bany(&bit)) {
 			print("\t");
 			if(bany(&r->set))
