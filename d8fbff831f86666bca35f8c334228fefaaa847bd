@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "313af3a9_4db1590b",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-02-11T11:19:41Z",
+      "side": 1,
+      "message": "trace viewer takes times in microseconds. This program emits nanoseconds, meaning that all time calculations are off by a factor of 1000",
+      "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "313af3a9_adb71d04",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-02-11T11:19:41Z",
+      "side": 1,
+      "message": "formatStack causes the stack traces to be shown as a single line, like so:\n\n\"runtime.selectgoImpl runtime.selectgo net/http.(*persistConn).writeLoop runtime.goexit \"\n\nInstead, you can emit an array of strings, root first. That should bring back proper formatting.",
+      "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
