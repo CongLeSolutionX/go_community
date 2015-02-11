@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "566cbd14_b6d72847",
+        "filename": "src/cmd/gc/lex.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-02-11T21:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62b39c2_4c89ef03",
+      "revId": "f72682f1636cf21146d79a982658ce561e4b2156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b62b39c2_cc74bf66",
         "filename": "src/liblink/asm6.c",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-11T20:29:37Z",
       "side": 1,
       "message": "In addition to being not great code, this is producing a not-great error. Put Linux into its own case and give a better error:\n\ncase Hlinux:\n    if(ctxt-\u003eflag_shared)\n        sysfatal(\"unknown TLS base register for linux with -shared\");\n    return 0x64;",
+      "revId": "f72682f1636cf21146d79a982658ce561e4b2156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "566cbd14_96d4ac43",
+        "filename": "src/liblink/asm6.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1906,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-02-11T21:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62b39c2_cc74bf66",
       "revId": "f72682f1636cf21146d79a982658ce561e4b2156",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "566cbd14_f613607f",
+        "filename": "src/liblink/asm6.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1929,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-02-11T21:56:20Z",
+      "side": 1,
+      "message": "Ugh, I clearly had a brain fade here.  Done.",
+      "parentUuid": "b62b39c2_2c63dbae",
+      "revId": "f72682f1636cf21146d79a982658ce561e4b2156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b62b39c2_4c628fa7",
         "filename": "src/liblink/asm6.c",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-11T20:29:37Z",
       "side": 1,
       "message": "case Hlinux:\n    if(!ctxt-\u003eflag_shared)\n        sysfatal(\"unknown TLS base location for linux without -shared\");\n    ... your code\n\n\nAlso note that variable declarations like \u0027Reloc *r\u0027 go at the top of the function (only).",
+      "revId": "f72682f1636cf21146d79a982658ce561e4b2156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "566cbd14_36167878",
+        "filename": "src/liblink/asm6.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3410,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-02-11T21:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62b39c2_4c628fa7",
       "revId": "f72682f1636cf21146d79a982658ce561e4b2156",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
