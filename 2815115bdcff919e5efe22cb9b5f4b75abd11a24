@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b63a59c3_71de9818",
+        "filename": "src/cmd/gc/reflect.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-02-11T00:55:17Z",
+      "side": 1,
+      "message": "This should really be an array of uint8.",
+      "range": {
+        "startLine": 152,
+        "startChar": 33,
+        "endLine": 152,
+        "endChar": 47
+      },
+      "revId": "2815115bdcff919e5efe22cb9b5f4b75abd11a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d13277d2_8d998591",
+        "filename": "src/cmd/gc/walk.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-02-11T00:55:17Z",
+      "side": 1,
+      "message": "4096 seems awfully big.  512 should be plenty.  A map[string][]byte, which is the largest typical map I see, uses 336 bytes.",
+      "range": {
+        "startLine": 1344,
+        "startChar": 29,
+        "endLine": 1344,
+        "endChar": 33
+      },
+      "revId": "2815115bdcff919e5efe22cb9b5f4b75abd11a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513da79d_11004e2f",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-02-11T00:55:17Z",
+      "side": 1,
+      "message": "If this is at most one bucket, its name should be singular, not plural.",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 189,
+        "endChar": 13
+      },
+      "revId": "2815115bdcff919e5efe22cb9b5f4b75abd11a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
