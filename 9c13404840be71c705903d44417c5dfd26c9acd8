@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f62f718a_4bf2c5f7",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-11T03:31:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1605e5fd_5c3a7dc6",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1605e5fd_bc42a12d",
         "filename": "src/syscall/route_bsd.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-02-11T01:35:08Z",
       "side": 1,
       "message": "Should this do\n    sa.raw \u003d *rsa\n?",
+      "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62f718a_8b10ad74",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-11T03:31:42Z",
+      "side": 1,
+      "message": "no, on darwin we can see an object which is marked AF_LINK but the encoding is not.",
+      "parentUuid": "1605e5fd_bc42a12d",
       "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f62f718a_cbfd95c2",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-11T03:31:42Z",
+      "side": 1,
+      "message": "changed to adjacency. it coveys various adjacent information. for example, it may be a next-hop address, an output interface or both, a link itself or a joined group address.",
+      "parentUuid": "1605e5fd_7cde5918",
+      "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1605e5fd_dc456d39",
         "filename": "src/syscall/route_bsd.go",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2015-02-11T01:35:08Z",
       "side": 1,
       "message": "Does anything call this other than parseSockaddrLink?  Why not return *SockaddrDataLink rather than Sockaddr?",
+      "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62f718a_8bf78de0",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-11T03:31:42Z",
+      "side": 1,
+      "message": "sockaddr of InterfaceMulticastAddrMessage uses it",
+      "parentUuid": "1605e5fd_dc456d39",
       "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "f62f718a_6b16a179",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-11T03:31:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1605e5fd_fc482951",
+      "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1605e5fd_9c3fe5af",
         "filename": "src/syscall/route_bsd.go",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2015-02-11T01:35:08Z",
       "side": 1,
       "message": "This function is parseNetworkLayerAdj.  The comment is wrong.",
+      "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62f718a_4b1be59d",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-11T03:31:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1605e5fd_9c3fe5af",
       "revId": "9c13404840be71c705903d44417c5dfd26c9acd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
