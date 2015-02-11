@@ -22,6 +22,30 @@
       "revId": "8e61babc8eb8920472ed1f4f3d9ffda5df790bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6834dc3_e522f04c",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-11T10:39:27Z",
+      "side": 1,
+      "message": "that\u0027s on purpose, so that multiline output starts from new line\nwe do this throughout this file",
+      "parentUuid": "b63a59c3_51b71407",
+      "range": {
+        "startLine": 228,
+        "startChar": 46,
+        "endLine": 228,
+        "endChar": 50
+      },
+      "revId": "8e61babc8eb8920472ed1f4f3d9ffda5df790bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
