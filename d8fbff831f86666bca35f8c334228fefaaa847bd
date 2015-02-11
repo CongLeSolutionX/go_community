@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6d6d9d9_31ecb018",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-11T12:26:55Z",
+      "side": 1,
+      "message": "That\u0027s https://github.com/google/trace-viewer/issues/624\nWe can\u0027t fix it here.\nOnce this change is in, I want to ask somebody more proficient in python/js than me to help with trace-viewer issues.",
+      "parentUuid": "313af3a9_4db1590b",
+      "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "313af3a9_adb71d04",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-11T11:19:41Z",
       "side": 1,
       "message": "formatStack causes the stack traces to be shown as a single line, like so:\n\n\"runtime.selectgoImpl runtime.selectgo net/http.(*persistConn).writeLoop runtime.goexit \"\n\nInstead, you can emit an array of strings, root first. That should bring back proper formatting.",
+      "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6d6d9d9_d100c432",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-11T12:26:55Z",
+      "side": 1,
+      "message": "That is https://github.com/google/trace-viewer/issues/751\nAnd it is also related to https://github.com/google/trace-viewer/issues/627",
+      "parentUuid": "313af3a9_adb71d04",
       "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
