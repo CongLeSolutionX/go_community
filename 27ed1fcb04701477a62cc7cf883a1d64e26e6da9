@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56783d6f_b63948d3",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-12T19:59:25Z",
+      "side": 0,
+      "message": "I would move harvestwbufs also.",
+      "range": {
+        "startLine": 931,
+        "startChar": 0,
+        "endLine": 964,
+        "endChar": 1
+      },
+      "revId": "27ed1fcb04701477a62cc7cf883a1d64e26e6da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
