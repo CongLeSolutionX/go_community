@@ -22,6 +22,29 @@
       "revId": "45db9e1700820ce7f5c02711fc1fbca5d25e1515",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9dc826_fef11d63",
+        "filename": "src/cmd/ld/lib.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-02-13T20:40:29Z",
+      "side": 1,
+      "message": "add TODO? I will be puzzled by this comment but lack of Android/Darwin handling.",
+      "range": {
+        "startLine": 273,
+        "startChar": 22,
+        "endLine": 273,
+        "endChar": 23
+      },
+      "revId": "45db9e1700820ce7f5c02711fc1fbca5d25e1515",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
