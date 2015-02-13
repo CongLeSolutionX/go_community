@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b8d2cf5_035fd02d",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-13T21:27:20Z",
+      "side": 1,
+      "message": "// Slice implements sort.Interface on a slice of Time values.\n\nThe UTC part is totally irrelevant.",
+      "revId": "d8e64bb316a3913d1b33eefeeceb9160a5f560dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b8d2cf5_e3618cea",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-13T21:27:20Z",
+      "side": 1,
+      "message": "You should read https://golang.org/doc/effective_go.html#names.\n\nThis is already in the time package, so the stutter with time.Time is unnecessary.  It could be time.Slice.",
+      "revId": "d8e64bb316a3913d1b33eefeeceb9160a5f560dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
