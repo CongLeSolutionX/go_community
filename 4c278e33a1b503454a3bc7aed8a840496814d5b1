@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56267d9d_268c364a",
+        "filename": "src/image/jpeg/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-02-13T11:22:03Z",
+      "side": 1,
+      "message": "Purely style, but wouldn\u0027t this do the same?\n\nif string(d.tmp[:5]) \u003d\u003d \"Adobe\" {",
+      "revId": "4c278e33a1b503454a3bc7aed8a840496814d5b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56267d9d_a6e2e6de",
+        "filename": "src/image/jpeg/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-02-13T11:22:03Z",
+      "side": 1,
+      "message": "Libjpeg seems to have it slightly different, if there is an Adobe marker and the adobe transform isn\u0027t 0, assume it is YCCK.\n\nIt is an extreme border case, but maybe it could be a good idea to mimmic that?",
+      "revId": "4c278e33a1b503454a3bc7aed8a840496814d5b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
