@@ -12,6 +12,7 @@ import (
 	"math/big"
 	"math/rand"
 	"runtime"
+	"sort"
 	"testing"
 	"testing/quick"
 	. "time"
@@ -785,6 +786,19 @@ func TestNotJSONEncodableTime(t *testing.T) {
 		if err == nil || err.Error() != tt.want {
 			t.Errorf("%v MarshalJSON error = %v, want %v", tt.time, err, tt.want)
 		}
+	}
+}
+
+func TestSortTimeSlice(t *testing.T) {
+	times := [...]Time{
+		Unix(1, 2), Unix(1, 1), Unix(10, 10), Unix(9, 9), Unix(1, 1), Unix(0, 0),
+	}
+	data := times
+	a := Slice(data[0:])
+	sort.Sort(a)
+	if !sort.IsSorted(a) {
+		t.Errorf("sorted %v", times)
+		t.Errorf("   got %v", data)
 	}
 }
 

@@ -424,6 +424,13 @@ func (t Time) YearDay() int {
 	return yday + 1
 }
 
+// Slice attaches the methods of sort.Interface to []Time, sorting in increasing order.
+type Slice []Time
+
+func (p Slice) Len() int           { return len(p) }
+func (p Slice) Less(i, j int) bool { return p[i].Before(p[j]) }
+func (p Slice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
 // A Duration represents the elapsed time between two instants
 // as an int64 nanosecond count.  The representation limits the
 // largest representable duration to approximately 290 years.
