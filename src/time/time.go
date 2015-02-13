@@ -424,6 +424,13 @@ func (t Time) YearDay() int {
 	return yday + 1
 }
 
+// TimeSlice attaches the methods of sort.Interface to []Time, sorting in increasing order in UTC.
+type TimeSlice []Time
+
+func (p TimeSlice) Len() int           { return len(p) }
+func (p TimeSlice) Less(i, j int) bool { return p[i].Before(p[j]) }
+func (p TimeSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
 // A Duration represents the elapsed time between two instants
 // as an int64 nanosecond count.  The representation limits the
 // largest representable duration to approximately 290 years.
