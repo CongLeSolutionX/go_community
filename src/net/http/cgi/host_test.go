@@ -29,7 +29,7 @@ func newRequest(httpreq string) *http.Request {
 	if err != nil {
 		panic("cgi: bogus http request in test: " + httpreq)
 	}
-	req.RemoteAddr = "1.2.3.4"
+	req.RemoteAddr = "1.2.3.4:80"
 	return req
 }
 
@@ -289,7 +289,7 @@ func TestInternalRedirect(t *testing.T) {
 	}
 	expectedMap := map[string]string{
 		"basepath":   "/foo",
-		"remoteaddr": "1.2.3.4",
+		"remoteaddr": "1.2.3.4:80",
 	}
 	runCgiTest(t, h, "GET /test.cgi?loc=/foo HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
