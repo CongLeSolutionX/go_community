@@ -23,29 +23,29 @@ func RaceSemrelease(s *uint32)
 // private interface for the runtime
 const raceenabled = true
 
-func raceReadObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
+func raceReadObjectPC(t *_type, addr unsafe.Pointer, callpc, pc uintptr) {
 	kind := t.kind & kindMask
 	if kind == kindArray || kind == kindStruct {
 		// for composite objects we have to read every address
 		// because a write might happen to any subobject.
-		racereadrangepc(addr, t.size, callerpc, pc)
+		racereadrangepc(addr, t.size, callpc, pc)
 	} else {
 		// for non-composite objects we can read just the start
 		// address, as any write must write the first byte.
-		racereadpc(addr, callerpc, pc)
+		racereadpc(addr, callpc, pc)
 	}
 }
 
-func raceWriteObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
+func raceWriteObjectPC(t *_type, addr unsafe.Pointer, callpc, pc uintptr) {
 	kind := t.kind & kindMask
 	if kind == kindArray || kind == kindStruct {
 		// for composite objects we have to write every address
 		// because a write might happen to any subobject.
-		racewriterangepc(addr, t.size, callerpc, pc)
+		racewriterangepc(addr, t.size, callpc, pc)
 	} else {
 		// for non-composite objects we can write just the start
 		// address, as any write must write the first byte.
-		racewritepc(addr, callerpc, pc)
+		racewritepc(addr, callpc, pc)
 	}
 }
 
