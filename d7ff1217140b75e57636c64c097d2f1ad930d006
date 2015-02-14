@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b40c074_fd4b47eb",
+        "filename": "src/cmd/gc/reflect.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-02-14T17:08:22Z",
+      "side": 1,
+      "message": "\u003c\u003d MAXVALSIZE",
+      "range": {
+        "startLine": 183,
+        "startChar": 49,
+        "endLine": 183,
+        "endChar": 50
+      },
+      "revId": "d7ff1217140b75e57636c64c097d2f1ad930d006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b40c074_dd480bf2",
+        "filename": "src/runtime/map_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-02-14T17:08:22Z",
+      "side": 1,
+      "message": "This tests both key/val large.  Might want to do tests with key only large and value only large.",
+      "range": {
+        "startLine": 518,
+        "startChar": 30,
+        "endLine": 518,
+        "endChar": 37
+      },
+      "revId": "d7ff1217140b75e57636c64c097d2f1ad930d006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
