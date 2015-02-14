@@ -515,6 +515,35 @@ func TestMapStringBytesLookup(t *testing.T) {
 	}
 }
 
+func TestMapLargeNoPointer(t *testing.T) {
+	const (
+		I = 1000
+		N = 64
+	)
+	type T [N]int
+	m := make(map[T]T)
+	for i := 0; i < I; i++ {
+		var v T
+		for j := 0; j < N; j++ {
+			v[j] = i + j
+		}
+		m[v] = v
+	}
+	runtime.GC()
+	for i := 0; i < I; i++ {
+		var v T
+		for j := 0; j < N; j++ {
+			v[j] = i + j
+		}
+		v1 := m[v]
+		for j := 0; j < N; j++ {
+			if v1[j] != v[j] {
+				t.Fatalf("corrupted map: want %+v, got %+v", v, v1)
+			}
+		}
+	}
+}
+
 func benchmarkMapPop(b *testing.B, n int) {
 	m := map[int]int{}
 	for i := 0; i < b.N; i++ {
