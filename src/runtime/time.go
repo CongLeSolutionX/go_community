@@ -25,6 +25,90 @@ type timer struct {
 	seq    uintptr
 }
 
+type timerCache struct {
+	lock mutex
+	head *timer
+}
+
+type localTimerCache struct {
+	cache  []*timer
+	buffer [32]*timer
+}
+
+func (tc *timerCache) init(loc *localTimerCache) {
+	loc.cache = loc.buffer[:0]
+}
+
+func (tc *timerCache) destroy(loc *localTimerCache) {
+	// Don't bother transferring elements to tc,
+	// because this happens only during procresize.
+	// But check that we did not overflow local cache.
+	if len(loc.cache) == 0 {
+		loc.cache = append(loc.cache, nil)
+	}
+	if &loc.cache[0] != &loc.buffer[0] {
+		throw("timerCache: local cache overflow")
+	}
+}
+
+func (tc *timerCache) get(loc *localTimerCache) *timer {
+	if len(loc.cache) == 0 {
+		mp := acquirem()
+		lock(&tc.lock)
+		for tc.head != nil && len(loc.cache) < cap(loc.buffer)/2 {
+			t := tc.head
+			tc.head = t.arg.(*timer)
+			t.arg = nil
+			loc.cache = append(loc.cache, t)
+		}
+		unlock(&tc.lock)
+		releasem(mp)
+	}
+	if len(loc.cache) == 0 {
+		return new(timer)
+	}
+	last := len(loc.cache) - 1
+	t := loc.cache[last]
+	loc.cache[last] = nil
+	loc.cache = loc.cache[:last]
+	return t
+}
+
+func (tc *timerCache) put(loc *localTimerCache, t *timer) {
+	//!!! resched to another P
+	t.reset()
+	if len(loc.cache) == cap(loc.buffer) {
+		mp := acquirem()
+		lock(&tc.lock)
+		for len(loc.cache) > cap(loc.buffer)/2 {
+			last := len(loc.cache) - 1
+			t := loc.cache[last]
+			loc.cache[last] = nil
+			loc.cache = loc.cache[:last]
+			t.arg = tc.head
+			tc.head = t
+		}
+		unlock(&tc.lock)
+		releasem(mp)
+	}
+	loc.cache = append(loc.cache, t)
+}
+
+func (tc *timerCache) flush() {
+	lock(&tc.lock)
+	for tc.head != nil {
+		t := tc.head
+		tc.head = t.arg.(*timer)
+		t.arg = nil
+	}
+	unlock(&tc.lock)
+}
+
+func (t *timer) reset() {
+	t.f = nil
+	t.arg = nil
+}
+
 var timers struct {
 	lock         mutex
 	gp           *g
@@ -33,6 +117,7 @@ var timers struct {
 	rescheduling bool
 	waitnote     note
 	t            []*timer
+	cache        timerCache
 }
 
 // nacl fake time support - time in nanoseconds since 1970

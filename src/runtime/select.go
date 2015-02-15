@@ -107,6 +107,26 @@ func selectrecvImpl(sel *_select, c *hchan, pc uintptr, elem unsafe.Pointer, rec
 }
 
 //go:nosplit
+func selecttimeout(sel *_select, t int64) (selected bool) {
+	i := sel.ncase
+	if i >= sel.tcase {
+		throw("selecttimeout: too many cases")
+	}
+	sel.ncase = i + 1
+	cas := (*scase)(add(unsafe.Pointer(&sel.scase), uintptr(i)*unsafe.Sizeof(sel.scase[0])))
+	cas.pc = getcallerpc(unsafe.Pointer(&sel))
+	cas._chan = nil
+	cas.so = uint16(uintptr(noescape(unsafe.Pointer(&selected))) - uintptr(noescape(unsafe.Pointer(&sel))))
+	cas.kind = _CaseTimeout
+	cas.timeout = nanotime() + t
+
+	if debugSelect {
+		print("selecttimeout s=", sel, " pc=", hex(cas.pc), " so=", cas.so, " timeout=", t, "\n")
+	}
+	return
+}
+
+//go:nosplit
 func selectdefault(sel *_select) (selected bool) {
 	selectdefaultImpl(sel, getcallerpc(unsafe.Pointer(&sel)), uintptr(unsafe.Pointer(&selected))-uintptr(unsafe.Pointer(&sel)))
 	return
@@ -184,6 +204,8 @@ func selectgo(sel *_select) {
 	*(*bool)(add(unsafe.Pointer(&sel), uintptr(offset))) = true
 	setcallerpc(unsafe.Pointer(&sel), pc)
 }
+
+var atomiccas = cas
 
 // selectgoImpl returns scase.pc and scase.so for the select
 // case which fired.
@@ -285,6 +307,8 @@ loop:
 	// pass 1 - look for something already waiting
 	var dfl *scase
 	var cas *scase
+	var casTimeout *scase
+	var tmr *timer
 	for i := 0; i < int(sel.ncase); i++ {
 		cas = &scases[pollorder[i]]
 		c = cas._chan
@@ -323,6 +347,11 @@ loop:
 				}
 			}
 
+		case _CaseTimeout:
+			if casTimeout == nil || casTimeout.timeout > cas.timeout {
+				casTimeout = cas
+			}
+
 		case _CaseDefault:
 			dfl = cas
 		}
@@ -358,6 +387,25 @@ loop:
 
 		case _CaseSend:
 			c.sendq.enqueue(sg)
+
+		case _CaseTimeout:
+			if cas != casTimeout {
+				break
+			}
+			tmr = timers.cache.get(&getg().m.p.timerCache)
+			tmr.when = casTimeout.timeout
+			tmr.arg = sg
+			tmr.f = func(arg interface{}, seq uintptr) {
+				sgp := arg.(*sudog)
+				if *sgp.selectdone == 0 && atomiccas(sgp.selectdone, 0, 1) {
+					sgp.g.param = unsafe.Pointer(sgp)
+					if sgp.releasetime != 0 {
+						sgp.releasetime = cputicks()
+					}
+					goready(sgp.g)
+				}
+			}
+			addtimer(tmr)
 		}
 	}
 
@@ -369,6 +417,14 @@ loop:
 	sellock(sel)
 	sg = (*sudog)(gp.param)
 	gp.param = nil
+
+	if tmr != nil && !deltimer(tmr) {
+		//!!! wait for callback, it references our stack
+	}
+	if tmr != nil {
+		timers.cache.put(&getg().m.p.timerCache, tmr)
+		tmr = nil
+	}
 
 	// pass 3 - dequeue from unsuccessful chans
 	// otherwise they stack up on quiet channels
@@ -409,27 +465,26 @@ loop:
 		goto loop
 	}
 
-	c = cas._chan
-
-	if c.dataqsiz > 0 {
-		throw("selectgo: shouldn't happen")
-	}
-
 	if debugSelect {
 		print("wait-return: sel=", sel, " c=", c, " cas=", cas, " kind=", cas.kind, "\n")
 	}
 
-	if cas.kind == _CaseRecv {
-		if cas.receivedp != nil {
-			*cas.receivedp = true
+	if cas.kind != _CaseTimeout {
+		c = cas._chan
+		if c.dataqsiz > 0 {
+			throw("selectgo: shouldn't happen")
 		}
-	}
-
-	if raceenabled {
-		if cas.kind == _CaseRecv && cas.elem != nil {
-			raceWriteObjectPC(c.elemtype, cas.elem, cas.pc, chanrecvpc)
-		} else if cas.kind == _CaseSend {
-			raceReadObjectPC(c.elemtype, cas.elem, cas.pc, chansendpc)
+		if cas.kind == _CaseRecv {
+			if cas.receivedp != nil {
+				*cas.receivedp = true
+			}
+		}
+		if raceenabled {
+			if cas.kind == _CaseRecv && cas.elem != nil {
+				raceWriteObjectPC(c.elemtype, cas.elem, cas.pc, chanrecvpc)
+			} else if cas.kind == _CaseSend {
+				raceReadObjectPC(c.elemtype, cas.elem, cas.pc, chansendpc)
+			}
 		}
 	}
 

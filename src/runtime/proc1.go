@@ -2477,6 +2477,7 @@ func procresize(nprocs int32) *p {
 			} else {
 				pp.mcache = allocmcache()
 			}
+			timers.cache.init(&pp.timerCache)
 		}
 	}
 
@@ -2505,6 +2506,7 @@ func procresize(nprocs int32) *p {
 			sched.runqsize++
 		}
 		freemcache(p.mcache)
+		timers.cache.destroy(&p.timerCache)
 		p.mcache = nil
 		gfpurge(p)
 		traceProcFree(p)

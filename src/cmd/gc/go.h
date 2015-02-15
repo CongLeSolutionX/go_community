@@ -555,6 +555,7 @@ enum
 	ORUNESTR,	// string(i)
 	OSELRECV,	// case x = <-c:
 	OSELRECV2,	// case x, ok = <-c:
+	OSELTIMEOUT,	// case <-time.After(t)
 	OIOTA,	// iota
 	OREAL,	// real
 	OIMAG,	// imag

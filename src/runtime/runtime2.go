@@ -329,6 +329,8 @@ type p struct {
 	gfree    *g
 	gfreecnt int32
 
+	timerCache localTimerCache
+
 	tracebuf *traceBuf
 
 	pad [64]byte

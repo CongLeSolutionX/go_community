@@ -503,7 +503,7 @@ orderstmt(Node *n, Order *order)
 {
 	int lno;
 	NodeList *l, *t, *t1;
-	Node *r, *tmp1, *tmp2, **np;
+	Node *r, *tmp1, *tmp2, **np, *fn;
 	Type *ch, *typ;
 
 	if(n == N)
@@ -852,6 +852,23 @@ orderstmt(Node *n, Order *order)
 					// r->left is x, r->ntest is ok, r->right is ORECV, r->right->left is c.
 					// r->left == N means 'case <-c'.
 					// c is always evaluated; x and ok are only evaluated when assigned.
+
+					// case <-time.After(t)
+					if(r->op == OSELRECV && (r->left == N || isblank(r->left))) {
+						fn = r->right->left;
+						if(fn->op == OCALLFUNC && fn->left->op == ONAME &&
+								strcmp(fn->left->sym->name, "After") == 0 &&
+								strcmp(fn->left->sym->pkg->path->s, "time") == 0) {
+							if(count(fn->list) != 1)
+								fatal("bad argument count for time.After");
+							r = nod(OSELTIMEOUT, N, nod(OCONVNOP, fn->list->n, N));
+							r->right->type = types[TINT64];
+							l->n->left = r;
+							orderexpr(&r->right, order);
+							break;
+						}
+					}
+
 					orderexpr(&r->right->left, order);
 					if(r->right->left->op != ONAME)
 						r->right->left = ordercopyexpr(r->right->left, r->right->left->type, order, 0);

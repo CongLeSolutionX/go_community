@@ -841,3 +841,49 @@ func BenchmarkChanPopular(b *testing.B) {
 		}
 	}
 }
+
+func TestSelectAfter(t *testing.T) {
+	c := make(chan int, 1)
+	c <- 1
+	select {
+	case <-c:
+	case <-time.After(time.Millisecond):
+		t.Fatalf("time.After fired")
+	}
+
+	select {
+	default:
+	case <-time.After(time.Millisecond):
+		t.Fatalf("time.After fired")
+	}
+
+	select {
+	case <-c:
+		t.Fatalf("chan fired")
+	case <-time.After(time.Millisecond):
+	}
+}
+
+func BenchmarkSelectAfter(b *testing.B) {
+	b.ReportAllocs()
+	c := make(chan int, 1)
+	for i := 0; i < b.N; i++ {
+		c <- 1
+		select {
+		case <-c:
+		case <-time.After(time.Hour):
+			b.Fatalf("time.After fired")
+		}
+	}
+}
+
+func BenchmarkSelectAfterFires(b *testing.B) {
+	b.ReportAllocs()
+	c := make(chan int, 1)
+	for i := 0; i < b.N; i++ {
+		select {
+		case <-c:
+		case <-time.After(time.Nanosecond):
+		}
+	}
+}
