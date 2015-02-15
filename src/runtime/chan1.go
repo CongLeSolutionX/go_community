@@ -35,6 +35,7 @@ const (
 	// scase.kind
 	_CaseRecv = iota
 	_CaseSend
+	_CaseTimeout
 	_CaseDefault
 )
 
@@ -47,6 +48,7 @@ type scase struct {
 	kind        uint16
 	so          uint16 // vararg of selected bool
 	receivedp   *bool  // pointer to received bool (recv2)
+	timeout     int64
 	releasetime int64
 }
 

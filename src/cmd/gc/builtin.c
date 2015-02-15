@@ -124,6 +124,7 @@ char *runtimeimport =
 	"func @\"\".selectsend (@\"\".sel·2 *byte, @\"\".hchan·3 chan<- any, @\"\".elem·4 *any) (@\"\".selected·1 bool)\n"
 	"func @\"\".selectrecv (@\"\".sel·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any) (@\"\".selected·1 bool)\n"
 	"func @\"\".selectrecv2 (@\"\".sel·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any, @\"\".received·5 *bool) (@\"\".selected·1 bool)\n"
+	"func @\"\".selecttimeout (@\"\".sel·2 *byte, @\"\".t·3 int64) (@\"\".selected·1 bool)\n"
 	"func @\"\".selectdefault (@\"\".sel·2 *byte) (@\"\".selected·1 bool)\n"
 	"func @\"\".selectgo (@\"\".sel·1 *byte)\n"
 	"func @\"\".block ()\n"

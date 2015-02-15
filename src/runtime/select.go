@@ -107,6 +107,26 @@ func selectrecvImpl(sel *_select, c *hchan, pc uintptr, elem unsafe.Pointer, rec
 }
 
 //go:nosplit
+func selecttimeout(sel *_select, t int64) (selected bool) {
+	i := sel.ncase
+	if i >= sel.tcase {
+		throw("selecttimeout: too many cases")
+	}
+	sel.ncase = i + 1
+	cas := (*scase)(add(unsafe.Pointer(&sel.scase), uintptr(i)*unsafe.Sizeof(sel.scase[0])))
+	cas.pc = getcallerpc(unsafe.Pointer(&sel))
+	cas._chan = nil
+	cas.so = uint16(uintptr(noescape(unsafe.Pointer(&selected))) - uintptr(noescape(unsafe.Pointer(&sel))))
+	cas.kind = _CaseTimeout
+	cas.timeout = t
+
+	if debugSelect {
+		print("selecttimeout s=", sel, " pc=", hex(cas.pc), " so=", cas.so, " timeout=", t, "\n")
+	}
+	return
+}
+
+//go:nosplit
 func selectdefault(sel *_select) (selected bool) {
 	selectdefaultImpl(sel, getcallerpc(unsafe.Pointer(&sel)), uintptr(unsafe.Pointer(&selected))-uintptr(unsafe.Pointer(&sel)))
 	return

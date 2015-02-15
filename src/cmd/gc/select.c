@@ -199,6 +199,8 @@ walkselect(Node *sel)
 				typecheck(&n->left, Erv);
 			}			
 			break;
+		case OSELTIMEOUT:
+			break;
 		}
 	}
 
@@ -229,20 +231,22 @@ walkselect(Node *sel)
 			
 		case OSELRECV:
 			// if c != nil && selectnbrecv(&v, c) { body } else { default body }
-			r = nod(OIF, N, N);
-			r->ninit = cas->ninit;
 			ch = n->right->left;
 			r->ntest = mkcall1(chanfn("selectnbrecv", 2, ch->type),
 					types[TBOOL], &r->ninit, typename(ch->type), n->left, ch);
 			break;
 
 		case OSELRECV2:
-			// if c != nil && selectnbrecv2(&v, c) { body } else { default body }
-			r = nod(OIF, N, N);
-			r->ninit = cas->ninit;
+			// if c != nil && selectnbrecv2(&v, &r, c) { body } else { default body }
 			ch = n->right->left;
 			r->ntest = mkcall1(chanfn("selectnbrecv2", 2, ch->type),
 					types[TBOOL], &r->ninit, typename(ch->type), n->left, n->ntest, ch);
+			break;
+
+		case OSELTIMEOUT:
+			// Okay, let it be:
+			// if false { body } else { default body }
+			r->ntest = nodbool(0);
 			break;
 		}
 		typecheck(&r->ntest, Erv);
@@ -296,12 +300,18 @@ walkselect(Node *sel)
 				// selectrecv(sel *byte, hchan *chan any, elem *any) (selected bool);
 				r->ntest = mkcall1(chanfn("selectrecv", 2, n->right->left->type), types[TBOOL],
 					&r->ninit, var, n->right->left, n->left);
+
 				break;
 
 			case OSELRECV2:
 				// selectrecv2(sel *byte, hchan *chan any, elem *any, received *bool) (selected bool);
 				r->ntest = mkcall1(chanfn("selectrecv2", 2, n->right->left->type), types[TBOOL],
 					&r->ninit, var, n->right->left, n->left, n->ntest);
+				break;
+
+			case OSELTIMEOUT:
+				// selecttimeout(sel *byte, t int64, received *bool) (selected bool);
+				r->ntest = mkcall("selecttimeout", types[TBOOL], nil, var, n->right);
 				break;
 			}
 		}
@@ -351,6 +361,7 @@ selecttype(int32 size)
 	scase->list = list(scase->list, nod(ODCLFIELD, newname(lookup("kind")), typenod(types[TUINT16])));
 	scase->list = list(scase->list, nod(ODCLFIELD, newname(lookup("so")), typenod(types[TUINT16])));
 	scase->list = list(scase->list, nod(ODCLFIELD, newname(lookup("receivedp")), typenod(ptrto(types[TUINT8]))));
+	scase->list = list(scase->list, nod(ODCLFIELD, newname(lookup("timeout")), typenod(types[TINT64])));
 	scase->list = list(scase->list, nod(ODCLFIELD, newname(lookup("releasetime")), typenod(types[TUINT64])));
 	typecheck(&scase, Etype);
 	scase->type->noalg = 1;
