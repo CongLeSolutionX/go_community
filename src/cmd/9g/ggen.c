@@ -224,7 +224,7 @@ ginscall(Node *f, int proc)
 			nodreg(&reg, types[TINT64], REG_R3);
 			p = gins(ACMP, &reg, N);
 			p->to.type = TYPE_REG;
-			p->to.reg = REG_R0;
+			p->to.reg = REGZERO;
 			p = gbranch(ABEQ, T, +1);
 			cgen_ret(N);
 			patch(p, pc);
@@ -845,7 +845,7 @@ clearfat(Node *nl)
 	if(reg[REGRT1] > 0)
 		fatal("R%d in use during clearfat", REGRT1);
 
-	nodreg(&r0, types[TUINT64], REG_R0); // r0 is always zero
+	nodreg(&r0, types[TUINT64], REGZERO);
 	nodreg(&dst, types[tptr], REGRT1);
 	reg[REGRT1]++;
 	agen(nl, &dst);
@@ -957,9 +957,9 @@ expandchecks(Prog *firstp)
 		// crash by write to memory address 0.
 		p2->as = AMOVD;
 		p2->from.type = TYPE_REG;
-		p2->from.reg = REG_R0;
+		p2->from.reg = REGZERO;
 		p2->to.type = TYPE_MEM;
-		p2->to.reg = REG_R0;
+		p2->to.reg = REGZERO;
 		p2->to.offset = 0;
 	}
 }
