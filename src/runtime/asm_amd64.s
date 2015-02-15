@@ -842,12 +842,6 @@ TEXT runtime·getcallerpc(SB),NOSPLIT,$0-16
 	MOVQ	AX, ret+8(FP)
 	RET
 
-TEXT runtime·gogetcallerpc(SB),NOSPLIT,$0-16
-	MOVQ	p+0(FP),AX		// addr of first arg
-	MOVQ	-8(AX),AX		// get calling pc
-	MOVQ	AX,ret+8(FP)
-	RET
-
 TEXT runtime·setcallerpc(SB),NOSPLIT,$0-16
 	MOVQ	argp+0(FP),AX		// addr of first arg
 	MOVQ	pc+8(FP), BX
@@ -856,12 +850,6 @@ TEXT runtime·setcallerpc(SB),NOSPLIT,$0-16
 
 TEXT runtime·getcallersp(SB),NOSPLIT,$0-16
 	MOVQ	argp+0(FP), AX
-	MOVQ	AX, ret+8(FP)
-	RET
-
-// func gogetcallersp(p unsafe.Pointer) uintptr
-TEXT runtime·gogetcallersp(SB),NOSPLIT,$0-16
-	MOVQ	p+0(FP),AX		// addr of first arg
 	MOVQ	AX, ret+8(FP)
 	RET
 
