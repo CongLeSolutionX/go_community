@@ -4,7 +4,7 @@
 
 #include "textflag.h"
 
-// FreeBSD/NetBSD and Linux use the same linkage to main
+// FreeBSD/NetBSD/OpenBSD and Linux use the same linkage to main
 
 TEXT _rt0_arm_netbsd(SB),NOSPLIT,$-4
 	MOVW	(R13), R0	// argc
