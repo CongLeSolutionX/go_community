@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b669c36_94c94460",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-02-15T23:42:22Z",
+      "side": 1,
+      "message": "This assignment of t.As and t.Ctxt is very common. Would it make sense to make a helper which took both as arguments so it was more obvious when one was being set without the other \u003e",
+      "revId": "0e2683af88e96f9d91d397a96a4fa4d040c27edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
