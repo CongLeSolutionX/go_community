@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b2558ee_8701062f",
+        "filename": "src/syscall/asm_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-16T01:52:05Z",
+      "side": 1,
+      "message": "update copyright year as this is a new file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "4982da686c00aa51b5ef7d93907275f2f256a07c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_4720aec6",
+        "filename": "src/syscall/asm_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-16T01:52:05Z",
+      "side": 1,
+      "message": "if this form is supported, could we use it in runtime/sys_openbsd_arm.s?",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "4982da686c00aa51b5ef7d93907275f2f256a07c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
