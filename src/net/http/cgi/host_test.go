@@ -23,19 +23,19 @@ import (
 	"time"
 )
 
-func newRequest(httpreq string) *http.Request {
+func newRequest(remoteAddr, httpreq string) *http.Request {
 	buf := bufio.NewReader(strings.NewReader(httpreq))
 	req, err := http.ReadRequest(buf)
 	if err != nil {
 		panic("cgi: bogus http request in test: " + httpreq)
 	}
-	req.RemoteAddr = "1.2.3.4"
+	req.RemoteAddr = remoteAddr
 	return req
 }
 
-func runCgiTest(t *testing.T, h *Handler, httpreq string, expectedMap map[string]string) *httptest.ResponseRecorder {
+func runCgiTest(t *testing.T, h *Handler, remoteAddr, httpreq string, expectedMap map[string]string) *httptest.ResponseRecorder {
 	rw := httptest.NewRecorder()
-	req := newRequest(httpreq)
+	req := newRequest(remoteAddr, httpreq)
 	h.ServeHTTP(rw, req)
 
 	// Make a map to hold the test map that the CGI returns.
@@ -116,7 +116,7 @@ func TestCGIBasicGet(t *testing.T) {
 		"env-SERVER_PORT":       "80",
 		"env-SERVER_SOFTWARE":   "go",
 	}
-	replay := runCgiTest(t, h, "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	replay := runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 
 	if expected, got := "text/html", replay.Header().Get("Content-Type"); got != expected {
 		t.Errorf("got a Content-Type of %q; expected %q", got, expected)
@@ -124,6 +124,11 @@ func TestCGIBasicGet(t *testing.T) {
 	if expected, got := "X-Test-Value", replay.Header().Get("X-Test-Header"); got != expected {
 		t.Errorf("got a X-Test-Header of %q; expected %q", got, expected)
 	}
+
+	// repeat test for IPv6
+	expectedMap["env-REMOTE_ADDR"] = "2000::1"
+	expectedMap["env-REMOTE_HOST"] = "2000::1"
+	runCgiTest(t, h, "[2000::1]:12345", "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestCGIBasicGetAbsPath(t *testing.T) {
@@ -141,7 +146,7 @@ func TestCGIBasicGetAbsPath(t *testing.T) {
 		"env-SCRIPT_FILENAME": pwd + "/testdata/test.cgi",
 		"env-SCRIPT_NAME":     "/test.cgi",
 	}
-	runCgiTest(t, h, "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestPathInfo(t *testing.T) {
@@ -158,7 +163,7 @@ func TestPathInfo(t *testing.T) {
 		"env-SCRIPT_FILENAME": "testdata/test.cgi",
 		"env-SCRIPT_NAME":     "/test.cgi",
 	}
-	runCgiTest(t, h, "GET /test.cgi/extrapath?a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi/extrapath?a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestPathInfoDirRoot(t *testing.T) {
@@ -174,7 +179,7 @@ func TestPathInfoDirRoot(t *testing.T) {
 		"env-SCRIPT_FILENAME": "testdata/test.cgi",
 		"env-SCRIPT_NAME":     "/myscript/",
 	}
-	runCgiTest(t, h, "GET /myscript/bar?a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /myscript/bar?a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestDupHeaders(t *testing.T) {
@@ -188,7 +193,7 @@ func TestDupHeaders(t *testing.T) {
 		"env-HTTP_COOKIE":     "nom=NOM; yum=YUM",
 		"env-HTTP_X_FOO":      "val1, val2",
 	}
-	runCgiTest(t, h, "GET /myscript/bar?a=b HTTP/1.0\n"+
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /myscript/bar?a=b HTTP/1.0\n"+
 		"Cookie: nom=NOM\n"+
 		"Cookie: yum=YUM\n"+
 		"X-Foo: val1\n"+
@@ -210,7 +215,7 @@ func TestPathInfoNoRoot(t *testing.T) {
 		"env-SCRIPT_FILENAME": "testdata/test.cgi",
 		"env-SCRIPT_NAME":     "/",
 	}
-	runCgiTest(t, h, "GET /bar?a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /bar?a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestCGIBasicPost(t *testing.T) {
@@ -232,7 +237,7 @@ postfoo=postbar`
 		"env-CONTENT_LENGTH": "15",
 		"env-REQUEST_URI":    "/test.cgi?a=b",
 	}
-	runCgiTest(t, h, postReq, expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", postReq, expectedMap)
 }
 
 func chunk(s string) string {
@@ -254,7 +259,7 @@ Transfer-Encoding: chunked
 		Root: "/test.cgi",
 	}
 	expectedMap := map[string]string{}
-	resp := runCgiTest(t, h, postReq, expectedMap)
+	resp := runCgiTest(t, h, "1.2.3.4:12345", postReq, expectedMap)
 	if got, expected := resp.Code, http.StatusBadRequest; got != expected {
 		t.Fatalf("Expected %v response code from chunked request body; got %d",
 			expected, got)
@@ -267,7 +272,7 @@ func TestRedirect(t *testing.T) {
 		Path: "testdata/test.cgi",
 		Root: "/test.cgi",
 	}
-	rec := runCgiTest(t, h, "GET /test.cgi?loc=http://foo.com/ HTTP/1.0\nHost: example.com\n\n", nil)
+	rec := runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi?loc=http://foo.com/ HTTP/1.0\nHost: example.com\n\n", nil)
 	if e, g := 302, rec.Code; e != g {
 		t.Errorf("expected status code %d; got %d", e, g)
 	}
@@ -289,9 +294,9 @@ func TestInternalRedirect(t *testing.T) {
 	}
 	expectedMap := map[string]string{
 		"basepath":   "/foo",
-		"remoteaddr": "1.2.3.4",
+		"remoteaddr": "1.2.3.4:12345",
 	}
-	runCgiTest(t, h, "GET /test.cgi?loc=/foo HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi?loc=/foo HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 // TestCopyError tests that we kill the process if there's an error copying
@@ -371,7 +376,7 @@ func TestDirUnix(t *testing.T) {
 	expectedMap := map[string]string{
 		"cwd": cwd,
 	}
-	runCgiTest(t, h, "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
 
 	cwd, _ = os.Getwd()
 	cwd = filepath.Join(cwd, "testdata")
@@ -382,7 +387,7 @@ func TestDirUnix(t *testing.T) {
 	expectedMap = map[string]string{
 		"cwd": cwd,
 	}
-	runCgiTest(t, h, "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestDirWindows(t *testing.T) {
@@ -411,7 +416,7 @@ func TestDirWindows(t *testing.T) {
 	expectedMap := map[string]string{
 		"cwd": cwd,
 	}
-	runCgiTest(t, h, "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
 
 	// If not specify Dir on windows, working directory should be
 	// base directory of perl.
@@ -428,7 +433,7 @@ func TestDirWindows(t *testing.T) {
 	expectedMap = map[string]string{
 		"cwd": cwd,
 	}
-	runCgiTest(t, h, "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
 func TestEnvOverride(t *testing.T) {
@@ -457,5 +462,5 @@ func TestEnvOverride(t *testing.T) {
 		"env-SCRIPT_FILENAME": cgifile,
 		"env-REQUEST_URI":     "/foo/bar",
 	}
-	runCgiTest(t, h, "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	runCgiTest(t, h, "1.2.3.4:12345", "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }

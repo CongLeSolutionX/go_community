@@ -51,7 +51,7 @@ func TestHostingOurselves(t *testing.T) {
 		"env-SERVER_PORT":       "80",
 		"env-SERVER_SOFTWARE":   "go",
 	}
-	replay := runCgiTest(t, h, "GET /test.go?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	replay := runCgiTest(t, h, "1.2.3.4:12345", "GET /test.go?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
 
 	if expected, got := "text/html; charset=utf-8", replay.Header().Get("Content-Type"); got != expected {
 		t.Errorf("got a Content-Type of %q; expected %q", got, expected)
@@ -151,7 +151,7 @@ func TestChildOnlyHeaders(t *testing.T) {
 	expectedMap := map[string]string{
 		"_body": "",
 	}
-	replay := runCgiTest(t, h, "GET /test.go?no-body=1 HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	replay := runCgiTest(t, h, "1.2.3.4:12345", "GET /test.go?no-body=1 HTTP/1.0\nHost: example.com\n\n", expectedMap)
 	if expected, got := "X-Test-Value", replay.Header().Get("X-Test-Header"); got != expected {
 		t.Errorf("got a X-Test-Header of %q; expected %q", got, expected)
 	}
@@ -171,7 +171,7 @@ func want500Test(t *testing.T, path string) {
 	expectedMap := map[string]string{
 		"_body": "",
 	}
-	replay := runCgiTest(t, h, "GET "+path+" HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	replay := runCgiTest(t, h, "1.2.3.4:12345", "GET "+path+" HTTP/1.0\nHost: example.com\n\n", expectedMap)
 	if replay.Code != 500 {
 		t.Errorf("Got code %d; want 500", replay.Code)
 	}
