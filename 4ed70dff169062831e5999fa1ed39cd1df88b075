@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b669c36_f4feb832",
+        "filename": "src/image/jpeg/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-16T04:25:49Z",
+      "side": 1,
+      "message": "Should you say in image/draw that you have copy of drawYCbCr here now? Just to keep both copies in sync.",
+      "revId": "4ed70dff169062831e5999fa1ed39cd1df88b075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
