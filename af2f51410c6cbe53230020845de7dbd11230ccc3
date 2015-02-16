@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b2558ee_a7d6ca4e",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-16T01:17:12Z",
+      "side": 1,
+      "message": "it seems this warning is disregarded.\n\nAs there is a TODO in image/jpeg to not use image/draw,\nI\u0027m not sure if this is the correct way to go.",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "af2f51410c6cbe53230020845de7dbd11230ccc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
