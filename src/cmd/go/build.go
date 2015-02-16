@@ -394,6 +394,8 @@ type builder struct {
 	exec      sync.Mutex
 	readySema chan bool
 	ready     actionQueue
+
+	tasks chan func()
 }
 
 // An action represents a single action in the action graph.
@@ -683,6 +685,7 @@ func (b *builder) do(root *action) {
 	}
 
 	b.readySema = make(chan bool, len(all))
+	b.tasks = make(chan func(), buildP)
 
 	// Initialize per-action execution state.
 	for _, a := range all {
@@ -759,6 +762,8 @@ func (b *builder) do(root *action) {
 					a := b.ready.pop()
 					b.exec.Unlock()
 					handle(a)
+				case task := <-b.tasks:
+					task()
 				case <-interrupted:
 					setExitStatus(1)
 					return
@@ -2281,12 +2286,16 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, gccfi
 		staticLibs = append(staticLibs, cgoLibGccFile)
 	}
 
+	var tasks []func()
+	var results chan error
+
 	cflags := stringList(cgoCPPFLAGS, cgoCFLAGS)
 	for _, cfile := range cfiles {
+		cfile := cfile
 		ofile := obj + cfile[:len(cfile)-1] + "o"
-		if err := b.gcc(p, ofile, cflags, obj+cfile); err != nil {
-			return nil, nil, err
-		}
+		tasks = append(tasks, func() {
+			results <- b.gcc(p, ofile, cflags, obj+cfile)
+		})
 		linkobj = append(linkobj, ofile)
 		if !strings.HasSuffix(ofile, "_cgo_main.o") {
 			outObj = append(outObj, ofile)
@@ -2294,10 +2303,11 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, gccfi
 	}
 
 	for _, file := range gccfiles {
+		file := file
 		ofile := obj + cgoRe.ReplaceAllString(file[:len(file)-1], "_") + "o"
-		if err := b.gcc(p, ofile, cflags, file); err != nil {
-			return nil, nil, err
-		}
+		tasks = append(tasks, func() {
+			results <- b.gcc(p, ofile, cflags, file)
+		})
 		linkobj = append(linkobj, ofile)
 		outObj = append(outObj, ofile)
 	}
@@ -2305,22 +2315,51 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, gccfi
 	cxxflags := stringList(cgoCPPFLAGS, cgoCXXFLAGS)
 	for _, file := range gxxfiles {
 		// Append .o to the file, just in case the pkg has file.c and file.cpp
+		file := file
 		ofile := obj + cgoRe.ReplaceAllString(file, "_") + ".o"
-		if err := b.gxx(p, ofile, cxxflags, file); err != nil {
-			return nil, nil, err
-		}
+		tasks = append(tasks, func() {
+			results <- b.gxx(p, ofile, cxxflags, file)
+		})
 		linkobj = append(linkobj, ofile)
 		outObj = append(outObj, ofile)
 	}
 
 	for _, file := range mfiles {
 		// Append .o to the file, just in case the pkg has file.c and file.m
+		file := file
 		ofile := obj + cgoRe.ReplaceAllString(file, "_") + ".o"
-		if err := b.gcc(p, ofile, cflags, file); err != nil {
-			return nil, nil, err
-		}
+		tasks = append(tasks, func() {
+			results <- b.gcc(p, ofile, cflags, file)
+		})
 		linkobj = append(linkobj, ofile)
 		outObj = append(outObj, ofile)
+	}
+
+	// Give the results channel enough capacity so that sending the
+	// result is guaranteed not to block.
+	results = make(chan error, len(tasks))
+
+	// Feed the tasks into the b.tasks channel on a separate goroutine
+	// because the b.tasks channel's limited capacity might cause
+	// sending the task to block.
+	go func() {
+		for _, task := range tasks {
+			b.tasks <- task
+		}
+	}()
+
+	// Loop until we've received results from all of our tasks or an
+	// error occurs.
+	for count := 0; count < len(tasks); {
+		select {
+		case err := <-results:
+			if err != nil {
+				return nil, nil, err
+			}
+			count++
+		case task := <-b.tasks:
+			task()
+		}
 	}
 
 	linkobj = append(linkobj, p.SysoFiles...)
