@@ -52,6 +52,24 @@
       "revId": "0b19697468301cf059c12ad700feb14efc8fc6d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ba85c5a_c470fe71",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-16T07:11:03Z",
+      "side": 1,
+      "message": "I am sure that there is a good reason to prefix the existing things with h. And I am sure that that reason applies to select as well :)",
+      "parentUuid": "4bf174a1_6e714fc5",
+      "revId": "0b19697468301cf059c12ad700feb14efc8fc6d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
