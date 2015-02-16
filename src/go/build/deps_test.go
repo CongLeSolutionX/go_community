@@ -209,7 +209,7 @@ var pkgDeps = map[string][]string{
 	"html":                {"L4"},
 	"image/draw":          {"L4"},
 	"image/gif":           {"L4", "compress/lzw", "image/color/palette", "image/draw"},
-	"image/jpeg":          {"L4"},
+	"image/jpeg":          {"L4", "image/draw"},
 	"image/png":           {"L4", "compress/zlib"},
 	"index/suffixarray":   {"L4", "regexp"},
 	"math/big":            {"L4"},
