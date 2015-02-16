@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/exec"
@@ -116,10 +117,10 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		port = matches[1]
 	}
 
-	pos := strings.IndexByte(req.RemoteAddr, ':')
-	if pos < 0 {
-		// when RemoteAddr does not have ':', whole string will be copied to env vars below
-		pos = len(req.RemoteAddr)
+	// We only know what to do if : is present
+	remoteIP, _, err := net.SplitHostPort(req.RemoteAddr)
+	if err != nil {
+		remoteIP = req.RemoteAddr // nothing better we could do
 	}
 	env := []string{
 		"SERVER_SOFTWARE=go",
@@ -133,8 +134,8 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		"PATH_INFO=" + pathInfo,
 		"SCRIPT_NAME=" + root,
 		"SCRIPT_FILENAME=" + h.Path,
-		"REMOTE_ADDR=" + req.RemoteAddr[:pos],
-		"REMOTE_HOST=" + req.RemoteAddr[:pos],
+		"REMOTE_ADDR=" + remoteIP,
+		"REMOTE_HOST=" + remoteIP,
 		"SERVER_PORT=" + port,
 	}
 
