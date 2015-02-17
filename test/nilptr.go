@@ -18,13 +18,21 @@ import "unsafe"
 // these nil pointer accesses, not just relying on the hardware.
 var dummy [256 << 20]byte // give us a big address space
 
+// Size of the array starting at address nil; this must be large
+// enough to reach at least into the dummy, but small enough to
+// fit into the address space:
+//   0x7fffffff for 31 bit systems (S390)
+//   0x7fffffff for 32 bit systems
+//   0x7fffffffffffffff for 64 bit system
+const arraySize uintptr = 1 << (8 * unsafe.Sizeof(*byte) - 1) - 1
+
 func main() {
 	// the test only tests what we intend to test
-	// if dummy starts in the first 256 MB of memory.
+	// if dummy starts in the first arraySize bytes of memory.
 	// otherwise there might not be anything mapped
 	// at the address that might be accidentally
 	// dereferenced below.
-	if uintptr(unsafe.Pointer(&dummy)) > 256<<20 {
+	if uintptr(unsafe.Pointer(&dummy)) >= arraySize {
 		panic("dummy too far out")
 	}
 
@@ -57,14 +65,14 @@ func shouldPanic(f func()) {
 
 func p1() {
 	// Array index.
-	var p *[1 << 30]byte = nil
-	println(p[256<<20]) // very likely to be inside dummy, but should panic
+	var p *[arraySize]byte = nil
+	println(p[uintptr(unsafe.Pointer(&dummy))])
 }
 
 var xb byte
 
 func p2() {
-	var p *[1 << 30]byte = nil
+	var p *[arraySize]byte = nil
 	xb = 123
 
 	// Array index.
@@ -73,12 +81,12 @@ func p2() {
 
 func p3() {
 	// Array to slice.
-	var p *[1 << 30]byte = nil
+	var p *[arraySize]byte = nil
 	var x []byte = p[0:] // should panic
 	_ = x
 }
 
-var q *[1 << 30]byte
+var q *[arraySize]byte
 
 func p4() {
 	// Array to slice.
@@ -93,13 +101,13 @@ func fb([]byte) {
 
 func p5() {
 	// Array to slice.
-	var p *[1 << 30]byte = nil
+	var p *[arraySize]byte = nil
 	fb(p[0:]) // should crash
 }
 
 func p6() {
 	// Array to slice.
-	var p *[1 << 30]byte = nil
+	var p *[arraySize]byte = nil
 	var _ []byte = p[10 : len(p)-10] // should crash
 }
 
