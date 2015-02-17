@@ -16,6 +16,24 @@
       "revId": "0e2683af88e96f9d91d397a96a4fa4d040c27edf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_879586dd",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T00:59:41Z",
+      "side": 1,
+      "message": "No, not until we actually commit to the liblink conversion. RIght now this is still mechanically generated. I\u0027m taking this CL as hints for things I need to do better in the next conversion.\n\n(In fact I might get rid of Ctxt entirely, although it\u0027s not as trivial as that sounds.)",
+      "parentUuid": "0b669c36_94c94460",
+      "revId": "0e2683af88e96f9d91d397a96a4fa4d040c27edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
