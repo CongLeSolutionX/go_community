@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bc89475_3600587c",
+        "filename": "src/image/geom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2015-02-17T06:13:39Z",
+      "side": 1,
+      "message": "How about:\n\nEq reports whether r and s contain the same set of points. All empty rectangles are considered equal.",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 44
+      },
+      "revId": "4b216169112c0fe6d312c710e32646cc36a6c120",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bc89475_760ad09d",
+        "filename": "src/image/geom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2015-02-17T06:13:39Z",
+      "side": 1,
+      "message": "You changed the parameter names in the doc comment. Either change them here as well or change them back.",
+      "revId": "4b216169112c0fe6d312c710e32646cc36a6c120",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
