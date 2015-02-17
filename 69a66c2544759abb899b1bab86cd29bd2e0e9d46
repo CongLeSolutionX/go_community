@@ -194,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "4bc89475_d651e4ce",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-02-17T03:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b2558ee_e779e213",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b2558ee_27fbfa1a",
         "filename": "src/cmd/asm/internal/asm/parse.go",
         "patchSetId": 3
@@ -211,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "4bc89475_b65468c0",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-02-17T03:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b2558ee_27fbfa1a",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b2558ee_c7765e21",
         "filename": "src/cmd/asm/internal/asm/parse.go",
         "patchSetId": 3
@@ -222,6 +258,24 @@
       "writtenOn": "2015-02-17T01:13:09Z",
       "side": 1,
       "message": "\"g\" can appear here too. (and \"R10\" cannot; isRegister should return false for it.)",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bc89475_96576cc4",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-02-17T03:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b2558ee_c7765e21",
       "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
