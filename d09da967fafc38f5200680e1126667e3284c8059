@@ -94,6 +94,30 @@
       "revId": "d09da967fafc38f5200680e1126667e3284c8059",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b81d816_07117683",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-02-17T06:28:56Z",
+      "side": 1,
+      "message": "linker seems to remove both.\n\nhttp://go-gyazo.appspot.com/48275f2e0d519fe1.png\n\nhttps://gist.github.com/mattn/87f163e4c0b205628b03",
+      "parentUuid": "6b2558ee_aa616feb",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 739,
+        "endChar": 3
+      },
+      "revId": "d09da967fafc38f5200680e1126667e3284c8059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
