@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b2558ee_278c9ad2",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "and\ndelete(registers, \"R10\")",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_c79f7ef9",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "delete?",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_678692b2",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "Need break after this line, or else 410 clobbers.\nSame for after 404.\n\"else\" no longer necessary x2",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_478b8eb8",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "if not \u00275\u0027 or not MULA, this silently throws away the arguments",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_a77feaf8",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_e779e213",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "The funny encoding is split between this line and 449/456 in registerShift. Maybe make registerShift just return the full offset, or maybe pass in the *Addr?",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_27fbfa1a",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "This is not quite right. It should be something like \u0027if peek is not \u0027]\u0027, expect a comma\u0027.\n\nAs written, [R1 R2 R3] is (incorrectly) accepted.",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2558ee_c7765e21",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-17T01:13:09Z",
+      "side": 1,
+      "message": "\"g\" can appear here too. (and \"R10\" cannot; isRegister should return false for it.)",
+      "revId": "69a66c2544759abb899b1bab86cd29bd2e0e9d46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
