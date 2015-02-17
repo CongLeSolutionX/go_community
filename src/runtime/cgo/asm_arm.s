@@ -17,8 +17,8 @@ TEXT crosscall2(SB),NOSPLIT,$-4
 	 *  Additionally, runtime·load_g will clobber R0, so we need to save R0
 	 *  nevertheless.
 	 */
-	MOVM.WP	[R0, R1, R2, R4, R5, R6, R7, R8, R9, g, R11, R12, R14], (R13)
+	MOVM.P.W	[R0, R1, R2, R4, R5, R6, R7, R8, R9, g, R11, R12, R14], (R13)
 	BL	runtime·load_g(SB)
-	MOVW	PC, R14
-	MOVW	0(R13), PC
-	MOVM.IAW	(R13), [R0, R1, R2, R4, R5, R6, R7, R8, R9, g, R11, R12, PC]
+	MOVW	R15, R14
+	MOVW	0(R13), R15
+	MOVM.IA.W	(R13), [R0, R1, R2, R4, R5, R6, R7, R8, R9, g, R11, R12, PC]
