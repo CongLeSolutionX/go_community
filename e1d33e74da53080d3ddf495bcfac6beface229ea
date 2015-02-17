@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b7c4cf2_a85ebb2e",
+        "filename": "src/image/geom.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5780
+      },
+      "writtenOn": "2015-02-17T10:42:23Z",
+      "side": 1,
+      "message": "return r.Empty() \u0026\u0026 s.Empty() || r \u003d\u003d s",
+      "revId": "e1d33e74da53080d3ddf495bcfac6beface229ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
