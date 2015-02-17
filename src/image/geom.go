@@ -62,7 +62,7 @@ func (p Point) Mod(r Rectangle) Point {
 
 // Eq reports whether p and q are equal.
 func (p Point) Eq(q Point) bool {
-	return p.X == q.X && p.Y == q.Y
+	return p == q
 }
 
 // ZP is the zero Point.
@@ -190,10 +190,17 @@ func (r Rectangle) Empty() bool {
 	return r.Min.X >= r.Max.X || r.Min.Y >= r.Max.Y
 }
 
-// Eq reports whether r and s are equal.
+// Eq reports whether r and s are equal. All empty rectangles are considered
+// equal, even if their nominal Min and Max points differ, as the set of points
+// in both rectangles is the same empty set.
 func (r Rectangle) Eq(s Rectangle) bool {
-	return r.Min.X == s.Min.X && r.Min.Y == s.Min.Y &&
-		r.Max.X == s.Max.X && r.Max.Y == s.Max.Y
+	if r.Empty() {
+		return s.Empty()
+	}
+	if s.Empty() {
+		return false
+	}
+	return r == s
 }
 
 // Overlaps reports whether r and s have a non-empty intersection.
@@ -229,7 +236,9 @@ func (r Rectangle) Canon() Rectangle {
 // ZR is the zero Rectangle.
 var ZR Rectangle
 
-// Rect is shorthand for Rectangle{Pt(x0, y0), Pt(x1, y1)}.
+// Rect is shorthand for Rectangle{Pt(minX, minY), Pt(maxX, maxY)}. The
+// returned rectangle has minimum and maximum coordinates swapped if necessary
+// so that it is well-formed.
 func Rect(x0, y0, x1, y1 int) Rectangle {
 	if x0 > x1 {
 		x0, x1 = x1, x0
