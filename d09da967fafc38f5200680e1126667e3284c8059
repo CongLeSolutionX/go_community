@@ -22,6 +22,30 @@
       "revId": "d09da967fafc38f5200680e1126667e3284c8059",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b81d816_c7e03e1e",
+        "filename": "src/syscall/mksyscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-17T06:11:52Z",
+      "side": 1,
+      "message": "Why would you use type instead of var.\n\nAlex",
+      "parentUuid": "6b2558ee_0a535b2c",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 739,
+        "endChar": 3
+      },
+      "revId": "d09da967fafc38f5200680e1126667e3284c8059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
