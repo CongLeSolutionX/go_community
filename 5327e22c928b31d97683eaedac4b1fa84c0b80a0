@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2b9e00d1_2dd7cd4d",
+        "filename": "src/crypto/md5/md5block_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-18T14:58:13Z",
+      "side": 1,
+      "message": "Sorry, Dave is right (and I missed this). This is wrong. The tests pass because the code is writing below the stack pointer, and most of the time (maybe even always) there is more stack below the stack pointer. But it\u0027s still not great.\nI suggest\n\n#define p_end end-4(SP)\n#define p_data data-8(SP)\n#define buf buffer-(8+4*16)(SP)\n\nand then drop the (R13) when they are invoked.\n\nGoing through the 5a grammar once more, in these address forms, SP means R13 (hw SP):\n\nSP\nR1\u003c\u003c2(SP)\nSP\u003c\u003c2\n(SP)\n\nIn these address forms, SP means the virtual SP:\n\n4(SP)\n-4(SP)\nname+4(SP)\nname-4(SP)\n\nLike that? (SP) means indirect R13 but 0(SP) means indirect virtual SP.",
+      "parentUuid": "4bf3341b_7e2691d9",
+      "revId": "5327e22c928b31d97683eaedac4b1fa84c0b80a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbdf247e_021baaa4",
         "filename": "src/runtime/sys_linux_arm.s",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I think so but I\u0027m not sure. This is safe. Feel free to test the alternate and send a CL. (Remember this is in dev.cc branch.)",
       "parentUuid": "cbdf247e_021baaa4",
+      "revId": "5327e22c928b31d97683eaedac4b1fa84c0b80a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b9e00d1_8dc7e19c",
+        "filename": "src/runtime/sys_linux_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-18T14:58:13Z",
+      "side": 1,
+      "message": "Yes, this is just code written without understanding how to use FP. Please feel free to send a CL fixing it (and any others). Make sure go vet is happy.",
+      "parentUuid": "4bf3341b_5e23d5c7",
       "revId": "5327e22c928b31d97683eaedac4b1fa84c0b80a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
