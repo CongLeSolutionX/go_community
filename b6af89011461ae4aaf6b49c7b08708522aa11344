@@ -16,6 +16,24 @@
       "revId": "b6af89011461ae4aaf6b49c7b08708522aa11344",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b69d873_a7e8ea00",
+        "filename": "test/nilptr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6065
+      },
+      "writtenOn": "2015-02-18T07:27:51Z",
+      "side": 1,
+      "message": "\u003e did you run this?\n\nOf course.  I wouldn\u0027t submit an untested patch.\n\n\u003e this doesn\u0027t work on gccgo (...) does it?\n\nIt does.\n\nWould \"unsafe.Sizeof((*byte)(nil))\" work, or does that only compile by accident too?",
+      "parentUuid": "4bc89475_f92253c2",
+      "revId": "b6af89011461ae4aaf6b49c7b08708522aa11344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
