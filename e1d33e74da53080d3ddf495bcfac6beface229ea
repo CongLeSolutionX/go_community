@@ -16,6 +16,24 @@
       "revId": "e1d33e74da53080d3ddf495bcfac6beface229ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8100a41_7ac2d990",
+        "filename": "src/image/geom.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-02-18T23:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b7c4cf2_a85ebb2e",
+      "revId": "e1d33e74da53080d3ddf495bcfac6beface229ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
