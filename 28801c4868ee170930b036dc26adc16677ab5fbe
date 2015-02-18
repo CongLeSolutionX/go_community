@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf3341b_5e72b546",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-18T16:13:08Z",
+      "side": 1,
+      "message": "let\u0027s throw in \"REMOTE_PORT\" too, if Apache does.",
+      "revId": "28801c4868ee170930b036dc26adc16677ab5fbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bf3341b_fe374178",
+        "filename": "src/net/http/cgi/host_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-18T16:13:08Z",
+      "side": 1,
+      "message": "let\u0027s not change all these call sites. it distracts from what the tests are actually testing. keep those functions as they are, and just hard-code that \"1.2.3.4:12345\" address.\n\nany test that specifically wants to test remoteaddr can use either a new function, or manually override the RemoteAddr.",
+      "revId": "28801c4868ee170930b036dc26adc16677ab5fbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
