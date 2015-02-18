@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4bf3341b_7e2691d9",
+        "filename": "src/crypto/md5/md5block_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-02-18T03:41:48Z",
+      "side": 1,
+      "message": "This is the original:\n\np_end \u003d -4\t// -4(SP) pointer to the end of data\n\nWhat do you think is wrong? The tests pass.",
+      "parentUuid": "cbdf247e_a2159e70",
+      "revId": "5327e22c928b31d97683eaedac4b1fa84c0b80a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbdf247e_021baaa4",
         "filename": "src/runtime/sys_linux_arm.s",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-18T03:08:07Z",
       "side": 1,
       "message": "is this the same as writing\n\nuaddr+0(FP), R0 ?",
+      "revId": "5327e22c928b31d97683eaedac4b1fa84c0b80a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bf3341b_5e23d5c7",
+        "filename": "src/runtime/sys_linux_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-02-18T03:41:48Z",
+      "side": 1,
+      "message": "I think so but I\u0027m not sure. This is safe. Feel free to test the alternate and send a CL. (Remember this is in dev.cc branch.)",
+      "parentUuid": "cbdf247e_021baaa4",
       "revId": "5327e22c928b31d97683eaedac4b1fa84c0b80a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
