@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8100a41_9aa12d82",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-19T05:51:06Z",
+      "side": 1,
+      "message": "okay, will take parseLinkLayerAddr.",
+      "parentUuid": "cb6484ca_3aa601d2",
+      "revId": "5c323c5067b341771f7e57d3e39996dc12984654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb6484ca_dabee5de",
         "filename": "src/syscall/route_bsd.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-18T20:22:44Z",
       "side": 1,
       "message": "I still think it would make more sense to return *SockaddrDatalink than Sockaddr.  Sure, some of the callers use it as a Sockaddr; that\u0027s OK, as it will convert to the interface type.",
+      "revId": "5c323c5067b341771f7e57d3e39996dc12984654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8100a41_7a7c1950",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-19T05:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb6484ca_dabee5de",
       "revId": "5c323c5067b341771f7e57d3e39996dc12984654",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c8100a41_3a86a1fa",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-19T05:51:06Z",
+      "side": 1,
+      "message": "parseNetworkLayerAddr+s/preferred//",
+      "parentUuid": "cb6484ca_9a9b8d8d",
+      "revId": "5c323c5067b341771f7e57d3e39996dc12984654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb6484ca_fa19e97a",
         "filename": "src/syscall/route_bsd.go",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-18T20:22:44Z",
       "side": 1,
       "message": "With the way the code has changed, I\u0027m having a hard time grasping the point of the loop up to RTAX_MAX.  Most code that loops up to RTAX_MAX then uses indexes like RTAX_DST, RTAX_GATEWAY, and so forth.  But you aren\u0027t doing that any more.  Instead as far as I can tell you are gathering the right number of addresses, and then guessing based on their form which one you want.  This does not seem like a step forward.  I don\u0027t understand how a client of the package would use this safely.  They will get a slice of addresses, but how will they know which is which?",
+      "revId": "5c323c5067b341771f7e57d3e39996dc12984654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8100a41_ba79915b",
+        "filename": "src/syscall/route_bsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-19T05:51:06Z",
+      "side": 1,
+      "message": "yup, need to preserve each attribute index. will change net package a bit for avoiding build breakage.",
+      "parentUuid": "cb6484ca_fa19e97a",
       "revId": "5c323c5067b341771f7e57d3e39996dc12984654",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
