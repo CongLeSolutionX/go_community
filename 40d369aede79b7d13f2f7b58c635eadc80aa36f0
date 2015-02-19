@@ -73,6 +73,30 @@
       "revId": "40d369aede79b7d13f2f7b58c635eadc80aa36f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a88836e3_c11482c0",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T20:12:28Z",
+      "side": 1,
+      "message": "These previously lived in mgc.go and malloc.go, so this only *appears* unrelated because these functions had no business being in those files in the first place.  :)",
+      "parentUuid": "a88836e3_8192faee",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 10
+      },
+      "revId": "40d369aede79b7d13f2f7b58c635eadc80aa36f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
