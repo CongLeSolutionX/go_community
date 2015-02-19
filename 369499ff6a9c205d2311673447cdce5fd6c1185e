@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "680f1e25_7a665511",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-19T16:39:42Z",
+      "side": 1,
+      "message": "This implements a producer/consumer model for GC work. A grey object is one that is marked and on a work queue. A black object is marked and not on a work queue.\nThe write barriers, root discovery, stack scanning, and object scanning produce grey objects. Scanning consume grey objects, thus blackening them, and then scan them potentially producing new grey objects.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f1e25_1a7519b2",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-19T16:39:42Z",
+      "side": 1,
+      "message": "There is no need for a gcWorkConsumer since scanning not only consumes but produces so it uses the gcWork abstraction.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 2
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f1e25_da7681bc",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-19T16:39:42Z",
+      "side": 1,
+      "message": "Is it the case that initFromCache always owns the currentwbuf and the locked xchg is not needed. Perhaps this is another CL.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "680f1e25_570fec2d",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 1
@@ -31,6 +100,29 @@
       "side": 1,
       "message": "\"flush\" sounds optional to me, while \"dispose\" doesn\u0027t.  But I don\u0027t have a strong opinion.",
       "parentUuid": "680f1e25_570fec2d",
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f1e25_3a49fd77",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-19T16:39:42Z",
+      "side": 1,
+      "message": "Won\u0027t this turn into a nop when escape analysis is done? Just curious.",
+      "range": {
+        "startLine": 137,
+        "startChar": 48,
+        "endLine": 137,
+        "endChar": 69
+      },
       "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
