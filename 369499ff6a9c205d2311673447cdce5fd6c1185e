@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "680f1e25_9a592947",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T16:52:31Z",
+      "side": 1,
+      "message": "Done.  Tweaked slightly.",
+      "parentUuid": "680f1e25_7a665511",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "680f1e25_1a7519b2",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "680f1e25_1ac3d961",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T16:52:31Z",
+      "side": 1,
+      "message": "Done, but I put it below gcWork.",
+      "parentUuid": "680f1e25_1a7519b2",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 2
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "680f1e25_da7681bc",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-02-19T16:39:42Z",
       "side": 1,
       "message": "Is it the case that initFromCache always owns the currentwbuf and the locked xchg is not needed. Perhaps this is another CL.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f1e25_daa441cc",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T16:52:31Z",
+      "side": 1,
+      "message": "I think this is currently not true because of harvesting.",
+      "parentUuid": "680f1e25_da7681bc",
       "range": {
         "startLine": 53,
         "startChar": 0,
@@ -117,6 +189,30 @@
       "writtenOn": "2015-02-19T16:39:42Z",
       "side": 1,
       "message": "Won\u0027t this turn into a nop when escape analysis is done? Just curious.",
+      "range": {
+        "startLine": 137,
+        "startChar": 48,
+        "endLine": 137,
+        "endChar": 69
+      },
+      "revId": "369499ff6a9c205d2311673447cdce5fd6c1185e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f1e25_fa902566",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T16:52:31Z",
+      "side": 1,
+      "message": "It should be a nop regardless (in terms of generated code).\n\nThe problem I\u0027m working around here is: if in the below code I simply use ww.wbuf instead of doing \"wbuf :\u003d w.wbuf\", escape analysis correctly determines that ww never escapes.  But it also generates more code because it has to fetch the struct field all over the place.  Adding \"wbuf :\u003d ww.wbuf\" clearly doesn\u0027t affect the escape of ww, but something is broken in the escape analysis right now that makes it think that ww escapes.  Hence this goofy first line, which tells escape analysis that, no, ww really doesn\u0027t escape, trust me™.",
+      "parentUuid": "680f1e25_3a49fd77",
       "range": {
         "startLine": 137,
         "startChar": 48,
