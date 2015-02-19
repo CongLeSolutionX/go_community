@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8622e23_73e5a028",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "Nit.  \"gcBackgroundMode\" sounds like a variable to me.  \"gcMode{Background,Force,ForceBlock}\" would emphasize that these are GC modes.",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_b3fe18bb",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "Since this is best-effort anyway, should this go before the semacquire?",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_7333e01f",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "Lost \n\n    // TODO add another harvestwbuf and reset work.nwait\u003d0, work.ndone\u003d0, and work.nproc\u003d1\n    // and repeat the above gcDrain.",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_133eece7",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "Too bad we lose the nowritebarrier on this.  Could that perhaps be \"lexical\" so it propagates to closures defined in the body of a nowritebarrier function?",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_33104880",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "This first comment line is no longer relevant.",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_731ac09f",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "Move this check out around the systemstack(...)?",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_93003c2b",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-19T23:38:18Z",
+      "side": 1,
+      "message": "s/gccheckmark_m/gc/",
+      "range": {
+        "startLine": 392,
+        "startChar": 10,
+        "endLine": 392,
+        "endChar": 25
+      },
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
