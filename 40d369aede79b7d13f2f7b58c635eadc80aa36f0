@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a88836e3_a1c5bec2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-19T20:16:48Z",
+      "side": 1,
+      "message": "I had a bad sync and broke those files. I tried to undo that before mailing, with\n\ngit checkout HEAD os1_openbsd.go runtime-gdb_test.go\ngit commit --amend\n\nbut of course I should have typed HEAD^. Thanks.",
+      "parentUuid": "a88836e3_01bfcaa8",
+      "revId": "40d369aede79b7d13f2f7b58c635eadc80aa36f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a88836e3_21b8cec0",
         "filename": "src/runtime/os1_openbsd.go",
         "patchSetId": 1
