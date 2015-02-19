@@ -69,6 +69,24 @@
       "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "888d32f5_20be8adf",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-19T19:35:36Z",
+      "side": 1,
+      "message": "Fixed\nI use new structured stack trace format. It also avoids repeating same strings again and again, which reduces trace size by half.",
+      "parentUuid": "b6d6d9d9_d100c432",
+      "revId": "d8fbff831f86666bca35f8c334228fefaaa847bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
