@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "887c52f2_28064b03",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-02-20T14:10:22Z",
+      "side": 1,
+      "message": "Would it be slightly faster to use RDTSCP?  We can check CPUID to see whether the processor supports it.\n\nI can\u0027t tell from reading the docs whether RDTSCP is faster than using LFENCE.",
+      "revId": "9356ebab3a11a963b2b495bddadeec61b7b70c66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
