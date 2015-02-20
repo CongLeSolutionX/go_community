@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "887c52f2_48d53fbe",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-20T15:28:39Z",
+      "side": 1,
+      "message": "Consider adding a comment explaining why we\u0027re doing this here (might become clearer in the next CL).",
+      "revId": "526c1759f5872518f6139d8f0321b2397832eab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_13154c70",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
