@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08b5c2f7_5c1afd14",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T18:36:56Z",
+      "side": 0,
+      "message": "I now believe that all paths have already done a finishsweep by this point so removing this as you did is correct.",
+      "range": {
+        "startLine": 460,
+        "startChar": 2,
+        "endLine": 460,
+        "endChar": 23
+      },
+      "revId": "2b2275d630e5bb12c8d972d0349d44736312b28b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
