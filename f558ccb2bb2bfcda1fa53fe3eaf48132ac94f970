@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08cea2a3_747a68a2",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3357,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T19:14:52Z",
+      "side": 1,
+      "message": "procyield seems to just loop with a pause and a counter. What we want is to check to see if the lock has been released as part of the spin.",
+      "range": {
+        "startLine": 3357,
+        "startChar": 1,
+        "endLine": 3357,
+        "endChar": 10
+      },
+      "revId": "f558ccb2bb2bfcda1fa53fe3eaf48132ac94f970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08cea2a3_7404a83e",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T19:14:52Z",
+      "side": 1,
+      "message": "Why is this not a test and test and set. Doing an rfo when you suspect the cas will fail ends up with needless cache coherency messages.",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 2
+      },
+      "revId": "f558ccb2bb2bfcda1fa53fe3eaf48132ac94f970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
