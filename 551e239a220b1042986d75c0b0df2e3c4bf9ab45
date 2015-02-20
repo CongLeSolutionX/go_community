@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e8622e23_330168eb",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:13:06Z",
+      "side": 1,
+      "message": "I had it that way but didn\u0027t like it. \nFWIW, that\u0027s not a good variable name. \nBooleans should start with a word like is or can or have or use.",
+      "parentUuid": "e8622e23_73e5a028",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_b3fe18bb",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-19T23:38:18Z",
       "side": 1,
       "message": "Since this is best-effort anyway, should this go before the semacquire?",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_1306ec02",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:13:06Z",
+      "side": 1,
+      "message": "I\u0027ll leave it for now but you\u0027re welcome to do that. I just want to avoid touching too much.",
+      "parentUuid": "e8622e23_b3fe18bb",
       "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "e8622e23_73fbe07e",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:13:06Z",
+      "side": 1,
+      "message": "Yes, remind me next week when the compiler is in master again and I\u0027ll make nowritebarrier apply to contained closures.",
+      "parentUuid": "e8622e23_133eece7",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_33104880",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2015-02-19T23:38:18Z",
       "side": 1,
       "message": "This first comment line is no longer relevant.",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_530064e3",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:13:06Z",
+      "side": 1,
+      "message": "It all gets better in the next CL. This is mainly moving things.",
+      "parentUuid": "e8622e23_33104880",
       "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "e8622e23_b3f4588e",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:13:06Z",
+      "side": 1,
+      "message": "See next CL.",
+      "parentUuid": "e8622e23_731ac09f",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_93003c2b",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -115,6 +205,30 @@
       "writtenOn": "2015-02-19T23:38:18Z",
       "side": 1,
       "message": "s/gccheckmark_m/gc/",
+      "range": {
+        "startLine": 392,
+        "startChar": 10,
+        "endLine": 392,
+        "endChar": 25
+      },
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_93f15c9e",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:13:06Z",
+      "side": 1,
+      "message": "Deleted in next CL.",
+      "parentUuid": "e8622e23_93003c2b",
       "range": {
         "startLine": 392,
         "startChar": 10,
