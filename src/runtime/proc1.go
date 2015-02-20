@@ -27,6 +27,11 @@ const (
 	// Number of goroutine ids to grab from sched.goidgen to local per-P cache at once.
 	// 16 seems to provide enough amortization, but other than that it's mostly arbitrary number.
 	_GoidCacheBatch = 16
+
+	// Parameters of spinning for runtime mutex and sync.Mutex.
+	activeSpin    = 4
+	activeSpinCnt = 30
+	passiveSpin   = 1
 )
 
 // The bootstrap sequence is:
@@ -3316,4 +3321,21 @@ func sync_atomic_runtime_procPin() int {
 //go:nosplit
 func sync_atomic_runtime_procUnpin() {
 	procUnpin()
+}
+
+// Active spinning for sync.Mutex.
+//go:linkname sync_runtime_spin sync/runtime_spin
+//go:nosplit
+func sync_runtime_spin(i int) bool {
+	// sync.Mutex is cooperative, so we are conservative with spinning.
+	// Spin only if there are
+	if i >= 2 || gomaxprocs > sched.npidle+1 {
+		return false
+	}
+
+	if p := getg().m.p; p.runqhead == p.runqtail {
+		return false
+	}
+	procyield(30)
+	return true
 }

@@ -48,10 +48,13 @@ func (m *Mutex) Lock() {
 	}
 
 	awoke := false
-	for {
+	for i := 0; ; i++ {
 		old := m.state
 		new := old | mutexLocked
 		if old&mutexLocked != 0 {
+			if runtime_spin(i) {
+				continue
+			}
 			new = old + 1<<mutexWaiterShift
 		}
 		if awoke {
@@ -65,6 +68,7 @@ func (m *Mutex) Lock() {
 			}
 			runtime_Semacquire(&m.sema)
 			awoke = true
+			i = 0
 		}
 	}
 

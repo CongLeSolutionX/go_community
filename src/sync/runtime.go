@@ -38,3 +38,7 @@ func init() {
 	var s syncSema
 	runtime_Syncsemcheck(unsafe.Sizeof(s))
 }
+
+// runtime_spin does active spinning if it makes sense,
+// and returns whether the spinning was done.
+func runtime_spin(i int) bool
