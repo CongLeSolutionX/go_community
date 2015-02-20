@@ -14,7 +14,9 @@ crypto/tls: change default minimum version to TLS 1.0. (https://golang.org/cl/17
 encoding/base64: add unpadded encodings (https://golang.org/cl/1511)
 log: add SetOutput functions (https://golang.org/cl/2686, https://golang.org/cl/3023)
 net/http: support for setting trailers from a server Handler (https://golang.org/cl/2157)
+net/http/cgi: fix REMOTE_ADDR, REMOTE_HOST, add REMOTE_PORT (https://golang.org/cl/4933)
 net/smtp: add TLSConnectionState accessor (https://golang.org/cl/2151)
+os/signal: add Ignore and Reset (https://golang.org/cl/3580)
 runtime, syscall: use SYSCALL instruction on FreeBSD (Go 1.5 now requires FreeBSD 8-STABLE+) (https://golang.org/cl/3020)
 strings: add Compare(x, y string) int, for symmetry with bytes.Compare (https://golang.org/cl/2828)
 testing/quick: support generation of arrays (https://golang.org/cl/3865)
@@ -32,6 +34,7 @@ strconv: optimize decimal to string conversion (https://golang.org/cl/2105)
 math/big: faster assembly kernels for amd64 and 386 (https://golang.org/cl/2503, https://golang.org/cl/2560)
 math/big: faster "pure Go" kernels for platforms w/o assembly kernels (https://golang.org/cl/2480)
 
+<<<<<<< HEAD   (d90bbf [dev.cc] cmd/go: disable verifyCompiler)
 Assembler:
 
 ARM assembly syntax has had some features removed.
@@ -50,3 +53,5 @@ ARM assembly syntax has had some features removed.
 	
 Also expression evaluation now uses uint64s instead of signed integers and the
 precedence of operators is now Go-like rather than C-like.
+=======
+>>>>>>> BRANCH (5868ce path/filepath: add example for filepath.Split)
