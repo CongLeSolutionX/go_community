@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28a8c6a1_bde1ffd6",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-20T18:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8beaec5_b37638bb",
+      "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8beaec5_d383b433",
         "filename": "src/cmd/trace/main.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-20T03:16:17Z",
       "side": 1,
       "message": "Example usage:\n\nGenerate a trace file with \u0027go test\u0027:\n  go test -trace trace.out -o pkg.bin pkg\n\nView the trace in a web browser:\n  go tool trace pkg.bin trace.out",
+      "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28a8c6a1_9de643eb",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-20T18:31:03Z",
+      "side": 1,
+      "message": "Done\nBut -trace leaves pkg.test as other profilers do, so I omitted -o pkg.bin.",
+      "parentUuid": "e8beaec5_d383b433",
       "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "28a8c6a1_7dcc976d",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-20T18:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8beaec5_f380b029",
+      "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8beaec5_3354e813",
         "filename": "src/cmd/trace/main.go",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "28a8c6a1_5dc9db5b",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-20T18:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8beaec5_3354e813",
+      "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8beaec5_134fec7f",
         "filename": "src/cmd/trace/main.go",
         "patchSetId": 8
@@ -81,6 +153,24 @@
       "writtenOn": "2015-02-20T03:16:17Z",
       "side": 1,
       "message": "flag.PrintDefaults()",
+      "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28a8c6a1_3dd60f00",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-20T18:31:03Z",
+      "side": 1,
+      "message": "now that I added flags to usageMessage, this seems excessive -- flags are printed twice",
+      "parentUuid": "e8beaec5_134fec7f",
       "revId": "2f68a679a12f80b7ca1da866b7d8bda8434a512d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
