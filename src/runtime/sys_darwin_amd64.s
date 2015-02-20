@@ -38,6 +38,9 @@ TEXT runtime·open(SB),NOSPLIT,$0
 	MOVL	perm+12(FP), DX		// arg 3 mode
 	MOVL	$(0x2000000+5), AX	// syscall entry
 	SYSCALL
+	JCC	ok
+	NEGQ	AX
+ok:
 	MOVL	AX, ret+16(FP)
 	RET
 

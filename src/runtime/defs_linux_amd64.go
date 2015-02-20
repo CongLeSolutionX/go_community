@@ -4,6 +4,7 @@
 package runtime
 
 const (
+	_ENOENT = 0x2
 	_EINTR  = 0x4
 	_EAGAIN = 0xb
 	_ENOMEM = 0xc

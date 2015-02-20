@@ -366,3 +366,15 @@ func atoi(s string) int {
 	}
 	return n
 }
+
+//go:nosplit
+func itoa(buf []byte, val uint64) []byte {
+	i := len(buf) - 1
+	for val >= 10 {
+		buf[i] = byte(val%10 + '0')
+		i--
+		val /= 10
+	}
+	buf[i] = byte(val + '0')
+	return buf[i:]
+}

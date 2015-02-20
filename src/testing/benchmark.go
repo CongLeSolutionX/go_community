@@ -464,3 +464,6 @@ func Benchmark(f func(b *B)) BenchmarkResult {
 	}
 	return b.run()
 }
+
+// implemented in runtime
+func runtime_setAffinity(gather bool)

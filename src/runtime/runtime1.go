@@ -316,6 +316,7 @@ var debug struct {
 	schedtrace     int32
 	wbshadow       int32
 	gccheckmark    int32
+	affinity       int32
 }
 
 var dbgvars = []dbgVar{
@@ -329,6 +330,7 @@ var dbgvars = []dbgVar{
 	{"schedtrace", &debug.schedtrace},
 	{"wbshadow", &debug.wbshadow},
 	{"gccheckmark", &debug.gccheckmark},
+	{"affinity", &debug.affinity},
 }
 
 func parsedebugvars() {

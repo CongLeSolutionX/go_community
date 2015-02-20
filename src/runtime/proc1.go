@@ -61,6 +61,7 @@ func schedinit() {
 	parsedebugvars()
 	wbshadowinit()
 	gcinit()
+	affinityInit()
 
 	sched.lastpoll = uint64(nanotime())
 	procs := 1

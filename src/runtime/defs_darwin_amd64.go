@@ -6,8 +6,11 @@ package runtime
 import "unsafe"
 
 const (
+	_ENOENT = 0x2
 	_EINTR  = 0x4
 	_EFAULT = 0xe
+
+	_O_RDONLY = 0x0
 
 	_PROT_NONE  = 0x0
 	_PROT_READ  = 0x1
