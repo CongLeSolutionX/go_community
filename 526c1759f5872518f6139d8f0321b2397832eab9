@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e8622e23_53e7c4e8",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:10:38Z",
+      "side": 1,
+      "message": "Yes, this is in one of the followup CLs.",
+      "parentUuid": "e8622e23_13154c70",
+      "range": {
+        "startLine": 435,
+        "startChar": 1,
+        "endLine": 438,
+        "endChar": 37
+      },
+      "revId": "526c1759f5872518f6139d8f0321b2397832eab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_f30d3061",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e8622e23_b3cbb855",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:10:38Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "e8622e23_f30d3061",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 3
+      },
+      "revId": "526c1759f5872518f6139d8f0321b2397832eab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_b303b836",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-02-19T23:34:32Z",
       "side": 1,
       "message": "This would also be hoisted.",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 638,
+        "endChar": 37
+      },
+      "revId": "526c1759f5872518f6139d8f0321b2397832eab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8622e23_93c83c5a",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-20T00:10:38Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "e8622e23_b303b836",
       "range": {
         "startLine": 638,
         "startChar": 0,
