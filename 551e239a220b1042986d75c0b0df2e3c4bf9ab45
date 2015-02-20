@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "08b5c2f7_9c31a5e8",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T17:52:08Z",
+      "side": 1,
+      "message": "gcConcurrentMode\ngcStopTheWorldMarkMode\ngcStopTheWorldMarkSweepMode",
+      "parentUuid": "e8622e23_330168eb",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8622e23_b3fe18bb",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "writtenOn": "2015-02-19T23:38:18Z",
       "side": 1,
       "message": "Lost \n\n    // TODO add another harvestwbuf and reset work.nwait\u003d0, work.ndone\u003d0, and work.nproc\u003d1\n    // and repeat the above gcDrain.",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b5c2f7_5c443d3d",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T17:52:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8622e23_7333e01f",
       "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -153,6 +189,29 @@
       "side": 1,
       "message": "It all gets better in the next CL. This is mainly moving things.",
       "parentUuid": "e8622e23_33104880",
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b5c2f7_dc05edf6",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T17:52:08Z",
+      "side": 1,
+      "message": "We seem to be overloading scan when we mean root discovery which includes\nstack scanning and global scanning. \n\"Rerun the stack/globals root scan and heap mark phases.\"",
+      "range": {
+        "startLine": 382,
+        "startChar": 37,
+        "endLine": 382,
+        "endChar": 41
+      },
       "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -234,6 +293,29 @@
         "startChar": 10,
         "endLine": 392,
         "endChar": 25
+      },
+      "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b5c2f7_7ccc996d",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-20T17:52:08Z",
+      "side": 1,
+      "message": "s/beceause/because/",
+      "range": {
+        "startLine": 461,
+        "startChar": 33,
+        "endLine": 461,
+        "endChar": 41
       },
       "revId": "551e239a220b1042986d75c0b0df2e3c4bf9ab45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
