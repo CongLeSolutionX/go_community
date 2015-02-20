@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "887c52f2_c8a12f3a",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-20T16:08:15Z",
+      "side": 0,
+      "message": "I was wrong about this always being a noop, but I don\u0027t think Rick\u0027s right about when it runs, either.  Specifically, I think this will do something *if and only if* debug.gctrace \u003e 1.  In any case, I suspect it\u0027s not doing what it\u0027s intended to do.\n\nHere\u0027s the trace of relevant events upon entering gc:\n\n  gc(mode)\n    finishsweep_m()\n    all spans are now swept to mheap_.sweepgen\n    if mode \u003d\u003d gcBackgroundMode\n      .. concurrent stuff ..\n    gcMark()\n      the finishsweep_m() on this line\n        does nothing because mheap_.sweepgen hasn\u0027t changed\n    gcSweep(mode)\n      mheap_.sweepgen +\u003d 2\n    if debug.gctrace \u003e 1\n      gcMark()\n        the finishsweep_m() on this line\n          does work because mheap_.sweepgen *has* changed\n      ...\n\nHowever, given that we also have the eagersweep/gcForceBlockMode logic below, I still think this is unnecessary, even if it wasn\u0027t always a noop.",
+      "revId": "526c1759f5872518f6139d8f0321b2397832eab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
