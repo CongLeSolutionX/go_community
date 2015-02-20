@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a89e766a_31e07099",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-20T05:59:17Z",
+      "side": 1,
+      "message": "I\u0027d like to add one test to show it\u0027s a purely string manipulation.\nsomething along the line of:\n\n\"/usr/local//go\" -\u003e \"/usr/local//\", \"go\"",
+      "revId": "32aa7b82f53a835a955bf0eb9293fc5b17673a55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
