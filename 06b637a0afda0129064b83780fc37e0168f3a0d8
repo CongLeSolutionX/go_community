@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e87b0e35_4bd6e552",
+        "filename": "src/cmd/asm/internal/asm/9a.out",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-21T00:26:06Z",
+      "side": 1,
+      "message": "Is this file supposed to be here? Easiest fix is rm 9a.out and then git commit --amend 9a.out, I think.",
+      "revId": "06b637a0afda0129064b83780fc37e0168f3a0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
