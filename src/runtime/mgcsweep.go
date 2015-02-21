@@ -58,7 +58,7 @@ func bgsweep() {
 			continue
 		}
 		sweep.parked = true
-		goparkunlock(&sweep.lock, "GC sweep wait", traceEvGoBlock)
+		goparkunlock(&sweep.lock, "GC sweep wait", traceEvGoBlock, 1)
 	}
 }
 

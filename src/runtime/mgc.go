@@ -281,7 +281,7 @@ func backgroundgc() {
 		gc(gcBackgroundMode)
 		lock(&bggc.lock)
 		bggc.working = 0
-		goparkunlock(&bggc.lock, "Concurrent GC wait", traceEvGoBlock)
+		goparkunlock(&bggc.lock, "Concurrent GC wait", traceEvGoBlock, 1)
 	}
 }
 

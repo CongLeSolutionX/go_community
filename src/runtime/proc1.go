@@ -1467,12 +1467,13 @@ func dropg() {
 
 // Puts the current goroutine into a waiting state and calls unlockf.
 // If unlockf returns false, the goroutine is resumed.
-func park(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason string, traceev byte) {
+func park(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason string, traceev byte, traceskip int) {
 	_g_ := getg()
 
 	_g_.m.waitlock = lock
 	_g_.m.waitunlockf = *(*unsafe.Pointer)(unsafe.Pointer(&unlockf))
 	_g_.m.waittraceev = traceev
+	_g_.m.waittraceskip = traceskip
 	_g_.waitreason = reason
 	mcall(park_m)
 }
@@ -1484,8 +1485,8 @@ func parkunlock_c(gp *g, lock unsafe.Pointer) bool {
 
 // Puts the current goroutine into a waiting state and unlocks the lock.
 // The goroutine can be made runnable again by calling ready(gp).
-func parkunlock(lock *mutex, reason string, traceev byte) {
-	park(parkunlock_c, unsafe.Pointer(lock), reason, traceev)
+func parkunlock(lock *mutex, reason string, traceev byte, traceskip int) {
+	park(parkunlock_c, unsafe.Pointer(lock), reason, traceev, traceskip)
 }
 
 // park continuation on g0.
@@ -1493,7 +1494,7 @@ func park_m(gp *g) {
 	_g_ := getg()
 
 	if trace.enabled {
-		traceGoPark(_g_.m.waittraceev, gp)
+		traceGoPark(_g_.m.waittraceev, _g_.m.waittraceskip, gp)
 	}
 
 	casgstatus(gp, _Grunning, _Gwaiting)

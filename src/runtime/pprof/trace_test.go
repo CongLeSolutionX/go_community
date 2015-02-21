@@ -11,7 +11,6 @@ import (
 	"os"
 	"runtime"
 	. "runtime/pprof"
-	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -346,6 +345,9 @@ func TestTraceStressStartStop(t *testing.T) {
 	<-outerDone
 }
 
+// TestTraceSymbolize tests symbolization and that events has proper stacks.
+// In particular that we strip bottom uninteresting frames like goexit,
+// top uninteresting frames (runtime guts).
 func TestTraceSymbolize(t *testing.T) {
 	skipTraceTestsIfNeeded(t)
 	if runtime.GOOS == "nacl" {
@@ -355,7 +357,84 @@ func TestTraceSymbolize(t *testing.T) {
 	if err := StartTrace(buf); err != nil {
 		t.Fatalf("failed to start tracing: %v", err)
 	}
+
+	// Now we will do a bunch of things for which we verify stacks later.
+	// It is impossible to ensure that a goroutine has actually blocked
+	// on a channel, in a select or otherwise. So we kick off goroutines
+	// that need to block first in the hope that while we are executing
+	// the rest of the test, they will block.
+	go func() {
+		select {}
+	}()
+	go func() {
+		var c chan int
+		c <- 0
+	}()
+	go func() {
+		var c chan int
+		<-c
+	}()
+	done1 := make(chan bool)
+	go func() {
+		<-done1
+	}()
+	done2 := make(chan bool)
+	go func() {
+		done2 <- true
+	}()
+	c1 := make(chan int)
+	c2 := make(chan int)
+	go func() {
+		select {
+		case <-c1:
+		case <-c2:
+		}
+	}()
+	var mu sync.Mutex
+	mu.Lock()
+	go func() {
+		mu.Lock()
+		mu.Unlock()
+	}()
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		wg.Wait()
+	}()
+	cv := sync.NewCond(&sync.Mutex{})
+	go func() {
+		cv.L.Lock()
+		cv.Wait()
+		cv.L.Unlock()
+	}()
+	ln, err := net.Listen("tcp", "localhost:0")
+	if err != nil {
+		t.Fatalf("failed to listen: %v", err)
+	}
+	go func() {
+		c, err := ln.Accept()
+		if err != nil {
+			t.Fatalf("failed to accept: %v", err)
+		}
+		c.Close()
+	}()
+
+	time.Sleep(time.Millisecond)
 	runtime.GC()
+	runtime.Gosched()
+	time.Sleep(time.Millisecond) // the last chance for the goroutines above to block
+	done1 <- true
+	<-done2
+	c1 <- 0
+	mu.Unlock()
+	wg.Done()
+	cv.Signal()
+	c, err := net.Dial("tcp", ln.Addr().String())
+	if err != nil {
+		t.Fatalf("failed to dial: %v", err)
+	}
+	c.Close()
+
 	StopTrace()
 	events, err := trace.Parse(buf)
 	if err != nil {
@@ -365,22 +444,110 @@ func TestTraceSymbolize(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to symbolize trace: %v", err)
 	}
-	found := false
-eventLoop:
+
+	// Now check that the stacks are correct.
+	type frame struct {
+		Fn   string
+		Line int
+	}
+	type eventDesc struct {
+		Type byte
+		Stk  []frame
+	}
+	want := []eventDesc{
+		eventDesc{trace.EvGCStart, []frame{
+			frame{"runtime.GC", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize", 0},
+			frame{"testing.tRunner", 0},
+		}},
+		eventDesc{trace.EvGoSched, []frame{
+			frame{"runtime/pprof_test.TestTraceSymbolize", 0},
+			frame{"testing.tRunner", 0},
+		}},
+		eventDesc{trace.EvGoCreate, []frame{
+			frame{"runtime/pprof_test.TestTraceSymbolize", 0},
+			frame{"testing.tRunner", 0},
+		}},
+		eventDesc{trace.EvGoStop, []frame{
+			frame{"runtime.block", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func1", 0},
+		}},
+		eventDesc{trace.EvGoStop, []frame{
+			frame{"runtime.chansend1", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func2", 0},
+		}},
+		eventDesc{trace.EvGoStop, []frame{
+			frame{"runtime.chanrecv1", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func3", 0},
+		}},
+		eventDesc{trace.EvGoBlockRecv, []frame{
+			frame{"runtime.chanrecv1", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func4", 0},
+		}},
+		eventDesc{trace.EvGoBlockSend, []frame{
+			frame{"runtime.chansend1", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func5", 0},
+		}},
+		eventDesc{trace.EvGoBlockSelect, []frame{
+			frame{"runtime.selectgo", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func6", 0},
+		}},
+		eventDesc{trace.EvGoBlockSync, []frame{
+			frame{"sync.(*Mutex).Lock", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func7", 0},
+		}},
+		eventDesc{trace.EvGoBlockSync, []frame{
+			frame{"sync.(*WaitGroup).Wait", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func8", 0},
+		}},
+		eventDesc{trace.EvGoBlockCond, []frame{
+			frame{"sync.(*Cond).Wait", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func9", 0},
+		}},
+		eventDesc{trace.EvGoBlockNet, []frame{
+			frame{"net.(*netFD).accept", 0},
+			frame{"net.(*TCPListener).AcceptTCP", 0},
+			frame{"net.(*TCPListener).Accept", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize.func10", 0},
+		}},
+		eventDesc{trace.EvGoSleep, []frame{
+			frame{"time.Sleep", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize", 0},
+			frame{"testing.tRunner", 0},
+		}},
+	}
+	matched := make([]bool, len(want))
 	for _, ev := range events {
-		if ev.Type != trace.EvGCStart {
-			continue
-		}
-		for _, f := range ev.Stk {
-			if strings.HasSuffix(f.File, "trace_test.go") &&
-				strings.HasSuffix(f.Fn, "pprof_test.TestTraceSymbolize") &&
-				f.Line == 358 {
-				found = true
-				break eventLoop
+	wantLoop:
+		for i, w := range want {
+			if matched[i] || w.Type != ev.Type || len(w.Stk) != len(ev.Stk) {
+				continue
 			}
+
+			for fi, f := range ev.Stk {
+				wf := w.Stk[fi]
+				if wf.Fn != f.Fn || wf.Line != 0 && wf.Line != f.Line {
+					continue wantLoop
+				}
+			}
+			matched[i] = true
 		}
 	}
-	if !found {
-		t.Fatalf("the trace does not contain GC event")
+	for i, m := range matched {
+		if m {
+			continue
+		}
+		w := want[i]
+		t.Errorf("did not match event %v at %v:%v", trace.EventDescriptions[w.Type].Name, w.Stk[0].Fn, w.Stk[0].Line)
+		t.Errorf("seen the following events of this type:")
+		for _, ev := range events {
+			if ev.Type != w.Type {
+				continue
+			}
+			for _, f := range ev.Stk {
+				t.Logf("  %v:%v", f.Fn, f.Line)
+			}
+			t.Logf("---")
+		}
 	}
 }
