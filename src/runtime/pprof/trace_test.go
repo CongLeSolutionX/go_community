@@ -11,7 +11,6 @@ import (
 	"os"
 	"runtime"
 	. "runtime/pprof"
-	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -355,7 +354,11 @@ func TestTraceSymbolize(t *testing.T) {
 	if err := StartTrace(buf); err != nil {
 		t.Fatalf("failed to start tracing: %v", err)
 	}
+	go func() {
+		select {}
+	}()
 	runtime.GC()
+	runtime.Gosched()
 	StopTrace()
 	events, err := trace.Parse(buf)
 	if err != nil {
@@ -365,22 +368,63 @@ func TestTraceSymbolize(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to symbolize trace: %v", err)
 	}
-	found := false
-eventLoop:
+
+	type frame struct {
+		Fn   string
+		Line int
+	}
+	type eventDesc struct {
+		Type byte
+		Stk  []frame
+	}
+	want := []eventDesc{
+		eventDesc{trace.EvGCStart, []frame{
+			frame{"runtime.GC", 0},
+			frame{"runtime/pprof_test.TestTraceSymbolize", 360},
+			frame{"testing.tRunner", 0},
+		}},
+		eventDesc{trace.EvGoSched, []frame{
+			frame{"runtime/pprof_test.TestTraceSymbolize", 361},
+			frame{"testing.tRunner", 0},
+		}},
+		eventDesc{trace.EvGoCreate, []frame{
+			frame{"runtime/pprof_test.TestTraceSymbolize", 359},
+			frame{"testing.tRunner", 0},
+		}},
+		eventDesc{trace.EvGoStop, []frame{
+			frame{"runtime/pprof_test.TestTraceSymbolize.func1", 358},
+		}},
+	}
+	matched := make([]bool, len(want))
 	for _, ev := range events {
-		if ev.Type != trace.EvGCStart {
-			continue
-		}
-		for _, f := range ev.Stk {
-			if strings.HasSuffix(f.File, "trace_test.go") &&
-				strings.HasSuffix(f.Fn, "pprof_test.TestTraceSymbolize") &&
-				f.Line == 358 {
-				found = true
-				break eventLoop
+		if ev.Type == trace.EvGoStop {
+			t.Logf("stack:")
+			for _, f := range ev.Stk {
+				t.Logf("  %v:%v", f.Fn, f.Line)
 			}
 		}
+	wantLoop:
+		for i, w := range want {
+			if matched[i] || w.Type != ev.Type || len(w.Stk) != len(ev.Stk) {
+				continue
+			}
+
+			for fi, f := range ev.Stk {
+				wf := w.Stk[fi]
+				if wf.Fn != f.Fn || wf.Line != 0 && wf.Line != f.Line {
+					t.Logf("not matched '%v':%v against '%v':%v", wf.Fn, wf.Line, f.Fn, f.Line)
+					continue wantLoop
+				}
+				t.Logf("matched %v:%v", wf.Fn, wf.Line)
+			}
+			matched[i] = true
+		}
 	}
-	if !found {
-		t.Fatalf("the trace does not contain GC event")
+	for i, m := range matched {
+		if m {
+			continue
+		}
+		w := want[i]
+		t.Errorf("did not match event %v at %v:%v", trace.EventDescriptions[w.Type].Name, w.Stk[0].Fn, w.Stk[0].Line)
 	}
 }
