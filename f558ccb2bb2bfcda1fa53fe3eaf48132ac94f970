@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c8df2a7e_c238a2fe",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3357,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-21T15:35:25Z",
+      "side": 1,
+      "message": "I don\u0027t agree that we want that.\nOur mutexes are not brute force spinmutexes. Their state changes not only when the mutexes becomes unlocked, there are also waiters counter and futile wakeup throttler. So by constantly hammering state in the wait loop you create unnecessary cache coherency traffic. For a contended mutex, taking threads away from shared state is a good thing. Acquiring the mutex a dozen of cycles later is not so bad, we still have saved a context switch.\n\nHere are benchmark results with state\u0026MutexLocked checking in the wait loop:\n\nbenchmark                   old ns/op     new ns/op     delta\nBenchmarkMutexNoSpin        1272          1272          +0.00%\nBenchmarkMutexNoSpin-2      683           683           +0.00%\nBenchmarkMutexNoSpin-4      372           372           +0.00%\nBenchmarkMutexNoSpin-8      190           193           +1.58%\nBenchmarkMutexNoSpin-16     122           123           +0.82%\nBenchmarkMutexNoSpin-32     164           169           +3.05%\n\nBenchmarkMutexSpin          4728          4760          +0.68%\nBenchmarkMutexSpin-2        2491          2495          +0.16%\nBenchmarkMutexSpin-4        1325          1324          -0.08%\nBenchmarkMutexSpin-8        684           683           -0.15%\nBenchmarkMutexSpin-16       372           378           +1.61%\nBenchmarkMutexSpin-32       469           477           +1.71%\n\nBenchmarkMutexWorkSlack        160           159           -0.62%\nBenchmarkMutexWorkSlack-2      99.1          99.0          -0.10%\nBenchmarkMutexWorkSlack-4      148           158           +6.76%\nBenchmarkMutexWorkSlack-8      170           185           +8.82%\nBenchmarkMutexWorkSlack-16     173           184           +6.36%\nBenchmarkMutexWorkSlack-32     176           183           +3.98%",
+      "parentUuid": "08cea2a3_747a68a2",
+      "range": {
+        "startLine": 3357,
+        "startChar": 1,
+        "endLine": 3357,
+        "endChar": 10
+      },
+      "revId": "f558ccb2bb2bfcda1fa53fe3eaf48132ac94f970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08cea2a3_7404a83e",
         "filename": "src/sync/mutex.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-02-20T19:14:52Z",
       "side": 1,
       "message": "Why is this not a test and test and set. Doing an rfo when you suspect the cas will fail ends up with needless cache coherency messages.",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 2
+      },
+      "revId": "f558ccb2bb2bfcda1fa53fe3eaf48132ac94f970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_620b964c",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-21T15:35:25Z",
+      "side": 1,
+      "message": "The main reason we don\u0027t do tatas here is that will penalize uncontended cases -- the most important case. Planning for a bad program is the wrong thing to do. If there is contention, it is also not obvious to me that tatas is better. The last time I measured, it was worse than tas. sync.Mutex is not a brute force spinmutex like the one you can find in the kernel. No thread ever needs state in shared state, they always want it in exclusive state. And not all hardware will figure out to issue rfo when the first access is a read. So you will actually _increase_ cache coherency traffic with tatas.\n\nIn either case, this is not related to this change. If you can demonstrate that tatas is better, we can change the fast path.",
+      "parentUuid": "08cea2a3_7404a83e",
       "range": {
         "startLine": 43,
         "startChar": 2,
