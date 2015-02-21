@@ -9,6 +9,91 @@ import "unsafe"
 var bloc uintptr
 var memlock mutex
 
+type memHdr struct {
+	next *memHdr
+	size uintptr
+}
+
+var base memHdr
+var freep *memHdr
+
+func memAlloc(n uintptr) unsafe.Pointer {
+	var p *memHdr
+
+	nunits := (n+unsafe.Sizeof(*p)-1)/unsafe.Sizeof(*p) + 1
+	prevp := freep
+	if prevp == nil {
+		base.next = &base
+		freep = &base
+		prevp = &base
+		base.size = 0
+	}
+	p = prevp.next
+	for {
+		if p.size >= nunits {
+			if p.size == nunits {
+				prevp.next = p.next
+			} else {
+				p.size -= nunits
+				p = (*memHdr)(unsafe.Pointer((uintptr(unsafe.Pointer(p))) + p.size))
+				p.size = nunits
+			}
+			freep = prevp
+			return unsafe.Pointer((uintptr(unsafe.Pointer(p))) + unsafe.Sizeof(*p))
+		}
+		if p == freep {
+			p = morecore(nunits)
+			if p == nil {
+				return nil
+			}
+		}
+		prevp = p
+		p = p.next
+	}
+}
+
+func morecore(nu uintptr) *memHdr {
+	var up *memHdr
+
+	cp := sbrk(nu * unsafe.Sizeof(*up))
+	if cp == nil {
+		return nil
+	}
+	up = (*memHdr)(cp)
+	up.size = nu
+	memFree(unsafe.Pointer((uintptr(unsafe.Pointer(up))) + unsafe.Sizeof(*up)))
+	return freep
+}
+
+func memFree(ap unsafe.Pointer) {
+	var p *memHdr
+
+	bp := (*memHdr)(unsafe.Pointer((uintptr(unsafe.Pointer(ap))) - unsafe.Sizeof(*p)))
+	bpn := uintptr(unsafe.Pointer(bp))
+	pn := uintptr(unsafe.Pointer(p))
+	for p = freep; !(bpn > pn && bpn < uintptr(unsafe.Pointer(p.next))); p = p.next {
+		bpn = uintptr(unsafe.Pointer(bp))
+		pn = uintptr(unsafe.Pointer(p))
+		if pn >= uintptr(unsafe.Pointer(p.next)) && (bpn > pn || bpn < uintptr(unsafe.Pointer(p.next))) {
+			break
+		}
+	}
+	if bpn+bp.size == uintptr(unsafe.Pointer(p.next)) {
+		bp.size += p.next.size
+		bp.next = p.next.next
+	} else {
+		bp.next = p.next
+	}
+	if pn+p.size == bpn {
+		p.size += bp.size
+		p.next = bp.next
+	} else {
+		p.next = bp
+	}
+	freep = p
+	memclr(ap, p.size*unsafe.Sizeof(*p))
+}
+
 func memRound(p uintptr) uintptr {
 	return (p + _PAGESIZE - 1) &^ (_PAGESIZE - 1)
 }
@@ -32,7 +117,7 @@ func sbrk(n uintptr) unsafe.Pointer {
 }
 
 func sysAlloc(n uintptr, stat *uint64) unsafe.Pointer {
-	p := sbrk(n)
+	p := memAlloc(n)
 	if p != nil {
 		xadd64(stat, int64(n))
 	}
@@ -42,14 +127,7 @@ func sysAlloc(n uintptr, stat *uint64) unsafe.Pointer {
 func sysFree(v unsafe.Pointer, n uintptr, stat *uint64) {
 	xadd64(stat, -int64(n))
 	lock(&memlock)
-	// from tiny/mem.c
-	// Push pointer back if this is a free
-	// of the most recent sysAlloc.
-	n = memRound(n)
-	if bloc == uintptr(v)+n {
-		bloc -= n
-		memclr(unsafe.Pointer(bloc), n)
-	}
+	memFree(v)
 	unlock(&memlock)
 }
 
@@ -70,5 +148,5 @@ func sysFault(v unsafe.Pointer, n uintptr) {
 
 func sysReserve(v unsafe.Pointer, n uintptr, reserved *bool) unsafe.Pointer {
 	*reserved = true
-	return sbrk(n)
+	return memAlloc(n)
 }
