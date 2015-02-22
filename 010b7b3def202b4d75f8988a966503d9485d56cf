@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8df2a7e_8284da3d",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "base is too generic name, it can conflict with other names in runtime\nname it at least memBase",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_6281d62b",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "same here\nmemFreelist",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_c2b38218",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "No need to prepend header to each block. We always pass size to sysFree, so you can use first bytes of the free block itself as header.\nIn particular this means that a 8K block + header cannot be split into 2 x 4K blocks + 2 headers. Which I would strongly expect from this allocator.\nAlso measuring size in sizeof(memHdr) looks weird, just use bytes.",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_e24de683",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "just p :\u003d\nand remove the declaration above",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_625a763b",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "doesn\u0027t it lead to memclr of newly allocated memory?\n\nwhat is the initial alloc for heap on plan9? if it will memclr 128GB during start of every program, that will be bad",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_22606ee5",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "we don\u0027t do this \"predeclaration in the beginning of block\" in Go\nmove it closer to the first usage",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_825dfa33",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "ap is already unsafe.Pointer",
+      "range": {
+        "startLine": 71,
+        "startChar": 56,
+        "endLine": 71,
+        "endChar": 58
+      },
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_0249ea77",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "now that the only caller of sbrk is morecore, I would merge them\n\nif you add the lock to sysAlloc, then you will not need it here",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_c24ee281",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-22T09:51:24Z",
+      "side": 1,
+      "message": "I don\u0027t get the locking story here. You protect memFree and sbrk, but not memAlloc.\nAdd the lock to sysAlloc and sysReserve.",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
