@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48f33a1b_c16424b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-02-22T19:09:15Z",
+      "side": 1,
+      "message": "We don\u0027t usually use full sentences in the description.  Please change this line to be\n\ngdb: fix \"gdb.error: No struct named reflect.rtype.\"\n\nThanks.",
+      "revId": "a2c1a3bfc573e9981d91033019f880b2b683ff63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
