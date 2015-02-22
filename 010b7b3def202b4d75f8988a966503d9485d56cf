@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8df2a7e_e2bcc6b6",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_8284da3d",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8df2a7e_6281d62b",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-22T09:51:24Z",
       "side": 1,
       "message": "same here\nmemFreelist",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0816a200_545a8c3a",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_6281d62b",
       "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6869de73_a7954a27",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_c2b38218",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8df2a7e_e24de683",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-22T09:51:24Z",
       "side": 1,
       "message": "just p :\u003d\nand remove the declaration above",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0816a200_d4c21c5c",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_e24de683",
       "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0816a200_14a5b4c5",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "The initial heap is 512 MB on both 32-bit and 64-bit, so it will work. That said, I moved the memclr to memFree to only clear previously allocated memory.",
+      "parentUuid": "c8df2a7e_625a763b",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8df2a7e_22606ee5",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2015-02-22T09:51:24Z",
       "side": 1,
       "message": "we don\u0027t do this \"predeclaration in the beginning of block\" in Go\nmove it closer to the first usage",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_62c9d64a",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_22606ee5",
       "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "6869de73_07ef76b5",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_825dfa33",
+      "range": {
+        "startLine": 71,
+        "startChar": 56,
+        "endLine": 71,
+        "endChar": 58
+      },
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8df2a7e_0249ea77",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 1
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "c8df2a7e_c296e234",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "I think the code is more readable with sbrk as a separate function. I can merge it with morecore if you prefer.\nI moved the lock to sysAlloc, however.",
+      "parentUuid": "c8df2a7e_0249ea77",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8df2a7e_c24ee281",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 1
@@ -155,6 +305,24 @@
       "writtenOn": "2015-02-22T09:51:24Z",
       "side": 1,
       "message": "I don\u0027t get the locking story here. You protect memFree and sbrk, but not memAlloc.\nAdd the lock to sysAlloc and sysReserve.",
+      "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_42c2d22c",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-22T22:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8df2a7e_c24ee281",
       "revId": "010b7b3def202b4d75f8988a966503d9485d56cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
