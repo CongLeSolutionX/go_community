@@ -93,6 +93,30 @@
       "revId": "f558ccb2bb2bfcda1fa53fe3eaf48132ac94f970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8ad6afe_d21ea490",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-02-23T19:37:07Z",
+      "side": 1,
+      "message": "Even if one can demonstrate tatas is better for contended cases we are still left with a discussion about whether the uncontended case is more important than the contended case which is really a scalability vs. single threaded performance discussion.",
+      "parentUuid": "c8df2a7e_620b964c",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 2
+      },
+      "revId": "f558ccb2bb2bfcda1fa53fe3eaf48132ac94f970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
