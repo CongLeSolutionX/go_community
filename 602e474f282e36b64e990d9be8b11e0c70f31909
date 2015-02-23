@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c849ea4e_92651c05",
+        "filename": "src/math/big/floatconv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-23T19:08:22Z",
+      "side": 1,
+      "message": "possibly clearer as:\n\nif ch, readErr :\u003d r.ReadByte(); readErr \u003d\u003d nil {\n  err \u003d fmt.Errorf(\"expected end of string, found %q\", ch)\n} else if readErr !\u003d io.EOF {\n  err \u003d readErr\n}",
+      "revId": "602e474f282e36b64e990d9be8b11e0c70f31909",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
