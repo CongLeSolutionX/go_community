@@ -1517,8 +1517,8 @@ func NewV(u U) *V { // ERROR "leaking param: u"
 }
 
 func foo152() {
-	a := "a"   // ERROR "moved to heap: a"
-	u := U{&a} // ERROR "&a escapes to heap"
+	a := "a"
+	u := U{&a} // ERROR "&a does not escape"
 	v := NewV(u)
 	println(v)
 }
