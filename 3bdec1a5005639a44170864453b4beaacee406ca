@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8df2a7e_82d05ad4",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-23T08:27:00Z",
+      "side": 1,
+      "message": "please add comment on memFreelist saying that it\u0027s sorted and whether it\u0027s ascending or descending",
+      "revId": "3bdec1a5005639a44170864453b4beaacee406ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_22c34e10",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-23T08:27:00Z",
+      "side": 1,
+      "message": "It seems that you can just do:\n\nreturn sbrk(n)\n\nhere. And remove morecore.",
+      "revId": "3bdec1a5005639a44170864453b4beaacee406ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_c2da62f0",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-23T08:27:00Z",
+      "side": 1,
+      "message": "bpn :\u003d uintptr(ap)",
+      "revId": "3bdec1a5005639a44170864453b4beaacee406ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_62cd5636",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-23T08:27:00Z",
+      "side": 1,
+      "message": "this looks more complex than I would expect it to be\nwhat does this condition test? Is it end of the list?\n\nI suspect that if you remove memBase and terminate the list with next\u003dnil, then things will become simpler. In memAlloc you will do:\n\nfor prevp :\u003d \u0026head; *prevp !\u003d nil; prevp \u003d \u0026(*prevp).next {\n  p :\u003d *prevp\n  if p suitable {\n    split if necessary\n    return p\n  }\n}\nreturn sbrk(n)\n\nAnd here you can just check p.next \u003d\u003d nil to detect end of list.",
+      "revId": "3bdec1a5005639a44170864453b4beaacee406ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8df2a7e_42c65220",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-23T08:27:00Z",
+      "side": 1,
+      "message": "Do it before memFree, and then memclr the whole block",
+      "revId": "3bdec1a5005639a44170864453b4beaacee406ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
