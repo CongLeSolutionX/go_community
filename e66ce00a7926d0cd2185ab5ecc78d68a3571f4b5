@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8df8e54_4ba5a5c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-23T01:12:36Z",
+      "side": 1,
+      "message": "more specifically:\n\ncrypto/tls: change default minimum version to TLS 1.0\n\nCommit 604fa4d5 made TLS 1.0 blah blah blah...\n\nUpdates #9394.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "e66ce00a7926d0cd2185ab5ecc78d68a3571f4b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8df8e54_6ba8619e",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-02-23T01:12:36Z",
+      "side": 1,
+      "message": "s/TLSv1.0/TLS 1.0/",
+      "range": {
+        "startLine": 333,
+        "startChar": 18,
+        "endLine": 333,
+        "endChar": 25
+      },
+      "revId": "e66ce00a7926d0cd2185ab5ecc78d68a3571f4b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
