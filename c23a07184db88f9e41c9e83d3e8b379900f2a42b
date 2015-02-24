@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5878128_4988e1be",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-24T21:02:37Z",
+      "side": 1,
+      "message": "aren\u0027t we moving away from this style of declarations at top?  move this down?",
+      "revId": "c23a07184db88f9e41c9e83d3e8b379900f2a42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
