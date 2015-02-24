@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !386,!amd64,!ppc64,!ppc64le
+// +build ppc64 ppc64le
 
 #include "textflag.h"
 
 TEXT ·cpuid(SB),NOSPLIT,$0-0
-	RET
+	RETURN
