@@ -2152,11 +2152,11 @@ func (p *parser) parseStmt() (s ast.Stmt) {
 	case token.FOR:
 		s = p.parseForStmt()
 	case token.SEMICOLON:
-		s = &ast.EmptyStmt{Semicolon: p.pos}
+		s = &ast.EmptyStmt{Semicolon: p.pos, Implicit: p.lit == "\n"}
 		p.next()
 	case token.RBRACE:
 		// a semicolon may be omitted before a closing "}"
-		s = &ast.EmptyStmt{Semicolon: p.pos}
+		s = &ast.EmptyStmt{Semicolon: p.pos, Implicit: true}
 	default:
 		// no statement found
 		pos := p.pos
