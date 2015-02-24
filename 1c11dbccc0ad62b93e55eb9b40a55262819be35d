@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e54979a5_3b65b704",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "No, but I did it preventively.\nDone",
+      "parentUuid": "e54979a5_fbf50fd5",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54979a5_7b1d7f94",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-24T08:55:54Z",
       "side": 1,
       "message": "} else {\n  memFreelist \u003d p.next\n}",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e54979a5_fb822f31",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_7b1d7f94",
       "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "054dadae_bc06e146",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_dbf2d3ea",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54979a5_3b13f78b",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-24T08:55:54Z",
       "side": 1,
       "message": "delete",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e54979a5_db7f738b",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_3b13f78b",
       "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "85f19d52_e0e88281",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_1b18bba4",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54979a5_7b345f04",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2015-02-24T08:55:54Z",
       "side": 1,
       "message": "the case when the block must be inserted in the first position does not seem to be handled",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e54979a5_3b4c978c",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_7b345f04",
       "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "85f19d52_80d896f7",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "In fact, it should be memclr(p.next) here.\nDone",
+      "parentUuid": "e54979a5_5b39a3fa",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54979a5_bb2d47bb",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 10
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "85f19d52_a0cb9a25",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_bb2d47bb",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54979a5_1b3f1be4",
         "filename": "src/runtime/mem_plan9.go",
         "patchSetId": 10
@@ -149,6 +293,24 @@
       "writtenOn": "2015-02-24T08:55:54Z",
       "side": 1,
       "message": "what\u0027s this?..\nyou discard the freelist",
+      "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "054dadae_9c032537",
+        "filename": "src/runtime/mem_plan9.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-02-24T22:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54979a5_1b3f1be4",
       "revId": "1c11dbccc0ad62b93e55eb9b40a55262819be35d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
