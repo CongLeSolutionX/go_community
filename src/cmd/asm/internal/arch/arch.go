@@ -240,6 +240,7 @@ func archAmd64() *Arch {
 	instructions["MASKMOVDQU"] = x86.AMASKMOVOU
 	instructions["MOVD"] = x86.AMOVQ
 	instructions["MOVDQ2Q"] = x86.AMOVQ
+	instructions["MOVOA"] = x86.AMOVO
 
 	unaryDestination := make(map[int]bool) // Instruction takes one operand and result is a destination.
 	// These instructions write to prog.To.
