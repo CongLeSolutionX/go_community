@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5625923_13c6eca3",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-24T12:29:47Z",
+      "side": 1,
+      "message": "Move Debug[\u0027x\u0027] check outside the if statement.",
+      "revId": "4023023da16f101cf4c1eeb57011a85a1516b154",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
