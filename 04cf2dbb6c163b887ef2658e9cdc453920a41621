@@ -16,6 +16,24 @@
       "revId": "04cf2dbb6c163b887ef2658e9cdc453920a41621",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5b941da_b97e1ff9",
+        "filename": "src/go/parser/parser_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-24T17:59:45Z",
+      "side": 1,
+      "message": "It should say\n\noff :\u003d fs.Position(s.Pos()).Offset\n\n(not End) and then these additional tests don\u0027t fail.\n\nThat is, the position of the empty statement _is_ the position of the semi if there\u0027s one. I added the extra tests and they also pass.",
+      "parentUuid": "054dadae_3c6651b9",
+      "revId": "04cf2dbb6c163b887ef2658e9cdc453920a41621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
