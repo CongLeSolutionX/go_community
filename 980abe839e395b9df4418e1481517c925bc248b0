@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65810917_2793daf2",
+        "filename": "src/cmd/asm/internal/arch/9a.out",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-24T19:10:24Z",
+      "side": 1,
+      "message": "Is this supposed to be here?",
+      "revId": "980abe839e395b9df4418e1481517c925bc248b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65810917_a77eeaf8",
+        "filename": "src/cmd/asm/internal/arch/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-24T19:10:24Z",
+      "side": 1,
+      "message": "More than this is missing. I ran\n    \n    9 sed -n \u0027s/.*{\"(.*)\", L.*, .*\\.A(.*)},.*/\\1 \\2/p\u0027 lex.go |awk \u0027$1 !\u003d $2\u0027 | sort\n\nin cmd/6a and compared it to the above list (please |sort, by the way), and found these:\n\nJNO JOC\nJO JOS\nMOVNTDQ MOVNTO\nMOVOA MOVO\nPF2ID PF2IL\nPI2FD PI2FL\nPSLLDQ PSLLO\nPSRLDQ PSRLO\n\nThe i386 list appears complete.",
+      "revId": "980abe839e395b9df4418e1481517c925bc248b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
