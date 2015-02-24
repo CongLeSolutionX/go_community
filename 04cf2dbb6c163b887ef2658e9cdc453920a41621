@@ -34,6 +34,24 @@
       "revId": "04cf2dbb6c163b887ef2658e9cdc453920a41621",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05c20d57_f47fb88a",
+        "filename": "src/go/parser/parser_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-24T19:03:28Z",
+      "side": 1,
+      "message": "Oh, right. Sheesh. Sorry for the noise.",
+      "parentUuid": "a5b941da_b97e1ff9",
+      "revId": "04cf2dbb6c163b887ef2658e9cdc453920a41621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
