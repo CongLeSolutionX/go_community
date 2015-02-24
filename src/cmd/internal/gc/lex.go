@@ -1916,19 +1916,19 @@ func ungetc(c int) {
 }
 
 func getr() int32 {
-	var buf [utf8.UTFMax]byte
+	var buf []byte
 
 	for i := 0; ; i++ {
 		c := getc()
 		if i == 0 && c < utf8.RuneSelf {
 			return int32(c)
 		}
-		buf[i] = byte(c)
-		if i+1 == len(buf) || utf8.FullRune(buf[:i+1]) {
-			r, w := utf8.DecodeRune(buf[:i+1])
+		buf = append(buf, byte(c))
+		if i+1 == utf8.UTFMax || utf8.FullRune(buf) {
+			r, w := utf8.DecodeRune(buf)
 			if r == utf8.RuneError && w == 1 {
 				lineno = lexlineno
-				Yyerror("illegal UTF-8 sequence % x", buf[:i+1])
+				Yyerror("illegal UTF-8 sequence % x", buf)
 			}
 			return int32(r)
 		}
