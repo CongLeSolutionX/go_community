@@ -16,6 +16,24 @@
       "revId": "1cb9f9632071d20f8ed0843f566d77cd6aeadb4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85ba7dec_f8e79132",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1926,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-24T20:52:02Z",
+      "side": 1,
+      "message": "buf escaped, so buf was always allocated on the heap. (And I think it will always escape, even after Dmitry\u0027s escape analysis improvements around slicing, or the equivalent.) Now getr only allocates when it encounters non-single-byte runes. It is true that it might allocate more than 4 bytes, but this is (I think) rare, and this is clean and clear.",
+      "parentUuid": "a5878128_e946f5e4",
+      "revId": "1cb9f9632071d20f8ed0843f566d77cd6aeadb4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
