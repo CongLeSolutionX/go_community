@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5878128_e946f5e4",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1926,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-24T20:46:07Z",
+      "side": 1,
+      "message": "this will always allocate a backing arraying for the buf slice now, though?  before it had 4 bytes on the stack.\n\nI\u0027m confused what this change is doing to help, though I believe you that it helps. I just don\u0027t see how.",
+      "revId": "1cb9f9632071d20f8ed0843f566d77cd6aeadb4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
