@@ -250,8 +250,11 @@ func dynimport(obj string) {
 		}
 		for _, s := range sym {
 			ss := strings.Split(s, ":")
-			name := strings.Split(ss[0], "@")[0]
-			fmt.Fprintf(stdout, "//go:cgo_import_dynamic %s %s %q\n", name, ss[0], strings.ToLower(ss[1]))
+			libname := strings.ToLower(ss[1])
+			funcname := ss[0]
+			govarname := strings.Split(funcname, "@")[0]
+			fmt.Fprintf(stdout, "//go:cgo_import_dynamic %s %s %q\n", govarname, funcname, libname)
+			fmt.Fprintf(stdout, "//go:cgo_import_dynamic __imp_%s %s %q\n", govarname, funcname, libname)
 		}
 		return
 	}

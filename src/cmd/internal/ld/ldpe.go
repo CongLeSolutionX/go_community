@@ -491,8 +491,8 @@ func readpesym(peobj *PeObj, i int, y **PeSym) (err error) {
 		name = peobj.sect[sym.sectnum-1].sym.Name
 	} else {
 		name = sym.name
-		if strings.HasPrefix(name, "__imp_") {
-			name = name[6:] // __imp_Name => Name
+		if strings.HasPrefix(name, "__imp__") {
+			name = name[6:] // __imp__Name => _Name
 		}
 		if Thearch.Thechar == '8' && name[0] == '_' {
 			name = name[1:] // _Name => Name
