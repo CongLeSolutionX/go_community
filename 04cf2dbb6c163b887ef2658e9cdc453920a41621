@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "054dadae_3c6651b9",
+        "filename": "src/go/parser/parser_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-24T11:53:31Z",
+      "side": 1,
+      "message": "Additional (failing) test for you, assuming I understand correctly:\n\n\t\t\t\tif !s.Implicit {\n\t\t\t\t\toff :\u003d fs.Position(s.End()).Offset\n\t\t\t\t\tif src[off] !\u003d \u0027;\u0027 {\n\t\t\t\t\t\tt.Errorf(\"%s: byte at End should be \u0027;\u0027 got %q\", src, src[off])\n\t\t\t\t\t}\n\t\t\t\t}\n\nwhere fs is the token.FileSet parsed into above. This aims to test the documented claim: \"The \"position\" of the empty statement is the position of the immediately following (explicit or implicit) semicolon.\"\n\nWith this, you might want to add some new test cases containing whitespace:\n\n\t\t\"package p; func f() { ; }\",\n\t\t\"package p; func f() {L: }\",\n\t\t\"package p; func f() {L: ; }\",\n\t\t\"package p; func f() {L: \\n}\",",
+      "revId": "04cf2dbb6c163b887ef2658e9cdc453920a41621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
