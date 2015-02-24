@@ -459,8 +459,8 @@ readsym(PeObj *obj, int i, PeSym **y)
 		name = obj->sect[sym->sectnum-1].sym->name;
 	else {
 		name = sym->name;
-		if(strncmp(name, "__imp_", 6) == 0)
-			name = &name[6]; // __imp_Name => Name
+		if(strncmp(name, "__imp__", 7) == 0)
+			name = &name[6]; // __imp__Name => _Name
 		if(thearch.thechar == '8' && name[0] == '_')
 			name = &name[1]; // _Name => Name
 	}
