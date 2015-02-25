@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c57b955e_c259a2d3",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-25T15:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85851d8c_20ab2a9f",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57b955e_22924e6b",
         "filename": "src/runtime/chan.go",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c57b955e_82707a3c",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-25T15:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57b955e_22924e6b",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c099c1_43802629",
         "filename": "src/runtime/chan.go",
         "patchSetId": 5
@@ -59,6 +107,24 @@
       "writtenOn": "2015-02-25T14:22:57Z",
       "side": 1,
       "message": "Perhaps document here what the indexes index into and what their invariants are (for example, I presume that if recvx\u003d\u003dsendx, the queue is empty, but that\u0027s not immediately obvious) ?",
+      "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57b955e_c240c2d1",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-02-25T15:45:13Z",
+      "side": 1,
+      "message": "added \"into buf\"\n\nwe never compare sendx and recvx, so they are just indexes\nwe look at qcount to understand whether the queue is empty (qcount\u003d\u003d0) or full (qcount\u003d\u003ddataqsiz). and these conditions look quite obvious to document",
+      "parentUuid": "e5c099c1_43802629",
       "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
