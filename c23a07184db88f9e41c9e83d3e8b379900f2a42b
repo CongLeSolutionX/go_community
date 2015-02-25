@@ -16,6 +16,24 @@
       "revId": "c23a07184db88f9e41c9e83d3e8b379900f2a42b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65f4a9d1_6f92b16c",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-02-25T00:17:24Z",
+      "side": 1,
+      "message": "No can do:\n\nsrc/bootstrap/internal/gc/lex.go:911: goto casedot jumps over declaration of str at src/bootstrap/internal/gc/lex.go:1396\n\nrsc already moved as many as can be legally moved. The gotos are why this long list of variables is still here.",
+      "parentUuid": "a5878128_4988e1be",
+      "revId": "c23a07184db88f9e41c9e83d3e8b379900f2a42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
