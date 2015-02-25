@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85851d8c_a0649a08",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-02-25T13:56:59Z",
+      "side": 1,
+      "message": "This behaviour is arguable. The namespace of the field B is not necessarily the same as the namespace of the field C when unmarshaling, so would it be better to always make a new \u003cx\u003e element when marshaling C? If we decide to do that, then we can precalculate the stack prefixes, which might be considered advantageous.",
+      "range": {
+        "startLine": 637,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 3
+      },
+      "revId": "dd8ffbfcd048c81204d72c012d8c52ddc0322698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
