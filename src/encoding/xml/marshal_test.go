@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 )
@@ -633,9 +634,10 @@ var marshalTests = []struct {
 			D1: "d1",
 		},
 		ExpectXML: `<top xmlns="space">` +
-			`<x xmlns=""><a>a</a><b>b</b><c xmlns="space">c</c>` +
-			`<c xmlns="space1">c1</c>` +
-			`<d xmlns="space1">d1</d>` +
+			`<x><a>a</a><b>b</b><c>c</c></x>` +
+			`<x xmlns="space1">` +
+			`<c>c1</c>` +
+			`<d>d1</d>` +
 			`</x>` +
 			`</top>`,
 	},
@@ -659,10 +661,11 @@ var marshalTests = []struct {
 			D1: "d1",
 		},
 		ExpectXML: `<top xmlns="space0">` +
-			`<x xmlns=""><a>a</a><b>b</b>` +
-			`<c xmlns="space">c</c>` +
-			`<c xmlns="space1">c1</c>` +
-			`<d xmlns="space1">d1</d>` +
+			`<x><a>a</a><b>b</b></x>` +
+			`<x xmlns="space"><c>c</c></x>` +
+			`<x xmlns="space1">` +
+			`<c>c1</c>` +
+			`<d>d1</d>` +
 			`</x>` +
 			`</top>`,
 	},
@@ -676,8 +679,8 @@ var marshalTests = []struct {
 			B1: "b1",
 		},
 		ExpectXML: `<top>` +
-			`<x><b xmlns="space">b</b>` +
-			`<b xmlns="space1">b1</b></x>` +
+			`<x xmlns="space"><b>b</b></x>` +
+			`<x xmlns="space1"><b>b1</b></x>` +
 			`</top>`,
 	},
 
@@ -1658,4 +1661,21 @@ func TestDecodeEncode(t *testing.T) {
 			t.Fatalf("enc.EncodeToken: Unable to encode token (%#v), %v", tok, err)
 		}
 	}
+}
+
+// Issue 9796. Used to fail with GORACE="halt_on_error=1" -race.
+func TestRace9796(t *testing.T) {
+	type A struct{}
+	type B struct {
+		C []A `xml:"X>Y"`
+	}
+	var wg sync.WaitGroup
+	for i := 0; i < 2; i++ {
+		wg.Add(1)
+		go func() {
+			Marshal(B{[]A{A{}}})
+			wg.Done()
+		}()
+	}
+	wg.Wait()
 }
