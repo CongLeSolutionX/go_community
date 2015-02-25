@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 )
@@ -617,6 +618,71 @@ var marshalTests = []struct {
 			`</service>`,
 		MarshalOnly: true,
 	},
+	{
+		Value: &struct {
+			XMLName struct{} `xml:"space top"`
+			A       string   `xml:"x>a"`
+			B       string   `xml:"x>b"`
+			C       string   `xml:"space x>c"`
+			C1      string   `xml:"space1 x>c"`
+			D1      string   `xml:"space1 x>d"`
+		}{
+			A:  "a",
+			B:  "b",
+			C:  "c",
+			C1: "c1",
+			D1: "d1",
+		},
+		ExpectXML: `<top xmlns="space">` +
+			`<x><a>a</a><b>b</b><c>c</c></x>` +
+			`<x xmlns="space1">` +
+			`<c>c1</c>` +
+			`<d>d1</d>` +
+			`</x>` +
+			`</top>`,
+	},
+	{
+		Value: &struct {
+			XMLName Name
+			A       string `xml:"x>a"`
+			B       string `xml:"x>b"`
+			C       string `xml:"space x>c"`
+			C1      string `xml:"space1 x>c"`
+			D1      string `xml:"space1 x>d"`
+		}{
+			XMLName: Name{
+				Space: "space0",
+				Local: "top",
+			},
+			A:  "a",
+			B:  "b",
+			C:  "c",
+			C1: "c1",
+			D1: "d1",
+		},
+		ExpectXML: `<top xmlns="space0">` +
+			`<x><a>a</a><b>b</b></x>` +
+			`<x xmlns="space"><c>c</c></x>` +
+			`<x xmlns="space1">` +
+			`<c>c1</c>` +
+			`<d>d1</d>` +
+			`</x>` +
+			`</top>`,
+	},
+	{
+		Value: &struct {
+			XMLName struct{} `xml:"top"`
+			B       string   `xml:"space x>b"`
+			B1      string   `xml:"space1 x>b"`
+		}{
+			B:  "b",
+			B1: "b1",
+		},
+		ExpectXML: `<top>` +
+			`<x xmlns="space"><b>b</b></x>` +
+			`<x xmlns="space1"><b>b1</b></x>` +
+			`</top>`,
+	},
 
 	// Test struct embedding
 	{
@@ -933,7 +999,7 @@ func TestMarshal(t *testing.T) {
 		}
 		data, err := Marshal(test.Value)
 		if err != nil {
-			t.Errorf("#%d: Error: %s", idx, err)
+			t.Errorf("#%d: (%#v) Error: %s", idx, test.Value, err)
 			continue
 		}
 		if got, want := string(data), test.ExpectXML; got != want {
@@ -1587,4 +1653,21 @@ func TestDecodeEncode(t *testing.T) {
 			t.Fatalf("enc.EncodeToken: Unable to encode token (%#v), %v", tok, err)
 		}
 	}
+}
+
+// Issue 9796. Used to fail with GORACE="halt_on_error=1" -race.
+func TestRace9796(t *testing.T) {
+	type A struct{}
+	type B struct {
+		C []A `xml:"X>Y"`
+	}
+	var wg sync.WaitGroup
+	for i := 0; i < 2; i++ {
+		wg.Add(1)
+		go func() {
+			Marshal(B{[]A{A{}}})
+			wg.Done()
+		}()
+	}
+	wg.Wait()
 }
