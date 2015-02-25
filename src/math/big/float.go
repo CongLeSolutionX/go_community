@@ -292,7 +292,7 @@ func validate(x *Float) {
 	if m == 0 {
 		// 0.0 or Inf
 		if x.exp != 0 && x.exp != infExp {
-			panic(fmt.Sprintf("%empty matissa with invalid exponent %d", x.exp))
+			panic(fmt.Sprintf("empty matissa with invalid exponent %d", x.exp))
 		}
 		return
 	}
