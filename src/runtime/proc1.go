@@ -2287,10 +2287,6 @@ var etext struct{}
 
 // Called if we receive a SIGPROF signal.
 func sigprof(pc *uint8, sp *uint8, lr *uint8, gp *g, mp *m) {
-	var n int32
-	var traceback bool
-	var stk [100]uintptr
-
 	if prof.hz == 0 {
 		return
 	}
@@ -2370,7 +2366,7 @@ func sigprof(pc *uint8, sp *uint8, lr *uint8, gp *g, mp *m) {
 	// To recap, there are no constraints on the assembly being used for the
 	// transition. We simply require that g and SP match and that the PC is not
 	// in gogo.
-	traceback = true
+	traceback := true
 	usp := uintptr(unsafe.Pointer(sp))
 	gogo := funcPC(gogo)
 	if gp == nil || gp != mp.curg ||
@@ -2379,9 +2375,10 @@ func sigprof(pc *uint8, sp *uint8, lr *uint8, gp *g, mp *m) {
 		traceback = false
 	}
 
-	n = 0
+	var stk [maxCPUProfStack]uintptr
+	n := 0
 	if traceback {
-		n = int32(gentraceback(uintptr(unsafe.Pointer(pc)), uintptr(unsafe.Pointer(sp)), uintptr(unsafe.Pointer(lr)), gp, 0, &stk[0], len(stk), nil, nil, _TraceTrap))
+		n = gentraceback(uintptr(unsafe.Pointer(pc)), uintptr(unsafe.Pointer(sp)), uintptr(unsafe.Pointer(lr)), gp, 0, &stk[0], len(stk), nil, nil, _TraceTrap)
 	}
 	if !traceback || n <= 0 {
 		// Normal traceback is impossible or has failed.
@@ -2391,12 +2388,12 @@ func sigprof(pc *uint8, sp *uint8, lr *uint8, gp *g, mp *m) {
 			// Cgo, we can't unwind and symbolize arbitrary C code,
 			// so instead collect Go stack that leads to the cgo call.
 			// This is especially important on windows, since all syscalls are cgo calls.
-			n = int32(gentraceback(mp.curg.syscallpc, mp.curg.syscallsp, 0, mp.curg, 0, &stk[0], len(stk), nil, nil, 0))
+			n = gentraceback(mp.curg.syscallpc, mp.curg.syscallsp, 0, mp.curg, 0, &stk[0], len(stk), nil, nil, 0)
 		}
 		if GOOS == "windows" && n == 0 && mp.libcallg != nil && mp.libcallpc != 0 && mp.libcallsp != 0 {
 			// Libcall, i.e. runtime syscall on windows.
 			// Collect Go stack that leads to the call.
-			n = int32(gentraceback(mp.libcallpc, mp.libcallsp, 0, mp.libcallg, 0, &stk[0], len(stk), nil, nil, 0))
+			n = gentraceback(mp.libcallpc, mp.libcallsp, 0, mp.libcallg, 0, &stk[0], len(stk), nil, nil, 0)
 		}
 		if n == 0 {
 			// If all of the above has failed, account it against abstract "System" or "GC".
@@ -2420,7 +2417,7 @@ func sigprof(pc *uint8, sp *uint8, lr *uint8, gp *g, mp *m) {
 			osyield()
 		}
 		if prof.hz != 0 {
-			cpuproftick(&stk[0], n)
+			cpuprof.add(stk[:n])
 		}
 		atomicstore(&prof.lock, 0)
 	}
