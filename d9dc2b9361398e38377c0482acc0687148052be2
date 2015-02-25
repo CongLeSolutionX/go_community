@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05204d81_a483c2ea",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-25T19:00:53Z",
+      "side": 1,
+      "message": "\"result to the result\u0027s precision\" is awkward.\n\nHow about: \"...specify a *Float to hold the result...round the numeric result using the precision and rounding mode of the result variable...\"?",
+      "revId": "d9dc2b9361398e38377c0482acc0687148052be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f19352_007806a4",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-25T19:00:53Z",
+      "side": 1,
+      "message": "avoid passive voice:  \"If a non-nil *Float argument z is provided, MantExp stores the result mant in it instead of allocating a new Float.\"",
+      "revId": "d9dc2b9361398e38377c0482acc0687148052be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f19352_a07efa8d",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-25T19:00:53Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "d9dc2b9361398e38377c0482acc0687148052be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f19352_40472e68",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-25T19:00:53Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "d9dc2b9361398e38377c0482acc0687148052be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f19352_e0a642d4",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-25T19:00:53Z",
+      "side": 1,
+      "message": "Revert this.  The quotient is the numeric value of the fraction x/y, which is what you started with.  This code indeed builds up the numerator and denominator as separate entities.",
+      "revId": "d9dc2b9361398e38377c0482acc0687148052be2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
