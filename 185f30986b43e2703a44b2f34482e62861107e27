@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e526d94e_16f0fa92",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5145
+      },
+      "writtenOn": "2015-02-25T01:20:30Z",
+      "side": 1,
+      "message": "i believe with the recent conversion of gc to go this file has moved to src/cmd/internal/gc/select.go. There remains many such comments sprinkled around the tree which needs to clean up.",
+      "revId": "185f30986b43e2703a44b2f34482e62861107e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
