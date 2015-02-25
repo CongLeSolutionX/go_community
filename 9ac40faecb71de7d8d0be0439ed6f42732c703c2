@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2488f7a_43c50697",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-25T21:51:10Z",
+      "side": 1,
+      "message": "Again, this isn\u0027t what quotient means; this function starts with the quotient and finds an equal integer ratio.\n\n// Rat returns the rational number in Rat form that is equal to x, or nil if x is an infinity. (etc)",
+      "revId": "9ac40faecb71de7d8d0be0439ed6f42732c703c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
