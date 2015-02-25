@@ -16,6 +16,24 @@
       "revId": "9ac40faecb71de7d8d0be0439ed6f42732c703c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2d1cbe3_523b74f6",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-02-25T23:07:31Z",
+      "side": 1,
+      "message": "ok, but I left away \"in Rat form\"\n\nWhile you\u0027re technically correct that a floating-point number is a rational number due to size constraints, in CS (non-math) circles, a floating-point number is not considered a rational number.",
+      "parentUuid": "e2488f7a_43c50697",
+      "revId": "9ac40faecb71de7d8d0be0439ed6f42732c703c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
