@@ -28,13 +28,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+enum {
+	SARMAG = 8,
+	SARNAME = 16,
+	SAR_HDR = 16+44,
+};
+
 #define	ARMAG	"!<arch>\n"
-#define	SARMAG	8
-
 #define	ARFMAG	"`\n"
-#define	SARNAME	16
+/*c2go
+char ARMAG[] = "!<arch>\n";
+char ARFMAG[] = "`\n";
+*/
 
-struct	ar_hdr
+typedef struct ArHdr ArHdr;
+struct	ArHdr
 {
 	char	name[SARNAME];
 	char	date[12];
@@ -44,4 +52,3 @@ struct	ar_hdr
 	char	size[10];
 	char	fmag[2];
 };
-#define	SAR_HDR	(SARNAME+44)
