@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e21a4f66_b3f09895",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e21a4f66_b3c9b84f",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "s/TYPE_NONE/NAME_NONE/",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a23a17c3_11cf4cb7",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "Make this entire body the new Mconv.\nMake this case a call to Mconv (only).",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a23a17c3_31e37029",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "Use Mconv here to avoid modifying a.Type, even temporarily.",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e21a4f66_d3f314a1",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "return str",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2221c795_d5e9bc83",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "Delete; return str below",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2354bd3_12bbccbc",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-25T20:15:45Z",
+      "side": 1,
+      "message": "Probably this is what the old code did but it seems wrong to ignore a.Name completely. See comment above.",
+      "revId": "68a9bcda8a2faece5400d50d6950be41ec2db3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
