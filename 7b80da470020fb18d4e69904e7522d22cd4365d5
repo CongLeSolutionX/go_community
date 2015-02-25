@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65bca932_2f7989ab",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-02-25T07:31:31Z",
+      "side": 1,
+      "message": "I think this should be\n\n   return openat(_AT_FDCWD, path, O_CREAT|O_WRONLY|O_TRUNC|O_LARGEFILE, mode)\n\nor just\n\n   return Open(path, O_CREAT|O_WRONLY|O_TRUNC, mode)",
+      "range": {
+        "startLine": 29,
+        "startChar": 36,
+        "endLine": 29,
+        "endChar": 40
+      },
+      "revId": "7b80da470020fb18d4e69904e7522d22cd4365d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
