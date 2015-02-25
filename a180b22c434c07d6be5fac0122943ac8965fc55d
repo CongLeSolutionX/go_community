@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85851d8c_20ab2a9f",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-02-25T14:22:57Z",
+      "side": 1,
+      "message": "s/q/queue/\n(and below)\n?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57b955e_22924e6b",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-02-25T14:22:57Z",
+      "side": 1,
+      "message": "Perhaps comment that this points to an array of dataqsiz elements with the given element type and size ?",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c099c1_43802629",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-02-25T14:22:57Z",
+      "side": 1,
+      "message": "Perhaps document here what the indexes index into and what their invariants are (for example, I presume that if recvx\u003d\u003dsendx, the queue is empty, but that\u0027s not immediately obvious) ?",
+      "revId": "a180b22c434c07d6be5fac0122943ac8965fc55d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
