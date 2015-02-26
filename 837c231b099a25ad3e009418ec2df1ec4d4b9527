@@ -22,6 +22,30 @@
       "revId": "837c231b099a25ad3e009418ec2df1ec4d4b9527",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62b3bffa_b7c0e804",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-02-26T15:39:03Z",
+      "side": 1,
+      "message": "(The phone is busy trying some other bad builder ideas of mine, so I cannot test for another hour.)\n\nThere\u0027s at least one other guard necessary, TestCommandRelativeName. I actually had some code in helperCommand in the first version of this, but I just realized I didn\u0027t test it properly.",
+      "parentUuid": "62b3bffa_b75708c2",
+      "range": {
+        "startLine": 6,
+        "startChar": 11,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "837c231b099a25ad3e009418ec2df1ec4d4b9527",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
