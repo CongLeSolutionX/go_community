@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a29e976a_71c59865",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-02-26T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82d51302_809e3676",
+      "revId": "2710c4d962c7c1698ee4f0a47d0e7e67438a44ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82d51302_6099328f",
         "filename": "src/encoding/xml/marshal_test.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-26T10:14:20Z",
       "side": 1,
       "message": "Delete this.",
+      "revId": "2710c4d962c7c1698ee4f0a47d0e7e67438a44ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c87b75_96eccc95",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-02-26T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82d51302_6099328f",
       "revId": "2710c4d962c7c1698ee4f0a47d0e7e67438a44ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
