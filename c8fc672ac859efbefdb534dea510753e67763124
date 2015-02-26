@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82efd3fe_5009cca5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-02-26T19:38:25Z",
+      "side": 1,
+      "message": "Add \"(issue #10017)\" so GitHub links back to this commit.",
+      "revId": "c8fc672ac859efbefdb534dea510753e67763124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
