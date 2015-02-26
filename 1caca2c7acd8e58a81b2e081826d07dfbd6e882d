@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62b3bffa_972e84b3",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-02-26T14:17:45Z",
+      "side": 1,
+      "message": "// MinPrec returns the minimum precision required to represent x exactly.\n\n(\"accuracy\" is a different concept in this API)\n\nWhat\u0027s the specified behaviour for infinities?",
+      "revId": "1caca2c7acd8e58a81b2e081826d07dfbd6e882d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
