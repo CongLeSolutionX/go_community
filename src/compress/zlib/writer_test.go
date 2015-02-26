@@ -10,12 +10,21 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"testing"
 )
 
+var testdata = "../testdata"
+
+func init() {
+	if runtime.GOOS == "darwin" && runtime.GOARCH == "arm" {
+		testdata = "testdata"
+	}
+}
+
 var filenames = []string{
-	"../testdata/e.txt",
-	"../testdata/pi.txt",
+	testdata + "e.txt",
+	testdata + "pi.txt",
 }
 
 var data = []string{
