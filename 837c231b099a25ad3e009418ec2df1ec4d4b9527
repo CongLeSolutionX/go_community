@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62b3bffa_b75708c2",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-26T15:33:26Z",
+      "side": 1,
+      "message": "does it work in \"func helperCommand\" too?  At a quick glance it seems it work.  I think I\u0027d prefer it there, if so, because at least a couple other tests in here would still run.",
+      "range": {
+        "startLine": 6,
+        "startChar": 11,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "837c231b099a25ad3e009418ec2df1ec4d4b9527",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
