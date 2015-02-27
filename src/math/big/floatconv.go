@@ -235,14 +235,9 @@ func (x *Float) Format(format byte, prec int) string {
 func (x *Float) Append(buf []byte, format byte, prec int) []byte {
 	// TODO(gri) factor out handling of sign?
 
-	// Inf
-	if x.IsInf(0) {
-		var ch byte = '+'
-		if x.neg {
-			ch = '-'
-		}
-		buf = append(buf, ch)
-		return append(buf, "Inf"...)
+	// NaN
+	if x.IsNaN() {
+		return append(buf, "NaN"...)
 	}
 
 	// easy formats
