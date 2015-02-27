@@ -549,13 +549,6 @@ yydefault:
 	_ = yypt // guard against "declared and not used"
 
 	yyp -= yyR2[yyn]
-	// yyp is now the index of $0. Perform the default action. Iff the
-	// reduced production is ε, $1 is possibly out of range.
-	if yyp+1 >= len(yyS) {
-		nyys := make([]yySymType, len(yyS)*2)
-		copy(nyys, yyS)
-		yyS = nyys
-	}
 	yyVAL = yyS[yyp+1]
 
 	/* consult goto table to find next state */
@@ -1103,7 +1096,7 @@ yydefault:
 			yyVAL.addr.Type = obj.TYPE_MEM
 			yyVAL.addr.Offset = yyS[yypt-5].lval
 			yyVAL.addr.Index = int16(yyS[yypt-3].lval)
-			yyVAL.addr.Scale = int8(yyS[yypt-1].lval)
+			yyVAL.addr.Scale = int16(yyS[yypt-1].lval)
 			checkscale(yyVAL.addr.Scale)
 		}
 	case 97:
@@ -1114,7 +1107,7 @@ yydefault:
 			yyVAL.addr.Reg = int16(yyS[yypt-6].lval)
 			yyVAL.addr.Offset = yyS[yypt-8].lval
 			yyVAL.addr.Index = int16(yyS[yypt-3].lval)
-			yyVAL.addr.Scale = int8(yyS[yypt-1].lval)
+			yyVAL.addr.Scale = int16(yyS[yypt-1].lval)
 			checkscale(yyVAL.addr.Scale)
 		}
 	case 98:
@@ -1125,7 +1118,7 @@ yydefault:
 			yyVAL.addr.Reg = int16(yyS[yypt-6].lval)
 			yyVAL.addr.Offset = yyS[yypt-8].lval
 			yyVAL.addr.Index = int16(yyS[yypt-3].lval)
-			yyVAL.addr.Scale = int8(yyS[yypt-1].lval)
+			yyVAL.addr.Scale = int16(yyS[yypt-1].lval)
 			checkscale(yyVAL.addr.Scale)
 		}
 	case 99:
@@ -1156,7 +1149,7 @@ yydefault:
 			yyVAL.addr = nullgen
 			yyVAL.addr.Type = obj.TYPE_MEM
 			yyVAL.addr.Index = int16(yyS[yypt-3].lval)
-			yyVAL.addr.Scale = int8(yyS[yypt-1].lval)
+			yyVAL.addr.Scale = int16(yyS[yypt-1].lval)
 			checkscale(yyVAL.addr.Scale)
 		}
 	case 103:
@@ -1166,7 +1159,7 @@ yydefault:
 			yyVAL.addr.Type = obj.TYPE_MEM
 			yyVAL.addr.Reg = int16(yyS[yypt-6].lval)
 			yyVAL.addr.Index = int16(yyS[yypt-3].lval)
-			yyVAL.addr.Scale = int8(yyS[yypt-1].lval)
+			yyVAL.addr.Scale = int16(yyS[yypt-1].lval)
 			checkscale(yyVAL.addr.Scale)
 		}
 	case 104:
@@ -1179,7 +1172,7 @@ yydefault:
 		{
 			yyVAL.addr = yyS[yypt-5].addr
 			yyVAL.addr.Index = int16(yyS[yypt-3].lval)
-			yyVAL.addr.Scale = int8(yyS[yypt-1].lval)
+			yyVAL.addr.Scale = int16(yyS[yypt-1].lval)
 			checkscale(yyVAL.addr.Scale)
 		}
 	case 106:
