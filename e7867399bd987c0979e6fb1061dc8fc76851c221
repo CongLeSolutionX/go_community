@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "62073fcc_1a4e79ff",
+        "filename": "src/cmd/internal/gc/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-02-27T07:19:17Z",
+      "side": 1,
+      "message": "perhaps we should restore the mkbuiltin program first.",
+      "parentUuid": "2272a758_4d1fd902",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "e7867399bd987c0979e6fb1061dc8fc76851c221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2ad4bfe_b2b5e0fc",
         "filename": "src/runtime/slice.go",
         "patchSetId": 1
