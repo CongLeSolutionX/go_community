@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2272a758_8d1b81a0",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-02-27T00:34:34Z",
+      "side": 1,
+      "message": "would you please add \n\nE1 string `xml:x\u003ee\"`\n\nI want to confirm that you see\n\n\u003ce xmlns\u003d\"space\"\u003ee1\u003c/e\u003e\n\nIn the output",
+      "revId": "2b1d61156abc8626e248f0a91fb4766bf214df04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
