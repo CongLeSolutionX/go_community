@@ -70,15 +70,15 @@ func TestFloatZeroValue(t *testing.T) {
 		{1, 2, 0, 0, '*', (*Float).Mul},
 		{2, 0, 1, 0, '*', (*Float).Mul},
 
-		{0, 0, 0, 0, '/', (*Float).Quo}, // = +Inf
+		{0, 0, 0, 0, '/', (*Float).Quo}, // = Undef
 		{0, 2, 1, 2, '/', (*Float).Quo},
-		{1, 2, 0, 0, '/', (*Float).Quo}, // = +Inf
+		{1, 2, 0, 0, '/', (*Float).Quo}, // = Undef
 		{2, 0, 1, 0, '/', (*Float).Quo},
 	} {
 		z := make(test.z)
 		test.op(z, make(test.x), make(test.y))
 		got := 0
-		if !z.IsInf(0) {
+		if !z.IsUndef() {
 			got = int(z.int64())
 		}
 		if got != test.want {
@@ -91,11 +91,8 @@ func TestFloatZeroValue(t *testing.T) {
 
 func makeFloat(s string) *Float {
 	var x Float
-	if s == "Inf" || s == "+Inf" {
-		return x.SetInf(+1)
-	}
-	if s == "-Inf" {
-		return x.SetInf(-1)
+	if s == "Undef" || s == "-Undef" {
+		return x.SetUndef()
 	}
 	x.SetPrec(1000)
 	if _, ok := x.SetString(s); !ok {
@@ -114,16 +111,14 @@ func TestFloatSetPrec(t *testing.T) {
 		// prec 0
 		{"0", 0, "0", Exact},
 		{"-0", 0, "-0", Exact},
-		{"-Inf", 0, "-Inf", Exact},
-		{"+Inf", 0, "+Inf", Exact},
+		{"Undef", 0, "Undef", Exact},
 		{"123", 0, "0", Below},
 		{"-123", 0, "-0", Above},
 
 		// prec at upper limit
 		{"0", MaxPrec, "0", Exact},
 		{"-0", MaxPrec, "-0", Exact},
-		{"-Inf", MaxPrec, "-Inf", Exact},
-		{"-Inf", MaxPrec, "-Inf", Exact},
+		{"Undef", MaxPrec, "Undef", Exact},
 
 		// just a few regular cases - general rounding is tested elsewhere
 		{"1.5", 1, "2", Above},
@@ -144,8 +139,8 @@ func TestFloatSetPrec(t *testing.T) {
 		}
 		// look inside x and check correct value for x.exp
 		if len(x.mant) == 0 {
-			// ±0 or ±Inf
-			if x.exp != 0 && x.exp != infExp {
+			// ±0 or Undef
+			if x.exp != 0 && x.exp != undef {
 				t.Errorf("%s.SetPrec(%d): incorrect exponent %d", test.x, test.prec, x.exp)
 			}
 		}
@@ -160,8 +155,7 @@ func TestFloatMinPrec(t *testing.T) {
 	}{
 		{"0", 0},
 		{"-0", 0},
-		{"+Inf", 0},
-		{"-Inf", 0},
+		{"Undef", 0},
 		{"1", 1},
 		{"2", 1},
 		{"3", 2},
@@ -182,12 +176,11 @@ func TestFloatSign(t *testing.T) {
 		x string
 		s int
 	}{
-		{"-Inf", -1},
 		{"-1", -1},
 		{"-0", 0},
 		{"+0", 0},
 		{"+1", +1},
-		{"+Inf", +1},
+		{"Undef", 0},
 	} {
 		x := makeFloat(test.x)
 		s := x.Sign()
@@ -198,7 +191,11 @@ func TestFloatSign(t *testing.T) {
 }
 
 // feq(x, y) is like x.Cmp(y) == 0 but it also considers the sign of 0 (0 != -0).
+// Two Undefs are equal.
 func feq(x, y *Float) bool {
+	if x.IsUndef() || y.IsUndef() {
+		return x.IsUndef() && y.IsUndef()
+	}
 	return x.Cmp(y) == 0 && x.neg == y.neg
 }
 
@@ -211,9 +208,7 @@ func TestFloatMantExp(t *testing.T) {
 		{"0", "0", 0},
 		{"+0", "0", 0},
 		{"-0", "-0", 0},
-		{"Inf", "+Inf", 0},
-		{"+Inf", "+Inf", 0},
-		{"-Inf", "-Inf", 0},
+		{"Undef", "Undef", 0},
 		{"1.5", "0.75", 1},
 		{"1.024e3", "0.5", 11},
 		{"-0.125", "-0.5", -2},
@@ -247,14 +242,13 @@ func TestFloatSetMantExp(t *testing.T) {
 		{"0", 0, "0"},
 		{"+0", 0, "0"},
 		{"-0", 0, "-0"},
-		{"Inf", 1234, "+Inf"},
-		{"+Inf", -1234, "+Inf"},
-		{"-Inf", -1234, "-Inf"},
+		{"Undef", 1234, "Undef"},
+		{"Undef", -1234, "Undef"},
 		{"0", -MaxExp - 1, "0"},
-		{"0.5", -MaxExp - 1, "+Inf"},  // exponent overflow
-		{"-0.5", -MaxExp - 1, "-Inf"}, // exponent overflow
-		{"1", MaxExp, "+Inf"},         // exponent overflow
-		{"2", MaxExp - 1, "+Inf"},     // exponent overflow
+		{"0.5", -MaxExp - 1, "0"},   // exponent underflow
+		{"-0.5", -MaxExp - 1, "-0"}, // exponent underflow
+		{"1", MaxExp, "Undef"},      // exponent overflow
+		{"2", MaxExp - 1, "Undef"},  // exponent overflow
 		{"0.75", 1, "1.5"},
 		{"0.5", 11, "1024"},
 		{"-0.5", -2, "-0.125"},
@@ -288,9 +282,7 @@ func TestFloatIsInt(t *testing.T) {
 		"0.000000001e+8",
 		"0.000000001e+9 int",
 		"1.2345e200 int",
-		"Inf",
-		"+Inf",
-		"-Inf",
+		"Undef",
 	} {
 		s := strings.TrimSuffix(test, " int")
 		want := s != test
@@ -300,7 +292,7 @@ func TestFloatIsInt(t *testing.T) {
 	}
 }
 
-func TestFloatIsInf(t *testing.T) {
+func TestFloatIsUndef(t *testing.T) {
 	// TODO(gri) implement this
 }
 
@@ -588,9 +580,6 @@ func TestFloatSetFloat64(t *testing.T) {
 		3.14159265e10,
 		2.718281828e-123,
 		1.0 / 3,
-		math.Inf(-1),
-		math.Inf(0),
-		-math.Inf(1),
 	} {
 		for i := range [2]int{} {
 			if i&1 != 0 {
@@ -598,10 +587,17 @@ func TestFloatSetFloat64(t *testing.T) {
 			}
 			var f Float
 			f.SetFloat64(want)
-			if got, _ := f.Float64(); got != want {
-				t.Errorf("got %g (%s); want %g", got, f.Format('p', 0), want)
+			if got, acc := f.Float64(); got != want || acc != Exact {
+				t.Errorf("got %g (%s, %s); want %g (exact)", got, f.Format('p', 0), acc, want)
 			}
 		}
+	}
+
+	// test NaN
+	var f Float
+	f.SetFloat64(math.NaN())
+	if got, acc := f.Float64(); !math.IsNaN(got) || acc != Exact {
+		t.Errorf("got %g (%s, %s); want %g (exact)", got, f.Format('p', 0), acc, math.NaN())
 	}
 
 	// test basic rounding behavior (exhaustive rounding testing is done elsewhere)
@@ -694,23 +690,20 @@ func TestFloatSetRat(t *testing.T) {
 	}
 }
 
-func TestFloatSetInf(t *testing.T) {
+func TestFloatSetUndef(t *testing.T) {
 	var f Float
 	for _, test := range []struct {
-		sign int
 		prec uint
 		want string
 	}{
-		{0, 0, "+Inf"},
-		{100, 0, "+Inf"},
-		{-1, 0, "-Inf"},
-		{0, 10, "+Inf"},
-		{100, 20, "+Inf"},
-		{-1, 30, "-Inf"},
+		{0, "Undef"},
+		{10, "Undef"},
+		{20, "Undef"},
+		{30, "Undef"},
 	} {
-		x := f.SetPrec(test.prec).SetInf(test.sign)
+		x := f.SetPrec(test.prec).SetUndef()
 		if got := x.String(); got != test.want || x.Prec() != test.prec {
-			t.Errorf("SetInf(%d) = %s (prec = %d); want %s (prec = %d)", test.sign, got, x.Prec(), test.want, test.prec)
+			t.Errorf("SetUndef() = %s (prec = %d); want %s (prec = %d)", got, x.Prec(), test.want, test.prec)
 		}
 	}
 }
@@ -721,7 +714,6 @@ func TestFloatUint64(t *testing.T) {
 		out uint64
 		acc Accuracy
 	}{
-		{"-Inf", 0, Above},
 		{"-1", 0, Above},
 		{"-1e-1000", 0, Above},
 		{"-0", 0, Exact},
@@ -735,7 +727,7 @@ func TestFloatUint64(t *testing.T) {
 		{"18446744073709551615.000000000000000000001", math.MaxUint64, Below},
 		{"18446744073709551616", math.MaxUint64, Below},
 		{"1e10000", math.MaxUint64, Below},
-		{"+Inf", math.MaxUint64, Below},
+		{"Undef", math.MaxUint64, Below},
 	} {
 		x := makeFloat(test.x)
 		out, acc := x.Uint64()
@@ -751,7 +743,6 @@ func TestFloatInt64(t *testing.T) {
 		out int64
 		acc Accuracy
 	}{
-		{"-Inf", math.MinInt64, Above},
 		{"-1e10000", math.MinInt64, Above},
 		{"-9223372036854775809", math.MinInt64, Above},
 		{"-9223372036854775808.000000000000000000001", math.MinInt64, Above},
@@ -773,7 +764,7 @@ func TestFloatInt64(t *testing.T) {
 		{"9223372036854775807.000000000000000000001", math.MaxInt64, Below},
 		{"9223372036854775808", math.MaxInt64, Below},
 		{"1e10000", math.MaxInt64, Below},
-		{"+Inf", math.MaxInt64, Below},
+		{"Undef", math.MaxInt64, Below},
 	} {
 		x := makeFloat(test.x)
 		out, acc := x.Int64()
@@ -792,9 +783,7 @@ func TestFloatInt(t *testing.T) {
 		{"0", "0", Exact},
 		{"+0", "0", Exact},
 		{"-0", "0", Exact},
-		{"Inf", "nil", Below},
-		{"+Inf", "nil", Below},
-		{"-Inf", "nil", Above},
+		{"Undef", "nil", Below},
 		{"1", "1", Exact},
 		{"-1", "-1", Exact},
 		{"1.23", "1", Below},
@@ -835,9 +824,7 @@ func TestFloatRat(t *testing.T) {
 		{"0", "0/1"},
 		{"+0", "0/1"},
 		{"-0", "0/1"},
-		{"Inf", "nil"},
-		{"+Inf", "nil"},
-		{"-Inf", "nil"},
+		{"Undef", "nil"},
 		{"1", "1/1"},
 		{"-1", "-1/1"},
 		{"1.25", "5/4"},
@@ -885,7 +872,7 @@ func TestFloatAbs(t *testing.T) {
 		"1.23e-2",
 		"1e-1000",
 		"1e1000",
-		"Inf",
+		"Undef",
 	} {
 		p := makeFloat(test)
 		a := new(Float).Abs(p)
@@ -909,7 +896,7 @@ func TestFloatNeg(t *testing.T) {
 		"1.23e-2",
 		"1e-1000",
 		"1e1000",
-		"Inf",
+		"Undef",
 	} {
 		p1 := makeFloat(test)
 		n1 := makeFloat("-" + test)
@@ -1238,6 +1225,69 @@ func TestFloatQuoSmoke(t *testing.T) {
 					if acc != Exact {
 						t.Errorf("%g/%g got %s result; want exact result", a, b, acc)
 					}
+				}
+			}
+		}
+	}
+}
+
+// TestFloatArithmeticSpecialValues tests that Float operations produce
+// the correct result for all combinations of regular and special value
+// arguments (±0, Undef). We use ±1 as representative for normal values.
+// Operations that produce Inf or NaN results in IEEE, produce an Undef
+// since we don't support infinities or NaNs.
+func TestFloatArithmeticSpecialValues(t *testing.T) {
+	zero := 0.0
+	args := []float64{-1, -zero, zero, 1, math.NaN()}
+	xx := new(Float)
+	yy := new(Float)
+	got := new(Float)
+	want := new(Float)
+	for i := 0; i < 6; i++ {
+		for _, x := range args {
+			xx.SetFloat64(x)
+			// check conversion is correct
+			// (no need to do this for y, since we see exactly the
+			// same values there)
+			if got, acc := xx.Float64(); !math.IsNaN(x) && (got != x || acc != Exact) {
+				t.Errorf("Float(%g) == %g (%s)", x, got, acc)
+			}
+			for _, y := range args {
+				yy.SetFloat64(y)
+				var op string
+				var z float64
+				switch i {
+				case 0:
+					op = "+"
+					z = x + y
+					got.Add(xx, yy)
+				case 1:
+					op = "-"
+					z = x - y
+					got.Sub(xx, yy)
+				case 2:
+					op = "*"
+					z = x * y
+					got.Mul(xx, yy)
+				case 3:
+					op = "/"
+					z = x / y
+					got.Quo(xx, yy)
+				case 4:
+					op = "Neg"
+					z = -x
+					got.Neg(xx)
+				case 5:
+					op = "Abs"
+					z = math.Abs(x)
+					got.Abs(xx)
+				default:
+					panic("unreachable")
+				}
+				want.SetFloat64(z) // converts Inf and Nan to Undef
+				if !feq(got, want) {
+					// unary ops don't print very nicely, but we don't care
+					t.Errorf("%5g %s %5g = %5s; want %5s", x, op, y, got, want)
 				}
 			}
 		}

@@ -225,11 +225,11 @@ func TestFloat64Format(t *testing.T) {
 
 		// {100, 'x', -1, "%x"},
 
-		// {math.NaN(), 'g', -1, "NaN"},
-		// {-math.NaN(), 'g', -1, "NaN"},
-		{math.Inf(0), 'g', -1, "+Inf"},
-		{math.Inf(-1), 'g', -1, "-Inf"},
-		{-math.Inf(0), 'g', -1, "-Inf"},
+		{math.NaN(), 'g', -1, "Undef"},
+		{-math.NaN(), 'g', -1, "Undef"},
+		{math.Inf(0), 'g', -1, "Undef"},
+		{math.Inf(-1), 'g', -1, "Undef"},
+		{-math.Inf(0), 'g', -1, "Undef"},
 
 		{-1, 'b', -1, "-4503599627370496p-52"},
 
@@ -267,6 +267,9 @@ func TestFloat64Format(t *testing.T) {
 
 		// verify that Float format matches strconv format
 		want := strconv.FormatFloat(test.x, test.format, test.prec, 64)
+		if want == "-Inf" || want == "+Inf" || want == "NaN" {
+			want = "Undef"
+		}
 		if got != want {
 			t.Errorf("%v: got %s; want %s (strconv)", test, got, want)
 		}

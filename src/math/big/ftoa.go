@@ -19,7 +19,9 @@ import "strconv"
 
 // bigFtoa formats a float for the %e, %E, %f, %g, and %G formats.
 func (f *Float) bigFtoa(buf []byte, fmt byte, prec int) []byte {
-	// TODO(gri) handle Inf.
+	if debugFloat && f.exp == undef {
+		panic("unexpected Undef")
+	}
 
 	// 1) convert Float to multiprecision decimal
 	var d decimal
