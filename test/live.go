@@ -137,7 +137,7 @@ var i9 interface{}
 func f9() bool {
 	g8()
 	x := i9
-	return x != interface{}(99.0i) // ERROR "live at call to convT2E: x$"
+	return x != interface{}([99]string{}) // ERROR "live at call to convT2E: autotmp_[0-9]+ x$" "live at call to efaceeq: autotmp_[0-9]+$"
 }
 
 // liveness formerly confused by UNDEF followed by RET,
@@ -478,13 +478,13 @@ func f30(b bool) {
 
 func f31(b1, b2, b3 bool) {
 	if b1 {
-		g31("a") // ERROR "live at call to convT2E: autotmp_[0-9]+$" "live at call to g31: autotmp_[0-9]+$"
+		g31([4]string{}) // ERROR "live at call to convT2E: autotmp_[0-9]+$" "live at call to g31: autotmp_[0-9]+$"
 	}
 	if b2 {
-		h31("b") // ERROR "live at call to convT2E: autotmp_[0-9]+ autotmp_[0-9]+$" "live at call to h31: autotmp_[0-9]+$" "live at call to newobject: autotmp_[0-9]+$"
+		h31([4]string{}) // ERROR "live at call to convT2E: autotmp_[0-9]+ autotmp_[0-9]+$" "live at call to h31: autotmp_[0-9]+$" "live at call to newobject: autotmp_[0-9]+$"
 	}
 	if b3 {
-		panic("asdf") // ERROR "live at call to convT2E: autotmp_[0-9]+$" "live at call to gopanic: autotmp_[0-9]+$"
+		panic([4]string{}) // ERROR "live at call to convT2E: autotmp_[0-9]+$" "live at call to gopanic: autotmp_[0-9]+$"
 	}
 	print(b3)
 }

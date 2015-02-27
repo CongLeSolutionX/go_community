@@ -313,7 +313,7 @@ func walkstmt(np **Node) {
 				if f.Op != OCALLFUNC && f.Op != OCALLMETH && f.Op != OCALLINTER {
 					Fatal("expected return of call, have %v", Nconv(f, 0))
 				}
-				n.List = concat(list1(f), ascompatet(int(n.Op), rl, &f.Type, 0, &n.Ninit))
+				n.List = concat(list1(f), ascompatet(rl, &f.Type, 0, &n.Ninit))
 				break
 			}
 
@@ -744,9 +744,12 @@ func walkexpr(np **Node, init **NodeList) {
 		walkexprlistsafe(n.List, init)
 		walkexpr(&r, init)
 
-		ll := ascompatet(int(n.Op), n.List, &r.Type, 0, init)
+		ll := ascompatet(n.List, &r.Type, 0, init)
 		for lr := ll; lr != nil; lr = lr.Next {
-			lr.N = applywritebarrier(lr.N, init)
+			save := lr.N.Ninit
+			lr.N.Ninit = nil
+			lr.N = applywritebarrier(lr.N, &lr.N.Ninit)
+			addinit(&lr.N, save)
 		}
 		n = liststmt(concat(list1(r), ll))
 		goto ret
@@ -950,13 +953,63 @@ func walkexpr(np **Node, init **NodeList) {
 	case OCONVIFACE:
 		walkexpr(&n.Left, init)
 
-		// Optimize convT2E as a two-word copy when T is pointer-shaped.
-		if isnilinter(n.Type) && isdirectiface(n.Left.Type) {
-			l := Nod(OEFACE, typename(n.Left.Type), n.Left)
-			l.Type = n.Type
-			l.Typecheck = n.Typecheck
-			n = l
-			goto ret
+		// useStack reports whether it is safe to use a stack buffer
+		// for a concrete value stored in an interface.
+		useStack := n.Esc == EscNone && n.Left.Type.Width <= 1024
+
+		if isnilinter(n.Type) {
+			if isdirectiface(n.Left.Type) {
+				// Optimize convT2E as a two-word copy when T is pointer-shaped.
+				l := Nod(OEFACE, typename(n.Left.Type), n.Left)
+				l.Type = n.Type
+				l.Typecheck = n.Typecheck
+				n = l
+				goto ret
+			}
+
+			dowidth(n.Left.Type)
+			if !Isinter(n.Left.Type) && (useStack || fastwritebarrier(n.Left.Type)) {
+				// Inline convT2E when we can avoid calling typedmemmove:
+				//
+				// valptr := new(T) // new on stack or on heap
+				// var x *T
+				// x = valptr
+				// *x = t // uses specialized write barrier or no write barrier
+				// OEFACE{T, x}
+
+				var valptr *Node
+				if useStack {
+					// Allocate stack buffer for value stored in interface.
+					tmp := temp(n.Left.Type)
+					tmp = Nod(OAS, tmp, nil) // zero tmp
+					typecheck(&tmp, Etop)
+					*init = list(*init, tmp)
+					valptr = Nod(OADDR, tmp.Left, nil)
+				} else {
+					// Allocate value on heap.
+					valptr = callnew(n.Left.Type)
+				}
+				typecheck(&valptr, Erv)
+
+				x := temp(Ptrto(n.Left.Type))
+				as := Nod(OAS, x, valptr)
+				typecheck(&as, Etop)
+				*init = list(*init, as)
+				walkexpr(&as, init)
+
+				ix := Nod(OIND, x, nil)
+				as2 := Nod(OAS, ix, n.Left)
+				typecheck(&as2, Etop)
+				as2 = applywritebarrier(as2, init)
+				*init = list(*init, as2)
+				walkexpr(&as2, init)
+
+				l := Nod(OEFACE, typename(n.Left.Type), x)
+				l.Type = n.Type
+				l.Typecheck = n.Typecheck
+				n = l
+				goto ret
+			}
 		}
 
 		// Build name of function: convI2E etc.
@@ -1042,8 +1095,7 @@ func walkexpr(np **Node, init **NodeList) {
 			}
 			dowidth(n.Left.Type)
 			r := nodnil()
-			if n.Esc == EscNone && n.Left.Type.Width <= 1024 {
-				// Allocate stack buffer for value stored in interface.
+			if useStack {
 				r = temp(n.Left.Type)
 				r = Nod(OAS, r, nil) // zero temp
 				typecheck(&r, Etop)
@@ -1713,7 +1765,7 @@ func fncall(l *Node, rt *Type) bool {
 	return true
 }
 
-func ascompatet(op int, nl *NodeList, nr **Type, fp int, init **NodeList) *NodeList {
+func ascompatet(nl *NodeList, nr **Type, fp int, init **NodeList) *NodeList {
 	var l *Node
 	var tmp *Node
 	var a *Node
@@ -1747,7 +1799,11 @@ func ascompatet(op int, nl *NodeList, nr **Type, fp int, init **NodeList) *NodeL
 			tmp = temp(r.Type)
 			typecheck(&tmp, Erv)
 			a = Nod(OAS, l, tmp)
-			a = convas(a, init)
+			var ainit *NodeList
+			a = convas(a, &ainit)
+			addinit(&a, ainit)
+			typechecklist(a.Ninit, Etop)
+			walkstmtlist(a.Ninit)
 			mm = list(mm, a)
 			l = tmp
 		}
@@ -2210,67 +2266,69 @@ func needwritebarrier(l *Node, r *Node) bool {
 	return true
 }
 
+// fastwritebarrier reports whether there is a specialized
+// write barrier implementation for assignments of type t.
+func fastwritebarrier(t *Type) bool {
+	return t.Width <= int64(4*Widthptr)
+}
+
 // TODO(rsc): Perhaps componentgen should run before this.
 
-var applywritebarrier_bv Bvec
+var applywritebarrier_bv Bvec = bvalloc(obj.BitsPerPointer * 4)
 
 func applywritebarrier(n *Node, init **NodeList) *Node {
-	if n.Left != nil && n.Right != nil && needwritebarrier(n.Left, n.Right) {
-		if Curfn != nil && Curfn.Func.Nowritebarrier {
-			Yyerror("write barrier prohibited")
+	if n.Left == nil || n.Right == nil || !needwritebarrier(n.Left, n.Right) {
+		return n
+	}
+
+	if Curfn != nil && Curfn.Func.Nowritebarrier {
+		Yyerror("write barrier prohibited")
+		return n
+	}
+
+	t := n.Left.Type
+	l := Nod(OADDR, n.Left, nil)
+	l.Etype = 1 // addr does not escape
+	switch {
+	case t.Width == int64(Widthptr):
+		n = mkcall1(writebarrierfn("writebarrierptr", t, n.Right.Type), nil, init, l, n.Right)
+	case t.Etype == TSTRING:
+		n = mkcall1(writebarrierfn("writebarrierstring", t, n.Right.Type), nil, init, l, n.Right)
+	case Isslice(t):
+		n = mkcall1(writebarrierfn("writebarrierslice", t, n.Right.Type), nil, init, l, n.Right)
+	case Isinter(t):
+		n = mkcall1(writebarrierfn("writebarrieriface", t, n.Right.Type), nil, init, l, n.Right)
+	case t.Width <= int64(4*Widthptr):
+		x := int64(0)
+		bvresetall(applywritebarrier_bv)
+		twobitwalktype1(t, &x, applywritebarrier_bv)
+		const PtrBit = 1
+		// The bvgets are looking for BitsPointer in successive slots.
+		if obj.BitsPointer != 1<<PtrBit {
+			Fatal("wrong PtrBit")
 		}
-		t := n.Left.Type
-		l := Nod(OADDR, n.Left, nil)
-		l.Etype = 1 // addr does not escape
-		if t.Width == int64(Widthptr) {
-			n = mkcall1(writebarrierfn("writebarrierptr", t, n.Right.Type), nil, init, l, n.Right)
-		} else if t.Etype == TSTRING {
-			n = mkcall1(writebarrierfn("writebarrierstring", t, n.Right.Type), nil, init, l, n.Right)
-		} else if Isslice(t) {
-			n = mkcall1(writebarrierfn("writebarrierslice", t, n.Right.Type), nil, init, l, n.Right)
-		} else if Isinter(t) {
-			n = mkcall1(writebarrierfn("writebarrieriface", t, n.Right.Type), nil, init, l, n.Right)
-		} else if t.Width <= int64(4*Widthptr) {
-			x := int64(0)
-			if applywritebarrier_bv.b == nil {
-				applywritebarrier_bv = bvalloc(obj.BitsPerPointer * 4)
-			}
-			bvresetall(applywritebarrier_bv)
-			twobitwalktype1(t, &x, applywritebarrier_bv)
-			const (
-				PtrBit = 1
-			)
-			// The bvgets are looking for BitsPointer in successive slots.
-			if obj.BitsPointer != 1<<PtrBit {
-				Fatal("wrong PtrBit")
-			}
-			var name string
-			switch t.Width / int64(Widthptr) {
-			default:
-				Fatal("found writebarrierfat for %d-byte object of type %v", int(t.Width), Tconv(t, 0))
-
-			case 2:
-				name = fmt.Sprintf("writebarrierfat%d%d", bvget(applywritebarrier_bv, PtrBit), bvget(applywritebarrier_bv, obj.BitsPerPointer+PtrBit))
-
-			case 3:
-				name = fmt.Sprintf("writebarrierfat%d%d%d", bvget(applywritebarrier_bv, PtrBit), bvget(applywritebarrier_bv, obj.BitsPerPointer+PtrBit), bvget(applywritebarrier_bv, 2*obj.BitsPerPointer+PtrBit))
-
-			case 4:
-				name = fmt.Sprintf("writebarrierfat%d%d%d%d", bvget(applywritebarrier_bv, PtrBit), bvget(applywritebarrier_bv, obj.BitsPerPointer+PtrBit), bvget(applywritebarrier_bv, 2*obj.BitsPerPointer+PtrBit), bvget(applywritebarrier_bv, 3*obj.BitsPerPointer+PtrBit))
-			}
-
-			n = mkcall1(writebarrierfn(name, t, n.Right.Type), nil, init, l, nodnil(), n.Right)
-		} else {
-			r := n.Right
-			for r.Op == OCONVNOP {
-				r = r.Left
-			}
-			r = Nod(OADDR, r, nil)
-			r.Etype = 1 // addr does not escape
-
-			//warnl(n->lineno, "typedmemmove %T %N", t, r);
-			n = mkcall1(writebarrierfn("typedmemmove", t, r.Left.Type), nil, init, typename(t), l, r)
+		var name string
+		switch t.Width / int64(Widthptr) {
+		default:
+			Fatal("found writebarrierfat for %d-byte object of type %v", int(t.Width), Tconv(t, 0))
+		case 2:
+			name = fmt.Sprintf("writebarrierfat%d%d", bvget(applywritebarrier_bv, PtrBit), bvget(applywritebarrier_bv, obj.BitsPerPointer+PtrBit))
+		case 3:
+			name = fmt.Sprintf("writebarrierfat%d%d%d", bvget(applywritebarrier_bv, PtrBit), bvget(applywritebarrier_bv, obj.BitsPerPointer+PtrBit), bvget(applywritebarrier_bv, 2*obj.BitsPerPointer+PtrBit))
+		case 4:
+			name = fmt.Sprintf("writebarrierfat%d%d%d%d", bvget(applywritebarrier_bv, PtrBit), bvget(applywritebarrier_bv, obj.BitsPerPointer+PtrBit), bvget(applywritebarrier_bv, 2*obj.BitsPerPointer+PtrBit), bvget(applywritebarrier_bv, 3*obj.BitsPerPointer+PtrBit))
 		}
+		n = mkcall1(writebarrierfn(name, t, n.Right.Type), nil, init, l, nodnil(), n.Right)
+	default:
+		r := n.Right
+		for r.Op == OCONVNOP {
+			r = r.Left
+		}
+		r = Nod(OADDR, r, nil)
+		r.Etype = 1 // addr does not escape
+
+		//warnl(n->lineno, "typedmemmove %T %N", t, r);
+		n = mkcall1(writebarrierfn("typedmemmove", t, r.Left.Type), nil, init, typename(t), l, r)
 	}
 
 	return n

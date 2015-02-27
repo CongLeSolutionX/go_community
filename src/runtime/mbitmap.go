@@ -458,6 +458,7 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 		masksize++                                // unroll flag in the beginning
 		if masksize > maxGCMask && typ.gc[1] != 0 {
 			// write barriers have not been updated to deal with this case yet.
+			println(*typ._string)
 			throw("maxGCMask too small for now")
 			// If the mask is too large, unroll the program directly
 			// into the GC bitmap. It's 7 times slower than copying
