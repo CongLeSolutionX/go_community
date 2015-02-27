@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62073fcc_1a75d9ad",
+        "filename": "src/cmd/5a/y.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-27T03:12:59Z",
+      "side": 0,
+      "message": "I don\u0027t understand how, but you\u0027ve regenerated these with an old version of go tool yacc, from before December 18 (CL 1785). Maybe you had Go 1.4 in your path ahead of the current tree, or something? In any event, please rebuild cmd/yacc and regenerate these files to make this diff go away.",
+      "revId": "be7090498b76ff50ec73858378ccf1670fec912f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
