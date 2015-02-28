@@ -54,6 +54,10 @@ timeout_scale=1
 [ "$GOOS" == "freebsd" ] && timeout_scale=2
 # increase timeout for ARM up to 3 times the normal value
 [ "$GOARCH" == "arm" ] && timeout_scale=3
+# the windows builders seem to have slow file i/o.
+# the runtime test takes very close to 2 minutes.
+[ "$GOOS" == "windows" ] && timeout_scale=2
+
 
 echo '##### Testing packages.'
 time go test std cmd -short -timeout=$(expr 120 \* $timeout_scale)s -gcflags "$GO_GCFLAGS"
