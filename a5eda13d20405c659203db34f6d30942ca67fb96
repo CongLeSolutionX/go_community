@@ -16,6 +16,24 @@
       "revId": "a5eda13d20405c659203db34f6d30942ca67fb96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_f0a6008e",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-28T05:29:29Z",
+      "side": 0,
+      "message": "That edit wasn\u0027t supposed to be included. It was helping me find pieces that could be deleted. (I wrote a program to delete chunks of the C files and see if \u0027go tool dist install cmd/ld cmd/{5,6,8,9}l\u0027 still succeeded. -Werror was getting in the way.)\n\nThere\u0027s not much point in fixing it at this point. It\u0027s all going to go away.",
+      "parentUuid": "82d51302_c0311e63",
+      "revId": "a5eda13d20405c659203db34f6d30942ca67fb96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
