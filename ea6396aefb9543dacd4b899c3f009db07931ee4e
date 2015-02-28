@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "922486ae_70a9ee91",
+        "filename": "src/cmd/6l/asm.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-28T17:56:37Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter. Will be deleted very soon.",
+      "parentUuid": "2272a758_d06602b9",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2272a758_f06bfe7d",
         "filename": "src/cmd/ld/elf.c",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-28T10:21:28Z",
       "side": 1,
       "message": "Should this comment move to be associated with NSECT, not the enum block ?",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "922486ae_50aef29b",
+        "filename": "src/cmd/ld/elf.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-28T17:56:37Z",
+      "side": 1,
+      "message": "Can fix later.",
+      "parentUuid": "2272a758_f06bfe7d",
       "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "922486ae_30b36604",
+        "filename": "src/cmd/ld/macho.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-28T17:56:37Z",
+      "side": 1,
+      "message": "It\u0027s fine.",
+      "parentUuid": "2272a758_b06576ab",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2272a758_505bf2ee",
         "filename": "src/cmd/ld/pe.c",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "922486ae_10b86adc",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-28T17:56:37Z",
+      "side": 1,
+      "message": "People have had that fun already, I promise you.",
+      "parentUuid": "2272a758_505bf2ee",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2272a758_90b95aa6",
         "filename": "src/cmd/ld/pe.c",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2015-02-28T11:05:18Z",
       "side": 1,
       "message": "Keep the comment.",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "922486ae_f09cbe6e",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-02-28T17:56:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2272a758_90b95aa6",
       "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
