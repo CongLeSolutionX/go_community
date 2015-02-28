@@ -67,6 +67,23 @@
       "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2272a758_90b95aa6",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-02-28T11:05:18Z",
+      "side": 1,
+      "message": "Keep the comment.",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
