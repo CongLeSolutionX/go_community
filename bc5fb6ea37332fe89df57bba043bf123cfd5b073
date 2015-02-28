@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25b5e3d_07cef6ac",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-28T17:56:56Z",
+      "side": 1,
+      "message": "var buf bytes.Buffer\n  ...\n  return buf.String()\n\n?",
+      "revId": "bc5fb6ea37332fe89df57bba043bf123cfd5b073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
