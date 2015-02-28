@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "522e8e91_cbdc750e",
+        "filename": "src/cmd/internal/ld/ldelf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-28T06:54:26Z",
+      "side": 1,
+      "message": "these are all kinda crazy",
+      "revId": "ec56e8b1afbac92a990e5d6acab2de3a581f5386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522e8e91_8bd66de8",
+        "filename": "src/cmd/internal/ld/objfile.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-02-28T06:54:26Z",
+      "side": 1,
+      "message": "I assume you\u0027ll apply a simplification pass over these redundant var types later?",
+      "revId": "ec56e8b1afbac92a990e5d6acab2de3a581f5386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
