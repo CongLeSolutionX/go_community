@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2272a758_d06602b9",
+        "filename": "src/cmd/6l/asm.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-02-28T10:21:28Z",
+      "side": 1,
+      "message": "static uint32 ?",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2272a758_f06bfe7d",
+        "filename": "src/cmd/ld/elf.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-02-28T10:21:28Z",
+      "side": 1,
+      "message": "Should this comment move to be associated with NSECT, not the enum block ?",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2272a758_b06576ab",
+        "filename": "src/cmd/ld/macho.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-02-28T10:21:28Z",
+      "side": 1,
+      "message": "same as before, should this comment block be associated with the symbol, not the enum decl ?",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2272a758_505bf2ee",
+        "filename": "src/cmd/ld/pe.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-02-28T10:21:28Z",
+      "side": 1,
+      "message": "really, the executable owns this text, not the operating system? Oh the fun that could be had ...",
+      "revId": "ea6396aefb9543dacd4b899c3f009db07931ee4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
