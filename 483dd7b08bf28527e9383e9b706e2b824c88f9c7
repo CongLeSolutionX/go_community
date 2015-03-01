@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2272a758_f093fef0",
+        "filename": "src/net/tcp_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-03-01T21:59:22Z",
+      "side": 1,
+      "message": "10042?",
+      "range": {
+        "startLine": 503,
+        "startChar": 32,
+        "endLine": 503,
+        "endChar": 54
+      },
+      "revId": "483dd7b08bf28527e9383e9b706e2b824c88f9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
