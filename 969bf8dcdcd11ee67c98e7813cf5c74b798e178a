@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f23f82b3_76f7a8a9",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-03-01T18:24:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f28dc2f3_20e0ca12",
+      "revId": "969bf8dcdcd11ee67c98e7813cf5c74b798e178a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f28dc2f3_40e5ce21",
         "filename": "src/path/filepath/path_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-01T17:00:20Z",
       "side": 1,
       "message": "write this in two lines. this cleverness has been frowned upon in the past.\n\nrestore :\u003d chtmpdir(t)\ndefer restore()",
+      "revId": "969bf8dcdcd11ee67c98e7813cf5c74b798e178a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_56fca48b",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-03-01T18:24:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f28dc2f3_40e5ce21",
       "revId": "969bf8dcdcd11ee67c98e7813cf5c74b798e178a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
