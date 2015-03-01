@@ -52,6 +52,24 @@
       "revId": "09865bfc8921517e5903d264144fdccb6d09199e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f28dc2f3_e0df4200",
+        "filename": "src/net/packetconn_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-01T23:08:47Z",
+      "side": 1,
+      "message": "I\u0027m not terribly concerned. It helps, but 100-\u003e500 matters more. If this becomes flaky again later, we\u0027ll debug again (it didn\u0027t take long). The reasons might be totally different, too.",
+      "parentUuid": "2272a758_b01fb6d2",
+      "revId": "09865bfc8921517e5903d264144fdccb6d09199e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
