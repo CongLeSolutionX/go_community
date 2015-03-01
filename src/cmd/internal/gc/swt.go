@@ -567,7 +567,7 @@ loop:
 	}
 
 	// deal with the variables one-at-a-time
-	if okforcmp[t.Etype] == 0 || c0.type_ != Texprconst {
+	if !okforcmp[t.Etype] || c0.type_ != Texprconst {
 		a = exprbsw(c0, 1, arg)
 		cas = list(cas, a)
 		c0 = c0.link
@@ -875,7 +875,7 @@ func typecheckswitch(n *Node) {
 		}
 		if t != nil {
 			var badtype *Type
-			if okforeq[t.Etype] == 0 {
+			if !okforeq[t.Etype] {
 				Yyerror("cannot switch on %v", Nconv(n.Ntest, obj.FmtLong))
 			} else if t.Etype == TARRAY && !Isfixedarray(t) {
 				nilonly = "slice"
