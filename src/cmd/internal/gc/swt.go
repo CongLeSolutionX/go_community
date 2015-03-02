@@ -265,9 +265,9 @@ func casebody(sw *Node, typeswvar *Node) {
 
 	lno := setlineno(sw)
 
-	cas := (*NodeList)(nil)  // cases
-	stat := (*NodeList)(nil) // statements
-	def := (*Node)(nil)      // defaults
+	var cas *NodeList  // cases
+	var stat *NodeList // statements
+	var def *Node      // defaults
 	br := Nod(OBREAK, nil, nil)
 
 	var c *Node
@@ -357,7 +357,7 @@ func mkcaselist(sw *Node, arg int) *Case {
 	var n *Node
 	var c1 *Case
 
-	c := (*Case)(nil)
+	var c *Case
 	ord := 0
 
 	for l := sw.List; l != nil; l = l.Next {
@@ -458,7 +458,7 @@ func mkcaselist(sw *Node, arg int) *Case {
 var exprname *Node
 
 func exprbsw(c0 *Case, ncase int, arg int) *Node {
-	cas := (*NodeList)(nil)
+	var cas *NodeList
 	if ncase < Ncase {
 		var a *Node
 		var n *Node
@@ -532,7 +532,7 @@ func exprswitch(sw *Node) {
 	 */
 	exprname = nil
 
-	cas := (*NodeList)(nil)
+	var cas *NodeList
 	if arg == Strue || arg == Sfalse {
 		exprname = Nodbool(arg == Strue)
 	} else if consttype(sw.Ntest) >= 0 {
@@ -607,7 +607,7 @@ var boolname *Node
 
 func typeone(t *Node) *Node {
 	var_ := t.Nname
-	init := (*NodeList)(nil)
+	var init *NodeList
 	if var_ == nil {
 		typecheck(&nblank, Erv|Easgn)
 		var_ = nblank
@@ -631,7 +631,7 @@ func typeone(t *Node) *Node {
 }
 
 func typebsw(c0 *Case, ncase int) *Node {
-	cas := (*NodeList)(nil)
+	var cas *NodeList
 
 	if ncase < Ncase {
 		var n *Node
@@ -688,7 +688,7 @@ func typeswitch(sw *Node) {
 		return
 	}
 
-	cas := (*NodeList)(nil)
+	var cas *NodeList
 
 	/*
 	 * predeclare temporary variables
@@ -893,7 +893,7 @@ func typecheckswitch(n *Node) {
 
 	n.Type = t
 
-	def := (*Node)(nil)
+	var def *Node
 	var ptr int
 	var have *Type
 	var nvar *Node
