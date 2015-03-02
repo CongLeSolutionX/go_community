@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3284bacb_a84fdf8c",
+        "filename": "src/make.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-02T02:21:28Z",
+      "side": 1,
+      "message": "if $CC_FOR_TARGET is set, then it\u0027s possible to enable cross compilation with\ncgo enabled.\n\nI think we should discuss the policy problem before changing the code.\nfor now, just set CGO_ENABLED\u003d0 when you\u0027re cross compiling.",
+      "revId": "4df7fd6871fed71b84b87fce85db1032e172149d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
