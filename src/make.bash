@@ -158,7 +158,15 @@ if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOHOSTOS" != "$GOOS" ]; then
 fi
 
 echo "##### Building packages and commands for $GOOS/$GOARCH."
-CC=$CC_FOR_TARGET "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
+if [ "$GOHOSTARCH" != "$GOARCH" -o "$GOHOSTOS" != "$GOOS" ]; then
+	# We cannot compile runtime/cgo without platform-dependent stuff.
+	CGO_ENABLED_FOR_HOST=$CGO_ENABLED
+	export CGO_ENABLED=0
+	CC=$CC_FOR_TARGET "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
+	export CGO_ENABLED=$CGO_ENABLED_FOR_HOST
+else
+	CC=$CC_FOR_TARGET "$GOTOOLDIR"/go_bootstrap install $GO_FLAGS -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
+fi
 echo
 
 rm -f "$GOTOOLDIR"/go_bootstrap
