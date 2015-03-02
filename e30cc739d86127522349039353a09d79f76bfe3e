@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f23f82b3_3675a04e",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "do you want to commit as it is for now?",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 9
+      },
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_f67ef830",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "how about giving a different name for each test?",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 46
+      },
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_b68870b5",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "dstBin.Close to be nice?",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 12
+      },
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_766b2874",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "needs a comment on what this value is - e.g. // onlyc crawshaw can run it with this key ;-)",
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_76b9e863",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "you can utilize a nil channel if t \u003c 1*time.Second.",
+      "range": {
+        "startLine": 150,
+        "startChar": 29,
+        "endLine": 150,
+        "endChar": 32
+      },
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f23f82b3_364c801c",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "why not kill it when \u003c-timedout is handled?\nif select catches \u003c-exited first (killed by p.Kill here) before timedout\u0027s closing, the error message may be confusing.",
+      "range": {
+        "startLine": 154,
+        "startChar": 33,
+        "endLine": 154,
+        "endChar": 34
+      },
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2b7deb3_e752e236",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T15:44:06Z",
+      "side": 1,
+      "message": "cp(dst, src string) error",
+      "range": {
+        "startLine": 381,
+        "startChar": 31,
+        "endLine": 381,
+        "endChar": 32
+      },
+      "revId": "e30cc739d86127522349039353a09d79f76bfe3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
