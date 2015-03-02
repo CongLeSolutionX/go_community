@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d20a7e5c_cf85dd9c",
+        "filename": "src/time/zoneinfo_darwin_armx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-02T22:29:24Z",
+      "side": 1,
+      "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 53,
+        "endLine": 1,
+        "endChar": 54
+      },
+      "revId": "6cde30e59812791747ab26a934091708f23e0b28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
