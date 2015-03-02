@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72663238_d75c5ecc",
+        "filename": "src/run.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5211
+      },
+      "writtenOn": "2015-03-02T21:16:39Z",
+      "side": 1,
+      "message": "I have nothing more informative to say here right now.\nThe build log is here: http://build.golang.org/log/a4c7f4aacc1bc4dd3734ee1b78a0a80d049330d1",
+      "range": {
+        "startLine": 162,
+        "startChar": 22,
+        "endLine": 162,
+        "endChar": 60
+      },
+      "revId": "640dcee1456b6f450f7f3fbde262790c6e8d7930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
