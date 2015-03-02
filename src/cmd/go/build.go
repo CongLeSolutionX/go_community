@@ -1708,8 +1708,8 @@ func (gcToolchain) gc(b *builder, p *Package, archive, obj string, asmhdr bool, 
 const verifyAsm = true
 
 func (gcToolchain) asm(b *builder, p *Package, obj, ofile, sfile string) error {
-	// Add -I pkg/GOOS_GOARCH so #include "textflag.h" works in .s files.
-	inc := filepath.Join(goroot, "pkg", fmt.Sprintf("%s_%s", goos, goarch))
+	// Add -I src/runtime so #include "textflag.h" works in .s files.
+	inc := filepath.Join(goroot, "src/runtime")
 	sfile = mkAbs(p.Dir, sfile)
 	args := []interface{}{buildToolExec, tool("asm"), "-o", ofile, "-trimpath", b.work, "-I", obj, "-I", inc, "-D", "GOOS_" + goos, "-D", "GOARCH_" + goarch, sfile}
 	if err := b.run(p.Dir, p.ImportPath, nil, args...); err != nil {

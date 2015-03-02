@@ -611,15 +611,6 @@ func install(dir string) {
 		return
 	}
 
-	// For package runtime, copy some files into the work space.
-	if dir == "runtime" {
-		// For use by assembly and C files.
-		copyfile(pathf("%s/pkg/%s_%s/textflag.h", goroot, goos, goarch),
-			pathf("%s/src/runtime/textflag.h", goroot), 0)
-		copyfile(pathf("%s/pkg/%s_%s/funcdata.h", goroot, goos, goarch),
-			pathf("%s/src/runtime/funcdata.h", goroot), 0)
-	}
-
 	// Generate any missing files; regenerate existing ones.
 	for _, p := range files {
 		elem := filepath.Base(p)
@@ -691,7 +682,7 @@ func install(dir string) {
 		compile = []string{
 			pathf("%s/asm", tooldir),
 			"-I", workdir,
-			"-I", pathf("%s/pkg/%s_%s", goroot, goos, goarch),
+			"-I", pathf("%s/src/runtime", goroot),
 			"-D", "GOOS_" + goos,
 			"-D", "GOARCH_" + goarch,
 			"-D", "GOOS_GOARCH_" + goos + "_" + goarch,
