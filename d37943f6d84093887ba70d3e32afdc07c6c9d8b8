@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1286d62d_2cc49b8c",
+        "filename": "src/cmd/6g/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T15:19:17Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "d37943f6d84093887ba70d3e32afdc07c6c9d8b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
