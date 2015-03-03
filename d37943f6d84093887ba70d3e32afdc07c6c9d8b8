@@ -16,6 +16,24 @@
       "revId": "d37943f6d84093887ba70d3e32afdc07c6c9d8b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b247caeb_bedd59e3",
+        "filename": "src/cmd/6g/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-03T20:32:15Z",
+      "side": 1,
+      "message": "Will send a followup. It\u0027s a more general problem.",
+      "parentUuid": "1286d62d_2cc49b8c",
+      "revId": "d37943f6d84093887ba70d3e32afdc07c6c9d8b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
