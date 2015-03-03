@@ -117,3 +117,6 @@ var Gostringnocopy = gostringnocopy
 var Maxstring = &maxstring
 
 type Uintreg uintreg
+
+func Envs() []string     { return envs }
+func SetEnvs(e []string) { envs = e }
