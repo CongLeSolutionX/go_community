@@ -77,7 +77,7 @@ func Set(GOARCH string) *Arch {
 }
 
 func jump386(word string) bool {
-	return word[0] == 'J' || word == "CALL"
+	return word[0] == 'J' || word == "CALL" || word == "LOOP"
 }
 
 func arch386() *Arch {
