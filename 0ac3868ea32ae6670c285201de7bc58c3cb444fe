@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d20a7e5c_b5c8a8cf",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-03T14:06:01Z",
+      "side": 1,
+      "message": "I guess darwin,!arm,!arm64 doesn\u0027t work. is it a bug in build tag handling?\nor was the previous one broken because of the file name of the other file zoneinfo_darwin_armx.go?",
+      "range": {
+        "startLine": 5,
+        "startChar": 78,
+        "endLine": 5,
+        "endChar": 85
+      },
+      "revId": "0ac3868ea32ae6670c285201de7bc58c3cb444fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
