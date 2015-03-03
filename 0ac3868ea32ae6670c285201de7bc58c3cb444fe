@@ -22,6 +22,30 @@
       "revId": "0ac3868ea32ae6670c285201de7bc58c3cb444fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2d42a2f_360bd853",
+        "filename": "src/time/zoneinfo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-03-03T15:36:59Z",
+      "side": 1,
+      "message": "When I last looked at cmd/dist (it was written in C) it had its own limited build tag parsing. I suspect I tripped over that, but I\u0027ll add it to my list of things to look into.",
+      "parentUuid": "d20a7e5c_b5c8a8cf",
+      "range": {
+        "startLine": 5,
+        "startChar": 78,
+        "endLine": 5,
+        "endChar": 85
+      },
+      "revId": "0ac3868ea32ae6670c285201de7bc58c3cb444fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
