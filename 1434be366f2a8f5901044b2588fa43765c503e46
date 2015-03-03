@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1286d62d_e93275c0",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72e9d2ce_fc116951",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e9d2ce_5c189d72",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 7
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "1286d62d_49d9c1f5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "See the comment above. This is a performance hack. Running each test separately with \"go test \u003cpkgname\u003e\" is slow. It\u0027s much faster to just run \"go test \u003ctons of tests\u003e\", so this logically adds them all separately, and they can be filtered to any subset, but then this re-groups them together when they execute.",
+      "parentUuid": "72e9d2ce_9c3145f2",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e9d2ce_bc2e018d",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 7
@@ -64,6 +100,24 @@
       "writtenOn": "2015-03-03T03:21:29Z",
       "side": 1,
       "message": "isn\u0027t this fmt.Sprintf(\"GOMAXPROCS\u003d2 runtime -cpu\u003d%v\", cpu) ?",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1286d62d_89e2d9a0",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "We want them all to be in the same heading group.  I\u0027m trying to match the old output.",
+      "parentUuid": "72e9d2ce_bc2e018d",
       "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "1286d62d_a9df9dd7",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "They weren\u0027t before. I\u0027m not trying to change behavior in this CL.",
+      "parentUuid": "72e9d2ce_dc2bcd7b",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e9d2ce_1c1e1562",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 7
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "1286d62d_e9e99584",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72e9d2ce_1c1e1562",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e9d2ce_3ccaf14a",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 7
@@ -115,6 +205,24 @@
       "writtenOn": "2015-03-03T03:21:29Z",
       "side": 1,
       "message": "huh? why not print? hidden feature of the banner flag?",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1286d62d_09f6e964",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "yes. updated flag comment.",
+      "parentUuid": "72e9d2ce_3ccaf14a",
       "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -149,6 +257,24 @@
       "writtenOn": "2015-03-03T03:26:30Z",
       "side": 1,
       "message": "I don\u0027t think you need that section now.",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1286d62d_a9387da4",
+        "filename": "src/run.bat",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T05:45:54Z",
+      "side": 1,
+      "message": "I think we need this section to get the environment variables set up.\n\nIt passes now.  You can clean it up later if you feel strongly.",
+      "parentUuid": "72e9d2ce_dcc2ed2b",
       "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
