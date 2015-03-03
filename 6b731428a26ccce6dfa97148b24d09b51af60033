@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d20a7e5c_525192b3",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-03-03T01:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d20a7e5c_6f8af11a",
+      "revId": "6b731428a26ccce6dfa97148b24d09b51af60033",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d20a7e5c_af833901",
         "filename": "misc/ios/go_darwin_arm_exec.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-03-02T21:16:07Z",
       "side": 1,
       "message": "s/th pkgpath/the pkgpath",
+      "range": {
+        "startLine": 413,
+        "startChar": 47,
+        "endLine": 413,
+        "endChar": 48
+      },
+      "revId": "6b731428a26ccce6dfa97148b24d09b51af60033",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d20a7e5c_b2655e94",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-03-03T01:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d20a7e5c_af833901",
       "range": {
         "startLine": 413,
         "startChar": 47,
