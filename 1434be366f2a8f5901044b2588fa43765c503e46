@@ -87,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "72e9d2ce_1c1e1562",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-03-03T03:26:30Z",
+      "side": 1,
+      "message": "We are testing misc/cgo/testso on windows today. Keep it in. You have to call test.bat in that directory.",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e9d2ce_3ccaf14a",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 7
@@ -115,6 +132,23 @@
       "writtenOn": "2015-03-03T03:21:29Z",
       "side": 1,
       "message": "Why not you set some boolean variables inside these nested switches and then act on them after? Might make it clearer what is being decided where.",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_dcc2ed2b",
+        "filename": "src/run.bat",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-03-03T03:26:30Z",
+      "side": 1,
+      "message": "I don\u0027t think you need that section now.",
       "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
