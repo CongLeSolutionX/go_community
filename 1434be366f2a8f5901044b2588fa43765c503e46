@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72e9d2ce_fc116951",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "Comment",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_5c189d72",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "why match here when you also match in the loop in the run() method? i think you should drop this test",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_9c3145f2",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "huh? Should this be inside this loop? seems like you\u0027re adding a distTest for each pkg, each one testing more and more packages?",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_bc2e018d",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "isn\u0027t this fmt.Sprintf(\"GOMAXPROCS\u003d2 runtime -cpu\u003d%v\", cpu) ?",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_dc2bcd7b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "log that they\u0027re being skipped if not?",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_3ccaf14a",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "huh? why not print? hidden feature of the banner flag?",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e9d2ce_7cd479ed",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-03-03T03:21:29Z",
+      "side": 1,
+      "message": "Why not you set some boolean variables inside these nested switches and then act on them after? Might make it clearer what is being decided where.",
+      "revId": "1434be366f2a8f5901044b2588fa43765c503e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
