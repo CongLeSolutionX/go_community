@@ -95,19 +95,7 @@ const (
 	Undef Accuracy = Below | Above
 )
 
-func (a Accuracy) String() string {
-	switch a {
-	case Exact:
-		return "exact"
-	case Below:
-		return "below"
-	case Above:
-		return "above"
-	case Undef:
-		return "undef"
-	}
-	panic(fmt.Sprintf("unknown accuracy %d", a))
-}
+//go:generate stringer -type=Accuracy
 
 // RoundingMode determines how a Float value is rounded to the
 // desired precision. Rounding may change the Float value; the
@@ -124,23 +112,7 @@ const (
 	ToPositiveInf                     // == IEEE 754-2008 roundTowardPositive
 )
 
-func (mode RoundingMode) String() string {
-	switch mode {
-	case ToNearestEven:
-		return "ToNearestEven"
-	case ToNearestAway:
-		return "ToNearestAway"
-	case ToZero:
-		return "ToZero"
-	case AwayFromZero:
-		return "AwayFromZero"
-	case ToNegativeInf:
-		return "ToNegativeInf"
-	case ToPositiveInf:
-		return "ToPositiveInf"
-	}
-	panic("unreachable")
-}
+//go:generate stringer -type=RoundingMode
 
 // SetPrec sets z's precision to prec and returns the (possibly) rounded
 // value of z. Rounding occurs according to z's rounding mode if the mantissa
