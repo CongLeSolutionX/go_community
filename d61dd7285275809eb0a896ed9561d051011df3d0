@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9271e61d_e58a9693",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-03T15:12:47Z",
+      "side": 1,
+      "message": "|| t.goos \u003d\u003d \"windows\"",
+      "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32c11a6d_1a7b5da8",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-03T15:12:47Z",
+      "side": 1,
+      "message": "mergeEnvLists([]string{\"GOMAXPROCS\u003d2\"}, os.Environ())",
+      "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e9d2ce_5c289d04",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 8
@@ -13,6 +47,23 @@
       "writtenOn": "2015-03-03T05:57:33Z",
       "side": 1,
       "message": "This won\u0027t work, because test.bat does not return failure. It sets environment variable to indicate failure. I think we have to translate test.bat into some Go code here. I suggest we translate both test.bat and test.bash. Sure I can do to it late.",
+      "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2d42a2f_96cd0cb2",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-03T15:12:47Z",
+      "side": 1,
+      "message": "Please copy and use mergeEnvLists from cmd/go. Note that in that one earlier values take priority. FWIW, I don\u0027t think case folding really matters.",
       "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
