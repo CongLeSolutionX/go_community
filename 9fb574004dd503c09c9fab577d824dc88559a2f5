@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92700651_cd898978",
+        "filename": "src/cmd/internal/obj/arm/list5.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-03T23:26:16Z",
+      "side": 1,
+      "message": "use REGG instead",
+      "range": {
+        "startLine": 108,
+        "startChar": 9,
+        "endLine": 108,
+        "endChar": 16
+      },
+      "revId": "9fb574004dd503c09c9fab577d824dc88559a2f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92700651_ed8ec57d",
+        "filename": "src/cmd/internal/obj/ppc64/list9.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-03T23:26:16Z",
+      "side": 1,
+      "message": "same.",
+      "range": {
+        "startLine": 125,
+        "startChar": 9,
+        "endLine": 125,
+        "endChar": 16
+      },
+      "revId": "9fb574004dd503c09c9fab577d824dc88559a2f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
