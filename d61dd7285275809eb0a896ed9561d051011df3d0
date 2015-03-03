@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "1286d62d_accfaba5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T15:23:54Z",
+      "side": 1,
+      "message": "How about I revert run.bat in this CL and leave it to you?\n\nI want to get this in for Andrew to work on test sharding, but we don\u0027t need all of it in yet.  Windows can come later.",
+      "parentUuid": "72e9d2ce_5c289d04",
+      "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2d42a2f_96cd0cb2",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 8
@@ -64,6 +82,24 @@
       "writtenOn": "2015-03-03T15:12:47Z",
       "side": 1,
       "message": "Please copy and use mergeEnvLists from cmd/go. Note that in that one earlier values take priority. FWIW, I don\u0027t think case folding really matters.",
+      "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1286d62d_ccdcdf65",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-03T15:23:54Z",
+      "side": 1,
+      "message": "I took this code from the x/build repo where I\u0027d previously written. In that case, I added case folding because it did come up and matter.  (both order and case bit me)\n\nBut I can take mergeEnvLists instead. I don\u0027t think it\u0027ll matter here.",
+      "parentUuid": "b2d42a2f_96cd0cb2",
       "revId": "d61dd7285275809eb0a896ed9561d051011df3d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
