@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9271e61d_851ac2ef",
+        "filename": "src/cmd/6g/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-03T15:19:19Z",
+      "side": 1,
+      "message": "var nl, nc *gc.Node",
+      "range": {
+        "startLine": 1126,
+        "startChar": 4,
+        "endLine": 1126,
+        "endChar": 5
+      },
+      "revId": "c9dd344637f91da6ccde836942452762f9be8f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9271e61d_a517bec6",
+        "filename": "src/cmd/internal/gc/closure.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-03T15:19:19Z",
+      "side": 1,
+      "message": "move comment along with declaration",
+      "range": {
+        "startLine": 598,
+        "startChar": 4,
+        "endLine": 598,
+        "endChar": 11
+      },
+      "revId": "c9dd344637f91da6ccde836942452762f9be8f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
