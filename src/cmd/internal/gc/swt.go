@@ -458,11 +458,11 @@ func mkcaselist(sw *Node, arg int) *Case {
 var exprname *Node
 
 func exprbsw(c0 *Case, ncase int, arg int) *Node {
-	var cas *NodeList
 	if ncase < Ncase {
 		var a *Node
 		var n *Node
 		var lno int
+		var cas *NodeList
 		for i := 0; i < ncase; i++ {
 			n = c0.node
 			lno = int(setlineno(n))
@@ -631,11 +631,10 @@ func typeone(t *Node) *Node {
 }
 
 func typebsw(c0 *Case, ncase int) *Node {
-	var cas *NodeList
-
 	if ncase < Ncase {
 		var n *Node
 		var a *Node
+		var cas *NodeList
 		for i := 0; i < ncase; i++ {
 			n = c0.node
 			if c0.type_ != Ttypeconst {
