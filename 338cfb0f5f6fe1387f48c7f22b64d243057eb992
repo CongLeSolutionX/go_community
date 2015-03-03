@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52de8e5b_eb33312b",
+        "filename": "src/runtime/env_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-03T18:52:28Z",
+      "side": 1,
+      "message": "Test that runtime.GOROOT() is still \"/\" after Unsetenv.",
+      "revId": "338cfb0f5f6fe1387f48c7f22b64d243057eb992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
