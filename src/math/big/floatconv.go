@@ -236,7 +236,7 @@ func (x *Float) Append(buf []byte, format byte, prec int) []byte {
 	// TODO(gri) factor out handling of sign?
 
 	// Inf
-	if x.IsInf(0) {
+	if x.IsInf() {
 		var ch byte = '+'
 		if x.neg {
 			ch = '-'
