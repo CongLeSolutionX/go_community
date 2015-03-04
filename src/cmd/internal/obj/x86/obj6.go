@@ -38,7 +38,19 @@ import (
 	"math"
 )
 
-func canuselocaltls(ctxt *obj.Link) bool {
+func canuselocaltls(ctxt *obj.Link, p *obj.Prog) bool {
+	if p.Mode == 32 {
+		switch ctxt.Headtype {
+		case obj.Hlinux,
+			obj.Hnacl,
+			obj.Hplan9,
+			obj.Hwindows:
+			return false
+		}
+
+		return true
+	}
+
 	switch ctxt.Headtype {
 	case obj.Hplan9,
 		obj.Hwindows:
@@ -84,7 +96,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 	// access TLS, and they are rewritten appropriately first here in
 	// liblink and then finally using relocations in the linker.
 
-	if canuselocaltls(ctxt) {
+	if canuselocaltls(ctxt, p) {
 		// Reduce TLS initial exec model to TLS local exec model.
 		// Sequences like
 		//	MOVQ TLS, BX
@@ -135,7 +147,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 	}
 
 	// TODO: Remove.
-	if ctxt.Headtype == obj.Hwindows || ctxt.Headtype == obj.Hplan9 {
+	if ctxt.Headtype == obj.Hwindows && p.Mode == 64 || ctxt.Headtype == obj.Hplan9 {
 		if p.From.Scale == 1 && p.From.Index == REG_TLS {
 			p.From.Scale = 2
 		}
@@ -144,14 +156,14 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 		}
 	}
 
-	if ctxt.Headtype == obj.Hnacl {
+	if ctxt.Headtype == obj.Hnacl && p.Mode == 64 {
 		nacladdr(ctxt, p, &p.From)
 		nacladdr(ctxt, p, &p.To)
 	}
 
 	// Maintain information about code generation mode.
 	if ctxt.Mode == 0 {
-		ctxt.Mode = 64
+		ctxt.Mode = ctxt.Arch.Regsize * 8
 	}
 	p.Mode = int8(ctxt.Mode)
 
@@ -159,9 +171,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 	case AMODE:
 		if p.From.Type == obj.TYPE_CONST || (p.From.Type == obj.TYPE_MEM && p.From.Reg == REG_NONE) {
 			switch int(p.From.Offset) {
-			case 16,
-				32,
-				64:
+			case 16, 32, 64:
 				ctxt.Mode = int(p.From.Offset)
 			}
 		}
@@ -171,9 +181,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 
 	// Rewrite CALL/JMP/RET to symbol as TYPE_BRANCH.
 	switch p.As {
-	case obj.ACALL,
-		obj.AJMP,
-		obj.ARET:
+	case obj.ACALL, obj.AJMP, obj.ARET:
 		if p.To.Type == obj.TYPE_MEM && (p.To.Name == obj.NAME_EXTERN || p.To.Name == obj.NAME_STATIC) && p.To.Sym != nil {
 			p.To.Type = obj.TYPE_BRANCH
 		}
@@ -193,8 +201,6 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 			}
 		}
 		fallthrough
-
-		// fallthrough
 
 	case AFMOVF,
 		AFADDF,
@@ -228,8 +234,8 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 			p.From.Offset = 0
 		}
 
-		// Convert AMOVSD $(0), Xx to AXORPS Xx, Xx
 	case AMOVSD:
+		// Convert AMOVSD $(0), Xx to AXORPS Xx, Xx
 		if p.From.Type == obj.TYPE_FCONST {
 			if p.From.U.Dval == 0 {
 				if p.To.Type == obj.TYPE_REG && REG_X0 <= p.To.Reg && p.To.Reg <= REG_X15 {
@@ -241,7 +247,6 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 		}
 		fallthrough
 
-		// fallthrough
 	case AFMOVD,
 		AFADDD,
 		AFSUBD,
@@ -335,7 +340,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 	}
 
 	var bpsize int
-	if obj.Framepointer_enabled != 0 && autoffset > 0 {
+	if p.Mode == 64 && obj.Framepointer_enabled != 0 && autoffset > 0 {
 		// Make room for to save a base pointer.  If autoffset == 0,
 		// this might do something special like a tail jump to
 		// another function, so in that case we omit this.
@@ -351,7 +356,13 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 	cursym.Args = int32(textarg)
 	cursym.Locals = int32(p.To.Offset)
 
-	if autoffset < obj.StackSmall && p.From3.Offset&obj.NOSPLIT == 0 {
+	// TODO(rsc): Remove.
+	if p.Mode == 32 && cursym.Locals < 0 {
+		cursym.Locals = 0
+	}
+
+	// TODO(rsc): Remove 'p.Mode == 64 &&'.
+	if p.Mode == 64 && autoffset < obj.StackSmall && p.From3.Offset&obj.NOSPLIT == 0 {
 		for q := p; q != nil; q = q.Link {
 			if q.As == obj.ACALL {
 				goto noleaf
@@ -457,6 +468,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			p.From.Scale = 1
 			p.From.Index = REG_CX
 		}
+		if p.Mode == 32 {
+			p.As = AMOVL
+		}
 
 		p = obj.Appendp(ctxt, p)
 		p.As = ATESTQ
@@ -464,7 +478,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		p.From.Reg = REG_BX
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_BX
-		if ctxt.Headtype == obj.Hnacl {
+		if ctxt.Headtype == obj.Hnacl || p.Mode == 32 {
 			p.As = ATESTL
 		}
 
@@ -477,10 +491,10 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		p.As = ALEAQ
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = REG_SP
-		p.From.Offset = int64(autoffset) + 8
+		p.From.Offset = int64(autoffset) + int64(ctxt.Arch.Regsize)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_DI
-		if ctxt.Headtype == obj.Hnacl {
+		if ctxt.Headtype == obj.Hnacl || p.Mode == 32 {
 			p.As = ALEAL
 		}
 
@@ -497,6 +511,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			p.From.Reg = REG_R15
 			p.From.Scale = 1
 			p.From.Index = REG_BX
+		}
+		if p.Mode == 32 {
+			p.As = ACMPL
 		}
 
 		p = obj.Appendp(ctxt, p)
@@ -518,6 +535,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			p.To.Scale = 1
 			p.To.Index = REG_BX
 		}
+		if p.Mode == 32 {
+			p.As = AMOVL
+		}
 
 		p = obj.Appendp(ctxt, p)
 		p.As = obj.ANOP
@@ -536,13 +556,19 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		p.From.Reg = REG_SP
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_DI
+		if p.Mode == 32 {
+			p.As = AMOVL
+		}
 
 		p = obj.Appendp(ctxt, p)
 		p.As = AMOVQ
 		p.From.Type = obj.TYPE_CONST
-		p.From.Offset = int64(autoffset) / 8
+		p.From.Offset = int64(autoffset) / int64(ctxt.Arch.Regsize)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_CX
+		if p.Mode == 32 {
+			p.As = AMOVL
+		}
 
 		p = obj.Appendp(ctxt, p)
 		p.As = AMOVQ
@@ -550,12 +576,18 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		p.From.Offset = 0
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_AX
+		if p.Mode == 32 {
+			p.As = AMOVL
+		}
 
 		p = obj.Appendp(ctxt, p)
 		p.As = AREP
 
 		p = obj.Appendp(ctxt, p)
 		p.As = ASTOSQ
+		if p.Mode == 32 {
+			p.As = ASTOSL
+		}
 	}
 
 	var a int
@@ -659,8 +691,8 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 	}
 }
 
-func indir_cx(ctxt *obj.Link, a *obj.Addr) {
-	if ctxt.Headtype == obj.Hnacl {
+func indir_cx(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) {
+	if ctxt.Headtype == obj.Hnacl && p.Mode == 64 {
 		a.Type = obj.TYPE_MEM
 		a.Reg = REG_R15
 		a.Index = REG_CX
@@ -713,7 +745,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, noc
 	mov := AMOVQ
 	sub := ASUBQ
 
-	if ctxt.Headtype == obj.Hnacl {
+	if ctxt.Headtype == obj.Hnacl || p.Mode == 32 {
 		cmp = ACMPL
 		lea = ALEAL
 		mov = AMOVL
@@ -729,7 +761,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, noc
 		p.As = int16(cmp)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REG_SP
-		indir_cx(ctxt, &p.To)
+		indir_cx(ctxt, p, &p.To)
 		p.To.Offset = 2 * int64(ctxt.Arch.Ptrsize) // G.stackguard0
 		if ctxt.Cursym.Cfunc != 0 {
 			p.To.Offset = 3 * int64(ctxt.Arch.Ptrsize) // G.stackguard1
@@ -751,7 +783,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, noc
 		p.As = int16(cmp)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REG_AX
-		indir_cx(ctxt, &p.To)
+		indir_cx(ctxt, p, &p.To)
 		p.To.Offset = 2 * int64(ctxt.Arch.Ptrsize) // G.stackguard0
 		if ctxt.Cursym.Cfunc != 0 {
 			p.To.Offset = 3 * int64(ctxt.Arch.Ptrsize) // G.stackguard1
@@ -775,7 +807,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, noc
 		p = obj.Appendp(ctxt, p)
 
 		p.As = int16(mov)
-		indir_cx(ctxt, &p.From)
+		indir_cx(ctxt, p, &p.From)
 		p.From.Offset = 2 * int64(ctxt.Arch.Ptrsize) // G.stackguard0
 		if ctxt.Cursym.Cfunc != 0 {
 			p.From.Offset = 3 * int64(ctxt.Arch.Ptrsize) // G.stackguard1
@@ -789,6 +821,9 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, noc
 		p.From.Reg = REG_SI
 		p.To.Type = obj.TYPE_CONST
 		p.To.Offset = obj.StackPreempt
+		if p.Mode == 32 {
+			p.To.Offset = int64(uint32(obj.StackPreempt & (1<<32 - 1)))
+		}
 
 		p = obj.Appendp(ctxt, p)
 		p.As = AJEQ
@@ -1163,4 +1198,19 @@ var Linkamd64p32 = obj.LinkArch{
 	Minlc:      1,
 	Ptrsize:    4,
 	Regsize:    8,
+}
+
+var Link386 = obj.LinkArch{
+	ByteOrder:  binary.LittleEndian,
+	Pconv:      Pconv,
+	Name:       "386",
+	Thechar:    '8',
+	Preprocess: preprocess,
+	Assemble:   span6,
+	Follow:     follow,
+	Progedit:   progedit,
+	UnaryDst:   unaryDst,
+	Minlc:      1,
+	Ptrsize:    4,
+	Regsize:    4,
 }
