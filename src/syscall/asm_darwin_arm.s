@@ -104,7 +104,6 @@ ok2:
 	MOVW	R0, errno+40(SP)	// errno
 	RET
 
-// Actually Syscall7.
 TEXT	·Syscall9(SB),NOSPLIT,$0-52
 	BL runtime·entersyscall(SB)
 	MOVW	syscall+4(SP), R12	// syscall entry
@@ -115,7 +114,11 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-52
 	MOVW	a5+24(SP), R4
 	MOVW	a6+28(SP), R5
 	MOVW	a7+32(SP), R6
+	MOVW	a8+36(SP), R7
+	MOVW	a9+40(SP), R8
+	MOVM.WP	[R7, R8], (R13)
 	SWI		$0x80
+	ADD	$8, R13
 	BCC		ok9
 	MOVW	$-1, R1
 	MOVW	R1, r1+44(SP)	// r1
