@@ -116,6 +116,21 @@ func (e Errno) Timeout() bool {
 	return e == EAGAIN || e == EWOULDBLOCK || e == ETIMEDOUT
 }
 
+// Do the interface allocation only once.
+var errEAGAIN error = EAGAIN
+
+// errnoErr returns common boxed Errno values, to prevent
+// allocations at runtime.
+func errnoErr(e Errno) error {
+	switch e {
+	case 0:
+		return nil
+	case EAGAIN:
+		return errEAGAIN
+	}
+	return e
+}
+
 // A Signal is a number describing a process signal.
 // It implements the os.Signal interface.
 type Signal int
