@@ -12,7 +12,7 @@ import (
 // TODO(gri) add more examples
 
 func ExampleFloat_Add() {
-	// Operating on numbers of different precision is easy.
+	// Operating on numbers of different precision.
 	var x, y, z big.Float
 	x.SetInt64(1000)          // x is automatically set to 64bit precision
 	y.SetFloat64(2.718281828) // y is automatically set to 53bit precision
