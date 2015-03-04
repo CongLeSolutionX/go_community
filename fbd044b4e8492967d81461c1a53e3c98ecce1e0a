@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2e9422c_a0c3da84",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-04T01:05:01Z",
+      "side": 1,
+      "message": "s/instrucion/instruction/",
+      "revId": "fbd044b4e8492967d81461c1a53e3c98ecce1e0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2e9422c_40d3ee54",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-04T01:05:01Z",
+      "side": 1,
+      "message": "s/handle handle/handle/",
+      "revId": "fbd044b4e8492967d81461c1a53e3c98ecce1e0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
