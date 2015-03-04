@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52bf6e32_c3789680",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:42:48Z",
+      "side": 1,
+      "message": "// A NaN value is neither negative nor positive.",
+      "revId": "6f024a5c32e006f2d07f3c67a6a9016c6d010f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52bf6e32_4385c6d1",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:42:48Z",
+      "side": 1,
+      "message": "s/ a//",
+      "revId": "6f024a5c32e006f2d07f3c67a6a9016c6d010f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52bf6e32_a360fabe",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:42:48Z",
+      "side": 1,
+      "message": "\"NaN value\"",
+      "revId": "6f024a5c32e006f2d07f3c67a6a9016c6d010f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52bf6e32_8365fece",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:42:48Z",
+      "side": 1,
+      "message": "s/ a//",
+      "revId": "6f024a5c32e006f2d07f3c67a6a9016c6d010f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52bf6e32_e36af29c",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:42:48Z",
+      "side": 1,
+      "message": "\"a NaN value\"",
+      "revId": "6f024a5c32e006f2d07f3c67a6a9016c6d010f6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
