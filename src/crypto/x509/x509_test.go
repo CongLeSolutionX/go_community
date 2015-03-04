@@ -18,6 +18,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/pem"
+	"flag"
 	"math/big"
 	"net"
 	"os/exec"
@@ -26,6 +27,8 @@ import (
 	"testing"
 	"time"
 )
+
+var target = flag.String("target", "", "if non empty, use 'go_target' to compile test files and 'go_target_exec' to run the binaries")
 
 func TestParsePKCS1PrivateKey(t *testing.T) {
 	block, _ := pem.Decode([]byte(pemPrivateKey))
@@ -858,7 +861,13 @@ func TestImports(t *testing.T) {
 		}
 	}
 
-	if err := exec.Command("go", "run", "x509_test_import.go").Run(); err != nil {
+	var cmd *exec.Cmd
+	if *target == "" {
+		cmd = exec.Command("go", "run", "x509_test_import.go")
+	} else {
+		cmd = exec.Command("go_"+*target, "run", "-exec", "go_"+*target+"_exec", "x509_test_import.go")
+	}
+	if err := cmd.Run(); err != nil {
 		t.Errorf("failed to run x509_test_import.go: %s", err)
 	}
 }

@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -36,6 +37,8 @@ func testEnv(cmd *exec.Cmd) *exec.Cmd {
 	}
 	return cmd
 }
+
+var target = flag.String("target", "", "if non empty, use 'go_target' to compile test files and 'go_target_exec' to run the binaries")
 
 func executeTest(t *testing.T, templ string, data interface{}, extra ...string) string {
 	switch runtime.GOOS {
@@ -85,14 +88,25 @@ func executeTest(t *testing.T, templ string, data interface{}, extra ...string) 
 		}
 	}
 
-	cmd := exec.Command("go", "build", "-o", "a.exe")
+	goCmd := "go"
+	if *target != "" {
+		goCmd = "go_" + *target
+	}
+
+	cmd := exec.Command(goCmd, "build", "-o", "a.exe")
 	cmd.Dir = dir
 	out, err := testEnv(cmd).CombinedOutput()
 	if err != nil {
 		t.Fatalf("building source: %v\n%s", err, out)
 	}
 
-	got, _ := testEnv(exec.Command(filepath.Join(dir, "a.exe"))).CombinedOutput()
+	exe := filepath.Join(dir, "a.exe")
+	if *target == "" {
+		cmd = exec.Command(exe)
+	} else {
+		cmd = exec.Command("go_"+*target+"_exec", exe)
+	}
+	got, _ := testEnv(cmd).CombinedOutput()
 	return string(got)
 }
 
