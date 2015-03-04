@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32d75a80_4dc04d23",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:17:58Z",
+      "side": 1,
+      "message": "typo: have",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32d75a80_adebc9aa",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:17:58Z",
+      "side": 1,
+      "message": "s/may be/is/\n\nThat\u0027s exactly the set of cases, isn\u0027t it?",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32d75a80_ede5c1d4",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:17:58Z",
+      "side": 1,
+      "message": "BTW: I would call these methods {Set,}RoundingMode or {Set,}Rounding.  They\u0027re infrequently typed and \"mode\" doesn\u0027t mean much on its own.",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32d75a80_2de079c1",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:17:58Z",
+      "side": 1,
+      "message": "Similarly, I would choose Accuracy.  It\u0027s not excessively long and is rarely needed.",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52bf6e32_23d36a56",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-04T17:17:58Z",
+      "side": 1,
+      "message": "no apostrophe",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
