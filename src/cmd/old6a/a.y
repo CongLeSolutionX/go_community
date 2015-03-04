@@ -299,7 +299,7 @@ spec7:
 	}
 
 spec8:	/* CMPPS/CMPPD */
-	reg ',' rem ',' con
+	rem ',' reg ',' con
 	{
 		$$.from = $1;
 		$$.to = $3;
