@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32091ade_9a11ed89",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-04T01:54:24Z",
+      "side": 1,
+      "message": "I don\u0027t want to get all fancy and stuff, but what if we just write STV_DEFAULT and STV_HIDDEN here?  They\u0027re defined in elf.go in this package.",
+      "revId": "dee01a823b505f3e8cb5debe6e55b9d114e05254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
