@@ -83,7 +83,7 @@ const (
 // RoundingMode determines how a Float value is rounded to the
 // desired precision. Rounding may change the Float value; the
 // rounding error is described by the Float's Accuracy.
-type RoundingMode uint8
+type RoundingMode byte
 
 // The following rounding modes are supported.
 const (
@@ -101,7 +101,7 @@ const (
 // operation that generated a Float value, relative to the exact value.
 // The accuracy may be Undef for operations on and resulting in
 // NaNs since they are neither Below nor Above any other value.
-type Accuracy int8
+type Accuracy byte
 
 // Constants describing the Accuracy of a Float.
 const (
@@ -261,6 +261,33 @@ func (z *Float) SetMantExp(mant *Float, exp int) *Float {
 	return z
 }
 
+// IsNeg reports whether x is negative.
+// A NaN is not negative.
+func (x *Float) IsNeg() bool {
+	return x.neg && x.exp != nanExp
+}
+
+// IsZero reports whether x is a +0 or -0.
+func (x *Float) IsZero() bool {
+	return len(x.mant) == 0 && x.exp == 0
+}
+
+// IsFinite reports whether -Inf < x < Inf.
+// A NaN is not finite.
+func (x *Float) IsFinite() bool {
+	return len(x.mant) != 0 || x.exp == 0
+}
+
+// IsInf reports whether x is a +Inf or -Inf.
+func (x *Float) IsInf() bool {
+	return x.exp == infExp
+}
+
+// IsNaN reports whether x is a NaN.
+func (x *Float) IsNaN() bool {
+	return x.exp == nanExp
+}
+
 // IsInt reports whether x is an integer.
 // ±Inf and NaN are not considered integers.
 func (x *Float) IsInt() bool {
@@ -274,25 +301,6 @@ func (x *Float) IsInt() bool {
 	}
 	// x.exp > 0
 	return x.prec <= uint32(x.exp) || x.MinPrec() <= uint(x.exp) // not enough bits for fractional mantissa
-}
-
-// IsInf reports whether x is an infinity, according to sign.
-// If sign > 0, IsInf reports whether x is positive infinity.
-// If sign < 0, IsInf reports whether x is negative infinity.
-// If sign == 0, IsInf reports whether x is either infinity.
-func (x *Float) IsInf(sign int) bool {
-	if debugFloat {
-		validate(x)
-	}
-	return x.exp == infExp && (sign == 0 || x.neg == (sign < 0))
-}
-
-// IsNaN reports whether x is a NaN.
-func (x *Float) IsNaN() bool {
-	if debugFloat {
-		validate(x)
-	}
-	return x.exp == nanExp
 }
 
 func (z *Float) setZero() {
