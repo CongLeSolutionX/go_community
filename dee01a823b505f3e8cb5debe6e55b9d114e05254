@@ -16,6 +16,24 @@
       "revId": "dee01a823b505f3e8cb5debe6e55b9d114e05254",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120c16ed_7915073d",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-04T02:10:09Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t notice that they are defined.\n\nDone. PTAL.",
+      "parentUuid": "32091ade_9a11ed89",
+      "revId": "dee01a823b505f3e8cb5debe6e55b9d114e05254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
