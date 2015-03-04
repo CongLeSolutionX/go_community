@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2f34a1a_c1f54459",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-03-04T17:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32d75a80_4dc04d23",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32d75a80_adebc9aa",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-04T17:17:58Z",
       "side": 1,
       "message": "s/may be/is/\n\nThat\u0027s exactly the set of cases, isn\u0027t it?",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2f34a1a_01f0cc64",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-03-04T17:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32d75a80_adebc9aa",
       "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b2f34a1a_e1f4c05a",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-03-04T17:31:45Z",
+      "side": 1,
+      "message": "Maybe for this one. But Acc is either not used at all, or used frequently (e.g. if one were to implement interval arithmetic). Prefer to leave Acc as is, same for Prec. Making Mode -\u003e RoundingMode seems inconsistent. That\u0027s why I choose a long type name instead.\n\nPrefer to leave as is.",
+      "parentUuid": "32d75a80_ede5c1d4",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32d75a80_2de079c1",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "b2f34a1a_41113403",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-03-04T17:31:45Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "32d75a80_2de079c1",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52bf6e32_23d36a56",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2015-03-04T17:17:58Z",
       "side": 1,
       "message": "no apostrophe",
+      "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2f34a1a_210ea8e2",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-03-04T17:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52bf6e32_23d36a56",
       "revId": "1ab16c719f5ff2b1e005422ce13d0000a658862f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
