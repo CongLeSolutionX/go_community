@@ -154,7 +154,6 @@ type Node struct {
 	Diag           uint8
 	Noescape       bool
 	Nosplit        bool
-	Builtin        uint8
 	Nowritebarrier bool
 	Walkdef        uint8
 	Typecheck      uint8
