@@ -755,7 +755,10 @@ const (
 
 const (
 	REG_NONE = 0
-	REG_AL   = obj.RBaseAMD64 + 0 + iota - 1
+)
+
+const (
+	REG_AL = obj.RBaseAMD64 + iota
 	REG_CL
 	REG_DL
 	REG_BL
@@ -772,7 +775,7 @@ const (
 	REG_R14B
 	REG_R15B
 
-	REG_AX = obj.RBaseAMD64 + 16 + iota - 17
+	REG_AX
 	REG_CX
 	REG_DX
 	REG_BX
@@ -789,16 +792,30 @@ const (
 	REG_R14
 	REG_R15
 
-	REG_AH = obj.RBaseAMD64 + 32 + iota - 33
+	REG_AH
 	REG_CH
 	REG_DH
 	REG_BH
 
-	REG_F0 = obj.RBaseAMD64 + 36
+	REG_F0
+	REG_F1
+	REG_F2
+	REG_F3
+	REG_F4
+	REG_F5
+	REG_F6
+	REG_F7
 
-	REG_M0 = obj.RBaseAMD64 + 44
+	REG_M0
+	REG_M1
+	REG_M2
+	REG_M3
+	REG_M4
+	REG_M5
+	REG_M6
+	REG_M7
 
-	REG_X0 = obj.RBaseAMD64 + 52 + iota - 39
+	REG_X0
 	REG_X1
 	REG_X2
 	REG_X3
@@ -815,7 +832,7 @@ const (
 	REG_X14
 	REG_X15
 
-	REG_CS = obj.RBaseAMD64 + 68 + iota - 55
+	REG_CS
 	REG_SS
 	REG_DS
 	REG_ES
@@ -828,11 +845,11 @@ const (
 	REG_MSW  /* machine status word */
 	REG_TASK /* task register */
 
-	REG_CR = obj.RBaseAMD64 + 79
-	REG_DR = obj.RBaseAMD64 + 95
-	REG_TR = obj.RBaseAMD64 + 103
+	REG_CR
+	REG_DR
+	REG_TR
 
-	REG_TLS = obj.RBaseAMD64 + 111 + iota - 69
+	REG_TLS
 
 	MAXREG
 
