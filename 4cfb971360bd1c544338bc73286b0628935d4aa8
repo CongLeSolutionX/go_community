@@ -88,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "127fb64d_01eb8aa9",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "Go style is to have field doc comments start with the thing being commented upon, just like type doc comments:\n\n// Address is the program-counter value etc.\n\nSimilarly below.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_e5785680",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -128,6 +145,46 @@
     },
     {
       "key": {
+        "uuid": "127fb64d_41dd9206",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "I\u0027d add full stops to complete the sentences, here and below.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_21e08ec1",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "s/_/ok/ and return an error if false?",
+      "range": {
+        "startLine": 155,
+        "startChar": 1,
+        "endLine": 155,
+        "endChar": 8
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_055572d7",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -139,6 +196,40 @@
       "writtenOn": "2015-03-05T02:06:28Z",
       "side": 1,
       "message": "Note that if totalLength \u003d\u003d 0xffffffff then this is a 64-bit format, and this field is 8 bytes, and so is prologueLength.  I admit this is an unlikely case.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_61da9611",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "Drop the outer parens.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_81d79ae4",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "Just double-checking that the 1 is deliberate.",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -162,6 +253,57 @@
         "endLine": 308,
         "endChar": 14
       },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_a192de2a",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "Maybe s/Line/entry.Line/",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_01a2aa7b",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "Maybe s/entry/e/. We say \"r io.Reader\" and not \"reader io.Reader\".",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_c197e219",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T02:18:38Z",
+      "side": 1,
+      "message": "The keys are dense, so I\u0027d use an array instead of a map:\n\nvar knownOpcodeLengths \u003d [...]int{\n  lnsCopy: 0,\n  etc,\n}\n\nThis will require bounds checking on the \u0027call\u0027-site.",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
