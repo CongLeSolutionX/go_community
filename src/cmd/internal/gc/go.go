@@ -165,7 +165,7 @@ type Node struct {
 	Isddd          uint8
 	Readonly       uint8
 	Implicit       uint8
-	Addrtaken      uint8
+	Addrtaken      bool
 	Assigned       uint8
 	Captured       uint8
 	Byval          uint8
