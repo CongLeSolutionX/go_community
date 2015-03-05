@@ -88,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "9221e687_e5785680",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-05T02:06:28Z",
+      "side": 1,
+      "message": "\"Implementation defined modification time\"",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_e5d3f603",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -105,6 +122,23 @@
         "endLine": 136,
         "endChar": 24
       },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_055572d7",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-05T02:06:28Z",
+      "side": 1,
+      "message": "Note that if totalLength \u003d\u003d 0xffffffff then this is a 64-bit format, and this field is 8 bytes, and so is prologueLength.  I admit this is an unlikely case.",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -174,6 +208,40 @@
         "endLine": 589,
         "endChar": 31
       },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7247123f_ec468b2a",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-05T02:06:28Z",
+      "side": 1,
+      "message": "This method seems like a bit of an attractive nuisance.  For any but the simplest of uses or the smallest of files one would need at least a table mapping PCs to compilation units.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_a5d3bed6",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-05T02:06:28Z",
+      "side": 1,
+      "message": "These days the Highpc is usually relative to the Lowpc, which here will mean a type of int64.",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
