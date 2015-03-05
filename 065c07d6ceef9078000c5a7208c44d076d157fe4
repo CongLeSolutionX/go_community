@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "570040ef_1e8aa967",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-05T18:56:28Z",
+      "side": 1,
+      "message": "I am not sure where these spaces came from but can we drop them? It will be easier to read if only the argument-splitting commas have spaces.",
+      "revId": "065c07d6ceef9078000c5a7208c44d076d157fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_fe9eddab",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-05T18:56:28Z",
+      "side": 1,
+      "message": "here it is",
+      "revId": "065c07d6ceef9078000c5a7208c44d076d157fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
