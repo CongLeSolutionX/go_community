@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "570040ef_1eb749f0",
+        "filename": "src/debug/dwarf/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9221e687_a5f01e98",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_c5e51ad5",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-03-05T01:14:59Z",
       "side": 1,
       "message": "s/allows reading/ reads/",
+      "range": {
+        "startLine": 13,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_5e6f117e",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9221e687_c5e51ad5",
       "range": {
         "startLine": 13,
         "startChar": 23,
@@ -88,6 +130,54 @@
     },
     {
       "key": {
+        "uuid": "570040ef_de98c178",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9221e687_45c3ea30",
+      "range": {
+        "startLine": 14,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_bea5f5b2",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done, and added a bright red highlight for \".  \" to retrain my fingers.  :)",
+      "parentUuid": "9221e687_e5ea16a4",
+      "range": {
+        "startLine": 14,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb64d_01eb8aa9",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "570040ef_3e00c5ff",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done, plus some other comment tweaks (\"this\" -\u003e \"it\", etc)",
+      "parentUuid": "127fb64d_01eb8aa9",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_e5785680",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -116,6 +224,24 @@
       "writtenOn": "2015-03-05T02:06:28Z",
       "side": 1,
       "message": "\"Implementation defined modification time\"",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_1e050910",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9221e687_e5785680",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "570040ef_beda950c",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Actually, the sentence about the line argument was left over from when this code lived outside the dwarf package.  I\u0027ve removed this whole paragraph and integrated the bit about the constraints on cu into the first sentence of the comment.\n\nI checked through the rest of the file and fixed one more sentence that began with a lower-case argument name in Seek.",
+      "parentUuid": "9221e687_e5d3f603",
+      "range": {
+        "startLine": 136,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 24
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb64d_41dd9206",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -156,6 +306,24 @@
       "writtenOn": "2015-03-05T02:18:38Z",
       "side": 1,
       "message": "I\u0027d add full stops to complete the sentences, here and below.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_9ed7d9e6",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done.  I think I got them all.",
+      "parentUuid": "127fb64d_41dd9206",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "570040ef_bec1752a",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "It\u0027s not an error for there to be no AttrCompDir if all of the file names are absolute (for example, Go binaries have no AttrCompDir attributes).  I added a comment to this effect.",
+      "parentUuid": "127fb64d_21e08ec1",
+      "range": {
+        "startLine": 155,
+        "startChar": 1,
+        "endLine": 155,
+        "endChar": 8
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_055572d7",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -196,6 +388,24 @@
       "writtenOn": "2015-03-05T02:06:28Z",
       "side": 1,
       "message": "Note that if totalLength \u003d\u003d 0xffffffff then this is a 64-bit format, and this field is 8 bytes, and so is prologueLength.  I admit this is an unlikely case.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_be3615b6",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Sure enough.  It looks like I missed this when I updated from DWARF 2 to DWARF 4.  I\u0027ve fixed this and prologueLength to support the 64-bit format.  I think those are the only two things that change.  I also updated some terminology to reflect the more consistent terminology in DWARF 4: statement program is now line number program and prologue is header.\n\nI\u0027ll send a follow-up CL that adds an initialLength (or maybe unitLength) method to buf, since we now have this logic in four places.",
+      "parentUuid": "9221e687_055572d7",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "570040ef_9e3359c6",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "127fb64d_61da9611",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb64d_81d79ae4",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -230,6 +458,24 @@
       "writtenOn": "2015-03-05T02:18:38Z",
       "side": 1,
       "message": "Just double-checking that the 1 is deliberate.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_7ece4d30",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "It is.  The opcode length table starts at opcode 1.  I\u0027ve added a comment.\n\nAlternatively, opcodeLengths[0] could be the length of opcode 1, but I think simply leaving opcodeLengths[0] unused is clearer.",
+      "parentUuid": "127fb64d_81d79ae4",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -259,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "570040ef_9ee8f97f",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Next can\u0027t return nil because then the caller would have no way to distinguish end-of-table from not end-of-table.  I could make it return (bool, error) instead.\n\nI had previously avoided io.EOF because it\u0027s not really \"end of file,\" but I\u0027ve switched to io.EOF.  Let me know if you think changing the signature and returning (false, nil) would be better.",
+      "parentUuid": "9221e687_6529c683",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 14
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb64d_a192de2a",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -270,6 +540,24 @@
       "writtenOn": "2015-03-05T02:18:38Z",
       "side": 1,
       "message": "Maybe s/Line/entry.Line/",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_5efcb142",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Did entry.Address and entry.Line.",
+      "parentUuid": "127fb64d_a192de2a",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -293,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "570040ef_fe0a5dd5",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "True, but r for io.Reader (or some sort of Reader) is basically convention.  I think this becomes less self-documenting if I change this to e, so I left it as entry.  But let me know if you have a stronger opinion.",
+      "parentUuid": "127fb64d_01a2aa7b",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb64d_c197e219",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -310,6 +616,24 @@
     },
     {
       "key": {
+        "uuid": "570040ef_de07a1cd",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "They\u0027re almost but not quite dense.  It skips 0 and 9 (lnsFixedAdvancePC).  0 doesn\u0027t really matter because we never check it.  I could use a placeholder (-1?) for lnsFixedAdvancePC, or simply special case lnsFixedAdvancePC where this is checked in readPrologue.",
+      "parentUuid": "127fb64d_c197e219",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_a5c9fe57",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -321,6 +645,30 @@
       "writtenOn": "2015-03-05T01:14:59Z",
       "side": 1,
       "message": "ErrUnknownPC",
+      "range": {
+        "startLine": 534,
+        "startChar": 4,
+        "endLine": 534,
+        "endChar": 13
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_9e0119ba",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9221e687_a5c9fe57",
       "range": {
         "startLine": 534,
         "startChar": 4,
@@ -356,6 +704,30 @@
     },
     {
       "key": {
+        "uuid": "570040ef_fe9b7d72",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9221e687_25b6eecf",
+      "range": {
+        "startLine": 589,
+        "startChar": 24,
+        "endLine": 589,
+        "endChar": 31
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7247123f_ec468b2a",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -373,6 +745,24 @@
     },
     {
       "key": {
+        "uuid": "570040ef_fe0ffddc",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "I wrote this to parallel the one in the dwarf fork in the debug subrepo.  I\u0027m happy to remove it from here and put it somewhere else in the subrepo.\n\n(I would think that mapping PC to compilation unit would be less of a concern than scanning the line table, assuming every CompileUnit has Lowpc/Highpc or Ranges (which, admittedly, this doesn\u0027t use right now).  We could even eliminate that cost by using .debug_aranges.)",
+      "parentUuid": "7247123f_ec468b2a",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_a5d3bed6",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -384,6 +774,24 @@
       "writtenOn": "2015-03-05T02:06:28Z",
       "side": 1,
       "message": "These days the Highpc is usually relative to the Lowpc, which here will mean a type of int64.",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "570040ef_1e44e902",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-05T17:37:05Z",
+      "side": 1,
+      "message": "Fixed.\n\nSubtleties like this would seem to argue that we *should* provide a utility like PCToLine, at least for \"non-serious\" consumers.  Or perhaps a PCToUnit utility (that could use AttrRanges and, ideally, .debug_aranges) combined with LineReader.SeekPC would be a better balance.\n\nOn a related note, I\u0027m surprised there isn\u0027t a documented mapping from DWARF value classes to Go types.  Is this just an oversight?",
+      "parentUuid": "9221e687_a5d3bed6",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
