@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9221e687_a5f01e98",
+        "filename": "src/debug/dwarf/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "here and below s/$/./",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_c5e51ad5",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "s/allows reading/ reads/",
+      "range": {
+        "startLine": 13,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_e5ea16a4",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "s/  / / here and below",
+      "range": {
+        "startLine": 14,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_45c3ea30",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "compilation unit",
+      "range": {
+        "startLine": 14,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_e5d3f603",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "i prefer sentences to start with a capital letter in documentation.\n\nLine tables are per-compilation unit. The arguments are cu, .... and line,...",
+      "range": {
+        "startLine": 136,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 24
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_6529c683",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "error names should start Err\n\nErrEndOfTable\n\nthat said, a graceful end should be either nil or maybe io.EOF",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 14
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_a5c9fe57",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "ErrUnknownPC",
+      "range": {
+        "startLine": 534,
+        "startChar": 4,
+        "endLine": 534,
+        "endChar": 13
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9221e687_25b6eecf",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-05T01:14:59Z",
+      "side": 1,
+      "message": "compilation unit",
+      "range": {
+        "startLine": 589,
+        "startChar": 24,
+        "endLine": 589,
+        "endChar": 31
+      },
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
