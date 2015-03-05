@@ -34,6 +34,42 @@
       "revId": "2b1d61156abc8626e248f0a91fb4766bf214df04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92a646d4_3d896fb9",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-03-05T10:52:18Z",
+      "side": 1,
+      "message": "I\u0027ve added the field that you suggest, but the output isn\u0027t what you want to confirm. It is:\n\n    \u003ce\u003ee1\u003c/e\u003e\n\nas the default namespace (set in the top element) is already \"space\", so that\u0027s correct AFAICS.",
+      "parentUuid": "2272a758_8d1b81a0",
+      "revId": "2b1d61156abc8626e248f0a91fb4766bf214df04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d22fde6e_678552d2",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-03-05T10:52:18Z",
+      "side": 1,
+      "message": "Darn it, I had a draft comment here but didn\u0027t remember to publish it.",
+      "parentUuid": "127fb64d_21adee1a",
+      "revId": "2b1d61156abc8626e248f0a91fb4766bf214df04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
