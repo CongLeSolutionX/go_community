@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "977b98ac_551cac1f",
+        "filename": "src/math/big/bits_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-05T22:25:17Z",
+      "side": 1,
+      "message": "Where is this used, other than its test?\n\nIt seems to compute sums, not products.",
+      "revId": "d28b8cec1d8353986b9419e4b0b67686a9c3bc2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
