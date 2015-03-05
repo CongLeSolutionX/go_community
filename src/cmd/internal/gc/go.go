@@ -173,7 +173,7 @@ type Node struct {
 	Wrapper        uint8
 	Reslice        uint8
 	Likely         int8
-	Hasbreak       uint8
+	Hasbreak       bool
 	Needzero       bool
 	Needctxt       bool
 	Esc            uint
