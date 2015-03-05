@@ -292,7 +292,7 @@ func Dconv(p *Prog, a *Addr) string {
 		// where the $1 is included in the p->to Addr.
 		// Move into a new field.
 		if a.Offset != 0 {
-			str = fmt.Sprintf("$%d,%v", a.Offset, Rconv(int(a.Reg)))
+			str = fmt.Sprintf("$%d, %v", a.Offset, Rconv(int(a.Reg)))
 			break
 		}
 
