@@ -763,6 +763,24 @@
     },
     {
       "key": {
+        "uuid": "97c0f816_1075ea86",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-05T23:34:40Z",
+      "side": 1,
+      "message": "In my experience, which is definitely biased toward C++ programs, there are lots of compilation units, and most compilation units have manageable number of line records (also, for what it\u0027s worth, most compilation units are split up into many different address ranges).  If you do a linear scan then finding the right compilation unit is harder than finding the line number within the compilation unit.  That said, yes, you build two levels of tables, and you build the line number table lazily.\n\nNothing necessarily has to change here, but if we\u0027re going to have a function like this one I\u0027m inclined to think that we should have functions that build the tables, and this function can use those tables.",
+      "parentUuid": "570040ef_fe0ffddc",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_a5d3bed6",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -792,6 +810,24 @@
       "side": 1,
       "message": "Fixed.\n\nSubtleties like this would seem to argue that we *should* provide a utility like PCToLine, at least for \"non-serious\" consumers.  Or perhaps a PCToUnit utility (that could use AttrRanges and, ideally, .debug_aranges) combined with LineReader.SeekPC would be a better balance.\n\nOn a related note, I\u0027m surprised there isn\u0027t a documented mapping from DWARF value classes to Go types.  Is this just an oversight?",
       "parentUuid": "9221e687_a5d3bed6",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97c0f816_f08b7ee7",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-05T23:34:40Z",
+      "side": 1,
+      "message": "I think the package should really have started with special types for the value classes, and it\u0027s unfortunate that we\u0027re now stuck with distinguishing between \"int64\" and \"uint64\" to know what we are looking at.  Yes, the current set should be documented.",
+      "parentUuid": "570040ef_1e44e902",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
