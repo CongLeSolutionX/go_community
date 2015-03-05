@@ -16,6 +16,24 @@
       "revId": "2b1d61156abc8626e248f0a91fb4766bf214df04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "127fb64d_21adee1a",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-05T04:26:38Z",
+      "side": 1,
+      "message": "It looks like\nE1 string `xml:x\u003ee\"`\nwas added, but the output is\n\u003ce\u003ee1\u003c/e\u003e\ninstead of\n\u003ce xmlns\u003d\"space\"\u003ee1\u003c/e\u003e\n\ndfc, rogpeppe, WDYT the right answer is?",
+      "parentUuid": "2272a758_8d1b81a0",
+      "revId": "2b1d61156abc8626e248f0a91fb4766bf214df04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
