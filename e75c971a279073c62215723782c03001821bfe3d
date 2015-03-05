@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "971f1854_f509582a",
+        "filename": "src/strconv/ftoa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-03-05T04:36:13Z",
+      "side": 1,
+      "message": "Why not call formatBits twice, once for the exponent and once for the mantissa? It already handles all special cases. There\u0027s a bit of extra work done (base distinction, whether to append or not) but its worthwhile the experiment. fmtB is hardly a speed-critical format, and less code would be nice.",
+      "revId": "e75c971a279073c62215723782c03001821bfe3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
