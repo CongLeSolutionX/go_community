@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d742704b_6f60f1be",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-05T16:36:24Z",
+      "side": 1,
+      "message": "I feel like traceEv and traceskip could be packed together in a single constant somehow.",
+      "range": {
+        "startLine": 140,
+        "startChar": 87,
+        "endLine": 140,
+        "endChar": 114
+      },
+      "revId": "ac6cb953d4d915667f223a0d50734688f15fc11a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d742704b_0f6f25ad",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-05T16:36:24Z",
+      "side": 1,
+      "message": "byte?",
+      "range": {
+        "startLine": 283,
+        "startChar": 15,
+        "endLine": 283,
+        "endChar": 18
+      },
+      "revId": "ac6cb953d4d915667f223a0d50734688f15fc11a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
