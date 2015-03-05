@@ -163,7 +163,7 @@ type Node struct {
 	Initorder      uint8
 	Used           uint8
 	Isddd          uint8
-	Readonly       uint8
+	Readonly       bool
 	Implicit       uint8
 	Addrtaken      uint8
 	Assigned       uint8
