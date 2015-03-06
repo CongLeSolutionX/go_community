@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "773384f5_727b307d",
+        "filename": "src/cmd/internal/gc/closure.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 7050
+      },
+      "writtenOn": "2015-03-06T11:44:32Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u003d false?",
+      "range": {
+        "startLine": 96,
+        "startChar": 17,
+        "endLine": 96,
+        "endChar": 21
+      },
+      "revId": "935ab74801441d219b5496dd7a13cb201c3b8776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
