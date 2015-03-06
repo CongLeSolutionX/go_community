@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17b888d3_d932f3a2",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T20:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ae9492_78e64132",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ae9492_d8f4add9",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "17b888d3_b9637f8d",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T20:34:02Z",
+      "side": 1,
+      "message": "It\u0027s only called within this file, so I went ahead and renamed them \"importmap\" and \"getimport\" to be consistent with \"pkgmap\" and \"getpkg\".  (Not opinionated about names, but I don\u0027t have anything better off hand either; happy to change them again.)",
+      "parentUuid": "f7ae9492_d8f4add9",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ae9492_98fa35c3",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-03-06T20:13:43Z",
       "side": 1,
       "message": "\u0026Import{name: name}",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17b888d3_d9603383",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T20:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ae9492_98fa35c3",
       "revId": "6db5485f80504402a4629173956b0148d13eca7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "17b888d3_f95df7c5",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T20:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ae9492_b8f7f9db",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ae9492_180c656d",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 2
@@ -151,6 +223,24 @@
       "writtenOn": "2015-03-06T20:13:43Z",
       "side": 1,
       "message": "Method?\n\n   func (p *Pkg) cycle() *Pkg {\n   }\n\nBut now I notice that nothing in this package ever uses the return value.\n\nRemove it?",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17b888d3_d9b59364",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T20:34:02Z",
+      "side": 1,
+      "message": "Changed to a method.\n\nThe return value is used internally within cycle() in a subtle way to track whether it should continue printing or not, so removing it would change semantics.",
+      "parentUuid": "f7ae9492_180c656d",
       "revId": "6db5485f80504402a4629173956b0148d13eca7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
