@@ -781,6 +781,24 @@
     },
     {
       "key": {
+        "uuid": "b7dfbc22_7e1b91a5",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-06T20:04:06Z",
+      "side": 1,
+      "message": "I see, that\u0027s good to know.\n\nI\u0027m going to remove PCToLine for now since it\u0027s much easier to add it back later than to remove it.  It seems like we at least need to think about address ranges (both AttrRanges and .debug_aranges) more carefully before something like this goes in.  And it\u0027s not clear to me who should be responsible for any sort of indexing, this package or users of this package.",
+      "parentUuid": "97c0f816_1075ea86",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9221e687_a5d3bed6",
         "filename": "src/debug/dwarf/line.go",
         "patchSetId": 2
@@ -828,6 +846,24 @@
       "side": 1,
       "message": "I think the package should really have started with special types for the value classes, and it\u0027s unfortunate that we\u0027re now stuck with distinguishing between \"int64\" and \"uint64\" to know what we are looking at.  Yes, the current set should be documented.",
       "parentUuid": "570040ef_1e44e902",
+      "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7dfbc22_5e641521",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-06T20:04:06Z",
+      "side": 1,
+      "message": "Yes.  Oh well.\n\nI\u0027ve got a follow-up CL that adds this table of types to the documentation.",
+      "parentUuid": "97c0f816_f08b7ee7",
       "revId": "4cfb971360bd1c544338bc73286b0628935d4aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
