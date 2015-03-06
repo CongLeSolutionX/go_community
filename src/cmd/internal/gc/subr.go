@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -282,6 +283,24 @@ func Lookup(name string) *Sym {
 }
 
 func Lookupf(format string, a ...interface{}) *Sym {
+	// Try to fast path some common cases.
+	n := len(format)
+	if len(a) == 1 && n >= 2 && format[n-2] == '%' {
+		prefix := format[:n-2]
+		switch format[n-1] {
+		case 'd':
+			if v, ok := a[0].(int); ok {
+				return Lookup(prefix + strconv.Itoa(v))
+			}
+			Fatal("missed fast path: %q, %v", format, a)
+		case 's':
+			if s, ok := a[0].(string); ok {
+				return Lookup(prefix + s)
+			}
+			Fatal("missed fast path: %q, %v", format, a)
+		}
+	}
+
 	return Lookup(fmt.Sprintf(format, a...))
 }
 

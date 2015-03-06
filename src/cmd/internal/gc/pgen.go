@@ -17,7 +17,7 @@ import (
 
 //#include	"opt.h"
 
-var makefuncdatasym_nsym int32
+var makefuncdatasym_nsym int
 
 func makefuncdatasym(namefmt string, funcdatakind int64) *Sym {
 	var nod Node
