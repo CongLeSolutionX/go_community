@@ -101,8 +101,6 @@ func (z *Float) Scan(r io.ByteScanner, base int) (f *Float, b int, err error) {
 	}
 	// len(z.mant) > 0
 
-	z.form = finite
-
 	// The mantissa may have a decimal point (fcount <= 0) and there
 	// may be a nonzero exponent exp. The decimal point amounts to a
 	// division by b**(-fcount). An exponent means multiplication by
@@ -160,7 +158,6 @@ func (z *Float) Scan(r io.ByteScanner, base int) (f *Float, b int, err error) {
 	fpowTen := new(Float).SetInt(new(Int).SetBits(powTen))
 
 	// apply 10**exp10
-	// (uquo and umul do the rounding)
 	if exp10 < 0 {
 		z.uquo(z, fpowTen)
 	} else {
