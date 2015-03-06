@@ -179,6 +179,13 @@ func (x *Float) cmpZero() Accuracy {
 	return Below
 }
 
+func (x *Float) cmpInf() Accuracy {
+	if x.neg {
+		return Below
+	}
+	return Above
+}
+
 // SetMode sets z's rounding mode to mode and returns an exact z.
 // z remains unchanged otherwise.
 // z.SetMode(z.Mode()) is a cheap way to set z's accuracy to Exact.
@@ -268,14 +275,12 @@ func (x *Float) MantExp(mant *Float) (exp int) {
 // setExp sets the exponent for z.
 // If e < MinExp, z becomes ±0; if e > MaxExp, z becomes ±Inf.
 func (z *Float) setExp(e int64) {
-	if debugFloat && z.form != finite {
-		panic("setExp called for non-finite Float")
-	}
 	switch {
 	case e < MinExp:
 		// TODO(gri) check that accuracy is adjusted if necessary
 		z.form = zero // underflow
 	default:
+		z.form = finite
 		z.exp = int32(e)
 	case e > MaxExp:
 		// TODO(gri) check that accuracy is adjusted if necessary
@@ -368,14 +373,14 @@ func (x *Float) validate() {
 	}
 	m := len(x.mant)
 	if m == 0 {
-		panic("nonzero finite x with empty mantissa")
+		panic("nonzero finite number with empty mantissa")
 	}
 	const msb = 1 << (_W - 1)
 	if x.mant[m-1]&msb == 0 {
 		panic(fmt.Sprintf("msb not set in last word %#x of %s", x.mant[m-1], x.Format('p', 0)))
 	}
-	if x.prec <= 0 {
-		panic(fmt.Sprintf("invalid precision %d", x.prec))
+	if x.prec == 0 {
+		panic("zero precision finite number")
 	}
 }
 
@@ -657,7 +662,6 @@ func (z *Float) SetInt(x *Int) *Float {
 		return z
 	}
 	// x != 0
-	z.form = finite
 	z.mant = z.mant.set(x.abs)
 	fnorm(z.mant)
 	z.setExp(int64(bits))
@@ -1037,8 +1041,21 @@ func (z *Float) Neg(x *Float) *Float {
 	return z
 }
 
+func validateBinaryOperands(x, y *Float) {
+	if !debugFloat {
+		// avoid performance bugs
+		panic("validateBinaryOperands called but debugFloat is not set")
+	}
+	if len(x.mant) == 0 {
+		panic("empty mantissa for x")
+	}
+	if len(y.mant) == 0 {
+		panic("empty mantissa for y")
+	}
+}
+
 // z = x + y, ignoring signs of x and y.
-// x.form and y.form must be finite.
+// x and y must have a non-empty mantissa and valid exponent.
 func (z *Float) uadd(x, y *Float) {
 	// Note: This implementation requires 2 shifts most of the
 	// time. It is also inefficient if exponents or precisions
@@ -1050,8 +1067,8 @@ func (z *Float) uadd(x, y *Float) {
 	// Point Addition With Exact Rounding (as in the MPFR Library)"
 	// http://www.vinc17.net/research/papers/rnc6.pdf
 
-	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
-		panic("uadd called with empty mantissa")
+	if debugFloat {
+		validateBinaryOperands(x, y)
 	}
 
 	// compute exponents ex, ey for mantissa with "binary point"
@@ -1078,19 +1095,18 @@ func (z *Float) uadd(x, y *Float) {
 	// len(z.mant) > 0
 
 	z.setExp(ex + int64(len(z.mant))*_W - fnorm(z.mant))
-	z.round(0)
 }
 
 // z = x - y for x >= y, ignoring signs of x and y.
-// x.form and y.form must be finite.
+// x and y must have a non-empty mantissa and valid exponent.
 func (z *Float) usub(x, y *Float) {
 	// This code is symmetric to uadd.
 	// We have not factored the common code out because
 	// eventually uadd (and usub) should be optimized
 	// by special-casing, and the code will diverge.
 
-	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
-		panic("usub called with empty mantissa")
+	if debugFloat {
+		validateBinaryOperands(x, y)
 	}
 
 	ex := int64(x.exp) - int64(len(x.mant))*_W
@@ -1113,21 +1129,19 @@ func (z *Float) usub(x, y *Float) {
 
 	// operands may have cancelled each other out
 	if len(z.mant) == 0 {
-		z.acc = Exact
 		z.form = zero
 		return
 	}
 	// len(z.mant) > 0
 
 	z.setExp(ex + int64(len(z.mant))*_W - fnorm(z.mant))
-	z.round(0)
 }
 
 // z = x * y, ignoring signs of x and y.
-// x.form and y.form must be finite.
+// x and y must have a non-empty mantissa and valid exponent.
 func (z *Float) umul(x, y *Float) {
-	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
-		panic("umul called with empty mantissa")
+	if debugFloat {
+		validateBinaryOperands(x, y)
 	}
 
 	// Note: This is doing too much work if the precision
@@ -1141,14 +1155,14 @@ func (z *Float) umul(x, y *Float) {
 
 	// normalize mantissa
 	z.setExp(e - fnorm(z.mant))
-	z.round(0)
 }
 
 // z = x / y, ignoring signs of x and y.
-// x.form and y.form must be finite.
-func (z *Float) uquo(x, y *Float) {
-	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
-		panic("uquo called with empty mantissa")
+// It returns a "sticky bit", if any (see Float.round).
+// x and y must have a non-empty mantissa and valid exponent.
+func (z *Float) uquo(x, y *Float) uint {
+	if debugFloat {
+		validateBinaryOperands(x, y)
 	}
 
 	// mantissa length in words for desired result precision + 1
@@ -1185,19 +1199,18 @@ func (z *Float) uquo(x, y *Float) {
 	// If there's a non-zero remainder, the corresponding fractional part
 	// (if it were computed), would have a non-zero sticky bit (if it were
 	// zero, it couldn't have a non-zero remainder).
-	var sbit uint
 	if len(r) > 0 {
-		sbit = 1
+		return 1
 	}
-	z.round(sbit)
+	return 0
 }
 
 // ucmp returns Below, Exact, or Above, depending
 // on whether x < y, x == y, or x > y.
-// x.form and y.form must be finite.
+// x and y must have a non-empty mantissa and valid exponent.
 func (x *Float) ucmp(y *Float) Accuracy {
-	if debugFloat && (len(x.mant) == 0 || len(y.mant) == 0) {
-		panic("ucmp called with empty mantissa")
+	if debugFloat {
+		validateBinaryOperands(x, y)
 	}
 
 	switch {
@@ -1288,8 +1301,7 @@ func (z *Float) Add(x, y *Float) *Float {
 	}
 
 	// x, y != 0
-	z.form = finite
-	z.neg = x.neg
+	neg := x.neg
 	if x.neg == y.neg {
 		// x + y == x + y
 		// (-x) + (-y) == -(x + y)
@@ -1300,17 +1312,30 @@ func (z *Float) Add(x, y *Float) *Float {
 		if x.ucmp(y) == Above {
 			z.usub(x, y)
 		} else {
-			z.neg = !z.neg
+			neg = !neg
 			z.usub(y, x)
 		}
 	}
 
-	// -0 is only possible for -0 + -0
-	if z.form == zero {
-		z.neg = false
+	// TODO(gri) what if rounding leads to zero of inf?
+	// rethink this for all operations!
+
+	switch z.form {
+	case finite:
+		z.neg = neg
+		z.round(0)
+		return z
+	case zero:
+		z.acc = Exact
+		z.neg = false // -0 is only possible for -0 + -0
+		return z
+	case inf:
+		z.neg = neg
+		z.acc = z.cmpInf()
+		return z
 	}
 
-	return z
+	panic("unreachable")
 }
 
 // Sub sets z to the rounded difference x-y and returns z.
@@ -1346,8 +1371,7 @@ func (z *Float) Sub(x, y *Float) *Float {
 	}
 
 	// x, y != 0
-	z.form = finite
-	z.neg = x.neg
+	neg := x.neg
 	if x.neg != y.neg {
 		// x - (-y) == x + y
 		// (-x) - y == -(x + y)
@@ -1358,14 +1382,24 @@ func (z *Float) Sub(x, y *Float) *Float {
 		if x.ucmp(y) == Above {
 			z.usub(x, y)
 		} else {
-			z.neg = !z.neg
+			neg = !neg
 			z.usub(y, x)
 		}
 	}
 
-	// -0 is only possible for -0 - 0
-	if z.form == zero {
-		z.neg = false
+	switch z.form {
+	case finite:
+		z.neg = neg
+		z.round(0)
+		return z
+	case zero:
+		z.acc = Exact
+		z.neg = false // -0 is only possible for -0 - 0
+		return z
+	case inf:
+		z.neg = neg
+		z.acc = z.cmpInf()
+		return z
 	}
 
 	return z
@@ -1407,9 +1441,18 @@ func (z *Float) Mul(x, y *Float) *Float {
 	}
 
 	// x, y != 0
-	z.form = finite
 	z.umul(x, y)
-	return z
+
+	switch z.form {
+	case finite:
+		z.round(0)
+		return z
+	case inf:
+		z.acc = z.cmpInf()
+		return z
+	}
+
+	panic("unreachable")
 }
 
 // Quo sets z to the rounded quotient x/y and returns z.
@@ -1453,8 +1496,11 @@ func (z *Float) Quo(x, y *Float) *Float {
 	}
 
 	// x, y != 0
-	z.form = finite
-	z.uquo(x, y)
+	sbit := z.uquo(x, y)
+	z.round(sbit)
+
+	// TODO(gri) handling of non-finite forms
+
 	return z
 }
 
@@ -1512,6 +1558,7 @@ func (acc Accuracy) Geq() bool { return acc&Below == 0 }
 //	+1 if 0 < x < +Inf
 //	+2 if x == +Inf
 //
+// x must not be NaN.
 func (x *Float) ord() int {
 	var m int
 	switch x.form {
@@ -1521,8 +1568,8 @@ func (x *Float) ord() int {
 		return 0
 	case inf:
 		m = 2
-	case nan:
-		panic("unimplemented")
+	default:
+		panic("unreachable")
 	}
 	if x.neg {
 		m = -m
