@@ -9,6 +9,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -37,42 +38,21 @@ func expandpkg(t0 string, pkg string) string {
  *	package import data
  */
 type Import struct {
-	hash   *Import // next in hash table
-	prefix string  // "type", "var", "func", "const"
+	prefix string // "type", "var", "func", "const"
 	name   string
 	def    string
 	file   string
 }
 
-const (
-	NIHASH = 1024
-)
-
-var ihash [NIHASH]*Import
-
-var nimport int
-
-func hashstr(name string) int {
-	h := uint32(0)
-	for cp := name; cp != ""; cp = cp[1:] {
-		h = h*1119 + uint32(cp[0])
-	}
-	h &= 0xffffff
-	return int(h)
-}
+var imap = make(map[string]*Import)
 
 func ilookup(name string) *Import {
-	h := hashstr(name) % NIHASH
-	for x := ihash[h]; x != nil; x = x.hash {
-		if x.name[0] == name[0] && x.name == name {
-			return x
-		}
+	if x, ok := imap[name]; ok {
+		return x
 	}
 	x := new(Import)
 	x.name = name
-	x.hash = ihash[h]
-	ihash[h] = x
-	nimport++
+	imap[name] = x
 	return x
 }
 
@@ -278,6 +258,13 @@ loop:
 			return -1
 		}
 		name = name[:len(name)-len(p)]
+		name = strings.TrimSuffix(name, " // indirect")
+		name, err := strconv.Unquote(name)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s: %s: confused in import path\n", os.Args[0], file)
+			nerrors++
+			return -1
+		}
 		p = p[1:]
 		imported(pkg, name)
 		goto loop
@@ -753,65 +740,52 @@ func addexport() {
 }
 
 type Pkg struct {
-	mark    uint8
-	checked uint8
-	next    *Pkg
+	mark    bool
+	checked bool
 	path_   string
 	impby   []*Pkg
-	all     *Pkg
 }
 
-var phash [1024]*Pkg
-
-var pkgall *Pkg
+var pkgmap = make(map[string]*Pkg)
 
 func getpkg(path_ string) *Pkg {
-	h := hashstr(path_) % len(phash)
-	for p := phash[h]; p != nil; p = p.next {
-		if p.path_ == path_ {
-			return p
-		}
+	if p, ok := pkgmap[path_]; ok {
+		return p
 	}
 	p := new(Pkg)
 	p.path_ = path_
-	p.next = phash[h]
-	phash[h] = p
-	p.all = pkgall
-	pkgall = p
+	pkgmap[path_] = p
 	return p
 }
 
 func imported(pkg string, import_ string) {
 	// everyone imports runtime, even runtime.
-	if import_ == "\"runtime\"" {
+	if import_ == "runtime" {
 		return
 	}
 
-	pkg = fmt.Sprintf("%q", pkg) // turn pkg path into quoted form, freed below
 	p := getpkg(pkg)
 	i := getpkg(import_)
 	i.impby = append(i.impby, p)
 }
 
 func cycle(p *Pkg) *Pkg {
-	if p.checked != 0 {
+	if p.checked {
 		return nil
 	}
 
-	if p.mark != 0 {
+	if p.mark {
 		nerrors++
 		fmt.Printf("import cycle:\n")
 		fmt.Printf("\t%s\n", p.path_)
 		return p
 	}
 
-	p.mark = 1
-	var bad *Pkg
-	for i := 0; i < len(p.impby); i++ {
-		bad = cycle(p.impby[i])
-		if bad != nil {
-			p.mark = 0
-			p.checked = 1
+	p.mark = true
+	for _, q := range p.impby {
+		if bad := cycle(q); bad != nil {
+			p.mark = false
+			p.checked = true
 			fmt.Printf("\timports %s\n", p.path_)
 			if bad == p {
 				return nil
@@ -820,13 +794,13 @@ func cycle(p *Pkg) *Pkg {
 		}
 	}
 
-	p.checked = 1
-	p.mark = 0
+	p.checked = true
+	p.mark = false
 	return nil
 }
 
 func importcycles() {
-	for p := pkgall; p != nil; p = p.all {
+	for _, p := range pkgmap {
 		cycle(p)
 	}
 }
