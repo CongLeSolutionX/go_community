@@ -16,6 +16,24 @@
       "revId": "aa46996065343c6a0fe40e4de686c048cc0ac568",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7dfbc22_1e436d70",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-06T20:14:26Z",
+      "side": 1,
+      "message": "I considered that, but wanted the correspondence with the default state machine registers in the document to be clear.  I\u0027ll add a comment referencing the specification section.",
+      "parentUuid": "127fb64d_6789c6b8",
+      "revId": "aa46996065343c6a0fe40e4de686c048cc0ac568",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
