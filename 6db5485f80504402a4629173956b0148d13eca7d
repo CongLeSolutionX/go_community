@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7ae9492_78e64132",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:13:43Z",
+      "side": 1,
+      "message": "comments like below?",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ae9492_d8f4add9",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:13:43Z",
+      "side": 1,
+      "message": "weird that this is called \"ilookup\" and the other is called \"getpkg\" and they\u0027re identically in behavior (get from map else populate map and return it).\n\nbut renaming should probably out of scope for this CL, so ignore this complaint.",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ae9492_98fa35c3",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:13:43Z",
+      "side": 1,
+      "message": "\u0026Import{name: name}",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ae9492_78cd61ae",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 2
@@ -66,6 +117,40 @@
       "side": 1,
       "message": "(Same as above.)",
       "parentUuid": "f7ae9492_98d1554f",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ae9492_b8f7f9db",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:13:43Z",
+      "side": 1,
+      "message": "\u0026Pkg{path: path}",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ae9492_180c656d",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:13:43Z",
+      "side": 1,
+      "message": "Method?\n\n   func (p *Pkg) cycle() *Pkg {\n   }\n\nBut now I notice that nothing in this package ever uses the return value.\n\nRemove it?",
       "revId": "6db5485f80504402a4629173956b0148d13eca7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
