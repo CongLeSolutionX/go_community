@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f7d5b400_433a7800",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T19:36:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77146488_e4771ad2",
+      "revId": "37a0536f8bc329680f9850471a57f52af4f34238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77146488_c4749ed0",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-06T19:22:45Z",
       "side": 1,
       "message": "no reason for trailing underscore?",
+      "revId": "37a0536f8bc329680f9850471a57f52af4f34238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7d5b400_632f7cbd",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-06T19:36:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77146488_c4749ed0",
       "revId": "37a0536f8bc329680f9850471a57f52af4f34238",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
