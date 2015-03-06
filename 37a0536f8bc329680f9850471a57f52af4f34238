@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77146488_e4771ad2",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T19:22:45Z",
+      "side": 1,
+      "message": "add a little comment saying what the key is and its format with example string?",
+      "revId": "37a0536f8bc329680f9850471a57f52af4f34238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77146488_c4749ed0",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T19:22:45Z",
+      "side": 1,
+      "message": "no reason for trailing underscore?",
+      "revId": "37a0536f8bc329680f9850471a57f52af4f34238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
