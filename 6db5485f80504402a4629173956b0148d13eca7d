@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7ae9492_78cd61ae",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:02:50Z",
+      "side": 1,
+      "message": "why [0] and not [p0]?  p0 looked correct.\n\nbut strings.TrimLeft would be more idiomatic and ditch these index variables.",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ae9492_98d1554f",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-06T20:02:50Z",
+      "side": 1,
+      "message": "[0] looks wrong again. [p0] looked correct.",
+      "revId": "6db5485f80504402a4629173956b0148d13eca7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
