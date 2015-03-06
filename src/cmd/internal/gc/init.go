@@ -55,6 +55,7 @@ func renameinit() *Sym {
  */
 func anyinit(n *NodeList) bool {
 	// are there any interesting init statements
+	found := false
 	for l := n; l != nil; l = l.Next {
 		switch l.N.Op {
 		case ODCLFUNC,
@@ -71,8 +72,14 @@ func anyinit(n *NodeList) bool {
 
 			// fall through
 		default:
-			return true
+			if compiling_runtime != 0 {
+				Warnl(int(l.N.Lineno), "%v needs dynamic initialization", Nconv(l.N, 0))
+			}
+			found = true
 		}
+	}
+	if found {
+		return true
 	}
 
 	// is this main
