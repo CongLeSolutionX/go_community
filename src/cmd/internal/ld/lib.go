@@ -110,15 +110,11 @@ var datap *LSym
 
 var Debug [128]int
 
-var literal string
-
 var Lcsize int32
 
 var rpath string
 
 var Spsize int32
-
-var symlist *LSym
 
 var Symsize int32
 
@@ -161,11 +157,7 @@ var Thelinkarch *LinkArch
 
 var outfile string
 
-var ndynexp int
-
 var dynexp []*LSym
-
-var nldflag int
 
 var ldflag []string
 
@@ -660,8 +652,6 @@ var hostobj []Hostobj
 
 var nhostobj int
 
-var mhostobj int
-
 // These packages can use internal linking mode.
 // Others trigger external mode.
 var internalpkg = []string{
@@ -1026,11 +1016,6 @@ eof:
 	Diag("truncated object file: %s", pn)
 }
 
-func zerosig(sp string) {
-	s := Linklookup(Ctxt, sp, 0)
-	s.Sig = 0
-}
-
 func mywhatsys() {
 	goroot = obj.Getgoroot()
 	goos = obj.Getgoos()
@@ -1040,18 +1025,6 @@ func mywhatsys() {
 		log.Fatalf("cannot use %cc with GOARCH=%s", Thearch.Thechar, goarch)
 	}
 }
-
-func pathchar() int {
-	return '/'
-}
-
-var hunk []byte
-
-var nhunk uint32
-
-const (
-	NHUNK = 10 << 20
-)
 
 // Copied from ../gc/subr.c:/^pathtoprefix; must stay in sync.
 /*
@@ -1080,19 +1053,6 @@ func pathtoprefix(s string) string {
 		}
 	}
 	return s
-}
-
-func iconv(p string) string {
-	if p == "" {
-		var fp string
-		fp += "<nil>"
-		return fp
-	}
-
-	p = pathtoprefix(p)
-	var fp string
-	fp += p
-	return fp
 }
 
 func addsection(seg *Segment, name string, rwx int) *Section {

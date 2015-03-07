@@ -50,7 +50,6 @@ type LSym struct {
 	Localentry  uint8
 	Onlist      uint8
 	Dynid       int32
-	Sig         int32
 	Plt         int32
 	Got         int32
 	Align       int32
