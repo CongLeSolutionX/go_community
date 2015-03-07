@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37fe6c70_b2b56037",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-03-07T03:34:22Z",
+      "side": 1,
+      "message": "nit: please take this as an opportunity to squash all these decls in to a var ( ... ) block",
+      "revId": "5745021188aa9a585f44dfc3920b5b575d68eb35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
