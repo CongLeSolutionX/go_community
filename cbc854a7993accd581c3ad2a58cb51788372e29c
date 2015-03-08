@@ -117,6 +117,30 @@
       "revId": "cbc854a7993accd581c3ad2a58cb51788372e29c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17e968fa_d15ee44e",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2897,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-03-08T21:11:06Z",
+      "side": 0,
+      "message": "OK, I\u0027ve put this back and added a comment.",
+      "parentUuid": "97fd58c2_c5c29a82",
+      "range": {
+        "startLine": 2897,
+        "startChar": 4,
+        "endLine": 2897,
+        "endChar": 10
+      },
+      "revId": "cbc854a7993accd581c3ad2a58cb51788372e29c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
