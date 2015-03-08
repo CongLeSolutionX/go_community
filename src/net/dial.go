@@ -53,6 +53,17 @@ type Dialer struct {
 	// If zero, a default delay of 300ms is used.
 	FallbackDelay time.Duration
 
+	// FastOpen enables TCP fast open option as defined in RFC
+	// 7413, which is able to convey data during a three-way
+	// handshake. When true, Dial returns a non-established
+	// connection. The connection should be established by the
+	// first Write call.
+	//
+	// The functionality will be disabled automatically when the
+	// operating system forbids to use TCP fast open option.
+	// In that case, Dial returns a established connection.
+	FastOpen bool
+
 	// KeepAlive specifies the keep-alive period for an active
 	// network connection.
 	// If zero, keep-alives are not enabled. Network protocols
@@ -393,7 +404,7 @@ func dialSingle(ctx *dialContext, ra Addr, deadline time.Time, cancel <-chan str
 	switch ra := ra.(type) {
 	case *TCPAddr:
 		la, _ := la.(*TCPAddr)
-		c, err = testHookDialTCP(ctx.network, la, ra, deadline, cancel)
+		c, err = testHookDialTCP(ctx, la, ra, deadline, cancel)
 	case *UDPAddr:
 		la, _ := la.(*UDPAddr)
 		c, err = dialUDP(ctx.network, la, ra, deadline)

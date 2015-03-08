@@ -323,6 +323,10 @@ func (fd *netFD) Write(p []byte) (nn int, err error) {
 	if err := fd.pd.PrepareWrite(); err != nil {
 		return 0, err
 	}
+	return fd.write(p)
+}
+
+func (fd *netFD) write(p []byte) (nn int, err error) {
 	for {
 		var n int
 		n, err = syscall.Write(fd.sysfd, p[nn:])
