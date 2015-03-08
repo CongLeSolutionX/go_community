@@ -11,6 +11,16 @@ import (
 	"time"
 )
 
+var (
+	// supportsActiveTCPFastOpen reports whether the platform
+	// supports active TCP fast open feature.
+	supportsActiveTCPFastOpen bool
+
+	// supportsPassiveFastOpen reports whether the platform
+	// supports passive TCP fast open feature.
+	supportsPassiveTCPFastOpen bool
+)
+
 // TCPAddr represents the address of a TCP end point.
 type TCPAddr struct {
 	IP   IP
@@ -71,6 +81,7 @@ func ResolveTCPAddr(net, addr string) (*TCPAddr, error) {
 // connections.
 type TCPConn struct {
 	conn
+	fastOpen bool
 }
 
 // ReadFrom implements the io.ReaderFrom ReadFrom method.
@@ -168,8 +179,8 @@ func (c *TCPConn) SetNoDelay(noDelay bool) error {
 	return nil
 }
 
-func newTCPConn(fd *netFD) *TCPConn {
-	c := &TCPConn{conn{fd}}
+func newTCPConn(fd *netFD, fastOpen bool) *TCPConn {
+	c := &TCPConn{conn: conn{fd}, fastOpen: fastOpen}
 	setNoDelay(c.fd, true)
 	return c
 }
@@ -186,7 +197,8 @@ func DialTCP(net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
 	if raddr == nil {
 		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
 	}
-	c, err := dialTCP(net, laddr, raddr, noDeadline, noCancel)
+	ctx := dialContext{network: net}
+	c, err := dialTCP(&ctx, laddr, raddr, noDeadline, noCancel)
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}

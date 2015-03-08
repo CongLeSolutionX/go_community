@@ -224,7 +224,7 @@ func dialIP(netProto string, laddr, raddr *IPAddr, deadline time.Time) (*IPConn,
 	if raddr == nil {
 		return nil, errMissingAddress
 	}
-	fd, err := internetSocket(net, laddr, raddr, deadline, syscall.SOCK_RAW, proto, "dial", noCancel)
+	fd, err := internetSocket(net, syscall.SOCK_RAW, proto, "dial", false, laddr, raddr, deadline, noCancel)
 	if err != nil {
 		return nil, err
 	}
@@ -245,7 +245,7 @@ func ListenIP(netProto string, laddr *IPAddr) (*IPConn, error) {
 	default:
 		return nil, &OpError{Op: "listen", Net: netProto, Source: nil, Addr: laddr.opAddr(), Err: UnknownNetworkError(netProto)}
 	}
-	fd, err := internetSocket(net, laddr, nil, noDeadline, syscall.SOCK_RAW, proto, "listen", noCancel)
+	fd, err := internetSocket(net, syscall.SOCK_RAW, proto, "listen", false, laddr, nil, noDeadline, noCancel)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: netProto, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}

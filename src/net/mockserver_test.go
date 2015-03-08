@@ -261,6 +261,56 @@ func transponder(ln Listener, ch chan<- error) {
 	}
 }
 
+func persistentTransponder(ln Listener, n int, ch chan<- error) {
+	defer close(ch)
+
+	for {
+		switch ln := ln.(type) {
+		case *TCPListener:
+			ln.SetDeadline(time.Now().Add(someTimeout))
+		case *UnixListener:
+			ln.SetDeadline(time.Now().Add(someTimeout))
+		}
+		c, err := ln.Accept()
+		if err != nil {
+			return
+		}
+
+		network := ln.Addr().Network()
+		if c.LocalAddr().Network() != network || c.LocalAddr().Network() != network {
+			ch <- fmt.Errorf("got %v->%v; expected %v->%v", c.LocalAddr().Network(), c.RemoteAddr().Network(), network, network)
+			return
+		}
+		c.SetDeadline(time.Now().Add(someTimeout))
+		c.SetReadDeadline(time.Now().Add(someTimeout))
+		c.SetWriteDeadline(time.Now().Add(someTimeout))
+
+		go func(c Conn, n int) {
+			defer c.Close()
+			b := make([]byte, n)
+			nr, err := c.Read(b)
+			if err != nil {
+				if perr := parseReadError(err); perr != nil {
+					ch <- perr
+				}
+				ch <- err
+				return
+			}
+			nw, err := c.Write(b[:nr])
+			if err != nil {
+				if perr := parseWriteError(err); perr != nil {
+					ch <- perr
+				}
+				ch <- err
+				return
+			}
+			if nw != nr {
+				ch <- fmt.Errorf("got %d bytes written; want %d", nw, nr)
+			}
+		}(c, n)
+	}
+}
+
 func transceiver(c Conn, wb []byte, ch chan<- error) {
 	defer close(ch)
 

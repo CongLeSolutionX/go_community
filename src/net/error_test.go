@@ -146,33 +146,37 @@ func TestDialError(t *testing.T) {
 	})
 	defer sw.Set(socktest.FilterConnect, nil)
 
-	d := Dialer{Timeout: someTimeout}
-	for i, tt := range dialErrorTests {
-		c, err := d.Dial(tt.network, tt.address)
-		if err == nil {
-			t.Errorf("#%d: should fail; %s:%s->%s", i, c.LocalAddr().Network(), c.LocalAddr(), c.RemoteAddr())
-			c.Close()
-			continue
-		}
-		if tt.network == "tcp" || tt.network == "udp" {
-			nerr := err
-			if op, ok := nerr.(*OpError); ok {
-				nerr = op.Err
-			}
-			if sys, ok := nerr.(*os.SyscallError); ok {
-				nerr = sys.Err
-			}
-			if nerr == errOpNotSupported {
-				t.Errorf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
+	for _, d := range []Dialer{
+		Dialer{Timeout: someTimeout},
+		Dialer{Timeout: someTimeout, FastOpen: true},
+	} {
+		for i, tt := range dialErrorTests {
+			c, err := d.Dial(tt.network, tt.address)
+			if err == nil {
+				t.Errorf("#%d: should fail; %s:%s->%s", i, c.LocalAddr().Network(), c.LocalAddr(), c.RemoteAddr())
+				c.Close()
 				continue
 			}
-		}
-		if c != nil {
-			t.Errorf("Dial returned non-nil interface %T(%v) with err != nil", c, c)
-		}
-		if err = parseDialError(err); err != nil {
-			t.Errorf("#%d: %v", i, err)
-			continue
+			if tt.network == "tcp" || tt.network == "udp" {
+				nerr := err
+				if op, ok := nerr.(*OpError); ok {
+					nerr = op.Err
+				}
+				if sys, ok := nerr.(*os.SyscallError); ok {
+					nerr = sys.Err
+				}
+				if nerr == errOpNotSupported {
+					t.Errorf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
+					continue
+				}
+			}
+			if c != nil {
+				t.Errorf("Dial returned non-nil interface %T(%v) with err != nil", c, c)
+			}
+			if err = parseDialError(err); err != nil {
+				t.Errorf("#%d: %v", i, err)
+				continue
+			}
 		}
 	}
 }
