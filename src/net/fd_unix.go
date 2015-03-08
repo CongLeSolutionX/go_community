@@ -21,13 +21,18 @@ type netFD struct {
 	fdmu fdMutex
 
 	// immutable until Close
-	sysfd       int
-	family      int
-	sotype      int
+	sysfd  int
+	family int
+	sotype int
+	net    string
+	laddr  Addr
+	raddr  Addr
+
+	// Almost all the time it's immutable except when TCP fast
+	// open protocol is enabled. When the protocol runs
+	// isConnected will be mutable during the connection setup
+	// phase.
 	isConnected bool
-	net         string
-	laddr       Addr
-	raddr       Addr
 
 	// wait server
 	pd pollDesc
@@ -305,6 +310,10 @@ func (fd *netFD) Write(p []byte) (nn int, err error) {
 	if err := fd.pd.PrepareWrite(); err != nil {
 		return 0, err
 	}
+	return fd.write(p)
+}
+
+func (fd *netFD) write(p []byte) (nn int, err error) {
 	for {
 		var n int
 		n, err = syscall.Write(fd.sysfd, p[nn:])
@@ -428,6 +437,7 @@ func (fd *netFD) accept() (netfd *netFD, err error) {
 		fd.Close()
 		return nil, err
 	}
+	netfd.isConnected = true
 	lsa, _ := syscall.Getsockname(netfd.sysfd)
 	netfd.setAddr(netfd.addrFunc()(lsa), netfd.addrFunc()(rsa))
 	return netfd, nil

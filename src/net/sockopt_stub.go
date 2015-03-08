@@ -12,7 +12,7 @@ func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
 	return nil
 }
 
-func setDefaultListenerSockopts(s int) error {
+func setDefaultListenerSockopts(s, family, sotype int) error {
 	return nil
 }
 

@@ -32,19 +32,11 @@ type sockaddr interface {
 	sockaddr(family int) (syscall.Sockaddr, error)
 }
 
-// socket returns a network file descriptor that is ready for
+// namedSocket returns a network file descriptor that is ready for
 // asynchronous I/O using the network poller.
-func socket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr sockaddr, deadline time.Time) (fd *netFD, err error) {
-	s, err := sysSocket(family, sotype, proto)
+func namedSocket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr sockaddr, deadline time.Time) (fd *netFD, err error) {
+	fd, err = socket(net, family, sotype, proto, ipv6only)
 	if err != nil {
-		return nil, err
-	}
-	if err = setDefaultSockopts(s, family, sotype, ipv6only); err != nil {
-		closeFunc(s)
-		return nil, err
-	}
-	if fd, err = newFD(s, family, sotype, net); err != nil {
-		closeFunc(s)
 		return nil, err
 	}
 
@@ -88,6 +80,23 @@ func socket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr s
 	}
 	if err := fd.dial(laddr, raddr, deadline); err != nil {
 		fd.Close()
+		return nil, err
+	}
+	return fd, nil
+}
+
+// socket returns a network file descriptor.
+func socket(net string, family, sotype, proto int, ipv6only bool) (fd *netFD, err error) {
+	s, err := sysSocket(family, sotype, proto)
+	if err != nil {
+		return nil, err
+	}
+	if err = setDefaultSockopts(s, family, sotype, ipv6only); err != nil {
+		closeFunc(s)
+		return nil, err
+	}
+	if fd, err = newFD(s, family, sotype, net); err != nil {
+		closeFunc(s)
 		return nil, err
 	}
 	return fd, nil
@@ -153,7 +162,7 @@ func (fd *netFD) dial(laddr, raddr sockaddr, deadline time.Time) error {
 }
 
 func (fd *netFD) listenStream(laddr sockaddr, backlog int) error {
-	if err := setDefaultListenerSockopts(fd.sysfd); err != nil {
+	if err := setDefaultListenerSockopts(fd.sysfd, fd.family, fd.sotype); err != nil {
 		return err
 	}
 	if lsa, err := laddr.sockaddr(fd.family); err != nil {

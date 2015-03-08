@@ -17,7 +17,7 @@ type TCPConn struct {
 	conn
 }
 
-func newTCPConn(fd *netFD) *TCPConn {
+func newTCPConn(fd *netFD, fastOpen bool) *TCPConn {
 	return &TCPConn{conn{fd}}
 }
 
@@ -126,7 +126,7 @@ func dialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time) (*TCPConn, e
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 // TCPListener is a TCP network listener.  Clients should typically
@@ -145,7 +145,7 @@ func (l *TCPListener) AcceptTCP() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 // Accept implements the Accept method in the Listener interface; it
@@ -228,4 +228,9 @@ func ListenTCP(net string, laddr *TCPAddr) (*TCPListener, error) {
 		return nil, err
 	}
 	return &TCPListener{fd}, nil
+}
+
+func (d *Dialer) dialTCP(network string, raddr *TCPAddr) (*TCPConn, error) {
+	laddr, _ := d.LocalAddr.(*TCPAddr)
+	return dialTCP(network, laddr, raddr, d.deadline(time.Now()))
 }

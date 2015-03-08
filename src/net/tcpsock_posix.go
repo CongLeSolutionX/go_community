@@ -44,10 +44,11 @@ func (a *TCPAddr) sockaddr(family int) (syscall.Sockaddr, error) {
 // connections.
 type TCPConn struct {
 	conn
+	fastOpen bool
 }
 
-func newTCPConn(fd *netFD) *TCPConn {
-	c := &TCPConn{conn{fd}}
+func newTCPConn(fd *netFD, fastOpen bool) *TCPConn {
+	c := &TCPConn{conn: conn{fd}, fastOpen: fastOpen}
 	setNoDelay(c.fd, true)
 	return c
 }
@@ -204,7 +205,7 @@ func dialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time) (*TCPConn, e
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 func selfConnect(fd *netFD, err error) bool {
@@ -234,6 +235,38 @@ func spuriousENOTAVAIL(err error) bool {
 	return ok && e.Err == syscall.EADDRNOTAVAIL
 }
 
+func (d *Dialer) dialTCP(network string, raddr *TCPAddr) (*TCPConn, error) {
+	dial := func(laddr, raddr *TCPAddr) (*netFD, error) {
+		family, ipv6only := favoriteAddrFamily(network, laddr, raddr, "dial")
+		fd, err := socket(network, family, syscall.SOCK_STREAM, syscall.IPPROTO_TCP, ipv6only)
+		if err != nil {
+			return nil, err
+		}
+		if err := fd.dial(laddr, nil, d.deadline(time.Now())); err != nil {
+			fd.Close()
+			return nil, err
+		}
+		fd.raddr = raddr
+		return fd, nil
+	}
+	laddr, ok := d.LocalAddr.(*TCPAddr)
+	if !ok || laddr == nil {
+		laddr = &TCPAddr{}
+	}
+	fd, err := dial(laddr, raddr)
+	// See dialTCP for the detail of TCP simultaneous connection.
+	for i := 0; i < 2 && laddr.Port == 0 && (selfConnect(fd, err) || spuriousENOTAVAIL(err)); i++ {
+		if err == nil {
+			fd.Close()
+		}
+		fd, err = dial(laddr, raddr)
+	}
+	if err != nil {
+		return nil, &OpError{Op: "dial", Net: network, Addr: raddr, Err: err}
+	}
+	return newTCPConn(fd, true), nil
+}
+
 // TCPListener is a TCP network listener.  Clients should typically
 // use variables of type Listener instead of assuming TCP.
 type TCPListener struct {
@@ -250,7 +283,7 @@ func (l *TCPListener) AcceptTCP() (*TCPConn, error) {
 	if err != nil {
 		return nil, &OpError{Op: "accept", Net: l.fd.net, Source: nil, Addr: l.fd.laddr, Err: err}
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 // Accept implements the Accept method in the Listener interface; it

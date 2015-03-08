@@ -35,7 +35,7 @@ func probe(filename, query string) bool {
 	return r
 }
 
-func probeIPv4Stack() bool {
+func probeIPv4Stack() (supportsIPv4 bool) {
 	return probe(netdir+"/iproute", "4i")
 }
 

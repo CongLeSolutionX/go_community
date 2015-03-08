@@ -9,6 +9,8 @@ import (
 	"syscall"
 )
 
+const sysTCP_FASTOPEN = 0x17
+
 func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
 	if family == syscall.AF_INET6 && sotype != syscall.SOCK_RAW {
 		// Allow both IP versions even if the OS default
@@ -20,7 +22,10 @@ func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
 	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_BROADCAST, 1))
 }
 
-func setDefaultListenerSockopts(s int) error {
+func setDefaultListenerSockopts(s, family, sotype int) error {
+	if (family == syscall.AF_INET || family == syscall.AF_INET6) && sotype == syscall.SOCK_STREAM {
+		syscall.SetsockoptInt(s, syscall.IPPROTO_TCP, sysTCP_FASTOPEN, listenerBacklog)
+	}
 	// Allow reuse of recently-used addresses.
 	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, 1))
 }

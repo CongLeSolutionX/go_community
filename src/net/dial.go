@@ -57,6 +57,18 @@ type Dialer struct {
 	// If zero, keep-alives are not enabled. Network protocols
 	// that do not support keep-alives ignore this field.
 	KeepAlive time.Duration
+
+	// FastOpen tries to reduce the message round trip time during
+	// a TCP connection setup by using TCP fast open protocol if
+	// possible. Otherwise it uses a conventional three-way
+	// handshake.
+	//
+	// Note that DualStack will be ignored when FastOpen is true
+	// because DualStack allows to connect uncertain multiple
+	// destination IP addresses but FastOpen allows to connect one
+	// of the most probable, already known and accepted IP
+	// addresses.
+	FastOpen bool
 }
 
 // Return either now+Timeout or Deadline, whichever comes first.
@@ -225,6 +237,10 @@ func (d *Dialer) Dial(network, address string) (Conn, error) {
 		primaries = addrs
 	}
 
+	if d.FastOpen && supportsTCPActiveFastOpen && (network == "tcp" || network == "tcp4" || network == "tcp6") {
+		return d.dialTCP(network, addrs.first(isIPv4).(*TCPAddr))
+	}
+
 	var c Conn
 	if len(fallbacks) == 0 {
 		// dialParallel can accept an empty fallbacks list,
@@ -241,7 +257,10 @@ func (d *Dialer) Dial(network, address string) (Conn, error) {
 			testHookSetKeepAlive()
 		}
 	}
-	return c, err
+	if err != nil {
+		return nil, err // c is non-nil interface containing nil pointer
+	}
+	return c, nil
 }
 
 // dialParallel races two copies of dialSerial, giving the first a
