@@ -53,6 +53,25 @@ type Dialer struct {
 	// If zero, a default delay of 300ms is used.
 	FallbackDelay time.Duration
 
+	// FastOpen enables TCP Fast Open as defined in RFC 7413,
+	// which is able to send data during a three-way handshake by
+	// using information of prior connections inside the operating
+	// system.
+	//
+	// When true, Dial may return a non-established connection and
+	// any operation except Write on the returned non-established
+	// connection will fail until the establishment. It is the
+	// caller's responsibility to establish the connection by the
+	// first Write call. The first Write call on a non-established
+	// connection will follow the Dialer's Timeout or Deadline
+	// value and ignore the values set by SetDeadline or
+	// SetWriteDeadline.
+	//
+	// The functionality will be disabled automatically when the
+	// operating system forbids to use TCP fast open option.
+	// In that case, Dial returns a established connection.
+	FastOpen bool
+
 	// KeepAlive specifies the keep-alive period for an active
 	// network connection.
 	// If zero, keep-alives are not enabled. Network protocols
@@ -122,6 +141,29 @@ func (d *Dialer) fallbackDelay() time.Duration {
 	} else {
 		return 300 * time.Millisecond
 	}
+}
+
+func (d *Dialer) extractDialContext(ctx context.Context) (context.Context, context.CancelFunc, func()) {
+	var subCtx context.Context
+	var cancel context.CancelFunc
+	deadline := d.deadline(ctx, time.Now())
+	if !deadline.IsZero() {
+		if d, ok := ctx.Deadline(); !ok || deadline.Before(d) {
+			subCtx, cancel = context.WithDeadline(ctx, deadline)
+		}
+	}
+	var relayCancel func()
+	if oldCancel := d.Cancel; oldCancel != nil {
+		subCtx, cancel = context.WithCancel(ctx)
+		relayCancel = func() {
+			select {
+			case <-oldCancel:
+				cancel()
+			case <-subCtx.Done():
+			}
+		}
+	}
+	return subCtx, cancel, relayCancel
 }
 
 func parseNetwork(ctx context.Context, net string) (afnet string, proto int, err error) {
@@ -296,36 +338,35 @@ func (d *Dialer) DialContext(ctx context.Context, network, address string) (Conn
 	if ctx == nil {
 		panic("nil context")
 	}
-	deadline := d.deadline(ctx, time.Now())
-	if !deadline.IsZero() {
-		if d, ok := ctx.Deadline(); !ok || deadline.Before(d) {
-			subCtx, cancel := context.WithDeadline(ctx, deadline)
-			defer cancel()
-			ctx = subCtx
-		}
+
+	dp := &dialParam{
+		Dialer:  *d,
+		network: network,
+		address: address,
 	}
-	if oldCancel := d.Cancel; oldCancel != nil {
-		subCtx, cancel := context.WithCancel(ctx)
+
+	if (network == "tcp" || network == "tcp4" || network == "tcp6") && d.FastOpen && supportsActiveTCPFastOpen {
+		c, err := newTCPFastOpenConn(ctx, dp)
+		if err != nil {
+			return nil, &OpError{Op: "dial", Net: network, Source: nil, Addr: nil, Err: err}
+		}
+		return c, nil
+	}
+
+	subCtx, cancel, relayCancel := d.extractDialContext(ctx)
+	if cancel != nil {
 		defer cancel()
-		go func() {
-			select {
-			case <-oldCancel:
-				cancel()
-			case <-subCtx.Done():
-			}
-		}()
+	}
+	if relayCancel != nil {
+		go relayCancel()
+	}
+	if subCtx != nil {
 		ctx = subCtx
 	}
 
 	addrs, err := resolveAddrList(ctx, "dial", network, address, d.LocalAddr)
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: network, Source: nil, Addr: nil, Err: err}
-	}
-
-	dp := &dialParam{
-		Dialer:  *d,
-		network: network,
-		address: address,
 	}
 
 	var primaries, fallbacks addrList

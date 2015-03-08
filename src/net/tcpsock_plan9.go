@@ -8,6 +8,7 @@ import (
 	"context"
 	"io"
 	"os"
+	"syscall"
 )
 
 func (c *TCPConn) readFrom(r io.Reader) (int64, error) {
@@ -34,7 +35,11 @@ func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, nil), nil
+}
+
+func newTCPFastOpenConn(ctx context.Context, dp *dialParam) (*TCPConn, error) {
+	return nil, syscall.EPLAN9
 }
 
 func (ln *TCPListener) ok() bool { return ln != nil && ln.fd != nil && ln.fd.ctl != nil }
@@ -44,7 +49,7 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, nil), nil
 }
 
 func (ln *TCPListener) close() error {

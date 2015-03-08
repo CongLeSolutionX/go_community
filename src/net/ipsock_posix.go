@@ -127,8 +127,8 @@ func probeIPv6Stack() (supportsIPv6, supportsIPv4map bool) {
 //
 // Note that OpenBSD allows neither "net.inet6.ip6.v6only=1" change
 // nor IPPROTO_IPV6 level IPV6_V6ONLY socket option setting.
-func favoriteAddrFamily(net string, laddr, raddr sockaddr, mode string) (family int, ipv6only bool) {
-	switch net[len(net)-1] {
+func favoriteAddrFamily(network string, laddr, raddr sockaddr, mode string) (family int, ipv6only bool) {
+	switch network[len(network)-1] {
 	case '4':
 		return syscall.AF_INET, false
 	case '6':
@@ -152,10 +152,9 @@ func favoriteAddrFamily(net string, laddr, raddr sockaddr, mode string) (family 
 	return syscall.AF_INET6, false
 }
 
-// Internet sockets (TCP, UDP, IP)
-func internetSocket(ctx context.Context, net string, laddr, raddr sockaddr, sotype, proto int, mode string) (fd *netFD, err error) {
+func internetSocket(ctx context.Context, net string, laddr, raddr sockaddr, sotype, proto int, mode string, fastopen bool) (fd *netFD, err error) {
 	family, ipv6only := favoriteAddrFamily(net, laddr, raddr, mode)
-	return socket(ctx, net, family, sotype, proto, ipv6only, laddr, raddr)
+	return socket(ctx, net, family, sotype, proto, ipv6only, fastopen, laddr, raddr)
 }
 
 func ipToSockaddr(family int, ip IP, port int, zone string) (syscall.Sockaddr, error) {

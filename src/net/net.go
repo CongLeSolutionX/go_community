@@ -99,6 +99,7 @@ func init() {
 	sysInit()
 	supportsIPv4 = probeIPv4Stack()
 	supportsIPv6, supportsIPv4map = probeIPv6Stack()
+	supportsPassiveTCPFastOpen, supportsActiveTCPFastOpen = probeTCPStack()
 }
 
 // Addr represents a network end point address.
@@ -172,7 +173,7 @@ func (c *conn) Read(b []byte) (int, error) {
 	}
 	n, err := c.fd.Read(b)
 	if err != nil && err != io.EOF {
-		err = &OpError{Op: "read", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+		err = c.newOpErrorLocked("read", err)
 	}
 	return n, err
 }
@@ -184,7 +185,7 @@ func (c *conn) Write(b []byte) (int, error) {
 	}
 	n, err := c.fd.Write(b)
 	if err != nil {
-		err = &OpError{Op: "write", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+		err = c.newOpErrorLocked("write", err)
 	}
 	return n, err
 }
@@ -196,7 +197,7 @@ func (c *conn) Close() error {
 	}
 	err := c.fd.Close()
 	if err != nil {
-		err = &OpError{Op: "close", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+		err = c.newOpErrorLocked("close", err)
 	}
 	return err
 }
@@ -208,6 +209,8 @@ func (c *conn) LocalAddr() Addr {
 	if !c.ok() {
 		return nil
 	}
+	c.fd.mu.RLock()
+	defer c.fd.mu.RUnlock()
 	return c.fd.laddr
 }
 
@@ -218,6 +221,8 @@ func (c *conn) RemoteAddr() Addr {
 	if !c.ok() {
 		return nil
 	}
+	c.fd.mu.RLock()
+	defer c.fd.mu.RUnlock()
 	return c.fd.raddr
 }
 
@@ -226,10 +231,11 @@ func (c *conn) SetDeadline(t time.Time) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := c.fd.setDeadline(t); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: nil, Addr: c.fd.laddr, Err: err}
+	err := c.fd.setDeadline(t)
+	if err != nil {
+		err = c.newOpErrorLocked("set", err)
 	}
-	return nil
+	return err
 }
 
 // SetReadDeadline implements the Conn SetReadDeadline method.
@@ -237,10 +243,11 @@ func (c *conn) SetReadDeadline(t time.Time) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := c.fd.setReadDeadline(t); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: nil, Addr: c.fd.laddr, Err: err}
+	err := c.fd.setReadDeadline(t)
+	if err != nil {
+		err = c.newOpErrorLocked("set", err)
 	}
-	return nil
+	return err
 }
 
 // SetWriteDeadline implements the Conn SetWriteDeadline method.
@@ -248,10 +255,11 @@ func (c *conn) SetWriteDeadline(t time.Time) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := c.fd.setWriteDeadline(t); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: nil, Addr: c.fd.laddr, Err: err}
+	err := c.fd.setWriteDeadline(t)
+	if err != nil {
+		err = c.newOpErrorLocked("set", err)
 	}
-	return nil
+	return err
 }
 
 // SetReadBuffer sets the size of the operating system's
@@ -260,10 +268,11 @@ func (c *conn) SetReadBuffer(bytes int) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := setReadBuffer(c.fd, bytes); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: nil, Addr: c.fd.laddr, Err: err}
+	err := setReadBuffer(c.fd, bytes)
+	if err != nil {
+		err = c.newOpErrorLocked("set", err)
 	}
-	return nil
+	return err
 }
 
 // SetWriteBuffer sets the size of the operating system's
@@ -272,10 +281,11 @@ func (c *conn) SetWriteBuffer(bytes int) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := setWriteBuffer(c.fd, bytes); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: nil, Addr: c.fd.laddr, Err: err}
+	err := setWriteBuffer(c.fd, bytes)
+	if err != nil {
+		err = c.newOpErrorLocked("set", err)
 	}
-	return nil
+	return err
 }
 
 // File sets the underlying os.File to blocking mode and returns a copy.
@@ -288,9 +298,20 @@ func (c *conn) SetWriteBuffer(bytes int) error {
 func (c *conn) File() (f *os.File, err error) {
 	f, err = c.fd.dup()
 	if err != nil {
-		err = &OpError{Op: "file", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+		err = c.newOpErrorLocked("file", err)
 	}
 	return
+}
+
+// newOpErrorLocked reads information from c with lock and returns an
+// OpError.
+func (c *conn) newOpErrorLocked(op string, err error) *OpError {
+	c.fd.mu.RLock()
+	defer c.fd.mu.RUnlock()
+	if op == "set" {
+		return &OpError{Op: op, Net: c.fd.net, Source: nil, Addr: c.fd.laddr, Err: err}
+	}
+	return &OpError{Op: op, Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
 }
 
 // PacketConn is a generic packet-oriented network connection.

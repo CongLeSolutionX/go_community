@@ -7,21 +7,29 @@ package net
 import (
 	"io"
 	"os"
+	"sync"
 	"syscall"
 	"time"
 )
 
-// Network file descriptor.
+// A netFD represents a network file descriptor.
 type netFD struct {
-	// locking/lifetime of sysfd + serialize access to Read and Write methods
+	// fdmu guards the following fields, manages lifetime of
+	// ctl and data, and serializes access to Read, Write and Close
+	// methods on netFD.
 	fdmu fdMutex
+	ctl  *os.File
+	data *os.File
 
-	// immutable until Close
-	net          string
-	n            string
-	dir          string
-	ctl, data    *os.File
-	laddr, raddr Addr
+	// mu guards the following fields.
+	// In general, the fields are immutable until calling Close
+	// method except when using TCP fast open option.
+	mu    sync.RWMutex
+	net   string
+	n     string
+	dir   string
+	laddr Addr
+	raddr Addr
 }
 
 var (

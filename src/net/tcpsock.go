@@ -12,6 +12,16 @@ import (
 	"time"
 )
 
+var (
+	// supportsPassiveFastOpen reports whether the platform
+	// supports passive TCP fast open feature.
+	supportsPassiveTCPFastOpen bool
+
+	// supportsActiveTCPFastOpen reports whether the platform
+	// supports active TCP fast open feature.
+	supportsActiveTCPFastOpen bool
+)
+
 // TCPAddr represents the address of a TCP end point.
 type TCPAddr struct {
 	IP   IP
@@ -72,6 +82,15 @@ func ResolveTCPAddr(net, addr string) (*TCPAddr, error) {
 // connections.
 type TCPConn struct {
 	conn
+	fastOpen *tcpFastOpen
+}
+
+// tcpFastOpen holds common state for dial operations with TCP fast
+// open option.
+type tcpFastOpen struct {
+	context.Context
+	*dialParam
+	addrs addrList
 }
 
 // ReadFrom implements the io.ReaderFrom ReadFrom method.
@@ -81,7 +100,7 @@ func (c *TCPConn) ReadFrom(r io.Reader) (int64, error) {
 	}
 	n, err := c.readFrom(r)
 	if err != nil && err != io.EOF {
-		err = &OpError{Op: "read", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+		err = c.newOpErrorLocked("read", err)
 	}
 	return n, err
 }
@@ -92,10 +111,11 @@ func (c *TCPConn) CloseRead() error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := c.fd.closeRead(); err != nil {
-		return &OpError{Op: "close", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	err := c.fd.closeRead()
+	if err != nil {
+		err = c.newOpErrorLocked("close", err)
 	}
-	return nil
+	return err
 }
 
 // CloseWrite shuts down the writing side of the TCP connection.
@@ -104,10 +124,11 @@ func (c *TCPConn) CloseWrite() error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := c.fd.closeWrite(); err != nil {
-		return &OpError{Op: "close", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	err := c.fd.closeWrite()
+	if err != nil {
+		err = c.newOpErrorLocked("close", err)
 	}
-	return nil
+	return err
 }
 
 // SetLinger sets the behavior of Close on a connection which still
@@ -126,10 +147,11 @@ func (c *TCPConn) SetLinger(sec int) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := setLinger(c.fd, sec); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	err := setLinger(c.fd, sec)
+	if err != nil {
+		err = c.newOpErrorLocked("set tcp", err)
 	}
-	return nil
+	return err
 }
 
 // SetKeepAlive sets whether the operating system should send
@@ -138,10 +160,11 @@ func (c *TCPConn) SetKeepAlive(keepalive bool) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := setKeepAlive(c.fd, keepalive); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	err := setKeepAlive(c.fd, keepalive)
+	if err != nil {
+		err = c.newOpErrorLocked("set tcp", err)
 	}
-	return nil
+	return err
 }
 
 // SetKeepAlivePeriod sets period between keep alives.
@@ -149,10 +172,11 @@ func (c *TCPConn) SetKeepAlivePeriod(d time.Duration) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := setKeepAlivePeriod(c.fd, d); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	err := setKeepAlivePeriod(c.fd, d)
+	if err != nil {
+		err = c.newOpErrorLocked("set tcp", err)
 	}
-	return nil
+	return err
 }
 
 // SetNoDelay controls whether the operating system should delay
@@ -163,14 +187,15 @@ func (c *TCPConn) SetNoDelay(noDelay bool) error {
 	if !c.ok() {
 		return syscall.EINVAL
 	}
-	if err := setNoDelay(c.fd, noDelay); err != nil {
-		return &OpError{Op: "set", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	err := setNoDelay(c.fd, noDelay)
+	if err != nil {
+		err = c.newOpErrorLocked("set tcp", err)
 	}
-	return nil
+	return err
 }
 
-func newTCPConn(fd *netFD) *TCPConn {
-	c := &TCPConn{conn{fd}}
+func newTCPConn(fd *netFD, tfo *tcpFastOpen) *TCPConn {
+	c := &TCPConn{conn: conn{fd}, fastOpen: tfo}
 	setNoDelay(c.fd, true)
 	return c
 }

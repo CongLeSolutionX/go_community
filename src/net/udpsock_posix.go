@@ -91,7 +91,7 @@ func (c *UDPConn) writeMsg(b, oob []byte, addr *UDPAddr) (n, oobn int, err error
 }
 
 func dialUDP(ctx context.Context, net string, laddr, raddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_DGRAM, 0, "dial")
+	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_DGRAM, 0, "dial", false)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func dialUDP(ctx context.Context, net string, laddr, raddr *UDPAddr) (*UDPConn, 
 }
 
 func listenUDP(ctx context.Context, network string, laddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_DGRAM, 0, "listen")
+	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_DGRAM, 0, "listen", false)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func listenUDP(ctx context.Context, network string, laddr *UDPAddr) (*UDPConn, e
 }
 
 func listenMulticastUDP(ctx context.Context, network string, ifi *Interface, gaddr *UDPAddr) (*UDPConn, error) {
-	fd, err := internetSocket(ctx, network, gaddr, nil, syscall.SOCK_DGRAM, 0, "listen")
+	fd, err := internetSocket(ctx, network, gaddr, nil, syscall.SOCK_DGRAM, 0, "listen", false)
 	if err != nil {
 		return nil, err
 	}
