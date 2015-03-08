@@ -53,6 +53,18 @@ type Dialer struct {
 	// If zero, a default delay of 300ms is used.
 	FallbackDelay time.Duration
 
+	// FastOpen tries to reduce the message round trip time during
+	// a TCP connection setup by using TCP fast open protocol if
+	// possible. Otherwise it uses a conventional three-way
+	// handshake.
+	//
+	// Note that DualStack will be ignored when FastOpen is true
+	// because DualStack allows to connect uncertain multiple
+	// destination IP addresses but FastOpen allows to connect one
+	// of the most probable, already known and accepted IP
+	// addresses.
+	FastOpen bool
+
 	// KeepAlive specifies the keep-alive period for an active
 	// network connection.
 	// If zero, keep-alives are not enabled. Network protocols
@@ -393,7 +405,7 @@ func dialSingle(ctx *dialContext, ra Addr, deadline time.Time, cancel <-chan str
 	switch ra := ra.(type) {
 	case *TCPAddr:
 		la, _ := la.(*TCPAddr)
-		c, err = testHookDialTCP(ctx.network, la, ra, deadline, cancel)
+		c, err = testHookDialTCP(ctx, la, ra, deadline, cancel)
 	case *UDPAddr:
 		la, _ := la.(*UDPAddr)
 		c, err = dialUDP(ctx.network, la, ra, deadline)

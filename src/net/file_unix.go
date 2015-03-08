@@ -70,7 +70,7 @@ func fileConn(f *os.File) (Conn, error) {
 	}
 	switch fd.laddr.(type) {
 	case *TCPAddr:
-		return newTCPConn(fd), nil
+		return newTCPConn(fd, false), nil
 	case *UDPAddr:
 		return newUDPConn(fd), nil
 	case *IPAddr:

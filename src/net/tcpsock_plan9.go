@@ -31,7 +31,7 @@ func dialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-cha
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 func (ln *TCPListener) ok() bool { return ln != nil && ln.fd != nil && ln.fd.ctl != nil }
@@ -41,7 +41,7 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 func (ln *TCPListener) close() error {
