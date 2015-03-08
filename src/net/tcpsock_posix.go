@@ -47,8 +47,20 @@ func (c *TCPConn) readFrom(r io.Reader) (int64, error) {
 	return genericReadFrom(c, r)
 }
 
-func dialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
-	fd, err := internetSocket(net, laddr, raddr, deadline, syscall.SOCK_STREAM, 0, "dial", cancel)
+func dialTCP(ctx *dialContext, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+	if !supportsActiveTCPFastOpen {
+		// Disable using TCP fast open option.
+		// Otherwise sendmsg or connectx returns some error.
+		ctx.Dialer.FastOpen = supportsActiveTCPFastOpen
+	}
+	if ctx.Dialer.FastOpen && laddr == nil {
+		// In case of TCP fast open, we need to pass an empty
+		// TCPAddr for making a named TCP endpoint, which is
+		// used for the special care with TCP simultaneous
+		// open.
+		laddr = &TCPAddr{}
+	}
+	fd, err := internetSocket(ctx.network, laddr, raddr, syscall.SOCK_STREAM, 0, "dial", ctx.Dialer.FastOpen, deadline, cancel)
 
 	// TCP has a rarely used mechanism called a 'simultaneous connection' in
 	// which Dial("tcp", addr1, addr2) run on the machine at addr1 can
@@ -78,13 +90,13 @@ func dialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-cha
 		if err == nil {
 			fd.Close()
 		}
-		fd, err = internetSocket(net, laddr, raddr, deadline, syscall.SOCK_STREAM, 0, "dial", cancel)
+		fd, err = internetSocket(ctx.network, laddr, raddr, syscall.SOCK_STREAM, 0, "dial", ctx.Dialer.FastOpen, deadline, cancel)
 	}
 
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, ctx.Dialer.FastOpen), nil
 }
 
 func selfConnect(fd *netFD, err error) bool {
@@ -126,7 +138,7 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 func (ln *TCPListener) close() error {
@@ -142,7 +154,7 @@ func (ln *TCPListener) file() (*os.File, error) {
 }
 
 func listenTCP(network string, laddr *TCPAddr) (*TCPListener, error) {
-	fd, err := internetSocket(network, laddr, nil, noDeadline, syscall.SOCK_STREAM, 0, "listen", noCancel)
+	fd, err := internetSocket(network, laddr, nil, syscall.SOCK_STREAM, 0, "listen", false, noDeadline, noCancel)
 	if err != nil {
 		return nil, err
 	}

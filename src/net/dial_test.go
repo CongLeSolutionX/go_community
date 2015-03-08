@@ -54,52 +54,6 @@ func TestProhibitionaryDialArg(t *testing.T) {
 	}
 }
 
-func TestSelfConnect(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		// TODO(brainman): do not know why it hangs.
-		t.Skip("known-broken test on windows")
-	}
-
-	// Test that Dial does not honor self-connects.
-	// See the comment in DialTCP.
-
-	// Find a port that would be used as a local address.
-	l, err := Listen("tcp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatal(err)
-	}
-	c, err := Dial("tcp", l.Addr().String())
-	if err != nil {
-		t.Fatal(err)
-	}
-	addr := c.LocalAddr().String()
-	c.Close()
-	l.Close()
-
-	// Try to connect to that address repeatedly.
-	n := 100000
-	if testing.Short() {
-		n = 1000
-	}
-	switch runtime.GOOS {
-	case "darwin", "dragonfly", "freebsd", "netbsd", "openbsd", "plan9", "solaris", "windows":
-		// Non-Linux systems take a long time to figure
-		// out that there is nothing listening on localhost.
-		n = 100
-	}
-	for i := 0; i < n; i++ {
-		c, err := DialTimeout("tcp", addr, time.Millisecond)
-		if err == nil {
-			if c.LocalAddr().String() == addr {
-				t.Errorf("#%d: Dial %q self-connect", i, addr)
-			} else {
-				t.Logf("#%d: Dial %q succeeded - possibly racing with other listener", i, addr)
-			}
-			c.Close()
-		}
-	}
-}
-
 func TestDialTimeoutFDLeak(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
@@ -235,8 +189,8 @@ const (
 // In some environments, the slow IPs may be explicitly unreachable, and fail
 // more quickly than expected. This test hook prevents dialTCP from returning
 // before the deadline.
-func slowDialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
-	c, err := dialTCP(net, laddr, raddr, deadline, cancel)
+func slowDialTCP(ctx *dialContext, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+	c, err := dialTCP(ctx, laddr, raddr, deadline, cancel)
 	if ParseIP(slowDst4).Equal(raddr.IP) || ParseIP(slowDst6).Equal(raddr.IP) {
 		select {
 		case <-cancel:
@@ -569,12 +523,12 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 
 	origTestHookDialTCP := testHookDialTCP
 	defer func() { testHookDialTCP = origTestHookDialTCP }()
-	testHookDialTCP = func(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+	testHookDialTCP = func(ctx *dialContext, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
 		// Sleep long enough for Happy Eyeballs to kick in, and inhibit cancelation.
 		// This forces dialParallel to juggle two successful connections.
 		time.Sleep(fallbackDelay * 2)
 		cancel = nil
-		return dialTCP(net, laddr, raddr, deadline, cancel)
+		return dialTCP(ctx, laddr, raddr, deadline, cancel)
 	}
 
 	d := Dialer{
