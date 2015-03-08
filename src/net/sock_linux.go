@@ -6,6 +6,25 @@ package net
 
 import "syscall"
 
+func probeTCPStack() (supportsTCPActiveFastOpen bool) {
+	fd, err := open("/proc/sys/net/ipv4/tcp_fastopen")
+	if err != nil {
+		return false
+	}
+	defer fd.close()
+	l, ok := fd.readLine()
+	if !ok {
+		return false
+	}
+	f := getFields(l)
+	// See Documentation/networking/ip-sysctl.txt.
+	n, _, ok := dtoi(f[0], 0)
+	if !ok {
+		return false
+	}
+	return n&0x1 != 0
+}
+
 func maxListenerBacklog() int {
 	fd, err := open("/proc/sys/net/core/somaxconn")
 	if err != nil {

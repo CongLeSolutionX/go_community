@@ -4,6 +4,12 @@
 
 package net
 
+var (
+	// supportsTCPActiveFastOpen reports whether the platform
+	// supports TCP fast open protocol on the active open side.
+	supportsTCPActiveFastOpen bool
+)
+
 // TCPAddr represents the address of a TCP end point.
 type TCPAddr struct {
 	IP   IP

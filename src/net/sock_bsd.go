@@ -11,6 +11,10 @@ import (
 	"syscall"
 )
 
+func probeTCPStack() (supportsTCPActiveFastOpen bool) {
+	return false
+}
+
 func maxListenerBacklog() int {
 	var (
 		n   uint32
