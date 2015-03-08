@@ -10,17 +10,22 @@ import (
 	"io"
 	"os"
 	"runtime"
+	"sync"
 	"sync/atomic"
 	"syscall"
 	"time"
 )
 
-// Network file descriptor.
+// A netFD represents a network file descriptor.
 type netFD struct {
-	// locking/lifetime of sysfd + serialize access to Read and Write methods
+	// fdmu guards the following fields.
 	fdmu fdMutex
+	pd   pollDesc // runtime-integrated network poller
 
-	// immutable until Close
+	// mu guards the following fields.
+	// In general, the fields are immutable until calling Close
+	// method except when using TCP fast open option.
+	mu          sync.RWMutex
 	sysfd       int
 	family      int
 	sotype      int
@@ -28,9 +33,6 @@ type netFD struct {
 	net         string
 	laddr       Addr
 	raddr       Addr
-
-	// wait server
-	pd pollDesc
 }
 
 func sysInit() {
@@ -42,6 +44,12 @@ func dial(network string, ra Addr, dialer func(time.Time) (Conn, error), deadlin
 
 func newFD(sysfd, family, sotype int, net string) (*netFD, error) {
 	return &netFD{sysfd: sysfd, family: family, sotype: sotype, net: net}, nil
+}
+
+func newClosedFD(family, sotype int, net string) (*netFD, error) {
+	fd, _ := newFD(-1, family, sotype, net)
+	fd.fdmu.state = mutexClosed
+	return fd, nil
 }
 
 func (fd *netFD) init() error {
@@ -66,6 +74,20 @@ func (fd *netFD) name() string {
 		rs = fd.raddr.String()
 	}
 	return fd.net + ":" + ls + "->" + rs
+}
+
+// subst substitutes nfd for fd.
+func (fd *netFD) subst(nfd *netFD) {
+	fd.mu.Lock()
+	fd.sysfd = nfd.sysfd
+	fd.family = nfd.family
+	fd.sotype = nfd.sotype
+	fd.isConnected = nfd.isConnected
+	fd.laddr = nfd.laddr
+	fd.raddr = nfd.raddr
+	fd.pd.runtimeCtx = nfd.pd.runtimeCtx
+	runtime.SetFinalizer(nfd, nil)
+	fd.mu.Unlock()
 }
 
 func (fd *netFD) connect(la, ra syscall.Sockaddr, deadline time.Time, cancel <-chan struct{}) error {
@@ -287,6 +309,10 @@ func (fd *netFD) Write(p []byte) (nn int, err error) {
 	if err := fd.pd.prepareWrite(); err != nil {
 		return 0, err
 	}
+	return fd.write(p)
+}
+
+func (fd *netFD) write(p []byte) (nn int, err error) {
 	for {
 		var n int
 		n, err = syscall.Write(fd.sysfd, p[nn:])
@@ -410,6 +436,7 @@ func (fd *netFD) accept() (netfd *netFD, err error) {
 		fd.Close()
 		return nil, err
 	}
+	netfd.isConnected = true
 	lsa, _ := syscall.Getsockname(netfd.sysfd)
 	netfd.setAddr(netfd.addrFunc()(lsa), netfd.addrFunc()(rsa))
 	return netfd, nil
