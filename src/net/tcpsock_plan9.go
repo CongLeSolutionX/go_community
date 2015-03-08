@@ -14,24 +14,24 @@ func (c *TCPConn) readFrom(r io.Reader) (int64, error) {
 	return genericReadFrom(c, r)
 }
 
-func dialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+func dialTCP(ctx *dialContext, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
 	if !deadline.IsZero() {
 		panic("net.dialTCP: deadline not implemented on Plan 9")
 	}
 	// TODO(bradfitz,0intro): also use the cancel channel.
-	switch net {
+	switch ctx.network {
 	case "tcp", "tcp4", "tcp6":
 	default:
-		return nil, UnknownNetworkError(net)
+		return nil, UnknownNetworkError(ctx.network)
 	}
 	if raddr == nil {
 		return nil, errMissingAddress
 	}
-	fd, err := dialPlan9(net, laddr, raddr)
+	fd, err := dialPlan9(ctx.network, laddr, raddr)
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 func (ln *TCPListener) ok() bool { return ln != nil && ln.fd != nil && ln.fd.ctl != nil }
@@ -41,7 +41,7 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, false), nil
 }
 
 func (ln *TCPListener) close() error {

@@ -193,7 +193,7 @@ func DialUDP(net string, laddr, raddr *UDPAddr) (*UDPConn, error) {
 }
 
 func dialUDP(net string, laddr, raddr *UDPAddr, deadline time.Time) (*UDPConn, error) {
-	fd, err := internetSocket(net, laddr, raddr, deadline, syscall.SOCK_DGRAM, 0, "dial", noCancel)
+	fd, err := internetSocket(net, syscall.SOCK_DGRAM, 0, "dial", false, laddr, raddr, deadline, noCancel)
 	if err != nil {
 		return nil, err
 	}
@@ -216,7 +216,7 @@ func ListenUDP(net string, laddr *UDPAddr) (*UDPConn, error) {
 	if laddr == nil {
 		laddr = &UDPAddr{}
 	}
-	fd, err := internetSocket(net, laddr, nil, noDeadline, syscall.SOCK_DGRAM, 0, "listen", noCancel)
+	fd, err := internetSocket(net, syscall.SOCK_DGRAM, 0, "listen", false, laddr, nil, noDeadline, noCancel)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: net, Source: nil, Addr: laddr, Err: err}
 	}
@@ -243,7 +243,7 @@ func ListenMulticastUDP(network string, ifi *Interface, gaddr *UDPAddr) (*UDPCon
 	if gaddr == nil || gaddr.IP == nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: gaddr.opAddr(), Err: errMissingAddress}
 	}
-	fd, err := internetSocket(network, gaddr, nil, noDeadline, syscall.SOCK_DGRAM, 0, "listen", noCancel)
+	fd, err := internetSocket(network, syscall.SOCK_DGRAM, 0, "listen", false, gaddr, nil, noDeadline, noCancel)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: gaddr, Err: err}
 	}
