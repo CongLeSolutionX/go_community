@@ -30,6 +30,7 @@ func init() {
 	sysInit()
 	supportsIPv4 = probeIPv4Stack()
 	supportsIPv6, supportsIPv4map = probeIPv6Stack()
+	supportsTCPActiveFastOpen = probeTCPStack()
 }
 
 // A netaddr represents a network endpoint address or a list of
