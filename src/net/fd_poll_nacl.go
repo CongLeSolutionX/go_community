@@ -10,8 +10,9 @@ import (
 )
 
 type pollDesc struct {
-	fd      *netFD
-	closing bool
+	fd         *netFD
+	closing    bool
+	runtimeCtx uintptr
 }
 
 func (pd *pollDesc) init(fd *netFD) error { pd.fd = fd; return nil }
