@@ -501,8 +501,6 @@ var Runtimepkg *Pkg // package runtime
 
 var racepkg *Pkg // package runtime/race
 
-var stringpkg *Pkg // fake package for C strings
-
 var typepkg *Pkg // fake package for runtime type info (headers)
 
 var typelinkpkg *Pkg // fake package for runtime type info (data)
@@ -512,8 +510,6 @@ var weaktypepkg *Pkg // weak references to runtime type info
 var unsafepkg *Pkg // package unsafe
 
 var trackpkg *Pkg // fake package for field tracking
-
-var rawpkg *Pkg // fake package for raw symbol names
 
 var Tptr int // either TPTR32 or TPTR64
 
@@ -672,8 +668,6 @@ var continpc *obj.Prog
 var breakpc *obj.Prog
 
 var Pc *obj.Prog
-
-var firstpc *obj.Prog
 
 var nodfp *Node
 
