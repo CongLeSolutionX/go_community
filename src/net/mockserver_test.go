@@ -7,6 +7,7 @@ package net
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"sync"
@@ -273,7 +274,7 @@ func transceiver(c Conn, wb []byte, ch chan<- error) {
 		ch <- fmt.Errorf("wrote %d; want %d", n, len(wb))
 	}
 	rb := make([]byte, len(wb))
-	n, err = c.Read(rb)
+	n, err = io.ReadFull(c, rb)
 	if err != nil {
 		if perr := parseReadError(err); perr != nil {
 			ch <- perr
@@ -281,8 +282,8 @@ func transceiver(c Conn, wb []byte, ch chan<- error) {
 		ch <- err
 		return
 	}
-	if n != len(wb) {
-		ch <- fmt.Errorf("read %d; want %d", n, len(wb))
+	if n != len(rb) {
+		ch <- fmt.Errorf("read %d; want %d", n, len(rb))
 	}
 }
 
@@ -331,6 +332,73 @@ func timeoutTransmitter(c Conn, d, min, max time.Duration, ch chan<- error) {
 	if dt := t1.Sub(t0); min > dt || dt > max && !testing.Short() {
 		err = fmt.Errorf("Write took %s; expected %s", dt, d)
 		return
+	}
+}
+
+func persistentTransponder(ln Listener, nmsgs, msgLen int, throttle chan struct{}, ch chan<- error) {
+	var wg sync.WaitGroup
+	defer func() {
+		wg.Wait()
+		close(ch)
+	}()
+
+	switch ln := ln.(type) {
+	case *TCPListener:
+		ln.SetDeadline(time.Now().Add(someTimeout))
+	case *UnixListener:
+		ln.SetDeadline(time.Now().Add(someTimeout))
+	}
+	network := ln.Addr().Network()
+
+	for {
+		c, err := ln.Accept()
+		if err != nil {
+			return
+		}
+
+		if c.LocalAddr().Network() != network || c.LocalAddr().Network() != network {
+			ch <- fmt.Errorf("%v->%v; expected %v->%v", c.LocalAddr().Network(), c.RemoteAddr().Network(), network, network)
+			return
+		}
+		c.SetDeadline(time.Now().Add(someTimeout))
+		c.SetReadDeadline(time.Now().Add(someTimeout))
+		c.SetWriteDeadline(time.Now().Add(someTimeout))
+
+		if throttle != nil {
+			throttle <- struct{}{}
+		}
+		wg.Add(1)
+		go func(c Conn, msgLen int) {
+			defer func() {
+				c.Close()
+				if throttle != nil {
+					<-throttle
+				}
+				wg.Done()
+			}()
+			b := make([]byte, msgLen)
+			for m := 0; m < nmsgs; m++ {
+				nr, err := io.ReadFull(c, b)
+				if err != nil {
+					if perr := parseReadError(err); perr != nil {
+						ch <- perr
+					}
+					ch <- err
+					return
+				}
+				nw, err := c.Write(b)
+				if err != nil {
+					if perr := parseWriteError(err); perr != nil {
+						ch <- perr
+					}
+					ch <- err
+					return
+				}
+				if nw != nr {
+					ch <- fmt.Errorf("got %d bytes written; want %d", nw, nr)
+				}
+			}
+		}(c, msgLen)
 	}
 }
 

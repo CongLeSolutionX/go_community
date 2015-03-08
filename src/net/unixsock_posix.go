@@ -42,7 +42,7 @@ func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode str
 		return nil, errors.New("unknown mode: " + mode)
 	}
 
-	fd, err := socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, laddr, raddr)
+	fd, err := socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, false, laddr, raddr)
 	if err != nil {
 		return nil, err
 	}

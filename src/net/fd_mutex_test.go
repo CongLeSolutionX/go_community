@@ -21,18 +21,29 @@ func TestMutexLock(t *testing.T) {
 		t.Fatal("broken")
 	}
 
-	if !mu.rwlock(true) {
+	mu.state = mutexClosed
+	if mu.lock(fdOMutex) {
 		t.Fatal("broken")
 	}
-	if mu.rwunlock(true) {
+	if !mu.unlock(fdWMutex) {
 		t.Fatal("broken")
 	}
 
-	if !mu.rwlock(false) {
+	mu.state = mutexClosed
+	if mu.lock(fdOMutex) {
 		t.Fatal("broken")
 	}
-	if mu.rwunlock(false) {
+	if mu.unlock(fdOMutex) {
 		t.Fatal("broken")
+	}
+
+	for _, bit := range []fdMutexType{fdRMutex, fdWMutex, fdOMutex} {
+		if !mu.lock(bit) {
+			t.Fatalf("lock(%d) is broken", bit)
+		}
+		if mu.unlock(bit) {
+			t.Fatalf("unlock(%d) is broken", bit)
+		}
 	}
 }
 
@@ -45,10 +56,10 @@ func TestMutexClose(t *testing.T) {
 	if mu.incref() {
 		t.Fatal("broken")
 	}
-	if mu.rwlock(true) {
+	if mu.lock(fdRMutex) {
 		t.Fatal("broken")
 	}
-	if mu.rwlock(false) {
+	if mu.lock(fdWMutex) {
 		t.Fatal("broken")
 	}
 	if mu.increfAndClose() {
@@ -59,10 +70,10 @@ func TestMutexClose(t *testing.T) {
 func TestMutexCloseUnblock(t *testing.T) {
 	c := make(chan bool)
 	var mu fdMutex
-	mu.rwlock(true)
+	mu.lock(fdRMutex)
 	for i := 0; i < 4; i++ {
 		go func() {
-			if mu.rwlock(true) {
+			if mu.lock(fdRMutex) {
 				t.Error("broken")
 				return
 			}
@@ -87,7 +98,7 @@ func TestMutexCloseUnblock(t *testing.T) {
 	if mu.decref() {
 		t.Fatal("broken")
 	}
-	if !mu.rwunlock(true) {
+	if !mu.unlock(fdRMutex) {
 		t.Fatal("broken")
 	}
 }
@@ -104,20 +115,23 @@ func TestMutexPanic(t *testing.T) {
 
 	var mu fdMutex
 	ensurePanics(func() { mu.decref() })
-	ensurePanics(func() { mu.rwunlock(true) })
-	ensurePanics(func() { mu.rwunlock(false) })
+	ensurePanics(func() { mu.unlock(fdRMutex) })
+	ensurePanics(func() { mu.unlock(fdWMutex) })
 
 	ensurePanics(func() { mu.incref(); mu.decref(); mu.decref() })
-	ensurePanics(func() { mu.rwlock(true); mu.rwunlock(true); mu.rwunlock(true) })
-	ensurePanics(func() { mu.rwlock(false); mu.rwunlock(false); mu.rwunlock(false) })
+	ensurePanics(func() { mu.lock(fdRMutex); mu.unlock(fdRMutex); mu.unlock(fdRMutex) })
+	ensurePanics(func() { mu.lock(fdWMutex); mu.unlock(fdWMutex); mu.unlock(fdWMutex) })
+	ensurePanics(func() { mu.lock(fdOMutex); mu.unlock(fdOMutex); mu.unlock(fdOMutex) })
 
 	// ensure that it's still not broken
 	mu.incref()
 	mu.decref()
-	mu.rwlock(true)
-	mu.rwunlock(true)
-	mu.rwlock(false)
-	mu.rwunlock(false)
+	mu.lock(fdRMutex)
+	mu.unlock(fdRMutex)
+	mu.lock(fdWMutex)
+	mu.unlock(fdWMutex)
+	mu.lock(fdOMutex)
+	mu.unlock(fdOMutex)
 }
 
 func TestMutexStress(t *testing.T) {
@@ -136,7 +150,7 @@ func TestMutexStress(t *testing.T) {
 		go func() {
 			r := rand.New(rand.NewSource(rand.Int63()))
 			for i := 0; i < N; i++ {
-				switch r.Intn(3) {
+				switch r.Intn(4) {
 				case 0:
 					if !mu.incref() {
 						t.Error("broken")
@@ -147,7 +161,7 @@ func TestMutexStress(t *testing.T) {
 						return
 					}
 				case 1:
-					if !mu.rwlock(true) {
+					if !mu.lock(fdRMutex) {
 						t.Error("broken")
 						return
 					}
@@ -158,12 +172,12 @@ func TestMutexStress(t *testing.T) {
 					}
 					readState[0]++
 					readState[1]++
-					if mu.rwunlock(true) {
+					if mu.unlock(fdRMutex) {
 						t.Error("broken")
 						return
 					}
 				case 2:
-					if !mu.rwlock(false) {
+					if !mu.lock(fdWMutex) {
 						t.Error("broken")
 						return
 					}
@@ -174,7 +188,23 @@ func TestMutexStress(t *testing.T) {
 					}
 					writeState[0]++
 					writeState[1]++
-					if mu.rwunlock(false) {
+					if mu.unlock(fdWMutex) {
+						t.Error("broken")
+						return
+					}
+				case 3:
+					if !mu.lock(fdOMutex) {
+						t.Error("broken")
+						return
+					}
+					// Ensure that it provides mutual exclusion for writers.
+					if writeState[0] != writeState[1] {
+						t.Error("broken")
+						return
+					}
+					writeState[0]++
+					writeState[1]++
+					if mu.unlock(fdOMutex) {
 						t.Error("broken")
 						return
 					}

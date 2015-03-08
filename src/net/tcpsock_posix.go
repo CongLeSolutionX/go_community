@@ -55,7 +55,7 @@ func dialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, 
 }
 
 func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
-	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial")
+	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial", false)
 
 	// TCP has a rarely used mechanism called a 'simultaneous connection' in
 	// which Dial("tcp", addr1, addr2) run on the machine at addr1 can
@@ -81,20 +81,20 @@ func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn
 	// a different reason.
 	//
 	// The kernel socket code is no doubt enjoying watching us squirm.
-	for i := 0; i < 2 && (laddr == nil || laddr.Port == 0) && (selfConnect(fd, err) || spuriousENOTAVAIL(err)); i++ {
+	for i := 0; i < 2 && (laddr == nil || laddr.Port == 0) && (tcpSelfConnect(fd, err) || spuriousENOTAVAIL(err)); i++ {
 		if err == nil {
 			fd.Close()
 		}
-		fd, err = internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial")
+		fd, err = internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial", false)
 	}
 
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, nil), nil
 }
 
-func selfConnect(fd *netFD, err error) bool {
+func tcpSelfConnect(fd *netFD, err error) bool {
 	// If the connect failed, we clearly didn't connect to ourselves.
 	if err != nil {
 		return false
@@ -104,7 +104,7 @@ func selfConnect(fd *netFD, err error) bool {
 	// unknown conditions. The errors in the calls there to Getpeername
 	// are discarded, but we can't catch the problem there because those
 	// calls are sometimes legally erroneous with a "socket not connected".
-	// Since this code (selfConnect) is already trying to work around
+	// Since this code (tcpSelfConnect) is already trying to work around
 	// a problem, we make sure if this happens we recognize trouble and
 	// ask the DialTCP routine to try again.
 	// TODO: try to understand what's really going on.
@@ -126,6 +126,15 @@ func spuriousENOTAVAIL(err error) bool {
 	return err == syscall.EADDRNOTAVAIL
 }
 
+func newTCPFastOpenConn(ctx context.Context, dp *dialParam) (*TCPConn, error) {
+	fd, err := newClosedFD(syscall.AF_UNSPEC, syscall.SOCK_STREAM, dp.network)
+	if err != nil {
+		return nil, err
+	}
+	tfo := &tcpFastOpen{Context: ctx, dialParam: dp}
+	return newTCPConn(fd, tfo), nil
+}
+
 func (ln *TCPListener) ok() bool { return ln != nil && ln.fd != nil }
 
 func (ln *TCPListener) accept() (*TCPConn, error) {
@@ -133,7 +142,7 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, nil), nil
 }
 
 func (ln *TCPListener) close() error {
@@ -149,7 +158,7 @@ func (ln *TCPListener) file() (*os.File, error) {
 }
 
 func listenTCP(ctx context.Context, network string, laddr *TCPAddr) (*TCPListener, error) {
-	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_STREAM, 0, "listen")
+	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_STREAM, 0, "listen", false)
 	if err != nil {
 		return nil, err
 	}

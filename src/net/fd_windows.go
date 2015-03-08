@@ -243,12 +243,18 @@ func startServer() {
 	}
 }
 
-// Network file descriptor.
+// A netFD represents a network file descriptor.
 type netFD struct {
-	// locking/lifetime of sysfd + serialize access to Read and Write methods
+	// fdmu guards the following fields.
 	fdmu fdMutex
+	rop  operation // read operation
+	wop  operation // write operation
+	pd   pollDesc  // runtime-integrated network poller
 
-	// immutable until Close
+	// mu guards the following fields.
+	// In general, the fields are immutable until calling Close
+	// method except when using TCP fast open option.
+	mu            sync.RWMutex
 	sysfd         syscall.Handle
 	family        int
 	sotype        int
@@ -257,12 +263,6 @@ type netFD struct {
 	net           string
 	laddr         Addr
 	raddr         Addr
-
-	rop operation // read operation
-	wop operation // write operation
-
-	// wait server
-	pd pollDesc
 }
 
 func newFD(sysfd syscall.Handle, family, sotype int, net string) (*netFD, error) {
@@ -271,6 +271,15 @@ func newFD(sysfd syscall.Handle, family, sotype int, net string) (*netFD, error)
 	}
 	onceStartServer.Do(startServer)
 	return &netFD{sysfd: sysfd, family: family, sotype: sotype, net: net}, nil
+}
+
+func newClosedFD(family, sotype int, network string) (*netFD, error) {
+	fd, err := newFD(syscall.InvalidHandle, family, sotype, network)
+	if err != nil {
+		return nil, err
+	}
+	fd.fdmu.state = mutexClosed
+	return fd, nil
 }
 
 func (fd *netFD) init() error {
@@ -599,6 +608,7 @@ func (fd *netFD) accept() (*netFD, error) {
 	lsa, _ := lrsa.Sockaddr()
 	rsa, _ := rrsa.Sockaddr()
 
+	netfd.isConnected = true
 	netfd.setAddr(netfd.addrFunc()(lsa), netfd.addrFunc()(rsa))
 	return netfd, nil
 }

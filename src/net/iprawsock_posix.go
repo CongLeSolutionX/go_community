@@ -133,7 +133,7 @@ func dialIP(ctx context.Context, netProto string, laddr, raddr *IPAddr) (*IPConn
 	if raddr == nil {
 		return nil, errMissingAddress
 	}
-	fd, err := internetSocket(ctx, network, laddr, raddr, syscall.SOCK_RAW, proto, "dial")
+	fd, err := internetSocket(ctx, network, laddr, raddr, syscall.SOCK_RAW, proto, "dial", false)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func listenIP(ctx context.Context, netProto string, laddr *IPAddr) (*IPConn, err
 	default:
 		return nil, UnknownNetworkError(netProto)
 	}
-	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_RAW, proto, "listen")
+	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_RAW, proto, "listen", false)
 	if err != nil {
 		return nil, err
 	}
