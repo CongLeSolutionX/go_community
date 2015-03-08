@@ -21,7 +21,7 @@ func setDefaultSockopts(s syscall.Handle, family, sotype int, ipv6only bool) err
 	return nil
 }
 
-func setDefaultListenerSockopts(s syscall.Handle) error {
+func setDefaultListenerSockopts(s syscall.Handle, family, sotype int) error {
 	// Windows will reuse recently-used addresses by default.
 	// SO_REUSEADDR should not be used here, as it allows
 	// a socket to forcibly bind to a port in use by another socket.
