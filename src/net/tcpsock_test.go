@@ -5,6 +5,7 @@
 package net
 
 import (
+	"fmt"
 	"io"
 	"reflect"
 	"runtime"
@@ -14,128 +15,179 @@ import (
 )
 
 func BenchmarkTCP4OneShot(b *testing.B) {
-	benchmarkTCP(b, false, false, "127.0.0.1:0")
-}
-
-func BenchmarkTCP4OneShotTimeout(b *testing.B) {
-	benchmarkTCP(b, false, true, "127.0.0.1:0")
-}
-
-func BenchmarkTCP4Persistent(b *testing.B) {
-	benchmarkTCP(b, true, false, "127.0.0.1:0")
-}
-
-func BenchmarkTCP4PersistentTimeout(b *testing.B) {
-	benchmarkTCP(b, true, true, "127.0.0.1:0")
-}
-
-func BenchmarkTCP6OneShot(b *testing.B) {
-	if !supportsIPv6 {
-		b.Skip("ipv6 is not supported")
-	}
-	benchmarkTCP(b, false, false, "[::1]:0")
-}
-
-func BenchmarkTCP6OneShotTimeout(b *testing.B) {
-	if !supportsIPv6 {
-		b.Skip("ipv6 is not supported")
-	}
-	benchmarkTCP(b, false, true, "[::1]:0")
-}
-
-func BenchmarkTCP6Persistent(b *testing.B) {
-	if !supportsIPv6 {
-		b.Skip("ipv6 is not supported")
-	}
-	benchmarkTCP(b, true, false, "[::1]:0")
-}
-
-func BenchmarkTCP6PersistentTimeout(b *testing.B) {
-	if !supportsIPv6 {
-		b.Skip("ipv6 is not supported")
-	}
-	benchmarkTCP(b, true, true, "[::1]:0")
-}
-
-func benchmarkTCP(b *testing.B, persistent, timeout bool, laddr string) {
 	testHookUninstaller.Do(uninstallTestHooks)
 
-	const msgLen = 512
-	conns := b.N
-	numConcurrent := runtime.GOMAXPROCS(-1) * 2
-	msgs := 1
-	if persistent {
-		conns = numConcurrent
-		msgs = b.N / conns
-		if msgs == 0 {
-			msgs = 1
-		}
-		if conns > b.N {
-			conns = b.N
-		}
+	if !supportsIPv4 {
+		b.Skip("IPv4 is not supported")
 	}
-	sendMsg := func(c Conn, buf []byte) bool {
-		n, err := c.Write(buf)
-		if n != len(buf) || err != nil {
-			b.Log(err)
-			return false
-		}
-		return true
-	}
-	recvMsg := func(c Conn, buf []byte) bool {
-		for read := 0; read != len(buf); {
-			n, err := c.Read(buf)
-			read += n
-			if err != nil {
-				b.Log(err)
-				return false
-			}
-		}
-		return true
-	}
-	ln, err := Listen("tcp", laddr)
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp4")
 	if err != nil {
 		b.Fatal(err)
 	}
-	defer ln.Close()
-	serverSem := make(chan bool, numConcurrent)
-	// Acceptor.
-	go func() {
-		for {
-			c, err := ln.Accept()
-			if err != nil {
-				break
-			}
-			serverSem <- true
-			// Server connection.
-			go func(c Conn) {
-				defer func() {
-					c.Close()
-					<-serverSem
-				}()
-				if timeout {
-					c.SetDeadline(time.Now().Add(time.Hour)) // Not intended to fire.
-				}
-				var buf [msgLen]byte
-				for m := 0; m < msgs; m++ {
-					if !recvMsg(c, buf[:]) || !sendMsg(c, buf[:]) {
-						break
-					}
-				}
-			}(c)
+	var d Dialer
+	benchmarkTCP(b, ln, &d, false, false)
+}
+
+func BenchmarkTCP4OneShotTimeout(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv4 {
+		b.Skip("IPv4 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp4")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, false, true)
+}
+
+func BenchmarkTCP4Persistent(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv4 {
+		b.Skip("IPv4 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp4")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, true, false)
+}
+
+func BenchmarkTCP4PersistentTimeout(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv4 {
+		b.Skip("IPv4 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp4")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, true, true)
+}
+
+func BenchmarkTCP6OneShot(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv6 {
+		b.Skip("IPv6 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp6")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, false, false)
+}
+
+func BenchmarkTCP6OneShotTimeout(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv6 {
+		b.Skip("IPv6 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp6")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, false, true)
+}
+
+func BenchmarkTCP6Persistent(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv6 {
+		b.Skip("IPv6 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp6")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, true, false)
+}
+
+func BenchmarkTCP6PersistentTimeout(b *testing.B) {
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv6 {
+		b.Skip("IPv6 is not supported")
+	}
+
+	b.StopTimer()
+	ln, err := newLocalListener("tcp6")
+	if err != nil {
+		b.Fatal(err)
+	}
+	var d Dialer
+	benchmarkTCP(b, ln, &d, true, true)
+}
+
+func benchmarkTCP(b *testing.B, ln Listener, d *Dialer, persistent, timeout bool) {
+	const msgLen = 512
+	clients := b.N
+	numConcurrent := runtime.GOMAXPROCS(-1) * 2
+	msgs := 1
+	if persistent {
+		clients = numConcurrent
+		msgs = b.N / clients
+		if msgs == 0 {
+			msgs = 1
 		}
-	}()
-	clientSem := make(chan bool, numConcurrent)
-	for i := 0; i < conns; i++ {
-		clientSem <- true
-		// Client connection.
-		go func() {
+		if clients > b.N {
+			clients = b.N
+		}
+	}
+
+	serverThrottle := make(chan struct{}, numConcurrent)
+	ch := make(chan error, 1)
+	handler := func(ls *localServer, ln Listener) {
+		tcpTransponder(ln, msgs, msgLen, serverThrottle, ch)
+	}
+	ls, err := (&streamListener{Listener: ln}).newLocalServer()
+	if err != nil {
+		ln.Close()
+		b.Fatal(err)
+	}
+	if err := ls.buildup(handler); err != nil {
+		ls.teardown()
+		b.Fatal(err)
+	}
+
+	b.StartTimer()
+
+	clientThrottle := make(chan struct{}, numConcurrent)
+	var wg sync.WaitGroup
+	wg.Add(clients)
+	for i := 0; i < clients; i++ {
+		clientThrottle <- struct{}{}
+		go func(i int) {
 			defer func() {
-				<-clientSem
+				<-clientThrottle
+				wg.Done()
 			}()
-			c, err := Dial("tcp", ln.Addr().String())
+			c, err := d.Dial(ln.Addr().Network(), ln.Addr().String())
 			if err != nil {
-				b.Log(err)
+				b.Logf("TR#%d: %v", i, err)
 				return
 			}
 			defer c.Close()
@@ -143,33 +195,52 @@ func benchmarkTCP(b *testing.B, persistent, timeout bool, laddr string) {
 				c.SetDeadline(time.Now().Add(time.Hour)) // Not intended to fire.
 			}
 			var buf [msgLen]byte
+			tc := &testTCPConn{Conn: c, prefix: fmt.Sprintf("TR#%d", i), ch: ch}
 			for m := 0; m < msgs; m++ {
-				if !sendMsg(c, buf[:]) || !recvMsg(c, buf[:]) {
-					break
+				if !tc.write(buf[:]) || !tc.read(buf[:tc.nw]) {
+					return
 				}
+				tc.reset()
 			}
-		}()
+		}(i)
 	}
-	for i := 0; i < numConcurrent; i++ {
-		clientSem <- true
-		serverSem <- true
+	wg.Wait()
+
+	ls.teardown()
+	for err := range ch {
+		b.Error(err)
 	}
 }
 
 func BenchmarkTCP4ConcurrentReadWrite(b *testing.B) {
-	benchmarkTCPConcurrentReadWrite(b, "127.0.0.1:0")
+	testHookUninstaller.Do(uninstallTestHooks)
+
+	if !supportsIPv4 {
+		b.Skip("IPv4 is not supported")
+	}
+
+	ln, err := newLocalListener("tcp4")
+	if err != nil {
+		b.Fatal(err)
+	}
+	benchmarkTCPConcurrentReadWrite(b, ln)
 }
 
 func BenchmarkTCP6ConcurrentReadWrite(b *testing.B) {
-	if !supportsIPv6 {
-		b.Skip("ipv6 is not supported")
-	}
-	benchmarkTCPConcurrentReadWrite(b, "[::1]:0")
-}
-
-func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 	testHookUninstaller.Do(uninstallTestHooks)
 
+	if !supportsIPv6 {
+		b.Skip("IPv6 is not supported")
+	}
+
+	ln, err := newLocalListener("tcp6")
+	if err != nil {
+		b.Fatal(err)
+	}
+	benchmarkTCPConcurrentReadWrite(b, ln)
+}
+
+func benchmarkTCPConcurrentReadWrite(b *testing.B, ln Listener) {
 	// The benchmark creates GOMAXPROCS client/server pairs.
 	// Each pair creates 4 goroutines: client reader/writer and server reader/writer.
 	// The benchmark stresses concurrent reading and writing to the same connection.
@@ -184,12 +255,8 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 	// Setup P client/server connections.
 	clients := make([]Conn, P)
 	servers := make([]Conn, P)
-	ln, err := Listen("tcp", laddr)
-	if err != nil {
-		b.Fatal(err)
-	}
-	defer ln.Close()
 	done := make(chan bool)
+	defer ln.Close()
 	go func() {
 		for p := 0; p < P; p++ {
 			s, err := ln.Accept()
@@ -202,7 +269,7 @@ func benchmarkTCPConcurrentReadWrite(b *testing.B, laddr string) {
 		done <- true
 	}()
 	for p := 0; p < P; p++ {
-		c, err := Dial("tcp", ln.Addr().String())
+		c, err := Dial(ln.Addr().Network(), ln.Addr().String())
 		if err != nil {
 			b.Fatal(err)
 		}
@@ -419,11 +486,16 @@ func TestIPv6LinkLocalUnicastTCP(t *testing.T) {
 }
 
 func TestTCPConcurrentAccept(t *testing.T) {
-	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(4))
-	ln, err := Listen("tcp", "127.0.0.1:0")
+	ln, err := newLocalListener("tcp")
 	if err != nil {
 		t.Fatal(err)
 	}
+	var d Dialer
+	testTCPConcurrentAccept(t, ln, &d)
+}
+
+func testTCPConcurrentAccept(t *testing.T, ln Listener, d *Dialer) {
+	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(4))
 	const N = 10
 	var wg sync.WaitGroup
 	wg.Add(N)
@@ -441,9 +513,9 @@ func TestTCPConcurrentAccept(t *testing.T) {
 	}
 	attempts := 10 * N
 	fails := 0
-	d := &Dialer{Timeout: 200 * time.Millisecond}
+	d.Timeout = 200 * time.Millisecond
 	for i := 0; i < attempts; i++ {
-		c, err := d.Dial("tcp", ln.Addr().String())
+		c, err := d.Dial(ln.Addr().Network(), ln.Addr().String())
 		if err != nil {
 			fails++
 		} else {
@@ -461,6 +533,15 @@ func TestTCPConcurrentAccept(t *testing.T) {
 }
 
 func TestTCPReadWriteAllocs(t *testing.T) {
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var d Dialer
+	testTCPReadWriteAllocs(t, ln, &d)
+}
+
+func testTCPReadWriteAllocs(t *testing.T, ln Listener, d *Dialer) {
 	switch runtime.GOOS {
 	case "nacl", "windows":
 		// NaCl needs to allocate pseudo file descriptor
@@ -470,11 +551,8 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
-	ln, err := Listen("tcp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatal(err)
-	}
 	defer ln.Close()
+	var b [128]byte
 	var server Conn
 	errc := make(chan error)
 	go func() {
@@ -482,22 +560,31 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 		server, err = ln.Accept()
 		errc <- err
 	}()
-	client, err := Dial("tcp", ln.Addr().String())
+	client, err := d.Dial(ln.Addr().Network(), ln.Addr().String())
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer client.Close()
+	if d.FastOpen {
+		if _, err := client.Write(b[:1]); err != nil {
+			t.Fatal(err)
+		}
+	}
 	if err := <-errc; err != nil {
 		t.Fatal(err)
 	}
 	defer server.Close()
-	var buf [128]byte
+	if d.FastOpen {
+		if _, err := server.Read(b[:1]); err != nil {
+			t.Fatal(err)
+		}
+	}
 	allocs := testing.AllocsPerRun(1000, func() {
-		_, err := server.Write(buf[:])
+		_, err := server.Write(b[:])
 		if err != nil {
 			t.Fatal(err)
 		}
-		_, err = io.ReadFull(client, buf[:])
+		_, err = io.ReadFull(client, b[:])
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -507,84 +594,114 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 	}
 }
 
+func TestTCPSelfConnect(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		// TODO(brainman): do not know why it hangs.
+		t.Skip("known-broken test on windows")
+	}
+
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var d Dialer
+	testTCPSelfConnect(t, ln, &d)
+}
+
+func testTCPSelfConnect(t *testing.T, ln Listener, d *Dialer) {
+	c, err := d.Dial(ln.Addr().Network(), ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	network := c.LocalAddr().Network()
+	laddr := *c.LocalAddr().(*TCPAddr)
+	c.Close()
+	ln.Close()
+
+	// Try to connect to that address repeatedly.
+	n := 100000
+	if testing.Short() {
+		n = 1000
+	}
+	switch runtime.GOOS {
+	case "darwin", "dragonfly", "freebsd", "netbsd", "openbsd", "plan9", "solaris", "windows":
+		// Non-Linux systems take a long time to figure
+		// out that there is nothing listening on localhost.
+		n = 100
+	}
+	for i := 0; i < n; i++ {
+		d.Timeout = time.Millisecond
+		c, err := d.Dial(network, laddr.String())
+		if err == nil {
+			addr := c.LocalAddr().(*TCPAddr)
+			if addr.Port == laddr.Port || !d.FastOpen && addr.IP.Equal(laddr.IP) {
+				t.Errorf("#%d: Dial %q should fail", i, addr)
+			} else if !d.FastOpen {
+				t.Logf("#%d: Dial %q succeeded - possibly racing with other listener", i, addr)
+			}
+			c.Close()
+		}
+	}
+}
+
 func TestTCPStress(t *testing.T) {
-	const conns = 2
-	const msgLen = 512
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
 	msgs := int(1e4)
 	if testing.Short() {
 		msgs = 1e2
 	}
+	testTCPStress(t, ln, 2, msgs, 512)
+}
 
-	sendMsg := func(c Conn, buf []byte) bool {
-		n, err := c.Write(buf)
-		if n != len(buf) || err != nil {
-			t.Log(err)
-			return false
-		}
-		return true
+func testTCPStress(t *testing.T, ln Listener, clients, msgs, msgLen int) {
+	ch := make(chan error, 1)
+	handler := func(ls *localServer, ln Listener) {
+		tcpTransponder(ln, msgs, msgLen, nil, ch)
 	}
-	recvMsg := func(c Conn, buf []byte) bool {
-		for read := 0; read != len(buf); {
-			n, err := c.Read(buf)
-			read += n
-			if err != nil {
-				t.Log(err)
-				return false
-			}
-		}
-		return true
-	}
-
-	ln, err := Listen("tcp", "127.0.0.1:0")
+	ls, err := (&streamListener{Listener: ln}).newLocalServer()
 	if err != nil {
+		ln.Close()
 		t.Fatal(err)
 	}
-	done := make(chan bool)
-	// Acceptor.
-	go func() {
-		defer func() {
-			done <- true
-		}()
-		for {
-			c, err := ln.Accept()
+	if err := ls.buildup(handler); err != nil {
+		ls.teardown()
+		t.Fatal(err)
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(clients)
+	for i := 0; i < clients; i++ {
+		go func(i int) {
+			defer wg.Done()
+			c, err := Dial(ln.Addr().Network(), ln.Addr().String())
 			if err != nil {
-				break
-			}
-			// Server connection.
-			go func(c Conn) {
-				defer c.Close()
-				var buf [msgLen]byte
-				for m := 0; m < msgs; m++ {
-					if !recvMsg(c, buf[:]) || !sendMsg(c, buf[:]) {
-						break
-					}
+				if perr := parseDialError(err); perr != nil {
+					ch <- fmt.Errorf("TR#%d: %v", i, perr)
 				}
-			}(c)
-		}
-	}()
-	for i := 0; i < conns; i++ {
-		// Client connection.
-		go func() {
-			defer func() {
-				done <- true
-			}()
-			c, err := Dial("tcp", ln.Addr().String())
-			if err != nil {
-				t.Log(err)
+				t.Logf("TR#%d: %v", i, err)
 				return
 			}
 			defer c.Close()
-			var buf [msgLen]byte
+			b := make([]byte, msgLen)
+			tc := &testTCPConn{Conn: c, prefix: fmt.Sprintf("TR#%d", i), ch: ch}
 			for m := 0; m < msgs; m++ {
-				if !sendMsg(c, buf[:]) || !recvMsg(c, buf[:]) {
-					break
+				if !tc.write(b) || !tc.read(b[:tc.nw]) {
+					return
 				}
+				if tc.nr != tc.nw {
+					ch <- fmt.Errorf("TR#%d: got %d bytes read; want %d", i, tc.nr, tc.nw)
+				}
+				tc.reset()
 			}
-		}()
+		}(i)
 	}
-	for i := 0; i < conns; i++ {
-		<-done
+	wg.Wait()
+
+	ls.teardown()
+	for err := range ch {
+		t.Error(err)
 	}
-	ln.Close()
-	<-done
 }
