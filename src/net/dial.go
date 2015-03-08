@@ -50,6 +50,18 @@ type Dialer struct {
 	// If zero, keep-alives are not enabled. Network protocols
 	// that do not support keep-alives ignore this field.
 	KeepAlive time.Duration
+
+	// FastOpen tries to reduce the message round trip time during
+	// a TCP connection setup by using TCP fast open protocol if
+	// possible. Otherwise it uses a conventional three-way
+	// handshake.
+	//
+	// Note that DualStack will be ignored when FastOpen is true
+	// because DualStack allows to connect uncertain multiple
+	// destination IP addresses but FastOpen allows to connect one
+	// of the most probable, already known and accepted IP
+	// addresses.
+	FastOpen bool
 }
 
 // Return either now+Timeout or Deadline, whichever comes first.
@@ -159,25 +171,37 @@ func (d *Dialer) Dial(network, address string) (Conn, error) {
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: network, Addr: nil, Err: err}
 	}
+	switch network {
+	case "tcp", "tcp4", "tcp6":
+	default:
+		return dialSingle(network, address, d.LocalAddr, ra.toAddr(), d.deadline())
+	}
 	var dialer func(deadline time.Time) (Conn, error)
-	if ras, ok := ra.(addrList); ok && d.DualStack && network == "tcp" {
-		dialer = func(deadline time.Time) (Conn, error) {
-			return dialMulti(network, address, d.LocalAddr, ras, deadline)
-		}
+	var c Conn
+	if d.FastOpen && supportsTCPActiveFastOpen {
+		c, err = d.dialTCP(network, ra.toAddr().(*TCPAddr))
 	} else {
 		dialer = func(deadline time.Time) (Conn, error) {
 			return dialSingle(network, address, d.LocalAddr, ra.toAddr(), deadline)
 		}
+		if ras, ok := ra.(addrList); ok && d.DualStack && network == "tcp" {
+			dialer = func(deadline time.Time) (Conn, error) {
+				return dialMulti(network, address, d.LocalAddr, ras, deadline)
+			}
+		}
+		c, err = dial(network, ra.toAddr(), dialer, d.deadline())
 	}
-	c, err := dial(network, ra.toAddr(), dialer, d.deadline())
-	if d.KeepAlive > 0 && err == nil {
+	if err != nil {
+		return nil, err // c is non-nil interface containing nil pointer
+	}
+	if d.KeepAlive > 0 {
 		if tc, ok := c.(*TCPConn); ok {
 			tc.SetKeepAlive(true)
 			tc.SetKeepAlivePeriod(d.KeepAlive)
 			testHookSetKeepAlive()
 		}
 	}
-	return c, err
+	return c, nil
 }
 
 var testHookSetKeepAlive = func() {} // changed by dial_test.go

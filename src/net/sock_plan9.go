@@ -4,6 +4,10 @@
 
 package net
 
+func probeTCPStack() (supportsTCPActiveFastOpen bool) {
+	return false
+}
+
 func maxListenerBacklog() int {
 	// /sys/include/ape/sys/socket.h:/SOMAXCONN
 	return 5
