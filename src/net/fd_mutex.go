@@ -34,9 +34,20 @@ const (
 	mutexWMask   = (1<<20 - 1) << 43
 )
 
-// Read operations must do rwlock(true)/rwunlock(true).
+// fdMutexType represents a request type of mutex operation.
+type fdMutexType int
+
+const (
+	fdRMutex fdMutexType = mutexRLock               // for read operations
+	fdWMutex fdMutexType = mutexWLock               // for write operations
+	fdOMutex fdMutexType = mutexClosed | mutexWLock // for open operations
+)
+
+// Read operations must do lock(fdRMutex)/unlock(fdRMutex).
 //
-// Write operations must do rwlock(false)/rwunlock(false).
+// Write operations must do lock(fdWMutex)/unlock(fdWMutex).
+//
+// Open operations must do lock(fdOMutex)/unlock(fdOMutex).
 //
 // Misc operations must do incref/decref.
 // Misc operations include functions like setsockopt and setDeadline.
@@ -112,10 +123,10 @@ func (mu *fdMutex) decref() bool {
 
 // lock adds a reference to mu and locks mu.
 // It reports whether mu is available for reading or writing.
-func (mu *fdMutex) rwlock(read bool) bool {
+func (mu *fdMutex) lock(typ fdMutexType) bool {
 	var mutexBit, mutexWait, mutexMask uint64
 	var mutexSema *uint32
-	if read {
+	if typ == fdRMutex {
 		mutexBit = mutexRLock
 		mutexWait = mutexRWait
 		mutexMask = mutexRMask
@@ -128,7 +139,9 @@ func (mu *fdMutex) rwlock(read bool) bool {
 	}
 	for {
 		old := atomic.LoadUint64(&mu.state)
-		if old&mutexClosed != 0 {
+		// An open operation allows to take a write lock on
+		// the closed-state mu.
+		if old&mutexClosed != 0 && typ != fdOMutex {
 			return false
 		}
 		var new uint64
@@ -147,7 +160,7 @@ func (mu *fdMutex) rwlock(read bool) bool {
 		}
 		if atomic.CompareAndSwapUint64(&mu.state, old, new) {
 			if old&mutexBit == 0 {
-				return true
+				return new&mutexClosed == 0
 			}
 			runtime_Semacquire(mutexSema)
 			// The signaller has subtracted mutexWait.
@@ -157,10 +170,10 @@ func (mu *fdMutex) rwlock(read bool) bool {
 
 // unlock removes a reference from mu and unlocks mu.
 // It reports whether there is no remaining reference.
-func (mu *fdMutex) rwunlock(read bool) bool {
+func (mu *fdMutex) unlock(typ fdMutexType) bool {
 	var mutexBit, mutexWait, mutexMask uint64
 	var mutexSema *uint32
-	if read {
+	if typ == fdRMutex {
 		mutexBit = mutexRLock
 		mutexWait = mutexRWait
 		mutexMask = mutexRMask
@@ -176,8 +189,15 @@ func (mu *fdMutex) rwunlock(read bool) bool {
 		if old&mutexBit == 0 || old&mutexRefMask == 0 {
 			panic("net: inconsistent fdMutex")
 		}
-		// Drop lock, drop reference and wake read waiter if present.
-		new := (old &^ mutexBit) - mutexRef
+		// Drop lock, drop reference and wake a waiter if
+		// present. An open operation makes the closed-state
+		// mu ready for reading and writing.
+		var new uint64
+		if typ == fdOMutex {
+			new = (old &^ (mutexClosed | mutexBit)) - mutexRef
+		} else {
+			new = (old &^ mutexBit) - mutexRef
+		}
 		if old&mutexMask != 0 {
 			new -= mutexWait
 		}
@@ -212,10 +232,25 @@ func (fd *netFD) decref() {
 	}
 }
 
+// openLock adds a reference to fd and locks fd for opening.
+// It returns an error when fd cannot be used for writing.
+func (fd *netFD) openLock() error {
+	if !fd.fdmu.lock(fdOMutex) {
+		return errClosing
+	}
+	return nil
+}
+
+// openUnlock removes a reference from fd and unlocks fd for reading
+// and writing.
+func (fd *netFD) openUnlock() {
+	fd.fdmu.unlock(fdOMutex)
+}
+
 // readLock adds a reference to fd and locks fd for reading.
 // It returns an error when fd cannot be used for reading.
 func (fd *netFD) readLock() error {
-	if !fd.fdmu.rwlock(true) {
+	if !fd.fdmu.lock(fdRMutex) {
 		return errClosing
 	}
 	return nil
@@ -225,7 +260,7 @@ func (fd *netFD) readLock() error {
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
 func (fd *netFD) readUnlock() {
-	if fd.fdmu.rwunlock(true) {
+	if fd.fdmu.unlock(fdRMutex) {
 		fd.destroy()
 	}
 }
@@ -233,7 +268,7 @@ func (fd *netFD) readUnlock() {
 // writeLock adds a reference to fd and locks fd for writing.
 // It returns an error when fd cannot be used for writing.
 func (fd *netFD) writeLock() error {
-	if !fd.fdmu.rwlock(false) {
+	if !fd.fdmu.lock(fdWMutex) {
 		return errClosing
 	}
 	return nil
@@ -243,7 +278,7 @@ func (fd *netFD) writeLock() error {
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
 func (fd *netFD) writeUnlock() {
-	if fd.fdmu.rwunlock(false) {
+	if fd.fdmu.unlock(fdWMutex) {
 		fd.destroy()
 	}
 }

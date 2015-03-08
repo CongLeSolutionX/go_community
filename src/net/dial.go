@@ -52,6 +52,24 @@ type Dialer struct {
 	// If zero, a default delay of 300ms is used.
 	FallbackDelay time.Duration
 
+	// FastOpen enables TCP fast open option as defined in RFC
+	// 7413, which is able to convey data during a three-way
+	// handshake.
+	//
+	// When true, Dial may return a non-established connection and
+	// any operation except Write on the returned non-established
+	// connection will fail until the establishment. It is the
+	// caller's responsibility to establish the connection by the
+	// first Write call. The first Write call on a non-established
+	// connection will follow the Dialer's Timeout or Deadline
+	// value and ignore the values set by SetDeadline or
+	// SetWriteDeadline.
+	//
+	// The functionality will be disabled automatically when the
+	// operating system forbids to use TCP fast open option.
+	// In that case, Dial returns a established connection.
+	FastOpen bool
+
 	// KeepAlive specifies the keep-alive period for an active
 	// network connection.
 	// If zero, keep-alives are not enabled. Network protocols
@@ -276,6 +294,14 @@ func (d *Dialer) Dial(network, address string) (Conn, error) {
 		network:       network,
 		address:       address,
 		finalDeadline: finalDeadline,
+	}
+
+	if network[:3] == "tcp" && d.FastOpen && supportsActiveTCPFastOpen {
+		c, err := newTCPFastOpenConn(ctx, addrs)
+		if err != nil {
+			return nil, &OpError{Op: "dial", Net: network, Source: nil, Addr: nil, Err: err}
+		}
+		return c, nil
 	}
 
 	// DualStack mode requires that dialTCP support cancelation. This is
