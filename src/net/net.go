@@ -98,6 +98,7 @@ func init() {
 	sysInit()
 	supportsIPv4 = probeIPv4Stack()
 	supportsIPv6, supportsIPv4map = probeIPv6Stack()
+	supportsPassiveTCPFastOpen, supportsActiveTCPFastOpen = probeTCPStack()
 }
 
 // Addr represents a network end point address.

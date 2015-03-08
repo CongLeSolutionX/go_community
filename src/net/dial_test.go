@@ -235,8 +235,8 @@ const (
 // In some environments, the slow IPs may be explicitly unreachable, and fail
 // more quickly than expected. This test hook prevents dialTCP from returning
 // before the deadline.
-func slowDialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
-	c, err := dialTCP(net, laddr, raddr, deadline, cancel)
+func slowDialTCP(ctx *dialContext, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+	c, err := dialTCP(ctx, laddr, raddr, deadline, cancel)
 	if ParseIP(slowDst4).Equal(raddr.IP) || ParseIP(slowDst6).Equal(raddr.IP) {
 		select {
 		case <-cancel:
@@ -569,12 +569,12 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 
 	origTestHookDialTCP := testHookDialTCP
 	defer func() { testHookDialTCP = origTestHookDialTCP }()
-	testHookDialTCP = func(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+	testHookDialTCP = func(ctx *dialContext, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
 		// Sleep long enough for Happy Eyeballs to kick in, and inhibit cancelation.
 		// This forces dialParallel to juggle two successful connections.
 		time.Sleep(fallbackDelay * 2)
 		cancel = nil
-		return dialTCP(net, laddr, raddr, deadline, cancel)
+		return dialTCP(ctx, laddr, raddr, deadline, cancel)
 	}
 
 	d := Dialer{

@@ -341,6 +341,98 @@ func timeoutTransmitter(c Conn, d, min, max time.Duration, ch chan<- error) {
 	}
 }
 
+func persistentTransponder(ln Listener, msgs, msgLen int, throttle chan struct{}, ch chan<- error) {
+	var wg sync.WaitGroup
+	defer func() {
+		wg.Wait()
+		close(ch)
+	}()
+
+	switch ln := ln.(type) {
+	case *TCPListener:
+		ln.SetDeadline(time.Now().Add(someTimeout))
+	}
+	network := ln.Addr().Network()
+
+	for {
+		c, err := ln.Accept()
+		if err != nil {
+			return
+		}
+
+		if c.LocalAddr().Network() != network || c.LocalAddr().Network() != network {
+			ch <- fmt.Errorf("%v->%v; expected %v->%v", c.LocalAddr().Network(), c.RemoteAddr().Network(), network, network)
+			return
+		}
+		c.SetDeadline(time.Now().Add(someTimeout))
+		c.SetReadDeadline(time.Now().Add(someTimeout))
+		c.SetWriteDeadline(time.Now().Add(someTimeout))
+
+		if throttle != nil {
+			throttle <- struct{}{}
+		}
+		wg.Add(1)
+		go func(c Conn, msgLen int) {
+			defer func() {
+				c.Close()
+				if throttle != nil {
+					<-throttle
+				}
+				wg.Done()
+			}()
+			b := make([]byte, msgLen)
+			tc := &testConn{Conn: c, ch: ch}
+			for m := 0; m < msgs; m++ {
+				if !tc.read(b) || !tc.write(b[:tc.nr]) {
+					return
+				}
+				if tc.nw != tc.nr {
+					ch <- fmt.Errorf("got %d bytes written; want %d", tc.nw, tc.nr)
+				}
+				tc.reset()
+			}
+		}(c, msgLen)
+	}
+}
+
+type testConn struct {
+	Conn
+	nr, nw int // # of bytes written, read
+	ch     chan<- error
+}
+
+func (tc *testConn) reset() {
+	tc.nr, tc.nw = 0, 0
+}
+
+func (tc *testConn) read(b []byte) bool {
+	for tc.nr < len(b) {
+		n, err := tc.Read(b)
+		if err != nil {
+			if perr := parseReadError(err); perr != nil {
+				tc.ch <- perr
+			}
+			tc.ch <- err
+			return false
+		}
+		tc.nr += n
+	}
+	return true
+}
+
+func (tc *testConn) write(b []byte) bool {
+	n, err := tc.Write(b)
+	if err != nil {
+		if perr := parseWriteError(err); perr != nil {
+			tc.ch <- perr
+		}
+		tc.ch <- err
+		return false
+	}
+	tc.nw = n
+	return true
+}
+
 func newLocalPacketListener(network string) (PacketConn, error) {
 	switch network {
 	case "udp", "udp4", "udp6":
