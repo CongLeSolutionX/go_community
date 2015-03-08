@@ -34,7 +34,7 @@ type sockaddr interface {
 
 // socket returns a network file descriptor that is ready for
 // asynchronous I/O using the network poller.
-func socket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr sockaddr, deadline time.Time, cancel <-chan struct{}) (fd *netFD, err error) {
+func socket(network string, family, sotype, proto int, ipv6only, fastopen bool, laddr, raddr sockaddr, deadline time.Time, cancel <-chan struct{}) (*netFD, error) {
 	s, err := sysSocket(family, sotype, proto)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,8 @@ func socket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr s
 		closeFunc(s)
 		return nil, err
 	}
-	if fd, err = newFD(s, family, sotype, net); err != nil {
+	fd, err := newFD(s, family, sotype, network)
+	if err != nil {
 		closeFunc(s)
 		return nil, err
 	}
@@ -70,7 +71,7 @@ func socket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr s
 	// raddr is nil. Otherwise we assume it's just for dialers or
 	// the other connection holders.
 
-	if laddr != nil && raddr == nil {
+	if laddr != nil && raddr == nil && !fastopen {
 		switch sotype {
 		case syscall.SOCK_STREAM, syscall.SOCK_SEQPACKET:
 			if err := fd.listenStream(laddr, listenerBacklog); err != nil {
@@ -86,7 +87,7 @@ func socket(net string, family, sotype, proto int, ipv6only bool, laddr, raddr s
 			return fd, nil
 		}
 	}
-	if err := fd.dial(laddr, raddr, deadline, cancel); err != nil {
+	if err := fd.dial(laddr, raddr, fastopen, deadline, cancel); err != nil {
 		fd.Close()
 		return nil, err
 	}
@@ -117,7 +118,7 @@ func (fd *netFD) addrFunc() func(syscall.Sockaddr) Addr {
 	return func(syscall.Sockaddr) Addr { return nil }
 }
 
-func (fd *netFD) dial(laddr, raddr sockaddr, deadline time.Time, cancel <-chan struct{}) error {
+func (fd *netFD) dial(laddr, raddr sockaddr, fastopen bool, deadline time.Time, cancel <-chan struct{}) error {
 	var err error
 	var lsa syscall.Sockaddr
 	if laddr != nil {
@@ -130,7 +131,7 @@ func (fd *netFD) dial(laddr, raddr sockaddr, deadline time.Time, cancel <-chan s
 		}
 	}
 	var rsa syscall.Sockaddr
-	if raddr != nil {
+	if raddr != nil && !fastopen {
 		if rsa, err = raddr.sockaddr(fd.family); err != nil {
 			return err
 		}
