@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97fd58c2_05f2f2ea",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3752,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-08T23:27:58Z",
+      "side": 1,
+      "message": "wait. The Hlinux case also exists here, so now I don\u0027t understand how\nall the trybot could have succeeded.",
+      "range": {
+        "startLine": 3752,
+        "startChar": 6,
+        "endLine": 3752,
+        "endChar": 21
+      },
+      "revId": "e73981512fdc5e1128a9b17c4b9788c600db23ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
