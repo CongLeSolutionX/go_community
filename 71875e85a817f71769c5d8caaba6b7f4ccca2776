@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f73db44d_e0bd8200",
+        "filename": "src/cmd/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-09T03:51:51Z",
+      "side": 1,
+      "message": "Can just do a.Used !\u003d b.Used.",
+      "range": {
+        "startLine": 200,
+        "startChar": 12,
+        "endLine": 200,
+        "endChar": 14
+      },
+      "revId": "71875e85a817f71769c5d8caaba6b7f4ccca2776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
