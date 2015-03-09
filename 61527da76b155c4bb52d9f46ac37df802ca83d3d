@@ -16,6 +16,24 @@
       "revId": "61527da76b155c4bb52d9f46ac37df802ca83d3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "574cc013_7bcfdfa5",
+        "filename": "src/encoding/xml/typeinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-03-09T09:11:05Z",
+      "side": 1,
+      "message": "Old C habits die hard, it seems.",
+      "parentUuid": "17e968fa_511794c8",
+      "revId": "61527da76b155c4bb52d9f46ac37df802ca83d3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
