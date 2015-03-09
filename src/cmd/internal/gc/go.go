@@ -505,8 +505,6 @@ var namebuf string
 var lexbuf bytes.Buffer
 var strbuf bytes.Buffer
 
-var litbuf string
-
 var Debug [256]int
 
 var debugstr string

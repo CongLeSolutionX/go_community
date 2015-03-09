@@ -1065,7 +1065,6 @@ l0:
 		if Debug['x'] != 0 {
 			fmt.Printf("lex: codepoint literal\n")
 		}
-		litbuf = "string literal"
 		return LLITERAL
 
 	case '/':
@@ -1414,7 +1413,6 @@ ncu:
 	if Debug['x'] != 0 {
 		fmt.Printf("lex: integer literal\n")
 	}
-	litbuf = "literal " + str
 	return LLITERAL
 
 casedot:
@@ -1471,7 +1469,6 @@ casei:
 	if Debug['x'] != 0 {
 		fmt.Printf("lex: imaginary literal\n")
 	}
-	litbuf = "literal " + str
 	return LLITERAL
 
 caseout:
@@ -1490,7 +1487,6 @@ caseout:
 	if Debug['x'] != 0 {
 		fmt.Printf("lex: floating literal\n")
 	}
-	litbuf = "literal " + str
 	return LLITERAL
 
 strlit:
@@ -1499,7 +1495,6 @@ strlit:
 	if Debug['x'] != 0 {
 		fmt.Printf("lex: string literal\n")
 	}
-	litbuf = "string literal"
 	return LLITERAL
 }
 
