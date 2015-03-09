@@ -26,14 +26,24 @@ func TestFixedGOROOT(t *testing.T) {
 	if got := runtime.GOROOT(); got != want {
 		t.Errorf(`initial runtime.GOROOT()=%q, want %q`, got, want)
 	}
+
+	oldenv, found := syscall.Getenv("GOROOT")
 	if err := syscall.Setenv("GOROOT", "/os"); err != nil {
 		t.Fatal(err)
 	}
 	if got := runtime.GOROOT(); got != want {
 		t.Errorf(`after setenv runtime.GOROOT()=%q, want %q`, got, want)
 	}
-	if err := syscall.Unsetenv("GOROOT"); err != nil {
-		t.Fatal(err)
+
+	// cleanup
+	if found {
+		if err := syscall.Setenv("GOROOT", oldenv); err != nil {
+			t.Fatal(err)
+		}
+	} else {
+		if err := syscall.Unsetenv("GOROOT"); err != nil {
+			t.Fatal(err)
+		}
 	}
 	if got := runtime.GOROOT(); got != want {
 		t.Errorf(`after unsetenv runtime.GOROOT()=%q, want %q`, got, want)
