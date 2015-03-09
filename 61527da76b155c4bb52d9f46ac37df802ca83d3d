@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e968fa_511794c8",
+        "filename": "src/encoding/xml/typeinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-03-09T03:48:13Z",
+      "side": 1,
+      "message": "The parens are unnecessary. gofmt will indicate this by having no spaces around the single-ampersand but one space around the other operators.\n\nhttp://golang.org/ref/spec#Operator_precedence",
+      "revId": "61527da76b155c4bb52d9f46ac37df802ca83d3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
