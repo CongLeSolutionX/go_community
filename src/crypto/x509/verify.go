@@ -22,10 +22,13 @@ const (
 	// Expired results when a certificate has expired, based on the time
 	// given in the VerifyOptions.
 	Expired
-	// CANotAuthorizedForThisName results when an intermediate or root
-	// certificate has a name constraint which doesn't include the name
-	// being checked.
+	// CANotAuthorizedForThis(Name|Email|IP|Directory) results when an
+	// intermediate or root certificate has a name constraint which doesn't
+	// include the value being checked.
 	CANotAuthorizedForThisName
+	CANotAuthorizedForThisEmail
+	CANotAuthorizedForThisIP
+	CANotAuthorizedForThisDirectory
 	// TooManyIntermediates results when a path length constraint is
 	// violated.
 	TooManyIntermediates
@@ -49,6 +52,12 @@ func (e CertificateInvalidError) Error() string {
 		return "x509: certificate has expired or is not yet valid"
 	case CANotAuthorizedForThisName:
 		return "x509: a root or intermediate certificate is not authorized to sign in this domain"
+	case CANotAuthorizedForThisEmail:
+		return "x509: a root or intermediate certificate is not authorized to sign this email address"
+	case CANotAuthorizedForThisIP:
+		return "x509: a root or intermediate certificate is not authorized to sign this IP address"
+	case CANotAuthorizedForThisDirectory:
+		return "x509: a root or intermediate certificate is not authorized to sign in this directory"
 	case TooManyIntermediates:
 		return "x509: too many intermediates for path length constraint"
 	case IncompatibleUsage:
@@ -125,7 +134,10 @@ func (SystemRootsError) Error() string {
 // VerifyOptions contains parameters for Certificate.Verify. It's a structure
 // because other PKIX verification APIs have ended up needing many options.
 type VerifyOptions struct {
-	DNSName       string
+	DNSName      string
+	EmailAddress string
+	IPAddress    net.IP
+
 	Intermediates *CertPool
 	Roots         *CertPool // if nil, the system roots are used
 	CurrentTime   time.Time // if zero, the current time is used
@@ -152,20 +164,162 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
 		return CertificateInvalidError{c, Expired}
 	}
 
-	if len(c.PermittedDNSDomains) > 0 {
-		ok := false
-		for _, domain := range c.PermittedDNSDomains {
-			if opts.DNSName == domain ||
-				(strings.HasSuffix(opts.DNSName, domain) &&
-					len(opts.DNSName) >= 1+len(domain) &&
-					opts.DNSName[len(opts.DNSName)-len(domain)-1] == '.') {
-				ok = true
-				break
+	// The name constraints extension, which MUST be used only in a CA
+	// certificate, indicates a name space within which all subject names in
+	// subsequent certificates in a certification path MUST be located.
+	if certType != leafCertificate {
+		// PermittedDNSDomains
+		if len(opts.DNSName) > 0 && len(c.PermittedDNSDomains) > 0 {
+			ok := false
+			for _, domain := range c.PermittedDNSDomains {
+				if opts.DNSName == domain ||
+					(strings.HasPrefix(domain, ".") && strings.HasSuffix(opts.DNSName, domain)) ||
+					(!strings.HasPrefix(domain, ".") && strings.HasSuffix(opts.DNSName, "."+domain)) {
+
+					ok = true
+					break
+				}
+			}
+
+			if !ok {
+				return CertificateInvalidError{c, CANotAuthorizedForThisName}
 			}
 		}
 
-		if !ok {
-			return CertificateInvalidError{c, CANotAuthorizedForThisName}
+		// ExcludedDNSDomains
+		if len(opts.DNSName) > 0 && len(c.ExcludedDNSDomains) > 0 {
+			ok := false
+			for _, domain := range c.ExcludedDNSDomains {
+				if opts.DNSName == domain ||
+					(strings.HasPrefix(domain, ".") && strings.HasSuffix(opts.DNSName, domain)) ||
+					(!strings.HasPrefix(domain, ".") && strings.HasSuffix(opts.DNSName, "."+domain)) {
+
+					ok = true
+					break
+				}
+			}
+
+			if !ok {
+				return CertificateInvalidError{c, CANotAuthorizedForThisName}
+			}
+		}
+
+		// PermittedEmailDomains
+		if len(opts.EmailAddress) > 0 && len(c.PermittedEmailDomains) > 0 {
+			ok := false
+			for _, email := range c.PermittedEmailDomains {
+				if opts.EmailAddress == email ||
+					(strings.HasPrefix(email, ".") && strings.HasSuffix(opts.EmailAddress, email)) ||
+					(!strings.HasPrefix(email, ".") && strings.HasSuffix(opts.EmailAddress, "@"+email)) {
+
+					ok = true
+					break
+
+				}
+			}
+
+			if !ok {
+				return CertificateInvalidError{c, CANotAuthorizedForThisEmail}
+			}
+		}
+
+		// ExcludedEmailDomains
+		if len(opts.EmailAddress) > 0 && len(c.ExcludedEmailDomains) > 0 {
+			ok := true
+			for _, email := range c.PermittedEmailDomains {
+				if opts.EmailAddress == email ||
+					(strings.HasPrefix(email, ".") && strings.HasSuffix(opts.EmailAddress, email)) ||
+					(!strings.HasPrefix(email, ".") && strings.HasSuffix(opts.EmailAddress, "@"+email)) {
+
+					ok = false
+					break
+				}
+			}
+
+			if !ok {
+				return CertificateInvalidError{c, CANotAuthorizedForThisEmail}
+			}
+		}
+
+		// PermittedIPAddresses
+		if len(opts.IPAddress) > 0 && len(c.PermittedIPAddresses) > 0 {
+			ok := false
+			for _, ip := range c.PermittedIPAddresses {
+				if ip.Contains(opts.IPAddress) {
+					ok = true
+					break
+				}
+			}
+
+			if !ok {
+				return CertificateInvalidError{c, CANotAuthorizedForThisIP}
+			}
+		}
+
+		// ExcludedIPAddresses
+		if len(opts.IPAddress) > 0 && len(c.ExcludedIPAddresses) > 0 {
+			ok := true
+			for _, ip := range c.ExcludedIPAddresses {
+				if ip.Contains(opts.IPAddress) {
+					ok = false
+					break
+				}
+			}
+
+			if !ok {
+				return CertificateInvalidError{c, CANotAuthorizedForThisIP}
+			}
+		}
+
+		// Directory Names need to be checked against the leaf certificate
+		if len(currentChain) > 0 {
+			leaf := currentChain[0]
+
+			// PermittedDirectoryNames
+			if len(leaf.Subject.Names) > 0 && len(c.PermittedDirectoryNames) > 0 {
+				for _, name := range leaf.Subject.Names {
+					for _, dn := range c.PermittedDirectoryNames {
+						ok := true
+						for _, dnName := range dn.Names {
+							if name.Type.Equal(dnName.Type) {
+								ok = false
+								if fmt.Sprintf("%v", name.Value) == fmt.Sprintf("%v", dnName.Value) {
+									ok = true
+									break
+								}
+							}
+						}
+
+						if !ok {
+							return CertificateInvalidError{c, CANotAuthorizedForThisDirectory}
+						}
+
+					}
+				}
+			}
+
+			// ExcludedDirectoryNames
+			if len(leaf.Subject.Names) > 0 && len(c.ExcludedDirectoryNames) > 0 {
+				for _, name := range leaf.Subject.Names {
+					for _, dn := range c.ExcludedDirectoryNames {
+						ok := true
+						for _, dnName := range dn.Names {
+							if name.Type.Equal(dnName.Type) {
+								ok = true
+								if fmt.Sprintf("%v", name.Value) == fmt.Sprintf("%v", dnName.Value) {
+									ok = false
+									break
+								}
+							}
+						}
+
+						if !ok {
+							return CertificateInvalidError{c, CANotAuthorizedForThisDirectory}
+						}
+
+					}
+				}
+			}
 		}
 	}
 

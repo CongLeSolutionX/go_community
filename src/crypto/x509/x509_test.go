@@ -374,8 +374,23 @@ func TestCreateSelfSignedCertificate(t *testing.T) {
 			EmailAddresses: []string{"gopher@golang.org"},
 			IPAddresses:    []net.IP{net.IPv4(127, 0, 0, 1).To4(), net.ParseIP("2001:4860:0:2001::68")},
 
-			PolicyIdentifiers:   []asn1.ObjectIdentifier{[]int{1, 2, 3}},
-			PermittedDNSDomains: []string{".example.com", "example.com"},
+			PolicyIdentifiers:     []asn1.ObjectIdentifier{[]int{1, 2, 3}},
+			PermittedDNSDomains:   []string{".example.com", "example.com"},
+			ExcludedDNSDomains:    []string{".example.com", "example.com"},
+			PermittedEmailDomains: []string{"@example.com", ".example.com"},
+			ExcludedEmailDomains:  []string{"@example.net", ".example.net"},
+			PermittedIPAddresses: []net.IPNet{
+				{IP: net.IPv4(127, 0, 0, 1).To4(), Mask: net.IPMask(net.IPv4(255, 0, 0, 0).To4())},
+				{IP: net.ParseIP("abcd:2345::"), Mask: net.IPMask(net.ParseIP("ffff:ffff::"))}},
+			ExcludedIPAddresses: []net.IPNet{
+				{IP: net.IPv4zero, Mask: net.IPMask(net.IPv4zero)},
+				{IP: net.IPv6zero, Mask: net.IPMask(net.IPv6zero)}},
+			PermittedDirectoryNames: []pkix.Name{{
+				Organization: []string{"Σ Acme Co"},
+			}},
+			ExcludedDirectoryNames: []pkix.Name{{
+				Country: []string{"GB"},
+			}},
 
 			CRLDistributionPoints: []string{"http://crl1.example.com/ca1.crl", "http://crl2.example.com/ca1.crl"},
 
@@ -466,6 +481,38 @@ func TestCreateSelfSignedCertificate(t *testing.T) {
 
 		if !reflect.DeepEqual(cert.IPAddresses, template.IPAddresses) {
 			t.Errorf("%s: SAN IPs differ from template. Got %v, want %v", test.name, cert.IPAddresses, template.IPAddresses)
+		}
+
+		if !reflect.DeepEqual(cert.PermittedDNSDomains, template.PermittedDNSDomains) {
+			t.Errorf("%s: Name constraints permitted DNS names differ from template. Got %v, want %v", test.name, cert.PermittedDNSDomains, template.PermittedDNSDomains)
+		}
+
+		if !reflect.DeepEqual(cert.ExcludedDNSDomains, template.ExcludedDNSDomains) {
+			t.Errorf("%s: Name constraints excluded DNS names differ from template. Got %v, want %v", test.name, cert.ExcludedDNSDomains, template.ExcludedDNSDomains)
+		}
+
+		if !reflect.DeepEqual(cert.PermittedEmailDomains, template.PermittedEmailDomains) {
+			t.Errorf("%s: Name constraints permitted emails differ from template. Got %v, want %v", test.name, cert.PermittedEmailDomains, template.PermittedEmailDomains)
+		}
+
+		if !reflect.DeepEqual(cert.ExcludedEmailDomains, template.ExcludedEmailDomains) {
+			t.Errorf("%s: Name constraints excluded emails differ from template. Got %v, want %v", test.name, cert.ExcludedEmailDomains, template.ExcludedEmailDomains)
+		}
+
+		if !reflect.DeepEqual(cert.PermittedIPAddresses, template.PermittedIPAddresses) {
+			t.Errorf("%s: Name constraints permitted IP addresses differ from template. Got %v, want %v", test.name, cert.PermittedIPAddresses, template.PermittedIPAddresses)
+		}
+
+		if !reflect.DeepEqual(cert.ExcludedIPAddresses, template.ExcludedIPAddresses) {
+			t.Errorf("%s: Name constraints excluded IP addresses differ from template. Got %v, want %v", test.name, cert.ExcludedIPAddresses, template.ExcludedIPAddresses)
+		}
+
+		if len(cert.PermittedDirectoryNames) != 1 || len(cert.PermittedDirectoryNames[0].Organization) != 1 || cert.PermittedDirectoryNames[0].Organization[0] != template.PermittedDirectoryNames[0].Organization[0] {
+			t.Errorf("%s: Name constraints permitted directory wasn't correctly copied from the template. Got %s, want %s", test.name, cert.PermittedDirectoryNames[0].Organization[0], template.PermittedDirectoryNames[0].Organization[0])
+		}
+
+		if len(cert.ExcludedDirectoryNames) != 1 || len(cert.ExcludedDirectoryNames[0].Country) != 1 || cert.ExcludedDirectoryNames[0].Country[0] != template.ExcludedDirectoryNames[0].Country[0] {
+			t.Errorf("%s: Name constraints exluded directory wasn't correctly copied from the template. Got %s, want %s", test.name, cert.ExcludedDirectoryNames[0].Country[0], template.ExcludedDirectoryNames[0].Country[0])
 		}
 
 		if !reflect.DeepEqual(cert.CRLDistributionPoints, template.CRLDistributionPoints) {

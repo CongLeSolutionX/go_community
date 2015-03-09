@@ -8,6 +8,7 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"errors"
+	"net"
 	"runtime"
 	"strings"
 	"testing"
@@ -22,6 +23,8 @@ type verifyTest struct {
 	roots                []string
 	currentTime          int64
 	dnsName              string
+	emailAddress         string
+	ipAddress            net.IP
 	systemSkip           bool
 	keyUsages            []ExtKeyUsage
 	testSystemRootsError bool
@@ -213,6 +216,183 @@ var verifyTests = []verifyTest{
 		},
 	},
 	{
+		// Check that a name constrained intermediate doesn allow a dnsname that
+		// includes a subdomain when it's constraint to subdomains only.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		dnsName:       "www.golang.org",
+
+		expectedChains: [][]string{
+			{
+				"Gopher Inc.",
+				"Golang ECC Issuing CA",
+				"Golang ECC CA",
+			},
+		},
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a domain
+		// when it's constraint to subdomains only.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		dnsName:       "golang.org",
+
+		errorCallback: expectCANotAuthorizedForThisName,
+	},
+	{
+		// Check that a name constrained intermediate does allow a dnsname with
+		// no subdomain when it's constraint to a domain wihtout leading dot.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		dnsName:       "golang.com",
+
+		expectedChains: [][]string{
+			{
+				"Gopher Inc.",
+				"Golang ECC Issuing CA",
+				"Golang ECC CA",
+			},
+		},
+	},
+	{
+		// Check that a name constrained intermediate does allow a dnsname with
+		// subdomain when it's constraint to a domain wihtout leading dot.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		dnsName:       "www.golang.com",
+
+		expectedChains: [][]string{
+			{
+				"Gopher Inc.",
+				"Golang ECC Issuing CA",
+				"Golang ECC CA",
+			},
+		},
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a different
+		// dnsname then it's constraint to.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		dnsName:       "www.example.com",
+
+		errorCallback: expectCANotAuthorizedForThisName,
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a different
+		// email domain then it's constraint to. The certificate is contraint to
+		// the email domain golang.com and should not allow subdomains.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		emailAddress:  "mail@golang.com",
+
+		expectedChains: [][]string{
+			{
+				"Gopher Inc.",
+				"Golang ECC Issuing CA",
+				"Golang ECC CA",
+			},
+		},
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a different
+		// email domain then it's constraint to. The certificate is contraint to
+		// the email domain golang.com and should not allow subdomains.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		emailAddress:  "mail@subdomain.golang.com",
+
+		errorCallback: expectCANotAuthorizedForThisEmail,
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a different
+		// email domain then it's constraint to. The certificate is contraint to
+		// subdomains of golang.org.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		emailAddress:  "mail@subdomain.golang.org",
+
+		expectedChains: [][]string{
+			{
+				"Gopher Inc.",
+				"Golang ECC Issuing CA",
+				"Golang ECC CA",
+			},
+		},
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a different
+		// email domain then it's constraint to. The certificate is contraint to
+		// subdomains of golang.org.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		emailAddress:  "mail@golang.org",
+
+		errorCallback: expectCANotAuthorizedForThisEmail,
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow an email
+		// address when it's constraint to a different domain.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		emailAddress:  "mail@example.com",
+
+		errorCallback: expectCANotAuthorizedForThisEmail,
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow an IPv4
+		// address when it's constraint to exluded the entire IP space.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		ipAddress:     net.IPv4(127, 0, 0, 1),
+
+		errorCallback: expectCANotAuthorizedForThisIP,
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow an IPv6
+		// address when it's constraint to exluded the entire IP space.
+		leaf:          goNameConstraintsCert1,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		ipAddress:     net.ParseIP("::1"),
+
+		errorCallback: expectCANotAuthorizedForThisIP,
+	},
+	{
+		// Check that a name constrained intermediate doesn't allow a mofified
+		// directory name when constraint to certain values.
+		leaf:          goNameConstraintsCert2,
+		intermediates: []string{goNameConstraintsIssuer},
+		roots:         []string{goNameConstraintsRoot},
+		currentTime:   1435058029,
+		dnsName:       "test2.golang.org",
+
+		errorCallback: expectCANotAuthorizedForThisDirectory,
+	},
+	{
 		// Check that SHA-384 intermediates (which are popping up)
 		// work.
 		leaf:          moipLeafCert,
@@ -285,6 +465,38 @@ func expectHashError(t *testing.T, i int, err error) bool {
 	return true
 }
 
+func expectCANotAuthorizedForThisName(t *testing.T, i int, err error) (ok bool) {
+	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != CANotAuthorizedForThisName {
+		t.Errorf("#%d: error was not CANotAuthorizedForThisName: %s", i, err)
+		return false
+	}
+	return true
+}
+
+func expectCANotAuthorizedForThisEmail(t *testing.T, i int, err error) (ok bool) {
+	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != CANotAuthorizedForThisEmail {
+		t.Errorf("#%d: error was not CANotAuthorizedForThisEmail: %s", i, err)
+		return false
+	}
+	return true
+}
+
+func expectCANotAuthorizedForThisIP(t *testing.T, i int, err error) (ok bool) {
+	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != CANotAuthorizedForThisIP {
+		t.Errorf("#%d: error was not CANotAuthorizedForThisIP: %s", i, err)
+		return false
+	}
+	return true
+}
+
+func expectCANotAuthorizedForThisDirectory(t *testing.T, i int, err error) (ok bool) {
+	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != CANotAuthorizedForThisDirectory {
+		t.Errorf("#%d: error was not CANotAuthorizedForThisDirectory: %s", i, err)
+		return false
+	}
+	return true
+}
+
 func certificateFromPEM(pemBytes string) (*Certificate, error) {
 	block, _ := pem.Decode([]byte(pemBytes))
 	if block == nil {
@@ -308,6 +520,8 @@ func testVerify(t *testing.T, useSystemRoots bool) {
 		opts := VerifyOptions{
 			Intermediates: NewCertPool(),
 			DNSName:       test.dnsName,
+			EmailAddress:  test.emailAddress,
+			IPAddress:     test.ipAddress,
 			CurrentTime:   time.Unix(test.currentTime, 0),
 			KeyUsages:     test.keyUsages,
 		}
@@ -1127,4 +1341,69 @@ YINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw5
 Nr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEX
 c4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5a
 mnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=
+-----END CERTIFICATE-----`
+
+const goNameConstraintsRoot = `-----BEGIN CERTIFICATE-----
+MIICCjCCAbCgAwIBAgIBATAKBggqhkjOPQQDAjA7MQswCQYDVQQGEwJVUzEUMBIG
+A1UEChMLR29waGVyIEluYy4xFjAUBgNVBAMTDUdvbGFuZyBFQ0MgQ0EwHhcNMTUw
+MTAxMDAwMDAwWhcNMzAwMTAxMDAwMDAwWjA7MQswCQYDVQQGEwJVUzEUMBIGA1UE
+ChMLR29waGVyIEluYy4xFjAUBgNVBAMTDUdvbGFuZyBFQ0MgQ0EwWTATBgcqhkjO
+PQIBBggqhkjOPQMBBwNCAATuzCtZ3RqF0uCAg7eZLOFUS9x0FXs8+B7J9lF5Z3Mk
+JoTzt66cK+2H7PclCSYk1S3nnWkNtPcM8CwSe7JTgM86o4GkMIGhMA4GA1UdDwEB
+/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTImlHSWW2kyRYt0Fh8
+gCuLRzwNTzAfBgNVHSMEGDAWgBTImlHSWW2kyRYt0Fh8gCuLRzwNTzA+BgNVHR4B
+Af8ENDAyoTAwCocIAAAAAAAAAAAwIocgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAwCgYIKoZIzj0EAwIDSAAwRQIhAKQvDWAd5XFcow3NEdv1o55fqCYF
+/th12INKOvqoiBdBAiB7KTDaYKbkcMEYl2Ig+z3BE9K5rFM4gPgfN9ufBzMdfg==
+-----END CERTIFICATE-----`
+
+const goNameConstraintsIssuer = `-----BEGIN CERTIFICATE-----
+MIICSTCCAe6gAwIBAgIBAjAKBggqhkjOPQQDAjA7MQswCQYDVQQGEwJVUzEUMBIG
+A1UEChMLR29waGVyIEluYy4xFjAUBgNVBAMTDUdvbGFuZyBFQ0MgQ0EwHhcNMTUw
+MTAxMDAwMDAwWhcNMjAwMTAxMDAwMDAwWjBDMQswCQYDVQQGEwJVUzEUMBIGA1UE
+ChMLR29waGVyIEluYy4xHjAcBgNVBAMTFUdvbGFuZyBFQ0MgSXNzdWluZyBDQTBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABBsiD/pakdrz9zYevDoYHfsSVURzPnXz
+UBmSXAS4/mo8Rw96LugAq0NqZFeJGzG6y6cH2GYHFKbYnxyEznZ3ZbGjgdowgdcw
+DgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFIL2
+mM8QeOX04ivhd+G2KqYo22IfMB8GA1UdIwQYMBaAFMiaUdJZbaTJFi3QWHyAK4tH
+PA1PMHEGA1UdHgEB/wRnMGWgYzANgQsuZ29sYW5nLm9yZzAMgQpnb2xhbmcuY29t
+MA2CCy5nb2xhbmcub3JnMAyCCmdvbGFuZy5jb20wJ6QlMCMxCzAJBgNVBAYTAlVT
+MRQwEgYDVQQKEwtHb3BoZXIgSW5jLjAKBggqhkjOPQQDAgNJADBGAiEApR+7qM3K
+GXZH0P2snDUrJb2v3wiXIakQzDptvJVcBmoCIQCxAm+u6FrgzpyBKmiZwAvVVbNG
+Q2SJSdRcbzFWk+AzPg==
+-----END CERTIFICATE-----`
+
+const goNameConstraintsCert1 = `-----BEGIN CERTIFICATE-----
+MIIDLjCCAtOgAwIBAgIBAzAKBggqhkjOPQQDAjBDMQswCQYDVQQGEwJVUzEUMBIG
+A1UEChMLR29waGVyIEluYy4xHjAcBgNVBAMTFUdvbGFuZyBFQ0MgSXNzdWluZyBD
+QTAeFw0xNTAxMDEwMDAwMDBaFw0yNjAxMDEwMDAwMDBaMD4xCzAJBgNVBAYTAlVT
+MRQwEgYDVQQKEwtHb3BoZXIgSW5jLjEZMBcGA1UEAxMQdGVzdDEuZ29sYW5nLm9y
+ZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABKJbnIEmT/F/6di0qJESdPPL1x8x
+0qklJMbbEe7ZC7SBjLq+w/EX0HXnfuNSOGpeXB/Yv6c+VgDuMBVxBr6i6n6jggG7
+MIIBtzAOBgNVHQ8BAf8EBAMCBsAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUF
+BwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFCV9X+f6fFqSn1yRsosn1uY2voe8
+MB8GA1UdIwQYMBaAFIL2mM8QeOX04ivhd+G2KqYo22IfMIIBNgYDVR0RBIIBLTCC
+ASmCCmdvbGFuZy5jb22CCmdvbGFuZy5vcmeCEHRlc3QxLmdvbGFuZy5vcmeCD3d3
+dy5leGFtcGxlLmNvbYIOd3d3LmdvbGFuZy5jb22CDnd3dy5nb2xhbmcub3Jnghh3
+d3cuc3ViZG9tYWluLmdvbGFuZy5jb22CGHd3dy5zdWJkb21haW4uZ29sYW5nLm9y
+Z4EQbWFpbEBleGFtcGxlLmNvbYEPbWFpbEBnb2xhbmcuY29tgQ9tYWlsQGdvbGFu
+Zy5vcmeBGW1haWxAc3ViZG9tYWluLmdvbGFuZy5jb22BGW1haWxAc3ViZG9tYWlu
+LmdvbGFuZy5vcmeHBH8AAAGHECABSGBIYAAAAAAAAAAAiIiHBAgICAiHEAAAAAAA
+AAAAAAAAAAAAAAEwCgYIKoZIzj0EAwIDSQAwRgIhAMF0mHw4s9Swfaji89dlmiZ4
+9uQR5bkjTscS1U2cvPuiAiEAws8sA+BeT6fkKq5HXNh22o62F8Srzb7ZjbuOEGOP
+qj8=
+-----END CERTIFICATE-----`
+
+const goNameConstraintsCert2 = `-----BEGIN CERTIFICATE-----
+MIICCTCCAbCgAwIBAgIBAzAKBggqhkjOPQQDAjBDMQswCQYDVQQGEwJVUzEUMBIG
+A1UEChMLR29waGVyIEluYy4xHjAcBgNVBAMTFUdvbGFuZyBFQ0MgSXNzdWluZyBD
+QTAeFw0xNTAxMDEwMDAwMDBaFw0yNjAxMDEwMDAwMDBaMDoxCzAJBgNVBAYTAlVT
+MRAwDgYDVQQKEwdHbyBJbmMuMRkwFwYDVQQDExB0ZXN0Mi5nb2xhbmcub3JnMFkw
+EwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEolucgSZP8X/p2LSokRJ088vXHzHSqSUk
+xtsR7tkLtIGMur7D8RfQded+41I4al5cH9i/pz5WAO4wFXEGvqLqfqOBnTCBmjAO
+BgNVHQ8BAf8EBAMCBsAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwG
+A1UdEwEB/wQCMAAwHQYDVR0OBBYEFCV9X+f6fFqSn1yRsosn1uY2voe8MB8GA1Ud
+IwQYMBaAFIL2mM8QeOX04ivhd+G2KqYo22IfMBsGA1UdEQQUMBKCEHRlc3QyLmdv
+bGFuZy5vcmcwCgYIKoZIzj0EAwIDRwAwRAIgRvA24K2uYvOMVf/DHMspHrEmmdT4
+SBBin6GWa6N0p10CIAhwWEMou2ZNXORqjQ1S2CKq2eMhQ5r1lHK8IZVFqKVi
 -----END CERTIFICATE-----`
