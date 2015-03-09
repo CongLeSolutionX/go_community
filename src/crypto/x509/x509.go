@@ -525,8 +525,16 @@ type Certificate struct {
 	IPAddresses    []net.IP
 
 	// Name constraints
-	PermittedDNSDomainsCritical bool // if true then the name constraints are marked critical.
+	NameConstraintsCritical     bool // if true then the name constraints are marked critical.
+	PermittedDNSDomainsCritical bool // deprecated, use NameConstraintsCritical
 	PermittedDNSDomains         []string
+	ExcludedDNSDomains          []string
+	PermittedEmailDomains       []string
+	ExcludedEmailDomains        []string
+	PermittedIPAddresses        []net.IPNet
+	ExcludedIPAddresses         []net.IPNet
+	PermittedDirectoryNames     []pkix.Name
+	ExcludedDirectoryNames      []pkix.Name
 
 	// CRL Distribution Points
 	CRLDistributionPoints []string
@@ -725,7 +733,7 @@ type nameConstraints struct {
 }
 
 type generalSubtree struct {
-	Name string `asn1:"tag:2,optional,ia5"`
+	Value asn1.RawValue `asn1:"optional"`
 }
 
 // RFC 5280, 4.2.2.1
@@ -1002,18 +1010,60 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 					return nil, errors.New("x509: trailing data after X.509 NameConstraints")
 				}
 
-				if len(constraints.Excluded) > 0 && e.Critical {
-					return out, UnhandledCriticalExtension{}
+				if e.Critical {
+					out.NameConstraintsCritical = true
+					out.PermittedDNSDomainsCritical = true
 				}
 
 				for _, subtree := range constraints.Permitted {
-					if len(subtree.Name) == 0 {
-						if e.Critical {
-							return out, UnhandledCriticalExtension{}
+					switch subtree.Value.Tag {
+					case 1:
+						out.PermittedEmailDomains = append(out.PermittedEmailDomains, string(subtree.Value.Bytes))
+					case 2:
+						out.PermittedDNSDomains = append(out.PermittedDNSDomains, string(subtree.Value.Bytes))
+					case 4:
+						var rawdn pkix.RDNSequence
+						if _, err := asn1.Unmarshal(subtree.Value.Bytes, &rawdn); err != nil {
+							return out, err
 						}
-						continue
+						var dn pkix.Name
+						dn.FillFromRDNSequence(&rawdn)
+						out.PermittedDirectoryNames = append(out.PermittedDirectoryNames, dn)
+					case 7:
+						switch len(subtree.Value.Bytes) {
+						case net.IPv4len * 2:
+							out.PermittedIPAddresses = append(out.PermittedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv4len], subtree.Value.Bytes[net.IPv4len:]})
+						case net.IPv6len * 2:
+							out.PermittedIPAddresses = append(out.PermittedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv6len], subtree.Value.Bytes[net.IPv6len:]})
+						default:
+							return out, errors.New("x509: certificate name constraint contained IP address range of length " + strconv.Itoa(len(subtree.Value.Bytes)))
+						}
 					}
-					out.PermittedDNSDomains = append(out.PermittedDNSDomains, subtree.Name)
+				}
+				for _, subtree := range constraints.Excluded {
+					switch subtree.Value.Tag {
+					case 1:
+						out.ExcludedEmailDomains = append(out.ExcludedEmailDomains, string(subtree.Value.Bytes))
+					case 2:
+						out.ExcludedDNSDomains = append(out.ExcludedDNSDomains, string(subtree.Value.Bytes))
+					case 4:
+						var rawdn pkix.RDNSequence
+						if _, err := asn1.Unmarshal(subtree.Value.Bytes, &rawdn); err != nil {
+							return out, err
+						}
+						var dn pkix.Name
+						dn.FillFromRDNSequence(&rawdn)
+						out.ExcludedDirectoryNames = append(out.ExcludedDirectoryNames, dn)
+					case 7:
+						switch len(subtree.Value.Bytes) {
+						case net.IPv4len * 2:
+							out.ExcludedIPAddresses = append(out.ExcludedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv4len], subtree.Value.Bytes[net.IPv4len:]})
+						case net.IPv6len * 2:
+							out.ExcludedIPAddresses = append(out.ExcludedIPAddresses, net.IPNet{subtree.Value.Bytes[:net.IPv6len], subtree.Value.Bytes[net.IPv6len:]})
+						default:
+							return out, errors.New("x509: certificate name constraint contained IP address range of length " + strconv.Itoa(len(subtree.Value.Bytes)))
+						}
+					}
 				}
 
 			case 31:
@@ -1393,15 +1443,51 @@ func buildExtensions(template *Certificate) (ret []pkix.Extension, err error) {
 		n++
 	}
 
-	if len(template.PermittedDNSDomains) > 0 &&
+	if (len(template.PermittedEmailDomains) > 0 || len(template.PermittedDNSDomains) > 0 || len(template.PermittedDirectoryNames) > 0 ||
+		len(template.PermittedIPAddresses) > 0 || len(template.ExcludedEmailDomains) > 0 || len(template.ExcludedDNSDomains) > 0 ||
+		len(template.ExcludedDirectoryNames) > 0 || len(template.ExcludedIPAddresses) > 0) &&
 		!oidInExtensions(oidExtensionNameConstraints, template.ExtraExtensions) {
 		ret[n].Id = oidExtensionNameConstraints
-		ret[n].Critical = template.PermittedDNSDomainsCritical
+		if template.NameConstraintsCritical || template.PermittedDNSDomainsCritical {
+			ret[n].Critical = true
+		}
 
 		var out nameConstraints
-		out.Permitted = make([]generalSubtree, len(template.PermittedDNSDomains))
-		for i, permitted := range template.PermittedDNSDomains {
-			out.Permitted[i] = generalSubtree{Name: permitted}
+		for _, permitted := range template.PermittedEmailDomains {
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 1, Class: 2, Bytes: []byte(permitted)}})
+		}
+		for _, excluded := range template.ExcludedEmailDomains {
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 1, Class: 2, Bytes: []byte(excluded)}})
+		}
+		for _, permitted := range template.PermittedDNSDomains {
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 2, Class: 2, Bytes: []byte(permitted)}})
+		}
+		for _, excluded := range template.ExcludedDNSDomains {
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 2, Class: 2, Bytes: []byte(excluded)}})
+		}
+		for _, permitted := range template.PermittedDirectoryNames {
+			var dn []byte
+			dn, err = asn1.Marshal(permitted.ToRDNSequence())
+			if err != nil {
+				return
+			}
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 4, Class: 2, IsCompound: true, Bytes: dn}})
+		}
+		for _, excluded := range template.ExcludedDirectoryNames {
+			var dn []byte
+			dn, err = asn1.Marshal(excluded.ToRDNSequence())
+			if err != nil {
+				return
+			}
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 4, Class: 2, IsCompound: true, Bytes: dn}})
+		}
+		for _, permitted := range template.PermittedIPAddresses {
+			ip := append(permitted.IP, permitted.Mask...)
+			out.Permitted = append(out.Permitted, generalSubtree{Value: asn1.RawValue{Tag: 7, Class: 2, Bytes: ip}})
+		}
+		for _, excluded := range template.ExcludedIPAddresses {
+			ip := append(excluded.IP, excluded.Mask...)
+			out.Excluded = append(out.Excluded, generalSubtree{Value: asn1.RawValue{Tag: 7, Class: 2, Bytes: ip}})
 		}
 		ret[n].Value, err = asn1.Marshal(out)
 		if err != nil {
@@ -1518,8 +1604,10 @@ func signingParamsForPublicKey(pub interface{}, requestedSigAlgo SignatureAlgori
 // CreateCertificate creates a new certificate based on a template. The
 // following members of template are used: SerialNumber, Subject, NotBefore,
 // NotAfter, KeyUsage, ExtKeyUsage, UnknownExtKeyUsage, BasicConstraintsValid,
-// IsCA, MaxPathLen, SubjectKeyId, DNSNames, PermittedDNSDomainsCritical,
-// PermittedDNSDomains, SignatureAlgorithm.
+// IsCA, MaxPathLen, SubjectKeyId, DNSNames, NameConstraintsCritical,
+// PermittedDNSDomains, ExcludedDNSDomains, PermittedEmailDomains,
+// ExcludedEmailDomains, PermittedIPAddresses, ExcludedIPAddresses,
+// PermittedDirectoryNames, ExcludedDirectoryNames, SignatureAlgorithm.
 //
 // The certificate is signed by parent. If parent is equal to template then the
 // certificate is self-signed. The parameter pub is the public key of the
