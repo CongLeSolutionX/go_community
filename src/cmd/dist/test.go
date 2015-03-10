@@ -356,7 +356,8 @@ func (t *tester) extLink() bool {
 		"freebsd-386", "freebsd-amd64", "freebsd-arm",
 		"linux-386", "linux-amd64", "linux-arm",
 		"netbsd-386", "netbsd-amd64",
-		"openbsd-386", "openbsd-amd64":
+		"openbsd-386", "openbsd-amd64",
+		"windows-386":
 		return true
 	case "darwin-386", "darwin-amd64":
 		// linkmode=external fails on OS X 10.6 and earlier == Darwin
@@ -374,7 +375,7 @@ func (t *tester) extLink() bool {
 func (t *tester) cgoTest() error {
 	env := mergeEnvLists([]string{"GOTRACEBACK=2"}, os.Environ())
 
-	if t.gohostos == "windows" {
+	if t.gohostos == "windows" && t.gohostarch != "386" {
 		cmd := t.dirCmd("misc/cgo/test", "go", "test")
 		cmd.Env = env
 		return cmd.Run()
@@ -398,7 +399,8 @@ func (t *tester) cgoTest() error {
 		if err := cmd.Run(); err != nil {
 			return err
 		}
-	case "darwin-386", "darwin-amd64":
+	case "darwin-386", "darwin-amd64",
+		"windows-386":
 		if t.extLink() {
 			cmd := t.dirCmd("misc/cgo/test", "go", "test", "-ldflags", "-linkmode=external")
 			cmd.Env = env
