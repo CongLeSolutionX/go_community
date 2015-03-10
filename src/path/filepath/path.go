@@ -70,7 +70,9 @@ const (
 //	   assuming Separator is '/'.
 //
 // The returned path ends in a slash only if it represents a root directory,
-// such as "/" on Unix or `C:\` on Windows.
+// such as "/" on Unix or `C:\` on Windows. Any occurrences of the slash ('/')
+// character in the path are replaced with the canonical separator of the
+// platform.
 //
 // If the result of this process is an empty string, Clean
 // returns the string ".".
