@@ -10,6 +10,12 @@ TEXT _rt0_amd64_linux(SB),NOSPLIT,$-8
 	MOVQ	$main(SB), AX
 	JMP	AX
 
+// Externaly invoked version of _rt0_amd64_linux which has argc and argv
+// passed in through DI and SI, respectively.
+TEXT _rt0_amd64_linux1(SB),NOSPLIT,$0
+	MOVQ    $main(SB), AX
+	JMP     AX
+
 TEXT main(SB),NOSPLIT,$-8
 	MOVQ	$runtime·rt0_go(SB), AX
 	JMP	AX
