@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc2375ea_e7ea827a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-10T14:20:52Z",
+      "side": 1,
+      "message": "Do you mean for performance reasons? Currently most of the time is spent in traceback. Until we switch it to frame pointers, there is little sense in microoptimizing.",
+      "parentUuid": "d742704b_6f60f1be",
+      "range": {
+        "startLine": 140,
+        "startChar": 87,
+        "endLine": 140,
+        "endChar": 114
+      },
+      "revId": "ac6cb953d4d915667f223a0d50734688f15fc11a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d742704b_0f6f25ad",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-05T16:36:24Z",
       "side": 1,
       "message": "byte?",
+      "range": {
+        "startLine": 283,
+        "startChar": 15,
+        "endLine": 283,
+        "endChar": 18
+      },
+      "revId": "ac6cb953d4d915667f223a0d50734688f15fc11a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc2375ea_27f49a59",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-10T14:20:52Z",
+      "side": 1,
+      "message": "The skip param of traceback is int, so I made it int as well.",
+      "parentUuid": "d742704b_0f6f25ad",
       "range": {
         "startLine": 283,
         "startChar": 15,
