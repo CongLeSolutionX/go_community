@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bca1610e_8ea6bb39",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-10T23:03:20Z",
+      "side": 1,
+      "message": "should probably just say what it is: os.PathSeparator",
+      "range": {
+        "startLine": 75,
+        "startChar": 3,
+        "endLine": 75,
+        "endChar": 11
+      },
+      "revId": "727b2af94c37e8db843172cfa3e72ca56b0ad992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
