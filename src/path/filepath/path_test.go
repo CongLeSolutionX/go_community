@@ -179,6 +179,9 @@ var winsplitlisttests = []SplitListTest{
 	{`a";b`, []string{`a;b`}},
 	{`a;b";c`, []string{`a`, `b;c`}},
 	{`"a";b";c`, []string{`a`, `b;c`}},
+
+	// path elements
+	{`a/b;c/d`, []string{`a\b`, `c\d`}},
 }
 
 func TestSplitList(t *testing.T) {
@@ -223,6 +226,10 @@ func TestSplit(t *testing.T) {
 	splittests = unixsplittests
 	if runtime.GOOS == "windows" {
 		splittests = append(splittests, winsplittests...)
+		for i, splittest := range splittests {
+			splittest.dir = filepath.FromSlash(splittest.dir)
+			splittests[i] = splittest
+		}
 	}
 	for _, test := range splittests {
 		if d, f := filepath.Split(test.path); d != test.dir || f != test.file {

@@ -4,6 +4,10 @@
 
 // Package filepath implements utility routines for manipulating filename paths
 // in a way compatible with the target operating system-defined file paths.
+//
+// Functions in this package use os.PathSeparator for returned paths,
+// regardless what separator their inputs use if the system allows
+// the slash ('/') and the other charactors as separators.
 package filepath
 
 import (
@@ -190,7 +194,7 @@ func Split(path string) (dir, file string) {
 	for i >= len(vol) && !os.IsPathSeparator(path[i]) {
 		i--
 	}
-	return path[:i+1], path[i+1:]
+	return FromSlash(path[:i+1]), path[i+1:]
 }
 
 // Join joins any number of path elements into a single path, adding

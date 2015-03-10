@@ -79,6 +79,7 @@ func splitList(path string) []string {
 	if path == "" {
 		return []string{}
 	}
+	path = FromSlash(path)
 
 	// Split path, respecting but preserving quotes.
 	list := []string{}
