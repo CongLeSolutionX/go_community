@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "811ef657_142df44c",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-11T16:38:17Z",
+      "side": 1,
+      "message": "Hard to see why old.array !\u003d \u0026zerobase would ever be true, so perhaps we shouldn\u0027t bother testing old.array !\u003d nil, and just always use \u0026zerobase.",
+      "revId": "1b9ab818bda3d1b04426cc961b28e4cebf262887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
