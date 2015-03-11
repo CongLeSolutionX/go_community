@@ -16,6 +16,24 @@
       "revId": "fa16e3595a2b03099ad020e5cfb3fbf6b3d29907",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c18d4e46_8ecf3ba8",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3828,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-03-11T22:35:55Z",
+      "side": 1,
+      "message": "Oh, thanks, I thought this was horrible, done.\n\n(not as horrible as the calculation of r.Off, mind).",
+      "parentUuid": "01a4c6b8_50624c18",
+      "revId": "fa16e3595a2b03099ad020e5cfb3fbf6b3d29907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
