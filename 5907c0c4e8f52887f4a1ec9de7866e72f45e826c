@@ -34,6 +34,24 @@
       "revId": "5907c0c4e8f52887f4a1ec9de7866e72f45e826c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ded2f5_4fbc2d02",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-11T17:50:20Z",
+      "side": 1,
+      "message": "The only other non-Unix system that we support is Plan 9.\nAnd it\u0027s using / as path separator just like Unix.\n\nI\u0027m not aware of any OS that Go will care about but doesn\u0027t\nallow / as path separator.\n\nHowever, the behavior change for Split and SplitList\nmight need some discussion. Could it break existing user\nprograms?",
+      "parentUuid": "010be618_9ba48fb7",
+      "revId": "5907c0c4e8f52887f4a1ec9de7866e72f45e826c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
