@@ -50,7 +50,12 @@ func growslice(t *slicetype, old sliceStruct, n int) sliceStruct {
 
 	et := t.elem
 	if et.size == 0 {
-		return sliceStruct{old.array, old.len, cap}
+		if old.array != nil {
+			return sliceStruct{old.array, old.len, cap}
+		} else {
+			// append should not create a slice with nil pointer but non-zero len.
+			return sliceStruct{unsafe.Pointer(&zerobase), old.len, cap}
+		}
 	}
 
 	newcap := old.cap
