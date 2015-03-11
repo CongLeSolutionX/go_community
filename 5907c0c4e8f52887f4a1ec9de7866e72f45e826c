@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "416ddeeb_3ad561e8",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-11T17:24:39Z",
+      "side": 1,
+      "message": "now i don\u0027t understand what you\u0027re saying. why is the acceptance of a slash relevant to the point if we always return os.PathSeparator?",
+      "revId": "5907c0c4e8f52887f4a1ec9de7866e72f45e826c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
