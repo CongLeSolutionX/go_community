@@ -16,6 +16,24 @@
       "revId": "1b9ab818bda3d1b04426cc961b28e4cebf262887",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1970e01_3ee46929",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-11T17:01:14Z",
+      "side": 1,
+      "message": "OK. Done.",
+      "parentUuid": "811ef657_142df44c",
+      "revId": "1b9ab818bda3d1b04426cc961b28e4cebf262887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
