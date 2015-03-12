@@ -971,9 +971,14 @@ func unlockextra(mp *m) {
 }
 
 // Create a new m.  It will start off with a call to fn, or else the scheduler.
+// fn needs to be static and not a heap allocated closure.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func newm(fn func(), _p_ *p) {
 	mp := allocm(_p_)
-	mp.nextp = _p_
+	setPNoWriteBarrier(&mp.nextp, _p_)
+
 	mp.mstartfn = *(*unsafe.Pointer)(unsafe.Pointer(&fn))
 
 	if iscgo {
@@ -981,7 +986,7 @@ func newm(fn func(), _p_ *p) {
 		if _cgo_thread_start == nil {
 			throw("_cgo_thread_start missing")
 		}
-		ts.g = mp.g0
+		setGNoWriteBarrier(&ts.g, mp.g0)
 		ts.tls = (*uint64)(unsafe.Pointer(&mp.tls[0]))
 		ts.fn = unsafe.Pointer(funcPC(mstart))
 		asmcgocall(_cgo_thread_start, unsafe.Pointer(&ts))
@@ -1029,6 +1034,9 @@ func mspinning() {
 
 // Schedules some M to run the p (creates an M if necessary).
 // If p==nil, tries to get an idle P, if no idle P's does nothing.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func startm(_p_ *p, spinning bool) {
 	lock(&sched.lock)
 	if _p_ == nil {
@@ -1041,7 +1049,8 @@ func startm(_p_ *p, spinning bool) {
 			return
 		}
 	}
-	mp := mget()
+	var mp *m
+	setMNoWriteBarrier(&mp, mget())
 	unlock(&sched.lock)
 	if mp == nil {
 		var fn func()
@@ -1058,7 +1067,7 @@ func startm(_p_ *p, spinning bool) {
 		throw("startm: m has p")
 	}
 	mp.spinning = spinning
-	mp.nextp = _p_
+	setPNoWriteBarrier(&mp.nextp, _p_)
 	notewakeup(&mp.park)
 }
 
@@ -1139,6 +1148,9 @@ func stoplockedm() {
 }
 
 // Schedules the locked m to run the locked gp.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func startlockedm(gp *g) {
 	_g_ := getg()
 
@@ -1152,7 +1164,7 @@ func startlockedm(gp *g) {
 	// directly handoff current P to the locked m
 	incidlelocked(-1)
 	_p_ := releasep()
-	mp.nextp = _p_
+	setPNoWriteBarrier(&mp.nextp, _p_)
 	notewakeup(&mp.park)
 	stopm()
 }
@@ -1805,7 +1817,9 @@ func exitsyscall(dummy int32) {
 		for oldp != nil && oldp.syscalltick == _g_.m.syscalltick {
 			osyield()
 		}
-		systemstack(traceGoSysExit)
+		// This can't be done since the GC may be running and this code
+		// will invoke write barriers.
+		//		systemstack(traceGoSysExit)
 	}
 
 	_g_.m.locks--
@@ -2565,6 +2579,10 @@ func procresize(nprocs int32) *p {
 }
 
 // Associate p and the current m.
+// This can happen when the infrastructure can not reliably execute a write barrier.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func acquirep(_p_ *p) {
 	_g_ := getg()
 
@@ -2579,9 +2597,9 @@ func acquirep(_p_ *p) {
 		print("acquirep: p->m=", _p_.m, "(", id, ") p->status=", _p_.status, "\n")
 		throw("acquirep: invalid p state")
 	}
-	_g_.m.mcache = _p_.mcache
-	_g_.m.p = _p_
-	_p_.m = _g_.m
+	setMcacheNoWriteBarrier(&_g_.m.mcache, _p_.mcache)
+	setPNoWriteBarrier(&_g_.m.p, _p_)
+	setMNoWriteBarrier(&_p_.m, _g_.m)
 	_p_.status = _Prunning
 
 	if trace.enabled {
@@ -2987,19 +3005,26 @@ func schedtrace(detailed bool) {
 
 // Put mp on midle list.
 // Sched must be locked.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func mput(mp *m) {
-	mp.schedlink = sched.midle
-	sched.midle = mp
+	setMNoWriteBarrier(&mp.schedlink, sched.midle)
+	setMNoWriteBarrier(&sched.midle, mp)
 	sched.nmidle++
 	checkdead()
 }
 
 // Try to get an m from midle list.
 // Sched must be locked.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func mget() *m {
-	mp := sched.midle
+	var mp *m
+	setMNoWriteBarrier(&mp, sched.midle)
 	if mp != nil {
-		sched.midle = mp.schedlink
+		setMNoWriteBarrier(&sched.midle, mp.schedlink)
 		sched.nmidle--
 	}
 	return mp
@@ -3007,14 +3032,17 @@ func mget() *m {
 
 // Put gp on the global runnable queue.
 // Sched must be locked.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func globrunqput(gp *g) {
-	gp.schedlink = nil
+	setGNoWriteBarrier(&gp.schedlink, nil)
 	if sched.runqtail != nil {
-		sched.runqtail.schedlink = gp
+		setGNoWriteBarrier(&sched.runqtail.schedlink, gp)
 	} else {
-		sched.runqhead = gp
+		setGNoWriteBarrier(&sched.runqhead, gp)
 	}
-	sched.runqtail = gp
+	setGNoWriteBarrier(&sched.runqtail, gp)
 	sched.runqsize++
 }
 
@@ -3067,18 +3095,25 @@ func globrunqget(_p_ *p, max int32) *g {
 
 // Put p to on _Pidle list.
 // Sched must be locked.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func pidleput(_p_ *p) {
-	_p_.link = sched.pidle
-	sched.pidle = _p_
+	setPNoWriteBarrier(&_p_.link, sched.pidle)
+	setPNoWriteBarrier(&sched.pidle, _p_)
 	xadd(&sched.npidle, 1) // TODO: fast atomic
 }
 
 // Try get a p from _Pidle list.
 // Sched must be locked.
+// This is one of the special routines that need to avoid
+// write barriers by using the various special setNoWriteBarrier
+// routines.
 func pidleget() *p {
-	_p_ := sched.pidle
+	var _p_ *p
+	setPNoWriteBarrier(&_p_, sched.pidle)
 	if _p_ != nil {
-		sched.pidle = _p_.link
+		setPNoWriteBarrier(&sched.pidle, _p_.link)
 		xadd(&sched.npidle, -1) // TODO: fast atomic
 	}
 	return _p_
