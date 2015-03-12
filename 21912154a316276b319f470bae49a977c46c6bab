@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1caaedd_e6b31e00",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-12T17:45:05Z",
+      "side": 1,
+      "message": "There is an inconsistency here with len(s) \u003c\u003d 3 and 4 spaces for the continuation lines. If 4-space tab stops are being used, the tab in this case and the tab in the next case will be at different line offsets and land on different tab stops. I think the only fix that works consistently in all the cases we care about is to put two spaces before the flag name and then make this len(s) \u003c\u003d 4.\n\nhttp://imgur.com/Q2au2Ip shows what I mean in a fixed-width font with 4-space tabs. \n\nThe first chunk is what this CL does today: the descriptions don\u0027t line up.\n\nThe second chunk is what happens if you take this CL but change line 446 to do 3 spaces before the tab to match the 3 on this line: the descriptions line up not just with each other but also with the argument names, which might be a little confusing.\n\nThe final chunk is what happens if you take this CL but change this line to \u003c\u003d 4 and use two spaces before the flag name on line 437. The descriptions line up with each other but not the arguments.",
+      "revId": "21912154a316276b319f470bae49a977c46c6bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1caaedd_2687f612",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-12T17:45:05Z",
+      "side": 1,
+      "message": "- the other doc comments call this a \u0027bool flag\u0027 not a \u0027Boolean flag\u0027.\n- more importantly, one-byte should probably modify name: \"a \u003cbool/Boolean/whatever\u003e flag with a one-byte name.\"\n- \"and the parenthetical\" sounds like it might apply just to bool, but it\u0027s broader, so it should probably be a separate sentence.\n\nFor bool flags, the type is omitted, and if the flag name is one byte the usage message appears on the same line.\nThe parenthetical default is omitted ...",
+      "revId": "21912154a316276b319f470bae49a977c46c6bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1caaedd_06847a0a",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-12T17:45:05Z",
+      "side": 1,
+      "message": "s/replaced by a string of the user\u0027s choosing/changed/",
+      "revId": "21912154a316276b319f470bae49a977c46c6bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1caaedd_467e7294",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-12T17:45:05Z",
+      "side": 1,
+      "message": "maybe \"by placing a back-quoted name in the flag\u0027s usage string\"",
+      "revId": "21912154a316276b319f470bae49a977c46c6bab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
