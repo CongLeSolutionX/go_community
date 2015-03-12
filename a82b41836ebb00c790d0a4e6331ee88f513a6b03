@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41aebefa_5273d4e4",
+        "filename": "src/cmd/yacc/yacc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-03-12T22:58:14Z",
+      "side": 1,
+      "message": "Could use use %T here instead of spelling out the type as a string ?",
+      "revId": "a82b41836ebb00c790d0a4e6331ee88f513a6b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41aebefa_b2404066",
+        "filename": "src/cmd/yacc/yacc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-03-12T22:58:14Z",
+      "side": 1,
+      "message": "same",
+      "revId": "a82b41836ebb00c790d0a4e6331ee88f513a6b03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
