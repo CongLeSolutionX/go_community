@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1470eeb_1e87ade0",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-12T03:24:27Z",
+      "side": 1,
+      "message": "It seems to me that this is only correct if the real source of the symbol is a DLL.  Is that always the case?  If it is the case now, will it still be the case once Minux\u0027s external linking patch lands?",
+      "revId": "f6c49642a60621b78080aab11e209639c060d305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2120ea2c_59d0e346",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-12T03:24:27Z",
+      "side": 1,
+      "message": "Why put this test here rather than in misc/cgo/test?  There are already some windows specific files there.",
+      "revId": "f6c49642a60621b78080aab11e209639c060d305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
