@@ -277,18 +277,18 @@ func net_runtime_pollUnblock(pd *pollDesc) {
 func netpollready(gpp **g, pd *pollDesc, mode int32) {
 	var rg, wg *g
 	if mode == 'r' || mode == 'r'+'w' {
-		rg = netpollunblock(pd, 'r', true)
+		setGNoWriteBarrier(&rg, netpollunblock(pd, 'r', true))
 	}
 	if mode == 'w' || mode == 'r'+'w' {
-		wg = netpollunblock(pd, 'w', true)
+		setGNoWriteBarrier(&wg, netpollunblock(pd, 'w', true))
 	}
 	if rg != nil {
-		rg.schedlink = *gpp
-		*gpp = rg
+		setGNoWriteBarrier(&rg.schedlink, *gpp)
+		setGNoWriteBarrier(gpp, rg)
 	}
 	if wg != nil {
-		wg.schedlink = *gpp
-		*gpp = wg
+		setGNoWriteBarrier(&wg.schedlink, *gpp)
+		setGNoWriteBarrier(gpp, wg)
 	}
 }
 

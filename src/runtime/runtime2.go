@@ -117,6 +117,33 @@ func (gp guintptr) ptr() *g {
 	return (*g)(unsafe.Pointer(gp))
 }
 
+// ps, ms, gs, and mcache are structures that must be manipulated at a level
+// lower than that of the normal go language. For example the routine that
+// stops the world removes the p from the m structure informing the GC that
+// this P is stopped and then it moves the g to the global runnable queue.
+// If write barriers were allowed to happen at this point not only does
+// the GC think the thread is stopped but the underlying structures
+// like a p or m are not in a state that is not coherent enough to
+// support the write barrier actions.
+// This is particularly painful since a partially executed write barrier
+// may mark the object but be delinquent in informing the GC that the
+// object needs to be scanned.
+func setGNoWriteBarrier(gdst **g, gval *g) {
+	*(*uintptr)((unsafe.Pointer(gdst))) = uintptr(unsafe.Pointer(gval))
+}
+
+func setMNoWriteBarrier(mdst **m, mval *m) {
+	*(*uintptr)((unsafe.Pointer(mdst))) = uintptr(unsafe.Pointer(mval))
+}
+
+func setPNoWriteBarrier(pdst **p, pval *p) {
+	*(*uintptr)((unsafe.Pointer(pdst))) = uintptr(unsafe.Pointer(pval))
+}
+
+func setMcacheNoWriteBarrier(mcachedst **mcache, mcacheval *mcache) {
+	*(*uintptr)((unsafe.Pointer(mcachedst))) = uintptr(unsafe.Pointer(mcacheval))
+}
+
 type gobuf struct {
 	// The offsets of sp, pc, and g are known to (hard-coded in) libmach.
 	sp   uintptr
