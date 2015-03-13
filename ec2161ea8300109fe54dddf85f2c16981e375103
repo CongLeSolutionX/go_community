@@ -1,0 +1,266 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c178ee71_f1665fdb",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "I think the \"SYSV setpgrp\" is no longer helpful.  Suggest \"Set process group ID to Pgid, or, if Pgid \u003d\u003d 0, to new pid.\"",
+      "range": {
+        "startLine": 19,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_515633e4",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "\"Controlling TTY fd if Setctty is set.\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 43,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_314a9732",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Would it be accurate to say \"Implies Setpgid and Setctty\"?",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_91c44b3c",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "I think Pgid is only meaningful if Setpgid is set.  The comment should indicate that: \"Child\u0027s process group ID if Setpgid\".",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_d1cb231f",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Why test sys.Pgid \u003e\u003d 0?  It\u0027s not like it does something sensible if sys.Pgid \u003c 0.  I think if the caller sets sys.Pgid to a negative number an error from SYS_SETPGID would be better than simply ignoring the request.",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_b132279f",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Similar to the above, why test sys.Ctty \u003e\u003d 0 here?",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_3177f755",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Why test sys.Ctty \u003e\u003d 0?",
+      "range": {
+        "startLine": 238,
+        "startChar": 28,
+        "endLine": 238,
+        "endChar": 30
+      },
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_71796f44",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Same general comments about comments as for exec_bsd.go.  I suppose the comments for the matching fields should match.",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_b183079a",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Don\u0027t test sys.Pgid \u003e\u003d 0.",
+      "range": {
+        "startLine": 172,
+        "startChar": 43,
+        "endLine": 172,
+        "endChar": 47
+      },
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_3150d7af",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Don\u0027t test sys.Ctty \u003e\u003d 0.",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_f1be5f48",
+        "filename": "src/syscall/exec_solaris.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Keep matching comments the same.",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_11c4bbdd",
+        "filename": "src/syscall/exec_solaris.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "\u003e\u003d 0\nhere and below",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_713ecf3e",
+        "filename": "src/syscall/exec_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "I think embedding io.WriteCloser and testing.T is a little too clever.  It\u0027s not immediately obvious which methods are coming from which field, at least not too me.  Just give the fields names and use the names in the method calls.",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c178ee71_51f3931f",
+        "filename": "src/syscall/exec_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-13T18:40:09Z",
+      "side": 1,
+      "message": "Should probably use t.Skipf here.",
+      "revId": "ec2161ea8300109fe54dddf85f2c16981e375103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
