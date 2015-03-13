@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "611bc25b_e31cd29c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-13T12:40:04Z",
+      "side": 1,
+      "message": "I think it should be:\n\"The GC will move on and the objects this object points to can be incorrectly reclaimed\".\nThe object itself is marked, so it won\u0027t be reclaimed.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "611bc25b_8336be19",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-13T12:40:04Z",
+      "side": 1,
+      "message": "I think it should be:\n\"if the write is of a pointer to a heap object\".",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
