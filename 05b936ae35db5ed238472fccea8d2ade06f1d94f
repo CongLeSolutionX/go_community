@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e642684b_2f40a962",
+        "filename": "src/runtime/rt0_freebsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T11:02:26Z",
+      "side": 1,
+      "message": "The NetBSD version has FreeBSD/NetBSD so we\u0027re already inconsistent. It seems pointless to note that \"X and Linux\" use the same linkage - I\u0027m tempted to just drop this comment entirely from all files, or change it to say that \"Uses standard linkage to main\".",
+      "parentUuid": "81ab56ef_2cd07346",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81ab56ef_0ccdb7ae",
         "filename": "src/runtime/rt0_netbsd_arm.s",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-03-12T16:29:06Z",
       "side": 1,
       "message": "if you want to change this, then just say\nNetBSD and Linux are using the same linkage to main.",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e642684b_0f45e572",
+        "filename": "src/runtime/rt0_netbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T11:02:26Z",
+      "side": 1,
+      "message": "See previous comment.",
+      "parentUuid": "81ab56ef_0ccdb7ae",
       "range": {
         "startLine": 7,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e642684b_ef598161",
+        "filename": "src/runtime/rt0_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T11:02:26Z",
+      "side": 1,
+      "message": "See previous comment.",
+      "parentUuid": "81ab56ef_6cda7b66",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b2558ee_a7fd2ac3",
         "filename": "src/runtime/sys_openbsd_arm.s",
         "patchSetId": 1
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "e642684b_8f79d5c3",
+        "filename": "src/runtime/sys_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T11:02:26Z",
+      "side": 1,
+      "message": "After digging into this further, the current OpenBSD libc SYS.h (which this was based on) passes the syscall number both via R12 and in the SWI instruction encoding, however the kernel only uses R12 (and has for the last ~8 years). I\u0027ve revised all of the syscall handling to only use R12.",
+      "parentUuid": "6b2558ee_a7fd2ac3",
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b2558ee_07efd60b",
         "filename": "src/runtime/sys_openbsd_arm.s",
         "patchSetId": 1
@@ -99,6 +189,30 @@
       "writtenOn": "2015-02-16T01:48:05Z",
       "side": 1,
       "message": "why 8 here?\n\ni think -4 is the correct frame size.",
+      "range": {
+        "startLine": 25,
+        "startChar": 32,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e642684b_6f46b184",
+        "filename": "src/runtime/sys_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T11:02:26Z",
+      "side": 1,
+      "message": "Copied from sys_openbsd_386s.s and missed - fixed :)",
+      "parentUuid": "6b2558ee_07efd60b",
       "range": {
         "startLine": 25,
         "startChar": 32,
@@ -145,6 +259,24 @@
       "writtenOn": "2015-02-16T01:48:05Z",
       "side": 1,
       "message": "use sys___get_tcb? Have you implemented cgo support?",
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e642684b_4f4bed8a",
+        "filename": "src/runtime/sys_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T11:02:26Z",
+      "side": 1,
+      "message": "I\u0027ve not implemented cgo support yet - I\u0027ll investigate further once this has landed.",
+      "parentUuid": "6b2558ee_0716b67b",
       "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
