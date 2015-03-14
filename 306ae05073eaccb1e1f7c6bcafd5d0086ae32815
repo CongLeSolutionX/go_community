@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86336cf4_ecf50bd1",
+        "filename": "src/syscall/asm_openbsd_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-14T20:29:49Z",
+      "side": 1,
+      "message": "this still mentions arg 9 for RawSyscall6.",
+      "range": {
+        "startLine": 118,
+        "startChar": 26,
+        "endLine": 118,
+        "endChar": 40
+      },
+      "revId": "306ae05073eaccb1e1f7c6bcafd5d0086ae32815",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
