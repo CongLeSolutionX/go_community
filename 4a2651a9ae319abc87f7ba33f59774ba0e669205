@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a624f0ad_9336a4b0",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6355
+      },
+      "writtenOn": "2015-03-14T22:21:44Z",
+      "side": 1,
+      "message": "I have removed the test here for sys.Ctty \u003e\u003d 0 to be consistent with exec_bsd.go and exec_solaris.go",
+      "revId": "4a2651a9ae319abc87f7ba33f59774ba0e669205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
