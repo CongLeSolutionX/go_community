@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a624f0ad_f30cc8f0",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6355
+      },
+      "writtenOn": "2015-03-14T22:35:58Z",
+      "side": 1,
+      "message": "I inserted these fields here to make it easier to see that they are the same across BSD/Linux/Solaris but could this cause problems for those using Pdeathsig, Cloneflags, UuidMappings and/or GidMappings? If so, I can move Foreground and Pgid after those fields.",
+      "range": {
+        "startLine": 30,
+        "startChar": 37,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "4a2651a9ae319abc87f7ba33f59774ba0e669205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a624f0ad_9336a4b0",
         "filename": "src/syscall/exec_linux.go",
         "patchSetId": 4
