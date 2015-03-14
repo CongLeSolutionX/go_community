@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86336cf4_8cec4709",
+        "filename": "src/runtime/sys_openbsd_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-14T20:32:50Z",
+      "side": 1,
+      "message": "remove trailing spaces.",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 8
+      },
+      "revId": "61cefaf31b8af0bc29dca1d6617617db4beda6d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
