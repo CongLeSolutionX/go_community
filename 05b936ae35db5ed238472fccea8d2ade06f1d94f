@@ -248,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "e642684b_cf9d9d6d",
+        "filename": "src/runtime/sys_openbsd_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-14T12:27:12Z",
+      "side": 1,
+      "message": "This was based on sys_openbsd_386.s - most of the sys_*.s files still have C prototypes. I\u0027m going to leave this for now, since it should be cleaned up everywhere.",
+      "parentUuid": "6b2558ee_27113a84",
+      "range": {
+        "startLine": 235,
+        "startChar": 3,
+        "endLine": 235,
+        "endChar": 15
+      },
+      "revId": "05b936ae35db5ed238472fccea8d2ade06f1d94f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b2558ee_0716b67b",
         "filename": "src/runtime/sys_openbsd_arm.s",
         "patchSetId": 1
