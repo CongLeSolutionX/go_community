@@ -22,6 +22,30 @@
       "revId": "61cefaf31b8af0bc29dca1d6617617db4beda6d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "662e7892_0b2f1dba",
+        "filename": "src/runtime/sys_openbsd_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5770
+      },
+      "writtenOn": "2015-03-15T04:03:42Z",
+      "side": 1,
+      "message": "Trailing tab removed.",
+      "parentUuid": "86336cf4_8cec4709",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 8
+      },
+      "revId": "61cefaf31b8af0bc29dca1d6617617db4beda6d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
