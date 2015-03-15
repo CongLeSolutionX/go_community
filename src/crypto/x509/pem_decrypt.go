@@ -108,7 +108,9 @@ var IncorrectPasswordError = errors.New("x509: decryption password incorrect")
 // encrypt it and returns a slice of decrypted DER encoded bytes. It inspects
 // the DEK-Info header to determine the algorithm used for decryption. If no
 // DEK-Info header is present, an error is returned. If an incorrect password
-// is detected an IncorrectPasswordError is returned.
+// is detected an IncorrectPasswordError is returned. DecryptPEMBlock cannot
+// detect all situations of incorrect password because it does not interpret
+// the decrypted DER bytes.
 func DecryptPEMBlock(b *pem.Block, password []byte) ([]byte, error) {
 	dek, ok := b.Headers["DEK-Info"]
 	if !ok {
