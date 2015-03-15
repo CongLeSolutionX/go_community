@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_ec598b61",
+        "filename": "src/cmd/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-15T08:04:49Z",
+      "side": 1,
+      "message": "windows/amd64 doesn\u0027t decorate stdcall functions.",
+      "parentUuid": "662e7892_4b0e456c",
+      "revId": "75e877975e5aa9a3895b579a35cbb6ec90233b12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "662e7892_2b13f993",
         "filename": "src/cmd/internal/ld/pe.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-15T02:02:03Z",
       "side": 1,
       "message": "Again comment won\u0027t hurt.",
+      "revId": "75e877975e5aa9a3895b579a35cbb6ec90233b12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_cc56cf2f",
+        "filename": "src/cmd/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-15T08:04:49Z",
+      "side": 1,
+      "message": "it\u0027s because external symbols on windows/amd64 don\u0027t need to add\nthe underscore prefix.",
+      "parentUuid": "662e7892_2b13f993",
       "revId": "75e877975e5aa9a3895b579a35cbb6ec90233b12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
