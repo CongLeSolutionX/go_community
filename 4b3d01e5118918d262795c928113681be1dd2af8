@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c62484a6_566a549b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-03-15T17:00:10Z",
+      "side": 1,
+      "message": "right. I reworded it.\nI am open to only enable it when that environment variable is defined though, but I figured it\u0027s best to test eagerly than less.",
+      "parentUuid": "c178ee71_2ad059f8",
+      "revId": "4b3d01e5118918d262795c928113681be1dd2af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c178ee71_6ae331d2",
         "filename": "src/make.bash",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-13T23:10:38Z",
       "side": 1,
       "message": "This is not used by cgo.  I think it would be more accurate to say it is used only for testing.  Same for make.bat.",
+      "revId": "4b3d01e5118918d262795c928113681be1dd2af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a61f9053_f5def8e0",
+        "filename": "src/make.bash",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-03-15T17:00:10Z",
+      "side": 1,
+      "message": "actually, it is used by cgo. see cmd/go/build.go:2029,2121 and 2156.",
+      "parentUuid": "c178ee71_6ae331d2",
       "revId": "4b3d01e5118918d262795c928113681be1dd2af8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
