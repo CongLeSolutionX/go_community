@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_7c28f937",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T23:58:22Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter. I added this comment to LineHist above:\n\n    // In typical use, the virtual lineno begins at 1, and file line numbers also begin at 1,\n    // but the only requirements placed upon the numbers by this code are:\n    //\t- calls to Push, Update, and Pop must be monotonically increasing in lineno\n    //\t- except as specified by those methods, virtual and file line number increase\n    //\t  together, so that given (only) calls Push(10, \"x.go\", 1) and Pop(15),\n    //\t  virtual line 12 corresponds to x.go line 3.",
+      "parentUuid": "262ac0bf_49ca819d",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "262ac0bf_89cbd99d",
         "filename": "src/cmd/internal/obj/obj.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-03-16T18:23:06Z",
       "side": 1,
       "message": "s/$/; origin 1/",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_9c0ce5f0",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T23:58:22Z",
+      "side": 1,
+      "message": "same.",
+      "parentUuid": "262ac0bf_89cbd99d",
       "range": {
         "startLine": 37,
         "startChar": 25,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_fc36c9b0",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T23:58:22Z",
+      "side": 1,
+      "message": "I\u0027m a little scared of doing anything non-ASCII. This handles the most common case-insensitive file systems. For non-ASCII I think it is okay to treat different cases as different. Trying to do full Unicode equivalence in file system names has an established history of causing worse problems (like the recent Git/Hg/etc bug). I\u0027ll amend the comment.",
+      "parentUuid": "86336cf4_b2ff582f",
+      "range": {
+        "startLine": 94,
+        "startChar": 29,
+        "endLine": 94,
+        "endChar": 34
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_32ec888c",
         "filename": "src/cmd/internal/obj/obj.go",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2015-03-16T18:23:06Z",
       "side": 1,
       "message": "in these examples, use `` to avoid \\\\",
+      "range": {
+        "startLine": 95,
+        "startChar": 70,
+        "endLine": 95,
+        "endChar": 71
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_1ccb7524",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T23:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_32ec888c",
       "range": {
         "startLine": 95,
         "startChar": 70,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_1c40d5f4",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T23:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41331ed7_d93a5fec",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 16
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "262ac0bf_09e7e92a",
         "filename": "src/cmd/internal/obj/obj.go",
         "patchSetId": 1
@@ -151,6 +271,30 @@
       "writtenOn": "2015-03-16T18:23:06Z",
       "side": 1,
       "message": "s/was/were/",
+      "range": {
+        "startLine": 162,
+        "startChar": 63,
+        "endLine": 162,
+        "endChar": 66
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_3cd031ce",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T23:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "262ac0bf_09e7e92a",
       "range": {
         "startLine": 162,
         "startChar": 63,
