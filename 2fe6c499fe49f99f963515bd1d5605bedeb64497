@@ -22,6 +22,142 @@
       "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_72d1f082",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "Any particular reason stmtfmt didn\u0027t get the bytes.Buffer treatment?",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_32f2481b",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "return \"(\"+Nconv(n.Left, 0)+\")\"",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8147d63d_7bc16b29",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "return obj.Rconv(int(n.Val.U.Reg))",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8147d63d_bb94b316",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "return Vconv(\u0026n.Val, 0)",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_92c1fc9c",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "return Sconv(n.Sym, 0)",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_529394ab",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "return Tconv(n.Type, 0)",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8147d63d_fb70fb8d",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "return fmt.Sprintf(\"(%v{ %v })\", Nconv(n.Right, 0), Hconv(n.List, obj.FmtComma))\n\nThere are more of these as well. I\u0027ll stop flagging them. I thought I fixed them all in an automated way in CL 6265, but apparently not.",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61ac4b3_e681defc",
+        "filename": "src/cmd/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:55:14Z",
+      "side": 1,
+      "message": "context could use a short comment.",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
