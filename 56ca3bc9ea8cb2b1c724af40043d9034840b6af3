@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66475868_43c0667c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T02:45:36Z",
+      "side": 1,
+      "message": "How about adding something simpler, like: \"TestMain should call flag.Parse before m.Run so that Verbose and Short work correctly.\"\n\nAnd perhaps more importantly, I\u0027d suggest adding flag.Parse to the minimal implementation example below, which is probably where most folks start.\n\nJust my 2c; leaving for r.",
+      "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
