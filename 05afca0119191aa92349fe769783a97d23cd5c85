@@ -111,6 +111,41 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_4fd6517d",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "Also add\n// May run during STW, so write barriers are not allowed.",
+      "parentUuid": "063a1cf6_40e24e1b",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_8fe2f941",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "I\u0027d like to see a justification with uses of set*NoWriteBarrier for why it\u0027s safe. For example, here add something like\n\n  // All g\u0027s below are reachable via allgs, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063a1cf6_60caf29d",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -122,6 +157,63 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "Add:\n//go:nowritebarrier\nso the compiler can verify this.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_2fb1c545",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "This comment is important, but as written doesn\u0027t really stand on its own. I\u0027d like to see a standard form for this comment, such as\n\n  // May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 975,
+        "startChar": 0,
+        "endLine": 977,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_cfb7e136",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "Justification here:\n\n  // _p_ is reachable via XXX, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_8fc1d99c",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// mp.g0 is reachable via XXX, so WB can be eliminated.",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -145,6 +237,29 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_6f8ead85",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1039,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8147d63d_20d09246",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -156,6 +271,41 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "Does \u0027mp :\u003d mget()\u0027 really have a write barrier? It is a stack variable.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_4f93f1ab",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "I think if there\u0027s a write barrier here, something probably needs to be fixed in the compiler.",
+      "parentUuid": "8147d63d_20d09246",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_2f88a573",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// _p_ is reachable via allp, so WB can be eliminated.",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -179,6 +329,63 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_0f8de983",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 1151,
+        "startChar": 0,
+        "endLine": 1153,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_efa17dea",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// _p_ is reachable via allp, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_af9b75be",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "cmd/trace currently assumes every traceGoSysBlock/traceGoInSyscall will having a matching traceGoSysExit. This will probably break it badly.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_efce1daf",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -190,6 +397,63 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_8f98b9c2",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2585,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 2582,
+        "startChar": 0,
+        "endLine": 2585,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_6f758dfb",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2600,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// _p_ and _p_.mcache are reachable via allp, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_4f7ad1ed",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2602,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// _g_.m is reachable via allgs, so WB can be eliminated.",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -213,6 +477,120 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_2f7f85dd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3010,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 3008,
+        "startChar": 0,
+        "endLine": 3010,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_ef685d20",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3012,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// sched.midle is reachable via allm, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_af72550c",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3013,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// mp is reachable via the stack (?), so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_6f5c6d85",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3022,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.\n//go:nowritebarrier",
+      "range": {
+        "startLine": 3020,
+        "startChar": 0,
+        "endLine": 3022,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_0f5ba98b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3025,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "This is a stack variable. Is the compiler actually emitted a write barrier?",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_12caac9c",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3027,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// mp.schedlink is reachable via sched, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_cfcb619d",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -224,6 +602,63 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_f2ce00af",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3037,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 3035,
+        "startChar": 0,
+        "endLine": 3037,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b2d87873",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3039,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "Can\u0027t the compiler eliminate this write barrier? (If it\u0027s not, add a TODO.)",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_92d57c3b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3040,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// gp is reachable via allgs, so WB can be eliminated.",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -247,6 +682,46 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_52e7142a",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 3098,
+        "startChar": 0,
+        "endLine": 3100,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_32dc8862",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3102,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// sched.pidle and _p_ are reachable via allp, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063a1cf6_20c0ea7b",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -258,6 +733,63 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_f2f5e0d0",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3111,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 3109,
+        "startChar": 0,
+        "endLine": 3111,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b2ef58fd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3114,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "Another write to a stack variable.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_7209f061",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3116,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// _p_.link is reachable via allp, so WB can be eliminated.",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -281,6 +813,23 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_d220a4c6",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "Add a blank line here so the above comment roughly applies to all three functions, then add for the functions\n\n// setGNoWriteBarriers does *gdst \u003d gval without a write barrier.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063a1cf6_e0d5623a",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 2
@@ -292,6 +841,23 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "remove extra set of parens around unsafe.Pointer(gdst) -- it\u0027s doubly parenthesized. same on next 3 instances.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b21d1895",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T17:52:47Z",
+      "side": 1,
+      "message": "// setMNoWriteBarrier does *mdst \u003d mval without a write barrier.\n\netc...",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
