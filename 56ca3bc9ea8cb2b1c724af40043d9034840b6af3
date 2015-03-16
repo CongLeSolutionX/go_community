@@ -34,6 +34,24 @@
       "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b5be22a2",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-16T20:24:47Z",
+      "side": 1,
+      "message": "OK, simplified. PTAL.\n\nThe only change as compared to Josh\u0027s version is that I emphasize\nthat flag.Parse is needed only when you need Short and Verbose.",
+      "parentUuid": "8147d63d_e04a0a02",
+      "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
