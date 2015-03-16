@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "86336cf4_4f99b17a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T16:33:56Z",
+      "side": 1,
+      "message": "I suspect this isn\u0027t the last time someone will read this commit message, so I\u0027d like it to be crystal clear on what\u0027s going on, what the problem is, and what the fix is. How about this:\n\nThe GC assumes that there will be no asynchronous write barriers when\nthe world is stopped. This keeps the synchronization between write\nbarriers and the GC simple. However, currently, there are a few places\nin runtime code where this assumption does not hold.\n\nThe GC stops the world by collecting all Ps, which stops all user Go\ncode, but small parts of the runtime can run without a P. For example,\nthe code that releases a P must still deschedule its G onto a runnable\nqueue before stopping. Similarly, when a G returns from a long-running\nsyscall, it must run code to reacquire a P.\n\nCurrently, this code can contain write barriers. This can lead to the\nGC collecting reachable objects if something like the following\nsequence of events happens:\n\n1. GC stops the world by collecting all Ps.\n\n2. G #1 returns from a syscall (for example), tries to install a\npointer to object X, and calls greyobject on X.\n\n3. greyobject on G #1 marks X, but does not yet add it to a write\nbuffer. At this point, X is effectively black, not grey, even though\nit may point to white objects.\n\n4. GC reaches X through some other path and calls greyobject on X, but\ngreyobject does nothing because X is already marked.\n\n5. GC completes.\n\n6. greyobject on G #1 adds X to a work buffer, but it\u0027s too late.\n\n7. Objects that were reachable only through X are collected.\n\nTo fix this, we check the invariant that no asynchronous write\nbarriers happen when the world is stopped by checking that write\nbarriers always have a P, and modify all currently known sources of\nthese writes to disable the write barrier. In all modified cases this\nis safe because the object in question will always be reachable via\nsome other path.\n\nSome of the trace code was turned off...",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_0f2f29ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-16T16:33:56Z",
+      "side": 1,
+      "message": "s/is/are/",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "611bc25b_e31cd29c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
