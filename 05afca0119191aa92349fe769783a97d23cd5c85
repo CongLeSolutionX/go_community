@@ -33,6 +33,228 @@
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26be4091_29f1ad64",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "611bc25b_8336be19",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a1cf6_40e24e1b",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a1cf6_60caf29d",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "Add:\n//go:nowritebarrier\nso the compiler can verify this.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8147d63d_60da9a66",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8147d63d_20d09246",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "Does \u0027mp :\u003d mget()\u0027 really have a write barrier? It is a stack variable.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41331ed7_9ebb6d0a",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "Add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_efce1daf",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2585,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41331ed7_dec5e58b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3010,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_cfcb619d",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3037,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a1cf6_40bb6e09",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a1cf6_20c0ea7b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3111,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "add //go:nowritebarrier",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a1cf6_00d96676",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "s/go/Go/",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a1cf6_e0d5623a",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-16T15:39:47Z",
+      "side": 1,
+      "message": "remove extra set of parens around unsafe.Pointer(gdst) -- it\u0027s doubly parenthesized. same on next 3 instances.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
