@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6f1e4a3_ceb163c2",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1906,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-16T18:10:00Z",
+      "side": 1,
+      "message": "The second switch is on a.Index, not a.Reg. So it looks like this changes behavior for something like \"MOV 0(CX)(TLS*1), AX\". And even if I\u0027m wrong about that, the code is not obviously correct. The condition should be a.Reg \u003c REG_CS \u0026\u0026 a.Index \u003c REG_CS.",
+      "revId": "b341cb9c1acacf113a60494aed4186b5f4c56dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
