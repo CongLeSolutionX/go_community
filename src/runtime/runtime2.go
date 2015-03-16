@@ -249,6 +249,10 @@ type g struct {
 	startpc      uintptr // pc of goroutine function
 	racectx      uintptr
 	waiting      *sudog // sudog structures this g is waiting on (that have a valid elem ptr)
+
+	// Per-G gcController state
+	gcalloc    uintptr // bytes allocated during this GC cycle
+	gcscanwork int64   // scan work done (or stolen) this GC cycle
 }
 
 type mts struct {
