@@ -52,6 +52,75 @@
       "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61ac4b3_5aa6c58c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T20:42:31Z",
+      "side": 1,
+      "message": "i still think this is overexplaining.\nhow about\n\nWhen TestMain is called, flag.Parse has not been done. If tests depend on command-line flags, including those of the testing package, TestMain should call flag.Parse explicitly.",
+      "range": {
+        "startLine": 137,
+        "startChar": 3,
+        "endLine": 137,
+        "endChar": 12
+      },
+      "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61ac4b3_fa8b31eb",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T20:42:31Z",
+      "side": 1,
+      "message": "s/The minimal/A simple/",
+      "range": {
+        "startLine": 139,
+        "startChar": 7,
+        "endLine": 139,
+        "endChar": 14
+      },
+      "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c61ac4b3_3a65c9ca",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T20:42:31Z",
+      "side": 1,
+      "message": "include flag.Parse here.",
+      "range": {
+        "startLine": 141,
+        "startChar": 27,
+        "endLine": 141,
+        "endChar": 28
+      },
+      "revId": "56ca3bc9ea8cb2b1c724af40043d9034840b6af3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
