@@ -130,7 +130,11 @@
 // then the generated test will call TestMain(m) instead of running the tests
 // directly. TestMain runs in the main goroutine and can do whatever setup
 // and teardown is necessary around a call to m.Run. It should then call
-// os.Exit with the result of m.Run.
+// os.Exit with the result of m.Run. Because before m.Run is called, the command
+// line arguments are not yet parsed, functions that rely on arguments will
+// always return the default value (for example, false for Verbose() and Short()).
+// Call flag.Parse() if the code in TestMain needs the correct result from those
+// functions.
 //
 // The minimal implementation of TestMain is:
 //
