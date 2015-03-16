@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6f1e4a3_cee5e3a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "cmd/internal/obj: reimplement line history",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "262ac0bf_49ca819d",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "origin 1 or origin 0?",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "262ac0bf_89cbd99d",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "s/$/; origin 1/",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b2ff582f",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "ASCII is probably ok but it\u0027s not hard to be more general.\ns/ASCII/\u0026 (only for now)/",
+      "range": {
+        "startLine": 94,
+        "startChar": 29,
+        "endLine": 94,
+        "endChar": 34
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_32ec888c",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "in these examples, use `` to avoid \\\\",
+      "range": {
+        "startLine": 95,
+        "startChar": 70,
+        "endLine": 95,
+        "endChar": 71
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41331ed7_d93a5fec",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "s/records/\u0026 that/",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 16
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "262ac0bf_09e7e92a",
+        "filename": "src/cmd/internal/obj/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-03-16T18:23:06Z",
+      "side": 1,
+      "message": "s/was/were/",
+      "range": {
+        "startLine": 162,
+        "startChar": 63,
+        "endLine": 162,
+        "endChar": 66
+      },
+      "revId": "43c1b6e6898b6832187a6b616b7e2649395c9dc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
