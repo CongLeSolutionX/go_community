@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c61ac4b3_6cb14f45",
+        "filename": "src/crypto/x509/pem_decrypt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-03-16T20:11:02Z",
+      "side": 1,
+      "message": "How about:\n\n// Because of deficiencies in\n// the encrypted-PEM format, it\u0027s not always possible to detect an incorrect\n// password. In these cases no error will be returned but the decrypted DER\n// bytes will be random noise.",
+      "revId": "5d04d82e8442518f24b3cd6b6802325fc2bff936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
