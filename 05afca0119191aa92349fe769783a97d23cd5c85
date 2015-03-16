@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_72e8d0aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "I like yours better so I\u0027ll use it.",
+      "parentUuid": "86336cf4_4f99b17a",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_0f2f29ba",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_9250dc31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Replaced with the above.",
+      "parentUuid": "86336cf4_0f2f29ba",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "611bc25b_e31cd29c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2015-03-13T12:40:04Z",
       "side": 1,
       "message": "I think it should be:\n\"The GC will move on and the objects this object points to can be incorrectly reclaimed\".\nThe object itself is marked, so it won\u0027t be reclaimed.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_52c6f44a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Replaced with the above which fixes this issue.",
+      "parentUuid": "611bc25b_e31cd29c",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -94,6 +154,42 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_d25544dc",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "611bc25b_8336be19",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_925fbcfa",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26be4091_29f1ad64",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063a1cf6_40e24e1b",
         "filename": "src/runtime/netpoll.go",
         "patchSetId": 2
@@ -129,6 +225,42 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_d2db04ef",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063a1cf6_40e24e1b",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_92e57ca5",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_4fd6517d",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_8fe2f941",
         "filename": "src/runtime/netpoll.go",
         "patchSetId": 2
@@ -140,6 +272,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "I\u0027d like to see a justification with uses of set*NoWriteBarrier for why it\u0027s safe. For example, here add something like\n\n  // All g\u0027s below are reachable via allgs, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_7240d0f5",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_8fe2f941",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -186,6 +336,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_b22d183f",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_2fb1c545",
+      "range": {
+        "startLine": 975,
+        "startChar": 0,
+        "endLine": 977,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_323a487c",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "The write to mp.mstartfn results in a write barrier being\nemitted even though we know that \u0026fn does not refer to anything on the stack. I fixed to by changing the type of\nthe field mstartfn to uintptr instead of a func() or even\nunsafe.Pointer so I could preserve the go:nowritebarrier.",
+      "parentUuid": "063a1cf6_60caf29d",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_cfb7e136",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -203,6 +395,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_12298c03",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_cfb7e136",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_8fc1d99c",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -214,6 +424,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// mp.g0 is reachable via XXX, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b28cf8cd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_8fc1d99c",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -248,6 +476,48 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// May run during STW, so write barriers are not allowed.",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1039,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_92345c5a",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8147d63d_60da9a66",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_f2c4c0bf",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_6f8ead85",
       "range": {
         "startLine": 1037,
         "startChar": 0,
@@ -295,6 +565,42 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_75e8baaa",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "It does not seem to emit a write barrier so compiler is fine.",
+      "parentUuid": "86336cf4_4f93f1ab",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_95bb26b2",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "It does not seem to emit a write barrier. Back to \nmp:\u003d mget()",
+      "parentUuid": "8147d63d_20d09246",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_2f88a573",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -306,6 +612,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// _p_ is reachable via allp, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b5b4e2b2",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_2f88a573",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -352,6 +676,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_757e7a6b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41331ed7_9ebb6d0a",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_95b1e6c2",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_0f8de983",
+      "range": {
+        "startLine": 1151,
+        "startChar": 0,
+        "endLine": 1153,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_efa17dea",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -369,6 +735,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_55837ed9",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_efa17dea",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_af9b75be",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -380,6 +764,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "cmd/trace currently assumes every traceGoSysBlock/traceGoInSyscall will having a matching traceGoSysExit. This will probably break it badly.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_d53c0e96",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "It seems to pass all tests used in all.bash.\nWhat you are asking is completely reasonable but not \npart of the CL. I will add a TODO",
+      "parentUuid": "86336cf4_af9b75be",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -426,6 +828,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_157e162f",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2585,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_efce1daf",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_f5826a99",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2585,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_8f98b9c2",
+      "range": {
+        "startLine": 2582,
+        "startChar": 0,
+        "endLine": 2585,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_6f758dfb",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -443,6 +887,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_d57f6e27",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2600,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_6f758dfb",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_4f7ad1ed",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -454,6 +916,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// _g_.m is reachable via allgs, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b58ce2cd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2602,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_4f7ad1ed",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -500,6 +980,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_75567ab6",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3010,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_2f7f85dd",
+      "range": {
+        "startLine": 3008,
+        "startChar": 0,
+        "endLine": 3010,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_9589e6bd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3010,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41331ed7_dec5e58b",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_ef685d20",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -517,6 +1039,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_d5664e99",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3012,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_ef685d20",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_af72550c",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -528,6 +1068,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// mp is reachable via the stack (?), so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b563c287",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3013,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Reachable from the stack isn\u0027t good enough, it needs to be\nin a global like allm.\nDone",
+      "parentUuid": "86336cf4_af72550c",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -557,6 +1115,30 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_9560c67b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3022,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_6f5c6d85",
+      "range": {
+        "startLine": 3020,
+        "startChar": 0,
+        "endLine": 3022,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_0f5ba98b",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -574,6 +1156,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_b5baa24d",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3025,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "It compiles with go:nowritebarrier so I think you are correct.",
+      "parentUuid": "86336cf4_0f5ba98b",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_12caac9c",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -585,6 +1185,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// mp.schedlink is reachable via sched, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_350d92bd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3027,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_12caac9c",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -631,6 +1249,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_151296dd",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3037,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_cfcb619d",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_f516eacf",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3037,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_f2ce00af",
+      "range": {
+        "startLine": 3035,
+        "startChar": 0,
+        "endLine": 3037,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_b2d87873",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -648,6 +1308,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_d53ace47",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3039,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "This also seems to compile without problem. The compiler is fine.",
+      "parentUuid": "86336cf4_b2d87873",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_92d57c3b",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -659,6 +1337,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// gp is reachable via allgs, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_b537425e",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3040,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_92d57c3b",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -705,6 +1401,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_75d1da82",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063a1cf6_40bb6e09",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_55d6de7c",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_52e7142a",
+      "range": {
+        "startLine": 3098,
+        "startChar": 0,
+        "endLine": 3100,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_32dc8862",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -716,6 +1454,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// sched.pidle and _p_ are reachable via allp, so WB can be eliminated.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_15e05645",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3102,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_32dc8862",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -762,6 +1518,48 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_f5c4aabf",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3111,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063a1cf6_20c0ea7b",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_d5c1aead",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3111,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_f2f5e0d0",
+      "range": {
+        "startLine": 3109,
+        "startChar": 0,
+        "endLine": 3111,
+        "endChar": 12
+      },
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_b2ef58fd",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -773,6 +1571,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "Another write to a stack variable.",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_95cb26cc",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3114,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Compiles with go:nowritebarrier so I just did the assignment.",
+      "parentUuid": "86336cf4_b2ef58fd",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -796,6 +1612,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_35f2321b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3116,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_7209f061",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063a1cf6_00d96676",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 2
@@ -807,6 +1641,24 @@
       "writtenOn": "2015-03-16T15:39:47Z",
       "side": 1,
       "message": "s/go/Go/",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_d5e88e27",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063a1cf6_00d96676",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -830,6 +1682,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_55ac9eed",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_d220a4c6",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "063a1cf6_e0d5623a",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 2
@@ -847,6 +1717,24 @@
     },
     {
       "key": {
+        "uuid": "86336cf4_35b11246",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063a1cf6_e0d5623a",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_b21d1895",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 2
@@ -858,6 +1746,24 @@
       "writtenOn": "2015-03-16T17:52:47Z",
       "side": 1,
       "message": "// setMNoWriteBarrier does *mdst \u003d mval without a write barrier.\n\netc...",
+      "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86336cf4_15b6163e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-16T23:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86336cf4_b21d1895",
       "revId": "05afca0119191aa92349fe769783a97d23cd5c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
