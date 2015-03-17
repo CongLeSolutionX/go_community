@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_fcc1699b",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-17T00:41:59Z",
+      "side": 1,
+      "message": "Yes. The /*untyped*/ was emitted by c2go in places where it had gotten confused about what type something was. The ones that made it through this far are clearly fine and should be dropped.",
+      "parentUuid": "262ac0bf_c91af199",
+      "range": {
+        "startLine": 426,
+        "startChar": 15,
+        "endLine": 426,
+        "endChar": 26
+      },
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86336cf4_72d1f082",
         "filename": "src/cmd/internal/gc/fmt.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-03-16T18:55:14Z",
       "side": 1,
       "message": "Any particular reason stmtfmt didn\u0027t get the bytes.Buffer treatment?",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_5c889d74",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-17T00:41:59Z",
+      "side": 1,
+      "message": "It doesn\u0027t show up in my profiles. Feel free if it\u0027s bothering you. (We use typefmt to generate symbol names, which happens a lot; we don\u0027t use stmtfmt as much.) Cleanup is good but all of the CLs I\u0027m sending out are motivated by performance.",
+      "parentUuid": "86336cf4_72d1f082",
       "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +180,24 @@
       "writtenOn": "2015-03-16T18:55:14Z",
       "side": 1,
       "message": "return fmt.Sprintf(\"(%v{ %v })\", Nconv(n.Right, 0), Hconv(n.List, obj.FmtComma))\n\nThere are more of these as well. I\u0027ll stop flagging them. I thought I fixed them all in an automated way in CL 6265, but apparently not.",
+      "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_7c8d5983",
+        "filename": "src/cmd/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-17T00:41:59Z",
+      "side": 1,
+      "message": "Yeah, I was surprised to see them too. Maybe you only looked for \u0027var fp string\u0027. I did a pass for \u0027var f string; f +\u003d ...; return f\u0027.",
+      "parentUuid": "8147d63d_fb70fb8d",
       "revId": "2fe6c499fe49f99f963515bd1d5605bedeb64497",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
