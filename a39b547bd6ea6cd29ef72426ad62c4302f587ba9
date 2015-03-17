@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_227e4a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "I will add the following.\n\nFixes #10098\nFixes #9953\nFixes #9951\nFixes #9884\n\nPossibly \nFixes #9610 \nFixes #9771",
+      "parentUuid": "86e9acd1_7fbc6bce",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_9fa0579f",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_827d5e6c",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "I went back and forth with this without a strong feeling\neither way. !\u003d 0 is fine.",
+      "parentUuid": "86e9acd1_9fa0579f",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_dfaadf7c",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2015-03-17T02:10:42Z",
       "side": 1,
       "message": "s/make/made/?\n\nI\u0027m not sure what you\u0027re saying never changes. allp changes in procresize, though it never changes during a GC because GC holds worldsema.",
+      "range": {
+        "startLine": 979,
+        "startChar": 15,
+        "endLine": 979,
+        "endChar": 19
+      },
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_426a769b",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "// procresize made _p_ reachable through allp, which doesn\u0027t change during GC, so WB can be eliminated",
+      "parentUuid": "86e9acd1_dfaadf7c",
       "range": {
         "startLine": 979,
         "startChar": 15,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_626f72aa",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86e9acd1_bf9d136e",
+      "range": {
+        "startLine": 988,
+        "startChar": 40,
+        "endLine": 988,
+        "endChar": 42
+      },
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_1f944743",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 4
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_c255a6dc",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86e9acd1_1f944743",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_3f99037c",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 4
@@ -110,6 +212,24 @@
       "writtenOn": "2015-03-17T02:10:42Z",
       "side": 1,
       "message": "And here",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_e262a2bb",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86e9acd1_3f99037c",
       "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_02606eb1",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1821,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Good eyes.",
+      "parentUuid": "86e9acd1_5f8ecf32",
+      "range": {
+        "startLine": 1821,
+        "startChar": 33,
+        "endLine": 1821,
+        "endChar": 46
+      },
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_9f877712",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 4
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_425196e9",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2583,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Removed.\nDone",
+      "parentUuid": "86e9acd1_9f877712",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_1ff367b9",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 4
@@ -167,6 +329,24 @@
       "writtenOn": "2015-03-17T02:10:42Z",
       "side": 1,
       "message": "Did you mean to put this comment above in pidleput?",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_e239c2a3",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3114,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86e9acd1_1ff367b9",
       "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "86e9acd1_02fdce35",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86e9acd1_3ff82393",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 147,
+        "endChar": 22
+      },
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86e9acd1_7f02ab0c",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 4
@@ -207,6 +411,24 @@
       "writtenOn": "2015-03-17T02:10:42Z",
       "side": 1,
       "message": "Lost the old comment\n\n  // todo go func(); must be a non-heap allocated func()\n\nI think better would be for this to be a func() and to eliminate the write barrier only on the write, like the others. But that doesn\u0027t have to happen now.",
+      "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e9acd1_421ef61d",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-17T15:01:11Z",
+      "side": 1,
+      "message": "That was my original intent but I got lost in the weeds.",
+      "parentUuid": "86e9acd1_7f02ab0c",
       "revId": "a39b547bd6ea6cd29ef72426ad62c4302f587ba9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
