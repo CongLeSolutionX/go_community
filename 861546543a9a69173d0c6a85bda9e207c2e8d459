@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "662e7892_31a12874",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-03-17T00:51:37Z",
+      "side": 1,
+      "message": "this is redundant zeroing",
+      "revId": "861546543a9a69173d0c6a85bda9e207c2e8d459",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
