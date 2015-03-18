@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"math/big"
 	"strings"
 )
 
@@ -191,7 +192,7 @@ func convlit1(np **Node, t *Type, explicit bool) {
 		// if it is an unsafe.Pointer
 		case TUINTPTR:
 			if n.Type.Etype == TUNSAFEPTR {
-				n.Val.U.Xval = new(Mpint)
+				n.Val.U.Xval = new(big.Int)
 				Mpmovecfix(n.Val.U.Xval, 0)
 				n.Val.Ctype = CTINT
 			} else {
@@ -283,7 +284,7 @@ func copyval(v Val) Val {
 	switch v.Ctype {
 	case CTINT,
 		CTRUNE:
-		i := new(Mpint)
+		i := new(big.Int)
 		mpmovefixfix(i, v.U.Xval)
 		v.U.Xval = i
 
@@ -351,7 +352,7 @@ func toint(v Val) Val {
 		v.Ctype = CTINT
 
 	case CTFLT:
-		i := new(Mpint)
+		i := new(big.Int)
 		if mpmovefltfix(i, v.U.Fval) < 0 {
 			Yyerror("constant %v truncated to integer", Fconv(v.U.Fval, obj.FmtSharp))
 		}
@@ -359,7 +360,7 @@ func toint(v Val) Val {
 		v.U.Xval = i
 
 	case CTCPLX:
-		i := new(Mpint)
+		i := new(big.Int)
 		if mpmovefltfix(i, &v.U.Cval.Real) < 0 {
 			Yyerror("constant %v%vi truncated to integer", Fconv(&v.U.Cval.Real, obj.FmtSharp), Fconv(&v.U.Cval.Imag, obj.FmtSharp|obj.FmtSign))
 		}
@@ -635,7 +636,7 @@ func evconst(n *Node) {
 
 			// calculate the mask in b
 			// result will be (a ^ mask)
-			var b Mpint
+			var b big.Int
 			switch et {
 			// signed guys change sign
 			default:
@@ -1435,7 +1436,7 @@ func Convconst(con *Node, t *Type, val *Val) {
 
 	if Isint[tt] {
 		con.Val.Ctype = CTINT
-		con.Val.U.Xval = new(Mpint)
+		con.Val.U.Xval = new(big.Int)
 		var i int64
 		switch val.Ctype {
 		default:

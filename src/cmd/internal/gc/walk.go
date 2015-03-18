@@ -7,10 +7,11 @@ package gc
 import (
 	"cmd/internal/obj"
 	"fmt"
+	"math/big"
 	"strings"
 )
 
-var mpzero Mpint
+var mpzero big.Int
 
 // The constant is known to runtime.
 const (

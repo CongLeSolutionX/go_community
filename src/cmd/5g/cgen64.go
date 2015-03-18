@@ -648,8 +648,8 @@ func cgen64(n *gc.Node, res *gc.Node) {
 	//		}
 	//		if(lo2.op == OLITERAL) {
 	//			// special cases for constants.
-	//			lv = mpgetfix(lo2.val.u.xval);
-	//			hv = mpgetfix(hi2.val.u.xval);
+	//			lv = _Mpgetfix(lo2.val.u.xval);
+	//			hv = _Mpgetfix(hi2.val.u.xval);
 	//			splitclean();	// right side
 	//			split64(res, &lo2, &hi2);
 	//			switch(n->op) {
