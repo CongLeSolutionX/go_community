@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6c31059_9b05d3cc",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-03-18T04:08:54Z",
+      "side": 1,
+      "message": "Please check this comment. Original comment was applicable to ReadConsole Windows API. You don\u0027t use ReadConsole now.",
+      "revId": "b2fd69344a5c7901451a7ed77df4c1de4882da7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
