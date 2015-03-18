@@ -4,7 +4,10 @@
 
 package gc
 
-import "cmd/internal/obj"
+import (
+	"cmd/internal/obj"
+	"math/big"
+)
 
 /*
  * machine size and rounding
@@ -485,8 +488,8 @@ func typeinit() {
 			okforand[i] = true
 			okforconst[i] = true
 			issimple[i] = true
-			Minintval[i] = new(Mpint)
-			Maxintval[i] = new(Mpint)
+			Minintval[i] = new(big.Int)
+			Maxintval[i] = new(big.Int)
 		}
 
 		if Isfloat[i] {

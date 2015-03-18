@@ -7,6 +7,7 @@ package gc
 import (
 	"bytes"
 	"cmd/internal/obj"
+	"math/big"
 )
 
 // avoid <ctype.h>
@@ -84,12 +85,12 @@ type Mpcplx struct {
 type Val struct {
 	Ctype int16
 	U     struct {
-		Reg  int16   // OREGISTER
-		Bval int16   // bool value CTBOOL
-		Xval *Mpint  // int CTINT, rune CTRUNE
-		Fval *Mpflt  // float CTFLT
-		Cval *Mpcplx // float CTCPLX
-		Sval string  // string CTSTR
+		Reg  int16    // OREGISTER
+		Bval int16    // bool value CTBOOL
+		Xval *big.Int // int CTINT, rune CTRUNE
+		Fval *Mpflt   // float CTFLT
+		Cval *Mpcplx  // float CTCPLX
+		Sval string   // string CTSTR
 	}
 }
 
@@ -590,9 +591,9 @@ var (
 	iscmp [OEND]bool
 )
 
-var Minintval [NTYPE]*Mpint
+var Minintval [NTYPE]*big.Int
 
-var Maxintval [NTYPE]*Mpint
+var Maxintval [NTYPE]*big.Int
 
 var minfltval [NTYPE]*Mpflt
 

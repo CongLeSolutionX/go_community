@@ -4,7 +4,10 @@
 
 package gc
 
-import "cmd/internal/obj"
+import (
+	"cmd/internal/obj"
+	"math/big"
+)
 
 /*
  * look for
@@ -141,7 +144,7 @@ ret:
 	var val Val
 	val.Ctype = CTINT
 
-	val.U.Xval = new(Mpint)
+	val.U.Xval = new(big.Int)
 	Mpmovecfix(val.U.Xval, v)
 	n := Nod(OLITERAL, nil, nil)
 	n.Orig = nn

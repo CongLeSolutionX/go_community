@@ -8,6 +8,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"math"
+	"math/big"
 )
 
 /// uses arithmetic
@@ -15,7 +16,7 @@ import (
 func mpcmpfixflt(a *Mpint, b *Mpflt) int {
 	var c Mpflt
 
-	buf := Bconv(a, 0)
+	buf := _Bconv(a, 0)
 	mpatoflt(&c, buf)
 	return mpcmpfltflt(&c, b)
 }
@@ -23,24 +24,32 @@ func mpcmpfixflt(a *Mpint, b *Mpflt) int {
 func mpcmpfltfix(a *Mpflt, b *Mpint) int {
 	var c Mpflt
 
-	buf := Bconv(b, 0)
+	buf := _Bconv(b, 0)
 	mpatoflt(&c, buf)
 	return mpcmpfltflt(a, &c)
 }
 
-func Mpcmpfixfix(a *Mpint, b *Mpint) int {
+func Mpcmpfixfix(a, b *big.Int) int {
+	return a.Cmp(b)
+}
+
+func _Mpcmpfixfix(a *Mpint, b *Mpint) int {
 	var c Mpint
 
-	mpmovefixfix(&c, a)
-	mpsubfixfix(&c, b)
+	_mpmovefixfix(&c, a)
+	_mpsubfixfix(&c, b)
 	return mptestfix(&c)
 }
 
-func mpcmpfixc(b *Mpint, c int64) int {
+func mpcmpfixc(b *big.Int, c int64) int {
+	return b.Cmp(big.NewInt(c))
+}
+
+func _mpcmpfixc(b *Mpint, c int64) int {
 	var c1 Mpint
 
-	Mpmovecfix(&c1, c)
-	return Mpcmpfixfix(b, &c1)
+	_Mpmovecfix(&c1, c)
+	return _Mpcmpfixfix(b, &c1)
 }
 
 func mpcmpfltflt(a *Mpflt, b *Mpflt) int {
@@ -58,10 +67,14 @@ func mpcmpfltc(b *Mpflt, c float64) int {
 	return mpcmpfltflt(b, &a)
 }
 
-func mpsubfixfix(a *Mpint, b *Mpint) {
-	mpnegfix(a)
-	mpaddfixfix(a, b, 0)
-	mpnegfix(a)
+func mpsubfixfix(a, b *big.Int) {
+	a.Sub(a, b)
+}
+
+func _mpsubfixfix(a *Mpint, b *Mpint) {
+	_mpnegfix(a)
+	_mpaddfixfix(a, b, 0)
+	_mpnegfix(a)
 }
 
 func mpsubfltflt(a *Mpflt, b *Mpflt) {
@@ -73,8 +86,8 @@ func mpsubfltflt(a *Mpflt, b *Mpflt) {
 func mpaddcfix(a *Mpint, c int64) {
 	var b Mpint
 
-	Mpmovecfix(&b, c)
-	mpaddfixfix(a, &b, 0)
+	_Mpmovecfix(&b, c)
+	_mpaddfixfix(a, &b, 0)
 }
 
 func mpaddcflt(a *Mpflt, c float64) {
@@ -87,8 +100,8 @@ func mpaddcflt(a *Mpflt, c float64) {
 func mpmulcfix(a *Mpint, c int64) {
 	var b Mpint
 
-	Mpmovecfix(&b, c)
-	mpmulfixfix(a, &b)
+	_Mpmovecfix(&b, c)
+	_mpmulfixfix(a, &b)
 }
 
 func mpmulcflt(a *Mpflt, c float64) {
@@ -98,41 +111,130 @@ func mpmulcflt(a *Mpflt, c float64) {
 	mpmulfltflt(a, &b)
 }
 
-func mpdivfixfix(a *Mpint, b *Mpint) {
-	var q Mpint
-	var r Mpint
-
-	mpdivmodfixfix(&q, &r, a, b)
-	mpmovefixfix(a, &q)
+func mpdivfixfix(a, b *big.Int) {
+	a.Quo(a, b)
 }
 
-func mpmodfixfix(a *Mpint, b *Mpint) {
+func _mpdivfixfix(a *Mpint, b *Mpint) {
 	var q Mpint
 	var r Mpint
 
 	mpdivmodfixfix(&q, &r, a, b)
-	mpmovefixfix(a, &r)
+	_mpmovefixfix(a, &q)
+}
+
+func mpmodfixfix(a, b *big.Int) {
+	a.Rem(a, b)
+}
+
+func _mpmodfixfix(a *Mpint, b *Mpint) {
+	var q Mpint
+	var r Mpint
+
+	mpdivmodfixfix(&q, &r, a, b)
+	_mpmovefixfix(a, &r)
 }
 
 func mpcomfix(a *Mpint) {
 	var b Mpint
 
-	Mpmovecfix(&b, 1)
-	mpnegfix(a)
-	mpsubfixfix(a, &b)
+	_Mpmovecfix(&b, 1)
+	_mpnegfix(a)
+	_mpsubfixfix(a, &b)
 }
 
-func Mpmovefixflt(a *Mpflt, b *Mpint) {
+// *a = Mpint(*b)
+func mpmoveintfix(a *Mpint, b *big.Int) {
+	bb := new(big.Int)
+	bb.Abs(b)
+	i := 0
+	for ; i < Mpprec && bb.Sign() != 0; i++ {
+		// depends on (unspecified) behavior of Int.Uint64
+		a.A[i] = int(bb.Uint64() & Mpmask)
+		bb.Rsh(bb, Mpscale)
+	}
+
+	if bb.Sign() != 0 {
+		// MPint overflows
+		// TODO(gri) anything else to do here?
+		a.Ovf = 1
+		return
+	}
+
+	for ; i < Mpprec; i++ {
+		a.A[i] = 0
+	}
+
+	a.Neg = 0
+	if b.Sign() < 0 {
+		a.Neg = 1
+	}
+	a.Ovf = 0
+
+	// leave for debugging
+	// println("mpmoveintfix:", b.String(), "->", _Bconv(a, 0))
+}
+
+// *a = big.Int(*b)
+func mpmovefixint(a *big.Int, b *Mpint) {
+	if b.Ovf != 0 {
+		// TODO(gri) anything to do here?
+		println("mpmovefixint: overflow bit set")
+		panic("abort")
+	}
+
+	i := Mpprec - 1
+	for ; i >= 0 && b.A[i] == 0; i-- {
+	}
+
+	a.SetUint64(0)
+	x := new(big.Int)
+	for ; i >= 0; i-- {
+		a.Lsh(a, Mpscale)
+		a.Or(a, x.SetUint64(uint64(b.A[i]&Mpmask)))
+	}
+
+	if b.Neg != 0 {
+		a.Neg(a)
+	}
+
+	// leave for debugging
+	// println("mpmovefixint:", _Bconv(b, 0), "->", a.String())
+}
+
+func Mpmovefixflt(a *Mpflt, b *big.Int) {
+	mpmoveintfix(&a.Val, b) // a.Val = *b
+	a.Exp = 0
+	mpnorm(a)
+}
+
+func _Mpmovefixflt(a *Mpflt, b *Mpint) {
 	a.Val = *b
 	a.Exp = 0
 	mpnorm(a)
 }
 
+func mpexactfltfix(a *big.Int, b *Mpflt) int {
+	mpmovefixint(a, &b.Val) // *a = b.Val
+	Mpshiftfix(a, int(b.Exp))
+	if b.Exp < 0 {
+		var f Mpflt
+		mpmoveintfix(&f.Val, a) // f.Val = *a
+		f.Exp = 0
+		mpnorm(&f)
+		if mpcmpfltflt(b, &f) != 0 {
+			return -1
+		}
+	}
+
+	return 0
+}
+
 // convert (truncate) b to a.
 // return -1 (but still convert) if b was non-integer.
-func mpexactfltfix(a *Mpint, b *Mpflt) int {
+func _mpexactfltfix(a *Mpint, b *Mpflt) int {
 	*a = b.Val
-	Mpshiftfix(a, int(b.Exp))
+	_Mpshiftfix(a, int(b.Exp))
 	if b.Exp < 0 {
 		var f Mpflt
 		f.Val = *a
@@ -146,7 +248,7 @@ func mpexactfltfix(a *Mpint, b *Mpflt) int {
 	return 0
 }
 
-func mpmovefltfix(a *Mpint, b *Mpflt) int {
+func mpmovefltfix(a *big.Int, b *Mpflt) int {
 	if mpexactfltfix(a, b) == 0 {
 		return 0
 	}
@@ -176,7 +278,41 @@ func mpmovefltfix(a *Mpint, b *Mpflt) int {
 	return -1
 }
 
-func mpmovefixfix(a *Mpint, b *Mpint) {
+func _mpmovefltfix(a *Mpint, b *Mpflt) int {
+	if _mpexactfltfix(a, b) == 0 {
+		return 0
+	}
+
+	// try rounding down a little
+	f := *b
+
+	f.Val.A[0] = 0
+	if _mpexactfltfix(a, &f) == 0 {
+		return 0
+	}
+
+	// try rounding up a little
+	for i := 1; i < Mpprec; i++ {
+		f.Val.A[i]++
+		if f.Val.A[i] != Mpbase {
+			break
+		}
+		f.Val.A[i] = 0
+	}
+
+	mpnorm(&f)
+	if _mpexactfltfix(a, &f) == 0 {
+		return 0
+	}
+
+	return -1
+}
+
+func mpmovefixfix(a, b *big.Int) {
+	a.Set(b)
+}
+
+func _mpmovefixfix(a *Mpint, b *Mpint) {
 	*a = *b
 }
 
@@ -445,16 +581,28 @@ bad:
 	Mpmovecflt(a, 0.0)
 }
 
+func mpatofix(a *big.Int, as string) {
+	_, ok := a.SetString(as, 0)
+	if !ok {
+		// required syntax is [+-][0[x]]d*
+		// at the moment we lose precise error cause
+		// TODO(gri) use different conversion function
+		Yyerror("malformed constant: %s", as)
+		Mpmovecfix(a, 0)
+		return
+	}
+}
+
 //
 // fixed point input
 // required syntax is [+-][0[x]]d*
 //
-func mpatofix(a *Mpint, as string) {
+func _mpatofix(a *Mpint, as string) {
 	var c int
 
 	s := as
 	f := 0
-	Mpmovecfix(a, 0)
+	_Mpmovecfix(a, 0)
 
 	c, s = intstarstringplusplus(s)
 	switch c {
@@ -525,22 +673,29 @@ func mpatofix(a *Mpint, as string) {
 
 out:
 	if f != 0 {
-		mpnegfix(a)
+		_mpnegfix(a)
 	}
 	return
 
 bad:
-	Mpmovecfix(a, 0)
+	_Mpmovecfix(a, 0)
 }
 
-func Bconv(xval *Mpint, flag int) string {
+func Bconv(xval *big.Int, flag int) string {
+	if flag&obj.FmtSharp != 0 /*untyped*/ {
+		return fmt.Sprintf("%#x", xval)
+	}
+	return xval.String()
+}
+
+func _Bconv(xval *Mpint, flag int) string {
 	var q Mpint
 
-	mpmovefixfix(&q, xval)
+	_mpmovefixfix(&q, xval)
 	f := 0
 	if mptestfix(&q) < 0 {
 		f = 1
-		mpnegfix(&q)
+		_mpnegfix(&q)
 	}
 
 	var buf [500]byte
@@ -549,12 +704,12 @@ func Bconv(xval *Mpint, flag int) string {
 	if flag&obj.FmtSharp != 0 /*untyped*/ {
 		// Hexadecimal
 		var sixteen Mpint
-		Mpmovecfix(&sixteen, 16)
+		_Mpmovecfix(&sixteen, 16)
 
 		var digit int
 		for {
 			mpdivmodfixfix(&q, &r, &q, &sixteen)
-			digit = int(Mpgetfix(&r))
+			digit = int(_Mpgetfix(&r))
 			if digit < 10 {
 				p--
 				buf[p] = byte(digit + '0')
@@ -574,12 +729,12 @@ func Bconv(xval *Mpint, flag int) string {
 	} else {
 		// Decimal
 		var ten Mpint
-		Mpmovecfix(&ten, 10)
+		_Mpmovecfix(&ten, 10)
 
 		for {
 			mpdivmodfixfix(&q, &r, &q, &ten)
 			p--
-			buf[p] = byte(Mpgetfix(&r) + '0')
+			buf[p] = byte(_Mpgetfix(&r) + '0')
 			if mptestfix(&q) <= 0 {
 				break
 			}
@@ -646,21 +801,21 @@ func Fconv(fvp *Mpflt, flag int) string {
 	fv = *fvp
 
 	for fv.Val.A[0] == 0 {
-		Mpshiftfix(&fv.Val, -Mpscale)
+		_Mpshiftfix(&fv.Val, -Mpscale)
 		fv.Exp += Mpscale
 	}
 
 	for fv.Val.A[0]&1 == 0 {
-		Mpshiftfix(&fv.Val, -1)
+		_Mpshiftfix(&fv.Val, -1)
 		fv.Exp += 1
 	}
 
 	if fv.Exp >= 0 {
-		buf = fmt.Sprintf("%vp+%d", Bconv(&fv.Val, obj.FmtSharp), fv.Exp)
+		buf = fmt.Sprintf("%vp+%d", _Bconv(&fv.Val, obj.FmtSharp), fv.Exp)
 		goto out
 	}
 
-	buf = fmt.Sprintf("%vp-%d", Bconv(&fv.Val, obj.FmtSharp), -fv.Exp)
+	buf = fmt.Sprintf("%vp-%d", _Bconv(&fv.Val, obj.FmtSharp), -fv.Exp)
 
 out:
 	var fp string

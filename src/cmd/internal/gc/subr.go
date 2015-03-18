@@ -10,6 +10,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
+	"math/big"
 	"os"
 	"sort"
 	"strings"
@@ -684,7 +685,7 @@ func sortinter(t *Type) *Type {
 func Nodintconst(v int64) *Node {
 	c := Nod(OLITERAL, nil, nil)
 	c.Addable = 1
-	c.Val.U.Xval = new(Mpint)
+	c.Val.U.Xval = new(big.Int)
 	Mpmovecfix(c.Val.U.Xval, v)
 	c.Val.Ctype = CTINT
 	c.Type = Types[TIDEAL]
@@ -708,7 +709,7 @@ func Nodconst(n *Node, t *Type, v int64) {
 	n.Op = OLITERAL
 	n.Addable = 1
 	ullmancalc(n)
-	n.Val.U.Xval = new(Mpint)
+	n.Val.U.Xval = new(big.Int)
 	Mpmovecfix(n.Val.U.Xval, v)
 	n.Val.Ctype = CTINT
 	n.Type = t
