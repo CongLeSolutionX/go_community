@@ -48,7 +48,7 @@ import (
 //			','  separate items with ',' instead of ';'
 //
 //   In mparith1.c:
-//      %B Mpint*	Big integers
+//      %B Mpfix*	Big integers
 //	%F Mpflt*	Big floats
 //
 //   %S, %T and %N obey use the following flags to set the format mode:
