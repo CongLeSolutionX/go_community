@@ -458,9 +458,9 @@ func dodiv(op int, nl *gc.Node, nr *gc.Node, res *gc.Node) {
 	check := 0
 	if gc.Issigned[t.Etype] {
 		check = 1
-		if gc.Isconst(nl, gc.CTINT) && gc.Mpgetfix(nl.Val.U.Xval) != -(1<<uint64(t.Width*8-1)) {
+		if gc.Isconst(nl, gc.CTINT) && gc.Mpgetfix_(nl.Val.U.Xval) != -(1<<uint64(t.Width*8-1)) {
 			check = 0
-		} else if gc.Isconst(nr, gc.CTINT) && gc.Mpgetfix(nr.Val.U.Xval) != -1 {
+		} else if gc.Isconst(nr, gc.CTINT) && gc.Mpgetfix_(nr.Val.U.Xval) != -1 {
 			check = 0
 		}
 	}
@@ -623,7 +623,7 @@ func cgen_div(op int, nl *gc.Node, nr *gc.Node, res *gc.Node) {
 	case gc.TUINT64:
 		var m gc.Magic
 		m.W = w
-		m.Ud = uint64(gc.Mpgetfix(nr.Val.U.Xval))
+		m.Ud = uint64(gc.Mpgetfix_(nr.Val.U.Xval))
 		gc.Umagic(&m)
 		if m.Bad != 0 {
 			break
@@ -661,7 +661,7 @@ func cgen_div(op int, nl *gc.Node, nr *gc.Node, res *gc.Node) {
 	case gc.TINT64:
 		var m gc.Magic
 		m.W = w
-		m.Sd = gc.Mpgetfix(nr.Val.U.Xval)
+		m.Sd = gc.Mpgetfix_(nr.Val.U.Xval)
 		gc.Smagic(&m)
 		if m.Bad != 0 {
 			break
@@ -792,7 +792,7 @@ func cgen_shift(op int, bounded bool, nl *gc.Node, nr *gc.Node, res *gc.Node) {
 		var n1 gc.Node
 		regalloc(&n1, nl.Type, res)
 		cgen(nl, &n1)
-		sc := uint64(gc.Mpgetfix(nr.Val.U.Xval))
+		sc := uint64(gc.Mpgetfix_(nr.Val.U.Xval))
 		if sc >= uint64(nl.Type.Width*8) {
 			// large shift gets 2 shifts by width-1
 			var n3 gc.Node

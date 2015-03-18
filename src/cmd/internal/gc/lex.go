@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/big"
 	"os"
 	"path"
 	"strconv"
@@ -1055,8 +1056,8 @@ l0:
 			ungetc(int(v))
 		}
 
-		yylval.val.U.Xval = new(Mpint)
-		Mpmovecfix(yylval.val.U.Xval, v)
+		yylval.val.U.Xval = new(big.Int)
+		Mpmovecfix_(yylval.val.U.Xval, v)
 		yylval.val.Ctype = CTRUNE
 		if Debug['x'] != 0 {
 			fmt.Printf("lex: codepoint literal\n")
@@ -1399,12 +1400,12 @@ ncu:
 	ungetc(c)
 
 	str = lexbuf.String()
-	yylval.val.U.Xval = new(Mpint)
-	mpatofix(yylval.val.U.Xval, str)
-	if yylval.val.U.Xval.Ovf != 0 {
-		Yyerror("overflow in constant")
-		Mpmovecfix(yylval.val.U.Xval, 0)
-	}
+	yylval.val.U.Xval = new(big.Int)
+	mpatofix_(yylval.val.U.Xval, str)
+	// if yylval.val.U.Xval.Ovf != 0 {
+	// 	Yyerror("overflow in constant")
+	// 	Mpmovecfix_(yylval.val.U.Xval, 0)
+	// }
 
 	yylval.val.Ctype = CTINT
 	if Debug['x'] != 0 {

@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"math/big"
 	"strings"
 )
 
@@ -191,8 +192,8 @@ func convlit1(np **Node, t *Type, explicit bool) {
 		// if it is an unsafe.Pointer
 		case TUINTPTR:
 			if n.Type.Etype == TUNSAFEPTR {
-				n.Val.U.Xval = new(Mpint)
-				Mpmovecfix(n.Val.U.Xval, 0)
+				n.Val.U.Xval = new(big.Int)
+				Mpmovecfix_(n.Val.U.Xval, 0)
 				n.Val.Ctype = CTINT
 			} else {
 				goto bad
@@ -283,8 +284,8 @@ func copyval(v Val) Val {
 	switch v.Ctype {
 	case CTINT,
 		CTRUNE:
-		i := new(Mpint)
-		mpmovefixfix(i, v.U.Xval)
+		i := new(big.Int)
+		mpmovefixfix_(i, v.U.Xval)
 		v.U.Xval = i
 
 	case CTFLT:
@@ -307,7 +308,7 @@ func tocplx(v Val) Val {
 	case CTINT,
 		CTRUNE:
 		c := new(Mpcplx)
-		Mpmovefixflt(&c.Real, v.U.Xval)
+		Mpmovefixflt_(&c.Real, v.U.Xval)
 		Mpmovecflt(&c.Imag, 0.0)
 		v.Ctype = CTCPLX
 		v.U.Cval = c
@@ -328,7 +329,7 @@ func toflt(v Val) Val {
 	case CTINT,
 		CTRUNE:
 		f := new(Mpflt)
-		Mpmovefixflt(f, v.U.Xval)
+		Mpmovefixflt_(f, v.U.Xval)
 		v.Ctype = CTFLT
 		v.U.Fval = f
 
@@ -351,16 +352,16 @@ func toint(v Val) Val {
 		v.Ctype = CTINT
 
 	case CTFLT:
-		i := new(Mpint)
-		if mpmovefltfix(i, v.U.Fval) < 0 {
+		i := new(big.Int)
+		if mpmovefltfix_(i, v.U.Fval) < 0 {
 			Yyerror("constant %v truncated to integer", Fconv(v.U.Fval, obj.FmtSharp))
 		}
 		v.Ctype = CTINT
 		v.U.Xval = i
 
 	case CTCPLX:
-		i := new(Mpint)
-		if mpmovefltfix(i, &v.U.Cval.Real) < 0 {
+		i := new(big.Int)
+		if mpmovefltfix_(i, &v.U.Cval.Real) < 0 {
 			Yyerror("constant %v%vi truncated to integer", Fconv(&v.U.Cval.Real, obj.FmtSharp), Fconv(&v.U.Cval.Imag, obj.FmtSharp|obj.FmtSign))
 		}
 		if mpcmpfltc(&v.U.Cval.Imag, 0) != 0 {
@@ -380,7 +381,7 @@ func doesoverflow(v Val, t *Type) bool {
 		if !Isint[t.Etype] {
 			Fatal("overflow: %v integer constant", Tconv(t, 0))
 		}
-		if Mpcmpfixfix(v.U.Xval, Minintval[t.Etype]) < 0 || Mpcmpfixfix(v.U.Xval, Maxintval[t.Etype]) > 0 {
+		if Mpcmpfixfix_(v.U.Xval, Minintval[t.Etype]) < 0 || Mpcmpfixfix_(v.U.Xval, Maxintval[t.Etype]) > 0 {
 			return true
 		}
 
@@ -418,7 +419,7 @@ func overflow(v Val, t *Type) {
 	switch v.Ctype {
 	case CTINT,
 		CTRUNE:
-		Yyerror("constant %v overflows %v", Bconv(v.U.Xval, 0), Tconv(t, 0))
+		Yyerror("constant %v overflows %v", Bconv_(v.U.Xval, 0), Tconv(t, 0))
 
 	case CTFLT:
 		Yyerror("constant %v overflows %v", Fconv(v.U.Fval, obj.FmtSharp), Tconv(t, 0))
@@ -432,10 +433,10 @@ func tostr(v Val) Val {
 	switch v.Ctype {
 	case CTINT,
 		CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, Minintval[TINT]) < 0 || Mpcmpfixfix(v.U.Xval, Maxintval[TINT]) > 0 {
+		if Mpcmpfixfix_(v.U.Xval, Minintval[TINT]) < 0 || Mpcmpfixfix_(v.U.Xval, Maxintval[TINT]) > 0 {
 			Yyerror("overflow in int -> string")
 		}
-		r := uint(Mpgetfix(v.U.Xval))
+		r := uint(Mpgetfix_(v.U.Xval))
 		v = Val{}
 		v.Ctype = CTSTR
 		v.U.Sval = string(r)
@@ -624,7 +625,7 @@ func evconst(n *Node) {
 
 		case OMINUS<<16 | CTINT,
 			OMINUS<<16 | CTRUNE:
-			mpnegfix(v.U.Xval)
+			mpnegfix_(v.U.Xval)
 
 		case OCOM<<16 | CTINT,
 			OCOM<<16 | CTRUNE:
@@ -635,11 +636,11 @@ func evconst(n *Node) {
 
 			// calculate the mask in b
 			// result will be (a ^ mask)
-			var b Mpint
+			var b big.Int
 			switch et {
 			// signed guys change sign
 			default:
-				Mpmovecfix(&b, -1)
+				Mpmovecfix_(&b, -1)
 
 				// unsigned guys invert their bits
 			case TUINT8,
@@ -648,10 +649,10 @@ func evconst(n *Node) {
 				TUINT64,
 				TUINT,
 				TUINTPTR:
-				mpmovefixfix(&b, Maxintval[et])
+				mpmovefixfix_(&b, Maxintval[et])
 			}
 
-			mpxorfixfix(v.U.Xval, &b)
+			mpxorfixfix_(v.U.Xval, &b)
 
 		case OPLUS<<16 | CTFLT:
 			break
@@ -772,59 +773,59 @@ func evconst(n *Node) {
 
 	case OADD<<16 | CTINT,
 		OADD<<16 | CTRUNE:
-		mpaddfixfix(v.U.Xval, rv.U.Xval, 0)
+		mpaddfixfix_(v.U.Xval, rv.U.Xval, 0)
 
 	case OSUB<<16 | CTINT,
 		OSUB<<16 | CTRUNE:
-		mpsubfixfix(v.U.Xval, rv.U.Xval)
+		mpsubfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OMUL<<16 | CTINT,
 		OMUL<<16 | CTRUNE:
-		mpmulfixfix(v.U.Xval, rv.U.Xval)
+		mpmulfixfix_(v.U.Xval, rv.U.Xval)
 
 	case ODIV<<16 | CTINT,
 		ODIV<<16 | CTRUNE:
-		if mpcmpfixc(rv.U.Xval, 0) == 0 {
+		if mpcmpfixc_(rv.U.Xval, 0) == 0 {
 			Yyerror("division by zero")
-			Mpmovecfix(v.U.Xval, 1)
+			Mpmovecfix_(v.U.Xval, 1)
 			break
 		}
 
-		mpdivfixfix(v.U.Xval, rv.U.Xval)
+		mpdivfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OMOD<<16 | CTINT,
 		OMOD<<16 | CTRUNE:
-		if mpcmpfixc(rv.U.Xval, 0) == 0 {
+		if mpcmpfixc_(rv.U.Xval, 0) == 0 {
 			Yyerror("division by zero")
-			Mpmovecfix(v.U.Xval, 1)
+			Mpmovecfix_(v.U.Xval, 1)
 			break
 		}
 
-		mpmodfixfix(v.U.Xval, rv.U.Xval)
+		mpmodfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OLSH<<16 | CTINT,
 		OLSH<<16 | CTRUNE:
-		mplshfixfix(v.U.Xval, rv.U.Xval)
+		mplshfixfix_(v.U.Xval, rv.U.Xval)
 
 	case ORSH<<16 | CTINT,
 		ORSH<<16 | CTRUNE:
-		mprshfixfix(v.U.Xval, rv.U.Xval)
+		mprshfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OOR<<16 | CTINT,
 		OOR<<16 | CTRUNE:
-		mporfixfix(v.U.Xval, rv.U.Xval)
+		mporfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OAND<<16 | CTINT,
 		OAND<<16 | CTRUNE:
-		mpandfixfix(v.U.Xval, rv.U.Xval)
+		mpandfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OANDNOT<<16 | CTINT,
 		OANDNOT<<16 | CTRUNE:
-		mpandnotfixfix(v.U.Xval, rv.U.Xval)
+		mpandnotfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OXOR<<16 | CTINT,
 		OXOR<<16 | CTRUNE:
-		mpxorfixfix(v.U.Xval, rv.U.Xval)
+		mpxorfixfix_(v.U.Xval, rv.U.Xval)
 
 	case OADD<<16 | CTFLT:
 		mpaddfltflt(v.U.Fval, rv.U.Fval)
@@ -883,42 +884,42 @@ func evconst(n *Node) {
 
 	case OEQ<<16 | CTINT,
 		OEQ<<16 | CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, rv.U.Xval) == 0 {
+		if Mpcmpfixfix_(v.U.Xval, rv.U.Xval) == 0 {
 			goto settrue
 		}
 		goto setfalse
 
 	case ONE<<16 | CTINT,
 		ONE<<16 | CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, rv.U.Xval) != 0 {
+		if Mpcmpfixfix_(v.U.Xval, rv.U.Xval) != 0 {
 			goto settrue
 		}
 		goto setfalse
 
 	case OLT<<16 | CTINT,
 		OLT<<16 | CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, rv.U.Xval) < 0 {
+		if Mpcmpfixfix_(v.U.Xval, rv.U.Xval) < 0 {
 			goto settrue
 		}
 		goto setfalse
 
 	case OLE<<16 | CTINT,
 		OLE<<16 | CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, rv.U.Xval) <= 0 {
+		if Mpcmpfixfix_(v.U.Xval, rv.U.Xval) <= 0 {
 			goto settrue
 		}
 		goto setfalse
 
 	case OGE<<16 | CTINT,
 		OGE<<16 | CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, rv.U.Xval) >= 0 {
+		if Mpcmpfixfix_(v.U.Xval, rv.U.Xval) >= 0 {
 			goto settrue
 		}
 		goto setfalse
 
 	case OGT<<16 | CTINT,
 		OGT<<16 | CTRUNE:
-		if Mpcmpfixfix(v.U.Xval, rv.U.Xval) > 0 {
+		if Mpcmpfixfix_(v.U.Xval, rv.U.Xval) > 0 {
 			goto settrue
 		}
 		goto setfalse
@@ -1355,7 +1356,7 @@ func Smallintconst(n *Node) bool {
 			TINT64,
 			TUINT64,
 			TPTR64:
-			if Mpcmpfixfix(n.Val.U.Xval, Minintval[TINT32]) < 0 || Mpcmpfixfix(n.Val.U.Xval, Maxintval[TINT32]) > 0 {
+			if Mpcmpfixfix_(n.Val.U.Xval, Minintval[TINT32]) < 0 || Mpcmpfixfix_(n.Val.U.Xval, Maxintval[TINT32]) > 0 {
 				break
 			}
 			return true
@@ -1378,10 +1379,10 @@ func nonnegconst(n *Node) int {
 			TINT64,
 			TUINT64,
 			TIDEAL:
-			if Mpcmpfixfix(n.Val.U.Xval, Minintval[TUINT32]) < 0 || Mpcmpfixfix(n.Val.U.Xval, Maxintval[TINT32]) > 0 {
+			if Mpcmpfixfix_(n.Val.U.Xval, Minintval[TUINT32]) < 0 || Mpcmpfixfix_(n.Val.U.Xval, Maxintval[TINT32]) > 0 {
 				break
 			}
-			return int(Mpgetfix(n.Val.U.Xval))
+			return int(Mpgetfix_(n.Val.U.Xval))
 		}
 	}
 
@@ -1435,7 +1436,7 @@ func Convconst(con *Node, t *Type, val *Val) {
 
 	if Isint[tt] {
 		con.Val.Ctype = CTINT
-		con.Val.U.Xval = new(Mpint)
+		con.Val.U.Xval = new(big.Int)
 		var i int64
 		switch val.Ctype {
 		default:
@@ -1443,7 +1444,7 @@ func Convconst(con *Node, t *Type, val *Val) {
 
 		case CTINT,
 			CTRUNE:
-			i = Mpgetfix(val.U.Xval)
+			i = Mpgetfix_(val.U.Xval)
 
 		case CTBOOL:
 			i = int64(val.U.Bval)
@@ -1453,7 +1454,7 @@ func Convconst(con *Node, t *Type, val *Val) {
 		}
 
 		i = iconv(i, tt)
-		Mpmovecfix(con.Val.U.Xval, i)
+		Mpmovecfix_(con.Val.U.Xval, i)
 		return
 	}
 

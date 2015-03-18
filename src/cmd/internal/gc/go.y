@@ -2171,7 +2171,7 @@ hidden_literal:
 		$$ = nodlit($2);
 		switch($$.Val.Ctype){
 		case CTINT, CTRUNE:
-			mpnegfix($$.Val.U.Xval);
+			mpnegfix_($$.Val.U.Xval);
 			break;
 		case CTFLT:
 			mpnegflt($$.Val.U.Fval);
@@ -2198,7 +2198,7 @@ hidden_constant:
 	{
 		if $2.Val.Ctype == CTRUNE && $4.Val.Ctype == CTINT {
 			$$ = $2;
-			mpaddfixfix($2.Val.U.Xval, $4.Val.U.Xval, 0);
+			mpaddfixfix_($2.Val.U.Xval, $4.Val.U.Xval, 0);
 			break;
 		}
 		$4.Val.U.Cval.Real = $4.Val.U.Cval.Imag;

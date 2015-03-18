@@ -302,12 +302,12 @@ func Vconv(v *Val, flag int) string {
 	switch v.Ctype {
 	case CTINT:
 		if (flag&obj.FmtSharp != 0 /*untyped*/) || fmtmode == FExp {
-			return Bconv(v.U.Xval, obj.FmtSharp)
+			return Bconv_(v.U.Xval, obj.FmtSharp)
 		}
-		return Bconv(v.U.Xval, 0)
+		return Bconv_(v.U.Xval, 0)
 
 	case CTRUNE:
-		x := Mpgetfix(v.U.Xval)
+		x := Mpgetfix_(v.U.Xval)
 		if ' ' <= x && x < 0x80 && x != '\\' && x != '\'' {
 			return fmt.Sprintf("'%c'", int(x))
 		}
@@ -317,7 +317,7 @@ func Vconv(v *Val, flag int) string {
 		if 0 <= x && x <= utf8.MaxRune {
 			return fmt.Sprintf("'\\U%08x'", uint64(x))
 		}
-		return fmt.Sprintf("('\\x00' + %v)", Bconv(v.U.Xval, 0))
+		return fmt.Sprintf("('\\x00' + %v)", Bconv_(v.U.Xval, 0))
 
 	case CTFLT:
 		if (flag&obj.FmtSharp != 0 /*untyped*/) || fmtmode == FExp {

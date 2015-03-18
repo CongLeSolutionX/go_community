@@ -4,7 +4,10 @@
 
 package gc
 
-import "cmd/internal/obj"
+import (
+	"cmd/internal/obj"
+	"math/big"
+)
 
 /*
  * machine size and rounding
@@ -485,8 +488,8 @@ func typeinit() {
 			okforand[i] = true
 			okforconst[i] = true
 			issimple[i] = true
-			Minintval[i] = new(Mpint)
-			Maxintval[i] = new(Mpint)
+			Minintval[i] = new(big.Int)
+			Maxintval[i] = new(big.Int)
 		}
 
 		if Isfloat[i] {
@@ -588,19 +591,19 @@ func typeinit() {
 	iscmp[OEQ] = true
 	iscmp[ONE] = true
 
-	mpatofix(Maxintval[TINT8], "0x7f")
-	mpatofix(Minintval[TINT8], "-0x80")
-	mpatofix(Maxintval[TINT16], "0x7fff")
-	mpatofix(Minintval[TINT16], "-0x8000")
-	mpatofix(Maxintval[TINT32], "0x7fffffff")
-	mpatofix(Minintval[TINT32], "-0x80000000")
-	mpatofix(Maxintval[TINT64], "0x7fffffffffffffff")
-	mpatofix(Minintval[TINT64], "-0x8000000000000000")
+	mpatofix_(Maxintval[TINT8], "0x7f")
+	mpatofix_(Minintval[TINT8], "-0x80")
+	mpatofix_(Maxintval[TINT16], "0x7fff")
+	mpatofix_(Minintval[TINT16], "-0x8000")
+	mpatofix_(Maxintval[TINT32], "0x7fffffff")
+	mpatofix_(Minintval[TINT32], "-0x80000000")
+	mpatofix_(Maxintval[TINT64], "0x7fffffffffffffff")
+	mpatofix_(Minintval[TINT64], "-0x8000000000000000")
 
-	mpatofix(Maxintval[TUINT8], "0xff")
-	mpatofix(Maxintval[TUINT16], "0xffff")
-	mpatofix(Maxintval[TUINT32], "0xffffffff")
-	mpatofix(Maxintval[TUINT64], "0xffffffffffffffff")
+	mpatofix_(Maxintval[TUINT8], "0xff")
+	mpatofix_(Maxintval[TUINT16], "0xffff")
+	mpatofix_(Maxintval[TUINT32], "0xffffffff")
+	mpatofix_(Maxintval[TUINT64], "0xffffffffffffffff")
 
 	/* f is valid float if min < f < max.  (min and max are not themselves valid.) */
 	mpatoflt(maxfltval[TFLOAT32], "33554431p103") /* 2^24-1 p (127-23) + 1/2 ulp*/

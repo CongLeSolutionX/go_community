@@ -302,13 +302,13 @@ func bignodes() {
 	bignodes_did = 1
 
 	gc.Nodconst(&bigi, gc.Types[gc.TUINT64], 1)
-	gc.Mpshiftfix(bigi.Val.U.Xval, 63)
+	gc.Mpshiftfix_(bigi.Val.U.Xval, 63)
 
 	bigf = bigi
 	bigf.Type = gc.Types[gc.TFLOAT64]
 	bigf.Val.Ctype = gc.CTFLT
 	bigf.Val.U.Fval = new(gc.Mpflt)
-	gc.Mpmovefixflt(bigf.Val.U.Fval, bigi.Val.U.Xval)
+	gc.Mpmovefixflt_(bigf.Val.U.Fval, bigi.Val.U.Xval)
 }
 
 /*

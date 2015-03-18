@@ -404,7 +404,7 @@ func Naddr(n *Node) (a obj.Addr) {
 			CTRUNE:
 			a.Sym = nil
 			a.Type = obj.TYPE_CONST
-			a.Offset = Mpgetfix(n.Val.U.Xval)
+			a.Offset = Mpgetfix_(n.Val.U.Xval)
 
 		case CTSTR:
 			datagostring(n.Val.U.Sval, &a)

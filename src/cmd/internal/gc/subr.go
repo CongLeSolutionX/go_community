@@ -10,6 +10,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
+	"math/big"
 	"os"
 	"sort"
 	"strings"
@@ -684,8 +685,8 @@ func sortinter(t *Type) *Type {
 func Nodintconst(v int64) *Node {
 	c := Nod(OLITERAL, nil, nil)
 	c.Addable = 1
-	c.Val.U.Xval = new(Mpint)
-	Mpmovecfix(c.Val.U.Xval, v)
+	c.Val.U.Xval = new(big.Int)
+	Mpmovecfix_(c.Val.U.Xval, v)
 	c.Val.Ctype = CTINT
 	c.Type = Types[TIDEAL]
 	ullmancalc(c)
@@ -708,8 +709,8 @@ func Nodconst(n *Node, t *Type, v int64) {
 	n.Op = OLITERAL
 	n.Addable = 1
 	ullmancalc(n)
-	n.Val.U.Xval = new(Mpint)
-	Mpmovecfix(n.Val.U.Xval, v)
+	n.Val.U.Xval = new(big.Int)
+	Mpmovecfix_(n.Val.U.Xval, v)
 	n.Val.Ctype = CTINT
 	n.Type = t
 
@@ -743,7 +744,7 @@ func aindex(b *Node, t *Type) *Type {
 
 		case CTINT,
 			CTRUNE:
-			bound = Mpgetfix(b.Val.U.Xval)
+			bound = Mpgetfix_(b.Val.U.Xval)
 			if bound < 0 {
 				Yyerror("array bound must be non negative")
 			}
@@ -3151,7 +3152,7 @@ func powtwo(n *Node) int {
 		return -1
 	}
 
-	v := uint64(Mpgetfix(n.Val.U.Xval))
+	v := uint64(Mpgetfix_(n.Val.U.Xval))
 	b := uint64(1)
 	for i := 0; i < 64; i++ {
 		if b == v {

@@ -8,6 +8,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"math"
+	"math/big"
 )
 
 /// uses arithmetic
@@ -28,12 +29,20 @@ func mpcmpfltfix(a *Mpflt, b *Mpint) int {
 	return mpcmpfltflt(a, &c)
 }
 
+func Mpcmpfixfix_(a, b *big.Int) int {
+	return a.Cmp(b)
+}
+
 func Mpcmpfixfix(a *Mpint, b *Mpint) int {
 	var c Mpint
 
 	mpmovefixfix(&c, a)
 	mpsubfixfix(&c, b)
 	return mptestfix(&c)
+}
+
+func mpcmpfixc_(b *big.Int, c int64) int {
+	return b.Cmp(big.NewInt(c))
 }
 
 func mpcmpfixc(b *Mpint, c int64) int {
@@ -56,6 +65,10 @@ func mpcmpfltc(b *Mpflt, c float64) int {
 
 	Mpmovecflt(&a, c)
 	return mpcmpfltflt(b, &a)
+}
+
+func mpsubfixfix_(a, b *big.Int) {
+	a.Sub(a, b)
 }
 
 func mpsubfixfix(a *Mpint, b *Mpint) {
@@ -98,12 +111,20 @@ func mpmulcflt(a *Mpflt, c float64) {
 	mpmulfltflt(a, &b)
 }
 
+func mpdivfixfix_(a, b *big.Int) {
+	a.Quo(a, b)
+}
+
 func mpdivfixfix(a *Mpint, b *Mpint) {
 	var q Mpint
 	var r Mpint
 
 	mpdivmodfixfix(&q, &r, a, b)
 	mpmovefixfix(a, &q)
+}
+
+func mpmodfixfix_(a, b *big.Int) {
+	a.Rem(a, b)
 }
 
 func mpmodfixfix(a *Mpint, b *Mpint) {
@@ -122,10 +143,91 @@ func mpcomfix(a *Mpint) {
 	mpsubfixfix(a, &b)
 }
 
+// *a = Mpint(*b)
+func mpmoveintfix_(a *Mpint, b *big.Int) {
+	bb := new(big.Int)
+	bb.Abs(b)
+	i := 0
+	for ; i < Mpprec && bb.Sign() != 0; i++ {
+		// depends on (unspecified) behavior of Int.Uint64
+		a.A[i] = int(bb.Uint64() & Mpmask)
+		bb.Rsh(bb, Mpscale)
+	}
+
+	if bb.Sign() != 0 {
+		// MPint overflows
+		// TODO(gri) anything else to do here?
+		a.Ovf = 1
+		return
+	}
+
+	for ; i < Mpprec; i++ {
+		a.A[i] = 0
+	}
+
+	a.Neg = 0
+	if b.Sign() < 0 {
+		a.Neg = 1
+	}
+	a.Ovf = 0
+
+	// leave for debugging
+	// println("mpmoveintfix_:", b.String(), "->", Bconv(a, 0))
+}
+
+// *a = big.Int(*b)
+func mpmovefixint_(a *big.Int, b *Mpint) {
+	if b.Ovf != 0 {
+		// TODO(gri) anything to do here?
+		println("mpmovefixint_: overflow bit set")
+		panic("abort")
+	}
+
+	i := Mpprec - 1
+	for ; i >= 0 && b.A[i] == 0; i-- {
+	}
+
+	a.SetUint64(0)
+	x := new(big.Int)
+	for ; i >= 0; i-- {
+		a.Lsh(a, Mpscale)
+		a.Or(a, x.SetUint64(uint64(b.A[i]&Mpmask)))
+	}
+
+	if b.Neg != 0 {
+		a.Neg(a)
+	}
+
+	// leave for debugging
+	// println("mpmovefixint_:", Bconv(b, 0), "->", a.String())
+}
+
+func Mpmovefixflt_(a *Mpflt, b *big.Int) {
+	mpmoveintfix_(&a.Val, b) // a.Val = *b
+	a.Exp = 0
+	mpnorm(a)
+}
+
 func Mpmovefixflt(a *Mpflt, b *Mpint) {
 	a.Val = *b
 	a.Exp = 0
 	mpnorm(a)
+}
+
+func mpexactfltfix_(a *big.Int, b *Mpflt) int {
+	mpmovefixint_(a, &b.Val) // *a = b.Val
+	Mpshiftfix_(a, int(b.Exp))
+	if b.Exp < 0 {
+		var f Mpflt
+		mpmoveintfix_(&f.Val, a) // f.Val = *a
+		f.Exp = 0
+		mpnorm(&f)
+		if mpcmpfltflt(b, &f) != 0 {
+			return -1
+		}
+	}
+
+	return 0
 }
 
 // convert (truncate) b to a.
@@ -144,6 +246,36 @@ func mpexactfltfix(a *Mpint, b *Mpflt) int {
 	}
 
 	return 0
+}
+
+func mpmovefltfix_(a *big.Int, b *Mpflt) int {
+	if mpexactfltfix_(a, b) == 0 {
+		return 0
+	}
+
+	// try rounding down a little
+	f := *b
+
+	f.Val.A[0] = 0
+	if mpexactfltfix_(a, &f) == 0 {
+		return 0
+	}
+
+	// try rounding up a little
+	for i := 1; i < Mpprec; i++ {
+		f.Val.A[i]++
+		if f.Val.A[i] != Mpbase {
+			break
+		}
+		f.Val.A[i] = 0
+	}
+
+	mpnorm(&f)
+	if mpexactfltfix_(a, &f) == 0 {
+		return 0
+	}
+
+	return -1
 }
 
 func mpmovefltfix(a *Mpint, b *Mpflt) int {
@@ -174,6 +306,10 @@ func mpmovefltfix(a *Mpint, b *Mpflt) int {
 	}
 
 	return -1
+}
+
+func mpmovefixfix_(a, b *big.Int) {
+	a.Set(b)
 }
 
 func mpmovefixfix(a *Mpint, b *Mpint) {
@@ -445,6 +581,18 @@ bad:
 	Mpmovecflt(a, 0.0)
 }
 
+func mpatofix_(a *big.Int, as string) {
+	_, ok := a.SetString(as, 0)
+	if !ok {
+		// required syntax is [+-][0[x]]d*
+		// at the moment we lose precise error cause
+		// TODO(gri) use different conversion function
+		Yyerror("malformed constant: %s", as)
+		Mpmovecfix_(a, 0)
+		return
+	}
+}
+
 //
 // fixed point input
 // required syntax is [+-][0[x]]d*
@@ -531,6 +679,13 @@ out:
 
 bad:
 	Mpmovecfix(a, 0)
+}
+
+func Bconv_(xval *big.Int, flag int) string {
+	if flag&obj.FmtSharp != 0 /*untyped*/ {
+		return fmt.Sprintf("%#x", xval)
+	}
+	return xval.String()
 }
 
 func Bconv(xval *Mpint, flag int) string {

@@ -745,7 +745,7 @@ func agenr(n *gc.Node, a *gc.Node, res *gc.Node) {
 			if gc.Isconst(nl, gc.CTSTR) {
 				gc.Fatal("constant string constant index") // front end should handle
 			}
-			v := uint64(gc.Mpgetfix(nr.Val.U.Xval))
+			v := uint64(gc.Mpgetfix_(nr.Val.U.Xval))
 			if gc.Isslice(nl.Type) || nl.Type.Etype == gc.TSTRING {
 				if gc.Debug['B'] == 0 && !n.Bounded {
 					var n2 gc.Node
@@ -1071,7 +1071,7 @@ func igen(n *gc.Node, a *gc.Node, res *gc.Node) {
 				// Compute &a[i] as &a + i*width.
 				a.Type = n.Type
 
-				a.Xoffset += gc.Mpgetfix(n.Right.Val.U.Xval) * n.Type.Width
+				a.Xoffset += gc.Mpgetfix_(n.Right.Val.U.Xval) * n.Type.Width
 				fixlargeoffset(a)
 				return
 			}
@@ -1387,7 +1387,7 @@ func stkof(n *gc.Node) int64 {
 			return off
 		}
 		if gc.Isconst(n.Right, gc.CTINT) {
-			return off + t.Type.Width*gc.Mpgetfix(n.Right.Val.U.Xval)
+			return off + t.Type.Width*gc.Mpgetfix_(n.Right.Val.U.Xval)
 		}
 		return 1000
 

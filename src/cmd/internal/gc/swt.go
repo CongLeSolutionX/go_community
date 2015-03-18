@@ -757,7 +757,7 @@ func exprcmp(c1, c2 *caseClause) int {
 	case CTFLT:
 		return mpcmpfltflt(n1.Val.U.Fval, n2.Val.U.Fval)
 	case CTINT, CTRUNE:
-		return Mpcmpfixfix(n1.Val.U.Xval, n2.Val.U.Xval)
+		return Mpcmpfixfix_(n1.Val.U.Xval, n2.Val.U.Xval)
 	case CTSTR:
 		// Sort strings by length and then by value.
 		// It is much cheaper to compare lengths than values,

@@ -1034,7 +1034,7 @@ func agenr(n *gc.Node, a *gc.Node, res *gc.Node) {
 			if gc.Isconst(nl, gc.CTSTR) {
 				gc.Fatal("constant string constant index")
 			}
-			v := uint64(gc.Mpgetfix(nr.Val.U.Xval))
+			v := uint64(gc.Mpgetfix_(nr.Val.U.Xval))
 			var n2 gc.Node
 			if gc.Isslice(nl.Type) || nl.Type.Etype == gc.TSTRING {
 				if gc.Debug['B'] == 0 && !n.Bounded {
@@ -1353,7 +1353,7 @@ func bgen(n *gc.Node, true_ bool, likely int, to *obj.Prog) {
 		}
 
 		if nr.Op == gc.OLITERAL {
-			if gc.Isconst(nr, gc.CTINT) && gc.Mpgetfix(nr.Val.U.Xval) == 0 {
+			if gc.Isconst(nr, gc.CTINT) && gc.Mpgetfix_(nr.Val.U.Xval) == 0 {
 				gencmp0(nl, nl.Type, a, likely, to)
 				break
 			}
@@ -1460,7 +1460,7 @@ func stkof(n *gc.Node) int32 {
 			return off
 		}
 		if gc.Isconst(n.Right, gc.CTINT) {
-			return int32(int64(off) + t.Type.Width*gc.Mpgetfix(n.Right.Val.U.Xval))
+			return int32(int64(off) + t.Type.Width*gc.Mpgetfix_(n.Right.Val.U.Xval))
 		}
 		return 1000
 

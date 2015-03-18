@@ -459,7 +459,7 @@ func staticassign(l *Node, r *Node, out **NodeList) bool {
 			ta := typ(TARRAY)
 
 			ta.Type = r.Type.Type
-			ta.Bound = Mpgetfix(r.Right.Val.U.Xval)
+			ta.Bound = Mpgetfix_(r.Right.Val.U.Xval)
 			a := staticname(ta, 1)
 			r.Nname = a
 			n1 = *l
@@ -732,7 +732,7 @@ func slicelit(ctxt int, n *Node, var_ *Node, init **NodeList) {
 	// make an array type
 	t := shallow(n.Type)
 
-	t.Bound = Mpgetfix(n.Right.Val.U.Xval)
+	t.Bound = Mpgetfix_(n.Right.Val.U.Xval)
 	t.Width = 0
 	t.Sym = nil
 	t.Haspointers = 0
@@ -1238,7 +1238,7 @@ func oaslit(n *Node, init **NodeList) bool {
 
 func getlit(lit *Node) int {
 	if Smallintconst(lit) {
-		return int(Mpgetfix(lit.Val.U.Xval))
+		return int(Mpgetfix_(lit.Val.U.Xval))
 	}
 	return -1
 }
@@ -1302,7 +1302,7 @@ func initplan(n *Node) {
 			if a.Op != OKEY || !Smallintconst(a.Left) {
 				Fatal("initplan arraylit")
 			}
-			addvalue(p, n.Type.Type.Width*Mpgetfix(a.Left.Val.U.Xval), nil, a.Right)
+			addvalue(p, n.Type.Type.Width*Mpgetfix_(a.Left.Val.U.Xval), nil, a.Right)
 		}
 
 	case OSTRUCTLIT:
@@ -1379,7 +1379,7 @@ func iszero(n *Node) bool {
 
 		case CTINT,
 			CTRUNE:
-			return mpcmpfixc(n.Val.U.Xval, 0) == 0
+			return mpcmpfixc_(n.Val.U.Xval, 0) == 0
 
 		case CTFLT:
 			return mpcmpfltc(n.Val.U.Fval, 0) == 0

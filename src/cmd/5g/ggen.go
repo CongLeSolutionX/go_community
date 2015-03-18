@@ -501,7 +501,7 @@ func cgen_shift(op int, bounded bool, nl *gc.Node, nr *gc.Node, res *gc.Node) {
 	w := int(nl.Type.Width * 8)
 
 	if op == gc.OLROT {
-		v := int(gc.Mpgetfix(nr.Val.U.Xval))
+		v := int(gc.Mpgetfix_(nr.Val.U.Xval))
 		var n1 gc.Node
 		regalloc(&n1, nl.Type, res)
 		if w == 32 {
@@ -528,7 +528,7 @@ func cgen_shift(op int, bounded bool, nl *gc.Node, nr *gc.Node, res *gc.Node) {
 		var n1 gc.Node
 		regalloc(&n1, nl.Type, res)
 		cgen(nl, &n1)
-		sc := uint64(gc.Mpgetfix(nr.Val.U.Xval))
+		sc := uint64(gc.Mpgetfix_(nr.Val.U.Xval))
 		if sc == 0 {
 		} else // nothing to do
 		if sc >= uint64(nl.Type.Width*8) {

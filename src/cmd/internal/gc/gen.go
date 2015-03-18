@@ -7,6 +7,7 @@ package gc
 import (
 	"cmd/internal/obj"
 	"fmt"
+	"math/big"
 )
 
 /*
@@ -369,8 +370,8 @@ func Clearslim(n *Node) {
 		TUINT32,
 		TUINT64:
 		z.Val.Ctype = CTINT
-		z.Val.U.Xval = new(Mpint)
-		Mpmovecfix(z.Val.U.Xval, 0)
+		z.Val.U.Xval = new(big.Int)
+		Mpmovecfix_(z.Val.U.Xval, 0)
 
 	default:
 		Fatal("clearslim called on type %v", Tconv(n.Type, 0))

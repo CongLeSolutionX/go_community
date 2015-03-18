@@ -4,6 +4,8 @@
 
 package gc
 
+import "math/big"
+
 //
 // return the significant
 // words of the argument
@@ -149,6 +151,15 @@ func mpneg(a *Mpint) {
 	}
 }
 
+func Mpshiftfix_(a *big.Int, s int) {
+	switch {
+	case s > 0:
+		a.Lsh(a, uint(s))
+	case s < 0:
+		a.Rsh(a, uint(-s))
+	}
+}
+
 // shift left by s (or right by -s)
 func Mpshiftfix(a *Mpint, s int) {
 	if s >= 0 {
@@ -176,6 +187,10 @@ func Mpshiftfix(a *Mpint, s int) {
 }
 
 /// implements fix arihmetic
+
+func mpaddfixfix_(a, b *big.Int, quiet int) {
+	a.Add(a, b)
+}
 
 func mpaddfixfix(a *Mpint, b *Mpint, quiet int) {
 	if a.Ovf != 0 || b.Ovf != 0 {
@@ -242,6 +257,10 @@ func mpaddfixfix(a *Mpint, b *Mpint, quiet int) {
 	}
 
 	return
+}
+
+func mpmulfixfix_(a, b *big.Int) {
+	a.Mul(a, b)
 }
 
 func mpmulfixfix(a *Mpint, b *Mpint) {
@@ -348,6 +367,10 @@ func mpmulfract(a *Mpint, b *Mpint) {
 	}
 }
 
+func mporfixfix_(a, b *big.Int) {
+	a.Or(a, b)
+}
+
 func mporfixfix(a *Mpint, b *Mpint) {
 	x := 0
 	if a.Ovf != 0 || b.Ovf != 0 {
@@ -380,6 +403,10 @@ func mporfixfix(a *Mpint, b *Mpint) {
 		a.Neg = 1
 		mpneg(a)
 	}
+}
+
+func mpandfixfix_(a, b *big.Int) {
+	a.And(a, b)
 }
 
 func mpandfixfix(a *Mpint, b *Mpint) {
@@ -416,6 +443,10 @@ func mpandfixfix(a *Mpint, b *Mpint) {
 	}
 }
 
+func mpandnotfixfix_(a, b *big.Int) {
+	a.AndNot(a, b)
+}
+
 func mpandnotfixfix(a *Mpint, b *Mpint) {
 	x := 0
 	if a.Ovf != 0 || b.Ovf != 0 {
@@ -448,6 +479,10 @@ func mpandnotfixfix(a *Mpint, b *Mpint) {
 		a.Neg = 1
 		mpneg(a)
 	}
+}
+
+func mpxorfixfix_(a, b *big.Int) {
+	a.Xor(a, b)
 }
 
 func mpxorfixfix(a *Mpint, b *Mpint) {
@@ -484,6 +519,17 @@ func mpxorfixfix(a *Mpint, b *Mpint) {
 	}
 }
 
+func mplshfixfix_(a, b *big.Int) {
+	s := Mpgetfix_(b)
+	if s < 0 || s >= Mpprec*Mpscale {
+		Yyerror("stupid shift: %d", s)
+		Mpmovecfix_(a, 0)
+		return
+	}
+
+	Mpshiftfix_(a, int(s))
+}
+
 func mplshfixfix(a *Mpint, b *Mpint) {
 	if a.Ovf != 0 || b.Ovf != 0 {
 		if nsavederrors+nerrors == 0 {
@@ -502,6 +548,21 @@ func mplshfixfix(a *Mpint, b *Mpint) {
 	}
 
 	Mpshiftfix(a, int(s))
+}
+
+func mprshfixfix_(a, b *big.Int) {
+	s := Mpgetfix_(b)
+	if s < 0 || s >= Mpprec*Mpscale {
+		Yyerror("stupid shift: %d", s)
+		if a.Sign() < 0 {
+			Mpmovecfix_(a, -1)
+		} else {
+			Mpmovecfix_(a, 0)
+		}
+		return
+	}
+
+	Mpshiftfix_(a, int(-s))
 }
 
 func mprshfixfix(a *Mpint, b *Mpint) {
@@ -528,8 +589,16 @@ func mprshfixfix(a *Mpint, b *Mpint) {
 	Mpshiftfix(a, int(-s))
 }
 
+func mpnegfix_(a *big.Int) {
+	a.Neg(a)
+}
+
 func mpnegfix(a *Mpint) {
 	a.Neg ^= 1
+}
+
+func Mpgetfix_(a *big.Int) int64 {
+	return a.Int64()
 }
 
 func Mpgetfix(a *Mpint) int64 {
@@ -547,6 +616,10 @@ func Mpgetfix(a *Mpint) int64 {
 		v = int64(-uint64(v))
 	}
 	return v
+}
+
+func Mpmovecfix_(a *big.Int, c int64) {
+	a.SetInt64(c)
 }
 
 func Mpmovecfix(a *Mpint, c int64) {

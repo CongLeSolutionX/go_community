@@ -3451,7 +3451,7 @@ yydefault:
 			yyVAL.node = nodlit(yyDollar[2].val)
 			switch yyVAL.node.Val.Ctype {
 			case CTINT, CTRUNE:
-				mpnegfix(yyVAL.node.Val.U.Xval)
+				mpnegfix_(yyVAL.node.Val.U.Xval)
 				break
 			case CTFLT:
 				mpnegflt(yyVAL.node.Val.U.Fval)
@@ -3481,7 +3481,7 @@ yydefault:
 		{
 			if yyDollar[2].node.Val.Ctype == CTRUNE && yyDollar[4].node.Val.Ctype == CTINT {
 				yyVAL.node = yyDollar[2].node
-				mpaddfixfix(yyDollar[2].node.Val.U.Xval, yyDollar[4].node.Val.U.Xval, 0)
+				mpaddfixfix_(yyDollar[2].node.Val.U.Xval, yyDollar[4].node.Val.U.Xval, 0)
 				break
 			}
 			yyDollar[4].node.Val.U.Cval.Real = yyDollar[4].node.Val.U.Cval.Imag
