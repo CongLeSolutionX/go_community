@@ -6,7 +6,7 @@ package runtime
 
 import "unsafe"
 
-// The Error interface identifies a run time error.
+// The Error interface identifies a runtime error.
 type Error interface {
 	error
 
