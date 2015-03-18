@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46e6d429_92285c01",
+        "filename": "test/escape_param.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-18T21:05:27Z",
+      "side": 1,
+      "message": "Weird - why are these r2 and r3, not r1 and r2?",
+      "range": {
+        "startLine": 32,
+        "startChar": 78,
+        "endLine": 32,
+        "endChar": 81
+      },
+      "revId": "bc76c911061ccecc4b396c05135b6e5a4e0f27f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46e6d429_f2d0c881",
+        "filename": "test/escape_param.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-18T21:05:27Z",
+      "side": 1,
+      "message": "Perhaps a BAD comment here?  i doesn\u0027t really escape in this scenario.\n\nI guess you didn\u0027t do any BADs in this file.  I think it would help anyone trying to improve escape analysis to know which tests they are supposed to break and which ones they can\u0027t break.",
+      "revId": "bc76c911061ccecc4b396c05135b6e5a4e0f27f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
