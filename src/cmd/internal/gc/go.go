@@ -7,6 +7,7 @@ package gc
 import (
 	"bytes"
 	"cmd/internal/obj"
+	"math/big"
 )
 
 // avoid <ctype.h>
@@ -66,13 +67,18 @@ const (
 )
 
 type Mpint struct {
+	Val big.Int
+	Ovf bool
+}
+
+type Mpfix struct {
 	A   [Mpprec]int
 	Neg uint8
 	Ovf uint8
 }
 
 type Mpflt struct {
-	Val Mpint
+	Val Mpfix
 	Exp int16
 }
 
