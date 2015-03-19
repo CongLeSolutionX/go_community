@@ -1,0 +1,489 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a6b0d3_17032c94",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "It\u0027s not contiguous on 32-bit.",
+      "range": {
+        "startLine": 70,
+        "startChar": 35,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_b71118db",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "I can\u0027t parse this line",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_5721b41e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Remove comma.",
+      "range": {
+        "startLine": 78,
+        "startChar": 50,
+        "endLine": 78,
+        "endChar": 51
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_f72e800d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "\"bits 0 and 1 (the least significant two bits) describe p\"",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_d7238423",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "\"and bits 6 and 7 (the most significant two bits)\"",
+      "range": {
+        "startLine": 80,
+        "startChar": 56,
+        "endLine": 80,
+        "endChar": 71
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_37350855",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Colon",
+      "range": {
+        "startLine": 83,
+        "startChar": 40,
+        "endLine": 83,
+        "endChar": 41
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_37c2a8a0",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "This line isn\u0027t really necessary. You don\u0027t define the \"checkmark\" nib or the \"regular\" nib here.",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_57e65459",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Add\n  // All later nibs are regular nibs.\n\nI really like the diagram on the whiteboard. I think we should have something like this here, in addition to the prose explanation:\n\n  // Graphically, the meaning of the nibs is as follows:\n  //\n  //   object word ║    0    ║    1    ║    2    ║    3    ║...\n  //               ╫────┼────╫────┼────╫────┼────╫────┼────╫\n  //   bitmap bit   mark ptr  chkm ptr  done ptr  done ptr  ...",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_37706804",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "s/bit/nib/",
+      "range": {
+        "startLine": 102,
+        "startChar": 39,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_97505c65",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "s/and/at/",
+      "range": {
+        "startLine": 107,
+        "startChar": 39,
+        "endLine": 107,
+        "endChar": 42
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_774dd0c8",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "s/, to/. To/",
+      "range": {
+        "startLine": 113,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 46
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_f2bfaef2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "The first two sentence in this paragraph seem redundant with the preceding explanation.",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_5792d4d3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Move to right above nibBitsWidth. s/nibBits/nibBitsWidth/",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 24
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_378f48aa",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Redundant with comments below; remove.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 49
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_1209fa62",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Use (off % nibsPerByte) and eliminate the constant above. The compiler is smart enough to turn the constant mod into a mask.",
+      "range": {
+        "startLine": 211,
+        "startChar": 108,
+        "endLine": 211,
+        "endChar": 127
+      },
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_f2344e10",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "I think this would be clearer as\n\n  shift :\u003d h.shift + nibBitsWidth\n  return heapBits{subtractb(h.bitp, shift/8), shift%8}\n\nI bet it would be faster, too. No branches. Just an add, a shift, a sub, and a bitwise and.",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_9224eada",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Just h.typeBits()\u003d\u003dtypePointer",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_72215ec8",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Just h.typeBits()\u003d\u003dtypeScalar",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_b2924654",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "I don\u0027t understand what\u0027s going on in this or the next method. It already has a type, but you\u0027re setting it to some other type? Why isn\u0027t typePointerCheckmarked a nop? What are these intended to be used for?",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_f2820ed5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "// Set to typeDead.",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_b27c866e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "This comment isn\u0027t true yet.",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_9292aa23",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Just\n\n  return h.typeBits() \u003d\u003d typeDead\n\nfor now?",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_326076b2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "n is always even, but is n always a multiple of nibsPerByte?",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_528c2204",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "How about\n\n  for shift :\u003d 0; shift \u003c 8; shift +\u003d nibBitsWidth",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_124c5a51",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:00:00Z",
+      "side": 1,
+      "message": "Same comment as above\n\n  for shift :\u003d 0; shift \u003c 8; shift +\u003d nibBitsWidth",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
