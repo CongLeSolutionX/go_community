@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "666bd831_09198d34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2015-03-19T15:59:00Z",
+      "side": 1,
+      "message": "I am unsure which actual problem this CL tries to solve:\nFor well-formed cookie values there is no need to add the\ndouble quotes (the double quotes allow to send common but malformed values with spaces and commas). And malformed\ncookies should not be sent.\n\nCurrently the user specifies the _value_ of the cookie and\nthe wire representation is done automatically (e.g. drop\nillegal bytes or add double quotes) and if a user wishes\nto send specially crafted cookies (for legacy reasons maybe)\nhe can do this via the request/response header directly.\n\nWith this CL this distinctions is blurred. A user may set\na cookie value to\n    \"foo\"\nand this `\"foo\"\u0027 will be sent, but the cookie received on the\nother end will be stripped from the double quotes and the\nreceiving end will see\n    foo\nonly.\nI am anxious that this behaviour will lead to confusion.",
+      "revId": "c3a68fa06bd9b2a0f7d551819835f493c0cc6600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
