@@ -385,6 +385,23 @@
     },
     {
       "key": {
+        "uuid": "a6a6b0d3_d2227258",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T20:01:18Z",
+      "side": 1,
+      "message": "We can\u0027t mix atomicor8 (which is a real atomic) with atomicand8/atomicxor8 (which are currently fake atomics).",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6a6b0d3_f2820ed5",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
