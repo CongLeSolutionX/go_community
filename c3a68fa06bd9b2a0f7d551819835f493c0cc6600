@@ -16,6 +16,24 @@
       "revId": "c3a68fa06bd9b2a0f7d551819835f493c0cc6600",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_6ce98329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7195
+      },
+      "writtenOn": "2015-03-19T17:08:21Z",
+      "side": 1,
+      "message": "In my opinion something that leads to confusion is that the current cookie sanitization code sanitizes a cookie value that adheres to the spec.  To me, that seems like an obvious enough reason to change the code.\n\nSecondarily, it seems inconsistent (and somewhat magic) that the sanitization code can add its own double quotes in special situations, but not allow the user to include their own double quotes.\n\nThat said, I do see your point about it being confusing that we would strip off double quotes from the cookie value.  Why are we doing that?\n\nThe actual problem I am trying to solve is duplicating the behavior of a server written in another language (Java).  I\u0027m not suggesting we reproduce any behavior in any language, but I am suggesting we allow values adhere to the spec we are implementing.\n\nAs mentioned, I can work around this issue by modifying the response header directly.",
+      "parentUuid": "666bd831_09198d34",
+      "revId": "c3a68fa06bd9b2a0f7d551819835f493c0cc6600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
