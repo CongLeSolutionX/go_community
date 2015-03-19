@@ -299,7 +299,11 @@ func sanitizeCookieName(n string) string {
 // with a comma or space.
 // See http://golang.org/issue/7243 for the discussion.
 func sanitizeCookieValue(v string) string {
-	v = sanitizeOrWarn("Cookie.Value", validCookieValueByte, v)
+	if len(v) > 1 && v[0] == '"' && v[len(v)-1] == '"' {
+		return `"` + sanitizeOrWarn("Cookie.Value", validCookieValueByte, v[1:len(v)-1]) + `"`
+	} else {
+		v = sanitizeOrWarn("Cookie.Value", validCookieValueByte, v)
+	}
 	if len(v) == 0 {
 		return v
 	}
