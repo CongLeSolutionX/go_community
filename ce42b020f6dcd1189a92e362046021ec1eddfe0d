@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a6b0d3_8ca16fa4",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-19T13:20:52Z",
+      "side": 1,
+      "message": "This comment seems incomplete. \n// The usual patter for using gcWork is:\n// .. call gcw.put() // produce\n// ... \n// .. call gcw.get() // consume\n// ...\n// ... call gcw.dispose",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 20
+      },
+      "revId": "ce42b020f6dcd1189a92e362046021ec1eddfe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_6c9e236a",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-03-19T13:20:52Z",
+      "side": 1,
+      "message": "Didn\u0027t I just see a CL that did this?",
+      "revId": "ce42b020f6dcd1189a92e362046021ec1eddfe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
