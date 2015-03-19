@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6a6b0d3_4c64878f",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T15:52:18Z",
+      "side": 1,
+      "message": "Done. I didn\u0027t want to imply that it\u0027s always puts followed by gets, so I changed the middle line to\n\n//     .. call gcw.put() to produce and gcw.get() to consume ..",
+      "parentUuid": "a6a6b0d3_8ca16fa4",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 20
+      },
+      "revId": "ce42b020f6dcd1189a92e362046021ec1eddfe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6a6b0d3_6c9e236a",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-03-19T13:20:52Z",
       "side": 1,
       "message": "Didn\u0027t I just see a CL that did this?",
+      "revId": "ce42b020f6dcd1189a92e362046021ec1eddfe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_6c674396",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-19T15:52:18Z",
+      "side": 1,
+      "message": "Not that I\u0027ve seen... I do have a commit in my local tree stating more emphatically that we should do this, but unless you\u0027re reading my mind you haven\u0027t seen it. :)\n\nWe need to change the way harvesting works in order to make the cache a gcWork, since we can\u0027t atomically steal ownership of a gcWork like we can a *workbuf. But if we switch to asking running mutators to give up their cache instead of stealing it from them, I think it will be trivial to swap out the current *workbuf cache for a gcWork cache.",
+      "parentUuid": "a6a6b0d3_6c9e236a",
       "revId": "ce42b020f6dcd1189a92e362046021ec1eddfe0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
