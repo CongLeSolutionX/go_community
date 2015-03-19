@@ -60,10 +60,83 @@
 // To prepare for this mode, we must move any typeDead in the first word of
 // a multiword object to the second word.
 
+// ************** This is an explaination of what is happening if
+// ************** we use 2 bit bitmaps.
+
+// Garbage collector: heap bitmaps.
+//
+// Heap bitmap
+//
+// The allocated heap comes from a contiguous subset of the memory in the range [start, used),
+// where start == mheap_.arena_start and used == mheap_.arena_used.
+// The heap bitmap, GC bitmap, or simple the GC map is comprise of 2 bit "nibs" for each
+// pointer-sized word in that range, stored in bytes indexed backward in memory from start.
+// That is, the byte at address start-1 holds the 4 2-bit entries, or nibs, for the four
+// heap words at start, start+ptrSize, start+ptrSize*2, start+ptrSize*3.
+// The byte at start-2 holds the entries nibs for start+4*ptrSize, start+5*ptrSize,
+// start+6*ptrSize and so on.
+// In the byte holding the entries for addresses p, through p+3*ptrSize,
+// the low 2 bits, 0 and 1, describe p, bits 2 and 3 describe p+ptrSize,
+// bits 4 and 5 describe p+2*prtSize and the high 2 bits, bits 6 and 7,
+// describe p+3*ptrSize.
+//
+// Logically there are two types of bits, bits that refer to the entire object and bits
+// that refer to the word. The object bits include a mark bit, a checkmark bit and
+// noScan bit. The mark bit is used by the concurrent GC to mark objects, the checkmark
+// bit is used by the GC when it is doing a STW mark for diagnostic purposes. The
+// checkmark bit is typically not used in production code. The noScan bit indicates
+// that the object does not contain any pointers so scanning is a trivial nop.
+//
+// There are also bits that refer to the corresponding word. These include the pointer
+// bit which indicates whether the corresponding heap word contains a pointer or whether
+// it contains a scalar. There is also a scanDone bit which indicates that there
+// are no more pointers in the object so scanning can stop.
+//
+// The meanings of bits differ according to which word in the object the bit pair
+// is associated with.
+// The 2 bit nib refering to the first word of an object is called the boundary nib.
+// The 0 or boundary  nib contains a pointer bit and a mark bit.
+// The 1 or checkmark nib contains a pointer bit and a checkmark bit.
+// The 2 or regular   nib contains a pointer bit and a scanDone bit.
+//
+// As a special case the 0 or boundary bit of a single word object contains
+// both a mark bit and a checkmark bit. All single word objects contain pointers. If
+// you have a single word object that is a scalar it is aggregated with other
+// single word scalar objects and allocated as part of the tiny allocation logic.
+// During the checkmark routine the pointer bit in the boundary nib is stolen and used
+// as the checkmark bit. It is cleared and the beginning of the checkmark and at the
+// end of the checkmark the pointer bit is restored. The logic that checks whether the
+// corresponding word holds a pointer checks if the span element size == ptrSize
+// and if so the pointer bit is considered set. This places all the slow
+// path logic in the checkmark routines that is typically not used during production.
+//
+// The noScan bit is never actually stored, to materialized it one checks the
+// pointer bits for words 0 and 1 and the scanDone bit for word 2. If neither of the
+// pointer bits are set and the scanDone bit is set it indicates that the noScan bit is
+// set.
+//
+// Each word has a pointer bit and a bit indicating if there are no more pointers in
+// the object. In addition each object has a mark bit and a checkmark bit. This is
+// supported via the following hbits methods where hbits holds all the information
+// needed to access the bits in question.
+//
+// isPointer(),      setPointer(bool)              // operates on word
+// isMarked(),       setMarked(bool)               // operates on object
+// isCheckmarked(),  setCheckmarked(bool)          // operates on object
+// isScanDone(),     setScanDone(bool)             // operates on word
+// isNoScan()                                      // operates on object
+//
+// ************** End of explaination of what is happening if
+// ************** we use 2 bit bitmaps.
+
 package runtime
 
 import "unsafe"
 
+// A "nib" is the information corresponding to a single word, or slot, in the heap.
+// It uses nibBits bits.
+// nibsPerByte is 8/nbiBits
+// nibsOffsetMask is a mask. See heapBitsForAddr.
 const (
 	typeDead               = 0
 	typeScalarCheckmarked  = 0
@@ -75,10 +148,12 @@ const (
 	typeMask        = 1<<typeBitsWidth - 1
 	typeBitmapScale = ptrSize * (8 / typeBitsWidth) // number of data bytes per type bitmap byte
 
-	heapBitsWidth   = 4
-	heapBitmapScale = ptrSize * (8 / heapBitsWidth) // number of data bytes per heap bitmap byte
+	nibBitsWidth    = 4
+	heapBitmapScale = ptrSize * (8 / nibBitsWidth) // number of data bytes per heap bitmap byte
 	bitMarked       = 2
 	typeShift       = 2
+	nibsPerByte     = 8 / nibBitsWidth // The number of slots described by a single byte
+	nibOffsetMask   = nibsPerByte - 1  // mask used incalculating which nib in a byte a heap addresses uses.
 )
 
 // Information from the compiler about the layout of stack frames.
@@ -133,7 +208,7 @@ type heapBits struct {
 // The caller must have already checked that addr is in the range [mheap_.arena_start, mheap_.arena_used).
 func heapBitsForAddr(addr uintptr) heapBits {
 	off := (addr - mheap_.arena_start) / ptrSize
-	return heapBits{(*uint8)(unsafe.Pointer(mheap_.arena_start - off/2 - 1)), uint32(4 * (off & 1))}
+	return heapBits{(*uint8)(unsafe.Pointer(mheap_.arena_start - off/nibsPerByte - 1)), uint32(nibBitsWidth * (off & nibOffsetMask))}
 }
 
 // heapBitsForSpan returns the heapBits for the span base address base.
@@ -220,8 +295,8 @@ func (h heapBits) prefetch() {
 // That is, if h describes address p, h.next() describes p+ptrSize.
 // Note that next does not modify h. The caller must record the result.
 func (h heapBits) next() heapBits {
-	if h.shift == 0 {
-		return heapBits{h.bitp, 4}
+	if h.shift < nibsPerByte-1 {
+		return heapBits{h.bitp, h.shift + nibBitsWidth}
 	}
 	return heapBits{subtractb(h.bitp, 1), 0}
 }
@@ -268,6 +343,78 @@ func (h heapBits) setCheckmarked() {
 	}
 }
 
+// Routines to access various bits, added for completeness.
+// isPointer(),      setPointer()                  // operates on word
+// isScalar(),       setScalar()
+// isMarked(),       setMarked(bool)               // operates on object
+// isCheckmarked(),  setCheckmarked(bool)          // operates on object
+// isScanDone(),     setScanDone(bool)             // operates on word
+// isNoScan()                                      // operates on object
+//
+
+func (h heapBits) isPointer() bool {
+	return h.typeBits()&typePointer == typePointer
+}
+func (h heapBits) isScalar() bool {
+	return h.typeBits()&typeScalar == typeScalar
+}
+
+// Does not preserve checkmark bit encodings.
+func (h heapBits) setPointer() {
+	typ := h.typeBits()
+	switch typ {
+	default:
+		throw("setPointer finds undefined typeBits")
+	case typePointer:
+	case typePointerCheckmarked:
+		atomicand8(h.bitp, typePointer<<(h.shift+typeShift))
+	case typeScalarCheckmarked:
+		atomicor8(h.bitp, typePointer<<(h.shift+typeShift))
+	case typeScalar:
+		atomicxor8(h.bitp, (typePointer|typeScalar)<<(h.shift+typeShift))
+	}
+}
+
+// Does not preserve checkmark bit encodings.
+func (h heapBits) setScalar() {
+	typ := h.typeBits()
+	switch typ {
+	default:
+		throw("setPointer finds undefined typeBits")
+	case typeScalar:
+	case typeScalarCheckmarked:
+		atomicor8(h.bitp, typeScalar<<(h.shift+typeShift))
+	case typePointerCheckmarked:
+		atomicxor8(h.bitp, typePointer<<(h.shift+typeShift))
+	case typePointer:
+		println("xoring", hex(*h.bitp),
+			hex(typePointer|typeScalar)<<(h.shift+typeShift))
+		atomicxor8(h.bitp, (typePointer|typeScalar)<<(h.shift+typeShift))
+	}
+}
+
+func (h heapBits) isScanDone() bool {
+	return h.typeBits() == typeDead
+}
+
+func (h heapBits) setScanDone(val bool) {
+	if val {
+		atomicand8(h.bitp, ^(typeMask << (h.shift + typeShift)))
+	} else {
+		// In 4 bit encoding set to scalar.
+		h.setScalar()
+	}
+}
+
+// isObjectNoScan looks returns true if the
+// first, second, and third bit pairs return isPointer() == false
+// the third bit pair returns isScanDone() == true.
+func (h heapBits) isObjectNoScan() bool {
+	typ := h.typeBits()
+	print("is ObjectNoScan TODO", typ)
+	return false
+}
+
 // The methods operating on spans all require that h has been returned
 // by heapBitsForSpan and that size, n, total are the span layout description
 // returned by the mspan's layout method.
@@ -296,19 +443,23 @@ func (h heapBits) initCheckmarkSpan(size, n, total uintptr) {
 		// There is no second word in these objects, so all we have
 		// to do is rewrite typeDead to typeScalar by adding the 1<<typeShift bit.
 		bitp := h.bitp
-		for i := uintptr(0); i < n; i += 2 {
+		for i := uintptr(0); i < n; i += nibsPerByte {
 			x := int(*bitp)
-
-			if (x>>typeShift)&typeMask == typeDead {
-				x += (typeScalar - typeDead) << typeShift
-			}
-			if (x>>(4+typeShift))&typeMask == typeDead {
-				x += (typeScalar - typeDead) << (4 + typeShift)
+			for j := uintptr(0); j < nibsPerByte; j++ {
+				shift := j * nibBitsWidth
+				if (x>>(shift+typeShift))&typeMask == typeDead {
+					x += (typeScalar - typeDead) << (typeShift + shift)
+				}
 			}
 			*bitp = uint8(x)
 			bitp = subtractb(bitp, 1)
 		}
 		return
+	}
+
+	// TODO: deal with sizes that fit nibs for multiple objects in same byte.
+	if nibsPerByte > 2 {
+		throw("TBD: initCheckMarkSpan nibsPerByte too large")
 	}
 
 	// Update bottom nibble for first word of each object.
@@ -336,26 +487,26 @@ func (h heapBits) clearCheckmarkSpan(size, n, total uintptr) {
 		// typeScalarCheckmarked can be left as typeDead,
 		// but we want to change typeScalar back to typeDead.
 		bitp := h.bitp
-		for i := uintptr(0); i < n; i += 2 {
+		for i := uintptr(0); i < n; i += nibsPerByte {
 			x := int(*bitp)
-			switch typ := (x >> typeShift) & typeMask; typ {
-			case typeScalar:
-				x += (typeDead - typeScalar) << typeShift
-			case typePointerCheckmarked:
-				x += (typePointer - typePointerCheckmarked) << typeShift
+			for j := uintptr(0); j < nibsPerByte; j++ {
+				shift := j * nibBitsWidth
+				switch typ := (x >> (shift + typeShift)) & typeMask; typ {
+				case typeScalar:
+					x += (typeDead - typeScalar) << (shift + typeShift)
+				case typePointerCheckmarked:
+					x += (typePointer - typePointerCheckmarked) << (shift + typeShift)
+				}
 			}
-
-			switch typ := (x >> (4 + typeShift)) & typeMask; typ {
-			case typeScalar:
-				x += (typeDead - typeScalar) << (4 + typeShift)
-			case typePointerCheckmarked:
-				x += (typePointer - typePointerCheckmarked) << (4 + typeShift)
-			}
-
 			*bitp = uint8(x)
 			bitp = subtractb(bitp, 1)
 		}
 		return
+	}
+
+	// TODO: deal with sizes that fit nibs for multiple objects in same byte.
+	if nibsPerByte > 2 {
+		throw("TBD: clearCheckMarkSpan nibsPerByte too large")
 	}
 
 	// Update bottom nibble for first word of each object.
@@ -390,24 +541,26 @@ func heapBitsSweepSpan(base, size, n uintptr, f func(uintptr)) {
 		// Only possible on 64-bit system, since minimum size is 8.
 		// Must read and update both top and bottom nibble of each byte.
 		bitp := h.bitp
-		for i := uintptr(0); i < n; i += 2 {
+		for i := uintptr(0); i < n; i += nibsPerByte {
 			x := int(*bitp)
-			if x&bitMarked != 0 {
-				x &^= bitMarked
-			} else {
-				x &^= typeMask << typeShift
-				f(base + i*ptrSize)
-			}
-			if x&(bitMarked<<4) != 0 {
-				x &^= bitMarked << 4
-			} else {
-				x &^= typeMask << (4 + typeShift)
-				f(base + (i+1)*ptrSize)
+			for j := uintptr(0); j < nibsPerByte; j++ {
+				shift := j * nibBitsWidth
+				if x&(bitMarked<<shift) != 0 {
+					x &^= bitMarked << shift
+				} else {
+					x &^= typeMask << (shift + typeShift)
+					f(base + (i+j)*ptrSize)
+				}
 			}
 			*bitp = uint8(x)
 			bitp = subtractb(bitp, 1)
 		}
 		return
+	}
+
+	// TODO: deal with sizes that fit nibs for multiple objects in same byte.
+	if nibsPerByte > 2 {
+		throw("TBD: heapBitsSweepSpan nibsPerByte too large")
 	}
 
 	bitp := h.bitp
@@ -451,7 +604,7 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 		nptr := (uintptr(typ.size) + ptrSize - 1) / ptrSize
 		masksize := nptr
 		if masksize%2 != 0 {
-			masksize *= 2 // repeated
+			masksize *= 2 // repeated  //MAGIC NUMBER
 		}
 		const typeBitsPerByte = 8 / typeBitsWidth
 		masksize = masksize * typeBitsPerByte / 8 // 4 bits per word
@@ -481,8 +634,8 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 	} else {
 		ptrmask = (*uint8)(unsafe.Pointer(typ.gc[0])) // pointer to unrolled mask
 	}
-	if size == 2*ptrSize {
-		// h.shift is 0 for all sizes > ptrSize.
+	if size == 2*ptrSize { // TODO: Adjust logic to deal with > 2 nibsPerByte
+		// h.shift is 0 for all sizes > ptrSize. // MAGIC NUMBER NO LONGER TRUE
 		*h.bitp = *ptrmask
 		return
 	}
@@ -633,7 +786,7 @@ func unrollgcprog1(maskp *byte, prog *byte, ppos *uintptr, inplace, sparse bool)
 					// 4-bits per word, type bits in high bits
 					v <<= (pos % 8) + typeShift
 					mask[pos/8] |= v
-					pos += heapBitsWidth
+					pos += nibBitsWidth
 				} else {
 					// 2-bits per word
 					v <<= pos % 8

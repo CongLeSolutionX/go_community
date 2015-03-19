@@ -153,6 +153,17 @@ func atomicand8(src *byte, val byte) {
 	unlock(&andlock)
 }
 
+// Slow for now as we serialize this, since this is on a debug path
+// speed is not critical at this point.
+//go:nowritebarrier
+func atomicxor8(src *byte, val byte) {
+	lock(&andlock)
+	dst := *src
+	val = (dst | val) & ^(dst & val)
+	*src = val
+	unlock(&andlock)
+}
+
 var gcdatamask bitvector
 var gcbssmask bitvector
 
