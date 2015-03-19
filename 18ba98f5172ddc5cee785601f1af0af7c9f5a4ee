@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "461df4f5_3d7f1b90",
+        "filename": "src/cmd/internal/gc/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-19T20:50:35Z",
+      "side": 1,
+      "message": "might as well add a comment while you\u0027re here. // overflow\n\nBonus points for comment on Mpint too. :)",
+      "revId": "18ba98f5172ddc5cee785601f1af0af7c9f5a4ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
