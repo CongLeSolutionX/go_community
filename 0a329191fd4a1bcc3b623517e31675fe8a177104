@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66259842_768feefa",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-19T22:44:07Z",
+      "side": 1,
+      "message": "add test that this doesn\u0027t actually allocate?",
+      "revId": "0a329191fd4a1bcc3b623517e31675fe8a177104",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
