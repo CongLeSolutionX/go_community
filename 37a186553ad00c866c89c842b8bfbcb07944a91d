@@ -16,6 +16,24 @@
       "revId": "37a186553ad00c866c89c842b8bfbcb07944a91d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a6b0d3_91886c24",
+        "filename": "test/escape_field.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-03-19T02:06:15Z",
+      "side": 1,
+      "message": "This may be a case that we miss, but do we care that much?  Or is this making a case for doing escape analysis after figuring out which code is dead, unreachable, etc?",
+      "parentUuid": "46e6d429_b20c80c1",
+      "revId": "37a186553ad00c866c89c842b8bfbcb07944a91d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
