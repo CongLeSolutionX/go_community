@@ -36,7 +36,7 @@ var logger loggerType
 func writeErr(b []byte) {
 	if logger == unknown {
 		// Use logd if /dev/socket/logdw is available.
-		if v := uintptr(access(&writeLogd[0], 0x02 /* W_OK */)); v == 0 {
+		if v := uintptr(access(&writeLogd[0], syscall.W_OK)); v == 0 {
 			logger = logd
 			initLogd()
 		} else {

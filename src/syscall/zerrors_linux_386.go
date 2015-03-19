@@ -789,6 +789,7 @@ const (
 	PTRACE_SYSEMU                    = 0x1f
 	PTRACE_SYSEMU_SINGLESTEP         = 0x20
 	PTRACE_TRACEME                   = 0x0
+	R_OK                             = 0x4
 	RLIMIT_AS                        = 0x9
 	RLIMIT_CORE                      = 0x4
 	RLIMIT_CPU                       = 0x0
@@ -1186,6 +1187,7 @@ const (
 	TUNSETSNDBUF                     = 0x400454d4
 	TUNSETTXFILTER                   = 0x400454d1
 	TUNSETVNETHDRSZ                  = 0x400454d8
+	W_OK                             = 0x2
 	WALL                             = 0x40000000
 	WCLONE                           = 0x80000000
 	WCONTINUED                       = 0x8
@@ -1196,6 +1198,7 @@ const (
 	WORDSIZE                         = 0x20
 	WSTOPPED                         = 0x2
 	WUNTRACED                        = 0x2
+	X_OK                             = 0x1
 )
 
 // Errors

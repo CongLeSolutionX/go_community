@@ -999,6 +999,7 @@ const (
 	PTRACE_SINGLESTEP                = 0x9
 	PTRACE_SYSCALL                   = 0x18
 	PTRACE_TRACEME                   = 0x0
+	R_OK                             = 0x4
 	RLIMIT_AS                        = 0x9
 	RLIMIT_CORE                      = 0x4
 	RLIMIT_CPU                       = 0x0
@@ -1462,6 +1463,7 @@ const (
 	VTDLY                            = 0x4000
 	VTIME                            = 0x5
 	VWERASE                          = 0xe
+	W_OK                             = 0x2
 	WALL                             = 0x40000000
 	WCLONE                           = 0x80000000
 	WCONTINUED                       = 0x8
@@ -1472,6 +1474,7 @@ const (
 	WORDSIZE                         = 0x40
 	WSTOPPED                         = 0x2
 	WUNTRACED                        = 0x2
+	X_OK                             = 0x1
 )
 
 // Errors

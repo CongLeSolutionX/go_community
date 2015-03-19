@@ -715,6 +715,7 @@ const (
 	PT_WRITE_D                  = 0x5
 	PT_WRITE_I                  = 0x4
 	PT_WRITE_U                  = 0x6
+	R_OK                        = 0x4
 	RLIMIT_AS                   = 0x5
 	RLIMIT_CORE                 = 0x4
 	RLIMIT_CPU                  = 0x0
@@ -1051,6 +1052,7 @@ const (
 	VTDLY                       = 0x10000
 	VTIME                       = 0x11
 	VWERASE                     = 0x4
+	W_OK                        = 0x2
 	WCONTINUED                  = 0x10
 	WCOREFLAG                   = 0x80
 	WEXITED                     = 0x4
@@ -1059,6 +1061,7 @@ const (
 	WORDSIZE                    = 0x20
 	WSTOPPED                    = 0x8
 	WUNTRACED                   = 0x2
+	X_OK                        = 0x1
 )
 
 // Errors

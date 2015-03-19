@@ -1092,6 +1092,7 @@ const (
 	PROT_NONE                         = 0x0
 	PROT_READ                         = 0x1
 	PROT_WRITE                        = 0x2
+	R_OK                              = 0x4
 	RLIMIT_AS                         = 0xa
 	RLIMIT_CORE                       = 0x4
 	RLIMIT_CPU                        = 0x0
@@ -1419,6 +1420,7 @@ const (
 	VSUSP                             = 0xa
 	VTIME                             = 0x11
 	VWERASE                           = 0x4
+	W_OK                              = 0x2
 	WALL                              = 0x8
 	WALLSIG                           = 0x8
 	WALTSIG                           = 0x4
@@ -1430,6 +1432,7 @@ const (
 	WOPTSCHECKED                      = 0x40000
 	WSTOPPED                          = 0x7f
 	WUNTRACED                         = 0x2
+	X_OK                              = 0x1
 )
 
 // Errors

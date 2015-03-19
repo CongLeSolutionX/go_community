@@ -800,6 +800,7 @@ const (
 	PT_DATA_ADDR                     = 0x10004
 	PT_TEXT_ADDR                     = 0x10000
 	PT_TEXT_END_ADDR                 = 0x10008
+	R_OK                             = 0x4
 	RLIMIT_AS                        = 0x9
 	RLIMIT_CORE                      = 0x4
 	RLIMIT_CPU                       = 0x0
@@ -1198,6 +1199,7 @@ const (
 	TUNSETSNDBUF                     = 0x400454d4
 	TUNSETTXFILTER                   = 0x400454d1
 	TUNSETVNETHDRSZ                  = 0x400454d8
+	W_OK                             = 0x2
 	WALL                             = 0x40000000
 	WCLONE                           = 0x80000000
 	WCONTINUED                       = 0x8
@@ -1208,6 +1210,7 @@ const (
 	WORDSIZE                         = 0x20
 	WSTOPPED                         = 0x2
 	WUNTRACED                        = 0x2
+	X_OK                             = 0x1
 )
 
 // Errors
