@@ -496,8 +496,8 @@ func typeinit() {
 			okforarith[i] = true
 			okforconst[i] = true
 			issimple[i] = true
-			minfltval[i] = new(Mpflt)
-			maxfltval[i] = new(Mpflt)
+			minfltval[i] = newMpflt()
+			maxfltval[i] = newMpflt()
 		}
 
 		if Iscomplex[i] {
