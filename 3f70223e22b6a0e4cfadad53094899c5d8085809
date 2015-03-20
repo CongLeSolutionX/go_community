@@ -16,6 +16,24 @@
       "revId": "3f70223e22b6a0e4cfadad53094899c5d8085809",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6707050_501772cc",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-20T05:08:07Z",
+      "side": 1,
+      "message": "Indeed. The original code is correct, addpltsym\nhandles darwin separately. I was fooled by the\n\".plt\" name.\n\nThanks very much for catching this.\n\nI wonder why the trybot didn\u0027t catch this when I\nrun them on the following CL (7535). Ahh, the\ntrybot doesn\u0027t try on darwin.",
+      "parentUuid": "66259842_42d6ac46",
+      "revId": "3f70223e22b6a0e4cfadad53094899c5d8085809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
