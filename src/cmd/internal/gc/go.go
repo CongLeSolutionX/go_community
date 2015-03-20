@@ -81,9 +81,13 @@ type Mpfix struct {
 }
 
 type Mpflt struct {
-	Val Mpfix
-	Exp int16
+	Val big.Float
 }
+
+// type Mpflt struct {
+// 	Val Mpfix
+// 	Exp int16
+// }
 
 type Mpcplx struct {
 	Real Mpflt

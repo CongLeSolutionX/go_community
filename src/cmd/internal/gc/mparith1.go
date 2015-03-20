@@ -8,7 +8,6 @@ import (
 	"cmd/internal/gc/big"
 	"cmd/internal/obj"
 	"fmt"
-	"math"
 )
 
 /// uses arithmetic
@@ -194,63 +193,81 @@ func mpmovefixint(a *Mpint, b *Mpfix) {
 }
 
 func Mpmovefixflt(a *Mpflt, b *Mpint) {
-	mpmoveintfix(&a.Val, b) // a.Val = *b
-	a.Exp = 0
-	mpnorm(a)
+	if b.Ovf {
+		a.Val.SetNaN()
+		return
+	}
+	a.Val.SetInt(&b.Val)
+
+	// mpmoveintfix(&a.Val, b) // a.Val = *b
+	// a.Exp = 0
+	// mpnorm(a)
 }
 
 func _Mpmovefixflt(a *Mpflt, b *Mpfix) {
-	a.Val = *b
-	a.Exp = 0
-	mpnorm(a)
+	var bb Mpint
+	mpmovefixint(&bb, b)
+	Mpmovefixflt(a, &bb)
+
+	// a.Val = *b
+	// a.Exp = 0
+	// mpnorm(a)
 }
 
 // convert (truncate) b to a.
 // return -1 (but still convert) if b was non-integer.
 func mpexactfltfix(a *Mpint, b *Mpflt) int {
-	mpmovefixint(a, &b.Val) // *a = b.Val
-	Mpshiftfix(a, int(b.Exp))
-	if b.Exp < 0 {
-		var f Mpflt
-		mpmoveintfix(&f.Val, a) // f.Val = *a
-		f.Exp = 0
-		mpnorm(&f)
-		if mpcmpfltflt(b, &f) != 0 {
-			return -1
-		}
+	_, acc := b.Val.Int(&a.Val)
+	if acc != big.Exact {
+		return -1
 	}
-
 	return 0
+
+	// mpmovefixint(a, &b.Val) // *a = b.Val
+	// Mpshiftfix(a, int(b.Exp))
+	// if b.Exp < 0 {
+	// 	var f Mpflt
+	// 	mpmoveintfix(&f.Val, a) // f.Val = *a
+	// 	f.Exp = 0
+	// 	mpnorm(&f)
+	// 	if mpcmpfltflt(b, &f) != 0 {
+	// 		return -1
+	// 	}
+	// }
+
+	// return 0
 }
 
 func mpmovefltfix(a *Mpint, b *Mpflt) int {
-	if mpexactfltfix(a, b) == 0 {
-		return 0
-	}
+	panic(0)
 
-	// try rounding down a little
-	f := *b
+	// if mpexactfltfix(a, b) == 0 {
+	// 	return 0
+	// }
 
-	f.Val.A[0] = 0
-	if mpexactfltfix(a, &f) == 0 {
-		return 0
-	}
+	// // try rounding down a little
+	// f := *b
 
-	// try rounding up a little
-	for i := 1; i < Mpprec; i++ {
-		f.Val.A[i]++
-		if f.Val.A[i] != Mpbase {
-			break
-		}
-		f.Val.A[i] = 0
-	}
+	// f.Val.A[0] = 0
+	// if mpexactfltfix(a, &f) == 0 {
+	// 	return 0
+	// }
 
-	mpnorm(&f)
-	if mpexactfltfix(a, &f) == 0 {
-		return 0
-	}
+	// // try rounding up a little
+	// for i := 1; i < Mpprec; i++ {
+	// 	f.Val.A[i]++
+	// 	if f.Val.A[i] != Mpbase {
+	// 		break
+	// 	}
+	// 	f.Val.A[i] = 0
+	// }
 
-	return -1
+	// mpnorm(&f)
+	// if mpexactfltfix(a, &f) == 0 {
+	// 	return 0
+	// }
+
+	// return -1
 }
 
 func mpmovefixfix(a, b *Mpint) {
@@ -262,7 +279,9 @@ func _mpmovefixfix(a *Mpfix, b *Mpfix) {
 }
 
 func mpmovefltflt(a *Mpflt, b *Mpflt) {
-	*a = *b
+	a.Val.Set(&b.Val)
+
+	// *a = *b
 }
 
 var tab = []float64{1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7}
@@ -324,206 +343,217 @@ func mphextofix(a *Mpfix, s string) {
 // required syntax is [+-]d*[.]d*[e[+-]d*] or [+-]0xH*[e[+-]d*]
 //
 func mpatoflt(a *Mpflt, as string) {
-	for as[0] == ' ' || as[0] == '\t' {
+	for len(as) > 0 && (as[0] == ' ' || as[0] == '\t') {
 		as = as[1:]
 	}
 
-	/* determine base */
-	s := as
-
-	base := -1
-	for base == -1 {
-		if s == "" {
-			base = 10
-			break
-		}
-		c := s[0]
-		s = s[1:]
-		switch c {
-		case '-',
-			'+':
-			break
-
-		case '0':
-			if s != "" && s[0] == 'x' {
-				base = 16
-			} else {
-				base = 10
-			}
-
-		default:
-			base = 10
-		}
+	_, ok := a.Val.SetString(as)
+	if !ok {
+		// TODO(gri) at the moment we lose precise error cause
+		Yyerror("malformed constant: %s", as)
+		a.Val.SetUint64(0)
 	}
 
-	s = as
-	dp := 0 /* digits after decimal point */
-	f := 0  /* sign */
-	ex := 0 /* exponent */
-	eb := 0 /* binary point */
+	// 	for as[0] == ' ' || as[0] == '\t' {
+	// 		as = as[1:]
+	// 	}
 
-	Mpmovecflt(a, 0.0)
-	var ef int
-	var c int
-	if base == 16 {
-		start := ""
-		var c int
-		for {
-			c, _ = intstarstringplusplus(s)
-			if c == '-' {
-				f = 1
-				s = s[1:]
-			} else if c == '+' {
-				s = s[1:]
-			} else if c == '0' && s[1] == 'x' {
-				s = s[2:]
-				start = s
-			} else if (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F') {
-				s = s[1:]
-			} else {
-				break
-			}
-		}
+	// 	/* determine base */
+	// 	s := as
 
-		if start == "" {
-			Yyerror("malformed hex constant: %s", as)
-			goto bad
-		}
+	// 	base := -1
+	// 	for base == -1 {
+	// 		if s == "" {
+	// 			base = 10
+	// 			break
+	// 		}
+	// 		c := s[0]
+	// 		s = s[1:]
+	// 		switch c {
+	// 		case '-',
+	// 			'+':
+	// 			break
 
-		mphextofix(&a.Val, start[:len(start)-len(s)])
-		if a.Val.Ovf != 0 {
-			Yyerror("constant too large: %s", as)
-			goto bad
-		}
+	// 		case '0':
+	// 			if s != "" && s[0] == 'x' {
+	// 				base = 16
+	// 			} else {
+	// 				base = 10
+	// 			}
 
-		a.Exp = 0
-		mpnorm(a)
-	}
+	// 		default:
+	// 			base = 10
+	// 		}
+	// 	}
 
-	for {
-		c, s = intstarstringplusplus(s)
-		switch c {
-		default:
-			Yyerror("malformed constant: %s (at %c)", as, c)
-			goto bad
+	// 	s = as
+	// 	dp := 0 /* digits after decimal point */
+	// 	f := 0  /* sign */
+	// 	ex := 0 /* exponent */
+	// 	eb := 0 /* binary point */
 
-		case '-':
-			f = 1
-			fallthrough
+	// 	Mpmovecflt(a, 0.0)
+	// 	var ef int
+	// 	var c int
+	// 	if base == 16 {
+	// 		start := ""
+	// 		var c int
+	// 		for {
+	// 			c, _ = intstarstringplusplus(s)
+	// 			if c == '-' {
+	// 				f = 1
+	// 				s = s[1:]
+	// 			} else if c == '+' {
+	// 				s = s[1:]
+	// 			} else if c == '0' && s[1] == 'x' {
+	// 				s = s[2:]
+	// 				start = s
+	// 			} else if (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F') {
+	// 				s = s[1:]
+	// 			} else {
+	// 				break
+	// 			}
+	// 		}
 
-		case ' ',
-			'\t',
-			'+':
-			continue
+	// 		if start == "" {
+	// 			Yyerror("malformed hex constant: %s", as)
+	// 			goto bad
+	// 		}
 
-		case '.':
-			if base == 16 {
-				Yyerror("decimal point in hex constant: %s", as)
-				goto bad
-			}
+	// 		mphextofix(&a.Val, start[:len(start)-len(s)])
+	// 		if a.Val.Ovf != 0 {
+	// 			Yyerror("constant too large: %s", as)
+	// 			goto bad
+	// 		}
 
-			dp = 1
-			continue
+	// 		a.Exp = 0
+	// 		mpnorm(a)
+	// 	}
 
-		case '1',
-			'2',
-			'3',
-			'4',
-			'5',
-			'6',
-			'7',
-			'8',
-			'9',
-			'0':
-			mpmulcflt(a, 10)
-			mpaddcflt(a, float64(c)-'0')
-			if dp != 0 {
-				dp++
-			}
-			continue
+	// 	for {
+	// 		c, s = intstarstringplusplus(s)
+	// 		switch c {
+	// 		default:
+	// 			Yyerror("malformed constant: %s (at %c)", as, c)
+	// 			goto bad
 
-		case 'P',
-			'p':
-			eb = 1
-			fallthrough
+	// 		case '-':
+	// 			f = 1
+	// 			fallthrough
 
-		case 'E',
-			'e':
-			ex = 0
-			ef = 0
-			for {
-				c, s = intstarstringplusplus(s)
-				if c == '+' || c == ' ' || c == '\t' {
-					continue
-				}
-				if c == '-' {
-					ef = 1
-					continue
-				}
+	// 		case ' ',
+	// 			'\t',
+	// 			'+':
+	// 			continue
 
-				if c >= '0' && c <= '9' {
-					ex = ex*10 + (c - '0')
-					if ex > 1e8 {
-						Yyerror("constant exponent out of range: %s", as)
-						errorexit()
-					}
+	// 		case '.':
+	// 			if base == 16 {
+	// 				Yyerror("decimal point in hex constant: %s", as)
+	// 				goto bad
+	// 			}
 
-					continue
-				}
+	// 			dp = 1
+	// 			continue
 
-				break
-			}
+	// 		case '1',
+	// 			'2',
+	// 			'3',
+	// 			'4',
+	// 			'5',
+	// 			'6',
+	// 			'7',
+	// 			'8',
+	// 			'9',
+	// 			'0':
+	// 			mpmulcflt(a, 10)
+	// 			mpaddcflt(a, float64(c)-'0')
+	// 			if dp != 0 {
+	// 				dp++
+	// 			}
+	// 			continue
 
-			if ef != 0 {
-				ex = -ex
-			}
-			fallthrough
+	// 		case 'P',
+	// 			'p':
+	// 			eb = 1
+	// 			fallthrough
 
-		case 0:
-			break
-		}
+	// 		case 'E',
+	// 			'e':
+	// 			ex = 0
+	// 			ef = 0
+	// 			for {
+	// 				c, s = intstarstringplusplus(s)
+	// 				if c == '+' || c == ' ' || c == '\t' {
+	// 					continue
+	// 				}
+	// 				if c == '-' {
+	// 					ef = 1
+	// 					continue
+	// 				}
 
-		break
-	}
+	// 				if c >= '0' && c <= '9' {
+	// 					ex = ex*10 + (c - '0')
+	// 					if ex > 1e8 {
+	// 						Yyerror("constant exponent out of range: %s", as)
+	// 						errorexit()
+	// 					}
 
-	if eb != 0 {
-		if dp != 0 {
-			Yyerror("decimal point and binary point in constant: %s", as)
-			goto bad
-		}
+	// 					continue
+	// 				}
 
-		mpsetexp(a, int(a.Exp)+ex)
-		goto out
-	}
+	// 				break
+	// 			}
 
-	if dp != 0 {
-		dp--
-	}
-	if mpcmpfltc(a, 0.0) != 0 {
-		if ex >= dp {
-			var b Mpflt
-			mppow10flt(&b, ex-dp)
-			mpmulfltflt(a, &b)
-		} else {
-			// 4 approximates least_upper_bound(log2(10)).
-			if dp-ex >= 1<<(32-3) || int(int16(4*(dp-ex))) != 4*(dp-ex) {
-				Mpmovecflt(a, 0.0)
-			} else {
-				var b Mpflt
-				mppow10flt(&b, dp-ex)
-				mpdivfltflt(a, &b)
-			}
-		}
-	}
+	// 			if ef != 0 {
+	// 				ex = -ex
+	// 			}
+	// 			fallthrough
 
-out:
-	if f != 0 {
-		mpnegflt(a)
-	}
-	return
+	// 		case 0:
+	// 			break
+	// 		}
 
-bad:
-	Mpmovecflt(a, 0.0)
+	// 		break
+	// 	}
+
+	// 	if eb != 0 {
+	// 		if dp != 0 {
+	// 			Yyerror("decimal point and binary point in constant: %s", as)
+	// 			goto bad
+	// 		}
+
+	// 		mpsetexp(a, int(a.Exp)+ex)
+	// 		goto out
+	// 	}
+
+	// 	if dp != 0 {
+	// 		dp--
+	// 	}
+	// 	if mpcmpfltc(a, 0.0) != 0 {
+	// 		if ex >= dp {
+	// 			var b Mpflt
+	// 			mppow10flt(&b, ex-dp)
+	// 			mpmulfltflt(a, &b)
+	// 		} else {
+	// 			// 4 approximates least_upper_bound(log2(10)).
+	// 			if dp-ex >= 1<<(32-3) || int(int16(4*(dp-ex))) != 4*(dp-ex) {
+	// 				Mpmovecflt(a, 0.0)
+	// 			} else {
+	// 				var b Mpflt
+	// 				mppow10flt(&b, dp-ex)
+	// 				mpdivfltflt(a, &b)
+	// 			}
+	// 		}
+	// 	}
+
+	// out:
+	// 	if f != 0 {
+	// 		mpnegflt(a)
+	// 	}
+	// 	return
+
+	// bad:
+	// 	Mpmovecflt(a, 0.0)
 }
 
 func mpatofix(a *Mpint, as string) {
@@ -614,75 +644,81 @@ func _Bconv(xval *Mpfix, flag int) string {
 }
 
 func Fconv(fvp *Mpflt, flag int) string {
-	if flag&obj.FmtSharp != 0 /*untyped*/ {
-		// alternate form - decimal for error messages.
-		// for well in range, convert to double and use print's %g
-		exp := int(fvp.Exp) + sigfig(fvp)*Mpscale
-
-		var fp string
-		if -900 < exp && exp < 900 {
-			d := mpgetflt(fvp)
-			if d >= 0 && (flag&obj.FmtSign != 0 /*untyped*/) {
-				fp += "+"
-			}
-			fp += fmt.Sprintf("%.6g", d)
-			return fp
-		}
-
-		// very out of range. compute decimal approximation by hand.
-		// decimal exponent
-		dexp := float64(fvp.Exp) * 0.301029995663981195 // log_10(2)
-		exp = int(dexp)
-
-		// decimal mantissa
-		fv := *fvp
-
-		fv.Val.Neg = 0
-		fv.Exp = 0
-		d := mpgetflt(&fv)
-		d *= math.Pow(10, dexp-float64(exp))
-		for d >= 9.99995 {
-			d /= 10
-			exp++
-		}
-
-		if fvp.Val.Neg != 0 {
-			fp += "-"
-		} else if flag&obj.FmtSign != 0 /*untyped*/ {
-			fp += "+"
-		}
-		fp += fmt.Sprintf("%.5fe+%d", d, exp)
-		return fp
+	if flag&obj.FmtSharp != 0 {
+		// TODO(gri) should use prec -1 once it is supported
+		return fvp.Val.Format('g', 10)
 	}
+	return fvp.Val.Format('b', 0)
 
-	var fv Mpflt
-	var buf string
-	if sigfig(fvp) == 0 {
-		buf = "0p+0"
-		goto out
-	}
+	// 	if flag&obj.FmtSharp != 0 /*untyped*/ {
+	// 		// alternate form - decimal for error messages.
+	// 		// for well in range, convert to double and use print's %g
+	// 		exp := int(fvp.Exp) + sigfig(fvp)*Mpscale
 
-	fv = *fvp
+	// 		var fp string
+	// 		if -900 < exp && exp < 900 {
+	// 			d := mpgetflt(fvp)
+	// 			if d >= 0 && (flag&obj.FmtSign != 0 /*untyped*/) {
+	// 				fp += "+"
+	// 			}
+	// 			fp += fmt.Sprintf("%.6g", d)
+	// 			return fp
+	// 		}
 
-	for fv.Val.A[0] == 0 {
-		_Mpshiftfix(&fv.Val, -Mpscale)
-		fv.Exp += Mpscale
-	}
+	// 		// very out of range. compute decimal approximation by hand.
+	// 		// decimal exponent
+	// 		dexp := float64(fvp.Exp) * 0.301029995663981195 // log_10(2)
+	// 		exp = int(dexp)
 
-	for fv.Val.A[0]&1 == 0 {
-		_Mpshiftfix(&fv.Val, -1)
-		fv.Exp += 1
-	}
+	// 		// decimal mantissa
+	// 		fv := *fvp
 
-	if fv.Exp >= 0 {
-		buf = fmt.Sprintf("%vp+%d", _Bconv(&fv.Val, obj.FmtSharp), fv.Exp)
-		goto out
-	}
+	// 		fv.Val.Neg = 0
+	// 		fv.Exp = 0
+	// 		d := mpgetflt(&fv)
+	// 		d *= math.Pow(10, dexp-float64(exp))
+	// 		for d >= 9.99995 {
+	// 			d /= 10
+	// 			exp++
+	// 		}
 
-	buf = fmt.Sprintf("%vp-%d", _Bconv(&fv.Val, obj.FmtSharp), -fv.Exp)
+	// 		if fvp.Val.Neg != 0 {
+	// 			fp += "-"
+	// 		} else if flag&obj.FmtSign != 0 /*untyped*/ {
+	// 			fp += "+"
+	// 		}
+	// 		fp += fmt.Sprintf("%.5fe+%d", d, exp)
+	// 		return fp
+	// 	}
 
-out:
-	var fp string
-	fp += buf
-	return fp
+	// 	var fv Mpflt
+	// 	var buf string
+	// 	if sigfig(fvp) == 0 {
+	// 		buf = "0p+0"
+	// 		goto out
+	// 	}
+
+	// 	fv = *fvp
+
+	// 	for fv.Val.A[0] == 0 {
+	// 		_Mpshiftfix(&fv.Val, -Mpscale)
+	// 		fv.Exp += Mpscale
+	// 	}
+
+	// 	for fv.Val.A[0]&1 == 0 {
+	// 		_Mpshiftfix(&fv.Val, -1)
+	// 		fv.Exp += 1
+	// 	}
+
+	// 	if fv.Exp >= 0 {
+	// 		buf = fmt.Sprintf("%vp+%d", _Bconv(&fv.Val, obj.FmtSharp), fv.Exp)
+	// 		goto out
+	// 	}
+
+	// 	buf = fmt.Sprintf("%vp-%d", _Bconv(&fv.Val, obj.FmtSharp), -fv.Exp)
+
+	// out:
+	// 	var fp string
+	// 	fp += buf
+	// 	return fp
 }

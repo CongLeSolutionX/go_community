@@ -1459,10 +1459,11 @@ casei:
 	yylval.val.U.Cval = new(Mpcplx)
 	Mpmovecflt(&yylval.val.U.Cval.Real, 0.0)
 	mpatoflt(&yylval.val.U.Cval.Imag, str)
-	if yylval.val.U.Cval.Imag.Val.Ovf != 0 {
-		Yyerror("overflow in imaginary constant")
-		Mpmovecflt(&yylval.val.U.Cval.Real, 0.0)
-	}
+	panic(0)
+	// if yylval.val.U.Cval.Imag.Val.Ovf != 0 {
+	// 	Yyerror("overflow in imaginary constant")
+	// 	Mpmovecflt(&yylval.val.U.Cval.Real, 0.0)
+	// }
 
 	yylval.val.Ctype = CTCPLX
 	if Debug['x'] != 0 {
@@ -1478,10 +1479,11 @@ caseout:
 	str = lexbuf.String()
 	yylval.val.U.Fval = new(Mpflt)
 	mpatoflt(yylval.val.U.Fval, str)
-	if yylval.val.U.Fval.Val.Ovf != 0 {
-		Yyerror("overflow in float constant")
-		Mpmovecflt(yylval.val.U.Fval, 0.0)
-	}
+	panic(0)
+	// if yylval.val.U.Fval.Val.Ovf != 0 {
+	// 	Yyerror("overflow in float constant")
+	// 	Mpmovecflt(yylval.val.U.Fval, 0.0)
+	// }
 
 	yylval.val.Ctype = CTFLT
 	if Debug['x'] != 0 {
