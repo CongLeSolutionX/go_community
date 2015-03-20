@@ -1459,7 +1459,7 @@ casei:
 	yylval.val.U.Cval = new(Mpcplx)
 	Mpmovecflt(&yylval.val.U.Cval.Real, 0.0)
 	mpatoflt(&yylval.val.U.Cval.Imag, str)
-	if yylval.val.U.Cval.Imag.Val.Ovf != 0 {
+	if !yylval.val.U.Cval.Imag.Val.IsFinite() {
 		Yyerror("overflow in imaginary constant")
 		Mpmovecflt(&yylval.val.U.Cval.Real, 0.0)
 	}
@@ -1476,9 +1476,9 @@ caseout:
 	ungetc(c)
 
 	str = lexbuf.String()
-	yylval.val.U.Fval = new(Mpflt)
+	yylval.val.U.Fval = newMpflt()
 	mpatoflt(yylval.val.U.Fval, str)
-	if yylval.val.U.Fval.Val.Ovf != 0 {
+	if !yylval.val.U.Fval.Val.IsFinite() {
 		Yyerror("overflow in float constant")
 		Mpmovecflt(yylval.val.U.Fval, 0.0)
 	}
