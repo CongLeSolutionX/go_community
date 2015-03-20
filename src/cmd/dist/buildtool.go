@@ -39,6 +39,7 @@ var bootstrapDirs = []string{
 	"asm/internal/flags",
 	"asm/internal/lex",
 	"internal/asm",
+	"internal/gc/big",
 	"internal/gc",
 	"internal/ld",
 	"internal/obj",
@@ -109,7 +110,8 @@ func bootstrapBuildTools() {
 	os.Setenv("GOHOSTARCH", "")
 
 	// Run Go 1.4 to build binaries.
-	run(workspace, ShowOutput|CheckExit, pathf("%s/bin/go", goroot_bootstrap), "install", "-v", "bootstrap/...")
+	// TODO: remove -tags math_big_pure_go once math/big is not vendored into cmd/internal/gc/big anymore
+	run(workspace, ShowOutput|CheckExit, pathf("%s/bin/go", goroot_bootstrap), "install", "-v", "-tags", "math_big_pure_go", "bootstrap/...")
 
 	// Copy binaries into tool binary directory.
 	for _, name := range bootstrapDirs {
