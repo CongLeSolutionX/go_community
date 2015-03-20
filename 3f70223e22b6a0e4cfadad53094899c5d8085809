@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66259842_42d6ac46",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-20T05:01:12Z",
+      "side": 1,
+      "message": "It looks like you are changing the behaviour on Darwin.  Though admittedly I don\u0027t know if the old behaviour was correct.  Still I would be more comfortable if you just added a Windows case, and perhaps handled the Darwin change in a separate CL.",
+      "revId": "3f70223e22b6a0e4cfadad53094899c5d8085809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
