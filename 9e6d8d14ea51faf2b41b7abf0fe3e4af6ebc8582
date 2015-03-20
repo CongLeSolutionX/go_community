@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06ea1c20_c65556a9",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-20T20:00:14Z",
+      "side": 1,
+      "message": "get can always be replaced by a more descriptive word (read, lookup, build, ...) or dropped entirely. in this case, especially since the old function was ilookup, i suggest lookupImport",
+      "revId": "9e6d8d14ea51faf2b41b7abf0fe3e4af6ebc8582",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06ea1c20_466ae660",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-20T20:00:14Z",
+      "side": 1,
+      "message": "lookupPkg",
+      "revId": "9e6d8d14ea51faf2b41b7abf0fe3e4af6ebc8582",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06ea1c20_8664ee90",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-20T20:00:14Z",
+      "side": 1,
+      "message": "Restore pkgall and use it instead.\nIf you iterate over pkgmap here then if there are multiple problems you will get a different one each time due to the randomness of map iteration. We want predictable behavior. In general in these kinds of things you almost always need to keep a map for lookup and a slice for iteration. You can\u0027t use the map for both.",
+      "revId": "9e6d8d14ea51faf2b41b7abf0fe3e4af6ebc8582",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
