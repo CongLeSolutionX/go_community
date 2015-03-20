@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66259842_0808d3ac",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5346
+      },
+      "writtenOn": "2015-03-20T18:49:36Z",
+      "side": 1,
+      "message": "At first I was assuming that all PrivateKeys would would implemnt crypto.Signer (as both ECDSA and RSA keys can), but I suppose we can lax the requirements in case someone wishes to implement some opaque RSA key as a purely crypto.Decrypter.\n\nIt\u0027s probably a good idea to store the most information possible in the handshake state, and use that to guide cipher suite selection.",
+      "parentUuid": "66de785c_1a47e1a8",
+      "revId": "8b83bf083ee8a90e1834204aae6bef4a98987e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66de785c_05bb060b",
         "filename": "src/crypto/tls/key_agreement.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-19T13:36:37Z",
       "side": 1,
       "message": "return?",
+      "revId": "8b83bf083ee8a90e1834204aae6bef4a98987e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66259842_bc780044",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5346
+      },
+      "writtenOn": "2015-03-20T18:49:36Z",
+      "side": 1,
+      "message": "Yep...",
+      "parentUuid": "66de785c_05bb060b",
       "revId": "8b83bf083ee8a90e1834204aae6bef4a98987e6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
