@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "260c80ed_794a27b3",
+        "filename": "src/runtime/asm_amd64p32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-21T02:48:29Z",
+      "side": 1,
+      "message": "use the same registers as the existing atomicor8 please.",
+      "range": {
+        "startLine": 546,
+        "startChar": 17,
+        "endLine": 546,
+        "endChar": 19
+      },
+      "revId": "317b50d9fcc42f07979dd636d8257c953c10b934",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
