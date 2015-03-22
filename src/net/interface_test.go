@@ -5,6 +5,7 @@
 package net
 
 import (
+	"fmt"
 	"reflect"
 	"runtime"
 	"testing"
@@ -47,12 +48,26 @@ func ipv6LinkLocalUnicastAddr(ifi *Interface) string {
 	return ""
 }
 
+type routeStats struct {
+	// # of active interfaces, links
+	loop  int // loopback
+	other int // other
+
+	// # of active routes
+	uni4, uni6     int // connected unicast, anycast
+	multi4, multi6 int // connected multicast
+}
+
+func (rs routeStats) String() string {
+	return fmt.Sprintf("loop/other=%v/%v, uni4/uni6/multi4/multi6=%d/%d/%d/%d", rs.loop, rs.other, rs.uni4, rs.uni6, rs.multi4, rs.multi6)
+}
+
 func TestInterfaces(t *testing.T) {
 	ift, err := Interfaces()
 	if err != nil {
 		t.Fatal(err)
 	}
-	var nifs, naf4, naf6, nmaf4, nmaf6 int
+	var stats routeStats
 	for _, ifi := range ift {
 		ifxi, err := InterfaceByIndex(ifi.Index)
 		if err != nil {
@@ -70,24 +85,28 @@ func TestInterfaces(t *testing.T) {
 		}
 		t.Logf("%q: flags %q, ifindex %v, mtu %v", ifi.Name, ifi.Flags.String(), ifi.Index, ifi.MTU)
 		t.Logf("hardware address %q", ifi.HardwareAddr.String())
-		if ifi.Flags&FlagUp != 0 && ifi.Flags&FlagLoopback == 0 {
-			nifs++ // active interfaces except loopback interfaces
+		if ifi.Flags&FlagUp != 0 {
+			if ifi.Flags&FlagLoopback != 0 {
+				stats.loop++
+			} else {
+				stats.other++
+			}
 		}
 		n4, n6 := testInterfaceAddrs(t, &ifi)
-		naf4 += n4
-		naf6 += n6
+		stats.uni4 += n4
+		stats.uni6 += n6
 		n4, n6 = testInterfaceMulticastAddrs(t, &ifi)
-		nmaf4 += n4
-		nmaf6 += n6
+		stats.multi4 += n4
+		stats.multi6 += n6
 	}
 	switch runtime.GOOS {
 	case "nacl", "plan9", "solaris":
 	default:
-		if supportsIPv4 && nifs > 0 && naf4 == 0 {
-			t.Errorf("got %v; want more than or equal to one", naf4)
+		if supportsIPv4 && stats.loop > 0 && stats.other > 0 && stats.uni4 == 0 {
+			t.Errorf("want more than or equal to one connected route: %v", stats)
 		}
-		if supportsIPv6 && nifs > 0 && naf6 == 0 {
-			t.Errorf("got %v; want more than or equal to one", naf6)
+		if supportsIPv6 && stats.loop > 0 && stats.other > 0 && stats.uni6 == 0 {
+			t.Errorf("want more than or equal to one connected route: %v", stats)
 		}
 	}
 	switch runtime.GOOS {
@@ -95,11 +114,11 @@ func TestInterfaces(t *testing.T) {
 	default:
 		// Unlike IPv6, IPv4 multicast capability is not a
 		// mandatory feature.
-		//if supportsIPv4 && nactvifs > 0 && nmaf4 == 0 {
-		//	t.Errorf("got %v; want more than or equal to one", nmaf4)
+		//if supportsIPv6 && stats.loop > 0 && stats.other > 0 && stats.multi4 == 0 {
+		//	t.Errorf("want more than or equal to one connected route: %v", stats)
 		//}
-		if supportsIPv6 && nifs > 0 && nmaf6 == 0 {
-			t.Errorf("got %v; want more than or equal to one", nmaf6)
+		if supportsIPv6 && stats.loop > 0 && stats.other > 0 && stats.multi6 == 0 {
+			t.Errorf("want more than or equal to one connected route: %v", stats)
 		}
 	}
 }
@@ -109,22 +128,26 @@ func TestInterfaceAddrs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	var nifs int
+	var stats routeStats
 	for _, ifi := range ift {
-		if ifi.Flags&FlagUp != 0 && ifi.Flags&FlagLoopback == 0 {
-			nifs++ // active interfaces except loopback interfaces
+		if ifi.Flags&FlagUp != 0 {
+			if ifi.Flags&FlagLoopback != 0 {
+				stats.loop++
+			} else {
+				stats.other++
+			}
 		}
 	}
 	ifat, err := InterfaceAddrs()
 	if err != nil {
 		t.Fatal(err)
 	}
-	naf4, naf6 := testAddrs(t, ifat)
-	if supportsIPv4 && nifs > 0 && naf4 == 0 {
-		t.Errorf("got %v; want more than or equal to one", naf4)
+	stats.uni4, stats.uni6 = testAddrs(t, ifat)
+	if supportsIPv4 && stats.loop > 0 && stats.other > 0 && stats.uni4 == 0 {
+		t.Errorf("want more than or equal to one connected route: %v", stats)
 	}
-	if supportsIPv6 && nifs > 0 && naf6 == 0 {
-		t.Errorf("got %v; want more than or equal to one", naf6)
+	if supportsIPv4 && stats.loop > 0 && stats.other > 0 && stats.uni6 == 0 {
+		t.Errorf("want more than or equal to one connected route: %v", stats)
 	}
 }
 
