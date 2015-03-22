@@ -34,6 +34,7 @@ Use "go help [command]" for more information about a command.
 Additional help topics:
 
 	c           calling between Go and C
+	buildmode   description of build modes
 	filetype    file types
 	gopath      GOPATH environment variable
 	importpath  import path syntax
@@ -94,6 +95,8 @@ and test commands:
 	-x
 		print the commands.
 
+	-buildmode mode
+		build mode to use. See 'go help buildmodes' for more.
 	-compiler name
 		name of compiler to use, as in runtime.Compiler (gccgo or gc).
 	-gccgoflags 'arg list'
@@ -638,6 +641,31 @@ When either cgo or SWIG is used, go build will pass any .c, .m, .s,
 or .S files to the C compiler, and any .cc, .cpp, .cxx files to the C++
 compiler.  The CC or CXX environment variables may be set to determine
 the C or C++ compiler, respectively, to use.
+
+
+Description of build modes
+
+The 'go build' and 'go install' commands take a -buildmode argument which
+indicates which kind of object file is to be built. Currently supported values
+are:
+
+	-buildmode=archive
+		This is the default build mode for a package that is not main.
+		It means to build the package into a .a file. Packages named
+		main are ignored.
+
+	-buildmode=shared
+		Combine all the listed packages into a single shared library
+		that will be used when building with the -linkshared option.
+
+	-buildmode=exe
+		This is the default build mode for a package named main.  It
+		means to build the package and everything it imports into an
+		executable. Packages not named main are ignored.
+
+	-buildmode=default
+		Default behaviour: packages named main are built into
+		executables and other packages are built into .a files.
 
 
 File types
