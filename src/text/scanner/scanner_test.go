@@ -10,6 +10,7 @@ import (
 	"io"
 	"strings"
 	"testing"
+	"text/scanner"
 	"unicode/utf8"
 )
 
@@ -614,5 +615,36 @@ func TestPos(t *testing.T) {
 	}
 	if s.ErrorCount != 0 {
 		t.Errorf("%d errors", s.ErrorCount)
+	}
+}
+
+type peekEOFReader struct {
+	calls int
+}
+
+func (p *peekEOFReader) Read([]byte) (int, error) {
+	p.calls++
+
+	return 0, io.EOF
+}
+
+func TestPeekEOFHandling(t *testing.T) {
+	var p peekEOFReader
+
+	// corner case: empty source
+	s := new(Scanner).Init(&p)
+
+	tok := s.Next()
+	if tok != scanner.EOF {
+		t.Errorf("eof not reported")
+	}
+
+	tok = s.Peek()
+	if tok != scanner.EOF {
+		t.Errorf("eof not reported")
+	}
+
+	if p.calls != 2 {
+		t.Errorf("scanner called Read %d times, not twice", p.calls)
 	}
 }
