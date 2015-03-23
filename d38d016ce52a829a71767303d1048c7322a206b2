@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86160cff_c9a3a125",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-23T17:01:32Z",
+      "side": 1,
+      "message": "include the original value of name (as a %q) in this error message?  but that means you wouldn\u0027t want to lose it on line 261.",
+      "revId": "d38d016ce52a829a71767303d1048c7322a206b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86160cff_099e39e3",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-23T17:01:32Z",
+      "side": 1,
+      "message": "var (\n   ....\n)\n\n?",
+      "revId": "d38d016ce52a829a71767303d1048c7322a206b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
