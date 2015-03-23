@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "86160cff_a32e440c",
+        "filename": "src/net/interface_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-03-23T03:48:42Z",
+      "side": 1,
+      "message": "This is marginally shorter, I guess, but doesn\u0027t seem obviously better.  If you want to keep it, that\u0027s fine, but I still want the error messages below to see what test is failing (IPv4 vs IPv6) and be in the normal \"foo \u003d X; want Y\" format, with the routeStats in some nice form at the end.",
+      "revId": "687fed34f5a63fa00eb607be69ef95aca4d33e90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86160cff_63b8ac56",
         "filename": "src/net/interface_test.go",
         "patchSetId": 2
