@@ -87,6 +87,10 @@ func Unlinkat(dirfd int, path string) error {
 	return unlinkat(dirfd, path, 0)
 }
 
+func UnlinkAt(dirfd int, path string, flags int) {
+	return unlinkat(dirfd, path, flags)
+}
+
 //sys	utimes(path string, times *[2]Timeval) (err error)
 
 func Utimes(path string, tv []Timeval) (err error) {
