@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86160cff_bb982879",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-23T17:27:26Z",
+      "side": 1,
+      "message": "Done.  I split \"name\" into two variables: \"line\" for the raw line contents, and \"path\" for the decoded package path string.",
+      "parentUuid": "86160cff_c9a3a125",
+      "revId": "d38d016ce52a829a71767303d1048c7322a206b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86160cff_099e39e3",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-23T17:01:32Z",
       "side": 1,
       "message": "var (\n   ....\n)\n\n?",
+      "revId": "d38d016ce52a829a71767303d1048c7322a206b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86160cff_1b8e7c31",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-03-23T17:27:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86160cff_099e39e3",
       "revId": "d38d016ce52a829a71767303d1048c7322a206b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
