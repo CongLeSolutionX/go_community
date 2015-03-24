@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6694b8c1_6aab4782",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-24T20:23:26Z",
+      "side": 1,
+      "message": "Yeah, the idea is fine.\n\nBut please note that on ARM, the order of CMP\nw.r.t. conditional codes are not left to right\nas x86 is.\n\nThe correct way to write R2 \u003d min(R0, R1) is:\n    CMP R0, R1\n    MOVW R0, R2\n    MOVW.LT R1, R2\n\n(CMP R0, R1; MOVW.LT means R1 \u003c R0)\n\nPlease double check.",
+      "parentUuid": "8647ec3d_8cc0a72f",
+      "revId": "94f2211c0ef0c9e2c50ce834f5a9b6cab1575f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8647ec3d_eccf6b5a",
         "filename": "src/runtime/asm_arm.s",
         "patchSetId": 1
