@@ -16,6 +16,58 @@
       "revId": "94f2211c0ef0c9e2c50ce834f5a9b6cab1575f87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8647ec3d_8cc0a72f",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-24T16:21:51Z",
+      "side": 1,
+      "message": "Wouldn\u0027t just\n\nCMP R0, R1\nMOVW R1, R7\nMOVW.LT R0, R7\n\ngenerate min(R0,R1) in R7?\nIn any case, I don\u0027t think you need to special case zero size.",
+      "parentUuid": "0654dce2_53bf369f",
+      "revId": "94f2211c0ef0c9e2c50ce834f5a9b6cab1575f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8647ec3d_eccf6b5a",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-24T16:21:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the signs be reversed?  We want to return -1 if a\u003cb.",
+      "revId": "94f2211c0ef0c9e2c50ce834f5a9b6cab1575f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8647ec3d_cccaaf4d",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-24T16:21:51Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "94f2211c0ef0c9e2c50ce834f5a9b6cab1575f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

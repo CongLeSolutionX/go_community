@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8647ec3d_6c253ba2",
+        "filename": "src/runtime/noasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-24T16:21:51Z",
+      "side": 0,
+      "message": "add ,arm",
+      "revId": "9b69196958a1ba3eba7a1621894ea9aafaa91648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
