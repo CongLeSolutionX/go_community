@@ -1304,6 +1304,21 @@ top:
 		}
 	}
 
+	// Run idle GC.
+	//
+	// TODO(austin): GC shouldn't inhibit the load balancing
+	// performed below, but this must happen before any "goto
+	// stop" or the P may go idle without running GC.
+	if gcphase == _GCmark && _g_.m.p.gcBgMarkWorker != nil {
+		_g_.m.p.gcBgMarkIdle = true
+		gp := _g_.m.p.gcBgMarkWorker
+		casgstatus(gp, _Gwaiting, _Grunnable)
+		if trace.enabled {
+			traceGoUnpark(gp, 0)
+		}
+		return gp
+	}
+
 	// If number of spinning M's >= number of busy P's, block.
 	// This is necessary to prevent excessive CPU consumption
 	// when GOMAXPROCS>>1 but the program parallelism is low.
@@ -1468,6 +1483,12 @@ top:
 		if gp != nil {
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			traceGoUnpark(gp, 0)
+			resetspinning()
+		}
+	}
+	if gp == nil && gcphase == _GCmark {
+		gp = gcController.findRunnable(_g_.m.p)
+		if gp != nil {
 			resetspinning()
 		}
 	}
@@ -2581,6 +2602,16 @@ func procresize(nprocs int32) *p {
 				sched.runqtail = gp
 			}
 			sched.runqsize++
+		}
+		// if there's a background worker, make it runnable and put
+		// it on the global queue so it can clean itself up
+		if p.gcBgMarkWorker != nil {
+			casgstatus(p.gcBgMarkWorker, _Gwaiting, _Grunnable)
+			if trace.enabled {
+				traceGoUnpark(p.gcBgMarkWorker, 0)
+			}
+			globrunqput(p.gcBgMarkWorker)
+			p.gcBgMarkWorker = nil
 		}
 		for i := range p.sudogbuf {
 			p.sudogbuf[i] = nil
