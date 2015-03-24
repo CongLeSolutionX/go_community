@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6694b8c1_8a617381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-24T23:30:09Z",
+      "side": 1,
+      "message": "i don\u0027t see this part of the change.",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "2c4f1319f4a306c526beb68d1f0105b9bc98e35e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6694b8c1_4a676b95",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-03-24T23:30:09Z",
+      "side": 1,
+      "message": "is there any place to document what -lldb option is?",
+      "range": {
+        "startLine": 379,
+        "startChar": 38,
+        "endLine": 379,
+        "endChar": 41
+      },
+      "revId": "2c4f1319f4a306c526beb68d1f0105b9bc98e35e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
