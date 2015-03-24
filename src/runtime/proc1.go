@@ -1332,6 +1332,18 @@ top:
 	}
 stop:
 
+	// We have nothing to do. If we're in the GC mark phase, run
+	// idle-time marking rather than give up the P.
+	if gcphase == _GCmark && _g_.m.p.gcBgMarkWorker != nil {
+		_g_.m.p.gcBgMarkIdle = true
+		gp := _g_.m.p.gcBgMarkWorker
+		casgstatus(gp, _Gwaiting, _Grunnable)
+		if trace.enabled {
+			traceGoUnpark(gp, 0)
+		}
+		return gp
+	}
+
 	// return P and block
 	lock(&sched.lock)
 	if sched.gcwaiting != 0 {
@@ -1468,6 +1480,12 @@ top:
 		if gp != nil {
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			traceGoUnpark(gp, 0)
+			resetspinning()
+		}
+	}
+	if gp == nil && gcphase == _GCmark {
+		gp = gcController.findRunnable(_g_.m.p)
+		if gp != nil {
 			resetspinning()
 		}
 	}
@@ -2581,6 +2599,16 @@ func procresize(nprocs int32) *p {
 				sched.runqtail = gp
 			}
 			sched.runqsize++
+		}
+		// if there's a background worker, make it runnable and put
+		// it on the global queue so it can clean itself up
+		if p.gcBgMarkWorker != nil {
+			casgstatus(p.gcBgMarkWorker, _Gwaiting, _Grunnable)
+			if trace.enabled {
+				traceGoUnpark(p.gcBgMarkWorker, 0)
+			}
+			globrunqput(p.gcBgMarkWorker)
+			p.gcBgMarkWorker = nil
 		}
 		for i := range p.sudogbuf {
 			p.sudogbuf[i] = nil
