@@ -251,10 +251,49 @@ func TestPipeLookPathLeak(t *testing.T) {
 }
 
 func numOpenFDS(t *testing.T) (n int, lsof []byte) {
-	lsof, err := exec.Command("lsof", "-b", "-n", "-p", strconv.Itoa(os.Getpid())).Output()
+	pid := strconv.Itoa(os.Getpid())
+
+	lsof, err := exec.Command("lsof", "-b", "-n", "-p", pid).Output()
 	if err != nil {
 		t.Skip("skipping test; error finding or running lsof")
 	}
+
+	// Android's lsof does not obey the -p option, so extra filtering is needed.
+	// We first find the PID column index by parsing the first line, and
+	// select lines containing pid in the column. (golang.org/issue/10206)
+	if runtime.GOOS == "android" {
+		pidCol := -1
+		filtered := []byte{}
+		pidBytes := []byte(pid)
+
+		s := bufio.NewScanner(bytes.NewReader(lsof))
+		for s.Scan() {
+			line := s.Bytes()
+			fields := bytes.Fields(line)
+			if pidCol < 0 {
+				for i, v := range fields {
+					if bytes.Equal(v, []byte("PID")) {
+						pidCol = i
+						break
+					}
+				}
+				filtered = append(filtered, line...)
+				continue
+			}
+			if bytes.Equal(fields[pidCol], pidBytes) {
+				filtered = append(filtered, '\n')
+				filtered = append(filtered, line...)
+			}
+		}
+		if pidCol < 0 {
+			t.Fatal("error processing lsof output: unexpected header format")
+		}
+		if err := s.Err(); err != nil {
+			t.Fatalf("error processing lsof output: %v", err)
+		}
+		lsof = filtered
+	}
+
 	return bytes.Count(lsof, []byte("\n")), lsof
 }
 
