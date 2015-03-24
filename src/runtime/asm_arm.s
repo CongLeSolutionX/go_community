@@ -782,6 +782,61 @@ eq:
 	MOVB	R0, ret+8(FP)
 	RET
 
+TEXT runtime·cmpstring(SB),NOSPLIT,$0-20
+	MOVW	s1_base+0(FP), R2
+	MOVW	s1_len+4(FP), R0
+	MOVW	s2_base+8(FP), R3
+	MOVW	s2_len+12(FP), R1
+	BL	runtime·cmpbody(SB)
+	MOVW	R8, ret+16(FP)
+	RET
+
+TEXT bytes·Compare(SB),NOSPLIT,$0-28
+	MOVW	s1+0(FP), R2
+	MOVW	s1+4(FP), R0
+	MOVW	s2+12(FP), R3
+	MOVW	s2+16(FP), R1
+	BL	runtime·cmpbody(SB)
+	MOVW	R8, ret+24(FP)
+	RET
+
+// On entry:
+// R0 is the length of s1
+// R1 is the legnth of s2
+// R2 points to the start of s1
+// R3 points to the start of s2
+//
+// On exit:
+// R8 is -1/0/+1
+//
+// The contents of R6 are lost
+TEXT runtime·cmpbody(SB),NOSPLIT,$-4-0
+	CMP	$0, R0	
+	BEQ	samebytes
+	CMP	$0, R1
+	BEQ	samebytes
+	CMP	R0, R1
+	MOVW.LT	R0, R1
+
+	ADD	R2, R1, R6 // R2 is current byte in s1, R6 is last byte in s1 to compare
+loop:
+	CMP	R2, R6
+	BEQ	samebytes // all compared bytes were the same; compare lengths
+	MOVBU.P	1(R2), R4
+	MOVBU.P	1(R3), R5
+	CMP	R4, R5
+	BEQ	loop
+	// bytes differed
+	MOVW.LT	$1, R8
+	MOVW.GT	$-1, R8
+	RET
+samebytes:
+	CMP	R0, R1
+	MOVW.LT	$1, R8
+	MOVW.GT	$-1, R8
+	MOVW.EQ	$0, R8
+	RET
+
 // eqstring tests whether two strings are equal.
 // The compiler guarantees that strings passed
 // to eqstring have equal length.
