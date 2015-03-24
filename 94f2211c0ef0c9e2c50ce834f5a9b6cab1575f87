@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0654dce2_53bf369f",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-03-24T09:43:33Z",
+      "side": 1,
+      "message": "if anyone knows how to implement a cheaper min(R0, R1) that works when R0 or R1 is 0, please help.\n\nI tried section 2.4 from http://www.coranac.com/documents/bittrick/ but it still has problems when one of the arguments is zero.",
+      "revId": "94f2211c0ef0c9e2c50ce834f5a9b6cab1575f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
