@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c352b622_db57972b",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-25T21:47:59Z",
+      "side": 1,
+      "message": "R4, R5, and R6 are clobbered",
+      "revId": "7d1804e0c070db40c63c0dfb7fa8a6238ce14167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c352b622_c03a0296",
         "filename": "src/runtime/noasm.go",
         "patchSetId": 2
