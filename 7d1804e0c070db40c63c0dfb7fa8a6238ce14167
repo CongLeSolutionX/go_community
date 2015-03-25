@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c352b622_c03a0296",
+        "filename": "src/runtime/noasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-03-25T21:12:18Z",
+      "side": 1,
+      "message": "Need to add arm here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 59,
+        "endLine": 5,
+        "endChar": 62
+      },
+      "revId": "7d1804e0c070db40c63c0dfb7fa8a6238ce14167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
