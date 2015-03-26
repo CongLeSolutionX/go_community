@@ -3531,9 +3531,13 @@ func testSchedLocalQueue() {
 	}
 }
 
+var pSink *p
+
 func testSchedLocalQueueSteal() {
 	p1 := new(p)
 	p2 := new(p)
+	pSink = p1
+	pSink = p2
 	gs := make([]g, len(p1.runq))
 	for i := 0; i < len(p1.runq); i++ {
 		for j := 0; j < i; j++ {

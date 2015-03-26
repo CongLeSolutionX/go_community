@@ -849,7 +849,7 @@ func inlvar(var_ *Node) *Node {
 	// escape analysis is done, treat all local vars as escaping.
 	// See issue 9537.
 	if var_.Esc == EscHeap || (inl_nonlocal != 0 && var_.Op == ONAME) {
-		addrescapes(n)
+		addrescapes(n, EscHeap)
 	}
 
 	Curfn.Func.Dcl = list(Curfn.Func.Dcl, n)
