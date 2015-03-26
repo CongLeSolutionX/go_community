@@ -224,8 +224,9 @@ const (
 	EscNever
 	EscBits           = 3
 	EscMask           = (1 << EscBits) - 1
-	EscContentEscapes = 1 << EscBits // value obtained by indirect of parameter escapes to some returned result
+	EscContentEscapes = 1 << EscBits // value obtained by indirect of parameter escapes to heap
 	EscReturnBits     = EscBits + 1
+	// Esc encoding = | escapeReturnEncoding:(width-4) | contentEscapes:1 | escEnum:3
 )
 
 const (
