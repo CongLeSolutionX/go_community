@@ -26,7 +26,7 @@ func foo2(yy *int) { // ERROR "leaking param: yy"
 	gxx = yy
 }
 
-func foo3(x int) *int { // ERROR "moved to heap: x"
+func foo3(x int) *int { // ERROR "leaking param: x to result ~r1"
 	return &x // ERROR "&x escapes to heap"
 }
 
@@ -242,7 +242,7 @@ func foo23b(x int) *(func() int) {
 	return &f                    // ERROR "&f escapes to heap"
 }
 
-func foo23c(x int) func() int { // ERROR "moved to heap: x"
+func foo23c(x int) func() int { // ERROR "leaking param: x to result ~r1"
 	return func() int { // ERROR "func literal escapes to heap"
 		x++ // ERROR "&x escapes to heap"
 		return x
@@ -339,7 +339,7 @@ func foo51(i *int) { // ERROR "leaking param: i"
 	ptrMap[i] = i
 }
 
-func indaddr1(x int) *int { // ERROR "moved to heap: x"
+func indaddr1(x int) *int { // ERROR "leaking param: x to result ~r1"
 	return &x // ERROR "&x escapes to heap"
 }
 
@@ -370,7 +370,7 @@ func Float64frombits(b uint64) float64 {
 }
 
 // contrast with
-func float64bitsptr(f float64) *uint64 { // ERROR "moved to heap: f"
+func float64bitsptr(f float64) *uint64 { // ERROR "leaking param: f to result ~r1"
 	return (*uint64)(unsafe.Pointer(&f)) // ERROR "&f escapes to heap"
 }
 
@@ -685,11 +685,11 @@ func foo77b(z []interface{}) { // ERROR "leaking param: z"
 	*ppi = myprint1(nil, z...)
 }
 
-func foo78(z int) *int { // ERROR "moved to heap: z"
+func foo78(z int) *int { // ERROR "leaking param: z to result ~r1"
 	return &z // ERROR "&z escapes to heap"
 }
 
-func foo78a(z int) *int { // ERROR "moved to heap: z"
+func foo78a(z int) *int { // ERROR "leaking param: z to result ~r1"
 	y := &z   // ERROR "&z escapes to heap"
 	x := &y   // ERROR "&y does not escape"
 	return *x // really return y

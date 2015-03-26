@@ -28,7 +28,7 @@ func Sysfunc(name string) *Node {
  * the current function returns.  mark any local vars
  * as needing to move to the heap.
  */
-func addrescapes(n *Node) {
+func addrescapes(n *Node, esc uint8) {
 	switch n.Op {
 	// probably a type error already.
 	// dump("addrescapes", n);
@@ -48,9 +48,9 @@ func addrescapes(n *Node) {
 
 		switch n.Class {
 		case PPARAMREF:
-			addrescapes(n.Defn)
+			addrescapes(n.Defn, esc)
 
-			// if func param, need separate temporary
+		// if func param, need separate temporary
 		// to hold heap pointer.
 		// the function type has already been checked
 		// (we're in the function body)
@@ -86,9 +86,11 @@ func addrescapes(n *Node) {
 			buf := fmt.Sprintf("&%v", Sconv(n.Sym, 0))
 			n.Heapaddr.Sym = Lookup(buf)
 			n.Heapaddr.Orig.Sym = n.Heapaddr.Sym
-			n.Esc = EscHeap
+			n.Esc = esc
 			if Debug['m'] != 0 {
-				fmt.Printf("%v: moved to heap: %v\n", n.Line(), Nconv(n, 0))
+				if esc == EscHeap {
+					fmt.Printf("%v: moved to heap: %v\n", n.Line(), Nconv(n, 0))
+				}
 			}
 			Curfn = oldfn
 		}
@@ -97,15 +99,15 @@ func addrescapes(n *Node) {
 		ODOTPTR:
 		break
 
-		// ODOTPTR has already been introduced,
+	// ODOTPTR has already been introduced,
 	// so these are the non-pointer ODOT and OINDEX.
 	// In &x[0], if x is a slice, then x does not
 	// escape--the pointer inside x does, but that
 	// is always a heap pointer anyway.
 	case ODOT,
-		OINDEX:
+		OINDEX, OPAREN, OCONVNOP:
 		if !Isslice(n.Left.Type) {
-			addrescapes(n.Left)
+			addrescapes(n.Left, esc)
 		}
 	}
 }
