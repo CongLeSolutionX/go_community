@@ -612,7 +612,7 @@ func lastIndexFunc(s string, f func(rune) bool, truth bool) int {
 	return -1
 }
 
-func makeCutsetFunc(cutset string) func(rune) bool {
+func makeCutsetFunc(cutset string) func(r rune) bool {
 	return func(r rune) bool { return IndexRune(cutset, r) >= 0 }
 }
 
