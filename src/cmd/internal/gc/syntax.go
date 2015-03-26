@@ -44,15 +44,15 @@ type Node struct {
 	Isddd       bool // is the argument variadic
 	Readonly    bool
 	Implicit    bool
-	Addrtaken   bool  // address taken, even if not moved to heap
-	Assigned    bool  // is the variable ever assigned to
-	Captured    bool  // is the variable captured by a closure
-	Byval       bool  // is the variable captured by value or by reference
-	Reslice     bool  // this is a reslice x = x[0:y] or x = append(x, ...)
-	Likely      int8  // likeliness of if statement
-	Hasbreak    bool  // has break statement
-	Needzero    bool  // if it contains pointers, needs to be zeroed on function entry
-	Esc         uint8 // EscXXX
+	Addrtaken   bool   // address taken, even if not moved to heap
+	Assigned    bool   // is the variable ever assigned to
+	Captured    bool   // is the variable captured by a closure
+	Byval       bool   // is the variable captured by value or by reference
+	Reslice     bool   // this is a reslice x = x[0:y] or x = append(x, ...)
+	Likely      int8   // likeliness of if statement
+	Hasbreak    bool   // has break statement
+	Needzero    bool   // if it contains pointers, needs to be zeroed on function entry
+	Esc         uint16 // EscXXX
 	Funcdepth   int32
 
 	// most nodes
@@ -100,7 +100,7 @@ type Node struct {
 	Escloopdepth int       // -1: global, 0: return variables, 1:function top level, increased inside function for every loop or label to mark scopes
 
 	Sym      *Sym  // various
-	Vargen   int32 // unique name for OTYPE/ONAME
+	Vargen   int32 // unique name for OTYPE/ONAME within a function.  Function outputs are numbered starting at one.
 	Lineno   int32
 	Xoffset  int64
 	Stkdelta int64 // offset added by stack frame compaction phase.
@@ -374,6 +374,11 @@ func list1(n *Node) *NodeList {
 // list returns the result of appending n to l.
 func list(l *NodeList, n *Node) *NodeList {
 	return concat(l, list1(n))
+}
+
+// prepends returns the result of prepending n to l.
+func prepend(n *Node, l *NodeList) *NodeList {
+	return concat(list1(n), l)
 }
 
 // listsort sorts *l in place according to the 3-way comparison function f.
