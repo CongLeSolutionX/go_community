@@ -619,6 +619,53 @@ var kinds = []int{
 	TUNSAFEPTR:  obj.KindUnsafePointer,
 }
 
+func ispointy(t *Type) bool {
+	switch t.Etype {
+	case TINT,
+		TUINT,
+		TINT8,
+		TUINT8,
+		TINT16,
+		TUINT16,
+		TINT32,
+		TUINT32,
+		TINT64,
+		TUINT64,
+		TUINTPTR,
+		TFLOAT32,
+		TFLOAT64,
+		TCOMPLEX64,
+		TCOMPLEX128,
+		TBOOL:
+		return false
+
+	case TARRAY:
+		if t.Bound < 0 { // slice
+			return true
+		}
+
+		if t.Bound == 0 { // empty array
+			return false
+		}
+
+	case TSTRUCT:
+		return false
+
+	case TSTRING,
+		TPTR32,
+		TPTR64,
+		TUNSAFEPTR,
+		TINTER,
+		TCHAN,
+		TMAP,
+		TFUNC:
+		return true
+	default:
+	}
+	return true
+
+}
+
 func haspointers(t *Type) bool {
 	if t.Haspointers != 0 {
 		return t.Haspointers-1 != 0
