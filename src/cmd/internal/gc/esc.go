@@ -347,7 +347,7 @@ func escfunc(e *EscState, func_ *Node) {
 		case PPARAMOUT:
 			ll.N.Escloopdepth = 0
 
-		case PPARAM:
+		case PPARAM, PPARAM | PHEAP:
 			ll.N.Escloopdepth = 1
 			if ll.N.Type != nil && !haspointers(ll.N.Type) {
 				break
@@ -1238,6 +1238,12 @@ const (
 	MinLevel = -2
 )
 
+// inToOut reports whether src and dst correspond to input and output parameters of the same function, if src does not already escape.
+func inToOut(dst, src *Node) bool {
+	return dst.Op == ONAME && dst.Class == PPARAMOUT && dst.Vargen <= 20 &&
+		src.Op == ONAME && (src.Class&^uint8(PHEAP)) == PPARAM && src.Curfn == dst.Curfn && src.Esc != EscScope && src.Esc != EscHeap
+}
+
 func escwalk(e *EscState, level int, dst *Node, src *Node) {
 	if src.Walkgen == walkgen && src.Esclevel <= int32(level) {
 		return
@@ -1259,27 +1265,31 @@ func escwalk(e *EscState, level int, dst *Node, src *Node) {
 
 	// Input parameter flowing to output parameter?
 	var leaks bool
-	if dst.Op == ONAME && dst.Class == PPARAMOUT && dst.Vargen <= 20 {
-		if src.Op == ONAME && src.Class == PPARAM && src.Curfn == dst.Curfn && src.Esc != EscScope && src.Esc != EscHeap {
-			if level == 0 {
-				if Debug['m'] != 0 {
-					Warnl(int(src.Lineno), "leaking param: %v to result %v", Nconv(src, obj.FmtShort), Sconv(dst.Sym, 0))
-				}
-				if src.Esc&EscMask != EscReturn {
-					src.Esc = EscReturn
-				}
-				src.Esc |= 1 << uint((dst.Vargen-1)+EscReturnBits)
-				goto recurse
-			} else if level > 0 {
-				if Debug['m'] != 0 {
-					Warnl(int(src.Lineno), "%v leaking param %v content to result %v", Nconv(src.Curfn.Nname, 0), Nconv(src, obj.FmtShort), Sconv(dst.Sym, 0))
-				}
-				if src.Esc&EscMask != EscReturn {
-					src.Esc = EscReturn
-				}
-				src.Esc |= EscContentEscapes
-				goto recurse
+	if inToOut(dst, src) {
+		if level <= 0 {
+			// This case handles:
+			// 1. return in
+			// 2. return &in
+			// 3. tmp := in; return &tmp
+			if Debug['m'] != 0 {
+				Warnl(int(src.Lineno), "leaking param: %v to result %v", Nconv(src, obj.FmtShort), Sconv(dst.Sym, 0))
 			}
+			if src.Esc&EscMask != EscReturn {
+				src.Esc = EscReturn
+			}
+			src.Esc |= 1 << uint((dst.Vargen-1)+EscReturnBits)
+			goto recurse
+		} else if level > 0 {
+			// This case handles:
+			// 1. return *in
+			if Debug['m'] != 0 {
+				Warnl(int(src.Lineno), "%v leaking param %v content to result %v", Nconv(src.Curfn.Nname, 0), Nconv(src, obj.FmtShort), Sconv(dst.Sym, 0))
+			}
+			if src.Esc&EscMask != EscReturn {
+				src.Esc = EscReturn
+			}
+			src.Esc |= EscContentEscapes
+			goto recurse
 		}
 	}
 
@@ -1290,7 +1300,7 @@ func escwalk(e *EscState, level int, dst *Node, src *Node) {
 
 	switch src.Op {
 	case ONAME:
-		if src.Class == PPARAM && (leaks || dst.Escloopdepth < 0) && src.Esc != EscHeap {
+		if src.Class&^uint8(PHEAP) == PPARAM && (leaks || dst.Escloopdepth < 0) && src.Esc != EscHeap {
 			src.Esc = EscScope
 			if Debug['m'] != 0 {
 				Warnl(int(src.Lineno), "leaking param: %v", Nconv(src, obj.FmtShort))
@@ -1310,7 +1320,15 @@ func escwalk(e *EscState, level int, dst *Node, src *Node) {
 		OADDR:
 		if leaks {
 			src.Esc = EscHeap
-			addrescapes(src.Left)
+			e := EscHeap
+			// If this is input parameter flowing to output parameter,
+			// mark it only as EscReturn.
+			// If the input parameter also flows to heap elsewhere,
+			// then it will be remarked as EscHeap when we walk that statement.
+			if inToOut(dst, outervalue(src.Left)) {
+				e = EscReturn
+			}
+			addrescapes(src.Left, uint8(e))
 			if Debug['m'] != 0 {
 				Warnl(int(src.Lineno), "%v escapes to heap", Nconv(src, obj.FmtShort))
 			}
@@ -1406,7 +1424,7 @@ func esctag(e *EscState, func_ *Node) {
 	Curfn = func_
 
 	for ll := Curfn.Dcl; ll != nil; ll = ll.Next {
-		if ll.N.Op != ONAME || ll.N.Class != PPARAM {
+		if ll.N.Op != ONAME || ll.N.Class&^uint8(PHEAP) != PPARAM {
 			continue
 		}
 

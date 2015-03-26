@@ -317,7 +317,7 @@ func movelargefn(fn *Node) {
 	for l := fn.Dcl; l != nil; l = l.Next {
 		n = l.N
 		if n.Class == PAUTO && n.Type != nil && n.Type.Width > MaxStackVarSize {
-			addrescapes(n)
+			addrescapes(n, EscHeap)
 		}
 	}
 }

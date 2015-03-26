@@ -11,7 +11,7 @@ package foo
 
 var p *int
 
-func alloc(x int) *int { // ERROR "can inline alloc" "moved to heap: x"
+func alloc(x int) *int { // ERROR "can inline alloc" "leaking param: x to result ~r1"
 	return &x // ERROR "&x escapes to heap"
 }
 
