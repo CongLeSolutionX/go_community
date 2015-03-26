@@ -409,11 +409,6 @@ func runTest(cmd *Command, args []string) {
 	var builds, runs, prints []*action
 
 	if testCoverPaths != nil {
-		// Load packages that were asked about for coverage.
-		// packagesForBuild exits if the packages cannot be loaded.
-		testCoverPkgs = packagesForBuild(testCoverPaths)
-
-		// Warn about -coverpkg arguments that are not actually used.
 		used := make(map[string]bool)
 		for _, p := range pkgs {
 			used[p.ImportPath] = true
@@ -421,6 +416,22 @@ func runTest(cmd *Command, args []string) {
 				used[dep] = true
 			}
 		}
+
+		if len(testCoverPaths) == 1 && testCoverPaths[0] == "all" {
+			testCoverPaths = nil
+			for p := range used {
+				if p == "command-line-arguments" || p == "unsafe" || p == "runtime" {
+					continue
+				}
+				testCoverPaths = append(testCoverPaths, p)
+			}
+		}
+
+		// Load packages that were asked about for coverage.
+		// packagesForBuild exits if the packages cannot be loaded.
+		testCoverPkgs = packagesForBuild(testCoverPaths)
+
+		// Warn about -coverpkg arguments that are not actually used.
 		for _, p := range testCoverPkgs {
 			if !used[p.ImportPath] {
 				log.Printf("warning: no packages being tested depend on %s", p.ImportPath)
@@ -962,6 +973,7 @@ func declareCoverVars(importPath string, files ...string) map[string]*CoverVar {
 		if isTestFile(file) {
 			continue
 		}
+		//println("ASSIGN COVER", coverIndex, "to", importPath, file)
 		coverVars[file] = &CoverVar{
 			File: filepath.Join(importPath, file),
 			Var:  fmt.Sprintf("GoCover_%d", coverIndex),
