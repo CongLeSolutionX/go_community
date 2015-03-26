@@ -40,8 +40,8 @@ type Value struct {
 // Examples:
 // Opcode          aux   args
 //  OpAdd          nil      2
-//  OpConstStr  string      0
-//  OpConstInt   int64      0
+//  OpConst     string      0    string constant
+//  OpConst      int64      0    int64 constant
 //  OpAddcq      int64      1    amd64 op: v = arg[0] + constant
 
 // short form print.  Just v#.

@@ -17,6 +17,7 @@ import (
 	"fmt"
 	"go/format"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"sort"
@@ -148,21 +149,13 @@ func main() {
 	}
 
 	// Write to a file if given, otherwise stdout.
-	var out io.WriteCloser
 	if len(os.Args) >= 4 {
-		outfile := os.Args[3]
-		out, err = os.Create(outfile)
-		if err != nil {
-			log.Fatalf("can't open output file %s: %v\n", outfile, err)
-		}
+		err = ioutil.WriteFile(os.Args[3], b, 0666)
 	} else {
-		out = os.Stdout
+		_, err = os.Stdout.Write(b)
 	}
-	if _, err = out.Write(b); err != nil {
+	if err != nil {
 		log.Fatalf("can't write output: %v\n", err)
-	}
-	if err = out.Close(); err != nil {
-		log.Fatalf("can't close output: %v\n", err)
 	}
 }
 

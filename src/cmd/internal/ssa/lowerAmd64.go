@@ -5,12 +5,12 @@ package ssa
 func lowerAmd64(v *Value) bool {
 	switch v.Op {
 	case OpADDQ:
-		// match: (ADDQ x (ConstInt [c]))
+		// match: (ADDQ x (Const [c]))
 		// cond:
 		// result: (ADDCQ [c] x)
 		{
 			x := v.Args[0]
-			if v.Args[1].Op != OpConstInt {
+			if v.Args[1].Op != OpConst {
 				goto end0
 			}
 			c := v.Args[1].Aux
@@ -23,11 +23,11 @@ func lowerAmd64(v *Value) bool {
 		}
 	end0:
 		;
-		// match: (ADDQ (ConstInt [c]) x)
+		// match: (ADDQ (Const [c]) x)
 		// cond:
 		// result: (ADDCQ [c] x)
 		{
-			if v.Args[0].Op != OpConstInt {
+			if v.Args[0].Op != OpConst {
 				goto end1
 			}
 			c := v.Args[0].Aux
@@ -81,12 +81,12 @@ func lowerAmd64(v *Value) bool {
 	end3:
 		;
 	case OpCMPQ:
-		// match: (CMPQ x (ConstInt [c]))
+		// match: (CMPQ x (Const [c]))
 		// cond:
 		// result: (CMPCQ x [c])
 		{
 			x := v.Args[0]
-			if v.Args[1].Op != OpConstInt {
+			if v.Args[1].Op != OpConst {
 				goto end4
 			}
 			c := v.Args[1].Aux
@@ -99,11 +99,11 @@ func lowerAmd64(v *Value) bool {
 		}
 	end4:
 		;
-		// match: (CMPQ (ConstInt [c]) x)
+		// match: (CMPQ (Const [c]) x)
 		// cond:
 		// result: (InvertFlags (CMPCQ x [c]))
 		{
-			if v.Args[0].Op != OpConstInt {
+			if v.Args[0].Op != OpConst {
 				goto end5
 			}
 			c := v.Args[0].Aux
@@ -202,12 +202,12 @@ func lowerAmd64(v *Value) bool {
 	end9:
 		;
 	case OpSUBQ:
-		// match: (SUBQ x (ConstInt [c]))
+		// match: (SUBQ x (Const [c]))
 		// cond:
 		// result: (SUBCQ x [c])
 		{
 			x := v.Args[0]
-			if v.Args[1].Op != OpConstInt {
+			if v.Args[1].Op != OpConst {
 				goto end10
 			}
 			c := v.Args[1].Aux
@@ -220,11 +220,11 @@ func lowerAmd64(v *Value) bool {
 		}
 	end10:
 		;
-		// match: (SUBQ (ConstInt [c]) x)
+		// match: (SUBQ (Const [c]) x)
 		// cond:
 		// result: (NEGQ (SUBCQ x [c]))
 		{
-			if v.Args[0].Op != OpConstInt {
+			if v.Args[0].Op != OpConst {
 				goto end11
 			}
 			c := v.Args[0].Aux

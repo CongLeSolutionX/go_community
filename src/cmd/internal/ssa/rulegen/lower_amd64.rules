@@ -35,12 +35,12 @@
 // Rules below here apply some simple optimizations after lowering.
 // TODO: Should this be a separate pass?
 
-(ADDQ x (ConstInt [c])) -> (ADDCQ [c] x) // TODO: restrict c to int32 range?
-(ADDQ (ConstInt [c]) x) -> (ADDCQ [c] x)
-(SUBQ x (ConstInt [c])) -> (SUBCQ x [c])
-(SUBQ (ConstInt [c]) x) -> (NEGQ (SUBCQ x [c]))
-(CMPQ x (ConstInt [c])) -> (CMPCQ x [c])
-(CMPQ (ConstInt [c]) x) -> (InvertFlags (CMPCQ x [c]))
+(ADDQ x (Const [c])) -> (ADDCQ [c] x) // TODO: restrict c to int32 range?
+(ADDQ (Const [c]) x) -> (ADDCQ [c] x)
+(SUBQ x (Const [c])) -> (SUBCQ x [c])
+(SUBQ (Const [c]) x) -> (NEGQ (SUBCQ x [c]))
+(CMPQ x (Const [c])) -> (CMPCQ x [c])
+(CMPQ (Const [c]) x) -> (InvertFlags (CMPCQ x [c]))
 
 // reverse ordering of compare instruction
 (SETL (InvertFlags x)) -> (SETGE x)

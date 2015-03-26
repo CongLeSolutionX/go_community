@@ -4,6 +4,8 @@
 
 package ssa
 
+import "log"
+
 // An Op encodes the specific operation that a Value performs.
 // Opcodes' semantics can be modified by the type and aux fields of the Value.
 // For instance, OpAdd can be 32 or 64 bit, signed or unsigned, float or complex, depending on Value.Type.
@@ -29,14 +31,9 @@ const (
 	OpLess
 
 	// constants
-	OpConstNil
-	OpConstBool    // aux is type bool
-	OpConstString  // aux is type string
-	OpConstInt     // aux is type int64
-	OpConstFloat   // aux is type float64
-	OpConstComplex // aux is type complex128
+	OpConst
 
-	OpArg    // address of a function parameter/result
+	OpArg    // address of a function parameter/result.  Memory input is an arg called ".mem".
 	OpGlobal // address of a global variable
 	OpFunc   // entry address of a function
 	OpCopy   // output = input
@@ -56,7 +53,7 @@ const (
 	OpIndexAddr
 
 	OpLoad  // args are ptr, memory
-	OpStore // args are ptr, memory, returns memory
+	OpStore // args are ptr, value, memory, returns memory
 
 	OpCheckNil   // arg[0] != nil
 	OpCheckBound // 0 <= arg[0] < arg[1]
@@ -184,20 +181,42 @@ func firstArgTyper(v *Value) {
 func boolTyper(v *Value) {
 	v.Type = TypeBool
 }
-func stringTyper(v *Value) {
-	v.Type = TypeString
+func constTyper(v *Value) {
+	// The type of OpConst can be derived from the type of the aux value.
+	switch v.Aux.(type) {
+	case bool:
+		v.Type = TypeBool
+	case int:
+		v.Type = TypeInt
+	case uint:
+		v.Type = TypeUint
+	case int8:
+		v.Type = TypeInt8
+	case uint8:
+		v.Type = TypeUint8
+	case int16:
+		v.Type = TypeInt16
+	case uint16:
+		v.Type = TypeUint16
+	case int32:
+		v.Type = TypeInt32
+	case uint32:
+		v.Type = TypeUint32
+	case int64:
+		v.Type = TypeInt64
+	case uint64:
+		v.Type = TypeUint64
+	case uintptr:
+		v.Type = TypeUintptr
+	case string:
+		v.Type = TypeString
+	default:
+		// TODO(khr)
+		log.Fatalf("type for OpConst aux=%v not implemented", v.Aux)
+	}
 }
 func flagsTyper(v *Value) {
 	v.Type = TypeFlags
-}
-func uint8Typer(v *Value) {
-	v.Type = TypeUint8
-}
-func uint64Typer(v *Value) {
-	v.Type = TypeUint64
-}
-func auxTyper(v *Value) {
-	v.Type = v.Aux.(Type)
 }
 
 // general purpose registers, 2 input, 1 output
@@ -226,16 +245,12 @@ var genericTable = [...]OpInfo{
 	OpMul:  {flags: OpFlagCommutative, typer: firstArgTyper},
 	OpLess: {typer: boolTyper},
 
-	OpConstBool:    {typer: boolTyper},   // aux is a bool
-	OpConstString:  {typer: stringTyper}, // aux is a string
-	OpConstInt:     {},                   // aux is an int64
-	OpConstFloat:   {},                   // aux is a float64
-	OpConstComplex: {},
-	OpArg:          {}, // aux is the name of the input variable  TODO:?
-	OpGlobal:       {}, // address of a global variable
-	OpFunc:         {},
-	OpCopy:         {},
-	OpPhi:          {},
+	OpConst:  {typer: constTyper}, // aux matches the type (e.g. bool, int64 float64)
+	OpArg:    {},                  // aux is the name of the input variable  TODO:?
+	OpGlobal: {},                  // address of a global variable
+	OpFunc:   {},
+	OpCopy:   {},
+	OpPhi:    {},
 
 	OpConvNop: {}, // aux is the type to convert to
 

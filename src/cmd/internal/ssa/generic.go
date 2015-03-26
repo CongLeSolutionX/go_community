@@ -5,23 +5,23 @@ package ssa
 func genericRules(v *Value) bool {
 	switch v.Op {
 	case OpAdd:
-		// match: (Add <t> (ConstInt [c]) (ConstInt [d]))
+		// match: (Add <t> (Const [c]) (Const [d]))
 		// cond: is64BitInt(t)
-		// result: (ConstInt [{c.(int64)+d.(int64)}])
+		// result: (Const [{c.(int64)+d.(int64)}])
 		{
 			t := v.Type
-			if v.Args[0].Op != OpConstInt {
+			if v.Args[0].Op != OpConst {
 				goto end0
 			}
 			c := v.Args[0].Aux
-			if v.Args[1].Op != OpConstInt {
+			if v.Args[1].Op != OpConst {
 				goto end0
 			}
 			d := v.Args[1].Aux
 			if !(is64BitInt(t)) {
 				goto end0
 			}
-			v.Op = OpConstInt
+			v.Op = OpConst
 			v.Aux = nil
 			v.Args = v.argstorage[:0]
 			v.Aux = c.(int64) + d.(int64)
