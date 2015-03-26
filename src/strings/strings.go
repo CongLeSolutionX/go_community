@@ -612,17 +612,13 @@ func lastIndexFunc(s string, f func(rune) bool, truth bool) int {
 	return -1
 }
 
-func makeCutsetFunc(cutset string) func(rune) bool {
-	return func(r rune) bool { return IndexRune(cutset, r) >= 0 }
-}
-
 // Trim returns a slice of the string s with all leading and
 // trailing Unicode code points contained in cutset removed.
 func Trim(s string, cutset string) string {
 	if s == "" || cutset == "" {
 		return s
 	}
-	return TrimFunc(s, makeCutsetFunc(cutset))
+	return TrimFunc(s, func(r rune) bool { return IndexRune(cutset, r) >= 0 })
 }
 
 // TrimLeft returns a slice of the string s with all leading
@@ -631,7 +627,7 @@ func TrimLeft(s string, cutset string) string {
 	if s == "" || cutset == "" {
 		return s
 	}
-	return TrimLeftFunc(s, makeCutsetFunc(cutset))
+	return TrimLeftFunc(s, func(r rune) bool { return IndexRune(cutset, r) >= 0 })
 }
 
 // TrimRight returns a slice of the string s, with all trailing
@@ -640,7 +636,7 @@ func TrimRight(s string, cutset string) string {
 	if s == "" || cutset == "" {
 		return s
 	}
-	return TrimRightFunc(s, makeCutsetFunc(cutset))
+	return TrimRightFunc(s, func(r rune) bool { return IndexRune(cutset, r) >= 0 })
 }
 
 // TrimSpace returns a slice of the string s, with all leading
