@@ -787,6 +787,7 @@ type Arch struct {
 	REGCALLX     int // BX
 	REGCALLX2    int // AX
 	REGRETURN    int // AX
+	RegBase      int
 	REGMIN       int
 	REGMAX       int
 	FREGMIN      int

@@ -48,6 +48,7 @@ func main() {
 	gc.Thearch.REGCALLX = x86.REG_BX
 	gc.Thearch.REGCALLX2 = x86.REG_AX
 	gc.Thearch.REGRETURN = x86.REG_AX
+	gc.Thearch.RegBase = x86.REG_AX
 	gc.Thearch.REGMIN = x86.REG_AX
 	gc.Thearch.REGMAX = x86.REG_DI
 	switch v := obj.Getgo386(); v {

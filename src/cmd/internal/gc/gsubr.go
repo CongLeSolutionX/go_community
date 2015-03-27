@@ -607,25 +607,25 @@ func ginit() {
 		reg[r] = 1
 	}
 
-	for r := Thearch.REGMIN; r <= Thearch.REGMAX; r++ {
-		reg[r-Thearch.REGMIN] = 0
+	for r := Thearch.RegBase; r <= Thearch.REGMAX; r++ {
+		reg[r-Thearch.RegBase] = 0
 	}
 	for r := Thearch.FREGMIN; r <= Thearch.FREGMAX; r++ {
-		reg[r-Thearch.REGMIN] = 0
+		reg[r-Thearch.RegBase] = 0
 	}
 
 	for _, r := range Thearch.ReservedRegs {
-		reg[r-Thearch.REGMIN] = 1
+		reg[r-Thearch.RegBase] = 1
 	}
 }
 
 func gclean() {
 	for _, r := range Thearch.ReservedRegs {
-		reg[r-Thearch.REGMIN]--
+		reg[r-Thearch.RegBase]--
 	}
 
-	for r := Thearch.REGMIN; r <= Thearch.REGMAX; r++ {
-		n := reg[r-Thearch.REGMIN]
+	for r := Thearch.RegBase; r <= Thearch.REGMAX; r++ {
+		n := reg[r-Thearch.RegBase]
 		if n != 0 {
 			Yyerror("reg %v left allocated", obj.Rconv(r))
 			if Debug['v'] != 0 {
@@ -635,7 +635,7 @@ func gclean() {
 	}
 
 	for r := Thearch.FREGMIN; r <= Thearch.FREGMAX; r++ {
-		n := reg[r-Thearch.REGMIN]
+		n := reg[r-Thearch.RegBase]
 		if n != 0 {
 			Yyerror("reg %v left allocated", obj.Rconv(r))
 			if Debug['v'] != 0 {
@@ -647,8 +647,8 @@ func gclean() {
 
 func Anyregalloc() bool {
 	n := 0
-	for r := Thearch.REGMIN; r <= Thearch.REGMAX; r++ {
-		if reg[r-Thearch.REGMIN] == 0 {
+	for r := Thearch.RegBase; r <= Thearch.REGMAX; r++ {
+		if reg[r-Thearch.RegBase] == 0 {
 			n++
 		}
 	}
@@ -683,7 +683,7 @@ Switch:
 			}
 		}
 		for i = Thearch.REGMIN; i <= Thearch.REGMAX; i++ {
-			if reg[i-Thearch.REGMIN] == 0 {
+			if reg[i-Thearch.RegBase] == 0 {
 				break Switch
 			}
 		}
@@ -703,7 +703,7 @@ Switch:
 			}
 		}
 		for i = Thearch.FREGMIN; i <= Thearch.FREGMAX; i++ {
-			if reg[i-Thearch.REGMIN] == 0 { // note: REGMIN, not FREGMIN
+			if reg[i-Thearch.RegBase] == 0 { // note: REGMIN, not FREGMIN
 				break Switch
 			}
 		}
@@ -716,7 +716,7 @@ Switch:
 		return
 	}
 
-	ix := i - Thearch.REGMIN
+	ix := i - Thearch.RegBase
 	if reg[ix] == 0 && Debug['v'] > 0 {
 		if regstk[ix] == nil {
 			regstk[ix] = make([]byte, 4096)
@@ -741,14 +741,14 @@ func Regfree(n *Node) {
 		return
 	}
 	switch {
-	case Thearch.REGMIN <= i && i <= Thearch.REGMAX,
+	case Thearch.RegBase <= i && i <= Thearch.REGMAX,
 		Thearch.FREGMIN <= i && i <= Thearch.FREGMAX:
 		// ok
 	default:
 		Fatal("regfree: reg out of range")
 	}
 
-	i -= Thearch.REGMIN
+	i -= Thearch.RegBase
 	if reg[i] <= 0 {
 		Fatal("regfree: reg not allocated")
 	}
@@ -761,14 +761,14 @@ func Regfree(n *Node) {
 // Reginuse reports whether r is in use.
 func Reginuse(r int) bool {
 	switch {
-	case Thearch.REGMIN <= r && r <= Thearch.REGMAX,
+	case Thearch.RegBase <= r && r <= Thearch.REGMAX,
 		Thearch.FREGMIN <= r && r <= Thearch.FREGMAX:
 		// ok
 	default:
 		Fatal("reginuse: reg out of range")
 	}
 
-	return reg[r-Thearch.REGMIN] > 0
+	return reg[r-Thearch.RegBase] > 0
 }
 
 // Regrealloc(n) undoes the effect of Regfree(n),
@@ -782,14 +782,14 @@ func Regrealloc(n *Node) {
 		return
 	}
 	switch {
-	case Thearch.REGMIN <= i && i <= Thearch.REGMAX,
+	case Thearch.RegBase <= i && i <= Thearch.REGMAX,
 		Thearch.FREGMIN <= i && i <= Thearch.FREGMAX:
 		// ok
 	default:
 		Fatal("regrealloc: reg out of range")
 	}
 
-	i -= Thearch.REGMIN
+	i -= Thearch.RegBase
 	if reg[i] == 0 && Debug['v'] > 0 {
 		if regstk[i] == nil {
 			regstk[i] = make([]byte, 4096)
@@ -808,7 +808,7 @@ func Regdump() {
 	}
 
 	dump := func(r int) {
-		stk := regstk[r-Thearch.REGMIN]
+		stk := regstk[r-Thearch.RegBase]
 		if len(stk) == 0 {
 			return
 		}
@@ -816,13 +816,13 @@ func Regdump() {
 		fmt.Printf("\t%s\n", strings.Replace(strings.TrimSpace(string(stk)), "\n", "\n\t", -1))
 	}
 
-	for r := Thearch.REGMIN; r <= Thearch.REGMAX; r++ {
-		if reg[r-Thearch.REGMIN] != 0 {
+	for r := Thearch.RegBase; r <= Thearch.REGMAX; r++ {
+		if reg[r-Thearch.RegBase] != 0 {
 			dump(r)
 		}
 	}
 	for r := Thearch.FREGMIN; r <= Thearch.FREGMAX; r++ {
-		if reg[r-Thearch.REGMIN] == 0 {
+		if reg[r-Thearch.RegBase] == 0 {
 			dump(r)
 		}
 	}

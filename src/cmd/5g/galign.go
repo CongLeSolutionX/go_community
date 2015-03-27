@@ -48,6 +48,7 @@ func main() {
 	gc.Thearch.REGCALLX = arm.REG_R1
 	gc.Thearch.REGCALLX2 = arm.REG_R2
 	gc.Thearch.REGRETURN = arm.REG_R0
+	gc.Thearch.RegBase = arm.REG_R0
 	gc.Thearch.REGMIN = arm.REG_R0
 	gc.Thearch.REGMAX = arm.REGEXT
 	gc.Thearch.FREGMIN = arm.REG_F0

@@ -56,7 +56,8 @@ func main() {
 	gc.Thearch.REGCALLX = ppc64.REG_R3
 	gc.Thearch.REGCALLX2 = ppc64.REG_R4
 	gc.Thearch.REGRETURN = ppc64.REG_R3
-	gc.Thearch.REGMIN = ppc64.REG_R0
+	gc.Thearch.RegBase = ppc64.REG_R0
+	gc.Thearch.REGMIN = ppc64.REGMIN
 	gc.Thearch.REGMAX = ppc64.REG_R31
 	gc.Thearch.FREGMIN = ppc64.REG_F0
 	gc.Thearch.FREGMAX = ppc64.REG_F31

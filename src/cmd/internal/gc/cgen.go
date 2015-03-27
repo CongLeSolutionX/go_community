@@ -792,7 +792,7 @@ func Mgen(n *Node, n1 *Node, rg *Node) {
 	if n.Addable != 0 {
 		*n1 = *n
 		if n1.Op == OREGISTER || n1.Op == OINDREG {
-			reg[n.Val.U.Reg-int16(Thearch.REGMIN)]++
+			reg[n.Val.U.Reg-int16(Thearch.RegBase)]++
 		}
 		return
 	}
@@ -1548,7 +1548,7 @@ func Igen(n *Node, a *Node, res *Node) {
 		// Increase the refcount of the register so that igen's caller
 		// has to call Regfree.
 		if n.Val.U.Reg != int16(Thearch.REGSP) {
-			reg[n.Val.U.Reg-int16(Thearch.REGMIN)]++
+			reg[n.Val.U.Reg-int16(Thearch.RegBase)]++
 		}
 		*a = *n
 		return

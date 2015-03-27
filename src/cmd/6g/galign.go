@@ -79,6 +79,7 @@ func main() {
 	gc.Thearch.REGCALLX = x86.REG_BX
 	gc.Thearch.REGCALLX2 = x86.REG_AX
 	gc.Thearch.REGRETURN = x86.REG_AX
+	gc.Thearch.RegBase = x86.REG_AX
 	gc.Thearch.REGMIN = x86.REG_AX
 	gc.Thearch.REGMAX = x86.REG_R15
 	gc.Thearch.FREGMIN = x86.REG_X0
