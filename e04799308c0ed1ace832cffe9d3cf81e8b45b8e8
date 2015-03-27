@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "43308612_e8a6e7b7",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-03-27T19:56:11Z",
+      "side": 1,
+      "message": "How\u0027s this?\n// inToOut answers the question \"do src and dst correspond to input and output parameters of the same function?\"\n// (and is src not already escaping in some way that would make this question uninteresting?)",
+      "parentUuid": "e3b7bab3_ea54e7e1",
+      "revId": "e04799308c0ed1ace832cffe9d3cf81e8b45b8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3b7bab3_2a4c3f4e",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 1
