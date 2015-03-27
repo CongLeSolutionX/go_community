@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e3b7bab3_ca1563c6",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T22:03:44Z",
+      "side": 1,
+      "message": "You beat me to it, Brad. Thanks. One tweak: s/is not already escaping in some way/does not already escape/",
+      "parentUuid": "c3c55625_31110ada",
+      "revId": "e04799308c0ed1ace832cffe9d3cf81e8b45b8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3b7bab3_2a4c3f4e",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 1
