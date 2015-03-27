@@ -508,6 +508,7 @@ const (
 	_GCquiesce                // unused state
 	_GCstw                    // unused state
 	_GCscan                   // GC collecting roots into workbufs, write barrier disabled
+	_GCmarksetup              // GC synchronizing with mutators: no marking allowed, write barrier ENABLED
 	_GCmark                   // GC marking from workbufs, write barrier ENABLED
 	_GCmarktermination        // GC mark termination: allocate black, P's help GC, write barrier ENABLED
 	_GCsweep                  // GC mark completed; sweeping in background, write barrier disabled

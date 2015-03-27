@@ -69,7 +69,7 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 	case _GCoff, _GCquiesce, _GCstw, _GCsweep, _GCscan:
 		// ok
 
-	case _GCmark, _GCmarktermination:
+	case _GCmarksetup, _GCmark, _GCmarktermination:
 		if ptr != 0 && inheap(ptr) {
 			shade(ptr)
 		}
@@ -80,7 +80,7 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 // (otherwise the write can be made directly).
 //go:nosplit
 func needwb() bool {
-	return gcphase == _GCmark || gcphase == _GCmarktermination || mheap_.shadow_enabled
+	return gcphase == _GCmarksetup || gcphase == _GCmark || gcphase == _GCmarktermination || mheap_.shadow_enabled
 }
 
 // Write barrier calls must not happen during critical GC and scheduler
