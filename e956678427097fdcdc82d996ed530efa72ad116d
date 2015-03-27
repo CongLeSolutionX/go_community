@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63a3ca80_49474580",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-27T15:29:50Z",
+      "side": 1,
+      "message": "We generally don\u0027t use () to describe functions in Go.  Please remove.  Thanks.\n\nIn the topic line, s/Remove/remove/",
+      "revId": "e956678427097fdcdc82d996ed530efa72ad116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
