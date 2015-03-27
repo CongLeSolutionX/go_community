@@ -737,23 +737,21 @@ func gc(mode int) {
 			gcscan_m()
 			gctimer.cycle.installmarkwb = nanotime()
 
-			// Enter mark phase, enabling write barriers
-			// and mutator assists.
-			//
-			// TODO: Elimate this STW. This requires
-			// enabling write barriers in all mutators
-			// before enabling any mutator assists or
-			// background marking.
+			// Enter mark phase. This enables write
+			// barriers.
 			if debug.gctrace > 0 {
 				tInstallWB = nanotime()
 			}
-			stoptheworld()
-			gcBgMarkPrepare()
-			gcphase = _GCmark
-
-			// Concurrent mark.
-			starttheworld()
+			atomicstore(&gcphase, _GCmark)
+			// Ensure all Ps have observed the phase
+			// change and have write barriers enabled
+			// before any marking occurs.
+			forEachP(func(*p) {})
 		})
+		// Concurrent mark.
+		gcBgMarkPrepare() // Must happen before assist enable.
+		// Enable mutator assists.
+		atomicstore(&gcAssistEnabled, 1)
 		gctimer.cycle.mark = nanotime()
 		if debug.gctrace > 0 {
 			tMark = nanotime()
@@ -788,6 +786,7 @@ func gc(mode int) {
 
 	// World is stopped.
 	// Start marktermination which includes enabling the write barrier.
+	atomicstore(&gcAssistEnabled, 0)
 	gcphase = _GCmarktermination
 
 	if debug.gctrace > 0 {
@@ -885,7 +884,7 @@ func gc(mode int) {
 		// Update work.totaltime
 		sweepTermCpu := int64(stwprocs) * (tScan - tSweepTerm)
 		scanCpu := tInstallWB - tScan
-		installWBCpu := int64(stwprocs) * (tMark - tInstallWB)
+		installWBCpu := int64(0)
 		// We report idle marking time below, but omit it from
 		// the overall utilization here since it's "free".
 		markCpu := gcController.assistTime + gcController.dedicatedMarkTime + gcController.fractionalMarkTime

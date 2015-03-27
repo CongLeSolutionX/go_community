@@ -516,6 +516,10 @@ type forcegcstate struct {
 
 var gcphase uint32
 
+// gcAssistEnabled is 1 if mutators should assist marking when they
+// allocate.
+var gcAssistEnabled uint32
+
 /*
  * known to compiler
  */
