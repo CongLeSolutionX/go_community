@@ -46,6 +46,30 @@
       "revId": "1b145dd681eec5e0949a318a30fc9381a01be570",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23d552cf_d75af453",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-27T04:39:15Z",
+      "side": 1,
+      "message": "yeah, before a CL is submitted, you can always run \"git change\"\nand git mail to change any part of your CL.",
+      "parentUuid": "e3b7bab3_27279a6a",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "1b145dd681eec5e0949a318a30fc9381a01be570",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
