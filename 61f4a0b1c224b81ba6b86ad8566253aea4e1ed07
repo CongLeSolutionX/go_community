@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23d552cf_1712bc8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-27T03:55:03Z",
+      "side": 1,
+      "message": "next time, please do not capitalize the first line in the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "61f4a0b1c224b81ba6b86ad8566253aea4e1ed07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
