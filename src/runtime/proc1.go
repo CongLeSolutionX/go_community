@@ -1851,7 +1851,7 @@ func exitsyscallfast() bool {
 	_g_ := getg()
 
 	// Freezetheworld sets stopwait but does not retake P's.
-	if sched.stopwait != 0 {
+	if sched.stopwait == 0x7fffffff {
 		_g_.m.mcache = nil
 		_g_.m.p = nil
 		return false
