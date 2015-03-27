@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "43308612_ab85f90b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-27T22:15:06Z",
+      "side": 1,
+      "message": "no indentation in commit message please.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "e956678427097fdcdc82d996ed530efa72ad116d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63a3ca80_49474580",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
