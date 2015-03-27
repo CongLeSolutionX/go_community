@@ -38,8 +38,8 @@ const (
 
 const (
 	// P status
-	_Pidle = iota
-	_Prunning
+	_Pidle    = iota
+	_Prunning // Only this P is allowed to change from _Prunning.
 	_Psyscall
 	_Pgcstop
 	_Pdead
@@ -371,6 +371,8 @@ type p struct {
 	gcBgMarkWorker   *g
 	gcMarkWorkerMode gcMarkWorkerMode
 
+	runSafePointFn uint32 // if 1, run sched.safePointFn at next safe point
+
 	pad [64]byte
 }
 
@@ -419,6 +421,10 @@ type schedt struct {
 	sysmonwait uint32
 	sysmonnote note
 	lastpoll   uint64
+
+	// safepointFn should be called on each P at the next GC
+	// safepoint if p.runSafePointFn is set.
+	safePointFn func(*p)
 
 	profilehz int32 // cpu profiling rate
 
