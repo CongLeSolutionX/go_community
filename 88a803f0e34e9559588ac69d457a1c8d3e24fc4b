@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3b7bab3_ea8f07f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T18:31:33Z",
+      "side": 1,
+      "message": "Nit: s/go/Go/",
+      "revId": "88a803f0e34e9559588ac69d457a1c8d3e24fc4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
