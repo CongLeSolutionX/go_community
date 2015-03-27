@@ -322,13 +322,18 @@ func gc(mode int) {
 			gcscan_m()
 			gctimer.cycle.installmarkwb = nanotime()
 
-			// Enter mark phase and enable write barriers.
-			stoptheworld()
-			gcphase = _GCmark
-
-			// Concurrent mark.
-			starttheworld()
+			// Enable write barriers.
+			atomicstore(&gcphase, _GCmarksetup)
+			// Ensure all Ps have write barriers enabled
+			// before any marking occurs.
+			forEachP(func(*p) {
+				if atomicload(&gcphase) != _GCmarksetup {
+					throw("wrong phase enabling write barriers")
+				}
+			})
 		})
+		// Concurrent mark.
+		gcphase = _GCmark
 		gctimer.cycle.mark = nanotime()
 		var gcw gcWork
 		gcDrain(&gcw)
