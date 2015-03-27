@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "c3c55625_51f296b6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-27T16:05:26Z",
+      "side": 1,
+      "message": "one useful property of the encoding scheme would be an ability to split large(huge) blocks into several pieces and queue them for scanning separately\ne.g. if we have a 1GB hashtable, splitting would improve both parallelism and latency\nwill it be possible to do it with this new scheme?",
+      "parentUuid": "a6a6b0d3_57e65459",
+      "revId": "b82d299ba0d7f63922e318ab8d5cab6dc35702ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6a6b0d3_37706804",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
