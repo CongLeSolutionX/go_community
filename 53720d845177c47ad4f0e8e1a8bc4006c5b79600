@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3b7bab3_aa358f57",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T22:26:03Z",
+      "side": 1,
+      "message": "It might be clearer to merge this into the if statement above.",
+      "revId": "53720d845177c47ad4f0e8e1a8bc4006c5b79600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b7bab3_0ada9b9e",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T22:26:03Z",
+      "side": 1,
+      "message": "Unrelated, but I think that this branch might be unreachable.",
+      "revId": "53720d845177c47ad4f0e8e1a8bc4006c5b79600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b7bab3_6ad5576f",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T22:26:03Z",
+      "side": 1,
+      "message": "I think the TODO belongs with the call to newobject.",
+      "revId": "53720d845177c47ad4f0e8e1a8bc4006c5b79600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
