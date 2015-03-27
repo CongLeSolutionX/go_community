@@ -362,12 +362,14 @@ func gc(mode int) {
 			if debug.gctrace > 0 {
 				tInstallWB = nanotime()
 			}
-			stoptheworld()
-			gcphase = _GCmark
-
-			// Concurrent mark.
-			starttheworld()
+			atomicstore(&gcphase, _GCmarksetup)
+			// Ensure all Ps have observed the phase
+			// change and have write barriers enabled
+			// before any marking occurs.
+			forEachP(func(*p) {})
 		})
+		// Concurrent mark.
+		gcphase = _GCmark
 		gctimer.cycle.mark = nanotime()
 		if debug.gctrace > 0 {
 			tMark = nanotime()
@@ -503,7 +505,7 @@ func gc(mode int) {
 		// Update work.totaltime
 		sweepTermCpu := int64(stwprocs) * (tScan - tSweepTerm)
 		scanCpu := tInstallWB - tScan
-		installWBCpu := int64(stwprocs) * (tMark - tInstallWB)
+		installWBCpu := int64(0)
 		markCpu := tMarkTerm - tMark
 		markTermCpu := int64(stwprocs) * (tEnd - tMarkTerm)
 		cycleCpu := sweepTermCpu + scanCpu + installWBCpu + markCpu + markTermCpu

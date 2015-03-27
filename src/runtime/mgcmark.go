@@ -175,7 +175,7 @@ func gchelpwork() {
 	switch gcphase {
 	default:
 		throw("gcphasework in bad gcphase")
-	case _GCoff, _GCquiesce, _GCstw:
+	case _GCoff, _GCquiesce, _GCstw, _GCmarksetup:
 		// No work.
 	case _GCsweep:
 		// We could help by calling sweepone to sweep a single span.
@@ -206,7 +206,7 @@ func gcphasework(gp *g) {
 	switch gcphase {
 	default:
 		throw("gcphasework in bad gcphase")
-	case _GCoff, _GCquiesce, _GCstw, _GCsweep:
+	case _GCoff, _GCquiesce, _GCstw, _GCsweep, _GCmarksetup:
 		// No work.
 	case _GCscan:
 		// scan the stack, mark the objects, put pointers in work buffers
