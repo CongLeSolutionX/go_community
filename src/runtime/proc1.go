@@ -744,6 +744,85 @@ func mstart1() {
 	schedule()
 }
 
+// forEachP calls fn(p) for every P p when p reaches a GC safe point.
+// If a P is currently executing code, this will bring the P to a GC
+// safe point and execute fn on that P. If the P is not executing code
+// (it is idle or in a syscall), this will block the P from leaving
+// this state, execute fn, and unblock the P. GC uses this as a
+// "ragger barrier."
+//
+// The caller must hold worldsema.
+func forEachP(fn func(*p)) {
+	mp := acquirem()
+	_p_ := getg().m.p
+
+	// Request that all other Ps run fn.
+	lock(&sched.lock)
+	if sched.stopwait != 0 {
+		throw("forEachP: sched.stopwait != 0")
+	}
+	sched.stopwait = gomaxprocs - 1
+	sched.safePointFn = fn
+	for _, p := range allp[:gomaxprocs] {
+		if p != _p_ {
+			atomicstore(&p.runSafePointFn, 1)
+		}
+	}
+	wait := sched.stopwait > 0
+	unlock(&sched.lock)
+	preemptall()
+
+	// Run fn for the current P.
+	fn(_p_)
+
+	// Run fn on behalf of Ps that can't run fn on their own.
+	for wait {
+		helped := int32(0)
+		for _, p := range allp[:gomaxprocs] {
+		retry:
+			if atomicload(&p.runSafePointFn) == 0 {
+				// p has run fn
+				continue
+			}
+			status := atomicload(&p.status)
+			if status == _Pidle || status == _Psyscall {
+				if !cas(&p.status, status, _Pgcwait) {
+					goto retry
+				}
+				// p may have run fn while we were
+				// futzing with status.
+				if cas(&p.runSafePointFn, 1, 0) {
+					fn(p)
+					helped++
+				}
+				atomicstore(&p.status, status)
+			}
+		}
+		if helped != 0 {
+			lock(&sched.lock)
+			sched.stopwait -= helped
+			wait = sched.stopwait > 0
+			unlock(&sched.lock)
+		}
+		if wait {
+			// Wait for 100us, then retry in case of
+			// preemption races or races with Ps
+			// transitioning from _Prunning to _Pidle or
+			// _Psyscall.
+			if notetsleep(&sched.stopnote, 100*1000) {
+				noteclear(&sched.stopnote)
+				break
+			}
+			preemptall()
+		}
+	}
+
+	lock(&sched.lock)
+	sched.safePointFn = nil
+	unlock(&sched.lock)
+	releasem(mp)
+}
+
 // When running with cgo, we call _cgo_thread_start
 // to start threads for us so that we can play nicely with
 // foreign code.
@@ -1862,7 +1941,7 @@ func exitsyscallfast() bool {
 	}
 
 	// Try to re-acquire the last P.
-	if _g_.m.p != nil && _g_.m.p.status == _Psyscall && cas(&_g_.m.p.status, _Psyscall, _Prunning) {
+	if _g_.m.p != nil && caspstatus(_g_.m.p, _Psyscall, _Prunning) {
 		// There's a cpu for us, so we can run.
 		_g_.m.mcache = _g_.m.p.mcache
 		_g_.m.p.m = _g_.m
@@ -2599,7 +2678,7 @@ func acquirep(_p_ *p) {
 	if _g_.m.p != nil || _g_.m.mcache != nil {
 		throw("acquirep: already in go")
 	}
-	if _p_.m != nil || _p_.status != _Pidle {
+	if _p_.m != nil || !caspstatus(_p_, _Pidle, _Prunning) {
 		id := int32(0)
 		if _p_.m != nil {
 			id = _p_.m.id
@@ -2613,7 +2692,6 @@ func acquirep(_p_ *p) {
 	setPNoWriteBarrier(&_g_.m.p, _p_)
 	// m is in _g_.m and is reachable through allg, so WB can be eliminated
 	setMNoWriteBarrier(&_p_.m, _g_.m)
-	_p_.status = _Prunning
 
 	if trace.enabled {
 		traceProcStart()
@@ -2640,6 +2718,31 @@ func releasep() *p {
 	_p_.m = nil
 	_p_.status = _Pidle
 	return _p_
+}
+
+// caspstatus is like cas(&_p_.status, oldval, newval), but spins if
+// _p_.status is _Pgcwait. This must be used for transitions out of
+// _Pidle and _Psyscall (except in response to sched.gcwaiting).
+//go:nosplit
+func caspstatus(_p_ *p, oldval, newval uint32) bool {
+	if cas(&_p_.status, oldval, newval) {
+		// Fast path
+		return true
+	}
+
+	for {
+		status := atomicload(&_p_.status)
+		if status == _Pgcwait {
+			// Spin until status changes
+			continue
+		} else if status == oldval {
+			if cas(&_p_.status, status, newval) {
+				return true
+			}
+		} else {
+			return false
+		}
+	}
 }
 
 func incidlelocked(v int32) {
