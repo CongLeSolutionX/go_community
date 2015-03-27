@@ -1451,7 +1451,7 @@ stop:
 
 	// We have nothing to do. If we're in the GC mark phase, run
 	// idle-time marking rather than give up the P.
-	if _p_ := _g_.m.p.ptr(); gcphase == _GCmark && _p_.gcBgMarkWorker != nil {
+	if _p_ := _g_.m.p.ptr(); gcBlackenEnabled != 0 && _p_.gcBgMarkWorker != nil {
 		_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
 		gp := _p_.gcBgMarkWorker
 		casgstatus(gp, _Gwaiting, _Grunnable)
@@ -1603,7 +1603,7 @@ top:
 			resetspinning()
 		}
 	}
-	if gp == nil && gcphase == _GCmark {
+	if gp == nil && gcBlackenEnabled != 0 {
 		gp = gcController.findRunnable(_g_.m.p.ptr())
 		if gp != nil {
 			resetspinning()
