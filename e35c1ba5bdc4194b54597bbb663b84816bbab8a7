@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23d552cf_3427be6a",
+        "filename": "src/cmd/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-27T01:18:39Z",
+      "side": 1,
+      "message": "Strictly speaking, the constant c may have a named type, but this only matters for method selections c.f() and makeinterface operations interface{}(c), which will presumably record the concretetype in some other way.",
+      "revId": "e35c1ba5bdc4194b54597bbb663b84816bbab8a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23d552cf_f40856da",
+        "filename": "src/cmd/internal/ssa/rulegen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-03-27T01:18:39Z",
+      "side": 1,
+      "message": "Those type assertions aren\u0027t sound if the aux holds an int.",
+      "revId": "e35c1ba5bdc4194b54597bbb663b84816bbab8a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
