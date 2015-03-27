@@ -740,6 +740,15 @@ func newstack() {
 			gp.preemptscan = false // Tells the GC premption was successful.
 			gogo(&gp.sched)        // never return
 		}
+		if cas(&gp.m.p.runSafePointFn, 1, 0) {
+			sched.safePointFn(gp.m.p)
+			lock(&sched.lock)
+			sched.stopwait--
+			if sched.stopwait == 0 {
+				notewakeup(&sched.stopnote)
+			}
+			unlock(&sched.lock)
+		}
 
 		// Act like goroutine called runtime.Gosched.
 		casgstatus(gp, _Gwaiting, _Grunning)
