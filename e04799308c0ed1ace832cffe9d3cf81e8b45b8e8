@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3b7bab3_ea54e7e1",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T19:04:11Z",
+      "side": 1,
+      "message": "This could use documentation.",
+      "revId": "e04799308c0ed1ace832cffe9d3cf81e8b45b8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b7bab3_2a4c3f4e",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T19:04:11Z",
+      "side": 1,
+      "message": "s/esc_/e/ or something else without an _",
+      "revId": "e04799308c0ed1ace832cffe9d3cf81e8b45b8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b7bab3_ea3dc78f",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-03-27T19:04:11Z",
+      "side": 1,
+      "message": "CL 8164 tidies this up a little. No need to wait for it; if this goes in first, I\u0027ll just update 8164.",
+      "revId": "e04799308c0ed1ace832cffe9d3cf81e8b45b8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
