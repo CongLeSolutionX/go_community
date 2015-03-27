@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3c55625_71c5523d",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-27T16:20:15Z",
+      "side": 1,
+      "message": "please do these fixes in a separate change\nwe generally do one change in a patch, and in particular separate functional changes from cleanups",
+      "revId": "3bc95b1df83cb86aa6b6f170d9abb34260e3ef3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
