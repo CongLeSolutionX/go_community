@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3c55625_f1e94229",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-28T08:41:36Z",
+      "side": 1,
+      "message": "oh boy, more active spinning :(\nlook at stoptheworld for how to do it properly without active spinning, potential for various deadlocking and without increasing overall complexity of P states",
+      "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
