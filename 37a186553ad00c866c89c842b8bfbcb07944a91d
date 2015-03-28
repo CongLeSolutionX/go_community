@@ -34,6 +34,42 @@
       "revId": "37a186553ad00c866c89c842b8bfbcb07944a91d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c55625_9171de0c",
+        "filename": "test/escape_field.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-28T13:37:47Z",
+      "side": 1,
+      "message": "Added the comment.",
+      "parentUuid": "46e6d429_b20c80c1",
+      "revId": "37a186553ad00c866c89c842b8bfbcb07944a91d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c55625_b16e5a26",
+        "filename": "test/escape_field.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-28T13:37:47Z",
+      "side": 1,
+      "message": "I am not saying that this is super important. I was just think about all possible cases that we miss. I think it is good to have a list of all of them, even if we decide to not fix some of them later.\nHaving said that, this case may be simple to fix. Simpler than proving that it is unimportant :)\n\nThis is not about unreachable/dead code. We put into the interface an object of type T1, but try to extract object of type T2. This cast will fail and won\u0027t extract the original object. The idea is that if we look just at the types flowing through the interfaces, we can break off some of the flows.",
+      "parentUuid": "a6a6b0d3_91886c24",
+      "revId": "37a186553ad00c866c89c842b8bfbcb07944a91d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
