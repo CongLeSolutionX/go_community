@@ -16,6 +16,24 @@
       "revId": "676d14bf5ef0c6d029780152fc0f5aeedb5507c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43308612_16becca2",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-03-28T21:20:48Z",
+      "side": 1,
+      "message": "Sorry, wasn\u0027t paying enough attention to the context (clearly the param is moved to the heap) and instead assumed that if esc was not EscHeap, that therefore it was not \"heap\".",
+      "parentUuid": "c3c55625_31b58a32",
+      "revId": "676d14bf5ef0c6d029780152fc0f5aeedb5507c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
