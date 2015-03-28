@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3c55625_31b58a32",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-28T10:44:27Z",
+      "side": 1,
+      "message": "why do you add this if?\nnow \"param leaks to result\" (return x) is indistinguishable from \"param leaks to result\"+\"param moved to heap\" (return \u0026x).\n\"param moved to heap\" is an important information, because it introduces a memory allocation.",
+      "revId": "676d14bf5ef0c6d029780152fc0f5aeedb5507c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
