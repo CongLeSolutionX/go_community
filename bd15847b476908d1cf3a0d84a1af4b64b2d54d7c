@@ -16,6 +16,24 @@
       "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43308612_1629ac7f",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-28T19:04:21Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not happy about the spinning either. Though it is rather unlikely to happen and very brief when it does.\n\nAre you suggesting I should use _Pgcstop to interrupt Ps in syscall/idle? I had thought about this, but it wasn\u0027t obvious I could bring them back from _Pgcstop without a race. forEachP was of course based on the stoptheworld, but I had introduced the new state because of this concern. If this is what you\u0027re suggesting, though, I\u0027ll look into that more carefully.",
+      "parentUuid": "c3c55625_f1e94229",
+      "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
