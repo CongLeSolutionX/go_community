@@ -4,7 +4,15 @@
 
 package net
 
+import (
+	"syscall"
+	"time"
+)
+
 var (
+	testHookDialChannel = func() { time.Sleep(time.Millisecond) } // see golang.org/issue/5349
+	testErrnoInProgress = syscall.ERROR_IO_PENDING
+
 	// Placeholders for saving original socket system calls.
 	origSocket      = socketFunc
 	origClosesocket = closeFunc

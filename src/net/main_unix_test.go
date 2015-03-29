@@ -6,7 +6,12 @@
 
 package net
 
+import "syscall"
+
 var (
+	testHookDialChannel = func() {}
+	testErrnoInProgress = syscall.EINPROGRESS
+
 	// Placeholders for saving original socket system calls.
 	origSocket        = socketFunc
 	origClose         = closeFunc

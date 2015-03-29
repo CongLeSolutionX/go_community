@@ -10,8 +10,6 @@ import (
 	"time"
 )
 
-var testingIssue5349 bool // used during tests
-
 // dialChannel is the simple pure-Go implementation of dial, still
 // used on operating systems where the deadline hasn't been pushed
 // down into the pollserver. (Plan 9 and some old versions of Windows)
@@ -31,9 +29,7 @@ func dialChannel(net string, ra Addr, dialer func(time.Time) (Conn, error), dead
 	}
 	ch := make(chan racer, 1)
 	go func() {
-		if testingIssue5349 {
-			time.Sleep(time.Millisecond)
-		}
+		testHookDialChannel()
 		c, err := dialer(noDeadline)
 		ch <- racer{c, err}
 	}()
