@@ -1201,7 +1201,9 @@ ok:
 		switch t.Etype {
 		case TARRAY,
 			TCHAN,
-			TMAP:
+			TMAP,
+			TPTR32,
+			TPTR64:
 			slink := typelinksym(t)
 			dsymptr(slink, 0, s, 0)
 			ggloblsym(slink, int32(Widthptr), int8(dupok|obj.RODATA))
