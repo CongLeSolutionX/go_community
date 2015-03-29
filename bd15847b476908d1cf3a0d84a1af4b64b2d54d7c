@@ -52,6 +52,24 @@
       "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c55625_14415c68",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-29T10:08:01Z",
+      "side": 1,
+      "message": "Something along the lines of:\n\nfunc globalbarrier() {\n\tlock(\u0026sched.lock)\n\tfor i :\u003d 0; i \u003c int(gomaxprocs); i++ {\n\t\tp :\u003d allp[i]\n\t\tif p \u003d\u003d getg().m.p || atomicload(\u0026p.status) \u003d\u003d _Psyscall {\n\t\t\tcontinue\n\t\t}\n\t\tp.ackBarrier \u003d true\n\t\tsched.stopwait++\n\t}\n\tfor p :\u003d sched.pidle; p !\u003d nil; p \u003d p.link {\n\t\tp.ackBarrier \u003d false\n\t\tsched.stopwait--\n\t}\n\twait :\u003d sched.stopwait \u003e 0\n\tunlock(\u0026sched.lock)\n\tfor wait {\n\t\tpreemptall()\n\t\tif notetsleep(\u0026sched.stopnote, 100*1000) {\n\t\t\tnoteclear(\u0026sched.stopnote)\n\t\t\tbreak\n\t\t}\n\t}\n}",
+      "parentUuid": "c3c55625_5447e47f",
+      "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
