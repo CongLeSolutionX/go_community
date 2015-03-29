@@ -9,7 +9,11 @@ import (
 	"unsafe"
 )
 
-func initMime() {
+func init() {
+	osinitMime = initMimeWindows
+}
+
+func initMimeWindows() {
 	var root syscall.Handle
 	rootpathp, _ := syscall.UTF16PtrFromString(`\`)
 	if syscall.RegOpenKeyEx(syscall.HKEY_CLASSES_ROOT, rootpathp,
