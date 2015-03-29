@@ -13,21 +13,33 @@ import (
 
 var (
 	mimeLock       sync.RWMutex
-	mimeTypesLower = map[string]string{
-		".css":  "text/css; charset=utf-8",
-		".gif":  "image/gif",
-		".htm":  "text/html; charset=utf-8",
-		".html": "text/html; charset=utf-8",
-		".jpg":  "image/jpeg",
-		".js":   "application/x-javascript",
-		".pdf":  "application/pdf",
-		".png":  "image/png",
-		".svg":  "image/svg+xml",
-		".xml":  "text/xml; charset=utf-8",
-	}
-	mimeTypes  = clone(mimeTypesLower)
-	extensions = invert(mimeTypesLower)
+	mimeTypesLower map[string]string
+	mimeTypes      map[string]string
+	extensions     map[string][]string
 )
+
+// setMimeTypes is used by initMime's non-test path, and by tests.
+func setMimeTypes(lowerExt, mixExt map[string]string) {
+	if lowerExt == nil || mixExt == nil {
+		panic("nil map")
+	}
+	mimeTypesLower = lowerExt
+	mimeTypes = mixExt
+	extensions = invert(lowerExt)
+}
+
+var builtinTypesLower = map[string]string{
+	".css":  "text/css; charset=utf-8",
+	".gif":  "image/gif",
+	".htm":  "text/html; charset=utf-8",
+	".html": "text/html; charset=utf-8",
+	".jpg":  "image/jpeg",
+	".js":   "application/x-javascript",
+	".pdf":  "application/pdf",
+	".png":  "image/png",
+	".svg":  "image/svg+xml",
+	".xml":  "text/xml; charset=utf-8",
+}
 
 func clone(m map[string]string) map[string]string {
 	m2 := make(map[string]string, len(m))
@@ -53,6 +65,17 @@ func invert(m map[string]string) map[string][]string {
 }
 
 var once sync.Once // guards initMime
+
+var testInitMime, osInitMime func()
+
+func initMime() {
+	if fn := testInitMime; fn != nil {
+		fn()
+	} else {
+		setMimeTypes(builtinTypesLower, clone(builtinTypesLower))
+		osInitMime()
+	}
+}
 
 // TypeByExtension returns the MIME type associated with the file extension ext.
 // The extension ext should begin with a leading dot, as in ".html".
