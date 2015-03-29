@@ -4,15 +4,8 @@
 
 package net
 
-import (
-	"syscall"
-	"time"
+import "time"
+
+var (
+	testHookDialChannel = func() { time.Sleep(time.Millisecond) } // see golang.org/issue/5349
 )
-
-var testErrnoInProgress = syscall.EBUSY
-
-func installTestHooks() {}
-
-func uninstallTestHooks() {}
-
-func forceCloseSockets() {}
