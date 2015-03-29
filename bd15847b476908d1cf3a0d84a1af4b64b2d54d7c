@@ -34,6 +34,24 @@
       "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c55625_5447e47f",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-29T09:57:35Z",
+      "side": 1,
+      "message": "I suggest to use the existing protocol which already contains all necessary pieces:\n- acquire worldsema (already done)\n- lock sched mutex\n- grab whatever is in the pidle list. these Ps are in Pidle and are unused. execute the function for them, put back into pidle list\n- cas all Ps in Psyscall to Pidle, execute the function for them, put onto pidle list\n- preemptall\n- wait while other Ps ack the request (w/o looking at pidle list and Psyscall procs)\n\nYou need to check for request everywhere sched.gcwaiting is checked (besides newstack). Otherwise you have races that are resolved only by passive spinning below. Passive spinning can have latency of up to 15ms on some OSes and/or VMs.\n\nDo you foresee any usage of foreachp other than global barrier? If not, then by removing the function call, the scheme can be significantly simplified:\n- just subtract npidle from stopwait, and do nothing with pidle list\n- it\u0027s enough to just observe a P in Psyscall status, no need to do anything with it",
+      "parentUuid": "43308612_1629ac7f",
+      "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
