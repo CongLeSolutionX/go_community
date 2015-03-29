@@ -70,6 +70,24 @@
       "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43308612_3684b0e1",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-03-29T14:52:20Z",
+      "side": 1,
+      "message": "I see. I had been trying to keep the possibility of the fast path exit from syscalls, but there\u0027s perhaps little point in doing that. I\u0027ll try out your approach when I get back to this series.\n\nThe callback function is there because I\u0027m planning to use forEachP when I replace the current per-M workbuf cache with a per-P gcWork cache. This should speed up and simplify a lot of things, but it means the GC will have to cooperate with the P to flush its work cache, rather than just stealing it with an atomic op like it does now. I\u0027m planning to use forEachP to do this flushing on each P.",
+      "parentUuid": "c3c55625_5447e47f",
+      "revId": "bd15847b476908d1cf3a0d84a1af4b64b2d54d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
