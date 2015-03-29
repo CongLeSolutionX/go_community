@@ -453,4 +453,23 @@ func symtab() {
 	Addaddr(Ctxt, moduledata, Linklookup(Ctxt, "runtime.typelink", 0))
 	adduint(Ctxt, moduledata, uint64(ntypelinks))
 	adduint(Ctxt, moduledata, uint64(ntypelinks))
+
+	// Two bitvectors (int32, pointer)
+	for i := 0; i < 2; i++ {
+		Adduint32(Ctxt, moduledata, 0)
+		if Thearch.Ptrsize == 8 {
+			// TODO(mwhudson): padding, is this right? is there a nicer way?
+			Adduint32(Ctxt, moduledata, 0)
+			Adduint64(Ctxt, moduledata, 0)
+		} else {
+			Adduint32(Ctxt, moduledata, 0)
+		}
+	}
+	// Three uintptrs (shadow_data, data_start, data_end)
+	adduintptr(Ctxt, moduledata, 0)
+	adduintptr(Ctxt, moduledata, 0)
+	adduintptr(Ctxt, moduledata, 0)
+
+	// A final uintptr (next)
+	adduintptr(Ctxt, moduledata, 0)
 }
