@@ -106,6 +106,10 @@ func adduint(ctxt *Link, s *LSym, v uint64) int64 {
 	return adduintxx(ctxt, s, v, Thearch.Intsize)
 }
 
+func adduintptr(ctxt *Link, s *LSym, v uint64) int64 {
+	return adduintxx(ctxt, s, v, Thearch.Ptrsize)
+}
+
 func setuint8(ctxt *Link, s *LSym, r int64, v uint8) int64 {
 	return setuintxx(ctxt, s, r, uint64(v), 1)
 }
