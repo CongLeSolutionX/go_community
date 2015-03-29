@@ -4,7 +4,11 @@
 
 package net
 
+import "syscall"
+
 var (
+	testErrnoInProgress = syscall.ERROR_IO_PENDING
+
 	// Placeholders for saving original socket system calls.
 	origSocket      = socketFunc
 	origClosesocket = closeFunc

@@ -6,7 +6,11 @@
 
 package net
 
+import "syscall"
+
 var (
+	testErrnoInProgress = syscall.EINPROGRESS
+
 	// Placeholders for saving original socket system calls.
 	origSocket        = socketFunc
 	origClose         = closeFunc
