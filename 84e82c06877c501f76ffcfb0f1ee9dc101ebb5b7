@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43308612_49f712a5",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-30T17:49:33Z",
+      "side": 1,
+      "message": "I know the extra parens were there in the original code, but they aren\u0027t needed in Go so let\u0027s drop them in the new code.\n\nelfshnum \u003d xo.Sect.(*Section).Elfsect.(*ElfShdr).shnum",
+      "revId": "84e82c06877c501f76ffcfb0f1ee9dc101ebb5b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
