@@ -148,6 +148,12 @@ type Section struct {
 	Rellen  uint64
 }
 
+func DynlinkingGo() bool {
+	// TODO(mwhudson): This is a bit silly for now, but it will need to have
+	// "|| Linkshared" appended when a subsequent change adds that flag.
+	return Buildmode == obj.Buildmode_Shared
+}
+
 var (
 	Thestring          string
 	Thelinkarch        *LinkArch
@@ -279,7 +285,7 @@ func libinit() {
 		switch Buildmode {
 		case obj.Buildmode_CShared:
 			INITENTRY = fmt.Sprintf("_rt0_%s_%s_lib", goarch, goos)
-		case obj.Buildmode_None:
+		case obj.Buildmode_None, obj.Buildmode_Shared:
 			INITENTRY = fmt.Sprintf("_rt0_%s_%s", goarch, goos)
 		default:
 			Diag("unknown INITENTRY for buildmode %v", Buildmode)
@@ -744,6 +750,16 @@ func hostlink() {
 	if Buildmode == obj.Buildmode_CShared {
 		argv = append(argv, "-Wl,-Bsymbolic")
 		argv = append(argv, "-shared")
+	} else if Buildmode == obj.Buildmode_Shared {
+		// TODO(mwhudson): unless you do this, dynamic relocations fill
+		// out the findfunctab table and for some reason shared libraries
+		// and the executable both define a main function and putting the
+		// address of executable's main into the shared libraries
+		// findfunctab violates the assumptions of the runtime.  TBH, I
+		// think we may well end up wanting to use -Bsymbolic here
+		// anyway.
+		argv = append(argv, "-Wl,-Bsymbolic-functions")
+		argv = append(argv, "-shared")
 	}
 
 	argv = append(argv, "-o")
@@ -1135,7 +1151,8 @@ func stkcheck(up *Chain, depth int) int {
 		// external function.
 		// should never be called directly.
 		// only diagnose the direct caller.
-		if depth == 1 && s.Type != SXREF {
+		// TODO(mwhudson): actually think about this.
+		if depth == 1 && s.Type != SXREF && !DynlinkingGo() {
 			Diag("call to external function %s", s.Name)
 		}
 		return -1
@@ -1454,6 +1471,7 @@ func xdefine(p string, t int, v int64) {
 	s.Value = v
 	s.Reachable = true
 	s.Special = 1
+	s.Local = true
 }
 
 func datoff(addr int64) int64 {
