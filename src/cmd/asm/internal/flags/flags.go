@@ -18,7 +18,8 @@ var (
 	OutputFile = flag.String("o", "", "output file; default foo.6 for /a/b/c/foo.s on amd64")
 	PrintOut   = flag.Bool("S", false, "print assembly and machine code")
 	TrimPath   = flag.String("trimpath", "", "remove prefix from recorded source file paths")
-	Shared     = flag.Bool("shared", false, "generate code that can be linked into a shared library")
+	Shared     = flag.Bool("shared", false, "generate code that can be linked into a shared library (but assume all go code is in one such library; see -dynlink)")
+	Dynlink    = flag.Bool("dynlink", false, "generate code that allows go code to be dynamically linked against go code")
 )
 
 var (
