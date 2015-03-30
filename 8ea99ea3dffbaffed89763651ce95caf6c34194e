@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3f1d6a3_0e9a4b6f",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-03-30T21:40:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43308612_d198eef5",
+      "revId": "8ea99ea3dffbaffed89763651ce95caf6c34194e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43308612_51021e90",
         "filename": "src/cmd/internal/ld/data.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-30T15:56:46Z",
       "side": 1,
       "message": "Seems like we should only do this if Iself.",
+      "revId": "8ea99ea3dffbaffed89763651ce95caf6c34194e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f1d6a3_6e8f8f2d",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-03-30T21:40:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43308612_51021e90",
       "revId": "8ea99ea3dffbaffed89763651ce95caf6c34194e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
