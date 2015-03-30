@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43308612_4c63a016",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-30T18:07:39Z",
+      "side": 1,
+      "message": "Thanks; you need to update the change description now.",
+      "revId": "f1e52b19abbab10580053bb250a01025a8d22f00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
