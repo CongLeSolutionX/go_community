@@ -143,6 +143,10 @@ func Ldmain() {
 	startProfile()
 	Ctxt.Bso = &Bso
 	Ctxt.Debugvlog = int32(Debug['v'])
+	if Buildmode == obj.Buildmode_Shared {
+		Diag("-buildmode=shared not yet supported\n")
+		Errorexit()
+	}
 	if flag_shared != 0 {
 		if Buildmode == obj.Buildmode_None {
 			Buildmode = obj.Buildmode_CShared
