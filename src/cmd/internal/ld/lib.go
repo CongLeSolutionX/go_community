@@ -149,6 +149,14 @@ type Section struct {
 	Rellen  uint64
 }
 
+// Are we in a situation where Go code can live in separate modules and be
+// linked together at runtime?
+func DynlinkingGo() bool {
+	// TODO(mwhudson): This is a bit silly for now, but it will need to have
+	// "|| Linkshared" appended when a subsequent change adds that flag.
+	return Buildmode == BuildmodeShared
+}
+
 var (
 	Thestring          string
 	Thelinkarch        *LinkArch
@@ -240,11 +248,15 @@ func Lflag(arg string) {
 //   "c-shared": build a main package, plus all packages that it imports, into a
 //     single C shared library. The only callable symbols will be those functions
 //     marked as exported.
+//   "shared": combine all packages passed on the command line, and their
+//     dependencies, into a single shared library that will be used when
+//     building with the -linkshared option.
 type BuildMode uint8
 
 const (
 	BuildmodeExe BuildMode = iota
 	BuildmodeCShared
+	BuildmodeShared
 )
 
 func (mode *BuildMode) Set(s string) error {
@@ -259,6 +271,13 @@ func (mode *BuildMode) Set(s string) error {
 			return fmt.Errorf("not supported on %s", goarch)
 		}
 		*mode = BuildmodeCShared
+	case "shared":
+		goos := obj.Getgoos()
+		goarch := obj.Getgoarch()
+		if goos != "linux" || goarch != "amd64" {
+			return fmt.Errorf("not supported on %s/%s", goos, goarch)
+		}
+		*mode = BuildmodeShared
 	}
 	return nil
 }
@@ -269,6 +288,8 @@ func (mode *BuildMode) String() string {
 		return "exe"
 	case BuildmodeCShared:
 		return "c-shared"
+	case BuildmodeShared:
+		return "shared"
 	}
 	return fmt.Sprintf("BuildMode(%d)", uint8(*mode))
 }
@@ -320,12 +341,16 @@ func libinit() {
 			INITENTRY = fmt.Sprintf("_rt0_%s_%s_lib", goarch, goos)
 		case BuildmodeExe:
 			INITENTRY = fmt.Sprintf("_rt0_%s_%s", goarch, goos)
+		case BuildmodeShared:
+			// No INITENTRY for -buildmode=shared
 		default:
 			Diag("unknown INITENTRY for buildmode %v", Buildmode)
 		}
 	}
 
-	Linklookup(Ctxt, INITENTRY, 0).Type = SXREF
+	if !DynlinkingGo() {
+		Linklookup(Ctxt, INITENTRY, 0).Type = SXREF
+	}
 }
 
 func Errorexit() {
@@ -791,6 +816,16 @@ func hostlink() {
 	if Buildmode == BuildmodeCShared {
 		argv = append(argv, "-Wl,-Bsymbolic")
 		argv = append(argv, "-shared")
+	} else if Buildmode == BuildmodeShared {
+		// TODO(mwhudson): unless you do this, dynamic relocations fill
+		// out the findfunctab table and for some reason shared libraries
+		// and the executable both define a main function and putting the
+		// address of executable's main into the shared libraries
+		// findfunctab violates the assumptions of the runtime.  TBH, I
+		// think we may well end up wanting to use -Bsymbolic here
+		// anyway.
+		argv = append(argv, "-Wl,-Bsymbolic-functions")
+		argv = append(argv, "-shared")
 	}
 
 	argv = append(argv, "-o")
@@ -1182,7 +1217,8 @@ func stkcheck(up *Chain, depth int) int {
 		// external function.
 		// should never be called directly.
 		// only diagnose the direct caller.
-		if depth == 1 && s.Type != SXREF {
+		// TODO(mwhudson): actually think about this.
+		if depth == 1 && s.Type != SXREF && !DynlinkingGo() {
 			Diag("call to external function %s", s.Name)
 		}
 		return -1
@@ -1497,6 +1533,7 @@ func xdefine(p string, t int, v int64) {
 	s.Value = v
 	s.Reachable = true
 	s.Special = 1
+	s.Local = true
 }
 
 func datoff(addr int64) int64 {
