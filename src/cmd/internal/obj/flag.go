@@ -125,6 +125,7 @@ type Buildmode uint8
 const (
 	Buildmode_None Buildmode = iota
 	Buildmode_CShared
+	Buildmode_Shared
 )
 
 func (mode *Buildmode) Set(s string) error {
@@ -137,6 +138,13 @@ func (mode *Buildmode) Set(s string) error {
 			return fmt.Errorf("not supported on %s", goarch)
 		}
 		*mode = Buildmode_CShared
+	case "shared":
+		goos := Getgoos()
+		goarch := Getgoarch()
+		if goos != "linux" || goarch != "amd64" {
+			return fmt.Errorf("not supported on %s/%s", goos, goarch)
+		}
+		*mode = Buildmode_Shared
 	}
 	return nil
 }
@@ -147,6 +155,8 @@ func (mode *Buildmode) String() string {
 		return ""
 	case Buildmode_CShared:
 		return "c-shared"
+	case Buildmode_Shared:
+		return "shared"
 	}
 	return fmt.Sprintf("Buildmode(%d)", uint8(*mode))
 }
