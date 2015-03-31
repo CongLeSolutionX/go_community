@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63bd8ac9_f9b6cf69",
+        "filename": "src/cmd/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-31T23:14:37Z",
+      "side": 1,
+      "message": "We\u0027re writing Go now, so it seems to me that at least for these new variables we should use pclntabNfunc and so on.",
+      "revId": "8134835008bda9c81f5f453a5f4e58ea022fe524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63bd8ac9_79cb9fef",
+        "filename": "src/cmd/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-31T23:14:37Z",
+      "side": 1,
+      "message": "Maybe filetaboffset.  fileoffset sounds like, well, a file offset.",
+      "revId": "8134835008bda9c81f5f453a5f4e58ea022fe524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63bd8ac9_3973e769",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-03-31T23:14:37Z",
+      "side": 1,
+      "message": "I think we need a comment here pointing to pclntab, and a comment in pclntab pointing here.",
+      "revId": "8134835008bda9c81f5f453a5f4e58ea022fe524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
