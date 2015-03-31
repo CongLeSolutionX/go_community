@@ -33,6 +33,24 @@
       "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63bd8ac9_fc887db8",
+        "filename": "src/cmd/7g/reg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-03-31T23:48:05Z",
+      "side": 1,
+      "message": "ah yes, I see I should have dug into gc.Bitno and not made foolish assumptions like bit 0 would be represented by 0. I will go back to not pretending to understand this compiler.",
+      "parentUuid": "63bd8ac9_fc5ebdfc",
+      "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
