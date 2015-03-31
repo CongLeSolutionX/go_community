@@ -16,6 +16,23 @@
       "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63bd8ac9_fc5ebdfc",
+        "filename": "src/cmd/7g/reg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-03-31T23:42:07Z",
+      "side": 1,
+      "message": "when r \u003d\u003d arm64.REG_R0, the result will be\n1 \u003c\u003c (r - arm64.REG_R0) \u003d\u003d 1 \u003c\u003c 0 \u003d\u003d 1\n(i.e. bit 0)",
+      "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
