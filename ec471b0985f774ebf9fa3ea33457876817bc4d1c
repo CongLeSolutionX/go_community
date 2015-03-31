@@ -51,6 +51,24 @@
       "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b8f2d3_f9edf703",
+        "filename": "src/cmd/7g/reg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-03-31T23:51:14Z",
+      "side": 1,
+      "message": "You might be on to something though, if the portable registerizer doesn\u0027t use BtoR consistently but does masks, etc, manually and expects R0\u003d0, this could explain it.",
+      "parentUuid": "63bd8ac9_fc887db8",
+      "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
