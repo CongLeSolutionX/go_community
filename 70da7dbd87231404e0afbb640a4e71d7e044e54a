@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83143e89_d0056914",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-03-31T19:31:59Z",
+      "side": 1,
+      "message": "Not obvious what this is about. \n\nforEachP(func(*p){}) // make sure each p reaches a safe point\n\nmight be clearer.\nOtherwise put a comment above the if explaining what this check is trying to detect.",
+      "revId": "70da7dbd87231404e0afbb640a4e71d7e044e54a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
