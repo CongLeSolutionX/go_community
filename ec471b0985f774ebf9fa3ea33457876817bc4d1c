@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b8f2d3_b9f37feb",
+        "filename": "src/cmd/7g/reg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-03-31T23:36:35Z",
+      "side": 1,
+      "message": "This is not correct, R0 is a usable register on arm64. I believe this is only hiding the problem under the rug.",
+      "revId": "ec471b0985f774ebf9fa3ea33457876817bc4d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
