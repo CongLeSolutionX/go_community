@@ -113,7 +113,7 @@ func regnames(n *int) []string {
 
 func excludedregs() uint64 {
 	// Exclude registers with fixed functions
-	regbits := uint64(RtoB(arm64.REGRT1) | RtoB(arm64.REGRT2) | RtoB(arm64.REGPR))
+	regbits := uint64(1<<0 | RtoB(arm64.REGRT1) | RtoB(arm64.REGRT2) | RtoB(arm64.REGPR))
 
 	// Also exclude floating point registers with fixed constants
 	regbits |= RtoB(arm64.REG_F27) | RtoB(arm64.REG_F28) | RtoB(arm64.REG_F29) | RtoB(arm64.REG_F30) | RtoB(arm64.REG_F31)
@@ -138,7 +138,7 @@ func doregbits(r int) uint64 {
  *	32+31	F31
  */
 func RtoB(r int) uint64 {
-	if r >= arm64.REG_R0 && r <= arm64.REG_R31 {
+	if r > arm64.REG_R0 && r <= arm64.REG_R31 {
 		return 1 << uint(r-arm64.REG_R0)
 	}
 	if r >= arm64.REG_F0 && r <= arm64.REG_F31 {
