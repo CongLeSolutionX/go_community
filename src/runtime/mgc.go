@@ -180,10 +180,11 @@ func setGCPercent(in int32) (out int32) {
 	return out
 }
 
-// Trigger the concurrent GC when 1/triggerratio memory is available to allocate.
+// Trigger the concurrent GC when the allocated heap has reached
+// triggerratio times the growth allowed by gcpercent.
 // Adjust this ratio as part of a scheme to ensure that mutators have enough
 // memory to allocate in durring a concurrent GC cycle.
-var triggerratio = int64(8)
+const triggerratio = 7 / 8.0
 
 // Determine whether to initiate a GC.
 // If the GC is already working no need to trigger another one.
@@ -195,7 +196,7 @@ var triggerratio = int64(8)
 // A false negative simple does not start a GC, a false positive
 // will start a GC needlessly. Neither have correctness issues.
 func shouldtriggergc() bool {
-	return triggerratio*(int64(memstats.next_gc)-int64(memstats.heap_live)) <= int64(memstats.next_gc) && atomicloaduint(&bggc.working) == 0
+	return memstats.heap_live >= memstats.next_gc && atomicloaduint(&bggc.working) == 0
 }
 
 var work struct {
@@ -530,7 +531,7 @@ func gcMark(start_time int64) {
 
 	// compute next_gc
 	memstats.heap_live = work.bytesMarked
-	memstats.next_gc = memstats.heap_live + memstats.heap_live*uint64(gcpercent)/100
+	memstats.next_gc = memstats.heap_live + uint64(float64(memstats.heap_live*uint64(gcpercent)/100)*triggerratio)
 	if memstats.next_gc < heapminimum {
 		memstats.next_gc = heapminimum
 	}
