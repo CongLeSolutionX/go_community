@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "63f66a9f_ae3e973a",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-03-31T20:40:41Z",
+      "side": 1,
+      "message": "Yes, I guess how do document this whole effort needs some thought.  For the go tool, I guess a \"go help buildmodes\" topic and referencing that from here probably makes sense?",
+      "parentUuid": "83143e89_013b3d9b",
+      "revId": "d50fdad5b207ed133955dcddc18a986429989fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83143e89_41ca551f",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "63f66a9f_8e3bdb4a",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-03-31T20:40:41Z",
+      "side": 1,
+      "message": "I convinced myself it was a good idea when I was thinking about how packaging would work, but quite possibly you\u0027re right.",
+      "parentUuid": "83143e89_41ca551f",
+      "revId": "d50fdad5b207ed133955dcddc18a986429989fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83143e89_61731197",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-03-31T17:01:53Z",
       "side": 1,
       "message": "Seems like we should give a fatal error for -buildmode with no argument.  What would it mean?",
+      "revId": "d50fdad5b207ed133955dcddc18a986429989fc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63f66a9f_ee389f4f",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-03-31T20:40:41Z",
+      "side": 1,
+      "message": "Well, it\u0027s the default.  We could go to some effort to make -buildmode\u003d\u0027\u0027 fail I guess, but I\u0027m not sure it\u0027s worth it.",
+      "parentUuid": "83143e89_61731197",
       "revId": "d50fdad5b207ed133955dcddc18a986429989fc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
