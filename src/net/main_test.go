@@ -11,23 +11,30 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"sync"
 	"testing"
 )
 
-var sw socktest.Switch
+var (
+	sw socktest.Switch
+
+	// uninstallTestHooks runs either before or after a run of
+	// benchmarks.
+	testHookUninstaller sync.Once
+)
 
 func TestMain(m *testing.M) {
 	installTestHooks()
 
 	st := m.Run()
 
+	testHookUninstaller.Do(func() { uninstallTestHooks() })
 	if !testing.Short() {
 		printLeakedGoroutines()
 		printLeakedSockets()
 		printSocketStats()
 	}
 	forceCloseSockets()
-	uninstallTestHooks()
 	os.Exit(st)
 }
 
