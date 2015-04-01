@@ -86,8 +86,26 @@ func tracebackdefers(gp *g, callback func(*stkframe, unsafe.Pointer) bool, v uns
 			frame.pc = uintptr(fn.fn)
 			f := findfunc(frame.pc)
 			if f == nil {
-				print("runtime: unknown pc in defer ", hex(frame.pc), "\n")
-				throw("unknown pc")
+				// If we don't know what this PC is, maybe it's the
+				// address of a PLT stub.  If it looks like it is,
+				// disassemble it to find the offset to the GOT and read
+				// the read PC out of the GOT (we pass -znow when linking
+				// so we don't have to worry about lazy PLTs, luckily).
+				// TODO(mwhudson): this is all unspeakably horrible and
+				// the proper fix is to change the codegen/linker to put
+				// the value from the .plt.got into the defer.
+				p := (*[2]uint8)(unsafe.Pointer(fn.fn))
+				if p[0] == 0xff && p[1] == 0x25 {
+					off := *(*int32)(unsafe.Pointer(fn.fn + 2))
+					add := int64(fn.fn) + int64(off) + 6
+					val := *(*uintptr)(unsafe.Pointer(uintptr(add)))
+					frame.pc = val
+					f = findfunc(frame.pc)
+				}
+				if f == nil {
+					print("runtime: unknown pc in defer ", hex(frame.pc), "\n")
+					throw("unknown pc")
+				}
 			}
 			frame.fn = f
 			frame.argp = uintptr(deferArgs(d))
