@@ -469,7 +469,14 @@ func symtab() {
 	adduintptr(Ctxt, moduledata, 0)
 	adduintptr(Ctxt, moduledata, 0)
 	adduintptr(Ctxt, moduledata, 0)
-
 	// A final uintptr (next)
 	adduintptr(Ctxt, moduledata, 0)
+
+	emoduledatap := Linklookup(Ctxt, "runtime.emoduledatap", 0)
+	if emoduledatap.Type != SDYNIMPORT {
+		emoduledatap := Linklookup(Ctxt, "runtime.emoduledatap", 0)
+		emoduledatap.Type = SNOPTRDATA
+		emoduledatap.Size = 0 // overwrite existing value
+		Addaddr(Ctxt, emoduledatap, moduledata)
+	}
 }

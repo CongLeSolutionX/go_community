@@ -58,6 +58,13 @@ type moduledata struct {
 }
 
 var themoduledata moduledata // linker symbol
+var emoduledatap *moduledata // linker symbol
+
+//go:nosplit
+func addmoduledata(datap *moduledata) {
+	emoduledatap.next = datap
+	emoduledatap = datap
+}
 
 type functab struct {
 	entry   uintptr
