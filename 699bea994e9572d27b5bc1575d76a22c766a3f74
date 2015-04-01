@@ -16,6 +16,24 @@
       "revId": "699bea994e9572d27b5bc1575d76a22c766a3f74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63f66a9f_91213ccc",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-01T00:56:48Z",
+      "side": 1,
+      "message": "Oh I see, sorry.  PTAL.",
+      "parentUuid": "a3da2233_1da61310",
+      "revId": "699bea994e9572d27b5bc1575d76a22c766a3f74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
