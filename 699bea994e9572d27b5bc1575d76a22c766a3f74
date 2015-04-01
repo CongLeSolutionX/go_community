@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3da2233_1da61310",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-01T00:38:48Z",
+      "side": 1,
+      "message": "Sorry, I should have been more specific.  I\u0027m specifically concerned about the magic \"8+Thearch.Ptrsize\" here.  I think we need comments tying this line to the corresponding line in pcln.go.  Or, and this might be a better solution, we need another variable to hold this value rather than relying on the magic 8+Ptrsize.",
+      "revId": "699bea994e9572d27b5bc1575d76a22c766a3f74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
