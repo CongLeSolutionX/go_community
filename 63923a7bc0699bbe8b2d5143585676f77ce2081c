@@ -16,6 +16,57 @@
       "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a371421d_eeb0b3bf",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-01T18:38:25Z",
+      "side": 1,
+      "message": "Since the compiler is just reserving space for these fields, rather than filling them in (except next), would it be possible to just take the size of the type and write out zeros to pad up to that size? I\u0027m not positive, but that size might be in moduledata.Size before it gets zeroed above.\n\nYou could further simplify this if you moved the next field earlier (maybe put it first?). Then there would be a compiler-filled part followed by a runtime-filled part and the compiler could just zero the runtime-filled part.",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a371421d_f9d31ffc",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-01T18:38:25Z",
+      "side": 1,
+      "message": "Consider adding a comment here pointing to the per-module shadow information in the themoduledata list.",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a371421d_99922b24",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-01T18:38:25Z",
+      "side": 1,
+      "message": "Consider renaming this so the name doesn\u0027t imply that there\u0027s just one. (This could be and probably should be a separate CL that just does the renaming.)",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
