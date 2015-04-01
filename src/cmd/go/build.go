@@ -147,6 +147,7 @@ var buildRace bool           // -race flag
 var buildToolExec []string   // -toolexec flag
 var buildBuildmode string    // -buildmode flag
 var buildLibname string      // -libname flag
+var buildLinkshared bool     // -linkshared flag
 
 var buildContext = build.Default
 var buildToolchain toolchain = noToolchain{}
@@ -203,6 +204,7 @@ func addBuildFlags(cmd *Command) {
 	cmd.Flag.Var((*stringsFlag)(&buildToolExec), "toolexec", "")
 	cmd.Flag.StringVar(&buildBuildmode, "buildmode", "", "")
 	cmd.Flag.StringVar(&buildLibname, "libname", "", "")
+	cmd.Flag.BoolVar(&buildLinkshared, "linkshared", false, "")
 }
 
 func addBuildFlagsNX(cmd *Command) {
@@ -287,7 +289,9 @@ func buildModeInit() {
 		if buildLibname != "" {
 			fatalf("-libname can only be combined with -buildmode=shared")
 		}
-		return
+		if !buildLinkshared {
+			return
+		}
 	case "shared":
 		if buildI {
 			fatalf("-buildmode=shared and -i not supported together")
@@ -299,18 +303,33 @@ func buildModeInit() {
 		fatalf("buildmode=%s not supported", buildBuildmode)
 	}
 	if goarch != "amd64" || goos != "linux" {
-		fmt.Fprintf(os.Stderr, "go %s: -buildmode is only supported on linux/amd64\n", flag.Args()[0])
+		fmt.Fprintf(os.Stderr, "go %s: -buildmode and -linkshared are only supported on linux/amd64\n", flag.Args()[0])
 		os.Exit(2)
 	}
-	buildGcflags = append(buildGcflags, "-buildmode="+buildBuildmode)
-	buildLdflags = append(buildLdflags, "-buildmode="+buildBuildmode)
-	buildAsmflags = append(buildAsmflags, "-buildmode="+buildBuildmode)
-	if buildContext.InstallSuffix != "" {
-		buildContext.InstallSuffix += "_"
+	if buildBuildmode == "shared" {
+		if buildLinkshared {
+			// TODO(mwhudson): remove -w when that gets fixed in linker.
+			buildLdflags = append(buildLdflags, "-linkshared", "-w")
+		}
+		buildGcflags = append(buildGcflags, "-buildmode="+buildBuildmode)
+		buildLdflags = append(buildLdflags, "-buildmode="+buildBuildmode)
+		buildAsmflags = append(buildAsmflags, "-buildmode="+buildBuildmode)
+		if buildContext.InstallSuffix != "" {
+			buildContext.InstallSuffix += "_"
+		}
+		buildContext.InstallSuffix += "bm-" + buildBuildmode
+		//buildContext.BuildTags = append(buildContext.BuildTags, "shared")
+	} else if buildLinkshared {
+		buildLdflags = append(buildLdflags, "-linkshared")
+		// TODO(mwhudson): remove -w when that gets fixed in linker.
+		buildLdflags = append(buildLdflags, "-linkshared", "-w")
+		buildGcflags = append(buildGcflags, "-buildmode=shared")
+		buildAsmflags = append(buildAsmflags, "-buildmode=shared")
+		if buildContext.InstallSuffix != "" {
+			buildContext.InstallSuffix += "_"
+		}
+		buildContext.InstallSuffix += "bm-shared"
 	}
-	buildContext.InstallSuffix += "bm-" + buildBuildmode
-	//buildContext.BuildTags = append(buildContext.BuildTags, "shared")
-
 }
 
 func runBuild(cmd *Command, args []string) {
