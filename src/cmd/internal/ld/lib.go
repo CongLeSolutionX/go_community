@@ -33,11 +33,13 @@ package ld
 import (
 	"bytes"
 	"cmd/internal/obj"
+	"debug/elf"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -149,9 +151,7 @@ type Section struct {
 }
 
 func DynlinkingGo() bool {
-	// TODO(mwhudson): This is a bit silly for now, but it will need to have
-	// "|| Linkshared" appended when a subsequent change adds that flag.
-	return Buildmode == obj.Buildmode_Shared
+	return Buildmode == obj.Buildmode_Shared || Linkshared
 }
 
 var (
@@ -167,6 +167,7 @@ var (
 	flag_installsuffix string
 	flag_race          int
 	Buildmode          obj.Buildmode
+	Linkshared         bool
 	tracksym           string
 	interpreter        string
 	tmpdir             string
@@ -312,16 +313,25 @@ func Errorexit() {
 }
 
 func loadinternal(name string) {
-	var pname string
-
 	found := 0
 	for i := 0; i < len(Ctxt.Libdir); i++ {
-		pname = fmt.Sprintf("%s/%s.a", Ctxt.Libdir[i], name)
+		if Linkshared {
+			shlibname := fmt.Sprintf("%s/%s.shlibname", Ctxt.Libdir[i], name)
+			if Debug['v'] != 0 {
+				fmt.Fprintf(&Bso, "searching for %s.a in %s\n", name, shlibname)
+			}
+			if obj.Access(shlibname, obj.AEXIST) >= 0 {
+				addlibpath(Ctxt, "internal", "internal", "", name, shlibname)
+				found = 1
+				break
+			}
+		}
+		pname := fmt.Sprintf("%s/%s.a", Ctxt.Libdir[i], name)
 		if Debug['v'] != 0 {
 			fmt.Fprintf(&Bso, "searching for %s.a in %s\n", name, pname)
 		}
 		if obj.Access(pname, obj.AEXIST) >= 0 {
-			addlibpath(Ctxt, "internal", "internal", pname, name)
+			addlibpath(Ctxt, "internal", "internal", pname, name, "")
 			found = 1
 			break
 		}
@@ -353,7 +363,11 @@ func loadlib() {
 			fmt.Fprintf(&Bso, "%5.2f autolib: %s (from %s)\n", obj.Cputime(), Ctxt.Library[i].File, Ctxt.Library[i].Objref)
 		}
 		iscgo = iscgo || Ctxt.Library[i].Pkg == "runtime/cgo"
-		objfile(Ctxt.Library[i].File, Ctxt.Library[i].Pkg)
+		if Ctxt.Library[i].Shlib != "" {
+			ldshlibsyms(Ctxt.Library[i].Shlib)
+		} else {
+			objfile(Ctxt.Library[i].File, Ctxt.Library[i].Pkg)
+		}
 	}
 
 	if Linkmode == LinkAuto {
@@ -386,7 +400,11 @@ func loadlib() {
 		loadinternal("runtime/cgo")
 
 		if i < len(Ctxt.Library) {
-			objfile(Ctxt.Library[i].File, Ctxt.Library[i].Pkg)
+			if Ctxt.Library[i].Shlib != "" {
+				ldshlibsyms(Ctxt.Library[i].Shlib)
+			} else {
+				objfile(Ctxt.Library[i].File, Ctxt.Library[i].Pkg)
+			}
 		}
 	}
 
@@ -417,7 +435,7 @@ func loadlib() {
 	// TODO(crawshaw): android should require leaving the tlsg->type
 	// alone (as the runtime-provided SNOPTRBSS) just like darwin/arm.
 	// But some other part of the linker is expecting STLSBSS.
-	if goos != "darwin" || Thearch.Thechar != '5' {
+	if tlsg.Type != SDYNIMPORT && (goos != "darwin" || Thearch.Thechar != '5') {
 		tlsg.Type = STLSBSS
 	}
 	tlsg.Size = int64(Thearch.Ptrsize)
@@ -762,6 +780,10 @@ func hostlink() {
 		argv = append(argv, "-shared")
 	}
 
+	if Linkshared {
+		argv = append(argv, "-znow")
+	}
+
 	argv = append(argv, "-o")
 	argv = append(argv, outfile)
 
@@ -830,6 +852,18 @@ func hostlink() {
 	}
 
 	argv = append(argv, fmt.Sprintf("%s/go.o", tmpdir))
+
+	if Linkshared {
+		for _, shlib := range Ctxt.Shlibs {
+			dir, base := filepath.Split(shlib)
+			argv = append(argv, "-L"+dir)
+			argv = append(argv, "-Wl,-rpath="+dir)
+			base = strings.TrimSuffix(base, ".so")
+			base = strings.TrimPrefix(base, "lib")
+			argv = append(argv, "-l"+base)
+		}
+	}
+
 	var i int
 	for i = 0; i < len(ldflag); i++ {
 		argv = append(argv, ldflag[i])
@@ -981,6 +1015,58 @@ func ldobj(f *Biobuf, pkg string, length int64, pn string, file string, whence i
 
 eof:
 	Diag("truncated object file: %s", pn)
+}
+
+func ldshlibsyms(shlib string) {
+	found := false
+	libpath := ""
+	for _, libdir := range Ctxt.Libdir {
+		libpath = filepath.Join(libdir, shlib)
+		if _, err := os.Stat(libpath); err == nil {
+			found = true
+			break
+		}
+	}
+	if !found {
+		Diag("cannot find shared library: %s", shlib)
+		return
+	}
+	for _, processedname := range Ctxt.Shlibs {
+		if processedname == libpath {
+			return
+		}
+	}
+	if Ctxt.Debugvlog > 1 && Ctxt.Bso != nil {
+		fmt.Fprintf(Ctxt.Bso, "%5.2f ldshlibsyms: found library with name %s at %s\n", obj.Cputime(), shlib, libpath)
+		Bflush(Ctxt.Bso)
+	}
+
+	f, err := elf.Open(libpath)
+	if err != nil {
+		Diag("cannot open shared library: %s", libpath)
+		return
+	}
+	defer f.Close()
+	syms, err := f.DynamicSymbols()
+	if err != nil {
+		Diag("cannot read symbols from shared library: %s", libpath)
+		return
+	}
+	for _, s := range syms {
+		if elf.ST_TYPE(s.Info) == elf.STT_NOTYPE || elf.ST_TYPE(s.Info) == elf.STT_SECTION {
+			continue
+		}
+		if s.Section == elf.SHN_UNDEF {
+			continue
+		}
+		if s.Name == "_init" || s.Name == "_fini" || s.Name == "main" {
+			continue
+		}
+		lsym := Linklookup(Ctxt, s.Name, 0)
+		lsym.Type = SDYNIMPORT
+		lsym.File = libpath
+	}
+	Ctxt.Shlibs = append(Ctxt.Shlibs, libpath)
 }
 
 func mywhatsys() {
