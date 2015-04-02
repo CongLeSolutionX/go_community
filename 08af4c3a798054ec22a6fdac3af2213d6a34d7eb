@@ -16,6 +16,24 @@
       "revId": "08af4c3a798054ec22a6fdac3af2213d6a34d7eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3bdfae6_ac2c2d91",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2923,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-02T20:21:42Z",
+      "side": 1,
+      "message": "Sorry, that was leftover debugging. I was having some problems with instruction layout and I played with different sizes so that off-by-N would manifest differently.",
+      "parentUuid": "06ea1c20_2014eac5",
+      "revId": "08af4c3a798054ec22a6fdac3af2213d6a34d7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
