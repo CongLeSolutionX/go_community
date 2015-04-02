@@ -294,7 +294,7 @@ func gc(mode int) {
 	// debug.gctrace variables
 	var stwprocs, maxprocs int32
 	var tSweepTerm, tScan, tInstallWB, tMark, tMarkTerm int64
-	var heap0, heap1 uint64
+	var heap0, heap1, heap2 uint64
 
 	// Ok, we're doing it!  Stop everybody else
 	semacquire(&worldsema, false)
@@ -413,6 +413,9 @@ func gc(mode int) {
 	// need to switch to g0 so we can shrink the stack.
 	systemstack(func() {
 		gcMark(startTime)
+		if debug.gctrace > 0 {
+			heap2 = work.bytesMarked
+		}
 		if debug.gccheckmark > 0 {
 			// Run a full stop-the-world mark using checkmark bits,
 			// to check that we didn't forget to mark anything during
@@ -511,7 +514,7 @@ func gc(mode int) {
 			"+", installWBCpu/1e6,
 			"+", markCpu/1e6,
 			"+", markTermCpu/1e6, " ms cpu, ",
-			heap0>>20, "->", heap1>>20, " MB, ",
+			heap0>>20, "->", heap1>>20, "->", heap2>>20, " MB, ",
 			maxprocs, " P")
 		if mode != gcBackgroundMode {
 			print(" (forced)")
