@@ -23,8 +23,9 @@ type abbrev struct {
 }
 
 type afield struct {
-	attr Attr
-	fmt  format
+	attr  Attr
+	fmt   format
+	class Class
 }
 
 // a map from entry format ids to their descriptions
@@ -32,7 +33,7 @@ type abbrevTable map[uint32]abbrev
 
 // ParseAbbrev returns the abbreviation table that starts at byte off
 // in the .debug_abbrev section.
-func (d *Data) parseAbbrev(off uint32) (abbrevTable, error) {
+func (d *Data) parseAbbrev(off uint32, vers int) (abbrevTable, error) {
 	if m, ok := d.abbrevCache[off]; ok {
 		return m, nil
 	}
@@ -80,6 +81,7 @@ func (d *Data) parseAbbrev(off uint32) (abbrevTable, error) {
 		for i := range a.field {
 			a.field[i].attr = Attr(b.uint())
 			a.field[i].fmt = format(b.uint())
+			a.field[i].class = formToClass(a.field[i].fmt, a.field[i].attr, vers, &b)
 		}
 		b.uint()
 		b.uint()
@@ -93,6 +95,108 @@ func (d *Data) parseAbbrev(off uint32) (abbrevTable, error) {
 	return m, nil
 }
 
+// attrIsExprloc indicates attributes that allow exprloc values that
+// are encoded as block values in DWARF 2 and 3. See DWARF 4, Figure
+// 20.
+var attrIsExprloc = map[Attr]bool{
+	AttrLocation:      true,
+	AttrByteSize:      true,
+	AttrBitOffset:     true,
+	AttrBitSize:       true,
+	AttrStringLength:  true,
+	AttrLowerBound:    true,
+	AttrReturnAddr:    true,
+	AttrStrideSize:    true,
+	AttrUpperBound:    true,
+	AttrCount:         true,
+	AttrDataMemberLoc: true,
+	AttrFrameBase:     true,
+	AttrSegment:       true,
+	AttrStaticLink:    true,
+	AttrUseLocation:   true,
+	AttrVtableElemLoc: true,
+	AttrAllocated:     true,
+	AttrAssociated:    true,
+	AttrDataLocation:  true,
+	AttrStride:        true,
+}
+
+// attrPtrClass indicates the *ptr class of attributes that have
+// encoding formSecOffset in DWARF 4 or formData* in DWARF 2 and 3.
+var attrPtrClass = map[Attr]Class{
+	AttrLocation:      ClassLocListPtr,
+	AttrStmtList:      ClassLinePtr,
+	AttrStringLength:  ClassLocListPtr,
+	AttrReturnAddr:    ClassLocListPtr,
+	AttrStartScope:    ClassRangeListPtr,
+	AttrDataMemberLoc: ClassLocListPtr,
+	AttrFrameBase:     ClassLocListPtr,
+	AttrMacroInfo:     ClassMacPtr,
+	AttrSegment:       ClassLocListPtr,
+	AttrStaticLink:    ClassLocListPtr,
+	AttrUseLocation:   ClassLocListPtr,
+	AttrVtableElemLoc: ClassLocListPtr,
+	AttrRanges:        ClassRangeListPtr,
+}
+
+// formToClass returns the DWARF 4 Class for the given form. If the
+// DWARF version is less then 4, it will disambiguate some forms
+// depending on the attribute.
+func formToClass(form format, attr Attr, vers int, b *buf) Class {
+	switch form {
+	default:
+		b.error("cannot determine class of unknown attribute form")
+		return 0
+
+	case formAddr:
+		return ClassAddress
+
+	case formDwarfBlock1, formDwarfBlock2, formDwarfBlock4, formDwarfBlock:
+		// In DWARF 2 and 3, ClassExprLoc was encoded as a block.
+		if vers < 4 && attrIsExprloc[attr] {
+			return ClassExprLoc
+		}
+		return ClassBlock
+
+	case formData1, formData2, formData4, formData8, formSdata, formUdata:
+		// In DWARF 2 and 3, ClassPtr was encoded as a constant.
+		if class, ok := attrPtrClass[attr]; vers < 4 && ok {
+			return class
+		}
+		return ClassConstant
+
+	case formFlag, formFlagPresent:
+		return ClassFlag
+
+	case formRefAddr, formRef1, formRef2, formRef4, formRef8, formRefUdata,
+		formRefSig8:
+		// XXX Should we distinguish formRefSig8 from inter-info refs?
+		return ClassReference
+
+	case formString, formStrp:
+		return ClassString
+
+	case formSecOffset:
+		// DWARF 4 defines four *ptr classes, but doesn't
+		// distinguish them in the encoding. Disambiguate
+		// these classes using the attribute.
+		if class, ok := attrPtrClass[attr]; ok {
+			return class
+		}
+		b.error("cannot determine class of unknown attribute with formSecOffset")
+		return 0
+
+	case formExprloc:
+		return ClassExprLoc
+
+	case formGnuRefAlt:
+		return ClassReferenceAlt
+
+	case formGnuStrpAlt:
+		return ClassStringAlt
+	}
+}
+
 // An entry is a sequence of attribute/value pairs.
 type Entry struct {
 	Offset   Offset // offset of Entry in DWARF info
@@ -103,8 +207,94 @@ type Entry struct {
 
 // A Field is a single attribute/value pair in an Entry.
 type Field struct {
-	Attr Attr
-	Val  interface{}
+	Attr  Attr
+	Val   interface{}
+	Class Class
+}
+
+// A Class is the DWARF 4 class of an attibute value.
+//
+// In general, a given attribute's value may take on one of several
+// possible classes defined by DWARF, each of which leads to a
+// slightly different interpretation of the attribute.
+//
+// DWARF version 4 distinguishes attribute value classes more finely
+// than previous versions of DWARF. The reader will disambiguate
+// coarser classes from earlier versions of DWARF into the appropriate
+// DWARF 4 class. For example, DWARF 2 uses "constant" for constants
+// as well as all types of section offsets, but the reader will
+// canonicalize attributes in DWARF 2 files that refer to section
+// offsets to one of the Class*Ptr classes, even though these classes
+// were only defined in DWARF 3.
+type Class int
+
+const (
+	// ClassAddress represents values of type uint64 that are
+	// addresses on the target machine.
+	ClassAddress Class = 1 + iota
+
+	// ClassBlock represents values of type []byte whose
+	// interpretation depends on the attribute.
+	ClassBlock
+
+	// ClassConstant represents values of type int64 that are
+	// constants. The interpretation of this constant depends on
+	// the attribute.
+	ClassConstant
+
+	// ClassExprLoc represents values of type []byte that contain
+	// an encoded DWARF expression or location description.
+	ClassExprLoc
+
+	// ClassFlag represents values of type bool.
+	ClassFlag
+
+	// ClassLinePtr represents values that are an int64 offset
+	// into the "line" section.
+	ClassLinePtr
+
+	// ClassLocListPtr repersents values that are an int64 offset
+	// into the "loclist" section.
+	ClassLocListPtr
+
+	// ClassMacPtr represents values that are an int64 offset into
+	// the "mac" section.
+	ClassMacPtr
+
+	// ClassMacPtr represents values that are an int64 offset into
+	// the "rangelist" section.
+	ClassRangeListPtr
+
+	// ClassReference represents values that are a reference to
+	// another Entry. The value may be either an Offset of an
+	// Entry in the info section (for use with Reader.Seek) or a
+	// uint64 type signature of type.
+	//
+	// XXX Separate class for type signatures? This is the only
+	// class that has two Go types.
+	ClassReference
+
+	// ClassString represents values that are strings. If the
+	// compilation unit specifies the AttrUseUTF8 flag (strongly
+	// recommended), the string value will be encoded in UTF-8.
+	// Otherwise, the encoding is unspecified.
+	ClassString
+
+	// ClassReferenceAlt represents values of type int64 that are
+	// an offset into the DWARF "info" section of an alternate
+	// object file.
+	ClassReferenceAlt
+
+	// ClassStringAlt represents values of type int64 that are an
+	// offset into the DWARF string section of an alternate object
+	// file.
+	ClassStringAlt
+)
+
+//go:generate stringer -type=Class
+
+func (i Class) GoString() string {
+	return "dwarf." + i.String()
 }
 
 // Val returns the value associated with attribute Attr in Entry,
@@ -148,6 +338,7 @@ func (b *buf) entry(atab abbrevTable, ubase Offset) *Entry {
 	}
 	for i := range e.Field {
 		e.Field[i].Attr = a.field[i].attr
+		e.Field[i].Class = a.field[i].class
 		fmt := a.field[i].fmt
 		if fmt == formIndirect {
 			fmt = format(b.uint())
