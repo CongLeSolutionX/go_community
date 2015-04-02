@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2312b2d8_69f745da",
+        "filename": "src/runtime/mkduff.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-02T06:25:46Z",
+      "side": 1,
+      "message": "Fatalln is redundant with Fatal. log.* always includes a newline if not present.\n\nThis is the first time I\u0027ve actually seen log.Fatalln... forgot it existed!",
+      "revId": "ad3600945aaf168ba12ae82c9f66c3c60836ba87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
