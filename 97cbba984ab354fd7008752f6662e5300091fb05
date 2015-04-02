@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03bbeef2_58f9ddc1",
+        "filename": "src/runtime/mkduff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-02T00:13:35Z",
+      "side": 1,
+      "message": "[hangs head]\n\nDone.",
+      "parentUuid": "c3f1d6a3_b434288e",
+      "revId": "97cbba984ab354fd7008752f6662e5300091fb05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f1d6a3_544064f3",
         "filename": "src/runtime/mkduff.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-31T19:02:52Z",
       "side": 1,
       "message": "mention go generate somehow in this also?",
+      "revId": "97cbba984ab354fd7008752f6662e5300091fb05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03bbeef2_3806294e",
+        "filename": "src/runtime/mkduff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-02T00:13:35Z",
+      "side": 1,
+      "message": "Done. Opinions on my words welcomed.",
+      "parentUuid": "c3f1d6a3_544064f3",
       "revId": "97cbba984ab354fd7008752f6662e5300091fb05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "03bbeef2_982f75b7",
+        "filename": "src/runtime/mkduff.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-02T00:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63e4aaf7_3ebf45f5",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "97cbba984ab354fd7008752f6662e5300091fb05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63e4aaf7_1ee36920",
         "filename": "src/runtime/runtime.go",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2015-03-31T20:52:33Z",
       "side": 1,
       "message": "move this down next to the other go:generate",
+      "range": {
+        "startLine": 5,
+        "startChar": 5,
+        "endLine": 5,
+        "endChar": 13
+      },
+      "revId": "97cbba984ab354fd7008752f6662e5300091fb05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03bbeef2_7825c1d5",
+        "filename": "src/runtime/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-02T00:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63e4aaf7_1ee36920",
       "range": {
         "startLine": 5,
         "startChar": 5,
