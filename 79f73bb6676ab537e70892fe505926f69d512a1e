@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03bbeef2_98009505",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-02T00:46:29Z",
+      "side": 1,
+      "message": "WaitGroup\u0027s are often local variables, and I don\u0027t see anything in particular that will cause them to escape.  Therefore they might be on the stack, and the stack might be copied.  Can we be confident that on a 32-bit system the alignment of a WaitGroup on the stack will remain the same?  If it changes, terrible things will happen.",
+      "revId": "79f73bb6676ab537e70892fe505926f69d512a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
