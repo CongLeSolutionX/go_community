@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3bdfae6_631ce094",
+        "filename": "src/cmd/internal/gc/const.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-02T22:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3bdfae6_720dcc35",
+      "revId": "34b3d3d6244b8a98bd3e9fe85b2cf7a333e9d147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3bdfae6_f2e79cd6",
         "filename": "src/cmd/internal/gc/mparith1.go",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-02T21:15:30Z",
       "side": 1,
       "message": "Still necessary? The panic is, given the code, but perhaps the message should change. panic(\"unreachable\") or something",
+      "revId": "34b3d3d6244b8a98bd3e9fe85b2cf7a333e9d147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3bdfae6_03ed2487",
+        "filename": "src/cmd/internal/gc/mparith1.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-02T22:43:27Z",
+      "side": 1,
+      "message": "This function has become\n\nreturn a.Val.Cmp(\u0026b.Val)\n\nwith the latest version of math/big",
+      "parentUuid": "e3bdfae6_f2e79cd6",
       "revId": "34b3d3d6244b8a98bd3e9fe85b2cf7a333e9d147",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e3bdfae6_830134bf",
+        "filename": "src/cmd/internal/gc/mparith3.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-02T22:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3bdfae6_9262a0bc",
+      "revId": "34b3d3d6244b8a98bd3e9fe85b2cf7a333e9d147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3bdfae6_1247b02e",
         "filename": "src/cmd/internal/gc/mparith3.go",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-02T21:15:30Z",
       "side": 1,
       "message": "Is there an issue for big.Float.Float32? We should make sure this gets fixed before the release of big.Float in Go 1.5.\nPlease link to issue here.",
+      "revId": "34b3d3d6244b8a98bd3e9fe85b2cf7a333e9d147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3bdfae6_83393454",
+        "filename": "src/cmd/internal/gc/mparith3.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-02T22:43:27Z",
+      "side": 1,
+      "message": "Added https://github.com/golang/go/issues/10321 and referenced in source.",
+      "parentUuid": "e3bdfae6_1247b02e",
       "revId": "34b3d3d6244b8a98bd3e9fe85b2cf7a333e9d147",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
