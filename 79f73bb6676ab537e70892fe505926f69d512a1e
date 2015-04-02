@@ -16,6 +16,24 @@
       "revId": "79f73bb6676ab537e70892fe505926f69d512a1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_49f921c2",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-02T07:24:55Z",
+      "side": 1,
+      "message": "Address of wg is passed to runtime_Semacquire/Semrelease in wg methods. This causes wg to always escape.\nAlso low 10 or so bits of addresses must be the same after stack copying. Changing low bits would indicate a bug in stack copying. Why any addresses can get an additional offset otherwise?..\n\nIf the rest looks good, I will add a comment and a test for stack copying.",
+      "parentUuid": "03bbeef2_98009505",
+      "revId": "79f73bb6676ab537e70892fe505926f69d512a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
