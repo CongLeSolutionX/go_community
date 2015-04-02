@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03f04edb_b3e242c8",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-02T09:28:52Z",
+      "side": 1,
+      "message": "Yeah, this is a bit daft -- I only call it with 0, which is the only safe value to call it with (a non-0 value would need a reloc).  As Austin points out, I can avoid all this by just putting all the un/zero-initialized parts of the structure at the end.",
+      "parentUuid": "63bd8ac9_1f2606b1",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a371421d_eeb0b3bf",
         "filename": "src/cmd/internal/ld/symtab.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-01T18:38:25Z",
       "side": 1,
       "message": "Since the compiler is just reserving space for these fields, rather than filling them in (except next), would it be possible to just take the size of the type and write out zeros to pad up to that size? I\u0027m not positive, but that size might be in moduledata.Size before it gets zeroed above.\n\nYou could further simplify this if you moved the next field earlier (maybe put it first?). Then there would be a compiler-filled part followed by a runtime-filled part and the compiler could just zero the runtime-filled part.",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f04edb_53daf614",
+        "filename": "src/cmd/internal/ld/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-02T09:28:52Z",
+      "side": 1,
+      "message": "Hah, yes, that\u0027s a very good point.  The size is in .Size, but as I\u0027m causing the object to move out of BSS, I\u0027ll need to call Symgrow to ensure .P is long enough (I think, not at dev machine right now).\n\nBTW, next is always 0 in the executable, it\u0027ll be filled out by a function called from a shared object initializer function.",
+      "parentUuid": "a371421d_eeb0b3bf",
       "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "03f04edb_13d46ee4",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-02T09:28:52Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "a371421d_f9d31ffc",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a371421d_99922b24",
         "filename": "src/runtime/symtab.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-01T18:38:25Z",
       "side": 1,
       "message": "Consider renaming this so the name doesn\u0027t imply that there\u0027s just one. (This could be and probably should be a separate CL that just does the renaming.)",
+      "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f04edb_d39a6647",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-02T09:28:52Z",
+      "side": 1,
+      "message": "Yes, fair point.  firstmoduledata maybe.",
+      "parentUuid": "a371421d_99922b24",
       "revId": "63923a7bc0699bbe8b2d5143585676f77ce2081c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
