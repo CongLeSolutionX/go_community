@@ -16,6 +16,24 @@
       "revId": "1dc03e01afb147e606fb86ea9782cdd85ded95c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3bdfae6_5262c33b",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-03T00:12:03Z",
+      "side": 1,
+      "message": "Done.\n\nThere is at least one other genuine use of floating point in the runtime (mprof.go), but I\u0027m happy to delete this use, especially since I\u0027m going to get rid of triggerratio soon anyway. :)\n\nI will, however, be adding more floating point in the GC for the trigger controller. That will be much harder to replace with integer math.",
+      "parentUuid": "e3bdfae6_d235b889",
+      "revId": "1dc03e01afb147e606fb86ea9782cdd85ded95c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
