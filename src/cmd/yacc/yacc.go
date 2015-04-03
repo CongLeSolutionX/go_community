@@ -3250,6 +3250,42 @@ func $$Statname(s int) string {
 	return __yyfmt__.Sprintf("state-%v", s)
 }
 
+func $$ErrorMessage(state, lookAhead int) string {
+	if !$$ErrorVerbose {
+		return "syntax error"
+	}
+	res := "syntax error: unexpected " + $$Tokname(lookAhead)
+
+	// For simplicity, skip states with exceptions.
+	if $$Def[state] == -2 {
+		return res
+	}
+
+	// To match Bison, suggest at most four expected tokens.
+	expected := make([]int, 0, 4)
+
+	// Look for shiftable tokens.
+	base := $$Pact[state]
+	for tok := 4; tok-1 < len($$Toknames); tok++ {
+		if n := base + tok; n >= 0 && n < $$Last && $$Chk[$$Act[n]] == tok {
+			if len(expected) == cap(expected) {
+				return res
+			}
+			expected = append(expected, tok)
+		}
+	}
+
+	for i, tok := range expected {
+		if i == 0 {
+			res += ", expecting "
+		} else {
+			res += " or "
+		}
+		res += $$Tokname(tok)
+	}
+	return res
+}
+
 func $$lex1(lex $$Lexer, lval *$$SymType) (char, token int) {
 	token = 0
 	char = lex.Lex(lval)
@@ -3388,11 +3424,7 @@ $$default:
 		/* error ... attempt to resume parsing */
 		switch Errflag {
 		case 0: /* brand new error */
-			$$ErrMsg := "syntax error"
-			if $$ErrorVerbose {
-				$$ErrMsg += ": unexpected " + $$Tokname($$token)
-			}
-			$$lex.Error($$ErrMsg)
+			$$lex.Error($$ErrorMessage($$state, $$token))
 			Nerrs++
 			if $$Debug >= 1 {
 				__yyfmt__.Printf("%s", $$Statname($$state))

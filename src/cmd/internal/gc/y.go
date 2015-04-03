@@ -912,6 +912,42 @@ func yyStatname(s int) string {
 	return __yyfmt__.Sprintf("state-%v", s)
 }
 
+func yyErrorMessage(state, lookAhead int) string {
+	if !yyErrorVerbose {
+		return "syntax error"
+	}
+	res := "syntax error: unexpected " + yyTokname(lookAhead)
+
+	// For simplicity, skip states with exceptions.
+	if yyDef[state] == -2 {
+		return res
+	}
+
+	// To match Bison, suggest at most four expected tokens.
+	expected := make([]int, 0, 4)
+
+	// Look for shiftable tokens.
+	base := yyPact[state]
+	for tok := 4; tok-1 < len(yyToknames); tok++ {
+		if n := base + tok; n >= 0 && n < yyLast && yyChk[yyAct[n]] == tok {
+			if len(expected) == cap(expected) {
+				return res
+			}
+			expected = append(expected, tok)
+		}
+	}
+
+	for i, tok := range expected {
+		if i == 0 {
+			res += ", expecting "
+		} else {
+			res += " or "
+		}
+		res += yyTokname(tok)
+	}
+	return res
+}
+
 func yylex1(lex yyLexer, lval *yySymType) (char, token int) {
 	token = 0
 	char = lex.Lex(lval)
@@ -1050,11 +1086,7 @@ yydefault:
 		/* error ... attempt to resume parsing */
 		switch Errflag {
 		case 0: /* brand new error */
-			yyErrMsg := "syntax error"
-			if yyErrorVerbose {
-				yyErrMsg += ": unexpected " + yyTokname(yytoken)
-			}
-			yylex.Error(yyErrMsg)
+			yylex.Error(yyErrorMessage(yystate, yytoken))
 			Nerrs++
 			if yyDebug >= 1 {
 				__yyfmt__.Printf("%s", yyStatname(yystate))
