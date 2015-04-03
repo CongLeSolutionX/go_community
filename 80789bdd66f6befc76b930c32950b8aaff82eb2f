@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03092eaf_0b8a01e8",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 5346
+      },
+      "writtenOn": "2015-04-03T02:52:33Z",
+      "side": 1,
+      "message": "Maybe just \"and/or\" would be better (going outside the parenthetical bothers me) ;).\nMaybe: `crypto.Signer (implemented by RSA and/or ECDSA private keys)`",
+      "revId": "80789bdd66f6befc76b930c32950b8aaff82eb2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
