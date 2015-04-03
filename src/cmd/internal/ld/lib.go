@@ -354,12 +354,6 @@ func loadlib() {
 			Linkmode = LinkInternal
 		}
 
-		// cmd/7l doesn't support cgo internal linking
-		// This is https://golang.org/issue/10373.
-		if iscgo && goarch == "arm64" {
-			Linkmode = LinkExternal
-		}
-
 		// Force external linking for android.
 		if goos == "android" {
 			Linkmode = LinkExternal
@@ -373,6 +367,12 @@ func loadlib() {
 		if Thearch.Thechar == '5' && HEADTYPE == Hdarwin && iscgo {
 			Linkmode = LinkExternal
 		}
+	}
+
+	// cmd/7l doesn't support cgo internal linking
+	// This is https://golang.org/issue/10373.
+	if iscgo && goarch == "arm64" {
+		Linkmode = LinkExternal
 	}
 
 	if Linkmode == LinkExternal && !iscgo {
