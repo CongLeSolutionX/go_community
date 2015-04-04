@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3bdfae6_595c0d4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-04T15:47:45Z",
+      "side": 1,
+      "message": "allocation during concurrent",
+      "range": {
+        "startLine": 14,
+        "startChar": 49,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "30219eb2cb777ebcbc5c20a6efd2237cb10ddbb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3bdfae6_f952c139",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-04T15:47:45Z",
+      "side": 1,
+      "message": "Is this 7/8 going to be adjusted with future changes? If so no problem, if not I\u0027m lost.",
+      "revId": "30219eb2cb777ebcbc5c20a6efd2237cb10ddbb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
