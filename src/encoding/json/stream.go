@@ -90,8 +90,8 @@ Input:
 				break Input
 			}
 			if v == scanError {
-				dec.err = dec.scan.err
-				return 0, dec.scan.err
+				dec.err = dec.scan.err()
+				return 0, dec.err
 			}
 		}
 		scanp = len(dec.buf)

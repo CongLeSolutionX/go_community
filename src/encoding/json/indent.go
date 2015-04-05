@@ -49,7 +49,7 @@ func compact(dst *bytes.Buffer, src []byte, escape bool) error {
 	}
 	if scan.eof() == scanError {
 		dst.Truncate(origLen)
-		return scan.err
+		return scan.err()
 	}
 	if start < len(src) {
 		dst.Write(src[start:])
@@ -131,7 +131,7 @@ func Indent(dst *bytes.Buffer, src []byte, prefix, indent string) error {
 	}
 	if scan.eof() == scanError {
 		dst.Truncate(origLen)
-		return scan.err
+		return scan.err()
 	}
 	return nil
 }

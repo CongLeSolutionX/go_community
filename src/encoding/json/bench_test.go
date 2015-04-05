@@ -2,12 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Large data benchmark.
-// The JSON data is a summary of agl's changes in the
-// go, webkit, and chromium open source projects.
-// We benchmark converting between the JSON form
-// and in-memory data structures.
-
 package json
 
 import (
@@ -18,6 +12,13 @@ import (
 	"testing"
 )
 
+// codeResponse and testdata/code.json.gz are for the large data
+// benchmarks.
+//
+// The JSON data is a summary of agl's changes in the
+// go, webkit, and chromium open source projects.
+// We benchmark converting between the JSON form
+// and in-memory data structures.
 type codeResponse struct {
 	Tree     *codeNode `json:"tree"`
 	Username string    `json:"username"`
@@ -91,6 +92,7 @@ func BenchmarkCodeEncoder(b *testing.B) {
 }
 
 func BenchmarkCodeMarshal(b *testing.B) {
+	b.ReportAllocs()
 	if codeJSON == nil {
 		b.StopTimer()
 		codeInit()
@@ -105,6 +107,7 @@ func BenchmarkCodeMarshal(b *testing.B) {
 }
 
 func BenchmarkCodeDecoder(b *testing.B) {
+	b.ReportAllocs()
 	if codeJSON == nil {
 		b.StopTimer()
 		codeInit()
@@ -127,6 +130,7 @@ func BenchmarkCodeDecoder(b *testing.B) {
 }
 
 func BenchmarkCodeUnmarshal(b *testing.B) {
+	b.ReportAllocs()
 	if codeJSON == nil {
 		b.StopTimer()
 		codeInit()
@@ -142,6 +146,7 @@ func BenchmarkCodeUnmarshal(b *testing.B) {
 }
 
 func BenchmarkCodeUnmarshalReuse(b *testing.B) {
+	b.ReportAllocs()
 	if codeJSON == nil {
 		b.StopTimer()
 		codeInit()
@@ -156,6 +161,7 @@ func BenchmarkCodeUnmarshalReuse(b *testing.B) {
 }
 
 func BenchmarkUnmarshalString(b *testing.B) {
+	b.ReportAllocs()
 	data := []byte(`"hello, world"`)
 	var s string
 
@@ -167,6 +173,7 @@ func BenchmarkUnmarshalString(b *testing.B) {
 }
 
 func BenchmarkUnmarshalFloat64(b *testing.B) {
+	b.ReportAllocs()
 	var f float64
 	data := []byte(`3.14`)
 
@@ -178,12 +185,26 @@ func BenchmarkUnmarshalFloat64(b *testing.B) {
 }
 
 func BenchmarkUnmarshalInt64(b *testing.B) {
+	b.ReportAllocs()
 	var x int64
 	data := []byte(`3`)
 
 	for i := 0; i < b.N; i++ {
 		if err := Unmarshal(data, &x); err != nil {
 			b.Fatal("Unmarshal:", err)
+		}
+	}
+}
+
+func BenchmarkUnmarshalIssue10335(b *testing.B) {
+	b.ReportAllocs()
+	var s struct{}
+	// Newline is significant:
+	j := []byte(`{"a":{
+}}`)
+	for n := 0; n < b.N; n++ {
+		if err := Unmarshal(j, &s); err != nil {
+			b.Fatal(err)
 		}
 	}
 }

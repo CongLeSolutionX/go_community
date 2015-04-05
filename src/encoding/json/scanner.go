@@ -22,11 +22,11 @@ func checkValid(data []byte, scan *scanner) error {
 	for _, c := range data {
 		scan.bytes++
 		if scan.step(scan, int(c)) == scanError {
-			return scan.err
+			return scan.err()
 		}
 	}
 	if scan.eof() == scanError {
-		return scan.err
+		return scan.err()
 	}
 	return nil
 }
@@ -41,14 +41,14 @@ func nextValue(data []byte, scan *scanner) (value, rest []byte, err error) {
 		if v >= scanEnd {
 			switch v {
 			case scanError:
-				return nil, nil, scan.err
+				return nil, nil, scan.err()
 			case scanEnd:
 				return data[0:i], data[i:], nil
 			}
 		}
 	}
 	if scan.eof() == scanError {
-		return nil, nil, scan.err
+		return nil, nil, scan.err()
 	}
 	return data, nil, nil
 }
@@ -86,8 +86,12 @@ type scanner struct {
 	// Stack of what we're in the middle of - array values, object keys, object values.
 	parseState []int
 
-	// Error that happened, if any.
-	err error
+	// Error state.
+	haveErr  bool // true means following four fields are valid
+	errEOF   bool // unexpected EOF
+	errCtx   string
+	errChar  int
+	errBytes int64
 
 	// 1-byte redo (see undo method)
 	redo      bool
@@ -138,7 +142,8 @@ const (
 func (s *scanner) reset() {
 	s.step = stateBeginValue
 	s.parseState = s.parseState[0:0]
-	s.err = nil
+	s.haveErr = false
+	s.errEOF = false
 	s.redo = false
 	s.endTop = false
 }
@@ -146,7 +151,7 @@ func (s *scanner) reset() {
 // eof tells the scanner that the end of input has been reached.
 // It returns a scan status just as s.step does.
 func (s *scanner) eof() int {
-	if s.err != nil {
+	if s.haveErr {
 		return scanError
 	}
 	if s.endTop {
@@ -156,8 +161,10 @@ func (s *scanner) eof() int {
 	if s.endTop {
 		return scanEnd
 	}
-	if s.err == nil {
-		s.err = &SyntaxError{"unexpected end of JSON input", s.bytes}
+	if !s.haveErr {
+		s.haveErr = true
+		s.errEOF = true
+		s.errBytes = s.bytes
 	}
 	return scanError
 }
@@ -583,9 +590,22 @@ func stateError(s *scanner, c int) int {
 
 // error records an error and switches to the error state.
 func (s *scanner) error(c int, context string) int {
+	s.haveErr = true
+	s.errChar = c
+	s.errCtx = context
+	s.errBytes = s.bytes
 	s.step = stateError
-	s.err = &SyntaxError{"invalid character " + quoteChar(c) + " " + context, s.bytes}
 	return scanError
+}
+
+func (s *scanner) err() error {
+	if s.haveErr {
+		if s.errEOF {
+			return &SyntaxError{"unexpected end of JSON input", s.errBytes}
+		}
+		return &SyntaxError{"invalid character " + quoteChar(s.errChar) + " " + s.errCtx, s.errBytes}
+	}
+	return nil
 }
 
 // quoteChar formats c as a quoted character literal
