@@ -99,7 +99,7 @@ func test(t *testing.T, mode Mode) {
 
 	// test packages
 	for _, pkg := range pkgs {
-		importpath := dataDir + "/" + pkg.Name
+		importpath := filepath.Join(dataDir, pkg.Name)
 		doc := New(pkg, importpath, mode)
 
 		// golden files always use / in filenames - canonicalize them
