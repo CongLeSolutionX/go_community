@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2312b2d8_2f726d10",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T15:56:36Z",
+      "side": 1,
+      "message": "IPv4 or IPv6 here and elsewhere",
+      "revId": "cbf611790125b0d57570bf46d7a21bc4dfbd97f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_0f6fa924",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T15:56:36Z",
+      "side": 1,
+      "message": "Hostname with RFC 6874-encoded IPv6 zone identifier",
+      "revId": "cbf611790125b0d57570bf46d7a21bc4dfbd97f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_ef5c5585",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T15:56:36Z",
+      "side": 1,
+      "message": "percent not pct",
+      "revId": "cbf611790125b0d57570bf46d7a21bc4dfbd97f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_4f65a144",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T15:56:36Z",
+      "side": 1,
+      "message": "Add comment before this block:\n\n  // Tests exercising RFC 6874 compliance:",
+      "revId": "cbf611790125b0d57570bf46d7a21bc4dfbd97f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_6f68651e",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T15:56:36Z",
+      "side": 1,
+      "message": "textual",
+      "revId": "cbf611790125b0d57570bf46d7a21bc4dfbd97f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
