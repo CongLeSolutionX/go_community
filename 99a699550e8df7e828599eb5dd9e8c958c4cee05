@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2312b2d8_6f350588",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "Use complete Go-style sentences in docs:\n\n// connReuseStrategy determines how (*DB).conn returns database connections.",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_ef6d7582",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "type bool if there are only two options? or uint8? still use \u003d\u003d below, and don\u0027t treat it as a boolean.",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_4f3241a2",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "// alwaysNewConn forces a new connection to the database.",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_2f2f0d36",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "// cachedOrNewConn returns a cached connection, if available, else\n// creates a new database connection.\n\n(or whatever the actual semantics are)",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_0f2c493d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "\"ncs\" doesn\u0027t mean anything to me, or most readers. Let\u0027s say:\n\n  func (db *DB) conn(strategy connReuseStategy) ...",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_cf72b164",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "strategy instead of ncs",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_af777d52",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T09:11:32Z",
+      "side": 1,
+      "message": "strategy",
+      "revId": "99a699550e8df7e828599eb5dd9e8c958c4cee05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
