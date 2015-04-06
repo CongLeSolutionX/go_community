@@ -270,7 +270,9 @@ func (m *machine) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 			// Record best match so far.
 			// Only need to check end point, because this entire
 			// call is only considering one start position.
-			b.cap[1] = pos
+			if b.reqcap {
+				b.cap[1] = pos
+			}
 			if !m.matched || (longest && pos > 0 && pos > m.matchcap[1]) {
 				copy(m.matchcap, b.cap)
 			}
@@ -319,7 +321,9 @@ func (m *machine) backtrack(i input, pos int, end int, reqcap int) bool {
 
 	// Anchored search must start at the beginning of the input
 	if startCond&syntax.EmptyBeginText != 0 {
-		b.cap[0] = pos
+		if b.reqcap {
+			b.cap[0] = pos
+		}
 		return m.tryBacktrack(b, i, uint32(m.p.Start), pos)
 	}
 
@@ -340,7 +344,9 @@ func (m *machine) backtrack(i input, pos int, end int, reqcap int) bool {
 			pos += advance
 		}
 
-		b.cap[0] = pos
+		if b.reqcap {
+			b.cap[0] = pos
+		}
 		if m.tryBacktrack(b, i, uint32(m.p.Start), pos) {
 			// Match must be leftmost; done.
 			return true
