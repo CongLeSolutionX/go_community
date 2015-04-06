@@ -1797,3 +1797,14 @@ func nonescapingEface(m map[interface{}]bool) bool { // ERROR "m does not escape
 func nonescapingIface(m map[M]bool) bool { // ERROR "m does not escape"
 	return m[MV(0)] // ERROR "MV\(0\) does not escape"
 }
+
+func issue10353() {
+	x := new(int) // ERROR "new\(int\) escapes to heap"
+	issue10353a(x)()
+}
+
+func issue10353a(x *int) func() { // ERROR "leaking param: x"
+	return func() { // ERROR "func literal escapes to heap"
+		println(*x)
+	}
+}

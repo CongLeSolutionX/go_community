@@ -874,11 +874,15 @@ func escassign(e *EscState, dst *Node, src *Node) {
 		OSTRARRAYBYTE,
 		OADDSTR,
 		ONEW,
-		OCLOSURE,
 		OCALLPART,
 		ORUNESTR,
 		OCONVIFACE:
 		escflows(e, dst, src)
+
+	case OCLOSURE:
+		// OCLOSURE is lowered to OPTRLIT,
+		// insert OADDR to account for the additional indirection.
+		escflows(e, dst, Nod(OADDR, src, nil))
 
 		// Flowing multiple returns to a single dst happens when
 	// analyzing "go f(g())": here g() flows to sink (issue 4529).
@@ -1306,7 +1310,11 @@ func escwalk(e *EscState, level int, dst *Node, src *Node) {
 			src.Esc = EscHeap
 			addrescapes(src.Left)
 			if Debug['m'] != 0 {
-				Warnl(int(src.Lineno), "%v escapes to heap", Nconv(src, obj.FmtShort))
+				p := src
+				if p.Left.Op == OCLOSURE {
+					p = p.Left // merely to satisfy error messages in tests
+				}
+				Warnl(int(src.Lineno), "%v escapes to heap", Nconv(p, obj.FmtShort))
 			}
 		}
 
