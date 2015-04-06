@@ -34,6 +34,24 @@
       "revId": "81e34d8c6474ed20e2a340ebaf6ae8e41db03653",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_8f295905",
+        "filename": "src/runtime/arch1_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T13:44:56Z",
+      "side": 1,
+      "message": "We only use \u003c\u003c10 and \u003c\u003c20 and \u003c\u003c30 typically.",
+      "parentUuid": "a3d4e237_937d046b",
+      "revId": "81e34d8c6474ed20e2a340ebaf6ae8e41db03653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
