@@ -52,6 +52,53 @@ func stackcopy(n, res *gc.Node, osrc, odst, w int64) {
 		dir = -dir
 	}
 
+	if op == arm64.AMOVD && dir > 0 && c >= 4 && c <= 128 {
+		var r0 gc.Node
+		r0.Op = gc.OREGISTER
+		r0.Val.U.Reg = arm64.REGTMP // linker scratch register, known to peep.go
+		var r1 gc.Node
+		r1.Op = gc.OREGISTER
+		r1.Val.U.Reg = arm64.REGRT1
+		var r2 gc.Node
+		r2.Op = gc.OREGISTER
+		r2.Val.U.Reg = arm64.REGRT2
+
+		var src gc.Node
+		gc.Regalloc(&src, gc.Types[gc.Tptr], &r1)
+		var dst gc.Node
+		gc.Regalloc(&dst, gc.Types[gc.Tptr], &r2)
+		if n.Ullman >= res.Ullman {
+			// eval n first
+			gc.Agen(n, &src)
+
+			if res.Op == gc.ONAME {
+				gc.Gvardef(res)
+			}
+			gc.Agen(res, &dst)
+		} else {
+			// eval res first
+			if res.Op == gc.ONAME {
+				gc.Gvardef(res)
+			}
+			gc.Agen(res, &dst)
+			gc.Agen(n, &src)
+		}
+
+		var tmp gc.Node
+		gc.Regalloc(&tmp, gc.Types[gc.Tptr], &r0)
+		f := gc.Sysfunc("duffcopy")
+		p := gins(obj.ADUFFCOPY, nil, f)
+		gc.Afunclit(&p.To, f)
+
+		// 8 and 128 = magic constants: see ../../runtime/duff_arm64.s
+		p.To.Offset = 8 * (128 - int64(c))
+
+		gc.Regfree(&tmp)
+		gc.Regfree(&src)
+		gc.Regfree(&dst)
+		return
+	}
+
 	var dst gc.Node
 	var src gc.Node
 	if n.Ullman >= res.Ullman {
@@ -108,7 +155,6 @@ func stackcopy(n, res *gc.Node, osrc, odst, w int64) {
 	}
 
 	// move
-	// TODO: enable duffcopy for larger copies.
 	if c >= 4 {
 		p := gins(op, &src, &tmp)
 		p.From.Type = obj.TYPE_MEM

@@ -3681,8 +3681,7 @@ func opbra(ctxt *obj.Link, a int) uint32 {
 	case AB:
 		return 0<<31 | 5<<26 /* imm26 */
 
-	case obj.ADUFFZERO,
-		ABL:
+	case obj.ADUFFZERO, obj.ADUFFCOPY, ABL:
 		return 1<<31 | 5<<26
 	}
 
