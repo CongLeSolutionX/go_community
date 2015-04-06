@@ -489,6 +489,21 @@ func TestOnePassCutoff(t *testing.T) {
 	}
 }
 
+// A test on issue #10319. Check that the same machine can be used to match using
+// the standard matcher and then the backtracker without panicking when there are
+// no captures.
+func TestSwitchBacktrack(t *testing.T) {
+	reBytes := make([]byte, maxBacktrackProg)
+	for i := range reBytes {
+		reBytes[i] = '.'
+	}
+	re := MustCompile(string(reBytes))
+
+	in := make([]byte, maxBacktrackVector/maxBacktrackProg+1)
+	re.Match(in)       // triggers standard matcher
+	re.Match(in[:100]) // triggers backtracker
+}
+
 func BenchmarkLiteral(b *testing.B) {
 	x := strings.Repeat("x", 50) + "y"
 	b.StopTimer()
