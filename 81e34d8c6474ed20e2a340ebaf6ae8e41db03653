@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2312b2d8_0f1d69e8",
+        "filename": "src/runtime/arch1_arm64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-06T13:38:12Z",
+      "side": 1,
+      "message": "IMO this has now crossed into 64 \u003c\u003c 10 land\n\nbut that\u0027s not necessarily the runtime consensus",
+      "revId": "81e34d8c6474ed20e2a340ebaf6ae8e41db03653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
