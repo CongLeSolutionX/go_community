@@ -155,7 +155,17 @@ func zeroARM64(w io.Writer) {
 }
 
 func copyARM64(w io.Writer) {
-	fmt.Fprintln(w, "// TODO: Implement runtime·duffcopy.")
+	// R27 (arm64.REGTMP): scratch space
+	// R16 (arm64.REGRT1): ptr to source memory
+	// R17 (arm64.REGRT2): ptr to destination memory
+	// R16 and R17 are updated as a side effect
+	fmt.Fprintln(w, "TEXT runtime·duffcopy(SB), NOSPLIT, $0-0")
+	for i := 0; i < 128; i++ {
+		fmt.Fprintln(w, "\tMOVD.P\t8(R16), R27")
+		fmt.Fprintln(w, "\tMOVD.P\tR27, 8(R17)")
+		fmt.Fprintln(w)
+	}
+	fmt.Fprintln(w, "\tRET")
 }
 
 func tagsPPC64x(w io.Writer) {
