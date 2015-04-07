@@ -22,6 +22,30 @@
       "revId": "dd63ccafcfc6de9c1806c73eb58c4d7b1709d049",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_9b03cc0e",
+        "filename": "src/go/types.bash",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-07T19:19:17Z",
+      "side": 1,
+      "message": "I\u0027m setting it in the beginning. Line 13.",
+      "parentUuid": "832a7e12_5ba774b4",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "dd63ccafcfc6de9c1806c73eb58c4d7b1709d049",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
