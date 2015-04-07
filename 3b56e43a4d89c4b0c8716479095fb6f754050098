@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "23e3924b_7536b063",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T22:49:25Z",
+      "side": 1,
+      "message": "Sorry, that was really unclear.\n\nI know that you need to save the registers.  What I don\u0027t know is why you need to generate code here to do that.  You are calling some function anyhow, and that function could be written in assembly as far as I can see.  Why not have that function save the registers?  That seems less awkward than doing it here.",
+      "parentUuid": "236e327b_69a72587",
+      "revId": "3b56e43a4d89c4b0c8716479095fb6f754050098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832a7e12_7d558bda",
         "filename": "src/cmd/6l/asm.go",
         "patchSetId": 2
