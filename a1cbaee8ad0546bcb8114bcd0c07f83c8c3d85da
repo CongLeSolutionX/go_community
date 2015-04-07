@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "832a7e12_e31a5c70",
+        "filename": "src/go/types.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-07T17:57:42Z",
+      "side": 1,
+      "message": "need quotes around $GOPATH: \"$GOPATH\"\n\nsame on line 18",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "a1cbaee8ad0546bcb8114bcd0c07f83c8c3d85da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_43d470e5",
+        "filename": "src/go/types.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-07T17:57:42Z",
+      "side": 1,
+      "message": "diagnostic output to stderr.\nthroughout, write it like this:\n\necho 2\u003e\u00261 \u0027$GOPATH must be set.\u0027\n\nalso here you need to use \u0027 not \" so $GOPATH is not expanded. as written the output will be\n\n must be set\n\nthere are many instances of this problem",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "a1cbaee8ad0546bcb8114bcd0c07f83c8c3d85da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_8355a8dd",
+        "filename": "src/go/types.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-07T17:57:42Z",
+      "side": 1,
+      "message": "set -e\n\n(sets exit on error. otherwise things like mkdir -p $DSTDIR will fail and things will barge on anyway)",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "a1cbaee8ad0546bcb8114bcd0c07f83c8c3d85da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_036998a4",
+        "filename": "src/go/types.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-07T17:57:42Z",
+      "side": 1,
+      "message": "just\n\nif ! go test; then",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "a1cbaee8ad0546bcb8114bcd0c07f83c8c3d85da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
