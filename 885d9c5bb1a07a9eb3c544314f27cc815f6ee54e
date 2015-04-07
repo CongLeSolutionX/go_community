@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "832a7e12_fd4bdb87",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T16:47:36Z",
+      "side": 1,
+      "message": "This is just for debugging, right?",
+      "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_7d582b5b",
+        "filename": "src/cmd/internal/ld/decodesym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T16:47:36Z",
+      "side": 1,
+      "message": "Debugging?",
+      "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_5da0cf9e",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T16:47:36Z",
+      "side": 1,
+      "message": "In the general case we do need to look at DynamicSymbols.  This might be a C shared library with no regular symbol table.",
+      "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
