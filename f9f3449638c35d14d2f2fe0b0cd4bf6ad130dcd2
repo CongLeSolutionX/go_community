@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03f04edb_45d8e871",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T09:56:36Z",
+      "side": 1,
+      "message": "Ah yes, docs.  Haven\u0027t really thought properly about them yet.",
+      "parentUuid": "832a7e12_f4be98f6",
+      "revId": "f9f3449638c35d14d2f2fe0b0cd4bf6ad130dcd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832a7e12_d4b91c11",
         "filename": "src/cmd/internal/ld/lib.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-07T09:24:32Z",
       "side": 1,
       "message": "Please document these. You could lift the text right from Ian\u0027s Go execution modes document.\n\nAlso while I realize it\u0027s convenient to reason about a None case with a flag, the doc describes it defaulting to either -buildmode\u003dexe or -buildmode\u003darchive depending on the package name. This perhaps doesn\u0027t fit with having a standalone Set method on BuildMode, but it might be worth switching to a local variable for the flag with obj.Flagstr and then setting the value of buildmode once in the logic you have for flagShared.",
+      "revId": "f9f3449638c35d14d2f2fe0b0cd4bf6ad130dcd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f04edb_65cbec9e",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T09:56:36Z",
+      "side": 1,
+      "message": "Do you think here is the place to document them? I guess a quick summary here and a longer version somewhere else...\n\n-buildmode\u003darchive will never reach the linker, so we can just have BuildModeExe as the default here.",
+      "parentUuid": "832a7e12_d4b91c11",
       "revId": "f9f3449638c35d14d2f2fe0b0cd4bf6ad130dcd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "03f04edb_25d5e439",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T09:56:36Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "23e9d2fa_9368571f",
+      "revId": "f9f3449638c35d14d2f2fe0b0cd4bf6ad130dcd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2320f22c_c5507db9",
         "filename": "src/cmd/internal/ld/pobj.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-07T09:24:32Z",
       "side": 1,
       "message": "flagShared",
+      "revId": "f9f3449638c35d14d2f2fe0b0cd4bf6ad130dcd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f04edb_05e30021",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T09:56:36Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "2320f22c_c5507db9",
       "revId": "f9f3449638c35d14d2f2fe0b0cd4bf6ad130dcd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
