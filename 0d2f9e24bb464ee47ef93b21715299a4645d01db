@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "236e327b_e951d5ec",
+        "filename": "src/encoding/gob/codec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2015-04-07T23:33:45Z",
+      "side": 1,
+      "message": "Maybe defer a recover and fail gently when it does rather than just out and out panicking?",
+      "range": {
+        "startLine": 1479,
+        "startChar": 5,
+        "endLine": 1479,
+        "endChar": 27
+      },
+      "revId": "0d2f9e24bb464ee47ef93b21715299a4645d01db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
