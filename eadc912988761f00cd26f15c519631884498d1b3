@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e3924b_84d86873",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "This is going to add an allocation to a case that currently\ndoes not require it.  This doesn\u0027t matter much, but we may\nas well get it right.  Suppose we say\n    var ret []*rtype\nthen in the loop\n    if j \u003e i {\n        if ret \u003d\u003d nil {\n            ret \u003d typ[i:j:j]\n        } else {\n            ret \u003d append(ret, typ[i:j]...)\n        }\n    }\nThat way we should only get an allocation if we find\nmatches in multiple typs entries.",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_841fc889",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "Why not\n    for datap :\u003d \u0026themoduledata; datap !\u003d nil; datap \u003d datap.next {",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_e46cd404",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "for datap \u003d \u0026themoduledata; datap !\u003d nil; datap \u003d datap.next {",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_0441f868",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "for datap :\u003d ....",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_445b0059",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "for data :\u003d ....",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_44a0209f",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "for datap :\u003d ....",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_048f382d",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "for datap :\u003d ....\n(and below too)",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 10
+      },
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_243ebc8b",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "Nothing to do now, but it\u0027s easy to imagine that we might want to scan data blocks from different shared libraries in parallel some day.  That would just require adding some more indices for parforsetup.",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_e4f17467",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "In the normal case of a single themoduledata, let\u0027s just return typelinks directly without calling append.",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_a41c8c23",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T21:29:39Z",
+      "side": 1,
+      "message": "for datap :\u003d ....",
+      "revId": "eadc912988761f00cd26f15c519631884498d1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
