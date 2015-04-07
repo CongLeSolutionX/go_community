@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2312b2d8_324bf6b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-07T11:44:44Z",
+      "side": 1,
+      "message": "this whole commit message has a lot of words, but doesn\u0027t really say what this CL does.\n\nlet me try:\n\n   net/http: don\u0027t send IPv6 zone in outbound requests, per RFC 6874\n\n   When making a request to an IPv6 address with a zone identifier (e.g.\n   [::1%en0]), RFC 6874 says HTTP clients must remove the zone (\"%en0\")\n   before writing the request. Do that.\n \n    Fixes #9544\n\nIs that accurate? Or something like that.\n\nDon\u0027t talk about why link-local addresses are useful, or WebSockets.  Just say what this change does, and who says we have to do it (RFC 6874)",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_b256c661",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-07T11:44:44Z",
+      "side": 1,
+      "message": "maybe call it \"removeZone\"?  Also, it doesn\u0027t return \"a pair\", since it only returns one thing: a string.  So the docs need to be more clear.\n\nAlso, give an example.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_925bc289",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-07T11:44:44Z",
+      "side": 1,
+      "message": "this comment can move to the call site.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_524e6ac6",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-07T11:44:44Z",
+      "side": 1,
+      "message": "invert this and return host in the indent block, then unindent the rest instead.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_72516e68",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-07T11:44:44Z",
+      "side": 1,
+      "message": "this is very convoluted. can\u0027t you just use + ?",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2312b2d8_3272d610",
+        "filename": "src/net/http/requestwrite_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-07T11:44:44Z",
+      "side": 1,
+      "message": "Too many new tests, and they\u0027re redundant with existing tests. You\u0027re hiding the actual new unique tests.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
