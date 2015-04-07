@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2312b2d8_1226b2b0",
+        "filename": "src/cmd/7g/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-04-07T07:40:02Z",
+      "side": 1,
+      "message": "Stale comment.",
+      "range": {
+        "startLine": 93,
+        "startChar": 52,
+        "endLine": 93,
+        "endChar": 61
+      },
+      "revId": "5c694ea025a300082f7dcd02d961e2eec00716fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
