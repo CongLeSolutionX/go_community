@@ -497,6 +497,182 @@ func TestTxStmt(t *testing.T) {
 	}
 }
 
+// Test Tx.Stmt() dependency tracking
+func TestTxStmtDependencies(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32")
+	stmt, err := db.Prepare("INSERT|t1|name=?,age=?")
+	if err != nil {
+		t.Fatalf("Stmt, err = %v, %v", stmt, err)
+	}
+	defer stmt.Close()
+	wantDeps := func(context string, want int) {
+		if len(db.dep[stmt]) != want {
+			t.Fatalf("%s: unexpected number of deps %d, expected %d", context, len(db.dep[stmt]), want)
+		}
+	}
+	wantDeps("newly prepared statement", 1)
+
+	tx1, err := db.Begin()
+	if err != nil {
+		t.Fatalf("Begin = %v", err)
+	}
+	txs1 := tx1.Stmt(stmt)
+	defer txs1.Close()
+	wantDeps("first dependency", 2)
+
+	tx2, err := db.Begin()
+	if err != nil {
+		t.Fatalf("Begin = %v", err)
+	}
+	txs2 := tx2.Stmt(stmt)
+	defer txs2.Close()
+	wantDeps("second dependency", 3)
+
+	stmt.Close()
+	wantDeps("original statement closed, but dependencies remain", 2)
+
+	_, err = txs1.Exec("Bobby", 7)
+	if err != nil {
+		t.Fatalf("Exec = %v", err)
+	}
+	txs1.Close()
+	wantDeps("second-to-last dependency closed", 1)
+
+	_, err = txs2.Exec("Bobby", 7)
+	if err != nil {
+		t.Fatalf("Exec = %v", err)
+	}
+	txs2.Close()
+	wantDeps("last dependency closed", 0)
+
+	err = tx1.Commit()
+	if err != nil {
+		t.Fatalf("Commit = %v", err)
+	}
+	err = tx2.Commit()
+	if err != nil {
+		t.Fatalf("Commit = %v", err)
+	}
+}
+
+// Test for Tx.Stmt() on a closed statement
+func TestTxStmtClosed(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32")
+	stmt, err := db.Prepare("INSERT|t1|name=?,age=?")
+	if err != nil {
+		t.Fatalf("Stmt, err = %v, %v", stmt, err)
+	}
+	defer stmt.Close()
+
+	tx, err := db.Begin()
+	if err != nil {
+		t.Fatalf("Begin = %v", err)
+	}
+	defer tx.Rollback()
+	err = stmt.Close()
+	if err != nil {
+		t.Fatalf("stmt.Close() = %v", err)
+	}
+	txs := tx.Stmt(stmt)
+	defer txs.Close()
+	if txs.stickyErr == nil {
+		t.Fatalf("expected non-nil stickyErr")
+	}
+}
+
+// Test for the txsi of a Stmt outliving the statement itself
+func TestTxStmtTxsiLifetime(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32")
+
+	// Make sure everything happens on the same connection
+	db.SetMaxOpenConns(1)
+
+	stmt, err := db.Prepare("INSERT|t1|name=?,age=?")
+	if err != nil {
+		t.Fatalf("Stmt, err = %v, %v", stmt, err)
+	}
+	defer stmt.Close()
+
+	tx, err := db.Begin()
+	if err != nil {
+		t.Fatalf("Begin = %v", err)
+	}
+	defer tx.Rollback()
+	txs := tx.Stmt(stmt)
+	if len(stmt.css) != 1 {
+		t.Fatalf("len(stmt.css) = %v; want 1", len(stmt.css))
+	}
+	err = txs.Close()
+	if err != nil {
+		t.Fatalf("txs.Close() = %v", err)
+	}
+	err = tx.Rollback()
+	if err != nil {
+		t.Fatalf("tx.Rollback() = %v", err)
+	}
+	// stmt must still be valid
+	_, err = stmt.Exec("Janina", 25)
+	if err != nil {
+		t.Fatalf("stmt.Exec() = %v", err)
+	}
+}
+
+// Test for a new Stmt being created from the result of a Tx.Stmt()
+func TestTxStmtFromTxStmt(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32")
+	stmt, err := db.Prepare("INSERT|t1|name=?,age=?")
+	if err != nil {
+		t.Fatalf("Stmt, err = %v, %v", stmt, err)
+	}
+	defer stmt.Close()
+
+	tx, err := db.Begin()
+	if err != nil {
+		t.Fatalf("Begin = %v", err)
+	}
+	defer tx.Rollback()
+	txs1 := tx.Stmt(stmt)
+	defer txs1.Close()
+	txs2 := tx.Stmt(txs1)
+	defer txs2.Close()
+	if txs2.stickyErr == nil {
+		t.Fatalf("expected non-nil stickyErr")
+	}
+}
+
+// Test for a new Stmt being created from the result of a Tx.Prepare()
+func TestTxStmtFromTxPrepare(t *testing.T) {
+	db := newTestDB(t, "")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32,dead=bool")
+
+	tx, err := db.Begin()
+	if err != nil {
+		t.Fatalf("Begin = %v", err)
+	}
+	defer tx.Rollback()
+	stmt, err := tx.Prepare("INSERT|t1|name=?,age=?")
+	if err != nil {
+		t.Fatalf("Stmt, err = %v, %v", stmt, err)
+	}
+	defer stmt.Close()
+
+	// from the same transaction
+	txs := tx.Stmt(stmt)
+	defer txs.Close()
+	if txs.stickyErr == nil {
+		t.Fatalf("expected non-nil stickyErr")
+	}
+}
+
 // Issue: http://golang.org/issue/2784
 // This test didn't fail before because we got lucky with the fakedb driver.
 // It was failing, and now not, in github.com/bradfitz/go-sql-test
