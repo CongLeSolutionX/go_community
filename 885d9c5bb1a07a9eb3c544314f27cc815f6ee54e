@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "236e327b_29d4cde4",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T22:44:13Z",
+      "side": 1,
+      "message": "Yes, will remove.",
+      "parentUuid": "832a7e12_fd4bdb87",
+      "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832a7e12_7d582b5b",
         "filename": "src/cmd/internal/ld/decodesym.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "236e327b_c995f119",
+        "filename": "src/cmd/internal/ld/decodesym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T22:44:13Z",
+      "side": 1,
+      "message": "Yes, will remove.",
+      "parentUuid": "832a7e12_7d582b5b",
+      "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832a7e12_5da0cf9e",
         "filename": "src/cmd/internal/ld/lib.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-04-07T16:47:36Z",
       "side": 1,
       "message": "In the general case we do need to look at DynamicSymbols.  This might be a C shared library with no regular symbol table.",
+      "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "236e327b_e99a3547",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T22:44:13Z",
+      "side": 1,
+      "message": "Um really?  I\u0027m only expecting to be processing shared libraries that 6l produces here, although I guess this and cgo support could be merged at some point (tangent: I guess ldelf.go could be made a LOT shorter if it used debug/elf).\n\nA better solution is probably to generate some additional data on the side when generating a library for 6l to read when linking against it (which could then be included in the -dev package, but not the shlibs package that an application would depend on).  Having 6l just read what it needs from the shared library is neat, but probably not worth being too boneheaded about (I guess this would also let me drop the change to symbol normalization).",
+      "parentUuid": "832a7e12_5da0cf9e",
       "revId": "885d9c5bb1a07a9eb3c544314f27cc815f6ee54e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
