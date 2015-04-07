@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2320f22c_68894b25",
+        "filename": "src/reflect/alg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T00:25:26Z",
+      "side": 1,
+      "message": "Since you have to call into the runtime package for algarray anyhow, why not move algtype and algtype1 into the runtime package as well?  Then you don\u0027t need to copy the alg_ constants, and you don\u0027t need this file.",
+      "revId": "57a8248e871a1cbe9983201d9881efaf96ba23c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2320f22c_6d82bd9d",
+        "filename": "src/reflect/alg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T00:25:26Z",
+      "side": 1,
+      "message": "The reference should now be to cmd/internal/gc/subr.go .",
+      "revId": "57a8248e871a1cbe9983201d9881efaf96ba23c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2320f22c_0daa21fa",
+        "filename": "src/reflect/alg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T00:25:26Z",
+      "side": 1,
+      "message": "cmd/internal/gc/subr.go",
+      "revId": "57a8248e871a1cbe9983201d9881efaf96ba23c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2320f22c_c8e17715",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-07T00:25:26Z",
+      "side": 1,
+      "message": "I think you can remove this TODO comment.  At least, I don\u0027t know what it refers to.",
+      "revId": "57a8248e871a1cbe9983201d9881efaf96ba23c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
