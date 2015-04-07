@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "236e327b_69a72587",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T22:46:31Z",
+      "side": 1,
+      "message": "The dynamic linker expects the functions it calls to honour the platform ABI, which functions implemented in Go don\u0027t do, in particular wrt callee-/caller-saved registers (this was hilarious to debug, as you can imagine).  I guess there must be something in cgo that handles this already?",
+      "parentUuid": "832a7e12_bdf1e367",
+      "revId": "3b56e43a4d89c4b0c8716479095fb6f754050098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832a7e12_7d558bda",
         "filename": "src/cmd/6l/asm.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-07T17:01:57Z",
       "side": 1,
       "message": "push %rsp doesn\u0027t make a great deal of sense, at least not if it\u0027s just paired with pop %rsp.",
+      "revId": "3b56e43a4d89c4b0c8716479095fb6f754050098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "236e327b_29b12dc2",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-07T22:46:31Z",
+      "side": 1,
+      "message": "You make a good point.  Will take this out.",
+      "parentUuid": "832a7e12_7d558bda",
       "revId": "3b56e43a4d89c4b0c8716479095fb6f754050098",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
