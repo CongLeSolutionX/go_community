@@ -124,6 +124,12 @@ func TestStdTest(t *testing.T) {
 		return
 	}
 
+	// test/recover4.go is only built for Linux and Darwin.
+	// TODO(gri) Remove once tests consider +build tags.
+	if runtime.GOOS != "linux" || runtime.GOOS != "darwin" {
+		return
+	}
+
 	testTestDir(t, filepath.Join(runtime.GOROOT(), "test"),
 		"cmplxdivide.go", // also needs file cmplxdivide1.go - ignore
 		"sigchld.go",     // don't work on Windows; testTestDir should consult build tags

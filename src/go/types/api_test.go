@@ -23,10 +23,10 @@ import (
 func skipTest() bool {
 	switch runtime.GOOS + "-" + runtime.GOARCH {
 	case "nacl-amd64p32",
-		"windows-amd64",
 		"nacl-386",
-		"windows-386",
-		"plan9-386":
+		"android-arm",
+		"darwin-arm",
+		"darwin-arm64":
 		return true
 	}
 	return false
