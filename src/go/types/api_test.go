@@ -26,7 +26,9 @@ func skipTest() bool {
 		"windows-amd64",
 		"nacl-386",
 		"windows-386",
-		"plan9-386":
+		"plan9-386",
+		"android-arm",
+		"solaris-amd64":
 		return true
 	}
 	return false
