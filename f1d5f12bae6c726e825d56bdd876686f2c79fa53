@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f39619_1e130de2",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-08T12:01:01Z",
+      "side": 1,
+      "message": "not sure whether printing the \u0027kind\u0027 value would also be useful.\n(should I copy-paste strconv.itoa?)",
+      "revId": "f1d5f12bae6c726e825d56bdd876686f2c79fa53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
