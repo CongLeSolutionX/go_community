@@ -34,6 +34,24 @@
       "revId": "ee5d2143a9af9a94d436af0e5cfe044672584db0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3eea234_6c5f03fa",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-08T17:03:55Z",
+      "side": 1,
+      "message": "You are correct - it\u0027s not needed. I will update the check.",
+      "parentUuid": "0303eebf_38dd490c",
+      "revId": "ee5d2143a9af9a94d436af0e5cfe044672584db0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
