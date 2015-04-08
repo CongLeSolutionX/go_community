@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "236e327b_a9551da7",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-08T01:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23e3924b_bb1f875e",
+      "revId": "9875304082ede3125c20123d1f7cf1df1cef8b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23e3924b_db636bc6",
         "filename": "src/cmd/internal/ld/ld.go",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "236e327b_496b4163",
+        "filename": "src/cmd/internal/ld/ld.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-08T01:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23e3924b_db636bc6",
+      "range": {
+        "startLine": 121,
+        "startChar": 9,
+        "endLine": 121,
+        "endChar": 14
+      },
+      "revId": "9875304082ede3125c20123d1f7cf1df1cef8b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23e3924b_fb4bcf35",
         "filename": "src/cmd/internal/ld/lib.go",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2015-04-07T23:43:23Z",
       "side": 1,
       "message": "Only do this if Iself.",
+      "revId": "9875304082ede3125c20123d1f7cf1df1cef8b5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "236e327b_69688565",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-08T01:19:54Z",
+      "side": 1,
+      "message": "Done.  Also added a comment as to why we do this.",
+      "parentUuid": "23e3924b_fb4bcf35",
       "revId": "9875304082ede3125c20123d1f7cf1df1cef8b5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
