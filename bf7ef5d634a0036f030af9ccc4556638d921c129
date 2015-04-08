@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f39619_3eb08970",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-04-08T11:49:12Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 11
+      },
+      "revId": "bf7ef5d634a0036f030af9ccc4556638d921c129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f39619_1eadcd14",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-04-08T11:49:12Z",
+      "side": 1,
+      "message": "CBZ doesn\u0027t work?",
+      "revId": "bf7ef5d634a0036f030af9ccc4556638d921c129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
