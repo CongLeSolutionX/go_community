@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3eea234_f1a3f022",
+        "filename": "src/cmd/7g/peep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-08T16:47:50Z",
+      "side": 1,
+      "message": "I think we can remove the conditional at line 146 and\nalways use the immediate.\n\nliblink should determine whether to load into REGTMP or\nencode that directly. If we add logical instructions here,\ndeciding which imm is bimm is not trivial, better to leave\nthat to liblink.\n\nalso, after remove the conditions at line 146, we can add\nlogical instructions now.\n\nWhen bimm is supported, we don\u0027t need to remember to\nmodify this file.",
+      "revId": "ab22cb2d7a07f3480eff915fff1c6ff63c3dced0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
