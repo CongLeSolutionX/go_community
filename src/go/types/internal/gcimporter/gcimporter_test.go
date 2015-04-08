@@ -35,20 +35,12 @@ func skipTest() bool {
 var gcPath string // Go compiler path
 
 func init() {
-	// determine compiler
-	var gc string
-	switch runtime.GOARCH {
-	case "386":
-		gc = "8g"
-	case "amd64":
-		gc = "6g"
-	case "arm":
-		gc = "5g"
-	default:
-		gcPath = "unknown-GOARCH-compiler"
+	if char, err := build.ArchChar(runtime.GOARCH); err == nil {
+		gcPath = filepath.Join(build.ToolDir, char+"g")
 		return
 	}
-	gcPath = filepath.Join(build.ToolDir, gc)
+	gcPath = "unknown-GOARCH-compiler"
+	return
 }
 
 func compile(t *testing.T, dirname, filename string) string {
