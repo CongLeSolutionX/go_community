@@ -52,6 +52,24 @@
       "revId": "ee5d2143a9af9a94d436af0e5cfe044672584db0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3eea234_8ce7ef54",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-08T17:18:02Z",
+      "side": 1,
+      "message": "Note that we don\u0027t have solaris trybot (yet).\n\nBut I have tried your patch set 4 on solaris builder, and\ngo test go/types/... succeeded.",
+      "parentUuid": "a3eea234_6c5f03fa",
+      "revId": "ee5d2143a9af9a94d436af0e5cfe044672584db0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
