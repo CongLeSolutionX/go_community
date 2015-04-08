@@ -363,3 +363,33 @@ at the first item in the file that is not a blank line or //-style
 line comment.
 	`,
 }
+
+var helpBuildmode = &Command{
+	UsageLine: "buildmode",
+	Short:     "description of build modes",
+	Long: `
+
+The 'go build' and 'go install' commands take a -buildmode argument which
+indicates which kind of object file is to be built. Currently supported values
+are:
+
+	-buildmode=archive
+		This is the default build mode for a package that is not main.
+		It means to build the package into a .a file. Packages named
+		main are ignored.
+
+	-buildmode=c-shared
+		Build the main package, plus all packages that it imports, into
+		a single C shared library.  The only callable symbols will be
+		those functions marked as exported.
+
+	-buildmode=default
+		Default behaviour: packages named main are built into
+		executables and other packages are built into .a files.
+
+	-buildmode=exe
+		This is the default build mode for a package named main.  It
+		means to build the package and everything it imports into an
+		executable. Packages not named main are ignored.
+`,
+}
