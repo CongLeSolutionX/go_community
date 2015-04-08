@@ -123,6 +123,11 @@ func TestStdTest(t *testing.T) {
 	if skipTest() {
 		return
 	}
+	// TODO(gri) test/recover4.go is not built for Solaris.
+	// Remove this once the tests take +build tags into account.
+	if runtime.GOOS == "solaris" {
+		return
+	}
 
 	testTestDir(t, filepath.Join(runtime.GOROOT(), "test"),
 		"cmplxdivide.go", // also needs file cmplxdivide1.go - ignore

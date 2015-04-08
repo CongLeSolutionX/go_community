@@ -21,6 +21,9 @@ import (
 // skipTest returns true for platforms on which the current gcimporter doesn't work.
 // TODO(gri) eliminate this ASAP.
 func skipTest() bool {
+	if runtime.GOOS == "android" {
+		return true
+	}
 	switch runtime.GOOS + "-" + runtime.GOARCH {
 	case "nacl-amd64p32",
 		"windows-amd64",
