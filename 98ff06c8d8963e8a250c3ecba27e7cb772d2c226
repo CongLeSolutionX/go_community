@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3eea234_f78da083",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-08T17:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3eea234_573f3438",
+      "revId": "98ff06c8d8963e8a250c3ecba27e7cb772d2c226",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3eea234_b72f9808",
         "filename": "src/go/types/internal/gcimporter/gcimporter_test.go",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a3eea234_b79318ac",
+        "filename": "src/go/types/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-08T17:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3eea234_b72f9808",
+      "revId": "98ff06c8d8963e8a250c3ecba27e7cb772d2c226",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3eea234_57b0d470",
         "filename": "src/go/types/stdlib_test.go",
         "patchSetId": 5
@@ -47,6 +83,30 @@
       "writtenOn": "2015-04-08T17:45:53Z",
       "side": 1,
       "message": "Note: files under /test are different.\nat least they present in the nacl fake file system,\nso I think we just need to special case $GOROOT/test/recover4.go\nhere.\n\nThis test and the other TestStd* tests need not skip\non nacl or android. They probably need to be skipped\non darwin/arm, darwin/arm64, but I\u0027m not sure.",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 121,
+        "endChar": 21
+      },
+      "revId": "98ff06c8d8963e8a250c3ecba27e7cb772d2c226",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3eea234_32f436d3",
+        "filename": "src/go/types/stdlib_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-08T17:52:18Z",
+      "side": 1,
+      "message": "These tests run over the /test files but they also rely on imports. So we need to skip them as well. Or I don\u0027t understand what you\u0027re saying.",
+      "parentUuid": "a3eea234_57b0d470",
       "range": {
         "startLine": 121,
         "startChar": 1,
