@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f39619_c4b9d211",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-08T16:06:32Z",
+      "side": 1,
+      "message": "one space after period.\n\n\"The statement\" -- which?  There are two involved here: the passed in one and the returned one\n\nBut why even say this?  It sounds like a new restriction?  I\u0027d prefer not having new restrictions.  Can\u0027t we just automatically do the old behavior if it\u0027s closed?",
+      "revId": "0757fb0bc47b83e4f71a3596651523d42307617c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f39619_a4be46f5",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-08T16:06:32Z",
+      "side": 1,
+      "message": "and if it wasn\u0027t? can\u0027t we just do the old thing and then remove these docs?",
+      "revId": "0757fb0bc47b83e4f71a3596651523d42307617c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f39619_04c45a8f",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-08T16:06:32Z",
+      "side": 1,
+      "message": "same-line comment:  // non-nil if originated from a parent Stmt",
+      "revId": "0757fb0bc47b83e4f71a3596651523d42307617c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f39619_e4c84ea5",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-08T16:06:32Z",
+      "side": 1,
+      "message": "this makes it look like the removeDep on line 1570 is being accidentally skipped.  I assume that\u0027s not the case.  Can you restructure this to look less scary?",
+      "revId": "0757fb0bc47b83e4f71a3596651523d42307617c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f39619_44ce62af",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1568,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-08T16:06:32Z",
+      "side": 1,
+      "message": "could this be defer instead? and then delete line 1565 too?",
+      "revId": "0757fb0bc47b83e4f71a3596651523d42307617c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
