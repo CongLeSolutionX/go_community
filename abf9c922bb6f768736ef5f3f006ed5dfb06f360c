@@ -34,6 +34,24 @@
       "revId": "abf9c922bb6f768736ef5f3f006ed5dfb06f360c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e3924b_6d68a01e",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2409,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-08T01:41:00Z",
+      "side": 1,
+      "message": "Well, it is, but currently this branch patches a simple usability problem: if the PC would be resolved to \"etext\", resolve it to \"ExternalCode\" instead. With this change, pc could be genuinely resolvable to a symbol in another module, but this will replace it with ExternalCode anyway.\n\nThat said, I\u0027m not sure how we get to this branch in the first place. It looks like this was introduced in 5e72fae9, but there\u0027s no hint in that commit about why this was necessary.",
+      "parentUuid": "236e327b_c9a41131",
+      "revId": "abf9c922bb6f768736ef5f3f006ed5dfb06f360c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
