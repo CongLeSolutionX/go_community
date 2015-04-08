@@ -75,6 +75,8 @@ and test commands:
 	-x
 		print the commands.
 
+	-buildmode mode
+		build mode to use. See 'go help buildmodes' for more.
 	-compiler name
 		name of compiler to use, as in runtime.Compiler (gccgo or gc).
 	-gccgoflags 'arg list'
@@ -85,7 +87,8 @@ and test commands:
 		a suffix to use in the name of the package installation directory,
 		in order to keep output separate from default builds.
 		If using the -race flag, the install suffix is automatically set to race
-		or, if set explicitly, has _race appended to it.
+		or, if set explicitly, has _race appended to it.  Using a -buildmode
+		option that requires non-default compile flags has a similar effect.
 	-ldflags 'flag list'
 		arguments to pass on each 5l, 6l, 8l, or 9l linker invocation.
 	-asmflags 'flag list'
@@ -145,6 +148,7 @@ var buildLdflags []string    // -ldflags flag
 var buildGccgoflags []string // -gccgoflags flag
 var buildRace bool           // -race flag
 var buildToolExec []string   // -toolexec flag
+var buildBuildmode string    // -buildmode flag
 
 var buildContext = build.Default
 var buildToolchain toolchain = noToolchain{}
@@ -199,6 +203,7 @@ func addBuildFlags(cmd *Command) {
 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
 	cmd.Flag.BoolVar(&buildRace, "race", false, "")
 	cmd.Flag.Var((*stringsFlag)(&buildToolExec), "toolexec", "")
+	cmd.Flag.StringVar(&buildBuildmode, "buildmode", "default", "")
 }
 
 func addBuildFlagsNX(cmd *Command) {
@@ -273,8 +278,52 @@ func (v *stringsFlag) String() string {
 	return "<stringsFlag>"
 }
 
+func pkgfilter_always(p *Package) bool  { return true }
+func pkgfilter_main(p *Package) bool    { return p.Name == "main" }
+func pkgfilter_nonmain(p *Package) bool { return p.Name != "main" }
+
+var pkgfilter = pkgfilter_always
+
+func buildModeInit() {
+	var codegenArg, ldBuildmode string
+	switch buildBuildmode {
+	case "archive":
+		pkgfilter = pkgfilter_nonmain
+	case "c-shared":
+		pkgfilter = pkgfilter_main
+		if (goarch != "amd64" && goarch != "arm") || goos != "linux" {
+			fmt.Fprintf(os.Stderr, "go %s: -buildmode=c-shared is only supported on linux/amd64 and linux/arm\n", flag.Args()[0])
+			os.Exit(2)
+		}
+		if goarch == "amd64" {
+			codegenArg = "-shared"
+		}
+		ldBuildmode = "c-shared"
+	case "default":
+		pkgfilter = pkgfilter_always
+		ldBuildmode = "exe"
+	case "exe":
+		pkgfilter = pkgfilter_main
+		ldBuildmode = "exe"
+	default:
+		fatalf("buildmode=%s not supported", buildBuildmode)
+	}
+	if ldBuildmode != "" {
+		buildLdflags = append(buildLdflags, "-buildmode="+ldBuildmode)
+	}
+	if codegenArg != "" {
+		buildAsmflags = append(buildAsmflags, codegenArg)
+		buildGcflags = append(buildGcflags, codegenArg)
+		if buildContext.InstallSuffix != "" {
+			buildContext.InstallSuffix += "_"
+		}
+		buildContext.InstallSuffix += codegenArg[1:]
+	}
+}
+
 func runBuild(cmd *Command, args []string) {
 	raceInit()
+	buildModeInit()
 	var b builder
 	b.init()
 
@@ -321,7 +370,9 @@ func runBuild(cmd *Command, args []string) {
 
 	a := &action{}
 	for _, p := range packages(args) {
-		a.deps = append(a.deps, b.action(modeBuild, depMode, p))
+		if pkgfilter(p) {
+			a.deps = append(a.deps, b.action(modeBuild, depMode, p))
+		}
 	}
 	b.do(a)
 }
@@ -362,6 +413,9 @@ func runInstall(cmd *Command, args []string) {
 	a := &action{}
 	var tools []*action
 	for _, p := range pkgs {
+		if !pkgfilter(p) {
+			continue
+		}
 		// If p is a tool, delay the installation until the end of the build.
 		// This avoids installing assemblers/compilers that are being executed
 		// by other steps in the build.

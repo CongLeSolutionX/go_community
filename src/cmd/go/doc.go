@@ -34,6 +34,7 @@ Use "go help [command]" for more information about a command.
 Additional help topics:
 
 	c           calling between Go and C
+	buildmode   description of build modes
 	filetype    file types
 	gopath      GOPATH environment variable
 	importpath  import path syntax
@@ -94,6 +95,8 @@ and test commands:
 	-x
 		print the commands.
 
+	-buildmode mode
+		build mode to use. See 'go help buildmodes' for more.
 	-compiler name
 		name of compiler to use, as in runtime.Compiler (gccgo or gc).
 	-gccgoflags 'arg list'
@@ -104,7 +107,8 @@ and test commands:
 		a suffix to use in the name of the package installation directory,
 		in order to keep output separate from default builds.
 		If using the -race flag, the install suffix is automatically set to race
-		or, if set explicitly, has _race appended to it.
+		or, if set explicitly, has _race appended to it.  Using a -buildmode
+		option that requires non-default compile flags has a similar effect.
 	-ldflags 'flag list'
 		arguments to pass on each 5l, 6l, 8l, or 9l linker invocation.
 	-asmflags 'flag list'
@@ -638,6 +642,32 @@ When either cgo or SWIG is used, go build will pass any .c, .m, .s,
 or .S files to the C compiler, and any .cc, .cpp, .cxx files to the C++
 compiler.  The CC or CXX environment variables may be set to determine
 the C or C++ compiler, respectively, to use.
+
+
+Description of build modes
+
+The 'go build' and 'go install' commands take a -buildmode argument which
+indicates which kind of object file is to be built. Currently supported values
+are:
+
+	-buildmode=archive
+		This is the default build mode for a package that is not main.
+		It means to build the package into a .a file. Packages named
+		main are ignored.
+
+	-buildmode=c-shared
+		Build the main package, plus all packages that it imports, into
+		a single C shared library.  The only callable symbols will be
+		those functions marked as exported.
+
+	-buildmode=default
+		Default behaviour: packages named main are built into
+		executables and other packages are built into .a files.
+
+	-buildmode=exe
+		This is the default build mode for a package named main.  It
+		means to build the package and everything it imports into an
+		executable. Packages not named main are ignored.
 
 
 File types
