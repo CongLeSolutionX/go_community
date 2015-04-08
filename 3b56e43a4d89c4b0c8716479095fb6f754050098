@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "236e327b_092f8935",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-08T02:14:39Z",
+      "side": 1,
+      "message": "It works out to be waaay nicer. Thanks for the suggestion :)",
+      "parentUuid": "236e327b_a97d1d6a",
+      "revId": "3b56e43a4d89c4b0c8716479095fb6f754050098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832a7e12_7d558bda",
         "filename": "src/cmd/6l/asm.go",
         "patchSetId": 2
