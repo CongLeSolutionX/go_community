@@ -34,6 +34,24 @@
       "revId": "ab22cb2d7a07f3480eff915fff1c6ff63c3dced0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "237f124e_27c41ebe",
+        "filename": "src/cmd/7g/peep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-08T20:55:47Z",
+      "side": 1,
+      "message": "ok. I guess that\u0027s another bug of liblink.\nif the immeidate could be directly loaded\nby mov, then it shouldn\u0027t resort to loading\nfrom constant pool.",
+      "parentUuid": "63a66a29_6b06e14e",
+      "revId": "ab22cb2d7a07f3480eff915fff1c6ff63c3dced0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
