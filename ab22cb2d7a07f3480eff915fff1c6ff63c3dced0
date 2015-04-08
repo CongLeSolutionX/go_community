@@ -16,6 +16,24 @@
       "revId": "ab22cb2d7a07f3480eff915fff1c6ff63c3dced0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a66a29_6b06e14e",
+        "filename": "src/cmd/7g/peep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-04-08T20:51:59Z",
+      "side": 1,
+      "message": "That is true, however, if we add logical instructions now, most of those instructions will load from memory (because of lack of bimm), so we replace an immediate move with a load from memory. I\u0027d expect that to significantly hurt performance.",
+      "parentUuid": "a3eea234_f1a3f022",
+      "revId": "ab22cb2d7a07f3480eff915fff1c6ff63c3dced0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
