@@ -330,6 +330,10 @@ func relinv(a int) int {
 		return ABLE
 	case ABLE:
 		return ABGT
+	case ACBZ:
+		return ACBNZ
+	case ACBNZ:
+		return ACBZ
 	}
 
 	log.Fatalf("unknown relation: %s", Anames[a])

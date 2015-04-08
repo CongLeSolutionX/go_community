@@ -169,6 +169,55 @@ loop1:
 		excise(r)
 	}
 
+	// CMP R, ZR; BEQ l -> CBZ R, l
+	for r := (*gc.Flow)(g.Start); r != nil; r = r.Link {
+		p = r.Prog
+		switch p.As {
+		default:
+			continue
+
+		case arm64.ACMP:
+			switch p.From.Type {
+			case obj.TYPE_CONST:
+				if p.From.Offset != 0 {
+					continue
+				}
+			case obj.TYPE_REG:
+				if p.From.Reg != arm64.REGZERO && p.Reg != arm64.REGZERO {
+					continue
+				}
+			}
+		}
+		r1 = r.Link
+		if r1 == nil {
+			continue
+		}
+		p1 = r1.Prog
+		if p1.As != arm64.ABEQ && p1.As != arm64.ABNE {
+			continue
+		}
+		if gc.Debug['P'] != 0 {
+			fmt.Printf("using compare and branch in:\n%v\n%v\n", p, p1)
+		}
+		switch p1.As {
+		case arm64.ABEQ:
+			p1.As = arm64.ACBZ
+		case arm64.ABNE:
+			p1.As = arm64.ACBNZ
+		}
+		p1.From.Type = obj.TYPE_REG
+		switch p.From.Type {
+		case obj.TYPE_CONST:
+			p1.From.Reg = p.Reg
+		case obj.TYPE_REG:
+			p1.From.Reg = p.From.Reg
+			if p.Reg != arm64.REGZERO {
+				p1.From.Reg = p.Reg
+			}
+		}
+		excise(r)
+	}
+
 	/* TODO(minux):
 	 * look for OP x,y,R; CMP R, $0 -> OP.S x,y,R
 	 * when OP can set condition codes correctly
