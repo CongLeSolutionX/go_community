@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_f7d818f7",
+        "filename": "src/runtime/signal1_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-09T20:53:01Z",
+      "side": 1,
+      "message": "where is this used in this file?",
+      "revId": "a3ccdf8cfb296f453f5dbd986da2d4eced971fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_370460cd",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-09T20:53:01Z",
+      "side": 1,
+      "message": "\u0026\u0026 !isarchive, if I\u0027m reading Go execution modes right.",
+      "revId": "a3ccdf8cfb296f453f5dbd986da2d4eced971fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
