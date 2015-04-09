@@ -20,7 +20,7 @@ type Buffer struct {
 	WriterTo   // conflicts with and hides bytes.Buffer's WriterTo.
 }
 
-// Simple tests, primarily to verify the ReadFrom and WriteTo callouts inside Copy and CopyN.
+// Simple tests, primarily to verify the ReadFrom and WriteTo callouts inside Copy, CopyBuf and CopyN.
 
 func TestCopy(t *testing.T) {
 	rb := new(Buffer)
@@ -29,6 +29,26 @@ func TestCopy(t *testing.T) {
 	Copy(wb, rb)
 	if wb.String() != "hello, world." {
 		t.Errorf("Copy did not work properly")
+	}
+}
+
+func TestCopyBuf(t *testing.T) {
+	rb := new(Buffer)
+	wb := new(Buffer)
+	rb.WriteString("hello, world.")
+	CopyBuf(wb, rb, make([]byte, 1)) // Tiny buffer to keep it honest.
+	if wb.String() != "hello, world." {
+		t.Errorf("CopyBuf did not work properly")
+	}
+}
+
+func TestCopyBufNil(t *testing.T) {
+	rb := new(Buffer)
+	wb := new(Buffer)
+	rb.WriteString("hello, world.")
+	CopyBuf(wb, rb, nil) // Should allocate a buffer.
+	if wb.String() != "hello, world." {
+		t.Errorf("CopyBuf did not work properly")
 	}
 }
 
