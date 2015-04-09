@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "237f124e_582baeac",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-09T19:14:25Z",
+      "side": 1,
+      "message": "I can\u0027t quite wrap my head around why we should skip main.  If somebody wants to refer to main using a function declaration with a go:linkname, why not let them?",
+      "revId": "98f444395b99d339cbd85d74d7fcee54f640a058",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "237f124e_389a6a70",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-09T19:14:25Z",
+      "side": 1,
+      "message": "Testing Thechar isn\u0027t really right--linkshared only works on ELF systems at the moment.  I think we should always accept it, and then reject it below if we can\u0027t support it.\n\nNeeds a doc string, maybe \"link against installed Go shared libraries\".",
+      "revId": "98f444395b99d339cbd85d74d7fcee54f640a058",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
