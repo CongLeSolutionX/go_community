@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "437c0657_8526c4ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-09T06:31:54Z",
+      "side": 1,
+      "message": "yup, thanks as usual.",
+      "parentUuid": "2312b2d8_324bf6b6",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_b256c661",
         "filename": "src/net/http/request.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-07T11:44:44Z",
       "side": 1,
       "message": "maybe call it \"removeZone\"?  Also, it doesn\u0027t return \"a pair\", since it only returns one thing: a string.  So the docs need to be more clear.\n\nAlso, give an example.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437c0657_e578707c",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-09T06:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_b256c661",
       "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "437c0657_057e3465",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-09T06:31:54Z",
+      "side": 1,
+      "message": "moved",
+      "parentUuid": "2312b2d8_925bc289",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_524e6ac6",
         "filename": "src/net/http/request.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-07T11:44:44Z",
       "side": 1,
       "message": "invert this and return host in the indent block, then unindent the rest instead.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437c0657_2593382b",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-09T06:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_524e6ac6",
       "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "437c0657_45903c1c",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-09T06:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_72516e68",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_3272d610",
         "filename": "src/net/http/requestwrite_test.go",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2015-04-07T11:44:44Z",
       "side": 1,
       "message": "Too many new tests, and they\u0027re redundant with existing tests. You\u0027re hiding the actual new unique tests.",
+      "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437c0657_25589813",
+        "filename": "src/net/http/requestwrite_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-09T06:31:54Z",
+      "side": 1,
+      "message": "yup, dropped ipv4 and ipv6 w/o zone id cases.",
+      "parentUuid": "2312b2d8_3272d610",
       "revId": "e68b854ae923d736b6180cdf4d871ccde8adcc7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
