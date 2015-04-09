@@ -349,6 +349,23 @@ func CopyN(dst Writer, src Reader, n int64) (written int64, err error) {
 // Otherwise, if dst implements the ReaderFrom interface,
 // the copy is implemented by calling dst.ReadFrom(src).
 func Copy(dst Writer, src Reader) (written int64, err error) {
+	return copyBuf(dst, src, nil)
+}
+
+// CopyBuf is identical to Copy except that stages through the
+// provided buffer (if one is required) rather than allocating a
+// temporary. If buf is nil, one is allocated; otherwise if it has
+// zero length, CopyBuf panics.
+func CopyBuf(dst Writer, src Reader, buf []byte) (written int64, err error) {
+	if buf != nil && len(buf) == 0 {
+		panic("empty buffer in io.CopyBuf")
+	}
+	return copyBuf(dst, src, buf)
+}
+
+// copyBuf is the actual implementation of Copy and CopyBuf.
+// if buf is nil, one is allocated.
+func copyBuf(dst Writer, src Reader, buf []byte) (written int64, err error) {
 	// If the reader has a WriteTo method, use it to do the copy.
 	// Avoids an allocation and a copy.
 	if wt, ok := src.(WriterTo); ok {
@@ -358,7 +375,9 @@ func Copy(dst Writer, src Reader) (written int64, err error) {
 	if rt, ok := dst.(ReaderFrom); ok {
 		return rt.ReadFrom(src)
 	}
-	buf := make([]byte, 32*1024)
+	if buf == nil {
+		buf = make([]byte, 32*1024)
+	}
 	for {
 		nr, er := src.Read(buf)
 		if nr > 0 {
