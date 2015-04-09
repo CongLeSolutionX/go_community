@@ -217,6 +217,24 @@ func TestGoexitDefer(t *testing.T) {
 	<-c
 }
 
+var sigSegvPtr *byte
+
+func TestRecoverFromSigSegv(t *testing.T) {
+	f := func() (ret bool) {
+		defer func() {
+			if recover() == nil {
+				t.Fatalf("couldn't raise SIGSEGV.")
+			}
+			ret = true
+		}()
+		*sigSegvPtr = 1
+		return false
+	}
+	if !f() {
+		t.Fatalf("couldn't recover from SIGSEGV.")
+	}
+}
+
 func TestGoNil(t *testing.T) {
 	output := executeTest(t, goNilSource, nil)
 	want := "go of nil func value"
