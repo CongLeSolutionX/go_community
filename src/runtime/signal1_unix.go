@@ -11,6 +11,14 @@ const (
 	_SIG_IGN uintptr = 1
 )
 
+// Stores the signal handlers registered before Go installed its own.
+// These signal handlers will be invoked in cases where Go doesn't want to
+// handle a particular signal (e.g., signal occurred on a non-Go thread).
+// See sigfwdgo() for more information on when the signals are forwarded.
+//
+// Signal forwarding is currently available only on Linux.
+var fwdSig [_NSIG]uintptr
+
 func initsig() {
 	// _NSIG is the number of signals on this operating system.
 	// sigtable should describe what to do for all the possible signals.
@@ -21,11 +29,12 @@ func initsig() {
 
 	// First call: basic setup.
 	for i := int32(0); i < _NSIG; i++ {
+		fwdSig[i] = _SIG_DFL
 		t := &sigtable[i]
 		if t.flags == 0 || t.flags&_SigDefault != 0 {
 			continue
 		}
-
+		fwdSig[i] = getsig(i)
 		// For some signals, we respect an inherited SIG_IGN handler
 		// rather than insist on installing our own default handler.
 		// Even these signals can be fetched using the os/signal package.
