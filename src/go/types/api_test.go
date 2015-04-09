@@ -952,3 +952,50 @@ func sameSlice(a, b []int) bool {
 	}
 	return true
 }
+
+func TestMultipleImports(t *testing.T) {
+	fset := token.NewFileSet()
+	var imported []string
+	conf := Config{
+		Packages: make(map[string]*Package),
+		Import: func(imports map[string]*Package, path string) (*Package, error) {
+			imported = append(imported, path)
+			return imports[path], nil
+		},
+	}
+	makePkg := func(path string, srcs ...string) {
+		var files []*ast.File
+		for _, src := range srcs {
+			f, err := parser.ParseFile(fset, path, src, 0)
+			if err != nil {
+				t.Fatal(err)
+			}
+			files = append(files, f)
+		}
+		pkg, _ := conf.Check(path, fset, files, nil)
+		conf.Packages[path] = pkg
+	}
+
+	const libSrc = `
+package a
+var V int
+func F() {}
+`
+
+	const mainSrc = `
+package main
+import "a"
+var _ = a.V
+`
+
+	makePkg("a", libSrc)
+	makePkg("main", mainSrc, mainSrc)
+
+	if len(imported) != 1 {
+		t.Fatalf("len(imported) = %d, want 1", len(imported))
+	}
+
+	if imported[0] != "a" {
+		t.Fatalf("imported[0] = %s, want a", imported[0])
+	}
+}

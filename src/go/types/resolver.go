@@ -148,6 +148,20 @@ func (check *Checker) collectObjects() {
 		pkgImports[imp] = true
 	}
 
+	// pkgsByImportPath is a package map keyed by import path, unlike check.conf.Packages
+	// which is keyed by package path. The most significant difference between the two
+	// is that pkgsByImportPath also holds the unsafe and C pseudo-packages. In some rare
+	// cases, a package can have multiple import paths which provide different subsets
+	// of the package contents (e.g. augmented test packages); this map keeps track of
+	// which import paths we have seen.
+	pkgsByImportPath := make(map[string]*Package)
+	pkgsByImportPath["unsafe"] = Unsafe
+	if check.conf.FakeImportC {
+		cpkg := NewPackage("C", "C")
+		cpkg.fake = true
+		pkgsByImportPath["C"] = cpkg
+	}
+
 	for fileNo, file := range check.files {
 		// The package identifier denotes the current package,
 		// but there is no corresponding package object.
@@ -173,10 +187,9 @@ func (check *Checker) collectObjects() {
 							check.errorf(s.Path.Pos(), "invalid import path (%s)", err)
 							continue
 						}
-						if path == "C" && check.conf.FakeImportC {
-							// TODO(gri) shouldn't create a new one each time
-							imp = NewPackage("C", "C")
-							imp.fake = true
+						if p, ok := pkgsByImportPath[path]; ok {
+							// we already know about this package
+							imp = p
 						} else {
 							var err error
 							imp, err = importer(check.conf.Packages, path)
@@ -187,6 +200,7 @@ func (check *Checker) collectObjects() {
 								check.errorf(s.Path.Pos(), "could not import %s (%s)", path, err)
 								continue
 							}
+							pkgsByImportPath[path] = imp
 						}
 
 						// add package to list of explicit imports

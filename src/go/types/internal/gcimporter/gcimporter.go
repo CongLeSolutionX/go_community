@@ -116,10 +116,6 @@ func ImportData(imports map[string]*types.Package, filename, id string, data io.
 // The imports map must contains all packages already imported.
 //
 func Import(imports map[string]*types.Package, path string) (pkg *types.Package, err error) {
-	if path == "unsafe" {
-		return types.Unsafe, nil
-	}
-
 	srcDir := "."
 	if build.IsLocalImport(path) {
 		srcDir, err = os.Getwd()
