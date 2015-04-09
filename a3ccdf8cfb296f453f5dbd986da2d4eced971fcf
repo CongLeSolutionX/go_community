@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "234d525a_b7c050cf",
+        "filename": "src/runtime/signal1_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-09T20:55:27Z",
+      "side": 1,
+      "message": "Sorry, this belonged to signal_linux.go.",
+      "parentUuid": "234d525a_f7d818f7",
+      "revId": "a3ccdf8cfb296f453f5dbd986da2d4eced971fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "234d525a_370460cd",
         "filename": "src/runtime/signal_linux.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-09T20:53:01Z",
       "side": 1,
       "message": "\u0026\u0026 !isarchive, if I\u0027m reading Go execution modes right.",
+      "revId": "a3ccdf8cfb296f453f5dbd986da2d4eced971fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_371380e2",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-09T20:55:27Z",
+      "side": 1,
+      "message": "We only have islibrary available right now, set by the linker when linked with \u0027-shared\u0027.\n\nOr are you making a subtler point that we shouldn\u0027t forward for shared libraries as well?",
+      "parentUuid": "234d525a_370460cd",
       "revId": "a3ccdf8cfb296f453f5dbd986da2d4eced971fcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
