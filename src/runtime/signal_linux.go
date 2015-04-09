@@ -4,6 +4,8 @@
 
 package runtime
 
+import "unsafe"
+
 type sigTabT struct {
 	flags int32
 	name  string
@@ -75,4 +77,52 @@ var sigtable = [...]sigTabT{
 	/* 62 */ {_SigNotify, "signal 62"},
 	/* 63 */ {_SigNotify, "signal 63"},
 	/* 64 */ {_SigNotify, "signal 64"},
+}
+
+// Determines if the signal should be handled by Go and if not, forwards the
+// signal to the handler that was installed before Go's.  Returns true iff the
+// signal was forwarded.
+//
+// When Go is compiled as an executable, Go takes ownership of all the signals
+// and no forwarding occurs.
+//
+// When Go is compiled as a shared library, Go takes ownership only of the
+// signals that occurred in Go code.  In particular, signals that occur
+// on non-Go threads or in CGO are forwarded (provided a forwarding handler
+// was installed).
+//go:nosplit
+func sigfwdgo(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
+	if !islibrary {
+		return false
+	}
+	g := getg()
+	// Determine if the signal occurred inside Go code.  We test that:
+	//   (1) we were in a goroutine (i.e., m.curg != nil), and
+	//   (2) we weren't in CGO (i.e., m.curg.syscallsp == 0).
+	if g != nil && g.m != nil && g.m.curg != nil && g.m.curg.syscallsp == 0 {
+		return false
+	}
+	// Signal not handled by Go, forward it if a handler was installed.
+	fwdFn := fwdSig[sig]
+	if fwdFn == _SIG_DFL || fwdFn == _SIG_IGN {
+		return false
+	}
+	sigfwd(fwdFn, sig, info, ctx)
+	return true
+}
+
+// Continuation of the (assembly) sigtramp() logic.
+//go:nosplit
+func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
+	if sigfwdgo(sig, info, ctx) {
+		return
+	}
+	g := getg()
+	if g == nil {
+		badsignal(uintptr(sig))
+		return
+	}
+	setg(g.m.gsignal)
+	sighandler(sig, info, ctx, g)
+	setg(g)
 }
