@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "437c0657_25a338f5",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-09T07:13:15Z",
+      "side": 1,
+      "message": "It\u0027s a small thing, but it seems a disposalMethod could be a byte instead of an int. Similarly for the slice: []byte instead of []int.",
+      "revId": "19f87132c26f923e2c4e7a9839eaa2085d3ac63f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437c0657_25ba5821",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-09T07:13:15Z",
+      "side": 1,
+      "message": "I\u0027d write \"!\u003d 0\" instead of \"\u003d\u003d 1\".",
+      "revId": "19f87132c26f923e2c4e7a9839eaa2085d3ac63f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437c0657_659d40b1",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-09T07:13:15Z",
+      "side": 1,
+      "message": "While you\u0027re here, it seems like flags could be a local variable:\n\nflags :\u003d d.tmp[1]\n\nand delete the flags field in the decoder struct, above.\n\nI suppose that this was due to some refactoring that wasn\u0027t completely cleaned up.",
+      "range": {
+        "startLine": 367,
+        "startChar": 3,
+        "endLine": 367,
+        "endChar": 8
+      },
+      "revId": "19f87132c26f923e2c4e7a9839eaa2085d3ac63f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437c0657_c5936cab",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-09T07:13:15Z",
+      "side": 1,
+      "message": "It seems to me like this could be a byte instead of an int. You already know whether or not a global color map is defined because you can inspect Config.ColorModel, so you don\u0027t need a special -1 value.",
+      "revId": "19f87132c26f923e2c4e7a9839eaa2085d3ac63f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
