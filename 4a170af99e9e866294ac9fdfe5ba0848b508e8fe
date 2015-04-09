@@ -51,6 +51,24 @@
       "revId": "4a170af99e9e866294ac9fdfe5ba0848b508e8fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a66a29_ab95691a",
+        "filename": "test/fixedbugs/issue10353.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-09T08:08:02Z",
+      "side": 1,
+      "message": "Yes, they just must not crash/fail.",
+      "parentUuid": "237f124e_157d8430",
+      "revId": "4a170af99e9e866294ac9fdfe5ba0848b508e8fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
