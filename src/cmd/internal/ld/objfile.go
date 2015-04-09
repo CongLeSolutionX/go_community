@@ -100,13 +100,16 @@ func readsym(ctxt *Link, f *Biobuf, pkg string, pn string) {
 			return
 		}
 
+		if s.Type == obj.SDYNIMPORT && dupok == 0 && s.Dupok == 0 {
+			goto overwrite
+		}
 		if (s.Type == obj.SDATA || s.Type == obj.SBSS || s.Type == obj.SNOPTRBSS) && len(s.P) == 0 && len(s.R) == 0 {
 			goto overwrite
 		}
 		if s.Type != obj.SBSS && s.Type != obj.SNOPTRBSS && dupok == 0 && s.Dupok == 0 {
 			log.Fatalf("duplicate symbol %s (types %d and %d) in %s and %s", s.Name, s.Type, t, s.File, pn)
 		}
-		if len(s.P) > 0 {
+		if len(s.P) > 0 || s.Type == obj.SDYNIMPORT {
 			dup = s
 			s = linknewsym(ctxt, ".dup", readsym_ndup)
 			readsym_ndup++ // scratch
