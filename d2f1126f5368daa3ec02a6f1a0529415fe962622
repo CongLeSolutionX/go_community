@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03d12e8c_682f0335",
+        "filename": "src/cmd/internal/gc/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-09T06:05:28Z",
+      "side": 1,
+      "message": "please make this fatal, either it\u0027s a bug or it isn\u0027t.",
+      "revId": "d2f1126f5368daa3ec02a6f1a0529415fe962622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
