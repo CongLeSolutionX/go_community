@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_c417d3ff",
+        "filename": "src/net/cgo_bsdsock.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:05:26Z",
+      "side": 1,
+      "message": "I think this should be\n\n// +build cgo,!netgo\n\nI can\u0027t figure out why cgo_bsd.go and cgo_unix.go don\u0027t have a cgo +build tag.",
+      "revId": "a19b98b35e52a139b11200c2c45545396ec4b24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_e41cd724",
+        "filename": "src/net/cgo_linuxsock.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:05:26Z",
+      "side": 1,
+      "message": "+build cgo,!netgo",
+      "revId": "a19b98b35e52a139b11200c2c45545396ec4b24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_8416abfd",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:05:26Z",
+      "side": 1,
+      "message": "We should handle an EAI_OVERFLOW error by increasing the buffer size.",
+      "revId": "a19b98b35e52a139b11200c2c45545396ec4b24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_84930bd7",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:05:26Z",
+      "side": 1,
+      "message": "s|for/ fruther|for further|",
+      "revId": "a19b98b35e52a139b11200c2c45545396ec4b24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_a41d6fea",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:05:26Z",
+      "side": 1,
+      "message": "Do we handle Punycode translation for IDNs anywhere?  We need to figure that out eventually but perhaps not now.",
+      "revId": "a19b98b35e52a139b11200c2c45545396ec4b24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
