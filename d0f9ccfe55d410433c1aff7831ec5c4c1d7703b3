@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_4eaa2250",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-10T01:31:52Z",
+      "side": 1,
+      "message": "change this to runtime.cmpbody\u003c\u003e(SB) instead.",
+      "revId": "d0f9ccfe55d410433c1aff7831ec5c4c1d7703b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_6ea7e686",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-10T01:31:52Z",
+      "side": 1,
+      "message": "this too.",
+      "revId": "d0f9ccfe55d410433c1aff7831ec5c4c1d7703b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
