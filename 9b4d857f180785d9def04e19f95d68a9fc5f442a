@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83999efb_429676c9",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-10T17:41:47Z",
+      "side": 1,
+      "message": "Why Tptr instead of TUINT as below? Seems like they should match.",
+      "revId": "9b4d857f180785d9def04e19f95d68a9fc5f442a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
