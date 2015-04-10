@@ -16,6 +16,24 @@
       "revId": "b2fd69344a5c7901451a7ed77df4c1de4882da7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a33862b1_ed8da583",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-04-10T05:42:32Z",
+      "side": 1,
+      "message": "I know but ReadFile have a limit as same as ReadConsole when using console.",
+      "parentUuid": "a6c31059_9b05d3cc",
+      "revId": "b2fd69344a5c7901451a7ed77df4c1de4882da7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
