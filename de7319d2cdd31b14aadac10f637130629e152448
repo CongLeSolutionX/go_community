@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a38a229d_5d93bbd7",
+        "filename": "src/cmd/internal/gc/reg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-10T09:46:45Z",
+      "side": 1,
+      "message": "why did you reverse these two conditions ?",
+      "revId": "de7319d2cdd31b14aadac10f637130629e152448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
