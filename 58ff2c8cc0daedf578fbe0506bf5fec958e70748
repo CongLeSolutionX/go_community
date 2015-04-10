@@ -33,6 +33,24 @@
       "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_938997bd",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-10T01:00:44Z",
+      "side": 1,
+      "message": "FYI, on darwin, ar is symlinked to libtool.\n(it\u0027s not the GNU libtool.)",
+      "parentUuid": "234d525a_b31a1b6f",
+      "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
