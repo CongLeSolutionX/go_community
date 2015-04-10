@@ -150,10 +150,42 @@ func ParseAddressList(list string) ([]*Address, error) {
 // If the address's name contains non-ASCII characters
 // the name will be rendered according to RFC 2047.
 func (a *Address) String() string {
-	s := "<" + a.Address + ">"
+
+	// Format address local@domain
+	at := strings.LastIndex(a.Address, "@")
+	local, domain := a.Address[:at], a.Address[at+1:]
+
+	// Add quotes if needed
+	// TODO: rendering quoted local part and rendering printable name
+	//       should be merged in helper function.
+	quoteLocal := false
+	for i := 0; i < len(local); i++ {
+		ch := local[i]
+		if isAtext(byte(ch), false) {
+			continue
+		}
+		if ch == '.' {
+			// Dots are okay if they are surrounded by atext.
+			// We only need to check that the previous byte is
+			// not a dot, and this isn't the end of the string.
+			if i > 0 && local[i-1] != '.' && i < len(local)-1 {
+				continue
+			}
+		}
+		quoteLocal = true
+		break
+	}
+	if quoteLocal {
+		local = quoteString(local)
+
+	}
+
+	s := "<" + local + "@" + domain + ">"
+
 	if a.Name == "" {
 		return s
 	}
+
 	// If every character is printable ASCII, quoting is simple.
 	allPrintable := true
 	for i := 0; i < len(a.Name); i++ {
@@ -286,6 +318,16 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 		// dot-atom
 		debug.Printf("consumeAddrSpec: parsing dot-atom")
 		localPart, err = p.consumeAtom(true)
+
+		if err == nil {
+			if strings.Contains(localPart, "..") {
+				return "", errors.New("mail: double dot in local-part")
+			}
+			if strings.HasSuffix(localPart, ".") {
+				return "", errors.New("mail: trailing dot in local-part")
+			}
+		}
+
 	}
 	if err != nil {
 		debug.Printf("consumeAddrSpec: failed: %v", err)
@@ -304,6 +346,9 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 	}
 	// TODO(dsymonds): Handle domain-literal
 	domain, err = p.consumeAtom(true)
+	if strings.Contains(domain, "..") {
+		return "", errors.New("mail: double dot in domain")
+	}
 	if err != nil {
 		return "", err
 	}
@@ -444,6 +489,23 @@ func isQtext(c byte) bool {
 		return false
 	}
 	return '!' <= c && c <= '~'
+}
+
+// quoteString renders a string as a RFC5322 quoted-string.
+func quoteString(s string) string {
+	var buf bytes.Buffer
+	buf.WriteByte('"')
+	for _, c := range s {
+		ch := byte(c)
+		if isQtext(ch) || isWSP(ch) {
+			buf.WriteByte(ch)
+		} else if isVchar(ch) {
+			buf.WriteByte('\\')
+			buf.WriteByte(ch)
+		}
+	}
+	buf.WriteByte('"')
+	return buf.String()
 }
 
 // isVchar reports whether c is an RFC 5322 VCHAR character.
