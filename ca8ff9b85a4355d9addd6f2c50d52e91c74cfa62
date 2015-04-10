@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "631bca5b_2358aa5a",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-10T21:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234d525a_ff40e266",
+      "revId": "ca8ff9b85a4355d9addd6f2c50d52e91c74cfa62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "234d525a_dfb07ef6",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 18
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-10T04:28:18Z",
       "side": 1,
       "message": "Can you use ioutil.WriteFile here?",
+      "revId": "ca8ff9b85a4355d9addd6f2c50d52e91c74cfa62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "631bca5b_4355a621",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-10T21:18:26Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "234d525a_dfb07ef6",
       "revId": "ca8ff9b85a4355d9addd6f2c50d52e91c74cfa62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
