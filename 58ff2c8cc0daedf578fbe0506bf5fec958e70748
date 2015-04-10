@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_b394db45",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T00:50:16Z",
+      "side": 1,
+      "message": "This might be OK for now, but it\u0027s not correct for c-archive, so there should at least be a TODO comment.  For c-archive all the exported symbols (symbols with a //export comment) should be marked.  Then we should do the usual flooding.",
+      "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_b31a1b6f",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T00:50:16Z",
+      "side": 1,
+      "message": "I don\u0027t understand the reference to -static here or in the CL description.  We want to build an archive.  The usual tool for that is \"ar\", but I suppose it\u0027s possible that on Darwin it\u0027s \"libtool\".",
+      "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
