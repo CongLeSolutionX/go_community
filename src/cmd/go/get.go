@@ -16,7 +16,7 @@ import (
 )
 
 var cmdGet = &Command{
-	UsageLine: "get [-d] [-f] [-fix] [-t] [-u] [build flags] [packages]",
+	UsageLine: "get [-d] [-f] [-fix] [-t] [-u] [-nodeps] [build flags] [packages]",
 	Short:     "download and install packages and dependencies",
 	Long: `
 Get downloads and installs the packages named by the import paths,
@@ -24,6 +24,9 @@ along with their dependencies.
 
 The -d flag instructs get to stop after downloading the packages; that is,
 it instructs get not to install the packages.
+
+The -nodeps flag causes get not to download package
+dependencies. It implies the -d flag.
 
 The -f flag, valid only when -u is set, forces get -u not to verify that
 each package has been checked out from the source control repository
@@ -62,6 +65,7 @@ var getF = cmdGet.Flag.Bool("f", false, "")
 var getT = cmdGet.Flag.Bool("t", false, "")
 var getU = cmdGet.Flag.Bool("u", false, "")
 var getFix = cmdGet.Flag.Bool("fix", false, "")
+var getNoDeps = cmdGet.Flag.Bool("nodeps", false, "")
 
 func init() {
 	addBuildFlags(cmdGet)
@@ -71,6 +75,9 @@ func init() {
 func runGet(cmd *Command, args []string) {
 	if *getF && !*getU {
 		fatalf("go get: cannot use -f flag without -u")
+	}
+	if *getNoDeps {
+		*getD = true
 	}
 
 	// Phase 1.  Download/update.
@@ -249,19 +256,21 @@ func download(arg string, stk *importStack, getTestDeps bool) {
 			stk.push(p.ImportPath)
 		}
 
-		// Process dependencies, now that we know what they are.
-		for _, dep := range p.deps {
-			// Don't get test dependencies recursively.
-			download(dep.ImportPath, stk, false)
-		}
-		if getTestDeps {
-			// Process test dependencies when -t is specified.
-			// (Don't get test dependencies for test dependencies.)
-			for _, path := range p.TestImports {
-				download(path, stk, false)
+		if !*getNoDeps {
+			// Process dependencies, now that we know what they are.
+			for _, dep := range p.deps {
+				// Don't get test dependencies recursively.
+				download(dep.ImportPath, stk, false)
 			}
-			for _, path := range p.XTestImports {
-				download(path, stk, false)
+			if getTestDeps {
+				// Process test dependencies when -t is specified.
+				// (Don't get test dependencies for test dependencies.)
+				for _, path := range p.TestImports {
+					download(path, stk, false)
+				}
+				for _, path := range p.XTestImports {
+					download(path, stk, false)
+				}
 			}
 		}
 
