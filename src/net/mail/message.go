@@ -24,6 +24,7 @@ import (
 	"io"
 	"log"
 	"net/textproto"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -150,10 +151,31 @@ func ParseAddressList(list string) ([]*Address, error) {
 // If the address's name contains non-ASCII characters
 // the name will be rendered according to RFC 2047.
 func (a *Address) String() string {
-	s := "<" + a.Address + ">"
+
+	// Format address local@domain
+	quotedLocal := false
+	index := strings.LastIndex(a.Address, "@")
+	local := a.Address[0:index]
+	domain := a.Address[index+1 : len(a.Address)]
+
+	// Add quotes if needed
+	for index, i := range local {
+		dotAllowed := index != 0 && index != len(local)-1 // if first or last char is dot, address must be quoted
+		if !isAtext(byte(i), dotAllowed) {
+			quotedLocal = true
+			break
+		}
+	}
+	if quotedLocal {
+		local = strconv.Quote(local)
+	}
+
+	s := "<" + local + "@" + domain + ">"
+
 	if a.Name == "" {
 		return s
 	}
+
 	// If every character is printable ASCII, quoting is simple.
 	allPrintable := true
 	for i := 0; i < len(a.Name); i++ {
@@ -291,6 +313,12 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 		debug.Printf("consumeAddrSpec: failed: %v", err)
 		return "", err
 	}
+	if strings.Contains(localPart, "..") {
+		return "", errors.New("mail: double dot in local-part")
+	}
+	if strings.HasSuffix(localPart, ".") {
+		return "", errors.New("mail: trailing dot in local-part")
+	}
 
 	if !p.consume('@') {
 		return "", errors.New("mail: missing @ in addr-spec")
@@ -304,6 +332,9 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 	}
 	// TODO(dsymonds): Handle domain-literal
 	domain, err = p.consumeAtom(true)
+	if strings.Contains(domain, "..") {
+		return "", errors.New("mail: double dot in domain")
+	}
 	if err != nil {
 		return "", err
 	}
