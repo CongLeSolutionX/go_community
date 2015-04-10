@@ -285,6 +285,9 @@ func buildModeInit() {
 	switch buildBuildmode {
 	case "archive":
 		pkgFilter = func(p *Package) bool { return p.Name != "main" }
+	case "c-archive":
+		pkgFilter = func(p *Package) bool { return p.Name == "main" }
+		ldBuildmode = "c-archive"
 	case "c-shared":
 		pkgFilter = func(p *Package) bool { return p.Name == "main" }
 		platform := goos + "/" + goarch
@@ -614,7 +617,12 @@ func goFilesPackage(gofiles []string) *Package {
 
 	if pkg.Name == "main" {
 		_, elem := filepath.Split(gofiles[0])
-		exe := elem[:len(elem)-len(".go")] + exeSuffix
+		exe := elem[:len(elem)-len(".go")]
+		if buildBuildmode == "c-archive" {
+			exe += ".a"
+		} else {
+			exe += exeSuffix
+		}
 		if *buildO == "" {
 			*buildO = exe
 		}
