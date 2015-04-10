@@ -16,6 +16,24 @@
       "revId": "09a5ce6c17a4ac7a4f06d6d1a36c2981e7f22128",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "631bca5b_a30c9a71",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-10T20:55:59Z",
+      "side": 1,
+      "message": "Ah yes, good point.  I\u0027m not 100% sure what you\u0027re suggesting as an alternative but what I\u0027ve changed it to should be safe, at least...",
+      "parentUuid": "234d525a_5ff9eec1",
+      "revId": "09a5ce6c17a4ac7a4f06d6d1a36c2981e7f22128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
