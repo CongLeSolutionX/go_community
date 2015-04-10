@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_5ff9eec1",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:20:14Z",
+      "side": 1,
+      "message": "This makes me a little nervous.  You\u0027re inventing a name here.  What if you\u0027re assembling the package local and it has a function named dso_init?  The code in cmd/internal/gc seems to use packages whose names start with \"go.\", which can\u0027t conflict with any other package name because of the dot.  Seems like we should do something here (and for local.dso_init.init below).",
+      "revId": "09a5ce6c17a4ac7a4f06d6d1a36c2981e7f22128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
