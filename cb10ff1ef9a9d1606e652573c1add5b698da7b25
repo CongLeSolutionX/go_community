@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_f3882376",
+        "filename": "src/go/types/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-04-10T01:13:45Z",
+      "side": 0,
+      "message": "why is this gone?",
+      "range": {
+        "startLine": 132,
+        "startChar": 41,
+        "endLine": 132,
+        "endChar": 48
+      },
+      "revId": "cb10ff1ef9a9d1606e652573c1add5b698da7b25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
