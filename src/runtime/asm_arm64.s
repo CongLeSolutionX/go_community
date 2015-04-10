@@ -828,7 +828,7 @@ TEXT bytes·Compare(SB),NOSPLIT,$0-56
 // On exit:
 // R8 is -1/0/+1
 // R5, R4, and R6 are clobbered
-TEXT runtime·cmpbody<>(SB),NOSPLIT,$-4-0
+TEXT runtime·cmpbody(SB),NOSPLIT,$-4-0
 	CMP	R0, R1
 	CSEL    LT, R1, R0, R6 // R6 is min(R0, R1)
 
