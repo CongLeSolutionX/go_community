@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "234d525a_dfa5dd03",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-10T13:05:21Z",
+      "side": 1,
+      "message": "Removed.\n\nIt\u0027s not necessary, I just misunderstood.",
+      "parentUuid": "234d525a_b394db45",
+      "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "234d525a_b31a1b6f",
         "filename": "src/cmd/internal/ld/lib.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-04-10T01:00:44Z",
       "side": 1,
       "message": "FYI, on darwin, ar is symlinked to libtool.\n(it\u0027s not the GNU libtool.)",
+      "parentUuid": "234d525a_b31a1b6f",
+      "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_ffaaa1d0",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-10T13:05:21Z",
+      "side": 1,
+      "message": "Switched to ar for portability. Thanks.\n\nThe comment is just more of my confusion. Removed.",
       "parentUuid": "234d525a_b31a1b6f",
       "revId": "58ff2c8cc0daedf578fbe0506bf5fec958e70748",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
