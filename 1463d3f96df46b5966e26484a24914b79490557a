@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c326369c_9a561db4",
+        "filename": "src/debug/dwarf/entry.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T22:00:39Z",
+      "side": 1,
+      "message": "I think that would be reasonable.",
+      "parentUuid": "234d525a_b97911c3",
+      "revId": "1463d3f96df46b5966e26484a24914b79490557a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2320f22c_b3e278c8",
         "filename": "src/debug/dwarf/entry.go",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c326369c_7a2c013f",
+        "filename": "src/debug/dwarf/entry.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T22:00:39Z",
+      "side": 1,
+      "message": "I think I get it now.  This code is OK as is.",
+      "parentUuid": "234d525a_7903290f",
+      "revId": "1463d3f96df46b5966e26484a24914b79490557a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2320f22c_53d43ce5",
         "filename": "src/debug/dwarf/entry.go",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "Okay. I\u0027ll introduce a new class. ClassReferenceSig?",
       "parentUuid": "2320f22c_53d43ce5",
+      "revId": "1463d3f96df46b5966e26484a24914b79490557a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c326369c_9a01bd8d",
+        "filename": "src/debug/dwarf/entry.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T22:00:39Z",
+      "side": 1,
+      "message": "ClassReferenceSig SGTM.",
+      "parentUuid": "234d525a_391a816e",
       "revId": "1463d3f96df46b5966e26484a24914b79490557a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
