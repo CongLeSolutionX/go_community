@@ -27,6 +27,10 @@ func skipTraceTestsIfNeeded(t *testing.T) {
 	case "arm":
 		t.Skip("skipping: arm tests fail with 'failed to parse trace' (http://golang.org/issue/9725)")
 	}
+
+	if os.Getenv("IN_QEMU") == "1" {
+		t.Skip("skipping: VM timer can go backwards (http://golang.org/issue/8976)")
+	}
 }
 
 func TestTraceStartStop(t *testing.T) {
