@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234d525a_ff40e266",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:28:18Z",
+      "side": 1,
+      "message": "This function needs a comment: what is it doing, and why?",
+      "revId": "ca8ff9b85a4355d9addd6f2c50d52e91c74cfa62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_dfb07ef6",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-10T04:28:18Z",
+      "side": 1,
+      "message": "Can you use ioutil.WriteFile here?",
+      "revId": "ca8ff9b85a4355d9addd6f2c50d52e91c74cfa62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
