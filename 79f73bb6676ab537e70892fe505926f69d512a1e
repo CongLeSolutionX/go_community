@@ -34,6 +34,23 @@
       "revId": "79f73bb6676ab537e70892fe505926f69d512a1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_a8b1b8d5",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-10T19:19:37Z",
+      "side": 1,
+      "message": "the above call to wg.state() would have already\ntriggered nil derefs, so remove this line.\n\n(if wg is nil, then \u0026wg.state1 will panic.)",
+      "revId": "79f73bb6676ab537e70892fe505926f69d512a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
