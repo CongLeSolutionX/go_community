@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a38a229d_00cf085c",
+        "filename": "src/runtime/pprof/trace_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-10T12:37:00Z",
+      "side": 1,
+      "message": "I think this is too specific. It\u0027s not just IN_QEMU. And it\u0027s not all VMs.\n\nWe probably should have per-builder lists of tests to skip or something.  Or just make the runtime itself detect things going backwards and set a flag we can check here. e.g.:\n\n   func TestFoo(t *testing.T) {\n        if err :\u003d testFoo(t); err !\u003d nil { \n            if runtime.TimerEverWentBackwards() {\n               t.Skip(\"test failed, but ignoring, since runtime reports timer sucks on this machine\")\n            } else {\n              t.Fatal(err)\n            }\n     }\n\nObviously not exactly like that, but I\u0027m wondering if we can ask the runtime if it ever detected a problem with the clocks, if the clocks aren\u0027t fixable.\n\nThen we can also make \"go test -trace\" and friends print a nicer message saying, \n\n    \"Sorry, tracing is not supported in this environment. Your clocks don\u0027t work.\"",
+      "revId": "8dc931c753bb444f7f409185214b13ba3c8aa6f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
