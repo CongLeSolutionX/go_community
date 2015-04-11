@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c326369c_77d7afeb",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-11T18:47:19Z",
+      "side": 1,
+      "message": "I was sort of envisioning a single main package, and the packages that it imports.  But I guess we can try this.",
+      "revId": "7965e336926d0582014fdf151164d0102aa1cd31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
