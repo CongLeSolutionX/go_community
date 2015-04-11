@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c326369c_f0c56ddd",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-11T00:28:18Z",
+      "side": 1,
+      "message": "Those examples look reasonable, but the next step would seem to be\n\n-buildmode\u003dshared gopkg.in/tomb.v2 -\u003e libgopkgdotin-tomb-v2.so\n\nand this is not so good.\n\nIt seems to me that we can have a better default when building a single package.\nE.g., if we are building gopkg.in/tomb.v2, perhaps we could install the .so file next to the .a file.\nAnd if we are building DIR/..., perhaps we could install the .so file in DIR.",
+      "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c326369c_509641c9",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-11T00:28:18Z",
+      "side": 1,
+      "message": "Pretty minor, but there is no reason to call libname twice.",
+      "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
