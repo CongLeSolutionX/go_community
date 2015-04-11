@@ -44,7 +44,7 @@ func sigpanic() {
 
 // setsigsegv is used on darwin/arm{,64} to fake a segmentation fault.
 //go:nosplit
-func setsigsegv(pc uintptr) {
+func setsigsegv(pc, _ uintptr) {
 	g := getg()
 	g.sig = _SIGSEGV
 	g.sigpc = pc
