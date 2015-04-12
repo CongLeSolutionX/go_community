@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f4e242_ffb6dfc9",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-12T19:07:05Z",
+      "side": 1,
+      "message": "it seems there is an argument missing or one %s too many...",
+      "revId": "6a49012f40117a08b1e2f5534e87e420da01df1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f4e242_dfb31bd8",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-12T19:07:05Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "6a49012f40117a08b1e2f5534e87e420da01df1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
