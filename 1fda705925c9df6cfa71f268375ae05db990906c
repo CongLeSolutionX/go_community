@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0fb5e32_012c8c93",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-12T19:09:20Z",
+      "side": 1,
+      "message": "I think you mean !\u003d 1.",
+      "range": {
+        "startLine": 313,
+        "startChar": 16,
+        "endLine": 313,
+        "endChar": 17
+      },
+      "revId": "1fda705925c9df6cfa71f268375ae05db990906c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
