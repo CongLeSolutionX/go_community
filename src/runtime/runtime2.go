@@ -249,6 +249,7 @@ type g struct {
 	startpc      uintptr // pc of goroutine function
 	racectx      uintptr
 	waiting      *sudog // sudog structures this g is waiting on (that have a valid elem ptr)
+	coverpc      uintptr
 }
 
 type mts struct {

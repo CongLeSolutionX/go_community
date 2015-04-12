@@ -410,11 +410,6 @@ func runTest(cmd *Command, args []string) {
 	var builds, runs, prints []*action
 
 	if testCoverPaths != nil {
-		// Load packages that were asked about for coverage.
-		// packagesForBuild exits if the packages cannot be loaded.
-		testCoverPkgs = packagesForBuild(testCoverPaths)
-
-		// Warn about -coverpkg arguments that are not actually used.
 		used := make(map[string]bool)
 		for _, p := range pkgs {
 			used[p.ImportPath] = true
@@ -422,6 +417,22 @@ func runTest(cmd *Command, args []string) {
 				used[dep] = true
 			}
 		}
+
+		if len(testCoverPaths) == 1 && testCoverPaths[0] == "all" {
+			testCoverPaths = nil
+			for p := range used {
+				if p == "command-line-arguments" || p == "unsafe" || p == "runtime" || p == "testing" {
+					continue
+				}
+				testCoverPaths = append(testCoverPaths, p)
+			}
+		}
+
+		// Load packages that were asked about for coverage.
+		// packagesForBuild exits if the packages cannot be loaded.
+		testCoverPkgs = packagesForBuild(testCoverPaths)
+
+		// Warn about -coverpkg arguments that are not actually used.
 		for _, p := range testCoverPkgs {
 			if !used[p.ImportPath] {
 				log.Printf("warning: no packages being tested depend on %s", p.ImportPath)
@@ -1222,7 +1233,7 @@ func (t *testFuncs) CoverMode() string {
 }
 
 func (t *testFuncs) CoverEnabled() bool {
-	return testCover
+	return testCover && testCoverMode != "fuzz"
 }
 
 // Covered returns a string describing which packages are being tested for coverage.
@@ -1314,8 +1325,10 @@ import (
 {{if .ImportXtest}}
 	{{if .NeedXtest}}_xtest{{else}}_{{end}} {{.Package.ImportPath | printf "%s_test" | printf "%q"}}
 {{end}}
+{{if .CoverEnabled}}
 {{range $i, $p := .Cover}}
 	_cover{{$i}} {{$p.Package.ImportPath | printf "%q"}}
+{{end}}
 {{end}}
 
 {{if .NeedCgo}}
