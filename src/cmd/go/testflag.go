@@ -167,7 +167,7 @@ func testFlags(args []string) (packageNames, passToTest []string) {
 			testProfile = true
 		case "covermode":
 			switch value {
-			case "set", "count", "atomic":
+			case "set", "count", "atomic", "fuzz":
 				testCoverMode = value
 			default:
 				fatalf("invalid flag argument for -covermode: %q", value)

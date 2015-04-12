@@ -2129,6 +2129,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	gostartcallfn(&newg.sched, fn)
 	newg.gopc = callerpc
 	newg.startpc = fn.fn
+	newg.coverpc = 0
 	casgstatus(newg, _Gdead, _Grunnable)
 
 	if _p_.goidcache == _p_.goidcacheend {

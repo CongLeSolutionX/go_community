@@ -4,7 +4,7 @@
 
 package runtime
 
-import _ "unsafe" // for go:linkname
+import "unsafe"
 
 //go:generate go run wincallback.go
 //go:generate go run mkduff.go
@@ -52,3 +52,40 @@ func syscall_runtime_envs() []string { return append([]string{}, envs...) }
 
 //go:linkname os_runtime_args os.runtime_args
 func os_runtime_args() []string { return append([]string{}, argslice...) }
+
+const coverTabSize = 64 << 10
+
+var coverTab *[coverTabSize]byte
+
+func CoverSetTab(tab *[coverTabSize]byte) {
+	coverTab = tab
+}
+
+func CoverHit()
+
+//go:linkname coverHit runtime.CoverHit
+func coverHit(dummy int) {
+	if coverTab == nil {
+		return
+	}
+	_g_ := getg()
+	pc := uint32(getcallerpc(unsafe.Pointer(&dummy)))
+	pc0 := pc
+	id := uint32(0x9747b28c)
+	pc *= 0x5bd1e995
+	pc ^= pc >> 24
+	pc *= 0x5bd1e995
+	id *= 0x5bd1e995
+	id ^= pc
+	pc = uint32(_g_.coverpc)
+	pc *= 0x5bd1e995
+	pc ^= pc >> 24
+	pc *= 0x5bd1e995
+	id *= 0x5bd1e995
+	id ^= pc
+	id ^= id >> 13
+	id *= 0x5bd1e995
+	id ^= id >> 15
+	_g_.coverpc = uintptr(pc0)
+	coverTab[id&(coverTabSize-1)]++
+}
