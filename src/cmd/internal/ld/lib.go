@@ -108,14 +108,27 @@ type Arch struct {
 	Vput             func(uint64)
 }
 
+type Rpath struct{}
+
+func (Rpath) Set(val string) error {
+	rpathset = true
+	rpath = val
+	return nil
+}
+func (Rpath) String() string {
+	return rpath
+}
+
 var (
-	Thearch Arch
-	datap   *LSym
-	Debug   [128]int
-	Lcsize  int32
-	rpath   string
-	Spsize  int32
-	Symsize int32
+	Thearch  Arch
+	datap    *LSym
+	Debug    [128]int
+	Lcsize   int32
+	rpathvar Rpath
+	rpath    string
+	rpathset bool
+	Spsize   int32
+	Symsize  int32
 )
 
 // Terrible but standard terminology.
@@ -955,7 +968,9 @@ func hostlink() {
 		for _, shlib := range Ctxt.Shlibs {
 			dir, base := filepath.Split(shlib)
 			argv = append(argv, "-L"+dir)
-			argv = append(argv, "-Wl,-rpath="+dir)
+			if !rpathset {
+				argv = append(argv, "-Wl,-rpath="+dir)
+			}
 			base = strings.TrimSuffix(base, ".so")
 			base = strings.TrimPrefix(base, "lib")
 			argv = append(argv, "-l"+base)
