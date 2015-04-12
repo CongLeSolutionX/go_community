@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0fb5e32_c12584a7",
+        "filename": "src/internal/singleflight/singleflight_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-12T19:19:36Z",
+      "side": 1,
+      "message": "This looks like a new file--should this be copyright 2015?",
+      "revId": "a05fcca7064a4c233f15b9467445b38e09f61372",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
