@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50e84e65_4871938a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-13T20:00:19Z",
+      "side": 1,
+      "message": "is 64 a magic constant, could it have a comment please",
+      "revId": "6e9585e789400cf4bd94814cf5effe9e16a680ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50e84e65_686c57b8",
+        "filename": "src/cmd/internal/gc/reflect.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-13T20:00:19Z",
+      "side": 1,
+      "message": "return !t.Bound \u003d\u003d 0 // empty array",
+      "revId": "6e9585e789400cf4bd94814cf5effe9e16a680ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
