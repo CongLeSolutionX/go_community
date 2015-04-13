@@ -63,8 +63,11 @@ type Node struct {
 	// func
 	Func *Func
 
-	// OLITERAL/OREGISTER
+	// OLITERAL
 	Val Val
+
+	// OREGISTER
+	Reg int16
 
 	// ONAME
 	Ntype     *Node
