@@ -6,10 +6,8 @@
 package base64
 
 import (
-	"bytes"
 	"io"
 	"strconv"
-	"strings"
 )
 
 /*
@@ -22,7 +20,7 @@ import (
 // (RFC 1421).  RFC 4648 also defines an alternate encoding, which is
 // the standard encoding with - and _ substituted for + and /.
 type Encoding struct {
-	encode    string
+	encode    [64]byte
 	decodeMap [256]byte
 	padChar   rune
 }
@@ -40,9 +38,16 @@ const encodeURL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678
 // The resulting Encoding uses the default padding character ('='),
 // which may be changed or disabled via WithPadding.
 func NewEncoding(encoder string) *Encoding {
+	if len(encoder) != 64 {
+		panic("encoding alphabet is not 64-bytes long")
+	}
+
 	e := new(Encoding)
-	e.encode = encoder
 	e.padChar = StdPadding
+
+	for i := range e.encode {
+		e.encode[i] = encoder[i]
+	}
 	for i := 0; i < len(e.decodeMap); i++ {
 		e.decodeMap[i] = 0xFF
 	}
@@ -77,11 +82,36 @@ var RawStdEncoding = StdEncoding.WithPadding(NoPadding)
 // This is the same as URLEncoding but omits padding characters.
 var RawURLEncoding = URLEncoding.WithPadding(NoPadding)
 
-var removeNewlinesMapper = func(r rune) rune {
-	if r == '\r' || r == '\n' {
-		return -1
+// removeNewLines returns a slice without newlines,
+// when src is without newlines it will return src
+// otherwise it will return a new slice.
+func removeNewLines(src []byte) []byte {
+	si := 0
+	for si < len(src) && src[si] != '\r' && src[si] != '\n' {
+		si++
 	}
-	return r
+	// we didn't find any newlines
+	if si >= len(src) {
+		return src
+	}
+
+	dst := make([]byte, 0, len(src))
+	// copy the start
+	dst = append(dst, src[:si]...)
+	for si < len(src) {
+		// skip over new lines
+		for si < len(src) && (src[si] == '\r' || src[si] == '\n') {
+			si++
+		}
+
+		start := si
+		// skip over non-newlines
+		for si < len(src) && src[si] != '\r' && src[si] != '\n' {
+			si++
+		}
+		dst = append(dst, src[start:si]...)
+	}
+	return dst
 }
 
 /*
@@ -99,46 +129,45 @@ func (enc *Encoding) Encode(dst, src []byte) {
 		return
 	}
 
-	for len(src) > 0 {
-		var b0, b1, b2, b3 byte
+	di, si := 0, 0
+	n := (len(src) / 3) * 3
+	// Unpack 4x 6-bit source blocks into a 4 byte
+	// destination quantum
+	for si < n {
+		val := uint(src[si+0])<<16 | uint(src[si+1])<<8 | uint(src[si+2])
 
-		// Unpack 4x 6-bit source blocks into a 4 byte
-		// destination quantum
-		switch len(src) {
-		default:
-			b3 = src[2] & 0x3F
-			b2 = src[2] >> 6
-			fallthrough
+		dst[di+0] = enc.encode[val>>18]
+		dst[di+1] = enc.encode[val>>12&0x3F]
+		dst[di+2] = enc.encode[val>>6&0x3F]
+		dst[di+3] = enc.encode[val&0x3F]
+
+		si += 3
+		di += 4
+	}
+
+	remain := len(src) - si
+	if remain > 0 {
+		// add the remaining small block
+		val := uint(src[si+0]) << 16
+		if remain == 2 {
+			val |= uint(src[si+1]) << 8
+		}
+
+		dst[di+0] = enc.encode[val>>18]
+		dst[di+1] = enc.encode[val>>12&0x3f]
+
+		switch remain {
 		case 2:
-			b2 |= (src[1] << 2) & 0x3F
-			b1 = src[1] >> 4
-			fallthrough
-		case 1:
-			b1 |= (src[0] << 4) & 0x3F
-			b0 = src[0] >> 2
-		}
-
-		// Encode 6-bit blocks using the base64 alphabet
-		dst[0] = enc.encode[b0]
-		dst[1] = enc.encode[b1]
-		if len(src) >= 3 {
-			dst[2] = enc.encode[b2]
-			dst[3] = enc.encode[b3]
-		} else { // Final incomplete quantum
-			if len(src) >= 2 {
-				dst[2] = enc.encode[b2]
-			}
+			dst[di+2] = enc.encode[val>>6&0x3f]
 			if enc.padChar != NoPadding {
-				if len(src) < 2 {
-					dst[2] = byte(enc.padChar)
-				}
-				dst[3] = byte(enc.padChar)
+				dst[di+3] = byte(enc.padChar)
 			}
-			break
+		case 1:
+			if enc.padChar != NoPadding {
+				dst[di+2] = byte(enc.padChar)
+				dst[di+3] = byte(enc.padChar)
+			}
 		}
-
-		src = src[3:]
-		dst = dst[4:]
 	}
 }
 
@@ -251,50 +280,50 @@ func (e CorruptInputError) Error() string {
 // and thus any additional data is an error. This method assumes that src has been
 // stripped of all supported whitespace ('\r' and '\n').
 func (enc *Encoding) decode(dst, src []byte) (n int, end bool, err error) {
-	olen := len(src)
-	for len(src) > 0 && !end {
+	si := 0
+	for si < len(src) && !end {
 		// Decode quantum using the base64 alphabet
 		var dbuf [4]byte
 		dinc, dlen := 3, 4
 
 		for j := range dbuf {
-			if len(src) == 0 {
+			if len(src)-si == 0 {
 				if enc.padChar != NoPadding || j < 2 {
-					return n, false, CorruptInputError(olen - len(src) - j)
+					return n, false, CorruptInputError(si - j)
 				}
 				dinc, dlen, end = j-1, j, true
 				break
 			}
-			in := src[0]
-			src = src[1:]
+			in := src[si]
+			si++
 			if rune(in) == enc.padChar {
 				// We've reached the end and there's padding
 				switch j {
 				case 0, 1:
 					// incorrect padding
-					return n, false, CorruptInputError(olen - len(src) - 1)
+					return n, false, CorruptInputError(si - 1)
 				case 2:
 					// "==" is expected, the first "=" is already consumed.
-					if len(src) == 0 {
+					if len(src)-si == 0 {
 						// not enough padding
-						return n, false, CorruptInputError(olen)
+						return n, false, CorruptInputError(len(src))
 					}
-					if rune(src[0]) != enc.padChar {
+					if rune(src[si]) != enc.padChar {
 						// incorrect padding
-						return n, false, CorruptInputError(olen - len(src) - 1)
+						return n, false, CorruptInputError(si - 1)
 					}
-					src = src[1:]
+					si++
 				}
-				if len(src) > 0 {
+				if len(src)-si > 0 {
 					// trailing garbage
-					err = CorruptInputError(olen - len(src))
+					err = CorruptInputError(si)
 				}
 				dinc, dlen, end = 3, j, true
 				break
 			}
 			dbuf[j] = enc.decodeMap[in]
 			if dbuf[j] == 0xFF {
-				return n, false, CorruptInputError(olen - len(src) - 1)
+				return n, false, CorruptInputError(si - 1)
 			}
 		}
 
@@ -323,16 +352,16 @@ func (enc *Encoding) decode(dst, src []byte) (n int, end bool, err error) {
 // number of bytes successfully written and CorruptInputError.
 // New line characters (\r and \n) are ignored.
 func (enc *Encoding) Decode(dst, src []byte) (n int, err error) {
-	src = bytes.Map(removeNewlinesMapper, src)
+	src = removeNewLines(src)
 	n, _, err = enc.decode(dst, src)
 	return
 }
 
 // DecodeString returns the bytes represented by the base64 string s.
 func (enc *Encoding) DecodeString(s string) ([]byte, error) {
-	s = strings.Map(removeNewlinesMapper, s)
-	dbuf := make([]byte, enc.DecodedLen(len(s)))
-	n, _, err := enc.decode(dbuf, []byte(s))
+	src := removeNewLines([]byte(s))
+	dbuf := make([]byte, enc.DecodedLen(len(src)))
+	n, _, err := enc.decode(dbuf, src)
 	return dbuf[:n], err
 }
 
