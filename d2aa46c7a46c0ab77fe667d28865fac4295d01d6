@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "50e84e65_28764f84",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-13T19:58:52Z",
+      "side": 1,
+      "message": "Yes, that works.  I guess the characters that can be present in an import path are already limited enough to avoid pathological nonsense (e.g. no newlines).",
+      "parentUuid": "b0242aae_16b3bd7b",
+      "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c326369c_509641c9",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 20
