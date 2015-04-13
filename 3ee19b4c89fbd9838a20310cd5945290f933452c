@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "901e4658_b4d760e8",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-13T03:33:42Z",
+      "side": 1,
+      "message": "Please add a full stop.",
+      "revId": "3ee19b4c89fbd9838a20310cd5945290f933452c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "901e4658_94d464e4",
+        "filename": "src/image/gif/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-13T03:33:42Z",
+      "side": 1,
+      "message": "Please add a full stop.",
+      "revId": "3ee19b4c89fbd9838a20310cd5945290f933452c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
