@@ -155,6 +155,9 @@ func (h *huffmanDecoder) init(bits []int) bool {
 		n := count[i]
 		nextcode[i] = code
 		code += n
+		if code > 1<<uint(i) {
+			return false
+		}
 		code <<= 1
 	}
 

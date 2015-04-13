@@ -61,6 +61,18 @@ func TestIssue6255(t *testing.T) {
 	}
 }
 
+func TestCodingOverflow(t *testing.T) {
+	goodBits := []int{1, 2, 3, 3}
+	badBits := []int{2, 2, 2, 2, 3}
+	h := new(huffmanDecoder)
+	if !h.init(goodBits) {
+		t.Fatal("Given sequence of bits is good and should succeed.")
+	}
+	if h.init(badBits) {
+		t.Fatal("Given sequence of bits is bad and should not succeed.")
+	}
+}
+
 func TestInvalidEncoding(t *testing.T) {
 	// Initialize Huffman decoder to recognize 0x00.
 	var h huffmanDecoder
