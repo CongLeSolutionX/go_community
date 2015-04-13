@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50368edf_7501e28a",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:14:38Z",
+      "side": 1,
+      "message": "This seems to disagree with the CL message which says it isn\u0027t done atomically but could be. I think it is done atomically and if so we should fix the CL comment.",
+      "range": {
+        "startLine": 195,
+        "startChar": 58,
+        "endLine": 196,
+        "endChar": 43
+      },
+      "revId": "198520173ad2ad70141ff17c30f1d739d8d02d05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50368edf_15a5f628",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:14:38Z",
+      "side": 1,
+      "message": "_and computes estimates for the new GC cycle._\nThis comment is not reflected in the code.",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 20
+      },
+      "revId": "198520173ad2ad70141ff17c30f1d739d8d02d05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0299e86_4ee53322",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:14:38Z",
+      "side": 1,
+      "message": "The quick nil check will probably pay back but calculating\nheap/non-heap is likely to be a net loss since non-heap should be pretty rare (for programs we care about).",
+      "range": {
+        "startLine": 481,
+        "startChar": 21,
+        "endLine": 481,
+        "endChar": 24
+      },
+      "revId": "198520173ad2ad70141ff17c30f1d739d8d02d05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_6db9150e",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:14:38Z",
+      "side": 1,
+      "message": "Is this is the atomic update the CL comment mentions as not being atomic.",
+      "range": {
+        "startLine": 172,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 47
+      },
+      "revId": "198520173ad2ad70141ff17c30f1d739d8d02d05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
