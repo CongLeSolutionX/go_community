@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0242aae_8d1b21f4",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-13T14:54:02Z",
+      "side": 1,
+      "message": "Two problems with uint.  One, this is per-node overhead, so we care a little.  Two, there\u0027s a bit-banging encoding of summary info into escape fields, so whatever we use, it has to have an explicit size so we know what our encoding is (and so that we lose information in the same way independent of platform uint width; there is a fallback when the information won\u0027t fit).",
+      "parentUuid": "30ebda64_e16d2601",
+      "revId": "02946c9daa8d4b9eed503d9f73820ef9f7e06d59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30ebda64_c17a22b5",
         "filename": "src/cmd/internal/gc/reflect.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-11T17:57:01Z",
       "side": 1,
       "message": "move the return true into the default case, delete the trailing \\n in this function.",
+      "revId": "02946c9daa8d4b9eed503d9f73820ef9f7e06d59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_0de29151",
+        "filename": "src/cmd/internal/gc/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-13T14:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30ebda64_c17a22b5",
       "revId": "02946c9daa8d4b9eed503d9f73820ef9f7e06d59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
