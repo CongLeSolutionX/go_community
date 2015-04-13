@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_0d95f13a",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:46:15Z",
+      "side": 1,
+      "message": "A comment about the units 500 is. \n// Units is in pointers traced.",
+      "range": {
+        "startLine": 192,
+        "startChar": 7,
+        "endLine": 192,
+        "endChar": 21
+      },
+      "revId": "42b932bb36e6a6a8837c5acbbf9c8e9f92c01557",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
