@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_1615fdc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-13T19:29:08Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "revId": "c54ce55e81cb822a423b8424383b6a9626709afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_99323e21",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-13T19:29:08Z",
+      "side": 1,
+      "message": "Since you\u0027ve got the struct and the variable, should we change rpathset to a field of this struct?",
+      "revId": "c54ce55e81cb822a423b8424383b6a9626709afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
