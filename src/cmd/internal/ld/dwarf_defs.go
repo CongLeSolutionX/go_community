@@ -400,7 +400,22 @@ const (
 	// Dwarf4
 	DW_LANG_Python = 0x0014
 	// Dwarf5
-	DW_LANG_Go = 0x0016
+	DW_LANG_OpenCL         = 0x0015
+	DW_LANG_Go             = 0x0016
+	DW_LANG_Modula3        = 0x0017
+	DW_LANG_Haskell        = 0x0018
+	DW_LANG_C_plus_plus_03 = 0x0019
+	DW_LANG_C_plus_plus_11 = 0x001a
+	DW_LANG_OCaml          = 0x001b
+	DW_LANG_Rust           = 0x001c
+	DW_LANG_C11            = 0x001d
+	DW_LANG_Swift          = 0x001e
+	DW_LANG_Julia          = 0x001f
+	DW_LANG_Dylan          = 0x0020
+	DW_LANG_C_plus_plus_14 = 0x0021
+	DW_LANG_Fortran03      = 0x0022
+	DW_LANG_Fortran08      = 0x0023
+	DW_LANG_Mips_Assembler = 0x8001
 
 	DW_LANG_lo_user = 0x8000
 	DW_LANG_hi_user = 0xffff
