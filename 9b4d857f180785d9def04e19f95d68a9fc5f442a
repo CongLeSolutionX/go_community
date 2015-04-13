@@ -16,6 +16,24 @@
       "revId": "9b4d857f180785d9def04e19f95d68a9fc5f442a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50e84e65_05a014e6",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-13T15:56:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83999efb_429676c9",
+      "revId": "9b4d857f180785d9def04e19f95d68a9fc5f442a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
