@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b0242aae_16b3bd7b",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-13T19:20:57Z",
+      "side": 1,
+      "message": "I see what you mean--you want the DT_NEEDED strings to be unique.  I was thinking that we can generate multiple DT_RPATH entries, but we will still have collision problems.  Bother.\n\nGiven that we need unique import paths, I would advocate not trying to do clever things like change \".\" to \"dot\".  And don\u0027t aim for pretty names.  What do you think of something more like this:\n\n1) Drop a trailing \"/...\"; that doesn\u0027t affect the import path in a relevant way.\n\n2) Join arguments with \u0027,\u0027.\n\n3) Change \u0027/\u0027 to \u0027-\u0027.\n\n4) Keep every other character unchanged.",
+      "parentUuid": "50e84e65_880b1b5d",
+      "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c326369c_509641c9",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 20
