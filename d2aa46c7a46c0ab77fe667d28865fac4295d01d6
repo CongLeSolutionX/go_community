@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "50e84e65_880b1b5d",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-13T16:44:03Z",
+      "side": 1,
+      "message": "Yes, certainly in this scheme things get pretty ugly.  But unless I\u0027m misremembering how these things work, you more or less have to have most of the importpath in the filename of the library because otherwise you risk collisions -- if you have bar/libfoo.so and baz/libfoo.so you can\u0027t easily link to both.\n\nOh I guess you can have full paths in DT_NEEDED. But that would make it hard to have a debian package that creates a shared library and also something that links against it... unless you also play games with -Wl,-soname\u003d.  Hm hm.",
+      "parentUuid": "c326369c_f0c56ddd",
+      "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c326369c_509641c9",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 20
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-11T00:28:18Z",
       "side": 1,
       "message": "Pretty minor, but there is no reason to call libname twice.",
+      "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50e84e65_8832fb20",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-13T16:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c326369c_509641c9",
       "revId": "d2aa46c7a46c0ab77fe667d28865fac4295d01d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
