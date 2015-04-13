@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_edf3c5e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:33:22Z",
+      "side": 1,
+      "message": "Why don\u0027t we let the GC just read the account balance and only update when the account balance is getting low.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "09f2fc9235d98652d17eb09f95a0b0aff634ae06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_ed2505d9",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:33:22Z",
+      "side": 1,
+      "message": "If GC has a lot of credits and bgScanCredit is low then flush. If GC doesn\u0027t have a lot of credits let the mutators help out until the GC can accumulate enough credits to stay ahead of the mutators for the rest of the cycle. This has the subtle advantage of pushing the mutator help to the start of the cycle instead of the end when the mutator needs to stop to deal with the mark termination STW pause.",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 43
+      },
+      "revId": "09f2fc9235d98652d17eb09f95a0b0aff634ae06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_ed7065d7",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-13T13:33:22Z",
+      "side": 1,
+      "message": "\u0026\u0026 gcController.bgScanCredit \u003c mumble*nextScanFlush",
+      "range": {
+        "startLine": 396,
+        "startChar": 34,
+        "endLine": 396,
+        "endChar": 35
+      },
+      "revId": "09f2fc9235d98652d17eb09f95a0b0aff634ae06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
