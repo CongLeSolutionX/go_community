@@ -152,10 +152,12 @@ func (h *huffmanDecoder) init(bits []int) bool {
 				h.links[off] = make([]uint32, 1<<linkBits)
 			}
 		}
-		n := count[i]
-		nextcode[i] = code
-		code += n
 		code <<= 1
+		nextcode[i] = code
+		code += count[i]
+	}
+	if code != 1<<uint(max) && (code != 1 || max != 1) {
+		return false
 	}
 
 	for i, n := range bits {
