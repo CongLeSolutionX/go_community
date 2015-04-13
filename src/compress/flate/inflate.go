@@ -128,39 +128,32 @@ func (h *huffmanDecoder) init(bits []int) bool {
 		return false
 	}
 
-	h.min = min
-	var linkBits uint
-	var numLinks int
-	if max > huffmanChunkBits {
-		linkBits = uint(max) - huffmanChunkBits
-		numLinks = 1 << linkBits
-		h.linkMask = uint32(numLinks - 1)
-	}
 	code := 0
 	var nextcode [maxCodeLen]int
 	for i := min; i <= max; i++ {
-		if i == huffmanChunkBits+1 {
-			// create link tables
-			link := code >> 1
-			if huffmanNumChunks < link {
-				return false
-			}
-			h.links = make([][]uint32, huffmanNumChunks-link)
-			for j := uint(link); j < huffmanNumChunks; j++ {
-				reverse := int(reverseByte[j>>8]) | int(reverseByte[j&0xff])<<8
-				reverse >>= uint(16 - huffmanChunkBits)
-				off := j - uint(link)
-				if sanity && h.chunks[reverse] != 0 {
-					panic("Impossible")
-				}
-				h.chunks[reverse] = uint32(off<<huffmanValueShift + uint(i))
-				h.links[off] = make([]uint32, 1<<linkBits)
-			}
-		}
-		n := count[i]
-		nextcode[i] = code
-		code += n
 		code <<= 1
+		nextcode[i] = code
+		code += count[i]
+	}
+	if code != 1<<uint(max) && !(code == 1 && max == 1) {
+		return false
+	}
+
+	h.min = min
+	if max > huffmanChunkBits {
+		numLinks := 1 << (uint(max) - huffmanChunkBits)
+		h.linkMask = uint32(numLinks - 1)
+
+		// create link tables
+		link := nextcode[huffmanChunkBits+1] >> 1
+		h.links = make([][]uint32, huffmanNumChunks-link)
+		for j := uint(link); j < huffmanNumChunks; j++ {
+			reverse := int(reverseByte[j>>8]) | int(reverseByte[j&0xff])<<8
+			reverse >>= uint(16 - huffmanChunkBits)
+			off := j - uint(link)
+			h.chunks[reverse] = uint32(off<<huffmanValueShift + uint(huffmanChunkBits+1))
+			h.links[off] = make([]uint32, numLinks)
+		}
 	}
 
 	for i, n := range bits {
@@ -173,7 +166,7 @@ func (h *huffmanDecoder) init(bits []int) bool {
 		reverse := int(reverseByte[code>>8]) | int(reverseByte[code&0xff])<<8
 		reverse >>= uint(16 - n)
 		if n <= huffmanChunkBits {
-			for off := reverse; off < huffmanNumChunks; off += 1 << uint(n) {
+			for off := reverse; off < len(h.chunks); off += 1 << uint(n) {
 				if sanity && h.chunks[off] != 0 {
 					panic("Impossible")
 				}
@@ -185,12 +178,9 @@ func (h *huffmanDecoder) init(bits []int) bool {
 				panic("Impossible")
 			}
 			value := h.chunks[j] >> huffmanValueShift
-			if value >= uint32(len(h.links)) {
-				return false
-			}
 			linktab := h.links[value]
 			reverse >>= huffmanChunkBits
-			for off := reverse; off < numLinks; off += 1 << uint(n-huffmanChunkBits) {
+			for off := reverse; off < len(linktab); off += 1 << uint(n-huffmanChunkBits) {
 				if sanity && linktab[off] != 0 {
 					panic("Impossible")
 				}
