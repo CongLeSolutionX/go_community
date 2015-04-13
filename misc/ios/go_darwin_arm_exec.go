@@ -30,6 +30,12 @@ var errRetry = errors.New("failed to start test harness (retry attempted)")
 
 var tmpdir string
 
+var (
+	devID  string
+	appID  string
+	teamID string
+)
+
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("go_darwin_arm_exec: ")
@@ -39,6 +45,10 @@ func main() {
 	if len(os.Args) < 2 {
 		log.Fatal("usage: go_darwin_arm_exec a.out")
 	}
+
+	devID = getenv("GO_IOS_DEV_ID")
+	appID = getenv("GO_IOS_APP_ID")
+	teamID = getenv("GO_IOS_TEAM_ID")
 
 	var err error
 	tmpdir, err = ioutil.TempDir("", "go_darwin_arm_exec_")
@@ -70,6 +80,14 @@ func main() {
 	}
 }
 
+func getenv(envvar string) string {
+	s := os.Getenv(envvar)
+	if s == "" {
+		log.Fatalf("%s not set\nrun $GOROOT/misc/ios/detect.go to attempt to autodetect", s)
+	}
+	return s
+}
+
 func run(bin string, args []string) (err error) {
 	appdir := filepath.Join(tmpdir, "gotest.app")
 	os.RemoveAll(appdir)
@@ -82,7 +100,7 @@ func run(bin string, args []string) (err error) {
 	}
 
 	entitlementsPath := filepath.Join(tmpdir, "Entitlements.plist")
-	if err := ioutil.WriteFile(entitlementsPath, []byte(entitlementsPlist), 0744); err != nil {
+	if err := ioutil.WriteFile(entitlementsPath, []byte(entitlementsPlist()), 0744); err != nil {
 		return err
 	}
 	if err := ioutil.WriteFile(filepath.Join(appdir, "Info.plist"), []byte(infoPlist), 0744); err != nil {
@@ -100,7 +118,7 @@ func run(bin string, args []string) (err error) {
 	cmd := exec.Command(
 		"codesign",
 		"-f",
-		"-s", "E8BMC3FE2Z", // certificate associated with golang.org
+		"-s", devID,
 		"--entitlements", entitlementsPath,
 		appdir,
 	)
@@ -557,22 +575,22 @@ const infoPlist = `<?xml version="1.0" encoding="UTF-8"?>
 </plist>
 `
 
-const devID = `YE84DJ86AZ`
-
-const entitlementsPlist = `<?xml version="1.0" encoding="UTF-8"?>
+func entitlementsPlist() string {
+	return `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>keychain-access-groups</key>
-	<array><string>` + devID + `.golang.gotest</string></array>
+	<array><string>` + appID + `.golang.gotest</string></array>
 	<key>get-task-allow</key>
 	<true/>
 	<key>application-identifier</key>
-	<string>` + devID + `.golang.gotest</string>
+	<string>` + appID + `.golang.gotest</string>
 	<key>com.apple.developer.team-identifier</key>
-	<string>` + devID + `</string>
+	<string>` + teamID + `</string>
 </dict>
 </plist>`
+}
 
 const resourceRules = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
