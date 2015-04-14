@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_5d012f8a",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7570
+      },
+      "writtenOn": "2015-04-14T20:07:17Z",
+      "side": 1,
+      "message": "Looks like this method no longer makes that assumption; should probably update the comment.",
+      "revId": "08a4eff1ae9d68598cb061240111852ae880e600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
