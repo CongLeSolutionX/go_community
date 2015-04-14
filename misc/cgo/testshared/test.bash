@@ -60,5 +60,52 @@ go install -installsuffix="$mysuffix" -linkshared trivial || die "build -linksha
 
 # And check that it is actually dynamically linked against the library
 # we hope it is linked against.
-a="$(ldd ./bin/trivial)" || die "ldd ./bin/trivial failed: $a"
-{ echo "$a" | grep -q "$std_install_dir/$soname"; } || die "trivial does not appear to be linked against $soname"
+
+ensure_ldd () {
+    a="$(ldd $1)" || die "ldd $1 failed: $a"
+    { echo "$a" | grep -q "$2"; } || die "$1 does not appear to be linked against $2"
+}
+
+ensure_ldd ./bin/trivial $std_install_dir/$soname
+
+# Build a GOPATH package into a shared library that links against the above one.
+rootdir="$(dirname $(go list -installsuffix="$mysuffix" -linkshared -f '{{.Target}}' dep))"
+go install -installsuffix="$mysuffix" -buildmode=shared -linkshared dep
+ensure_ldd $rootdir/libdep.so $std_install_dir/$soname
+
+
+# And exe that links against both
+go install -installsuffix="$mysuffix" -linkshared exe
+ensure_ldd ./bin/exe $rootdir/libdep.so
+ensure_ldd ./bin/exe $std_install_dir/$soname
+
+# Now, test rebuilding of shared libraries when they are stale.
+
+cp -a $rootdir/libdep.so $rootdir/libdep.so.bak
+cp -a $rootdir/dep.a $rootdir/dep.a.bak
+# If the source is newer than both the .a file and the .so, both are rebuilt.
+touch src/dep/dep.go
+sleep 1 # because bash's -nt only has second resolution, it seems :(
+go install -installsuffix="$mysuffix" -linkshared exe
+if [ ! $rootdir/libdep.so -nt $rootdir/libdep.so.bak ]; then
+    die "libdep.so not rebuilt"
+fi
+if [ ! $rootdir/dep.a -nt $rootdir/dep.a.bak ]; then
+    die "dep.a not rebuilt"
+fi
+
+cp -a $rootdir/libdep.so $rootdir/libdep.so.bak
+cp -a $rootdir/dep.a $rootdir/dep.a.bak
+# If the .a file is newer than the .so, it is rebuilt.
+touch $rootdir/dep.a
+sleep 1 # because bash's -nt only has second resolution, it seems :(
+go install -x -installsuffix="$mysuffix" -linkshared exe
+# TODO(mwhudson): The current implementation rebuilds the .a as well
+# (because the package itself is declared Stale) not sure it's worth
+# caring.
+#if [ $rootdir/dep.a -nt $rootdir/dep.a.bak ]; then
+#    die "dep.a was rebuilt"
+#fi
+if [ ! $rootdir/libdep.so -nt $rootdir/libdep.so.bak ]; then
+    die "libdep.so not rebuilt"
+fi
