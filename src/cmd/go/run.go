@@ -111,7 +111,7 @@ func runRun(cmd *Command, args []string) {
 		fatalf("go run: no suitable source files%s", hint)
 	}
 	p.exeName = src[:len(src)-len(".go")] // name temporary executable for first go file
-	a1 := b.action(modeBuild, modeBuild, p)
+	a1 := b.action(modeBuild, modeBuild, p, "")
 	a := &action{f: (*builder).runProgram, args: cmdArgs, deps: []*action{a1}}
 	b.do(a)
 }

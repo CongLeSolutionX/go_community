@@ -398,7 +398,7 @@ func runTest(cmd *Command, args []string) {
 
 		a := &action{}
 		for _, p := range packagesForBuild(all) {
-			a.deps = append(a.deps, b.action(modeInstall, modeInstall, p))
+			a.deps = append(a.deps, b.action(modeInstall, modeInstall, p, ""))
 		}
 		b.do(a)
 		if !testC || a.failed {
@@ -553,7 +553,7 @@ var windowsBadWords = []string{
 
 func (b *builder) test(p *Package) (buildAction, runAction, printAction *action, err error) {
 	if len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
-		build := b.action(modeBuild, modeBuild, p)
+		build := b.action(modeBuild, modeBuild, p, "")
 		run := &action{p: p, deps: []*action{build}}
 		print := &action{f: (*builder).notest, p: p, deps: []*action{run}}
 		return build, run, print, nil
@@ -797,7 +797,7 @@ func (b *builder) test(p *Package) (buildAction, runAction, printAction *action,
 	computeStale(pmain)
 
 	if ptest != p {
-		a := b.action(modeBuild, modeBuild, ptest)
+		a := b.action(modeBuild, modeBuild, ptest, "")
 		a.objdir = testDir + string(filepath.Separator) + "_obj_test" + string(filepath.Separator)
 		a.objpkg = ptestObj
 		a.target = ptestObj
@@ -805,13 +805,13 @@ func (b *builder) test(p *Package) (buildAction, runAction, printAction *action,
 	}
 
 	if pxtest != nil {
-		a := b.action(modeBuild, modeBuild, pxtest)
+		a := b.action(modeBuild, modeBuild, pxtest, "")
 		a.objdir = testDir + string(filepath.Separator) + "_obj_xtest" + string(filepath.Separator)
 		a.objpkg = buildToolchain.pkgpath(testDir, pxtest)
 		a.target = a.objpkg
 	}
 
-	a := b.action(modeBuild, modeBuild, pmain)
+	a := b.action(modeBuild, modeBuild, pmain, "")
 	a.objdir = testDir + string(filepath.Separator)
 	a.objpkg = filepath.Join(testDir, "main.a")
 	a.target = filepath.Join(testDir, testBinary) + exeSuffix

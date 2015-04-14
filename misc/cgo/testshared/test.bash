@@ -62,3 +62,16 @@ go install -installsuffix="$mysuffix" -linkshared trivial || die "build -linksha
 # we hope it is linked against.
 a="$(ldd ./bin/trivial)" || die "ldd ./bin/trivial failed: $a"
 { echo "$a" | grep -q "$std_install_dir/$soname"; } || die "trivial does not appear to be linked against $soname"
+
+## TODO(mwhudson): explain this.
+set -x
+rootdir="$(dirname $(go list -installsuffix="$mysuffix" -linkshared -f '{{.Target}}' dep))"
+go install -x -installsuffix="$mysuffix" -buildmode=shared -linkshared dep
+go install -installsuffix="$mysuffix" -linkshared exe
+cp -a $rootdir/libdep.so $rootdir/libdep.so.bak
+touch src/dep/dep.go
+sleep 1 # because bash's -nt only has second resolution, it seems :(
+go install -x -installsuffix="$mysuffix" -linkshared exe
+if [ ! $rootdir/libdep.so -nt $rootdir/libdep.so.bak ]; then
+    die "libdep.so not rebuilt"
+fi

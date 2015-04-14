@@ -414,7 +414,7 @@ func runBuild(cmd *Command, args []string) {
 		}
 		p := pkgs[0]
 		p.target = "" // must build - not up to date
-		a := b.action(modeInstall, depMode, p)
+		a := b.action(modeInstall, depMode, p, "")
 		a.target = *buildO
 		b.do(a)
 		return
@@ -426,7 +426,7 @@ func runBuild(cmd *Command, args []string) {
 	} else {
 		a = &action{}
 		for _, p := range pkgsFilter(packages(args)) {
-			a.deps = append(a.deps, b.action(modeBuild, depMode, p))
+			a.deps = append(a.deps, b.action(modeBuild, depMode, p, p.Shlib))
 		}
 	}
 	b.do(a)
@@ -501,7 +501,7 @@ func runInstall(cmd *Command, args []string) {
 			// by other steps in the build.
 			// cmd/cgo is handled specially in b.action, so that we can
 			// both build and use it in the same 'go install'.
-			action := b.action(modeInstall, modeInstall, p)
+			action := b.action(modeInstall, modeInstall, p, p.Shlib)
 			if goTools[p.ImportPath] == toTool && p.ImportPath != "cmd/cgo" {
 				a.deps = append(a.deps, action.deps...)
 				action.deps = append(action.deps, a)
@@ -591,8 +591,9 @@ type action struct {
 
 // cacheKey is the key for the action cache.
 type cacheKey struct {
-	mode buildMode
-	p    *Package
+	mode  buildMode
+	p     *Package
+	shlib string
 }
 
 // buildMode specifies the build mode:
@@ -717,22 +718,52 @@ func goFilesPackage(gofiles []string) *Package {
 
 // action returns the action for applying the given operation (mode) to the package.
 // depMode is the action to use when building dependencies.
-func (b *builder) action(mode buildMode, depMode buildMode, p *Package) *action {
-	key := cacheKey{mode, p}
+func (b *builder) action(mode buildMode, depMode buildMode, p *Package, shlib string) *action {
+	key := cacheKey{mode, p, shlib}
 	a := b.actionCache[key]
 	if a != nil {
 		return a
 	}
 
-	a = &action{p: p, pkgdir: p.build.PkgRoot}
-	if p.pkgdir != "" { // overrides p.t
-		a.pkgdir = p.pkgdir
+	if shlib != "" {
+		if p.Stale {
+			key2 := cacheKey{modeInstall, nil, shlib}
+			a = b.actionCache[key2]
+			if a != nil {
+				b.actionCache[key] = a
+				return a
+			}
+			pkgs := []*Package{}
+			pkglistbytes, err := readnote(filepath.Join(p.build.PkgTargetRoot, p.Shlib), "GO\x00\x00", 1)
+			if err != nil {
+				fatalf("readnote failed: %v", err)
+			}
+			scanner := bufio.NewScanner(bytes.NewBuffer(pkglistbytes))
+			var stk importStack
+			for scanner.Scan() {
+				t := scanner.Text()
+				pkgs = append(pkgs, loadPackage(t, &stk))
+			}
+			a = b.libaction(p.Shlib, pkgs, modeInstall, depMode)
+			b.actionCache[key] = a
+			b.actionCache[key2] = a
+			return a
+		} else {
+			a = &action{p: p, pkgdir: p.build.PkgRoot}
+			if p.pkgdir != "" { // overrides p.t
+				a.pkgdir = p.pkgdir
+			}
+		}
+	} else {
+		a = &action{p: p, pkgdir: p.build.PkgRoot}
+		if p.pkgdir != "" { // overrides p.t
+			a.pkgdir = p.pkgdir
+		}
 	}
-
 	b.actionCache[key] = a
 
 	for _, p1 := range p.imports {
-		a.deps = append(a.deps, b.action(depMode, depMode, p1))
+		a.deps = append(a.deps, b.action(depMode, depMode, p1, p1.Shlib))
 	}
 
 	// If we are not doing a cross-build, then record the binary we'll
@@ -741,13 +772,13 @@ func (b *builder) action(mode buildMode, depMode buildMode, p *Package) *action 
 	// a package is using it.  If this is a cross-build, then the cgo we
 	// are writing is not the cgo we need to use.
 	if goos == runtime.GOOS && goarch == runtime.GOARCH && !buildRace {
-		if len(p.CgoFiles) > 0 || p.Standard && p.ImportPath == "runtime/cgo" {
+		if (len(p.CgoFiles) > 0 || p.Standard && p.ImportPath == "runtime/cgo") && !buildLinkshared {
 			var stk importStack
 			p1 := loadPackage("cmd/cgo", &stk)
 			if p1.Error != nil {
 				fatalf("load cmd/cgo: %v", p1.Error)
 			}
-			a.cgo = b.action(depMode, depMode, p1)
+			a.cgo = b.action(depMode, depMode, p1, p1.Shlib)
 			a.deps = append(a.deps, a.cgo)
 		}
 	}
@@ -788,7 +819,7 @@ func (b *builder) action(mode buildMode, depMode buildMode, p *Package) *action 
 	switch mode {
 	case modeInstall:
 		a.f = (*builder).install
-		a.deps = []*action{b.action(modeBuild, depMode, p)}
+		a.deps = []*action{b.action(modeBuild, depMode, p, shlib)}
 		a.target = a.p.target
 	case modeBuild:
 		a.f = (*builder).build
@@ -821,7 +852,7 @@ func (b *builder) libaction(libname string, pkgs []*Package, mode, depMode build
 			if p.target == "" {
 				continue
 			}
-			a.deps = append(a.deps, b.action(depMode, depMode, p))
+			a.deps = append(a.deps, b.action(depMode, depMode, p, ""))
 		}
 		// Currently build mode shared forces external linking
 		// mode, and external linking mode forces an import of
@@ -831,7 +862,7 @@ func (b *builder) libaction(libname string, pkgs []*Package, mode, depMode build
 		if p.Error != nil {
 			fatalf("load runtime/cgo: %v", p.Error)
 		}
-		a.deps = append(a.deps, b.action(depMode, depMode, p))
+		a.deps = append(a.deps, b.action(mode, depMode, p, ""))
 	} else if mode == modeInstall {
 		a.f = (*builder).install
 		var libdir string
@@ -1149,7 +1180,24 @@ func (b *builder) build(a *action) (err error) {
 	}
 
 	// Prepare Go import path list.
-	inc := b.includeArgs("-I", a.deps)
+	as := []*action{}
+	var recur func(a2 *action) []*action
+	recur = func(a2 *action) []*action {
+		if strings.HasSuffix(a2.target, ".a") {
+			return []*action{a2}
+		} else if strings.HasSuffix(a2.target, ".so") {
+			r := []*action{}
+			for _, a3 := range a2.deps {
+				r = append(r, recur(a3)...)
+			}
+			return r
+		}
+
+	}
+	for _, a1 := range a.deps {
+		as = append(as, recur(a1)...)
+	}
+	inc := b.includeArgs("-I", as)
 
 	// Compile Go.
 	ofile, out, err := buildToolchain.gc(b, a.p, a.objpkg, obj, len(sfiles) > 0, inc, gofiles)
@@ -1302,6 +1350,7 @@ func (b *builder) linkShared(a *action) (err error) {
 	ldflags := []string{"-installsuffix", buildContext.InstallSuffix}
 	ldflags = append(ldflags, "-buildmode="+ldBuildmode)
 	ldflags = append(ldflags, buildLdflags...)
+	ldflags = append(ldflags, "-buildmode=shared")
 	for _, d := range a.deps {
 		if d.target == "" { // omit unsafe etc
 			continue
@@ -1367,6 +1416,9 @@ func (b *builder) includeArgs(flag string, all []*action) []string {
 	// This is the $WORK/my/package/_test directory for the
 	// package being built, so there are few of these.
 	for _, a1 := range all {
+		if a1.p == nil {
+			continue
+		}
 		if dir := a1.pkgdir; dir != a1.p.build.PkgRoot && !incMap[dir] {
 			incMap[dir] = true
 			inc = append(inc, flag, dir)
@@ -1379,6 +1431,9 @@ func (b *builder) includeArgs(flag string, all []*action) []string {
 
 	// Finally, look in the installed package directories for each action.
 	for _, a1 := range all {
+		if a1.p == nil {
+			continue
+		}
 		if dir := a1.pkgdir; dir == a1.p.build.PkgRoot && !incMap[dir] {
 			incMap[dir] = true
 			inc = append(inc, flag, a1.p.build.PkgTargetRoot)
