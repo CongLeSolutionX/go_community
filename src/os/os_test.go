@@ -500,6 +500,13 @@ func TestReaddirStatFailures(t *testing.T) {
 		t.Errorf("initial readdir got %q; want %q", got, want)
 	}
 
+	switch runtime.GOOS {
+	case "linux", "freebsd", "netbsd", "openbsd":
+		// Platforms using Fstatat based readdir don't use Lstat for
+		// readdir and thus the last tests don't work.
+		t.Skipf("skipping test on %v", runtime.GOOS)
+	}
+
 	xerr = ErrNotExist
 	if got, want := names(mustReadDir("with x disappearing")),
 		[]string{"good1", "good2"}; !reflect.DeepEqual(got, want) {
