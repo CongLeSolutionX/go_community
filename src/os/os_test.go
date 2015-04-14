@@ -444,6 +444,70 @@ func touch(t *testing.T, name string) {
 	}
 }
 
+func TestReaddirFstatat(t *testing.T) {
+	switch runtime.GOOS {
+	case "darwin", "dragonfly", "nacl", "solaris", "windows", "plan9":
+		t.Skipf("skipping test on %v", runtime.GOOS)
+	}
+	dir, err := ioutil.TempDir("", "")
+	if err != nil {
+		t.Fatalf("TempDir: %v", err)
+	}
+	defer RemoveAll(dir)
+	idir := dir + "/a"
+	err = Mkdir(idir, 0700)
+	if err != nil {
+		t.Fatalf("Mkdir: %v", err)
+	}
+	touch(t, filepath.Join(idir, "good1"))
+	touch(t, filepath.Join(idir, "x")) // will disappear or have an error
+	touch(t, filepath.Join(idir, "good2"))
+
+	mustOpenActAndReadDir := func(f func()) []FileInfo {
+		d, err := Open(idir)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if f != nil {
+			f()
+		}
+		defer d.Close()
+		fis, err := d.Readdir(-1)
+		if err != nil {
+			t.Fatalf("%s: Readdir: %v", err)
+		}
+		return fis
+	}
+	names := func(fis []FileInfo) []string {
+		s := make([]string, len(fis))
+		for i, fi := range fis {
+			s[i] = fi.Name()
+		}
+		sort.Strings(s)
+		return s
+	}
+
+	if got, want := names(mustOpenActAndReadDir(nil)),
+		[]string{"good1", "good2", "x"}; !reflect.DeepEqual(got, want) {
+		t.Errorf("initial readdir got %q; want %q", got, want)
+	}
+
+	Remove(idir + "/x")
+	if got, want := names(mustOpenActAndReadDir(nil)),
+		[]string{"good1", "good2"}; !reflect.DeepEqual(got, want) {
+		t.Errorf("with x disappearing, got %q; want %q", got, want)
+	}
+
+	// This does not work with plain Readdir, but works with fstatat
+	mvFun := func() {
+		Rename(idir, dir+"/b")
+	}
+	if got, want := names(mustOpenActAndReadDir(mvFun)),
+		[]string{"good1", "good2"}; !reflect.DeepEqual(got, want) {
+		t.Errorf("with dir moved, got %q; want %q", got, want)
+	}
+}
+
 func TestReaddirStatFailures(t *testing.T) {
 	switch runtime.GOOS {
 	case "windows", "plan9":
@@ -498,6 +562,13 @@ func TestReaddirStatFailures(t *testing.T) {
 	if got, want := names(mustReadDir("inital readdir")),
 		[]string{"good1", "good2", "x"}; !reflect.DeepEqual(got, want) {
 		t.Errorf("initial readdir got %q; want %q", got, want)
+	}
+
+	switch runtime.GOOS {
+	case "linux", "freebsd", "netbsd", "openbsd":
+		// Platforms using Fstatat based readdir don't use Lstat for
+		// readdir and thus the last tests don't work.
+		t.Skipf("skipping test on %v", runtime.GOOS)
 	}
 
 	xerr = ErrNotExist

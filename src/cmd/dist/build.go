@@ -875,6 +875,7 @@ var buildorder = []string{
 	"syscall",
 	"time",
 	"internal/syscall/windows",
+	"internal/syscall",
 	"os",
 	"reflect",
 	"fmt",
