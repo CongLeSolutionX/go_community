@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_468854b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-14T22:57:12Z",
+      "side": 1,
+      "message": "I think we can drop this sentence now.",
+      "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_66623088",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-14T22:57:12Z",
+      "side": 1,
+      "message": "I checked with Russ.  This can be simply \"go.addmoduledata\".  The linker already assumes that there will nothing will use the import path \"go\".  If we want to be really careful to avoid conflicts, we can use \"go.link.addmoduledata\".",
+      "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_46ba944d",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-14T22:57:12Z",
+      "side": 1,
+      "message": "go.addmoduledatainit or go.link.addmoduledatainit.",
+      "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
