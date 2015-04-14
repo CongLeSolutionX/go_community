@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "506daeeb_5d428f01",
+        "filename": "misc/ios/detect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-14T18:50:35Z",
+      "side": 1,
+      "message": "Done, although I\u0027m not sure it is that much better. It is definitely not much shorter:\n\n$ git diff --stat\n misc/ios/detect.go | 78 ++++++++++++++++++++++++++++++++++++++----------------------------------------\n 1 file changed, 38 insertions(+), 40 deletions(-)",
+      "parentUuid": "b0242aae_44685d1f",
+      "revId": "d1a93110b771fdab83ed7f72d32f840711b5fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0242aae_04e5b54c",
         "filename": "misc/ios/go_darwin_arm_exec.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-14T15:29:03Z",
       "side": 1,
       "message": "Please document the three environment variables, along with approximately what they mean. (URLs to apple documentation would be ideal, but I know entitlements is short on documentation.)",
+      "revId": "d1a93110b771fdab83ed7f72d32f840711b5fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_7d5993e0",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-14T18:50:35Z",
+      "side": 1,
+      "message": "I took a stab at documenting this, but I really just don\u0027t understand what they mean, even approximately. In particular, I don\u0027t understand the difference between an app id and a team id. There\u0027s no documentation on this at all, and I only got this working by examining the decoded .mobileprovision files, guessing, and trial and error.\n\nI\u0027m sorry. Feel free to leave this, and I\u0027ll try again in a few days when I\u0027m less frustrated.",
+      "parentUuid": "b0242aae_04e5b54c",
       "revId": "d1a93110b771fdab83ed7f72d32f840711b5fd10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
