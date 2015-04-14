@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_44685d1f",
+        "filename": "misc/ios/detect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-14T15:29:03Z",
+      "side": 1,
+      "message": "It feels petty to complain about error handling in a script like this, but I think this whole thing would be a lot easier if on error here you printed the command, the error, and the exited. A lot of your error checking logic could go away then.",
+      "revId": "d1a93110b771fdab83ed7f72d32f840711b5fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_04e5b54c",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-14T15:29:03Z",
+      "side": 1,
+      "message": "Please document the three environment variables, along with approximately what they mean. (URLs to apple documentation would be ideal, but I know entitlements is short on documentation.)",
+      "revId": "d1a93110b771fdab83ed7f72d32f840711b5fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_84b40534",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-14T15:29:03Z",
+      "side": 1,
+      "message": "Typically Go environment variables don\u0027t use underscores. But I understand that GOIOS looks more than a little weird. Maybe we will get used to it? Otherwise maybe GOMOBILE?",
+      "revId": "d1a93110b771fdab83ed7f72d32f840711b5fd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
