@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_fd9fe760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-14T07:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0242aae_1615fdc1",
+      "revId": "c54ce55e81cb822a423b8424383b6a9626709afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0242aae_99323e21",
         "filename": "src/cmd/internal/ld/lib.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-13T19:29:08Z",
       "side": 1,
       "message": "Since you\u0027ve got the struct and the variable, should we change rpathset to a field of this struct?",
+      "revId": "c54ce55e81cb822a423b8424383b6a9626709afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_9daca39c",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-14T07:07:40Z",
+      "side": 1,
+      "message": "Sure. I actually moved the value in there too, felt more natural.",
+      "parentUuid": "b0242aae_99323e21",
       "revId": "c54ce55e81cb822a423b8424383b6a9626709afb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
