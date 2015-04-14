@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0242aae_25fb02f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-14T21:57:07Z",
+      "side": 1,
+      "message": "We could. I\u0027d be really surprised if it wasn\u0027t in the noise. I would, however, be worried that a sufficiently large allocation could wind up doing a large amount of assisting because background GC is hoarding its credit and the assist doesn\u0027t know that.",
+      "parentUuid": "b0242aae_edf3c5e8",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "09f2fc9235d98652d17eb09f95a0b0aff634ae06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0242aae_ed2505d9",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-13T13:33:22Z",
       "side": 1,
       "message": "If GC has a lot of credits and bgScanCredit is low then flush. If GC doesn\u0027t have a lot of credits let the mutators help out until the GC can accumulate enough credits to stay ahead of the mutators for the rest of the cycle. This has the subtle advantage of pushing the mutator help to the start of the cycle instead of the end when the mutator needs to stop to deal with the mark termination STW pause.",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 43
+      },
+      "revId": "09f2fc9235d98652d17eb09f95a0b0aff634ae06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_c55d5e7d",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-14T21:57:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand your comment.\n\nHowever, I\u0027m inclined to just remove this TODO. A slack of 2000 should be peanuts in terms of scan work accounting, but plenty enough to reduce memory contention.",
+      "parentUuid": "b0242aae_ed2505d9",
       "range": {
         "startLine": 260,
         "startChar": 0,
