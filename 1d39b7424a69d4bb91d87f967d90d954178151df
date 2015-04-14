@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_fae48252",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3422,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-14T17:03:25Z",
+      "side": 1,
+      "message": "x +\u003d y is an assignment operation, according to me and according to the spec. +\u003d is an operator.",
+      "revId": "1d39b7424a69d4bb91d87f967d90d954178151df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
