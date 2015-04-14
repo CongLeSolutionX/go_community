@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_26eb08ab",
+        "filename": "src/net/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-14T22:53:49Z",
+      "side": 1,
+      "message": "I don\u0027t think this will do what you expect.  Because there are multiple cases, the value of addr will be e.Addr, not a specific type.  And because there is a type, e.Addr \u003d\u003d nil will never be true.",
+      "revId": "fa60653876a73367b62027e08f839876b84b6ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_c6d8c4f5",
+        "filename": "src/net/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-14T22:53:49Z",
+      "side": 1,
+      "message": "This seems like a baroque way of avoiding a couple of goto statements.  I would just inline the functions, and change the return xxx, true cases to goto the next step.",
+      "range": {
+        "startLine": 71,
+        "startChar": 24,
+        "endLine": 71,
+        "endChar": 40
+      },
+      "revId": "fa60653876a73367b62027e08f839876b84b6ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
