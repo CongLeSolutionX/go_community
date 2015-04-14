@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_fd012307",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-14T16:25:12Z",
+      "side": 1,
+      "message": "or just:\n\n    copy(e.Encode[:], encoder)",
+      "revId": "c82a19a09abcb37fbce7ba7909b01cbdd1a04303",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_bd0bab25",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-14T16:25:12Z",
+      "side": 1,
+      "message": "no commented out code.\n\nIs this accidental?",
+      "revId": "c82a19a09abcb37fbce7ba7909b01cbdd1a04303",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
