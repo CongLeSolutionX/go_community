@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_c4c44de5",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-14T15:12:04Z",
+      "side": 1,
+      "message": "Add\n// The pages swept in a proportional sweep can hold any\n// sizeclass. The final page swept below will be of the \n// sizeclass asked for.\n\nYour accounting might be off by one. on line 62 we might encounter page that the backgroud GC or a previous call swept and that might be the one returned without an additional page needing to be swept. Perhaps this is accounted for with the mheap.pagesSwept value.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "8e7c215d4bf55f339a5e240c355b6a6902b3c22c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
