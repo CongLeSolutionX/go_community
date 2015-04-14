@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_67b7dbc7",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-14T16:00:19Z",
+      "side": 1,
+      "message": "(1) Add\n\n   {\"%#02x\", reflect.ValueOf(A{}).Field(0), \"0x00\"}, \n\nwhich should just work but was impossible before.\n\n(2) Add\n\n   {\"%s\", reflect.ValueOf(\"hello\"), \"hello\"},\n   {\"%q\", reflect.ValueOf(\"hello\"), `\"hello\"`},\n\nThe first actually worked in Go 1.4, which is a good argument for making this change; the second did not work but works now.\n\n(3) Add (and likely implement):\n\n   {\"%v\", reflect.Value{}, \"\u003cinvalid reflect.Value\u003e\"}\n\nprintReflectValue has not in the past needed to worry about that possibility, so it probably doesn\u0027t have code for it. The result of reflect.Value{}.String() is \u003cinvalid Value\u003e, which might be fine too, but it seemed slightly clearer to say reflect.Value here.",
+      "revId": "1fd0615d8b90002baf827648af4700c411acb499",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
