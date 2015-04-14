@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_c0bfa00b",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-14T16:47:03Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "506daeeb_fd012307",
+      "revId": "c82a19a09abcb37fbce7ba7909b01cbdd1a04303",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506daeeb_bd0bab25",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-14T16:25:12Z",
       "side": 1,
       "message": "no commented out code.\n\nIs this accidental?",
+      "revId": "c82a19a09abcb37fbce7ba7909b01cbdd1a04303",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_608c8c8d",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-14T16:47:03Z",
+      "side": 1,
+      "message": "Yes, Fixed.",
+      "parentUuid": "506daeeb_bd0bab25",
       "revId": "c82a19a09abcb37fbce7ba7909b01cbdd1a04303",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
