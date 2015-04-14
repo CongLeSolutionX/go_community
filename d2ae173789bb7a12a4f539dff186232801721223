@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0242aae_da778601",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-14T17:05:25Z",
+      "side": 1,
+      "message": "not sure idioms belong in doc comments - examples maybe but not comments. plus this is the reflect package. you shouldn\u0027t be here at all if you need your hand held.\n\nalso, this is a slippery slope. if you explain how interfaces work here, where does it stop?",
+      "range": {
+        "startLine": 1017,
+        "startChar": 3,
+        "endLine": 1017,
+        "endChar": 10
+      },
+      "revId": "d2ae173789bb7a12a4f539dff186232801721223",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
