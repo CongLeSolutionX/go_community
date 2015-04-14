@@ -404,7 +404,6 @@ func runBuild(cmd *Command, args []string) {
 	}
 
 	depMode := modeBuild
-	mode := modeBuild
 	if buildI {
 		depMode = modeInstall
 	}
@@ -425,13 +424,12 @@ func runBuild(cmd *Command, args []string) {
 
 	var a *action
 	if buildBuildmode == "shared" {
-		a = b.libaction(libname(args))
-		mode = depMode
+		a = b.libaction(libname(args), pkgsFilter(packages(args)), modeBuild, depMode)
 	} else {
 		a = &action{}
-	}
-	for _, p := range pkgsFilter(packages(args)) {
-		a.deps = append(a.deps, b.action(mode, depMode, p))
+		for _, p := range pkgsFilter(packages(args)) {
+			a.deps = append(a.deps, b.action(modeBuild, depMode, p))
+		}
 	}
 	b.do(a)
 }
@@ -496,32 +494,7 @@ func runInstall(cmd *Command, args []string) {
 	b.init()
 	a := &action{}
 	if buildBuildmode == "shared" {
-		var libdir string
-		for _, p := range pkgs {
-			plibdir := p.build.PkgTargetRoot
-			if libdir == "" {
-				libdir = plibdir
-			} else if libdir != plibdir {
-				fatalf("multiple roots %s & %s", libdir, plibdir)
-			}
-		}
-
-		a.f = (*builder).install
-		libfilename := libname(args)
-		linkSharedAction := b.libaction(libfilename)
-		a.target = filepath.Join(libdir, libfilename)
-		a.deps = append(a.deps, linkSharedAction)
-		for _, p := range pkgs {
-			if p.target == "" {
-				continue
-			}
-			shlibnameaction := &action{}
-			shlibnameaction.f = (*builder).installShlibname
-			shlibnameaction.target = p.target[:len(p.target)-2] + ".shlibname"
-			a.deps = append(a.deps, shlibnameaction)
-			shlibnameaction.deps = append(shlibnameaction.deps, linkSharedAction)
-			linkSharedAction.deps = append(linkSharedAction.deps, b.action(modeInstall, modeInstall, p))
-		}
+		a = b.libaction(libname(args), pkgs, modeInstall, modeInstall)
 	} else {
 		var tools []*action
 		for _, p := range pkgs {
@@ -620,8 +593,9 @@ type action struct {
 
 // cacheKey is the key for the action cache.
 type cacheKey struct {
-	mode buildMode
-	p    *Package
+	mode  buildMode
+	p     *Package
+	shlib string
 }
 
 // buildMode specifies the build mode:
@@ -747,17 +721,56 @@ func goFilesPackage(gofiles []string) *Package {
 // action returns the action for applying the given operation (mode) to the package.
 // depMode is the action to use when building dependencies.
 func (b *builder) action(mode buildMode, depMode buildMode, p *Package) *action {
-	key := cacheKey{mode, p}
+	key := cacheKey{mode, p, p.Shlib}
 	a := b.actionCache[key]
 	if a != nil {
 		return a
 	}
 
-	a = &action{p: p, pkgdir: p.build.PkgRoot}
-	if p.pkgdir != "" { // overrides p.t
-		a.pkgdir = p.pkgdir
+	if p.Shlib != "" {
+		rebuild := false
+		if p.Stale {
+			rebuild = true
+		} else {
+			astat, _ := os.Stat(p.build.PkgObj)
+			lstat, _ := os.Stat(filepath.Join(p.build.PkgTargetRoot, p.Shlib))
+			if astat.ModTime().After(lstat.ModTime()) {
+				rebuild = true
+			}
+		}
+		if rebuild {
+			key2 := cacheKey{mode, nil, p.Shlib}
+			a = b.actionCache[key2]
+			if a != nil {
+				b.actionCache[key] = a
+				return a
+			}
+			pkgs := []*Package{}
+			pkglistfile, err := os.Open(filepath.Join(p.build.PkgTargetRoot, p.Shlib) + ".pkgs")
+			if err != nil {
+				panic("err")
+			}
+			scanner := bufio.NewScanner(pkglistfile)
+			var stk importStack
+			for scanner.Scan() {
+				pkgs = append(pkgs, loadPackage(scanner.Text(), &stk))
+			}
+			a = b.libaction(p.Shlib, pkgs, modeInstall, depMode)
+			b.actionCache[key] = a
+			b.actionCache[key2] = a
+			return a
+		} else {
+			a = &action{p: p, pkgdir: p.build.PkgRoot}
+			if p.pkgdir != "" { // overrides p.t
+				a.pkgdir = p.pkgdir
+			}
+		}
+	} else {
+		a = &action{p: p, pkgdir: p.build.PkgRoot}
+		if p.pkgdir != "" { // overrides p.t
+			a.pkgdir = p.pkgdir
+		}
 	}
-
 	b.actionCache[key] = a
 
 	for _, p1 := range p.imports {
@@ -770,7 +783,7 @@ func (b *builder) action(mode buildMode, depMode buildMode, p *Package) *action 
 	// a package is using it.  If this is a cross-build, then the cgo we
 	// are writing is not the cgo we need to use.
 	if goos == runtime.GOOS && goarch == runtime.GOARCH && !buildRace {
-		if len(p.CgoFiles) > 0 || p.Standard && p.ImportPath == "runtime/cgo" {
+		if (len(p.CgoFiles) > 0 || p.Standard && p.ImportPath == "runtime/cgo") && !buildLinkshared {
 			var stk importStack
 			p1 := loadPackage("cmd/cgo", &stk)
 			if p1.Error != nil {
@@ -841,10 +854,45 @@ func (b *builder) action(mode buildMode, depMode buildMode, p *Package) *action 
 	return a
 }
 
-func (b *builder) libaction(libname string) *action {
+func (b *builder) libaction(libname string, pkgs []*Package, mode, depMode buildMode) *action {
 	a := &action{}
-	a.f = (*builder).linkShared
-	a.target = filepath.Join(b.work, libname)
+	if mode == modeBuild {
+		a.f = (*builder).linkShared
+		a.target = filepath.Join(b.work, libname)
+		for _, p := range pkgs {
+			if p.target == "" {
+				continue
+			}
+			p.Shlib = ""
+			a.deps = append(a.deps, b.action(depMode, depMode, p))
+		}
+	} else if mode == modeInstall {
+		a.f = (*builder).installShlib
+		var libdir string
+		for _, p := range pkgs {
+			plibdir := p.build.PkgTargetRoot
+			if libdir == "" {
+				libdir = plibdir
+			} else if libdir != plibdir {
+				fatalf("multiple roots %s & %s", libdir, plibdir)
+			}
+		}
+		a.target = filepath.Join(libdir, libname)
+		linkSharedAction := b.libaction(libname, pkgs, modeBuild, depMode)
+		a.deps = append(a.deps, linkSharedAction)
+		for _, p := range pkgs {
+			if p.target == "" {
+				continue
+			}
+			shlibnameaction := &action{}
+			shlibnameaction.f = (*builder).installShlibname
+			shlibnameaction.target = p.target[:len(p.target)-2] + ".shlibname"
+			a.deps = append(a.deps, shlibnameaction)
+			shlibnameaction.deps = append(shlibnameaction.deps, linkSharedAction)
+		}
+	} else {
+		fatalf("unregonized mode %v", mode)
+	}
 	return a
 }
 
@@ -1287,6 +1335,7 @@ func (b *builder) linkShared(a *action) (err error) {
 	// TODO(mwhudson): this does not check for cxx-ness, extldflags etc
 	ldflags := []string{"-installsuffix", buildContext.InstallSuffix}
 	ldflags = append(ldflags, buildLdflags...)
+	ldflags = append(ldflags, "-buildmode=shared")
 	for _, d := range a.deps {
 		if d.target != "" { // omit unsafe etc
 			ldflags = append(ldflags, d.p.ImportPath+"="+d.target)
@@ -1328,6 +1377,21 @@ func (b *builder) install(a *action) (err error) {
 	return b.moveOrCopyFile(a, a.target, a1.target, perm)
 }
 
+func (b *builder) installShlib(a *action) (err error) {
+	b.install(a)
+	pkgfile, err := os.Create(a.target + ".pkgs")
+	if err != nil {
+		return err
+	}
+	for _, d := range a.deps[0].deps {
+		_, err := pkgfile.WriteString(d.p.ImportPath + "\n")
+		if err != nil {
+			return err
+		}
+	}
+	return pkgfile.Close()
+}
+
 // includeArgs returns the -I or -L directory list for access
 // to the results of the list of actions.
 func (b *builder) includeArgs(flag string, all []*action) []string {
@@ -1342,6 +1406,9 @@ func (b *builder) includeArgs(flag string, all []*action) []string {
 	// This is the $WORK/my/package/_test directory for the
 	// package being built, so there are few of these.
 	for _, a1 := range all {
+		if a1.p == nil {
+			continue
+		}
 		if dir := a1.pkgdir; dir != a1.p.build.PkgRoot && !incMap[dir] {
 			incMap[dir] = true
 			inc = append(inc, flag, dir)
@@ -1354,6 +1421,9 @@ func (b *builder) includeArgs(flag string, all []*action) []string {
 
 	// Finally, look in the installed package directories for each action.
 	for _, a1 := range all {
+		if a1.p == nil {
+			continue
+		}
 		if dir := a1.pkgdir; dir == a1.p.build.PkgRoot && !incMap[dir] {
 			incMap[dir] = true
 			inc = append(inc, flag, a1.p.build.PkgTargetRoot)
