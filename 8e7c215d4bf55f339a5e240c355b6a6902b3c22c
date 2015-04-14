@@ -22,6 +22,30 @@
       "revId": "8e7c215d4bf55f339a5e240c355b6a6902b3c22c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0242aae_c6f9e4fc",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-14T23:01:51Z",
+      "side": 1,
+      "message": "\u003e // The pages swept in a proportional sweep can hold any\n\u003e // sizeclass. The final page swept below will be of the \n\u003e // sizeclass asked for.\n\nThat\u0027s a good point; I hadn\u0027t really thought of that. I\u0027ve beefed up the comment and incorporated this.\n\n\u003e Your accounting might be off by one.\n\nYes, but the error doesn\u0027t accumulate. If it turns out we swept one fewer page than we should have, we\u0027ll just sweep one extra page the next time through.",
+      "parentUuid": "b0242aae_c4c44de5",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "8e7c215d4bf55f339a5e240c355b6a6902b3c22c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
