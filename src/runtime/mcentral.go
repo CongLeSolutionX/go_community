@@ -29,6 +29,19 @@ func mCentral_Init(c *mcentral, sizeclass int32) {
 
 // Allocate a span to use in an MCache.
 func mCentral_CacheSpan(c *mcentral) *mspan {
+	// Perform proportional sweep work. This leaves one more page
+	// to be swept below so that we'll return the page that's
+	// hottest in our cache.
+	pagesOwed := int64(mheap_.sweepPagesPerByte * float64(memstats.heap_live-memstats.heap_marked))
+	if pagesOwed-int64(mheap_.pagesSwept) > 1 {
+		for pagesOwed-int64(atomicload64(&mheap_.pagesSwept)) > 1 {
+			if gosweepone() == ^uintptr(0) {
+				mheap_.sweepPagesPerByte = 0
+				break
+			}
+		}
+	}
+
 	lock(&c.lock)
 	sg := mheap_.sweepgen
 retry:
