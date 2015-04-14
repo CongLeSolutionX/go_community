@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_9de6e7b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-14T17:32:48Z",
+      "side": 1,
+      "message": "io/ioutil: fix .. state\n\nlowercase fix and drop final period\n\nAlso add:\n\n  Fixes #10451\n\n... after a blank line.",
+      "revId": "dcd832a59cb43903c04eae48f25ec0ab9f2788d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
