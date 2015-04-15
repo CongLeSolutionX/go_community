@@ -564,6 +564,669 @@
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1a817949",
+        "filename": "test/escape2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "reverse the two \"\" arguments here, to match the others (for example lines 29, 342, and 373).",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_da6a2119",
+        "filename": "test/escape2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "This is a regression from before this CL. \"moved to heap: u\" means that on entry to NewV, NewV copies u to the heap because it thinks \u0026u persists after NewV has returned or is otherwise referenced from the heap. But neither of these is true. u should not be moved to the heap here. This needs to be understood and fixed.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_5db92b0d",
+        "filename": "test/escape4.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "For consistency, should add level\u003d-1 here. And swap the two \"\".",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1dc3b38b",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "let\u0027s put the bad comments on lines by themselves to avoid making them look like ERROR directives\n\n    // BAD: need fine-grained...\n    func tbff2() ...",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_ddcc5bbb",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// BAD: need fine-grained...",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_7de50f22",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// leaking y to heap\n(no ERROR, just making clear to the reader that the result is not BAD)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_3ddf9756",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// BAD: would be nice to record that *y is what leaks, not y itself",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_ddf3fbe8",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// BAD: would be nice to record that *y is what leaks, not y itself",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_5d0b6b5d",
+        "filename": "test/escape_calls.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Delete. Add explicit BAD comments where the bad things are instead of making the future reader guess. Also, reduce test cases to eliminate noise. maxstring, the constants, casuintptr are all unused. findnull is unlikely to matter, so you can kill it, etc, etc. This boils down to:\n\n\tpackage foo\n\t\n\tfunc f(buf []byte) []byte {\n\t\treturn buf\n\t}\n\t\n\tfunc g(*byte) string\n\t\n\t// BAD: x escapes but is not recorded as escaping\n\tfunc h(e int) {\n\t\tvar x [32]byte\n\t\tg(\u0026f(x[:])[0])\n\t}\n\nI put this in issue #10466 so that we fix this for Go 1.5.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_b9b97b59",
+        "filename": "test/escape_param.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "This comment is misleading. It should be \"in escapes to heap\". The comment makes it sound like the \u0026 of the parameter in the caller ends up in out, which is not true. (We went down a bad path last week because of this imprecision.)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_59a6273a",
+        "filename": "test/escape_param.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Not sure what this means. Surely if it prints something, it prints more than that. Please include the full message (although if it prints anything, why isn\u0027t it in the ERROR line below?).",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_79abe300",
+        "filename": "test/escape_param.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "func caller11d() {\n    i :\u003d 0 // ERROR \"moved to heap: i$\"\n    p :\u003d \u0026i // ERROR \"\u0026i escapes to heap\" \"moved to heap: p\"\n    p2 :\u003d \u0026p // ERROR \"\u0026p escapes to heap\"\n    sink \u003d param11(p2)\n}\n\nThe current 6g does not move p2 to the heap. Make sure it still doesn\u0027t after this CL.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_39100bd2",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Adjust comment here and in previous file to explain difference between escape_struct_param1.go and escape_struct_param2.go. They have the same comment. I didn\u0027t read the previous file carefully (will look at it next round). I expect many of the comments here apply in some form to that one too.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_d91477c8",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Drop unnecessary parens (these are unnecessary even in C).",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_792d2313",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "delete end-of-line comment. add above this line:\n// BAD: need fine-grained...",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_1922ef22",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Drop parens.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_3927ab33",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Drop parens.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_d93b174a",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Drop parens.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_59d3878a",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// BAD: need fine-grained...",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_79d8c3a5",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "end-of-line comment: // Ssink \u003d \u0026s3 (only \u0026s3 really escapes)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_19dd0f95",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same // BAD",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_39e24b52",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same eol comment",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_d9c6b7c8",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same // BAD",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_f9c373b5",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same eol comment",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_99d03f79",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same // BAD",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_b9cdfbe3",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same eol comment",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_59faa7f4",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Drop parens.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_79ff63e3",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Drop parens.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_f9ea931f",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// BAD: need fine-grained...",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_59a5c702",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "eol comment: // Ssink \u003d *\u0026ps4 \u003d \u0026s4 (only \u0026s4 really escapes)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_39b48b32",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same // BAD",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_d9b8f728",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same eol comment",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_f9b5b32d",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same // BAD",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_99c27fa1",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same eol comment",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_b9bf3b0c",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same // BAD",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_598ce78c",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "same eol comment",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_99991fc7",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "move comment above func.\n\n// This test isolates the one value that needs to escape, not because\n// it distinguishes fields but because it knows that \u0026s6 is the only\n// value reachable by two indirects from v.\n// The test depends on the level cap in the escape analysis tags\n// being able to encode that fact.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_398b2b74",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "// Ssink \u003d *\u0026ps6 \u003d \u0026s6 (only \u0026s6 really escapes)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_797c43e6",
+        "filename": "test/escape_struct_return.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T15:39:54Z",
+      "side": 1,
+      "message": "Delete this comment and put explicit // BAD on the functions that are bad. Avoiding the global comment keeps the next reader from guessing, and it also avoids the comment accidentally seeming to apply to future additions to the file.\n\nAlso, I see literally nothing in this file that merits a // BAD tag. There\u0027s nothing here that\u0027s marked as escaping at all.\n\nIs this file incomplete? Are the tests incorrect?",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
