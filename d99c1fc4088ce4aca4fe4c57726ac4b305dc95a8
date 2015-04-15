@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_007eea2a",
+        "filename": "src/internal/syscall/fstatat_const_freebsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T04:58:52Z",
+      "side": 1,
+      "message": "We should be using cgo -godefs for this kind of thing, like syscall/ztypes_freebsd_386.go.  It will be a pain to set up now but we will most likely be happy later.\n\nWe should also consider whether we want to use internal/syscall/unix, paralleling golang.org/x/sys.",
+      "revId": "d99c1fc4088ce4aca4fe4c57726ac4b305dc95a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_c05eb2c4",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T04:58:52Z",
+      "side": 1,
+      "message": "Instead of skipping the tests on these platforms, we should replace Fstatat the way we replace Lstat.  Or, we should decide that these tests are useless and remove them.",
+      "revId": "d99c1fc4088ce4aca4fe4c57726ac4b305dc95a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
