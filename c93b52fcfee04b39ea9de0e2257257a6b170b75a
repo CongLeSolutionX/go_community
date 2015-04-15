@@ -22,6 +22,30 @@
       "revId": "c93b52fcfee04b39ea9de0e2257257a6b170b75a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_2986756b",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-04-15T04:33:42Z",
+      "side": 1,
+      "message": "It is a CreateThread parameter, so it should look like that \"DWORD WINAPI ThreadProc(LPVOID lpParameter)\". https://msdn.microsoft.com/en-us/library/windows/desktop/ms686736(v\u003dvs.85).aspx We don\u0027t use its input parameter, but we should return a correct return value, not some random number. These parameters are not important here, but they will remind us about the API contract next time we have to look at this code again.",
+      "parentUuid": "f06942e5_f79620c5",
+      "range": {
+        "startLine": 495,
+        "startChar": 18,
+        "endLine": 495,
+        "endChar": 23
+      },
+      "revId": "c93b52fcfee04b39ea9de0e2257257a6b170b75a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
