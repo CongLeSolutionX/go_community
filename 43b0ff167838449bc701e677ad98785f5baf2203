@@ -16,6 +16,24 @@
       "revId": "43b0ff167838449bc701e677ad98785f5baf2203",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_c0d6af44",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T22:00:28Z",
+      "side": 1,
+      "message": "The getg function on GNU/Linux fetches the value from the TCB using the %gs register.  It should be reliable no matter when a signal occurs.  I don\u0027t think this is an issue today.\n\nHowever, it\u0027s true that there have been discussions about reserving a register to hold g, in which case this definitely would be an issue.",
+      "parentUuid": "707552b8_f3287081",
+      "revId": "43b0ff167838449bc701e677ad98785f5baf2203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
