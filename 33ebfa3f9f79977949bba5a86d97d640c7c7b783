@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_9a8a69b2",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "It uses all the available values (0-7).  At least, that was my intent in the code, I wanted to be able to have an easy knob that we could vary a little for benchmarking to see if we saw a difference. There\u0027s no loss in using 3, unless a function returns more than 4 results.  (And I need to write a test for 1,2,3,4,5 results to see that this works properly.)",
+      "parentUuid": "b0926a12_a3613e83",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_7d62ef14",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_bab96d59",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_43ce3a04",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -72,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_5a54d1a9",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Okay, I can make that change.  I just took the cache that I found and made the size be less magic.",
+      "parentUuid": "b0926a12_43ce3a04",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_ba908dc7",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -83,6 +137,24 @@
       "writtenOn": "2015-04-15T14:46:14Z",
       "side": 1,
       "message": "// parsetag decodes an escape analysis tag and returns the esc value.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_20da1066",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_ba908dc7",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -106,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_3dbeb7c5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_7a0675a5",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_3a10fdd1",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -117,6 +207,24 @@
       "writtenOn": "2015-04-15T14:46:14Z",
       "side": 1,
       "message": "Delete, unnecessary.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9daca39c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_3a10fdd1",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -140,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_fd9fdf60",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_da1461c8",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_9a1ee9e4",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -151,6 +277,24 @@
       "writtenOn": "2015-04-15T14:46:14Z",
       "side": 1,
       "message": "switch embits :\u003d em \u0026 bitsMaskForTag; embits {\ncase 0:\n\ncase 1:\n\ndefault:\n\n}",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1d90934a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_9a1ee9e4",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -174,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_3d95573b",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_fa1125d5",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_03b0326b",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -185,6 +347,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "em :\u003d parsetag(note)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1a4e591c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_03b0326b",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -208,6 +388,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_ba5e4dc3",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "I agree, especially about not for this change.  Some of the flow from one of your changes was lost because I couldn\u0027t get that bugs out in a small set of changes, but we need to revisit that.\n\nI suspect that the change we need is to note (in flood) when a node transitions to EscHeap, and re-add it to the list of destinations to be walked.  I believe that would repair the bugs that I saw.\n\nI\u0027ve been trying to decide how far to go in the direction of encoding field flow, but we would definitely need more bits.  One flaw in this analysis is that it builds a simple unannotated connection graph and then rewalks it -- it would be better to annotate edges (I think) with weights and selections, but it takes care not to screw it up.",
+      "parentUuid": "b0926a12_26677c24",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_c3b9ea58",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -219,6 +417,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "s/Two\u003dbit/Two-bit/",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_7ac435e3",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_c3b9ea58",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -253,6 +469,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "Way more common way to write such loop in std lib is the \"traditional\" C for loop form:\n\nfor i :\u003d 0; i \u003c embits-1; i++ {...}\n\nMakes it clear that we execute the body embits-1 times.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_dab22176",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_43539abf",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -294,6 +528,42 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_5aa6113a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "addDereference, then.  How would you feel about \"contentOf\", since we use this to encode access to \"content\" of nodes, and this may perhaps generalize to slices etc?  (Still working on that.)",
+      "parentUuid": "b0926a12_234e8e1c",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_7df66fa7",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_5a285104",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_3a279d33",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -311,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_1dfbb38e",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_3a279d33",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_23a0ce18",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -322,6 +610,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "\"\u0026 bitsMaskForTag\" is no-op here, right?\nI would remove it, because it makes impression that it can actually mask something, while it does nothing.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1aa09918",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_23a0ce18",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -397,6 +703,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_1a0bb9ac",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_43107ad2",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_03391251",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -408,6 +732,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "I can\u0027t understand this ispointy condition.\nispointy itself needs a comment explaining what it does and how it is different from haspointers.\nThis condition itself needs a comment explaining why we set only EscContentEscapes (which implies sink \u003d *src) on level 0 (which implies sink \u003d src). Can\u0027t it lead to bugs in escape analysis? Why?",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_7ad8b5a5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Content escapes if level\u003e0 (in all cases) or if it is zero and the source is not \"pointy\" -- so this is more conservative, since before we limited content escaping to the case where level\u003e0, and EscHeap always stomps on the others.  This may be a misunderstanding on my part, and the code may stomp on that EscContentEscapes later anyway.  I will look at this a little harder.  In fact, for now I will disable the ispointy check, and see if I notice any difference in the output.",
+      "parentUuid": "b0926a12_03391251",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -431,6 +773,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_7a7c35e6",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "When you say \"add a test\" do you mean \"footest.go\" or do you mean to correct the code in addrescapes so it avoids this bug?  Provisionally:\n\n\tif n.Esc\u0026EscMask !\u003d EscHeap \u0026\u0026 n.Esc\u0026EscMask !\u003d esc {\n\t\tn.Esc \u003d n.Esc \u0026 ^EscMask | esc\n\t}\n\nI find myself wishing we had a defined comparison function on the escape values (which we could obtain with clever ordering of the Enum) so that Unknown \u003c Never \u003c None \u003c Return \u003c Scope \u003c Heap (do I have Scope and Return right?) and thus escape values could only increase, and we could easily be sure we were monotonic in our inference.\n\nI notice also that there are two places where we set EscReturn (also near line 1405) but in this one we seem not to bother with recording the output parameter flow, which seems a little odd.",
+      "parentUuid": "b0926a12_660b445e",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_8610d085",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -442,6 +802,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "delete",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_dac6a1c8",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_8610d085",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -465,6 +843,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_7a91959f",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "I think it was necessary before -- there was a bug in inference (detected compiling the runtime) where f(\u0026g(x)[0]) failed to transmit flow through \u0026g(x)[0] to f.  I think this fixes that bug.  The problematic call was this one\n\n   status \u003d []byte(gostringnocopy(\u0026itoa(tmp[:len(tmp)-1], uint64(e))[0]))\n\nin exit(int) in os1_plan9.go  The old version of gostringnocopy was inferred to leak to the heap (it didn\u0027t, but inference is conservative) so I rewrote it to be more friendly to inference once its behavior was actually connected to \"tmp\".\n\nMy understanding is that flow is propagated from an ultimate destination (e.g., \"sink\") back towards things that flow into it.  The outputs of a call are what flow to that sink, and the recursion from those outputs goes to the inputs (with levels modified by the summary information we recorded for this procedure) which are in turn linked to the parameters at a call site, and so on.  So I think I\u0027ve got the sense of this flow right.",
+      "parentUuid": "b0926a12_26153c74",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_fab5a52d",
         "filename": "src/cmd/internal/gc/gen.go",
         "patchSetId": 6
@@ -476,6 +872,24 @@
       "writtenOn": "2015-04-15T14:46:14Z",
       "side": 1,
       "message": "Rule of thumb: if you are adding an argument to a function you should always explain it in the func comment.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_fd96ffc4",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_fab5a52d",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -499,6 +913,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_bd9087c7",
+        "filename": "src/cmd/internal/gc/go.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_9ac269a1",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_0365928e",
         "filename": "src/cmd/internal/gc/go.go",
         "patchSetId": 6
@@ -510,6 +942,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "s/Esc encoding/Node.esc encoding/",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9d9343d4",
+        "filename": "src/cmd/internal/gc/go.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0926a12_0365928e",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -550,6 +1000,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_5d012b8a",
+        "filename": "src/cmd/internal/gc/syntax.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_3a8b1d74",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_da9f81aa",
         "filename": "src/runtime/string1.go",
         "patchSetId": 6
@@ -567,6 +1035,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_1d0bb3ac",
+        "filename": "src/runtime/string1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done, but note that it was not so canonical that it was already in this form.",
+      "parentUuid": "f06942e5_da9f81aa",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_1a817949",
         "filename": "test/escape2.go",
         "patchSetId": 6
@@ -578,6 +1064,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "reverse the two \"\" arguments here, to match the others (for example lines 29, 342, and 373).",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_dd145bc8",
+        "filename": "test/escape2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "I fear the order may be an artifact of Dmitry\u0027s automated ERROR annotator, and thus it may get reordered in the future.",
+      "parentUuid": "f06942e5_1a817949",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -618,6 +1122,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_7d918f9f",
+        "filename": "test/escape4.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_5db92b0d",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_1dc3b38b",
         "filename": "test/escape_array.go",
         "patchSetId": 6
@@ -629,6 +1151,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "let\u0027s put the bad comments on lines by themselves to avoid making them look like ERROR directives\n\n    // BAD: need fine-grained...\n    func tbff2() ...",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1d58938b",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_1dc3b38b",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -652,6 +1192,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_5d5e0b7d",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_ddcc5bbb",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_7de50f22",
         "filename": "test/escape_array.go",
         "patchSetId": 6
@@ -663,6 +1221,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "// leaking y to heap\n(no ERROR, just making clear to the reader that the result is not BAD)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9d74a3f9",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_7de50f22",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -686,6 +1262,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_fd67df4d",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_3ddf9756",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f06942e5_ddf3fbe8",
         "filename": "test/escape_array.go",
         "patchSetId": 6
@@ -697,6 +1291,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "// BAD: would be nice to record that *y is what leaks, not y itself",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_dd6a1b19",
+        "filename": "test/escape_array.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06942e5_ddf3fbe8",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -720,6 +1332,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_c0d31452",
+        "filename": "test/escape_calls.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "It will be fixed when this is submitted:\n\n    func h(e int) {\n    \tvar x [32]byte // ERROR \"moved to heap: x$\"\n\tg(\u0026f(x[:])[0]) // ERROR \"\u0026f\\(x\\[:\\]\\)\\[0\\] escapes to heap$\" \"x escapes to heap$\"\n    }",
+      "parentUuid": "f06942e5_5d0b6b5d",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_b9b97b59",
         "filename": "test/escape_param.go",
         "patchSetId": 6
@@ -731,6 +1361,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "This comment is misleading. It should be \"in escapes to heap\". The comment makes it sound like the \u0026 of the parameter in the caller ends up in out, which is not true. (We went down a bad path last week because of this imprecision.)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_5caff595",
+        "filename": "test/escape_param.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d080bec6_b9b97b59",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -754,6 +1402,24 @@
     },
     {
       "key": {
+        "uuid": "d080bec6_7cb431e5",
+        "filename": "test/escape_param.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "It\u0027s an old comment that should have been removed -- the problem was fixed.",
+      "parentUuid": "d080bec6_59a6273a",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_79abe300",
         "filename": "test/escape_param.go",
         "patchSetId": 6
@@ -771,6 +1437,24 @@
     },
     {
       "key": {
+        "uuid": "d080bec6_fc9fe160",
+        "filename": "test/escape_param.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done\nNote: \tsink \u003d param11(p2) // ERROR \"param11\\(p2\\) escapes to heap\"\nThe result does escape.",
+      "parentUuid": "d080bec6_79abe300",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_39100bd2",
         "filename": "test/escape_struct_param2.go",
         "patchSetId": 6
@@ -782,6 +1466,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "Adjust comment here and in previous file to explain difference between escape_struct_param1.go and escape_struct_param2.go. They have the same comment. I didn\u0027t read the previous file carefully (will look at it next round). I expect many of the comments here apply in some form to that one too.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_80e51c25",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d080bec6_39100bd2",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -1077,6 +1779,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_dd5a1b0b",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d080bec6_59a5c702",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_39b48b32",
         "filename": "test/escape_struct_param2.go",
         "patchSetId": 6
@@ -1196,6 +1916,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_3d76b784",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d080bec6_99991fc7",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_398b2b74",
         "filename": "test/escape_struct_param2.go",
         "patchSetId": 6
@@ -1213,6 +1951,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_1d71738b",
+        "filename": "test/escape_struct_param2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d080bec6_398b2b74",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_797c43e6",
         "filename": "test/escape_struct_return.go",
         "patchSetId": 6
@@ -1224,6 +1980,24 @@
       "writtenOn": "2015-04-15T15:39:54Z",
       "side": 1,
       "message": "Delete this comment and put explicit // BAD on the functions that are bad. Avoiding the global comment keeps the next reader from guessing, and it also avoids the comment accidentally seeming to apply to future additions to the file.\n\nAlso, I see literally nothing in this file that merits a // BAD tag. There\u0027s nothing here that\u0027s marked as escaping at all.\n\nIs this file incomplete? Are the tests incorrect?",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_fd57dfdf",
+        "filename": "test/escape_struct_return.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-15T19:04:10Z",
+      "side": 1,
+      "message": "I agree, I think I just copied the header from one of the other files and didn\u0027t pay attention to the last bit.",
+      "parentUuid": "d080bec6_797c43e6",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
