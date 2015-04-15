@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707552b8_f3287081",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-15T21:35:38Z",
+      "side": 1,
+      "message": "I don\u0027t think this works.\n\nThe getg() function is inlined by the compiler as a register load. If the signal interrupts a foreign thread running non-Go code, the register may be filled with anything.\n\nIn the current sigtramp assembly, this is handled by calling get_tls, which loads the g register from thread-local storage. Because the TLS slot is reserved for Go by pthread_key_create, it can be relied on by the signal handler on foreign threads.\n\nI think you will need to call get_tls and pass the result as an argument to sigfwdgo.",
+      "revId": "43b0ff167838449bc701e677ad98785f5baf2203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
