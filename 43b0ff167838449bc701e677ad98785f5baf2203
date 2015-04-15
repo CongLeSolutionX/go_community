@@ -34,6 +34,24 @@
       "revId": "43b0ff167838449bc701e677ad98785f5baf2203",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707552b8_13c96cfa",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-15T22:46:14Z",
+      "side": 1,
+      "message": "Ah my mistake, I transposed sigfwd and sigtramp when reading and missed that load_g is called before any of this. LGTM.\n\nI\u0027m going to attempt a darwin equivalent of this signal forwarding logic.",
+      "parentUuid": "d080bec6_c0d6af44",
+      "revId": "43b0ff167838449bc701e677ad98785f5baf2203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
