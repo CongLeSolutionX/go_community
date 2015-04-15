@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_bab96d59",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "For a bunch of constants like this, use the \n\n    const ( \n        ...\n    )\n\nform.\n\nMore importantly, there are no comments here and there should be. Probably a block comment above is better than trying to comment each individually.\n\n    // Escape analysis tag encoding.\n    //\n    // \u003cdescribe encoding here\u003e\n    const (\n        ...\n    )\n\n    // tags is a cache of already-constructed *string tags\n    // with specific values.\n    var tags ...",
+      "parentUuid": "b0926a12_a3613e83",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_43ce3a04",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -30,6 +48,126 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "I don\u0027t think that it really matters from performance pov. But using values rather than pointers in Go is the default. You use values, and introduce pointers/indirections if there is a reason.\nI would write this as:\n\nvar tags [1 \u003c\u003c (bitsPerOutputInTag + EscReturnBits)]string\n\nand then use !\u003d \"\" as the check.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9a9909c7",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Yes, Dmitriy is right. These are pointers only because of the history of the conversion from C, and plain strings work better here. Please fix.",
+      "parentUuid": "b0926a12_43ce3a04",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_ba908dc7",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "// parsetag decodes an escape analysis tag and returns the esc value.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_7a0675a5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "// describeEscape returns a string describing the escape tag.\n// \u003cexplanation of form of string\u003e",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_3a10fdd1",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Delete, unnecessary.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_da1461c8",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Use +\u003d here and below",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9a1ee9e4",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "switch embits :\u003d em \u0026 bitsMaskForTag; embits {\ncase 0:\n\ncase 1:\n\ndefault:\n\n}",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_fa1125d5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Use same form of loop as you end up with below. What Dmitriy wrote sounds fine.",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +225,23 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_1a22d922",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "s/newsrc/n/\n\n(newsrc doesn\u0027t add much and n is the usual name for a *Node when there\u0027s just one.)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_43539abf",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -121,6 +276,41 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_5a285104",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "addDereference sounds fine\n\ns/src/n/\n\nThis function is unconcerned with src vs dst.",
+      "parentUuid": "b0926a12_234e8e1c",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_3a279d33",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "s/newsrc/ind/",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_23a0ce18",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -138,6 +328,40 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_da3b014a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "e \u0026^ uint16(...) is more idiomatic\n(it\u0027s a different operator, not a style thing)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9ae7c956",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "This function is too specific. It is basically impossible to explain, which suggests it is wrong. (Note that the current comment is incomplete and already confusing.) I suggest making it just about checking that dst and src are an output and input of the same function and not check escape tags.\n\n    // funcOutputAndInput reports whether dst and src are output and input\n    // parameters of the same function.\n    func funcOutputAndInput(dst, src *Node) bool {\n        return dst.Op \u003d\u003d ONAME \u0026\u0026 dst.Class \u003d\u003d PPARAMOUT \u0026\u0026 dst.Esc !\u003d EscHeap \u0026\u0026\n            src.Op \u003d\u003d ONAME \u0026\u0026 src.Class\u0026^uint8(PHEAP) \u003d\u003d PPARAM \u0026\u0026\n            src.Curfn \u003d\u003d dst.Curfn\n    }\n\n(Note that you do not need and should not use parentheses around x\u0026y \u003d\u003d z, just as you don\u0027t need and don\u0027t use parens around x*y \u003d\u003d z. This isn\u0027t C, thank goodness.)\n\nAnd then at the first use you\u0027d need to say\n\n    if funcOutputAndInput(dst, src) \u0026\u0026 dst.Esc !\u003d EscHeap \u0026\u0026 src.Esc !\u003d EscScope \u0026\u0026 src.Esc !\u003d EscHeap {\n        ...\n    }\n\nor maybe, even clearer given the context:\n\n    if funcOutputAndInput(dst, src) \u0026\u0026 dst.Esc !\u003d EscHeap \u0026\u0026 (src.Esc \u003d\u003d 0 || src.Esc\u0026EscMask \u003d\u003d EscReturn) {\n        ...\n    }\n\nAnd then the second use would be adjusted accordingly too (you probably need a new variable like \u0027outer :\u003d outervalue(src.Left)\u0027 there.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_43107ad2",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
@@ -149,6 +373,24 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "I don\u0027t know the origin of \"dst.Vargen \u003c\u003d 20\", but my understand is as follows.\nWith 32-bit tags we could encode up to ~28 output variables. \"dst.Vargen \u003c\u003d 20\" explicitly capped number of output variables that we handle at a safe value.\n\nNow you have explicit tag overflow checks in escNoteOutputParamFlow. So I would try to remove the \"dst.Vargen \u003c\u003d 20\" along with the TODO.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_1addf994",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "It was just to avoid overflow.",
+      "parentUuid": "b0926a12_43107ad2",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +465,40 @@
     },
     {
       "key": {
+        "uuid": "f06942e5_fab5a52d",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Rule of thumb: if you are adding an argument to a function you should always explain it in the func comment.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_9ac269a1",
+        "filename": "src/cmd/internal/gc/go.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Move this entire constnat block over into esc.go (this file used to be a C header file) and then it can go next to the new comment explaining the encoding.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_0365928e",
         "filename": "src/cmd/internal/gc/go.go",
         "patchSetId": 6
@@ -234,6 +510,57 @@
       "writtenOn": "2015-04-15T09:38:49Z",
       "side": 1,
       "message": "s/Esc encoding/Node.esc encoding/",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_5a8cd18c",
+        "filename": "src/cmd/internal/gc/reflect.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "Why not just use haspointers?\nAt the very least this needs a good comment, and it probably needs a clearer name. I am mystified why a slice is \"pointy\" but a struct containing a pointer is not.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_3a8b1d74",
+        "filename": "src/cmd/internal/gc/syntax.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "I\u0027d really like to avoid adding code that uses this operation. Eventually we may want to make these slices, and this then becomes a non-cheap operation. What is this for? Can we avoid it?\n\nAlso, the comment is the wrong form (it has no noun).\n\nAlso, pet peeve sorry but prepend means \u0027ponder deeply\u0027. It is not the opposite of append. If this operation is needed, it needs a different name. insert or prefix would be better.\n\nI don\u0027t see this being used anywhere, so let\u0027s just delete it.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_da9f81aa",
+        "filename": "src/runtime/string1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-15T14:46:14Z",
+      "side": 1,
+      "message": "There is no need for the comment. This is the canonical idiom for this kind of conversion, and it has always worked (been treated as not escaping), even before there was any escape analysis.",
       "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
