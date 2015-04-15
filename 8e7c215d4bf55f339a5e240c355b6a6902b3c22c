@@ -46,6 +46,30 @@
       "revId": "8e7c215d4bf55f339a5e240c355b6a6902b3c22c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f06942e5_ba388d9c",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-15T12:53:52Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "b0242aae_c6f9e4fc",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "8e7c215d4bf55f339a5e240c355b6a6902b3c22c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
