@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_200beeac",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T05:15:16Z",
+      "side": 1,
+      "message": "This depends on both GOOS and GOARCH, so I\u0027m not crazy about ArchPkgRoot.  How about PkgTargetRoot?",
+      "revId": "5819888ebdaa3008b333cb8953dc558042dd243e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
