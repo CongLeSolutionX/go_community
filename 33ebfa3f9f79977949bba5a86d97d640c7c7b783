@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0926a12_a3613e83",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "Why is this 3? You seem to use only 0, 1, 2 and 3. So 2 bits should be enough.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_43ce3a04",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "I don\u0027t think that it really matters from performance pov. But using values rather than pointers in Go is the default. You use values, and introduce pointers/indirections if there is a reason.\nI would write this as:\n\nvar tags [1 \u003c\u003c (bitsPerOutputInTag + EscReturnBits)]string\n\nand then use !\u003d \"\" as the check.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_03b0326b",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "em :\u003d parsetag(note)",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_c3b9ea58",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "s/Two\u003dbit/Two-bit/",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_43539abf",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "Way more common way to write such loop in std lib is the \"traditional\" C for loop form:\n\nfor i :\u003d 0; i \u003c embits-1; i++ {...}\n\nMakes it clear that we execute the body embits-1 times.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_234e8e1c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "I think this is actually removeIndirection, or addDereference.\nI understand that it adds an OIND node, but addIndirection still looks like opposite meaning.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_23a0ce18",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "\"\u0026 bitsMaskForTag\" is no-op here, right?\nI would remove it, because it makes impression that it can actually mask something, while it does nothing.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_43107ad2",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "I don\u0027t know the origin of \"dst.Vargen \u003c\u003d 20\", but my understand is as follows.\nWith 32-bit tags we could encode up to ~28 output variables. \"dst.Vargen \u003c\u003d 20\" explicitly capped number of output variables that we handle at a safe value.\n\nNow you have explicit tag overflow checks in escNoteOutputParamFlow. So I would try to remove the \"dst.Vargen \u003c\u003d 20\" along with the TODO.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_03391251",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "I can\u0027t understand this ispointy condition.\nispointy itself needs a comment explaining what it does and how it is different from haspointers.\nThis condition itself needs a comment explaining why we set only EscContentEscapes (which implies sink \u003d *src) on level 0 (which implies sink \u003d src). Can\u0027t it lead to bugs in escape analysis? Why?",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_660b445e",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "Addrescapes unconditionally assigns n.esc \u003d ee.\nIf ee \u003d\u003d EscReturn and n.esc \u003d\u003d EscReturn and some of the hist bits are set, addrescapes will reset the high bits.\nThis is mine bug.\nPlease add a test for this.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_8610d085",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_26153c74",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "What\u0027s this? And why wasn\u0027t it necessary before?\nAlso this is a link _from_ a call rather than _to_ a call, because we switch on src.Op.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_0365928e",
+        "filename": "src/cmd/internal/gc/go.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:38:49Z",
+      "side": 1,
+      "message": "s/Esc encoding/Node.esc encoding/",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
