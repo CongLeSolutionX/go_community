@@ -16,6 +16,24 @@
       "revId": "744d50b6cdbc9e40fbf86f0bcc90589797825f56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_437b9a74",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-15T06:09:59Z",
+      "side": 1,
+      "message": "Sort of.  My intent was that codegenArg is really a flag to cmd/internal/obj/... and so really should be passed to both ?g and asm.  But 5g doesn\u0027t take -shared so when David (iirc) added support for linux/arm c-shared he switch this around so that codegenArg was only passed to asm. But that\u0027s not what I need for shared, so i switched it back. Really either 5g should take -shared or cmd/asm should not need it on arm, but I ran out of energy to figure this out properly.",
+      "parentUuid": "506daeeb_c0b9d258",
+      "revId": "744d50b6cdbc9e40fbf86f0bcc90589797825f56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
