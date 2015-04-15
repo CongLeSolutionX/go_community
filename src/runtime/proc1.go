@@ -1338,7 +1338,7 @@ stop:
 	// We have nothing to do. If we're in the GC mark phase, run
 	// idle-time marking rather than give up the P.
 	if gcphase == _GCmark && _g_.m.p.gcBgMarkWorker != nil {
-		_g_.m.p.gcBgMarkIdle = true
+		_g_.m.p.gcMarkWorkerMode = gcMarkWorkerIdleMode
 		gp := _g_.m.p.gcBgMarkWorker
 		casgstatus(gp, _Gwaiting, _Grunnable)
 		if trace.enabled {
