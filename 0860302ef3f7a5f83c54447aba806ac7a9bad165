@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d080bec6_001587c1",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T22:45:18Z",
+      "side": 1,
+      "message": "It would be nice to have a test for this.  The point of the test would be to verify that [1]*byte and reflect.ArrayOf(1, somePointerType) would have the same representation in an interface value.  One way to do it would be something like\n\n\ttype T [1]*byte\n\ti :\u003d reflect.Zero(reflect.TypeOf(T{})).Interface()\n\tv :\u003d reflect.ValueOf(\u0026i).Elem()\n\tp :\u003d v.InterfaceData()[1]\n\nand then do the same for a constructed type T.  In both cases p should be nil.  Then do the same for [0]*byte.  In both cases p should be not-nil.  It doesn\u0027t really matter whether p is nil or not, what matters is that it is the same for the type defined in the program and the type constructed using ArrayOf.",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_003ca741",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T22:45:18Z",
+      "side": 1,
+      "message": "The comment suggests that this can return a nil *typeAlg, but I don\u0027t see how.",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_c0354f55",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-15T22:45:18Z",
+      "side": 1,
+      "message": "Doesn\u0027t this mean that using ArrayOf with a struct type will fail?",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
