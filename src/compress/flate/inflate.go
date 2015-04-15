@@ -102,6 +102,8 @@ type huffmanDecoder struct {
 
 // Initialize Huffman decoding tables from array of code lengths.
 func (h *huffmanDecoder) init(bits []int) bool {
+	const sanity = false
+
 	if h.min != 0 {
 		*h = huffmanDecoder{}
 	}
@@ -148,6 +150,9 @@ func (h *huffmanDecoder) init(bits []int) bool {
 				reverse := int(reverseByte[j>>8]) | int(reverseByte[j&0xff])<<8
 				reverse >>= uint(16 - huffmanChunkBits)
 				off := j - uint(link)
+				if sanity && h.chunks[reverse] != 0 {
+					panic("Impossible")
+				}
 				h.chunks[reverse] = uint32(off<<huffmanValueShift + uint(i))
 				h.links[off] = make([]uint32, 1<<linkBits)
 			}
@@ -169,20 +174,49 @@ func (h *huffmanDecoder) init(bits []int) bool {
 		reverse >>= uint(16 - n)
 		if n <= huffmanChunkBits {
 			for off := reverse; off < huffmanNumChunks; off += 1 << uint(n) {
+				if sanity && h.chunks[off] != 0 {
+					panic("Impossible")
+				}
 				h.chunks[off] = chunk
 			}
 		} else {
-			value := h.chunks[reverse&(huffmanNumChunks-1)] >> huffmanValueShift
+			j := reverse & (huffmanNumChunks - 1)
+			if sanity && h.chunks[j]&huffmanCountMask != huffmanChunkBits+1 {
+				panic("Impossible")
+			}
+			value := h.chunks[j] >> huffmanValueShift
 			if value >= uint32(len(h.links)) {
 				return false
 			}
 			linktab := h.links[value]
 			reverse >>= huffmanChunkBits
 			for off := reverse; off < numLinks; off += 1 << uint(n-huffmanChunkBits) {
+				if sanity && linktab[off] != 0 {
+					panic("Impossible")
+				}
 				linktab[off] = chunk
 			}
 		}
 	}
+
+	if sanity {
+		for i, chunk := range h.chunks {
+			if chunk == 0 {
+				if code == 1 && i%2 == 1 {
+					continue
+				}
+				panic("Impossible")
+			}
+		}
+		for _, linktab := range h.links {
+			for _, chunk := range linktab {
+				if chunk == 0 {
+					panic("Impossible")
+				}
+			}
+		}
+	}
+
 	return true
 }
 
