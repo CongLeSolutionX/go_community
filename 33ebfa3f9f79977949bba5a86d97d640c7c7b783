@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_26677c24",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-15T09:53:00Z",
+      "side": 1,
+      "message": "I think that later we can encode \"heap/sink\" as \"output parameter 0\". It will allow to encode flow to sink with indirection level 2 and make the representation more uniform.\nAlso we can encode flow of input parameters to other input parameter. Which is useful for some realistic code patterns.\nThat won\u0027t fit into uint16. So my idea was to encode tags along the way of:\n2,,1,0,\nWhere the first number is flow to heap/sink, the subsequent numbers are flows to input/output parameters in order. Missed numbers mean \"no flow\".\n\nI am just thinking along, this is not for this change. It is already large and moves in the right direction.\n\nHowever, my representation does not allow to encode flow on field level.",
+      "revId": "33ebfa3f9f79977949bba5a86d97d640c7c7b783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0926a12_c3b9ea58",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 6
