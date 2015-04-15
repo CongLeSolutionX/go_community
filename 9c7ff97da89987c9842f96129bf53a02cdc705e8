@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_038d9203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-15T06:15:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0242aae_468854b9",
+      "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0242aae_66623088",
         "filename": "src/cmd/6l/asm.go",
         "patchSetId": 26
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_a3893ef8",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-15T06:15:41Z",
+      "side": 1,
+      "message": "Thanks, good to know.  I went for go.link. to have the hint that it\u0027s the linker doing this.",
+      "parentUuid": "b0242aae_66623088",
+      "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0242aae_46ba944d",
         "filename": "src/cmd/6l/asm.go",
         "patchSetId": 26
@@ -47,6 +83,24 @@
       "writtenOn": "2015-04-14T22:57:12Z",
       "side": 1,
       "message": "go.addmoduledatainit or go.link.addmoduledatainit.",
+      "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_c386cae5",
+        "filename": "src/cmd/6l/asm.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-15T06:15:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0242aae_46ba944d",
       "revId": "9c7ff97da89987c9842f96129bf53a02cdc705e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
