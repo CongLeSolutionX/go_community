@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "108ed6ef_5ab4d532",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T05:30:00Z",
+      "side": 1,
+      "message": "While you\u0027re here, you might as well fix this to be\nif h.init(bits) {",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_fab84928",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T05:30:00Z",
+      "side": 1,
+      "message": "Ditto.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 6
+      },
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_1ab64d3a",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T05:30:00Z",
+      "side": 1,
+      "message": "Verylongstring is very long. Can you break it on every 16 bytes or something?\n\noriginalHalf \u003d\n\"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\" +\n\"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\" +\netc +\n\"\\x00\\x00\\x00\\x00\"\n\nAlso, if you don\u0027t need the originalHalf to be ASCII control characters, it could be:\n\noriginalHalf \u003d\n\"00013534215etc\" +\netc\n\nwhich would make it easier to grok.",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_7a8c398d",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T05:30:00Z",
+      "side": 1,
+      "message": "A comment about checking that the code is complete (other than a degenerate one-value code) would be nice.",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506daeeb_6e4eb74f",
         "filename": "src/compress/flate/inflate.go",
         "patchSetId": 5
