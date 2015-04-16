@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_6e4eb74f",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T05:03:57Z",
+      "side": 1,
+      "message": "This new if block is just a combination of the previous two if blocks (from lines 140--144 and 148--165 in the base file), moved down and outside of the loop.  By applying them here, we\u0027ve already rejected invalid bitsets, so we no longer need to worry about out-of-bounds errors from before (i.e., the \"huffmanNumChunks \u003c link\" and \"value \u003e\u003d uint32(len(h.links))\" checks in the base file).",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_8e530bf1",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T05:03:57Z",
+      "side": 1,
+      "message": "This was \"link :\u003d code \u003e\u003e 1\" before, but \"code\" will have changed by time we finish the loop.  Instead we use \"nextcode[huffmanChunkBits+1]\", which is the corresponding value that code originally had.\n\nLogically, here we\u0027re trying to find the first entry in h.chunks that needs a link table.  We do that by finding the first code value of length huffmanChunkBits+1, but then we need to chop off the last bit so it fits as a h.chunks index.",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_ee416718",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T05:03:57Z",
+      "side": 1,
+      "message": "(This line also changed; originally it was \"uint(i)\" instead of \"uint(huffmanChunkBits+1)\".  Obviously necessary because we\u0027re not in i\u0027s scope anymore, but it also parallels the sanity check below.)",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
