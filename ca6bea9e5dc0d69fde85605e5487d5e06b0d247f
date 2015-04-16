@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "108ed6ef_75968a4c",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T07:25:40Z",
+      "side": 1,
+      "message": "If all you want is a sequence with exactly one repeat, then it should be possible to just say\n\noriginal \u003d \"abcabc\"\n\nand encode that using Go\u0027s compress/flate temporarily tweaked to always write a dynamic table instead of using the fixed one. That would give you your compressed form, but a vastly simpler test case, and one that\u0027s possibly verifiable by hand.\n\nI\u0027m happy to see how that looks myself, in a separate, follow-up CL if you want.",
+      "revId": "ca6bea9e5dc0d69fde85605e5487d5e06b0d247f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_353ec2de",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T07:25:40Z",
+      "side": 1,
+      "message": "2-to-the-max is probably less ambiguous than 2^max.\n\nDitto for gen.go.",
+      "revId": "ca6bea9e5dc0d69fde85605e5487d5e06b0d247f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
