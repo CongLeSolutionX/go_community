@@ -88,6 +88,24 @@
       "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707552b8_a28940f8",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-16T22:11:16Z",
+      "side": 1,
+      "message": "Update: s/so this check alone should catch all the problems/\nso this check alone should catch most of the problems/",
+      "parentUuid": "707552b8_627c886f",
+      "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
