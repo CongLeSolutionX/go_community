@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "108ed6ef_ba8ac1b1",
+        "filename": "src/net/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-16T03:38:25Z",
+      "side": 1,
+      "message": "thanks, fixed.",
+      "parentUuid": "b0242aae_26eb08ab",
+      "revId": "fa60653876a73367b62027e08f839876b84b6ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0242aae_c6d8c4f5",
         "filename": "src/net/error_test.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-04-14T22:53:49Z",
       "side": 1,
       "message": "This seems like a baroque way of avoiding a couple of goto statements.  I would just inline the functions, and change the return xxx, true cases to goto the next step.",
+      "range": {
+        "startLine": 71,
+        "startChar": 24,
+        "endLine": 71,
+        "endChar": 40
+      },
+      "revId": "fa60653876a73367b62027e08f839876b84b6ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_da8785a8",
+        "filename": "src/net/error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-16T03:38:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0242aae_c6d8c4f5",
       "range": {
         "startLine": 71,
         "startChar": 24,
