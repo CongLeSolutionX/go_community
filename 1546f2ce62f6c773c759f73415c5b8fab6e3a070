@@ -70,6 +70,24 @@
       "revId": "1546f2ce62f6c773c759f73415c5b8fab6e3a070",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_6a3c5175",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-16T19:02:22Z",
+      "side": 1,
+      "message": "Argh, sorry.",
+      "parentUuid": "b0926a12_37124855",
+      "revId": "1546f2ce62f6c773c759f73415c5b8fab6e3a070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
