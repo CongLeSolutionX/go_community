@@ -12,7 +12,7 @@ func sysAlloc(n uintptr, stat *uint64) unsafe.Pointer {
 	if uintptr(v) < 4096 {
 		return nil
 	}
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 	return v
 }
 
@@ -24,8 +24,9 @@ func sysUnused(v unsafe.Pointer, n uintptr) {
 func sysUsed(v unsafe.Pointer, n uintptr) {
 }
 
+//go:nosplit
 func sysFree(v unsafe.Pointer, n uintptr, stat *uint64) {
-	xadd64(stat, -int64(n))
+	mstatDec(stat, n)
 	munmap(v, n)
 }
 
@@ -47,7 +48,7 @@ const (
 )
 
 func sysMap(v unsafe.Pointer, n uintptr, reserved bool, stat *uint64) {
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 	p := (unsafe.Pointer)(mmap(v, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_FIXED|_MAP_PRIVATE, -1, 0))
 	if uintptr(p) == _ENOMEM {
 		throw("runtime: out of memory")

@@ -20,7 +20,7 @@ const (
 
 //go:nosplit
 func sysAlloc(n uintptr, stat *uint64) unsafe.Pointer {
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 	return unsafe.Pointer(stdcall4(_VirtualAlloc, 0, n, _MEM_COMMIT|_MEM_RESERVE, _PAGE_READWRITE))
 }
 
@@ -75,7 +75,7 @@ func sysUsed(v unsafe.Pointer, n uintptr) {
 }
 
 func sysFree(v unsafe.Pointer, n uintptr, stat *uint64) {
-	xadd64(stat, -int64(n))
+	mstatDec(stat, n)
 	r := stdcall3(_VirtualFree, uintptr(v), 0, _MEM_RELEASE)
 	if r == 0 {
 		throw("runtime: failed to release pages")
@@ -101,7 +101,7 @@ func sysReserve(v unsafe.Pointer, n uintptr, reserved *bool) unsafe.Pointer {
 }
 
 func sysMap(v unsafe.Pointer, n uintptr, reserved bool, stat *uint64) {
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 	p := stdcall4(_VirtualAlloc, uintptr(v), n, _MEM_COMMIT, _PAGE_READWRITE)
 	if p != uintptr(v) {
 		throw("runtime: cannot map pages in arena address space")

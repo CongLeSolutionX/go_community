@@ -493,6 +493,9 @@ TEXT runtime·aeshashstr(SB),NOSPLIT,$-8-0
 TEXT runtime·casp1(SB), NOSPLIT, $0-25
 	B runtime·cas64(SB)
 
+TEXT runtime·xadduintptr(SB), NOSPLIT, $0-24
+	B	runtime.xadd64(SB)
+
 TEXT runtime·procyield(SB),NOSPLIT,$0-0
 	MOVWU	cycles+0(FP), R0
 again:
