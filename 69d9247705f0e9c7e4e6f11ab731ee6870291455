@@ -16,6 +16,24 @@
       "revId": "69d9247705f0e9c7e4e6f11ab731ee6870291455",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_aee7ef55",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T06:49:01Z",
+      "side": 0,
+      "message": "Done.\n\n(FYI, I intend to send a followup CL to extract an encoding/flate/internal/huffman so only one copy of this code will be necessary going forward.)",
+      "parentUuid": "108ed6ef_3a81d149",
+      "revId": "69d9247705f0e9c7e4e6f11ab731ee6870291455",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
