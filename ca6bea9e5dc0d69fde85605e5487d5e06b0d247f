@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "506daeeb_ae74cff8",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T07:33:37Z",
+      "side": 1,
+      "message": "Hm, true.  I suppose the interesting thing about this test case is just that it demonstrates that unmodified compressed/flate really could generate such an output.  (Before I found it, I suspected it could, but wasn\u0027t sure.)  But for unit testing, it\u0027s fine to construct a simpler one.\n\nI\u0027m going to submit as is, and we can fine tune the test case in a follow-up CL as you suggest.",
+      "parentUuid": "108ed6ef_75968a4c",
+      "revId": "ca6bea9e5dc0d69fde85605e5487d5e06b0d247f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "108ed6ef_353ec2de",
         "filename": "src/compress/flate/inflate.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-16T07:25:40Z",
       "side": 1,
       "message": "2-to-the-max is probably less ambiguous than 2^max.\n\nDitto for gen.go.",
+      "revId": "ca6bea9e5dc0d69fde85605e5487d5e06b0d247f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_ce710308",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T07:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "108ed6ef_353ec2de",
       "revId": "ca6bea9e5dc0d69fde85605e5487d5e06b0d247f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
