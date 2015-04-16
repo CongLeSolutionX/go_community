@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "506daeeb_4e765385",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 1,
+      "message": "Move the SliceOf call later.  We don\u0027t need it until after the cache and known types lookups.",
+      "range": {
+        "startLine": 1754,
+        "startChar": 0,
+        "endLine": 1754,
+        "endChar": 23
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_8e6c6bb9",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1765,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 1,
+      "message": "This should be arrayType, not sliceType.  The only reason it works is that they both happen to have their elem fields at the same offset.\n\nWe shouldn\u0027t use the variable name \"slice\" here either (or in the cache lookup above).  It\u0027s misleading - use \"array\" or even \"a\" instead.",
+      "range": {
+        "startLine": 1765,
+        "startChar": 13,
+        "endLine": 1765,
+        "endChar": 22
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_eea8875a",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1797,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 1,
+      "message": "This could potentially be large.  Did you think about using the insArray directives (see ../runtime/mbitmap.go:577).  Possibly that optimization is a separate CL.  But if it is, it would be worth a TODO here and possibly a note in the ArrayOf doc.",
+      "range": {
+        "startLine": 1797,
+        "startChar": 17,
+        "endLine": 1797,
+        "endChar": 22
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_001587c1",
         "filename": "src/reflect/type.go",
         "patchSetId": 7
@@ -36,6 +105,52 @@
     },
     {
       "key": {
+        "uuid": "506daeeb_2e48bf3d",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 1,
+      "message": "This isn\u0027t a slicetype.  The only reason it works is that the offset of the elem field happens to be right.\n\nYou should define an arraytype in runtime/type.go that matches the reflect declaration (and more importantly, the layout described in cmd/internal/gc/reflect.go).  I wonder whether we ever had an arraytype declaration?  If we did, where did it go?  If not, why does cmd/internal/gc/reflect.go refer to it?  Code archeology...",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 140,
+        "endChar": 19
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_2ed3dfd9",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 1,
+      "message": "I don\u0027t understand why all this code is here.  You\u0027re always calling algtype with an array type, so you always choose this branch of algtype1.  It never recursively calls itself in this branch, so why all this other code?\n\nBetter to get rid of algtype1 altogether and just do this calculation in algtype.",
+      "range": {
+        "startLine": 146,
+        "startChar": 9,
+        "endLine": 146,
+        "endChar": 16
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_c0354f55",
         "filename": "src/runtime/alg.go",
         "patchSetId": 7
@@ -47,6 +162,23 @@
       "writtenOn": "2015-04-15T22:45:18Z",
       "side": 1,
       "message": "Doesn\u0027t this mean that using ArrayOf with a struct type will fail?",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_8eceab33",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right for, e.g., [4]float64.  You grab the alg of the underlying element, but how does that get translated to the hash() and equal() functions?  They need to do floating-point \u003d\u003d and floating-point hashing repeatedly somehow, and I don\u0027t see code anywhere that does that.",
       "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

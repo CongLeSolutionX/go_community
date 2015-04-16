@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_eeb647ca",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-16T04:36:02Z",
+      "side": 0,
+      "message": "hash and equal no longer take sizes, see ../runtime/alg.go:typeAlg.  As you\u0027re touching typeAlg stuff, please remove them here.",
+      "range": {
+        "startLine": 266,
+        "startChar": 1,
+        "endLine": 269,
+        "endChar": 57
+      },
+      "revId": "a1f57598cc00644dc1d32ce54a7b5a2be68bcfb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
