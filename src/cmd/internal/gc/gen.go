@@ -1243,7 +1243,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 
 		nodl.Xoffset += int64(Array_nel) - int64(Array_array)
-		nodl.Type = Types[Simtype[TUINT]]
+		nodl.Type = Types[Simtype[TINT]]
 
 		if nr != nil {
 			nodr.Xoffset += int64(Array_nel) - int64(Array_array)
@@ -1253,7 +1253,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 
 		nodl.Xoffset += int64(Array_cap) - int64(Array_nel)
-		nodl.Type = Types[Simtype[TUINT]]
+		nodl.Type = Types[Simtype[TINT]]
 
 		if nr != nil {
 			nodr.Xoffset += int64(Array_cap) - int64(Array_nel)
@@ -1284,7 +1284,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 
 		nodl.Xoffset += int64(Array_nel) - int64(Array_array)
-		nodl.Type = Types[Simtype[TUINT]]
+		nodl.Type = Types[Simtype[TINT]]
 
 		if isConstString {
 			Nodconst(&nodr, nodl.Type, int64(len(nr.Val.U.Sval)))
