@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_891d4568",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-16T16:32:55Z",
+      "side": 1,
+      "message": "You could use strings.Repeat to build this.",
+      "revId": "71af845e901aba456f4c6d7d37d76e40986b67a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_09293583",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-16T16:32:55Z",
+      "side": 1,
+      "message": "Comment here that this used to panic and reference issue 10319. Then you can simplify the comment up top to something like:\n\n// Check that the same machine can be used with the standard matcher\n// and then the backtracker when there are no captures.",
+      "revId": "71af845e901aba456f4c6d7d37d76e40986b67a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
