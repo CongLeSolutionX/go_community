@@ -842,8 +842,8 @@ func persistentalloc(size, align uintptr, stat *uint64) unsafe.Pointer {
 	}
 
 	if stat != &memstats.other_sys {
-		xadd64(stat, int64(size))
-		xadd64(&memstats.other_sys, -int64(size))
+		mstatInc(stat, size)
+		mstatDec(&memstats.other_sys, size)
 	}
 	return p
 }

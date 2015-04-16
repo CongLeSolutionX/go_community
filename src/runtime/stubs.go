@@ -139,6 +139,17 @@ func nop() // call to prevent inlining of function body
 //go:noescape
 func casuintptr(ptr *uintptr, old, new uintptr) bool
 
+// Atomically:
+//    old := *ptr
+//    *ptr += delta
+//    return old
+// Note that, on arm architectures, this operation is implemented using
+// hardware instructions, while all other atomic operations are implemented
+// using locks.  Hence, it is not safe to combine this operation with any other
+// atomic operation.
+//go:noescape
+func xadduintptr(ptr *uintptr, delta uintptr) uintptr
+
 //go:noescape
 func atomicstoreuintptr(ptr *uintptr, new uintptr)
 

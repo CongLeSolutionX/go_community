@@ -542,6 +542,9 @@ TEXT runtime·xadd64(SB), NOSPLIT, $0-24
 	MOVD	R3, ret+16(FP)
 	RETURN
 
+TEXT runtime·xadduintptr(SB), NOSPLIT, $0-24
+	BR	runtime·xadd64(SB)
+
 TEXT runtime·xchg(SB), NOSPLIT, $0-20
 	MOVD	ptr+0(FP), R4
 	MOVW	new+8(FP), R5
