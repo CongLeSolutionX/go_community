@@ -562,7 +562,7 @@ func Cgen_As2dottype(n, res, resok *Node) {
  * generate:
  *	res = s[lo, hi];
  * n->left is s
- * n->list is (cap(s)-lo(TUINT), hi-lo(TUINT)[, lo*width(TUINTPTR)])
+ * n->list is (cap(s)-lo(TINT), hi-lo(TINT)[, lo*width(TUINTPTR)])
  * caller (cgen) guarantees res is an addable ONAME.
  *
  * called for OSLICE, OSLICE3, OSLICEARR, OSLICE3ARR, OSLICESTR.
@@ -661,7 +661,7 @@ func Cgen_slice(n *Node, res *Node) {
 	dst = *res
 
 	dst.Xoffset += int64(Array_nel)
-	dst.Type = Types[Simtype[TUINT]]
+	dst.Type = Types[Simtype[TINT]]
 	Cgen(tmplen, &dst)
 
 	if n.Op != OSLICESTR {
@@ -669,7 +669,7 @@ func Cgen_slice(n *Node, res *Node) {
 		dst = *res
 
 		dst.Xoffset += int64(Array_cap)
-		dst.Type = Types[Simtype[TUINT]]
+		dst.Type = Types[Simtype[TINT]]
 		Cgen(tmpcap, &dst)
 	}
 }
@@ -1185,13 +1185,13 @@ func Componentgen(nr *Node, nl *Node) bool {
 		// When zeroing, prepare a register containing zero.
 		if Thearch.REGZERO != 0 {
 			// cpu has a dedicated zero register
-			Nodreg(&nodr, Types[TUINT], Thearch.REGZERO)
+			Nodreg(&nodr, Types[TINT], Thearch.REGZERO)
 		} else {
 			// no dedicated zero register
 			var tmp Node
 			Nodconst(&tmp, nl.Type, 0)
 
-			Regalloc(&nodr, Types[TUINT], nil)
+			Regalloc(&nodr, Types[TINT], nil)
 			Thearch.Gmove(&tmp, &nodr)
 			defer Regfree(&nodr)
 		}
@@ -1243,7 +1243,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 
 		nodl.Xoffset += int64(Array_nel) - int64(Array_array)
-		nodl.Type = Types[Simtype[TUINT]]
+		nodl.Type = Types[Simtype[TINT]]
 
 		if nr != nil {
 			nodr.Xoffset += int64(Array_nel) - int64(Array_array)
@@ -1253,7 +1253,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 
 		nodl.Xoffset += int64(Array_cap) - int64(Array_nel)
-		nodl.Type = Types[Simtype[TUINT]]
+		nodl.Type = Types[Simtype[TINT]]
 
 		if nr != nil {
 			nodr.Xoffset += int64(Array_cap) - int64(Array_nel)
@@ -1284,7 +1284,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 
 		nodl.Xoffset += int64(Array_nel) - int64(Array_array)
-		nodl.Type = Types[Simtype[TUINT]]
+		nodl.Type = Types[Simtype[TINT]]
 
 		if isConstString {
 			Nodconst(&nodr, nodl.Type, int64(len(nr.Val.U.Sval)))
