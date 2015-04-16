@@ -21,6 +21,7 @@ var F64toint = f64toint
 var Entersyscall = entersyscall
 var Exitsyscall = exitsyscall
 var LockedOSThread = lockedOSThread
+var Xadduintptr = xadduintptr
 
 type LFNode struct {
 	Next    uint64
@@ -127,3 +128,5 @@ var Write = write
 
 func Envs() []string     { return envs }
 func SetEnvs(e []string) { envs = e }
+
+var BigEndian = _BigEndian
