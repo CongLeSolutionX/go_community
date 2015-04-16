@@ -14,7 +14,7 @@ func sysAlloc(n uintptr, stat *uint64) unsafe.Pointer {
 	if uintptr(v) < 4096 {
 		return nil
 	}
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 	return v
 }
 
@@ -25,8 +25,9 @@ func sysUnused(v unsafe.Pointer, n uintptr) {
 func sysUsed(v unsafe.Pointer, n uintptr) {
 }
 
+//go:nosplit
 func sysFree(v unsafe.Pointer, n uintptr, stat *uint64) {
-	xadd64(stat, -int64(n))
+	mstatDec(stat, n)
 	munmap(v, n)
 }
 
@@ -54,7 +55,7 @@ func sysReserve(v unsafe.Pointer, n uintptr, reserved *bool) unsafe.Pointer {
 func sysMap(v unsafe.Pointer, n uintptr, reserved bool, stat *uint64) {
 	const _ENOMEM = 12
 
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 
 	// On 64-bit, we don't actually have v reserved, so tread carefully.
 	if !reserved {

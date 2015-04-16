@@ -92,6 +92,10 @@ func RunSchedLocalQueueStealTest() {
 	systemstack(testSchedLocalQueueSteal)
 }
 
+func Xadduintptr(ptr *uintptr, delta uintptr) uintptr {
+	return xadduintptr(ptr, delta)
+}
+
 var StringHash = stringHash
 var BytesHash = bytesHash
 var Int32Hash = int32Hash

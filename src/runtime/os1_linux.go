@@ -146,8 +146,7 @@ func newosproc(mp *m, stk unsafe.Pointer) {
 // Version of newosproc that doesn't require any Go structs to be allocated.
 //go:nosplit
 func newosproc0(stacksize uintptr, fn unsafe.Pointer, fnarg unsafe.Pointer) {
-	var dummy uint64
-	stack := sysAlloc(stacksize, &dummy)
+	stack := sysAlloc(stacksize, &memstats.stacks_sys)
 	if stack == nil {
 		write(2, unsafe.Pointer(&failallocatestack[0]), int32(len(failallocatestack)))
 		exit(1)

@@ -713,6 +713,9 @@ TEXT runtime·atomicloaduint(SB),NOSPLIT,$0-8
 TEXT runtime·atomicstoreuintptr(SB),NOSPLIT,$0-8
 	B	runtime·atomicstore(SB)
 
+TEXT runtime·xadduintptr(SB),NOSPLIT,$0-12
+	B	runtime·xadd(SB)
+
 // AES hashing not implemented for ARM
 TEXT runtime·aeshash(SB),NOSPLIT,$-4-0
 	MOVW	$0, R0

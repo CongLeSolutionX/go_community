@@ -136,13 +136,13 @@ func sysAlloc(n uintptr, stat *uint64) unsafe.Pointer {
 	memCheck()
 	unlock(&memlock)
 	if p != nil {
-		xadd64(stat, int64(n))
+		mstatInc(stat, n)
 	}
 	return p
 }
 
 func sysFree(v unsafe.Pointer, n uintptr, stat *uint64) {
-	xadd64(stat, -int64(n))
+	mstatDec(stat, n)
 	lock(&memlock)
 	memFree(v, n)
 	memCheck()
@@ -158,7 +158,7 @@ func sysUsed(v unsafe.Pointer, n uintptr) {
 func sysMap(v unsafe.Pointer, n uintptr, reserved bool, stat *uint64) {
 	// sysReserve has already allocated all heap memory,
 	// but has not adjusted stats.
-	xadd64(stat, int64(n))
+	mstatInc(stat, n)
 }
 
 func sysFault(v unsafe.Pointer, n uintptr) {
