@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707552b8_a74b92b6",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-16T21:24:35Z",
+      "side": 1,
+      "message": "please avoid using os/exec here. that will make\nit impossible to run the test on certain platforms.",
+      "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
