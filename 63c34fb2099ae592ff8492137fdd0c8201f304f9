@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_6ebf9744",
+        "filename": "src/image/color/color.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-16T05:48:27Z",
+      "side": 1,
+      "message": "since all you do with the result of diff is shift it right and square it, why not put the code into diff. probably with a different name.",
+      "range": {
+        "startLine": 284,
+        "startChar": 7,
+        "endLine": 284,
+        "endChar": 11
+      },
+      "revId": "63c34fb2099ae592ff8492137fdd0c8201f304f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
