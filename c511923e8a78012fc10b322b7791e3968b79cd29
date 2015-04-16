@@ -124,6 +124,24 @@
       "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_fa512966",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-16T05:33:58Z",
+      "side": 1,
+      "message": "The uint isn\u0027t necessary any more. And while you\u0027re here, I\u0027d change the first + to |. The two are equivalent, since you\u0027re shifting by 4 then add/or-ing 0x0a, but I still feel that | is more appropriate for bit-whacking.",
+      "parentUuid": "506daeeb_ee416718",
+      "revId": "c511923e8a78012fc10b322b7791e3968b79cd29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
