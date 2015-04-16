@@ -52,6 +52,24 @@
       "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_7e53b3bf",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T21:59:43Z",
+      "side": 1,
+      "message": "It seems like that problem would be addressed by https://github.com/golang/go/issues/10456\n\nAlso, at the moment this test is broken in non-short mode anyway because of https://github.com/golang/go/issues/10455\n\nDunno.  How severe is this compared to the problem that we\u0027re not tracking new standard library packages accurately?  Can you (or anyone) suggest a concrete path forward to solving this?\n\nIt seems like most packages are unlikely to add unwanted OS-specific dependencies, so maybe coverage on just the main platforms is sufficient for now?",
+      "parentUuid": "707552b8_829be471",
+      "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
