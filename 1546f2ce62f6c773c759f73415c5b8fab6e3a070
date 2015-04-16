@@ -52,6 +52,24 @@
       "revId": "1546f2ce62f6c773c759f73415c5b8fab6e3a070",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_37124855",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-16T18:45:02Z",
+      "side": 1,
+      "message": "Err, this CL adds the same line to gcToolchain.ld()?",
+      "parentUuid": "d080bec6_22a6838c",
+      "revId": "1546f2ce62f6c773c759f73415c5b8fab6e3a070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
