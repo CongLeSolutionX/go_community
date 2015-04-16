@@ -8,8 +8,10 @@
 package build
 
 import (
+	"os/exec"
 	"runtime"
 	"sort"
+	"strings"
 	"testing"
 )
 
@@ -330,6 +332,29 @@ var pkgDeps = map[string][]string{
 	"net/http/pprof":    {"L4", "OS", "html/template", "net/http", "runtime/pprof"},
 	"net/rpc":           {"L4", "NET", "encoding/gob", "html/template", "net/http"},
 	"net/rpc/jsonrpc":   {"L4", "NET", "encoding/json", "net/rpc"},
+
+	// Packages below are grandfathered because of issue 10475.
+	// When updating these entries, move them to an appropriate
+	// location above and assign them a justified set of
+	// dependencies.  Do not simply update them in situ.
+	"container/heap":           {"sort"},
+	"debug/plan9obj":           {"encoding/binary", "errors", "fmt", "io", "os"},
+	"go/exact":                 {"fmt", "go/token", "math/big", "strconv"},
+	"go/format":                {"bytes", "fmt", "go/ast", "go/parser", "go/printer", "go/token", "internal/format", "io"},
+	"go/importer":              {"go/internal/gcimporter", "go/types", "io", "runtime"},
+	"go/internal/gcimporter":   {"bufio", "errors", "fmt", "go/build", "go/exact", "go/token", "go/types", "io", "os", "path/filepath", "strconv", "strings", "text/scanner"},
+	"go/types":                 {"bytes", "container/heap", "fmt", "go/ast", "go/exact", "go/parser", "go/token", "io", "math", "path", "sort", "strconv", "strings", "sync", "unicode"},
+	"image/internal/imageutil": {"image"},
+	"internal/format":          {"bytes", "go/ast", "go/parser", "go/printer", "go/token", "strings"},
+	"internal/mime":            {"bytes", "encoding/base64", "errors", "fmt", "io", "io/ioutil", "strconv", "strings", "unicode"},
+	"internal/singleflight":    {"sync"},
+	"internal/syscall/unix":    {"runtime", "sync/atomic", "syscall", "unsafe"},
+	"internal/syscall/windows": {"syscall", "unsafe"},
+	"internal/trace":           {"bufio", "bytes", "fmt", "io", "os", "os/exec", "sort", "strconv", "strings"},
+	"mime/quotedprintable":     {"bufio", "bytes", "fmt", "io"},
+	"net/http/cookiejar":       {"errors", "fmt", "net", "net/http", "net/url", "sort", "strings", "sync", "time", "unicode/utf8"},
+	"net/http/internal":        {"bufio", "bytes", "errors", "fmt", "io"},
+	"net/internal/socktest":    {"fmt", "sync", "syscall"},
 }
 
 // isMacro reports whether p is a package dependency macro
@@ -382,16 +407,21 @@ func TestDependencies(t *testing.T) {
 		// provide access to every source file.
 		t.Skipf("skipping on %s/%s, missing full GOROOT", runtime.GOOS, runtime.GOARCH)
 	}
-	var all []string
-
-	for k := range pkgDeps {
-		all = append(all, k)
-	}
-	sort.Strings(all)
 
 	ctxt := Default
 	test := func(mustImport bool) {
-		for _, pkg := range all {
+		cmd := exec.Command("go", "list", "std")
+		cmd.Env = []string{"GOOS=" + ctxt.GOOS, "GOARCH=" + ctxt.GOARCH}
+		stdout, err := cmd.Output()
+		if err != nil {
+			t.Errorf("%s/%s/cgo=%v go list std failed: %v", ctxt.GOOS, ctxt.GOARCH, ctxt.CgoEnabled, err)
+			return
+		}
+
+		pkgs := strings.Fields(string(stdout))
+		sort.Strings(pkgs)
+
+		for _, pkg := range pkgs {
 			if isMacro(pkg) {
 				continue
 			}
