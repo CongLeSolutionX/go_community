@@ -16,6 +16,24 @@
       "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_339d74b2",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-16T21:31:41Z",
+      "side": 1,
+      "message": "How does cmd/api work on those platforms?  I based this code after http://tip.golang.org/src/cmd/api/goapi.go?s\u003d3672:3727#L120",
+      "parentUuid": "707552b8_a74b92b6",
+      "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
