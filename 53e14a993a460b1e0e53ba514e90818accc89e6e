@@ -34,6 +34,24 @@
       "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707552b8_829be471",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-16T21:38:48Z",
+      "side": 1,
+      "message": "the api test is portable in the sense that just running\nit on platform will check api for all platforms, so it\u0027s\nnot run on those limited platforms.\n\nThis test, however, in short mode only test the current\nplatform, so if we have to shell out to cmd/go here, we\nwill need to enable the test on all platforms to cover\nthose limited platforms.",
+      "parentUuid": "d080bec6_339d74b2",
+      "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
