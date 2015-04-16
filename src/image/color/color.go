@@ -275,18 +275,20 @@ func (p Palette) Convert(c Color) Color {
 func (p Palette) Index(c Color) int {
 	// A batch version of this computation is in image/draw/draw.go.
 
-	cr, cg, cb, _ := c.RGBA()
+	cr, cg, cb, ca := c.RGBA()
 	ret, bestSSD := 0, uint32(1<<32-1)
 	for i, v := range p {
-		vr, vg, vb, _ := v.RGBA()
+		vr, vg, vb, va := v.RGBA()
 		// We shift by 1 bit to avoid potential uint32 overflow in
 		// sum-squared-difference.
-		delta := (int32(cr) - int32(vr)) >> 1
-		ssd := uint32(delta * delta)
-		delta = (int32(cg) - int32(vg)) >> 1
-		ssd += uint32(delta * delta)
-		delta = (int32(cb) - int32(vb)) >> 1
-		ssd += uint32(delta * delta)
+		d := diff(cr, vr) >> 1
+		ssd := d * d
+		d = diff(cg, vg) >> 1
+		ssd += d * d
+		d = diff(cb, vb) >> 1
+		ssd += d * d
+		d = diff(ca, va) >> 1
+		ssd += d * d
 		if ssd < bestSSD {
 			if ssd == 0 {
 				return i
@@ -295,6 +297,13 @@ func (p Palette) Index(c Color) int {
 		}
 	}
 	return ret
+}
+
+func diff(x, y uint32) uint32 {
+	if x > y {
+		return x - y
+	}
+	return y - x
 }
 
 // Standard colors.
