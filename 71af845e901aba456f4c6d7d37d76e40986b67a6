@@ -33,6 +33,23 @@
       "revId": "71af845e901aba456f4c6d7d37d76e40986b67a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_0ae59d4c",
+        "filename": "src/regexp/backtrack.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-16T19:15:57Z",
+      "side": 1,
+      "message": "I don\u0027t understand why it\u0027s correct to test reqcap here.\n\nI don\u0027t understand why the reset method takes both ncap and reqcap parameters.  But it\u0027s clear that the reset method sets the length of the cap slice based on ncap, not reqcap.  Testing reqcap here, rather than len(b.cap), implies that there is some unstated requirement that, in the reset method, if reqcap \u003e 0, then ncap \u003e 1.  Either we should make that requirement explicit somewhere (perhaps I missed it) or this code should be testing len(b.cap).",
+      "revId": "71af845e901aba456f4c6d7d37d76e40986b67a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
