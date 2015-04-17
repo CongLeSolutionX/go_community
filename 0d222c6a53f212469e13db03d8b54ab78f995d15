@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d080bec6_753c2975",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-17T18:12:28Z",
+      "side": 1,
+      "message": "s/makes it to use/uses it/",
+      "revId": "0d222c6a53f212469e13db03d8b54ab78f995d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_b5a64137",
+        "filename": "src/net/cgo_android.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-17T18:12:28Z",
+      "side": 1,
+      "message": "This is still only used by cgo routines, so I think it would make sense to keep the name cgoAddrInfoFlags.",
+      "revId": "0d222c6a53f212469e13db03d8b54ab78f995d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_3568f167",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-17T18:12:28Z",
+      "side": 1,
+      "message": "Why not check for EAI_SYSTEM here?  If errno \u003d\u003d EAI_SYSTEM, it seems that we should return the second result of the call to C.getaddrinfo.\n\nAlso I think gerrno is a better name, errno strongly suggests a syscall.Errno value, which this is not.",
+      "revId": "0d222c6a53f212469e13db03d8b54ab78f995d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_9510e5d3",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-17T18:12:28Z",
+      "side": 1,
+      "message": "I think the name gerrno is better.",
+      "revId": "0d222c6a53f212469e13db03d8b54ab78f995d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
