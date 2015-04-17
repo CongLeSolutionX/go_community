@@ -5,6 +5,7 @@ package gc
 const runtimeimport = "" +
 	"package runtime\n" +
 	"import runtime \"runtime\"\n" +
+	"var @\"\".gcphase uint32\n" +
 	"func @\"\".newobject (@\"\".typ·2 *byte) (? *any)\n" +
 	"func @\"\".panicindex ()\n" +
 	"func @\"\".panicslice ()\n" +

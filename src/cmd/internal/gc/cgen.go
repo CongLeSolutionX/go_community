@@ -233,7 +233,7 @@ func cgen_wb(n, res *Node, wb bool) {
 		return
 	}
 
-	if n.Addable && wb && int(Simtype[n.Type.Etype]) == Tptr {
+	if n.Ullman < UINF && wb && int(Simtype[n.Type.Etype]) == Tptr {
 		cgen_wbptr(n, res)
 		return
 	}
@@ -775,10 +775,20 @@ abop: // asymmetric binary
 }
 
 func cgen_wbptr(n, res *Node) {
+	if Debug_wb > 0 {
+		Warn("write barrier")
+	}
 	var dst, src Node
-	Agenr(res, &dst, nil)
+	Igen(res, &dst, nil)
 	Cgenr(n, &src, nil)
-	p := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &dst, nil)
+	Thearch.Gins(Thearch.Optoas(OCMP, Types[TUINT32]), syslook("gcphase", 0), Nodintconst(0))
+	pbr := Gbranch(Thearch.Optoas(ONE, Types[TUINT32]), nil, -1)
+	Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, &dst)
+	pjmp := Gbranch(obj.AJMP, nil, 0)
+	Patch(pbr, Pc)
+	var adst Node
+	Agenr(&dst, &adst, &dst)
+	p := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &adst, nil)
 	a := &p.To
 	a.Type = obj.TYPE_MEM
 	a.Reg = int16(Thearch.REGSP)
@@ -789,9 +799,11 @@ func cgen_wbptr(n, res *Node) {
 	p2 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
 	p2.To = p.To
 	p2.To.Offset += int64(Widthptr)
+	Regfree(&adst)
 	Regfree(&dst)
 	Regfree(&src)
 	Ginscall(syslook("writebarrierptr", 0), 0)
+	Patch(pjmp, Pc)
 }
 
 func cgen_wbfat(n, res *Node) {
@@ -1476,6 +1488,15 @@ func Agen(n *Node, res *Node) {
 		Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &n3, &n2)
 		Thearch.Gmove(&n2, res)
 		Regfree(&n2)
+		return
+	}
+
+	if n.Op == OINDREG && n.Xoffset == 0 {
+		// Generate MOVW R0, R1 instead of MOVW $0(R0), R1.
+		n1 := *n
+		n1.Op = OREGISTER
+		n1.Type = res.Type
+		Thearch.Gmove(&n1, res)
 		return
 	}
 

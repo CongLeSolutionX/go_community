@@ -2219,13 +2219,13 @@ func applywritebarrier(n *Node, init **NodeList) *Node {
 		if Curfn != nil && Curfn.Func.Nowritebarrier {
 			Yyerror("write barrier prohibited")
 		}
-		if Debug_wb > 0 {
-			Warnl(int(n.Lineno), "write barrier")
-		}
 		t := n.Left.Type
 		if t.Width == int64(Widthptr) {
 			n.Op = OASWB
 			return n
+		}
+		if Debug_wb > 0 {
+			Warnl(int(n.Lineno), "write barrier")
 		}
 		l := Nod(OADDR, n.Left, nil)
 		l.Etype = 1 // addr does not escape
