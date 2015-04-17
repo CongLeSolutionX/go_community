@@ -74,6 +74,10 @@ func readsym(ctxt *Link, f *Biobuf, pkg string, pn string) {
 	dupok := int(rdint(f))
 	dupok &= 1
 	size := int(rdint(f))
+	local := false
+	if rdint(f) == 1 {
+		local = true
+	}
 	typ := rdsym(ctxt, f, pkg)
 	var data []byte
 	rddata(f, &data)
@@ -127,6 +131,7 @@ overwrite:
 	if s.Size < int64(size) {
 		s.Size = int64(size)
 	}
+	s.Local = local
 	if typ != nil { // if bss sym defined multiple times, take type from any one def
 		s.Gotype = typ
 	}
@@ -330,14 +335,12 @@ func rdsym(ctxt *Link, f *Biobuf, pkg string) *LSym {
 			x, _ := strconv.ParseUint(s.Name[5:], 16, 32)
 			i32 := int32(x)
 			s.Type = SRODATA
-			s.Local = true
 			Adduint32(ctxt, s, uint32(i32))
 			s.Reachable = false
 		} else if strings.HasPrefix(s.Name, "$f64.") || strings.HasPrefix(s.Name, "$i64.") {
 			x, _ := strconv.ParseUint(s.Name[5:], 16, 64)
 			i64 := int64(x)
 			s.Type = SRODATA
-			s.Local = true
 			Adduint64(ctxt, s, uint64(i64))
 			s.Reachable = false
 		}

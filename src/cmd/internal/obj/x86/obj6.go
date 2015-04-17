@@ -251,6 +251,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 			p.From.Type = obj.TYPE_MEM
 			p.From.Name = obj.NAME_EXTERN
 			p.From.Sym = s
+			p.From.Sym.Local = true
 			p.From.Offset = 0
 		}
 
@@ -294,6 +295,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 			p.From.Type = obj.TYPE_MEM
 			p.From.Name = obj.NAME_EXTERN
 			p.From.Sym = s
+			p.From.Sym.Local = true
 			p.From.Offset = 0
 		}
 	}
