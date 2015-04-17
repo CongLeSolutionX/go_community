@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707552b8_7c96684c",
+        "filename": "src/cmd/go/generate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-17T17:39:19Z",
+      "side": 1,
+      "message": "s/its final newline/trailing spaces/?",
+      "revId": "706d7a1773921540290cee3627ff95dc7122fc4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707552b8_dca9bc8a",
+        "filename": "src/cmd/go/generate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-17T17:39:19Z",
+      "side": 1,
+      "message": "bytes.TrimSpace?",
+      "revId": "706d7a1773921540290cee3627ff95dc7122fc4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
