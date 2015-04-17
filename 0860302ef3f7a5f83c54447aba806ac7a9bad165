@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "709c722a_3590004b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "no, it needs to be there, otherwise, dead-lock may pop up.\nindeed: SliceOf may modify the lookupCache state. ArrayOf will too through cacheGet and cachePut.\nthey have to not happen intertwined.\n\nputting the call to SliceOf just before it is needed in ArrayOf (ie: ~around line 1794) leads to this sequence:\n***arrayof***\ncache.rlock\ncache.runlock\ncache.lock\n---slice-of---\ncache.rlock\n\nI\u0027d prefer not to touch to the lock logic of cacheGet/cachePut :)\n\nI\u0027ll add a comment as to why SliceOf needs to be here.",
+      "parentUuid": "506daeeb_4e765385",
+      "range": {
+        "startLine": 1754,
+        "startChar": 0,
+        "endLine": 1754,
+        "endChar": 23
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506daeeb_8e6c6bb9",
         "filename": "src/reflect/type.go",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-16T04:36:02Z",
       "side": 1,
       "message": "This should be arrayType, not sliceType.  The only reason it works is that they both happen to have their elem fields at the same offset.\n\nWe shouldn\u0027t use the variable name \"slice\" here either (or in the cache lookup above).  It\u0027s misleading - use \"array\" or even \"a\" instead.",
+      "range": {
+        "startLine": 1765,
+        "startChar": 13,
+        "endLine": 1765,
+        "endChar": 22
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "709c722a_2f48b13d",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1765,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "506daeeb_8e6c6bb9",
       "range": {
         "startLine": 1765,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_51b4c432",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1797,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "ACK.\nI\u0027ll send a separate CL.",
+      "parentUuid": "506daeeb_eea8875a",
+      "range": {
+        "startLine": 1797,
+        "startChar": 17,
+        "endLine": 1797,
+        "endChar": 22
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_001587c1",
         "filename": "src/reflect/type.go",
         "patchSetId": 7
@@ -82,6 +154,24 @@
       "writtenOn": "2015-04-15T22:45:18Z",
       "side": 1,
       "message": "It would be nice to have a test for this.  The point of the test would be to verify that [1]*byte and reflect.ArrayOf(1, somePointerType) would have the same representation in an interface value.  One way to do it would be something like\n\n\ttype T [1]*byte\n\ti :\u003d reflect.Zero(reflect.TypeOf(T{})).Interface()\n\tv :\u003d reflect.ValueOf(\u0026i).Elem()\n\tp :\u003d v.InterfaceData()[1]\n\nand then do the same for a constructed type T.  In both cases p should be nil.  Then do the same for [0]*byte.  In both cases p should be not-nil.  It doesn\u0027t really matter whether p is nil or not, what matters is that it is the same for the type defined in the program and the type constructed using ArrayOf.",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a1e660_10f154e0",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "Done\n\n(incidentally, this uncovered an issue for 0-sized arrays...)",
+      "parentUuid": "d080bec6_001587c1",
       "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_f2414e18",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d080bec6_003ca741",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506daeeb_2e48bf3d",
         "filename": "src/runtime/alg.go",
         "patchSetId": 7
@@ -116,6 +224,30 @@
       "writtenOn": "2015-04-16T04:36:02Z",
       "side": 1,
       "message": "This isn\u0027t a slicetype.  The only reason it works is that the offset of the elem field happens to be right.\n\nYou should define an arraytype in runtime/type.go that matches the reflect declaration (and more importantly, the layout described in cmd/internal/gc/reflect.go).  I wonder whether we ever had an arraytype declaration?  If we did, where did it go?  If not, why does cmd/internal/gc/reflect.go refer to it?  Code archeology...",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 140,
+        "endChar": 19
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a1e660_76bf7044",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "ack.\n\nI\u0027ll drop this and implement your closure-based suggestion.",
+      "parentUuid": "506daeeb_2e48bf3d",
       "range": {
         "startLine": 140,
         "startChar": 10,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_d238d29d",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "ack.\n\nthe idea was to lay some ground work for \u0027StructOf\u0027.\nthat may be unnecessary as I\u0027ll go with your closure-based suggestion.",
+      "parentUuid": "506daeeb_2ed3dfd9",
+      "range": {
+        "startLine": 146,
+        "startChar": 9,
+        "endLine": 146,
+        "endChar": 16
+      },
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d080bec6_c0354f55",
         "filename": "src/runtime/alg.go",
         "patchSetId": 7
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "b0926a12_b19988c6",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "no.\nif I am not mistaken, when we get to call algtype1, this means we are synthesizing a new type for that kind.\nthus, ATM we never get there as there is no \u0027reflect.StructOf\u0027.\n\nthis warrants a TODO, though.",
+      "parentUuid": "d080bec6_c0354f55",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "506daeeb_8eceab33",
         "filename": "src/runtime/alg.go",
         "patchSetId": 7
@@ -179,6 +353,24 @@
       "writtenOn": "2015-04-16T04:36:02Z",
       "side": 1,
       "message": "I don\u0027t think this is right for, e.g., [4]float64.  You grab the alg of the underlying element, but how does that get translated to the hash() and equal() functions?  They need to do floating-point \u003d\u003d and floating-point hashing repeatedly somehow, and I don\u0027t see code anywhere that does that.",
+      "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0926a12_52d842f3",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2015-04-17T16:13:28Z",
+      "side": 1,
+      "message": "ack.\n\nbut I\u0027ll go with your closure-based suggestion, so this code will disappear.",
+      "parentUuid": "506daeeb_8eceab33",
       "revId": "0860302ef3f7a5f83c54447aba806ac7a9bad165",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
