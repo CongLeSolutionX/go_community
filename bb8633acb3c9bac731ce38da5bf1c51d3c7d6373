@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506daeeb_4fe96dac",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-17T20:42:23Z",
+      "side": 1,
+      "message": "I looked recently and it was a win for 6g. 5g needs it in a register anyway, and 7g and 9g have a zero register to use. I think this TODO is done.",
+      "revId": "bb8633acb3c9bac731ce38da5bf1c51d3c7d6373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
