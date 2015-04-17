@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !netgo
+// +build cgo,!netgo
 // +build darwin dragonfly freebsd linux netbsd openbsd
 
 package net
@@ -23,24 +23,38 @@ import (
 	"unsafe"
 )
 
-func cgoLookupHost(name string) (addrs []string, err error, completed bool) {
-	ip, err, completed := cgoLookupIP(name)
-	for _, p := range ip {
-		addrs = append(addrs, p.String())
+// An addrinfoErrno represents a getaddrinfo, getnameinfo-specific
+// error number. It's a signed number and a zero value is a non-error
+// by convention.
+type addrinfoErrno int
+
+func (eai addrinfoErrno) Error() string {
+	return C.GoString(C.gai_strerror(C.int(eai)))
+}
+
+func (eai addrinfoErrno) Temporary() bool {
+	return eai == C.EAI_AGAIN
+}
+
+func (eai addrinfoErrno) Timeout() bool {
+	return false
+}
+
+func cgoLookupHost(name string) (hosts []string, err error, completed bool) {
+	addrs, err, completed := cgoLookupIP(name)
+	for _, addr := range addrs {
+		hosts = append(hosts, addr.String())
 	}
 	return
 }
 
-func cgoLookupPort(net, service string) (port int, err error, completed bool) {
+func cgoLookupPort(network, service string) (port int, err error, completed bool) {
 	acquireThread()
 	defer releaseThread()
 
-	var res *C.struct_addrinfo
 	var hints C.struct_addrinfo
-
-	switch net {
-	case "":
-		// no hints
+	switch network {
+	case "": // no hints
 	case "tcp", "tcp4", "tcp6":
 		hints.ai_socktype = C.SOCK_STREAM
 		hints.ai_protocol = C.IPPROTO_TCP
@@ -48,10 +62,10 @@ func cgoLookupPort(net, service string) (port int, err error, completed bool) {
 		hints.ai_socktype = C.SOCK_DGRAM
 		hints.ai_protocol = C.IPPROTO_UDP
 	default:
-		return 0, UnknownNetworkError(net), true
+		return 0, UnknownNetworkError(network), true
 	}
-	if len(net) >= 4 {
-		switch net[3] {
+	if len(network) >= 4 {
+		switch network[3] {
 		case '4':
 			hints.ai_family = C.AF_INET
 		case '6':
@@ -60,45 +74,44 @@ func cgoLookupPort(net, service string) (port int, err error, completed bool) {
 	}
 
 	s := C.CString(service)
+	var res *C.struct_addrinfo
 	defer C.free(unsafe.Pointer(s))
-	if C.getaddrinfo(nil, s, &hints, &res) == 0 {
-		defer C.freeaddrinfo(res)
-		for r := res; r != nil; r = r.ai_next {
-			switch r.ai_family {
-			default:
-				continue
-			case C.AF_INET:
-				sa := (*syscall.RawSockaddrInet4)(unsafe.Pointer(r.ai_addr))
-				p := (*[2]byte)(unsafe.Pointer(&sa.Port))
-				return int(p[0])<<8 | int(p[1]), nil, true
-			case C.AF_INET6:
-				sa := (*syscall.RawSockaddrInet6)(unsafe.Pointer(r.ai_addr))
-				p := (*[2]byte)(unsafe.Pointer(&sa.Port))
-				return int(p[0])<<8 | int(p[1]), nil, true
-			}
+	errno, _ := C.getaddrinfo(nil, s, &hints, &res)
+	if errno != 0 {
+		return 0, addrinfoErrno(errno), true
+	}
+	defer C.freeaddrinfo(res)
+
+	for r := res; r != nil; r = r.ai_next {
+		switch r.ai_family {
+		case C.AF_INET:
+			sa := (*syscall.RawSockaddrInet4)(unsafe.Pointer(r.ai_addr))
+			p := (*[2]byte)(unsafe.Pointer(&sa.Port))
+			return int(p[0])<<8 | int(p[1]), nil, true
+		case C.AF_INET6:
+			sa := (*syscall.RawSockaddrInet6)(unsafe.Pointer(r.ai_addr))
+			p := (*[2]byte)(unsafe.Pointer(&sa.Port))
+			return int(p[0])<<8 | int(p[1]), nil, true
 		}
 	}
-	return 0, &AddrError{"unknown port", net + "/" + service}, true
+	return 0, &AddrError{"unknown port", network + "/" + service}, true
 }
 
 func cgoLookupIPCNAME(name string) (addrs []IPAddr, cname string, err error, completed bool) {
 	acquireThread()
 	defer releaseThread()
 
-	var res *C.struct_addrinfo
 	var hints C.struct_addrinfo
-
-	hints.ai_flags = cgoAddrInfoFlags()
+	hints.ai_flags = addrinfoFlags
 	hints.ai_socktype = C.SOCK_STREAM
 
 	h := C.CString(name)
 	defer C.free(unsafe.Pointer(h))
-	gerrno, err := C.getaddrinfo(h, nil, &hints, &res)
-	if gerrno != 0 {
+	var res *C.struct_addrinfo
+	errno, err := C.getaddrinfo(h, nil, &hints, &res)
+	if errno != 0 {
 		var str string
-		if gerrno == C.EAI_NONAME {
-			str = noSuchHost
-		} else if gerrno == C.EAI_SYSTEM {
+		if errno == C.EAI_SYSTEM {
 			if err == nil {
 				// err should not be nil, but sometimes getaddrinfo returns
 				// gerrno == C.EAI_SYSTEM with err == nil on Linux.
@@ -111,11 +124,12 @@ func cgoLookupIPCNAME(name string) (addrs []IPAddr, cname string, err error, com
 			}
 			str = err.Error()
 		} else {
-			str = C.GoString(C.gai_strerror(gerrno))
+			str = addrinfoErrno(errno).Error()
 		}
 		return nil, "", &DNSError{Err: str, Name: name}, true
 	}
 	defer C.freeaddrinfo(res)
+
 	if res != nil {
 		cname = C.GoString(res.ai_canonname)
 		if cname == "" {
@@ -131,8 +145,6 @@ func cgoLookupIPCNAME(name string) (addrs []IPAddr, cname string, err error, com
 			continue
 		}
 		switch r.ai_family {
-		default:
-			continue
 		case C.AF_INET:
 			sa := (*syscall.RawSockaddrInet4)(unsafe.Pointer(r.ai_addr))
 			addr := IPAddr{IP: copyIP(sa.Addr[:])}

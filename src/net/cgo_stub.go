@@ -8,6 +8,14 @@
 
 package net
 
+type addrinfoErrno int
+
+func (eai addrinfoErrno) Error() string { return "<nil>" }
+
+func (eai addrinfoErrno) Temporary() bool { return false }
+
+func (eai addrinfoErrno) Timeout() bool { return false }
+
 func cgoLookupHost(name string) (addrs []string, err error, completed bool) {
 	return nil, nil, false
 }
