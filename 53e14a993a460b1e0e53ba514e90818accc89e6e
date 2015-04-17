@@ -106,6 +106,24 @@
       "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506daeeb_0968551e",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-17T01:58:05Z",
+      "side": 1,
+      "message": "\u003e At a first step, i think we can make the deps test\n \u003e treat any packages not in the table as not allowed\n \u003e to import any packages.\n\nTestDependencies already treats packages not listed in pkgDeps as not allowed to import any packages.  That\u0027s not a problem.  E.g., container/list has no dependencies, so this CL doesn\u0027t add an entry for container/list.\n\nThe problem is that currently it only tested packages with entries in pkgDeps.  For example, it doesn\u0027t apply *any* dependency checks to internal/syscall/windows, because there\u0027s no entry for internal/syscall/windows in pkgDeps, even though internal/syscall/windows does have dependencies.\n\n \u003e We can have a non-short test that use the go command\n \u003e to check all std packages are listed in the table,\n\nI don\u0027t see how that\u0027s an improvement over the approach I took here.  Can you elaborate?\n\nWith this CL, we only run \"go list std\" once for the current GOOS/GOARCH combination in short-mode, and then run it for all GOOS/GOARCH combinations in non-short-mode.\n\nIt sounds like you\u0027re proposing a second test that only runs in non-short-mode, still runs \"go list std\" for all GOOS/GOARCH combinations, and makes sure that all packages listed are also present in pkgDeps.\n\nThat has the advantage of saving one \"go list std\" invocation during short mode, but that only costs a fraction of a second.  Am I wrong to think that\u0027s an insignificant amount of time?\n\nIt also has the disadvantage of requiring every package (even those with no dependencies) to be listed in pkgDeps, which seems contradictory to your stance that unlisted packages should be treated as not allowing any dependencies.\n\nLastly, it doesn\u0027t seem to help the issue that running \"go list std\" once per GOOS/GOARCH combination is very slow for non-short-mode.",
+      "parentUuid": "707552b8_627c886f",
+      "revId": "53e14a993a460b1e0e53ba514e90818accc89e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
