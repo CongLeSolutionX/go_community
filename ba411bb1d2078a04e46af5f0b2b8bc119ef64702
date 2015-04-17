@@ -16,6 +16,24 @@
       "revId": "ba411bb1d2078a04e46af5f0b2b8bc119ef64702",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d080bec6_7f816a48",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-17T16:29:28Z",
+      "side": 1,
+      "message": "Good point, fixed here by falling back on xadd64 if _BigEndian !\u003d 0.  Also fixed the test that works on uint64.\n\nIt turns out that PPC64 is a big endian machine, I\u0027m surprised that GoBot passed.  Are you guys having issues with GoBot?",
+      "parentUuid": "707552b8_ed5ac90a",
+      "revId": "ba411bb1d2078a04e46af5f0b2b8bc119ef64702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
