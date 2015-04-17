@@ -1161,12 +1161,12 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 	numPtr := 0
 	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
 		n++
-		if int(Simtype[t.Etype]) == Tptr && t != itable {
+		if wb && int(Simtype[t.Etype]) == Tptr && t != itable {
 			numPtr++
 		}
-		return n <= maxMoves && (!wb || numPtr <= 1)
+		return n <= maxMoves
 	})
-	if n > maxMoves || wb && numPtr > 1 {
+	if n > maxMoves {
 		return false
 	}
 
@@ -1273,17 +1273,8 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 	}
 
 	emitVardef()
-	var (
-		ptrType   *Type
-		ptrOffset int64
-	)
 	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
 		if wb && int(Simtype[t.Etype]) == Tptr && t != itable {
-			if ptrType != nil {
-				Fatal("componentgen_wb %v", Tconv(nl.Type, 0))
-			}
-			ptrType = t
-			ptrOffset = offset
 			return true
 		}
 		nodl.Type = t
@@ -1293,13 +1284,135 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 		Thearch.Gmove(&nodr, &nodl)
 		return true
 	})
-	if ptrType != nil {
-		nodl.Type = ptrType
-		nodl.Xoffset = lbase + ptrOffset
-		nodr.Type = ptrType
-		nodr.Xoffset = rbase + ptrOffset
-		cgen_wbptr(&nodr, &nodl)
+
+	if !wb || numPtr == 0 {
+		// Done.
+		return true
 	}
+
+	if Debug_wb > 0 {
+		Warn("write barrier")
+	}
+
+	// Could call cgen_wbptr repeatedly, but that will check writeBarrierEnabled repeatedly.
+	// Instead, since we've queued up all the pointer writes we want to do,
+	// do the writeBarrierEnabled check once around all of them.
+	Thearch.Gins(Thearch.Optoas(OCMP, Types[TUINT8]), syslook("writeBarrierEnabled", 0), Nodintconst(0))
+	pbr := Gbranch(Thearch.Optoas(ONE, Types[TUINT8]), nil, -1)
+
+	// Direct copy.
+	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
+		if int(Simtype[t.Etype]) == Tptr && t != itable {
+			nodl.Type = t
+			nodl.Xoffset = lbase + offset
+			nodr.Type = t
+			nodr.Xoffset = rbase + offset
+			Thearch.Gmove(&nodr, &nodl)
+		}
+		return true
+	})
+
+	pjmp := Gbranch(obj.AJMP, nil, 0)
+	Patch(pbr, Pc)
+
+	// Else call writebarrierptr.
+
+	// We emitted a VARDEF above.
+	// Must completely initialize the value before any function calls,
+	// so zero the fields first, and then use writebarrierptr second.
+	// TODO(rsc): An alternative would be to initialize the fields correctly no matter what
+	// and then call writebarrierptr_nostore to record that they've changed.
+	// That's probably faster, but it fights wbshadow=1 mode a bit.
+	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
+		if int(Simtype[t.Etype]) == Tptr && t != itable {
+			nodl.Type = t
+			nodl.Xoffset = lbase + offset
+			Clearslim(&nodl)
+		}
+		return true
+	})
+
+	var lreg, rreg Node
+	var t1, t2 *Node
+	if numPtr > 1 {
+		// Save registers backing nodl, nodr because we're going to make a function call.
+		// Allocate 2 temporary words to hold them; cache temporaries for use by
+		// other such barriers in this function.
+		t1 = Curfn.Func.Wbtemp1
+		t2 = Curfn.Func.Wbtemp2
+		if nodl.Op == OINDREG {
+			if t1 == nil {
+				t1 = new(Node)
+				Tempname(t1, Types[Tptr])
+				Curfn.Func.Wbtemp1 = t1
+			}
+			lreg = nodl
+			lreg.Op = OREGISTER
+			lreg.Xoffset = 0
+			lreg.Type = Types[Tptr]
+			Thearch.Gmove(&lreg, t1)
+		}
+		if nodr.Op == OINDREG {
+			if t2 == nil {
+				t2 = new(Node)
+				Tempname(t2, Types[Tptr])
+				Curfn.Func.Wbtemp2 = t2
+			}
+			rreg = nodr
+			rreg.Op = OREGISTER
+			rreg.Xoffset = 0
+			rreg.Type = Types[Tptr]
+			Thearch.Gmove(&rreg, t2)
+		}
+	}
+
+	var src, adst Node
+	first := true
+	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
+		if int(Simtype[t.Etype]) == Tptr && t != itable {
+			if first {
+				first = false
+			} else {
+				// Reload registers for nodl, nodr.
+				if lreg.Op != 0 {
+					Thearch.Gmove(t1, &lreg)
+				}
+				if rreg.Op != 0 {
+					Thearch.Gmove(t2, &rreg)
+				}
+			}
+
+			// Reusing nodl and nodr registers for src, dst if possible,
+			// since we're about to smash them anyway.
+			nodl.Type = t
+			nodl.Xoffset = lbase + offset
+			nodr.Type = t
+			nodr.Xoffset = rbase + offset
+			Cgenr(&nodr, &src, &nodl)
+			Agenr(&nodl, &adst, &nodl)
+			p := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &adst, nil)
+			a := &p.To
+			a.Type = obj.TYPE_MEM
+			a.Reg = int16(Thearch.REGSP)
+			a.Offset = 0
+			if HasLinkRegister() {
+				a.Offset += int64(Widthptr)
+			}
+			p2 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
+			p2.To = p.To
+			p2.To.Offset += int64(Widthptr)
+			Regfree(&src)
+			Regfree(&adst)
+			if sys_wbptr == nil {
+				sys_wbptr = writebarrierfn("writebarrierptr", Types[Tptr], Types[Tptr])
+			}
+			Ginscall(sys_wbptr, 0)
+		}
+		return true
+	})
+
+	Patch(pjmp, Pc)
+
 	return true
 }
 
