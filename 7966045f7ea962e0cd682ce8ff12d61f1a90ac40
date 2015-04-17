@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707552b8_7cf188ac",
+        "filename": "src/cmd/internal/gc/go.y",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-17T17:50:04Z",
+      "side": 1,
+      "message": "s/%s/%v/",
+      "revId": "7966045f7ea962e0cd682ce8ff12d61f1a90ac40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707552b8_9cf6e4a4",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-17T17:50:04Z",
+      "side": 1,
+      "message": "s/%s/%v/",
+      "revId": "7966045f7ea962e0cd682ce8ff12d61f1a90ac40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
