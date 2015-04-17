@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707552b8_5cc84ca5",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-17T17:33:08Z",
+      "side": 1,
+      "message": "s/fn/mstartfn/ (and maybe update the comment to say what this is)",
+      "revId": "460ad6a74e5a696f955d71e3b18d90a7269c962f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707552b8_9cbee4f5",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-17T17:33:08Z",
+      "side": 1,
+      "message": "// Gs, Ms, and Ps are always reachable via true pointers in allg, allm, and allp or from the stack.",
+      "revId": "460ad6a74e5a696f955d71e3b18d90a7269c962f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
