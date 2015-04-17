@@ -87,6 +87,24 @@
       "revId": "8704fdc2b5715566f6219e34cb0110501e8622af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0b782b3_07813649",
+        "filename": "src/runtime/signal1_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-17T21:58:36Z",
+      "side": 1,
+      "message": "You are right, I didn\u0027t realize it\u0027s defined in this file. :)\nRemoved.",
+      "parentUuid": "50bbee9f_8aed2b09",
+      "revId": "8704fdc2b5715566f6219e34cb0110501e8622af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
