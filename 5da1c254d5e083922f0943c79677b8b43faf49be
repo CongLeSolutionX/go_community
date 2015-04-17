@@ -16,6 +16,24 @@
       "revId": "5da1c254d5e083922f0943c79677b8b43faf49be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "108ed6ef_9defb4b4",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-17T21:45:02Z",
+      "side": 0,
+      "message": "i\u0027ll tweak in a separate change for fixing inconsistent error values on dns resolver",
+      "parentUuid": "d080bec6_353c7142",
+      "revId": "5da1c254d5e083922f0943c79677b8b43faf49be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
