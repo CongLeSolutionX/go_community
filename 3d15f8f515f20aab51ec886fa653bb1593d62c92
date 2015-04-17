@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d080bec6_703c3775",
+        "filename": "src/runtime/rt0_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-17T18:58:05Z",
+      "side": 1,
+      "message": "This unfortunately requires implementation of clone0 in sys_linux_386.s.  I could look into unifying clone and clone0, if you can wait with this CL?  Or you can leave it broken in the meantime.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "3d15f8f515f20aab51ec886fa653bb1593d62c92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
