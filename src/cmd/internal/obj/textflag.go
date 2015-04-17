@@ -30,4 +30,7 @@ const (
 
 	// This function uses its incoming context register.
 	NEEDCTXT = 64
+
+	// Turns into a local symbol (only when passed to ggloblsym)
+	LOCAL = 128
 )
