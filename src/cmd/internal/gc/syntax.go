@@ -124,6 +124,8 @@ type Func struct {
 	Inldcl    *NodeList // copy of dcl for use in inlining
 	Closgen   int
 	Outerfunc *Node
+	Wbtemp1   *Node // write barrier temporary #1
+	Wbtemp2   *Node // write barrier temporary #2
 
 	Inl     *NodeList // copy of the body for use in inlining
 	InlCost int32
