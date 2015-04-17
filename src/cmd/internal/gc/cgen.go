@@ -58,7 +58,7 @@ func cgen_wb(n, res *Node, wb bool) {
 			var n1 Node
 			Tempname(&n1, n.Type)
 			Cgen_eface(n, &n1)
-			Cgen(&n1, res)
+			cgen_wb(&n1, res, wb)
 		} else {
 			Cgen_eface(n, res)
 		}
@@ -190,6 +190,22 @@ func cgen_wb(n, res *Node, wb bool) {
 		n.Addable = n.Left.Addable
 	}
 
+	if wb {
+		if int(Simtype[res.Type.Etype]) != Tptr {
+			Fatal("cgen_wb of type %v", res.Type)
+		}
+		if n.Ullman >= UINF {
+			var n1 Node
+			Tempname(&n1, n.Type)
+			Cgen(n, &n1)
+			n = &n1
+		}
+		cgen_wbptr(n, res)
+		return
+	}
+
+	// Write barrier now handled. Code below this line can ignore wb.
+
 	if Ctxt.Arch.Thechar == '5' { // TODO(rsc): Maybe more often?
 		// if both are addressable, move
 		if n.Addable && res.Addable {
@@ -199,7 +215,7 @@ func cgen_wb(n, res *Node, wb bool) {
 				var n1 Node
 				Regalloc(&n1, n.Type, nil)
 				Thearch.Gmove(n, &n1)
-				cgen_wb(&n1, res, wb)
+				Cgen(&n1, res)
 				Regfree(&n1)
 			}
 
@@ -213,7 +229,7 @@ func cgen_wb(n, res *Node, wb bool) {
 			var n1 Node
 			Tempname(&n1, n.Type)
 			Cgen(n, &n1)
-			cgen_wb(&n1, res, wb)
+			Cgen(&n1, res)
 			return
 		}
 
@@ -222,7 +238,7 @@ func cgen_wb(n, res *Node, wb bool) {
 		if !res.Addable {
 			var n1 Node
 			Igen(res, &n1, nil)
-			cgen_wb(n, &n1, wb)
+			Cgen(n, &n1)
 			Regfree(&n1)
 			return
 		}
@@ -230,11 +246,6 @@ func cgen_wb(n, res *Node, wb bool) {
 
 	if Complexop(n, res) {
 		Complexgen(n, res)
-		return
-	}
-
-	if n.Ullman < UINF && wb && int(Simtype[n.Type.Etype]) == Tptr {
-		cgen_wbptr(n, res)
 		return
 	}
 
@@ -774,6 +785,8 @@ abop: // asymmetric binary
 	cgen_norm(n, &n1, res)
 }
 
+var sys_wbptr *Node
+
 func cgen_wbptr(n, res *Node) {
 	if Debug_wb > 0 {
 		Warn("write barrier")
@@ -794,7 +807,7 @@ func cgen_wbptr(n, res *Node) {
 	a.Reg = int16(Thearch.REGSP)
 	a.Offset = 0
 	if HasLinkRegister() {
-		a.Offset += int64(Ctxt.Arch.Ptrsize)
+		a.Offset += int64(Widthptr)
 	}
 	p2 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
 	p2.To = p.To
@@ -802,23 +815,37 @@ func cgen_wbptr(n, res *Node) {
 	Regfree(&adst)
 	Regfree(&dst)
 	Regfree(&src)
-	Ginscall(syslook("writebarrierptr", 0), 0)
+	if sys_wbptr == nil {
+		sys_wbptr = writebarrierfn("writebarrierptr", Types[Tptr], Types[Tptr])
+	}
+	Ginscall(sys_wbptr, 0)
 	Patch(pjmp, Pc)
 }
 
 func cgen_wbfat(n, res *Node) {
+	if Debug_wb > 0 {
+		Warn("write barrier")
+	}
 	needType := true
 	funcName := "typedmemmove"
 	var dst, src Node
-	Agenr(res, &dst, nil)
-	Agenr(n, &src, nil)
+	if n.Ullman >= res.Ullman {
+		Agenr(n, &src, nil)
+		Agenr(res, &dst, nil)
+	} else {
+		Agenr(res, &dst, nil)
+		Agenr(n, &src, nil)
+	}
 	p := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &dst, nil)
 	a := &p.To
 	a.Type = obj.TYPE_MEM
 	a.Reg = int16(Thearch.REGSP)
 	a.Offset = 0
+	if needType {
+		a.Offset += int64(Widthptr)
+	}
 	if HasLinkRegister() {
-		a.Offset += int64(Ctxt.Arch.Ptrsize)
+		a.Offset += int64(Widthptr)
 	}
 	p2 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
 	p2.To = p.To
@@ -826,11 +853,14 @@ func cgen_wbfat(n, res *Node) {
 	Regfree(&dst)
 	Regfree(&src)
 	if needType {
-		p3 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), typename(n.Type), nil)
+		Regalloc(&src, Types[Tptr], nil)
+		Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), typename(n.Type), &src)
+		p3 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
 		p3.To = p2.To
-		p3.To.Offset += int64(Widthptr)
+		p3.To.Offset -= 2 * int64(Widthptr)
+		Regfree(&src)
 	}
-	Ginscall(syslook(funcName, 0), 0)
+	Ginscall(writebarrierfn(funcName, Types[Tptr], Types[Tptr]), 0)
 }
 
 // cgen_norm moves n1 to res, truncating to expected type if necessary.
@@ -2250,19 +2280,24 @@ func sgen_wb(n *Node, ns *Node, w int64, wb bool) {
 		wb = false
 	}
 
-	if wb {
-		cgen_wbfat(n, ns)
-	}
-
-	if osrc != -1000 && odst != -1000 && (osrc == 1000 || odst == 1000) {
+	if osrc != -1000 && odst != -1000 && (osrc == 1000 || odst == 1000) || wb && osrc != -1000 {
 		// osrc and odst both on stack, and at least one is in
 		// an unknown position.  Could generate code to test
 		// for forward/backward copy, but instead just copy
 		// to a temporary location first.
+		//
+		// OR: write barrier needed and source is on stack.
+		// Invoking the write barrier will use the stack to prepare its call.
+		// Copy to temporary.
 		var tmp Node
 		Tempname(&tmp, n.Type)
 		sgen_wb(n, &tmp, w, false)
 		sgen_wb(&tmp, ns, w, wb)
+		return
+	}
+
+	if wb {
+		cgen_wbfat(n, ns)
 		return
 	}
 

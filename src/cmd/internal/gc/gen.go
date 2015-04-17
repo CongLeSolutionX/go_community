@@ -1145,8 +1145,19 @@ func Componentgen(nr, nl *Node) bool {
 
 // componentgen_wb is like componentgen but if wb==true emits write barriers for pointer updates.
 func componentgen_wb(nr, nl *Node, wb bool) bool {
+	// Don't generate any code for complete copy of a variable into itself.
+	// It's useless, and the VARDEF will incorrectly mark the old value as dead.
+	// (This check assumes that the arguments passed to componentgen did not
+	// themselves come from Igen, or else we could have Op==ONAME but
+	// with a Type and Xoffset describing an individual field, not the entire
+	// variable.)
+	if nl.Op == ONAME && nl == nr {
+		return true
+	}
+
 	// Count number of moves required to move components.
-	// If using write barrier, can only emit
+	// If using write barrier, can only emit one pointer.
+	// TODO(rsc): Allow more pointers, for reflect.Value.
 	const maxMoves = 8
 	n := 0
 	numPtr := 0
@@ -1157,20 +1168,9 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 		}
 		return n <= maxMoves && (!wb || numPtr <= 1)
 	})
-	if n > maxMoves {
+	if n > maxMoves || wb && numPtr > 1 {
 		return false
 	}
-
-	isConstString := Isconst(nr, CTSTR)
-	nodl := *nl
-	if !cadable(nl) {
-		if nr != nil && !cadable(nr) && !isConstString {
-			return false
-		}
-		Igen(nl, &nodl, nil)
-		defer Regfree(&nodl)
-	}
-	lbase := nodl.Xoffset
 
 	// Must call emitVardef after evaluating rhs but before writing to lhs.
 	emitVardef := func() {
@@ -1182,6 +1182,26 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 			}
 		}
 	}
+
+	isConstString := Isconst(nr, CTSTR)
+
+	if !cadable(nl) && nr != nil && !cadable(nr) && !isConstString {
+		return false
+	}
+
+	var nodl Node
+	if cadable(nl) {
+		nodl = *nl
+	} else {
+		if nr != nil && !cadable(nr) && !isConstString {
+			return false
+		}
+		if nr == nil || isConstString || nl.Ullman >= nr.Ullman {
+			Igen(nl, &nodl, nil)
+			defer Regfree(&nodl)
+		}
+	}
+	lbase := nodl.Xoffset
 
 	// Special case: zeroing.
 	var nodr Node
@@ -1240,19 +1260,18 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 	// General case: copy nl = nr.
 	nodr = *nr
 	if !cadable(nr) {
+		if nr.Ullman >= UINF && nodl.Op == OINDREG {
+			Fatal("miscompile")
+		}
 		Igen(nr, &nodr, nil)
 		defer Regfree(&nodr)
 	}
 	rbase := nodr.Xoffset
 
-	// Don't generate any code for complete copy of a variable into itself.
-	// It's useless, and the VARDEF will incorrectly mark the old value as dead.
-	// (This check assumes that the arguments passed to componentgen did not
-	// themselves come from Igen, or else we could have Op==ONAME but
-	// with a Type and Xoffset describing an individual field, not the entire
-	// variable.)
-	if nl.Op == ONAME && nr.Op == ONAME && nl == nr {
-		return true
+	if nodl.Op == 0 {
+		Igen(nl, &nodl, nil)
+		defer Regfree(&nodl)
+		lbase = nodl.Xoffset
 	}
 
 	emitVardef()
@@ -1263,7 +1282,7 @@ func componentgen_wb(nr, nl *Node, wb bool) bool {
 	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
 		if wb && int(Simtype[t.Etype]) == Tptr && t != itable {
 			if ptrType != nil {
-				Fatal("componentgen_wb")
+				Fatal("componentgen_wb %v", Tconv(nl.Type, 0))
 			}
 			ptrType = t
 			ptrOffset = offset
