@@ -405,7 +405,7 @@ func Cgen_eface(n *Node, res *Node) {
  * n.Left is x
  * n.Type is T
  */
-func cgen_dottype(n *Node, res, resok *Node) {
+func cgen_dottype(n *Node, res, resok *Node, wb bool) {
 	if Debug_typeassert > 0 {
 		Warn("type assertion inlined")
 	}
@@ -449,7 +449,7 @@ func cgen_dottype(n *Node, res, resok *Node) {
 
 	if resok == nil {
 		r1.Type = res.Type
-		Cgen(&r1, res)
+		cgen_wb(&r1, res, wb)
 		q := Gbranch(obj.AJMP, nil, 0)
 		Patch(p, Pc)
 
@@ -472,7 +472,7 @@ func cgen_dottype(n *Node, res, resok *Node) {
 		Regfree(&r2)
 		r1.Type = res.Type
 		if !isblank(res) {
-			Cgen(&r1, res)
+			cgen_wb(&r1, res, wb)
 		}
 		Regfree(&r1)
 		if !isblank(resok) {
@@ -981,8 +981,11 @@ func gen(n *Node) {
 		}
 		Cgen_as(n.Left, n.Right)
 
+	case OASWB:
+		Cgen_as_wb(n.Left, n.Right, true)
+
 	case OAS2DOTTYPE:
-		cgen_dottype(n.Rlist.N, n.List.N, n.List.Next.N)
+		cgen_dottype(n.Rlist.N, n.List.N, n.List.Next.N, false)
 
 	case OCALLMETH:
 		cgen_callmeth(n, 0)
@@ -1025,10 +1028,18 @@ ret:
 	lineno = lno
 }
 
-func Cgen_as(nl *Node, nr *Node) {
+func Cgen_as(nl, nr *Node) {
+	Cgen_as_wb(nl, nr, false)
+}
+
+func Cgen_as_wb(nl, nr *Node, wb bool) {
 	if Debug['g'] != 0 {
-		Dump("cgen_as", nl)
-		Dump("cgen_as = ", nr)
+		op := "cgen_as"
+		if wb {
+			op = "cgen_as_wb"
+		}
+		Dump(op, nl)
+		Dump(op+" = ", nr)
 	}
 
 	for nr != nil && nr.Op == OCONVNOP {
@@ -1067,7 +1078,7 @@ func Cgen_as(nl *Node, nr *Node) {
 		return
 	}
 
-	Cgen(nr, nl)
+	cgen_wb(nr, nl, wb)
 }
 
 func cgen_callmeth(n *Node, proc int) {
@@ -1128,13 +1139,23 @@ func checklabels() {
 // Slices, strings and interfaces are supported. Small structs or arrays with
 // elements of basic type are also supported.
 // nr is nil when assigning a zero value.
-func Componentgen(nr *Node, nl *Node) bool {
+func Componentgen(nr, nl *Node) bool {
+	return componentgen_wb(nr, nl, false)
+}
+
+// componentgen_wb is like componentgen but if wb==true emits write barriers for pointer updates.
+func componentgen_wb(nr, nl *Node, wb bool) bool {
 	// Count number of moves required to move components.
+	// If using write barrier, can only emit
 	const maxMoves = 8
 	n := 0
+	numPtr := 0
 	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
 		n++
-		return n <= maxMoves
+		if int(Simtype[t.Etype]) == Tptr && t != itable {
+			numPtr++
+		}
+		return n <= maxMoves && (!wb || numPtr <= 1)
 	})
 	if n > maxMoves {
 		return false
@@ -1151,8 +1172,7 @@ func Componentgen(nr *Node, nl *Node) bool {
 	}
 	lbase := nodl.Xoffset
 
-	// Must call emitVardef on every path out of this function,
-	// but only after evaluating rhs.
+	// Must call emitVardef after evaluating rhs but before writing to lhs.
 	emitVardef := func() {
 		// Emit vardef if needed.
 		if nl.Op == ONAME {
@@ -1236,7 +1256,19 @@ func Componentgen(nr *Node, nl *Node) bool {
 	}
 
 	emitVardef()
+	var (
+		ptrType   *Type
+		ptrOffset int64
+	)
 	visitComponents(nl.Type, 0, func(t *Type, offset int64) bool {
+		if wb && int(Simtype[t.Etype]) == Tptr && t != itable {
+			if ptrType != nil {
+				Fatal("componentgen_wb")
+			}
+			ptrType = t
+			ptrOffset = offset
+			return true
+		}
 		nodl.Type = t
 		nodl.Xoffset = lbase + offset
 		nodr.Type = t
@@ -1244,6 +1276,13 @@ func Componentgen(nr *Node, nl *Node) bool {
 		Thearch.Gmove(&nodr, &nodl)
 		return true
 	})
+	if ptrType != nil {
+		nodl.Type = ptrType
+		nodl.Xoffset = lbase + ptrOffset
+		nodr.Type = ptrType
+		nodr.Xoffset = rbase + ptrOffset
+		cgen_wbptr(&nodr, &nodl)
+	}
 	return true
 }
 
@@ -1285,7 +1324,7 @@ func visitComponents(t *Type, startOffset int64, f func(elem *Type, elemOffset i
 			f(Types[TFLOAT64], startOffset+8)
 
 	case TINTER:
-		return f(Ptrto(Types[TUINT8]), startOffset) &&
+		return f(itable, startOffset) &&
 			f(Ptrto(Types[TUINT8]), startOffset+int64(Widthptr))
 		return true
 
