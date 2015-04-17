@@ -295,6 +295,7 @@ type LSym struct {
 	Pcln      *Pcln
 	P         []byte
 	R         []Reloc
+	Local     bool
 }
 
 type Pcln struct {
