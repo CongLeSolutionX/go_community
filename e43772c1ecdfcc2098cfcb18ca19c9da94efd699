@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0aefe64_e954f126",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-18T16:24:36Z",
+      "side": 1,
+      "message": "fwdSig and sigtable are tested to be the same size (_NSIG) at the opening of initsig. checking just one should be fine.",
+      "revId": "e43772c1ecdfcc2098cfcb18ca19c9da94efd699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0aefe64_2995293b",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-18T16:24:36Z",
+      "side": 1,
+      "message": "What is the motivation for checking explicitly for SI_USER? It is an external source of signals, but there are other sources you\u0027re not checking for.",
+      "revId": "e43772c1ecdfcc2098cfcb18ca19c9da94efd699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
