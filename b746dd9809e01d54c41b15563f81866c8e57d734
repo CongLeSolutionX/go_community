@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0aefe64_49af4596",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-18T15:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83143e89_b021cdcb",
+      "revId": "b746dd9809e01d54c41b15563f81866c8e57d734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83143e89_10aa617c",
         "filename": "src/runtime/stack1.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-31T19:30:27Z",
       "side": 1,
       "message": "Does it make sense to do an ordinary load here first?",
+      "revId": "b746dd9809e01d54c41b15563f81866c8e57d734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0aefe64_69b481e5",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-18T15:03:23Z",
+      "side": 1,
+      "message": "This code is gone now and in the new version everywhere that I cas runSafePointFn I first do a non-cas check.",
+      "parentUuid": "83143e89_10aa617c",
       "revId": "b746dd9809e01d54c41b15563f81866c8e57d734",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
