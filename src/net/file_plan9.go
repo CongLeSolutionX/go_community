@@ -137,7 +137,11 @@ func newFileListener(f *os.File) (l Listener, err error) {
 // finished.  Closing c does not affect f, and closing f does not
 // affect c.
 func FileConn(f *os.File) (c Conn, err error) {
-	return newFileConn(f)
+	c, err = newFileConn(f)
+	if err != nil {
+		return nil, &OpError{Op: "file", Err: err}
+	}
+	return
 }
 
 // FileListener returns a copy of the network listener corresponding
@@ -145,7 +149,11 @@ func FileConn(f *os.File) (c Conn, err error) {
 // when finished.  Closing l does not affect f, and closing f does not
 // affect l.
 func FileListener(f *os.File) (l Listener, err error) {
-	return newFileListener(f)
+	l, err = newFileListener(f)
+	if err != nil {
+		return nil, &OpError{Op: "file", Err: err}
+	}
+	return
 }
 
 // FilePacketConn returns a copy of the packet network connection
@@ -153,5 +161,5 @@ func FileListener(f *os.File) (l Listener, err error) {
 // responsibility to close f when finished.  Closing c does not affect
 // f, and closing f does not affect c.
 func FilePacketConn(f *os.File) (c PacketConn, err error) {
-	return nil, syscall.EPLAN9
+	return nil, &OpError{Op: "file", Err: syscall.EPLAN9}
 }
