@@ -22,6 +22,30 @@
       "revId": "3d15f8f515f20aab51ec886fa653bb1593d62c92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_5fa4eb84",
+        "filename": "src/runtime/rt0_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-18T00:53:33Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s currently possible to create a code path that invokes newosproc0.  The only plausible path is -buildmode\u003dc-shared with a shared library that does not export any symbols.  But any shared library currently requires the external linker, and using external linking mode currently requires importing runtime/cgo.\n\nIf you can write a test case that invokes newosproc0, please add it.  Thanks.",
+      "parentUuid": "d080bec6_703c3775",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "3d15f8f515f20aab51ec886fa653bb1593d62c92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
