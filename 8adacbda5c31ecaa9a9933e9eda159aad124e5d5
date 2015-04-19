@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90a8065d_04fb768e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-04-19T15:31:08Z",
+      "side": 1,
+      "message": "Are you sure that it is not possible for this line to reset alive from false to true?",
+      "revId": "8adacbda5c31ecaa9a9933e9eda159aad124e5d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
