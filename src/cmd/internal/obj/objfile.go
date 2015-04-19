@@ -413,9 +413,7 @@ func writesym(ctxt *Link, b *Biobuf, s *LSym) {
 		wrint(b, int64(r.Siz))
 		wrint(b, int64(r.Type))
 		wrint(b, r.Add)
-		wrint(b, r.Xadd)
 		wrsym(b, r.Sym)
-		wrsym(b, r.Xsym)
 	}
 
 	if s.Type == STEXT {

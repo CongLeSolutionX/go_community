@@ -142,9 +142,7 @@ overwrite:
 			r.Siz = uint8(rdint(f))
 			r.Type = int32(rdint(f))
 			r.Add = rdint(f)
-			r.Xadd = rdint(f)
 			r.Sym = rdsym(ctxt, f, pkg)
-			r.Xsym = rdsym(ctxt, f, pkg)
 		}
 	}
 

@@ -2461,9 +2461,7 @@ func vaddr(ctxt *obj.Link, p *obj.Prog, a *obj.Addr, r *obj.Reloc) int64 {
 		r.Sym = s
 		r.Add = a.Offset
 		if s.Type == obj.STLSBSS {
-			r.Xadd = r.Add - int64(r.Siz)
-			r.Type = obj.R_TLS
-			r.Xsym = s
+			panic("I thought this code path was dead.")
 		}
 
 		return 0
