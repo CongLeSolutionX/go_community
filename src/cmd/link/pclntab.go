@@ -371,7 +371,7 @@ func (b *SymBuffer) Addr(off int, sym goobj.SymID, symoff int64) int {
 		Size:   b.ptrsize,
 		Sym:    sym,
 		Add:    int(symoff),
-		Type:   R_ADDR,
+		Type:   obj.R_ADDR,
 	})
 	return off + b.ptrsize
 }
