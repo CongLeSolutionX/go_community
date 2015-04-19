@@ -16,6 +16,24 @@
       "revId": "8adacbda5c31ecaa9a9933e9eda159aad124e5d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103a56f6_c0701ed8",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-04-19T15:36:37Z",
+      "side": 1,
+      "message": "If alive was false, then wasAlive will be false and bodyEOFSignal will communicate false. It cannot write true here.",
+      "parentUuid": "90a8065d_04fb768e",
+      "revId": "8adacbda5c31ecaa9a9933e9eda159aad124e5d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
