@@ -76,12 +76,12 @@ func (p *Prog) loadPackage(pkg *Package) {
 // TODO(rsc): Define full enumeration for relocation types.
 const (
 	R_ADDR    = 1
-	R_SIZE    = 2
-	R_CALL    = 3
-	R_CALLARM = 4
-	R_CALLIND = 5
-	R_CONST   = 6
-	R_PCREL   = 7
+	R_SIZE    = 4
+	R_CALL    = 5
+	R_CALLARM = 6
+	R_CALLIND = 8
+	R_CONST   = 10
+	R_PCREL   = 11
 )
 
 // relocateSym applies relocations to sym's data.
