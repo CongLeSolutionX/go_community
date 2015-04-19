@@ -2321,6 +2321,43 @@ func TestTransportResponseCloseRace(t *testing.T) {
 	}
 }
 
+func TestTransportResponseCancelRace(t *testing.T) {
+	defer afterTest(t)
+
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		// important that this response has a body.
+		var b [1024]byte
+		w.Write(b[:])
+	}))
+	defer ts.Close()
+	tr := &Transport{}
+	req, err := NewRequest("GET", ts.URL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp, err := tr.RoundTrip(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// If we do an early close, Transport just throws the connection away and
+	// doesn't reuse it. In order to trigger the bug, it has to reuse the connection
+	// so read the body
+	err = resp.Write(ioutil.Discard)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req2, err := NewRequest("GET", ts.URL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	tr.CancelRequest(req)
+	resp, err = tr.RoundTrip(req2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+}
+
 func wantBody(res *http.Response, err error, want string) error {
 	if err != nil {
 		return err

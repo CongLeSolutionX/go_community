@@ -905,12 +905,15 @@ func (pc *persistConn) readLoop() {
 				waitForBodyRead <- false
 				return nil
 			}
+			// latch value here so we don't race with subsequent requests
+			wasAlive := alive
 			resp.Body.(*bodyEOFSignal).fn = func(err error) {
-				waitForBodyRead <- alive &&
+				isAlive := wasAlive &&
 					err == nil &&
 					!pc.sawEOF &&
-					pc.wroteRequest() &&
-					pc.t.putIdleConn(pc)
+					pc.wroteRequest()
+				pc.t.setReqCanceler(rc.req, nil)
+				waitForBodyRead <- isAlive && pc.t.putIdleConn(pc)
 			}
 		}
 
