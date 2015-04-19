@@ -6,7 +6,10 @@
 
 package main
 
-import "os"
+import (
+	"cmd/internal/obj"
+	"os"
+)
 
 // load allocates segment images, populates them with data
 // read from package files, and applies relocations to the data.
@@ -75,13 +78,13 @@ func (p *Prog) loadPackage(pkg *Package) {
 
 // TODO(rsc): Define full enumeration for relocation types.
 const (
-	R_ADDR    = 1
-	R_SIZE    = 2
-	R_CALL    = 3
-	R_CALLARM = 4
-	R_CALLIND = 5
-	R_CONST   = 6
-	R_PCREL   = 7
+	R_ADDR    = obj.R_ADDR
+	R_SIZE    = obj.R_SIZE
+	R_CALL    = obj.R_CALL
+	R_CALLARM = obj.R_CALLARM
+	R_CALLIND = obj.R_CALLIND
+	R_CONST   = obj.R_CONST
+	R_PCREL   = obj.R_PCREL
 )
 
 // relocateSym applies relocations to sym's data.
