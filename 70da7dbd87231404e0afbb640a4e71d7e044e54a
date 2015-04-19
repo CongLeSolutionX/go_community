@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d0aefe64_a938399c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-19T21:21:01Z",
+      "side": 1,
+      "message": "Alternatively, rather than introducing a new gcphase, I could add a global variable that controls whether mutator assists are enabled. I did it with a new phase to parallel how write barriers are controlled (ie, they don\u0027t have a flag, they just look at the phase), but maybe we want to keep the phases more closely paralleling the logical algorithm?",
+      "parentUuid": "d0aefe64_093e2dde",
+      "revId": "70da7dbd87231404e0afbb640a4e71d7e044e54a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83143e89_d0056914",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 2
