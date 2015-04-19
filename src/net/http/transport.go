@@ -906,11 +906,12 @@ func (pc *persistConn) readLoop() {
 				return nil
 			}
 			resp.Body.(*bodyEOFSignal).fn = func(err error) {
-				waitForBodyRead <- alive &&
+				isalive := alive &&
 					err == nil &&
 					!pc.sawEOF &&
-					pc.wroteRequest() &&
-					pc.t.putIdleConn(pc)
+					pc.wroteRequest()
+				pc.t.setReqCanceler(rc.req, nil)
+				waitForBodyRead <- isalive && pc.t.putIdleConn(pc)
 			}
 		}
 
