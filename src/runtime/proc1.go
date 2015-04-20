@@ -1327,6 +1327,11 @@ func execute(gp *g, inheritTime bool) {
 	}
 
 	if trace.enabled {
+		// GoSysExit has to happen when we have a P, but before GoStart.
+		// So we emit it here.
+		if gp.syscallsp != 0 && gp.sysblocktraced {
+			traceGoSysExit(gp.sysexitticks)
+		}
 		traceGoStart()
 	}
 
@@ -1812,6 +1817,7 @@ func reentersyscall(pc, sp uintptr) {
 	}
 
 	_g_.m.syscalltick = _g_.m.p.ptr().syscalltick
+	_g_.sysblocktraced = true
 	_g_.m.mcache = nil
 	_g_.m.p.ptr().m = 0
 	atomicstore(&_g_.m.p.ptr().status, _Psyscall)
@@ -1873,6 +1879,7 @@ func entersyscallblock(dummy int32) {
 	_g_.throwsplit = true
 	_g_.stackguard0 = stackPreempt // see comment in entersyscall
 	_g_.m.syscalltick = _g_.m.p.ptr().syscalltick
+	_g_.sysblocktraced = true
 	_g_.m.p.ptr().syscalltick++
 
 	// Leave SP around for GC and traceback.
@@ -1958,7 +1965,7 @@ func exitsyscall(dummy int32) {
 		return
 	}
 
-	var exitTicks int64
+	_g_.sysexitticks = 0
 	if trace.enabled {
 		// Wait till traceGoSysBlock event is emited.
 		// This ensures consistency of the trace (the goroutine is started after it is blocked).
@@ -1968,19 +1975,14 @@ func exitsyscall(dummy int32) {
 		// We can't trace syscall exit right now because we don't have a P.
 		// Tracing code can invoke write barriers that cannot run without a P.
 		// So instead we remember the syscall exit time and emit the event
-		// below when we have a P.
-		exitTicks = cputicks()
+		// in execute when we have a P.
+		_g_.sysexitticks = cputicks()
 	}
 
 	_g_.m.locks--
 
 	// Call the scheduler.
 	mcall(exitsyscall0)
-
-	// The goroutine must not be re-scheduled up to traceGoSysExit.
-	// Otherwise we can emit GoStart but not GoSysExit, that would lead
-	// no an inconsistent trace.
-	_g_.m.locks++
 
 	if _g_.m.mcache == nil {
 		throw("lost mcache")
@@ -1995,13 +1997,6 @@ func exitsyscall(dummy int32) {
 	_g_.syscallsp = 0
 	_g_.m.p.ptr().syscalltick++
 	_g_.throwsplit = false
-
-	if exitTicks != 0 {
-		systemstack(func() {
-			traceGoSysExit(exitTicks)
-		})
-	}
-	_g_.m.locks--
 }
 
 //go:nosplit
