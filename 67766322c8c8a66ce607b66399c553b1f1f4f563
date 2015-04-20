@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fba685_6cc31b8b",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-20T19:13:39Z",
+      "side": 1,
+      "message": "This magic expression needs some comments tying it into other code, so that changes there are reflected here.  If I\u0027m reading this correctly it\u0027s tied into the code in dcommontype in reflect.go.",
+      "revId": "67766322c8c8a66ce607b66399c553b1f1f4f563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
