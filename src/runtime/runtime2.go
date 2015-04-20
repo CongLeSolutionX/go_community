@@ -307,6 +307,7 @@ type m struct {
 	waitlock      unsafe.Pointer
 	waittraceev   byte
 	waittraceskip int
+	startingtrace bool
 	syscalltick   uint32
 	//#ifdef GOOS_windows
 	thread uintptr // thread handle

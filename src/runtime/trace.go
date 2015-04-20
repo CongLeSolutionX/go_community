@@ -149,10 +149,17 @@ func StartTrace() error {
 
 	trace.ticksStart = cputicks()
 	trace.timeStart = nanotime()
-	trace.enabled = true
 	trace.headerWritten = false
 	trace.footerWritten = false
 
+	// Can't set trace.enabled yet. While the world is stopped, exitsyscall could
+	// already emit a delayed event (see exitTicks in exitsyscall) if we set trace.enabled here.
+	// That would lead to an inconsistent trace:
+	// - either GoSysExit appears before EvGoInSyscall,
+	// - or GoSysExit appears for a goroutine for which we don't emit EvGoInSyscall below.
+	// To instruct traceEvent that it must not ignore events below, we set startingtrace.
+	// trace.enabled is set afterwards once we have emitted all preliminary events.
+	_g_.m.startingtrace = true
 	for _, gp := range allgs {
 		status := readgstatus(gp)
 		if status != _Gdead {
@@ -167,6 +174,8 @@ func StartTrace() error {
 	}
 	traceProcStart()
 	traceGoStart()
+	_g_.m.startingtrace = false
+	trace.enabled = true
 
 	unlock(&trace.bufLock)
 
@@ -427,7 +436,7 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 	// so if we see trace.enabled == true now, we know it's true for the rest of the function.
 	// Exitsyscall can run even during stoptheworld. The race with StartTrace/StopTrace
 	// during tracing in exitsyscall is resolved by locking trace.bufLock in traceLockBuffer.
-	if !trace.enabled {
+	if !trace.enabled && !mp.startingtrace {
 		traceReleaseBuffer(pid)
 		return
 	}
@@ -798,6 +807,10 @@ func traceGoSysCall() {
 }
 
 func traceGoSysExit(ts int64) {
+	if ts != 0 && ts < trace.ticksStart {
+		// The timestamp was obtained during a previous tracing session, ignore.
+		return
+	}
 	traceEvent(traceEvGoSysExit, -1, uint64(getg().m.curg.goid), uint64(ts)/traceTickDiv)
 }
 
