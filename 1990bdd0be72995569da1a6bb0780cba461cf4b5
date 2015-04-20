@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03ce2f3_a20080bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-20T03:38:34Z",
+      "side": 1,
+      "message": "Looks like it: https://github.com/golang/go/issues/10503",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "1990bdd0be72995569da1a6bb0780cba461cf4b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_e2fa883b",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-20T03:38:34Z",
+      "side": 1,
+      "message": "I was considering changing the lines to\n\n    SFOO SymKind \u003d obj.SFOO\n\nto make it more future proof, albeit more verbose.",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "1990bdd0be72995569da1a6bb0780cba461cf4b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_02fe8c31",
+        "filename": "src/cmd/link/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-20T03:38:34Z",
+      "side": 1,
+      "message": "Probably easier to just update the code to use cmd/internal/obj\u0027s constants.",
+      "range": {
+        "startLine": 78,
+        "startChar": 7,
+        "endLine": 78,
+        "endChar": 11
+      },
+      "revId": "1990bdd0be72995569da1a6bb0780cba461cf4b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
