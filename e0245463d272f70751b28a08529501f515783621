@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03ce2f3_2263d040",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T18:50:39Z",
+      "side": 1,
+      "message": "can we use go:linkname for these redirects now?",
+      "range": {
+        "startLine": 531,
+        "startChar": 13,
+        "endLine": 531,
+        "endChar": 24
+      },
+      "revId": "e0245463d272f70751b28a08529501f515783621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_625dd87b",
+        "filename": "src/runtime/atomic_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T18:50:39Z",
+      "side": 1,
+      "message": "Mention that we don\u0027t use xadduintptr on big-endian architectures, and point to the place where that test happens (mstats.go:mSysStat{Inc,Dec}).",
+      "range": {
+        "startLine": 52,
+        "startChar": 34,
+        "endLine": 52,
+        "endChar": 47
+      },
+      "revId": "e0245463d272f70751b28a08529501f515783621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_c2514467",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T18:50:39Z",
+      "side": 1,
+      "message": "you can just do var Xadduintptr \u003d xadduintptr",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 29
+      },
+      "revId": "e0245463d272f70751b28a08529501f515783621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_024ccccd",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T18:50:39Z",
+      "side": 1,
+      "message": "xadduintptr returns the old value.  So I think you need a +n in here somewhere.  You probably don\u0027t need to read the old value separately.",
+      "range": {
+        "startLine": 366,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 83
+      },
+      "revId": "e0245463d272f70751b28a08529501f515783621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
