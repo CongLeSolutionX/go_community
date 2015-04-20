@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "305cba63_ad38754e",
+        "filename": "src/runtime/asm_amd64p32.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-20T16:36:19Z",
+      "side": 1,
+      "message": "Oops, thanks!",
+      "parentUuid": "10089662_f0d6c043",
+      "revId": "83225a74ca0fb08c19ed2ef0f95b5c0fc470c046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10089662_30e04813",
         "filename": "src/runtime/mem_linux.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-20T07:40:05Z",
       "side": 1,
       "message": "please explain in a comment why this is necessary",
+      "revId": "83225a74ca0fb08c19ed2ef0f95b5c0fc470c046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "305cba63_adb5152f",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-20T16:36:19Z",
+      "side": 1,
+      "message": "Done here and elsewhere.",
+      "parentUuid": "10089662_30e04813",
       "revId": "83225a74ca0fb08c19ed2ef0f95b5c0fc470c046",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "305cba63_4dd3998a",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-20T16:36:19Z",
+      "side": 1,
+      "message": "Done.\n\nI\u0027ve also changed the callee sites to make it clear we need to pass in the system stat.",
+      "parentUuid": "10089662_10e54423",
+      "revId": "83225a74ca0fb08c19ed2ef0f95b5c0fc470c046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10089662_b0cc38ba",
         "filename": "src/runtime/stubs.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-20T07:40:05Z",
       "side": 1,
       "message": "not all atomic operations use locks on arm, see e.g. armcas",
+      "revId": "83225a74ca0fb08c19ed2ef0f95b5c0fc470c046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "305cba63_8dddb197",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-04-20T16:36:19Z",
+      "side": 1,
+      "message": "Good point, fixed the comment.",
+      "parentUuid": "10089662_b0cc38ba",
       "revId": "83225a74ca0fb08c19ed2ef0f95b5c0fc470c046",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
