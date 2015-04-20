@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0150a85_45170a44",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T22:46:16Z",
+      "side": 1,
+      "message": "s/sate/state/",
+      "range": {
+        "startLine": 1884,
+        "startChar": 65,
+        "endLine": 1884,
+        "endChar": 69
+      },
+      "revId": "d48b14a4f0757b40173c5c3986927ca06d44a907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0150a85_a52b5e7c",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T22:46:16Z",
+      "side": 1,
+      "message": "Can\u0027t you just do array.zero \u003d unsafe.Pointer(make([]byte, array.size))?\nYou\u0027d have to special case array.size \u003d\u003d 0.  But probably better than calling reflect code.",
+      "range": {
+        "startLine": 1924,
+        "startChar": 1,
+        "endLine": 1925,
+        "endChar": 83
+      },
+      "revId": "d48b14a4f0757b40173c5c3986927ca06d44a907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0150a85_c522da9c",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1947,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T22:46:16Z",
+      "side": 1,
+      "message": "arrAt might be a good top-level function for the reflect class.  It doesn\u0027t close over anything.  For instance, Value.Index can use it.\n(You don\u0027t need to change all the other uses, but might as well start here.)",
+      "range": {
+        "startLine": 1947,
+        "startChar": 1,
+        "endLine": 1947,
+        "endChar": 9
+      },
+      "revId": "d48b14a4f0757b40173c5c3986927ca06d44a907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0150a85_25c3ee3d",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-04-20T22:46:16Z",
+      "side": 1,
+      "message": "no need for the trailing apostrophe.",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "d48b14a4f0757b40173c5c3986927ca06d44a907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
