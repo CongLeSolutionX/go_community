@@ -16,6 +16,24 @@
       "revId": "8fb477d8815134f214f701385c337a6c25bf61b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904d66b1_9f54b726",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-20T04:44:21Z",
+      "side": 1,
+      "message": "Argh, whoops, I meant DO NOT SUBMIT, will try to get that right next time. But the trybots were happy enough so I can take it out now :)",
+      "parentUuid": "f03ce2f3_82257c64",
+      "revId": "8fb477d8815134f214f701385c337a6c25bf61b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
