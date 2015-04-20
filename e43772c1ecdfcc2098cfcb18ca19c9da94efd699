@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0aefe64_ccfee3ab",
+        "filename": "misc/cgo/testsigfwd/main.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-20T14:16:31Z",
+      "side": 1,
+      "message": "Dereferencing a null pointer is technically undefined behavior. Unfortunately clang -O2 is \"smart\" enough to recognize it in this code and replaces the function with a UD2 instruction, so this thread sends a SIGILL instead of a SIGSEGV.\n\nHow about pthread_kill(pthread_self(), SIGSEGV)?",
+      "revId": "e43772c1ecdfcc2098cfcb18ca19c9da94efd699",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0aefe64_e954f126",
         "filename": "src/runtime/signal_linux.go",
         "patchSetId": 9
