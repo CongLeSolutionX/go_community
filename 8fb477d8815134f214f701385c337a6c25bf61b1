@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03ce2f3_82257c64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-20T04:26:46Z",
+      "side": 1,
+      "message": "This is not a magic phrase. You mean DO NOT SUBMIT or DO NOT REVIEW",
+      "revId": "8fb477d8815134f214f701385c337a6c25bf61b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
