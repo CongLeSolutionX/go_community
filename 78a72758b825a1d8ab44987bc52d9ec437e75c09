@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0aefe64_af4ef994",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-20T18:53:31Z",
+      "side": 1,
+      "message": "I don\u0027t understand \"-test.run\u003dTestSometing -test.cpu\u003d10\".  Are those options to the stress command, or to ./fmt.test?  Sorry if this ought to be obvious, but I\u0027m still new to go and new to our test habits.\n\ni.e., is the command\n\nstress [ stress_options ] binary_to_test [ options_passed_to_binary_to_test ]",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0aefe64_6f9b2173",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-20T18:53:31Z",
+      "side": 1,
+      "message": "\"kill timed out processes if true, otherwise just print pid (to attach with gdb)\"",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
