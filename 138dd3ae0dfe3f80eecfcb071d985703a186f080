@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fba685_0c109783",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-20T19:22:19Z",
+      "side": 1,
+      "message": "Point to http://golang.org/cl/7623 rather than the git commit number.",
+      "revId": "138dd3ae0dfe3f80eecfcb071d985703a186f080",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
