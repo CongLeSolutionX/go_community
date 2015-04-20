@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03ce2f3_222d9014",
+        "filename": "src/cmd/internal/gc/gsubr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-20T16:14:42Z",
+      "side": 1,
+      "message": "Use \u0026^\u003d?",
+      "revId": "1f0ed941521e82c8a0ba929a020ef43c91a90ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03ce2f3_82229c20",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-20T16:14:42Z",
+      "side": 1,
+      "message": "Use bool2int.",
+      "revId": "1f0ed941521e82c8a0ba929a020ef43c91a90ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
