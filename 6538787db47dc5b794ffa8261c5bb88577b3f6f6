@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fba685_2f5d8557",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-20T22:14:49Z",
+      "side": 1,
+      "message": "This is going to be an issue at some point but for now its fine.",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 11
+      },
+      "revId": "6538787db47dc5b794ffa8261c5bb88577b3f6f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fba685_af7055d6",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-20T22:14:49Z",
+      "side": 1,
+      "message": "Seems less important than flusing the g\u0027s to the global run queue.",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 41
+      },
+      "revId": "6538787db47dc5b794ffa8261c5bb88577b3f6f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
