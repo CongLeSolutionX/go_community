@@ -16,6 +16,24 @@
       "revId": "67766322c8c8a66ce607b66399c553b1f1f4f563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0dfde21_84e9eaaf",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-21T23:00:05Z",
+      "side": 1,
+      "message": "Well, it\u0027s really a copy of the expression from decodetype_gcmask in decodesym.go.  All of the little helper functions in that file are tied into the details of the type object that are smeared between runtime, reflect, the compiler and that file.  I\u0027ll add a comment though.",
+      "parentUuid": "90fba685_6cc31b8b",
+      "revId": "67766322c8c8a66ce607b66399c553b1f1f4f563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
