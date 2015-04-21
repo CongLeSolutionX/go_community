@@ -25,7 +25,7 @@ type dnsConfig struct {
 func dnsReadConfig(filename string) (*dnsConfig, error) {
 	file, err := open(filename)
 	if err != nil {
-		return nil, &DNSConfigError{err}
+		return nil, &DNSConfigError{Err: err}
 	}
 	defer file.close()
 	conf := &dnsConfig{

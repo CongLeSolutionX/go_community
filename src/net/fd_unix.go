@@ -93,7 +93,7 @@ func (fd *netFD) connect(la, ra syscall.Sockaddr, deadline time.Time) error {
 		}
 		fallthrough
 	default:
-		return err
+		return os.NewSyscallError("connect", err)
 	}
 	if err := fd.init(); err != nil {
 		return err
@@ -116,14 +116,14 @@ func (fd *netFD) connect(la, ra syscall.Sockaddr, deadline time.Time) error {
 		}
 		nerr, err := getsockoptIntFunc(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_ERROR)
 		if err != nil {
-			return err
+			return os.NewSyscallError("getsockopt", err)
 		}
 		switch err := syscall.Errno(nerr); err {
 		case syscall.EINPROGRESS, syscall.EALREADY, syscall.EINTR:
 		case syscall.Errno(0), syscall.EISCONN:
 			return nil
 		default:
-			return err
+			return os.NewSyscallError("getsockopt", err)
 		}
 	}
 }
@@ -205,7 +205,7 @@ func (fd *netFD) shutdown(how int) error {
 		return err
 	}
 	defer fd.decref()
-	return syscall.Shutdown(fd.sysfd, how)
+	return os.NewSyscallError("shutdown", syscall.Shutdown(fd.sysfd, how))
 }
 
 func (fd *netFD) closeRead() error {
@@ -237,6 +237,11 @@ func (fd *netFD) Read(p []byte) (n int, err error) {
 		err = fd.eofError(n, err)
 		break
 	}
+	switch err {
+	case nil, io.EOF, errClosing, errTimeout:
+	default:
+		err = os.NewSyscallError("read", err)
+	}
 	return
 }
 
@@ -261,6 +266,11 @@ func (fd *netFD) readFrom(p []byte) (n int, sa syscall.Sockaddr, err error) {
 		err = fd.eofError(n, err)
 		break
 	}
+	switch err {
+	case nil, errClosing, errTimeout:
+	default:
+		err = os.NewSyscallError("recvfrom", err)
+	}
 	return
 }
 
@@ -284,6 +294,11 @@ func (fd *netFD) readMsg(p []byte, oob []byte) (n, oobn, flags int, sa syscall.S
 		}
 		err = fd.eofError(n, err)
 		break
+	}
+	switch err {
+	case nil, errClosing, errTimeout:
+	default:
+		err = os.NewSyscallError("recvmsg", err)
 	}
 	return
 }
@@ -319,6 +334,11 @@ func (fd *netFD) Write(p []byte) (nn int, err error) {
 			break
 		}
 	}
+	switch err {
+	case nil, io.ErrUnexpectedEOF, errClosing, errTimeout:
+	default:
+		err = os.NewSyscallError("write", err)
+	}
 	return nn, err
 }
 
@@ -341,6 +361,11 @@ func (fd *netFD) writeTo(p []byte, sa syscall.Sockaddr) (n int, err error) {
 	}
 	if err == nil {
 		n = len(p)
+	}
+	switch err {
+	case nil, errClosing, errTimeout:
+	default:
+		err = os.NewSyscallError("sendto", err)
 	}
 	return
 }
@@ -365,6 +390,11 @@ func (fd *netFD) writeMsg(p []byte, oob []byte, sa syscall.Sockaddr) (n int, oob
 	if err == nil {
 		oobn = len(oob)
 	}
+	switch err {
+	case nil, errClosing, errTimeout:
+	default:
+		err = os.NewSyscallError("sendmsg", err)
+	}
 	return
 }
 
@@ -382,13 +412,20 @@ func (fd *netFD) accept() (netfd *netFD, err error) {
 	for {
 		s, rsa, err = accept(fd.sysfd)
 		if err != nil {
-			if err == syscall.EAGAIN {
+			nerr, ok := err.(*os.SyscallError)
+			if !ok {
+				return nil, err
+			}
+			switch nerr.Err {
+			case syscall.EAGAIN:
 				if err = fd.pd.WaitRead(); err == nil {
 					continue
 				}
-			} else if err == syscall.ECONNABORTED {
-				// This means that a socket on the listen queue was closed
-				// before we Accept()ed it; it's a silly error, so try again.
+			case syscall.ECONNABORTED:
+				// This means that a socket on the
+				// listen queue was closed before we
+				// Accept()ed it; it's a silly error,
+				// so try again.
 				continue
 			}
 			return nil, err
@@ -437,7 +474,7 @@ func dupCloseOnExec(fd int) (newfd int, err error) {
 			// from now on.
 			atomic.StoreInt32(&tryDupCloexec, 0)
 		default:
-			return -1, e1
+			return -1, os.NewSyscallError("fcntl", e1)
 		}
 	}
 	return dupCloseOnExecOld(fd)
@@ -450,7 +487,7 @@ func dupCloseOnExecOld(fd int) (newfd int, err error) {
 	defer syscall.ForkLock.RUnlock()
 	newfd, err = syscall.Dup(fd)
 	if err != nil {
-		return -1, err
+		return -1, os.NewSyscallError("dup", err)
 	}
 	syscall.CloseOnExec(newfd)
 	return
@@ -467,7 +504,7 @@ func (fd *netFD) dup() (f *os.File, err error) {
 	// I/O will block the thread instead of letting us use the epoll server.
 	// Everything will still work, just with more threads.
 	if err = syscall.SetNonblock(ns, false); err != nil {
-		return nil, err
+		return nil, os.NewSyscallError("setnonblock", err)
 	}
 
 	return os.NewFile(uintptr(ns), fd.name()), nil
