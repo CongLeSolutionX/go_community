@@ -19,6 +19,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -358,16 +359,16 @@ func serveFile(w ResponseWriter, r *Request, fs FileSystem, name string, redirec
 
 	f, err := fs.Open(name)
 	if err != nil {
-		// TODO expose actual error?
-		NotFound(w, r)
+		msg, code := fsHTTPError(err)
+		Error(w, msg, code)
 		return
 	}
 	defer f.Close()
 
 	d, err1 := f.Stat()
 	if err1 != nil {
-		// TODO expose actual error?
-		NotFound(w, r)
+		msg, code := fsHTTPError(err)
+		Error(w, msg, code)
 		return
 	}
 
@@ -415,6 +416,20 @@ func serveFile(w ResponseWriter, r *Request, fs FileSystem, name string, redirec
 	// serveContent will check modification time
 	sizeFunc := func() (int64, error) { return d.Size(), nil }
 	serveContent(w, r, d.Name(), d.ModTime(), sizeFunc, f)
+}
+
+func fsHTTPError(err error) (msg string, httpStatus int) {
+	if os.IsNotExist(err) {
+		return "404 page not found", StatusNotFound
+	}
+	if pe, ok := err.(*os.PathError); ok {
+		err = pe.Err
+	}
+	if err == syscall.EPERM {
+		return "403 Forbidden", StatusForbidden
+	}
+	// Default:
+	return "500 Internal Server Error", StatusInternalServerError
 }
 
 // localRedirect gives a Moved Permanently response.
