@@ -32,34 +32,15 @@ func (e *OpError) isValid() error {
 	if e.Net == "" {
 		return fmt.Errorf("OpError.Net is empty: %v", e)
 	}
-	switch addr := e.Addr.(type) {
-	case *TCPAddr:
+	if e.LocalAddr != nil || e.RemoteAddr != nil {
+		addr := e.LocalAddr
 		if addr == nil {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
+			addr = e.RemoteAddr
 		}
-	case *UDPAddr:
-		if addr == nil {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
-		}
-	case *IPAddr:
-		if addr == nil {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
-		}
-	case *IPNet:
-		if addr == nil {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
-		}
-	case *UnixAddr:
-		if addr == nil {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
-		}
-	case *pipeAddr:
-		if addr == nil {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
-		}
-	case fileAddr:
-		if addr == "" {
-			return fmt.Errorf("OpError.Addr is empty: %v", e)
+		switch addr.(type) {
+		case *TCPAddr, *UDPAddr, *IPAddr, *IPNet, *UnixAddr, *pipeAddr, fileAddr:
+		default:
+			return fmt.Errorf("OpError.LocalAddr or OpError.RemoteAddr is unknown type: %T, %v", addr, e)
 		}
 	}
 	if e.Err == nil {
