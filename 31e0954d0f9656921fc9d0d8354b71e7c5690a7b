@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0dfde21_9ea85d5a",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-21T02:50:43Z",
+      "side": 1,
+      "message": "p.Name \u003d\u003d \"main\" and buildBuildmode \u003d\u003d \"shared\" is never going to happen.  Probably the fix for that case needs to happen at another level.",
+      "range": {
+        "startLine": 541,
+        "startChar": 1,
+        "endLine": 541,
+        "endChar": 3
+      },
+      "revId": "31e0954d0f9656921fc9d0d8354b71e7c5690a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
