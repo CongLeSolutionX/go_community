@@ -833,7 +833,7 @@ func (b *builder) libaction(libname string, pkgs []*Package, mode, depMode build
 		}
 		a.deps = append(a.deps, b.action(depMode, depMode, p))
 	} else if mode == modeInstall {
-		a.f = (*builder).install
+		a.f = (*builder).installShlib
 		var libdir string
 		for _, p := range pkgs {
 			plibdir := p.build.PkgTargetRoot
@@ -1351,6 +1351,21 @@ func (b *builder) install(a *action) (err error) {
 	}
 
 	return b.moveOrCopyFile(a, a.target, a1.target, perm)
+}
+
+func (b *builder) installShlib(a *action) (err error) {
+	b.install(a)
+	pkgfile, err := os.Create(a.target + ".pkgs")
+	if err != nil {
+		return err
+	}
+	for _, d := range a.deps[0].deps {
+		_, err := pkgfile.WriteString(d.p.ImportPath + "\n")
+		if err != nil {
+			return err
+		}
+	}
+	return pkgfile.Close()
 }
 
 // includeArgs returns the -I or -L directory list for access
