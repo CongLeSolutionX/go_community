@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fba685_60ce7a04",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 6611
+      },
+      "writtenOn": "2015-04-21T21:13:16Z",
+      "side": 1,
+      "message": "Probably would be better with comment about rationale and that it handles to both Open and Stat errors.",
+      "revId": "806bb635e661eff410b93d9d91bb3ea3810fe20a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
