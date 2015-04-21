@@ -5,7 +5,6 @@
 package net
 
 import (
-	"os"
 	"syscall"
 	"time"
 	"unsafe"
@@ -27,6 +26,5 @@ func setKeepAlivePeriod(fd *netFD, d time.Duration) error {
 	}
 	ret := uint32(0)
 	size := uint32(unsafe.Sizeof(ka))
-	err := syscall.WSAIoctl(fd.sysfd, syscall.SIO_KEEPALIVE_VALS, (*byte)(unsafe.Pointer(&ka)), size, nil, 0, &ret, nil, 0)
-	return os.NewSyscallError("WSAIoctl", err)
+	return syscall.WSAIoctl(fd.sysfd, syscall.SIO_KEEPALIVE_VALS, (*byte)(unsafe.Pointer(&ka)), size, nil, 0, &ret, nil, 0)
 }

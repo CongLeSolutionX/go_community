@@ -5,7 +5,6 @@
 package net
 
 import (
-	"os"
 	"syscall"
 	"unsafe"
 )
@@ -13,7 +12,7 @@ import (
 func setIPv4MulticastInterface(fd *netFD, ifi *Interface) error {
 	ip, err := interfaceToIPv4Addr(ifi)
 	if err != nil {
-		return os.NewSyscallError("setsockopt", err)
+		return err
 	}
 	var a [4]byte
 	copy(a[:], ip.To4())
@@ -21,7 +20,7 @@ func setIPv4MulticastInterface(fd *netFD, ifi *Interface) error {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.Setsockopt(fd.sysfd, syscall.IPPROTO_IP, syscall.IP_MULTICAST_IF, (*byte)(unsafe.Pointer(&a[0])), 4))
+	return syscall.Setsockopt(fd.sysfd, syscall.IPPROTO_IP, syscall.IP_MULTICAST_IF, (*byte)(unsafe.Pointer(&a[0])), 4)
 }
 
 func setIPv4MulticastLoopback(fd *netFD, v bool) error {
@@ -29,5 +28,5 @@ func setIPv4MulticastLoopback(fd *netFD, v bool) error {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_IP, syscall.IP_MULTICAST_LOOP, boolint(v)))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_IP, syscall.IP_MULTICAST_LOOP, boolint(v))
 }

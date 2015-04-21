@@ -4,10 +4,7 @@
 
 package net
 
-import (
-	"os"
-	"syscall"
-)
+import "syscall"
 
 func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
 	if family == syscall.AF_INET6 && sotype != syscall.SOCK_RAW {
@@ -17,16 +14,16 @@ func setDefaultSockopts(s, family, sotype int, ipv6only bool) error {
 		syscall.SetsockoptInt(s, syscall.IPPROTO_IPV6, syscall.IPV6_V6ONLY, boolint(ipv6only))
 	}
 	// Allow broadcast.
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_BROADCAST, 1))
+	return syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_BROADCAST, 1)
 }
 
 func setDefaultListenerSockopts(s int) error {
 	// Allow reuse of recently-used addresses.
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, 1))
+	return syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, 1)
 }
 
 func setDefaultMulticastSockopts(s int) error {
 	// Allow multicast UDP and raw IP datagram sockets to listen
 	// concurrently across multiple listeners.
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, 1))
+	return syscall.SetsockoptInt(s, syscall.SOL_SOCKET, syscall.SO_REUSEADDR, 1)
 }

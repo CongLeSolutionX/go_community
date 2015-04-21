@@ -6,15 +6,12 @@
 
 package net
 
-import (
-	"os"
-	"syscall"
-)
+import "syscall"
 
 func setNoDelay(fd *netFD, noDelay bool) error {
 	if err := fd.incref(); err != nil {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_NODELAY, boolint(noDelay)))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_NODELAY, boolint(noDelay))
 }

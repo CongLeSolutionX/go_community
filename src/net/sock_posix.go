@@ -7,7 +7,6 @@
 package net
 
 import (
-	"os"
 	"syscall"
 	"time"
 )
@@ -125,7 +124,7 @@ func (fd *netFD) dial(laddr, raddr sockaddr, deadline time.Time) error {
 			return err
 		} else if lsa != nil {
 			if err := syscall.Bind(fd.sysfd, lsa); err != nil {
-				return os.NewSyscallError("bind", err)
+				return err
 			}
 		}
 	}
@@ -160,11 +159,11 @@ func (fd *netFD) listenStream(laddr sockaddr, backlog int) error {
 		return err
 	} else if lsa != nil {
 		if err := syscall.Bind(fd.sysfd, lsa); err != nil {
-			return os.NewSyscallError("bind", err)
+			return err
 		}
 	}
 	if err := listenFunc(fd.sysfd, backlog); err != nil {
-		return os.NewSyscallError("listen", err)
+		return err
 	}
 	if err := fd.init(); err != nil {
 		return err
@@ -202,7 +201,7 @@ func (fd *netFD) listenDatagram(laddr sockaddr) error {
 		return err
 	} else if lsa != nil {
 		if err := syscall.Bind(fd.sysfd, lsa); err != nil {
-			return os.NewSyscallError("bind", err)
+			return err
 		}
 	}
 	if err := fd.init(); err != nil {

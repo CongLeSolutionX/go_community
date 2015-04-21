@@ -7,7 +7,6 @@
 package net
 
 import (
-	"os"
 	"syscall"
 	"time"
 )
@@ -21,7 +20,7 @@ func setKeepAlivePeriod(fd *netFD, d time.Duration) error {
 	d += (time.Second - time.Nanosecond)
 	secs := int(d.Seconds())
 	if err := syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_KEEPINTVL, secs); err != nil {
-		return os.NewSyscallError("setsockopt", err)
+		return err
 	}
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_KEEPIDLE, secs))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_KEEPIDLE, secs)
 }

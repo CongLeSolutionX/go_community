@@ -38,7 +38,7 @@ func sysInit() {
 	var d syscall.WSAData
 	e := syscall.WSAStartup(uint32(0x202), &d)
 	if e != nil {
-		initErr = os.NewSyscallError("WSAStartup", e)
+		initErr = e
 	}
 	canCancelIO = syscall.LoadCancelIoEx() == nil
 	if syscall.LoadGetAddrInfo() == nil {
@@ -297,7 +297,7 @@ func (fd *netFD) init() error {
 		size := uint32(unsafe.Sizeof(flag))
 		err := syscall.WSAIoctl(fd.sysfd, syscall.SIO_UDP_CONNRESET, (*byte)(unsafe.Pointer(&flag)), size, nil, 0, &ret, nil, 0)
 		if err != nil {
-			return os.NewSyscallError("WSAIoctl", err)
+			return err
 		}
 	}
 	fd.rop.mode = 'r'
