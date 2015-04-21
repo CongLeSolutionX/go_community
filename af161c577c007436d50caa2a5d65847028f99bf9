@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0dfde21_64cdbe66",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-21T22:19:18Z",
+      "side": 1,
+      "message": "This only affects go build, the go install implementation is distressingly separate. I\u0027ll fix that (although things break when I do)",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 56
+      },
+      "revId": "af161c577c007436d50caa2a5d65847028f99bf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
