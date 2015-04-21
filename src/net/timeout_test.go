@@ -29,7 +29,7 @@ func TestDialTimeout(t *testing.T) {
 	default:
 		sw.Set(socktest.FilterConnect, func(so *socktest.Status) (socktest.AfterFilter, error) {
 			time.Sleep(2 * T)
-			return nil, errTimeout
+			return nil, errTimedout
 		})
 		defer sw.Set(socktest.FilterConnect, nil)
 	}
