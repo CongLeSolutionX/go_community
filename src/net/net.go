@@ -400,6 +400,15 @@ func (e *timeoutError) Error() string   { return "i/o timeout" }
 func (e *timeoutError) Timeout() bool   { return true }
 func (e *timeoutError) Temporary() bool { return true }
 
+// A ParseError represents a malformed text string and the type of
+// string that was expected.
+type ParseError struct {
+	Type string
+	Text string
+}
+
+func (e *ParseError) Error() string { return "invalid " + e.Type + ": " + e.Text }
+
 type AddrError struct {
 	Err  string
 	Addr string

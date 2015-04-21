@@ -6,10 +6,7 @@
 
 package net
 
-import (
-	"os"
-	"syscall"
-)
+import "syscall"
 
 // Boolean to int.
 func boolint(b bool) int {
@@ -105,7 +102,7 @@ func setReadBuffer(fd *netFD, bytes int) error {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_RCVBUF, bytes))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_RCVBUF, bytes)
 }
 
 func setWriteBuffer(fd *netFD, bytes int) error {
@@ -113,7 +110,7 @@ func setWriteBuffer(fd *netFD, bytes int) error {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_SNDBUF, bytes))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_SNDBUF, bytes)
 }
 
 func setKeepAlive(fd *netFD, keepalive bool) error {
@@ -121,7 +118,7 @@ func setKeepAlive(fd *netFD, keepalive bool) error {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_KEEPALIVE, boolint(keepalive)))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_KEEPALIVE, boolint(keepalive))
 }
 
 func setLinger(fd *netFD, sec int) error {
@@ -137,5 +134,5 @@ func setLinger(fd *netFD, sec int) error {
 		return err
 	}
 	defer fd.decref()
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptLinger(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_LINGER, &l))
+	return syscall.SetsockoptLinger(fd.sysfd, syscall.SOL_SOCKET, syscall.SO_LINGER, &l)
 }

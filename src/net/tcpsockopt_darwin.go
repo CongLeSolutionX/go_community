@@ -5,7 +5,6 @@
 package net
 
 import (
-	"os"
 	"syscall"
 	"time"
 )
@@ -23,7 +22,7 @@ func setKeepAlivePeriod(fd *netFD, d time.Duration) error {
 	switch err := syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, sysTCP_KEEPINTVL, secs); err {
 	case nil, syscall.ENOPROTOOPT: // OS X 10.7 and earlier don't support this option
 	default:
-		return os.NewSyscallError("setsockopt", err)
+		return err
 	}
-	return os.NewSyscallError("setsockopt", syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE, secs))
+	return syscall.SetsockoptInt(fd.sysfd, syscall.IPPROTO_TCP, syscall.TCP_KEEPALIVE, secs)
 }
