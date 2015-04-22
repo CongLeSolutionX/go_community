@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9070061a_674dcc4d",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T14:58:42Z",
+      "side": 1,
+      "message": "Update comment: addDereference.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_a73ee488",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T14:58:42Z",
+      "side": 1,
+      "message": "This got simplified but not renamed. The name is still unclear. Please change to funcOutputAndInput.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_c73be097",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T14:58:42Z",
+      "side": 1,
+      "message": "Remove commented out old code (or document why it\u0027s here, but since ispointy has been removed from this CL, it seems like it should go away).",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_a7d984f7",
+        "filename": "test/escape2.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T14:58:42Z",
+      "side": 1,
+      "message": "Why should it be zero? To me, zero means \"return u\" but this is returning something pointing at u.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_c7e680b2",
+        "filename": "test/escape_calls.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T14:58:42Z",
+      "side": 1,
+      "message": "The file still needs per-test BAD annotations explaining what is bad, instead of this global comment, to future-proof against later edits.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
