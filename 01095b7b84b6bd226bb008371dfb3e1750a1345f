@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "309d9a70_06eb28f3",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T18:48:27Z",
+      "side": 1,
+      "message": "I think we should push this up by the other uint8 fields, for better field layout.\n\nAlso, I think this field needs a comment.  I know none of the other fields have a comment, which is painful.  But the word \"Local\" is overloaded here: does it mean local to a package or does it mean local to a shared library?  That is, does it correspond to C static variable (can have multiple symbols with same name), or an STB_LOCAL symbol for which duplicates are not permitted, or a STB_GLOBAL/STV_HIDDEN symbol?",
+      "revId": "01095b7b84b6bd226bb008371dfb3e1750a1345f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_4610d084",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T18:48:27Z",
+      "side": 1,
+      "message": "What kind of local symbol?",
+      "revId": "01095b7b84b6bd226bb008371dfb3e1750a1345f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
