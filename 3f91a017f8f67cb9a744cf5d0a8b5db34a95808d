@@ -16,6 +16,24 @@
       "revId": "3f91a017f8f67cb9a744cf5d0a8b5db34a95808d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_ce1e97e5",
+        "filename": "src/net/tcpsockopt_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-22T22:34:12Z",
+      "side": 0,
+      "message": "i\u0027m on the fence. i feel like less-nested errors are better eventually because some code in package wants bare syscall.Errno values, os.SyscallError doesn\u0027t implement net.Error interface (in contrast syscall.Errno or ErrString does), and keeping pay attention to it is less happy.\n\ni think os.SyscallError is used in several purposes; a) an alternative to OpError because at that point the author (including me) did\u0027t know what\u0027s OpError and how to use it, b) an error value decorator for syscall.Errno/syscall.ErrString, c) others.\n\nwhich do you prefer?\na) use os.SyscallError on every syscall, and code requires bare syscall.Errno do type-assertion if necessary\nb) use os.SyscallError on call paths that never interact with bare syscall.Errno values\nc) not use os.SyscallError, keep undecorated error values",
+      "parentUuid": "309d9a70_c53e7a8a",
+      "revId": "3f91a017f8f67cb9a744cf5d0a8b5db34a95808d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
