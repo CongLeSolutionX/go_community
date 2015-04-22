@@ -16,6 +16,58 @@
       "revId": "806bb635e661eff410b93d9d91bb3ea3810fe20a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90972654_4cb9dfdb",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-04-22T09:31:23Z",
+      "side": 1,
+      "message": "I don\u0027t like this name. toHTTPError?",
+      "parentUuid": "90fba685_60ce7a04",
+      "revId": "806bb635e661eff410b93d9d91bb3ea3810fe20a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e8f_62551620",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-04-22T09:31:23Z",
+      "side": 1,
+      "message": "No need for the unpacking PathError and syscall here.\n\nhttp://golang.org/pkg/os/#IsPermission",
+      "revId": "806bb635e661eff410b93d9d91bb3ea3810fe20a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90972654_6cbe9bc6",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-04-22T09:31:23Z",
+      "side": 1,
+      "message": "No need for syscall here either. os.ErrPermission should do fine here if you change the fsHTTPError function to use IsPermission",
+      "revId": "806bb635e661eff410b93d9d91bb3ea3810fe20a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
