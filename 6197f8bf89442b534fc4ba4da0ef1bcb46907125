@@ -240,6 +240,23 @@
     },
     {
       "key": {
+        "uuid": "9070061a_c78a00b3",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T16:03:37Z",
+      "side": 1,
+      "message": "delete and s/newlevel/dec(level)/ on next line.\nthe only reason newlevel was here was to do the MinLevel test, now part of dec.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_67414cf8",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
