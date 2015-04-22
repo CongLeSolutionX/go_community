@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "309d9a70_c53e7a8a",
+        "filename": "src/net/tcpsockopt_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T15:02:27Z",
+      "side": 0,
+      "message": "I\u0027m a little worried that we\u0027re losing the exact system call.  If I\u0027m following the code correctly, we used to have a os.SyscallError that specifically refers to setsockopt, and now we will have an OpError that refers to set.  The SyscallError seems more specific.",
+      "revId": "3f91a017f8f67cb9a744cf5d0a8b5db34a95808d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
