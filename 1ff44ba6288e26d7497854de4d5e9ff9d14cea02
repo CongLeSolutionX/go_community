@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "309d9a70_06e5e84c",
+        "filename": "misc/cgo/testsigfwd/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T20:10:10Z",
+      "side": 1,
+      "message": "Use a /* comment, it\u0027s easier to read the C code.",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "1ff44ba6288e26d7497854de4d5e9ff9d14cea02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_86b47834",
+        "filename": "misc/cgo/testsigfwd/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T20:10:10Z",
+      "side": 1,
+      "message": "Don\u0027t use pthread_kill, do an actual segmentation violation.  This is easiest to do safely using a global variable.\n\nvoid *p;\nstatic void sigsegv() {\n  *p \u003d 1;\n  fprintf(...);\n  exit();\n}",
+      "revId": "1ff44ba6288e26d7497854de4d5e9ff9d14cea02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_a69fbcaa",
+        "filename": "misc/cgo/testsigfwd/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T20:10:10Z",
+      "side": 1,
+      "message": "Please also test that a Go SIGSEGV is handled correctly.\n\nvar p *byte\nfunc f() (ret bool) {\n    defer func() {\n        if recover() \u003d\u003d nil {\n            failed\n        }\n        ret \u003d true\n    }\n    *p \u003d 1\n    return false\n}\n\nif !f() {\n    failed\n}",
+      "revId": "1ff44ba6288e26d7497854de4d5e9ff9d14cea02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_e67464fa",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T20:10:10Z",
+      "side": 1,
+      "message": "Write the last sentence as \"Returns whether the signal was forwarded.\"",
+      "revId": "1ff44ba6288e26d7497854de4d5e9ff9d14cea02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_4663703f",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T20:10:10Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t seem necessary.",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 13
+      },
+      "revId": "1ff44ba6288e26d7497854de4d5e9ff9d14cea02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_865d587e",
+        "filename": "src/runtime/signal_linux.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-22T20:10:10Z",
+      "side": 1,
+      "message": "\"If there is no handler to forward to, no need to forward.\"",
+      "revId": "1ff44ba6288e26d7497854de4d5e9ff9d14cea02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
