@@ -2,6 +2,159 @@
   "comments": [
     {
       "key": {
+        "uuid": "9070061a_67ef8c83",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "s/\u003d Level{}// except you can delete this entirely (see below).",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_47ea9074",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "Replace with method:\n\nfunc (l Level) int() int {\n    return int(l.neg+l.pos)\n}\n\n(Or val if you prefer.)\n\nThen wherever you have x.lt(y) use x.int() \u003c y.int(), which is fewer definitions for the reader to understand. Similarly, x.int() \u003c 0 instead of x.lt(zeroLevel), zeroLevel goes away, and maxEncodedLevel can be a plain int, not a Level.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_a700a4bb",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "This is too clever without justification. Write clear debuggable code please, optimize in followup CLs if benchmarks warrant it.\n\nif i \u003c 0 {\n    return Level{neg: int16(-i)}\n}\nreturn Level{pos: int16(i)}",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_071b382c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "Delete lt, le, ge, gt.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_870e48e8",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "A method would be better here, both because it will make the uses nicer and because it avoids stealing the top-level name \u0027inc\u0027 from the rest of the compiler.\n\nfunc (l Level) inc(forDeref bool) Level {\n\nSimilarly func (l Level) dec() Level below, although it may be even better to use clearer names (once I understand what they mean I will propose some).",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_e7fa9c3b",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "Why all the temporaries (throughout, not just here)? Please juse use l.neg and l.pos directly - it makes the code shorter and clearer (and not that it matters but it has no performance overhead).",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_672a2c34",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "Handle error cases first. http://golang.org/doc/effective_go.html#if\nMinLevel is the error case here.\n\nif sum \u003c\u003d MinLevel {\n    return Level{neg: MinLevel}\n}\n// only record ...\n\nSame in func dec.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_e72c5c44",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "s/,/ / to make clear it\u0027s just one value not two. I was confused.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_076df884",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "s/below/above/",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_674dcc4d",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -36,6 +189,23 @@
     },
     {
       "key": {
+        "uuid": "9070061a_2772f461",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "This code is putting Sconvs back that I took out last week. Replace Sconv(x, 0) with x throughout. Similarly Nconv(x, 0) to x. (Both *Sym and *Node now have String() string methods that fmt.Printf will use automatically, so there\u0027s no need for the explicit conversion.)\n\nIt may also not affect anything (other than making the code more readable) to replace Nconv(src, obj.FmtShort) with src; although that really means Nconv(src, 0), I believe in the cases where nodes are being printed here they are the same.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_c73be097",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -47,6 +217,40 @@
       "writtenOn": "2015-04-22T14:58:42Z",
       "side": 1,
       "message": "Remove commented out old code (or document why it\u0027s here, but since ispointy has been removed from this CL, it seems like it should go away).",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_87356888",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "This comment is explaining the second half of the ||, which you\u0027ve deleted.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_67414cf8",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-22T15:22:59Z",
+      "side": 1,
+      "message": "src.Op !\u003d OINDEX does not seem conservative to me. An explicit enumeration of the cases where you want forDeref to be true would be conservative, so:\n\nsrc.Op \u003d\u003d ODOTPTR || src.Op \u003d\u003d OINDEXMAP || src.Op \u003d\u003d OIND\n\nExcept I don\u0027t understand why index of a slice is excluded but not index of a map. If anything index of a map is an even stranger operation, so all the more reason to exclude it.",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
