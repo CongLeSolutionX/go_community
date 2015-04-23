@@ -19,6 +19,58 @@
     },
     {
       "key": {
+        "uuid": "9070061a_99b86728",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-23T19:11:00Z",
+      "side": 1,
+      "message": "That\u0027s correct. The -test.* arguments are standard for test binaries built with go test -c. Specifically,\n\n  go test -run\u003dTestSomething -cpu\u003d10 package\n\nis equivalent to\n\n  go test -c\n  ./package.test -test.run\u003dTestSomething -test.cpu\u003d10",
+      "parentUuid": "d0aefe64_af4ef994",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_198c778c",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-23T19:11:00Z",
+      "side": 1,
+      "message": "You could take advantage of the new fmt help syntax: \"run `N` processes in parallel\"",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_5986ef6b",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-23T19:11:00Z",
+      "side": 1,
+      "message": "\"timeout each process after `duration`\"",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0aefe64_6f9b2173",
         "filename": "misc/stress/stress.go",
         "patchSetId": 1
@@ -30,6 +82,57 @@
       "writtenOn": "2015-04-20T18:53:31Z",
       "side": 1,
       "message": "\"kill timed out processes if true, otherwise just print pid (to attach with gdb)\"",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_b99c43b7",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-23T19:11:00Z",
+      "side": 1,
+      "message": "\"fail only if output matches `regexp`\"",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_19771704",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-23T19:11:00Z",
+      "side": 1,
+      "message": "I wouldn\u0027t use MustCompile here, since the regexp is user-provided rather than a constant string. How about\n\n  var err error\n  if failureRe, err \u003d regexp.Compile(*flagFailure); err !\u003d nil {\n    fmt.Println(\"bad failure regexp:\", err)\n    os.Exit(1)\n  }",
+      "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_397cd3e5",
+        "filename": "misc/stress/stress.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-23T19:11:00Z",
+      "side": 1,
+      "message": "\"process %v timed out\\n\"\n\nIt probably makes sense to print this regardless. Then the help string for -kill could also be simplified to just \"kill processes that time out\".",
       "revId": "78a72758b825a1d8ab44987bc52d9ec437e75c09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
