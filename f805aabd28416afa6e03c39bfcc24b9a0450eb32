@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "107df6ec_510b26ab",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "Adding a \u00260x3F here might let the compiler elide the bounds check, which might help performance a little bit.",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_51224623",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "I\u0027d say\n\nif remain \u003d\u003d 0 {\n  return\n}\n\nand out-dent the rest of the function.",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_9114bec7",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "Ditto.\n\nAlso, you use 0x3F above and 0x3f here. Either is fine, but consistency would be nice.",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_d1355655",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "It seems like you could shorten si to i. It seems reasonable if src is always indexed by i and dbuf is always indexed by j.",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_71274a32",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "if si \u003d\u003d len(src) {\n\nseems clearer to me.",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 9
+      },
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_11d36e8b",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "if si \u003d\u003d len(src) {",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_31d872a5",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-04-23T07:03:51Z",
+      "side": 1,
+      "message": "if si \u003c len(src) {",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
