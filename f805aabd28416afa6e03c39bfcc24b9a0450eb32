@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_500b32ab",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107df6ec_510b26ab",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107df6ec_51224623",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-23T07:03:51Z",
       "side": 1,
       "message": "I\u0027d say\n\nif remain \u003d\u003d 0 {\n  return\n}\n\nand out-dent the rest of the function.",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b088aa37_70102ed3",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107df6ec_51224623",
       "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_9014bac7",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107df6ec_9114bec7",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107df6ec_d1355655",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-23T07:03:51Z",
       "side": 1,
       "message": "It seems like you could shorten si to i. It seems reasonable if src is always indexed by i and dbuf is always indexed by j.",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b088aa37_b011b6d6",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "I\u0027m using si here to be consistent with Encode function - that way both use \"si\" for src index. But, I\u0027m not too attached to it either. So if you think it\u0027s better I\u0027ll change it.",
+      "parentUuid": "107df6ec_d1355655",
       "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_d01e42e5",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107df6ec_71274a32",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 9
+      },
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107df6ec_11d36e8b",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 8
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_f01b3ef2",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107df6ec_11d36e8b",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107df6ec_31d872a5",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 8
@@ -121,6 +235,24 @@
       "writtenOn": "2015-04-23T07:03:51Z",
       "side": 1,
       "message": "if si \u003c len(src) {",
+      "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b088aa37_1028ca03",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2015-04-23T08:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "107df6ec_31d872a5",
       "revId": "f805aabd28416afa6e03c39bfcc24b9a0450eb32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
