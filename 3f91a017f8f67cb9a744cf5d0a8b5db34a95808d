@@ -34,6 +34,24 @@
       "revId": "3f91a017f8f67cb9a744cf5d0a8b5db34a95808d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309d9a70_4977fc02",
+        "filename": "src/net/tcpsockopt_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-23T03:49:29Z",
+      "side": 0,
+      "message": "I\u0027m not particularly attached to os.SyscallError, but I do think it is nice to have the error message mention the actual syscall that failed.",
+      "parentUuid": "107df6ec_ce1e97e5",
+      "revId": "3f91a017f8f67cb9a744cf5d0a8b5db34a95808d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
