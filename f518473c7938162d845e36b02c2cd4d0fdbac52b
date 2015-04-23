@@ -16,6 +16,24 @@
       "revId": "f518473c7938162d845e36b02c2cd4d0fdbac52b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_5c909d4b",
+        "filename": "src/net/net.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-23T10:40:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "309d9a70_056242bd",
+      "revId": "f518473c7938162d845e36b02c2cd4d0fdbac52b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
