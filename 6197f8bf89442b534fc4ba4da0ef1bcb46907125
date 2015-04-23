@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_8aa2cfa6",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_67ef8c83",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_47ea9074",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-22T15:22:59Z",
       "side": 1,
       "message": "Replace with method:\n\nfunc (l Level) int() int {\n    return int(l.neg+l.pos)\n}\n\n(Or val if you prefer.)\n\nThen wherever you have x.lt(y) use x.int() \u003c y.int(), which is fewer definitions for the reader to understand. Similarly, x.int() \u003c 0 instead of x.lt(zeroLevel), zeroLevel goes away, and maxEncodedLevel can be a plain int, not a Level.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_6abe73c6",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_47ea9074",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_4ab9b7db",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_a700a4bb",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_071b382c",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-22T15:22:59Z",
       "side": 1,
       "message": "Delete lt, le, ge, gt.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_aa9f8b61",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_071b382c",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_2a9b9b73",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done\nI suspect the boolean will come out; I have an idea about the failure and it involves modeling the effect of a copy, as in\n  * copy \u0026 x \u003d\u003d\u003d *\u0026x \u003d\u003d\u003d x\nbut\n  \u0026 copy * px !\u003d \u0026*px \nI think once I introduce a \"level.copy()\" method to capture this then this boolean flag will not be necessary.",
+      "parentUuid": "9070061a_870e48e8",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_e7fa9c3b",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2015-04-22T15:22:59Z",
       "side": 1,
       "message": "Why all the temporaries (throughout, not just here)? Please juse use l.neg and l.pos directly - it makes the code shorter and clearer (and not that it matters but it has no performance overhead).",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_0a96df4a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done-ish, you might not want \"sum\" in there.",
+      "parentUuid": "9070061a_e7fa9c3b",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_4a90d74b",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_672a2c34",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_e72c5c44",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -132,6 +258,24 @@
       "writtenOn": "2015-04-22T15:22:59Z",
       "side": 1,
       "message": "s/,/ / to make clear it\u0027s just one value not two. I was confused.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_ea22639c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_e72c5c44",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_0ac33f3d",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_076df884",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_674dcc4d",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -166,6 +328,24 @@
       "writtenOn": "2015-04-22T14:58:42Z",
       "side": 1,
       "message": "Update comment: addDereference.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_4acd3766",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_674dcc4d",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_8ab64fc9",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_a73ee488",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_2772f461",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -200,6 +398,24 @@
       "writtenOn": "2015-04-22T15:22:59Z",
       "side": 1,
       "message": "This code is putting Sconvs back that I took out last week. Replace Sconv(x, 0) with x throughout. Similarly Nconv(x, 0) to x. (Both *Sym and *Node now have String() string methods that fmt.Printf will use automatically, so there\u0027s no need for the explicit conversion.)\n\nIt may also not affect anything (other than making the code more readable) to replace Nconv(src, obj.FmtShort) with src; although that really means Nconv(src, 0), I believe in the cases where nodes are being printed here they are the same.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_eabd03a5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done\nExcept, haven\u0027t addressed the Nconv issue yet, need to finish this cleanup pass.",
+      "parentUuid": "9070061a_2772f461",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_cad767e7",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_c73be097",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_87356888",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -240,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_0a95ff15",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_87356888",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_c78a00b3",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 9
@@ -251,6 +503,24 @@
       "writtenOn": "2015-04-22T16:03:37Z",
       "side": 1,
       "message": "delete and s/newlevel/dec(level)/ on next line.\nthe only reason newlevel was here was to do the MinLevel test, now part of dec.",
+      "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_2a9abb46",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-23T21:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_c78a00b3",
       "revId": "6197f8bf89442b534fc4ba4da0ef1bcb46907125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
