@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "107df6ec_f7616ab9",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-24T04:18:52Z",
+      "side": 1,
+      "message": "Fair enough about the placement. (Reminds me, \"someone\" should look at shrinking LSym in the linker, it has waaaaaaaaaaay more of them around at one time than the compiler).\n\nAdded a comment.",
+      "parentUuid": "309d9a70_06eb28f3",
+      "revId": "01095b7b84b6bd226bb008371dfb3e1750a1345f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "309d9a70_4610d084",
         "filename": "src/cmd/internal/obj/textflag.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-22T18:48:27Z",
       "side": 1,
       "message": "What kind of local symbol?",
+      "revId": "01095b7b84b6bd226bb008371dfb3e1750a1345f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "107df6ec_77ef3a83",
+        "filename": "src/cmd/internal/obj/textflag.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-24T04:18:52Z",
+      "side": 1,
+      "message": "Added a reference to LSym.Local.",
+      "parentUuid": "309d9a70_4610d084",
       "revId": "01095b7b84b6bd226bb008371dfb3e1750a1345f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
