@@ -391,14 +391,14 @@ func (t *tester) buildmode(mode string) bool {
 		}
 		switch pair {
 		case "darwin-amd64", "darwin-arm", "darwin-arm64",
-			"linux-amd64", "linux-386":
+			"linux-386", "linux-amd64":
 			return true
 		}
 		return false
 	case "c-shared":
-		// TODO(hyangah): add linux-386.
 		switch pair {
-		case "linux-amd64", "android-arm":
+		case "android-arm",
+			"linux-386", "linux-amd64":
 			return true
 		}
 		return false
