@@ -388,6 +388,9 @@ type p struct {
 	// disposed on certain GC state transitions.
 	gcw gcWork
 
+	// XXX
+	startm int
+
 	pad [64]byte
 }
 
