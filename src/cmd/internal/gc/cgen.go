@@ -1510,6 +1510,15 @@ func Agen(n *Node, res *Node) {
 		return
 	}
 
+	if n.Op == OINDREG && n.Xoffset == 0 {
+		// Generate MOVW R0, R1 instead of MOVW $0(R0), R1.
+		n1 := *n
+		n1.Op = OREGISTER
+		n1.Type = res.Type
+		Thearch.Gmove(&n1, res)
+		return
+	}
+
 	if n.Addable {
 		if n.Op == OREGISTER {
 			Fatal("agen OREGISTER")
