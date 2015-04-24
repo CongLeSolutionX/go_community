@@ -146,9 +146,10 @@ func ready(gp *g, traceskip int) {
 	// status is Gwaiting or Gscanwaiting, make Grunnable and put on runq
 	casgstatus(gp, _Gwaiting, _Grunnable)
 	runqput(_g_.m.p.ptr(), gp, true)
-	if atomicload(&sched.npidle) != 0 && atomicload(&sched.nmspinning) == 0 { // TODO: fast atomic
-		wakep()
-	}
+	// if atomicload(&sched.npidle) != 0 && atomicload(&sched.nmspinning) == 0 { // TODO: fast atomic
+	// 	wakep()
+	// }
+	resetspinning()
 	_g_.m.locks--
 	if _g_.m.locks == 0 && _g_.preempt { // restore the preemption request in case we've cleared it in newstack
 		_g_.stackguard0 = stackPreempt
@@ -649,6 +650,8 @@ func starttheworld() {
 			if mp.nextp != 0 {
 				throw("starttheworld: inconsistent mp->nextp")
 			}
+			// XXX Could we be handing over a P with stuff
+			// on its run queue to an M that did mspinning?
 			mp.nextp.set(p)
 			notewakeup(&mp.park)
 		} else {
@@ -736,9 +739,18 @@ func mstart1() {
 	if _g_.m.helpgc != 0 {
 		_g_.m.helpgc = 0
 		stopm()
+		if _g_.m.spinning && _g_.m.p.ptr().runnext != 0 {
+			throw("mstart1: spinning with runnext (helpgc)")
+		}
 	} else if _g_.m != &m0 {
 		acquirep(_g_.m.nextp.ptr())
 		_g_.m.nextp = 0
+		if SPINLOG {
+			println("acquired p", _g_.m.p.ptr(), "runqempty", runqempty(_g_.m.p.ptr()))
+		}
+		if _g_.m.spinning && _g_.m.p.ptr().runnext != 0 {
+			throw("mstart1: spinning with runnext")
+		}
 	}
 	schedule()
 }
@@ -1032,6 +1044,9 @@ retry:
 
 func mspinning() {
 	getg().m.spinning = true
+	if SPINLOG {
+		println("spinning set for m", getg().m, " and p", getg().m.p)
+	}
 }
 
 // Schedules some M to run the p (creates an M if necessary).
@@ -1049,6 +1064,13 @@ func startm(_p_ *p, spinning bool) {
 			}
 			return
 		}
+		_p_.startm = 1
+	} else {
+		// XXX It's this case.
+		_p_.startm = 2
+		if spinning && SPINLOG {
+			println("startm(", _p_, ",", spinning, ")")
+		}
 	}
 	mp := mget()
 	unlock(&sched.lock)
@@ -1056,7 +1078,14 @@ func startm(_p_ *p, spinning bool) {
 		var fn func()
 		if spinning {
 			fn = mspinning
+			if !runqempty(_p_) {
+				throw("startm called with spinning and P has run queue")
+			}
+			_p_.startm += 100
 		}
+		// XXX It's this case. I guess I knew that because
+		// it's going through mstart.
+		_p_.startm += 10
 		newm(fn, _p_)
 		return
 	}
@@ -1067,6 +1096,12 @@ func startm(_p_ *p, spinning bool) {
 		throw("startm: m has p")
 	}
 	mp.spinning = spinning
+	if spinning {
+		if !runqempty(_p_) {
+			throw("mp!=nil and startm called with spinning and P has run queue")
+		}
+	}
+	_p_.startm += 20
 	mp.nextp.set(_p_)
 	notewakeup(&mp.park)
 }
@@ -1083,6 +1118,12 @@ func handoffp(_p_ *p) {
 	// no local work, check that there are no spinning/idle M's,
 	// otherwise our help is not required
 	if atomicload(&sched.nmspinning)+atomicload(&sched.npidle) == 0 && cas(&sched.nmspinning, 0, 1) { // TODO: fast atomic
+		// XXX This is the only place we call startm with an
+		// existing (potentially non-idle) P and
+		// spinning=true.
+		if !runqempty(_p_) {
+			throw("handoffp about to startm with non-empty runq")
+		}
 		startm(_p_, true)
 		return
 	}
@@ -1422,22 +1463,40 @@ func injectglist(glist *g) {
 	}
 }
 
+const SPINLOG = false
+
 // One round of scheduler: find a runnable goroutine and execute it.
 // Never returns.
 func schedule() {
 	_g_ := getg()
+
+	log := false
+	if _g_.m.p.ptr().startm >= 100 {
+		if SPINLOG {
+			println("schedule p =", _g_.m.p.ptr(), "; startm =", _g_.m.p.ptr().startm)
+			log = true
+		}
+	}
 
 	if _g_.m.locks != 0 {
 		throw("schedule: holding locks")
 	}
 
 	if _g_.m.lockedg != nil {
+		if log {
+			println("lockedg")
+		}
 		stoplockedm()
 		execute(_g_.m.lockedg, false) // Never returns.
 	}
 
+	var loops int
 top:
+	loops++
 	if sched.gcwaiting != 0 {
+		if log {
+			println("gcwaiting")
+		}
 		gcstopm()
 		goto top
 	}
@@ -1452,11 +1511,17 @@ top:
 			resetspinning()
 		}
 	}
+	if log {
+		println("pre gcController.findRunnable", gp)
+	}
 	if gp == nil && gcphase == _GCmark {
 		gp = gcController.findRunnable(_g_.m.p.ptr())
 		if gp != nil {
 			resetspinning()
 		}
+	}
+	if log {
+		println("pre global", gp)
 	}
 	if gp == nil {
 		// Check the global runnable queue once in a while to ensure fairness.
@@ -1471,17 +1536,39 @@ top:
 			}
 		}
 	}
+	if log {
+		println("pre runqget", gp)
+	}
 	if gp == nil {
 		gp, inheritTime = runqget(_g_.m.p.ptr())
 		if gp != nil && _g_.m.spinning {
+			// What I know:
+			//
+			// gp comes from runnext. The P otherwise has
+			// no work (runqhead == runqtail). This is the
+			// first time through (we didn't goto top).
+			// _g_.m.spinning is set because we came from
+			// an mstart -> mstart1 with mstartfn set to
+			// mspinning.
+			println("inheritTime", inheritTime, "loops", loops, "mstartfn", _g_.m.mstartfn, "->", hex(**(**uintptr)(unsafe.Pointer(&_g_.m.mstartfn))), "mspinning", hex(funcPC(mspinning)), "runqhead", _g_.m.p.ptr().runqhead, "runqtail", _g_.m.p.ptr().runqtail, "p.startm", _g_.m.p.ptr().startm)
 			throw("schedule: spinning with local work")
 		}
+	}
+	if log {
+		println("clearing startm for", _g_.m.p.ptr())
+	}
+	_g_.m.p.ptr().startm = 0
+	if log {
+		println("pre findrunnable", gp)
 	}
 	if gp == nil {
 		gp, inheritTime = findrunnable() // blocks until work is available
 		resetspinning()
 	}
 
+	if log {
+		println("pre lockedm", gp)
+	}
 	if gp.lockedm != nil {
 		// Hands off own p to the locked m,
 		// then blocks waiting for a new p.
@@ -1489,6 +1576,9 @@ top:
 		goto top
 	}
 
+	if log {
+		println("pre execute", gp)
+	}
 	execute(gp, inheritTime)
 }
 
@@ -2920,6 +3010,10 @@ func retake(now int64) uint32 {
 				}
 				n++
 				_p_.syscalltick++
+				// XXX Is it possible for _p_ to ready
+				// something before it discovers its
+				// new status? Possibly involving a
+				// signal?
 				handoffp(_p_)
 			}
 			incidlelocked(1)
@@ -3180,6 +3274,9 @@ func globrunqget(_p_ *p, max int32) *g {
 // May run during STW, so write barriers are not allowed.
 //go:nowritebarrier
 func pidleput(_p_ *p) {
+	if !runqempty(_p_) {
+		throw("pidleput: P has non-empty run queue")
+	}
 	_p_.link = sched.pidle
 	sched.pidle.set(_p_)
 	xadd(&sched.npidle, 1) // TODO: fast atomic
@@ -3210,6 +3307,14 @@ func runqempty(_p_ *p) bool {
 // If the run queue is full, runnext puts g on the global queue.
 // Executed only by the owner P.
 func runqput(_p_ *p, gp *g, next bool) {
+	if _p_.startm >= 100 {
+		println("runqput with p.startm =", _p_.startm, "p", _p_)
+		throw("runqput at bad time")
+	}
+	if getg().m.p.ptr() != _p_ {
+		println("not my p", getg().m.p.ptr(), _p_)
+	}
+
 	if next {
 	retryNext:
 		oldnext := _p_.runnext
