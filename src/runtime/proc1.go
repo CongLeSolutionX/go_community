@@ -1083,6 +1083,12 @@ func handoffp(_p_ *p) {
 	// no local work, check that there are no spinning/idle M's,
 	// otherwise our help is not required
 	if atomicload(&sched.nmspinning)+atomicload(&sched.npidle) == 0 && cas(&sched.nmspinning, 0, 1) { // TODO: fast atomic
+		// XXX This is the only place we call startm with an
+		// existing (potentially non-idle) P and
+		// spinning=true.
+		if !runqempty(_p_) {
+			throw("handoffp about to startm with non-empty runq")
+		}
 		startm(_p_, true)
 		return
 	}
@@ -1436,7 +1442,9 @@ func schedule() {
 		execute(_g_.m.lockedg, false) // Never returns.
 	}
 
+	var loops int
 top:
+	loops++
 	if sched.gcwaiting != 0 {
 		gcstopm()
 		goto top
@@ -1474,6 +1482,7 @@ top:
 	if gp == nil {
 		gp, inheritTime = runqget(_g_.m.p.ptr())
 		if gp != nil && _g_.m.spinning {
+			println("inheritTime", inheritTime, "loops", loops, "mstartfn", _g_.m.mstartfn, "->", hex(**(**uintptr)(unsafe.Pointer(&_g_.m.mstartfn))), "mspinning", hex(funcPC(mspinning)), "runqhead", _g_.m.p.ptr().runqhead, "runqtail", _g_.m.p.ptr().runqtail)
 			throw("schedule: spinning with local work")
 		}
 	}
@@ -3180,6 +3189,9 @@ func globrunqget(_p_ *p, max int32) *g {
 // May run during STW, so write barriers are not allowed.
 //go:nowritebarrier
 func pidleput(_p_ *p) {
+	if !runqempty(_p_) {
+		throw("pidleput: P has non-empty run queue")
+	}
 	_p_.link = sched.pidle
 	sched.pidle.set(_p_)
 	xadd(&sched.npidle, 1) // TODO: fast atomic
