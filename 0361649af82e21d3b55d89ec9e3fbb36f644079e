@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9070061a_ffedb807",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T14:57:08Z",
+      "side": 1,
+      "message": "This isn\u0027t the right condition for enabling write barriers. If shadow is enabled, write barriers should always be on. If shadow isn\u0027t enabled, this will needlessly enable them in _GCscan.\n\nProbably the right thing to do is to add a new global boolean that controls write barriers and have that be always set if shadow is enabled and otherwise toggle it along with the phase changes.",
+      "revId": "0361649af82e21d3b55d89ec9e3fbb36f644079e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_ff1f7887",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2227,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T14:57:08Z",
+      "side": 1,
+      "message": "Should this go in the previous patch?",
+      "revId": "0361649af82e21d3b55d89ec9e3fbb36f644079e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
