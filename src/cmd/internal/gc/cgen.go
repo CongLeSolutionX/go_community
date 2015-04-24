@@ -834,8 +834,6 @@ func cgen_wbfat(n, res *Node) {
 	if Debug_wb > 0 {
 		Warn("write barrier")
 	}
-	needType := true
-	funcName := "typedmemmove"
 	var dst, src Node
 	if n.Ullman >= res.Ullman {
 		Agenr(n, &src, nil)
@@ -844,30 +842,214 @@ func cgen_wbfat(n, res *Node) {
 		Agenr(res, &dst, nil)
 		Agenr(n, &src, nil)
 	}
-	p := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &dst, nil)
-	a := &p.To
-	a.Type = obj.TYPE_MEM
-	a.Reg = int16(Thearch.REGSP)
-	a.Offset = 0
-	if HasLinkRegister() {
-		a.Offset += int64(Widthptr)
+
+	l := dst
+	l.Op = OINDREG
+	r := src
+	r.Op = OINDREG
+
+	move := func(offset int) {
+		l.Xoffset = int64(offset)
+		r.Xoffset = int64(offset)
+		l.Type = Types[TUINTPTR]
+		r.Type = Types[TUINTPTR]
+		Thearch.Gmove(&r, &l)
 	}
-	if needType {
-		a.Offset += int64(Widthptr)
+
+	moveptr := func(offset int) {
+		l.Xoffset = int64(offset)
+		r.Xoffset = int64(offset)
+		l.Type = Types[Tptr]
+		r.Type = Types[Tptr]
+		src := r
+		src.Op = OREGISTER
+		Thearch.Gmove(&r, &src)
+		cgen_wbptr(&src, &l)
 	}
-	p2 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
-	p2.To = p.To
-	p2.To.Offset += int64(Widthptr)
+
+	kind := wbKind(res.Type)
+	switch kind {
+	case wb01, wbIface:
+		move(0)
+		moveptr(Widthptr)
+
+	case wb10, wbString:
+		move(Widthptr)
+		moveptr(0)
+
+	case wb001:
+		move(0)
+		move(Widthptr)
+		moveptr(2 * Widthptr)
+
+	case wb010:
+		move(0)
+		move(2 * Widthptr)
+		moveptr(Widthptr)
+
+	case wb100, wbSlice:
+		move(Widthptr)
+		move(2 * Widthptr)
+		moveptr(0)
+
+	case wb0001:
+		move(0)
+		move(Widthptr)
+		move(2 * Widthptr)
+		moveptr(3 * Widthptr)
+
+	case wb0010:
+		move(0)
+		move(Widthptr)
+		move(3 * Widthptr)
+		moveptr(2 * Widthptr)
+
+	case wb0100:
+		move(0)
+		move(2 * Widthptr)
+		move(3 * Widthptr)
+		moveptr(Widthptr)
+
+	case wb1000:
+		move(Widthptr)
+		move(2 * Widthptr)
+		move(3 * Widthptr)
+		moveptr(0)
+
+	default:
+		funcName := wbName[kind]
+		p := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &dst, nil)
+		a := &p.To
+		a.Type = obj.TYPE_MEM
+		a.Reg = int16(Thearch.REGSP)
+		a.Offset = 0
+		if HasLinkRegister() {
+			a.Offset += int64(Widthptr)
+		}
+		if kind == wbAny {
+			a.Offset += int64(Widthptr)
+		}
+		var fn *Node
+		if kind == wbAny {
+			p2 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
+			p2.To = p.To
+			p2.To.Offset += int64(Widthptr)
+
+			Regalloc(&src, Types[Tptr], &src)
+			Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), typename(n.Type), &src)
+			p3 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
+			p3.To = p2.To
+			p3.To.Offset -= 2 * int64(Widthptr)
+			Regfree(&src)
+			fn = writebarrierfn(funcName, Types[Tptr], Types[Tptr])
+		} else {
+			var sp Node
+			sp.Op = OINDREG
+			sp.Reg = int16(Thearch.REGSP)
+			sp.Xoffset = a.Offset + int64(Widthptr)*2
+			sp.Type = Types[Tptr]
+			r.Xoffset = 0
+			r.Type = Types[Tptr]
+			for i := 0; i < int(res.Type.Width/int64(Widthptr)); i++ {
+				Thearch.Gmove(&r, &sp)
+				r.Xoffset += int64(Widthptr)
+				sp.Xoffset += int64(Widthptr)
+			}
+			fn = writebarrierfn(funcName, Types[Tptr], res.Type)
+		}
+		Ginscall(fn, 0)
+	}
 	Regfree(&dst)
-	if needType {
-		src.Type = Types[Tptr]
-		Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), typename(n.Type), &src)
-		p3 := Thearch.Gins(Thearch.Optoas(OAS, Types[Tptr]), &src, nil)
-		p3.To = p2.To
-		p3.To.Offset -= 2 * int64(Widthptr)
-	}
 	Regfree(&src)
-	Ginscall(writebarrierfn(funcName, Types[Tptr], Types[Tptr]), 0)
+}
+
+const (
+	wbNone = 1 + iota
+	wbAny
+	wbString
+	wbSlice
+	wbIface
+	wb01
+	wb10
+	wb11
+	wb001
+	wb010
+	wb011
+	wb100
+	wb101
+	wb110
+	wb111
+	wb0001
+	wb0010
+	wb0011
+	wb0100
+	wb0101
+	wb0110
+	wb0111
+	wb1000
+	wb1001
+	wb1010
+	wb1011
+	wb1100
+	wb1101
+	wb1110
+	wb1111
+)
+
+var wbName = []string{
+	wbAny:  "typedmemmove",
+	wb01:   "writebarrierfat01",
+	wb10:   "writebarrierfat10",
+	wb11:   "writebarrierfat11",
+	wb001:  "writebarrierfat001",
+	wb010:  "writebarrierfat010",
+	wb011:  "writebarrierfat011",
+	wb100:  "writebarrierfat100",
+	wb101:  "writebarrierfat101",
+	wb110:  "writebarrierfat110",
+	wb111:  "writebarrierfat111",
+	wb0001: "writebarrierfat0001",
+	wb0010: "writebarrierfat0010",
+	wb0011: "writebarrierfat0011",
+	wb0100: "writebarrierfat0100",
+	wb0101: "writebarrierfat0101",
+	wb0110: "writebarrierfat0110",
+	wb0111: "writebarrierfat0111",
+	wb1000: "writebarrierfat1000",
+	wb1001: "writebarrierfat1001",
+	wb1010: "writebarrierfat1010",
+	wb1011: "writebarrierfat1011",
+	wb1100: "writebarrierfat1100",
+	wb1101: "writebarrierfat1101",
+	wb1110: "writebarrierfat1110",
+	wb1111: "writebarrierfat1111",
+}
+
+func wbKind(t *Type) int {
+	if !haspointers(t) {
+		return wbNone
+	}
+	if t.Width > 4*int64(Widthptr) {
+		return wbAny
+	}
+	n := uint(t.Width) / uint(Widthptr)
+	var bits int
+	visitComponents(t, 0, func(t *Type, offset int64) bool {
+		if haspointers(t) {
+			bits |= 1 << (n - 1 - uint(offset/int64(Widthptr)))
+		}
+		return true
+	})
+	switch t.Width / int64(Widthptr) {
+	case 2:
+		return wb01 + bits - 1
+	case 3:
+		return wb001 + bits - 1
+	case 4:
+		return wb0001 + bits - 1
+	}
+	Fatal("wbkind %v", t)
+	return wbAny
 }
 
 // cgen_norm moves n1 to res, truncating to expected type if necessary.
