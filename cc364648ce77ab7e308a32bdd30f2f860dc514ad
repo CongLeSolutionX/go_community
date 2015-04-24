@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9070061a_559b0b72",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T19:54:25Z",
+      "side": 1,
+      "message": "Check for error and log.Fatal if user provided a bad number.",
+      "revId": "cc364648ce77ab7e308a32bdd30f2f860dc514ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
