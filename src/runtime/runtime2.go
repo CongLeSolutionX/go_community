@@ -522,6 +522,13 @@ type forcegcstate struct {
 }
 
 var gcphase uint32
+var writeBarrierEnabled bool // referred to by compiled code
+
+//go:nosplit
+func setGCPhase(x uint32) {
+	gcphase = x
+	writeBarrierEnabled = gcphase == _GCmark || gcphase == _GCmarktermination || mheap_.shadow_enabled
+}
 
 /*
  * known to compiler

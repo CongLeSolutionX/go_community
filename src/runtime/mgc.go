@@ -751,7 +751,7 @@ func gc(mode int) {
 		heapGoal = gcController.heapGoal
 
 		systemstack(func() {
-			gcphase = _GCscan
+			setGCPhase(_GCscan)
 
 			// Concurrent scan.
 			starttheworld()
@@ -774,7 +774,7 @@ func gc(mode int) {
 			}
 			stoptheworld()
 			gcBgMarkPrepare()
-			gcphase = _GCmark
+			setGCPhase(_GCmark)
 
 			// Concurrent mark.
 			starttheworld()
@@ -822,7 +822,7 @@ func gc(mode int) {
 
 	// World is stopped.
 	// Start marktermination which includes enabling the write barrier.
-	gcphase = _GCmarktermination
+	setGCPhase(_GCmarktermination)
 
 	if debug.gctrace > 0 {
 		heap1 = memstats.heap_live
@@ -858,7 +858,7 @@ func gc(mode int) {
 		}
 
 		// marking is complete so we can turn the write barrier off
-		gcphase = _GCoff
+		setGCPhase(_GCoff)
 		gcSweep(mode)
 
 		if debug.gctrace > 1 {
@@ -872,9 +872,9 @@ func gc(mode int) {
 			// Still in STW but gcphase is _GCoff, reset to _GCmarktermination
 			// At this point all objects will be found during the gcMark which
 			// does a complete STW mark and object scan.
-			gcphase = _GCmarktermination
+			setGCPhase(_GCmarktermination)
 			gcMark(startTime)
-			gcphase = _GCoff // marking is done, turn off wb.
+			setGCPhase(_GCoff) // marking is done, turn off wb.
 			gcSweep(mode)
 		}
 	})
