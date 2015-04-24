@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9070061a_3aeafea5",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T18:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_bf2b407c",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 67
+      },
+      "revId": "70e045201a1927df20cfec479ad17fb7471b73d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_7feaa874",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-24T16:06:56Z",
       "side": 1,
       "message": "Might this be better called findRunnableGCWorker. When I was first reviewing it I did a full stop before I realized it was a method call. I\u0027m used to it now but the next reader will likely also struggle. The GC code is a bit s",
+      "range": {
+        "startLine": 461,
+        "startChar": 28,
+        "endLine": 461,
+        "endChar": 40
+      },
+      "revId": "70e045201a1927df20cfec479ad17fb7471b73d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_5aefbab4",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T18:30:23Z",
+      "side": 1,
+      "message": "Sure. I\u0027ll do this in a follow-up since findRunnable wasn\u0027t introduced in this commit.",
+      "parentUuid": "9070061a_7feaa874",
       "range": {
         "startLine": 461,
         "startChar": 28,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9070061a_dadaca11",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T18:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_9f4da450",
+      "range": {
+        "startLine": 763,
+        "startChar": 2,
+        "endLine": 765,
+        "endChar": 13
+      },
+      "revId": "70e045201a1927df20cfec479ad17fb7471b73d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_bfdc20e8",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 7
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9070061a_5a9a5a47",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1452,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T18:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_bfdc20e8",
+      "range": {
+        "startLine": 1452,
+        "startChar": 46,
+        "endLine": 1452,
+        "endChar": 56
+      },
+      "revId": "70e045201a1927df20cfec479ad17fb7471b73d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_ffe698b1",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 7
@@ -105,6 +201,30 @@
       "writtenOn": "2015-04-24T16:06:56Z",
       "side": 1,
       "message": "If gcphase is _GCmarktermination background don\u0027t background workers\ncontinue to blacken objects?",
+      "range": {
+        "startLine": 521,
+        "startChar": 0,
+        "endLine": 521,
+        "endChar": 22
+      },
+      "revId": "70e045201a1927df20cfec479ad17fb7471b73d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_1a8702e3",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T18:30:23Z",
+      "side": 1,
+      "message": "No. They all have to park before we can stop the world for mark termination and they stay parked until the next GC cycle enters concurrent mark again. Marking during mark termination is handled by the parfor and gchelper.",
+      "parentUuid": "9070061a_ffe698b1",
       "range": {
         "startLine": 521,
         "startChar": 0,
