@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9070061a_954d8350",
+        "filename": "src/runtime/signal_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-24T20:56:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "309d9a70_e127db2f",
+      "revId": "0c0c32086e7f2b0c9495f3dbc496754b18b72224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "309d9a70_013cdf41",
         "filename": "src/runtime/sys_darwin_amd64.s",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9070061a_150c333d",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-24T20:56:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "309d9a70_013cdf41",
+      "range": {
+        "startLine": 203,
+        "startChar": 38,
+        "endLine": 203,
+        "endChar": 40
+      },
+      "revId": "0c0c32086e7f2b0c9495f3dbc496754b18b72224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "309d9a70_a1d873a6",
         "filename": "src/runtime/sys_darwin_amd64.s",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2015-04-24T19:25:43Z",
       "side": 1,
       "message": "The original code passes SI to sigreturn.  This code appears to wind up passing CX instead.",
+      "revId": "0c0c32086e7f2b0c9495f3dbc496754b18b72224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_35c92f2d",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-24T20:56:13Z",
+      "side": 1,
+      "message": "Argh, after all the time I spent trying to decipher XNU\u0027s infostyle parameter and in the end I forgot to wire it up.\n\nThat does give some hint though about what it does: not much.",
+      "parentUuid": "309d9a70_a1d873a6",
       "revId": "0c0c32086e7f2b0c9495f3dbc496754b18b72224",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
