@@ -170,6 +170,27 @@ func setGCPercent(in int32) (out int32) {
 	return out
 }
 
+// Garbage collector phase.
+// Indicates to write barrier and sychronization task to preform.
+var gcphase uint32
+var writeBarrierEnabled bool // compiler emits references to this in write barriers
+
+const (
+	_GCoff             = iota // GC not running, write barrier disabled
+	_GCquiesce                // unused state
+	_GCstw                    // unused state
+	_GCscan                   // GC collecting roots into workbufs, write barrier disabled
+	_GCmark                   // GC marking from workbufs, write barrier ENABLED
+	_GCmarktermination        // GC mark termination: allocate black, P's help GC, write barrier ENABLED
+	_GCsweep                  // GC mark completed; sweeping in background, write barrier disabled
+)
+
+//go:nosplit
+func setGCPhase(x uint32) {
+	gcphase = x
+	writeBarrierEnabled = gcphase == _GCmark || gcphase == _GCmarktermination || mheap_.shadow_enabled
+}
+
 // gcMarkWorkerMode represents the mode that a concurrent mark worker
 // should operate in.
 //
@@ -751,7 +772,7 @@ func gc(mode int) {
 		heapGoal = gcController.heapGoal
 
 		systemstack(func() {
-			gcphase = _GCscan
+			setGCPhase(_GCscan)
 
 			// Concurrent scan.
 			starttheworld()
@@ -774,7 +795,7 @@ func gc(mode int) {
 			}
 			stoptheworld()
 			gcBgMarkPrepare()
-			gcphase = _GCmark
+			setGCPhase(_GCmark)
 
 			// Concurrent mark.
 			starttheworld()
@@ -822,7 +843,7 @@ func gc(mode int) {
 
 	// World is stopped.
 	// Start marktermination which includes enabling the write barrier.
-	gcphase = _GCmarktermination
+	setGCPhase(_GCmarktermination)
 
 	if debug.gctrace > 0 {
 		heap1 = memstats.heap_live
@@ -858,7 +879,7 @@ func gc(mode int) {
 		}
 
 		// marking is complete so we can turn the write barrier off
-		gcphase = _GCoff
+		setGCPhase(_GCoff)
 		gcSweep(mode)
 
 		if debug.gctrace > 1 {
@@ -872,9 +893,9 @@ func gc(mode int) {
 			// Still in STW but gcphase is _GCoff, reset to _GCmarktermination
 			// At this point all objects will be found during the gcMark which
 			// does a complete STW mark and object scan.
-			gcphase = _GCmarktermination
+			setGCPhase(_GCmarktermination)
 			gcMark(startTime)
-			gcphase = _GCoff // marking is done, turn off wb.
+			setGCPhase(_GCoff) // marking is done, turn off wb.
 			gcSweep(mode)
 		}
 	})
