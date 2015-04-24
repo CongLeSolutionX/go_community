@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9070061a_551dcb64",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2284,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T20:07:07Z",
+      "side": 1,
+      "message": "Remove blank line?",
+      "revId": "e07b4e4b7871f65f07e29a8c0e233fac538cebcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
