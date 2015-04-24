@@ -1436,7 +1436,9 @@ func schedule() {
 		execute(_g_.m.lockedg, false) // Never returns.
 	}
 
+	var loops int
 top:
+	loops++
 	if sched.gcwaiting != 0 {
 		gcstopm()
 		goto top
@@ -1474,6 +1476,7 @@ top:
 	if gp == nil {
 		gp, inheritTime = runqget(_g_.m.p.ptr())
 		if gp != nil && _g_.m.spinning {
+			println("inheritTime", inheritTime, "loops", loops, "mstartfn", _g_.m.mstartfn)
 			throw("schedule: spinning with local work")
 		}
 	}
