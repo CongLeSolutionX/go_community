@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9070061a_ffc0582b",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "Should this go in \"emit write barriers at lower level\" instead?",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_3f959016",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "I assume the plan is that needType and funcName are going to become non-constant at some point?",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_3f7cb06e",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "Maybe a comment here. It took me a while to figure out that this is setting up the *first* argument to typedmemmove, since I didn\u0027t realize that the writebarrierfn below replaces the first two \"any\"-typed arguments, rather than the first two arguments. The comment could also explain why this is setting up the arguments out of order.",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_3f6750d6",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "Separate CL?",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_7f71c88a",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "Check for an error here.",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_5f532cf1",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2222,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "Is this related to the typedmemmove change? It seems like if the race detector was going to break, it would have broken with the inlining change.",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9070061a_1f6294bd",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-24T15:52:47Z",
+      "side": 1,
+      "message": "Remove blank line",
+      "revId": "ebd4194d5989c4d3c637d83b820afc41ad72bb14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
