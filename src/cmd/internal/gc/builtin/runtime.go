@@ -109,6 +109,8 @@ func chansend1(chanType *byte, hchan chan<- any, elem *any)
 func closechan(hchan any)
 
 // *byte is really *runtime.Type
+var writeBarrierEnabled bool
+
 func writebarrierptr(dst *any, src any)
 func writebarrierstring(dst *any, src any)
 func writebarrierslice(dst *any, src any)
