@@ -1031,7 +1031,15 @@ retry:
 }
 
 func mspinning() {
-	getg().m.spinning = true
+	gp := getg()
+	if !runqempty(gp.m.nextp.ptr()) {
+		// Something (presumably the GC) was readied while the
+		// runtime was starting up this M, so the M is no
+		// longer spinning.
+		xadd(&sched.nmspinning, -1)
+	} else {
+		gp.m.spinning = true
+	}
 }
 
 // Schedules some M to run the p (creates an M if necessary).
