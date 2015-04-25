@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f712e2_034f8e93",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s/  / /",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_e3aeb298",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "Does that actually do anything? It looks like it would print this same message again. The pkg doc above says \u0027go help doc\u0027. Should this?",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_c3b3b6fc",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s/will/may/\n\nI think this should try all the possible dots after the final slash, since there are some packages like gopkg.in/mgo.v2 and people might say \u0027doc gopkg.in/yaml.v2.Marshal\u0027 or \u0027doc yaml.v2.Marshal\u0027. Easy to do, only costs a few dir stats of non-existent names, and won\u0027t affect \u0027doc bytes.Buffer.Len\u0027 because in that case the loop will succeed in the first iteration:\n\nvar period int\nfor start :\u003d slash+1; start \u003c len(arg); start \u003d period+1 {\n    period \u003d start + ...\n    ...\n    if path !\u003d \"\" {\n        return importDir(path), symbol\n    }\n}\n// If it has a slash we\u0027ve failed\n....",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_a3b8bad9",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "\u003e\u003d 0",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_e395923e",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "splits\ns/strings/roots/",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_63a3e2ad",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "return filepath.SplitList(build.Default.GOPATH)\n\nIt handles \"\" correctly, and it handles Windows quoting rules you don\u0027t want to know about.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_03aaee7e",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s/path/slash/?",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_23adea96",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "filepath.Separator and os.PathSeparator are the same; use one only, probably filepath.Separator.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_a38f9a2e",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "go/build already did this. Okay to double-check, as you do below with len(pkgs) !\u003d 1, but here all you need is \n\npkgName :\u003d pkg.Name",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_83949e3f",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "move inside if?",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_83fffe77",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "There are some comments below, but here is the important one: I think this code should be using go/doc to convert from AST to comment information and then walking the doc.Package to do the printing.\n\ngo/doc does not use go/types, so it should be no less efficient than the code here, and it avoids maintaining a second copy of the logic to extract docs from the AST. It may not be an exact fit, but we can adjust go/doc to fit as needed. The actual searches and printing traversals should be simpler over the go/doc data structures than the raw AST anyway.\n\nThe most important thing that go/doc does, which you definitely don\u0027t want to reimplement here, is method promotion due to embedding (and non-promotion due to conflicts etc). \n\nTry \u0027doc net.TCPConn\u0027 and it will be missing the Read method, because that comes in via embedding. Or \u0027doc net.TCPConn.Read\u0027. Using go/doc will get that for free.\n\nThis will affect most of the code in this file in some way, so I stopped reviewing carefully when I realized this.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_4387c613",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "Maybe\nfmt.Printf(\"package %s // import %q\\n\\n\", pkg.name, pkg.pkg.ImportPath)\n?\n\nThen if you were to run, say, \u0027doc json\u0027 you\u0027d find out that the import path you want is \"encoding/json\". And it reuses the import comment syntax we already have instead of taking up another line.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_2384ca0c",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "FWIW, the label is unnecessary.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_0381cefc",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s/ast.Node/ast.Spec/ if you feel like being precise",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_e3f0f2ab",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s/its/",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_632c0295",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "Unicode is not this nice. \u0027k\u0027 won\u0027t match U+212A Kelvin sign this way, but 212A is a letter (I checked) so it needs to be handled. Sometimes it\u0027s multiple lowers (S, s, U+017F) and sometimes multiple uppers (K, U+212A, k), so there\u0027s no ToLower/ToUpper test that is correct. While those are the only two involving ASCII, there are lots of cases outside ASCII (the first is U+01C4, U+01C5, U+01C6).\n\nIt\u0027s at least not too hard to fix:\ns/unicode.ToUpper(u) \u003d\u003d p/simpleFold(u) \u003d\u003d simpleFold(p)/\n\n// toSimpleFold returns the minimum rune equivalent to r\n// under Unicode-defined simple case folding.\nfunc toSimpleFold(r rune) rune {\n    for {\n        r1 :\u003d unicode.SimpleFold(r)\n        if r1 \u003c\u003d r {\n             return r1 // wrapped around, found min\n        }\n        r \u003d r1\n    }\n}\n\nMaybe I should put that in package unicode at some point.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_63052213",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "\"by the file system\" sounds like the order of directory entries coming back from the read system call, but filepath.Walk visits directories in lexical order.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_e317d244",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": ", and so on).\n\n[missing period at end of sentence]",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_030c2e3c",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s/  / / after ...",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_c31cd66b",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "s;json;encoding/json;",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_a311da51",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "If I understand correctly, this is shorthand for encoding/json always, since encoding/json will be found first.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_8316de45",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T15:19:23Z",
+      "side": 1,
+      "message": "Reversal of arguments is slightly awkward. for json.Number\u0027s Int64 method.",
+      "revId": "73e2f019e57ed6b50097d117633763725af409da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
