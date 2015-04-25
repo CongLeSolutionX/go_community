@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70f712e2_836b7eee",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9070061a_55f6aba6",
+      "revId": "69fd80755fd2deeb1edc3488dce1739284461b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9070061a_158193fc",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-24T19:59:49Z",
       "side": 1,
       "message": "// referred to by compiler-generated code\n\nIt\u0027s all compiled code. :)",
+      "revId": "69fd80755fd2deeb1edc3488dce1739284461b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_6371a2d9",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-25T14:00:25Z",
+      "side": 1,
+      "message": "Done. Also moved these into mgc.go.",
+      "parentUuid": "9070061a_158193fc",
       "revId": "69fd80755fd2deeb1edc3488dce1739284461b07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
