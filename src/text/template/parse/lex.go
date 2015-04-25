@@ -99,6 +99,7 @@ type lexer struct {
 	lastPos    Pos       // position of most recent item returned by nextItem
 	items      chan item // channel of scanned items
 	parenDepth int       // nesting depth of ( ) exprs
+	quit       bool      // to abort the lexing
 }
 
 // next returns the next rune in the input.
@@ -168,9 +169,12 @@ func (l *lexer) errorf(format string, args ...interface{}) stateFn {
 
 // nextItem returns the next item from the input.
 func (l *lexer) nextItem() item {
-	item := <-l.items
-	l.lastPos = item.pos
-	return item
+	if l.quit {
+		return item{itemEOF, l.pos, "aborted"}
+	}
+	nextItem := <-l.items
+	l.lastPos = nextItem.pos
+	return nextItem
 }
 
 // lex creates a new scanner for the input string.
@@ -195,7 +199,20 @@ func lex(name, input, left, right string) *lexer {
 // run runs the state machine for the lexer.
 func (l *lexer) run() {
 	for l.state = lexText; l.state != nil; {
+		if l.quit {
+			close(l.items)
+			return
+		}
 		l.state = l.state(l)
+	}
+}
+
+// abort the lexing, and finish the run go routine.
+func (l *lexer) abort() {
+	l.quit = true
+	select {
+	case <-l.items: // if case the lexer is waiting on emit()
+	default:
 	}
 }
 

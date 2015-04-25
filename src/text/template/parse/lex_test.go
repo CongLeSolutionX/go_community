@@ -463,3 +463,11 @@ func TestPos(t *testing.T) {
 		}
 	}
 }
+
+func testAbort(t *testing.T) {
+	l := lex("name", "{{define}}", "{{", "}}")
+	l.abort()
+	if token := l.nextItem(); token.typ != itemEOF {
+		t.Errorf("Expected EOF, got: %#v", token)
+	}
+}
