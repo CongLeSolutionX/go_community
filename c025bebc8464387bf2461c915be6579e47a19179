@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3012fad8_89def956",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-25T06:03:46Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t realise that Level is embedded into *Node.",
+      "parentUuid": "107df6ec_1d0b7f5e",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107df6ec_fdea2bed",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 10
@@ -64,6 +82,74 @@
       "writtenOn": "2015-04-25T00:50:57Z",
       "side": 1,
       "message": "same as above, can you avoid passing *string ?",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3012fad8_09d44939",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-25T06:03:46Z",
+      "side": 1,
+      "message": "delete the comment, line 1594 is self explanitory",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3012fad8_e9dfb555",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1634,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-25T06:03:46Z",
+      "side": 1,
+      "message": "same",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3012fad8_a9d9bd72",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-25T06:03:46Z",
+      "side": 1,
+      "message": "please take the opportunity to convert this to a go style // comment",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3012fad8_69f4e5d1",
+        "filename": "src/runtime/string1.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-04-25T06:03:46Z",
+      "side": 1,
+      "message": "can this change land separately?",
       "revId": "c025bebc8464387bf2461c915be6579e47a19179",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
