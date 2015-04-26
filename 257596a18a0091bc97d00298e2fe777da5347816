@@ -16,6 +16,24 @@
       "revId": "257596a18a0091bc97d00298e2fe777da5347816",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "500f6eb1_8a16eb45",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 7750
+      },
+      "writtenOn": "2015-04-26T17:22:18Z",
+      "side": 1,
+      "message": "Code showing the problem: http://play.golang.org/p/bD-nCEHtR_\nThe full description is in the GitHub issue, I neglected to add it in the commit message as well.\n\nThis issue affects all characters that need to be escaped in URLs (e.g. \u0027?\u0027, \u0027{\u0027, \u0027%\u0027, \u0027#\u0027).\n\nThis test registers the pattern \"/#/\" with ServeMux. The browser accesses it at the escaped URL \"http://localhost/%23/\". This works.\nIf the browser requests \"http://localhost/%23\", ServeMux redirects to \"/#/\". This is incorrect, ServeMux should escape the raw path (in this test \"/#/\"→\"/%23/\") and redirect the client to that.",
+      "parentUuid": "70f712e2_0388aeb8",
+      "revId": "257596a18a0091bc97d00298e2fe777da5347816",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
