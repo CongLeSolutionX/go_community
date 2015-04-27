@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f712e2_acae67e5",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T21:05:47Z",
+      "side": 1,
+      "message": "It\u0027s not being imported at all at this moment, though.\nMaybe just \u0027package is in\u0027 or \u0027package source is installed in\u0027?",
+      "revId": "2702431795718535050c6691839b9b57b4dbf0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_77cdd8b3",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T21:05:47Z",
+      "side": 1,
+      "message": "funcSummary(pkg.doc.Funcs)",
+      "revId": "2702431795718535050c6691839b9b57b4dbf0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_b7c23085",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T21:05:47Z",
+      "side": 1,
+      "message": "Suggest adding arg \u0027funcs []*doc.Func\u0027 and range over funcs on next line, just like valueSummary above. This will be useful below.",
+      "revId": "2702431795718535050c6691839b9b57b4dbf0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_777158d9",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T21:05:47Z",
+      "side": 1,
+      "message": "Feel free to postpone to another CL, but I am worried about the case where there are collisions due to the case-sensitive lookup. If, for example, you had a type Foo and a var foo, which doesn\u0027t seem completely ridiculous, doc -u p.foo will print the type, and there will be no way to print the var. \n\nOne option is to call pkg.emit once for each match, so that the output would, in case of ambiguity, just show all the matches. The easiest way to do this would probably be to arrange the finders to take a func, like:\n\npkg.findFunc(symbol, func(fun *doc.Func) {\n    lines 269-273\n})\n\npkg.findValue(symbol, pkg.doc.Consts, func(val *doc.Value) {\n    pkg.emit(value.Doc, value.Decl)\n})\n\npkg.findValue(symbol, pkg.doc.Vars, func(val *doc.Value) {\n    pkg.emit(value.Doc, value.Decl)\n})\n\npkg.findType(symbol, func(typ *doc.Type) { \n   ...\n})\n\nand then the top-level call would have to check whether pkg.emit had been called at all and report no match if so. pkg.emit might also emit a blank line before the second and following calls. The same thing would be needed for matching multiple methods, for example doc -u p.T.meth where T has both Meth and meth.\n\nAn alternative would be to add a flag to force case-sensitive matching, and maybe that\u0027s useful too, but only if you know what you\u0027re looking for. The nice thing about printing multiple matches is that in the rare case where it comes up, printing all matches shows what is there without needing to be prodded.\n\nOne can construct contrived examples with only exported names (like if a package had both Html and HTML for some unexplained reason), but the doc -u examples seem not contrived at all. There are probably packages in the tree today that have methods distinguished by case alone.",
+      "revId": "2702431795718535050c6691839b9b57b4dbf0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_d7bdacfa",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T21:05:47Z",
+      "side": 1,
+      "message": "Can replace rest of function with:\n\npkg.valueSummary(typ.Consts)\npkg.valueSummary(typ.Vars)\npkg.funcSummary(typ.Funcs)\npkg.funcSummary(typ.Methods)",
+      "revId": "2702431795718535050c6691839b9b57b4dbf0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_0c49fbbd",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T21:05:47Z",
+      "side": 1,
+      "message": "Should be \u0027return\u0027, and then a log.fatal for method not found at end of function.",
+      "revId": "2702431795718535050c6691839b9b57b4dbf0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
