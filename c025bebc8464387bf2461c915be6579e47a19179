@@ -153,6 +153,24 @@
       "revId": "c025bebc8464387bf2461c915be6579e47a19179",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_4602340d",
+        "filename": "src/runtime/string1.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-27T03:08:29Z",
+      "side": 1,
+      "message": "No.  The analysis has to infer that it is non-escaping because it is runtime, but the old analysis got the old code \"right\" through dumb luck (that happened to not be wrong in this case, but is in others, and we have a new test added that proves it).",
+      "parentUuid": "3012fad8_69f4e5d1",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
