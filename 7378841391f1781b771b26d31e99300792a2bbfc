@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f222e5_84c7f4c3",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-27T19:34:30Z",
+      "side": 1,
+      "message": "s/act/acts/",
+      "range": {
+        "startLine": 751,
+        "startChar": 48,
+        "endLine": 751,
+        "endChar": 59
+      },
+      "revId": "7378841391f1781b771b26d31e99300792a2bbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
