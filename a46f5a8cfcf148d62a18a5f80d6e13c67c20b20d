@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f222e5_b15233ba",
+        "filename": "src/runtime/race/testdata/mop_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T23:04:52Z",
+      "side": 1,
+      "message": "s/exit/continue/\n\nExiting the loop doesn\u0027t do a final update of v. The write to conflict with this read must happen during the setup for a subsequent iteration. \n\nThis one does bother me. To be clear, what\u0027s going on is:\n\nv \u003d a[0]\ngo func() { x \u003d v }()\nv \u003d a[1]\ngo func() { y \u003d v }()\n\nThere is no race involving the second goroutine, since its read is guaranteed to happen after the write of v \u003d a[1]. The race is between the x \u003d v and the v \u003d a[1]. I don\u0027t understand why the race detector does not detect that misordering 100% of the time. I filed #10589 about this. At least this fixes the build so that we can detect future breakages while Dmitriy thinks about this one.",
+      "revId": "a46f5a8cfcf148d62a18a5f80d6e13c67c20b20d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
