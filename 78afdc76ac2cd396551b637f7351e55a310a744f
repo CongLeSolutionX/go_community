@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70f712e2_c662a43b",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T14:43:06Z",
+      "side": 1,
+      "message": "Yes but at this point I\u0027m just going to leave it.",
+      "parentUuid": "70f712e2_06067c4d",
+      "revId": "78afdc76ac2cd396551b637f7351e55a310a744f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70f712e2_2609785f",
         "filename": "src/cmd/internal/gc/cgen.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-26T21:11:34Z",
       "side": 1,
       "message": "Should this hunk go in CL 9159?",
+      "revId": "78afdc76ac2cd396551b637f7351e55a310a744f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_a657a85b",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-27T14:43:06Z",
+      "side": 1,
+      "message": "Yes but at this point I\u0027m just going to leave it.",
+      "parentUuid": "70f712e2_2609785f",
       "revId": "78afdc76ac2cd396551b637f7351e55a310a744f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
