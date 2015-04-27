@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70f712e2_660f70e6",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-27T12:22:19Z",
+      "side": 1,
+      "message": "I assume you mean check and panic just to be sure.",
+      "parentUuid": "500f6eb1_ca52a3ed",
+      "revId": "92aa1debf9d4872ba62aaaaa569f338c9a567fe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "500f6eb1_aa476f2d",
         "filename": "src/runtime/proc1.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-27T09:02:38Z",
       "side": 1,
       "message": "check that runqempty(_p_) here",
+      "revId": "92aa1debf9d4872ba62aaaaa569f338c9a567fe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_2619782d",
+        "filename": "src/runtime/proc1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-04-27T12:22:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "500f6eb1_aa476f2d",
       "revId": "92aa1debf9d4872ba62aaaaa569f338c9a567fe3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
