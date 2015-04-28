@@ -383,7 +383,7 @@ func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
 			throw("scanframe: bad symbol table")
 		}
 		bv := stackmapdata(stkmap, pcdata)
-		size = (uintptr(bv.n) / typeBitsWidth) * ptrSize
+		size = uintptr(bv.n) * ptrSize
 		scanblock(frame.varp-size, size, bv.bytedata, gcw)
 	}
 
@@ -405,7 +405,7 @@ func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
 			}
 			bv = stackmapdata(stkmap, pcdata)
 		}
-		scanblock(frame.argp, uintptr(bv.n)/typeBitsWidth*ptrSize, bv.bytedata, gcw)
+		scanblock(frame.argp, uintptr(bv.n)*ptrSize, bv.bytedata, gcw)
 	}
 }
 
@@ -591,7 +591,8 @@ func scanobject(b, n uintptr, ptrmask *uint8, gcw *gcWork) {
 		var bits uintptr
 		if ptrmask != nil {
 			// dense mask (stack or data)
-			bits = (uintptr(*(*byte)(add(unsafe.Pointer(ptrmask), (i/ptrSize)/4))) >> (((i / ptrSize) % 4) * typeBitsWidth)) & typeMask
+			// Convert 0=scalar / 1=pointer to 0=typeDead / 2=typePointer by shift 1.
+			bits = (uintptr(*addb(ptrmask, i/(ptrSize*8))) >> ((i / ptrSize) % 8) & 1) << 1
 		} else {
 			if i != 0 {
 				// Avoid needless hbits.next() on last iteration.

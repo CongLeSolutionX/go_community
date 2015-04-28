@@ -4,9 +4,15 @@
 
 // Garbage collector: type and heap bitmaps.
 //
+// Stack, data, and bss bitmaps
+//
+// Not handled in this file, but worth mentioning: stack frames and global data
+// in the data and bss sections are described by 1-bit bitmaps in which 0 means
+// scalar or uninitialized or dead and 1 means pointer to visit during GC.
+//
 // Type bitmaps
 //
-// The global variables (in the data and bss sections) and types that aren't too large
+// Types that aren't too large
 // record information about the layout of their memory words using a type bitmap.
 // The bitmap holds two bits for each pointer-sized word. The two-bit values are:
 //
@@ -17,7 +23,6 @@
 //
 // typeDead only appears in type bitmaps in Go type descriptors
 // and in type bitmaps embedded in the heap bitmap (see below).
-// It is not used in the type bitmap for the global variables.
 //
 // Heap bitmap
 //
@@ -71,9 +76,8 @@ const (
 	typePointer            = 2
 	typePointerCheckmarked = 3
 
-	typeBitsWidth   = 2 // # of type bits per pointer-sized word
-	typeMask        = 1<<typeBitsWidth - 1
-	typeBitmapScale = ptrSize * (8 / typeBitsWidth) // number of data bytes per type bitmap byte
+	typeBitsWidth = 2 // # of type bits per pointer-sized word
+	typeMask      = 1<<typeBitsWidth - 1
 
 	heapBitsWidth   = 4
 	heapBitmapScale = ptrSize * (8 / heapBitsWidth) // number of data bytes per heap bitmap byte
@@ -600,7 +604,7 @@ const (
 // mask is where to store the result.
 // If inplace is true, store the result not in mask but in the heap bitmap for mask.
 // ppos is a pointer to position in mask, in bits.
-// sparse says to generate 4-bits per word mask for heap (2-bits for data/bss otherwise).
+// sparse says to generate 4-bits per word mask for heap (1-bit for data/bss otherwise).
 //go:nowritebarrier
 func unrollgcprog1(maskp *byte, prog *byte, ppos *uintptr, inplace, sparse bool) *byte {
 	pos := *ppos
@@ -635,10 +639,10 @@ func unrollgcprog1(maskp *byte, prog *byte, ppos *uintptr, inplace, sparse bool)
 					mask[pos/8] |= v
 					pos += heapBitsWidth
 				} else {
-					// 2-bits per word
-					v <<= pos % 8
-					mask[pos/8] |= v
-					pos += typeBitsWidth
+					// 1 bit per word, for data/bss bitmap
+					v >>= 1 // convert typePointer to 1, others to 0
+					mask[pos/8] |= v << (pos % 8)
+					pos++
 				}
 			}
 			prog = addb(prog, round(uintptr(siz)*typeBitsWidth, 8)/8)
@@ -668,13 +672,13 @@ func unrollgcprog1(maskp *byte, prog *byte, ppos *uintptr, inplace, sparse bool)
 
 // Unrolls GC program prog for data/bss, returns dense GC mask.
 func unrollglobgcprog(prog *byte, size uintptr) bitvector {
-	masksize := round(round(size, ptrSize)/ptrSize*typeBitsWidth, 8) / 8
+	masksize := round(round(size, ptrSize)/ptrSize, 8) / 8
 	mask := (*[1 << 30]byte)(persistentalloc(masksize+1, 0, &memstats.gc_sys))
 	mask[masksize] = 0xa1
 	pos := uintptr(0)
 	prog = unrollgcprog1(&mask[0], prog, &pos, false, false)
-	if pos != size/ptrSize*typeBitsWidth {
-		print("unrollglobgcprog: bad program size, got ", pos, ", expect ", size/ptrSize*typeBitsWidth, "\n")
+	if pos != size/ptrSize {
+		print("unrollglobgcprog: bad program size, got ", pos, ", expect ", size/ptrSize, "\n")
 		throw("unrollglobgcprog: bad program size")
 	}
 	if *prog != insEnd {
@@ -744,8 +748,6 @@ func getgcmask(p unsafe.Pointer, t *_type, mask **byte, len *uintptr) {
 	*mask = nil
 	*len = 0
 
-	const typeBitsPerByte = 8 / typeBitsWidth
-
 	// data
 	for datap := &firstmoduledata; datap != nil; datap = datap.next {
 		if datap.data <= uintptr(p) && uintptr(p) < datap.edata {
@@ -754,8 +756,9 @@ func getgcmask(p unsafe.Pointer, t *_type, mask **byte, len *uintptr) {
 			*mask = &make([]byte, *len)[0]
 			for i := uintptr(0); i < n; i += ptrSize {
 				off := (uintptr(p) + i - datap.data) / ptrSize
-				bits := (*(*byte)(add(unsafe.Pointer(datap.gcdatamask.bytedata), off/typeBitsPerByte)) >> ((off % typeBitsPerByte) * typeBitsWidth)) & typeMask
-				*(*byte)(add(unsafe.Pointer(*mask), i/ptrSize)) = bits
+				bits := (*addb(datap.gcdatamask.bytedata, off/8) >> (off % 8)) & 1
+				bits <<= 1 // convert 1-bit to 2-bit
+				*addb(*mask, i/ptrSize) = bits
 			}
 			return
 		}
@@ -767,8 +770,9 @@ func getgcmask(p unsafe.Pointer, t *_type, mask **byte, len *uintptr) {
 			*mask = &make([]byte, *len)[0]
 			for i := uintptr(0); i < n; i += ptrSize {
 				off := (uintptr(p) + i - datap.bss) / ptrSize
-				bits := (*(*byte)(add(unsafe.Pointer(datap.gcbssmask.bytedata), off/typeBitsPerByte)) >> ((off % typeBitsPerByte) * typeBitsWidth)) & typeMask
-				*(*byte)(add(unsafe.Pointer(*mask), i/ptrSize)) = bits
+				bits := (*addb(datap.gcbssmask.bytedata, off/8) >> (off % 8)) & 1
+				bits <<= 1 // convert 1-bit to 2-bit
+				*addb(*mask, i/ptrSize) = bits
 			}
 			return
 		}
@@ -782,7 +786,7 @@ func getgcmask(p unsafe.Pointer, t *_type, mask **byte, len *uintptr) {
 		*mask = &make([]byte, *len)[0]
 		for i := uintptr(0); i < n; i += ptrSize {
 			bits := heapBitsForAddr(base + i).typeBits()
-			*(*byte)(add(unsafe.Pointer(*mask), i/ptrSize)) = bits
+			*addb(*mask, i/ptrSize) = bits
 		}
 		return
 	}
@@ -810,14 +814,15 @@ func getgcmask(p unsafe.Pointer, t *_type, mask **byte, len *uintptr) {
 			return
 		}
 		bv := stackmapdata(stkmap, pcdata)
-		size := uintptr(bv.n) / typeBitsWidth * ptrSize
+		size := uintptr(bv.n) * ptrSize
 		n := (*ptrtype)(unsafe.Pointer(t)).elem.size
 		*len = n / ptrSize
 		*mask = &make([]byte, *len)[0]
 		for i := uintptr(0); i < n; i += ptrSize {
 			off := (uintptr(p) + i - frame.varp + size) / ptrSize
-			bits := ((*(*byte)(add(unsafe.Pointer(bv.bytedata), off*typeBitsWidth/8))) >> ((off * typeBitsWidth) % 8)) & typeMask
-			*(*byte)(add(unsafe.Pointer(*mask), i/ptrSize)) = bits
+			bits := (*addb(bv.bytedata, off/8) >> (off % 8)) & 1
+			bits <<= 1 // convert 1-bit to 2-bit
+			*addb(*mask, i/ptrSize) = bits
 		}
 	}
 }
