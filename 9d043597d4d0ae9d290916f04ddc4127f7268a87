@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00b02a7_b0aebee5",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-28T16:30:28Z",
+      "side": 1,
+      "message": "s/also//",
+      "revId": "9d043597d4d0ae9d290916f04ddc4127f7268a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00b02a7_70b9662a",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-28T16:30:28Z",
+      "side": 1,
+      "message": "s/directly//",
+      "revId": "9d043597d4d0ae9d290916f04ddc4127f7268a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00b02a7_90b3ba4b",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-28T16:30:28Z",
+      "side": 1,
+      "message": "s/directly//",
+      "revId": "9d043597d4d0ae9d290916f04ddc4127f7268a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00b02a7_50b6623a",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-28T16:30:28Z",
+      "side": 1,
+      "message": "Cut \"per the ...\"",
+      "revId": "9d043597d4d0ae9d290916f04ddc4127f7268a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00b02a7_f08b1674",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-28T16:30:28Z",
+      "side": 1,
+      "message": "s/server//\n\nIt\u0027s not clear what a \"server request\" is; is it a request to a server, or a request being handled as a server? The \"incoming\" is enough here.",
+      "revId": "9d043597d4d0ae9d290916f04ddc4127f7268a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00b02a7_d090129f",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-28T16:30:28Z",
+      "side": 1,
+      "message": "s/-style//",
+      "revId": "9d043597d4d0ae9d290916f04ddc4127f7268a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
