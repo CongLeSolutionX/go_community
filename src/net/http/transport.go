@@ -886,8 +886,7 @@ func (pc *persistConn) readLoop() {
 			if !pc.closed {
 				pc.closeLocked()
 				if len(pb) > 0 {
-					log.Printf("Unsolicited response received on idle HTTP channel starting with %q; err=%v",
-						string(pb), err)
+					logf("Unsolicited response received on idle HTTP channel starting with %q; err=%v", string(pb), err)
 				}
 			}
 			pc.lk.Unlock()

@@ -1823,7 +1823,7 @@ func (s *Server) logf(format string, args ...interface{}) {
 	if s.ErrorLog != nil {
 		s.ErrorLog.Printf(format, args...)
 	} else {
-		log.Printf(format, args...)
+		logf(format, args...)
 	}
 }
 
@@ -2111,23 +2111,23 @@ func newLoggingConn(baseName string, c net.Conn) net.Conn {
 }
 
 func (c *loggingConn) Write(p []byte) (n int, err error) {
-	log.Printf("%s.Write(%d) = ....", c.name, len(p))
+	logf("%s.Write(%d) = ....", c.name, len(p))
 	n, err = c.Conn.Write(p)
-	log.Printf("%s.Write(%d) = %d, %v", c.name, len(p), n, err)
+	logf("%s.Write(%d) = %d, %v", c.name, len(p), n, err)
 	return
 }
 
 func (c *loggingConn) Read(p []byte) (n int, err error) {
-	log.Printf("%s.Read(%d) = ....", c.name, len(p))
+	logf("%s.Read(%d) = ....", c.name, len(p))
 	n, err = c.Conn.Read(p)
-	log.Printf("%s.Read(%d) = %d, %v", c.name, len(p), n, err)
+	logf("%s.Read(%d) = %d, %v", c.name, len(p), n, err)
 	return
 }
 
 func (c *loggingConn) Close() (err error) {
-	log.Printf("%s.Close() = ...", c.name)
+	logf("%s.Close() = ...", c.name)
 	err = c.Conn.Close()
-	log.Printf("%s.Close() = %v", c.name, err)
+	logf("%s.Close() = %v", c.name, err)
 	return
 }
 

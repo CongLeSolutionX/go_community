@@ -7,7 +7,6 @@ package http
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"net"
 	"strconv"
 	"strings"
@@ -151,7 +150,7 @@ func (c *Cookie) String() string {
 			}
 			fmt.Fprintf(&b, "; Domain=%s", d)
 		} else {
-			log.Printf("net/http: invalid Cookie.Domain %q; dropping domain attribute",
+			logf("net/http: invalid Cookie.Domain %q; dropping domain attribute",
 				c.Domain)
 		}
 	}
@@ -329,7 +328,7 @@ func sanitizeOrWarn(fieldName string, valid func(byte) bool, v string) string {
 		if valid(v[i]) {
 			continue
 		}
-		log.Printf("net/http: invalid byte %q in %s; dropping invalid bytes", v[i], fieldName)
+		logf("net/http: invalid byte %q in %s; dropping invalid bytes", v[i], fieldName)
 		ok = false
 		break
 	}
