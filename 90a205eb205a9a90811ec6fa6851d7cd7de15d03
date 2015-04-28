@@ -16,6 +16,24 @@
       "revId": "90a205eb205a9a90811ec6fa6851d7cd7de15d03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3012fad8_4c392f51",
+        "filename": "src/net/iprawsock_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-04-28T01:14:44Z",
+      "side": 1,
+      "message": "unless it\u0027s clearly wrong; rsc merged #7708 and #7721 into #4856.\n\nfor example,\n\nc1, err :\u003d net.ListenPacket(\"udp\", \"127.0.0.1:0\")\nc2, err :\u003d net.Dial(c1.LocalAddr().Network(), c1.LocalAddr().String())\n\nwe can use ReadFrom on c2 like c2.(*net.UDPConn).ReadFrom, and it should report a corresponding local endpoint address when the op fails.\n\nFixed/re-checked for Listen, Set{,Read,Write}Deadline.",
+      "parentUuid": "f0f222e5_d1b817db",
+      "revId": "90a205eb205a9a90811ec6fa6851d7cd7de15d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
