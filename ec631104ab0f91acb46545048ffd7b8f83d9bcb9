@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f712e2_4cadae95",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5431
+      },
+      "writtenOn": "2015-04-28T19:15:06Z",
+      "side": 1,
+      "message": "s/when/then",
+      "range": {
+        "startLine": 183,
+        "startChar": 15,
+        "endLine": 183,
+        "endChar": 19
+      },
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
