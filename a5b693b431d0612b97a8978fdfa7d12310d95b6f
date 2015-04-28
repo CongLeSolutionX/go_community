@@ -16,6 +16,24 @@
       "revId": "a5b693b431d0612b97a8978fdfa7d12310d95b6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_9dcd1308",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-28T12:38:52Z",
+      "side": 1,
+      "message": "sigtramp does not return. Notice the old implementation ends with a syscall to sigreturn and\n\nINT $3 // not reached\n\nThe new code does too: we call into sigtrampgo, which calls sigreturn when complete. The sigreturn function is defined above and has the same line:\n\nINT $3 // not reached\n\nI\u0027m not sure more commentary than that is necessary, if it is it probably belongs on the sigtrampgo function where most of the heavy lifting is now done.",
+      "parentUuid": "500f6eb1_90e85cab",
+      "revId": "a5b693b431d0612b97a8978fdfa7d12310d95b6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
