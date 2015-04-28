@@ -347,11 +347,12 @@ func mallocinit() {
 	p1 := round(p, _PageSize)
 
 	mheap_.spans = (**mspan)(unsafe.Pointer(p1))
-	mheap_.bitmap = p1 + spansSize
+	mheap_.bitmap_start = p1 + spansSize
 	mheap_.arena_start = p1 + (spansSize + bitmapSize)
 	mheap_.arena_used = mheap_.arena_start
 	mheap_.arena_end = p + pSize
 	mheap_.arena_reserved = reserved
+	mheap_.bitmap_delta = mheap_.bitmap_start - mheap_.arena_start/heapBitmapScale // see mbitmap.go
 
 	if mheap_.arena_start&(_PageSize-1) != 0 {
 		println("bad pagesize", hex(p), hex(p1), hex(spansSize), hex(bitmapSize), hex(_PageSize), "start", hex(mheap_.arena_start))

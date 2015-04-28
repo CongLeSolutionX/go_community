@@ -29,8 +29,9 @@ type mheap struct {
 	spans_mapped uintptr
 
 	// range of addresses we might see in the heap
-	bitmap         uintptr
+	bitmap_start   uintptr
 	bitmap_mapped  uintptr
+	bitmap_delta   uintptr
 	arena_start    uintptr
 	arena_used     uintptr
 	arena_end      uintptr

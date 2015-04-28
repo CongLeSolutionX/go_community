@@ -21,15 +21,23 @@
 //
 // Heap bitmap
 //
-// The allocated heap comes from a subset of the memory in the range [start, used),
-// where start == mheap_.arena_start and used == mheap_.arena_used.
+// The allocated heap comes from a subset of the memory in the range [arena_start, arena_used),
+// where arena_start == mheap_.arena_start and arena_used == mheap_.arena_used.
 // The heap bitmap comprises 4 bits for each pointer-sized word in that range,
-// stored in bytes indexed backward in memory from start.
-// That is, the byte at address start-1 holds the 4-bit entries for the two words
-// start, start+ptrSize, the byte at start-2 holds the entries for start+2*ptrSize,
-// start+3*ptrSize, and so on.
+// stored in bytes indexed forward in memory from bitmap_start.
+// That is, the byte at address bitmap_start holds the 4-bit entries for the two words
+// arean_start, arena_start+ptrSize, the byte at start-2 holds the entries for
+// arena_start+2*ptrSize, arena_start+3*ptrSize, and so on.
 // In the byte holding the entries for addresses p and p+ptrSize, the low 4 bits
 // describe p and the high 4 bits describe p+ptrSize.
+//
+// The bitmap byte for address v is given by:
+//	bitp = bitmap_start + (v - arena_start) / heapBitmapScale
+// To avoid needing to load both words from the mheap structure during the
+// calculation, we also store:
+//	bitmap_delta = bitmap_start - arena_start / heapBitmapScale
+// so that the above calculation can equivalently be written:
+//	bitp = bitmap_delta + v / heapBitmapScale
 //
 // The 4 bits for each word are:
 //	0001 - not used
@@ -93,12 +101,6 @@ func addb(p *byte, n uintptr) *byte {
 	return (*byte)(add(unsafe.Pointer(p), n))
 }
 
-// subtractb returns the byte pointer p-n.
-//go:nowritebarrier
-func subtractb(p *byte, n uintptr) *byte {
-	return (*byte)(add(unsafe.Pointer(p), -n))
-}
-
 // mHeap_MapBits is called each time arena_used is extended.
 // It maps any additional bitmap memory needed for the new arena memory.
 //
@@ -116,7 +118,7 @@ func mHeap_MapBits(h *mheap) {
 		return
 	}
 
-	sysMap(unsafe.Pointer(h.arena_start-n), n-h.bitmap_mapped, h.arena_reserved, &memstats.gc_sys)
+	sysMap(unsafe.Pointer(h.bitmap_start+h.bitmap_mapped), n-h.bitmap_mapped, h.arena_reserved, &memstats.gc_sys)
 	h.bitmap_mapped = n
 }
 
@@ -132,8 +134,8 @@ type heapBits struct {
 // heapBitsForAddr returns the heapBits for the address addr.
 // The caller must have already checked that addr is in the range [mheap_.arena_start, mheap_.arena_used).
 func heapBitsForAddr(addr uintptr) heapBits {
-	off := (addr - mheap_.arena_start) / ptrSize
-	return heapBits{(*uint8)(unsafe.Pointer(mheap_.arena_start - off/2 - 1)), uint32(4 * (off & 1))}
+	off := addr / ptrSize
+	return heapBits{(*uint8)(unsafe.Pointer(mheap_.bitmap_delta + off/2)), uint32(4 * (off & 1))}
 }
 
 // heapBitsForSpan returns the heapBits for the span base address base.
@@ -223,7 +225,7 @@ func (h heapBits) next() heapBits {
 	if h.shift == 0 {
 		return heapBits{h.bitp, 4}
 	}
-	return heapBits{subtractb(h.bitp, 1), 0}
+	return heapBits{addb(h.bitp, 1), 0}
 }
 
 // isMarked reports whether the heap bits have the marked bit set.
@@ -281,8 +283,11 @@ func (h heapBits) initSpan(size, n, total uintptr) {
 	if total%heapBitmapScale != 0 {
 		throw("initSpan: unaligned length")
 	}
+	if h.shift != 0 {
+		throw("initSpan: unaligned base")
+	}
 	nbyte := total / heapBitmapScale
-	memclr(unsafe.Pointer(subtractb(h.bitp, nbyte-1)), nbyte)
+	memclr(unsafe.Pointer(h.bitp), nbyte)
 }
 
 // initCheckmarkSpan initializes a span for being checkmarked.
@@ -306,7 +311,7 @@ func (h heapBits) initCheckmarkSpan(size, n, total uintptr) {
 				x += (typeScalar - typeDead) << (4 + typeShift)
 			}
 			*bitp = uint8(x)
-			bitp = subtractb(bitp, 1)
+			bitp = addb(bitp, 1)
 		}
 		return
 	}
@@ -322,7 +327,7 @@ func (h heapBits) initCheckmarkSpan(size, n, total uintptr) {
 			x += (typeScalar - typeDead) << typeShift
 			x &= 0x0f // clear top nibble to typeDead
 		}
-		bitp = subtractb(bitp, step)
+		bitp = addb(bitp, step)
 	}
 }
 
@@ -353,7 +358,7 @@ func (h heapBits) clearCheckmarkSpan(size, n, total uintptr) {
 			}
 
 			*bitp = uint8(x)
-			bitp = subtractb(bitp, 1)
+			bitp = addb(bitp, 1)
 		}
 		return
 	}
@@ -374,7 +379,7 @@ func (h heapBits) clearCheckmarkSpan(size, n, total uintptr) {
 		}
 
 		*bitp = uint8(x)
-		bitp = subtractb(bitp, step)
+		bitp = addb(bitp, step)
 	}
 }
 
@@ -405,12 +410,15 @@ func heapBitsSweepSpan(base, size, n uintptr, f func(uintptr)) {
 				f(base + (i+1)*ptrSize)
 			}
 			*bitp = uint8(x)
-			bitp = subtractb(bitp, 1)
+			bitp = addb(bitp, 1)
 		}
 		return
 	}
 
 	bitp := h.bitp
+	if h.shift != 0 {
+		throw("unaligned sweep base")
+	}
 	step := size / heapBitmapScale
 	for i := uintptr(0); i < n; i++ {
 		x := int(*bitp)
@@ -421,7 +429,7 @@ func heapBitsSweepSpan(base, size, n uintptr, f func(uintptr)) {
 			f(base + i*size)
 		}
 		*bitp = uint8(x)
-		bitp = subtractb(bitp, step)
+		bitp = addb(bitp, step)
 	}
 }
 
@@ -491,12 +499,10 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 	if te%2 == 0 {
 		te /= 2
 	}
-	// Copy pointer bitmask into the bitmap.
-	// TODO(rlh): add comment addressing the following concerns:
-	// If size > 2*ptrSize, is x guaranteed to be at least 2*ptrSize-aligned?
-	// And if type occupies and odd number of words, why are we only going through half
-	// of ptrmask and why don't we have to shift everything by 4 on odd iterations?
 
+	// Copy pointer bitmask into the bitmap.
+	// Loop advances by two words (one bitmap byte),
+	// checking for final word in middle of body.
 	for i := uintptr(0); i < dataSize; i += 2 * ptrSize {
 		v := *(*uint8)(add(unsafe.Pointer(ptrmask), ti))
 		ti++
@@ -506,9 +512,8 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 		if i+ptrSize == dataSize {
 			v &^= typeMask << (4 + typeShift)
 		}
-
 		*h.bitp = v
-		h.bitp = subtractb(h.bitp, 1)
+		h.bitp = addb(h.bitp, 1)
 	}
 	if dataSize%(2*ptrSize) == 0 && dataSize < size {
 		// Mark the word after last object's word as typeDead.
