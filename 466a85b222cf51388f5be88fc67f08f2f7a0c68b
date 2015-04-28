@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00b02a7_30752ef4",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-28T16:43:04Z",
+      "side": 1,
+      "message": "Actually, maybe this isn\u0027t for incoming cookies.\n\nIf this is only for outgoing cookies, I think the logging is probably fine, as it\u0027s the application\u0027s fault. If they don\u0027t want the logging, they can fix their application.",
+      "revId": "466a85b222cf51388f5be88fc67f08f2f7a0c68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
