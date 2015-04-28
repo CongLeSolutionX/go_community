@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00b02a7_d062523b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-28T16:45:56Z",
+      "side": 1,
+      "message": "just \"doc: \" prefix.\n\nLike: \"doc: add recent crypto changes to go1.5.txt\"",
+      "revId": "06b0e168bae1edc30b70dbd42ea563e7215620e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
