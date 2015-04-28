@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "70f712e2_1897f190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "[Yeah, I think OpenSSL 1.0.2 starts enforcing a lot of these, sometimes optionally. I remember pruning the optional ones, but haven\u0027t pruned the curves bits. Probably ought to since that seems utterly unhelpful behavior...]",
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_6ca06a9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "Is all this actually needed for this server? I think you could just advertise SHA-384 and happily support it in SKX signatures. Those sign the server params, and not the handshake hash. This machinery is only needed for CertificateVerify.\n\nThere\u0027s no reason the supported hashes for one operation have the match the other, and you\u0027d have to really go out of your way to enforce that they did if you wanted. If the server was obnoxious, they\u0027d have to pick a CertificateVerify hash ahead of time based on ClientHello.supported_sigalgs and only advertise that one hash in CertificateRequest. If the client was obnoxious, they\u0027d have to go back and reject the Certificate because it used hashes not advertised in CertificateRequest. Both of these seem unlikely and only kick in if you enable client auth anyway.",
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70f712e2_4cadae95",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 1
@@ -18,6 +52,126 @@
         "startChar": 15,
         "endLine": 183,
         "endChar": 19
+      },
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_ec1c5a6b",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "If the same set of hashes are used in both directions, probably this should be renamed. Or should this be supportedClientCertSignatureAlgorithms?",
+      "range": {
+        "startLine": 456,
+        "startChar": 125,
+        "endLine": 456,
+        "endChar": 128
+      },
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_8c2cc695",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "(It occurs to me: if you decide to go with not importing this patch because it\u0027s not needed for that server, this line is wrong now that SHA-384 cipher suites are implemented. It should have been the hash of the chosen cipher suite.)",
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_ecc7ba45",
+        "filename": "src/crypto/tls/handshake_server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "[This isn\u0027t a no-op because supportedClientCertSignatureAlgorithms doesn\u0027t contain everything in lookupHash.]",
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_0cc3363e",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "If you start advertising SHA-384 support, this should call lookupHash, lest the server send a SHA-384 SKX. (Also if lookupHash ever understands a hash that\u0027s not in supportedSKXSignatureAlgorithms, this should check isSupportedSignatureAndHash. If not, it\u0027s redundant though.)",
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_2c8152fd",
+        "filename": "src/crypto/tls/key_agreement.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be a parameter if you don\u0027t have any intention of making it configurable. (BoringSSL needed it configurable.)",
+      "range": {
+        "startLine": 143,
+        "startChar": 58,
+        "endLine": 143,
+        "endChar": 68
+      },
+      "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_0c96964a",
+        "filename": "src/crypto/tls/prf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-28T19:37:03Z",
+      "side": 1,
+      "message": "Potential optimization, if worth bothering: this can be nil for TLS 1.0 and TLS 1.1 as well. Just SSL 3.0 and \u003e\u003d TLS 1.2 need it. (And SSL 3.0 wouldn\u0027t if hash.Hash had Copy.)",
+      "range": {
+        "startLine": 200,
+        "startChar": 67,
+        "endLine": 200,
+        "endChar": 75
       },
       "revId": "ec631104ab0f91acb46545048ffd7b8f83d9bcb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
