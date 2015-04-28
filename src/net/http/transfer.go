@@ -510,9 +510,7 @@ func shouldClose(major, minor int, header Header, removeCloseHeader bool) bool {
 		}
 		return false
 	} else {
-		// TODO: Should split on commas, toss surrounding white space,
-		// and check each field.
-		if strings.ToLower(header.get("Connection")) == "close" {
+		if headerValuesContainsToken(header["Connection"], "close") {
 			if removeCloseHeader {
 				header.Del("Connection")
 			}
