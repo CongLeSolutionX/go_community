@@ -140,20 +140,19 @@ func hashForServerKeyExchange(sigType, hashFunc uint8, version uint16, slices ..
 // pickTLS12HashForSignature returns a TLS 1.2 hash identifier for signing a
 // ServerKeyExchange given the signature type being used and the client's
 // advertised list of supported signature and hash combinations.
-func pickTLS12HashForSignature(sigType uint8, clientSignatureAndHashes []signatureAndHash) (uint8, error) {
-	if len(clientSignatureAndHashes) == 0 {
+func pickTLS12HashForSignature(sigType uint8, clientList, serverList []signatureAndHash) (uint8, error) {
+	if len(clientList) == 0 {
 		// If the client didn't specify any signature_algorithms
 		// extension then we can assume that it supports SHA1. See
 		// http://tools.ietf.org/html/rfc5246#section-7.4.1.4.1
 		return hashSHA1, nil
 	}
 
-	for _, sigAndHash := range clientSignatureAndHashes {
+	for _, sigAndHash := range clientList {
 		if sigAndHash.signature != sigType {
 			continue
 		}
-		switch sigAndHash.hash {
-		case hashSHA1, hashSHA256:
+		if isSupportedSignatureAndHash(sigAndHash, serverList) {
 			return sigAndHash.hash, nil
 		}
 	}
@@ -228,7 +227,7 @@ NextCandidate:
 
 	var tls12HashId uint8
 	if ka.version >= VersionTLS12 {
-		if tls12HashId, err = pickTLS12HashForSignature(ka.sigType, clientHello.signatureAndHashes); err != nil {
+		if tls12HashId, err = pickTLS12HashForSignature(ka.sigType, clientHello.signatureAndHashes, supportedClientCertSignatureAlgorithms); err != nil {
 			return nil, err
 		}
 	}
