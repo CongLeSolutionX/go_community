@@ -38,6 +38,8 @@ import (
 	"strings"
 )
 
+var pkglistfornote []byte
+
 // Reading object files.
 
 func Ldmain() {
@@ -196,6 +198,8 @@ func Ldmain() {
 			} else {
 				pkgpath, file = parts[0], parts[1]
 			}
+			pkglistfornote = append(pkglistfornote, []byte(pkgpath)...)
+			pkglistfornote = append(pkglistfornote, 0)
 			addlibpath(Ctxt, "command line", "command line", file, pkgpath, "")
 		}
 	} else {

@@ -1197,6 +1197,32 @@ func elfwritebuildinfo() int {
 	return int(sh.size)
 }
 
+// Go package list note
+const (
+	ELF_NOTE_GOPKGLIST_TAG = 123
+)
+
+var ELF_NOTE_GO_NAME = []byte("GO\x00\x00")
+
+func elfgopkgnote(sh *ElfShdr, startva uint64, resoff uint64) int {
+	n := len(ELF_NOTE_GO_NAME) + int(Rnd(int64(len(pkglistfornote)), 4))
+	return elfnote(sh, startva, resoff, n)
+}
+
+func elfwritegopkgnote() int {
+	sh := elfwritenotehdr(".note.go.pkg-list", uint32(len(ELF_NOTE_GO_NAME)), uint32(len(pkglistfornote)), ELF_NOTE_GOPKGLIST_TAG)
+	if sh == nil {
+		return 0
+	}
+
+	Cwrite(ELF_NOTE_GO_NAME)
+	Cwrite(pkglistfornote)
+	var zero = make([]byte, 4)
+	Cwrite(zero[:int(Rnd(int64(len(pkglistfornote)), 4)-int64(len(pkglistfornote)))])
+
+	return int(sh.size)
+}
+
 var elfverneed int
 
 type Elfaux struct {
@@ -1604,6 +1630,9 @@ func doelf() {
 	if len(buildinfo) > 0 {
 		Addstring(shstrtab, ".note.gnu.build-id")
 	}
+	if Buildmode == BuildmodeShared {
+		Addstring(shstrtab, ".note.go.pkg-list")
+	}
 	Addstring(shstrtab, ".elfdata")
 	Addstring(shstrtab, ".rodata")
 	Addstring(shstrtab, ".typelink")
@@ -1888,6 +1917,11 @@ func Asmbelf(symo int64) {
 		eh.phoff = 0
 
 		eh.phentsize = 0
+
+		if Buildmode == BuildmodeShared {
+			sh := elfshname(".note.go.pkg-list")
+			resoff -= int64(elfgopkgnote(sh, uint64(startva), uint64(resoff)))
+		}
 		goto elfobj
 	}
 
@@ -2295,6 +2329,9 @@ elfobj:
 		if len(buildinfo) > 0 {
 			a += int64(elfwritebuildinfo())
 		}
+	}
+	if Buildmode == BuildmodeShared {
+		a += int64(elfwritegopkgnote())
 	}
 
 	if a > ELFRESERVE {
