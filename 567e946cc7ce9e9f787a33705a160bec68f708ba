@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_4426cee5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_a07531f5",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_63b9930e",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "indirected and then copied",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_6423cad4",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_63b9930e",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_4471eed8",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "I think your math is correct, I think the new name should be \"suffixValue\".",
+      "parentUuid": "f0f222e5_23c38b8c",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_40632540",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "// inc returns the level l + 1, representing the effect of an indirect (*) operation.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_646e6afe",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_40632540",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_247872bb",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_2058218c",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_c04f15c3",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -98,6 +188,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "// copy returns the level for a copy of a value with level l.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_e4481a92",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_c04f15c3",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_843da6e2",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Obsoleted by New Math.",
+      "parentUuid": "f0f222e5_80490dc0",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_e3cd83b5",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -132,6 +258,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "Why this change? I\u0027m especially confused because the PHEAP bit is set on parameters that have been determined to escape to the heap. But when the analysis is just starting to run on curfn, as it is here, none of its parameters have been determined to escape to the heap. So if you\u0027re actually seeing PPARAM|PHEAP, that\u0027s probably a bug, and I\u0027d like to understand why. And if you\u0027re seeing PPARAM|PHEAP, it\u0027s also a bug to set ll.N.Esc \u003d EscNone below, because we already know the parameter is in the heap.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_07ee9803",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "f0f222e5_e3cd83b5",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_04521639",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done, I think.  I\u0027m not 100% sure what you wanted here, rewrapping of lines,\nor rearrangement of comments into multiple smaller parts, along the lines of\n\n\t\tif (n.Left.Op \u003d\u003d OIND || n.Left.Op \u003d\u003d ODOTPTR) \u0026\u0026// dst is dereference ...\n                    n.Left.Left.Op \u003d\u003d ONAME \u0026\u0026                                // ... of an ONAME\n\t\t   (n.Right.Op \u003d\u003d OSLICE || n.Right.Op \u003d\u003d OSLICE3 || n.Right.Op \u003d\u003d OSLICESTR) \u0026\u0026 // src is slice op ...\n\t\t   (n.Right.Left.Op \u003d\u003d OIND || n.Right.Left.Op \u003d\u003d ODOTPTR) \u0026\u0026                   // ... applied to dereference\n                   n.Right.Left.Left.Op \u003d\u003d ONAME \u0026\u0026                                                            // ... of an ONAME\n\t\t\tn.Left.Left \u003d\u003d n.Right.Left.Left {                               // dst and src reference the same base ONAME",
+      "parentUuid": "f0f222e5_c3f15fe2",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_8306b74b",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -166,6 +328,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "s/uint16//",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_27eb94f4",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_8306b74b",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_c70ac059",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_4337af11",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_83eb57f2",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -200,6 +398,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "no else after return\nalso you can simplify this whole bit:\n\nlevel \u003d level.min(src.Esclevel)\nif level \u003d\u003d src.Esclevel {\n    return\n}",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_a4bd42c9",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_83eb57f2",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_e70fbc66",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_2315cb73",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_4310cf84",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -234,6 +468,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_8714c878",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_4310cf84",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_a719c4b1",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1703,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_0331a71a",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_c3239fd2",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 11
@@ -274,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "905806e7_47ffb0a7",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f222e5_c3239fd2",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f222e5_43620f15",
         "filename": "src/cmd/internal/gc/gen.go",
         "patchSetId": 11
@@ -285,6 +573,24 @@
       "writtenOn": "2015-04-29T03:15:28Z",
       "side": 1,
       "message": "I don\u0027t understand this change. The code above set n.Class |\u003d PHEAP. That implies to me that n.Esc should be EscHeap, which is what the old code did, simply:\n\n   n.Esc \u003d EscHeap\n\nThis is the most conservative, worst possible setting for n.Esc.\nWhy is the new code going out of its way to preserve other bits?\nWhat other bits are worth preserving if the base value is EscHeap?",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_a430e217",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-04-29T19:48:18Z",
+      "side": 1,
+      "message": "The second-parameter-to-addrescapes code has been mostly reverted, modulo typos in the edit.",
+      "parentUuid": "f0f222e5_43620f15",
       "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
