@@ -183,22 +183,42 @@ func tHTMLCmt(c context, s []byte) (context, int) {
 
 // specialTagEndMarkers maps element types to the character sequence that
 // case-insensitively signals the end of the special tag body.
-var specialTagEndMarkers = [...]string{
-	elementScript:   "</script",
-	elementStyle:    "</style",
-	elementTextarea: "</textarea",
-	elementTitle:    "</title",
+var specialTagEndMarkers = [...][]byte{
+	elementScript:   []byte("</script"),
+	elementStyle:    []byte("</style"),
+	elementTextarea: []byte("</textarea"),
+	elementTitle:    []byte("</title"),
 }
 
 // tSpecialTagEnd is the context transition function for raw text and RCDATA
 // element states.
 func tSpecialTagEnd(c context, s []byte) (context, int) {
 	if c.element != elementNone {
-		if i := strings.Index(strings.ToLower(string(s)), specialTagEndMarkers[c.element]); i != -1 {
+		if i := indexTagEnd(s, specialTagEndMarkers[c.element]); i != -1 {
 			return context{}, i
 		}
 	}
 	return c, len(s)
+}
+
+// indexTagEnd finds the index of a special tag end in a case insensitive way, or returns -1
+func indexTagEnd(s []byte, tag []byte) int {
+	pfx := tag[:2]
+	res := 0
+	for len(s) > 0 {
+		// Try to find the tag end prefix first
+		i := bytes.Index(s, pfx)
+		if i == -1 {
+			return i
+		}
+		// Try to match the actual tag if there is still space for it
+		if i+len(tag) <= len(s) && bytes.EqualFold(tag, s[i:i+len(tag)]) {
+			return res + i
+		}
+		s = s[i+2:]
+		res += i + 2
+	}
+	return -1
 }
 
 // tAttr is the context transition function for the attribute state.
