@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f222e5_a07531f5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "Comment defining Level should be above it, not inside it.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_63b9930e",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "indirected and then copied",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_23c38b8c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "It would be nice to have a comment explaining the relationship between current and max. But in fact I don\u0027t think we need both. The only thing that ever happens with current and max is that they get added together. So we might as well store the sum (let\u0027s call it max). The max is then the max suffix starting at a copy along the path. The operations are:\n\ninc(value, max) \u003d value+1, max+1\ndec(value, max) \u003d value-1, max-1\ncopy(value, max) \u003d value, maximum(max, 0)\n\nCheck my math, but while current was an important part of figuring out how to compute max from left-to-right in the first place, I don\u0027t think it needs to be here explicitly.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_40632540",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "// inc returns the level l + 1, representing the effect of an indirect (*) operation.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_2058218c",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "// dec returns the level l - 1, representing the effect of an address-of (\u0026) operation.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_c04f15c3",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "// copy returns the level for a copy of a value with level l.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_80490dc0",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "suffix :\u003d int(l.max) + int(l.current) or else call satAdd8.\nNot that I think it is likely to come up, but you\u0027re being so careful otherwise.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_e3cd83b5",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "Why this change? I\u0027m especially confused because the PHEAP bit is set on parameters that have been determined to escape to the heap. But when the analysis is just starting to run on curfn, as it is here, none of its parameters have been determined to escape to the heap. So if you\u0027re actually seeing PPARAM|PHEAP, that\u0027s probably a bug, and I\u0027d like to understand why. And if you\u0027re seeing PPARAM|PHEAP, it\u0027s also a bug to set ll.N.Esc \u003d EscNone below, because we already know the parameter is in the heap.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_c3f15fe2",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "It would be nice if you could unbreak this line so that each // comment applies to the line it is on and not multiple lines.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_8306b74b",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "s/uint16//",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_4337af11",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "whether dst and src correspond to output and input parameters \n\n(match the name and argument list)",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_83eb57f2",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "no else after return\nalso you can simplify this whole bit:\n\nlevel \u003d level.min(src.Esclevel)\nif level \u003d\u003d src.Esclevel {\n    return\n}",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_2315cb73",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "I\u0027m confused why this tries to accept src.Class \u003d\u003d PHEAP|PPARAM. If that\u0027s true, src has already been determined to live on the heap, so it will have src.Esc \u003d\u003d EscHeap (and more generally if it had anything less that would be terrible). So the \u0026^PHEAP should be unnecessary here.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_4310cf84",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_0331a71a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1703,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "probably add\n\n// This can only happen with functions returning one result.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_c3239fd2",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "Again, PHEAP unnecessary.\nThis one is harmless since EscHeap is a no-op below, but no point in touching the code.",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f222e5_43620f15",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-29T03:15:28Z",
+      "side": 1,
+      "message": "I don\u0027t understand this change. The code above set n.Class |\u003d PHEAP. That implies to me that n.Esc should be EscHeap, which is what the old code did, simply:\n\n   n.Esc \u003d EscHeap\n\nThis is the most conservative, worst possible setting for n.Esc.\nWhy is the new code going out of its way to preserve other bits?\nWhat other bits are worth preserving if the base value is EscHeap?",
+      "revId": "567e946cc7ce9e9f787a33705a160bec68f708ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
