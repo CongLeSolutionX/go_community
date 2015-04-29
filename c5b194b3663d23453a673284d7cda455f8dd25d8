@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00b02a7_3be74fb0",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1495,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-04-29T00:18:52Z",
+      "side": 1,
+      "message": "Comment here about BX\u0027s new role?",
+      "revId": "c5b194b3663d23453a673284d7cda455f8dd25d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
