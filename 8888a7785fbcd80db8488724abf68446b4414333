@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fd66eb_62bef2a1",
+        "filename": "src/cmd/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-29T22:04:07Z",
+      "side": 1,
+      "message": "It looks like all of our notes are currently allocated in memory.  That\u0027s correct for the build-ID note but storing the package list in run time memory seems like a waste.  This function should probably get an argument for whether to set SHF_ALLOC or not.  And we should make sure that the data for a non-allocated note does not wind up in the text segment.\n\nIf this is too much of a hassle you can just add a TODO comment.  It would be nice but it\u0027s not essential.",
+      "revId": "8888a7785fbcd80db8488724abf68446b4414333",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_0290ce4a",
+        "filename": "src/cmd/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-29T22:04:07Z",
+      "side": 1,
+      "message": "We should use the value 1 here.  The name \"GO\" gives us a unique namespace, and we can define the meaning of the tag numbers within that namespace.  This is our first GO tag, so it should have the value 1.",
+      "revId": "8888a7785fbcd80db8488724abf68446b4414333",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_e275e277",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-29T22:04:07Z",
+      "side": 1,
+      "message": "Little known fact: if the first argument to append is a []byte, the second argument can be a string followed by \"...\".  That is, you can write this as\n    pkglistfornote \u003d append(pkglistfornote, \"runtime/cgo\"...)",
+      "revId": "8888a7785fbcd80db8488724abf68446b4414333",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_c24d4652",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-29T22:04:07Z",
+      "side": 1,
+      "message": "No need to convert pkgpath to []byte.",
+      "revId": "8888a7785fbcd80db8488724abf68446b4414333",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
