@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fd66eb_fcb8e9da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "This should be something like\n\n    text/template/parse: add abort method to lexer",
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_9c9a856d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "\"If parsing fails\"",
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_3cb7f1c7",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "Instead of checking l.quit, it might make sense to check if \u003c-l.items returned because l.items was closed (i.e., use two-variable receive expression).",
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_3c2c1194",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "Renaming item to nextItem here seems unnecessary.",
+      "range": {
+        "startLine": 175,
+        "startChar": 1,
+        "endLine": 175,
+        "endChar": 9
+      },
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_bcf021ab",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "Godocs should use the function name descriptively.  Something like \"abort stops the lexing and forces the state machine goroutine to terminate\".  See http://blog.golang.org/godoc-documenting-go-code",
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_5c0c7d3d",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "\"in case the lexer is blocked in emit\"\n\nAlso, maybe this should be in a loop until l.items is closed?  There are code paths where multiple tokens are emitted without returning to run(); e.g., lexText when it emits both itemText + itemEOF.",
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_1c8dd503",
+        "filename": "src/text/template/parse/lex_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "TestAbort needs to be capitalized or else it won\u0027t be run by the testing framework.  You should probably also mention issue 10574.",
+      "range": {
+        "startLine": 467,
+        "startChar": 5,
+        "endLine": 467,
+        "endChar": 14
+      },
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_1c583511",
+        "filename": "src/text/template/parse/lex_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T20:16:14Z",
+      "side": 1,
+      "message": "Really you want to test that the lexer goroutine has exited.  Probably the closest to that is checking that l.items is closed.",
+      "range": {
+        "startLine": 470,
+        "startChar": 15,
+        "endLine": 470,
+        "endChar": 23
+      },
+      "revId": "a73d778246458739af6ab851e016eff16e90c0a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
