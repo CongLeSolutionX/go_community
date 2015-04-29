@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905806e7_0a1f7fe2",
+        "filename": "src/buildall.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-29T23:15:22Z",
+      "side": 1,
+      "message": "It wasn\u0027t in Russ\u0027s original version. Was there a reason for that?",
+      "revId": "2b43958317c46d8a542964f5aef1642674404433",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
