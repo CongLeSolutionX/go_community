@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00b02a7_3bd18f7c",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-29T00:51:46Z",
+      "side": 1,
+      "message": "Perhaps a comment explaining when gp.m \u003d\u003d g.m could be true, given that we know that gp \u003d\u003d g.m.curg is false.",
+      "revId": "5d379bcf9b50d246bf2979fb6dd0731a3d1e4dcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
