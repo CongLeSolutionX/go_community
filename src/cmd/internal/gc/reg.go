@@ -1033,6 +1033,33 @@ func Dumpit(str string, r0 *Flow, isreg int) {
 	}
 }
 
+// freeRegs is a Reg free list, to reduce allocations.
+var (
+	freeRegs = make([]Reg, 128)
+	firstReg int // firstFreeReg is the index of the first available Reg from freeRegs
+)
+
+func newReg() *Reg {
+	if firstReg < len(freeRegs) {
+		r := &freeRegs[firstReg]
+		firstReg++
+		return r
+	}
+	// There's no need to copy the old free list,
+	// so simply abandon it instead of appending.
+	freeRegs = make([]Reg, len(freeRegs)*5/4)
+	firstReg = 0
+	return newReg()
+}
+
+func freeAllReg() {
+	used := freeRegs[:firstReg]
+	for i := range used {
+		used[i] = Reg{} // eagerly zero, to help GC
+	}
+	firstReg = 0
+}
+
 func regopt(firstp *obj.Prog) {
 	mergetemp(firstp)
 
@@ -1069,7 +1096,7 @@ func regopt(firstp *obj.Prog) {
 	 * allocate pcs
 	 * find use and set of variables
 	 */
-	g := Flowstart(firstp, func() interface{} { return new(Reg) })
+	g := Flowstart(firstp, func() interface{} { return newReg() })
 	if g == nil {
 		for i := 0; i < nvar; i++ {
 			vars[i].node.Opt = nil
@@ -1392,6 +1419,7 @@ loop2:
 	for i := 0; i < nvar; i++ {
 		vars[i].node.Opt = nil
 	}
+	freeAllReg()
 	Flowend(g)
 	firstf = nil
 
