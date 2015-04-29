@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f00b02a7_e1e46a28",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-04-29T17:13:26Z",
+      "side": 0,
+      "message": "Right, I switched to the flag here to line up with runner. If there were more than two hash functions then I agree that tls12Hash would be better. But, for just SHA-256 vs SHA-384, the flag works.",
+      "parentUuid": "70f712e2_786b851e",
+      "revId": "0bb96beace42f10ab77a9fdd6f0920ad8d89e28c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70f712e2_8c8a861c",
         "filename": "src/crypto/tls/handshake_client.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-28T19:37:03Z",
       "side": 0,
       "message": "[I\u0027m unclear why gerrit thinks these lines changed; they look the same to me.]",
+      "revId": "0bb96beace42f10ab77a9fdd6f0920ad8d89e28c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00b02a7_d67b6aed",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-04-29T17:13:26Z",
+      "side": 0,
+      "message": "(I think it\u0027s just trying to say that they\u0027ve moved down.)",
+      "parentUuid": "70f712e2_8c8a861c",
       "revId": "0bb96beace42f10ab77a9fdd6f0920ad8d89e28c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
