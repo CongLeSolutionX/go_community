@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fd66eb_45ee6036",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T23:06:29Z",
+      "side": 1,
+      "message": "Does the parser actually call nextItem after calling abort?  I\u0027d suspect not, and if that\u0027s the case, then I don\u0027t think you need these changes to nextItem.",
+      "revId": "31f20ba590e386a3ecf998bdb48fa30240e503de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_251234da",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T23:06:29Z",
+      "side": 1,
+      "message": "You can use just \"for range l.items {}\" to drain a channel.",
+      "revId": "31f20ba590e386a3ecf998bdb48fa30240e503de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
