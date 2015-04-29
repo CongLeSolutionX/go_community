@@ -26,6 +26,11 @@ func skipTraceTestsIfNeeded(t *testing.T) {
 		case "arm", "arm64":
 			t.Skipf("skipping on %s/%s, cannot fork", runtime.GOOS, runtime.GOARCH)
 		}
+	case "linux":
+		switch runtime.GOARCH {
+		case "ppc64", "ppc64le":
+			t.Skipf("skipping: ppc64 does not have a working monotonic cpu timer (http://golang.org/issue/10623)")
+		}
 	}
 
 	switch runtime.GOARCH {
