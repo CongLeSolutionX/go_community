@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "108c1686_93707e89",
+        "filename": "src/runtime/norace_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-04-29T00:15:43Z",
+      "side": 1,
+      "message": "use futex. For example:\n\ndiff --git a/src/runtime/export_linux_test.go b/src/runtime/export_linux_test.go\nindex c8b9746..5b0b9e6 100644\n--- a/src/runtime/export_linux_test.go\n+++ b/src/runtime/export_linux_test.go\n@@ -6,4 +6,8 @@\n \n package runtime\n \n-var NewOSProc0 \u003d newosproc0\n+var (\n+       NewOSProc0 \u003d newosproc0\n+       Futex      \u003d futex\n+       FUTEX_WAIT \u003d int32(_FUTEX_WAIT)\n+)\ndiff --git a/src/runtime/norace_linux_test.go b/src/runtime/norace_linux_test.go\nindex c355ccc..4a49859 100644\n--- a/src/runtime/norace_linux_test.go\n+++ b/src/runtime/norace_linux_test.go\n@@ -18,7 +18,11 @@ var newOSProcDone bool\n \n //go:nosplit\n func newOSProcCreated() {\n+       var x int\n        newOSProcDone \u003d true\n+       for {\n+               runtime.Futex(unsafe.Pointer(\u0026x), runtime.FUTEX_WAIT, 0, nil, nil, 0)\n+       }\n }\n \n // Can\u0027t be run with -race because it inserts calls into newOSProcCreated()\n\n\nBut I still want to figure out why thread exiting is\nbreaking things on Android -- that might be another\nbug.",
+      "revId": "631e1ddee29a52e5575f1a031a85e96319549993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
