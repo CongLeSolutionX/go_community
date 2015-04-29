@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fd66eb_22a06a9e",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-29T21:51:48Z",
+      "side": 1,
+      "message": "This case can now be just\n\n    return LastIndexByte(s, sep[0])\n\nto parallel Index\u0027s call to IndexByte.",
+      "revId": "53c8d98086929cf669a02f163535ee4692dc7018",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
