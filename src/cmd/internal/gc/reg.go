@@ -1069,7 +1069,15 @@ func regopt(firstp *obj.Prog) {
 	 * allocate pcs
 	 * find use and set of variables
 	 */
-	g := Flowstart(firstp, func() interface{} { return new(Reg) })
+	var regs []Reg
+	g := Flowstart(firstp, func() interface{} {
+		if len(regs) == 0 {
+			regs = make([]Reg, 128)
+		}
+		r := &regs[0]
+		regs = regs[1:]
+		return r
+	})
 	if g == nil {
 		for i := 0; i < nvar; i++ {
 			vars[i].node.Opt = nil
