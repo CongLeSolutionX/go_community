@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f222e5_f9cd3006",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-29T17:27:11Z",
+      "side": 1,
+      "message": "How about instead of this switch writing\n\n    if _, ok :\u003d err.(syscall.Errno); ok {\n        err \u003d os.NewSyscallError(\"read\", err)\n    }\n\nThe idea is that NewSyscallError is mainly useful when the error value is an errno value.  You are picking out the non-syscall.Errno values by hand, but you could do it using a type assertion.\n\nSame idea applies elsewhere in this change.",
+      "revId": "a8de14d188f2030f2c14b8bf19279f90faf8c7bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
