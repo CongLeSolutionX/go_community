@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905806e7_ea0f8366",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-29T21:35:29Z",
+      "side": 1,
+      "message": "Maybe also worth mentioning that this adds SSL 3 client auth support.",
+      "revId": "5c41c408fa3bf3f857dad3c4c369f8b2e5c70c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_0aee9f03",
+        "filename": "src/crypto/tls/prf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-29T21:35:29Z",
+      "side": 1,
+      "message": "This logic is duplicated in prfForVersion. Also the prf10 doesn\u0027t account for SSL 3.0.",
+      "revId": "5c41c408fa3bf3f857dad3c4c369f8b2e5c70c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_4af497d1",
+        "filename": "src/crypto/tls/prf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-04-29T21:35:29Z",
+      "side": 1,
+      "message": "This function takes an explicit clientList while pickTLS12HashForSignature does it implicitly, which is a little odd.",
+      "range": {
+        "startLine": 313,
+        "startChar": 69,
+        "endLine": 313,
+        "endChar": 79
+      },
+      "revId": "5c41c408fa3bf3f857dad3c4c369f8b2e5c70c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
