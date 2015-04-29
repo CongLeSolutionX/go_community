@@ -2223,7 +2223,13 @@ func (tools gccgoToolchain) ld(b *builder, p *Package, out string, allactions []
 	afiles = append(xfiles, afiles...)
 
 	for _, a := range allactions {
-		cgoldflags = append(cgoldflags, a.p.CgoLDFLAGS...)
+		// Gather CgoLDFLAGS, but not from standard packages.
+		// The go tool can dig up runtime/cgo from GOROOT and
+		// think that it should use its CgoLDFLAGS, but gccgo
+		// doesn't use runtime/cgo.
+		if !a.p.Standard {
+			cgoldflags = append(cgoldflags, a.p.CgoLDFLAGS...)
+		}
 		if len(a.p.CgoFiles) > 0 {
 			usesCgo = true
 		}
@@ -2237,20 +2243,78 @@ func (tools gccgoToolchain) ld(b *builder, p *Package, out string, allactions []
 			objc = true
 		}
 	}
+
+	if ldBuildmode == "c-archive" {
+		ldflags = append(ldflags, "-Wl,--whole-archive")
+	}
+
 	ldflags = append(ldflags, afiles...)
+
+	if ldBuildmode == "c-archive" {
+		ldflags = append(ldflags, "-Wl,--no-whole-archive")
+	}
+
 	ldflags = append(ldflags, cgoldflags...)
 	ldflags = append(ldflags, envList("CGO_LDFLAGS", "")...)
 	ldflags = append(ldflags, p.CgoLDFLAGS...)
-	if usesCgo && goos == "linux" {
-		ldflags = append(ldflags, "-Wl,-E")
+
+	ldflags = stringList("-Wl,-(", ldflags, "-Wl,-)")
+
+	var realOut string
+	switch ldBuildmode {
+	case "exe":
+		if usesCgo && goos == "linux" {
+			ldflags = append(ldflags, "-Wl,-E")
+		}
+		if cxx {
+			ldflags = append(ldflags, "-lstdc++")
+		}
+		if objc {
+			ldflags = append(ldflags, "-lobjc")
+		}
+
+	case "c-archive":
+		// Link the Go files into a single .o, and also link
+		// in -lgolibbegin.
+		//
+		// We need to use --whole-archive with -lgolibbegin
+		// because it doesn't define any symbols that will
+		// cause the contents to be pulled in; it's just
+		// initialization code.
+		//
+		// The user remains responsible for linking against
+		// -lgo -lpthread -lm in the final link.  We can't use
+		// -r to pick them up because we can't combine
+		// split-stack and non-split-stack code in a single -r
+		// link, and libgo picks up non-split-stack code from
+		// libffi.
+		ldflags = append(ldflags, "-Wl,-r", "-nostdlib", "-Wl,--whole-archive", "-lgolibbegin", "-Wl,--no-whole-archive")
+
+		// See --build-id comment in builder.cgo.
+		switch goos {
+		case "android", "dragonfly", "linux", "netbsd":
+			ldflags = append(ldflags, "-Wl,--build-id=none")
+		}
+
+		realOut = out
+		out = out + ".o"
+
+	default:
+		fatalf("-buildmode=%s not supported for gccgo", ldBuildmode)
 	}
-	if cxx {
-		ldflags = append(ldflags, "-lstdc++")
+
+	if err := b.run(".", p.ImportPath, nil, tools.linker(), "-o", out, ofiles, ldflags, buildGccgoflags); err != nil {
+		return err
 	}
-	if objc {
-		ldflags = append(ldflags, "-lobjc")
+
+	switch ldBuildmode {
+	case "c-archive":
+		if err := b.run(".", p.ImportPath, nil, "ar", "rc", realOut, out); err != nil {
+			return err
+		}
 	}
-	return b.run(".", p.ImportPath, nil, tools.linker(), "-o", out, ofiles, "-Wl,-(", ldflags, "-Wl,-)", buildGccgoflags)
+
+	return nil
 }
 
 func (gccgoToolchain) cc(b *builder, p *Package, objdir, ofile, cfile string) error {
@@ -2260,6 +2324,10 @@ func (gccgoToolchain) cc(b *builder, p *Package, objdir, ofile, cfile string) er
 	defs = append(defs, b.gccArchArgs()...)
 	if pkgpath := gccgoCleanPkgpath(p); pkgpath != "" {
 		defs = append(defs, `-D`, `GOPKGPATH="`+pkgpath+`"`)
+	}
+	switch goarch {
+	case "386", "amd64":
+		defs = append(defs, "-fsplit-stack")
 	}
 	return b.run(p.Dir, p.ImportPath, nil, envList("CC", defaultCC), "-Wall", "-g",
 		"-I", objdir, "-I", inc, "-o", ofile, defs, "-c", cfile)
@@ -2504,6 +2572,10 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, cgofi
 	}
 
 	if _, ok := buildToolchain.(gccgoToolchain); ok {
+		switch goarch {
+		case "386", "amd64":
+			cgoCFLAGS = append(cgoCFLAGS, "-fsplit-stack")
+		}
 		cgoflags = append(cgoflags, "-gccgo")
 		if pkgpath := gccgoPkgpath(p); pkgpath != "" {
 			cgoflags = append(cgoflags, "-gccgopkgpath="+pkgpath)
