@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905806e7_384f3194",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2293,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-04-30T10:32:59Z",
+      "side": 1,
+      "message": "Perhaps it is worth putting this logic in its own function, rather than using a comment pointer.",
+      "revId": "3f838acb9e5e96243bdf02ef07383ab9fc988015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
