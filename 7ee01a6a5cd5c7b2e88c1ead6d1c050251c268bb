@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90fd66eb_d127ce32",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-30T09:50:24Z",
+      "side": 1,
+      "message": "Done, as part of a whole bunch of other stuff I think.",
+      "parentUuid": "100336c0_d8b36d4a",
+      "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100336c0_b8a4b908",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "90fd66eb_1122d622",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-30T09:50:24Z",
+      "side": 1,
+      "message": "You\u0027re right.  I\u0027m not sure there is a sensible way we can record that a package is in multiple shared libaries, or more accurately, I\u0027m not sure there\u0027s anything useful we can do with that information if we do record it.  We probably should give an error, but there needs to be some care to not fail halfway through the installShlibname steps I think.  And definitely not in this CL :-)",
+      "parentUuid": "100336c0_b8a4b908",
+      "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100336c0_f8ae31e6",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 13
@@ -47,6 +83,24 @@
       "writtenOn": "2015-04-30T03:45:48Z",
       "side": 1,
       "message": "In a case like this it\u0027s better to just try to open the file, rather than call Stat.  In this case just call ReadFile.  An error that is os.IsNotExist means that there was no file.",
+      "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_b12cc218",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-30T09:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "100336c0_f8ae31e6",
       "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
