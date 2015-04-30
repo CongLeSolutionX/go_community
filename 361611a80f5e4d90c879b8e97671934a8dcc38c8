@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fd66eb_17ef6383",
+        "filename": "src/cmd/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/ to specified value//",
+      "range": {
+        "startLine": 236,
+        "startChar": 61,
+        "endLine": 236,
+        "endChar": 63
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_f7c8f72a",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/add a/add an/",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 22
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_37d37fda",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/the // (for consistency with -D)",
+      "range": {
+        "startLine": 81,
+        "startChar": 23,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_77dd07e2",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/set the/specify which/",
+      "range": {
+        "startLine": 85,
+        "startChar": 23,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_f753d7c0",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "I think this is now just broken, a casualty of the consequence of the translation from C to Go. Please file an issue and we\u0027ll deal with that later. Disable it until then.\n\ns|^|// TODO: Fix. |",
+      "range": {
+        "startLine": 102,
+        "startChar": 32,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_97e413aa",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/pkg/package/",
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_b7e78fad",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/as/to/",
+      "range": {
+        "startLine": 118,
+        "startChar": 63,
+        "endLine": 118,
+        "endChar": 65
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_770fc7e5",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "it doesn\u0027t leave them; it always removes them.\n\"use specified directory for temporary files\"",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 83
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_b7fe6f2f",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T20:56:49Z",
+      "side": 1,
+      "message": "s/ to specified value//",
+      "range": {
+        "startLine": 143,
+        "startChar": 45,
+        "endLine": 143,
+        "endChar": 46
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
