@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100336c0_d88a4d6e",
+        "filename": "misc/cgo/testcshared/main0.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-30T03:50:08Z",
+      "side": 1,
+      "message": "extern int8_t DidInitRun(void);\nextern int8_t DidMainRun(void);\nextern int32_t FromPkg(void);\n\nWe should clearly think about having cgo generate a header file that C code can #include.  Write now you have to write the declaration twice, once in Go, once in C, and there is nothing forcing them to be the same.",
+      "revId": "fc9e99a621f7c3bee67e0668a42fe3b80c29f506",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100336c0_58975d8f",
+        "filename": "src/cmd/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-30T03:50:08Z",
+      "side": 1,
+      "message": "Does it work if we change the line below to\n   argv \u003d append(argv, \"-Wl,-znow\")\n?  That would be preferable, especially since we can\u0027t reliably detect clang by looking at the command line.",
+      "revId": "fc9e99a621f7c3bee67e0668a42fe3b80c29f506",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
