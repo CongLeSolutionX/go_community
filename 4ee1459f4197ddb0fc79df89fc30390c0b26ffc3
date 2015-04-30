@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90fd66eb_486e6cfd",
+        "filename": "src/cmd/internal/gc/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-30T22:57:30Z",
+      "side": 1,
+      "message": "No, the union is not true, but we also didn\u0027t end up with a 3-word interface. It is now\n\nstruct { Itab *tab; void *data }",
+      "parentUuid": "905806e7_fef42156",
+      "range": {
+        "startLine": 936,
+        "startChar": 5,
+        "endLine": 936,
+        "endChar": 65
+      },
+      "revId": "4ee1459f4197ddb0fc79df89fc30390c0b26ffc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905806e7_1e301d93",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 2
@@ -42,6 +66,47 @@
         "endLine": 133,
         "endChar": 30
       },
+      "revId": "4ee1459f4197ddb0fc79df89fc30390c0b26ffc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_0843c472",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-30T22:57:30Z",
+      "side": 1,
+      "message": "Assuming you meant to comment on the typeDead check, not the _Gdead (goroutine state) check. Will reply there.",
+      "parentUuid": "905806e7_1e301d93",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 30
+      },
+      "revId": "4ee1459f4197ddb0fc79df89fc30390c0b26ffc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_0895843a",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-04-30T22:57:30Z",
+      "side": 1,
+      "message": "This typeDead check only ever applied to the heap bitmap, and it still does. (This code is the same as before, just with the ptrmask part pulled out into scanblock above.)\n\nThe bitmaps changing in this CL are the 2-bit bitmaps used for stack frames and the data and bss segments. They never held a dead value, because in general those are concatenations of many things, so it didn\u0027t make sense. (We already split pointer-free data out of the described area for all three - there are separate noptr data and bss segments and noptr data goes to one side of the stack frame that is not considered and not described by any bitmap.)",
       "revId": "4ee1459f4197ddb0fc79df89fc30390c0b26ffc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
