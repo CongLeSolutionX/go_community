@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905806e7_fef42156",
+        "filename": "src/cmd/internal/gc/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-30T21:15:50Z",
+      "side": 1,
+      "message": "Is this still true? Didn\u0027t we end up with a 3 word interface?",
+      "range": {
+        "startLine": 936,
+        "startChar": 5,
+        "endLine": 936,
+        "endChar": 65
+      },
+      "revId": "4ee1459f4197ddb0fc79df89fc30390c0b26ffc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905806e7_1e301d93",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-04-30T21:15:50Z",
+      "side": 1,
+      "message": "Not sure if the dead bit makes it through anymore. Where do we set this bit in the map?",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 30
+      },
+      "revId": "4ee1459f4197ddb0fc79df89fc30390c0b26ffc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
