@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100336c0_bec8212a",
+        "filename": "src/cmd/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-30T18:28:06Z",
+      "side": 1,
+      "message": "I\u0027d include Thearch.Thechar \u003d\u003d \u00275\u0027 here too, so the GOARM variable can\u0027t have any side-effect for non-arm builds.",
+      "revId": "0f9378597e2ff09a4e055d203e609d4c036a9f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
