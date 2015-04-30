@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100336c0_1b4f9fc5",
+        "filename": "src/cmd/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-30T16:11:53Z",
+      "side": 1,
+      "message": "Is that third condition really required?",
+      "revId": "eb2f1105580a90a6cdb6d3fcb831a8d9b03cb7e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100336c0_3b52636b",
+        "filename": "src/cmd/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-04-30T16:11:53Z",
+      "side": 1,
+      "message": "Is that second part really required?",
+      "revId": "eb2f1105580a90a6cdb6d3fcb831a8d9b03cb7e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
