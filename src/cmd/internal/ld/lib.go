@@ -942,7 +942,7 @@ func hostlink() {
 		argv = append(argv, "-shared")
 	}
 
-	if Linkshared && Iself {
+	if Linkshared && Iself && !strings.Contains(argv[0], "clang") {
 		// We force all symbol resolution to be done at program startup
 		// because lazy PLT resolution can use large amounts of stack at
 		// times we cannot allow it to do so.
