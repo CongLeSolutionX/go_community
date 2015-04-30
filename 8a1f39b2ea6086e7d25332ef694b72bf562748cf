@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100336c0_9862953a",
+        "filename": "misc/cgo/testcshared/main0.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-30T04:10:38Z",
+      "side": 1,
+      "message": "I made two comments--one was to change these declarations.  At least s/()/(void)/",
+      "revId": "8a1f39b2ea6086e7d25332ef694b72bf562748cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
