@@ -2484,11 +2484,9 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 	mp.mallocing++
 
 	// Define that a "user g" is a user-created goroutine, and a "system g"
-	// is one that is m->g0 or m->gsignal. We've only made sure that we
-	// can unwind user g's, so exclude the system g's.
+	// is one that is m->g0 or m->gsignal.
 	//
-	// It is not quite as easy as testing gp == m->curg (the current user g)
-	// because we might be interrupted for profiling halfway through a
+	// We might be interrupted for profiling halfway through a
 	// goroutine switch. The switch involves updating three (or four) values:
 	// g, PC, SP, and (on arm) LR. The PC must be the last to be updated,
 	// because once it gets updated the new g is running.
@@ -2497,8 +2495,7 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 	// so the update only affects g, SP, and PC. Since PC must be last, there
 	// the possible partial transitions in ordinary execution are (1) g alone is updated,
 	// (2) both g and SP are updated, and (3) SP alone is updated.
-	// If g is updated, we'll see a system g and not look closer.
-	// If SP alone is updated, we can detect the partial transition by checking
+	// If SP or g alone is updated, we can detect the partial transition by checking
 	// whether the SP is within g's stack bounds. (We could also require that SP
 	// be changed only after g, but the stack bounds check is needed by other
 	// cases, so there is no need to impose an additional requirement.)
@@ -2556,17 +2553,14 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 	// transition. We simply require that g and SP match and that the PC is not
 	// in gogo.
 	traceback := true
-	gogo := funcPC(gogo)
-	if gp == nil || gp != mp.curg ||
-		sp < gp.stack.lo || gp.stack.hi < sp ||
-		(gogo <= pc && pc < gogo+_RuntimeGogoBytes) {
+	if gp == nil || sp < gp.stack.lo || gp.stack.hi < sp || setsSP(pc) {
 		traceback = false
 	}
 
 	var stk [maxCPUProfStack]uintptr
 	n := 0
 	if traceback {
-		n = gentraceback(pc, sp, lr, gp, 0, &stk[0], len(stk), nil, nil, _TraceTrap)
+		n = gentraceback(pc, sp, lr, gp, 0, &stk[0], len(stk), nil, nil, _TraceTrap|_TraceJumpStack)
 	}
 	if !traceback || n <= 0 {
 		// Normal traceback is impossible or has failed.
@@ -2610,6 +2604,31 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 		atomicstore(&prof.lock, 0)
 	}
 	mp.mallocing--
+}
+
+// Reports whether a function will set the SP
+// to an absolute value. Important that
+// we don't traceback when these are at the bottom
+// of the stack since we can't be sure that we will
+// find the caller.
+//
+// If the function is not on the bottom of the stack
+// we assume that it will have set it up so that traceback will be consistent,
+// either by being a traceback terminating function
+// or putting one on the stack at the right offset.
+func setsSP(pc uintptr) bool {
+	f := findfunc(pc)
+	if f == nil {
+		// couldn't find the function for this PC,
+		// so assume the worst and stop traceback
+		return true
+	}
+	switch f.entry {
+	case gogoPC, systemstackPC, mcallPC, morestackPC, asmcgocallPC,
+		cgocallback_gofuncPC:
+		return true
+	}
+	return false
 }
 
 // Arrange to call fn with a traceback hz times a second.
