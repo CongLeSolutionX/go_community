@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905806e7_0dd8f917",
+        "filename": "src/html/template/transition_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7721
+      },
+      "writtenOn": "2015-04-30T02:38:00Z",
+      "side": 1,
+      "message": "Maybe test the case where the tagEndSeparator is not a \u0027\u003e\u0027.\n  {\"\u003c\u003c/script \u003e\", \"script\", 1},\nand the case where there is a different tag name\n  {\"\u003c/script\u003e\", \"textarea\", -1},",
+      "revId": "e8673388d856ea602a13e1cf130c906026da2693",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
