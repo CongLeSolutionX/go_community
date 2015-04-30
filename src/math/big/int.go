@@ -587,7 +587,7 @@ func (z *Int) ModInverse(g, n *Int) *Int {
 // The y argument must be an odd integer.
 func Jacobi(x, y *Int) int {
 	if len(y.abs) == 0 || y.abs[0]&1 == 0 {
-		panic(fmt.Sprintf("big: invalid 2nd argument to Int.Jacobi: need odd, positive integer but got %s", y))
+		panic(fmt.Sprintf("big: invalid 2nd argument to Int.Jacobi: need odd integer but got %s", y))
 	}
 
 	// We use the formulation described in chapter 2, section 2.4,
