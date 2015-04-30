@@ -146,6 +146,10 @@ type Type struct {
 	Orig   *Type // original type (type literal or predefined type)
 	Lineno int
 
+	// Cached derived types.
+	PtrTo   *Type
+	SliceOf *Type
+
 	// TFUNC
 	Thistuple int
 	Outtuple  int

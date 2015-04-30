@@ -731,11 +731,17 @@ func aindex(b *Node, t *Type) *Type {
 		}
 	}
 
+	if b == nil && t.SliceOf != nil && t.SliceOf.Type == t {
+		return t.SliceOf
+	}
+
 	// fixed array
 	r := typ(TARRAY)
-
 	r.Type = t
 	r.Bound = bound
+	if b == nil {
+		t.SliceOf = r
+	}
 	return r
 }
 
@@ -1546,56 +1552,21 @@ func typehash(t *Type) uint32 {
 	return binary.LittleEndian.Uint32(h[:4])
 }
 
-var initPtrtoDone bool
-
-var (
-	ptrToUint8  *Type
-	ptrToAny    *Type
-	ptrToString *Type
-	ptrToBool   *Type
-	ptrToInt32  *Type
-)
-
-func initPtrto() {
-	ptrToUint8 = ptrto1(Types[TUINT8])
-	ptrToAny = ptrto1(Types[TANY])
-	ptrToString = ptrto1(Types[TSTRING])
-	ptrToBool = ptrto1(Types[TBOOL])
-	ptrToInt32 = ptrto1(Types[TINT32])
-}
-
-func ptrto1(t *Type) *Type {
+// Ptrto returns the Type *t.
+// The returned struct must not be modified.
+func Ptrto(t *Type) *Type {
+	if t.PtrTo != nil && t.PtrTo.Type == t {
+		return t.PtrTo
+	}
+	if Tptr == 0 {
+		Fatal("ptrto: no tptr")
+	}
 	t1 := typ(Tptr)
 	t1.Type = t
 	t1.Width = int64(Widthptr)
 	t1.Align = uint8(Widthptr)
+	t.PtrTo = t1
 	return t1
-}
-
-// Ptrto returns the Type *t.
-// The returned struct must not be modified.
-func Ptrto(t *Type) *Type {
-	if Tptr == 0 {
-		Fatal("ptrto: no tptr")
-	}
-	// Reduce allocations by pre-creating common cases.
-	if !initPtrtoDone {
-		initPtrto()
-		initPtrtoDone = true
-	}
-	switch t {
-	case Types[TUINT8]:
-		return ptrToUint8
-	case Types[TINT32]:
-		return ptrToInt32
-	case Types[TANY]:
-		return ptrToAny
-	case Types[TSTRING]:
-		return ptrToString
-	case Types[TBOOL]:
-		return ptrToBool
-	}
-	return ptrto1(t)
 }
 
 func frame(context int) {
