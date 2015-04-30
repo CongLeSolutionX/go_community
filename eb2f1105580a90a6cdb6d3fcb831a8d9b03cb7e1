@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90fd66eb_f930f018",
+        "filename": "src/cmd/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-30T18:30:25Z",
+      "side": 1,
+      "message": "It\u0027s required in the sense that currently there are places within gc that perform value copies of Type objects, and so these cache-validity-checks are needed because the cache pointers will be copied too.  Without it, 6g spews tons of errors even compiling package runtime.\n\nI couldn\u0027t find an easy way to identify all of the places where gc copies Type values, and I\u0027m unsure how common an idiom that is, so this seemed like the safer solution.  If someone more familiar with gc\u0027s internals wants to promise me that it\u0027s rare and not likely to occur more in the future, I\u0027m happy to track down the relevant assignments and update them to not copy the cache pointers.",
+      "parentUuid": "100336c0_1b4f9fc5",
+      "revId": "eb2f1105580a90a6cdb6d3fcb831a8d9b03cb7e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100336c0_3b52636b",
         "filename": "src/cmd/internal/gc/subr.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-30T16:11:53Z",
       "side": 1,
       "message": "Is that second part really required?",
+      "revId": "eb2f1105580a90a6cdb6d3fcb831a8d9b03cb7e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90fd66eb_392378d5",
+        "filename": "src/cmd/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-04-30T18:30:25Z",
+      "side": 1,
+      "message": "Same reason as for SliceOf above.",
+      "parentUuid": "100336c0_3b52636b",
       "revId": "eb2f1105580a90a6cdb6d3fcb831a8d9b03cb7e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
