@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100336c0_d8b36d4a",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-30T03:45:48Z",
+      "side": 1,
+      "message": "I would move this declaration down to where stk is declared,\nand (personal preference) I would write\n    var pkgs []*Package",
+      "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100336c0_b8a4b908",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-30T03:45:48Z",
+      "side": 1,
+      "message": "I managed to not notice before that this system implies that each package can be in at most one shared library.  If we put it in another shared library we will lose the information.  Is that OK?  It suggests that we should give an error if the package is already in some other shared library, perhaps when creating the .shlibname file.",
+      "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100336c0_f8ae31e6",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-04-30T03:45:48Z",
+      "side": 1,
+      "message": "In a case like this it\u0027s better to just try to open the file, rather than call Stat.  In this case just call ReadFile.  An error that is os.IsNotExist means that there was no file.",
+      "revId": "7ee01a6a5cd5c7b2e88c1ead6d1c050251c268bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
