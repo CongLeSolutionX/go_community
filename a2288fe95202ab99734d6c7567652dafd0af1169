@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0f35e19_debd25c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-04-30T00:16:10Z",
+      "side": 1,
+      "message": "Maybe this comment could go by the relevant code?  I found that a little confusing, especially as the go tool will never (aiui) actually link a standard package.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 44
+      },
+      "revId": "a2288fe95202ab99734d6c7567652dafd0af1169",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
