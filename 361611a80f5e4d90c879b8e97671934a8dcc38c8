@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "90fd66eb_d2618910",
+        "filename": "src/cmd/internal/ld/pobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-04-30T21:24:58Z",
+      "side": 1,
+      "message": "No, I\u0027m wrong. It still works, by magic. But let\u0027s fix the text:\n\nobj.Flagfn1(\"X\", \"set the value of a string variable; the next two arguments are its name and value\", addstrdata1)\n\nthat will do for now. we\u0027ll clean this up when we do some general tidying soon.",
+      "parentUuid": "90fd66eb_f753d7c0",
+      "range": {
+        "startLine": 102,
+        "startChar": 32,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "361611a80f5e4d90c879b8e97671934a8dcc38c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90fd66eb_97e413aa",
         "filename": "src/cmd/internal/ld/pobj.go",
         "patchSetId": 2
