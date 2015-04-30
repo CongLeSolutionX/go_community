@@ -5,6 +5,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
+int8_t DidInitRun();
+int8_t DidMainRun();
+int32_t FromPkg();
+
 // Tests libgo.so to export the following functions.
 //   int8_t DidInitRun();
 //   int8_t DidMainRun();
