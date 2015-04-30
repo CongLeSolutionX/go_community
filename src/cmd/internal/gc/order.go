@@ -1055,8 +1055,7 @@ func orderexpr(np **Node, order *Order, lhs *Node) {
 		n.Right.Ninit = concat(l, n.Right.Ninit)
 		orderexprinplace(&n.Right, order)
 
-	case OAPPEND,
-		OCALLFUNC,
+	case OCALLFUNC,
 		OCALLINTER,
 		OCALLMETH,
 		OCAP,
@@ -1072,6 +1071,12 @@ func orderexpr(np **Node, order *Order, lhs *Node) {
 		ORECOVER:
 		ordercall(n, order)
 		if lhs == nil || lhs.Op != ONAME {
+			n = ordercopyexpr(n, n.Type, order, 0)
+		}
+
+	case OAPPEND:
+		ordercallargs(&n.List, order)
+		if lhs == nil || flag_race != 0 || lhs.Op != ONAME && !samesafeexpr(lhs, n.List.N) {
 			n = ordercopyexpr(n, n.Type, order, 0)
 		}
 
