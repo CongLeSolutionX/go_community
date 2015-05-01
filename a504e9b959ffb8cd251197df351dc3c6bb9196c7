@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100336c0_ec42f36c",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-01T13:56:09Z",
+      "side": 1,
+      "message": "Minor, but I\u0027d prefer the comment to explain what is returned.  How about something like\n\n// setextld modifies ldflags to tell the linker which compiler to use.  If the user has already provided a -extld option, this does nothing.  This returns the modified ldflags.",
+      "revId": "a504e9b959ffb8cd251197df351dc3c6bb9196c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "100336c0_ac48fb90",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-01T13:56:09Z",
+      "side": 1,
+      "message": "You dropped the TODO comment about \"cxx-ness\" but we still need it.  This code should still be checking for C++ more or less as gcToolchain.ld does.",
+      "revId": "a504e9b959ffb8cd251197df351dc3c6bb9196c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
