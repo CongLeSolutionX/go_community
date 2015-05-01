@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d1768c_882cf718",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:57:55Z",
+      "side": 1,
+      "message": "Perhaps \"This frequent triggering of GC in Go 1.5 was the source of much of the relative slowdown in that directory.\"",
+      "revId": "0e7e050e2356f09df2788e9b765c8ea66380f07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d1768c_e821331f",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:57:55Z",
+      "side": 1,
+      "message": "Add a comment here along the lines of\n\n  // This is used to scan non-heap structures, so it does\n  // not update gcw.bytesMarked.",
+      "revId": "0e7e050e2356f09df2788e9b765c8ea66380f07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
