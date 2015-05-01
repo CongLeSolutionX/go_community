@@ -43,14 +43,7 @@ func cgen_wb(n, res *Node, wb bool) {
 
 	switch n.Op {
 	case OSLICE, OSLICEARR, OSLICESTR, OSLICE3, OSLICE3ARR:
-		if res.Op != ONAME || !res.Addable || wb {
-			var n1 Node
-			Tempname(&n1, n.Type)
-			Cgen_slice(n, &n1)
-			cgen_wb(&n1, res, wb)
-		} else {
-			Cgen_slice(n, res)
-		}
+		cgen_slice(n, res, wb)
 		return
 
 	case OEFACE:

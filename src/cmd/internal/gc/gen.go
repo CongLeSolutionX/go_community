@@ -555,119 +555,487 @@ func Cgen_As2dottype(n, res, resok *Node) {
 	Patch(q, Pc)
 }
 
-/*
- * generate:
- *	res = s[lo, hi];
- * n->left is s
- * n->list is (cap(s)-lo(TUINT), hi-lo(TUINT)[, lo*width(TUINTPTR)])
- * caller (cgen) guarantees res is an addable ONAME.
- *
- * called for OSLICE, OSLICE3, OSLICEARR, OSLICE3ARR, OSLICESTR.
- */
-func Cgen_slice(n *Node, res *Node) {
-	cap := n.List.N
-	len := n.List.Next.N
-	var offs *Node
-	if n.List.Next.Next != nil {
-		offs = n.List.Next.Next.N
+// Generate res = n, where n is x[i:j] or x[i:j:k].
+// If wb is true, need write barrier updating res's base pointer.
+// On systems with 32-bit ints, i, j, k are guaranteed to be 32-bit values.
+func cgen_slice(n, res *Node, wb bool) {
+	needFullUpdate := !samesafeexpr(n.Left, res)
+
+	// orderexpr has made sure that x is safe (but possibly expensive)
+	// and i, j, k are cheap. On a system with registers (anything but 386)
+	// we can evaluate x first and then know we have enough registers
+	// for i, j, k as well.
+	var x, xbase, xlen, xcap, i, j, k Node
+	if n.Op != OSLICEARR && n.Op != OSLICE3ARR {
+		Igen(n.Left, &x, nil)
 	}
 
-	// evaluate base pointer first, because it is the only
-	// possibly complex expression. once that is evaluated
-	// and stored, updating the len and cap can be done
-	// without making any calls, so without doing anything that
-	// might cause preemption or garbage collection.
-	// this makes the whole slice update atomic as far as the
-	// garbage collector can see.
-	base := temp(Types[TUINTPTR])
+	panics := make([]*obj.Prog, 0, 6) // 3 loads + 3 checks
 
-	tmplen := temp(Types[TINT])
-	var tmpcap *Node
-	if n.Op != OSLICESTR {
-		tmpcap = temp(Types[TINT])
-	} else {
-		tmpcap = tmplen
-	}
-
-	var src Node
-	if isnil(n.Left) {
-		Tempname(&src, n.Left.Type)
-		Cgen(n.Left, &src)
-	} else {
-		src = *n.Left
-	}
-	if n.Op == OSLICE || n.Op == OSLICE3 || n.Op == OSLICESTR {
-		src.Xoffset += int64(Array_array)
-	}
-
-	if n.Op == OSLICEARR || n.Op == OSLICE3ARR {
-		if !Isptr[n.Left.Type.Etype] {
-			Fatal("slicearr is supposed to work on pointer: %v\n", Nconv(n, obj.FmtSign))
+	loadlen := func() {
+		if xlen.Op != 0 {
+			return
 		}
-		Cgen(&src, base)
-		Cgen_checknil(base)
+		if n.Op == OSLICEARR || n.Op == OSLICE3ARR {
+			Nodconst(&xlen, Types[TUINT], n.Left.Type.Type.Bound)
+			return
+		}
+		if n.Op == OSLICESTR && Isconst(n.Left, CTSTR) {
+			Nodconst(&xlen, Types[TUINT], int64(len(n.Left.Val.U.Sval)))
+			return
+		}
+		Regalloc(&xlen, Types[TUINT], nil)
+		x.Xoffset += int64(Widthptr)
+		x.Type = Types[TUINT]
+		Thearch.Gmove(&x, &xlen)
+		x.Xoffset -= int64(Widthptr)
+	}
+
+	loadcap := func() {
+		if xcap.Op != 0 {
+			return
+		}
+		if n.Op == OSLICEARR || n.Op == OSLICE3ARR || n.Op == OSLICESTR {
+			loadlen()
+			xcap = xlen
+			if xcap.Op == OREGISTER {
+				Regrealloc(&xcap)
+			}
+			return
+		}
+		Regalloc(&xcap, Types[TUINT], nil)
+		x.Xoffset += 2 * int64(Widthptr)
+		x.Type = Types[TUINT]
+		Thearch.Gmove(&x, &xcap)
+		x.Xoffset -= 2 * int64(Widthptr)
+	}
+
+	// load computes src into targ, but if src refers to the len or cap of n.Left,
+	// load copies those from xlen, xcap, loading xlen if needed.
+	// If targ.Op == OREGISTER on return, it must be Regfreed,
+	// but it should not be modified without first checking whether it is
+	// xlen or xcap's register.
+	load := func(src, targ *Node) {
+		if src == nil {
+			return
+		}
+		switch src.Op {
+		case OLITERAL:
+			*targ = *src
+			return
+		case OLEN:
+			if samesafeexpr(n.Left, src.Left) {
+				if Debug_slice > 0 {
+					Warn("slice: reuse len")
+				}
+				loadlen()
+				*targ = xlen
+				if targ.Op == OREGISTER {
+					Regrealloc(targ)
+				}
+				return
+			}
+		case OCAP:
+			if samesafeexpr(n.Left, src.Left) {
+				if Debug_slice > 0 {
+					Warn("slice: reuse cap")
+				}
+				loadcap()
+				*targ = xcap
+				if targ.Op == OREGISTER {
+					Regrealloc(targ)
+				}
+				return
+			}
+		}
+		if i.Op != 0 && samesafeexpr(&i, src) {
+			if Debug_slice > 0 {
+				Warn("slice: reuse 1st index")
+			}
+			*targ = i
+			if targ.Op == OREGISTER {
+				Regrealloc(targ)
+			}
+			return
+		}
+		if j.Op != 0 && samesafeexpr(&j, src) {
+			if Debug_slice > 0 {
+				Warn("slice: reuse 2nd index")
+			}
+			*targ = j
+			if targ.Op == OREGISTER {
+				Regrealloc(targ)
+			}
+			return
+		}
+		// XXX If src is 64-bit on a 32-bit machine,
+		// check high bits here and add to panics slice.
+		Regalloc(targ, Types[TUINT], nil)
+		var tmp Node
+		Cgenr(src, &tmp, targ)
+		Thearch.Gmove(&tmp, targ)
+		Regfree(&tmp)
+	}
+
+	load(n.Right.Left, &i)
+	switch n.Op {
+	default:
+		load(n.Right.Right, &j)
+	case OSLICE3, OSLICE3ARR:
+		load(n.Right.Right.Left, &j)
+		load(n.Right.Right.Right, &k)
+	}
+
+	// Check constant indexes for negative values, and against constant length if known.
+	// The func obvious below checks for out-of-order constant indexes.
+	var bound int64 = -1
+	if n.Op == OSLICEARR || n.Op == OSLICE3ARR {
+		bound = n.Left.Type.Type.Bound
+	} else if n.Op == OSLICESTR && Isconst(n.Left, CTSTR) {
+		bound = int64(len(n.Left.Val.U.Sval))
+	}
+	if Isconst(&i, CTINT) {
+		if mpcmpfixc(i.Val.U.Xval, 0) < 0 || bound >= 0 && mpcmpfixc(i.Val.U.Xval, bound) > 0 {
+			Yyerror("slice index out of bounds")
+		}
+	}
+	if Isconst(&j, CTINT) {
+		if mpcmpfixc(j.Val.U.Xval, 0) < 0 || bound >= 0 && mpcmpfixc(j.Val.U.Xval, bound) > 0 {
+			Yyerror("slice index out of bounds")
+		}
+	}
+	if Isconst(&k, CTINT) {
+		if mpcmpfixc(k.Val.U.Xval, 0) < 0 || bound >= 0 && mpcmpfixc(k.Val.U.Xval, bound) > 0 {
+			Yyerror("slice index out of bounds")
+		}
+	}
+
+	// same reports whether n1 and n2 are the same register or constant.
+	same := func(n1, n2 *Node) bool {
+		return n1.Op == OREGISTER && n2.Op == OREGISTER && n1.Reg == n2.Reg ||
+			n1.Op == OLITERAL && n2.Op == OLITERAL && Mpcmpfixfix(n1.Val.U.Xval, n2.Val.U.Xval) == 0
+	}
+
+	// obvious reports whether n1 <= n2 is obviously true.
+	obvious := func(n1, n2 *Node) bool {
+		if Debug['B'] != 0 { // -B disables bounds checks
+			return true
+		}
+		if same(n1, n2) {
+			return true // n1 == n2
+		}
+		if iszero(n1) {
+			return true // using unsigned compare, so 0 <= n2 always true
+		}
+		if xlen.Op != 0 && same(n1, &xlen) && xcap.Op != 0 && same(n2, &xcap) {
+			return true // len(x) <= cap(x) always true
+		}
+		if Isconst(n1, CTINT) && Isconst(n2, CTINT) {
+			if Mpcmpfixfix(n1.Val.U.Xval, n2.Val.U.Xval) <= 0 {
+				return true // n1, n2 constants such that n1 <= n2
+			}
+			Yyerror("slice index out of bounds")
+			return true
+		}
+		return false
+	}
+
+	compare := func(n1, n2 *Node) {
+		// XXX use constants!
+		r1 := *n1
+		if Isconst(&r1, CTINT) {
+			Regalloc(&r1, Types[TUINT], nil)
+			Thearch.Gmove(n1, &r1)
+			defer Regfree(&r1)
+		}
+		r2 := *n2
+		if Isconst(&r2, CTINT) {
+			Regalloc(&r2, Types[TUINT], nil)
+			Thearch.Gmove(n2, &r2)
+			defer Regfree(&r2)
+		}
+		Thearch.Gins(Thearch.Optoas(OCMP, Types[TUINT]), &r1, &r2)
+		p := Gbranch(Thearch.Optoas(OGT, Types[TUINT]), nil, -1)
+		panics = append(panics, p)
+	}
+
+	loadcap()
+	max := &xcap
+	if k.Op != 0 {
+		if !obvious(&k, max) {
+			if Debug_slice > 0 {
+				Warn("slice: check 3rd index")
+			}
+			compare(&k, max)
+		}
+		max = &k
+	}
+	if j.Op != 0 {
+		if !obvious(&j, max) {
+			if Debug_slice > 0 {
+				Warn("slice: check 2nd index")
+			}
+			compare(&j, max)
+		}
+		max = &j
+	}
+	if i.Op != 0 {
+		if !obvious(&i, max) {
+			if Debug_slice > 0 {
+				Warn("slice: check 1st index")
+			}
+			compare(&i, max)
+		}
+		max = &i
+	}
+	if k.Op != 0 && i.Op != 0 {
+		obvious(&i, &k) // emit error for x[3:n:2]
+	}
+
+	if len(panics) > 0 {
+		p := Gbranch(obj.AJMP, nil, 0)
+		for _, q := range panics {
+			Patch(q, Pc)
+		}
+		Ginscall(panicslice, -1)
+		Patch(p, Pc)
+	}
+
+	// Checks are done.
+	// Compute new len as j-i, cap as k-i.
+	// If i and j are same register, len is constant 0.
+	// If i and k are same register, cap is constant 0.
+	// If j and k are same register, len and cap are same.
+
+	// j defaults to len(x)
+	if j.Op == 0 {
+		loadlen()
+		j = xlen
+		if j.Op == OREGISTER {
+			Regrealloc(&j)
+		}
+	}
+	// k defaults to cap(x)
+	// Only need to load it if we're recalculating cap or doing a full update.
+	if k.Op == 0 && n.Op != OSLICESTR && (i.Op != 0 || needFullUpdate) {
+		loadcap()
+		k = xcap
+		if k.Op == OREGISTER {
+			Regrealloc(&k)
+		}
+	}
+
+	// Done with xlen and xcap.
+	// Now safe to modify j and k even if they alias xlen, xcap.
+	if xlen.Op == OREGISTER {
+		Regfree(&xlen)
+	}
+	if xcap.Op == OREGISTER {
+		Regfree(&xcap)
+	}
+
+	// are j and k the same value?
+	sameJK := same(&j, &k)
+
+	if i.Op != 0 {
+		// j -= i
+		switch j.Op {
+		case OLITERAL:
+			if Isconst(&i, CTINT) {
+				Nodconst(&j, Types[TUINT], Mpgetfix(j.Val.U.Xval)-Mpgetfix(i.Val.U.Xval))
+				if Debug_slice > 0 {
+					Warn("slice: result len == %d", Mpgetfix(j.Val.U.Xval))
+				}
+				break
+			}
+			var r Node
+			Regalloc(&r, Types[TUINT], nil)
+			Thearch.Gmove(&j, &r)
+			j = r
+			fallthrough
+		case OREGISTER:
+			if same(&i, &j) {
+				if Debug_slice > 0 {
+					Warn("slice: result len == 0")
+				}
+				Regfree(&j)
+				Nodconst(&j, Types[TUINT], 0)
+			} else {
+				Thearch.Gins(Thearch.Optoas(OSUB, Types[TUINT]), &i, &j)
+			}
+		}
+
+		// k -= i if k different from j and cap is needed.j
+		// (The modifications to j above cannot affect i: if j and i were aliased,
+		// we replace j with a constant 0 instead of doing a subtraction,
+		// leaving i unmodified.)
+		if k.Op == 0 {
+			if Debug_slice > 0 {
+				Warn("slice: result cap not computed")
+			}
+			// no need
+		} else if sameJK {
+			if Debug_slice > 0 {
+				Warn("slice: result cap == result len")
+			}
+			// k and j were the same value; make k-i the same as j-i.
+			if k.Op == OREGISTER {
+				Regfree(&k)
+			}
+			k = j
+			if k.Op == OREGISTER {
+				Regrealloc(&k)
+			}
+		} else {
+			switch k.Op {
+			case OLITERAL:
+				if Isconst(&i, CTINT) {
+					Nodconst(&k, Types[TUINT], Mpgetfix(k.Val.U.Xval)-Mpgetfix(i.Val.U.Xval))
+					if Debug_slice > 0 {
+						Warn("slice: result cap == %d", Mpgetfix(k.Val.U.Xval))
+					}
+					break
+				}
+				var r Node
+				Regalloc(&r, Types[TUINT], nil)
+				Thearch.Gmove(&k, &r)
+				k = r
+				fallthrough
+			case OREGISTER:
+				if same(&i, &k) {
+					Regfree(&k)
+					Nodconst(&k, Types[TUINT], 0)
+					if Debug_slice > 0 {
+						Warn("slice: result cap == 0")
+					}
+				} else {
+					Thearch.Gins(Thearch.Optoas(OSUB, Types[TUINT]), &i, &k)
+				}
+			}
+		}
+	}
+
+	adjustBase := true
+	if i.Op == 0 || iszero(&i) {
+		if Debug_slice > 0 {
+			Warn("slice: skip base adjustment for 1st index 0")
+		}
+		adjustBase = false
+	} else if k.Op != 0 && iszero(&k) || k.Op == 0 && iszero(&j) {
+		if Debug_slice > 0 {
+			Warn("slice: skip base adjustment for cap == 0")
+		}
+		adjustBase = false
+	}
+
+	if !adjustBase && !needFullUpdate {
+		if Debug_slice > 0 {
+			if k.Op != 0 {
+				Warn("slice: len/cap-only update")
+			} else {
+				Warn("slice: len-only update")
+			}
+		}
+		if i.Op == OREGISTER {
+			Regfree(&i)
+		}
+		// Write len (and cap if needed) back to x.
+		x.Xoffset += int64(Widthptr)
+		x.Type = Types[TUINT]
+		Thearch.Gmove(&j, &x)
+		x.Xoffset -= int64(Widthptr)
+		if k.Op != 0 {
+			x.Xoffset += 2 * int64(Widthptr)
+			x.Type = Types[TUINT]
+			Thearch.Gmove(&k, &x)
+			x.Xoffset -= 2 * int64(Widthptr)
+		}
+		Regfree(&x)
 	} else {
-		src.Type = Types[Tptr]
-		Cgen(&src, base)
+		if Debug_slice > 0 {
+			if k.Op != 0 {
+				Warn("slice: full base/len/cap update")
+			} else {
+				Warn("slice: full base/len string update")
+			}
+		}
+		// Compute new base. May smash i.
+		if n.Op == OSLICEARR || n.Op == OSLICE3ARR {
+			Cgenr(n.Left, &xbase, nil)
+		} else {
+			Regalloc(&xbase, Ptrto(res.Type.Type), nil)
+			x.Type = xbase.Type
+			Thearch.Gmove(&x, &xbase)
+			Regfree(&x)
+		}
+		if i.Op != 0 && adjustBase {
+			// Branch around the base adjustment if the resulting cap will be 0.
+			var p *obj.Prog
+			size := &k
+			if k.Op == 0 {
+				size = &j
+			}
+			if Isconst(size, CTINT) {
+				// zero was checked above, must be non-zero.
+			} else {
+				var tmp Node
+				Nodconst(&tmp, Types[TUINT], 0)
+				Thearch.Gins(Thearch.Optoas(OCMP, Types[TUINT]), size, &tmp)
+				p = Gbranch(Thearch.Optoas(OEQ, Types[TUINT]), nil, -1)
+			}
+			var w int64
+			if n.Op == OSLICESTR {
+				w = 1 // res is string, elem size is 1 (byte)
+			} else {
+				w = res.Type.Type.Width // res is []T, elem size is T.width
+			}
+			if Isconst(&i, CTINT) {
+				Nodconst(&i, Types[TUINT], Mpgetfix(i.Val.U.Xval)*w)
+				w = 1
+			}
+			if Thearch.AddIndex != nil && Thearch.AddIndex(&i, w, &xbase) {
+				// done by back end
+			} else if w == 1 {
+				Thearch.Gins(Thearch.Optoas(OADD, xbase.Type), &i, &xbase)
+			} else {
+				var tmp Node
+				Nodconst(&tmp, i.Type, w)
+				Thearch.Gins(Thearch.Optoas(OMUL, i.Type), &tmp, &i)
+				Thearch.Gins(Thearch.Optoas(OADD, xbase.Type), &i, &xbase)
+			}
+			if p != nil {
+				Patch(p, Pc)
+			}
+		}
+		if i.Op == OREGISTER {
+			Regfree(&i)
+		}
+
+		// Write len, cap, base to result.
+		if res.Op == ONAME {
+			Gvardef(res)
+		}
+		Igen(res, &x, nil)
+		x.Xoffset += int64(Widthptr)
+		x.Type = Types[TUINT]
+		Thearch.Gmove(&j, &x)
+		x.Xoffset -= int64(Widthptr)
+		if k.Op != 0 {
+			x.Xoffset += 2 * int64(Widthptr)
+			Thearch.Gmove(&k, &x)
+			x.Xoffset -= 2 * int64(Widthptr)
+		}
+		x.Type = xbase.Type
+		cgen_wb(&xbase, &x, wb)
+		Regfree(&xbase)
+		Regfree(&x)
 	}
 
-	// committed to the update
-	Gvardef(res)
-
-	// compute len and cap.
-	// len = n-i, cap = m-i, and offs = i*width.
-	// computing offs last lets the multiply overwrite i.
-	Cgen((*Node)(len), tmplen)
-
-	if n.Op != OSLICESTR {
-		Cgen(cap, tmpcap)
+	if j.Op == OREGISTER {
+		Regfree(&j)
 	}
-
-	// if new cap != 0 { base += add }
-	// This avoids advancing base past the end of the underlying array/string,
-	// so that it cannot point at the next object in memory.
-	// If cap == 0, the base doesn't matter except insofar as it is 0 or non-zero.
-	// In essence we are replacing x[i:j:k] where i == j == k
-	// or x[i:j] where i == j == cap(x) with x[0:0:0].
-	if offs != nil {
-		p1 := gjmp(nil)
-		p2 := gjmp(nil)
-		Patch(p1, Pc)
-
-		var con Node
-		Nodconst(&con, tmpcap.Type, 0)
-		cmp := Nod(OEQ, tmpcap, &con)
-		typecheck(&cmp, Erv)
-		Bgen(cmp, true, -1, p2)
-
-		add := Nod(OADD, base, offs)
-		typecheck(&add, Erv)
-		Cgen(add, base)
-
-		Patch(p2, Pc)
-	}
-
-	// dst.array = src.array  [ + lo *width ]
-	dst := *res
-
-	dst.Xoffset += int64(Array_array)
-	dst.Type = Types[Tptr]
-	Cgen(base, &dst)
-
-	// dst.len = hi [ - lo ]
-	dst = *res
-
-	dst.Xoffset += int64(Array_nel)
-	dst.Type = Types[Simtype[TUINT]]
-	Cgen(tmplen, &dst)
-
-	if n.Op != OSLICESTR {
-		// dst.cap = cap [ - lo ]
-		dst = *res
-
-		dst.Xoffset += int64(Array_cap)
-		dst.Type = Types[Simtype[TUINT]]
-		Cgen(tmpcap, &dst)
+	if k.Op == OREGISTER {
+		Regfree(&k)
 	}
 }
 

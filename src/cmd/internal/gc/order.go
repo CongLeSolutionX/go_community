@@ -104,9 +104,23 @@ func ordercopyexpr(n *Node, t *Type, order *Order, clear int) *Node {
 // If not, ordercheapexpr allocates a new tmp, emits tmp = n,
 // and then returns tmp.
 func ordercheapexpr(n *Node, order *Order) *Node {
+	if n == nil {
+		return nil
+	}
 	switch n.Op {
 	case ONAME, OLITERAL:
 		return n
+	case OLEN, OCAP:
+		l := ordercheapexpr(n.Left, order)
+		if l == n.Left {
+			return n
+		}
+		a := Nod(OXXX, nil, nil)
+		*a = *n
+		a.Orig = a
+		a.Left = l
+		typecheck(&a, Erv)
+		return a
 	}
 
 	return ordercopyexpr(n, n.Type, order, 0)
@@ -124,7 +138,7 @@ func ordersafeexpr(n *Node, order *Order) *Node {
 	case ONAME, OLITERAL:
 		return n
 
-	case ODOT:
+	case ODOT, OLEN, OCAP:
 		l := ordersafeexpr(n.Left, order)
 		if l == n.Left {
 			return n
@@ -1080,6 +1094,28 @@ func orderexpr(np **Node, order *Order, lhs *Node) {
 			n = ordercopyexpr(n, n.Type, order, 0)
 		}
 
+	case OSLICE, OSLICEARR, OSLICESTR:
+		orderexpr(&n.Left, order, nil)
+		orderexpr(&n.Right.Left, order, nil)
+		n.Right.Left = ordercheapexpr(n.Right.Left, order)
+		orderexpr(&n.Right.Right, order, nil)
+		n.Right.Right = ordercheapexpr(n.Right.Right, order)
+		if lhs == nil || flag_race != 0 || lhs.Op != ONAME && !samesafeexpr(lhs, n.Left) {
+			n = ordercopyexpr(n, n.Type, order, 0)
+		}
+
+	case OSLICE3, OSLICE3ARR:
+		orderexpr(&n.Left, order, nil)
+		orderexpr(&n.Right.Left, order, nil)
+		n.Right.Left = ordercheapexpr(n.Right.Left, order)
+		orderexpr(&n.Right.Right.Left, order, nil)
+		n.Right.Right.Left = ordercheapexpr(n.Right.Right.Left, order)
+		orderexpr(&n.Right.Right.Right, order, nil)
+		n.Right.Right.Right = ordercheapexpr(n.Right.Right.Right, order)
+		if lhs == nil || flag_race != 0 || lhs.Op != ONAME && !samesafeexpr(lhs, n.Left) {
+			n = ordercopyexpr(n, n.Type, order, 0)
+		}
+
 	case OCLOSURE:
 		if n.Noescape && n.Func.Cvars != nil {
 			n.Alloc = ordertemp(Types[TUINT8], order, false) // walk will fill in correct type
@@ -1124,7 +1160,6 @@ func orderexpr(np **Node, order *Order, lhs *Node) {
 			// for complex comparisons, we need both args to be
 			// addressable so we can pass them to the runtime.
 			orderaddrtemp(&n.Left, order)
-
 			orderaddrtemp(&n.Right, order)
 		}
 	}
