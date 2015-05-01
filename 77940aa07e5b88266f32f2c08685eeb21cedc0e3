@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5065aec2_7ab079bb",
+        "filename": "src/runtime/heapdump.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T18:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d1768c_2804ebce",
+      "range": {
+        "startLine": 727,
+        "startChar": 22,
+        "endLine": 727,
+        "endChar": 33
+      },
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d1768c_a841fbfd",
         "filename": "src/runtime/heapdump.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-01T16:48:55Z",
       "side": 1,
       "message": "This changes the format of the heap dump. Change the version in the header.",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5065aec2_9a7b8d77",
+        "filename": "src/runtime/heapdump.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T18:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d1768c_a841fbfd",
       "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5065aec2_5ab3b5c8",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T18:37:32Z",
+      "side": 1,
+      "message": "I documented +\u003d 1 as the official way to convert at the comment at the top (at least I did, I don\u0027t know where the comment went, but I put it back). I\u0027d rather not change this, since it will disappear once the whole idea of a \u00272-bit\u0027 type goes away. I\u0027m trying to eliminate uses of typeScalar and typePointer.",
+      "parentUuid": "10d1768c_a86c5b89",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d1768c_688b83b8",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2015-05-01T16:48:55Z",
       "side": 1,
       "message": "s/mark phase/mark termination/",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5065aec2_5a8ad5ec",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T18:37:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d1768c_688b83b8",
       "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "5065aec2_7a8799e1",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T18:37:32Z",
+      "side": 1,
+      "message": "Done, which made me realize I should also remove n. Done.",
+      "parentUuid": "10d1768c_68626388",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d1768c_88aa37fb",
         "filename": "src/runtime/stack1.go",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2015-05-01T16:48:55Z",
       "side": 1,
       "message": "i % 8 instead of i \u0026 7 to match the i/8?",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5065aec2_9a662dd7",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T18:37:32Z",
+      "side": 1,
+      "message": "Done. I was just doing what the old code did.",
+      "parentUuid": "10d1768c_88aa37fb",
       "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
