@@ -1310,15 +1310,53 @@ func (b *builder) installShlibname(a *action) error {
 	return nil
 }
 
+func hasextld(ldflags []string) bool {
+	for _, f := range ldflags {
+		if f == "-extld" || strings.HasPrefix(f, "-extld=") {
+			return true
+		}
+	}
+	return false
+}
+
+// If the user has not specified the -extld option, then specify the
+// appropriate linker. Else, use the CC environment variable and
+// defaultCC as fallback.
+func setextld(ldflags []string) []string {
+	if !hasextld(ldflags) {
+		compiler := envList("CC", defaultCC)
+		ldflags = append(ldflags, "-extld="+compiler[0])
+		if len(compiler) > 1 {
+			extldflags := false
+			add := strings.Join(compiler[1:], " ")
+			for i, f := range ldflags {
+				if f == "-extldflags" && i+1 < len(ldflags) {
+					ldflags[i+1] = add + " " + ldflags[i+1]
+					extldflags = true
+					break
+				} else if strings.HasPrefix(f, "-extldflags=") {
+					ldflags[i] = "-extldflags=" + add + " " + ldflags[i][len("-extldflags="):]
+					extldflags = true
+					break
+				}
+			}
+			if !extldflags {
+				ldflags = append(ldflags, "-extldflags="+add)
+			}
+		}
+	}
+	return ldflags
+}
+
 func (b *builder) linkShared(a *action) (err error) {
 	// TODO(mwhudson): obvious copy pasting from gcToolchain.ld, should make a few
 	// changes to that function and then call it. And support gccgo.
 	allactions := actionList(a)
 	importArgs := b.includeArgs("-L", allactions[:len(allactions)-1])
-	// TODO(mwhudson): this does not check for cxx-ness, extldflags etc
 	ldflags := []string{"-installsuffix", buildContext.InstallSuffix}
 	ldflags = append(ldflags, "-buildmode="+ldBuildmode)
 	ldflags = append(ldflags, buildLdflags...)
+	ldflags = setextld(ldflags)
 	for _, d := range a.deps {
 		if d.target == "" { // omit unsafe etc
 			continue
@@ -2093,14 +2131,7 @@ func (gcToolchain) ld(b *builder, p *Package, out string, allactions []*action, 
 	// appropriate linker. In case of C++ code, use the compiler named
 	// by the CXX environment variable or defaultCXX if CXX is not set.
 	// Else, use the CC environment variable and defaultCC as fallback.
-	extld := false
-	for _, f := range ldflags {
-		if f == "-extld" || strings.HasPrefix(f, "-extld=") {
-			extld = true
-			break
-		}
-	}
-	if !extld {
+	if !hasextld(ldflags) {
 		var compiler []string
 		if cxx {
 			compiler = envList("CXX", defaultCXX)
