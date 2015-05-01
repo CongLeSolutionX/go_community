@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d1768c_88f4f755",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-01T16:11:44Z",
+      "side": 1,
+      "message": "okay but more usual to write if e\u0026^EscMask !\u003d 0 {",
+      "revId": "ca010130e54ecc0e78730260a1e4776da6fabc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
