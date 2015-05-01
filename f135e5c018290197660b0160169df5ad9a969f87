@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905806e7_d9761f06",
+        "filename": "src/cmd/8g/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-01T01:40:07Z",
+      "side": 1,
+      "message": "use gc.Exit(1) is better.",
+      "revId": "f135e5c018290197660b0160169df5ad9a969f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
