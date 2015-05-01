@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d1768c_2804ebce",
+        "filename": "src/runtime/heapdump.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:48:55Z",
+      "side": 1,
+      "message": "i \u003c nptr/8 + 1 for consistency with the \"if\" above.",
+      "range": {
+        "startLine": 727,
+        "startChar": 22,
+        "endLine": 727,
+        "endChar": 33
+      },
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d1768c_a841fbfd",
+        "filename": "src/runtime/heapdump.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:48:55Z",
+      "side": 1,
+      "message": "This changes the format of the heap dump. Change the version in the header.",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d1768c_a86c5b89",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:48:55Z",
+      "side": 1,
+      "message": "Clever, though since getgcmask is just for testing, I\u0027d lean toward clearer, slower code here. Something like\n\n    isPtr :\u003d (*addb...)\n    if isPtr \u003d\u003d 0 {\n        bits \u003d typeScalar\n    } else {\n        bits \u003d typePointer\n    }\n\nAt the least, consider using two difference variables, since the the first use of \"bits\" contains one-bit type information and the second use of \"bits\" contains two-bit type information.\n\nSame thing for the next two instances of this.",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d1768c_688b83b8",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:48:55Z",
+      "side": 1,
+      "message": "s/mark phase/mark termination/",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d1768c_68626388",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:48:55Z",
+      "side": 1,
+      "message": "Update comment",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d1768c_88aa37fb",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-01T16:48:55Z",
+      "side": 1,
+      "message": "i % 8 instead of i \u0026 7 to match the i/8?",
+      "revId": "77940aa07e5b88266f32f2c08685eeb21cedc0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
