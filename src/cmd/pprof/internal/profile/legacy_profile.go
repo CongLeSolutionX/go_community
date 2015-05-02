@@ -554,6 +554,9 @@ func parseHeap(b []byte) (p *Profile, err error) {
 			}
 		}
 
+		if isSpaceOrComment(l) {
+			continue
+		}
 		if l = strings.TrimSpace(l); l == "" {
 			continue
 		}
