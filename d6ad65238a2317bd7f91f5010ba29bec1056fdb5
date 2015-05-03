@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5065aec2_c31c3c6c",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-05-03T13:31:14Z",
+      "side": 1,
+      "message": "Does iostest.bash pass with this change?",
+      "revId": "d6ad65238a2317bd7f91f5010ba29bec1056fdb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
