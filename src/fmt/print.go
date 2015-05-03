@@ -1031,6 +1031,17 @@ func intFromArg(a []interface{}, argNum int) (num int, isInt bool, newArgNum int
 // up to the closing paren, if present, and whether the number parsed
 // ok. The bytes to consume will be 1 if no closing paren is present.
 func parseArgNumber(format string) (index int, wid int, ok bool) {
+	// there must be at least 3 character to have a number [N]
+	switch len(format) {
+	case 0, 1:
+		return 0, 1, false
+	case 2:
+		if format[1] == ']' {
+			return 0, 2, false
+		}
+		return 0, 1, false
+	}
+
 	// Find closing bracket.
 	for i := 1; i < len(format); i++ {
 		if format[i] == ']' {
@@ -1057,7 +1068,7 @@ func (p *pp) argNumber(argNum int, format string, i int, numArgs int) (newArgNum
 		return index, i + wid, true
 	}
 	p.goodArgNum = false
-	return argNum, i + wid, true
+	return argNum, i + wid, ok
 }
 
 func (p *pp) doPrintf(format string, a []interface{}) {
@@ -1127,7 +1138,7 @@ func (p *pp) doPrintf(format string, a []interface{}) {
 				p.goodArgNum = false
 			}
 			argNum, i, afterIndex = p.argNumber(argNum, format, i, len(a))
-			if format[i] == '*' {
+			if i < end && format[i] == '*' {
 				i++
 				p.fmt.prec, p.fmt.precPresent, argNum = intFromArg(a, argNum)
 				if !p.fmt.precPresent {
