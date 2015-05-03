@@ -14,6 +14,7 @@ import (
 	"go/parser"
 	"go/token"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"path"
@@ -203,6 +204,10 @@ control the execution of any test:
 	    the Go tree can run a sanity check but not spend time running
 	    exhaustive tests.
 
+	-shuffle
+	    Randomize the order of tests and benchmarks before they are run.
+	    Can be used to help shake out accidental ordering assumptions.
+
 	-timeout t
 	    If a test runs longer than t, panic.
 
@@ -296,6 +301,7 @@ var (
 	testBench        bool
 	testStreamOutput bool // show output as it is generated
 	testShowPass     bool // show passing output
+	testShuffle      bool // shuffle tests and benchmarks
 
 	testKillTimeout = 10 * time.Minute
 )
@@ -760,6 +766,12 @@ func (b *builder) test(p *Package) (buildAction, runAction, printAction *action,
 	if pxtest != nil {
 		pmain.imports = append(pmain.imports, pxtest)
 		t.ImportXtest = true
+	}
+
+	if testShuffle {
+		// Shuffle the order of the tests and benchmarks so any incorrect
+		// ordering assumptions can be shaken out.
+		t.Shuffle()
 	}
 
 	if ptest != p && localCover {
@@ -1243,6 +1255,21 @@ func (t *testFuncs) Covered() string {
 // Tested returns the name of the package being tested.
 func (t *testFuncs) Tested() string {
 	return t.Package.Name
+}
+
+// Shuffle randomizes the Tests and Benchmarks of the package being tested
+func (t *testFuncs) Shuffle() {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	shuffleTestFuncs(r, t.Tests)
+	shuffleTestFuncs(r, t.Benchmarks)
+}
+
+func shuffleTestFuncs(r *rand.Rand, funcs []testFunc) {
+	// Shuffles the slice using Fisher-Yates shuffle
+	for end := len(funcs) - 1; end > 0; end-- {
+		i := r.Intn(end + 1)
+		funcs[i], funcs[end] = funcs[end], funcs[i]
+	}
 }
 
 type testFunc struct {

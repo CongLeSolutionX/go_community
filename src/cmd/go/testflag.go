@@ -66,6 +66,7 @@ var testFlagDefn = []*testFlagSpec{
 	{name: "parallel", passToTest: true},
 	{name: "run", passToTest: true},
 	{name: "short", boolVar: new(bool), passToTest: true},
+	{name: "shuffle", boolVar: new(bool), passToTest: true},
 	{name: "timeout", passToTest: true},
 	{name: "trace", passToTest: true},
 	{name: "v", boolVar: &testV, passToTest: true},
@@ -175,6 +176,8 @@ func testFlags(args []string) (packageNames, passToTest []string) {
 			testCover = true
 		case "outputdir":
 			outputDir = value
+		case "shuffle":
+			testShuffle = true
 		}
 		if extraWord {
 			i++

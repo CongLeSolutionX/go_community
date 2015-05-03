@@ -855,6 +855,7 @@ var buildorder = []string{
 	"unicode/utf16",
 	"bytes",
 	"math",
+	"math/rand",
 	"strings",
 	"strconv",
 	"bufio",

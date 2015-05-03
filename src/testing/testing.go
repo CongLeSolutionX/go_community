@@ -157,6 +157,9 @@ import (
 )
 
 var (
+	// The shuffle flag requests that the test functions be randomized per package.
+	shuffle = flag.Bool("test.shuffle", false, "randomizes order of tests and benchmarks")
+
 	// The short flag requests that tests run more quickly, but its functionality
 	// is provided by test writers themselves.  The testing package is just its
 	// home.  The all.bash installation script sets it to make installation more
