@@ -831,3 +831,32 @@ func getgcmask(p unsafe.Pointer, t *_type, mask **byte, len *uintptr) {
 		}
 	}
 }
+
+// For benchmarking.
+
+func benchSetType(n int, x interface{}) {
+	e := *(*eface)(unsafe.Pointer(&x))
+	t := e._type
+	var size uintptr
+	var p unsafe.Pointer
+	switch t.kind & kindMask {
+	case _KindPtr:
+		t = (*ptrtype)(unsafe.Pointer(t)).elem
+		size = t.size
+		p = e.data
+	case _KindSlice:
+		slice := *(*struct {
+			ptr      unsafe.Pointer
+			len, cap uintptr
+		})(e.data)
+		t = (*slicetype)(unsafe.Pointer(t)).elem
+		size = t.size * slice.len
+		p = slice.ptr
+	}
+	allocSize := roundupsize(size)
+	systemstack(func() {
+		for i := 0; i < n; i++ {
+			heapBitsSetType(uintptr(p), allocSize, size, t)
+		}
+	})
+}

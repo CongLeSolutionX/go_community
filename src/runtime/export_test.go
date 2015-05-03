@@ -132,3 +132,4 @@ func Envs() []string     { return envs }
 func SetEnvs(e []string) { envs = e }
 
 var BigEndian = _BigEndian
+var BenchSetType = benchSetType
