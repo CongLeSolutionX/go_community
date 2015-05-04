@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "105fb6fa_7f622088",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Ah yes. Done.\n\nCan you think of a better name than action1?  It\u0027s a bit crummy.",
+      "parentUuid": "90fd66eb_c6fef3e5",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90fd66eb_06b45b31",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-30T18:16:33Z",
       "side": 1,
       "message": "I would make this another method on builder.",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105fb6fa_9f5ff4bf",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Hm, I actually think it should be next to actionList which is a free function.  It doesn\u0027t access builder so I don\u0027t see why it needs to be a method on it...",
+      "parentUuid": "90fd66eb_06b45b31",
       "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "105fb6fa_bfbe7845",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90fd66eb_8697cb8e",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90fd66eb_464f83c4",
         "filename": "src/cmd/go/note.go",
         "patchSetId": 15
@@ -64,6 +118,24 @@
       "writtenOn": "2015-04-30T18:16:33Z",
       "side": 1,
       "message": "type_ is too weird.  I\u0027d rather see typ.",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105fb6fa_dfc32cda",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90fd66eb_464f83c4",
       "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "105fb6fa_ffc8f0f8",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90fd66eb_c662733b",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90fd66eb_46682320",
         "filename": "src/cmd/go/note.go",
         "patchSetId": 15
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "105fb6fa_1fce8402",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90fd66eb_46682320",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90fd66eb_86722b0a",
         "filename": "src/cmd/go/note.go",
         "patchSetId": 15
@@ -115,6 +223,24 @@
       "writtenOn": "2015-04-30T18:16:33Z",
       "side": 1,
       "message": "Wait--you didn\u0027t change err.  You need to add \"err \u003d \" to the previous line.  Same below.",
+      "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105fb6fa_3fb3487c",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-04T01:16:01Z",
+      "side": 1,
+      "message": "Haha late night coding ftw.  Fixed.",
+      "parentUuid": "90fd66eb_86722b0a",
       "revId": "572d1d8d628b795e9abb4847be978783bc377ca4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
