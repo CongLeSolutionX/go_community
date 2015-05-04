@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "105fb6fa_6d051313",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-04T23:29:15Z",
+      "side": 1,
+      "message": "I don\u0027t see anything breaking out of the loop early.",
+      "revId": "224e96bbb3ae1e6e1313066685cf5d0ff914f522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105fb6fa_0def37b5",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-04T23:29:15Z",
+      "side": 1,
+      "message": "How calling this allArchiveDeps?  I don\u0027t think the comment should refer to actionList.  actionList returns all actions.  This returns all the deps for a single action, it just happens to look through shared libraries.",
+      "revId": "224e96bbb3ae1e6e1313066685cf5d0ff914f522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105fb6fa_8db427c2",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-04T23:29:15Z",
+      "side": 1,
+      "message": "I don\u0027t see why checking a.link is correct here.  It seems to me that you want to check a \u003d\u003d root.",
+      "revId": "224e96bbb3ae1e6e1313066685cf5d0ff914f522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105fb6fa_8d3fc785",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-04T23:29:15Z",
+      "side": 1,
+      "message": "Call fatalf?",
+      "revId": "224e96bbb3ae1e6e1313066685cf5d0ff914f522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
