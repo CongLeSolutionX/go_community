@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0734a93_1815c9c1",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-05-04T00:11:52Z",
+      "side": 1,
+      "message": "// There must be at least 3 bytes: [n].",
+      "range": {
+        "startLine": 1034,
+        "startChar": 4,
+        "endLine": 1034,
+        "endChar": 9
+      },
+      "revId": "e826de8897580f5fecce82c84c7ee0cdb3712a06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0734a93_781cfdeb",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-05-04T00:11:52Z",
+      "side": 1,
+      "message": "i believe all that\u0027s needed is\n\nif len(format) \u003c 3 { return 0, 1, false }\n\nsee the return at the bottom of the function.",
+      "range": {
+        "startLine": 1035,
+        "startChar": 1,
+        "endLine": 1035,
+        "endChar": 7
+      },
+      "revId": "e826de8897580f5fecce82c84c7ee0cdb3712a06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
