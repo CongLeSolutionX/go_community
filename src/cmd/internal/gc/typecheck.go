@@ -916,10 +916,28 @@ OpSwitch:
 		}
 
 		if !lookdot(n, t, 0) {
-			if lookdot(n, t, 1) {
+			// Legitimate field or method lookup failed, try to explain the error
+			switch {
+			case lookdot(n, t, 1):
+				// Field or method matches by name, but it is not exported.
 				Yyerror("%v undefined (cannot refer to unexported field or method %v)", n, n.Right.Sym)
-			} else {
+
+			case !(Isptr[t.Etype] && Isinter(t.Type)):
+				// Not a pointer to an interface.
 				Yyerror("%v undefined (type %v has no field or method %v)", n, n.Left.Type, n.Right.Sym)
+
+			case !lookdot(n, t.Type, 1):
+				// Pointer to interface, but name does not match any method of that interface.
+				Yyerror("%v undefined (pointer type %v has no field or method %v; interface %v also lacks method %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type.Type, n.Right.Sym)
+
+			case lookdot(n, t.Type, 0):
+				// Pointer to interface with accessible method of expected name
+				Yyerror("%v undefined (pointer type *%v has no field or method %v; interface %v has method %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type, n.Right.Sym)
+
+			default:
+				// Pointer to interface with unexported method of expected name
+				Yyerror("%v undefined (pointer type *%v has no field or method %v; interface %v has method %v, but it is unexported)", n, n.Left.Type, n.Right.Sym, n.Left.Type, n.Right.Sym)
+
 			}
 			n.Type = nil
 			return
