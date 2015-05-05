@@ -424,7 +424,7 @@ Download and install packages and dependencies
 
 Usage:
 
-	go get [-d] [-f] [-fix] [-t] [-u] [build flags] [packages]
+	go get [-d] [-f] [-fix] [-insecure] [-t] [-u] [build flags] [packages]
 
 Get downloads and installs the packages named by the import paths,
 along with their dependencies.
@@ -439,6 +439,9 @@ of the original.
 
 The -fix flag instructs get to run the fix tool on the downloaded packages
 before resolving dependencies or building the code.
+
+The -insecure flag permits fetching from repositories and resolving
+custom domains using insecure schemes such as HTTP. Use with caution.
 
 The -t flag instructs get to also download the packages required to build
 the tests for the specified packages.
@@ -503,6 +506,7 @@ syntax of package template.  The default output is equivalent to -f
         Name          string // package name
         Doc           string // package documentation string
         Target        string // install path
+        Shlib         string // the shared library that contains this package (only set when -linkshared)
         Goroot        bool   // is this package in the Go root?
         Standard      bool   // is this package part of the standard Go library?
         Stale         bool   // would 'go install' do anything for this package?

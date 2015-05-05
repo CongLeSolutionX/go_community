@@ -16,7 +16,7 @@ import (
 )
 
 var cmdGet = &Command{
-	UsageLine: "get [-d] [-f] [-fix] [-t] [-u] [build flags] [packages]",
+	UsageLine: "get [-d] [-f] [-fix] [-insecure] [-t] [-u] [build flags] [packages]",
 	Short:     "download and install packages and dependencies",
 	Long: `
 Get downloads and installs the packages named by the import paths,
@@ -32,6 +32,9 @@ of the original.
 
 The -fix flag instructs get to run the fix tool on the downloaded packages
 before resolving dependencies or building the code.
+
+The -insecure flag permits fetching from repositories and resolving
+custom domains using insecure schemes such as HTTP. Use with caution.
 
 The -t flag instructs get to also download the packages required to build
 the tests for the specified packages.
@@ -62,6 +65,7 @@ var getF = cmdGet.Flag.Bool("f", false, "")
 var getT = cmdGet.Flag.Bool("t", false, "")
 var getU = cmdGet.Flag.Bool("u", false, "")
 var getFix = cmdGet.Flag.Bool("fix", false, "")
+var getInsecure = cmdGet.Flag.Bool("insecure", false, "")
 
 func init() {
 	addBuildFlags(cmdGet)
@@ -288,19 +292,23 @@ func downloadPackage(p *Package) error {
 		repo = "<local>" // should be unused; make distinctive
 
 		// Double-check where it came from.
-		if *getU && vcs.remoteRepo != nil && !*getF {
+		if *getU && vcs.remoteRepo != nil {
 			dir := filepath.Join(p.build.SrcRoot, rootPath)
 			if remote, err := vcs.remoteRepo(vcs, dir); err == nil {
-				if rr, err := repoRootForImportPath(p.ImportPath); err == nil {
-					repo := rr.repo
-					if rr.vcs.resolveRepo != nil {
-						resolved, err := rr.vcs.resolveRepo(rr.vcs, dir, repo)
-						if err == nil {
-							repo = resolved
+				repo = remote
+
+				if !*getF {
+					if rr, err := repoRootForImportPath(p.ImportPath, *getInsecure); err == nil {
+						repo := rr.repo
+						if rr.vcs.resolveRepo != nil {
+							resolved, err := rr.vcs.resolveRepo(rr.vcs, dir, repo)
+							if err == nil {
+								repo = resolved
+							}
 						}
-					}
-					if remote != repo {
-						return fmt.Errorf("%s is a custom import path for %s, but %s is checked out from %s", rr.root, repo, dir, remote)
+						if remote != repo {
+							return fmt.Errorf("%s is a custom import path for %s, but %s is checked out from %s", rr.root, repo, dir, remote)
+						}
 					}
 				}
 			}
@@ -308,11 +316,17 @@ func downloadPackage(p *Package) error {
 	} else {
 		// Analyze the import path to determine the version control system,
 		// repository, and the import path for the root of the repository.
-		rr, err := repoRootForImportPath(p.ImportPath)
+		rr, err := repoRootForImportPath(p.ImportPath, *getInsecure)
 		if err != nil {
 			return err
 		}
 		vcs, repo, rootPath = rr.vcs, rr.repo, rr.root
+	}
+	if !*getInsecure {
+		if !vcs.isSecure(repo) {
+			// TODO(adg): better message
+			return fmt.Errorf("%s is an insecure repository; cannot download without -insecure", repo)
+		}
 	}
 
 	if p.build.SrcRoot == "" {
