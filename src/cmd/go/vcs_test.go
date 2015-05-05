@@ -104,7 +104,8 @@ func TestRepoRootForImportPath(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got, err := repoRootForImportPath(test.path)
+		allowInsecure := false
+		got, err := repoRootForImportPath(test.path, allowInsecure)
 		want := test.want
 
 		if want == nil {
