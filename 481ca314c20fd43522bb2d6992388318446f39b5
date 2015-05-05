@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "304d9a5a_172cbc93",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-05-05T16:52:07Z",
+      "side": 1,
+      "message": "do we need the uint cast?",
+      "revId": "481ca314c20fd43522bb2d6992388318446f39b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "304d9a5a_f7165846",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-05-05T16:52:07Z",
+      "side": 1,
+      "message": "I guess this should be:\nmax :\u003d (maxInt32 - digit)/10, where digit is rounded up to 10, or simpler\nmax :\u003d maxInt32/10 - 1",
+      "revId": "481ca314c20fd43522bb2d6992388318446f39b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
