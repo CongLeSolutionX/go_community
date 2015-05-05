@@ -16,6 +16,24 @@
       "revId": "0b4b785e1db08bbf4b6189a8533fb7bba9e61704",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_6fb8f109",
+        "filename": "src/cmd/internal/ld/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-05T22:58:22Z",
+      "side": 0,
+      "message": "Oops.  (Probably a CL to be submitted after release... a few more fields can die too)",
+      "parentUuid": "cd24a5a6_3c145978",
+      "revId": "0b4b785e1db08bbf4b6189a8533fb7bba9e61704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
