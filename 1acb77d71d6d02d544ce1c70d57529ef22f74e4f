@@ -16,6 +16,24 @@
       "revId": "1acb77d71d6d02d544ce1c70d57529ef22f74e4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0218a87_2ef16be1",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-05-05T16:47:07Z",
+      "side": 1,
+      "message": "That\u0027s why I rewrote it. Please see the latest version.",
+      "parentUuid": "304d9a5a_9717cc45",
+      "revId": "1acb77d71d6d02d544ce1c70d57529ef22f74e4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
