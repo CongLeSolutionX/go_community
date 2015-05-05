@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0218a87_450f6a33",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-05T00:11:58Z",
+      "side": 1,
+      "message": "I think you forgot to change the call here.",
+      "revId": "294156f4e1666b7f6075ebe6c375fe73b41c27fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
