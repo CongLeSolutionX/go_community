@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"internal/singleflight"
 	"log"
+	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -38,6 +39,32 @@ type vcsCmd struct {
 
 	remoteRepo  func(v *vcsCmd, rootDir string) (remoteRepo string, err error)
 	resolveRepo func(v *vcsCmd, rootDir, remoteRepo string) (realRepo string, err error)
+}
+
+var isSecureScheme = map[string]bool{
+	"https":   true,
+	"git+ssh": true,
+	"bzr+ssh": true,
+	"svn+ssh": true,
+}
+
+func (v *vcsCmd) schemes(allowInsecure bool) []string {
+	var ret []string
+	for _, s := range v.scheme {
+		if allowInsecure || isSecureScheme[s] {
+			ret = append(ret, s)
+		}
+	}
+	return ret
+}
+
+func (v *vcsCmd) isSecure(repo string) bool {
+	u, err := url.Parse(repo)
+	if err != nil {
+		// If repo is not a URL, it's not secure.
+		return false
+	}
+	return isSecureScheme[u.Scheme]
 }
 
 // A tagCmd describes a command to list available tags
@@ -134,10 +161,17 @@ func gitRemoteRepo(vcsGit *vcsCmd, rootDir string) (remoteRepo string, err error
 	if err != nil {
 		return "", err
 	}
-	repoUrl := strings.TrimSpace(string(outb))
-	for _, s := range vcsGit.scheme {
-		if strings.HasPrefix(repoUrl, s) {
-			return repoUrl, nil
+	repoURL, err := url.Parse(strings.TrimSpace(string(outb)))
+	if err != nil {
+		return "", err
+	}
+
+	// Iterate over insecure schemes too, because this function simply
+	// reports the state of the repo. If we can't see insecure schemes then
+	// we can't report the actual repo URL.
+	for _, s := range vcsGit.schemes(true) {
+		if repoURL.Scheme == s {
+			return repoURL.String(), nil
 		}
 	}
 	return "", errParse
@@ -462,8 +496,8 @@ var httpPrefixRE = regexp.MustCompile(`^https?:`)
 
 // repoRootForImportPath analyzes importPath to determine the
 // version control system, and code repository to use.
-func repoRootForImportPath(importPath string) (*repoRoot, error) {
-	rr, err := repoRootForImportPathStatic(importPath, "")
+func repoRootForImportPath(importPath string, allowInsecure bool) (*repoRoot, error) {
+	rr, err := repoRootForImportPathStatic(importPath, "", allowInsecure)
 	if err == errUnknownSite {
 		// If there are wildcards, look up the thing before the wildcard,
 		// hoping it applies to the wildcarded parts too.
@@ -472,7 +506,7 @@ func repoRootForImportPath(importPath string) (*repoRoot, error) {
 		if i := strings.Index(lookup, "/.../"); i >= 0 {
 			lookup = lookup[:i]
 		}
-		rr, err = repoRootForImportDynamic(lookup)
+		rr, err = repoRootForImportDynamic(lookup, allowInsecure)
 
 		// repoRootForImportDynamic returns error detail
 		// that is irrelevant if the user didn't intend to use a
@@ -502,7 +536,7 @@ var errUnknownSite = errors.New("dynamic lookup required to find mapping")
 // containing its VCS type (foo.com/repo.git/dir)
 //
 // If scheme is non-empty, that scheme is forced.
-func repoRootForImportPathStatic(importPath, scheme string) (*repoRoot, error) {
+func repoRootForImportPathStatic(importPath, scheme string, allowInsecure bool) (*repoRoot, error) {
 	// A common error is to use https://packagepath because that's what
 	// hg and git require. Diagnose this helpfully.
 	if loc := httpPrefixRE.FindStringIndex(importPath); loc != nil {
@@ -551,7 +585,7 @@ func repoRootForImportPathStatic(importPath, scheme string) (*repoRoot, error) {
 			if scheme != "" {
 				match["repo"] = scheme + "://" + match["repo"]
 			} else {
-				for _, scheme := range vcs.scheme {
+				for _, scheme := range vcs.schemes(allowInsecure) {
 					if vcs.ping(scheme, match["repo"]) == nil {
 						match["repo"] = scheme + "://" + match["repo"]
 						break
@@ -573,7 +607,7 @@ func repoRootForImportPathStatic(importPath, scheme string) (*repoRoot, error) {
 // statically known by repoRootForImportPathStatic.
 //
 // This handles custom import paths like "name.tld/pkg/foo".
-func repoRootForImportDynamic(importPath string) (*repoRoot, error) {
+func repoRootForImportDynamic(importPath string, allowInsecure bool) (*repoRoot, error) {
 	slash := strings.Index(importPath, "/")
 	if slash < 0 {
 		return nil, errors.New("import path does not contain a slash")
@@ -582,9 +616,13 @@ func repoRootForImportDynamic(importPath string) (*repoRoot, error) {
 	if !strings.Contains(host, ".") {
 		return nil, errors.New("import path does not begin with hostname")
 	}
-	urlStr, body, err := httpsOrHTTP(importPath)
+	urlStr, body, err := httpsOrHTTP(importPath, allowInsecure)
 	if err != nil {
-		return nil, fmt.Errorf("http/https fetch: %v", err)
+		msg := "https fetch: %v"
+		if allowInsecure {
+			msg = "http/" + msg
+		}
+		return nil, fmt.Errorf(msg, err)
 	}
 	defer body.Close()
 	imports, err := parseMetaGoImports(body)
@@ -614,7 +652,7 @@ func repoRootForImportDynamic(importPath string) (*repoRoot, error) {
 		}
 		urlStr0 := urlStr
 		var imports []metaImport
-		urlStr, imports, err = metaImportsForPrefix(mmi.Prefix)
+		urlStr, imports, err = metaImportsForPrefix(mmi.Prefix, allowInsecure)
 		if err != nil {
 			return nil, err
 		}
@@ -652,7 +690,7 @@ var (
 // It is an error if no imports are found.
 // urlStr will still be valid if err != nil.
 // The returned urlStr will be of the form "https://golang.org/x/tools?go-get=1"
-func metaImportsForPrefix(importPrefix string) (urlStr string, imports []metaImport, err error) {
+func metaImportsForPrefix(importPrefix string, allowInsecure bool) (urlStr string, imports []metaImport, err error) {
 	setCache := func(res fetchResult) (fetchResult, error) {
 		fetchCacheMu.Lock()
 		defer fetchCacheMu.Unlock()
@@ -668,7 +706,7 @@ func metaImportsForPrefix(importPrefix string) (urlStr string, imports []metaImp
 		}
 		fetchCacheMu.Unlock()
 
-		urlStr, body, err := httpsOrHTTP(importPrefix)
+		urlStr, body, err := httpsOrHTTP(importPrefix, allowInsecure)
 		if err != nil {
 			return setCache(fetchResult{urlStr: urlStr, err: fmt.Errorf("fetch %s: %v", urlStr, err)})
 		}
