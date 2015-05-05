@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d36f5df_b279a0c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T22:55:32Z",
+      "side": 1,
+      "message": "I think you need \"Fixes #10120\" for GitHub to auto-close it. And seems like the standard is to put each issue on its own line.",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_5261540e",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T22:55:32Z",
+      "side": 1,
+      "message": "The repetition of HTTP could be fixed by rearranging the sentence a bit:\n\n...fetching from repositories and resolving custom domains using insecure schemes such as HTTP.",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_126bccee",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T22:55:32Z",
+      "side": 1,
+      "message": "Nit (ignore if you want): Maybe call this \"schemes\" and the method below \"allowedSchemes\"?",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_3266d028",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T22:55:32Z",
+      "side": 1,
+      "message": "What does \"fail closed\" mean?",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_d26c2405",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T22:55:32Z",
+      "side": 1,
+      "message": "s/Iterating/Iterate/",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
