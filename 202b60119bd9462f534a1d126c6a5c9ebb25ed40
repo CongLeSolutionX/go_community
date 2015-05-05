@@ -34,6 +34,24 @@
       "revId": "202b60119bd9462f534a1d126c6a5c9ebb25ed40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0218a87_7472560d",
+        "filename": "src/cmd/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1914,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-05T19:47:15Z",
+      "side": 1,
+      "message": "I\u0027m just suggesting that elfreserve *\u003d 3 move down a few notches, to the Linkmode \u003d\u003d LinkExternal block just below.",
+      "parentUuid": "b0734a93_de9fb9db",
+      "revId": "202b60119bd9462f534a1d126c6a5c9ebb25ed40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
