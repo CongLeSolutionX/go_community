@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b038aab1_6109be5e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-05T21:51:35Z",
+      "side": 0,
+      "message": "You can remove these fields from moduledata in symtab.go as well now (no linker changes required).",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "495eda9ffe69fe27ef467cb2583e97d451a4ba19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
