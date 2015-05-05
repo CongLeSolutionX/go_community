@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4de8b565_629236a8",
+        "filename": "src/runtime/gc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-05T19:57:34Z",
+      "side": 1,
+      "message": "Add a comment on why Node124 and Node126 are \"interesting\". I assume there\u0027s some cut-off at \u003e\u003d 1K?",
+      "revId": "a2d6d79c5585843361b436f0c15008ec60d96a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de8b565_a2971e90",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-05T19:57:34Z",
+      "side": 1,
+      "message": "Should this just go in export_test.go? It seems silly to include this in the runtime when not testing.",
+      "revId": "a2d6d79c5585843361b436f0c15008ec60d96a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
