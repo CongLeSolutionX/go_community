@@ -69,6 +69,30 @@
       "revId": "e826de8897580f5fecce82c84c7ee0cdb3712a06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0218a87_bfbd87fb",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-05-05T19:51:10Z",
+      "side": 1,
+      "message": "Either error is fine. Just comparing less than 3 is sufficient.",
+      "parentUuid": "b0734a93_de4df91f",
+      "range": {
+        "startLine": 1035,
+        "startChar": 1,
+        "endLine": 1035,
+        "endChar": 7
+      },
+      "revId": "e826de8897580f5fecce82c84c7ee0cdb3712a06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
