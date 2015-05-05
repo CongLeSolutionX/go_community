@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd24a5a6_fcfdc1ae",
+        "filename": "src/cmd/internal/ld/sym.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-05T22:36:45Z",
+      "side": 1,
+      "message": "We already have elf.STT_NOTYPE to mean that no type has been specified.",
+      "revId": "9a65152e29a3bec7bb7cd3204c54aac2a790b74d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
