@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0218a87_b9d76774",
+        "filename": "src/cmd/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1914,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-05T18:22:23Z",
+      "side": 1,
+      "message": "Despite the CL description, I think this is going to increase the binary size when not linking externally.  Can we move this down to the Linkmode \u003d\u003d LinkExternal below?\n\nReally since this note is not SHF_ALLOC it can go anywhere--it doesn\u0027t need to be at the start of the file.  But I\u0027m OK with bumping this space as long as know we are producing an object file.",
+      "revId": "202b60119bd9462f534a1d126c6a5c9ebb25ed40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
