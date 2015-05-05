@@ -916,10 +916,38 @@ OpSwitch:
 		}
 
 		if !lookdot(n, t, 0) {
-			if lookdot(n, t, 1) {
+			// Legitimate field or method lookup failed, try to explain the error
+			switch {
+			case lookdot(n, t, 1):
+				// Field or method matches by name, but it is not exported.
 				Yyerror("%v undefined (cannot refer to unexported field or method %v)", n, n.Right.Sym)
-			} else {
-				Yyerror("%v undefined (type %v has no field or method %v)", n, n.Left.Type, n.Right.Sym)
+
+			case !(Isptr[t.Etype] && Isinter(t.Type)):
+				// Not a pointer to an interface.
+				if mt := lookdotType(n, t, 2); mt != nil {
+					// Case-insensitive match.
+					Yyerror("%v undefined (type %v has no field or method %v, but does have %v)", n, n.Left.Type, n.Right.Sym, mt.Sym)
+				} else {
+					Yyerror("%v undefined (type %v has no field or method %v)", n, n.Left.Type, n.Right.Sym)
+				}
+
+			case !lookdot(n, t.Type, 1):
+				// Pointer to interface, but name does not match any method of that interface.
+				if mt := lookdotType(n, t.Type, 2); mt != nil {
+					// Case-insensitive match.
+					Yyerror("%v undefined (pointer type %v has no field or method %v, but interface %v has %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type.Type, mt.Sym)
+				} else {
+					Yyerror("%v undefined (pointer type %v has no field or method %v, and interface %v also lacks method %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type.Type, n.Right.Sym)
+				}
+
+			case lookdot(n, t.Type, 0):
+				// Pointer to interface with accessible method of expected name
+				Yyerror("%v undefined (pointer type *%v has no field or method %v, but interface %v has method %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type, n.Right.Sym)
+
+			default:
+				// Pointer to interface with unexported method of expected name
+				Yyerror("%v undefined (pointer type *%v has no field or method %v; interface %v has method %v, but it is unexported)", n, n.Left.Type, n.Right.Sym, n.Left.Type, n.Right.Sym)
+
 			}
 			n.Type = nil
 			return
@@ -2391,6 +2419,9 @@ func lookdot1(errnode *Node, s *Sym, t *Type, f *Type, dostrcmp int) *Type {
 		if dostrcmp != 0 && f.Sym.Name == s.Name {
 			return f
 		}
+		if dostrcmp == 2 && strings.EqualFold(f.Sym.Name, s.Name) {
+			return f
+		}
 		if f.Sym != s {
 			continue
 		}
@@ -2462,6 +2493,10 @@ func derefall(t *Type) *Type {
 }
 
 func lookdot(n *Node, t *Type, dostrcmp int) bool {
+	return lookdotType(n, t, dostrcmp) != nil
+}
+
+func lookdotType(n *Node, t *Type, dostrcmp int) *Type {
 	s := n.Right.Sym
 
 	dowidth(t)
@@ -2481,6 +2516,10 @@ func lookdot(n *Node, t *Type, dostrcmp int) bool {
 	}
 
 	if f1 != nil {
+		if dostrcmp > 1 {
+			// Already in the process of diagnosing an error.
+			return f1
+		}
 		if f2 != nil {
 			Yyerror("%v is both field and method", n.Right.Sym)
 		}
@@ -2500,10 +2539,14 @@ func lookdot(n *Node, t *Type, dostrcmp int) bool {
 			n.Op = ODOTINTER
 		}
 
-		return true
+		return f1
 	}
 
 	if f2 != nil {
+		if dostrcmp > 1 {
+			// Already in the process of diagnosing an error.
+			return f2
+		}
 		tt := n.Left.Type
 		dowidth(tt)
 		rcvr := getthisx(f2.Type).Type.Type
@@ -2543,7 +2586,7 @@ func lookdot(n *Node, t *Type, dostrcmp int) bool {
 				// It is invalid to automatically dereference a named pointer type when selecting a method.
 				// Make n->left == ll to clarify error message.
 				n.Left = ll
-				return false
+				return nil
 			}
 		}
 
@@ -2554,10 +2597,10 @@ func lookdot(n *Node, t *Type, dostrcmp int) bool {
 		//		print("lookdot found [%p] %T\n", f2->type, f2->type);
 		n.Op = ODOTMETH
 
-		return true
+		return f2
 	}
 
-	return false
+	return nil
 }
 
 func nokeys(l *NodeList) bool {
