@@ -555,9 +555,6 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
 				obj := *(*uintptr)(unsafe.Pointer(b + i))
 				scanWork++
 				if obj != 0 && arena_start <= obj && obj < arena_used {
-					if mheap_.shadow_enabled && debug.wbshadow >= 2 && debug.gccheckmark > 0 && useCheckmark {
-						checkwbshadow((*uintptr)(unsafe.Pointer(b + i)))
-					}
 					if obj, hbits, span := heapBitsForObject(obj); obj != 0 {
 						greyobject(obj, b, i, hbits, span, gcw)
 					}
@@ -626,10 +623,6 @@ func scanobject(b uintptr, gcw *gcWork) {
 		// At this point we have extracted the next potential pointer.
 		// Check if it points into heap.
 		if obj != 0 && arena_start <= obj && obj < arena_used {
-			if mheap_.shadow_enabled && debug.wbshadow >= 2 && debug.gccheckmark > 0 && useCheckmark {
-				checkwbshadow((*uintptr)(unsafe.Pointer(b + i)))
-			}
-
 			// Mark the object.
 			if obj, hbits, span := heapBitsForObject(obj); obj != 0 {
 				greyobject(obj, b, i, hbits, span, gcw)
