@@ -919,7 +919,22 @@ OpSwitch:
 			if lookdot(n, t, 1) {
 				Yyerror("%v undefined (cannot refer to unexported field or method %v)", n, n.Right.Sym)
 			} else {
-				Yyerror("%v undefined (type %v has no field or method %v)", n, n.Left.Type, n.Right.Sym)
+				if Isptr[t.Etype] && Isinter(t.Type) {
+					if lookdot(n, t.Type, 1) {
+						if lookdot(n, t.Type, 0) {
+							// ptr to interface w/ accessible method of expected name
+							Yyerror("%v undefined (pointer type *%v has no field or method %v; interface %v however has method %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type, n.Right.Sym)
+						} else {
+							// ptr to interface w/ inaccessible method of expected name
+							Yyerror("%v undefined (pointer type *%v has no field or method %v; interface %v however has method %v, but it is inaccessible)", n, n.Left.Type, n.Right.Sym, n.Left.Type, n.Right.Sym)
+						}
+					} else {
+						// ptr to interface, but name does not match any method
+						Yyerror("%v undefined (pointer type %v has no field or method %v; interface %v also lacks method %v)", n, n.Left.Type, n.Right.Sym, n.Left.Type.Type, n.Right.Sym)
+					}
+				} else {
+					Yyerror("%v undefined (type %v has no field or method %v)", n, n.Left.Type, n.Right.Sym)
+				}
 			}
 			n.Type = nil
 			return
