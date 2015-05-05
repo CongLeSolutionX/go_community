@@ -16,6 +16,24 @@
       "revId": "555867b869da152a7c4e1ff5c3ad65841e7dc383",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de8b565_42dcd297",
+        "filename": "src/syscall/creds_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-05T19:41:08Z",
+      "side": 1,
+      "message": "I\u0027m wondering if change to the net package breaks\nthis code, is that an API breaking change?",
+      "parentUuid": "b0218a87_6bba754e",
+      "revId": "555867b869da152a7c4e1ff5c3ad65841e7dc383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
