@@ -22,6 +22,30 @@
       "revId": "398bfc6110bae896b256bcc322fab998fb80dbe2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "304d9a5a_976c2c8a",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-05-05T21:29:50Z",
+      "side": 1,
+      "message": "At this point, the pipeline is complete - we just have parsed }} or ) - unless I have missed something, the quadratic complexity should be avoided.\nAnyway, moving checks away from node.go, and grouping pipeline checks in a dedicated function in parse.go ...",
+      "parentUuid": "b0218a87_4ed78740",
+      "range": {
+        "startLine": 421,
+        "startChar": 9,
+        "endLine": 421,
+        "endChar": 10
+      },
+      "revId": "398bfc6110bae896b256bcc322fab998fb80dbe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
