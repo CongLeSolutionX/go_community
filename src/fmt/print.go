@@ -291,8 +291,9 @@ func parsenum(s string, start, end int) (num int, isnum bool, newi int) {
 		return 0, false, end
 	}
 	for newi = start; newi < end && '0' <= s[newi] && s[newi] <= '9'; newi++ {
+		old := num
 		num = num*10 + int(s[newi]-'0')
-		if num < 0 {
+		if num < old {
 			return 0, false, end // Overflow; crazy long number most likely.
 		}
 		isnum = true
