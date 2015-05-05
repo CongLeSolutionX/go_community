@@ -158,6 +158,17 @@ func (p *PipeNode) append(command *CommandNode) {
 	p.Cmds = append(p.Cmds, command)
 }
 
+func (p *PipeNode) checkValidity() error {
+	// Only the first command of a pipline can start with a non executable operand
+	for i, c := range p.Cmds[1:] {
+		switch c.Args[0].Type() {
+		case NodeBool, NodeDot, NodeNil, NodeNumber, NodeString:
+			return fmt.Errorf("non executable command in pipeline stage %d", i+2)
+		}
+	}
+	return nil
+}
+
 func (p *PipeNode) String() string {
 	s := ""
 	if len(p.Decl) > 0 {
