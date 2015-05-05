@@ -419,6 +419,9 @@ func (t *Tree) pipeline(context string) (pipe *PipeNode) {
 			if token.typ == itemRightParen {
 				t.backup()
 			}
+			if err := pipe.checkValidity(); err != nil {
+				t.error(err)
+			}
 			return
 		case itemBool, itemCharConstant, itemComplex, itemDot, itemField, itemIdentifier,
 			itemNumber, itemNil, itemRawString, itemString, itemVariable, itemLeftParen:
