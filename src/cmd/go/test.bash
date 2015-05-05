@@ -1136,6 +1136,52 @@ unset GOPATH
 unset testgo
 rm -rf $d
 
+TEST go get without -insecure rejects HTTP-only repo
+d=$(mktemp -d -t testgoXXX)
+export GOPATH=$d
+if ./testgo get -d wh3rd.net/git.git; then
+	echo get should not succeed with an HTTP-only repo
+	ok=false
+elif ! ./testgo get -d -insecure wh3rd.net/git.git; then
+	echo failed to get wh3rd.net/git.git with -insecure
+	ok=false
+elif ./testgo get -d -u -f wh3rd.net/git.git; then
+	echo get -u should not succeed on HTTP repo without -insecure
+	ok=false
+fi
+unset GOPATH
+rm -rf $d
+
+TEST go get -u without -insecure rejects HTTP-only repo
+d=$(mktemp -d -t testgoXXX)
+export GOPATH=$d
+if ! (mkdir -p $GOPATH/src/github.com/golang && git clone -q http://github.com/golang/example $GOPATH/src/github.com/golang/example); then
+	echo could not check out example repo
+	ok=false
+elif ./testgo get -d -u -f github.com/golang/example/hello; then
+	echo succeeded in updating HTTP-only repo without -insecure
+	ok=false
+elif ! ./testgo get -d -u -f -insecure github.com/golang/example/hello; then
+	echo failed to update example repo with -insecure
+	ok=false
+fi
+unset GOPATH
+rm -rf $d
+
+TEST go get without -insecure rejects HTTP-only custom domain
+d=$(mktemp -d -t testgoXXX)
+export GOPATH=$d
+# TODO(adg): set up custom domain that will never serve HTTPS
+if ./testgo get -d -u robpike.io/cmd/doc; then
+	echo should not succeed with an HTTP-only custom domain
+	ok=false
+elif ! ./testgo get -d -insecure robpike.io/cmd/doc; then
+	echo failed to get robpike.io/cmd/doc with -insecure
+	ok=false
+fi
+unset GOPATH
+rm -rf $d
+
 # clean up
 if $started; then stop; fi
 rm -rf testdata/bin testdata/bin1
