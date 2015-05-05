@@ -45,6 +45,30 @@
       "revId": "e826de8897580f5fecce82c84c7ee0cdb3712a06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0734a93_de4df91f",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 7900
+      },
+      "writtenOn": "2015-05-05T18:36:33Z",
+      "side": 1,
+      "message": "just \u003c 3 does not work. It will return BADINDEX while this are NOVERB errors as far as I can understand.\n\nConsider these cases:\n\t{\"%.[]\", SE{}, \"%!(NOVERB)\"},                   // Issue 10675\n\t{\"%.[[[\", SE{}, \"%!(NOVERB)\"},\n\t{\"%.[[]\", SE{}, \"%!(NOVERB)\"},\n\t{\"%.[]]\", SE{}, \"%!(NOVERB)\"},\n\t{\"%.[1]\", SE{}, \"%!(NOVERB)\"},\n\t{\"%.[X]\", SE{}, \"%!(NOVERB)\"},\n\t{\"%.[[[%[1]d\", SE{1}, \"%!(NOVERB)\"},\n\nAlso I have a patch that passes all of the above tests, but not the last one.\nfmt_test.go:836: Sprintf(\"%.[[[%[0]d\", [1]) \u003d \u003c%!d(BADINDEX)\u003e want \u003c%!(NOVERB)\u003e\n\nI believe is a NOVERB error not a bad index. Am I correct ?\n\n(also I am not sure if this kind of commenting should be done here or  on github\u0027s issue.)",
+      "parentUuid": "b0734a93_781cfdeb",
+      "range": {
+        "startLine": 1035,
+        "startChar": 1,
+        "endLine": 1035,
+        "endChar": 7
+      },
+      "revId": "e826de8897580f5fecce82c84c7ee0cdb3712a06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
