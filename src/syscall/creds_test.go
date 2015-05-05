@@ -56,7 +56,7 @@ func TestSCMCredentials(t *testing.T) {
 		ucred.Gid = 0
 		oob := syscall.UnixCredentials(&ucred)
 		_, _, err := cli.(*net.UnixConn).WriteMsgUnix(nil, oob, nil)
-		if err.(*net.OpError).Err != syscall.EPERM {
+		if err.(*net.OpError).Err.(*os.SyscallError).Err != syscall.EPERM {
 			t.Fatalf("WriteMsgUnix failed with %v, want EPERM", err)
 		}
 	}
