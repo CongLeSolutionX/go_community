@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0734a93_9e1aa126",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T17:51:01Z",
+      "side": 1,
+      "message": "It\u0027d be nice to make this more Go-ish as we change it. https://github.com/golang/go/wiki/CodeReviewComments#indent-error-flow applies here. Basically turn this (probably starting with the lookdot(n, t, 1) above) into a sequence of\n\nif cond1 {\n  Yyerror(msg1)\n  return\n}\nif cond2 {\n...\n\nOr maybe better, use a switch statement:\n\nswitch {\n  case cond1:\n    Yyerror(msg1)\n  case cond2:\n    ...\n}\nreturn",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0734a93_be467d11",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T17:51:01Z",
+      "side": 1,
+      "message": "s/however// here and elsewhere?",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0734a93_5e19e92b",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T17:51:01Z",
+      "side": 1,
+      "message": "s/inaccessible/unexported/ (or do I misunderstand?)",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0734a93_be1f5d15",
+        "filename": "test/err_ptr_inter.dir/err_ptr_inter_package.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T17:51:01Z",
+      "side": 1,
+      "message": "Delete, here and elsewhere.",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0734a93_1e0f71e6",
+        "filename": "test/err_ptr_inter.dir/err_ptr_inter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-05T17:51:01Z",
+      "side": 1,
+      "message": "If you made this shorter, the error messages below would be easier to read. Maybe just \"Imported\"? Similarly so below.",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
