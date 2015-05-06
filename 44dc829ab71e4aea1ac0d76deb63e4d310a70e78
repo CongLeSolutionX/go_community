@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d595d45_91e21e9d",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-06T20:02:53Z",
+      "side": 1,
+      "message": "please avoid !( ... ) as a general rule\ncase !Isptr[t.Etype] || !Isinter(t.Type)\nexcept other suggestions will probably kill this case.",
+      "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_71432a06",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-06T20:02:53Z",
+      "side": 1,
+      "message": "If it\u0027s a pointer to an interface, let\u0027s stop there. We\u0027ve already identified one mistake. Let\u0027s report that one and let the user try again. We don\u0027t want to get too far ahead in our assumptions about what was intended.\n\n case lookdot(n, t, 1): ...\n\n case Isptr[t.Etype] \u0026\u0026 Isinter(t.Type):\n    // Pointer to interface.\n    if Isnilinter(t.Type) {\n        Yyerror(\"%v undefined (type %v is pointer to interface with no methods)\",...)\n    } else {\n        Yyerror(\"%v undefined (type %v is pointer to interface; dereference to access methods)\"...)\n    }\n\n default:\n    if mt :\u003d lookdotType(n, t, 2); ...",
+      "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_51f6e65f",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2495,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-06T20:02:53Z",
+      "side": 1,
+      "message": "Instead of this split, please change lookdot to return *Type and change the call sites from !lookdot(n, t, x) to lookdot(n, t, x) \u003d\u003d nil etc.\n\nThe only calls in the whole compiler are the ones in the switch being edited above.",
+      "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
