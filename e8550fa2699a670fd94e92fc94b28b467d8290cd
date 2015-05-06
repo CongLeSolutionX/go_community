@@ -45,6 +45,54 @@
       "revId": "e8550fa2699a670fd94e92fc94b28b467d8290cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_cb3fc984",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T04:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_0829673c",
+      "range": {
+        "startLine": 931,
+        "startChar": 88,
+        "endLine": 931,
+        "endChar": 93
+      },
+      "revId": "e8550fa2699a670fd94e92fc94b28b467d8290cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_6b669ddb",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T04:07:42Z",
+      "side": 1,
+      "message": "Check the output;  the pointer-ness of the type passed to the Yyerror seems to depend on how close to correct it is.  I rechecked the output (see the test file) and it all looked correct.  It was definitely wrong when all the source code for printing the errors looked \"consistent\".",
+      "parentUuid": "0d595d45_28242b66",
+      "range": {
+        "startLine": 931,
+        "startChar": 40,
+        "endLine": 931,
+        "endChar": 41
+      },
+      "revId": "e8550fa2699a670fd94e92fc94b28b467d8290cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
