@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0218a87_d4706a8a",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T04:07:42Z",
+      "side": 1,
+      "message": "I decided to use a switch statement.  It\u0027s interesting to consider the possibility of doing more, for instance attempting a case-insensitive match, or a nearest distance correction, so we can have even better error messages (remove speedbumps, always remove speedbumps).",
+      "parentUuid": "b0734a93_9e1aa126",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0734a93_be467d11",
         "filename": "src/cmd/internal/gc/typecheck.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b0218a87_1904fbce",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T04:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0734a93_be467d11",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0734a93_5e19e92b",
         "filename": "src/cmd/internal/gc/typecheck.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-05-05T17:51:01Z",
       "side": 1,
       "message": "s/inaccessible/unexported/ (or do I misunderstand?)",
+      "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0218a87_d9e98380",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T04:07:42Z",
+      "side": 1,
+      "message": "Done - you do not misunderstand.",
+      "parentUuid": "b0734a93_5e19e92b",
       "revId": "5ed2c5e26c71339c2fe7c57217ace1436ceb273f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
