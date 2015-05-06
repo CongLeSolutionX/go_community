@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "70f712e2_c62ce419",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T18:01:25Z",
+      "side": 1,
+      "message": "This is not new code, it is just moved around to group the note/tag fiddling closer together.  Nodes have a *string \"note\" field, which is where this came from.\n\nI might want to try a cleanup pass over the code after this.",
+      "parentUuid": "107df6ec_3d104384",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "107df6ec_5d15f772",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 10
@@ -105,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "70f712e2_a621e81f",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T18:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3012fad8_09d44939",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3012fad8_e9dfb555",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 10
@@ -133,6 +169,24 @@
       "writtenOn": "2015-04-25T06:03:46Z",
       "side": 1,
       "message": "please take the opportunity to convert this to a go style // comment",
+      "revId": "c025bebc8464387bf2461c915be6579e47a19179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70f712e2_174fc493",
+        "filename": "src/cmd/internal/gc/gen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-06T18:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3012fad8_a9d9bd72",
       "revId": "c025bebc8464387bf2461c915be6579e47a19179",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
