@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed42494b_0f4e054a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-06T05:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d36f5df_b279a0c1",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d36f5df_5261540e",
         "filename": "src/cmd/go/get.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-05T22:55:32Z",
       "side": 1,
       "message": "The repetition of HTTP could be fixed by rearranging the sentence a bit:\n\n...fetching from repositories and resolving custom domains using insecure schemes such as HTTP.",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_ef42a11c",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-06T05:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d36f5df_5261540e",
       "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ed42494b_cf3fdd84",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-06T05:11:50Z",
+      "side": 1,
+      "message": "Renamed it back to \"scheme\". The original author of this change chose that name. I see nothing wrong with the original.",
+      "parentUuid": "4d36f5df_126bccee",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d36f5df_3266d028",
         "filename": "src/cmd/go/vcs.go",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "ed42494b_af3c9990",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-06T05:11:50Z",
+      "side": 1,
+      "message": "if the repo isn\u0027t a url it\u0027s not secure\nreworded the comment",
+      "parentUuid": "4d36f5df_3266d028",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d36f5df_d26c2405",
         "filename": "src/cmd/go/vcs.go",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2015-05-05T22:55:32Z",
       "side": 1,
       "message": "s/Iterating/Iterate/",
+      "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_8f39d5a0",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-06T05:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d36f5df_d26c2405",
       "revId": "06796b7f1fc6cf0c58dc3fab9cef5b4666a53350",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
