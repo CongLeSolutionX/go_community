@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "0d595d45_312db2c2",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4396,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-05-06T18:32:32Z",
+      "side": 1,
+      "message": "// 0 signifies scalar and 1 signifies pointer.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_6e4fcb49",
         "filename": "src/reflect/type.go",
         "patchSetId": 1
@@ -132,6 +149,29 @@
       "writtenOn": "2015-05-06T17:40:33Z",
       "side": 1,
       "message": "mask[i/8] \u003e\u003e (i % 8)?",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_8b70b104",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-05-06T18:32:32Z",
+      "side": 1,
+      "message": "TBD: spans containing 1 word pointer objects can have their pointer types bulk set which will avoid this atomicor8 completely.",
+      "range": {
+        "startLine": 450,
+        "startChar": 1,
+        "endLine": 457,
+        "endChar": 2
+      },
       "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
