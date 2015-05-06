@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d595d45_ee03bb0f",
+        "filename": "src/cmd/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "s/2-bits/1 bit/\n\n(And you could fix the typo on the previous line if you feel like it. :)",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_8e60bfb6",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "s/off/word/? \"Offset\" suggests byte offset to me for some reason.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_6e4fcb49",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t this append one too many words when nptr is a multiple of 8? Does it not matter because gc.size is tracking the \"true\" size?",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_2e49d341",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "Was the clearing this code used to do simply unnecessary? It looks like it was, but if it wasn\u0027t then this transformation is unsafe.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_0e4e0f4a",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "Same question about rounding.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_2ef55301",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "TODO: Use plain memmove after typ.ptrdata.\n\n(Unless this is one of the later CLs.)",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_8ecc3fe6",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "Remove noescape?",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_2eae73e7",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "mask[i/8] \u003e\u003e (i % 8)?",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_ce659791",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "Consider adding a comment that the high half is marked typeDead.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_0e54cfa6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T17:40:33Z",
+      "side": 1,
+      "message": "Why? h.bitp isn\u0027t used after this.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
