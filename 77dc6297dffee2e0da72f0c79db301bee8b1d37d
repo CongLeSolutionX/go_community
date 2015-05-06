@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d595d45_ee697b24",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-05-06T18:03:04Z",
+      "side": 1,
+      "message": "We know if the mark phase is active. We know it won\u0027t change without a (ragged) barrier. Wouldn\u0027t a gcphase check be faster than always doing an atomicor? We own the span so there is not malloc/malloc race.",
+      "range": {
+        "startLine": 560,
+        "startChar": 2,
+        "endLine": 563,
+        "endChar": 45
+      },
+      "revId": "77dc6297dffee2e0da72f0c79db301bee8b1d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_8e70bf04",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-05-06T18:03:04Z",
+      "side": 1,
+      "message": "See above comment about avoiding atomic instruction by checking gcphase.  For now perhaps just a TBD comment.",
+      "range": {
+        "startLine": 604,
+        "startChar": 3,
+        "endLine": 604,
+        "endChar": 13
+      },
+      "revId": "77dc6297dffee2e0da72f0c79db301bee8b1d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
