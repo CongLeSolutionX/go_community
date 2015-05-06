@@ -39,6 +39,193 @@
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_518266d9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "// h must describe the initial word of the object.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_3177f28b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "// h must describe the initial word of the object.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_91ae9e60",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "s/two/four/",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_117cee69",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "// h must describe the initial word of the object.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_71668adb",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "bitMarked\u003c\u003c(heapBitsWidth+h.shift)?",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_91869ead",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "For checkmark we should prefer correctness over performance, so I think this should use a much simpler and more obviously correct approach in the size !\u003d ptrSize case like\n\n  h.next() // Move to checkmark bit (second word)\n  for i :\u003d uintptr(0); i \u003c n; i++ {\n      *h.bitp \u0026^\u003d bitMarked\n      h \u003d h.forward(size)\n  }\n\nwhere h.forward is something like\n\n  func (h heapBits) forward(count uintptr) heapBits {\n    shift :\u003d h.shift + count * heapBitsWidth\n    return heapBits{subtractb(h.bitp, shift / heapBitmapScale), shift % heapBitmapScale}\n  }\n\n(Untested, and of course this might be wrong, but at least if this is wrong in any way initCheckmarkSpan will just fail.)",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_d1d896f2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "Why does this have to do anything except reinstate the pointer bit for size \u003d\u003d ptrSize spans? Why does it matter what state the dedicated checkmark bits are in when we\u0027re not in checkmark phase?\n\n(If you do want to keep this so the \"mark bit\" is set on every non-dead word, document that that\u0027s the reason in the function comment.)",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_1154eea6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "Assuming this code is necessary, my same comment about complexity versus obviousness applies.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_51d70677",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "Rather than having the n is odd case separate, remove the n-- (and n++ below) and just check if i has reached the end here.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_f1c5dabd",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_b1cf62da",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-06T21:01:32Z",
+      "side": 1,
+      "message": "Why disable this?",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
