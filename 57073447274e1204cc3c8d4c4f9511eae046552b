@@ -16,6 +16,24 @@
       "revId": "57073447274e1204cc3c8d4c4f9511eae046552b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_a01a7324",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-06T18:52:37Z",
+      "side": 1,
+      "message": "Yeah, doesn\u0027t look like this would even compile.",
+      "parentUuid": "107df6ec_a886bb15",
+      "revId": "57073447274e1204cc3c8d4c4f9511eae046552b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
