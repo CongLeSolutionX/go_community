@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_63c81c28",
+        "filename": "src/runtime/gc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T16:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4de8b565_629236a8",
+      "revId": "a2d6d79c5585843361b436f0c15008ec60d96a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de8b565_a2971e90",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-05T19:57:34Z",
       "side": 1,
       "message": "Should this just go in export_test.go? It seems silly to include this in the runtime when not testing.",
+      "revId": "a2d6d79c5585843361b436f0c15008ec60d96a28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_23d214d6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T16:16:29Z",
+      "side": 1,
+      "message": "I didn\u0027t realize I could put real code in export_test.go but of course I can. :-)\n\n(Even here, it doesn\u0027t actually get included in binaries; the linker will throw it away.)\n\nDone.",
+      "parentUuid": "4de8b565_a2971e90",
       "revId": "a2d6d79c5585843361b436f0c15008ec60d96a28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
