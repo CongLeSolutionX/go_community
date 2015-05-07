@@ -7,8 +7,11 @@ package net
 import (
 	"io"
 	"os"
+	"os/exec"
 	"runtime"
+	"sync"
 	"testing"
+	"time"
 )
 
 func TestCloseRead(t *testing.T) {
@@ -253,4 +256,90 @@ func TestPacketConnClose(t *testing.T) {
 			t.Fatalf("got (%d, %v); want (0, error)", n, err)
 		}
 	}
+}
+
+// See golang.org/issue/6987.
+func TestAcceptIgnoreBrokenConnRequest(t *testing.T) {
+	switch runtime.GOOS {
+	case "android", "nacl":
+		t.Skip("not supported on %s", runtime.GOOS)
+	case "darwin":
+		switch runtime.GOARCH {
+		case "arm", "arm64":
+			t.Skip("not supported on %s/%s", runtime.GOOS, runtime.GOOS)
+		}
+	}
+
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+
+	const ipcKey = "GO_NETTEST_DIAL_ADDR"
+
+	if addr := os.Getenv(ipcKey); addr != "" {
+		c, err := Dial("tcp", addr)
+		if err != nil {
+			os.Exit(1)
+		}
+		defer c.Close()
+		os.Stdout.Close()
+		// In child process, the process will be killed here.
+		time.Sleep(time.Minute)
+		os.Exit(1)
+	}
+
+	// Start a child process that connects to the listener, then
+	// kill it because it's the easy way to make SYN_RCVD state
+	// sockets in pending queue become broken connection requests.
+	cmd := exec.Command(os.Args[0], "-test.run=TestAcceptIgnoreBrokenConnRequest", "-test.short=true")
+	cmd.Env = append(os.Environ(), ipcKey+"="+ln.Addr().String())
+	pr, err := cmd.StdoutPipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := cmd.Start(); err != nil {
+		t.Fatal(err)
+	}
+	var b [1]byte
+	pr.Read(b[:])
+	defer cmd.Wait()
+	if err := cmd.Process.Kill(); err != nil {
+		t.Fatal(err)
+	}
+	// Give a chance to send SYN_RESET to the kernel.
+	time.Sleep(200 * time.Millisecond)
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		c, err := Dial(ln.Addr().Network(), ln.Addr().String())
+		if err != nil {
+			if perr := parseDialError(err); perr != nil {
+				t.Error(perr)
+			}
+			t.Error(err)
+			return
+		}
+		c.Close()
+	}()
+	if err := ln.(*TCPListener).SetDeadline(time.Now().Add(200 * time.Millisecond)); err != nil {
+		t.Fatal(err)
+	}
+	for {
+		c, err := ln.Accept()
+		if err != nil {
+			if perr := parseAcceptError(err); perr != nil {
+				t.Error(perr)
+			}
+			if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+				t.Fatal(err)
+			}
+			break
+		}
+		c.Close()
+	}
+	wg.Wait()
 }
