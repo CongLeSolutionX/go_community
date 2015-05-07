@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0d595d45_f1139add",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-07T01:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_91e21e9d",
+      "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_71432a06",
         "filename": "src/cmd/internal/gc/typecheck.go",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "0d595d45_b11d22ea",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-07T01:23:09Z",
+      "side": 1,
+      "message": "Rearranged and cleaned up -- the rationale for new-user errors is that we should focus on the root cause, the existence of a pointer-to-an-interface, when that condition is noticed.",
+      "parentUuid": "0d595d45_71432a06",
+      "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_51f6e65f",
         "filename": "src/cmd/internal/gc/typecheck.go",
         "patchSetId": 5
@@ -64,6 +100,24 @@
       "writtenOn": "2015-05-06T20:02:53Z",
       "side": 1,
       "message": "Instead of this split, please change lookdot to return *Type and change the call sites from !lookdot(n, t, x) to lookdot(n, t, x) \u003d\u003d nil etc.\n\nThe only calls in the whole compiler are the ones in the switch being edited above.",
+      "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d595d45_911a1eee",
+        "filename": "src/cmd/internal/gc/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2495,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-07T01:23:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_51f6e65f",
       "revId": "44dc829ab71e4aea1ac0d76deb63e4d310a70e78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
