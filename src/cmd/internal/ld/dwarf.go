@@ -1692,11 +1692,17 @@ func writelines() {
 			switch a.Name {
 			case obj.A_AUTO:
 				dt = DW_ABRV_AUTO
-				offs = int64(a.Aoffset) - int64(Thearch.Ptrsize)
+				offs = int64(a.Aoffset)
+				if !haslinkregister() {
+					offs -= int64(Thearch.Ptrsize)
+				}
 
 			case obj.A_PARAM:
 				dt = DW_ABRV_PARAM
 				offs = int64(a.Aoffset)
+				if haslinkregister() {
+					offs += int64(Thearch.Ptrsize)
+				}
 
 			default:
 				continue
@@ -1789,10 +1795,18 @@ func writeframes() {
 	Cput(DW_CFA_def_cfa)
 
 	uleb128put(int64(Thearch.Dwarfregsp)) // register SP (**ABI-dependent, defined in l.h)
-	uleb128put(int64(Thearch.Ptrsize))    // offset
+	if haslinkregister() {
+		uleb128put(int64(0)) // offset
+	} else {
+		uleb128put(int64(Thearch.Ptrsize)) // offset
+	}
 
-	Cput(DW_CFA_offset + FAKERETURNCOLUMN)                    // return address
-	uleb128put(int64(-Thearch.Ptrsize) / DATAALIGNMENTFACTOR) // at cfa - x*4
+	Cput(DW_CFA_offset + FAKERETURNCOLUMN) // return address
+	if haslinkregister() {
+		uleb128put(int64(0) / DATAALIGNMENTFACTOR) // at cfa - 0
+	} else {
+		uleb128put(int64(-Thearch.Ptrsize) / DATAALIGNMENTFACTOR) // at cfa - x*4
+	}
 
 	// 4 is to exclude the length field.
 	pad := CIERESERVE + frameo + 4 - Cpos()
@@ -1834,7 +1848,11 @@ func writeframes() {
 				}
 			}
 
-			putpccfadelta(int64(nextpc)-int64(pcsp.pc), int64(Thearch.Ptrsize)+int64(pcsp.value))
+			if haslinkregister() {
+				putpccfadelta(int64(nextpc)-int64(pcsp.pc), int64(pcsp.value))
+			} else {
+				putpccfadelta(int64(nextpc)-int64(pcsp.pc), int64(Thearch.Ptrsize)+int64(pcsp.value))
+			}
 		}
 
 		fdesize = Cpos() - fdeo - 4 // exclude the length field.
