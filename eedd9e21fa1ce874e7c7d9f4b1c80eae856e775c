@@ -16,6 +16,24 @@
       "revId": "eedd9e21fa1ce874e7c7d9f4b1c80eae856e775c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_5871755c",
+        "filename": "src/cmd/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-07T05:21:58Z",
+      "side": 1,
+      "message": "For that matter it should be 8 on 386.  On ARM I think it should be 14.  I agree that on ARM64 it should be 30.  On PPC64 and PPC64le it should be 65.",
+      "parentUuid": "0d8ebdef_e013c2dd",
+      "revId": "eedd9e21fa1ce874e7c7d9f4b1c80eae856e775c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
