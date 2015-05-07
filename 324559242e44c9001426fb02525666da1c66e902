@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d8ebdef_03403012",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T16:09:48Z",
+      "side": 1,
+      "message": "make this\n\nsetGCPercent(readgogc())\n\nand then move the heapminimum calculation into setGCPercent (later in mgc.go).\notherwise it will not be updated correctly by calls to runtime/debug\u0027s SetGCPercent.",
+      "revId": "324559242e44c9001426fb02525666da1c66e902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
