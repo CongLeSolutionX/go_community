@@ -235,7 +235,7 @@ func TestTraceSymbolize(t *testing.T) {
 		want = append(want, []eventDesc{
 			eventDesc{trace.EvGoBlockNet, []frame{
 				frame{"net.(*netFD).accept", 0},
-				frame{"net.(*TCPListener).AcceptTCP", 0},
+				frame{"net.(*TCPListener).acceptTCP", 0},
 				frame{"net.(*TCPListener).Accept", 0},
 				frame{"runtime/pprof_test.TestTraceSymbolize.func10", 86},
 			}},
