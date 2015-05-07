@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_e3dbccec",
+        "filename": "src/cmd/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "This text is deleted by a later CL so I\u0027m going to leave it as is to avoid git rebase hell.",
+      "parentUuid": "0d595d45_ee03bb0f",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_8e60bfb6",
         "filename": "src/cmd/internal/ld/data.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-06T17:40:33Z",
       "side": 1,
       "message": "s/off/word/? \"Offset\" suggests byte offset to me for some reason.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_03d910f4",
+        "filename": "src/cmd/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0d595d45_8e60bfb6",
       "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_66aeea9a",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4396,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_312db2c2",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_6e4fcb49",
         "filename": "src/reflect/type.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-05-06T17:40:33Z",
       "side": 1,
       "message": "Doesn\u0027t this append one too many words when nptr is a multiple of 8? Does it not matter because gc.size is tracking the \"true\" size?",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_e3042cd3",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "It appends until the length is \u003e nptr/8 because there is a use of byte nptr/8 below, so we need to make sure that\u0027s a valid index. Don\u0027t worry too much about this - this code is being rewritten today as part of introducing the simpler GC programs.",
+      "parentUuid": "0d595d45_6e4fcb49",
       "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_c3e2489e",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "It might have been necessary in C. It\u0027s certainly unnecessary here.",
+      "parentUuid": "0d595d45_2e49d341",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_0e4e0f4a",
         "filename": "src/reflect/type.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2015-05-06T17:40:33Z",
       "side": 1,
       "message": "Same question about rounding.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_c3fb283e",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "Same answer. :-)",
+      "parentUuid": "0d595d45_0e4e0f4a",
       "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_631a5c28",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "I\u0027ll leave the TODO out but yes this is in a later CL (not yet finished or sent, but soon).",
+      "parentUuid": "0d595d45_2ef55301",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_8ecc3fe6",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 1
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_831f6015",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0d595d45_8ecc3fe6",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_2eae73e7",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 1
@@ -149,6 +293,24 @@
       "writtenOn": "2015-05-06T17:40:33Z",
       "side": 1,
       "message": "mask[i/8] \u003e\u003e (i % 8)?",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_4329583b",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "Yes, thank you. I don\u0027t know why nothing caught that. Luckily this code is being deleted today too.",
+      "parentUuid": "0d595d45_2eae73e7",
       "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -178,6 +340,30 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_263f82da",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_8b70b104",
+      "range": {
+        "startLine": 450,
+        "startChar": 1,
+        "endLine": 457,
+        "endChar": 2
+      },
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_ce659791",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -195,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_0656fe2e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "This code is deleted in later CL. Not changing.",
+      "parentUuid": "0d595d45_ce659791",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_0e54cfa6",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -206,6 +410,24 @@
       "writtenOn": "2015-05-06T17:40:33Z",
       "side": 1,
       "message": "Why? h.bitp isn\u0027t used after this.",
+      "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_a652b237",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:17:41Z",
+      "side": 1,
+      "message": "This code is deleted in later CL. Not changing. (But agreed.)",
+      "parentUuid": "0d595d45_0e54cfa6",
       "revId": "e7673346c48c1d25f95a5cfd10e6be8e50c20255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
