@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_86cd2e39",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T19:35:48Z",
+      "side": 1,
+      "message": "Easy enough to check gcphase \u003d\u003d 0. I don\u0027t want do anything more fine-grained now.",
+      "parentUuid": "0d595d45_ee697b24",
+      "range": {
+        "startLine": 560,
+        "startChar": 2,
+        "endLine": 563,
+        "endChar": 45
+      },
+      "revId": "77dc6297dffee2e0da72f0c79db301bee8b1d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_8e70bf04",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-06T18:03:04Z",
       "side": 1,
       "message": "See above comment about avoiding atomic instruction by checking gcphase.  For now perhaps just a TBD comment.",
+      "range": {
+        "startLine": 604,
+        "startChar": 3,
+        "endLine": 604,
+        "endChar": 13
+      },
+      "revId": "77dc6297dffee2e0da72f0c79db301bee8b1d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_46d726c5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T19:35:48Z",
+      "side": 1,
+      "message": "Will check gcphase \u003d\u003d 0. (Note that in this case the object might be completely no-pointer, in which case it can be marked during gcphase \u003d\u003d _GCscan. This is why I don\u0027t want to be too precise about the exact phase.)",
+      "parentUuid": "0d595d45_8e70bf04",
       "range": {
         "startLine": 604,
         "startChar": 3,
