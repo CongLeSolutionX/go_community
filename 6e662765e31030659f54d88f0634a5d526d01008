@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_4696464a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_0ed16fff",
+      "range": {
+        "startLine": 31,
+        "startChar": 20,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_aebf039c",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-06T15:28:26Z",
       "side": 1,
       "message": "// 2 bits per work, 4 pairs per byte, and a mask is hard coded.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_f8d81b19",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_aebf039c",
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cd24a5a6_d8ae7f61",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_518266d9",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_3177f28b",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2015-05-06T21:01:32Z",
       "side": 1,
       "message": "// h must describe the initial word of the object.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_f8b13bc1",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_3177f28b",
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "cd24a5a6_988247d7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_91ae9e60",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_117cee69",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2015-05-06T21:01:32Z",
       "side": 1,
       "message": "// h must describe the initial word of the object.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_78776b8a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_117cee69",
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_46d166fe",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done. Will retest with checkmark mode, since that would be 2\u003c\u003c not 1\u003c\u003c. The old code does look wrong.",
+      "parentUuid": "0d595d45_71668adb",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_91869ead",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -138,6 +270,24 @@
       "writtenOn": "2015-05-06T21:01:32Z",
       "side": 1,
       "message": "For checkmark we should prefer correctness over performance, so I think this should use a much simpler and more obviously correct approach in the size !\u003d ptrSize case like\n\n  h.next() // Move to checkmark bit (second word)\n  for i :\u003d uintptr(0); i \u003c n; i++ {\n      *h.bitp \u0026^\u003d bitMarked\n      h \u003d h.forward(size)\n  }\n\nwhere h.forward is something like\n\n  func (h heapBits) forward(count uintptr) heapBits {\n    shift :\u003d h.shift + count * heapBitsWidth\n    return heapBits{subtractb(h.bitp, shift / heapBitmapScale), shift % heapBitmapScale}\n  }\n\n(Untested, and of course this might be wrong, but at least if this is wrong in any way initCheckmarkSpan will just fail.)",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8ebdef_86544edb",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_91869ead",
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "cd24a5a6_78d2cbd6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_d1d896f2",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_1154eea6",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -172,6 +340,24 @@
       "writtenOn": "2015-05-06T21:01:32Z",
       "side": 1,
       "message": "Assuming this code is necessary, my same comment about complexity versus obviousness applies.",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_58d70fc5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_1154eea6",
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -195,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_2649c241",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d595d45_51d70677",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_f1c5dabd",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -212,6 +416,24 @@
     },
     {
       "key": {
+        "uuid": "cd24a5a6_380573cd",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "Fixed in the copy of this code in the \u0027optimize heapBitsSetType\u0027 CL. Not going to try pushing a fixup down this far.",
+      "parentUuid": "0d595d45_f1c5dabd",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_b1cf62da",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 1
@@ -223,6 +445,24 @@
       "writtenOn": "2015-05-06T21:01:32Z",
       "side": 1,
       "message": "Why disable this?",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_b81aa324",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-07T18:55:57Z",
+      "side": 1,
+      "message": "I guess I was debugging. :-)\nDone. Thanks.",
+      "parentUuid": "0d595d45_b1cf62da",
       "revId": "6e662765e31030659f54d88f0634a5d526d01008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
