@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d8ebdef_e013c2dd",
+        "filename": "src/cmd/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-07T05:09:31Z",
+      "side": 1,
+      "message": "On arm64, I have to set this to the correct value, 30 to\npass the full runtime gdb test.\n\nso we will have to introduce another ld.Thearch field\nDwarfregpc similar to Dwarfregsp.",
+      "revId": "eedd9e21fa1ce874e7c7d9f4b1c80eae856e775c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
