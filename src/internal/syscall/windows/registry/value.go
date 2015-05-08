@@ -151,8 +151,15 @@ func (k Key) GetStringsValue(name string) (val []string, valtype uint32, err err
 		return nil, typ, ErrUnexpectedType
 	}
 	val = make([]string, 0, 5)
+	// If MULTI_SZ was not correctly stored, add missing terminating nulls
+	for i := 0; i < 4; i++ {
+		j := len(data) - i - 1
+		if j < 0 || data[j] != 0 {
+			data = append(data, 0)
+		}
+	}
 	p := (*[1 << 24]uint16)(unsafe.Pointer(&data[0]))[:len(data)/2]
-	p = p[:len(p)-1] // remove terminating nil
+	p = p[:len(p)-1] // remove terminating null
 	from := 0
 	for i, c := range p {
 		if c == 0 {
