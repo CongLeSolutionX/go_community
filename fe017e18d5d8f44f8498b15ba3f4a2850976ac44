@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad24d1ad_165e2278",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-05-08T08:06:46Z",
+      "side": 1,
+      "message": "What if made systemstack on g0 stack?\nThen systemstack is not at the top of the stack, and gp.m.curg can be nil...\nHow is this case handled?",
+      "revId": "fe017e18d5d8f44f8498b15ba3f4a2850976ac44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
