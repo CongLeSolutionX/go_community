@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d36f5df_e123d0d2",
+        "filename": "src/html/escape.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-08T17:57:47Z",
+      "side": 1,
+      "message": "IndexByte, or just:\n\n  if !strings.Contains(s, \"\u0026\") {\n       return s\n  }\n  return string(unescape([]byte(s)))",
+      "revId": "3c961e6e2d91e3b373fe89c922d1313a978cebe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
