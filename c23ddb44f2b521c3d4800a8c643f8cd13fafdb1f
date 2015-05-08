@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d36f5df_a176e8ce",
+        "filename": "src/html/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-08T18:23:35Z",
+      "side": 1,
+      "message": "var htmlEscaper \u003d strings.NewReplacer(",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 189,
+        "endChar": 7
+      },
+      "revId": "c23ddb44f2b521c3d4800a8c643f8cd13fafdb1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_c179ecc0",
+        "filename": "src/html/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-08T18:23:35Z",
+      "side": 1,
+      "message": "remove this comment.\n\nWe don\u0027t have to teach ourselves our own APIs in private comments.",
+      "revId": "c23ddb44f2b521c3d4800a8c643f8cd13fafdb1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
