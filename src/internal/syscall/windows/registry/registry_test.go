@@ -549,7 +549,7 @@ func walkKey(t *testing.T, k registry.Key, kname string) {
 			}
 		case registry.DWORD, registry.QWORD:
 			_, _, err := k.GetIntegerValue(name)
-			if err != nil {
+			if err != nil && err != registry.ErrInvalidValue {
 				t.Error(err)
 			}
 		case registry.BINARY:

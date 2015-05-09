@@ -39,6 +39,9 @@ var (
 
 	// ErrUnexpectedType is returned by Get*Value when the value's type was unexpected.
 	ErrUnexpectedType = errors.New("unexpected key value type")
+
+	// ErrInvalidValue is returned by Get*Value when the value cannot be decoded.
+	ErrInvalidValue = errors.New("invalid value")
 )
 
 // GetValue retrieves the type and data for the specified value associated
@@ -168,6 +171,7 @@ func (k Key) GetStringsValue(name string) (val []string, valtype uint32, err err
 // If value does not exist, GetIntegerValue returns ErrNotExist.
 // If value is not DWORD or QWORD, it will return the correct value
 // type and ErrUnexpectedType.
+// If the value cannot be decoded, it will return ErrInvalidValue.
 func (k Key) GetIntegerValue(name string) (val uint64, valtype uint32, err error) {
 	data, typ, err2 := k.getValue(name, make([]byte, 8))
 	if err2 != nil {
@@ -175,8 +179,14 @@ func (k Key) GetIntegerValue(name string) (val uint64, valtype uint32, err error
 	}
 	switch typ {
 	case DWORD:
+		if len(data) != 4 {
+			return 0, typ, ErrInvalidValue
+		}
 		return uint64(*(*uint32)(unsafe.Pointer(&data[0]))), DWORD, nil
 	case QWORD:
+		if len(data) != 8 {
+			return 0, typ, ErrInvalidValue
+		}
 		return uint64(*(*uint64)(unsafe.Pointer(&data[0]))), QWORD, nil
 	default:
 		return 0, typ, ErrUnexpectedType
