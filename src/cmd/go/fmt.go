@@ -4,6 +4,12 @@
 
 package main
 
+import (
+	"os"
+	"path/filepath"
+	"runtime"
+)
+
 func init() {
 	addBuildFlagsNX(cmdFmt)
 }
@@ -29,10 +35,23 @@ See also: go fix, go vet.
 }
 
 func runFmt(cmd *Command, args []string) {
+	gofmtPath := retrieveGofmtExecutablePath()
 	for _, pkg := range packages(args) {
 		// Use pkg.gofiles instead of pkg.Dir so that
 		// the command only applies to this package,
 		// not to packages in subdirectories.
-		run(stringList("gofmt", "-l", "-w", relPaths(pkg.allgofiles)))
+		run(stringList(gofmtPath, "-l", "-w", relPaths(pkg.allgofiles)))
 	}
+}
+
+func retrieveGofmtExecutablePath() string {
+	gofmtPath := filepath.Join(runtime.GOROOT(), "bin/gofmt")
+	if runtime.GOOS == "windows" {
+		gofmtPath += ".exe"
+	}
+	if _, err := os.Stat(gofmtPath); os.IsNotExist(err) {
+		// fallback to looking for gofmt in $PATH
+		return "gofmt"
+	}
+	return gofmtPath
 }
