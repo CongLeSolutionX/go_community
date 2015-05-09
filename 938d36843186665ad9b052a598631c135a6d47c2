@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_49c2c588",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-09T08:25:30Z",
+      "side": 1,
+      "message": "I think this code is too tricky. Can you make it simpler? It is broken anyway. For example here http://play.golang.org/p/ivjpR4F0IH you will end up with 1.5 nulls instead of 2 at the end. Maybe it is easier just to change code below to handle \"no nulls\" scenario instead.",
+      "revId": "938d36843186665ad9b052a598631c135a6d47c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
