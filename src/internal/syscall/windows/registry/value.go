@@ -150,9 +150,19 @@ func (k Key) GetStringsValue(name string) (val []string, valtype uint32, err err
 	if typ != MULTI_SZ {
 		return nil, typ, ErrUnexpectedType
 	}
+	data = data[:2*(len(data)/2)]
+	if len(data) == 0 {
+		data = append(data, 0, 0)
+	}
 	val = make([]string, 0, 5)
 	p := (*[1 << 24]uint16)(unsafe.Pointer(&data[0]))[:len(data)/2]
-	p = p[:len(p)-1] // remove terminating nil
+	// Ensure we have exactly one terminating null
+	if len(p) > 1 && p[len(p)-1] == 0 && p[len(p)-2] == 0 {
+		p = p[:len(p)-1]
+	}
+	if len(p) == 0 || p[len(p)-1] != 0 {
+		p = append(p, 0)
+	}
 	from := 0
 	for i, c := range p {
 		if c == 0 {
