@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_6961090f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:02:33Z",
+      "side": 1,
+      "message": "s:internal/syscall/windows:internal/syscall/windows/registry:",
+      "revId": "90894a1cc4a7247b1fee2e80bc1e689399a411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_895c2d5b",
+        "filename": "src/internal/syscall/windows/registry/registry_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:02:33Z",
+      "side": 1,
+      "message": "Revert this change. I understand this test fails on your computer, but it is expected in your case. Like you said, even regedit complains.",
+      "revId": "90894a1cc4a7247b1fee2e80bc1e689399a411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_c920f5c8",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:02:33Z",
+      "side": 1,
+      "message": "Do not create new ErrInvalidValue. Just return errors.New(\"DWORD value is not 4 bytes long\") or similar. I don\u0027t see what ErrInvalidValue adds to user experience.",
+      "revId": "90894a1cc4a7247b1fee2e80bc1e689399a411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_a91db190",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:02:33Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "90894a1cc4a7247b1fee2e80bc1e689399a411fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
