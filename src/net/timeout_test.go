@@ -696,7 +696,12 @@ func TestWriteTimeoutFluctuation(t *testing.T) {
 	}
 	defer c.Close()
 
-	max := time.NewTimer(time.Second)
+	var max *time.Timer
+	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+		max = time.NewTimer(3 * time.Second) // see golang.org/issue/10775
+	} else {
+		max = time.NewTimer(time.Second)
+	}
 	defer max.Stop()
 	ch := make(chan error)
 	go timeoutTransmitter(c, 100*time.Millisecond, 50*time.Millisecond, 250*time.Millisecond, ch)
