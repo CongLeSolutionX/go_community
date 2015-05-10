@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d36f5df_2cbd4fc7",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "no commented-out code. delete.",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_0ca28ba9",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "why strconv.Quote? That\u0027s for quoting of Go strings. That seems unlikely to the same as RFC nnnn.",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_ec9e2765",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "strings.Contains",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_ccab6381",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "strings.HasSuffix",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_aca81f85",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "Contains",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_8cae7b97",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "addr instead of adr",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_4cb893d7",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "t.Errorf(\"ParseAddr(%q) error: %v\": test, err)\n\n(no need for .Error() on err)",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_6cb357ff",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "got first, then want (expected).\n\nSo: \"String() round-trip \u003d %q; want %q\", test, addr)\n\n(the addr.String() is redundant with %s or %q or even %v)",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d36f5df_ac4fff90",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-10T17:10:11Z",
+      "side": 1,
+      "message": "no underscores in variable names. call this \"badTests\"",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
