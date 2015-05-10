@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad24d1ad_3c49fd41",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-05-10T09:09:49Z",
+      "side": 1,
+      "message": "add a comment saying that we are doing critical-path scheduling",
+      "revId": "f7c378a0e208c2bb9b80d3ec87c1a1ee53e6f405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad24d1ad_1c4e414a",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-05-10T09:09:49Z",
+      "side": 1,
+      "message": "I guess there is a better algorithm than this quadratic one.\nYou can either have an explicit \"ready to be assigned priority\" list of actions, whenever you assign priority to a node check whether and you can now assign priority to a.triggers.\nOr probably it will be easier to write a recursive algo.\nFor both of them nodes will need counter of dependencies without assigned priorities, once the counter drops to zero -- the node is ready to be assigend prio as well.",
+      "revId": "f7c378a0e208c2bb9b80d3ec87c1a1ee53e6f405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
