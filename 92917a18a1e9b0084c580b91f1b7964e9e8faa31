@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_493f65d9",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:52:30Z",
+      "side": 1,
+      "message": "I have no idea what I was thinking of. :-)",
+      "revId": "92917a18a1e9b0084c580b91f1b7964e9e8faa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
