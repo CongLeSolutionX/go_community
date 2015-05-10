@@ -16,6 +16,24 @@
       "revId": "d19c1a82f42d8d897d777038cba4fdb286320a8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd290587_9d5fcfbf",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 7915
+      },
+      "writtenOn": "2015-05-10T07:44:43Z",
+      "side": 1,
+      "message": "If p ends without a terminating nil, GetStringsValue can return an empty val slice. Given the MSDN suggests to always pad the returned value, it looks MULTI_SZ cannot be used to store zero value. At the same time, why use an additional null in that case (and who am I to question Windows APIs :-))? So, I can do as you say if you are OK with an empty slice.\n\nAs for line 153, len(data) must be greater than zero so it can be indexed below. I can just skip the truncation and add a single null if len(data) \u003d\u003d 0 if you prefer.",
+      "parentUuid": "ed42494b_09703dd5",
+      "revId": "d19c1a82f42d8d897d777038cba4fdb286320a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
