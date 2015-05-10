@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_a976d1ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:49:14Z",
+      "side": 1,
+      "message": "I don\u0027t understand you comment. Who changes \"Paris/Madrid\" timezone name into \"Romance Standard Time\"? I think it is reverse \"Romance Standard Time\" changes into \"Paris/Madrid\".",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "3143d04e9fa9d0d95dd12cbcebb2917923fe6e11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_89454d7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:49:14Z",
+      "side": 1,
+      "message": "Are you sure this is true too?",
+      "range": {
+        "startLine": 14,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "3143d04e9fa9d0d95dd12cbcebb2917923fe6e11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
