@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_89c2ed37",
+        "filename": "src/cmd/go/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-10T22:30:31Z",
+      "side": 1,
+      "message": "s/gofmtPath/gofmt/",
+      "revId": "72a151596da25d6fec9c2c5d8119faed94bc3789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_a92371a1",
+        "filename": "src/cmd/go/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-10T22:30:31Z",
+      "side": 1,
+      "message": "s/retrieveGofmtExecutablePath/gofmtPath/\n\nThis function needs a doc comment",
+      "range": {
+        "startLine": 47,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "72a151596da25d6fec9c2c5d8119faed94bc3789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
