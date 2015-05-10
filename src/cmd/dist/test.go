@@ -580,7 +580,7 @@ func (t *tester) cgoTest() error {
 }
 
 func (t *tester) cgoTestSOWindows() error {
-	cmd := t.dirCmd("misc/cgo/testso", `.\test`)
+	cmd := t.dirCmd("misc/cgo/testso", "cmd.exe", "/C", "test.bat")
 	var buf bytes.Buffer
 	cmd.Stdout = &buf
 	cmd.Stderr = &buf
