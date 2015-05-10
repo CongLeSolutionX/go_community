@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ad24d1ad_7c5545a6",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-05-10T20:27:15Z",
+      "side": 1,
+      "message": "I\u0027m not an RFC expert, nor a Go expert, but I think it\u0027s pretty much the same:\n\n  qtext           \u003d   %d33 /             ; Printable US-ASCII\n                      %d35-91 /          ;  characters not including\n                      %d93-126 /         ;  \"\\\" or the quote character\n                      obs-qtext\n\n   qcontent        \u003d   qtext / quoted-pair\n \n   quoted-string   \u003d   [CFWS]\n                       DQUOTE *([FWS] qcontent) [FWS] DQUOTE\n                       [CFWS]\n\nBut I should investigate it a bit more to be sure.",
+      "parentUuid": "4d36f5df_0ca28ba9",
+      "revId": "51a69453252eb9448c4301c811c637ff3f042540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d36f5df_ec9e2765",
         "filename": "src/net/mail/message.go",
         "patchSetId": 1
