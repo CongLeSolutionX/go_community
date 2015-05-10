@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_09703dd5",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-10T01:10:03Z",
+      "side": 1,
+      "message": "I don\u0027t see why we need all this extra code. Perhaps I am missing something, but I think we just need to change original line 155 only. We should remove terminating 0 only if it is 0. No?",
+      "revId": "d19c1a82f42d8d897d777038cba4fdb286320a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
