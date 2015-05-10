@@ -151,8 +151,13 @@ func (k Key) GetStringsValue(name string) (val []string, valtype uint32, err err
 		return nil, typ, ErrUnexpectedType
 	}
 	val = make([]string, 0, 5)
-	p := (*[1 << 24]uint16)(unsafe.Pointer(&data[0]))[:len(data)/2]
-	p = p[:len(p)-1] // remove terminating nil
+	var p []uint16
+	if len(data) > 0 {
+		p = (*[1 << 24]uint16)(unsafe.Pointer(&data[0]))[:len(data)/2]
+	}
+	if len(p) > 0 && p[len(p)-1] == 0 {
+		p = p[:len(p)-1] // remove terminating null
+	}
 	from := 0
 	for i, c := range p {
 		if c == 0 {
