@@ -190,6 +190,7 @@ func (pkg *Package) packageDoc() {
 	pkg.valueSummary(pkg.doc.Vars)
 	pkg.funcSummary(pkg.doc.Funcs)
 	pkg.typeSummary()
+	pkg.bugs()
 }
 
 // packageClause prints the package clause.
@@ -250,6 +251,22 @@ func (pkg *Package) typeSummary() {
 				pkg.oneLineTypeDecl(typeSpec)
 			}
 		}
+	}
+}
+
+// bugs prints the BUGS information for the package.
+// TODO: Provide access to TODOs and NOTEs as well (very noisy so off by default)?
+func (pkg *Package) bugs() {
+	if pkg.doc.Notes["BUG"] == nil {
+		return
+	}
+	pkg.Printf("\n")
+	for _, note := range pkg.doc.Notes["BUG"] {
+		uid := note.UID
+		if uid != "" {
+			uid = "(" + uid + ")"
+		}
+		pkg.Printf("%s%s: %v\n", "BUG", uid, note.Body)
 	}
 }
 
