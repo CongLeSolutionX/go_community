@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d36f5df_ec006705",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-11T00:09:41Z",
+      "side": 1,
+      "message": "Add:\n\nUpdates #10571",
+      "revId": "2f658e9b33cd3f84858de0185153e2fbb4bf9e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
