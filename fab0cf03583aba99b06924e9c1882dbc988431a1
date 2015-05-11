@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad921112_d791a4cc",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-11T16:14:06Z",
+      "side": 1,
+      "message": "h.shift + heapBitsShift? The heapBitsShift constant feels almost silly, but if we\u0027re going to have it I think we should use it.",
+      "revId": "fab0cf03583aba99b06924e9c1882dbc988431a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad921112_37dc8897",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-11T16:14:06Z",
+      "side": 1,
+      "message": "s/0x0f/bitPointerAll/?",
+      "revId": "fab0cf03583aba99b06924e9c1882dbc988431a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad921112_17ecec39",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-11T16:14:06Z",
+      "side": 1,
+      "message": "bitPointerAll?",
+      "revId": "fab0cf03583aba99b06924e9c1882dbc988431a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad921112_b7e89826",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-11T16:14:06Z",
+      "side": 1,
+      "message": "bitPointerAll?",
+      "revId": "fab0cf03583aba99b06924e9c1882dbc988431a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
