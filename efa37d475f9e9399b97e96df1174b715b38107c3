@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_09915d1e",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-05-11T01:00:45Z",
+      "side": 1,
+      "message": "quoteLocal\n\nbut move this down to just after the comment on line 161.",
+      "range": {
+        "startLine": 156,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 12
+      },
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_297c216a",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-05-11T01:00:45Z",
+      "side": 1,
+      "message": "let\u0027s make it a little clearer that this is splitting the string.\n\nat :\u003d strings.LastIndex(a.Address, \"@\")\nlocal, domain :\u003d a.Address[:at], a.Address[at+1:]",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_695469da",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-05-11T01:00:45Z",
+      "side": 1,
+      "message": "this isn\u0027t exactly right. RFC 5322 sec 3.4.1 says that you should quote the local part if there are dots not surrounded by atext. So, if there\u0027s a dot, you need to check that the previous and next char are atext. So this loop is okay, except for checking that a dot isn\u0027t adjacent to a second dot.\n\nThis loop is going over runes, but there\u0027s no call for that, since if we hit anything that isn\u0027t ASCII then we know we need to quote.\n\nfor i :\u003d range local {\n  ch :\u003d local[i]\n  if isAtext(ch, false) {\n    continue\n  }\n  if ch \u003d\u003d \u0027.\u0027 {\n    // Dots are okay if they are surrounded by atext.\n    // We only need to check that the previous byte is\n    // not a dot, and this isn\u0027t the end of the string.\n    if i \u003e 0 \u0026\u0026 local[i-1] !\u003d \u0027.\u0027 \u0026\u0026 i \u003c len(local)-1 {\n      continue\n    }\n  }\n  quoteLocal \u003d true\n  break\n}",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed42494b_a93931a0",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-05-11T01:00:45Z",
+      "side": 1,
+      "message": "This isn\u0027t correct. Put a little helper function down the bottom of this file (near isQtext):\n\nfunc quoteString(s string) string {\n  var buf bytes.Buffer\n  buf.WriteByte(\u0027\"\u0027)\n  for i :\u003d range s {\n    c :\u003d s[i]\n    if isQtext(c) || isWSP(c) {\n      buf.WriteByte(c)\n    } else if isVchar(c) {\n      buf.WriteByte(\u0027\\\\\u0027)\n      buf.WriteByte(c)\n    }\n  }\n  buf.WriteByte(\u0027\"\u0027)\n  return buf.String()\n}\n\n\nBut after writing that, there\u0027s significant duplication with what the rest of this method does for the address\u0027 name. Can you try to fold them together? I just had a re-read of the relevant sections of RFC 5322 and it seems we need to have the same quoting fallback for the local part if we decide to quote it too (e.g. using mime.EncodeWord).",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
