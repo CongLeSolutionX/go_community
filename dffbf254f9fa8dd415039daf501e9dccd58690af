@@ -16,6 +16,24 @@
       "revId": "dffbf254f9fa8dd415039daf501e9dccd58690af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad921112_577cb46a",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-11T14:43:25Z",
+      "side": 1,
+      "message": "I\u0027m going to say yes, but I\u0027m going to leave this for CL 9704.",
+      "parentUuid": "ad921112_bd4f1f91",
+      "revId": "dffbf254f9fa8dd415039daf501e9dccd58690af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
