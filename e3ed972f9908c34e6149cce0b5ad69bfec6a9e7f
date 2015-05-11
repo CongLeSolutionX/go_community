@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ddcfdfb_b09178cd",
+        "filename": "src/cmd/internal/gc/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-11T19:46:54Z",
+      "side": 1,
+      "message": "Given all the times \", nil\" was added to parameter lists, would it not be better to just introduce a nil-adding wrapper, along the lines of\n\nfunc orderexpr(n *Node, order *Order) { orderexpr_tmp(n, order, nil); }\n\nOr is that not go style?  Or is it not go style because we know the inliner will not do the obvious thing here?",
+      "range": {
+        "startLine": 267,
+        "startChar": 23,
+        "endLine": 267,
+        "endChar": 26
+      },
+      "revId": "e3ed972f9908c34e6149cce0b5ad69bfec6a9e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
