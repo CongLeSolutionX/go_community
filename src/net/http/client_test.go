@@ -927,7 +927,7 @@ func TestClientTimeout_Headers(t *testing.T) {
 		<-donec
 	}))
 	defer ts.Close()
-	defer close(donec)
+	defer func() { donec <- true }()
 
 	c := &Client{Timeout: 500 * time.Millisecond}
 
