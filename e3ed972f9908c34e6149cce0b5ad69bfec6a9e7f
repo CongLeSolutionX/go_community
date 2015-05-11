@@ -22,6 +22,30 @@
       "revId": "e3ed972f9908c34e6149cce0b5ad69bfec6a9e7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcfdfb_702eb011",
+        "filename": "src/cmd/internal/gc/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-11T19:52:42Z",
+      "side": 1,
+      "message": "I didn\u0027t do it because it is just one more function to keep track of; I\u0027d personally rather have one general function than a collection of tiny wrappers that set different subsets of arguments. I don\u0027t think you should read anything in this code as \"go style\". It\u0027s really still a C program.",
+      "parentUuid": "0ddcfdfb_b09178cd",
+      "range": {
+        "startLine": 267,
+        "startChar": 23,
+        "endLine": 267,
+        "endChar": 26
+      },
+      "revId": "e3ed972f9908c34e6149cce0b5ad69bfec6a9e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
