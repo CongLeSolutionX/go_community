@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42494b_89430d05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-11T02:12:47Z",
+      "side": 1,
+      "message": "s:internal/syscall/windows:internal/syscall/windows/registry:\n\nCL title should start with package name - internal/syscall/windows/registry in this case (not internal/syscall/windows).",
+      "revId": "d208299c1cd6e0690670a201ee32d4b9a2b56c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
