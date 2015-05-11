@@ -259,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "0d8ebdef_86c3eedb",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-11T14:43:25Z",
+      "side": 1,
+      "message": "Yes, the old code was wrong, but everything was still working, because back in January, in CL 2991, I changed if checkmarked() to if !checkmarked() during some refactoring and no one noticed. So when checkmarked was enabled, it verified that all the roots had been marked, but it never (after January 19) walked into the things pointed at by the roots transitively. Will fix in a separate CL.",
+      "parentUuid": "0d8ebdef_46d166fe",
+      "revId": "6e662765e31030659f54d88f0634a5d526d01008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d595d45_91869ead",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
