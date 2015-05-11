@@ -185,7 +185,9 @@ func AssertIsLinkedTo(t *testing.T, path, lib string) {
 }
 
 func AssertHasRPath(t *testing.T, path, dir string) {
-	for _, dynstring := range dynStrings(path, elf.DT_RPATH) {
+	dynstrings := dynStrings(path, elf.DT_RPATH)
+	dynstrings = append(dynstrings, dynStrings(path, elf.DT_RUNPATH)...)
+	for _, dynstring := range dynstrings {
 		for _, rpath := range strings.Split(dynstring, ":") {
 			if filepath.Clean(rpath) == filepath.Clean(dir) {
 				return
@@ -213,6 +215,28 @@ func TestGOPathShlib(t *testing.T) {
 	AssertIsLinkedTo(t, "./bin/exe", "libdep.so")
 	AssertHasRPath(t, "./bin/exe", gorootInstallDir)
 	AssertHasRPath(t, "./bin/exe", gopathInstallDir)
+	// And check it runs.
+	run(t, "./bin/exe")
+}
+
+// Build with gccgo a GOPATH package into a shared library and an executable that
+// links against it.
+func TestGOPathShlibGccgo(t *testing.T) {
+	gccgoContext := build.Default
+	gccgoContext.InstallSuffix = suffix + "_fPIC"
+	gccgoContext.Compiler = "gccgo"
+	gccgoContext.GOPATH = os.Getenv("GOPATH")
+	depP, err := gccgoContext.Import("dep", ".", build.ImportComment)
+	if err != nil {
+		return
+	}
+	gccgoInstallDir := filepath.Join(depP.PkgTargetRoot, "shlibs")
+	goCmd(t, "install", "-compiler=gccgo", "-buildmode=shared", "-linkshared", "dep")
+	AssertIsLinkedTo(t, filepath.Join(gccgoInstallDir, "libdep.so"), "libgo.so.7")
+	goCmd(t, "install", "-compiler=gccgo", "-linkshared", "exe")
+	AssertIsLinkedTo(t, "./bin/exe", "libgo.so.7")
+	AssertIsLinkedTo(t, "./bin/exe", "libdep.so")
+	AssertHasRPath(t, "./bin/exe", gccgoInstallDir)
 	// And check it runs.
 	run(t, "./bin/exe")
 }
