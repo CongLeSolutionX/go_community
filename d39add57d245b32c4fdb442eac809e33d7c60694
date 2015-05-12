@@ -39,6 +39,30 @@
       "revId": "d39add57d245b32c4fdb442eac809e33d7c60694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddcfdfb_040b66d8",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-12T16:23:25Z",
+      "side": 1,
+      "message": "FWIW, that\u0027s because the one below is nested into a larger expression. Expressions get compressed as they nest. The canonical example is 2 * 3 vs 1 + 2*3.",
+      "parentUuid": "0ddcfdfb_70b310ff",
+      "range": {
+        "startLine": 615,
+        "startChar": 20,
+        "endLine": 615,
+        "endChar": 34
+      },
+      "revId": "d39add57d245b32c4fdb442eac809e33d7c60694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
