@@ -535,7 +535,7 @@ err:
 }
 
 // TODO(mwhudson): This could use its own hash table easily enough now
-func Needlib(name string) int {
+func needlib(name string) int {
 	if name[0] == '\x00' {
 		return 0
 	}
@@ -553,7 +553,7 @@ func Needlib(name string) int {
 }
 
 func adddynlib(lib string) {
-	if Needlib(lib) == 0 {
+	if needlib(lib) == 0 {
 		return
 	}
 
@@ -567,6 +567,22 @@ func adddynlib(lib string) {
 		Machoadddynlib(lib)
 	} else if HEADTYPE != obj.Hwindows || Thearch.Thechar != '8' {
 		Diag("adddynlib: unsupported binary format")
+	}
+}
+
+func Adddynsym(ctxt *Link, s *LSym) {
+	if s.Dynid >= 0 {
+		return
+	}
+
+	if Iself {
+		Elfadddynsym(ctxt, s)
+	} else if HEADTYPE == obj.Hdarwin {
+		Diag("adddynsym: missed symbol %s (%s)", s.Name, s.Extname)
+	} else if HEADTYPE == obj.Hwindows {
+		// already taken care of
+	} else {
+		Diag("adddynsym: unsupported binary format")
 	}
 }
 
@@ -774,7 +790,7 @@ func addexport() {
 	}
 
 	for i := 0; i < len(dynexp); i++ {
-		Thearch.Adddynsym(Ctxt, dynexp[i])
+		Adddynsym(Ctxt, dynexp[i])
 	}
 }
 
