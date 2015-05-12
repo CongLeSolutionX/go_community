@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d3a3df6_e01d6290",
+        "filename": "src/time/zoneinfo_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7915
+      },
+      "writtenOn": "2015-05-12T06:20:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d338121_ca9af7e9",
+      "revId": "d5df6adf8655503970b65c8f2a3b3d1b9e6bd5ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d338121_6aa64b38",
         "filename": "src/time/zoneinfo_windows_test.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-12T02:03:17Z",
       "side": 1,
       "message": "%q instead of \u0027%s\u0027\n\nalso, this format error message isn\u0027t the usual style.  it\u0027s not clear which is wanted.\n\nwrite:  \"english name \u003d %q; want %q\", name, want",
+      "revId": "d5df6adf8655503970b65c8f2a3b3d1b9e6bd5ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3a3df6_405c0e5a",
+        "filename": "src/time/zoneinfo_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7915
+      },
+      "writtenOn": "2015-05-12T06:20:58Z",
+      "side": 1,
+      "message": "Done\n\nYou probably want to fix the one in testZoneAbbr above then.",
+      "parentUuid": "2d338121_6aa64b38",
       "revId": "d5df6adf8655503970b65c8f2a3b3d1b9e6bd5ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
