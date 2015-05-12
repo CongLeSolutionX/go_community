@@ -534,42 +534,6 @@ err:
 	nerrors++
 }
 
-// TODO(mwhudson): This could use its own hash table easily enough now
-func needlib(name string) int {
-	if name[0] == '\x00' {
-		return 0
-	}
-
-	p := fmt.Sprintf(".dynlib.%s", name)
-
-	s := Linklookup(Ctxt, p, 0)
-
-	if s.Type == 0 {
-		s.Type = 100 // avoid SDATA, etc.
-		return 1
-	}
-
-	return 0
-}
-
-func adddynlib(lib string) {
-	if needlib(lib) == 0 || Linkmode == LinkExternal {
-		return
-	}
-
-	if Iself {
-		s := Linklookup(Ctxt, ".dynstr", 0)
-		if s.Size == 0 {
-			Addstring(s, "")
-		}
-		Elfwritedynent(Linklookup(Ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(s, lib)))
-	} else if HEADTYPE == obj.Hdarwin {
-		Machoadddynlib(lib)
-	} else if HEADTYPE != obj.Hwindows || Thearch.Thechar != '6' {
-		Diag("adddynlib: unsupported binary format")
-	}
-}
-
 func Adddynsym(ctxt *Link, s *LSym) {
 	if s.Dynid >= 0 || Linkmode == LinkExternal {
 		return
@@ -785,15 +749,32 @@ func doweak() {
 }
 
 func addexport() {
-	if HEADTYPE == obj.Hdarwin {
+	if HEADTYPE == obj.Hdarwin || Linkmode == LinkExternal {
 		return
 	}
 
 	for _, exp := range dynexp {
 		Adddynsym(Ctxt, exp)
 	}
+
+	libs := make(string, bool)
+
 	for _, lib := range dynlib {
-		adddynlib(lib)
+		if _, seen = libs[lib]; seen {
+			continue
+		}
+		libs[lib] = true
+		if Iself {
+			s := Linklookup(Ctxt, ".dynstr", 0)
+			if s.Size == 0 {
+				Addstring(s, "")
+			}
+			Elfwritedynent(Linklookup(Ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(s, lib)))
+		} else if HEADTYPE == obj.Hdarwin {
+			Machoadddynlib(lib)
+		} else if HEADTYPE != obj.Hwindows || Thearch.Thechar != '6' {
+			Diag("adddynlib: unsupported binary format")
+		}
 	}
 }
 
