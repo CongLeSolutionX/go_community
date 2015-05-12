@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "2d5c6163_39330f29",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-05-12T11:09:29Z",
+      "side": 1,
+      "message": "Dots were indeed not well implemented. My code also didn\u0027t make a difference between dots in `dot-atom` and dots in `quoted-string`. I added some extra tests for those distinctions.",
+      "parentUuid": "ed42494b_695469da",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed42494b_a93931a0",
         "filename": "src/net/mail/message.go",
         "patchSetId": 2
@@ -70,6 +88,24 @@
       "writtenOn": "2015-05-11T01:00:45Z",
       "side": 1,
       "message": "This isn\u0027t correct. Put a little helper function down the bottom of this file (near isQtext):\n\nfunc quoteString(s string) string {\n  var buf bytes.Buffer\n  buf.WriteByte(\u0027\"\u0027)\n  for i :\u003d range s {\n    c :\u003d s[i]\n    if isQtext(c) || isWSP(c) {\n      buf.WriteByte(c)\n    } else if isVchar(c) {\n      buf.WriteByte(\u0027\\\\\u0027)\n      buf.WriteByte(c)\n    }\n  }\n  buf.WriteByte(\u0027\"\u0027)\n  return buf.String()\n}\n\n\nBut after writing that, there\u0027s significant duplication with what the rest of this method does for the address\u0027 name. Can you try to fold them together? I just had a re-read of the relevant sections of RFC 5322 and it seems we need to have the same quoting fallback for the local part if we decide to quote it too (e.g. using mime.EncodeWord).",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d531d56_b826f9e3",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-05-12T11:09:29Z",
+      "side": 1,
+      "message": "I don\u0027t think I totally understand what you mean here. Of course I understand the need of this function, and that my `strconv.Quote(local)` is incorrect.\nBut the second part about the folding and about the callback, I don\u0027t really understand what you really need here: I will already upload all changes except this part.",
+      "parentUuid": "ed42494b_a93931a0",
       "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
