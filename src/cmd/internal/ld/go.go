@@ -416,7 +416,7 @@ func loadcgo(file string, pkg string, p string) {
 				// to force a link of foo.so.
 				havedynamic = 1
 
-				adddynlib(lib)
+				dynlib = append(dynlib, lib)
 				continue
 			}
 
@@ -553,7 +553,7 @@ func needlib(name string) int {
 }
 
 func adddynlib(lib string) {
-	if needlib(lib) == 0 {
+	if needlib(lib) == 0 || Linkmode == LinkExternal {
 		return
 	}
 
@@ -571,7 +571,7 @@ func adddynlib(lib string) {
 }
 
 func Adddynsym(ctxt *Link, s *LSym) {
-	if s.Dynid >= 0 {
+	if s.Dynid >= 0 || Linkmode == LinkExternal {
 		return
 	}
 
@@ -789,8 +789,11 @@ func addexport() {
 		return
 	}
 
-	for i := 0; i < len(dynexp); i++ {
-		Adddynsym(Ctxt, dynexp[i])
+	for _, exp := range dynexp {
+		Adddynsym(Ctxt, exp)
+	}
+	for _, lib := range dynlib {
+		adddynlib(lib)
 	}
 }
 
