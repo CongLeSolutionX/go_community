@@ -416,7 +416,7 @@ func loadcgo(file string, pkg string, p string) {
 				// to force a link of foo.so.
 				havedynamic = 1
 
-				Thearch.Adddynlib(lib)
+				adddynlib(lib)
 				continue
 			}
 
@@ -532,6 +532,42 @@ func loadcgo(file string, pkg string, p string) {
 err:
 	fmt.Fprintf(os.Stderr, "%s: %s: invalid dynimport line: %s\n", os.Args[0], file, p0)
 	nerrors++
+}
+
+// TODO(mwhudson): This could use its own hash table easily enough now
+func Needlib(name string) int {
+	if name[0] == '\x00' {
+		return 0
+	}
+
+	p := fmt.Sprintf(".dynlib.%s", name)
+
+	s := Linklookup(Ctxt, p, 0)
+
+	if s.Type == 0 {
+		s.Type = 100 // avoid SDATA, etc.
+		return 1
+	}
+
+	return 0
+}
+
+func adddynlib(lib string) {
+	if Needlib(lib) == 0 {
+		return
+	}
+
+	if Iself {
+		s := Linklookup(Ctxt, ".dynstr", 0)
+		if s.Size == 0 {
+			Addstring(s, "")
+		}
+		Elfwritedynent(Linklookup(Ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(s, lib)))
+	} else if HEADTYPE == obj.Hdarwin {
+		Machoadddynlib(lib)
+	} else if HEADTYPE != obj.Hwindows || Thearch.Thechar != '8' {
+		Diag("adddynlib: unsupported binary format")
+	}
 }
 
 var markq *LSym
