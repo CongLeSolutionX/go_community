@@ -313,6 +313,7 @@ func (t *tester) registerTests() {
 		}
 		if t.gohostos == "linux" && t.extLink() {
 			t.registerTest("testsigfwd", "../misc/cgo/testsigfwd", "go", "run", "main.go")
+			t.registerTest("testsigmask", "../misc/cgo/testsigmask", "go", "run", "main.go")
 		}
 	}
 	if t.hasBash() && t.goos != "nacl" && t.goos != "android" && !t.iOS() {
