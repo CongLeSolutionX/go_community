@@ -2388,10 +2388,6 @@ func Elfadddynsym(ctxt *Link, s *LSym) {
 
 		/* size of object */
 		Adduint64(ctxt, d, uint64(s.Size))
-
-		if Thearch.Thechar == '6' && s.Cgoexport&CgoExportDynamic == 0 && s.Dynimplib != "" && needlib(s.Dynimplib) != 0 {
-			Elfwritedynent(Linklookup(ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(Linklookup(ctxt, ".dynstr", 0), s.Dynimplib)))
-		}
 	} else {
 		s.Dynid = int32(Nelfsym)
 		Nelfsym++
