@@ -294,7 +294,7 @@ func mpreinit(mp *m) {
 
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
-func minit() {
+func minit(foreign bool) {
 	var thandle uintptr
 	stdcall7(_DuplicateHandle, currentProcess, currentThread, currentProcess, uintptr(unsafe.Pointer(&thandle)), 0, 0, _DUPLICATE_SAME_ACCESS)
 	atomicstoreuintptr(&getg().m.thread, thandle)

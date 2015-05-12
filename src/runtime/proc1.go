@@ -712,11 +712,12 @@ func mstart1() {
 	gosave(&_g_.m.g0.sched)
 	_g_.m.g0.sched.pc = ^uintptr(0) // make sure it is never used
 	asminit()
-	minit()
+	foreign := _g_.m == &m0
+	minit(foreign)
 
 	// Install signal handlers; after minit so that minit can
 	// prepare the thread to be able to handle the signals.
-	if _g_.m == &m0 {
+	if foreign {
 		// Create an extra M for callbacks on threads not created by Go.
 		if iscgo && !cgoHasExtraM {
 			cgoHasExtraM = true
@@ -972,7 +973,7 @@ func needm(x byte) {
 
 	// Initialize this thread to use the m.
 	asminit()
-	minit()
+	minit(true)
 }
 
 var earlycgocallback = []byte("fatal error: cgo callback before cgo call\n")

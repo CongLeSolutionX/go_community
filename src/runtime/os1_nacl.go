@@ -17,7 +17,7 @@ func sigtramp()
 
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
-func minit() {
+func minit(foreign bool) {
 	_g_ := getg()
 
 	// Initialize signal handling

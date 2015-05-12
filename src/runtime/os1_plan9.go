@@ -20,7 +20,7 @@ func mpreinit(mp *m) {
 
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
-func minit() {
+func minit(foreign bool) {
 	// Mask all SSE floating-point exceptions
 	// when running on the 64-bit kernel.
 	setfpmasks()

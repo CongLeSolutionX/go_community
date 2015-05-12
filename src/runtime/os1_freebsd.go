@@ -121,7 +121,7 @@ func mpreinit(mp *m) {
 
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
-func minit() {
+func minit(foreign bool) {
 	_g_ := getg()
 
 	// m.procid is a uint64, but thr_new writes a uint32 on 32-bit systems.
@@ -132,7 +132,9 @@ func minit() {
 
 	// Initialize signal handling.
 	signalstack((*byte)(unsafe.Pointer(_g_.m.gsignal.stack.lo)), 32*1024)
-	sigprocmask(&sigset_none, nil)
+	if !foreign {
+		sigprocmask(&sigset_none, nil)
+	}
 }
 
 // Called from dropm to undo the effect of an minit.
