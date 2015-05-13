@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d27d5f4_b390ca1b",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-13T21:51:09Z",
+      "side": 1,
+      "message": "Well I did it in a later CL, but that was doing too much.  Done here now.",
+      "parentUuid": "ed2329ea_8159ee91",
+      "revId": "e322296d63c1ec552689b4d7e6cb20c53ddb5b2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d146d89_c4701e06",
         "filename": "src/cmd/internal/ld/go.go",
         "patchSetId": 2
