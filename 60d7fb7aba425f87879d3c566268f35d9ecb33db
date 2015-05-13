@@ -22,6 +22,30 @@
       "revId": "60d7fb7aba425f87879d3c566268f35d9ecb33db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d27d5f4_6a493741",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-13T02:08:42Z",
+      "side": 1,
+      "message": "I fixed this already after you pointed out the mistake in the earlier CL.",
+      "parentUuid": "8d146d89_24be5247",
+      "range": {
+        "startLine": 775,
+        "startChar": 61,
+        "endLine": 775,
+        "endChar": 62
+      },
+      "revId": "60d7fb7aba425f87879d3c566268f35d9ecb33db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
