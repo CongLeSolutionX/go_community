@@ -16,6 +16,24 @@
       "revId": "6134357fac06bc8b24f24d63f7ba10d62a4e06c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d146d89_ede53da8",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-13T22:44:42Z",
+      "side": 1,
+      "message": "Done. But I kept the comment more generic, since I think 8g is going to be folded in to the \"compiler\" tool soon.",
+      "parentUuid": "ed0a495c_63d7aac5",
+      "revId": "6134357fac06bc8b24f24d63f7ba10d62a4e06c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
