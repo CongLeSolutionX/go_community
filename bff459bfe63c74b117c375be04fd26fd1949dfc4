@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed0a495c_58853155",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-13T21:33:34Z",
+      "side": 1,
+      "message": "Please apply the same cleanup changes to TestNoRaceCond.",
+      "revId": "bff459bfe63c74b117c375be04fd26fd1949dfc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed0a495c_d8700106",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-13T21:33:34Z",
+      "side": 1,
+      "message": "Does it help to runtime.Gosched here to force the x\u003d2 to happen before the mu.Lock?",
+      "revId": "bff459bfe63c74b117c375be04fd26fd1949dfc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
