@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed0a495c_63d7aac5",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-13T22:39:43Z",
+      "side": 1,
+      "message": "Note cmd/8g/galign.go verifies GO386.",
+      "revId": "6134357fac06bc8b24f24d63f7ba10d62a4e06c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
