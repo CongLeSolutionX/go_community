@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d27d5f4_2a33bf28",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-13T00:07:50Z",
+      "side": 1,
+      "message": "Actually that should be t.Fatalf, not sure why I slipped up there.  I also skip the test if gccgo cannot be found.",
+      "parentUuid": "2d338121_56d21288",
+      "revId": "e5aa129c5090b22023d7717cf122f0bee44e212d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d338121_f6cc06e7",
         "filename": "misc/cgo/testshared/shared_test.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-12T18:12:48Z",
       "side": 1,
       "message": "Of course you will need to match any version of libgo.so.",
+      "revId": "e5aa129c5090b22023d7717cf122f0bee44e212d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d27d5f4_4a327321",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-13T00:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d338121_f6cc06e7",
       "revId": "e5aa129c5090b22023d7717cf122f0bee44e212d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
