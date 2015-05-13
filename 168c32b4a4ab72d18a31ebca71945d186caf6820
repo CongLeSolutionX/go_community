@@ -52,6 +52,24 @@
       "revId": "168c32b4a4ab72d18a31ebca71945d186caf6820",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d27d5f4_537cee6a",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-13T21:51:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed2329ea_e149cabd",
+      "revId": "168c32b4a4ab72d18a31ebca71945d186caf6820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
