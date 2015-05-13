@@ -345,7 +345,7 @@ func (s *ssaState) expr(n *Node) *ssa.Value {
 			log.Fatalf("can't handle CALLFUNC with non-ONAME fn %s", opnames[n.Left.Op])
 		}
 		bNext := s.f.NewBlock(ssa.BlockPlain)
-		call := s.curBlock.NewValue1(ssa.OpStaticCall, ssa.TypeMem, n.Left.Sym.Name, s.mem())
+		call := s.curBlock.NewValue1(ssa.OpStaticCall, ssa.TypeMem, n.Left.Sym, s.mem())
 		b := s.endBlock()
 		b.Kind = ssa.BlockCall
 		b.Control = call

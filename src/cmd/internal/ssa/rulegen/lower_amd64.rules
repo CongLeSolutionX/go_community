@@ -80,8 +80,8 @@
 (MOVQstore [off1] (ADDCQ [off2] ptr) val mem) -> (MOVQstore [off1.(int64)+off2.(int64)] ptr val mem)
 
 // indexed loads and stores
-(MOVQload [off1] (LEAQ8 [off2] ptr idx) mem) -> (MOVQload8 [off1.(int64)+off2.(int64)] ptr idx mem)
-(MOVQstore [off1] (LEAQ8 [off2] ptr idx) val mem) -> (MOVQstore8 [off1.(int64)+off2.(int64)] ptr idx val mem)
+(MOVQload [off1] (LEAQ8 [off2] ptr idx) mem) -> (MOVQloadidx8 [off1.(int64)+off2.(int64)] ptr idx mem)
+(MOVQstore [off1] (LEAQ8 [off2] ptr idx) val mem) -> (MOVQstoreidx8 [off1.(int64)+off2.(int64)] ptr idx val mem)
 
 // Combine the offset of a stack object with the offset within a stack object
 (ADDCQ [off1] (FPAddr [off2])) -> (FPAddr [off1.(int64)+off2.(int64)])
