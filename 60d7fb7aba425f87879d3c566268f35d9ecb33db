@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d146d89_24be5247",
+        "filename": "src/cmd/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-13T01:23:29Z",
+      "side": 1,
+      "message": "s/6/8/ I think",
+      "range": {
+        "startLine": 775,
+        "startChar": 61,
+        "endLine": 775,
+        "endChar": 62
+      },
+      "revId": "60d7fb7aba425f87879d3c566268f35d9ecb33db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

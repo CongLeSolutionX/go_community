@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d146d89_c45f7ebe",
+        "filename": "src/cmd/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2392,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-13T01:23:29Z",
+      "side": 0,
+      "message": "As far as I can tell, this is needed to implement #cgo_import_dynamic on ELF systems when using internal linking.  It\u0027s entirely possible that we never test that case.  I have no idea why it is currently only implemented for amd64.  It looks like it might date back to a bad edit of 8l/asm.c in https://golang.org/cl/3491042.",
+      "revId": "50f04fe57245b29484f0b5eecc92b60fbab15b76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
