@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d27d5f4_8ac2abb2",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-05-13T04:54:59Z",
+      "side": 1,
+      "message": "Feel free to ignore this, but you can move this variable into TestLookupGmailMX. You won\u0027t need to have long name for the variable then. Same with others.",
+      "revId": "3f0b7f8dbf5c1033a2dd332feac9d7d23739a5a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
