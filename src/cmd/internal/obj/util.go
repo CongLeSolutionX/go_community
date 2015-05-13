@@ -213,7 +213,12 @@ func Getgoos() string {
 }
 
 func Getgoarm() string {
-	return envOr("GOARM", defaultGOARM)
+	switch v := envOr("GOARM", defaultGOARM); v {
+	case "5", "6", "7":
+		return v
+	}
+	log.Fatalf("Invalid GOARM value. Must be 5, 6, or 7.")
+	panic("unreachable")
 }
 
 func Getgo386() string {
