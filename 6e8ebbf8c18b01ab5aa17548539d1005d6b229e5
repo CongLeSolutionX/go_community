@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dc2ad55_c8f13fe3",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-14T21:41:53Z",
+      "side": 1,
+      "message": "If the first alloc is \u003e 4K this won\u0027t work.  You need to do the following for loop even in this case.\n\nYou could just initialize zerobuf.size to 1K and zerobuf.ptr to \u0026zerotiny[0].  Then you wouldn\u0027t need the initial special case.",
+      "range": {
+        "startLine": 1026,
+        "startChar": 22,
+        "endLine": 1026,
+        "endChar": 26
+      },
+      "revId": "6e8ebbf8c18b01ab5aa17548539d1005d6b229e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
