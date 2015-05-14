@@ -246,8 +246,9 @@ func jsRegexpEscaper(args ...interface{}) string {
 // `\u2029`.
 func replace(s string, replacementTable []string) string {
 	var b bytes.Buffer
-	written := 0
-	for i, r := range s {
+	r, w, written := rune(0), 0, 0
+	for i := 0; i < len(s); i += w {
+		r, w = utf8.DecodeRuneInString(s[i:])
 		var repl string
 		switch {
 		case int(r) < len(replacementTable) && replacementTable[r] != "":
@@ -261,7 +262,7 @@ func replace(s string, replacementTable []string) string {
 		}
 		b.WriteString(s[written:i])
 		b.WriteString(repl)
-		written = i + utf8.RuneLen(r)
+		written = i + w
 	}
 	if written == 0 {
 		return s
