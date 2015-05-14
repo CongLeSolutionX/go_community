@@ -288,5 +288,5 @@ esac
 	if [ -n "$mksyscall" ]; then echo "$mksyscall $syscall_goos $GOOSARCH_in |gofmt >zsyscall_$GOOSARCH.go"; fi
 	if [ -n "$mksysctl" ]; then echo "$mksysctl |gofmt >$zsysctl"; fi
 	if [ -n "$mksysnum" ]; then echo "$mksysnum |gofmt >zsysnum_$GOOSARCH.go"; fi
-	if [ -n "$mktypes" ]; then echo "$mktypes types_$GOOS.go |gofmt >ztypes_$GOOSARCH.go"; fi
+	if [ -n "$mktypes" ]; then echo "$mktypes types_$GOOS.go | sed -e '/^package /i\/\/ +build $GOOS,$GOARCH\n' |gofmt >ztypes_$GOOSARCH.go"; fi
 ) | $run
