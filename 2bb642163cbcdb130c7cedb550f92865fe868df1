@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "8dc2ad55_77bd6ac6",
+        "filename": "src/cmd/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-14T05:35:25Z",
+      "side": 1,
+      "message": "No multiple value returns at the moment.  We might go there at some point.  For example x86 can compute x/y and x%y as a single instruction.",
+      "parentUuid": "ed0a495c_a3c872a3",
+      "revId": "2bb642163cbcdb130c7cedb550f92865fe868df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed0a495c_b8a09de9",
         "filename": "src/cmd/internal/ssa/op.go",
         "patchSetId": 1
@@ -189,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "8dc2ad55_f7397a9f",
+        "filename": "src/cmd/internal/ssa/opamd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-14T05:35:25Z",
+      "side": 1,
+      "message": "Yes.  Perhaps I could word it better.",
+      "parentUuid": "ed0a495c_23380200",
+      "revId": "2bb642163cbcdb130c7cedb550f92865fe868df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed0a495c_832d6ec4",
         "filename": "src/cmd/internal/ssa/opamd64.go",
         "patchSetId": 1
@@ -200,6 +236,24 @@
       "writtenOn": "2015-05-13T21:47:42Z",
       "side": 1,
       "message": "Presumably InvertFlags\u0027 operand value must be a comparison operation of some kind, because it doesn\u0027t make sense to invert a value.  You can\u0027t derive x\u003cy from the reified value of y\u003cx, for example.  Put another way, InvertFlags is more like a macro than a function.",
+      "revId": "2bb642163cbcdb130c7cedb550f92865fe868df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dc2ad55_371f7217",
+        "filename": "src/cmd/internal/ssa/opamd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-14T05:35:25Z",
+      "side": 1,
+      "message": "Yes, the arg will be a comparison.  InvertFlags is a function on the flags value.  If you imagine the flags value contains a bit for each comparison possibility (\u003c, unsigned \u003e, ...) Then it converts \u003c to \u003e and so on.",
+      "parentUuid": "ed0a495c_832d6ec4",
       "revId": "2bb642163cbcdb130c7cedb550f92865fe868df1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
