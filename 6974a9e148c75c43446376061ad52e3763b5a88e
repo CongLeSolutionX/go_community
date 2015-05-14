@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da4fdb8_77ae5fe8",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-05-14T22:13:34Z",
+      "side": 1,
+      "message": "move option up, directly after tmpl, so it doens\u0027t look like it\u0027s protected by the mutex",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "6974a9e148c75c43446376061ad52e3763b5a88e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da4fdb8_57923ba7",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-05-14T22:13:34Z",
+      "side": 1,
+      "message": "why use defer here but not in the other file? use it in both.",
+      "revId": "6974a9e148c75c43446376061ad52e3763b5a88e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
