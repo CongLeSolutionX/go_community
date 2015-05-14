@@ -88,6 +88,24 @@ func WriteFile(filename string, data []byte, perm os.FileMode) error {
 	return err
 }
 
+// WriteStringToFile writes data to a file named by filename.
+// If the file does not exist, WriteStringToFile creates it with permissions perm;
+// otherwise WriteStringToFile truncates it before writing.
+func WriteStringToFile(filename string, data string, perm os.FileMode) error {
+	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm)
+	if err != nil {
+		return err
+	}
+	n, err := f.WriteString(data)
+	if err == nil && n < len(data) {
+		err = io.ErrShortWrite
+	}
+	if err1 := f.Close(); err == nil {
+		err = err1
+	}
+	return err
+}
+
 // byName implements sort.Interface.
 type byName []os.FileInfo
 

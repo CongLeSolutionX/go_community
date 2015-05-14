@@ -63,6 +63,34 @@ func TestWriteFile(t *testing.T) {
 	os.Remove(filename) // ignore error
 }
 
+func TestWriteStringToFile(t *testing.T) {
+	f, err := TempFile("", "ioutil-test")
+	if err != nil {
+		t.Fatal(err)
+	}
+	filename := f.Name()
+	data := "Programming today is a race between software engineers striving to " +
+		"build bigger and better idiot-proof programs, and the Universe trying " +
+		"to produce bigger and better idiots. So far, the Universe is winning."
+
+	if err := WriteStringToFile(filename, data, 0644); err != nil {
+		t.Fatalf("WriteFile %s: %v", filename, err)
+	}
+
+	contents, err := ReadFile(filename)
+	if err != nil {
+		t.Fatalf("ReadFile %s: %v", filename, err)
+	}
+
+	if string(contents) != data {
+		t.Fatalf("contents = %q\nexpected = %q", string(contents), data)
+	}
+
+	// cleanup
+	f.Close()
+	os.Remove(filename) // ignore error
+}
+
 func TestReadDir(t *testing.T) {
 	dirname := "rumpelstilzchen"
 	_, err := ReadDir(dirname)
