@@ -26,8 +26,8 @@ func runtime_debug_WriteHeapDump(fd uintptr) {
 
 	gp.m.preemptoff = ""
 	gp.m.locks++
-	semrelease(&worldsema)
 	systemstack(starttheworld)
+	semrelease(&worldsema)
 	gp.m.locks--
 }
 

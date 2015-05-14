@@ -168,8 +168,8 @@ func ReadMemStats(m *MemStats) {
 
 	gp.m.preemptoff = ""
 	gp.m.locks++
-	semrelease(&worldsema)
 	systemstack(starttheworld)
+	semrelease(&worldsema)
 	gp.m.locks--
 }
 

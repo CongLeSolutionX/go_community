@@ -952,13 +952,12 @@ func gc(mode int) {
 	// all done
 	mp.preemptoff = ""
 
-	semrelease(&worldsema)
-
 	if gcphase != _GCoff {
 		throw("gc done but gcphase != _GCoff")
 	}
 
 	systemstack(starttheworld)
+	semrelease(&worldsema)
 
 	releasem(mp)
 	mp = nil

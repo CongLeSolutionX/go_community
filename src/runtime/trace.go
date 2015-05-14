@@ -147,8 +147,8 @@ func StartTrace() error {
 	if trace.enabled || trace.shutdown {
 		unlock(&trace.bufLock)
 		_g_.m.preemptoff = ""
-		semrelease(&worldsema)
 		systemstack(starttheworld)
+		semrelease(&worldsema)
 		return errorString("tracing is already enabled")
 	}
 
@@ -176,8 +176,8 @@ func StartTrace() error {
 	unlock(&trace.bufLock)
 
 	_g_.m.preemptoff = ""
-	semrelease(&worldsema)
 	systemstack(starttheworld)
+	semrelease(&worldsema)
 	return nil
 }
 
@@ -197,8 +197,8 @@ func StopTrace() {
 	if !trace.enabled {
 		unlock(&trace.bufLock)
 		_g_.m.preemptoff = ""
-		semrelease(&worldsema)
 		systemstack(starttheworld)
+		semrelease(&worldsema)
 		return
 	}
 
@@ -237,8 +237,8 @@ func StopTrace() {
 	unlock(&trace.bufLock)
 
 	_g_.m.preemptoff = ""
-	semrelease(&worldsema)
 	systemstack(starttheworld)
+	semrelease(&worldsema)
 
 	// The world is started but we've set trace.shutdown, so new tracing can't start.
 	// Wait for the trace reader to flush pending buffers and stop.

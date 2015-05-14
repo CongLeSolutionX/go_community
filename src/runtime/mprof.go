@@ -545,8 +545,8 @@ func GoroutineProfile(p []StackRecord) (n int, ok bool) {
 		}
 
 		gp.m.preemptoff = ""
-		semrelease(&worldsema)
 		systemstack(starttheworld)
+		semrelease(&worldsema)
 	}
 
 	return n, ok
@@ -592,8 +592,8 @@ func Stack(buf []byte, all bool) int {
 	if all {
 		gp := getg()
 		gp.m.preemptoff = ""
-		semrelease(&worldsema)
 		systemstack(starttheworld)
+		semrelease(&worldsema)
 	}
 	return n
 }

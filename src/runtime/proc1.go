@@ -753,10 +753,10 @@ func forEachP(fn func(*p)) {
 	_p_ := getg().m.p.ptr()
 
 	lock(&sched.lock)
-	if sched.stopwait != 0 {
-		throw("forEachP: sched.stopwait != 0")
+	if sched.stopwaitsafepoint != 0 {
+		throw("forEachP: sched.stopwaitsafepoint != 0")
 	}
-	sched.stopwait = gomaxprocs - 1
+	sched.stopwaitsafepoint = gomaxprocs - 1
 	sched.safePointFn = fn
 
 	// Ask all Ps to run the safe point function.
@@ -776,11 +776,11 @@ func forEachP(fn func(*p)) {
 	for p := sched.pidle.ptr(); p != nil; p = p.link.ptr() {
 		if cas(&p.runSafePointFn, 1, 0) {
 			fn(p)
-			sched.stopwait--
+			sched.stopwaitsafepoint--
 		}
 	}
 
-	wait := sched.stopwait > 0
+	wait := sched.stopwaitsafepoint > 0
 	unlock(&sched.lock)
 
 	// Run fn for the current P.
@@ -806,14 +806,14 @@ func forEachP(fn func(*p)) {
 		for {
 			// Wait for 100us, then try to re-preempt in
 			// case of any races.
-			if notetsleep(&sched.stopnote, 100*1000) {
-				noteclear(&sched.stopnote)
+			if notetsleep(&sched.stopsafepointnote, 100*1000) {
+				noteclear(&sched.stopsafepointnote)
 				break
 			}
 			preemptall()
 		}
 	}
-	if sched.stopwait != 0 {
+	if sched.stopwaitsafepoint != 0 {
 		throw("forEachP: not stopped")
 	}
 	for i := 0; i < int(gomaxprocs); i++ {
@@ -850,9 +850,9 @@ func runSafePointFn() {
 	}
 	sched.safePointFn(p)
 	lock(&sched.lock)
-	sched.stopwait--
-	if sched.stopwait == 0 {
-		notewakeup(&sched.stopnote)
+	sched.stopwaitsafepoint--
+	if sched.stopwaitsafepoint == 0 {
+		notewakeup(&sched.stopsafepointnote)
 	}
 	unlock(&sched.lock)
 }
@@ -1225,9 +1225,9 @@ func handoffp(_p_ *p) {
 	}
 	if _p_.runSafePointFn != 0 && cas(&_p_.runSafePointFn, 1, 0) {
 		sched.safePointFn(_p_)
-		sched.stopwait--
-		if sched.stopwait == 0 {
-			notewakeup(&sched.stopnote)
+		sched.stopwaitsafepoint--
+		if sched.stopwaitsafepoint == 0 {
+			notewakeup(&sched.stopsafepointnote)
 		}
 	}
 	if sched.runqsize != 0 {
@@ -1429,7 +1429,8 @@ top:
 		if _p_ == _g_.m.p.ptr() {
 			gp, _ = runqget(_p_)
 		} else {
-			stealRunNextG := i > 2*int(gomaxprocs) // first look for ready queues with more than 1 g
+			//			stealRunNextG := i > 2*int(gomaxprocs) // first look for ready queues with more than 1 g
+			stealRunNextG := false
 			gp = runqsteal(_g_.m.p.ptr(), _p_, stealRunNextG)
 		}
 		if gp != nil {

@@ -433,12 +433,14 @@ type schedt struct {
 	deferlock mutex
 	deferpool [5]*_defer
 
-	gcwaiting  uint32 // gc is waiting to run
-	stopwait   int32
-	stopnote   note
-	sysmonwait uint32
-	sysmonnote note
-	lastpoll   uint64
+	gcwaiting         uint32 // gc is waiting to run
+	stopwait          int32
+	stopnote          note
+	stopwaitsafepoint int32
+	stopsafepointnote note
+	sysmonwait        uint32
+	sysmonnote        note
+	lastpoll          uint64
 
 	// safepointFn should be called on each P at the next GC
 	// safepoint if p.runSafePointFn is set.

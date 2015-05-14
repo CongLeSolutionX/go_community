@@ -31,8 +31,8 @@ func GOMAXPROCS(n int) int {
 	newprocs = int32(n)
 
 	gp.m.preemptoff = ""
-	semrelease(&worldsema)
 	systemstack(starttheworld)
+	semrelease(&worldsema)
 	return ret
 }
 
