@@ -4,6 +4,8 @@
 // Created by cgo -godefs - DO NOT EDIT
 // cgo -godefs -- -m64 _const.go
 
+// +build freebsd,amd64
+
 package syscall
 
 const (

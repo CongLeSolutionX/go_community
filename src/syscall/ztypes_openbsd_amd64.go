@@ -1,6 +1,8 @@
 // Created by cgo -godefs - DO NOT EDIT
 // cgo -godefs types_openbsd.go
 
+// +build openbsd,amd64
+
 package syscall
 
 const (

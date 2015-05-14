@@ -1,6 +1,8 @@
 // Created by cgo -godefs - DO NOT EDIT
 // cgo -godefs types_freebsd.go
 
+// +build freebsd,386
+
 package syscall
 
 const (

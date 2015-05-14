@@ -1,6 +1,8 @@
 // Created by cgo -godefs - DO NOT EDIT
 // cgo -godefs -- -fsigned-char types_linux.go
 
+// +build linux,arm64
+
 package syscall
 
 const (

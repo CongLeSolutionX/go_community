@@ -1,6 +1,8 @@
 // Created by cgo -godefs - DO NOT EDIT
 // cgo -godefs types_linux.go
 
+// +build linux,ppc64le
+
 package syscall
 
 const (
