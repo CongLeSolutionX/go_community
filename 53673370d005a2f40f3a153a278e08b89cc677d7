@@ -16,6 +16,23 @@
       "revId": "53673370d005a2f40f3a153a278e08b89cc677d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb169f2_1188bcef",
+        "filename": "src/cmd/go/fmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T15:07:34Z",
+      "side": 1,
+      "message": "Might as well make this look like the one in tool. if toolIsWindows { ... +\u003d toolWindowsExtension }",
+      "revId": "53673370d005a2f40f3a153a278e08b89cc677d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
