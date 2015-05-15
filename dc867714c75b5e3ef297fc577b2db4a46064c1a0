@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad24d1ad_1c752178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7981
+      },
+      "writtenOn": "2015-05-15T10:55:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed42494b_2932e120",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "dc867714c75b5e3ef297fc577b2db4a46064c1a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed42494b_09271de3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-05-09T22:54:33Z",
       "side": 1,
       "message": "GOROOT",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "dc867714c75b5e3ef297fc577b2db4a46064c1a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad24d1ad_fc593516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7981
+      },
+      "writtenOn": "2015-05-15T10:55:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed42494b_09271de3",
       "range": {
         "startLine": 11,
         "startChar": 31,
@@ -131,6 +179,54 @@
       "side": 1,
       "message": "yes, you are right. i remembered it being more inclusive. perhaps it should be, and maybe it is the right thing to do. not sure.\n\nwhat i am sure about is that this code is wrong. if GOBIN is set outside of GOROOT/bin, this will not find the binary.",
       "parentUuid": "ad24d1ad_7c6665db",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 16
+      },
+      "revId": "dc867714c75b5e3ef297fc577b2db4a46064c1a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d970d54_6f5e8d79",
+        "filename": "src/cmd/go/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7981
+      },
+      "writtenOn": "2015-05-15T10:55:51Z",
+      "side": 1,
+      "message": "You\u0027re right, added GOBIN as a possible gofmt location",
+      "parentUuid": "2d338121_c1694225",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 16
+      },
+      "revId": "dc867714c75b5e3ef297fc577b2db4a46064c1a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d970d54_12b8cc08",
+        "filename": "src/cmd/go/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7981
+      },
+      "writtenOn": "2015-05-15T10:55:51Z",
+      "side": 1,
+      "message": "Indeed, found this place, thank you",
+      "parentUuid": "ed42494b_49cc056a",
       "range": {
         "startLine": 41,
         "startChar": 6,
