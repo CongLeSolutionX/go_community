@@ -241,10 +241,8 @@ func (h heapBits) prefetch() {
 // That is, if h describes address p, h.next() describes p+ptrSize.
 // Note that next does not modify h. The caller must record the result.
 func (h heapBits) next() heapBits {
-	if h.shift < 3*heapBitsShift {
-		return heapBits{h.bitp, h.shift + heapBitsShift}
-	}
-	return heapBits{subtract1(h.bitp), 0}
+	n := uintptr(h.shift) + heapBitsShift
+	return heapBits{subtractb(h.bitp, n/4), uint32(n % 4)}
 }
 
 // forward returns the heapBits describing n pointer-sized words ahead of h in memory.
