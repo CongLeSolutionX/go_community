@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d970d54_d29ac4b7",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-05-15T20:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0da4fdb8_77ae5fe8",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "6974a9e148c75c43446376061ad52e3763b5a88e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0da4fdb8_57923ba7",
         "filename": "src/text/template/template.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-14T22:13:34Z",
       "side": 1,
       "message": "why use defer here but not in the other file? use it in both.",
+      "revId": "6974a9e148c75c43446376061ad52e3763b5a88e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d92d967_9113dcde",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-05-15T20:42:46Z",
+      "side": 1,
+      "message": "Changed file funcs.go to use defer - it is prettier, and the remaining code in this method is trivial.\nHowever, I did not use defer in the Parse method to limit the scope of the lock.",
+      "parentUuid": "0da4fdb8_57923ba7",
       "revId": "6974a9e148c75c43446376061ad52e3763b5a88e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
