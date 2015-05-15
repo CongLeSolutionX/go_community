@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "edb169f2_8bbd7dc9",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-15T00:58:32Z",
+      "side": 1,
+      "message": "Do you want me to also change line 156?",
+      "parentUuid": "8dc2ad55_08d6d7ec",
+      "revId": "a7300bec56052fff2077032b67196a811cec4e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8dc2ad55_48828fd9",
         "filename": "src/syscall/syscall_unix_test.go",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2015-05-15T00:48:08Z",
       "side": 1,
       "message": "I think it always returns it as 0.",
+      "revId": "a7300bec56052fff2077032b67196a811cec4e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb169f2_aba161a6",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-15T00:58:32Z",
+      "side": 1,
+      "message": "OK, I will update the test to test\nthe Whence is always zero, but it\nwill need another trybot run because\nthis test runs on all Unix.",
+      "parentUuid": "8dc2ad55_48828fd9",
       "revId": "a7300bec56052fff2077032b67196a811cec4e9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
