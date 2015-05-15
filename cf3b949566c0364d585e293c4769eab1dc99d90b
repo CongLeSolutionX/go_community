@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edb169f2_d1a48486",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T14:57:00Z",
+      "side": 1,
+      "message": "if *getF{ continue }",
+      "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb169f2_f1b188c1",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T14:57:00Z",
+      "side": 1,
+      "message": "Put the important condition first: we\u0027re checking for insecure repos. Then let the flag override it. Otherwise it looks like this code is about the flag, and it\u0027s not.\n\nif !vcs.isSecure(repo) \u0026\u0026 !*getInsecure {",
+      "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb169f2_518234d9",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T14:57:00Z",
+      "side": 1,
+      "message": "This was a good idea but I don\u0027t think it works. Please change back to []string, and then add a\n\nvar isSecureScheme \u003d map[string]bool{\n    \"https\": true,\n    \"git+ssh\": true,\n    \"bzr+ssh\": true,\n    \"svn+ssh\": true,\n}\n\nThat will be much easier to eyeball for correctness. I mean, if you\u0027d accidentally written scheme{\"http\", true} or scheme{\"https\", false} in one of the many instances below, do you think anyone would have noticed?",
+      "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
