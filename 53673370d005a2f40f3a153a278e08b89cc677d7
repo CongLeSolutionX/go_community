@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d970d54_d2d5643a",
+        "filename": "src/cmd/go/fmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7981
+      },
+      "writtenOn": "2015-05-15T10:55:51Z",
+      "side": 1,
+      "message": "I have no idea how to publish comments on outdated changeset, sorry.\n\nAndrew, I\u0027ve made a rename. As for documentation, it\u0027s local function with quite straightforward logic and with descriptive commit message, is this really required? Also thanks for pointing me to exec.LookPath, I found the place with trying different extensions.\n\nRob, you\u0027re right about GOBIN, I\u0027ve added GOBIN/gofmt as a possible gofmt binary location.",
+      "revId": "53673370d005a2f40f3a153a278e08b89cc677d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
