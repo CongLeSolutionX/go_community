@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d9a7579_2f6c7e87",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-15T23:14:33Z",
+      "side": 1,
+      "message": "It\u0027s not a for loop",
+      "parentUuid": "edb169f2_d1a48486",
+      "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edb169f2_f1b188c1",
         "filename": "src/cmd/go/get.go",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8dc2ad55_29a71537",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-15T23:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edb169f2_f1b188c1",
+      "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edb169f2_518234d9",
         "filename": "src/cmd/go/vcs.go",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2015-05-15T14:57:00Z",
       "side": 1,
       "message": "This was a good idea but I don\u0027t think it works. Please change back to []string, and then add a\n\nvar isSecureScheme \u003d map[string]bool{\n    \"https\": true,\n    \"git+ssh\": true,\n    \"bzr+ssh\": true,\n    \"svn+ssh\": true,\n}\n\nThat will be much easier to eyeball for correctness. I mean, if you\u0027d accidentally written scheme{\"http\", true} or scheme{\"https\", false} in one of the many instances below, do you think anyone would have noticed?",
+      "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dc2ad55_49ac5117",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-15T23:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edb169f2_518234d9",
       "revId": "cf3b949566c0364d585e293c4769eab1dc99d90b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
