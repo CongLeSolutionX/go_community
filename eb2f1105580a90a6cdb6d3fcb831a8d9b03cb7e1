@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "edb169f2_f1fee82f",
+        "filename": "src/cmd/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T15:32:33Z",
+      "side": 1,
+      "message": "This scares me. I\u0027d much rather you found these places and define that you\u0027re not allowed to modify the result of PtrTo or SliceOf.",
+      "parentUuid": "90fd66eb_f930f018",
+      "revId": "eb2f1105580a90a6cdb6d3fcb831a8d9b03cb7e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "100336c0_3b52636b",
         "filename": "src/cmd/internal/gc/subr.go",
         "patchSetId": 1
