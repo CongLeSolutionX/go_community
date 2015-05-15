@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edb169f2_5154f4d9",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T15:18:09Z",
+      "side": 1,
+      "message": "This REALLY needs a doc comment. It\u0027s a complete mystery. And the file it was in had lots of doc comments on the surrounding functions.",
+      "revId": "39d8dc43e6a855ae92afdaaf076e686656134e7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
