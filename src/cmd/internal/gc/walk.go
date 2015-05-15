@@ -1789,7 +1789,7 @@ func ascompatet(op int, nl *NodeList, nr **Type, fp int, init **NodeList) *NodeL
 * package all the arguments that match a ... T parameter into a []T.
  */
 func mkdotargslice(lr0 *NodeList, nn *NodeList, l *Type, fp int, init **NodeList, ddd *Node) *NodeList {
-	esc := uint16(EscUnknown)
+	esc := EscType(EscUnknown)
 	if ddd != nil {
 		esc = ddd.Esc
 	}

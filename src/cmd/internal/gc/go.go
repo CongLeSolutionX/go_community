@@ -82,14 +82,14 @@ type Mpcplx struct {
 }
 
 type Val struct {
-	Ctype int16
 	// U contains one of:
 	// bool     bool when Ctype == CTBOOL
 	// *Mpint   int when Ctype == CTINT, rune when Ctype == CTRUNE
 	// *Mpflt   float when Ctype == CTFLT
 	// *Mpcplx  pair of floats when Ctype == CTCPLX
 	// string   string when Ctype == CTSTR
-	U interface{}
+	U     interface{}
+	Ctype int16
 }
 
 type Pkg struct {
@@ -320,18 +320,20 @@ const (
 	PHEAP = uint8(1 << 7) // an extra bit to identify an escaped variable
 )
 
+type TypecheckCtxt uint16
+
 const (
-	Etop      = 1 << 1 // evaluated at statement level
-	Erv       = 1 << 2 // evaluated in value context
-	Etype     = 1 << 3
-	Ecall     = 1 << 4  // call-only expressions are ok
-	Efnstruct = 1 << 5  // multivalue function returns are ok
-	Eiota     = 1 << 6  // iota is ok
-	Easgn     = 1 << 7  // assigning to expression
-	Eindir    = 1 << 8  // indirecting through expression
-	Eaddr     = 1 << 9  // taking address of expression
-	Eproc     = 1 << 10 // inside a go statement
-	Ecomplit  = 1 << 11 // type in composite literal
+	Etop = TypecheckCtxt(1 << (iota + 1)) // evaluated at statement level
+	Erv                                   // evaluated in value context
+	Etype
+	Ecall     // call-only expressions are ok
+	Efnstruct // multivalue function returns are ok
+	Eiota     // iota is ok
+	Easgn     // assigning to expression
+	Eindir    // indirecting through expression
+	Eaddr     // taking address of expression
+	Eproc     // inside a go statement
+	Ecomplit  // type in composite literal
 )
 
 type Typedef struct {
@@ -448,7 +450,7 @@ var nsavederrors int
 
 var nsyntaxerrors int
 
-var decldepth int
+var decldepth int32
 
 var safemode int
 

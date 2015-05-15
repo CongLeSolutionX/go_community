@@ -320,12 +320,14 @@ func (l Level) guaranteedDereference() int {
 	return int(l.suffixValue)
 }
 
+type EscType uint8
+
 // Escape constants are numbered in order of increasing "escapiness"
 // to help make inferences be monotonic.  With the exception of
 // EscNever which is sticky, eX < eY means that eY is more exposed
 // than eX, and hence replaces it in a conservative analysis.
 const (
-	EscUnknown = iota
+	EscUnknown = EscType(iota)
 	EscNone    // Does not escape to heap, result, or parameters.
 	EscReturn  // Is returned or reachable from returned.
 	EscScope   // Allocated in an inner loop scope, assigned to an outer loop scope,
@@ -342,7 +344,7 @@ const (
 
 // escMax returns the maximum of an existing escape value
 // (and its additional parameter flow flags) and a new escape type.
-func escMax(e, etype uint16) uint16 {
+func escMax(e, etype EscType) EscType {
 	if e&EscMask >= EscScope {
 		// normalize
 		if e&^EscMask != 0 {
@@ -365,7 +367,7 @@ func escMax(e, etype uint16) uint16 {
 // hence EscHeap, which means that the details are not currently relevant. )
 const (
 	bitsPerOutputInTag = 3                                         // For each output, the number of bits for a tag
-	bitsMaskForTag     = uint16(1<<bitsPerOutputInTag) - 1         // The bit mask to extract a single tag.
+	bitsMaskForTag     = EscType(1<<bitsPerOutputInTag) - 1        // The bit mask to extract a single tag.
 	outputsPerTag      = (16 - EscReturnBits) / bitsPerOutputInTag // The number of outputs that can be tagged.
 	maxEncodedLevel    = int(bitsMaskForTag - 1)                   // The largest level that can be stored in a tag.
 )
@@ -379,7 +381,7 @@ type EscState struct {
 	theSink Node
 
 	dsts      *NodeList // all dst nodes
-	loopdepth int       // for detecting nested loop scopes
+	loopdepth int32     // for detecting nested loop scopes
 	pdepth    int       // for debug printing in recursions.
 	dstcount  int       // diagnostic
 	edgecount int       // diagnostic
@@ -1082,7 +1084,7 @@ func escassign(e *EscState, dst *Node, src *Node) {
 var tags [1 << (bitsPerOutputInTag + EscReturnBits)]string
 
 // mktag returns the string representation for an escape analysis tag.
-func mktag(mask int) *string {
+func mktag(mask EscType) *string {
 	switch mask & EscMask {
 	case EscNone, EscReturn:
 		break
@@ -1091,23 +1093,23 @@ func mktag(mask int) *string {
 		Fatal("escape mktag")
 	}
 
-	if mask < len(tags) && tags[mask] != "" {
+	if int(mask) < len(tags) && tags[mask] != "" {
 		return &tags[mask]
 	}
 
 	s := fmt.Sprintf("esc:0x%x", mask)
-	if mask < len(tags) {
+	if int(mask) < len(tags) {
 		tags[mask] = s
 	}
 	return &s
 }
 
 // parsetag decodes an escape analysis tag and returns the esc value.
-func parsetag(note *string) uint16 {
+func parsetag(note *string) EscType {
 	if note == nil || !strings.HasPrefix(*note, "esc:") {
 		return EscUnknown
 	}
-	em := uint16(atoi((*note)[4:]))
+	em := EscType(atoi((*note)[4:]))
 	if em == 0 {
 		return EscNone
 	}
@@ -1123,7 +1125,7 @@ func parsetag(note *string) uint16 {
 // e.g., "contentToHeap _ =" means that a parameter's content (one or more dereferences)
 // escapes to the heap, the parameter does not leak to the first output, but does leak directly
 // to the second output (and if there are more than two outputs, there is no flow to those.)
-func describeEscape(em uint16) string {
+func describeEscape(em EscType) string {
 	var s string
 	if em&EscMask == EscUnknown {
 		s = "EscUnknown"
@@ -1157,7 +1159,7 @@ func describeEscape(em uint16) string {
 		case 1:
 			s += "="
 		default:
-			for i := uint16(0); i < embits-1; i++ {
+			for i := EscType(0); i < embits-1; i++ {
 				s += "*"
 			}
 		}
@@ -1168,7 +1170,7 @@ func describeEscape(em uint16) string {
 
 // escassignfromtag models the input-to-output assignment flow of one of a function
 // calls arguments, where the flow is encoded in "note".
-func escassignfromtag(e *EscState, note *string, dsts *NodeList, src *Node) uint16 {
+func escassignfromtag(e *EscState, note *string, dsts *NodeList, src *Node) EscType {
 	em := parsetag(note)
 
 	if Debug['m'] > 2 {
@@ -1201,7 +1203,7 @@ func escassignfromtag(e *EscState, note *string, dsts *NodeList, src *Node) uint
 		embits := em & bitsMaskForTag
 		if embits > 0 {
 			n := src
-			for i := uint16(0); i < embits-1; i++ {
+			for i := EscType(0); i < embits-1; i++ {
 				n = addDereference(n) // encode level>0 as indirections
 			}
 			escassign(e, dsts.N, n)
@@ -1238,7 +1240,7 @@ func addDereference(n *Node) *Node {
 // escNoteOutputParamFlow encodes maxEncodedLevel/.../1/0-level flow to the vargen'th parameter.
 // Levels greater than maxEncodedLevel are replaced with maxEncodedLevel.
 // If the encoding cannot describe the modified input level and output number, then EscHeap is returned.
-func escNoteOutputParamFlow(e uint16, vargen int32, level Level) uint16 {
+func escNoteOutputParamFlow(e EscType, vargen int32, level Level) EscType {
 	// Flow+level is encoded in two bits.
 	// 00 = not flow, xx = level+1 for 0 <= level <= maxEncodedLevel
 	// 16 bits for Esc allows 6x2bits or 4x3bits or 3x4bits if additional information would be useful.
@@ -1252,7 +1254,7 @@ func escNoteOutputParamFlow(e uint16, vargen int32, level Level) uint16 {
 		// Cannot encode larger values than maxEncodedLevel.
 		level = levelFrom(maxEncodedLevel)
 	}
-	encoded := uint16(level.int() + 1)
+	encoded := EscType(level.int() + 1)
 
 	shift := uint(bitsPerOutputInTag*(vargen-1) + EscReturnBits)
 	old := (e >> shift) & bitsMaskForTag
@@ -1753,7 +1755,7 @@ func esctag(e *EscState, func_ *Node) {
 		case EscNone, // not touched by escflood
 			EscReturn:
 			if haspointers(ll.N.Type) { // don't bother tagging for scalars
-				ll.N.Paramfld.Note = mktag(int(ll.N.Esc))
+				ll.N.Paramfld.Note = mktag(ll.N.Esc)
 			}
 
 		case EscHeap, // touched by escflood, moved to heap
