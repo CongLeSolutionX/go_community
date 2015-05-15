@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dc2ad55_487b6fed",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-15T02:48:15Z",
+      "side": 1,
+      "message": "The multithreaded-safeness of this code is subtle.  This is basically the double-checked locking idiom.  Normally you would need an atomic write of t.zero below and an atomic read here.  I think it may be ok without, but it deserves a comment.\n\nIf two threads allocate a map for t at the same time, they might end up writing t.zero twice.  This is always safe because we\u0027re monotonically increasing the buffer size.\n\nTrickier:  one thread finds that t.zero\u003d\u003dnil, goes through the allocation process, writes the t.zero field.  The other reads t.zero, finds that it isn\u0027t nil, and uses the buffer directly.  There\u0027s no synchronization here, so the code relies on the fact that persistentalloc allocates memory which is zeroed by the OS and, importantly, is visible as zeroed to all threads.  (If persistentalloc zeroed the memory in-process, this code would be buggy.)\n\npersistentalloc (and its callee, sysAlloc) needs its function comment updated to specify that we can rely on this behavior.",
+      "range": {
+        "startLine": 1013,
+        "startChar": 2,
+        "endLine": 1013,
+        "endChar": 8
+      },
+      "revId": "063e6564ca408f9bffd7ceb839bf55ec537230ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
