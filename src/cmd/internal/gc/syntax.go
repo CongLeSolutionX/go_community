@@ -77,9 +77,9 @@ type Node struct {
 	Alloc      *Node // allocation call
 
 	// ONAME closure param with PPARAMREF
-	Outer   *Node // outer PPARAMREF in nested closure
-	Closure *Node // ONAME/PHEAP <-> ONAME/PPARAMREF
-	Top     int   // top context (Ecall, Eproc, etc)
+	Outer   *Node         // outer PPARAMREF in nested closure
+	Closure *Node         // ONAME/PHEAP <-> ONAME/PPARAMREF
+	Top     TypecheckCtxt // top context (Ecall, Eproc, etc)
 
 	// OPACK
 	Pkg *Pkg
