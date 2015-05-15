@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "8dc2ad55_c8d85ff3",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-15T01:15:42Z",
+      "side": 1,
+      "message": "I saw that you did change it; thanks.  The gccgo copy of the file has a local patch.",
+      "parentUuid": "edb169f2_8bbd7dc9",
+      "revId": "a7300bec56052fff2077032b67196a811cec4e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8dc2ad55_48828fd9",
         "filename": "src/syscall/syscall_unix_test.go",
         "patchSetId": 3
