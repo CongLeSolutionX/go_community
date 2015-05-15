@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "edb169f2_0ca98388",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-15T17:26:54Z",
+      "side": 1,
+      "message": "will do (unless I forget at next commit)",
+      "parentUuid": "8dc2ad55_290ab558",
+      "revId": "87e6b7326063ceacca9cdae3a6cf829beb808563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8dc2ad55_490ff167",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-15T16:43:48Z",
       "side": 1,
       "message": "Any particularly interesting benchmarks or improvements?",
+      "revId": "87e6b7326063ceacca9cdae3a6cf829beb808563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb169f2_8c967347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-15T17:26:54Z",
+      "side": 1,
+      "message": "For compiling html/template, \"old\" did about 86k allocations, \"new\" does about 83k allocations.  For comparison, total reduction in allocations from the beginning of the escape analysis improvements (before this) was about 15k.",
+      "parentUuid": "8dc2ad55_490ff167",
       "revId": "87e6b7326063ceacca9cdae3a6cf829beb808563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "edb169f2_ec844f11",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-15T17:26:54Z",
+      "side": 1,
+      "message": "How are you with renaming the local function funcSym?  Or are there many more occurrences in other files of the idiom that I used this to clean up?",
+      "parentUuid": "8dc2ad55_29e1d518",
+      "revId": "87e6b7326063ceacca9cdae3a6cf829beb808563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8dc2ad55_49e61132",
         "filename": "src/cmd/internal/gc/esc.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-05-15T16:43:48Z",
       "side": 1,
       "message": "Similar comment.",
+      "revId": "87e6b7326063ceacca9cdae3a6cf829beb808563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb169f2_0c826302",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-15T17:26:54Z",
+      "side": 1,
+      "message": "Similar conservative change -- curfnSym, again unless you think this has wider applicability (and that the wider cleanup would be appropriate at this time).",
+      "parentUuid": "8dc2ad55_49e61132",
       "revId": "87e6b7326063ceacca9cdae3a6cf829beb808563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
