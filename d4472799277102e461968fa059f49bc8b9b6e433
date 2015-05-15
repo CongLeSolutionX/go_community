@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da4fdb8_889c7d6a",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 3455,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-05-15T19:25:45Z",
+      "side": 1,
+      "message": "If res.Type here is Types[TSTRING], then res.Type.Type will be nil.  Do you mean to call Ptrto(nil) in that case (and expect it to still return some meaningful pointer type), or has something going wrong here?",
+      "range": {
+        "startLine": 3455,
+        "startChar": 20,
+        "endLine": 3455,
+        "endChar": 40
+      },
+      "revId": "d4472799277102e461968fa059f49bc8b9b6e433",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
