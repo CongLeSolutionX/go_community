@@ -22,6 +22,30 @@
       "revId": "6e8ebbf8c18b01ab5aa17548539d1005d6b229e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da4fdb8_8b871e67",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-15T00:56:19Z",
+      "side": 1,
+      "message": "Fixed. I didn\u0027t do the initializer only because init order is so subtle in the runtime already. I\u0027d rather have zeroed data.",
+      "parentUuid": "8dc2ad55_c8f13fe3",
+      "range": {
+        "startLine": 1026,
+        "startChar": 22,
+        "endLine": 1026,
+        "endChar": 26
+      },
+      "revId": "6e8ebbf8c18b01ab5aa17548539d1005d6b229e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
