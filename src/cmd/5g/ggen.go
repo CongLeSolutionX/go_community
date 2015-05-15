@@ -5,6 +5,7 @@
 package main
 
 import (
+	//"fmt"
 	"cmd/internal/gc"
 	"cmd/internal/obj"
 	"cmd/internal/obj/arm"
@@ -480,6 +481,30 @@ func ginscon(as int, c int64, n *gc.Node) {
 }
 
 func ginscmp(op int, t *gc.Type, n1, n2 *gc.Node, likely int) *obj.Prog {
+	if gc.Is64(n1.Type) || gc.Is64(n2.Type) {
+		var nl, nr *gc.Node
+		if gc.Is64(n1.Type) {
+			nl = n1
+		} else {
+			var tmp gc.Node
+			gc.Tempname(&tmp, n2.Type)
+			gmove(n1, &tmp)
+			nl = &tmp
+		}
+		if gc.Is64(n2.Type) {
+			nr = n2
+		} else {
+			var tmp gc.Node
+			gc.Tempname(&tmp, n1.Type)
+			gmove(n2, &tmp)
+			nr = &tmp
+		}
+		p := gc.Gbranch(obj.AJMP, nil, 0)
+		to := gc.Gbranch(obj.AJMP, nil, 0)
+		gc.Patch(p, gc.Pc)
+		cmp64(nl, nr, op, likely, to)
+		return to
+	}
 	if gc.Isint[t.Etype] && n1.Op == gc.OLITERAL && gc.Mpgetfix(n1.Val.U.Xval) == 0 && n2.Op != gc.OLITERAL {
 		op = gc.Brrev(op)
 		n1, n2 = n2, n1
