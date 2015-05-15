@@ -183,35 +183,35 @@ loop1:
 				}
 			}
 
-		case x86.AADDL,
-			x86.AADDQ,
-			x86.AADDW:
-			if p.From.Type != obj.TYPE_CONST || needc(p.Link) {
-				break
+		case x86.AINCW,
+			x86.AINCL,
+			x86.AINCQ:
+			// INC/DEC modify only some flags, which
+			// causes dependencies on previous flag
+			// register writes. ADD/SUB overwrite all
+			// flags and break the dependency chain.
+			if p.As == x86.AINCW {
+				p.As = x86.AADDW
+			} else if p.As == x86.AINCL {
+				p.As = x86.AADDL
+			} else {
+				p.As = x86.AADDQ
 			}
-			if p.From.Offset == -1 {
-				if p.As == x86.AADDQ {
-					p.As = x86.ADECQ
-				} else if p.As == x86.AADDL {
-					p.As = x86.ADECL
-				} else {
-					p.As = x86.ADECW
-				}
-				p.From = obj.Addr{}
-				break
-			}
+			p.From.Type = obj.TYPE_CONST
+			p.From.Offset = 1
 
-			if p.From.Offset == 1 {
-				if p.As == x86.AADDQ {
-					p.As = x86.AINCQ
-				} else if p.As == x86.AADDL {
-					p.As = x86.AINCL
-				} else {
-					p.As = x86.AINCW
-				}
-				p.From = obj.Addr{}
-				break
+		case x86.ADECW,
+			x86.ADECL,
+			x86.ADECQ:
+			if p.As == x86.ADECW {
+				p.As = x86.ASUBW
+			} else if p.As == x86.ADECL {
+				p.As = x86.ASUBL
+			} else {
+				p.As = x86.ASUBQ
 			}
+			p.From.Type = obj.TYPE_CONST
+			p.From.Offset = 1
 
 		case x86.ASUBL,
 			x86.ASUBQ,
