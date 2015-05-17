@@ -200,13 +200,13 @@ func init() {
 	for i := range atoftests {
 		test := &atoftests[i]
 		if test.err != nil {
-			test.err = &NumError{"ParseFloat", test.in, test.err}
+			test.err = &NumError{"ParseFloat", test.in, test.err, 0}
 		}
 	}
 	for i := range atof32tests {
 		test := &atof32tests[i]
 		if test.err != nil {
-			test.err = &NumError{"ParseFloat", test.in, test.err}
+			test.err = &NumError{"ParseFloat", test.in, test.err, 0}
 		}
 	}
 
