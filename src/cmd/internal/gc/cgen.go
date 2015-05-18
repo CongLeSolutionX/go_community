@@ -2164,6 +2164,9 @@ func bins(typ *Type, res *Node, a, likely int, to *obj.Prog) {
 func stkof(n *Node) int64 {
 	switch n.Op {
 	case OINDREG:
+		if n.Reg != int16(Thearch.REGSP) {
+			return -1000 // not on stack
+		}
 		return n.Xoffset
 
 	case ODOT:
@@ -2189,7 +2192,7 @@ func stkof(n *Node) int64 {
 		if Isconst(n.Right, CTINT) {
 			return off + t.Type.Width*Mpgetfix(n.Right.Val.U.(*Mpint))
 		}
-		return 1000
+		return 1000 // on stack but not sure exactly where
 
 	case OCALLMETH, OCALLINTER, OCALLFUNC:
 		t := n.Left.Type
@@ -2210,7 +2213,7 @@ func stkof(n *Node) int64 {
 
 	// botch - probably failing to recognize address
 	// arithmetic on the above. eg INDEX and DOT
-	return -1000
+	return -1000 // not on stack
 }
 
 /*
