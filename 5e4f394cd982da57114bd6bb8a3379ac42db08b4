@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da23dbf_2f0b7527",
+        "filename": "src/cmd/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-18T19:29:37Z",
+      "side": 1,
+      "message": "I believe \"for func param\" is wrong. n.Alloc is used for lots of kinds of nodes. See order.go.",
+      "revId": "5e4f394cd982da57114bd6bb8a3379ac42db08b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
