@@ -16,12 +16,12 @@ type Location interface {
 // A Register is a machine register, like %rax.
 // They are numbered densely from 0 (for each architecture).
 type Register struct {
-	Num  int32
-	name string
+	Num int32
+	Nam string
 }
 
 func (r *Register) Name() string {
-	return r.name
+	return r.Nam
 }
 
 // A LocalSlot is a location in the stack frame.
