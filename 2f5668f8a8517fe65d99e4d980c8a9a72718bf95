@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d98b58f_453d7c8a",
+        "filename": "src/cmd/internal/gc/esc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-18T14:39:49Z",
+      "side": 1,
+      "message": "s/assign to/assign of/",
+      "revId": "2f5668f8a8517fe65d99e4d980c8a9a72718bf95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d98b58f_e5cc903c",
+        "filename": "test/escape2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-18T14:39:49Z",
+      "side": 1,
+      "message": "remove \"(briefly)\"\nit could leak forever if y has spare capacity.",
+      "revId": "2f5668f8a8517fe65d99e4d980c8a9a72718bf95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d98b58f_a5d688c6",
+        "filename": "test/escape2n.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-18T14:39:49Z",
+      "side": 1,
+      "message": "same",
+      "revId": "2f5668f8a8517fe65d99e4d980c8a9a72718bf95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
