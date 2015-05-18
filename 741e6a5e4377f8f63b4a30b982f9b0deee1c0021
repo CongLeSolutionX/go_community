@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da23dbf_faa8a9dc",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-18T21:09:22Z",
+      "side": 1,
+      "message": "If you feel like it you could try benchmarking with \n\n    heapBits{(*byte)(unsafe.Pointer(uintptr(unsafe.Pointer(h.bitp)+n/4))), uint32(n%4)}\n\nIt may inline better.",
+      "revId": "741e6a5e4377f8f63b4a30b982f9b0deee1c0021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
