@@ -16,6 +16,24 @@
       "revId": "8db25129db8aa81ee2605e9ace390a3c659ab79d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_7434c889",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-19T15:28:14Z",
+      "side": 1,
+      "message": "Done, and I added a note about dropping ODOT and OINDEX at some point.",
+      "parentUuid": "8d2aad12_148b14f0",
+      "revId": "8db25129db8aa81ee2605e9ace390a3c659ab79d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
