@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "8d2aad12_1a857d0a",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3241,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-19T21:15:01Z",
+      "side": 1,
+      "message": "use Fatal",
+      "revId": "c0e6d51ff98a832b078ff5c54a9783dd7d84fd73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2aad12_54918c1d",
         "filename": "src/cmd/internal/gc/cgen.go",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "2015-05-19T14:13:13Z",
       "side": 1,
       "message": "No else after panic.",
+      "revId": "c0e6d51ff98a832b078ff5c54a9783dd7d84fd73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_faf4419f",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3243,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-19T21:15:01Z",
+      "side": 1,
+      "message": "In general, let\u0027s not modify the input arguments during code generation.\n\nvar tmp Node\nNodconst(\u0026tmp, indexRegType, Mpgetfix(n1.Val.U.(*Mpint)))\nn1 \u003d \u0026tmp",
       "revId": "c0e6d51ff98a832b078ff5c54a9783dd7d84fd73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
