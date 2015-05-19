@@ -2969,6 +2969,10 @@ func cgen_append(n, res *Node) {
 // On systems with 32-bit ints, i, j, k are guaranteed to be 32-bit values.
 func cgen_slice(n, res *Node, wb bool) {
 	needFullUpdate := !samesafeexpr(n.Left, res)
+	if Debug['g'] != 0 {
+		Dump("cgen_slice-n", n)
+		Dump("cgen_slice-res", res)
+	}
 
 	// orderexpr has made sure that x is safe (but possibly expensive)
 	// and i, j, k are cheap. On a system with registers (anything but 386)
@@ -3231,6 +3235,14 @@ func cgen_slice(n, res *Node, wb bool) {
 	}
 
 	compare := func(n1, n2 *Node) {
+		// n1 might be a 64-bit constant, even on 32-bit architectures
+		if Ctxt.Arch.Regsize == 4 && Is64(n1.Type) {
+			if mpcmpfixc(n1.Val.U.(*Mpint), 1<<31) >= 0 {
+				panic("missed slice out of bounds check") // shouldn't happen
+			} else {
+				Nodconst(n1, indexRegType, Mpgetfix(n1.Val.U.(*Mpint)))
+			}
+		}
 		p := Thearch.Ginscmp(OGT, indexRegType, n1, n2, -1)
 		panics = append(panics, p)
 	}
