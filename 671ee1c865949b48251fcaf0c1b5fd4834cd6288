@@ -16,6 +16,24 @@
       "revId": "671ee1c865949b48251fcaf0c1b5fd4834cd6288",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adfdb1c1_656ac61a",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-19T05:14:31Z",
+      "side": 1,
+      "message": "Done. Switched to your wording.",
+      "parentUuid": "4d343566_e2182678",
+      "revId": "671ee1c865949b48251fcaf0c1b5fd4834cd6288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
