@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2aad12_148b14f0",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-19T14:20:12Z",
+      "side": 1,
+      "message": "n is not necessarily on the stack. Maybe,\n\n// stkof returns n\u0027s offset from SP if n is on the stack\n// (either a local variable or a return value from a function call).\n// If n is not on the stack, stkof returns -1000.\n// If n is on the stack, but stkof cannot determine its offset,\n// stkof returns 1000.",
+      "revId": "8db25129db8aa81ee2605e9ace390a3c659ab79d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
