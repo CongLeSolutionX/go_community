@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2aad12_b47b4073",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2971,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-19T14:13:13Z",
+      "side": 1,
+      "message": "move this down below the if Debug, with a blank line separating them.\nThe debug prints should be first, and separated from real code.",
+      "revId": "c0e6d51ff98a832b078ff5c54a9783dd7d84fd73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_54918c1d",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3242,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-19T14:13:13Z",
+      "side": 1,
+      "message": "No else after panic.",
+      "revId": "c0e6d51ff98a832b078ff5c54a9783dd7d84fd73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
