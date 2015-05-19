@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "adfdb1c1_287a63b5",
+        "filename": "src/cmd/internal/gc/cgen.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 2969,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-19T07:12:56Z",
+      "side": 1,
+      "message": "I don\u0027t know how this is guaranteed if i/j/k is constant.\n\nFor example, on both arm/386, cgen_slice is called with:\n\ncgen_slice-n [0x4208194b40]\n.   SLICE u(1) l(9) tc(1) ARRAY-[]int\n.   .   NAME-main.si u(1) a(true) l(6) x(0+0) class(PEXTERN) tc(1) used(true) ARRAY-[]int\n.   .   KEY l(9)\n.   .   .   LITERAL-100014 u(1) a(true) l(5) x(0+0) class(PEXTERN) tc(1) main.ci64 G0 int64\ncgen_slice-res [0x420819a140]\n.   NAME-main.autotmp_0000 u(1) a(true) l(9) x(0+0) class(PAUTO) esc(N) ARRAY-[]int\n\nFor this input:\n\npackage main\n\nconst ci64 int64 \u003d 100014\nvar si []int \u003d make([]int, 10)\n\nfunc main() {\n        _ \u003d si[0:ci64]\n}",
+      "revId": "d4472799277102e461968fa059f49bc8b9b6e433",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0da4fdb8_889c7d6a",
         "filename": "src/cmd/internal/gc/cgen.go",
         "patchSetId": 11
