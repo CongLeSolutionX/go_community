@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d343566_c295e23c",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-05-19T04:30:22Z",
+      "side": 1,
+      "message": "\"not all sec values have a corresponding Time value.\" ?",
+      "revId": "6e438b8497856c716e553b029e109671a429fb47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
