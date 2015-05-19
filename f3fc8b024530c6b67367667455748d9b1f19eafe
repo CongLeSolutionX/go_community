@@ -16,6 +16,24 @@
       "revId": "f3fc8b024530c6b67367667455748d9b1f19eafe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_5a9bf5ee",
+        "filename": "src/time/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-19T23:48:29Z",
+      "side": 1,
+      "message": "Yes, the -1\u003c\u003c63 case is wrong. I added it because I was thinking\nthat negative time is wrong.\n\nI think it\u0027s still worthwhile to note the 1\u003c\u003c63-1 case because the\nissue mentions that someone might create a time.Unix(math.MaxInt64, 0)\nas a sentinel value. I think the zero time works as a sentinel value\nif you want a minimal sentinel.",
+      "parentUuid": "8d2aad12_1463148d",
+      "revId": "f3fc8b024530c6b67367667455748d9b1f19eafe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
