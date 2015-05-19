@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2aad12_1463148d",
+        "filename": "src/time/time.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-19T15:41:52Z",
+      "side": 1,
+      "message": "This is demonstrably false. It can\u0027t be that both of these values are problematic. A Time.sec int64 \u003d Unix.sec int64 + c for some constant c. Certainly c !\u003d 0 narrows the set of values that can be represented in both forms, but only in one direction. Since c is positive in this case, that means it\u0027s true that Unix.sec 1\u003c\u003c63-1 + c wraps around, so there is no corresponding Time.sec, but then -1\u003c\u003c63 + c should be fine. If c were negative the opposite would happen (but c is not negative); in any case, both can\u0027t be broken.\n\nI don\u0027t think there\u0027s anything worth saying here. 1^63 seconds is in the year 2.9×10¹⁰ no matter what the epoch. I would be inclined to roll back this CL. It raises more questions than it answers. \n\nIf we were really worried we could clamp the result, like we do for Duration.Sub, but I am not really worried.",
+      "revId": "f3fc8b024530c6b67367667455748d9b1f19eafe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
