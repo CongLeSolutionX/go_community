@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d2aad12_b484a05a",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "This name should be spelled \"Uintptr\".",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_1721d6ca",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "Rename this just \u0027state\u0027, or perhaps \u0027builder\u0027?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_972c06c7",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "Hopefully a better escape analysis than address-taken is the ultimate goal...?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_371e528c",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "exprAddr converts... SSA ... SSA result.",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_d75b5e61",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "call this just \u0027addr\u0027?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_f760da0d",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "Should NewValue de-dup such Values, or is the identity of a Value less important than its contents to most of these algorithms?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_b7434272",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "I think gc uses zero-page faults to detect dereferences at small offsets from nil implicitly.  You might want to use the same mechanism since it\u0027s free at run-time and avoids bloating the IR.",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_3750922f",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "\"Prog(); To.Type\u003dBRANCH\" appears 22 times.  Use a helper function?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_1753163f",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "combine calls to append?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_57a2eeaa",
+        "filename": "src/cmd/internal/ssa/location.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "This feature of Go makes me sad.",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_17ac7698",
+        "filename": "src/cmd/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "\"arg0 and result\"",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_370bb227",
+        "filename": "src/cmd/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "You can do this in fewer ops like so:\n\n// x, y have same sign and z has different sign \u003d\u003e overflow\nx^y \u003e\u003d 0 \u0026\u0026 x^z \u003c 0",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d2aad12_f71d3a65",
+        "filename": "src/cmd/internal/ssa/rulegen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-19T18:10:27Z",
+      "side": 1,
+      "message": "call inBounds() on the RHS?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
