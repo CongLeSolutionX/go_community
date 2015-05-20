@@ -2155,7 +2155,7 @@ func malg(stacksize int32) *g {
 	if stacksize >= 0 {
 		stacksize = round2(_StackSystem + stacksize)
 		systemstack(func() {
-			newg.stack = stackalloc(uint32(stacksize))
+			newg.stack, newg.stkbar = stackalloc(uint32(stacksize))
 		})
 		newg.stackguard0 = newg.stack.lo + _StackGuard
 		newg.stackguard1 = ^uintptr(0)
@@ -2283,6 +2283,8 @@ func gfput(_p_ *p, gp *g) {
 		gp.stack.lo = 0
 		gp.stack.hi = 0
 		gp.stackguard0 = 0
+		gp.stkbar = nil
+		gp.stkbarPos = 0
 	}
 
 	gp.schedlink.set(_p_.gfree)
@@ -2326,7 +2328,7 @@ retry:
 		if gp.stack.lo == 0 {
 			// Stack was deallocated in gfput.  Allocate a new one.
 			systemstack(func() {
-				gp.stack = stackalloc(_FixedStack)
+				gp.stack, gp.stkbar = stackalloc(_FixedStack)
 			})
 			gp.stackguard0 = gp.stack.lo + _StackGuard
 			gp.stackAlloc = _FixedStack
