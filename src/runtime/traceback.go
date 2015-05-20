@@ -47,6 +47,7 @@ var (
 	gcBgMarkWorkerPC     uintptr
 	systemstack_switchPC uintptr
 	systemstackPC        uintptr
+	stackBarrierPC       uintptr
 
 	gogoPC uintptr
 
@@ -73,6 +74,7 @@ func tracebackinit() {
 	gcBgMarkWorkerPC = funcPC(gcBgMarkWorker)
 	systemstack_switchPC = funcPC(systemstack_switch)
 	systemstackPC = funcPC(systemstack)
+	stackBarrierPC = funcPC(stackBarrier)
 
 	// used by sigprof handler
 	gogoPC = funcPC(gogo)
@@ -135,6 +137,11 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		throw("gentraceback cannot trace user goroutine on its own stack")
 	}
 	gotraceback := gotraceback(nil)
+
+	// Fix up returns to the stack barrier by fetching the
+	// original return PC from gp.stkbar.
+	stkbar := gp.stkbar[gp.stkbarPos:]
+
 	if pc0 == ^uintptr(0) && sp0 == ^uintptr(0) { // Signal to fetch saved values from gp.
 		if gp.syscallsp != 0 {
 			pc0 = gp.syscallpc
@@ -147,6 +154,12 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			sp0 = gp.sched.sp
 			if usesLR {
 				lr0 = gp.sched.lr
+				if lr0 == stackBarrierPC {
+					// Recover original PC.
+					// TODO: This may be unnecessary.
+					lr0 = stkbar[0].savedLRVal
+					stkbar = stkbar[1:]
+				}
 			}
 		}
 	}
@@ -207,6 +220,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			sp := frame.sp
 			if flags&_TraceJumpStack != 0 && f.entry == systemstackPC && gp == g.m.g0 && gp.m.curg != nil {
 				sp = gp.m.curg.sched.sp
+				stkbar = gp.m.curg.stkbar[gp.m.curg.stkbarPos:]
 			}
 			frame.fp = sp + uintptr(funcspdelta(f, frame.pc))
 			if !usesLR {
@@ -238,6 +252,11 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				if frame.lr == 0 {
 					frame.lr = uintptr(*(*uintreg)(unsafe.Pointer(frame.fp - regSize)))
 				}
+			}
+			if frame.lr == stackBarrierPC {
+				// Recover original PC.
+				frame.lr = stkbar[0].savedLRVal
+				stkbar = stkbar[1:]
 			}
 			flr = findfunc(frame.lr)
 			if flr == nil {
