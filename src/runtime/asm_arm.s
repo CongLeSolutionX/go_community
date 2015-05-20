@@ -309,6 +309,24 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$-4-0
 	MOVW	$0, R7
 	B runtime·morestack(SB)
 
+TEXT runtime·stackBarrier(SB),NOSPLIT,$0
+	// We came here via a RET to an overwritten LR.
+	// R0 may be live. Other registers are available.
+
+	// Get the original return PC, g.stkbar[g.stkbarPos].savedLRVal.
+	MOVW	(g_stkbar+slice_array)(g), R4
+	MOVW	g_stkbarPos(g), R5
+	MOVW	$stkbar__size, R6
+	MUL	R5, R6, R6
+	ADD	R4, R6
+	ADD	$stkbar_savedLRVal, R6
+	MOVW	(R6), R6
+	// Record that this stack barrier was hit.
+	ADD	$1, R5
+	MOVW	R5, g_stkbarPos(g)
+	// Jump to the original return PC.
+	B	(R6)
+
 // reflectcall: call a function with the given argument list
 // func call(argtype *_type, f *FuncVal, arg *byte, argsize, retoffset uint32).
 // we don't have variable-sized frames, so we use a small number

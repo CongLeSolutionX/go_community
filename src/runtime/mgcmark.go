@@ -280,6 +280,9 @@ func gcphasework(gp *g) {
 //go:nowritebarrier
 func scanstack(gp *g) {
 	if gp.gcscanvalid {
+		if gcphase == _GCmarktermination {
+			gcRemoveStackBarriers(gp)
+		}
 		return
 	}
 
@@ -309,11 +312,59 @@ func scanstack(gp *g) {
 		throw("can't scan gchelper stack")
 	}
 
+	var barrierOffset, nextBarrier uintptr
+	switch gcphase {
+	case _GCscan:
+		// Install stack barriers during stack scan.
+		barrierOffset = firstStackBarrierOffset
+		nextBarrier = gp.sched.sp + barrierOffset
+
+		if gp.stkbarPos != 0 || len(gp.stkbar) != 0 {
+			// TODO: There are comments claiming that we
+			// can sometimes scan a stack twice.
+			print("stkbarPos=", gp.stkbarPos, " len(stkbar)=", len(gp.stkbar), " goid=", gp.goid, " gcphase=", gcphase, "\n")
+			throw("g already has stack barriers")
+		}
+
+	case _GCmarktermination:
+		if int(gp.stkbarPos) == len(gp.stkbar) {
+			// gp hit all of the stack barriers (or there
+			// were none). Re-scan the whole stack.
+			nextBarrier = ^uintptr(0)
+		} else {
+			// Only re-scan up to the lowest un-hit
+			// barrier. Any frames above this have not
+			// executed since the _GCscan scan of gp and
+			// any writes through up-pointers to above
+			// this barrier had write barriers.
+			nextBarrier = gp.stkbar[gp.stkbarPos].savedLRPtr
+			if debugStackBarrier {
+				print("rescan [", gp.sched.sp, ",", nextBarrier, "] of [", gp.sched.sp, ",", gp.stack.hi, "] goid=", gp.goid)
+			}
+		}
+
+		gcRemoveStackBarriers(gp)
+
+	default:
+		throw("scanstack in wrong phase")
+	}
+
 	gcw := &getg().m.p.ptr().gcw
 	scanframe := func(frame *stkframe, unused unsafe.Pointer) bool {
-		// Pick up gcw as free variable so gentraceback and friends can
-		// keep the same signature.
 		scanframeworker(frame, unused, gcw)
+
+		if frame.fp >= nextBarrier {
+			if gcphase == _GCscan {
+				gcInstallStackBarrier(gp, frame)
+				barrierOffset *= 2
+				nextBarrier = gp.sched.sp + barrierOffset
+			} else {
+				// We've scanned above the bottom-most
+				// barrier.
+				return false
+			}
+		}
+
 		return true
 	}
 	gentraceback(^uintptr(0), ^uintptr(0), 0, gp, 0, nil, 0x7fffffff, scanframe, nil, 0)
@@ -418,6 +469,77 @@ func gcMaxStackBarriers(stackSize int) (n int) {
 		offset *= 2
 	}
 	return n + 1
+}
+
+// gcInstallStackBarrier installs a stack barrier over the return PC of frame.
+//go:nowritebarrier
+func gcInstallStackBarrier(gp *g, frame *stkframe) {
+	if frame.lr == 0 {
+		if debugStackBarrier {
+			print("not installing stack barrier with no LR, goid=", gp.goid, "\n")
+		}
+		return
+	}
+
+	gp.stkbar = gp.stkbar[:len(gp.stkbar)+1]
+	stkbar := &gp.stkbar[len(gp.stkbar)-1]
+
+	// Save the return PC and overwrite it with stackBarrier.
+	var lrUintptr uintptr
+	if usesLR {
+		lrUintptr = frame.sp
+	} else {
+		lrUintptr = frame.fp - regSize
+	}
+	lrPtr := (*uintreg)(unsafe.Pointer(lrUintptr))
+	if debugStackBarrier {
+		print("install stack barrier at ", hex(lrUintptr), " over ", hex(*lrPtr), ", goid=", gp.goid, "\n")
+	}
+	stkbar.savedLRPtr = lrUintptr
+	stkbar.savedLRVal = uintptr(*lrPtr)
+	*lrPtr = uintreg(stackBarrierPC)
+}
+
+// gcRemoveStackBarriers removes all stack barriers installed in gp's stack.
+//go:nowritebarrier
+func gcRemoveStackBarriers(gp *g) {
+	if debugStackBarrier && gp.stkbarPos != 0 {
+		print("hit ", gp.stkbarPos, " stack barriers, goid=", gp.goid, "\n")
+	}
+
+	// Remove stack barriers that we didn't hit.
+	for _, stkbar := range gp.stkbar[gp.stkbarPos:] {
+		gcRemoveStackBarrier(gp, stkbar)
+	}
+
+	// Clear recorded stack barriers so copystack doesn't try to
+	// adjust them.
+	gp.stkbarPos = 0
+	gp.stkbar = gp.stkbar[:0]
+}
+
+// gcRemoveStackBarrier removes a single stack barrier. It is the
+// inverse operation of gcInstallStackBarrier.
+//go:nowritebarrier
+func gcRemoveStackBarrier(gp *g, stkbar stkbar) {
+	if debugStackBarrier {
+		print("remove stack barrier at ", hex(stkbar.savedLRPtr), " with ", hex(stkbar.savedLRVal), ", goid=", gp.goid, "\n")
+	}
+	lrPtr := (*uintreg)(unsafe.Pointer(stkbar.savedLRPtr))
+	if val := *lrPtr; val != uintreg(stackBarrierPC) {
+		printlock()
+		print("at *", hex(stkbar.savedLRPtr), " expected stack barrier PC ", hex(stackBarrierPC), ", found ", hex(val), ", goid=", gp.goid, "\n")
+		print("gp.stkbar=[")
+		for i, s := range gp.stkbar {
+			if i > 0 {
+				print(" ")
+			}
+			print("*", s.savedLRPtr, "=", s.savedLRVal)
+		}
+		print("], gp.stkbarPos=", gp.stkbarPos, "\n")
+		throw("stack barrier lost")
+	}
+	*lrPtr = uintreg(stkbar.savedLRVal)
 }
 
 // TODO(austin): Can we consolidate the gcDrain* functions?

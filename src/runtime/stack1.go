@@ -200,7 +200,7 @@ func stackalloc(n uint32) (stack, []stkbar) {
 			throw("out of memory (stackalloc)")
 		}
 		top := uintptr(n) - nstkbar
-		return stack{uintptr(v), uintptr(v) + top}, (*[1 << 30]stkbar)(add(v, top))[:0:maxstkbar]
+		return stack{uintptr(v), uintptr(v) + top}, (*[1 << 27]stkbar)(add(v, top))[:0:maxstkbar]
 	}
 
 	// Small stacks are allocated with a fixed-size free-list allocator.
@@ -249,7 +249,7 @@ func stackalloc(n uint32) (stack, []stkbar) {
 		print("  allocated ", v, "\n")
 	}
 	top := uintptr(n) - nstkbar
-	return stack{uintptr(v), uintptr(v) + top}, (*[1 << 30]stkbar)(add(v, top))[:0:maxstkbar]
+	return stack{uintptr(v), uintptr(v) + top}, (*[1 << 27]stkbar)(add(v, top))[:0:maxstkbar]
 }
 
 func stackfree(stk stack, n uintptr) {
@@ -543,6 +543,12 @@ func adjustsudogs(gp *g, adjinfo *adjustinfo) {
 	}
 }
 
+func adjuststkbar(gp *g, adjinfo *adjustinfo) {
+	for i := int(gp.stkbarPos); i < len(gp.stkbar); i++ {
+		adjustpointer(adjinfo, (unsafe.Pointer)(&gp.stkbar[i].savedLRPtr))
+	}
+}
+
 func fillstack(stk stack, b byte) {
 	for p := stk.lo; p < stk.hi; p++ {
 		*(*byte)(unsafe.Pointer(p)) = b
@@ -581,6 +587,7 @@ func copystack(gp *g, newsize uintptr) {
 	adjustdefers(gp, &adjinfo)
 	adjustpanics(gp, &adjinfo)
 	adjustsudogs(gp, &adjinfo)
+	adjuststkbar(gp, &adjinfo)
 
 	// copy the stack to the new location
 	if stackPoisonCopy != 0 {

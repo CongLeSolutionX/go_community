@@ -336,6 +336,22 @@ TEXT runtime·morestack_noctxt(SB),NOSPLIT,$0
 	MOVL	$0, DX
 	JMP	runtime·morestack(SB)
 
+TEXT runtime·stackBarrier(SB),NOSPLIT,$0
+	// We came here via a RET to an overwritten return PC.
+	// AX may be live. Other registers are available.
+
+	// Get the original return PC, g.stkbar[g.stkbarPos].savedLRVal.
+	get_tls(CX)
+	MOVQ	g(CX), CX
+	MOVQ	(g_stkbar+slice_array)(CX), DX
+	MOVQ	g_stkbarPos(CX), BX
+	IMULQ	$stkbar__size, BX	// Too big for SIB.
+	MOVQ	stkbar_savedLRVal(DX)(BX*1), BX
+	// Record that this stack barrier was hit.
+	ADDQ	$1, g_stkbarPos(CX)
+	// Jump to the original return PC.
+	JMP	BX
+
 // reflectcall: call a function with the given argument list
 // func call(argtype *_type, f *FuncVal, arg *byte, argsize, retoffset uint32).
 // we don't have variable-sized frames, so we use a small number
