@@ -16,6 +16,24 @@
       "revId": "4e0a029d78db235375185494a8beb44c2324c20f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d343566_eba32100",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2423,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-05-20T10:12:45Z",
+      "side": 1,
+      "message": "Well, really the arguments to ld should probably be changed. This part of the CL is what bothers me the most -- the loop I\u0027m rewriting here has been the scene of many bugfixes. I think the recursive approach is more solid, but it make me nervous. I should try to get someone to try this change against juju.",
+      "parentUuid": "ed4089d5_22313099",
+      "revId": "4e0a029d78db235375185494a8beb44c2324c20f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
