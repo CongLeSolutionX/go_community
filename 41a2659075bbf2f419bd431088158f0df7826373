@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "ed4089d5_c5e08e4c",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-20T16:05:24Z",
+      "side": 1,
+      "message": "Yes, the more variables we get into SSA the better.",
+      "parentUuid": "8d2aad12_972c06c7",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2aad12_371e528c",
         "filename": "src/cmd/internal/gc/ssa.go",
         "patchSetId": 1
@@ -104,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "ed4089d5_25d05a78",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-20T16:05:24Z",
+      "side": 1,
+      "message": "Any duplicates will be removed as part of CSE.  It would be an optimization to dedup at construction time.  (We\u0027d need NewValue0 to indicate that no further args would be added.)  I don\u0027t think this is particularly important for globals, but for integer constants it might be.",
+      "parentUuid": "8d2aad12_f760da0d",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2aad12_b7434272",
         "filename": "src/cmd/internal/gc/ssa.go",
         "patchSetId": 1
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "ed4089d5_0500b66e",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-20T16:05:24Z",
+      "side": 1,
+      "message": "Right, that\u0027s the TODO.",
+      "parentUuid": "8d2aad12_b7434272",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2aad12_3750922f",
         "filename": "src/cmd/internal/gc/ssa.go",
         "patchSetId": 1
@@ -132,6 +186,24 @@
       "writtenOn": "2015-05-19T18:10:27Z",
       "side": 1,
       "message": "\"Prog(); To.Type\u003dBRANCH\" appears 22 times.  Use a helper function?",
+      "revId": "41a2659075bbf2f419bd431088158f0df7826373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed4089d5_a5f46a05",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-20T16:05:24Z",
+      "side": 1,
+      "message": "I\u0027d rather leave this code for now.  It is arch-specific, so it will have to be redone at some point anyway.",
+      "parentUuid": "8d2aad12_3750922f",
       "revId": "41a2659075bbf2f419bd431088158f0df7826373",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
