@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d162dff_94f4249f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-21T23:25:34Z",
+      "side": 1,
+      "message": "Add case BuildmodeUnset.",
+      "revId": "66a50a0e7598a293181e01f4603a43e3ac376475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d162dff_f4f91895",
+        "filename": "src/cmd/link/internal/ld/pobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-21T23:25:34Z",
+      "side": 1,
+      "message": "Note that the code setting ld.Debug[8\u0027] \u003d 1 in cmd/link/internal/amd64/asm.go is useless.",
+      "revId": "66a50a0e7598a293181e01f4603a43e3ac376475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
