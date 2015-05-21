@@ -146,13 +146,13 @@ func minit() {
 	_g_.m.procid = uint64(lwp_self())
 
 	// Initialize signal handling
-	signalstack((*byte)(unsafe.Pointer(_g_.m.gsignal.stack.lo)), 32*1024)
+	signalstack(&_g_.m.gsignal.stack)
 	sigprocmask(_SIG_SETMASK, &sigset_none, nil)
 }
 
 // Called from dropm to undo the effect of an minit.
 func unminit() {
-	signalstack(nil, 0)
+	signalstack(nil)
 }
 
 func memlimit() uintptr {
@@ -194,14 +194,14 @@ func getsig(i int32) uintptr {
 	return sa.sa_sigaction
 }
 
-func signalstack(p *byte, n int32) {
+func signalstack(s *stack) {
 	var st sigaltstackt
-
-	st.ss_sp = uintptr(unsafe.Pointer(p))
-	st.ss_size = uintptr(n)
-	st.ss_flags = 0
-	if p == nil {
+	if s == nil {
 		st.ss_flags = _SS_DISABLE
+	} else {
+		st.ss_sp = s.lo
+		st.ss_size = s.hi - s.lo
+		st.ss_flags = 0
 	}
 	sigaltstack(&st, nil)
 }
