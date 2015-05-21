@@ -1135,7 +1135,7 @@ func readelfsymboldata(f *elf.File, sym *elf.Symbol) []byte {
 	if sect.Type != elf.SHT_PROGBITS {
 		Diag("reading %s from non-PROGBITS section", sym.Name)
 	}
-	n, err := sect.ReadAt(data, int64(sym.Value-sect.Offset))
+	n, err := sect.ReadAt(data, int64(sym.Value-sect.Addr))
 	if uint64(n) != sym.Size {
 		Diag("reading contents of %s: %v", sym.Name, err)
 	}
@@ -1663,6 +1663,11 @@ func genasmsym(put func(*LSym, string, int, int64, int64, int, *LSym)) {
 			obj.SSTRING,
 			obj.SGOSTRING,
 			obj.SGOFUNC,
+			obj.STYPERELRO,
+			obj.SSTRINGRELRO,
+			obj.SGOSTRINGRELRO,
+			obj.SGOFUNCRELRO,
+			obj.SRODATARELRO,
 			obj.SWINDOWS:
 			if !s.Reachable {
 				continue

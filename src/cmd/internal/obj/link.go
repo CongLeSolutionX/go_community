@@ -322,12 +322,30 @@ const (
 	Sxxx = iota
 	STEXT
 	SELFRXSECT
+
 	STYPE
 	SSTRING
 	SGOSTRING
 	SGOFUNC
 	SRODATA
 	SFUNCTAB
+
+	// Types STYPE-SFUNCTAB above are written to the .rodata section by default.
+	// When linking a shared object, some conceptually "read only" types need to
+	// be written to by relocations and putting them in a section called
+	// ".rodata" interacts poorly with the system linkers. So in this case the
+	// linker checks all the objects of the above types and bumps any object that
+	// has a relocation to it to the corresponding type below, and objects of
+	// these types are written to another magically named section,
+	// ".data.rel.ro", that will be mprotected read only by the dynamic linker
+	// after relocations have been applied.
+	STYPERELRO
+	SSTRINGRELRO
+	SGOSTRINGRELRO
+	SGOFUNCRELRO
+	SRODATARELRO
+	SFUNCTABRELRO
+
 	STYPELINK
 	SSYMTAB
 	SPCLNTAB
