@@ -1662,6 +1662,7 @@ func doelf() {
 	Addstring(shstrtab, ".text")
 	Addstring(shstrtab, ".noptrdata")
 	Addstring(shstrtab, ".data")
+	Addstring(shstrtab, ".data.rel.ro")
 	Addstring(shstrtab, ".bss")
 	Addstring(shstrtab, ".noptrbss")
 
@@ -1704,6 +1705,7 @@ func doelf() {
 			Addstring(shstrtab, ".rela.gopclntab")
 			Addstring(shstrtab, ".rela.noptrdata")
 			Addstring(shstrtab, ".rela.data")
+			Addstring(shstrtab, ".rela.data.rel.ro")
 
 		default:
 			Addstring(shstrtab, ".rel.text")
@@ -1713,6 +1715,7 @@ func doelf() {
 			Addstring(shstrtab, ".rel.gopclntab")
 			Addstring(shstrtab, ".rel.noptrdata")
 			Addstring(shstrtab, ".rel.data")
+			Addstring(shstrtab, ".rel.data.rel.ro")
 		}
 
 		// add a .note.GNU-stack section to mark the stack as non-executable
