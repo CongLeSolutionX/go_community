@@ -381,6 +381,7 @@ func symtab() {
 	symgcbits := s
 
 	symtypelink := Linklookup(Ctxt, "runtime.typelink", 0)
+	symtypelink.Type = obj.STYPELINK
 
 	symt = Linklookup(Ctxt, "runtime.symtab", 0)
 	symt.Local = true
