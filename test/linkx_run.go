@@ -16,8 +16,13 @@ import (
 )
 
 func main() {
+	test(" ") // old deprecated syntax
+	test("=") // new syntax
+}
+
+func test(sep string) {
 	// Successful run
-	cmd := exec.Command("go", "run", "-ldflags=-X main.tbd hello -X main.overwrite trumped -X main.nosuchsymbol neverseen", "linkx.go")
+	cmd := exec.Command("go", "run", "-ldflags=-X main.tbd"+sep+"hello -X main.overwrite"+sep+"trumped -X main.nosuchsymbol"+sep+"neverseen", "linkx.go")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println(string(out))
