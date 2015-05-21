@@ -17,7 +17,7 @@ import (
 
 func main() {
 	// Successful run
-	cmd := exec.Command("go", "run", "-ldflags=-X main.tbd hello -X main.overwrite trumped -X main.nosuchsymbol neverseen", "linkx.go")
+	cmd := exec.Command("go", "run", "-ldflags=-X main.tbd=hello -X main.overwrite=trumped -X main.nosuchsymbol=neverseen", "linkx.go")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println(string(out))

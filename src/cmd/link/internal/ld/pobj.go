@@ -101,7 +101,7 @@ func Ldmain() {
 	obj.Flagint64("T", "set text segment `address`", &INITTEXT)
 	obj.Flagfn0("V", "print version and exit", doversion)
 	obj.Flagcount("W", "disassemble input", &Debug['W'])
-	obj.Flagfn1("X", "set the value of a string variable; the next two arguments are its name and value", addstrdata1)
+	obj.Flagfn1("X", "add string value `definition` of the form importpath.name=value", addstrdata1)
 	obj.Flagcount("Z", "clear stack frame on entry", &Debug['Z'])
 	obj.Flagcount("a", "disassemble output", &Debug['a'])
 	flag.Var(&Buildmode, "buildmode", "set build `mode`")
@@ -129,17 +129,6 @@ func Ldmain() {
 	obj.Flagcount("v", "print link trace", &Debug['v'])
 	obj.Flagcount("w", "disable DWARF generation", &Debug['w'])
 
-	// Clumsy hack to preserve old behavior of -X taking two arguments.
-	for i := 0; i < len(os.Args); i++ {
-		arg := os.Args[i]
-		if (arg == "--X" || arg == "-X") && i+2 < len(os.Args) {
-			os.Args[i+2] = "-X=VALUE:" + os.Args[i+2]
-			i += 2
-		} else if (strings.HasPrefix(arg, "--X=") || strings.HasPrefix(arg, "-X=")) && i+1 < len(os.Args) {
-			os.Args[i+1] = "-X=VALUE:" + os.Args[i+1]
-			i++
-		}
-	}
 	obj.Flagstr("cpuprofile", "write cpu profile to `file`", &cpuprofile)
 	obj.Flagstr("memprofile", "write memory profile to `file`", &memprofile)
 	obj.Flagint64("memprofilerate", "set runtime.MemProfileRate to `rate`", &memprofilerate)
