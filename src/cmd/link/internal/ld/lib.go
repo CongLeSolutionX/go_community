@@ -275,7 +275,8 @@ func Lflag(arg string) {
 type BuildMode uint8
 
 const (
-	BuildmodeExe BuildMode = iota
+	BuildmodeUnset BuildMode = iota
+	BuildmodeExe
 	BuildmodeCArchive
 	BuildmodeCShared
 	BuildmodeShared
