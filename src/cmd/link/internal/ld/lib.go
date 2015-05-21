@@ -175,6 +175,12 @@ func DynlinkingGo() bool {
 	return Buildmode == BuildmodeShared || Linkshared
 }
 
+// UseRelro returns whether to make use of "read only relocations" aka
+// relro.
+func UseRelro() bool {
+	return (Buildmode == BuildmodeCShared || Buildmode == BuildmodeShared) && Iself
+}
+
 var (
 	Thestring          string
 	Thelinkarch        *LinkArch
@@ -979,6 +985,7 @@ func hostlink() {
 			argv = append(argv, "-dynamiclib")
 		} else {
 			argv = append(argv, "-Wl,-Bsymbolic")
+			argv = append(argv, "-Wl,-z,relro")
 			argv = append(argv, "-shared")
 		}
 	case BuildmodeShared:
@@ -991,6 +998,7 @@ func hostlink() {
 		// anyway.
 		argv = append(argv, "-Wl,-Bsymbolic-functions")
 		argv = append(argv, "-shared")
+		argv = append(argv, "-Wl,-z,relro")
 	}
 
 	if Linkshared && Iself {
@@ -1801,6 +1809,12 @@ func genasmsym(put func(*LSym, string, int, int64, int64, int, *LSym)) {
 			obj.SGOSTRING,
 			obj.SGOFUNC,
 			obj.SGCBITS,
+			obj.STYPERELRO,
+			obj.SSTRINGRELRO,
+			obj.SGOSTRINGRELRO,
+			obj.SGOFUNCRELRO,
+			obj.SGCBITSRELRO,
+			obj.SRODATARELRO,
 			obj.SWINDOWS:
 			if !s.Reachable {
 				continue
