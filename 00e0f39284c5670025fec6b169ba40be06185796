@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d162dff_34b6f0cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-21T23:40:09Z",
+      "side": 1,
+      "message": "Say instead what the space benefit is, for the edification of future readers.",
+      "revId": "00e0f39284c5670025fec6b169ba40be06185796",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0995dc_a3abe8fe",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 3
