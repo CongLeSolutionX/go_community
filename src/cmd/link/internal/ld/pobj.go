@@ -101,7 +101,7 @@ func Ldmain() {
 	obj.Flagint64("T", "set text segment `address`", &INITTEXT)
 	obj.Flagfn0("V", "print version and exit", doversion)
 	obj.Flagcount("W", "disassemble input", &Debug['W'])
-	obj.Flagfn1("X", "set the value of a string variable; the next two arguments are its name and value", addstrdata1)
+	obj.Flagfn1("X", "add string value `definition` of the form importpath.name=value", addstrdata1)
 	obj.Flagcount("Z", "clear stack frame on entry", &Debug['Z'])
 	obj.Flagcount("a", "disassemble output", &Debug['a'])
 	flag.Var(&Buildmode, "buildmode", "set build `mode`")
@@ -129,21 +129,35 @@ func Ldmain() {
 	obj.Flagcount("v", "print link trace", &Debug['v'])
 	obj.Flagcount("w", "disable DWARF generation", &Debug['w'])
 
-	// Clumsy hack to preserve old behavior of -X taking two arguments.
-	for i := 0; i < len(os.Args); i++ {
-		arg := os.Args[i]
-		if (arg == "--X" || arg == "-X") && i+2 < len(os.Args) {
-			os.Args[i+2] = "-X=VALUE:" + os.Args[i+2]
-			i += 2
-		} else if (strings.HasPrefix(arg, "--X=") || strings.HasPrefix(arg, "-X=")) && i+1 < len(os.Args) {
-			os.Args[i+1] = "-X=VALUE:" + os.Args[i+1]
-			i++
-		}
-	}
 	obj.Flagstr("cpuprofile", "write cpu profile to `file`", &cpuprofile)
 	obj.Flagstr("memprofile", "write memory profile to `file`", &memprofile)
 	obj.Flagint64("memprofilerate", "set runtime.MemProfileRate to `rate`", &memprofilerate)
+
+	// Clumsy hack to preserve old two-argument -X name val syntax for old scripts.
+	// Rewrite that syntax into new syntax -X name=val.
+	var args []string
+	for i := 0; i < len(os.Args); i++ {
+		arg := os.Args[i]
+		if arg == "--X" || strings.HasPrefix(arg, "--X=") {
+			arg = arg[1:]
+		}
+		if (arg == "-X" || arg == "--X") && i+2 < len(os.Args) && !strings.Contains(os.Args[i+1], "=") {
+			args = append(args, arg)
+			args = append(args, os.Args[i+1]+"="+os.Args[i+2])
+			i += 2
+			continue
+		}
+		if (strings.HasPrefix(arg, "-X=") || strings.HasPrefix(arg, "--X=")) && i+1 < len(os.Args) && strings.Count(arg, "=") == 1 {
+			args = append(args, arg+"="+os.Args[i+1])
+			i++
+			continue
+		}
+		args = append(args, arg)
+	}
+	os.Args = args
+
 	obj.Flagparse(usage)
+
 	startProfile()
 	Ctxt.Bso = &Bso
 	Ctxt.Debugvlog = int32(Debug['v'])
