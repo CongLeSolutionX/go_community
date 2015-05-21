@@ -206,7 +206,7 @@ type Prog struct {
 	From     Addr
 	From3    Addr
 	To       Addr
-	To2      Addr
+	RegTo2   int16
 	Opt      interface{}
 	Forwd    *Prog
 	Pcond    *Prog
