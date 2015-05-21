@@ -1183,6 +1183,29 @@ func dodata() {
 
 	*l = nil
 
+	if Buildmode == BuildmodeShared {
+		// "read only" data with relocations needs to go in its own section
+		// when building a shared library.
+		for s := datap; s != nil; s = s.Next {
+			if s.Type >= obj.STYPE && s.Type <= obj.SFUNCTAB && len(s.R) > 0 {
+				s.Type += (obj.STYPERELRO - obj.STYPE)
+				if s.Outer != nil && s.Outer.Type != s.Type {
+					s.Outer.Type = s.Type
+				}
+			}
+		}
+		// Check that we haven't made two symbols with the same .Outer into
+		// different types.
+		for s := datap; s != nil; s = s.Next {
+			if s.Outer != nil && s.Outer.Type != s.Type {
+				Diag(
+					"inconsisent types for %s and its Outer %s (%d != %d)",
+					s.Name, s.Outer.Name, s.Type, s.Outer.Type)
+			}
+		}
+
+	}
+
 	datap = listsort(datap, datcmp, listnextp)
 
 	if Iself {
@@ -1442,12 +1465,12 @@ func dodata() {
 	/* read-only data */
 	sect = addsection(segro, ".rodata", 04)
 
-	sect.Align = maxalign(s, obj.STYPELINK-1)
+	sect.Align = maxalign(s, obj.STYPERELRO-1)
 	datsize = Rnd(datsize, int64(sect.Align))
 	sect.Vaddr = 0
 	Linklookup(Ctxt, "runtime.rodata", 0).Sect = sect
 	Linklookup(Ctxt, "runtime.erodata", 0).Sect = sect
-	for ; s != nil && s.Type < obj.STYPELINK; s = s.Next {
+	for ; s != nil && s.Type < obj.STYPERELRO; s = s.Next {
 		datsize = aligndatsize(datsize, s)
 		s.Sect = sect
 		s.Type = obj.SRODATA
@@ -1457,8 +1480,43 @@ func dodata() {
 
 	sect.Length = uint64(datsize) - sect.Vaddr
 
+	// There are a few sections that are conceptually read-only but are written
+	// to by relocations. We can arrange for the dynamic linker to mprotect
+	// exactly one section after relocations are applied by calling it
+	// ".data.rel.ro". We use that section for things that would ordinarily be go
+	// into .rodata and leave the other sections (.typelink, .gosymtab,
+	// .gopclntab) writable.
+	// TODO(mwhudson): Why can't we just put the typelink table and so on into
+	// .data.rel.ro? What exactly depends on them being their own sections?
+	relro_perms := 04
+
+	if Buildmode == BuildmodeShared {
+		relro_perms = 06
+		/* data only written by relocations */
+		sect = addsection(segro, ".data.rel.ro", 06)
+
+		sect.Align = maxalign(s, obj.STYPELINK-1)
+		datsize = Rnd(datsize, int64(sect.Align))
+		sect.Vaddr = 0
+		Linklookup(Ctxt, "runtime.rodata", 0).Sect = sect
+		Linklookup(Ctxt, "runtime.erodata", 0).Sect = sect
+		for ; s != nil && s.Type < obj.STYPELINK; s = s.Next {
+			datsize = aligndatsize(datsize, s)
+			if s.Outer != nil && s.Outer.Sect != nil && s.Outer.Sect != sect {
+				Diag("vomit %s", s.Name)
+			}
+			s.Sect = sect
+			s.Type = obj.SRODATA
+			s.Value = int64(uint64(datsize) - sect.Vaddr)
+			growdatsize(&datsize, s)
+		}
+
+		sect.Length = uint64(datsize) - sect.Vaddr
+
+	}
+
 	/* typelink */
-	sect = addsection(segro, ".typelink", 04)
+	sect = addsection(segro, ".typelink", relro_perms)
 
 	sect.Align = maxalign(s, obj.STYPELINK)
 	datsize = Rnd(datsize, int64(sect.Align))
@@ -1476,7 +1534,7 @@ func dodata() {
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	/* gosymtab */
-	sect = addsection(segro, ".gosymtab", 04)
+	sect = addsection(segro, ".gosymtab", relro_perms)
 
 	sect.Align = maxalign(s, obj.SPCLNTAB-1)
 	datsize = Rnd(datsize, int64(sect.Align))
@@ -1494,7 +1552,7 @@ func dodata() {
 	sect.Length = uint64(datsize) - sect.Vaddr
 
 	/* gopclntab */
-	sect = addsection(segro, ".gopclntab", 04)
+	sect = addsection(segro, ".gopclntab", relro_perms)
 
 	sect.Align = maxalign(s, obj.SELFROSECT-1)
 	datsize = Rnd(datsize, int64(sect.Align))
@@ -1674,6 +1732,10 @@ func address() {
 		rodata = text.Next
 	}
 	typelink := rodata.Next
+	if Buildmode == BuildmodeShared {
+		// There is another section (.data.rel.ro) when building a shared object...
+		typelink = typelink.Next
+	}
 	symtab := typelink.Next
 	pclntab := symtab.Next
 

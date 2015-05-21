@@ -47,10 +47,17 @@ func goCmd(t *testing.T, args ...string) {
 	}
 	newargs = append(newargs, args[1:]...)
 	c := exec.Command("go", newargs...)
+	var output []byte
+	var err error
 	if testing.Verbose() {
 		fmt.Printf("+ go %s\n", strings.Join(newargs, " "))
+		c.Stdout = os.Stdout
+		c.Stderr = os.Stderr
+		err = c.Run()
+	} else {
+		output, err = c.CombinedOutput()
 	}
-	if output, err := c.CombinedOutput(); err != nil {
+	if err != nil {
 		if t != nil {
 			t.Errorf("executing %s failed %v:\n%s", strings.Join(c.Args, " "), err, output)
 		} else {
@@ -86,7 +93,7 @@ func testMain(m *testing.M) (int, error) {
 	if gorootInstallDir == "" {
 		return 0, errors.New("could not create temporary directory after 10000 tries")
 	}
-	defer os.RemoveAll(gorootInstallDir)
+	//defer os.RemoveAll(gorootInstallDir)
 
 	// Some tests need to edit the source in GOPATH, so copy this directory to a
 	// temporary directory and chdir to that.
@@ -94,7 +101,7 @@ func testMain(m *testing.M) (int, error) {
 	if err != nil {
 		return 0, fmt.Errorf("TempDir failed: %v", err)
 	}
-	defer os.RemoveAll(scratchDir)
+	//defer os.RemoveAll(scratchDir)
 	err = filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
 		scratchPath := filepath.Join(scratchDir, path)
 		if info.IsDir() {
@@ -121,7 +128,7 @@ func testMain(m *testing.M) (int, error) {
 	// that takes a few seconds, do it here and have all tests use the version
 	// built here.
 	suffix = strings.Split(filepath.Base(gorootInstallDir), "_")[2]
-	goCmd(nil, append([]string{"install", "-buildmode=shared"}, minpkgs...)...)
+	goCmd(nil, append([]string{"install", "-buildmode=shared", "-ldflags=-tmpdir=/home/mwhudson/tmp/hl/std"}, minpkgs...)...)
 
 	myContext.InstallSuffix = suffix + "_dynlink"
 	depP, err := myContext.Import("dep", ".", build.ImportComment)
@@ -146,6 +153,45 @@ func TestSOBuilt(t *testing.T) {
 	_, err := os.Stat(filepath.Join(gorootInstallDir, soname))
 	if err != nil {
 		t.Error(err)
+	}
+}
+
+func hasDynTag(f *elf.File, tag elf.DynTag) bool {
+	ds := f.SectionByType(elf.SHT_DYNAMIC)
+	if ds == nil {
+		return false
+	}
+	d, err := ds.Data()
+	if err != nil {
+		return false
+	}
+	for len(d) > 0 {
+		var t elf.DynTag
+		switch f.Class {
+		case elf.ELFCLASS32:
+			t = elf.DynTag(f.ByteOrder.Uint32(d[0:4]))
+			d = d[8:]
+		case elf.ELFCLASS64:
+			t = elf.DynTag(f.ByteOrder.Uint64(d[0:8]))
+			d = d[16:]
+		}
+		if t == tag {
+			return true
+		}
+	}
+	return false
+}
+
+// The shared library does not have relocations against the text segment.
+func TestNoTextrel(t *testing.T) {
+	sopath := filepath.Join(gorootInstallDir, soname)
+	f, err := elf.Open(sopath)
+	defer f.Close()
+	if err != nil {
+		log.Fatal("elf.Open failed: ", err)
+	}
+	if hasDynTag(f, elf.DT_TEXTREL) {
+		t.Errorf("%s has DT_TEXTREL set", soname)
 	}
 }
 
