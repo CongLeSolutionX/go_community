@@ -323,8 +323,7 @@ func constiter(vl *NodeList, t *Node, cl *NodeList) *NodeList {
 		lastconst = cl
 		lasttype = t
 	}
-
-	cl = listtreecopy(cl)
+	cl = listtreecopy(cl, vl.N.Lineno)
 
 	var v *Node
 	var c *Node
