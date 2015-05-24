@@ -35,9 +35,10 @@ var goarch string
 var goroot string
 
 var (
-	Debug_wb     int
 	Debug_append int
+	Debug_panic  int
 	Debug_slice  int
+	Debug_wb     int
 )
 
 // Debug arguments.
@@ -52,6 +53,7 @@ var debugtab = []struct {
 	{"disablenil", &Disable_checknil}, // disable nil checks
 	{"gcprog", &Debug_gcprog},         // print dump of GC programs
 	{"nil", &Debug_checknil},          // print information about nil checks
+	{"panic", &Debug_panic},           // do not hide any compiler panic
 	{"slice", &Debug_slice},           // print information about slice compilation
 	{"typeassert", &Debug_typeassert}, // print information about type assertion inlining
 	{"wb", &Debug_wb},                 // print information about write barriers
@@ -113,8 +115,6 @@ func doversion() {
 }
 
 func Main() {
-	defer hidePanic()
-
 	// Allow GOARCH=thearch.thestring or GOARCH=thearch.thestringsuffix,
 	// but not other values.
 	p := obj.Getgoarch()
@@ -288,6 +288,10 @@ func Main() {
 			}
 			log.Fatalf("unknown debug key -d %s\n", name)
 		}
+	}
+
+	if Debug_panic == 0 {
+		defer hidePanic()
 	}
 
 	// enable inlining.  for now:
