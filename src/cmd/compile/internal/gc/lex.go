@@ -38,6 +38,7 @@ var (
 	Debug_wb     int
 	Debug_append int
 	Debug_slice  int
+	Debug_panic  int
 )
 
 // Debug arguments.
@@ -55,6 +56,7 @@ var debugtab = []struct {
 	{"slice", &Debug_slice},           // print information about slice compilation
 	{"typeassert", &Debug_typeassert}, // print information about type assertion inlining
 	{"wb", &Debug_wb},                 // print information about write barriers
+	{"panic", &Debug_panic},           // do not hide any compiler panic
 }
 
 // Our own isdigit, isspace, isalpha, isalnum that take care
@@ -113,8 +115,6 @@ func doversion() {
 }
 
 func Main() {
-	defer hidePanic()
-
 	// Allow GOARCH=thearch.thestring or GOARCH=thearch.thestringsuffix,
 	// but not other values.
 	p := obj.Getgoarch()
@@ -288,6 +288,10 @@ func Main() {
 			}
 			log.Fatalf("unknown debug key -d %s\n", name)
 		}
+	}
+
+	if Debug_panic == 0 {
+		defer hidePanic()
 	}
 
 	// enable inlining.  for now:
