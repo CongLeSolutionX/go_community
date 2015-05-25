@@ -16,6 +16,24 @@
       "revId": "a6646ec00b502e4573f9e3718c4c9e8f7ed8bfce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_bfe59725",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-05-25T03:16:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d162dff_fdad7bea",
+      "revId": "a6646ec00b502e4573f9e3718c4c9e8f7ed8bfce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
