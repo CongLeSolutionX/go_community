@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed8889a6_c2e52425",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-25T19:01:00Z",
+      "side": 1,
+      "message": "Is this line actually necessary? It looks like the iota nodes are given iota values in oldname, but I don\u0027t really understand the sharing of ONONAME nodes.",
+      "revId": "5e85fa4ec1c881b593233e06e60786ce93311d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0995dc_0e1aad26",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-25T19:01:00Z",
+      "side": 1,
+      "message": "// treecopy recursively copies n, with the exception of\n// ONAME, OLITERAL, OTYPE, and non-iota ONONAME leaves.\n// Copies of iota ONONAME nodes are assigned the current\n// value of iota_. If lineno !\u003d -1, it sets the line number\n// of newly allocated nodes to lineno.",
+      "revId": "5e85fa4ec1c881b593233e06e60786ce93311d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
