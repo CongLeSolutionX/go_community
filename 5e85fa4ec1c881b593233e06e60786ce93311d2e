@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed8889a6_883a5b92",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-26T15:50:32Z",
+      "side": 1,
+      "message": "I would rather have the treecopy continue to be outside this if. At this point in the cycle we should be trying as much as possible to avoid changing the code structure. The old code had one line that said\n\ncl \u003d listtreecopy(cl)\n\nWhy not replace just that one line with\n\ncl \u003d listtreecopy(cl, vl.N.Lineno)\n\n?",
+      "parentUuid": "ed8889a6_c2e52425",
+      "revId": "5e85fa4ec1c881b593233e06e60786ce93311d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0995dc_0e1aad26",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 1
@@ -30,6 +48,23 @@
       "writtenOn": "2015-05-25T19:01:00Z",
       "side": 1,
       "message": "// treecopy recursively copies n, with the exception of\n// ONAME, OLITERAL, OTYPE, and non-iota ONONAME leaves.\n// Copies of iota ONONAME nodes are assigned the current\n// value of iota_. If lineno !\u003d -1, it sets the line number\n// of newly allocated nodes to lineno.",
+      "revId": "5e85fa4ec1c881b593233e06e60786ce93311d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_e8d127d2",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-26T15:50:32Z",
+      "side": 1,
+      "message": "Please use 0, not -1, for the unset line number. In general we use zero values for unset things in Go because you get zero for free on allocation/declaration. Other parts of the compiler already use 0 for the unset line number (look for lineno !\u003d 0).",
       "revId": "5e85fa4ec1c881b593233e06e60786ce93311d2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
