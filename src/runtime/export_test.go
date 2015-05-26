@@ -122,6 +122,8 @@ func SetEnvs(e []string) { envs = e }
 
 var BigEndian = _BigEndian
 
+var SetGCPercent = setGCPercent
+
 // For benchmarking.
 
 func BenchSetType(n int, x interface{}) {
