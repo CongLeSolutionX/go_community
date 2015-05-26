@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed8889a6_739b48bd",
+        "filename": "src/cmd/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-26T20:23:32Z",
+      "side": 1,
+      "message": "Perhaps we add opcode ImplicitBlockIf, with expectation of rewriting it into implicit form (if condition is matches, if then-clause matches).  With luck Sparse Conditional Constant and/or property propagation will eliminate the code for us.  And if match fails, we also know what to do as a fall-back.",
+      "range": {
+        "startLine": 398,
+        "startChar": 10,
+        "endLine": 398,
+        "endChar": 38
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_aeb7271a",
+        "filename": "src/cmd/internal/obj/x86/6.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-26T20:23:32Z",
+      "side": 1,
+      "message": "thank you, thank you, thank you.",
+      "range": {
+        "startLine": 113,
+        "startChar": 7,
+        "endLine": 129,
+        "endChar": 19
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_8ed34354",
+        "filename": "src/cmd/internal/ssa/location.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-26T20:23:32Z",
+      "side": 1,
+      "message": "Why global, if we also have a global getter with a nice name?\nLooks like it would even inline for us.",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_ee13ef8f",
+        "filename": "src/cmd/internal/ssa/lower.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-26T20:23:32Z",
+      "side": 1,
+      "message": "I wouldn\u0027t mind a little explanation of what OpInvertFlags means right here where it has an effect.  I assume we started with \"a OP b\" but want the form \"b OP a\", so we rewrite a\u003cb into b\u003ea -- as opposed to what happens when we keep the operands in the same order but swap the destinations\nif a\u003cb { C } else { D } \u003d\u003e a\u003e\u003db {D} else {C}.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_ceb2abfa",
+        "filename": "src/cmd/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-05-26T20:23:32Z",
+      "side": 1,
+      "message": "... and you can make it less branchy with greater predictability!!!\n\nx^y | ^(x^z) \u003e\u003d 0\n\nnote also that this is amenable to pattern matching, if we are feeling insane -- \"x^y | ^(x^(x+y)) \u003e\u003d 0\" \u003d\u003d\u003e \"x+y sets overflow\"\n\n(feel free to ignore this helpful advice...)",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 23
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
