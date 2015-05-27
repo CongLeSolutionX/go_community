@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad73f192_db750b4a",
+        "filename": "src/mime/encodedword_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T18:05:53Z",
+      "side": 1,
+      "message": "case \"x-case\":\n    // Fake character set for example.\n    // Real use would integrate with packages such\n    // as code.google.com/p/go-charset",
+      "revId": "c8d107a9bc9482c1f146bd07cca61e1be262f631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad73f192_bb592fe3",
+        "filename": "src/mime/encodedword_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T18:05:53Z",
+      "side": 1,
+      "message": "\"x-case\"",
+      "revId": "c8d107a9bc9482c1f146bd07cca61e1be262f631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
