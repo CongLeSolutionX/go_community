@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d162dff_8ec08f2c",
+        "filename": "src/mime/encodedword_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T13:47:11Z",
+      "side": 1,
+      "message": "This isn\u0027t a great example, since it doesn\u0027t set a CharsetReader.\n\nWhy don\u0027t you have two uses inside this Example: 1) with QEncoding or BEncoding, and then 2) one with \u0026WordEncoder{Charset: ... }",
+      "revId": "7d0f92bda5c966153dffda4ac2e9fd27521906c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d162dff_6ebd33a2",
+        "filename": "src/mime/encodedword_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T13:47:11Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "7d0f92bda5c966153dffda4ac2e9fd27521906c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
