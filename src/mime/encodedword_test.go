@@ -13,7 +13,7 @@ import (
 	"testing"
 )
 
-func ExampleEncodeWord() {
+func ExampleWordEncoder_Encode() {
 	fmt.Println(QEncoding.Encode("utf-8", "¡Hola, señor!"))
 	fmt.Println(QEncoding.Encode("utf-8", "Hello!"))
 	fmt.Println(BEncoding.Encode("UTF-8", "¡Hola, señor!"))
@@ -25,9 +25,9 @@ func ExampleEncodeWord() {
 	// =?ISO-8859-1?q?Caf=E9?=
 }
 
-func ExampleDecodeWord() {
+func ExampleWordDecoder_Decode() {
 	dec := new(WordDecoder)
-	header, err := dec.DecodeHeader("=?utf-8?q?=C2=A1Hola,_se=C3=B1or!?=")
+	header, err := dec.Decode("=?utf-8?q?=C2=A1Hola,_se=C3=B1or!?=")
 	if err != nil {
 		panic(err)
 	}
@@ -35,7 +35,7 @@ func ExampleDecodeWord() {
 	// Output: ¡Hola, señor!
 }
 
-func ExampleDecodeHeader() {
+func ExampleWordDecoder_DecodeHeader() {
 	dec := new(WordDecoder)
 	header, err := dec.DecodeHeader("=?utf-8?q?=C3=89ric?= <eric@example.org>, =?utf-8?q?Ana=C3=AFs?= <anais@example.org>")
 	if err != nil {
