@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "ed8889a6_287cea69",
+        "filename": "src/cmd/internal/ssa/lower.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-27T14:30:10Z",
+      "side": 1,
+      "message": "Agreed.\n\nAlso, Keith, I assume CMP and InvertFlags are only for use with integer operands since floating point arithmetic doesn\u0027t have the obvious identities.  It might be worth stating that too.",
+      "parentUuid": "ed8889a6_ee13ef8f",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed8889a6_ceb2abfa",
         "filename": "src/cmd/internal/ssa/rewrite.go",
         "patchSetId": 2
@@ -105,6 +129,30 @@
       "writtenOn": "2015-05-26T20:23:32Z",
       "side": 1,
       "message": "... and you can make it less branchy with greater predictability!!!\n\nx^y | ^(x^z) \u003e\u003d 0\n\nnote also that this is amenable to pattern matching, if we are feeling insane -- \"x^y | ^(x^(x+y)) \u003e\u003d 0\" \u003d\u003d\u003e \"x+y sets overflow\"\n\n(feel free to ignore this helpful advice...)",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 23
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8889a6_2875ca77",
+        "filename": "src/cmd/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-05-27T14:30:10Z",
+      "side": 1,
+      "message": "neat!",
+      "parentUuid": "ed8889a6_ceb2abfa",
       "range": {
         "startLine": 75,
         "startChar": 4,
