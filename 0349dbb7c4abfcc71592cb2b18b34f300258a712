@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed05e9c3_e065d3cd",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-05-27T09:43:53Z",
+      "side": 1,
+      "message": "this isn\u0027t needed",
+      "range": {
+        "startLine": 758,
+        "startChar": 1,
+        "endLine": 758,
+        "endChar": 27
+      },
+      "revId": "0349dbb7c4abfcc71592cb2b18b34f300258a712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
