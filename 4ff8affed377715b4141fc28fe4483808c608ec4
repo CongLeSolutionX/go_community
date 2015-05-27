@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "8d162dff_6e8893f1",
+        "filename": "src/cmd/internal/ssa/location.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-05-27T15:49:37Z",
+      "side": 1,
+      "message": "Good point, will fix.  I\u0027m not sure why I did this.",
+      "parentUuid": "ed8889a6_8ed34354",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "4ff8affed377715b4141fc28fe4483808c608ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed8889a6_ee13ef8f",
         "filename": "src/cmd/internal/ssa/lower.go",
         "patchSetId": 2
