@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad73f192_db098bb3",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T18:12:38Z",
+      "side": 1,
+      "message": "\"Refusing to download %s without the -insecure flag\"\n?",
+      "revId": "5faefa74d78ae6b79dbcea3fba213fb86048c8b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad73f192_fb272730",
+        "filename": "src/cmd/go/test.bash",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T18:12:38Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "5faefa74d78ae6b79dbcea3fba213fb86048c8b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad73f192_5b373b5d",
+        "filename": "src/cmd/go/test.bash",
+        "patchSetId": 8
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-27T18:12:38Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "5faefa74d78ae6b79dbcea3fba213fb86048c8b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
