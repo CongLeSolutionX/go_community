@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed6169bc_1a377990",
+        "filename": "src/mime/encodedword_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5647
+      },
+      "writtenOn": "2015-05-27T14:23:30Z",
+      "side": 1,
+      "message": "A good example would use charset converters from go-charset or golang.org/x/text/encoding. But we can\u0027t use such packages in tests, right?\n\nAnd I am not sure implementing a fake charset converter in an example is a good idea.\n\nWhat do you think?",
+      "parentUuid": "8d162dff_8ec08f2c",
+      "revId": "7d0f92bda5c966153dffda4ac2e9fd27521906c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d162dff_6ebd33a2",
         "filename": "src/mime/encodedword_test.go",
         "patchSetId": 1
