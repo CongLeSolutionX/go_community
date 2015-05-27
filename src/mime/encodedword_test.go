@@ -5,6 +5,7 @@
 package mime
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -13,7 +14,7 @@ import (
 	"testing"
 )
 
-func ExampleEncodeWord() {
+func ExampleWordEncoder_Encode() {
 	fmt.Println(QEncoding.Encode("utf-8", "¡Hola, señor!"))
 	fmt.Println(QEncoding.Encode("utf-8", "Hello!"))
 	fmt.Println(BEncoding.Encode("UTF-8", "¡Hola, señor!"))
@@ -25,17 +26,37 @@ func ExampleEncodeWord() {
 	// =?ISO-8859-1?q?Caf=E9?=
 }
 
-func ExampleDecodeWord() {
+func ExampleWordDecoder_Decode() {
 	dec := new(WordDecoder)
-	header, err := dec.DecodeHeader("=?utf-8?q?=C2=A1Hola,_se=C3=B1or!?=")
+	header, err := dec.Decode("=?utf-8?q?=C2=A1Hola,_se=C3=B1or!?=")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(header)
-	// Output: ¡Hola, señor!
+
+	dec.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) {
+		switch charset {
+		case "iso-8859-15":
+			content, err := ioutil.ReadAll(input)
+			if err != nil {
+				return nil, err
+			}
+			return bytes.NewReader(bytes.ToUpper(content)), nil
+		default:
+			return nil, fmt.Errorf("unhandled charset %q", charset)
+		}
+	}
+	header, err = dec.Decode("=?iso-8859-15?q?hello!?=")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(header)
+	// Output:
+	// ¡Hola, señor!
+	// HELLO!
 }
 
-func ExampleDecodeHeader() {
+func ExampleWordDecoder_DecodeHeader() {
 	dec := new(WordDecoder)
 	header, err := dec.DecodeHeader("=?utf-8?q?=C3=89ric?= <eric@example.org>, =?utf-8?q?Ana=C3=AFs?= <anais@example.org>")
 	if err != nil {
@@ -48,9 +69,28 @@ func ExampleDecodeHeader() {
 		panic(err)
 	}
 	fmt.Println(header)
+
+	dec.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) {
+		switch charset {
+		case "iso-8859-15":
+			content, err := ioutil.ReadAll(input)
+			if err != nil {
+				return nil, err
+			}
+			return bytes.NewReader(bytes.ToUpper(content)), nil
+		default:
+			return nil, fmt.Errorf("unhandled charset %q", charset)
+		}
+	}
+	header, err = dec.DecodeHeader("=?iso-8859-15?q?hello_?= =?iso-8859-15?q?world!?=")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(header)
 	// Output:
 	// Éric <eric@example.org>, Anaïs <anais@example.org>
 	// ¡Hola, señor!
+	// HELLO WORLD!
 }
 
 func TestEncodeWord(t *testing.T) {
