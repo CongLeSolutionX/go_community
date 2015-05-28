@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d470d3e_524d74c8",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-28T15:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d470d3e_b2ccd83b",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d470d3e_723a7095",
         "filename": "src/runtime/asm_arm.s",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-28T13:55:43Z",
       "side": 1,
       "message": "I would expect you can combine these two instructions into MOVW stkbar_savedLRVal(R6), R6 because stkbar_savedLRVal is tiny. Not that it matters a lot.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_724a70b3",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-28T15:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d470d3e_723a7095",
       "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "8d470d3e_b5bcc2fd",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-28T15:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d470d3e_72e350a3",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_37537771",
         "filename": "src/runtime/stack1.go",
         "patchSetId": 2
@@ -138,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "8d470d3e_35f292e7",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-28T15:27:08Z",
+      "side": 1,
+      "message": "Done (in the previous commit)",
+      "parentUuid": "0d54fde2_37537771",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_5750fb61",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 2
@@ -149,6 +221,24 @@
       "writtenOn": "2015-05-28T13:55:43Z",
       "side": 1,
       "message": "It might be worth putting a check similar to the defer stack for stkbar here.\n\nif callback !\u003d nil \u0026\u0026 n \u003c max \u0026\u0026 len(stkbar) \u003e 0 {\n    ...\n    throw(\"traceback has leftover stack barriers\")\n}",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_f531ea1c",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-05-28T15:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d54fde2_5750fb61",
       "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
