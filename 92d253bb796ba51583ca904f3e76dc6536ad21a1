@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d470d3e_924efc4a",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:44:00Z",
+      "side": 1,
+      "message": "Slightly surprised that [1\u003c\u003c30]stkbar is allowed on 32-bit systems, since I think it would be 4GB. Will kick off trybots to check.",
+      "revId": "92d253bb796ba51583ca904f3e76dc6536ad21a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
