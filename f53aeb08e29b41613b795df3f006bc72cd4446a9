@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d470d3e_b2ccd83b",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "MUL R5, R6\nsince you use the two-operand form in most other places.\n(For all of them, FOO x,y turns into FOO x,y,y.)",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_723a7095",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "I would expect you can combine these two instructions into MOVW stkbar_savedLRVal(R6), R6 because stkbar_savedLRVal is tiny. Not that it matters a lot.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_d2d164d2",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_f2d660c7",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_32d9c8f5",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_52e654b4",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d470d3e_72e350a3",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "into",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d54fde2_37537771",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "There it is. :-)\n\nMaybe this should just use a slice instead:\n\nstkbarSlice :\u003d slice{add(v, top), 0, maxstkbar}\nreturn stack{uintptr(v), uintptr(v)+top}, *(*[]stkbar)(unsafe.Pointer(\u0026slice))\n\nIt\u0027s not quite as nice, but it\u0027s not too bad, and it won\u0027t break mysteriously if someone does try to do a very large stack in stress test mode on a 64-bit system.",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d54fde2_5750fb61",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-05-28T13:55:43Z",
+      "side": 1,
+      "message": "It might be worth putting a check similar to the defer stack for stkbar here.\n\nif callback !\u003d nil \u0026\u0026 n \u003c max \u0026\u0026 len(stkbar) \u003e 0 {\n    ...\n    throw(\"traceback has leftover stack barriers\")\n}",
+      "revId": "f53aeb08e29b41613b795df3f006bc72cd4446a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
