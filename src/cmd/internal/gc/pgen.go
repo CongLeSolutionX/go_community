@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (247786 [dev.ssa] B[dev.ssa] cmd/internal/ssa: Cleanup & reorg)
 // Copyright 2011 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -567,3 +568,5 @@ func compile(fn *Node) {
 ret:
 	lineno = lno
 }
+=======
+>>>>>>> BRANCH (ccc037 go/types: fix error message for embedded non-interface types)
