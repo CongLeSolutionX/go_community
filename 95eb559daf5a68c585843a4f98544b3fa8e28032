@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d54fde2_5ff00260",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T21:19:54Z",
+      "side": 1,
+      "message": "I don\u0027t see any ValCtype, and this comment no longer makes much sense anyhow.",
+      "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d54fde2_3f497e42",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T21:19:54Z",
+      "side": 1,
+      "message": "When would this happen?  I can perhaps understand a nil case, but a default case here seems to imply a compiler bug.",
+      "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
