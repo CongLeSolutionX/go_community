@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_1b351f65",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T23:49:54Z",
+      "side": 1,
+      "message": "Alas, that is too simple.  Those are the default default value uses.  But they aren\u0027t always the default values.  cmd/dist will look in its environment, when you build the toolchain, to pick up GO386 and GOARM.  See xinit in cmd/dist/build.go.  And those will set the default values.  Those are the ones you need here.\n\nI think the way to handle this correctly is to have cmd/go import cmd/internal/obj and pick up the values from there.  That is a new dependency but I think it is OK because we have to build cmd/internal/obj to bootstrap the tools anyhow.",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 41
+      },
+      "revId": "ce7a814265afc2dd755e88e6e4cf4930a31d5214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
