@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "190b6419_9b16cf78",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "s/ntest/n.Left/ and any other cleanup you feel inspired to do.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_3b346309",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "This would all be more readable if we had something like:\n\nfunc (n *Node) ntest() *Node {\n  switch n.Op {\n  default:\n    Fatal(...)\n  case OSELECT:\n  // ...\n  case OFOR:\n  // ...\n  case ...:\n  }\n}\n\nSimilarly so for ninit, nincr, etc.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_1b399f01",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "I believe you that this is necessary, but I don\u0027t see why.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_fb4dcb8f",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2877,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "If we introduce an ntest method on node, I guess a setNtest for stuff like this might also be in order. Maybe.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_ecb91658",
         "filename": "src/cmd/compile/internal/gc/swt.go",
         "patchSetId": 1
@@ -13,6 +81,74 @@
       "writtenOn": "2015-05-29T20:31:18Z",
       "side": 1,
       "message": "Extraneous blank line.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_7ba1bbb0",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "Should caseClauses do the work of cleaning up sw.List?",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_3bab4393",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "Again, if not already in a later CL, documenting the many faces of Left/List/etc would be awesome.\n\nI guess Node methods could also play that role.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_1b875f19",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2853,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "Have to be careful about overwriting b here. I\u0027m surprised that no tests fail.\n\nInstead:\n\nvar dup bool\n// ...\ndup \u003d cmp.Val.U.(bool)\n// ...\nif dup {\n// ...\n\nFeel free to borrow directly from https://github.com/josharian/go/commit/3e1a0a831d9c81481678781d4a7b786761f813bf.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_7b889b2a",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2875,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 1,
+      "message": "map[int64]bool is enough. I have a very similar change at https://github.com/josharian/go/commit/3e1a0a831d9c81481678781d4a7b786761f813bf. :)",
       "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

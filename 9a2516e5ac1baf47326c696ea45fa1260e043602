@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_3b5d834b",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:59:14Z",
+      "side": 0,
+      "message": "As before, can we switch on n.Op in the n.Left case and print accordingly?",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
