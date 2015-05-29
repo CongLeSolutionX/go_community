@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d54fde2_e2d3dd52",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T21:38:16Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right for the production compiler, unless you add a call to Fatal.",
+      "revId": "1ea2059d13b742c442acf9eb75edd7d8f48c07b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d54fde2_220fa568",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T21:38:16Z",
+      "side": 1,
+      "message": "I\u0027m not quite grasping why you don\u0027t just allocate s1.def.Name here, rather than scattered across the compiler.  But perhaps this is for later CLs.",
+      "revId": "1ea2059d13b742c442acf9eb75edd7d8f48c07b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
