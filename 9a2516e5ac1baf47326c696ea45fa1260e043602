@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d54fde2_09764c07",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T19:11:50Z",
+      "side": 1,
+      "message": "Maybe you do this in a later CL, but it would be nice to have some comments here as to where values can be found.  I don\u0027t think there is anything obvious about putting the increment statement of a for loop in the Right field.",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_f8227131",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 1
