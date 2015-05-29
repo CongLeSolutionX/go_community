@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d54fde2_e2875da8",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T22:14:59Z",
+      "side": 1,
+      "message": "This is problematic when compiling a large program.  The compiler will waste time growing this slice to keep it contiguous, which of course does not matter.  It might be better to make this [][]*Node and do\n\nif e.opts \u003d\u003d nil {\n    e.opts \u003d make([][]*Node, 1)\n}\nif len(e.opts[len(e.opts)-1]) \u003e\u003d 1024 {\n    e.opts \u003d append(e.opts, nil)\n}\ne.opts[len(e.opts)-1] \u003d append(e.opts[len(e.opts)-1], n)\n\nThis could just be a comment for later consideration, of course.",
+      "range": {
+        "startLine": 405,
+        "startChar": 11,
+        "endLine": 405,
+        "endChar": 14
+      },
+      "revId": "857cc27fc495a7cd79d6a2154ddd68a425f13692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d54fde2_e2b91d58",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T22:14:59Z",
+      "side": 1,
+      "message": "s/e.//",
+      "revId": "857cc27fc495a7cd79d6a2154ddd68a425f13692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
