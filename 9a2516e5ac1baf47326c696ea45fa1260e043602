@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "190b6419_1b14ff7b",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:29:44Z",
+      "side": 1,
+      "message": "// incr\n\nor\n\n// post",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_fbf82bbe",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:29:44Z",
+      "side": 1,
+      "message": "// else statement",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_3b26a3f1",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:29:44Z",
+      "side": 1,
+      "message": "AFAICT there\u0027s no re-use of InitPlans across calls to initfix. So maybe instead of making initplans above, make them here:\n\ninitplans \u003d make(map[*Node]*InitPlan)\n\nand then initplans \u003d nil before the return. That\u0027ll allow GC to clean up.",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_09764c07",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 1
@@ -13,6 +64,24 @@
       "writtenOn": "2015-05-29T19:11:50Z",
       "side": 1,
       "message": "Maybe you do this in a later CL, but it would be nice to have some comments here as to where values can be found.  I don\u0027t think there is anything obvious about putting the increment statement of a for loop in the Right field.",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_1b2bdfb9",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T20:29:44Z",
+      "side": 1,
+      "message": "Yes please.",
+      "parentUuid": "0d54fde2_09764c07",
       "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
