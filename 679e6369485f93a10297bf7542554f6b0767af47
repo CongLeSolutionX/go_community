@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_5bb6f77c",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T23:38:24Z",
+      "side": 1,
+      "message": "I assume this was meant to be part of a different CL. Not a problem to leave here.",
+      "revId": "679e6369485f93a10297bf7542554f6b0767af47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
