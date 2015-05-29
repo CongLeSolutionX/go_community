@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d54fde2_7d0eaee9",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-29T23:02:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right.  If GO386 is not set in the environment, there is a default value (see mkzbootstrap in cmd/dist/buildruntime.go), and it seems that that is what we should report.  Is there something somewhere that is setting GO386 in the environment to that default value?",
+      "revId": "f344f9ddc9b3a363e0cf2e10b87965f8ab3d536b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
