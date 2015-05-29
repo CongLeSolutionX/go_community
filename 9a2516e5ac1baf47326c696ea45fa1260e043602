@@ -16,6 +16,24 @@
       "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_98c5b59d",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-29T18:51:32Z",
+      "side": 1,
+      "message": "Nevermind, you do it in a later CL. No need to move it.",
+      "parentUuid": "190b6419_f8227131",
+      "revId": "9a2516e5ac1baf47326c696ea45fa1260e043602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
