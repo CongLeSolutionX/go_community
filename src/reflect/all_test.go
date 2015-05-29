@@ -4664,3 +4664,44 @@ func TestTypeOfTypeOf(t *testing.T) {
 	check("PtrTo", PtrTo(TypeOf(T{})))
 	check("SliceOf", SliceOf(TypeOf(T{})))
 }
+
+func BenchmarkRawMap(b *testing.B) {
+	const size = 1 << 16
+	for i := 0; i < b.N; i++ {
+		m := make(map[int64]int64, 0)
+		for j := int64(0); j < size; j++ {
+			m[j] = j
+		}
+	}
+}
+func BenchmarkRawMapSize(b *testing.B) {
+	const size = 1 << 16
+	for i := 0; i < b.N; i++ {
+		m := make(map[int64]int64, size)
+		for j := int64(0); j < size; j++ {
+			m[j] = j
+		}
+	}
+}
+func BenchmarkReflectMap(b *testing.B) {
+	const size = 1 << 16
+	for i := 0; i < b.N; i++ {
+		raw := make(map[int64]int64, 0)
+		m := ValueOf(raw)
+		for j := int64(0); j < size; j++ {
+			k := ValueOf(j)
+			m.SetMapIndex(k, k)
+		}
+	}
+}
+func BenchmarkReflectMapSize(b *testing.B) {
+	const size = 1 << 16
+	for i := 0; i < b.N; i++ {
+		raw := make(map[int64]int64, size)
+		m := ValueOf(raw)
+		for j := int64(0); j < size; j++ {
+			k := ValueOf(j)
+			m.SetMapIndex(k, k)
+		}
+	}
+}
