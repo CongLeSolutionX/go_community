@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_9b636fbb",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-29T22:39:32Z",
+      "side": 1,
+      "message": "Huh. When I instrumented the compiler a month ago to see which Ops used which fields, Vargen showed up for ONAME and OTYPE. (It was used, e.g. for the x1t OTYPE Node found while compiling the runtime.)\n\nThat seems to have changed, but I don\u0027t see where.\n\nIn any case, update the comment here to remove OTYPE?",
+      "revId": "c638ed35cffc2f946eb1484836f6932016f12542",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
