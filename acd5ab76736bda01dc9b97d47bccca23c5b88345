@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_de5af5c7",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-30T03:06:59Z",
+      "side": 1,
+      "message": "var (\n  // ...\n)",
+      "revId": "acd5ab76736bda01dc9b97d47bccca23c5b88345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
