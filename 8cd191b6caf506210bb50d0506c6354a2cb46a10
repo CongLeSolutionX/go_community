@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d42d931_8d77b8cb",
+        "filename": "src/encoding/pem/pem.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-05-30T18:54:15Z",
+      "side": 0,
+      "message": "Couldn\u0027t you have achieved the same by only adding an extra check for\n\n bytes.HasPrefix(rest, pemEnd[1:])\n\nbefore deciding to return an error here? Might make the change seem less invasive...",
+      "revId": "8cd191b6caf506210bb50d0506c6354a2cb46a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
