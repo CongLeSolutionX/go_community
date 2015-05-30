@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_7b609b2d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-05-30T00:49:12Z",
+      "side": 1,
+      "message": "This reads strangely to me.  Comments can of course appear within comments.  There is nothing wrong with\n\n// this is a comment: //comment\n\n/*\nthis is a line comment: // line comment\n*/\n\nI think all you need to say is that the /* comment sequence is not recognized within a comment.  Or what you already said: comments do not nest.",
+      "revId": "2e0bad884f2bb5bf10a778c5e110d497b55d4284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
