@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of May 26, 2015",
+	"Subtitle": "Version of May 29, 2015",
 	"Path": "/ref/spec"
 }-->
 
@@ -129,7 +129,10 @@ hex_digit     = "0" … "9" | "A" … "F" | "a" … "f" .
 <h3 id="Comments">Comments</h3>
 
 <p>
-There are two forms of comments:
+Comments serve program documentation. They may appear anywhere in the
+source code except within <a href="#Rune_literals">rune</a> or
+<a href="#String_literals">string literals</a>, or within comments.
+There are two forms:
 </p>
 
 <ol>
@@ -144,10 +147,6 @@ comment containing one or more newlines acts like a newline, otherwise it acts
 like a space.
 </li>
 </ol>
-
-<p>
-Comments do not nest.
-</p>
 
 
 <h3 id="Tokens">Tokens</h3>
@@ -201,7 +200,7 @@ token is
 	    <code>return</code>
 	</li>
 
-	<li>one of the <a href="#Operators_and_Delimiters">operators and delimiters</a>
+	<li>one of the <a href="#Operators_and_delimiters">operators and delimiters</a>
 	    <code>++</code>,
 	    <code>--</code>,
 	    <code>)</code>,
@@ -258,7 +257,7 @@ const        fallthrough  if           range        type
 continue     for          import       return       var
 </pre>
 
-<h3 id="Operators_and_Delimiters">Operators and Delimiters</h3>
+<h3 id="Operators_and_delimiters">Operators and delimiters</h3>
 
 <p>
 The following character sequences represent <a href="#Operators">operators</a>, delimiters, and other special tokens:
@@ -357,8 +356,9 @@ imaginary_lit = (decimals | float_lit) "i" .
 <p>
 A rune literal represents a <a href="#Constants">rune constant</a>,
 an integer value identifying a Unicode code point.
-A rune literal is expressed as one or more characters enclosed in single quotes.
-Within the quotes, any character may appear except single
+A rune literal is expressed as one or more characters enclosed in single quotes
+<code>''</code>.
+Within the quotes, any character may appear except unescaped single
 quote and newline. A single quoted character represents the Unicode value
 of the character itself,
 while multi-character sequences beginning with a backslash encode
@@ -450,7 +450,7 @@ raw string literals and interpreted string literals.
 </p>
 <p>
 Raw string literals are character sequences between back quotes
-<code>``</code>.  Within the quotes, any character is legal except
+<code>``</code>.  Within the quotes, any character may appear except
 back quote. The value of a raw string literal is the
 string composed of the uninterpreted (implicitly UTF-8-encoded) characters
 between the quotes;
@@ -461,8 +461,10 @@ are discarded from the raw string value.
 </p>
 <p>
 Interpreted string literals are character sequences between double
-quotes <code>&quot;&quot;</code>. The text between the quotes,
-which may not contain newlines, forms the
+quotes <code>&quot;&quot;</code>.
+Within the quotes, any character may appear except unescaped double
+quote and newline.
+The text between the quotes forms the
 value of the literal, with backslash escapes interpreted as they
 are in <a href="#Rune_literals">rune literals</a> (except that <code>\'</code> is illegal and
 <code>\"</code> is legal), with the same restrictions.
