@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_7e4ac9fc",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-30T03:02:36Z",
+      "side": 1,
+      "message": "Update comment",
+      "revId": "7870606cbc5c39cc14bc2a4e939e1942b483bcea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_5e4f050b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2690,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-05-30T03:02:36Z",
+      "side": 1,
+      "message": "I presume that this is from a different CL in the series.",
+      "revId": "7870606cbc5c39cc14bc2a4e939e1942b483bcea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
