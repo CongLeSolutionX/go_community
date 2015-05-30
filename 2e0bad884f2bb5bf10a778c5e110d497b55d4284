@@ -16,6 +16,24 @@
       "revId": "2e0bad884f2bb5bf10a778c5e110d497b55d4284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d54fde2_73a25dab",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-05-30T01:21:20Z",
+      "side": 1,
+      "message": "Ian: I think technically those would be subsequences of a larger comment, but I wouldn\u0027t expect a lexer/parser to recognize them as comments on their own.\n\nBut along those lines, a technical shortcoming of just saying \"comments do not nest\" is that doesn\u0027t say anything about whether they can overlap.  For example:\n\n    /* // */ foo\n\ncould arguably be both \"/* // */\" and \"// */ foo\" without nesting.",
+      "parentUuid": "190b6419_7b609b2d",
+      "revId": "2e0bad884f2bb5bf10a778c5e110d497b55d4284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
