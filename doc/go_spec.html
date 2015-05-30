@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of May 26, 2015",
+	"Subtitle": "Version of June 4, 2015",
 	"Path": "/ref/spec"
 }-->
 
@@ -126,10 +126,26 @@ hex_digit     = "0" … "9" | "A" … "F" | "a" … "f" .
 
 <h2 id="Lexical_elements">Lexical elements</h2>
 
+<h3 id="Tokens">Tokens</h3>
+
+<p>
+Tokens form the vocabulary of the Go language. While breaking the input into
+tokens, the next token is the longest sequence of characters that form a
+valid token.
+
+There are five classes: <i>identifiers</i>, <i>keywords</i>, <i>operators
+and delimiters</i>, <i>literals</i>, and <i>comments</i>.
+
+Only <i>white space</i>, formed from spaces (U+0020), horizontal tabs (U+0009),
+carriage returns (U+000D), and newlines (U+000A), may appear around tokens.
+White space is ignored but a newline or end of file may trigger the insertion
+of a <a href="#Semicolons">semicolon</a>.
+</p>
+
 <h3 id="Comments">Comments</h3>
 
 <p>
-There are two forms of comments:
+Comments serve program documentation but are ignored otherwise. There are two forms:
 </p>
 
 <ol>
@@ -144,27 +160,6 @@ comment containing one or more newlines acts like a newline, otherwise it acts
 like a space.
 </li>
 </ol>
-
-<p>
-Comments do not nest.
-</p>
-
-
-<h3 id="Tokens">Tokens</h3>
-
-<p>
-Tokens form the vocabulary of the Go language.
-There are four classes: <i>identifiers</i>, <i>keywords</i>, <i>operators
-and delimiters</i>, and <i>literals</i>.  <i>White space</i>, formed from
-spaces (U+0020), horizontal tabs (U+0009),
-carriage returns (U+000D), and newlines (U+000A),
-is ignored except as it separates tokens
-that would otherwise combine into a single token. Also, a newline or end of file
-may trigger the insertion of a <a href="#Semicolons">semicolon</a>.
-While breaking the input into tokens,
-the next token is the longest sequence of characters that form a
-valid token.
-</p>
 
 <h3 id="Semicolons">Semicolons</h3>
 
@@ -258,7 +253,7 @@ const        fallthrough  if           range        type
 continue     for          import       return       var
 </pre>
 
-<h3 id="Operators_and_Delimiters">Operators and Delimiters</h3>
+<h3 id="Operators_and_Delimiters">Operators and delimiters</h3>
 
 <p>
 The following character sequences represent <a href="#Operators">operators</a>, delimiters, and other special tokens:
@@ -357,8 +352,9 @@ imaginary_lit = (decimals | float_lit) "i" .
 <p>
 A rune literal represents a <a href="#Constants">rune constant</a>,
 an integer value identifying a Unicode code point.
-A rune literal is expressed as one or more characters enclosed in single quotes.
-Within the quotes, any character may appear except single
+A rune literal is expressed as one or more characters enclosed in single quotes
+<code>''</code>.
+Within the quotes, any character may appear except unescaped single
 quote and newline. A single quoted character represents the Unicode value
 of the character itself,
 while multi-character sequences beginning with a backslash encode
@@ -450,7 +446,7 @@ raw string literals and interpreted string literals.
 </p>
 <p>
 Raw string literals are character sequences between back quotes
-<code>``</code>.  Within the quotes, any character is legal except
+<code>``</code>.  Within the quotes, any character may appear except
 back quote. The value of a raw string literal is the
 string composed of the uninterpreted (implicitly UTF-8-encoded) characters
 between the quotes;
@@ -461,8 +457,10 @@ are discarded from the raw string value.
 </p>
 <p>
 Interpreted string literals are character sequences between double
-quotes <code>&quot;&quot;</code>. The text between the quotes,
-which may not contain newlines, forms the
+quotes <code>&quot;&quot;</code>.
+Within the quotes, any character may appear except unescaped double
+quote and newline.
+The text between the quotes forms the
 value of the literal, with backslash escapes interpreted as they
 are in <a href="#Rune_literals">rune literals</a> (except that <code>\'</code> is illegal and
 <code>\"</code> is legal), with the same restrictions.
