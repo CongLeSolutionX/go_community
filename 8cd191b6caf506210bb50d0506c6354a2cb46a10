@@ -16,6 +16,24 @@
       "revId": "8cd191b6caf506210bb50d0506c6354a2cb46a10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_01449018",
+        "filename": "src/encoding/pem/pem.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 7285
+      },
+      "writtenOn": "2015-05-30T20:31:41Z",
+      "side": 0,
+      "message": "That doesn\u0027t quite work because there might be pemEnd way further on in the input. (I.e. after a pemEnd[1:].)\n\nHowever, you can do the check first and avoid the big if, thanks. Done.",
+      "parentUuid": "6d42d931_8d77b8cb",
+      "revId": "8cd191b6caf506210bb50d0506c6354a2cb46a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
