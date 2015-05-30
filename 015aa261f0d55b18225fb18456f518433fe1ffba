@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190b6419_e1a19c2d",
+        "filename": "src/encoding/pem/pem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-30T22:54:17Z",
+      "side": 1,
+      "message": "\"EMPTY\" !\u003d \"HEADERS\" -- intentional?",
+      "revId": "015aa261f0d55b18225fb18456f518433fe1ffba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190b6419_c1ae981d",
+        "filename": "src/encoding/pem/pem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-05-30T22:54:17Z",
+      "side": 1,
+      "message": "\"EMPTY\" !\u003d \"HEADERS\" -- intentional?",
+      "revId": "015aa261f0d55b18225fb18456f518433fe1ffba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
