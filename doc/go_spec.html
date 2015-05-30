@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of June 23, 2015",
+	"Subtitle": "Version of June 26, 2015",
 	"Path": "/ref/spec"
 }-->
 
@@ -129,26 +129,26 @@ hex_digit     = "0" … "9" | "A" … "F" | "a" … "f" .
 <h3 id="Comments">Comments</h3>
 
 <p>
-There are two forms of comments:
+Comments serve as program documentation. There are two forms:
 </p>
 
 <ol>
 <li>
 <i>Line comments</i> start with the character sequence <code>//</code>
-and stop at the end of the line. A line comment acts like a newline.
+and stop at the end of the line.
 </li>
 <li>
 <i>General comments</i> start with the character sequence <code>/*</code>
-and continue through the character sequence <code>*/</code>. A general
-comment containing one or more newlines acts like a newline, otherwise it acts
-like a space.
+and stop with the first subsequent character sequence <code>*/</code>.
 </li>
 </ol>
 
 <p>
-Comments do not nest.
+A comment cannot start inside a <a href="#Rune_literals">rune</a> or
+<a href="#String_literals">string literal</a>, or inside a comment.
+A general comment containing no newlines acts like a space.
+Any other comment acts like a newline.
 </p>
-
 
 <h3 id="Tokens">Tokens</h3>
 
@@ -176,11 +176,8 @@ using the following two rules:
 
 <ol>
 <li>
-<p>
 When the input is broken into tokens, a semicolon is automatically inserted
-into the token stream at the end of a non-blank line if the line's final
-token is
-</p>
+into the token stream immediately after a line's final token if that token is
 <ul>
 	<li>an
 	    <a href="#Identifiers">identifier</a>
@@ -357,8 +354,9 @@ imaginary_lit = (decimals | float_lit) "i" .
 <p>
 A rune literal represents a <a href="#Constants">rune constant</a>,
 an integer value identifying a Unicode code point.
-A rune literal is expressed as one or more characters enclosed in single quotes.
-Within the quotes, any character may appear except single
+A rune literal is expressed as one or more characters enclosed in single quotes,
+as in <code>'x'</code>, or <code>'\n'</code>.
+Within the quotes, any character may appear except unescaped single
 quote and newline. A single quoted character represents the Unicode value
 of the character itself,
 while multi-character sequences beginning with a backslash encode
@@ -449,8 +447,8 @@ obtained from concatenating a sequence of characters. There are two forms:
 raw string literals and interpreted string literals.
 </p>
 <p>
-Raw string literals are character sequences between back quotes
-<code>``</code>.  Within the quotes, any character is legal except
+Raw string literals are character sequences between back quotes, as in
+<code>`foo`</code>.  Within the quotes, any character may appear except
 back quote. The value of a raw string literal is the
 string composed of the uninterpreted (implicitly UTF-8-encoded) characters
 between the quotes;
@@ -461,8 +459,10 @@ are discarded from the raw string value.
 </p>
 <p>
 Interpreted string literals are character sequences between double
-quotes <code>&quot;&quot;</code>. The text between the quotes,
-which may not contain newlines, forms the
+quotes, as in <code>&quot;bar&quot;</code>.
+Within the quotes, any character may appear except unescaped double
+quote and newline.
+The text between the quotes forms the
 value of the literal, with backslash escapes interpreted as they
 are in <a href="#Rune_literals">rune literals</a> (except that <code>\'</code> is illegal and
 <code>\"</code> is legal), with the same restrictions.
