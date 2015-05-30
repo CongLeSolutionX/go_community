@@ -10,8 +10,10 @@ package pem
 import (
 	"bytes"
 	"encoding/base64"
+	"errors"
 	"io"
 	"sort"
+	"strings"
 )
 
 // A Block represents a PEM encoded structure.
@@ -96,41 +98,49 @@ func Decode(data []byte) (p *Block, rest []byte) {
 		Type:    string(typeLine),
 	}
 
-	for {
-		// This loop terminates because getLine's second result is
-		// always smaller than its argument.
-		if len(rest) == 0 {
-			return nil, data
-		}
-		line, next := getLine(rest)
+	endIndex := 0
+	// In order to handle the case of an empty PEM which has an END line
+	// immediately after the BEGIN line, we need to test for an END line
+	// without a leading newline here.
+	if !bytes.HasPrefix(rest, pemEnd[1:]) {
+		for {
+			// This loop terminates because getLine's second result is
+			// always smaller than its argument.
+			if len(rest) == 0 {
+				return nil, data
+			}
+			line, next := getLine(rest)
 
-		i := bytes.Index(line, []byte{':'})
-		if i == -1 {
-			break
+			i := bytes.Index(line, []byte{':'})
+			if i == -1 {
+				break
+			}
+
+			// TODO(agl): need to cope with values that spread across lines.
+			key, val := line[:i], line[i+1:]
+			key = bytes.TrimSpace(key)
+			val = bytes.TrimSpace(val)
+			p.Headers[string(key)] = string(val)
+			rest = next
 		}
 
-		// TODO(agl): need to cope with values that spread across lines.
-		key, val := line[0:i], line[i+1:]
-		key = bytes.TrimSpace(key)
-		val = bytes.TrimSpace(val)
-		p.Headers[string(key)] = string(val)
-		rest = next
+		endIndex = bytes.Index(rest, pemEnd)
+		if endIndex < 0 {
+			return decodeError(data, rest)
+		}
 	}
 
-	i := bytes.Index(rest, pemEnd)
-	if i < 0 {
-		return decodeError(data, rest)
-	}
-	base64Data := removeWhitespace(rest[0:i])
-
+	base64Data := removeWhitespace(rest[:endIndex])
 	p.Bytes = make([]byte, base64.StdEncoding.DecodedLen(len(base64Data)))
 	n, err := base64.StdEncoding.Decode(p.Bytes, base64Data)
 	if err != nil {
 		return decodeError(data, rest)
 	}
-	p.Bytes = p.Bytes[0:n]
+	p.Bytes = p.Bytes[:n]
 
-	_, rest = getLine(rest[i+len(pemEnd):])
+	// the -1 is because we might have only matched pemEnd without the
+	// leading newline if the PEM block was empty.
+	_, rest = getLine(rest[endIndex+len(pemEnd)-1:])
 
 	return
 }
@@ -246,6 +256,9 @@ func Encode(out io.Writer, b *Block) error {
 		// For consistency of output, write other headers sorted by key.
 		sort.Strings(h)
 		for _, k := range h {
+			if strings.Contains(k, ":") {
+				return errors.New("pem: cannot encode a header key that contains a colon")
+			}
 			if err := writeHeader(out, k, b.Headers[k]); err != nil {
 				return err
 			}
