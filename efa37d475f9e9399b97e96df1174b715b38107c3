@@ -109,6 +109,24 @@
       "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad213187_b4e5ae25",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-01T04:13:16Z",
+      "side": 1,
+      "message": "I mean that there\u0027s a remarkable similarity between this chunk of new code here (from ~line 159-177 of patchset 3) and the next bit (lines ~187-207), and was hoping you can refactor them to avoid this duplication. A TODO would probably be fine if it seems too hard.",
+      "parentUuid": "0d531d56_b826f9e3",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
