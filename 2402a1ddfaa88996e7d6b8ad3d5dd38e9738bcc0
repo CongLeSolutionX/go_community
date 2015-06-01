@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad213187_74d33655",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-01T04:13:16Z",
+      "side": 1,
+      "message": "This is not correct (sorry, my sample was off in this regard too); this will be iterating over UTF-8-encoded runes, not bytes, making the check on the next line ill-defined. This needs to be\n\nfor i :\u003d 0; i \u003c len(local); i++ {\n  ch :\u003d local[i]\n  ...",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 25
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad213187_d4da2a64",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-01T04:13:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is correct to do here; shouldn\u0027t consumeAtom be checking this instead? RFC 5322 implies that, for instance, double dots are valid in the local part (it just insists that they be in a quoted string if they are present; sec 3.4.1).",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad213187_94e0b216",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-01T04:13:16Z",
+      "side": 1,
+      "message": "This is too descriptive of the place it is used above.\n\n// quoteString renders a string as a RFC5322 quoted-string.",
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
