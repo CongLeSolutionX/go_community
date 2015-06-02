@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39be6891_29244d6e",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-02T04:31:33Z",
+      "side": 1,
+      "message": "redefinition",
+      "range": {
+        "startLine": 338,
+        "startChar": 20,
+        "endLine": 338,
+        "endChar": 31
+      },
+      "revId": "63f40fae6dfdefd09d34f11b7558ba185beb23ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39be6891_691a452e",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-02T04:31:33Z",
+      "side": 1,
+      "message": "this is a change. we can\u0027t make changes to the API.\n\nthe old code overwrote the entry and so should the new code.",
+      "range": {
+        "startLine": 55,
+        "startChar": 29,
+        "endLine": 55,
+        "endChar": 33
+      },
+      "revId": "63f40fae6dfdefd09d34f11b7558ba185beb23ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
