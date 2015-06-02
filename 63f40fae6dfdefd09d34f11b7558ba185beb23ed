@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9de90f5_cf5c9dff",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-02T05:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39be6891_29244d6e",
+      "range": {
+        "startLine": 338,
+        "startChar": 20,
+        "endLine": 338,
+        "endChar": 31
+      },
+      "revId": "63f40fae6dfdefd09d34f11b7558ba185beb23ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39be6891_691a452e",
         "filename": "src/text/template/template.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-02T04:31:33Z",
       "side": 1,
       "message": "this is a change. we can\u0027t make changes to the API.\n\nthe old code overwrote the entry and so should the new code.",
+      "range": {
+        "startLine": 55,
+        "startChar": 29,
+        "endLine": 55,
+        "endChar": 33
+      },
+      "revId": "63f40fae6dfdefd09d34f11b7558ba185beb23ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9de90f5_0f4aa529",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-02T05:42:18Z",
+      "side": 1,
+      "message": "Old code didn\u0027t overwrite the entry. It just created a new template with given name and returned it. Since it never put entry in t.tmpl (Issue 10926), entries were never overwritten.\n\nTwo possibilities:\n1. If we don\u0027t return the already existing template - t.New() will create a new template with empty parse tree overwriting older template with non-nil parse tree. Ideally, we should should return \"template redefinition error\" in such case. But the function does not return err either. This is not expected behaviour.\n\n2. We create a new template with same name and not put an entry in t.tmpl -- not fixing Issue 10926.",
+      "parentUuid": "39be6891_691a452e",
       "range": {
         "startLine": 55,
         "startChar": 29,
