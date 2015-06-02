@@ -277,17 +277,8 @@ func (x *Float) fmtP(buf []byte) []byte {
 	if debugFloat && x.form != finite {
 		panic("non-finite float")
 	}
+
 	// x != 0
-
-	// remove trailing 0 words early
-	// (no need to convert to hex 0's and trim later)
-	m := x.mant
-	i := 0
-	for i < len(m) && m[i] == 0 {
-		i++
-	}
-	m = m[i:]
-
 	buf = append(buf, "0x."...)
 	buf = append(buf, strings.TrimRight(x.mant.hexString(), "0")...)
 	buf = append(buf, 'p')
