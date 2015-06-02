@@ -311,11 +311,17 @@ func (s *state) expr(n *Node) *ssa.Value {
 		return s.curBlock.NewValue2(ssa.OpLoad, n.Type, nil, p, s.mem())
 
 	case OINDEX:
-		if n.Left.Type.Bound >= 0 { // array
+		if n.Left.Type.Bound >= 0 { // array or string
 			a := s.expr(n.Left)
 			i := s.expr(n.Right)
 			s.boundsCheck(i, s.f.ConstInt(s.config.Uintptr, n.Left.Type.Bound))
-			return s.curBlock.NewValue2(ssa.OpArrayIndex, n.Left.Type.Type, nil, a, i)
+			var t *Type
+			if n.Left.Type.IsString() {
+				t = Types[TUINT8]
+			} else {
+				t = n.Left.Type.Type
+			}
+			return s.curBlock.NewValue2(ssa.OpArrayIndex, t, nil, a, i)
 		} else { // slice
 			p := s.addr(n)
 			return s.curBlock.NewValue2(ssa.OpLoad, n.Left.Type.Type, nil, p, s.mem())
@@ -351,7 +357,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 	}
 }
 
-// expr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
+// addr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
 func (s *state) addr(n *Node) *ssa.Value {
 	switch n.Op {
 	case ONAME:
@@ -386,7 +392,7 @@ func (s *state) addr(n *Node) *ssa.Value {
 			return s.curBlock.NewValue2(ssa.OpPtrIndex, Ptrto(n.Left.Type.Type), nil, p, i)
 		}
 	default:
-		log.Fatalf("addr: bad op %v", n.Op)
+		log.Fatalf("addr: bad op %v", Oconv(int(n.Op), 0))
 		return nil
 	}
 }
