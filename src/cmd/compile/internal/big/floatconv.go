@@ -364,7 +364,6 @@ func (x *Float) pstring(buf []byte) []byte {
 	for i < len(m) && m[i] == 0 {
 		i++
 	}
-	m = m[i:]
 
 	buf = append(buf, "0x."...)
 	buf = append(buf, strings.TrimRight(x.mant.hexString(), "0")...)
