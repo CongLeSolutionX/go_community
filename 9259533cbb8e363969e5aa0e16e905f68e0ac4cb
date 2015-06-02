@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_0be86173",
+        "filename": "src/cmd/compile/internal/gc/range.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:12:36Z",
+      "side": 1,
+      "message": "I don\u0027t think the argument for that is particularly strong. The vast majority of code looks at the Op before consulting inner fields, so it knows there is a .Name before looking at .Name.Defn. If anything needs to be done here, it should be that the code does better checking of what this is before it blindly looks at .Name.Defn. But again, not at this point. We can only break things.",
+      "parentUuid": "190b6419_db0fa735",
+      "revId": "9259533cbb8e363969e5aa0e16e905f68e0ac4cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_7b265bc4",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-05-29T21:23:06Z",
       "side": 1,
       "message": "XXX?",
+      "revId": "9259533cbb8e363969e5aa0e16e905f68e0ac4cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_6b1a352e",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3936,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:12:36Z",
+      "side": 1,
+      "message": "It was a reminder to come back and fix, before I had decided to give OLABEL nodes Name structs. Will remove in a followup CL.",
+      "parentUuid": "190b6419_5b2b978a",
       "revId": "9259533cbb8e363969e5aa0e16e905f68e0ac4cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
