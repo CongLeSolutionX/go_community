@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_4b3c1985",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:19:40Z",
+      "side": 1,
+      "message": "That\u0027s a job for a separate automated conversion.\nNot changing in this CL.\nThe fewer changes I make by hand, the fewer bugs I introduce.",
+      "parentUuid": "190b6419_5bd277fc",
+      "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_1bdcff0c",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 1
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_4b63b992",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:19:40Z",
+      "side": 1,
+      "message": "Maybe, but again I\u0027m explicitly avoiding doing unrelated cleanup in this CL sequence, so that I touch as little as possible. Believe me, it would balloon if I stopped to clean up every thing I noticed. (It was particularly hard not to fix range.go\u0027s massive indentation.)",
+      "parentUuid": "190b6419_bbcab33b",
+      "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_5ff00260",
         "filename": "src/cmd/compile/internal/gc/go.go",
         "patchSetId": 1
@@ -104,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_eb05c5c5",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:19:40Z",
+      "side": 1,
+      "message": "This lets me not put a return at the bottom of the function, which in turn makes the compiler check for me that the other cases all do return instead of breaking out of the switch. I agree it shouldn\u0027t happen. I can put in a panic instead.\nWill do in a followup CL.",
+      "parentUuid": "0d54fde2_3f497e42",
+      "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_9bc7ef33",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 1
@@ -115,6 +169,24 @@
       "writtenOn": "2015-05-29T21:53:58Z",
       "side": 1,
       "message": "return n.Op \u003d\u003d OLITERAL \u0026\u0026 n.Val.Ctype() !\u003d CTNIL",
+      "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_6b68f56d",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:19:40Z",
+      "side": 1,
+      "message": "Not today. (Risk/reward.)",
+      "parentUuid": "190b6419_9bc7ef33",
       "revId": "95eb559daf5a68c585843a4f98544b3fa8e28032",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
