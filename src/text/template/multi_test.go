@@ -296,3 +296,36 @@ func TestEmptyTemplateCloneCrash(t *testing.T) {
 	t1 := New("base")
 	t1.Clone() // used to panic
 }
+
+func TestTemplateLookUp(t *testing.T) {
+	// Issue 10926
+	t1 := New("foo")
+	t1.New("bar")
+	if t1.Lookup("bar") == nil {
+		t.Error("expected non nil template upon Lookup")
+	}
+
+	// Issue 10910
+	t1 = New("base")
+	if t1.Lookup("base") == nil {
+		t.Error("expected non nil template upon Lookup")
+	}
+}
+
+func TestParse(t *testing.T) {
+	// In multiple calls to Parse with the same receiver template, only one call
+	// can contain text other than space, comments, and template definitions
+	tmpl := New("test")
+	if _, err := tmpl.Parse(`{{define "test"}}{{end}}`); err != nil {
+		t.Fatal("unexpected error")
+	}
+	if _, err := tmpl.Parse(`{{define "test"}}{{/* this is a comment */}}{{end}}`); err != nil {
+		t.Fatal("unexpected error")
+	}
+	if _, err := tmpl.Parse(`{{define "test"}}foo{{end}}`); err != nil {
+		t.Fatal("unexpected error")
+	}
+	if _, err := tmpl.Parse(`{{define "test"}}foo{{end}}`); err == nil {
+		t.Fatal("expected redefinition error")
+	}
+}

@@ -40,6 +40,7 @@ func New(name string) *Template {
 		name: name,
 	}
 	t.init()
+	t.tmpl[name] = t
 	return t
 }
 
@@ -58,7 +59,7 @@ func (t *Template) New(name string) *Template {
 		leftDelim:  t.leftDelim,
 		rightDelim: t.rightDelim,
 	}
-	nt.init()
+	t.tmpl[name] = nt
 	return nt
 }
 
@@ -118,7 +119,6 @@ func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error
 	}
 	nt := t.New(name)
 	nt.Tree = tree
-	t.tmpl[name] = nt
 	return nt, nil
 }
 
@@ -171,18 +171,23 @@ func (t *Template) Lookup(name string) *Template {
 // can contain text other than space, comments, and template definitions.)
 func (t *Template) Parse(text string) (*Template, error) {
 	t.muFuncs.RLock()
+	defer t.muFuncs.RUnlock()
 	trees, err := parse.Parse(t.name, text, t.leftDelim, t.rightDelim, t.parseFuncs, builtins)
-	t.muFuncs.RUnlock()
 	if err != nil {
 		return nil, err
 	}
-	// Add the newly parsed trees, including the one for t, into our common structure.
+	// Add the newly parsed trees, including the one for t and associate it with t.
 	for name, tree := range trees {
 		// If the name we parsed is the name of this template, overwrite this template.
 		// The associate method checks it's not a redefinition.
 		tmpl := t
 		if name != t.name {
-			tmpl = t.New(name)
+			tmpl = &Template{
+				name:       name,
+				common:     t.common,
+				leftDelim:  t.leftDelim,
+				rightDelim: t.rightDelim,
+			}
 		}
 		// Even if t == tmpl, we need to install it in the common.tmpl map.
 		if replace, err := t.associate(tmpl, tree); err != nil {
@@ -190,8 +195,6 @@ func (t *Template) Parse(text string) (*Template, error) {
 		} else if replace {
 			tmpl.Tree = tree
 		}
-		tmpl.leftDelim = t.leftDelim
-		tmpl.rightDelim = t.rightDelim
 	}
 	return t, nil
 }
@@ -205,7 +208,7 @@ func (t *Template) associate(new *Template, tree *parse.Tree) (bool, error) {
 		panic("internal error: associate not common")
 	}
 	name := new.name
-	if old := t.tmpl[name]; old != nil {
+	if old := t.tmpl[name]; old != nil && old.Tree != nil {
 		oldIsEmpty := parse.IsEmptyTree(old.Root)
 		newIsEmpty := parse.IsEmptyTree(tree.Root)
 		if newIsEmpty {
