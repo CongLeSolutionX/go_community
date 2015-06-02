@@ -16,6 +16,24 @@
       "revId": "c413c45e6db73909ac506cb385b49b6b2cd90726",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_8bb8d1b3",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:02:25Z",
+      "side": 0,
+      "message": "I\u0027d rather not. Dump is about printing the raw tree. It will be confusing to be printing about fields that don\u0027t exist.",
+      "parentUuid": "190b6419_3b0fc36b",
+      "revId": "c413c45e6db73909ac506cb385b49b6b2cd90726",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
