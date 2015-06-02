@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_0b738193",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "Will do in a followup CL.",
+      "parentUuid": "190b6419_9b16cf78",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_3b346309",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_4b5099db",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "Again, I\u0027d rather not. That\u0027s a very long road to go down. I don\u0027t want to take one step without knowing it\u0027s where we want to go. That\u0027s far from clear to me. Why are these different from, say, .Left and .Right? I think the basic structure of these cases should be revisited a little, but that\u0027s a separate issue.",
+      "parentUuid": "190b6419_3b346309",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_1b399f01",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-05-29T20:59:14Z",
       "side": 1,
       "message": "I believe you that this is necessary, but I don\u0027t see why.",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_2b4f5d3a",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "In general if you change the opcode, then you need to make sure that old pieces are no longer accessible, because there are generic traversals that don\u0027t look at the opcode.",
+      "parentUuid": "190b6419_1b399f01",
       "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_6b6eb5ac",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "Will do in a followup CL.",
+      "parentUuid": "0d54fde2_ecb91658",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_7ba1bbb0",
         "filename": "src/cmd/compile/internal/gc/swt.go",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2015-05-29T20:59:14Z",
       "side": 1,
       "message": "Should caseClauses do the work of cleaning up sw.List?",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_6bcc752e",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "This code is rewriting sw in place. It seemed clearer to make caseClauses only about reading from sw, not also mutating it.",
+      "parentUuid": "190b6419_7ba1bbb0",
       "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_8b3d319d",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "I will write documentation about the meanings. \nI don\u0027t want to introduce Node methods today. That would need much more consideration, and it\u0027s also churn that can only introduce bugs (with no compensating benefit like space reduction to pay for that risk).",
+      "parentUuid": "190b6419_3bab4393",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_1b875f19",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 1
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_4bee5985",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2853,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "Ouch. Will do in a followup CL.",
+      "parentUuid": "190b6419_1b875f19",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_7b889b2a",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 1
@@ -149,6 +275,24 @@
       "writtenOn": "2015-05-29T20:59:14Z",
       "side": 1,
       "message": "map[int64]bool is enough. I have a very similar change at https://github.com/josharian/go/commit/3e1a0a831d9c81481678781d4a7b786761f813bf. :)",
+      "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_abe10d94",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2875,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T16:08:53Z",
+      "side": 1,
+      "message": "I\u0027ll leave the *Node key, since maybe we\u0027ll want to print the line of the earlier entry, and it matches keydup. It\u0027s at most a factor of two in the size of this ephemeral map. It\u0027s hard to believe it matters much.",
+      "parentUuid": "190b6419_7b889b2a",
       "revId": "26ec6466ef575f987d02e75dc27aae074413345c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
