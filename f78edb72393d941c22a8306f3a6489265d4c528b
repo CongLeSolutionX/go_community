@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9de90f5_124aca29",
+        "filename": "src/net/hosts.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-02T11:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190b6419_2c1e6bef",
+      "revId": "f78edb72393d941c22a8306f3a6489265d4c528b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_cc2c8f27",
         "filename": "src/net/hosts_test.go",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f9de90f5_324fce3a",
+        "filename": "src/net/hosts_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-02T11:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190b6419_cc2c8f27",
+      "revId": "f78edb72393d941c22a8306f3a6489265d4c528b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_ac295b15",
         "filename": "src/net/hosts_test.go",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2015-06-01T16:17:08Z",
       "side": 1,
       "message": "rather than i/j numbers, I\u0027d include the two string keys you already have:  tt.name and ent.in.\n\n   Errorf(\"%s, lookupStaticAddr(%s) \u003d %v; want %v\", tt. name, ent.in)",
+      "revId": "f78edb72393d941c22a8306f3a6489265d4c528b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9de90f5_d243e210",
+        "filename": "src/net/hosts_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-02T11:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190b6419_ac295b15",
       "revId": "f78edb72393d941c22a8306f3a6489265d4c528b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
