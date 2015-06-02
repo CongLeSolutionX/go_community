@@ -159,7 +159,12 @@ func (s *state) stmt(n *Node) {
 
 	case OAS:
 		// TODO(khr): colas?
-		val := s.expr(n.Right)
+		var val *ssa.Value
+		if n.Right != nil {
+			val = s.expr(n.Right)
+		} else {
+			val = s.zeroval(n.Left.Type)
+		}
 		if n.Left.Op == ONAME && !n.Left.Addrtaken && n.Left.Class&PHEAP == 0 && n.Left.Class != PEXTERN && n.Left.Class != PPARAMOUT {
 			// ssa-able variable.
 			s.vars[n.Left.Sym.Name] = val
@@ -251,8 +256,7 @@ func (s *state) stmt(n *Node) {
 // expr converts the expression n to ssa, adds it to s and returns the ssa result.
 func (s *state) expr(n *Node) *ssa.Value {
 	if n == nil {
-		// TODO(khr): is this nil???
-		return s.f.Entry.NewValue(ssa.OpConst, n.Type, nil)
+		panic("nil ssa expr")
 	}
 	switch n.Op {
 	case ONAME:
@@ -311,6 +315,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		return s.curBlock.NewValue2(ssa.OpLoad, n.Type, nil, p, s.mem())
 
 	case OINDEX:
+		// TODO: Handle strings
 		if n.Left.Type.Bound >= 0 { // array
 			a := s.expr(n.Left)
 			i := s.expr(n.Right)
@@ -351,7 +356,12 @@ func (s *state) expr(n *Node) *ssa.Value {
 	}
 }
 
-// expr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
+// zeroval generates the zero value of type t, adds it to s and returns the ssa result.
+func (s *state) zeroval(t *Type) *ssa.Value {
+	return s.f.Entry.NewValue(ssa.OpConst, t, nil)
+}
+
+// addr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
 func (s *state) addr(n *Node) *ssa.Value {
 	switch n.Op {
 	case ONAME:
@@ -371,6 +381,7 @@ func (s *state) addr(n *Node) *ssa.Value {
 		// used for storing/loading arguments/returns to/from callees
 		return s.f.Entry.NewValue1(ssa.OpOffPtr, Ptrto(n.Type), n.Xoffset, s.sp)
 	case OINDEX:
+		// TODO: Handle strings
 		if n.Left.Type.Bound >= 0 { // array
 			a := s.addr(n.Left)
 			i := s.expr(n.Right)
@@ -386,7 +397,7 @@ func (s *state) addr(n *Node) *ssa.Value {
 			return s.curBlock.NewValue2(ssa.OpPtrIndex, Ptrto(n.Left.Type.Type), nil, p, i)
 		}
 	default:
-		log.Fatalf("addr: bad op %v", n.Op)
+		log.Fatalf("addr: bad op %v", Oconv(int(n.Op), 0))
 		return nil
 	}
 }
