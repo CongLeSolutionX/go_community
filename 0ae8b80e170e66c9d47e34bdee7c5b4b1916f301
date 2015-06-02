@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_0bee21b2",
+        "filename": "src/cmd/compile/internal/gc/popt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T15:58:01Z",
+      "side": 1,
+      "message": "It\u0027s actually C code. If it were ever converted to Go it would become fmt.Printf. I am just trying to get rid of all mentions of %P anywhere, including comments.",
+      "parentUuid": "190b6419_fb538b62",
+      "revId": "0ae8b80e170e66c9d47e34bdee7c5b4b1916f301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "190b6419_de73155e",
         "filename": "src/cmd/internal/obj/data.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-30T02:56:13Z",
       "side": 1,
       "message": "I\u0027m surprised that CL 10040 didn\u0027t catch these.",
+      "revId": "0ae8b80e170e66c9d47e34bdee7c5b4b1916f301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_cbe7a9d1",
+        "filename": "src/cmd/internal/obj/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-02T15:58:01Z",
+      "side": 1,
+      "message": "Vet doesn\u0027t know whether something supports %P.",
+      "parentUuid": "190b6419_de73155e",
       "revId": "0ae8b80e170e66c9d47e34bdee7c5b4b1916f301",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
