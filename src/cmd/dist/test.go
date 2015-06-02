@@ -6,7 +6,6 @@ package main
 
 import (
 	"bytes"
-	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -334,15 +333,11 @@ func (t *tester) registerTests() {
 		t.registerTest("testgodefs", "../misc/cgo/testgodefs", "./test.bash")
 	}
 	if t.cgoEnabled {
-		if t.gohostos == "windows" {
-			t.tests = append(t.tests, distTest{
-				name:    "testso",
-				heading: "../misc/cgo/testso",
-				fn:      t.cgoTestSOWindows,
-			})
-		} else if t.hasBash() && t.goos != "android" && !t.iOS() {
-			t.registerTest("testso", "../misc/cgo/testso", "./test.bash")
-		}
+		t.tests = append(t.tests, distTest{
+			name:    "testso",
+			heading: "../misc/cgo/testso",
+			fn:      t.cgoTestSO,
+		})
 		if t.supportedBuildmode("c-archive") {
 			t.registerTest("testcarchive", "../misc/cgo/testcarchive", "./test.bash")
 		}
@@ -661,23 +656,6 @@ func (t *tester) cgoTest() error {
 		}
 	}
 
-	return nil
-}
-
-func (t *tester) cgoTestSOWindows() error {
-	cmd := t.dirCmd("misc/cgo/testso", `.\test`)
-	var buf bytes.Buffer
-	cmd.Stdout = &buf
-	cmd.Stderr = &buf
-	err := cmd.Run()
-	s := buf.String()
-	fmt.Println(s)
-	if err != nil {
-		return err
-	}
-	if strings.Contains(s, "FAIL") {
-		return errors.New("test failed")
-	}
 	return nil
 }
 
