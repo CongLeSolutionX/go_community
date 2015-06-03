@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f955b039_b7228830",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T18:26:08Z",
+      "side": 1,
+      "message": "template foo",
+      "range": {
+        "startLine": 304,
+        "startChar": 55,
+        "endLine": 304,
+        "endChar": 63
+      },
+      "revId": "ecf0241cdcc49730c14c6dc27525361f6ff85de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_d729fc14",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T18:26:08Z",
+      "side": 1,
+      "message": "template bar\n\nwe want to discriminate the error messages when we can",
+      "range": {
+        "startLine": 308,
+        "startChar": 35,
+        "endLine": 308,
+        "endChar": 40
+      },
+      "revId": "ecf0241cdcc49730c14c6dc27525361f6ff85de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_7730f075",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T18:26:08Z",
+      "side": 1,
+      "message": "s/ parse//",
+      "revId": "ecf0241cdcc49730c14c6dc27525361f6ff85de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_173b745d",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T18:26:08Z",
+      "side": 1,
+      "message": "s/parse/Tree/",
+      "range": {
+        "startLine": 328,
+        "startChar": 42,
+        "endLine": 328,
+        "endChar": 47
+      },
+      "revId": "ecf0241cdcc49730c14c6dc27525361f6ff85de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_b7d0c870",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T18:26:08Z",
+      "side": 1,
+      "message": "include the error in the message\nactually all you need is\n\nt.Fatal(err)\n\nbut it would be nice to say\n\nt.Fatalf(\"parsing test: %s\", err)\n\nwith similar different ones below.\n\nnote that it\u0027s never necessary to say \"unexpected\" in a message from a failing test. if the condition was expected, we wouldn\u0027t be failing.",
+      "range": {
+        "startLine": 350,
+        "startChar": 22,
+        "endLine": 350,
+        "endChar": 27
+      },
+      "revId": "ecf0241cdcc49730c14c6dc27525361f6ff85de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_f79fe0ad",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T18:26:08Z",
+      "side": 1,
+      "message": "make it clear:\n\nt.Fatal(\"no error from redefining a template\")\nor some such\n\nthe phrase \"expected redefinition error\" implies we got something else, perhaps an actual error. that\u0027s not what this tests.\n\nthe test should also verify that the error is the one you expect; it could be failing for some other reason and this test would then succeed incorrectly.",
+      "revId": "ecf0241cdcc49730c14c6dc27525361f6ff85de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
