@@ -216,6 +216,30 @@
       "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9de90f5_580f11bc",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-03T19:31:59Z",
+      "side": 1,
+      "message": "Previously, I used defer to RUnlock() without realising that it is perhaps not necessary to keep muFuncs locked when executing t.AddParseTree. I changed it to what is was before as pointed out.\n\n\nWhat I didn\u0027t understand was your comment about parse.Parse panicing in case of package error. How is it related to this CL?",
+      "parentUuid": "f955b039_3760382d",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
