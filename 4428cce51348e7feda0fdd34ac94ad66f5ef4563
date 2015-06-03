@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9de90f5_784f750b",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-03T16:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a97860_8e977a9b",
+      "range": {
+        "startLine": 304,
+        "startChar": 11,
+        "endLine": 304,
+        "endChar": 19
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9a97860_2eb5263e",
         "filename": "src/text/template/multi_test.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-03T14:46:26Z",
       "side": 1,
       "message": "s/values/value/",
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9de90f5_584ab1fc",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-03T16:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a97860_2eb5263e",
       "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -65,6 +107,47 @@
     },
     {
       "key": {
+        "uuid": "f9de90f5_184429eb",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-03T16:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a97860_ce73320c",
+      "range": {
+        "startLine": 115,
+        "startChar": 36,
+        "endLine": 115,
+        "endChar": 42
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9de90f5_d85d41c2",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-03T16:44:29Z",
+      "side": 1,
+      "message": "Are you okay with this change? AddParseTree didn\u0027t allow to overwrite an empty template before.",
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9a97860_0e6aaa12",
         "filename": "src/text/template/template.go",
         "patchSetId": 3
@@ -76,6 +159,30 @@
       "writtenOn": "2015-06-03T14:46:26Z",
       "side": 1,
       "message": "This change means that the muFuncs lock is held during AddParseTree, which is unnecessary.\n\nparse.Parse returns errors for parse problems. If it panics at this level, there is an error in the package, not in the input. I therefore think you should restore the previous code here. If that bothers you, refactor.",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9de90f5_f85a85c7",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 7715
+      },
+      "writtenOn": "2015-06-03T16:44:29Z",
+      "side": 1,
+      "message": "understood, reverted the defer logic.\n\nI don\u0027t understand how parse.Parse panicing now and before makes any difference?",
+      "parentUuid": "b9a97860_0e6aaa12",
       "range": {
         "startLine": 181,
         "startChar": 8,
