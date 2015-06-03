@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7948e0a0_61f3129a",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-03T17:38:42Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment. I\u0027d like to see a problem before adding this complexity. I\u0027m not sure how relevant this is on today\u0027s machines.",
+      "parentUuid": "0d54fde2_e2875da8",
+      "range": {
+        "startLine": 405,
+        "startChar": 11,
+        "endLine": 405,
+        "endChar": 14
+      },
+      "revId": "857cc27fc495a7cd79d6a2154ddd68a425f13692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_e2b91d58",
         "filename": "src/cmd/compile/internal/gc/esc.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-05-29T22:14:59Z",
       "side": 1,
       "message": "s/e.//",
+      "revId": "857cc27fc495a7cd79d6a2154ddd68a425f13692",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7948e0a0_a1e4facd",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-03T17:38:42Z",
+      "side": 1,
+      "message": "Will fix in a followup.",
+      "parentUuid": "0d54fde2_e2b91d58",
       "revId": "857cc27fc495a7cd79d6a2154ddd68a425f13692",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
