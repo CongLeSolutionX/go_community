@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d9fb8c32_9388ee2b",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-06-03T17:57:14Z",
+      "side": 1,
+      "message": "It is correct following RFC 5322, moving it to consumeAtom makes it interfere with the parsing of names in an email address. So I\u0027m gonna leave it, because else a lot of rewrite would be needed.",
+      "parentUuid": "ad213187_d4da2a64",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
