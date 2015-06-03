@@ -127,6 +127,24 @@
       "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_c426b36b",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-06-03T17:57:14Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll add a simple TODO for it. I haven\u0027t the time now to look into all the details...",
+      "parentUuid": "ad213187_b4e5ae25",
+      "revId": "efa37d475f9e9399b97e96df1174b715b38107c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
