@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9ec18cf_3005e64a",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-03T22:03:53Z",
+      "side": 1,
+      "message": "d",
+      "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9ec18cf_5014f27c",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-03T22:03:53Z",
+      "side": 1,
+      "message": "// for optimization passes for most Nodes, Val for OLITERAL",
+      "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
