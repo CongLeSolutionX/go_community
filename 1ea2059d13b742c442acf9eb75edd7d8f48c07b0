@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9a97860_ab54ad99",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-03T17:55:04Z",
+      "side": 1,
+      "message": "This is debugging the seg fault that will happen on the next line. I could add an explicit Fatal, but it\u0027s going to crash either way.",
+      "parentUuid": "0d54fde2_e2d3dd52",
+      "revId": "1ea2059d13b742c442acf9eb75edd7d8f48c07b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d54fde2_220fa568",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-29T21:38:16Z",
       "side": 1,
       "message": "I\u0027m not quite grasping why you don\u0027t just allocate s1.def.Name here, rather than scattered across the compiler.  But perhaps this is for later CLs.",
+      "revId": "1ea2059d13b742c442acf9eb75edd7d8f48c07b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_443ba38a",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-03T17:55:04Z",
+      "side": 1,
+      "message": "The invariant is supposed to be that s.Def.Name !\u003d nil for any symbol s. At the place where s.Def is set, I make sure that s.Def.Name is also allocated. Most of the time, s.Def is an ONAME, and all ONAMEs start with .Names. But if s.Def is an OLITERAL for 42 (say), then it\u0027s not until we name it with something like const X \u003d 42 that we need to set .Name. It\u0027s the use as an s.Def that imposes the .Name requirement, so the pattern you see is that after s.Def \u003d n where n.Op is one of the usually Name-free opcodes, we allocate s.Def.Name on the next line.",
+      "parentUuid": "0d54fde2_220fa568",
       "revId": "1ea2059d13b742c442acf9eb75edd7d8f48c07b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
