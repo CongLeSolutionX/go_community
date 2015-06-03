@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9a97860_91f31f6b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-03T15:55:12Z",
+      "side": 1,
+      "message": "I\u0027d prefer these tests not even be registered if they\u0027re not going to do anything. Otherwise the coordinator has to shard these out to builders and measure their timing information and such, which is just a waste of time if they\u0027re doing nothing.",
+      "revId": "36b5cfa4263de6a5f073cba01b4be48afd398696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_31e82b74",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-03T15:55:12Z",
+      "side": 1,
+      "message": "likewise\n\ncan you break this up into two funcs:\n\nfunc (t *tester) cgoTestSOSupported() bool {\n   ...\n}\nfunc (t *tester) cgoTestSO() error { ... }\n\nAnd in registerTests, do:\n\n    if t.cgoTestSOSupported() {\n        t.tests \u003d append(t.tests, distTest{\n\t\t\tname:    \"testso\",\n\t\t\theading: \"../misc/cgo/testso\",\n\t\t\tfn:      t.cgoTestSO,\n\t\t})\n      }",
+      "revId": "36b5cfa4263de6a5f073cba01b4be48afd398696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
