@@ -51,6 +51,24 @@
       "revId": "2bd3e053ab6d3b588e92085464b6c8ef20501e1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_045a8b00",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-03T17:45:38Z",
+      "side": 1,
+      "message": "It probably needn\u0027t be now; it was embedded in Node when I prepared the CL. I believe because I merged the unembed CL into this one, most references probably say .Param explicitly, although they didn\u0027t originally. Will fix in a followup CL.",
+      "parentUuid": "190b6419_3b6d837d",
+      "revId": "2bd3e053ab6d3b588e92085464b6c8ef20501e1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
