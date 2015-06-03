@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f955b039_2655a8cb",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-03T22:24:22Z",
+      "side": 0,
+      "message": "Extraneous change?",
+      "revId": "ab4881d4e7bb992befa309a915d531c18e35d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
