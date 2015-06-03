@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9a97860_8e977a9b",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T14:46:26Z",
+      "side": 1,
+      "message": "This is not the usual style of Go test messages. Say what happened, not what didn\u0027t.\n\nLookup returned non-nil value for undefined template\n\n(Don\u0027t use parens unless you want to show the arguments.)\nSimilar changes should be applied throughout.",
+      "range": {
+        "startLine": 304,
+        "startChar": 11,
+        "endLine": 304,
+        "endChar": 19
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_2eb5263e",
+        "filename": "src/text/template/multi_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T14:46:26Z",
+      "side": 1,
+      "message": "s/values/value/",
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_ce73320c",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T14:46:26Z",
+      "side": 1,
+      "message": "s/exists/exist/",
+      "range": {
+        "startLine": 115,
+        "startChar": 36,
+        "endLine": 115,
+        "endChar": 42
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_0e6aaa12",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-03T14:46:26Z",
+      "side": 1,
+      "message": "This change means that the muFuncs lock is held during AddParseTree, which is unnecessary.\n\nparse.Parse returns errors for parse problems. If it panics at this level, there is an error in the package, not in the input. I therefore think you should restore the previous code here. If that bothers you, refactor.",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "4428cce51348e7feda0fdd34ac94ad66f5ef4563",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
