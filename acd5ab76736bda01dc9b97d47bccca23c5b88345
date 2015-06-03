@@ -16,6 +16,24 @@
       "revId": "acd5ab76736bda01dc9b97d47bccca23c5b88345",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9a97860_64eedf85",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-03T17:49:42Z",
+      "side": 1,
+      "message": "Will fix in a followup CL. This is close to my \"no cleanup\" line (it\u0027s intentionally very low), but I\u0027ll do it.",
+      "parentUuid": "190b6419_de5af5c7",
+      "revId": "acd5ab76736bda01dc9b97d47bccca23c5b88345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
