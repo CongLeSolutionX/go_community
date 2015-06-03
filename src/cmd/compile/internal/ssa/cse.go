@@ -24,7 +24,10 @@ func cse(f *Func) {
 	// until it reaches a fixed point.
 
 	// Make initial partition based on opcode/type/aux/nargs
-	// TODO(khr): types are not canonical, so we may split unnecessarily.  Fix that.
+	// TODO(khr): types are not canonical, so we split unnecessarily.
+	// For example, all pointer types are distinct. Fix this.
+	// At time of writing, using v.Type.String() instead of
+	// v.Type here allows removal of about 50% more nil checks.
 	type key struct {
 		op     Op
 		typ    Type
