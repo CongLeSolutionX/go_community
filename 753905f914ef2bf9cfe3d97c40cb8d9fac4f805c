@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f955b039_cc304178",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-04T22:15:22Z",
+      "side": 1,
+      "message": "This is tricky, because it suggests that if I write\n\n/* comment */ this is more of the comment */\n\nthat the whole thing is a comment, because that would be the longest sequence of characters that forms a valid comment token.  The section on comments needs to make clear that the first \"*/\" terminates the comment.",
+      "revId": "753905f914ef2bf9cfe3d97c40cb8d9fac4f805c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_ec88a5a7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-04T22:15:22Z",
+      "side": 1,
+      "message": "s/serve/serve as/",
+      "revId": "753905f914ef2bf9cfe3d97c40cb8d9fac4f805c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
