@@ -389,6 +389,10 @@ type RawContent []byte
 // don't distinguish between ordered and unordered objects in this code.
 func parseTagAndLength(bytes []byte, initOffset int) (ret tagAndLength, offset int, err error) {
 	offset = initOffset
+	if offset >= len(bytes) {
+		err = SyntaxError{"truncated tag or length"}
+		return
+	}
 	b := bytes[offset]
 	offset++
 	ret.class = int(b >> 6)

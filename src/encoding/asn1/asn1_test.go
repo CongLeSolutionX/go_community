@@ -867,3 +867,18 @@ func TestImplicitTaggedTime(t *testing.T) {
 		t.Errorf("Wrong result. Got %v, want %v", result.Time, expected)
 	}
 }
+
+func TestInvalidOffset(t *testing.T) {
+	_, _, err := parseTagAndLength([]bytes{}, 2)
+	if err == nil {
+		t.Error("Wrong result. Got no error, want syntax error.")
+	}
+
+	if synErr, ok := err.(SyntaxError); !ok {
+		t.Errorf("Wrong result. Got %v error, want syntax error.", err)
+	}
+
+	if synErr.Msg != "truncated tag or length" {
+		t.Errorf(`Wrong result. Got %v, want "truncated tag or length".`, synErr.Msg)
+	}
+}
