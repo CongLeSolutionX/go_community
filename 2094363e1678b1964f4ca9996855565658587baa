@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f955b039_8c53e93f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-04T21:47:41Z",
+      "side": 1,
+      "message": "I don\u0027t see any reason to pass true for the alloc parameter here.  We don\u0027t need to see this build ID at run time (but note that passing false does mean that the note will not be near the start of the file).",
+      "revId": "2094363e1678b1964f4ca9996855565658587baa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_6c3f75e9",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2026,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-04T21:47:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t need SHF_ALLOC here.",
+      "revId": "2094363e1678b1964f4ca9996855565658587baa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_ec4a6575",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-04T21:47:41Z",
+      "side": 1,
+      "message": "If we don\u0027t set SHF_ALLOC for the note section, we don\u0027t need this note segment for buildid.",
+      "revId": "2094363e1678b1964f4ca9996855565658587baa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
