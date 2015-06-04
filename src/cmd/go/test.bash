@@ -656,6 +656,12 @@ if GOPATH=. ./testgo build testdata/src/go-cmd-test/helloworld.go; then
     ok=false
 fi
 
+TEST reject relative paths in GOPATH
+if GOPATH=foo ./testgo build testdata/src/go-cmd-test/helloworld.go; then
+    echo 'GOPATH="testdata" go build should have failed, did not'
+    ok=false
+fi
+
 TEST reject relative paths in GOPATH 
 if GOPATH=:$(pwd)/testdata:. ./testgo build go-cmd-test; then
     echo 'GOPATH=":$(pwd)/testdata:." go build should have failed, did not'
