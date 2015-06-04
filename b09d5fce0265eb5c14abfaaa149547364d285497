@@ -22,6 +22,23 @@
       "revId": "b09d5fce0265eb5c14abfaaa149547364d285497",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9ec18cf_f385288d",
+        "filename": "src/cmd/link/internal/ld/pobj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-04T23:30:18Z",
+      "side": 1,
+      "message": "Looks like handling \"--X\" is unnecessary here and below; \"--X\" has already been converted to \"-X\".",
+      "revId": "b09d5fce0265eb5c14abfaaa149547364d285497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
