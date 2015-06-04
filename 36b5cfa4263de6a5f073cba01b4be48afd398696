@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3901083e_f1808895",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-04T05:36:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a97860_91f31f6b",
+      "revId": "36b5cfa4263de6a5f073cba01b4be48afd398696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9a97860_31e82b74",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-03T15:55:12Z",
       "side": 1,
       "message": "likewise\n\ncan you break this up into two funcs:\n\nfunc (t *tester) cgoTestSOSupported() bool {\n   ...\n}\nfunc (t *tester) cgoTestSO() error { ... }\n\nAnd in registerTests, do:\n\n    if t.cgoTestSOSupported() {\n        t.tests \u003d append(t.tests, distTest{\n\t\t\tname:    \"testso\",\n\t\t\theading: \"../misc/cgo/testso\",\n\t\t\tfn:      t.cgoTestSO,\n\t\t})\n      }",
+      "revId": "36b5cfa4263de6a5f073cba01b4be48afd398696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3901083e_d17d842b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-04T05:36:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9a97860_31e82b74",
       "revId": "36b5cfa4263de6a5f073cba01b4be48afd398696",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
