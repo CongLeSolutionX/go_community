@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f955b039_6fb76c29",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-04T21:56:33Z",
+      "side": 1,
+      "message": "I think Matthew Dempsky has a point here. See also (for comparison) the C11 standard:\n\nhttp://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf (6.4.9 Comments):\n\n\"Except within a character constant, a string literal, or a comment, the characters /*\nintroduce a comment. The contents of such a comment are examined only to identify\nmultibyte characters and to find the characters */ that terminate it.\"\n\nEarlier in that document, comments are also considered when describing tokenization, which is a bit more honest with the actual implementation.\n\nI\u0027ve decided to change the wording in the spec here (not the effect though, hopefully), and classify comments as tokens as well. Looking forward to feedback.",
+      "parentUuid": "190b6419_7b609b2d",
+      "revId": "2e0bad884f2bb5bf10a778c5e110d497b55d4284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7919c071_56b0124e",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2015-05-30T02:13:49Z",
       "side": 1,
       "message": "I suggest we keep the id so that existing links\nto this section won\u0027t break.",
+      "revId": "2e0bad884f2bb5bf10a778c5e110d497b55d4284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_1441a5b6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-04T21:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7919c071_56b0124e",
       "revId": "2e0bad884f2bb5bf10a778c5e110d497b55d4284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
