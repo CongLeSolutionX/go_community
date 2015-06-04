@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9ec18cf_d6d1fa41",
+        "filename": "src/cmd/link/internal/ld/pobj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-04T04:32:46Z",
+      "side": 1,
+      "message": "i\u0027d TODO this and print a warning that the new syntax should be used",
+      "range": {
+        "startLine": 139,
+        "startChar": 11,
+        "endLine": 139,
+        "endChar": 12
+      },
+      "revId": "b09d5fce0265eb5c14abfaaa149547364d285497",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
