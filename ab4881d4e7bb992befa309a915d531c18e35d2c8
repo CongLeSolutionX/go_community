@@ -16,6 +16,24 @@
       "revId": "ab4881d4e7bb992befa309a915d531c18e35d2c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_c369391f",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-04T03:22:56Z",
+      "side": 0,
+      "message": "I\u0027m not sure how it got into this CL (yay git), but it\u0027s an important change. If n.Op !\u003d ONAME, then n.Name.Vargen is probably going to crash.",
+      "parentUuid": "f955b039_2655a8cb",
+      "revId": "ab4881d4e7bb992befa309a915d531c18e35d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

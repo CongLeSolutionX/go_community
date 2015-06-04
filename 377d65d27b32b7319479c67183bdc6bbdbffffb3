@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f955b039_0374d1f3",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-04T03:22:56Z",
+      "side": 1,
+      "message": "Yes, thank you.",
+      "parentUuid": "f955b039_0667c4c9",
+      "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9ec18cf_3005e64a",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-03T22:03:53Z",
       "side": 1,
       "message": "d",
+      "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_a3836553",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-04T03:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9ec18cf_3005e64a",
       "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f955b039_437ec9dd",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-04T03:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9ec18cf_5014f27c",
+      "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f955b039_c6082ce1",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-03T22:24:22Z",
       "side": 1,
       "message": "Consistency would seem to require testing x \u003d\u003d nil before testing n.hasVal.  Otherwise the wrong thing will happen for n.SetOpt(nil); n.SetVal(...) if the SetVal was never called before.  The logic of this method is that that should be permitted.",
+      "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f955b039_e36c3d31",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-04T03:22:56Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "f955b039_c6082ce1",
       "revId": "377d65d27b32b7319479c67183bdc6bbdbffffb3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
