@@ -16,6 +16,24 @@
       "revId": "5f72de522bbd6d01be56f69f54bac90532aedb26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9a690c2_12b7ea29",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-05T16:43:03Z",
+      "side": 1,
+      "message": "per in-person discussion, you meant \"cover\" ? It\u0027s just below.",
+      "parentUuid": "f955b039_521a08a0",
+      "revId": "5f72de522bbd6d01be56f69f54bac90532aedb26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
