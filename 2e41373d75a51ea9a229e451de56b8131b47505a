@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9a690c2_78bad52f",
+        "filename": "src/cmd/go/vet.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-05T19:54:06Z",
+      "side": 1,
+      "message": "\u0027go doc cmd/vet\u0027",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "2e41373d75a51ea9a229e451de56b8131b47505a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
