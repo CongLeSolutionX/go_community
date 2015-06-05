@@ -22,6 +22,30 @@
       "revId": "2e41373d75a51ea9a229e451de56b8131b47505a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9a690c2_03e95ef3",
+        "filename": "src/cmd/go/vet.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-05T20:08:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9a690c2_78bad52f",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "2e41373d75a51ea9a229e451de56b8131b47505a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
