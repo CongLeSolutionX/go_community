@@ -22,6 +22,30 @@
       "revId": "9d478bd7851e52f902e77bb17f61bafc3e4f45e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19afe490_c1f598c4",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-05T14:26:19Z",
+      "side": 1,
+      "message": "Fixed. I also failed to increment i.",
+      "parentUuid": "f955b039_f21cfc9d",
+      "range": {
+        "startLine": 312,
+        "startChar": 39,
+        "endLine": 312,
+        "endChar": 47
+      },
+      "revId": "9d478bd7851e52f902e77bb17f61bafc3e4f45e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
