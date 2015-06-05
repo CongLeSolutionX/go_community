@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19afe490_581fbd1b",
+        "filename": "src/encoding/asn1/asn1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-05T02:51:19Z",
+      "side": 1,
+      "message": "yeah, but what calls this with the bogus initOffset?  shouldn\u0027t it be fixed at the caller?",
+      "revId": "8a64363592f3d3c0ada9bc9129eb9620f607084b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
