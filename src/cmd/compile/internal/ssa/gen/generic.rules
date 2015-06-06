@@ -39,5 +39,5 @@
 // TODO: fix size
 (Store dst (Load <t> src mem) mem) && t.Size() > 8 -> (Move [t.Size()] dst src mem)
 
-(BlockIf (Const [c]) yes no) && c.(bool) -> (BlockPlain nil yes)
-(BlockIf (Const [c]) yes no) && !c.(bool) -> (BlockPlain nil no)
+(If (Const [c]) yes no) && c.(bool) -> (Plain nil yes)
+(If (Const [c]) yes no) && !c.(bool) -> (Plain nil no)
