@@ -1569,6 +1569,12 @@ func TestEnsurePipelineContains(t *testing.T) {
 			".X | (print 12 | js).x | urlquery | html",
 			[]string{"urlquery", "html"},
 		},
+		{
+			// covering issue 11118
+			"{{ 0 | $ }}",
+			"0 | $ | urlquery | html",
+			[]string{"urlquery", "html"},
+		},
 	}
 	for i, test := range tests {
 		tmpl := template.Must(template.New("test").Parse(test.input))
