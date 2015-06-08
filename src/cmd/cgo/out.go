@@ -78,6 +78,11 @@ func (p *Package) writeDefs() {
 		fmt.Fprintf(fgo2, "var _ syscall.Errno\n")
 	}
 	fmt.Fprintf(fgo2, "func _Cgo_ptr(ptr unsafe.Pointer) unsafe.Pointer { return ptr }\n\n")
+	
+	if !*gccgo {
+		fmt.Fprintf(fgo2, "//go:linkname _Cgo_use runtime.cgoUse\n")
+		fmt.Fprintf(fgo2, "func _Cgo_use(unsafe.Pointer)\n")
+	}
 
 	typedefNames := make([]string, 0, len(typedef))
 	for name := range typedef {
@@ -428,7 +433,7 @@ func (p *Package) writeDefsFunc(fgo2 io.Writer, n *Name) {
 		return
 	}
 
-	// C wrapper calls into gcc, passing a pointer to the argument frame.
+	// Wrapper calls into gcc, passing a pointer to the argument frame.
 	fmt.Fprintf(fgo2, "//go:cgo_import_static %s\n", cname)
 	fmt.Fprintf(fgo2, "//go:linkname __cgofn_%s %s\n", cname, cname)
 	fmt.Fprintf(fgo2, "var __cgofn_%s byte\n", cname)
@@ -463,8 +468,19 @@ func (p *Package) writeDefsFunc(fgo2 io.Writer, n *Name) {
 	if n.AddError {
 		fmt.Fprintf(fgo2, "\tif errno != 0 { r2 = syscall.Errno(errno) }\n")
 	}
+	for i, param := range d.Type.Params.List {
+		if isPointer(param.Type) {
+			fmt.Fprintf(fgo2, "\t_Cgo_use(unsafe.Pointer(p%d))\n", i)
+		}
+	}
 	fmt.Fprintf(fgo2, "\treturn\n")
 	fmt.Fprintf(fgo2, "}\n")
+}
+
+// isPointer reports whether t is a pointer.
+func isPointer(t ast.Expr) bool {
+	_, ok := t.(*ast.StarExpr)
+	return ok
 }
 
 // writeOutput creates stubs for a specific source file to be compiled by 6g

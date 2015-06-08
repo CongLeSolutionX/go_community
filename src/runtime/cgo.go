@@ -32,3 +32,12 @@ var iscgo bool
 // cgoHasExtraM is set on startup when an extra M is created for cgo.
 // The extra M must be created before any C/C++ code calls cgocallback.
 var cgoHasExtraM bool
+
+// cgoUse is called by cgo-generated code (using go:linkname to get at
+// an unexported name). The calls serve two purposes:
+// 1) they are opaque to escape analysis, so the argument is considered to
+// escape to the heap.
+// 2) they keep the argument alive until the call site; the call is emitted after
+// the end of the (presumed) use of the argument by C.
+func cgoUse(unsafe.Pointer) {}
+
