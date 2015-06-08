@@ -405,7 +405,7 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 				// Keep everything page-aligned.
 				// Our pages are bigger than hardware pages.
 				h.arena_end = p + p_size
-				h.arena_used = p + (-uintptr(p) & (_PageSize - 1))
+				atomicstoreuintptr(&h.arena_used, p + (-uintptr(p) & (_PageSize - 1)))
 				h.arena_reserved = reserved
 			} else {
 				var stat uint64
@@ -420,7 +420,7 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 		sysMap((unsafe.Pointer)(p), n, h.arena_reserved, &memstats.heap_sys)
 		mHeap_MapBits(h, p+n)
 		mHeap_MapSpans(h, p+n)
-		h.arena_used = p+n
+		atomicstoreuintptr(&h.arena_used, p+n)
 		if raceenabled {
 			racemapshadow((unsafe.Pointer)(p), n)
 		}
@@ -456,7 +456,7 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 	if uintptr(p)+n > uintptr(h.arena_used) {
 		mHeap_MapBits(h, p+n)
 		mHeap_MapSpans(h, p+n)
-		h.arena_used = p+n
+		atomicstoreuintptr(&h.arena_used, p+n)
 		if p_end > h.arena_end {
 			h.arena_end = p_end
 		}

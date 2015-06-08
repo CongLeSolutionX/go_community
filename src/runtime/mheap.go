@@ -135,6 +135,29 @@ var h_allspans []*mspan // TODO: make this h.allspans once mheap can be defined 
 // For pages that have never been allocated, h_spans entries are nil.
 var h_spans []*mspan // TODO: make this h.spans once mheap can be defined in Go
 
+// setspan sets h_spans[idx] = s.
+func setspan(idx uintptr, s *mspan) {
+	// It uses an atomicstorep because it may be racing against reads of h_spans.
+	// We want to avoid this scenario:
+	//
+	//	thread 1:
+	//		write h_spans[i]
+	//		return new pointer p
+	//		store *q = p
+	//
+	//	thread 2 (GC):
+	//		read pp = *q
+	//		read h_spans[ii]
+	//		do not get up-to-date h_spans[ii]
+	//
+	// There is a race between the *q = p and the pp = *q, inherent in concurrent
+	// collection: the read can happen at any time. We want to make sure that after
+	// the read does occur, when it looks up the entry in h_spans that thread 1
+	// modified, it sees the latest value. The atomicstorep orders this update before
+	// the update to *q.
+	atomicstorep(unsafe.Pointer(&h_spans[idx]), unsafe.Pointer(s))
+}
+
 func recordspan(vh unsafe.Pointer, p unsafe.Pointer) {
 	h := (*mheap)(vh)
 	s := (*mspan)(p)
@@ -535,10 +558,10 @@ HaveSpan:
 		p := uintptr(t.start)
 		p -= (uintptr(unsafe.Pointer(h.arena_start)) >> _PageShift)
 		if p > 0 {
-			h_spans[p-1] = s
+			setspan(p-1, s)
 		}
-		h_spans[p] = t
-		h_spans[p+t.npages-1] = t
+		setspan(p, t)
+		setspan(p+t.npages-1, t)
 		t.needzero = s.needzero
 		s.state = _MSpanStack // prevent coalescing with s
 		t.state = _MSpanStack
@@ -550,7 +573,7 @@ HaveSpan:
 	p := uintptr(s.start)
 	p -= (uintptr(unsafe.Pointer(h.arena_start)) >> _PageShift)
 	for n := uintptr(0); n < npage; n++ {
-		h_spans[p+n] = s
+		setspan(p+n, s)
 	}
 
 	memstats.heap_inuse += uint64(npage << _PageShift)
@@ -615,7 +638,7 @@ func mHeap_Grow(h *mheap, npage uintptr) bool {
 	p := uintptr(s.start)
 	p -= (uintptr(unsafe.Pointer(h.arena_start)) >> _PageShift)
 	for i := p; i < p+s.npages; i++ {
-		h_spans[i] = s
+		setspan(i, s)
 	}
 	atomicstore(&s.sweepgen, h.sweepgen)
 	s.state = _MSpanInUse
@@ -730,7 +753,7 @@ func mHeap_FreeSpanLocked(h *mheap, s *mspan, acctinuse, acctidle bool, unusedsi
 			s.npreleased = t.npreleased // absorb released pages
 			s.needzero |= t.needzero
 			p -= t.npages
-			h_spans[p] = s
+			setspan(p, s)
 			mSpanList_Remove(t)
 			t.state = _MSpanDead
 			fixAlloc_Free(&h.spanalloc, (unsafe.Pointer)(t))
@@ -742,7 +765,7 @@ func mHeap_FreeSpanLocked(h *mheap, s *mspan, acctinuse, acctidle bool, unusedsi
 			s.npages += t.npages
 			s.npreleased += t.npreleased
 			s.needzero |= t.needzero
-			h_spans[p+s.npages-1] = s
+			setspan(p+s.npages-1, s)
 			mSpanList_Remove(t)
 			t.state = _MSpanDead
 			fixAlloc_Free(&h.spanalloc, (unsafe.Pointer)(t))
