@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c15c6b_00040a84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-08T16:59:18Z",
+      "side": 1,
+      "message": "Just \"test:\", based on past commit messages.\n\n$ git log | grep \"test:\" | wc -l\n     472\n$ git log | grep \"test/fixedbugs:\" | wc -l\n       2",
+      "revId": "575c76ffac45ec9742088bdae67c47c4ddfb3741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15c6b_20d82e95",
+        "filename": "test/fixedbugs/issue8101.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-08T16:59:18Z",
+      "side": 1,
+      "message": "gofmt please",
+      "revId": "575c76ffac45ec9742088bdae67c47c4ddfb3741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
