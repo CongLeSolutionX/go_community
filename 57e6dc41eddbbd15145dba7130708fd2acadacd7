@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "796b8031_ef76ecfd",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-08T20:43:28Z",
+      "side": 1,
+      "message": "The gen package will make opcodes \u0026 such for generic and all architectures simultaneously.  A Config, which you get by passing the arch string in, will choose the lowering rules.  Everything else should work for any architecture.",
+      "parentUuid": "59c15c6b_603746ec",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59c15c6b_607986a7",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 1
