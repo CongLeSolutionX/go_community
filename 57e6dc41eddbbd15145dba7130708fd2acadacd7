@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c15c6b_80137a64",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-08T15:05:19Z",
+      "side": 1,
+      "message": "Does this need to be exported?\nDitto AMD64Blocks.",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15c6b_00264ac2",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-08T15:05:19Z",
+      "side": 1,
+      "message": "If you built the map once at init time, this function would be more obvious.",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15c6b_a0243eb7",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-08T15:05:19Z",
+      "side": 1,
+      "message": "I think you have typed a rogue \u0027g\u0027 here.",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15c6b_803a5ad4",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-08T15:05:19Z",
+      "side": 1,
+      "message": "State (if true): operands and result have same type",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15c6b_603746ec",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-08T15:05:19Z",
+      "side": 1,
+      "message": "// The gen command generates architecture-specific Go code for the op and block types.\n\n\nIn gc, the target platform was recently turned from a constant into a variable.  How do you plan for the ssa package to support for all targets to be included in a single program?",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c15c6b_607986a7",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-08T15:05:19Z",
+      "side": 1,
+      "message": "what does this mean?",
+      "revId": "57e6dc41eddbbd15145dba7130708fd2acadacd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
