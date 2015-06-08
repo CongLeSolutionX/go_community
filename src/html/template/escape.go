@@ -205,15 +205,17 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
 }
 
 // allIdents returns the names of the identifiers under the Ident field of the node,
-// which might be a singleton (Identifier) or a slice (Field or Chain).
+// which might be a singleton (Identifier) or a slice (Field, Variable, or Chain).
 func allIdents(node parse.Node) []string {
 	switch node := node.(type) {
-	case *parse.IdentifierNode:
-		return []string{node.Ident}
-	case *parse.FieldNode:
-		return node.Ident
 	case *parse.ChainNode:
 		return node.Field
+	case *parse.FieldNode:
+		return node.Ident
+	case *parse.IdentifierNode:
+		return []string{node.Ident}
+	case *parse.VariableNode:
+		return node.Ident
 	}
 	panic("unidentified node type in allIdents")
 }
