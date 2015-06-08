@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c15c6b_634750ce",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 8393
+      },
+      "writtenOn": "2015-06-08T20:02:21Z",
+      "side": 1,
+      "message": "is this really sufficient? there aren\u0027t any other ast types that need to be forced to the heap? i\u0027m somewhat of a noob here, but does this catch things that are \"unsafe.Pointer\" types? or values that are type aliases from other pointer values, or slices or closures or other things?\n\nfor my patch we applied, i ended up annotating cgoType to catch all sorts of types, instead of ones that were just StarExpr",
+      "revId": "35b746d04e71fd9c57ea4bde4d11720cc4461cdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
