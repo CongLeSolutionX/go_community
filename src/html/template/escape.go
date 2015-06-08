@@ -205,17 +205,19 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
 }
 
 // allIdents returns the names of the identifiers under the Ident field of the node,
-// which might be a singleton (Identifier) or a slice (Field or Chain).
+// which might be a singleton (Identifier) or a slice (Field, Variable, or Chain).
+// The nil value means no identifier can be derived from the node.
 func allIdents(node parse.Node) []string {
 	switch node := node.(type) {
-	case *parse.IdentifierNode:
-		return []string{node.Ident}
-	case *parse.FieldNode:
-		return node.Ident
 	case *parse.ChainNode:
 		return node.Field
+	case *parse.FieldNode:
+		return node.Ident
+	case *parse.IdentifierNode:
+		return []string{node.Ident}
+	default:
+		return nil
 	}
-	panic("unidentified node type in allIdents")
 }
 
 // ensurePipelineContains ensures that the pipeline has commands with
@@ -241,7 +243,13 @@ func ensurePipelineContains(p *parse.PipeNode, s []string) {
 	}
 	dups := 0
 	for _, idNode := range idents {
-		for _, ident := range allIdents(idNode.Args[0]) {
+		// Abort if no identifier can be derived from the selected nodes
+		all := allIdents(idNode.Args[0])
+		if all == nil {
+			return
+		}
+		// Abort if the pipeline already has all the required sanitizers
+		for _, ident := range all {
 			if escFnsEq(s[dups], ident) {
 				dups++
 				if dups == len(s) {
