@@ -55,13 +55,14 @@ func parseBool(bytes []byte) (ret bool, err error) {
 	// DER demands that "If the encoding represents the boolean value TRUE,
 	// its single contents octet shall have all eight bits set to one."
 	// Thus only 0 and 255 are valid encoded values.
+
+	// However, some tools generate (and most tools support) the more relaxed
+	// BER standard : 0 = FALSE, anything else = TRUE.
 	switch bytes[0] {
 	case 0:
 		ret = false
-	case 0xff:
-		ret = true
 	default:
-		err = SyntaxError{"invalid boolean"}
+		ret = true
 	}
 
 	return

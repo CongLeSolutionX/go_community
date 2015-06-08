@@ -24,7 +24,8 @@ var boolTestData = []boolTest{
 	{[]byte{0xff}, true, true},
 	{[]byte{0x00, 0x00}, false, false},
 	{[]byte{0xff, 0xff}, false, false},
-	{[]byte{0x01}, false, false},
+	{[]byte{0x01}, true, true},
+	{[]byte{0xaa}, true, true},
 }
 
 func TestParseBool(t *testing.T) {
