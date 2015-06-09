@@ -195,21 +195,17 @@ func tryOneName(cfg *dnsConfig, name string, qtype uint16) (string, []dnsRR, err
 	return "", nil, lastErr
 }
 
-func convertRR_A(records []dnsRR) []IP {
-	addrs := make([]IP, len(records))
-	for i, rr := range records {
-		a := rr.(*dnsRR_A).A
-		addrs[i] = IPv4(byte(a>>24), byte(a>>16), byte(a>>8), byte(a))
-	}
-	return addrs
-}
-
-func convertRR_AAAA(records []dnsRR) []IP {
-	addrs := make([]IP, len(records))
-	for i, rr := range records {
-		a := make(IP, IPv6len)
-		copy(a, rr.(*dnsRR_AAAA).AAAA[:])
-		addrs[i] = a
+func addrRecordList(rrs []dnsRR) []IPAddr {
+	var addrs []IPAddr
+	for _, rr := range rrs {
+		switch rr := rr.(type) {
+		case *dnsRR_A:
+			addrs = append(addrs, IPAddr{IP: IPv4(byte(rr.A>>24), byte(rr.A>>16), byte(rr.A>>8), byte(rr.A))})
+		case *dnsRR_AAAA:
+			ip := make(IP, IPv6len)
+			copy(ip, rr.AAAA[:])
+			addrs = append(addrs, IPAddr{IP: ip})
+		}
 	}
 	return addrs
 }
@@ -282,9 +278,9 @@ func loadConfig(resolvConfPath string) {
 	cfg.mu.Unlock()
 }
 
-func lookup(name string, qtype uint16) (cname string, rrs []dnsRR, err error) {
+func lookup(name string, qtype uint16) (cname string, rrs []dnsRR, suffixUsed bool, err error) {
 	if !isDomainName(name) {
-		return name, nil, &DNSError{Err: "invalid domain name", Name: name}
+		return name, nil, false, &DNSError{Err: "invalid domain name", Name: name}
 	}
 
 	loadConfig("/etc/resolv.conf")
@@ -315,6 +311,7 @@ func lookup(name string, qtype uint16) (cname string, rrs []dnsRR, err error) {
 		}
 		cname, rrs, err = tryOneName(resolv, rname, qtype)
 		if err == nil {
+			suffixUsed = true
 			return
 		}
 	}
@@ -422,37 +419,34 @@ func goLookupIPOrder(name string, order hostLookupOrder) (addrs []IPAddr, err er
 		}
 	}
 	type racer struct {
-		qtype uint16
-		rrs   []dnsRR
+		rrs        []dnsRR
+		suffixUsed bool
 		error
 	}
 	lane := make(chan racer, 1)
 	qtypes := [...]uint16{dnsTypeA, dnsTypeAAAA}
 	for _, qtype := range qtypes {
 		go func(qtype uint16) {
-			_, rrs, err := lookup(name, qtype)
-			lane <- racer{qtype, rrs, err}
+			_, rrs, suffixUsed, err := lookup(name, qtype)
+			lane <- racer{rrs, suffixUsed, err}
 		}(qtype)
 	}
 	var lastErr error
+	var catchAllAddrs []IPAddr
 	for range qtypes {
 		racer := <-lane
 		if racer.error != nil {
 			lastErr = racer.error
 			continue
 		}
-		switch racer.qtype {
-		case dnsTypeA:
-			for _, ip := range convertRR_A(racer.rrs) {
-				addr := IPAddr{IP: ip}
-				addrs = append(addrs, addr)
-			}
-		case dnsTypeAAAA:
-			for _, ip := range convertRR_AAAA(racer.rrs) {
-				addr := IPAddr{IP: ip}
-				addrs = append(addrs, addr)
-			}
+		if !racer.suffixUsed {
+			addrs = append(addrs, addrRecordList(racer.rrs)...)
+		} else {
+			catchAllAddrs = append(catchAllAddrs, addrRecordList(racer.rrs)...)
 		}
+	}
+	if len(addrs) == 0 {
+		addrs = catchAllAddrs
 	}
 	if len(addrs) == 0 {
 		if lastErr != nil {
@@ -472,10 +466,10 @@ func goLookupIPOrder(name string, order hostLookupOrder) (addrs []IPAddr, err er
 // depending on our lookup code, so that Go and C get the same
 // answers.
 func goLookupCNAME(name string) (cname string, err error) {
-	_, rr, err := lookup(name, dnsTypeCNAME)
+	_, rrs, _, err := lookup(name, dnsTypeCNAME)
 	if err != nil {
 		return
 	}
-	cname = rr[0].(*dnsRR_CNAME).Cname
+	cname = rrs[0].(*dnsRR_CNAME).Cname
 	return
 }

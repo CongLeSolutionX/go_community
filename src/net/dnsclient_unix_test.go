@@ -7,7 +7,6 @@
 package net
 
 import (
-	"io"
 	"io/ioutil"
 	"os"
 	"path"
@@ -103,14 +102,11 @@ func newResolvConfTest(t *testing.T) *resolvConfTest {
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	r := &resolvConfTest{
+	return &resolvConfTest{
 		T:    t,
 		dir:  dir,
 		path: path.Join(dir, "resolv.conf"),
 	}
-
-	return r
 }
 
 func (r *resolvConfTest) SetConf(s string) {
@@ -120,11 +116,11 @@ func (r *resolvConfTest) SetConf(s string) {
 
 	f, err := os.OpenFile(r.path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0600)
 	if err != nil {
-		r.Fatalf("failed to create temp file %s: %v", r.path, err)
+		r.Fatal(err)
 	}
-	if _, err := io.WriteString(f, s); err != nil {
+	if _, err := f.WriteString(s); err != nil {
 		f.Close()
-		r.Fatalf("failed to write temp file: %v", err)
+		r.Fatal(err)
 	}
 	f.Close()
 	cfg.lastChecked = time.Time{}
@@ -135,13 +131,13 @@ func (r *resolvConfTest) WantServers(want []string) {
 	cfg.mu.RLock()
 	defer cfg.mu.RUnlock()
 	if got := cfg.dnsConfig.servers; !reflect.DeepEqual(got, want) {
-		r.Fatalf("unexpected dns server loaded, got %v want %v", got, want)
+		r.Fatalf("unexpected DNS server loaded, got %v want %v", got, want)
 	}
 }
 
 func (r *resolvConfTest) Close() {
 	if err := os.RemoveAll(r.dir); err != nil {
-		r.Logf("failed to remove temp dir %s: %v", r.dir, err)
+		r.Log(err)
 	}
 }
 
@@ -204,6 +200,100 @@ func TestReloadResolvConfChange(t *testing.T) {
 	// A new good config should get picked up
 	r.SetConf("nameserver 8.8.4.4")
 	r.WantServers([]string{"8.8.4.4"})
+}
+
+var goLookupIPWithSearchListTests = []struct {
+	name    string
+	lines   []string // resolver configuration lines
+	a, aaaa bool     // whether response contains A, AAAA-record
+}{
+	{
+		"ipv4.google.com",
+		[]string{
+			"domain golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, false,
+	},
+	{
+		"ipv4.google.com",
+		[]string{
+			"search x.golang.org y.golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, false,
+	},
+
+	{
+		"ipv6.google.com",
+		[]string{
+			"domain golang.org",
+			"nameserver 8.8.8.8",
+			"nameserver 2001:4860:4860::8888",
+		},
+		false, true,
+	},
+	{
+		"ipv6.google.com",
+		[]string{
+			"search x.golang.org y.golang.org",
+			"nameserver 8.8.8.8",
+			"nameserver 2001:4860:4860::8888",
+		},
+		false, true,
+	},
+
+	{
+		"hostname.as112.net", // see RFC 7534
+		[]string{
+			"domain golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, true,
+	},
+	{
+		"hostname.as112.net", // see RFC 7534
+		[]string{
+			"search x.golang.org y.golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, true,
+	},
+}
+
+func TestGoLookupIPWithSearchList(t *testing.T) {
+	if testing.Short() || !*testExternal {
+		t.Skip("avoid external network")
+	}
+
+	loadConfig("/etc/resolv.conf")
+	for _, tt := range goLookupIPWithSearchListTests {
+		r := newResolvConfTest(t)
+		defer r.Close()
+		var lines string
+		for _, ln := range tt.lines {
+			lines += ln + "\n"
+		}
+		r.SetConf(lines)
+
+		addrs, err := goLookupIP(tt.name)
+		if err != nil {
+			t.Error(err)
+			continue
+		}
+		for _, addr := range addrs {
+			if !tt.a && addr.IP.To4() != nil {
+				t.Errorf("got %v; must not be IPv4 address", addr)
+			}
+			if !tt.aaaa && addr.IP.To16() != nil && addr.IP.To4() == nil {
+				t.Errorf("got %v; must not be IPv6 address", addr)
+			}
+		}
+	}
 }
 
 func BenchmarkGoLookupIP(b *testing.B) {
