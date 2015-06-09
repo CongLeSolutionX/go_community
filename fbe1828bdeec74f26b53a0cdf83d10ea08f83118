@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c15c6b_6fc85196",
+        "filename": "doc/contribute.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-09T14:36:39Z",
+      "side": 1,
+      "message": "this seems like a sudden change of subject. how about,\n\nGerrit serves as the gatekeeper and uses your e-mail address as the key.\nTo send your first change to the Go project from a given address,\nyou must have completed one of the contributor license agreements:",
+      "range": {
+        "startLine": 629,
+        "startChar": 25,
+        "endLine": 629,
+        "endChar": 31
+      },
+      "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
