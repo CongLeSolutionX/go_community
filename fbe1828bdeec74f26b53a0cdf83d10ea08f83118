@@ -22,6 +22,30 @@
       "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c9c09b_5989e3a8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 6190
+      },
+      "writtenOn": "2015-06-09T15:03:16Z",
+      "side": 1,
+      "message": "\"you must have completed\" sounds to me a bit \"bureaucratic\" or \u0027dictatorial\" and somehow reminds of the government paperwork :) - Maybe this would sound better: \"you need to complete one of the contributor license agreements\".  Of course in the end you still need to submit the CLA, but I believe the tone would be more inviting / friendly and more in line with the image of that nice Gopher mascot or the adorable squishable gophers :))  \"you need to\" is also in the current text.\n\n(sorry if I\u0027m bikeshedding little things)",
+      "parentUuid": "59c15c6b_6fc85196",
+      "range": {
+        "startLine": 629,
+        "startChar": 25,
+        "endLine": 629,
+        "endChar": 31
+      },
+      "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
