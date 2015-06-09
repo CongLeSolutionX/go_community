@@ -46,6 +46,30 @@
       "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796b8031_b8dd1354",
+        "filename": "doc/contribute.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-09T16:05:18Z",
+      "side": 1,
+      "message": "It is bureaucratic. This is a bureaucratic hurdle to keep the lawyers happy. Sorry.\n\nPlease use my suggested text.",
+      "parentUuid": "79c9c09b_5989e3a8",
+      "range": {
+        "startLine": 629,
+        "startChar": 25,
+        "endLine": 629,
+        "endChar": 31
+      },
+      "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
