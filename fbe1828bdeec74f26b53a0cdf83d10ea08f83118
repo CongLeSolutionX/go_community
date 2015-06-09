@@ -70,6 +70,30 @@
       "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99ce74a2_5d6aef13",
+        "filename": "doc/contribute.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 6190
+      },
+      "writtenOn": "2015-06-09T17:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "796b8031_b8dd1354",
+      "range": {
+        "startLine": 629,
+        "startChar": 25,
+        "endLine": 629,
+        "endChar": 31
+      },
+      "revId": "fbe1828bdeec74f26b53a0cdf83d10ea08f83118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
