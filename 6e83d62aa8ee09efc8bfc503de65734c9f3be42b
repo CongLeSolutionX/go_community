@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "796b8031_96910da7",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-09T01:21:19Z",
+      "side": 1,
+      "message": "Can we have some sort of assertion about the required relationships between these various size thresholds? I worry that these requirements are scattered throughout the comments.",
+      "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796b8031_169d1db6",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4598,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-09T01:21:19Z",
+      "side": 1,
+      "message": "Make 1000 a const with some name that indicates this will push it into GC program territory.",
+      "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796b8031_91dd9754",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-09T01:21:19Z",
+      "side": 1,
+      "message": "Should this go in mbarrier.go? It doesn\u0027t use the heap bitmap.",
+      "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796b8031_9114b77e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-09T01:21:19Z",
+      "side": 1,
+      "message": "Remove space after //.",
+      "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
