@@ -16,6 +16,24 @@
       "revId": "37b3a521c089c0545a8e2be3ce7299c71465b3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99ce74a2_9d86471a",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 6190
+      },
+      "writtenOn": "2015-06-09T14:18:23Z",
+      "side": 1,
+      "message": "OK - sent a new CL with the text you suggested.",
+      "parentUuid": "59c15c6b_b487e05e",
+      "revId": "37b3a521c089c0545a8e2be3ce7299c71465b3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
