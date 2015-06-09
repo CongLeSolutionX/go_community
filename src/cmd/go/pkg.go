@@ -215,6 +215,12 @@ func reloadPackage(arg string, stk *importStack) *Package {
 	return loadPackage(arg, stk)
 }
 
+// The Go 1.5 vendoring experiment is enabled by setting GO15VENDOREXPERIMENT=1.
+// The variable is obnoxiously long so that years from now when people find it in
+// their profiles and wonder what it does, there is some chance that a web search
+// might answer the question.
+var go15VendorExperiment = os.Getenv("GO15VENDOREXPERIMENT") == "1"
+
 // dirToImportPath returns the pseudo-import path we use for a package
 // outside the Go path.  It begins with _/ and then contains the full path
 // to the directory.  If the package lives in c:\home\gopher\my\pkg then
@@ -239,7 +245,7 @@ func makeImportValid(r rune) rune {
 // but possibly a local import path (an absolute file system path or one beginning
 // with ./ or ../).  A local relative path is interpreted relative to srcDir.
 // It returns a *Package describing the package found in that directory.
-func loadImport(path string, srcDir string, stk *importStack, importPos []token.Position) *Package {
+func loadImport(path, srcDir string, parent *Package, stk *importStack, importPos []token.Position) *Package {
 	stk.push(path)
 	defer stk.pop()
 
@@ -247,13 +253,22 @@ func loadImport(path string, srcDir string, stk *importStack, importPos []token.
 	// For a local import the identifier is the pseudo-import path
 	// we create from the full directory to the package.
 	// Otherwise it is the usual import path.
+	// For vendored imports, it is the expanded form.
 	importPath := path
+	origPath := path
 	isLocal := build.IsLocalImport(path)
 	if isLocal {
 		importPath = dirToImportPath(filepath.Join(srcDir, path))
+	} else {
+		path = vendoredImportPath(parent, path)
+		importPath = path
 	}
+
 	if p := packageCache[importPath]; p != nil {
 		if perr := disallowInternal(srcDir, p, stk); perr != p {
+			return perr
+		}
+		if perr := disallowVendor(srcDir, origPath, p, stk); perr != p {
 			return perr
 		}
 		return reusePackage(p, stk)
@@ -275,7 +290,7 @@ func loadImport(path string, srcDir string, stk *importStack, importPos []token.
 	if gobin != "" {
 		bp.BinDir = gobin
 	}
-	if err == nil && !isLocal && bp.ImportComment != "" && bp.ImportComment != path {
+	if err == nil && !isLocal && bp.ImportComment != "" && bp.ImportComment != path && (!go15VendorExperiment || !strings.Contains(path, "/vendor/")) {
 		err = fmt.Errorf("code in directory %s expects import %q", bp.Dir, bp.ImportComment)
 	}
 	p.load(stk, bp, err)
@@ -288,8 +303,51 @@ func loadImport(path string, srcDir string, stk *importStack, importPos []token.
 	if perr := disallowInternal(srcDir, p, stk); perr != p {
 		return perr
 	}
+	if perr := disallowVendor(srcDir, origPath, p, stk); perr != p {
+		return perr
+	}
 
 	return p
+}
+
+var isDirCache = map[string]bool{}
+
+func isDir(path string) bool {
+	result, ok := isDirCache[path]
+	if ok {
+		return result
+	}
+
+	fi, err := os.Stat(path)
+	result = err == nil && fi.IsDir()
+	isDirCache[path] = result
+	return result
+}
+
+func vendoredImportPath(parent *Package, path string) string {
+	if parent == nil || !go15VendorExperiment {
+		return path
+	}
+	dir := filepath.Clean(parent.Dir)
+	root := filepath.Clean(parent.Root)
+	if !strings.HasPrefix(dir, root) || len(dir) <= len(root) || dir[len(root)] != filepath.Separator {
+		println("dir", dir)
+		println("root", root)
+		panic("confused")
+	}
+	vpath := "vendor/" + path
+	for i := len(dir); i >= len(root); i-- {
+		if i == len(dir) || dir[i] == filepath.Separator {
+			if isDir(filepath.Join(dir[:i], "vendor")) && isDir(filepath.Join(dir[:i], vpath)) {
+				suffix := len(dir) - i
+				if suffix == len(parent.ImportPath)+1 {
+					return vpath
+				}
+				return parent.ImportPath[:len(parent.ImportPath)-suffix] + "/" + vpath
+			}
+		}
+	}
+	return path
 }
 
 // reusePackage reuses package p to satisfy the import at the top
@@ -379,6 +437,96 @@ func findInternal(path string) (index int, ok bool) {
 	case strings.Contains(path, "/internal/"):
 		return strings.LastIndex(path, "/internal/") + 1, true
 	case path == "internal", strings.HasPrefix(path, "internal/"):
+		return 0, true
+	}
+	return 0, false
+}
+
+// disallowVendor checks that srcDir is allowed to import p as path.
+// If the import is allowed, disallowVendor returns the original package p.
+// If not, it returns a new package containing just an appropriate error.
+func disallowVendor(srcDir, path string, p *Package, stk *importStack) *Package {
+	if !go15VendorExperiment {
+		return p
+	}
+
+	// The stack includes p.ImportPath.
+	// If that's the only thing on the stack, we started
+	// with a name given on the command line, not an
+	// import. Anything listed on the command line is fine.
+	if len(*stk) == 1 {
+		return p
+	}
+
+	if perr := disallowVendorVisibility(srcDir, p, stk); perr != p {
+		return perr
+	}
+
+	if i, ok := findVendor(path); ok {
+		perr := *p
+		perr.Error = &PackageError{
+			ImportStack: stk.copy(),
+			Err:         "must be imported as " + path[i+len("vendor/"):],
+		}
+		perr.Incomplete = true
+		return &perr
+	}
+
+	return p
+}
+
+// disallowVendorVisibility checks that srcDir is allowed to import p.
+// The rules are the same as for /internal/ except that a path ending in /vendor
+// is not subject to the rules, only subdirectories of vendor.
+// This allows people to have packages and commands named vendor,
+// for maximal compatibility with existing source trees.
+func disallowVendorVisibility(srcDir string, p *Package, stk *importStack) *Package {
+	// The stack includes p.ImportPath.
+	// If that's the only thing on the stack, we started
+	// with a name given on the command line, not an
+	// import. Anything listed on the command line is fine.
+	if len(*stk) == 1 {
+		return p
+	}
+
+	// Check for "vendor" element.
+	i, ok := findVendor(p.ImportPath)
+	if !ok {
+		return p
+	}
+
+	// Vendor is present.
+	// Map import path back to directory corresponding to parent of vendor.
+	if i > 0 {
+		i-- // rewind over slash in ".../vendor"
+	}
+	parent := p.Dir[:i+len(p.Dir)-len(p.ImportPath)]
+	if hasPathPrefix(filepath.ToSlash(srcDir), filepath.ToSlash(parent)) {
+		return p
+	}
+
+	// Vendor is present, and srcDir is outside parent's tree. Not allowed.
+	perr := *p
+	perr.Error = &PackageError{
+		ImportStack: stk.copy(),
+		Err:         "use of vendored package not allowed",
+	}
+	perr.Incomplete = true
+	return &perr
+}
+
+// findVendor looks for the last non-terminating "vendor" path element in the given import path.
+// If there isn't one, findVendor returns ok=false.
+// Otherwise, findInternal returns ok=true and the index of the "vendor".
+func findVendor(path string) (index int, ok bool) {
+	// Four cases, depending on internal at start/end of string or not.
+	// The order matters: we must return the index of the final element,
+	// because the final one produces the most restrictive requirement
+	// on the importer.
+	switch {
+	case strings.Contains(path, "/vendor/"):
+		return strings.LastIndex(path, "/vendor/") + 1, true
+	case strings.HasPrefix(path, "vendor/"):
 		return 0, true
 	}
 	return 0, false
@@ -630,7 +778,7 @@ func (p *Package) load(stk *importStack, bp *build.Package, err error) *Package 
 		if path == "C" {
 			continue
 		}
-		p1 := loadImport(path, p.Dir, stk, p.build.ImportPos[path])
+		p1 := loadImport(path, p.Dir, p, stk, p.build.ImportPos[path])
 		if p1.local {
 			if !p.local && p.Error == nil {
 				p.Error = &PackageError{
@@ -642,8 +790,11 @@ func (p *Package) load(stk *importStack, bp *build.Package, err error) *Package 
 					p.Error.Pos = pos[0].String()
 				}
 			}
-			path = p1.ImportPath
-			importPaths[i] = path
+		}
+		path = p1.ImportPath
+		importPaths[i] = path
+		if i < len(p.Imports) {
+			p.Imports[i] = path
 		}
 		deps[path] = p1
 		imports = append(imports, p1)
@@ -1284,7 +1435,7 @@ func loadPackage(arg string, stk *importStack) *Package {
 		}
 	}
 
-	return loadImport(arg, cwd, stk, nil)
+	return loadImport(arg, cwd, nil, stk, nil)
 }
 
 // packages returns the packages named by the
