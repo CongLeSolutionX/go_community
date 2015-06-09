@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c15c6b_d4593488",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-09T14:15:50Z",
+      "side": 1,
+      "message": "If I\u0027m following this correctly, the call to genasymsym(put) should be after the LinkExternal conditional, as it was before.",
+      "revId": "64b13affd90515e13be5378884b0b6f617f80349",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
