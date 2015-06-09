@@ -50,6 +50,7 @@ var testFlagDefn = []*testFlagSpec{
 	{name: "race", boolVar: &buildRace},
 	{name: "linkshared", boolVar: &buildLinkshared},
 	{name: "installsuffix"},
+	{name: "vendor", boolVar: &buildVendor},
 
 	// passed to 6.out, adding a "test." prefix to the name if necessary: -v becomes -test.v.
 	{name: "bench", passToTest: true},
@@ -117,7 +118,7 @@ func testFlags(args []string) (packageNames, passToTest []string) {
 		var err error
 		switch f.name {
 		// bool flags.
-		case "a", "c", "i", "n", "x", "v", "race", "cover", "work", "linkshared":
+		case "a", "c", "i", "n", "x", "v", "race", "cover", "work", "linkshared", "vendor":
 			setBoolFlag(f.boolVar, value)
 		case "o":
 			testO = value
