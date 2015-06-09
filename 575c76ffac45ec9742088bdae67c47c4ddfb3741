@@ -33,6 +33,24 @@
       "revId": "575c76ffac45ec9742088bdae67c47c4ddfb3741",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9762c12_699761ca",
+        "filename": "test/fixedbugs/issue8101.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-06-09T00:26:25Z",
+      "side": 1,
+      "message": "this has to be go formatted, otherwise git mail wouldn\u0027t let me mail this CL.",
+      "parentUuid": "59c15c6b_20d82e95",
+      "revId": "575c76ffac45ec9742088bdae67c47c4ddfb3741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
