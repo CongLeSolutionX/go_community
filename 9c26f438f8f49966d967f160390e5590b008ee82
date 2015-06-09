@@ -22,6 +22,23 @@
       "revId": "9c26f438f8f49966d967f160390e5590b008ee82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9762c12_8f4d7d91",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 8430
+      },
+      "writtenOn": "2015-06-09T13:53:20Z",
+      "side": 1,
+      "message": "s/256 GB/512 GB/",
+      "revId": "9c26f438f8f49966d967f160390e5590b008ee82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
