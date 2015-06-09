@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c15c6b_b487e05e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-09T14:03:45Z",
+      "side": 1,
+      "message": "Thanks for pointing this out.  The new text isn\u0027t quite accurate, though.  You need to fill out the copyright assignment in order to send in a change via Gerrit in the first place.  Perhaps this line should become\n\n\u003cp\u003eIn order to send in a change using Gerrit, you need to have completed one of the contributor license agreements:",
+      "revId": "37b3a521c089c0545a8e2be3ce7299c71465b3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
