@@ -7,7 +7,6 @@
 package net
 
 import (
-	"io"
 	"io/ioutil"
 	"os"
 	"path"
@@ -92,118 +91,209 @@ func TestSpecialDomainName(t *testing.T) {
 	}
 }
 
-type resolvConfTest struct {
-	*testing.T
+type testResolvConf struct {
 	dir  string
 	path string
+	*resolverConfig
 }
 
-func newResolvConfTest(t *testing.T) *resolvConfTest {
+func newTestResolvConf() (*testResolvConf, error) {
 	dir, err := ioutil.TempDir("", "go-resolvconftest")
 	if err != nil {
-		t.Fatal(err)
+		return nil, err
 	}
-
-	r := &resolvConfTest{
-		T:    t,
-		dir:  dir,
-		path: path.Join(dir, "resolv.conf"),
-	}
-
-	return r
+	return &testResolvConf{
+		dir:            dir,
+		path:           path.Join(dir, "resolv.conf"),
+		resolverConfig: resolvConf,
+	}, nil
 }
 
-func (r *resolvConfTest) SetConf(s string) {
-	// Make sure the file mtime will be different once we're done here,
-	// even on systems with coarse (1s) mtime resolution.
+func (conf *testResolvConf) write(lines []string) error {
+	updateResolvConf("/etc/resolv.conf")
+	// Make sure the file mtime will be different once we're done
+	// here, even on systems with coarse (1s) mtime resolution.
 	time.Sleep(time.Second)
 
-	f, err := os.OpenFile(r.path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0600)
+	f, err := os.OpenFile(conf.path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0600)
 	if err != nil {
-		r.Fatalf("failed to create temp file %s: %v", r.path, err)
+		return err
 	}
-	if _, err := io.WriteString(f, s); err != nil {
+	var conflns string
+	for _, ln := range lines {
+		conflns += ln + "\n"
+	}
+	if _, err := f.WriteString(conflns); err != nil {
 		f.Close()
-		r.Fatalf("failed to write temp file: %v", err)
+		return err
 	}
 	f.Close()
-	cfg.lastChecked = time.Time{}
-	loadConfig(r.path)
+	conf.lastChecked = time.Time{}
+	return nil
 }
 
-func (r *resolvConfTest) WantServers(want []string) {
-	cfg.mu.RLock()
-	defer cfg.mu.RUnlock()
-	if got := cfg.dnsConfig.servers; !reflect.DeepEqual(got, want) {
-		r.Fatalf("unexpected dns server loaded, got %v want %v", got, want)
-	}
+func (conf *testResolvConf) servers() []string {
+	conf.mu.RLock()
+	servers := conf.dnsConfig.servers
+	conf.mu.RUnlock()
+	return servers
 }
 
-func (r *resolvConfTest) Close() {
-	if err := os.RemoveAll(r.dir); err != nil {
-		r.Logf("failed to remove temp dir %s: %v", r.dir, err)
-	}
+func (conf *testResolvConf) teardown() error {
+	conf.lastChecked = time.Time{}
+	updateResolvConf("/etc/resolv.conf")
+	return os.RemoveAll(conf.dir)
 }
 
-func TestReloadResolvConfFail(t *testing.T) {
+var updateResolvConfTests = []struct {
+	name  string
+	lines []string
+	out   []string
+}{
+	{
+		"golang.org",
+		[]string{"nameserver 8.8.8.8"},
+		[]string{"8.8.8.8"},
+	},
+	{
+		"",
+		nil, // an empty resolv.conf should use defaultNS as name servers
+		defaultNS,
+	},
+	{
+		"golang.org",
+		[]string{"nameserver 8.8.4.4"},
+		[]string{"8.8.4.4"},
+	},
+}
+
+func TestUpdateResolvConf(t *testing.T) {
 	if testing.Short() || !*testExternal {
 		t.Skip("avoid external network")
 	}
 
-	r := newResolvConfTest(t)
-	defer r.Close()
-
-	r.SetConf("nameserver 8.8.8.8")
-
-	if _, err := goLookupIP("golang.org"); err != nil {
+	conf, err := newTestResolvConf()
+	if err != nil {
 		t.Fatal(err)
 	}
+	defer conf.teardown()
 
-	// Using an empty resolv.conf should use localhost as servers
-	r.SetConf("")
-
-	if len(cfg.dnsConfig.servers) != len(defaultNS) {
-		t.Fatalf("goLookupIP(missing; good; bad) failed: servers=%v, want: %v", cfg.dnsConfig.servers, defaultNS)
-	}
-
-	for i := range cfg.dnsConfig.servers {
-		if cfg.dnsConfig.servers[i] != defaultNS[i] {
-			t.Fatalf("goLookupIP(missing; good; bad) failed: servers=%v, want: %v", cfg.dnsConfig.servers, defaultNS)
+	for _, tt := range updateResolvConfTests {
+		if err := conf.write(tt.lines); err != nil {
+			t.Error(err)
+			continue
+		}
+		updateResolvConf(conf.path)
+		if tt.name != "" {
+			if _, err := goLookupIP(tt.name); err != nil {
+				t.Error(err)
+			}
+		}
+		servers := conf.servers()
+		if !reflect.DeepEqual(servers, tt.out) {
+			t.Errorf("got %v; want %v", servers, tt.out)
+			continue
 		}
 	}
 }
 
-func TestReloadResolvConfChange(t *testing.T) {
+var goLookupIPWithSearchListTests = []struct {
+	name    string
+	lines   []string // resolver configuration lines
+	a, aaaa bool     // whether response contains A, AAAA-record
+}{
+	{
+		"ipv4.google.com",
+		[]string{
+			"domain golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, false,
+	},
+	{
+		"ipv4.google.com",
+		[]string{
+			"search x.golang.org y.golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, false,
+	},
+
+	{
+		"ipv6.google.com",
+		[]string{
+			"domain golang.org",
+			"nameserver 8.8.8.8",
+			"nameserver 2001:4860:4860::8888",
+		},
+		false, true,
+	},
+	{
+		"ipv6.google.com",
+		[]string{
+			"search x.golang.org y.golang.org",
+			"nameserver 8.8.8.8",
+			"nameserver 2001:4860:4860::8888",
+		},
+		false, true,
+	},
+
+	{
+		"hostname.as112.net", // see RFC 7534
+		[]string{
+			"domain golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, true,
+	},
+	{
+		"hostname.as112.net", // see RFC 7534
+		[]string{
+			"search x.golang.org y.golang.org",
+			"nameserver 2001:4860:4860::8888",
+			"nameserver 8.8.8.8",
+		},
+		true, true,
+	},
+}
+
+func TestGoLookupIPWithSearchList(t *testing.T) {
 	if testing.Short() || !*testExternal {
 		t.Skip("avoid external network")
 	}
 
-	r := newResolvConfTest(t)
-	defer r.Close()
-
-	r.SetConf("nameserver 8.8.8.8")
-
-	if _, err := goLookupIP("golang.org"); err != nil {
+	conf, err := newTestResolvConf()
+	if err != nil {
 		t.Fatal(err)
 	}
-	r.WantServers([]string{"8.8.8.8"})
+	defer conf.teardown()
 
-	// Using an empty resolv.conf should use localhost as servers
-	r.SetConf("")
-
-	if len(cfg.dnsConfig.servers) != len(defaultNS) {
-		t.Fatalf("goLookupIP(missing; good; bad) failed: servers=%v, want: %v", cfg.dnsConfig.servers, defaultNS)
-	}
-
-	for i := range cfg.dnsConfig.servers {
-		if cfg.dnsConfig.servers[i] != defaultNS[i] {
-			t.Fatalf("goLookupIP(missing; good; bad) failed: servers=%v, want: %v", cfg.dnsConfig.servers, defaultNS)
+	for _, tt := range goLookupIPWithSearchListTests {
+		if err := conf.write(tt.lines); err != nil {
+			t.Error(err)
+			continue
+		}
+		updateResolvConf(conf.path)
+		addrs, err := goLookupIP(tt.name)
+		if err != nil {
+			t.Error(err)
+			continue
+		}
+		if len(addrs) == 0 {
+			t.Errorf("no records for %s", tt.name)
+		}
+		for _, addr := range addrs {
+			if !tt.a && addr.IP.To4() != nil {
+				t.Errorf("got %v; must not be IPv4 address", addr)
+			}
+			if !tt.aaaa && addr.IP.To16() != nil && addr.IP.To4() == nil {
+				t.Errorf("got %v; must not be IPv6 address", addr)
+			}
 		}
 	}
-
-	// A new good config should get picked up
-	r.SetConf("nameserver 8.8.4.4")
-	r.WantServers([]string{"8.8.4.4"})
 }
 
 func BenchmarkGoLookupIP(b *testing.B) {
@@ -227,12 +317,12 @@ func BenchmarkGoLookupIPWithBrokenNameServer(b *testing.B) {
 
 	// This looks ugly but it's safe as long as benchmarks are run
 	// sequentially in package testing.
-	<-cfg.ch // keep config from being reloaded upon lookup
-	orig := cfg.dnsConfig
-	cfg.dnsConfig.servers = append([]string{"203.0.113.254"}, cfg.dnsConfig.servers...) // use TEST-NET-3 block, see RFC 5737
+	<-resolvConf.ch // keep config from being reloaded upon lookup
+	orig := resolvConf.dnsConfig
+	resolvConf.dnsConfig.servers = append([]string{"203.0.113.254"}, resolvConf.dnsConfig.servers...) // use TEST-NET-3 block, see RFC 5737
 	for i := 0; i < b.N; i++ {
 		goLookupIP("www.example.com")
 	}
-	cfg.dnsConfig = orig
-	cfg.ch <- struct{}{}
+	resolvConf.dnsConfig = orig
+	resolvConf.ch <- struct{}{}
 }
