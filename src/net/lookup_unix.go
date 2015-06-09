@@ -96,7 +96,7 @@ func lookupSRV(service, proto, name string) (string, []*SRV, error) {
 	} else {
 		target = "_" + service + "._" + proto + "." + name
 	}
-	cname, rrs, err := lookup(target, dnsTypeSRV)
+	cname, rrs, err := lookupDNS(target, dnsTypeSRV)
 	if err != nil {
 		return "", nil, err
 	}
@@ -110,7 +110,7 @@ func lookupSRV(service, proto, name string) (string, []*SRV, error) {
 }
 
 func lookupMX(name string) ([]*MX, error) {
-	_, rrs, err := lookup(name, dnsTypeMX)
+	_, rrs, err := lookupDNS(name, dnsTypeMX)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func lookupMX(name string) ([]*MX, error) {
 }
 
 func lookupNS(name string) ([]*NS, error) {
-	_, rrs, err := lookup(name, dnsTypeNS)
+	_, rrs, err := lookupDNS(name, dnsTypeNS)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ func lookupNS(name string) ([]*NS, error) {
 }
 
 func lookupTXT(name string) ([]string, error) {
-	_, rrs, err := lookup(name, dnsTypeTXT)
+	_, rrs, err := lookupDNS(name, dnsTypeTXT)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func lookupAddr(addr string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	_, rrs, err := lookup(arpa, dnsTypePTR)
+	_, rrs, err := lookupDNS(arpa, dnsTypePTR)
 	if err != nil {
 		return nil, err
 	}
