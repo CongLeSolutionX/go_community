@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1917e4d9_5b4a17d9",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T19:42:22Z",
+      "side": 1,
+      "message": "I added a check that any absolute path must be in the temporary directory.",
+      "parentUuid": "1917e4d9_d8870d19",
+      "revId": "e456eb10c95a894be6ac2d0094c297d1b4252d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1917e4d9_b861f908",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-10T17:39:02Z",
       "side": 1,
       "message": "and if a chdir happens in the meantime? Append the abs path version?",
+      "revId": "e456eb10c95a894be6ac2d0094c297d1b4252d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1917e4d9_7b47dbcd",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T19:42:22Z",
+      "side": 1,
+      "message": "A chdir should always happen via testgoData.cd, so I changed the code to get an absolute path if that has already occurred.  We will undo any future testgoData.cd before we remove the files.",
+      "parentUuid": "1917e4d9_b861f908",
       "revId": "e456eb10c95a894be6ac2d0094c297d1b4252d42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
