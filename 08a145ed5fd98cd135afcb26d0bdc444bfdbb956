@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9762c12_efc5119c",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-10T02:21:35Z",
+      "side": 1,
+      "message": "Do not need to Skip, if you correct code as specified below.",
+      "revId": "08a145ed5fd98cd135afcb26d0bdc444bfdbb956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9762c12_cfc855b7",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-10T02:21:35Z",
+      "side": 1,
+      "message": "You have forgotten\n\ndefer f.Close()\n\nhere.",
+      "revId": "08a145ed5fd98cd135afcb26d0bdc444bfdbb956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
