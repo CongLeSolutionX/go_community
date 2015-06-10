@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d9762c12_d5caa63c",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-10T15:04:41Z",
+      "side": 1,
+      "message": "i like go\u0027s type system.",
+      "parentUuid": "796b8031_d88bafa1",
+      "range": {
+        "startLine": 208,
+        "startChar": 2,
+        "endLine": 208,
+        "endChar": 3
+      },
+      "revId": "190eeab0a117a912c4b4cf621ae94cbb3b0da67a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796b8031_d85d6fc2",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-09T17:06:19Z",
       "side": 1,
       "message": "There can be more than one search suffix in resolv.conf.  I don\u0027t think we want to mix A RRs for foo.search1 and AAAA RRs for foo.search2.  I think instead of a bool, we should return an int of how many tryOneName attempts were made, and then we collect records from the fewest attempts.\n\nAlso, it\u0027s technically a race that /etc/resolv.conf might change between calling lookup(name, dnsTypeA) and lookup(name, dnsTypeAAAA), which could change the suffix list.  So I think lookup() needs to be refactored (e.g., extract a lookupConfig method) so that goLookupIPOrder() can provide the same dnsConfig value to both calls.",
+      "revId": "190eeab0a117a912c4b4cf621ae94cbb3b0da67a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9762c12_55eeb6b2",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-10T15:04:41Z",
+      "side": 1,
+      "message": "yup, there has been a race condition on readiing/updating dnsConfig.\nreplaced suffixUsed with attempts.",
+      "parentUuid": "796b8031_d85d6fc2",
       "revId": "190eeab0a117a912c4b4cf621ae94cbb3b0da67a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
