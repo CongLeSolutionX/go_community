@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9fdf8c1_6e13c365",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "move this up into this \"if canRun\" above, with a defer?\n\nThen this is just:\n\n   os.Exit(m.Run())",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_4e100757",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "Why not just t.Fatalf on the previous line instead?",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_ced197f8",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "If you add a stale method:\n\n  func (tg *testgoData) stale(pkg string) bool {\n        tg.run(\"list\", \"-f\", \"{{.Stale}}\", pkg)\n        switch v :\u003d strings.TrimSpace(tg.getStdout()) {\n        case \"true\": return true\n        case \"false\": return false\n        default:\n           t.Fatalf(\"unexpected output checking staleness of package %v: %v\", pkg, out)\n           panic(\"unreachable\")\n        }\n  }\n\nThen the rest of this code gets more readable.\n\n   if !tg.stale(\"p1\") { ...\n \n   if tg.stale(\"p2\") { ...\n\netc",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_6ec18321",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "etc",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_4ebec7b1",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "that is a bad name.",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_2ecb8b43",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "these 4 fatals (and probably more) could be tg.must(os.RemoveAll(...)) if there were a tg.must(err error) method that t.Fataled.",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_0ec8cf42",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "unnecessary func literal.  just defer tg.remove(\"sink\" + exeSuffix)",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_eef3339b",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "tg.must(os.Remove(",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_cef8777a",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "why aren\u0027t more of these t.Parallel?\n\nI would expect almost all of them to be Parallel?",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_aeed3bb6",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "you already call defer tg.cleanup() ... could you instead register these as artifacts created by the test, so the existing cleanup method handles deleting them?\n\nThe act of registering them as things to clean up can also delete them if they exist at the beginning of the test, so SIGINT-interrupted tests can resume even if crap exists on disk",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_8ef27f94",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T13:53:46Z",
+      "side": 1,
+      "message": "instead of time.Second, perhaps you should call a method on tg to \"sleep a tick\", and in TestMain you can test whether the os.TempDir() filesystem supports granular modtimes.  Then on Linux these will only be nanosecond sleeps (or whatever) instead of full eternities",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
