@@ -16,6 +16,24 @@
       "revId": "64b13affd90515e13be5378884b0b6f617f80349",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9762c12_af1f99e7",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-10T01:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59c15c6b_d4593488",
+      "revId": "64b13affd90515e13be5378884b0b6f617f80349",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
