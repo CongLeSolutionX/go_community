@@ -16,6 +16,24 @@
       "revId": "6b82f530edd068339dd19914e35ac4284ead8b65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9762c12_35d21afc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-10T14:58:04Z",
+      "side": 1,
+      "message": "i mean, it\u0027s just a stub, not a recursive server, a cache server, or a recursive resolver. it has no arms for queriers.",
+      "parentUuid": "b9fdf8c1_4e93672c",
+      "revId": "6b82f530edd068339dd19914e35ac4284ead8b65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
