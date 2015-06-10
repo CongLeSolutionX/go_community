@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9fdf8c1_4e93672c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T14:22:41Z",
+      "side": 1,
+      "message": "What is a stub resolver? Isn\u0027t it just a DNS resolver?",
+      "revId": "6b82f530edd068339dd19914e35ac4284ead8b65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
