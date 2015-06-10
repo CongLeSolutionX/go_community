@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5934fc65_d624c4b8",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "I need to run os.Exit because TestMain requires it, but os.Exit doesn\u0027t run defer functions.\n\n(I could run os.Exit from a defer, I suppose, but that doesn\u0027t sound much clearer.)",
+      "parentUuid": "b9fdf8c1_6e13c365",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9fdf8c1_4e100757",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-10T13:53:46Z",
       "side": 1,
       "message": "Why not just t.Fatalf on the previous line instead?",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5934fc65_763a98d7",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_4e100757",
       "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5934fc65_96415c0b",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_ced197f8",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9fdf8c1_6ec18321",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-10T13:53:46Z",
       "side": 1,
       "message": "etc",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5934fc65_16cc6c2c",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_6ec18321",
       "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5934fc65_76db78e6",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "It can\u0027t be held responsible for its creators.",
+      "parentUuid": "b9fdf8c1_4ebec7b1",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9fdf8c1_2ecb8b43",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2015-06-10T13:53:46Z",
       "side": 1,
       "message": "these 4 fatals (and probably more) could be tg.must(os.RemoveAll(...)) if there were a tg.must(err error) method that t.Fataled.",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5934fc65_f63b088c",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_2ecb8b43",
       "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "5934fc65_b6358097",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_0ec8cf42",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9fdf8c1_eef3339b",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 7
@@ -132,6 +258,24 @@
       "writtenOn": "2015-06-10T13:53:46Z",
       "side": 1,
       "message": "tg.must(os.Remove(",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5934fc65_d63a8486",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_eef3339b",
       "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "5934fc65_b66ca081",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "I plan to look into t.Parallel in a follow up.  I think any test that does not use testdata and does not use cd can be parallel.  I think I can use tg.parallel with some checks.",
+      "parentUuid": "b9fdf8c1_cef8777a",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9fdf8c1_aeed3bb6",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 7
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "5934fc65_56ef5428",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fdf8c1_aeed3bb6",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9fdf8c1_8ef27f94",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 7
@@ -183,6 +363,24 @@
       "writtenOn": "2015-06-10T13:53:46Z",
       "side": 1,
       "message": "instead of time.Second, perhaps you should call a method on tg to \"sleep a tick\", and in TestMain you can test whether the os.TempDir() filesystem supports granular modtimes.  Then on Linux these will only be nanosecond sleeps (or whatever) instead of full eternities",
+      "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5934fc65_b6b4a042",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T17:21:51Z",
+      "side": 1,
+      "message": "I added a TODO for now.",
+      "parentUuid": "b9fdf8c1_8ef27f94",
       "revId": "4ae7d2eb40f5a0fa235953cc6e99a566c3be4e16",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
