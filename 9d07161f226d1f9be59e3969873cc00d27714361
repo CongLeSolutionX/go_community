@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9fdf8c1_4b20f928",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T06:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9762c12_dab815b5",
+      "revId": "9d07161f226d1f9be59e3969873cc00d27714361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9762c12_3a8769eb",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-10T06:33:00Z",
       "side": 1,
       "message": "nit: possibly return tg.Status from tg.doRun, hen the check looks like the traditional\n\nerr :\u003d tg.doRun(args)\nif err !\u003d nil {\n     tg.t.Logf(\"oh noes: %v\" ...\n     ...\n}",
+      "revId": "9d07161f226d1f9be59e3969873cc00d27714361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_2b2dbd20",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T06:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9762c12_3a8769eb",
       "revId": "9d07161f226d1f9be59e3969873cc00d27714361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b9fdf8c1_0b2a0109",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T06:38:07Z",
+      "side": 1,
+      "message": "I rewrote to use a if assignment statement, so now I do need the else.",
+      "parentUuid": "d9762c12_5a7c256b",
+      "revId": "9d07161f226d1f9be59e3969873cc00d27714361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9762c12_ba927925",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-10T06:33:00Z",
       "side": 1,
       "message": "i think you can drop the else block here, the if condition always terminates at the tg.t.Fatal on line 396",
+      "revId": "9d07161f226d1f9be59e3969873cc00d27714361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdf8c1_eb356568",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-10T06:38:07Z",
+      "side": 1,
+      "message": "I need the else because otherwise st is not defined in the else block.",
+      "parentUuid": "d9762c12_ba927925",
       "revId": "9d07161f226d1f9be59e3969873cc00d27714361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
