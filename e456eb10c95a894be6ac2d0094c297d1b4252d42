@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1917e4d9_d8870d19",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T17:39:02Z",
+      "side": 1,
+      "message": "Optional, but:\n\nos.RemoveAll always makes me nervous. verify it\u0027s not e.g. \"/\" or any abs path?",
+      "revId": "e456eb10c95a894be6ac2d0094c297d1b4252d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1917e4d9_b861f908",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-10T17:39:02Z",
+      "side": 1,
+      "message": "and if a chdir happens in the meantime? Append the abs path version?",
+      "revId": "e456eb10c95a894be6ac2d0094c297d1b4252d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
