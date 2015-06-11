@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79254042_1f1486cd",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-06-11T21:28:09Z",
+      "side": 1,
+      "message": "Any reason to not put the sync.Once inside of resolverConfig?",
+      "revId": "af4c64055282ac2df7a29a92923f7f19eae1de6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
