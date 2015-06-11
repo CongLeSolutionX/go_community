@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "797aa034_6bd881e8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-11T02:59:29Z",
+      "side": 1,
+      "message": "The type of the result of this load shouldn\u0027t matter, as it is a pointer to code.  GC never cares about such things as they are always in the text section, never in the Go heap.\nThe type of \"closure\" matters though.  We do need to be careful that it is correctly typed.",
+      "parentUuid": "797aa034_eb031114",
+      "revId": "dda9932b56e53241fd7cddc88ae129281470e517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "797aa034_4b67c51a",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "797aa034_cbedf587",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-11T02:59:29Z",
+      "side": 1,
+      "message": "Yes, we still need to feed errors to the standard compiler error mechanism.  Probably best to do them all at once at some point.  The ssa package will require a callback in Frontend for that.  I\u0027ll add a TODO.",
+      "parentUuid": "797aa034_cb397506",
+      "revId": "dda9932b56e53241fd7cddc88ae129281470e517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "797aa034_cb25f5b6",
         "filename": "src/cmd/compile/internal/ssa/opGen.go",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2015-06-10T23:32:59Z",
       "side": 1,
       "message": "Not relevant to this CL, but it\u0027d be nice if this were a tiny bit more readable. Something perhaps like:\n\n4295032831, // AX, DX, R10\n\nor even\n\nAX | DX | R10,\n\nwith the relevant constants defined above.\n\nLow priority, since it is generated code, but it\u0027d help with sanity-checking.",
+      "revId": "dda9932b56e53241fd7cddc88ae129281470e517",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_4b0265c8",
+        "filename": "src/cmd/compile/internal/ssa/opGen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-11T02:59:29Z",
+      "side": 1,
+      "message": "Sure, that\u0027s a good \"nice to have\".",
+      "parentUuid": "797aa034_cb25f5b6",
       "revId": "dda9932b56e53241fd7cddc88ae129281470e517",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
