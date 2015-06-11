@@ -37,18 +37,16 @@ along with their dependencies, but it does not install the results.
 If the arguments are a list of .go files, build treats them as a list
 of source files specifying a single package.
 
-When the command line specifies a single main package,
-build writes the resulting executable to output.
+By default, build only writes the result to output when the command
+line specifies a single main package or includes the -o flag.
 Otherwise build compiles the packages but discards the results,
 serving only as a check that the packages can be built.
 
-The -o flag specifies the output file name. If not specified, the
-output file name depends on the arguments and derives from the name
-of the package, such as p.a for package p, unless p is 'main'. If
-the package is main and file names are provided, the file name
-derives from the first file name mentioned, such as f1 for 'go build
-f1.go f2.go'; with no files provided ('go build'), the output file
-name is the base name of the containing directory.
+The -o flag specifies the output file name. If not specified when
+building a single main package, the executable name derives from the
+first file name mentioned, such as f1 for 'go build f1.go f2.go'; with
+no files provided ('go build'), the output file name is the base name of
+the containing directory.
 
 The -i flag installs the packages that are dependencies of the target.
 
@@ -856,6 +854,8 @@ func (b *builder) action1(mode buildMode, depMode buildMode, p *Package, looksha
 
 	if p.local && p.target == "" {
 		// Imported via local path.  No permanent target.
+		// TODO(djd): Changing the mode here prevents the "-o" flag working
+		// when building local non-main packages. See issue #10865.
 		mode = modeBuild
 	}
 	work := p.pkgdir
