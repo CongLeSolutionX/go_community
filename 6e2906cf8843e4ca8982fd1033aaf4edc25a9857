@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "198c4486_d38126d7",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-11T14:44:26Z",
+      "side": 1,
+      "message": "Seems weird that this isn\u0027t a map[string]string",
+      "revId": "6e2906cf8843e4ca8982fd1033aaf4edc25a9857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "198c4486_5396961d",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-11T14:44:26Z",
+      "side": 1,
+      "message": "Error out if there\u0027s already an entry for a given path?",
+      "revId": "6e2906cf8843e4ca8982fd1033aaf4edc25a9857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
