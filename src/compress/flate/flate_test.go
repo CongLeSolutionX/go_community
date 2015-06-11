@@ -10,22 +10,10 @@ package flate
 
 import (
 	"bytes"
+	"encoding/hex"
 	"io/ioutil"
-	"strings"
 	"testing"
 )
-
-func TestUncompressedSource(t *testing.T) {
-	decoder := NewReader(bytes.NewReader([]byte{0x01, 0x01, 0x00, 0xfe, 0xff, 0x11}))
-	output := make([]byte, 1)
-	n, error := decoder.Read(output)
-	if n != 1 || error != nil {
-		t.Fatalf("decoder.Read() = %d, %v, want 1, nil", n, error)
-	}
-	if output[0] != 0x11 {
-		t.Errorf("output[0] = %x, want 0x11", output[0])
-	}
-}
 
 // The following test should not panic.
 func TestIssue5915(t *testing.T) {
@@ -90,29 +78,139 @@ func TestInvalidBits(t *testing.T) {
 	}
 }
 
-func TestDegenerateHuffmanCoding(t *testing.T) {
-	const (
-		want = "abcabc"
-		// This compressed form has a dynamic Huffman block, even though a
-		// sensible encoder would use a literal data block, as the latter is
-		// shorter. Still, it is a valid flate compression of "abcabc". It has
-		// a degenerate Huffman table with only one coded value: the one
-		// non-literal back-ref copy of the first "abc" to the second "abc".
-		//
-		// To verify that this is decompressible with zlib (the C library),
-		// it's easy to use the Python wrapper library:
-		// >>> import zlib
-		// >>> compressed = "\x0c\xc2...etc...\xff\xff"
-		// >>> zlib.decompress(compressed, -15) # negative means no GZIP header.
-		// 'abcabc'
-		compressed = "\x0c\xc2\x01\x0d\x00\x00\x00\x82\xb0\xac\x4a\xff\x0e\xb0\x7d\x27" +
-			"\x06\x00\x00\xff\xff"
-	)
-	b, err := ioutil.ReadAll(NewReader(strings.NewReader(compressed)))
-	if err != nil {
-		t.Fatal(err)
+func TestInvalidStreams(t *testing.T) {
+	badStreams := []string{
+		// over-subscribed HCLenTree
+		"344c4a4e494d4b070000ff2e2eff2e2e2e2e2eff",
+		// degenerate HCLenTree
+		"05e0010000000000100000000000000000000000000000000000000000000000" +
+			"00000000000000000004",
+		// complete HCLenTree, empty HLitTree, empty HDistTree
+		"05e0010400000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000010",
+		// empty HCLenTree
+		"05e0010000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000010",
+		// complete HCLenTree, complete HLitTree, empty HDistTree, use missing HDist symbol
+		"000100feff000de0010400000000100000000000000000000000000000000000" +
+			"0000000000000000000000000000002c",
+		// complete HCLenTree, complete HLitTree, degenerate HDistTree, use missing HDist symbol
+		"000100feff000de0010000000000000000000000000000000000000000000000" +
+			"00000000000000000610000000004070",
+		// complete HCLenTree, empty HLitTree, empty HDistTree
+		"05e0010400000000100400000000000000000000000000000000000000000000" +
+			"0000000000000000000000000008",
+		// complete HCLenTree, empty HLitTree, degenerate HDistTree
+		"05e0010400000000100400000000000000000000000000000000000000000000" +
+			"0000000000000000000800000008",
+		// complete HCLenTree, degenerate HLitTree, degenerate HDistTree, use missing HLit symbol
+		"05e0010400000000100000000000000000000000000000000000000000000000" +
+			"0000000000000000001c",
+		// complete HCLenTree, over-subscribed HLitTree, empty HDistTree
+		"05e001240000000000fcffffffffffffffffffffffffffffffffffffffffffff" +
+			"ffffffffffffffffff07f00f",
+		// complete HCLenTree, under-subscribed HLitTree, empty HDistTree
+		"05e001240000000000fcffffffffffffffffffffffffffffffffffffffffffff" +
+			"fffffffffcffffffff07f00f",
+		// complete HCLenTree, complete HLitTree, too large HDistTree
+		"edff870500000000200400000000000000000000000000000000000000000000" +
+			"000000000000000000080000000000000004",
+		// complete HCLenTree, complete HLitTree, empty HDistTree, excessive repeater code
+		"edfd870500000000200400000000000000000000000000000000000000000000" +
+			"000000000000000000e8b100",
+		// fixed block, use reserved symbol 287
+		"33180700",
+		// issue 10426
+		"344c4a4e494d4b070000ff2e2eff2e2e2e2e2eff",
 	}
-	if got := string(b); got != want {
-		t.Fatalf("got %q, want %q", got, want)
+
+	rd := NewReader(nil)
+	rrd := rd.(Resetter)
+	for idx, invalid := range badStreams {
+		stream, err := hex.DecodeString(invalid)
+		if err != nil {
+			t.Fatal(err)
+		}
+		rrd.Reset(bytes.NewReader(stream), nil)
+		_, err = ioutil.ReadAll(rd)
+		if err == nil {
+			t.Fatalf("Failed case %d: expected decoder to reject bad stream", idx)
+		}
+	}
+}
+
+func TestValidStreams(t *testing.T) {
+	goodStreams := []string{
+		// complete HCLenTree, complete HLitTree, degenerate HDistTree, use valid HDist symbol
+		"000100feff000de0010400000000100000000000000000000000000000000000" +
+			"0000000000000000000000000000003c",
+		// complete HCLenTree, degenerate HLitTree, degenerate HDistTree
+		"05e0010400000000100000000000000000000000000000000000000000000000" +
+			"0000000000000000000c",
+		// complete HCLenTree, degenerate HLitTree, empty HDistTree
+		"05e0010400000000100000000000000000000000000000000000000000000000" +
+			"00000000000000000004",
+		// complete HCLenTree, complete HLitTree with single code, empty HDistTree
+		"05e001240000000000f8ffffffffffffffffffffffffffffffffffffffffffff" +
+			"ffffffffffffffffff07f00f",
+		// complete HCLenTree, complete HLitTree with multiple codes, empty HDistTree
+		"05e301240000000000f8ffffffffffffffffffffffffffffffffffffffffffff" +
+			"ffffffffffffffffff07807f",
+		// complete HCLenTree, complete HLitTree, empty HDistTree, spanning repeater code
+		"edfd870500000000200400000000000000000000000000000000000000000000" +
+			"000000000000000000e8b000",
+		// complete HCLenTree with length codes, complete HLitTree, empty HDistTree
+		"ede0010400000000100000000000000000000000000000000000000000000000" +
+			"0000000000000000000400004000",
+		// complete HCLenTree, complete HLitTree, degenerate HDistTree, use valid HLit and HDist symbols
+		"0cc2010d00000082b0ac4aff0eb07d27060000ffff",
+		// complete HCLenTree, complete HLitTree, degenerate HDistTree, use valid HLit symbol 284 with count 31
+		"000100feff00ede0010400000000100000000000000000000000000000000000" +
+			"000000000000000000000000000000040000407f00",
+		// raw block
+		"010100feff11",
+		// issue 11030
+		"05c0070600000080400fff37a0ca",
+		// issue 11033
+		"050fb109c020cca5d017dcbca044881ee1034ec149c8980bbc413c2ab35be9dc" +
+			"b1473449922449922411202306ee97b0383a521b4ffdcf3217f9f7d3adb701",
+	}
+	outputs := []string{
+		"00000000",
+		"",
+		"",
+		"01",
+		"01",
+		"",
+		"",
+		"616263616263",
+		"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"00000000000000000000000000000000000000000000000000000000000000000000" +
+			"000000000000000000000000000000000000000000",
+		"11",
+		"",
+		"3130303634342068652e706870005d05355f7ed957ff084a90925d19e3ebc6d0c6d7",
+	}
+
+	rd := NewReader(nil)
+	rrd := rd.(Resetter)
+	for idx, good := range goodStreams {
+		stream, err := hex.DecodeString(good)
+		if err != nil {
+			t.Fatal(err)
+		}
+		rrd.Reset(bytes.NewReader(stream), nil)
+		data, err := ioutil.ReadAll(rd)
+		if err != nil {
+			t.Fatalf("Failed case %d: %v", idx, err)
+		}
+		if out := hex.EncodeToString(data); out != outputs[idx] {
+			t.Fatalf("Failed case %d: expected '%s', but got '%s'", idx, outputs[idx], out)
+		}
 	}
 }

@@ -18,9 +18,9 @@ import (
 const (
 	maxCodeLen = 16    // max length of Huffman code
 	maxHist    = 32768 // max history required
-	// The next three numbers come from the RFC, section 3.2.7.
+	// The next three numbers come from the RFC, section 3.2.5 and 3.2.7.
 	maxLit   = 286
-	maxDist  = 32
+	maxDist  = 30
 	numCodes = 19 // number of codes in Huffman meta-code
 )
 
@@ -101,6 +101,10 @@ type huffmanDecoder struct {
 }
 
 // Initialize Huffman decoding tables from array of code lengths.
+// Following this function, h is guarunteed to be initialized into a complete
+// tree (IE, neither over-subscribed nor under-subscribed). The exception is a
+// degenerate case where the tree has only a single symbol with length 1. Empty
+// trees are permitted.
 func (h *huffmanDecoder) init(bits []int) bool {
 	// Sanity enables additional runtime tests during Huffman
 	// table construction.  It's intended to be used during
@@ -127,8 +131,10 @@ func (h *huffmanDecoder) init(bits []int) bool {
 		}
 		count[n]++
 	}
+
+	// Empty tree, huffSym will fail later if tree is used.
 	if max == 0 {
-		return false
+		return true
 	}
 
 	code := 0
@@ -361,7 +367,9 @@ func (f *decompressor) readHuffman() error {
 	}
 	f.b >>= 5
 	ndist := int(f.b&0x1F) + 1
-	// maxDist is 32, so ndist is always valid.
+	if ndist > maxDist {
+		return CorruptInputError(f.roffset)
+	}
 	f.b >>= 5
 	nclen := int(f.b&0xF) + 4
 	// numCodes is 19, so nclen is always valid.
@@ -492,9 +500,12 @@ func (f *decompressor) huffmanBlock() {
 		case v < 285:
 			length = v*32 - (281*32 - 131)
 			n = 5
-		default:
+		case v < 286:
 			length = 258
 			n = 0
+		default:
+			f.err = CorruptInputError(f.roffset)
+			return
 		}
 		if n > 0 {
 			for f.nb < n {
@@ -529,10 +540,7 @@ func (f *decompressor) huffmanBlock() {
 		switch {
 		case dist < 4:
 			dist++
-		case dist >= 30:
-			f.err = CorruptInputError(f.roffset)
-			return
-		default:
+		case dist < 30:
 			nb := uint(dist-2) >> 1
 			// have 1 bit in bottom of dist, need nb more.
 			extra := (dist & 1) << nb
@@ -546,6 +554,9 @@ func (f *decompressor) huffmanBlock() {
 			f.b >>= nb
 			f.nb -= nb
 			dist = 1<<(nb+1) + 1 + extra
+		default:
+			f.err = CorruptInputError(f.roffset)
+			return
 		}
 
 		// Copy history[-dist:-dist+length] into output.
@@ -692,6 +703,10 @@ func (f *decompressor) moreBits() error {
 
 // Read the next Huffman-encoded symbol from f according to h.
 func (f *decompressor) huffSym(h *huffmanDecoder) (int, error) {
+	// Since a huffmanDecoder can be empty or be composed of a degenerate tree
+	// with single element, huffSym must error on these two edge cases. In both
+	// cases, the chunks slice will be 0 for the invalid sequence, leading it
+	// satisfy the n == 0 check below.
 	n := uint(h.min)
 	for {
 		for f.nb < n {
