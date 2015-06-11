@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79254042_e7034a7d",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-06-11T03:25:15Z",
+      "side": 1,
+      "message": "We retry here on both NXDOMAIN and NODATA responses, so this could end up mixing A records from foo.suffix1 with AAAA records from foo.suffix2.  That seems undesirable to me.",
+      "range": {
+        "startLine": 352,
+        "startChar": 20,
+        "endLine": 352,
+        "endChar": 30
+      },
+      "revId": "931fd8d272aa31d2458a81130ee5ca166bb66c50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
