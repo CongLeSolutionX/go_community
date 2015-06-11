@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "797aa034_f167809b",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-11T22:39:23Z",
+      "side": 1,
+      "message": "I don\u0027t understand the \"by default\" here.  I think that the existing version of this paragraph correctly describes the default behaviour.  Then there is the behaviour with -o; that is not the default behaviour.",
+      "revId": "f13c707dab048d18db67ec100d706f94dc7b230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
