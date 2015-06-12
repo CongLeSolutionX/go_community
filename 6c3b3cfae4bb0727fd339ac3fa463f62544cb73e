@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "797aa034_347416f4",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "arguments",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_144ebab9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "These method signatures are starting to get unwieldy, and more importantly, hard to grok at call sites. (Pretty much all calls have an easily interpreted Op and a Type, but what is that trailing 0, nil?)\n\nPossibilities (hopefully you have something better yet):\n\n* How often do we set auxint and aux? They have sensible defaults; perhaps they could always be set on subsequent lines?\n\n* Separate methods for creating values with and without aux?\n\n* Maybe define\n\nconst (\n  noAuxInt \u003d 0\n  noAux \u003d nil\n)\n\nand use them at the call sites, so they\u0027re a bit clearer:\n\ns.entryNewValue(ssa.OpFP, s.config.Uintptr, noAuxInt, noAux)\n\n* Maybe at the cost of losing some type safety, maybe use ...interface{} for both aux values and interpret int args as auxint and a non-int args as aux?\n\n* Use a type as the last arg, so that zero vals can be omitted and non-zero vals specified by field, e.g. V{Op: op, Type: type}.\n\nSame comment applies mutatis mutandis to Valu.",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_344bb6aa",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "This is an example of call sites getting hard to interpret.",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_1fd5732d",
+        "filename": "src/cmd/compile/internal/ssa/func_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "Might be a good opportunity to introduce an Equal method for Values. (Or, more extreme, make Value have an ID field and then embed another type containing all equality-relevant fields, and let the compiler generate eq for you.)",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_3f170f77",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "Might be time for\n\nfunc trimBrackets(a string, outer byte) {\n  if a[0] !\u003d outer {\n    panic(\"wrong bracket\")\n  }\n  x :\u003d a[1:len(a)-1] // remove outer brackets\n  if x[0] \u003d\u003d \u0027{\u0027 {\n    x \u003d x[1:len(x)-1] // remove {}\n  }\n  return x\n}\n\nSo these are are all simply:\n\nx :\u003d trimBrackets(a, \u0027\u003c\u0027)",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_ff574729",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "reports whether\n\nThis doc string isn\u0027t quite right; in general, Go identifiers can include UTF-8. Maybe \"is a single alphanumeric Go identifier\".",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_9f5c0350",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "Might not matter much, but compile the regexp just once, at the top level? Would remove the err check as well.",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_bf61bf08",
+        "filename": "src/cmd/compile/internal/ssa/rewritegeneric.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "Unrelated to this CL, but do we need to worry about overflow here?",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_1f71f3d5",
+        "filename": "src/cmd/compile/internal/ssa/schedule_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "Does this still test what is needs to test, now that the auxint has changed from non-zero to 0? (It looks like it does, just want to double-check.)",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_3f6e2ff5",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-12T17:05:52Z",
+      "side": 1,
+      "message": "Docs for AuxInt, please, just something simple like \"typically used for offsets\".",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
