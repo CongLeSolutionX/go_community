@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "797aa034_3f1aaf77",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79254042_351de36e",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79254042_753a7bd7",
         "filename": "src/go/types/example_test.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-06-11T22:58:08Z",
       "side": 1,
       "message": "there\u0027s no knowledge of a gcimporter in the std repo",
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_df25abb6",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79254042_753a7bd7",
       "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "797aa034_ff2ae785",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "This is the local types.PkgName declared by import \"fmt\" in main.go.",
+      "parentUuid": "79254042_95be37af",
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79254042_d5a90f69",
         "filename": "src/go/types/example_test.go",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2015-06-11T22:58:08Z",
       "side": 1,
       "message": "Why? There\u0027s a Scope.WriteTo that prints a scope nicely. Including indentation and recursion. This seems to add needless code.",
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_1fe253c1",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "I\u0027d completely forgotten about it.  Done.\nI had to sanitize the addresses, for determinism.\n\nI moved the printing of method sets into another Example function.\n\nBTW: perhaps the close curlies should be printed on their own line?",
+      "parentUuid": "79254042_d5a90f69",
       "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "797aa034_3fdf0ff8",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79254042_95acf776",
+      "range": {
+        "startLine": 116,
+        "startChar": 13,
+        "endLine": 116,
+        "endChar": 14
+      },
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79254042_d5802fd1",
         "filename": "src/go/types/example_test.go",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2015-06-11T22:58:08Z",
       "side": 1,
       "message": "should have a comment that explains that you fill in the maps for the data you\u0027re interested in",
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_7fe597c7",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "79254042_d5802fd1",
       "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "797aa034_df9a8b4d",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79254042_f54f6b39",
+      "range": {
+        "startLine": 175,
+        "startChar": 5,
+        "endLine": 175,
+        "endChar": 12
+      },
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79254042_9541570b",
         "filename": "src/go/types/example_test.go",
         "patchSetId": 1
@@ -150,6 +294,24 @@
       "writtenOn": "2015-06-11T22:58:08Z",
       "side": 1,
       "message": "add  // sort by line:col effectively",
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_ff9f473a",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79254042_9541570b",
       "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -179,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "797aa034_9fa40391",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79254042_15cc672c",
+      "range": {
+        "startLine": 251,
+        "startChar": 7,
+        "endLine": 251,
+        "endChar": 13
+      },
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79254042_75db5be6",
         "filename": "src/go/types/example_test.go",
         "patchSetId": 1
@@ -190,6 +376,24 @@
       "writtenOn": "2015-06-11T22:58:08Z",
       "side": 1,
       "message": "This seems a bit overkill - print into a buf, convert to a string, and then print into a bug again. Not that it matters much, just saying...",
+      "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797aa034_bfa9bf69",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-12T18:22:38Z",
+      "side": 1,
+      "message": "It\u0027s not efficient, but clarity is the goal here.",
+      "parentUuid": "79254042_75db5be6",
       "revId": "fee17f4bd47649f8a44e3ce7b11fa2c3dc207c01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
