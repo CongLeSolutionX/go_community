@@ -116,6 +116,15 @@ Flag: -copylocks
 
 Locks that are erroneously passed by value.
 
+Durations without units
+
+Flag: -duration
+
+Small literal time.Duration constants without units such as "5".
+These are usually intended to represent seconds
+but are actually in units of nanoseconds.
+To represent 5 nanoseconds, use "5 * time.Nanosecond".
+
 Nil function comparison
 
 Flag: -nilfunc
