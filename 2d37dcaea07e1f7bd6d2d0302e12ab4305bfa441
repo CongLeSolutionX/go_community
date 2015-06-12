@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "190364c0_de87d55d",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-12T21:52:10Z",
+      "side": 1,
+      "message": "s/input/source/\n\nmakes it clearer",
+      "revId": "2d37dcaea07e1f7bd6d2d0302e12ab4305bfa441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190364c0_9e643d42",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-12T21:52:10Z",
+      "side": 1,
+      "message": "perhaps:\n\n... comes from ... via the default importer.\n\nthat explains the next line",
+      "revId": "2d37dcaea07e1f7bd6d2d0302e12ab4305bfa441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190364c0_5e4bc5a8",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-12T21:52:10Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "2d37dcaea07e1f7bd6d2d0302e12ab4305bfa441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190364c0_c1b6d82b",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-12T21:52:10Z",
+      "side": 1,
+      "message": "s/definitions of and references to/definitions and uses of/",
+      "revId": "2d37dcaea07e1f7bd6d2d0302e12ab4305bfa441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
