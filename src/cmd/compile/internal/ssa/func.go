@@ -43,13 +43,14 @@ func (f *Func) NewBlock(kind BlockKind) *Block {
 }
 
 // NewValue returns a new value in the block with no arguments.
-func (b *Block) NewValue(line int32, op Op, t Type, aux interface{}) *Value {
+func (b *Block) NewValue(line int32, op Op, t Type, auxint int64, aux interface{}) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Aux:   aux,
-		Block: b,
+		ID:     b.Func.vid.get(),
+		Op:     op,
+		Type:   t,
+		AuxInt: auxint,
+		Aux:    aux,
+		Block:  b,
 	}
 	v.Args = v.argstorage[:0]
 	b.Values = append(b.Values, v)
@@ -57,13 +58,14 @@ func (b *Block) NewValue(line int32, op Op, t Type, aux interface{}) *Value {
 }
 
 // NewValue1 returns a new value in the block with one argument.
-func (b *Block) NewValue1(line int32, op Op, t Type, aux interface{}, arg *Value) *Value {
+func (b *Block) NewValue1(line int32, op Op, t Type, auxint int64, aux interface{}, arg *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Aux:   aux,
-		Block: b,
+		ID:     b.Func.vid.get(),
+		Op:     op,
+		Type:   t,
+		AuxInt: auxint,
+		Aux:    aux,
+		Block:  b,
 	}
 	v.Args = v.argstorage[:1]
 	v.Args[0] = arg
@@ -72,13 +74,14 @@ func (b *Block) NewValue1(line int32, op Op, t Type, aux interface{}, arg *Value
 }
 
 // NewValue2 returns a new value in the block with two arguments.
-func (b *Block) NewValue2(line int32, op Op, t Type, aux interface{}, arg0, arg1 *Value) *Value {
+func (b *Block) NewValue2(line int32, op Op, t Type, auxint int64, aux interface{}, arg0, arg1 *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Aux:   aux,
-		Block: b,
+		ID:     b.Func.vid.get(),
+		Op:     op,
+		Type:   t,
+		AuxInt: auxint,
+		Aux:    aux,
+		Block:  b,
 	}
 	v.Args = v.argstorage[:2]
 	v.Args[0] = arg0
@@ -88,13 +91,14 @@ func (b *Block) NewValue2(line int32, op Op, t Type, aux interface{}, arg0, arg1
 }
 
 // NewValue3 returns a new value in the block with three arguments.
-func (b *Block) NewValue3(line int32, op Op, t Type, aux interface{}, arg0, arg1, arg2 *Value) *Value {
+func (b *Block) NewValue3(line int32, op Op, t Type, auxint int64, aux interface{}, arg0, arg1, arg2 *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Aux:   aux,
-		Block: b,
+		ID:     b.Func.vid.get(),
+		Op:     op,
+		Type:   t,
+		AuxInt: auxint,
+		Aux:    aux,
+		Block:  b,
 	}
 	v.Args = []*Value{arg0, arg1, arg2}
 	b.Values = append(b.Values, v)
@@ -104,5 +108,5 @@ func (b *Block) NewValue3(line int32, op Op, t Type, aux interface{}, arg0, arg1
 // ConstInt returns an int constant representing its argument.
 func (f *Func) ConstInt(line int32, t Type, c int64) *Value {
 	// TODO: cache?
-	return f.Entry.NewValue(line, OpConst, t, c)
+	return f.Entry.NewValue(line, OpConst, t, c, nil)
 }
