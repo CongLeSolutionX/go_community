@@ -781,3 +781,18 @@ func TestIssue10968(t *testing.T) {
 		t.Fatalf("expected %q, got %q", io.ErrUnexpectedEOF, err)
 	}
 }
+
+// Errors in header blocks following the pax header were not reported.
+// Issue 11169
+func TestIssue11169(t *testing.T) {
+	f, err := os.Open("testdata/issue11169.tar")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	r := NewReader(f)
+	_, err = r.Next()
+	if err == nil {
+		t.Fatal("Unexpected success")
+	}
+}
