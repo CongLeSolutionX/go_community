@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d98f0cac_de350597",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-13T04:54:44Z",
+      "side": 1,
+      "message": "I completely agree with you that Value constructors are getting unwieldy.  I don\u0027t want to go the route of setting\naux/auxint in separate statements, that leads to people forgetting to set them, or worse, setting them twice.\n\nI lean towards your second suggestion - how about 4 versions of NewValue?  NewValue, NewValueI, NewValueA, and newValueIA, where I and A indicate they take an auxint or aux, respectively?",
+      "parentUuid": "797aa034_144ebab9",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "797aa034_344bb6aa",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -121,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "d98f0cac_3e2d094a",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-13T04:54:44Z",
+      "side": 1,
+      "message": "There is no need for speed here.  I\u0027d rather leave it local.",
+      "parentUuid": "797aa034_9f5c0350",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "797aa034_bf61bf08",
         "filename": "src/cmd/compile/internal/ssa/rewritegeneric.go",
         "patchSetId": 1
@@ -138,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "d98f0cac_5e2ad532",
+        "filename": "src/cmd/compile/internal/ssa/rewritegeneric.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-13T04:54:44Z",
+      "side": 1,
+      "message": "No, this is 64-bit Go addition, which wraps in the compiled code just as it wraps in the compiler.\nWe have to be more careful in pointer offset calculations where overflow is bad.",
+      "parentUuid": "797aa034_bf61bf08",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "797aa034_1f71f3d5",
         "filename": "src/cmd/compile/internal/ssa/schedule_test.go",
         "patchSetId": 1
@@ -149,6 +203,24 @@
       "writtenOn": "2015-06-12T17:05:52Z",
       "side": 1,
       "message": "Does this still test what is needs to test, now that the auxint has changed from non-zero to 0? (It looks like it does, just want to double-check.)",
+      "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d98f0cac_7e279167",
+        "filename": "src/cmd/compile/internal/ssa/schedule_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-13T04:54:44Z",
+      "side": 1,
+      "message": "Yes, all this test depends on is store order.  It\ndoes not depend on any possible aliasing.",
+      "parentUuid": "797aa034_1f71f3d5",
       "revId": "6c3b3cfae4bb0727fd339ac3fa463f62544cb73e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
