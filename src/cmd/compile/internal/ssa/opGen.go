@@ -74,6 +74,9 @@ const (
 	OpAMD64SETGE
 	OpAMD64SETB
 	OpAMD64CMOVQCC
+	OpAMD64MOVLQSX
+	OpAMD64MOVWQSX
+	OpAMD64MOVBQSX
 	OpAMD64MOVQconst
 	OpAMD64LEAQ
 	OpAMD64LEAQ2
@@ -83,9 +86,13 @@ const (
 	OpAMD64MOVBload
 	OpAMD64MOVBQZXload
 	OpAMD64MOVBQSXload
+	OpAMD64MOVWload
+	OpAMD64MOVLload
 	OpAMD64MOVQload
 	OpAMD64MOVQloadidx8
 	OpAMD64MOVBstore
+	OpAMD64MOVWstore
+	OpAMD64MOVLstore
 	OpAMD64MOVQstore
 	OpAMD64MOVQstoreidx8
 	OpAMD64MOVQloadglobal
@@ -94,6 +101,8 @@ const (
 	OpAMD64CALLclosure
 	OpAMD64REPMOVSB
 	OpAMD64ADDL
+	OpAMD64ADDW
+	OpAMD64ADDB
 	OpAMD64InvertFlags
 
 	OpAdd
@@ -474,6 +483,42 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name: "MOVLQSX",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "MOVWQSX",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "MOVBQSX",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
 		name: "MOVQconst",
 		reg: regInfo{
 			inputs:   []regMask{},
@@ -585,6 +630,32 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name: "MOVWload",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				0,
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "MOVLload",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				0,
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
 		name: "MOVQload",
 		reg: regInfo{
 			inputs: []regMask{
@@ -613,6 +684,30 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "MOVBstore",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				0,
+			},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+	},
+	{
+		name: "MOVWstore",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				0,
+			},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+	},
+	{
+		name: "MOVLstore",
 		reg: regInfo{
 			inputs: []regMask{
 				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
@@ -698,6 +793,32 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ADDL",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "ADDW",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "ADDB",
 		reg: regInfo{
 			inputs: []regMask{
 				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
