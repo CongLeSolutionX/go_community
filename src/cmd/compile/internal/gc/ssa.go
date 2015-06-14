@@ -373,6 +373,9 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case OCONVNOP:
 		x := s.expr(n.Left)
 		return s.newValue1(ssa.OpConvNop, n.Type, x)
+	case OCONV:
+		x := s.expr(n.Left)
+		return s.newValue1(ssa.OpConvert, n.Type, x)
 
 		// binary ops
 	case OLT:
@@ -766,6 +769,44 @@ func genValue(v *ssa.Value) {
 		p.From.Index = regnum(v.Args[1])
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
+	case ssa.OpAMD64ADDL:
+		p := Prog(x86.ALEAL)
+		p.From.Type = obj.TYPE_MEM
+		p.From.Reg = regnum(v.Args[0])
+		p.From.Scale = 1
+		p.From.Index = regnum(v.Args[1])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
+	case ssa.OpAMD64ADDW:
+		p := Prog(x86.ALEAW)
+		p.From.Type = obj.TYPE_MEM
+		p.From.Reg = regnum(v.Args[0])
+		p.From.Scale = 1
+		p.From.Index = regnum(v.Args[1])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
+
+	case ssa.OpAMD64ADDB:
+		r := regnum(v)
+		x := regnum(v.Args[0])
+		y := regnum(v.Args[1])
+		if x != r && y != r {
+			p := Prog(x86.AMOVQ)
+			p.From.Type = obj.TYPE_REG
+			p.From.Reg = x
+			p.To.Type = obj.TYPE_REG
+			p.To.Reg = r
+			x = r
+		}
+		p := Prog(x86.AADDB)
+		p.From.Type = obj.TYPE_REG
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = r
+		if x == r {
+			p.From.Reg = y
+		} else {
+			p.From.Reg = x
+		}
 	case ssa.OpAMD64ADDQconst:
 		// TODO: use addq instead of leaq if target is in the right register.
 		p := Prog(x86.ALEAQ)
@@ -1005,6 +1046,20 @@ func genValue(v *ssa.Value) {
 		p.From.Offset = v.AuxInt
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
+	case ssa.OpAMD64MOVLload:
+		p := Prog(x86.AMOVL)
+		p.From.Type = obj.TYPE_MEM
+		p.From.Reg = regnum(v.Args[0])
+		p.From.Offset = v.AuxInt
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
+	case ssa.OpAMD64MOVWload:
+		p := Prog(x86.AMOVW)
+		p.From.Type = obj.TYPE_MEM
+		p.From.Reg = regnum(v.Args[0])
+		p.From.Offset = v.AuxInt
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
 	case ssa.OpAMD64MOVBload:
 		p := Prog(x86.AMOVB)
 		p.From.Type = obj.TYPE_MEM
@@ -1028,6 +1083,45 @@ func genValue(v *ssa.Value) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = regnum(v.Args[0])
 		p.To.Offset = v.AuxInt
+	case ssa.OpAMD64MOVLstore:
+		p := Prog(x86.AMOVL)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[1])
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = regnum(v.Args[0])
+		p.To.Offset = v.AuxInt
+	case ssa.OpAMD64MOVWstore:
+		p := Prog(x86.AMOVW)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[1])
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = regnum(v.Args[0])
+		p.To.Offset = v.AuxInt
+	case ssa.OpAMD64MOVBstore:
+		p := Prog(x86.AMOVB)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[1])
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = regnum(v.Args[0])
+		p.To.Offset = v.AuxInt
+	case ssa.OpAMD64MOVLQSX:
+		p := Prog(x86.AMOVLQSX)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[0])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
+	case ssa.OpAMD64MOVWQSX:
+		p := Prog(x86.AMOVWQSX)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[0])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
+	case ssa.OpAMD64MOVBQSX:
+		p := Prog(x86.AMOVBQSX)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[0])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
 	case ssa.OpCopy: // TODO: lower to MOVQ earlier?
 		if v.Type.IsMemory() {
 			return

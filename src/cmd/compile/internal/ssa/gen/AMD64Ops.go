@@ -125,6 +125,10 @@ func init() {
 
 		{name: "CMOVQCC", reg: cmov}, // carry clear
 
+		{name: "MOVLQSX", reg: gp11}, // extend to int64
+		{name: "MOVWQSX", reg: gp11}, // extend to int64
+		{name: "MOVBQSX", reg: gp11}, // extend to int64
+
 		{name: "MOVQconst", reg: gp01},  // auxint
 		{name: "LEAQ", reg: gp21},       // arg0 + arg1 + auxint
 		{name: "LEAQ2", reg: gp21},      // arg0 + 2*arg1 + auxint
@@ -135,9 +139,13 @@ func init() {
 		{name: "MOVBload", reg: gpload},          // load byte from arg0+auxint. arg1=mem
 		{name: "MOVBQZXload", reg: gpload},       // ditto, extend to uint64
 		{name: "MOVBQSXload", reg: gpload},       // ditto, extend to int64
+		{name: "MOVWload", reg: gpload},          // load 2 bytes from arg0+auxint. arg1=mem
+		{name: "MOVLload", reg: gpload},          // load 4 bytes from arg0+auxint. arg1=mem
 		{name: "MOVQload", reg: gpload},          // load 8 bytes from arg0+auxint. arg1=mem
 		{name: "MOVQloadidx8", reg: gploadidx},   // load 8 bytes from arg0+8*arg1+auxint. arg2=mem
 		{name: "MOVBstore", reg: gpstore},        // store byte in arg1 to arg0+auxint. arg2=mem
+		{name: "MOVWstore", reg: gpstore},        // store 2 bytes in arg1 to arg0+auxint. arg2=mem
+		{name: "MOVLstore", reg: gpstore},        // store 4 bytes in arg1 to arg0+auxint. arg2=mem
 		{name: "MOVQstore", reg: gpstore},        // store 8 bytes in arg1 to arg0+auxint. arg2=mem
 		{name: "MOVQstoreidx8", reg: gpstoreidx}, // store 8 bytes in arg2 to arg0+8*arg1+auxint. arg3=mem
 
@@ -153,6 +161,8 @@ func init() {
 		{name: "REPMOVSB", reg: regInfo{[]regMask{buildReg("DI"), buildReg("SI"), buildReg("CX")}, buildReg("DI SI CX"), nil}}, // move arg2 bytes from arg1 to arg0.  arg3=mem, returns memory
 
 		{name: "ADDL", reg: gp21}, // arg0+arg1
+		{name: "ADDW", reg: gp21}, // arg0+arg1
+		{name: "ADDB", reg: gp21}, // arg0+arg1
 
 		// (InvertFlags (CMPQ a b)) == (CMPQ b a)
 		// So if we want (SETL (CMPQ a b)) but we can't do that because a is a constant,
