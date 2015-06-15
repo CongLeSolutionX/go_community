@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "594a3c43_5813d512",
+        "filename": "src/net/cgo_sockold.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-06-15T20:45:36Z",
+      "side": 1,
+      "message": "SGTM then.  Is that documented somewhere?",
+      "parentUuid": "594a3c43_d8d0a5c4",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_cf77217c",
         "filename": "src/net/cgo_sockold.go",
         "patchSetId": 19
