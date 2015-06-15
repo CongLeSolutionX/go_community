@@ -23,5 +23,5 @@ func updateCastagnoli(crc uint32, p []byte) uint32 {
 	if sse42 {
 		return castagnoliSSE42(crc, p)
 	}
-	return update(crc, castagnoliTable, p)
+	return update(crc, CastagnoliTable, p)
 }

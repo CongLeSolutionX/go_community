@@ -12,10 +12,7 @@
 // for information.
 package crc32
 
-import (
-	"hash"
-	"sync"
-)
+import "hash"
 
 // The size of a CRC-32 checksum in bytes.
 const Size = 4
@@ -40,16 +37,8 @@ const (
 // Table is a 256-word table representing the polynomial for efficient processing.
 type Table [256]uint32
 
-// castagnoliTable points to a lazily initialized Table for the Castagnoli
-// polynomial. MakeTable will always return this value when asked to make a
-// Castagnoli table so we can compare against it to find when the caller is
-// using this polynomial.
-var castagnoliTable *Table
-var castagnoliOnce sync.Once
-
-func castagnoliInit() {
-	castagnoliTable = makeTable(Castagnoli)
-}
+// CastagnoliTable is the table for the Castagnoli polynomial.
+var CastagnoliTable = makeTable(IEEE)
 
 // IEEETable is the table for the IEEE polynomial.
 var IEEETable = makeTable(IEEE)
@@ -60,8 +49,7 @@ func MakeTable(poly uint32) *Table {
 	case IEEE:
 		return IEEETable
 	case Castagnoli:
-		castagnoliOnce.Do(castagnoliInit)
-		return castagnoliTable
+		return CastagnoliTable
 	}
 	return makeTable(poly)
 }
@@ -113,7 +101,7 @@ func update(crc uint32, tab *Table, p []byte) uint32 {
 
 // Update returns the result of adding the bytes in p to the crc.
 func Update(crc uint32, tab *Table, p []byte) uint32 {
-	if tab == castagnoliTable {
+	if tab == CastagnoliTable {
 		return updateCastagnoli(crc, p)
 	}
 	return update(crc, tab, p)
