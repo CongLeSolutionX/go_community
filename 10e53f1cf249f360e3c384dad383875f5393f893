@@ -16,6 +16,24 @@
       "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_060e4a3c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 5270
+      },
+      "writtenOn": "2015-06-15T22:58:32Z",
+      "side": 1,
+      "message": "I\u0027d vote for generating the Prog filling code.\nI\u0027ll put together a CL to do the generation.",
+      "parentUuid": "99abd4ef_72aff019",
+      "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
