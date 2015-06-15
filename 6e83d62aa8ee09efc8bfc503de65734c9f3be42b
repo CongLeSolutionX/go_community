@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3968289e_79efa728",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-15T16:48:51Z",
+      "side": 1,
+      "message": "I thought all the requirements were gathered in this one comment.\n\nI\u0027m happy to add an assertion, but where? There\u0027s already a check in the channel send: if this were reduced or the channel size requirement relaxed, that check would trigger.",
+      "parentUuid": "796b8031_96910da7",
+      "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796b8031_169d1db6",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
@@ -65,6 +83,24 @@
       "side": 1,
       "message": "Never mind. I see why this is here.",
       "parentUuid": "796b8031_91dd9754",
+      "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3968289e_99aabbde",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-15T16:48:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59c15c6b_a990a9a1",
       "revId": "6e83d62aa8ee09efc8bfc503de65734c9f3be42b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
