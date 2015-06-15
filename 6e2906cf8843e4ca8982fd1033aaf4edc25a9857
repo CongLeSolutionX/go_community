@@ -33,6 +33,24 @@
       "revId": "6e2906cf8843e4ca8982fd1033aaf4edc25a9857",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_86731ac5",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-15T22:56:28Z",
+      "side": 1,
+      "message": "No, I think the general rule should be that later entries override earlier ones.  Which admittedly is not what this code implements--right now earlier rules override later ones.",
+      "parentUuid": "198c4486_5396961d",
+      "revId": "6e2906cf8843e4ca8982fd1033aaf4edc25a9857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
