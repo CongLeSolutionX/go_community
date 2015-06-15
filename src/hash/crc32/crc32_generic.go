@@ -10,5 +10,5 @@ package crc32
 // the software implementation.
 
 func updateCastagnoli(crc uint32, p []byte) uint32 {
-	return update(crc, castagnoliTable, p)
+	return update(crc, CastagnoliTable, p)
 }
