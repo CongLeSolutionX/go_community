@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3968289e_99039b7e",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-15T16:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "796b8031_c24ae775",
+      "revId": "35b746d04e71fd9c57ea4bde4d11720cc4461cdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59c15c6b_634750ce",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 1
@@ -65,6 +83,30 @@
       "writtenOn": "2015-06-08T20:47:17Z",
       "side": 1,
       "message": "I think we can test on Go types, but what struct/array/map/slice/string/unsafe.Pointer ?",
+      "range": {
+        "startLine": 482,
+        "startChar": 26,
+        "endLine": 482,
+        "endChar": 27
+      },
+      "revId": "35b746d04e71fd9c57ea4bde4d11720cc4461cdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3968289e_79d88796",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-15T16:36:08Z",
+      "side": 1,
+      "message": "The arguments to a C function are always C types, meaning that in cgo they are spelled C.something. Go maps, slices, and strings are impossible. \n\nGo unsafe.Pointer is possible because it is the translation of C void*. \nGo structs are possible because they are the translation of C structs.\n\nGiven Ian\u0027s suggestion to guard the code with an if false, it seems that the easiest thing to do is to make cgoUse take an interface{} and just pass all arguments to it instead of selected arguments. Since the code is inside an if false (dynamically false, but not compile-time false), none of the allocation and copying to produce interface values will execute.",
+      "parentUuid": "796b8031_e29e036b",
       "range": {
         "startLine": 482,
         "startChar": 26,
