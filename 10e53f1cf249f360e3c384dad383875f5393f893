@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99abd4ef_72aff019",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-15T22:42:04Z",
+      "side": 1,
+      "message": "This kind of repetitive code hides bugs very effectively. And it looks like there\u0027s going to be plenty more of it. And for 1.6 minux plans to rework the structure of Progs to reduce the memory footprint of the compiler, and this mass of code will make that harder.\n\nAny chance of generating this instead?\n\nOr use some Op-indexed table in which we could look up some attributes, and set up the Prog dynamically?",
+      "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
