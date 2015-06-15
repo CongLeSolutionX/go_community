@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "594a3c43_d8d0a5c4",
+        "filename": "src/net/cgo_sockold.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-15T19:54:00Z",
+      "side": 1,
+      "message": "Yes, this kind of thing is OK and there are no current plans to break it.  Allocations are typed, and that type directs the GC information for the allocated block.  The type of a pointer used to find the block is not relevant to the GC.  We can already have pointers of different type pointing to the same allocated object, so I think it\u0027s safe to assume that the type of the allocation is what matters, not the type of the pointer.",
+      "parentUuid": "594a3c43_f51d72f2",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_cf77217c",
         "filename": "src/net/cgo_sockold.go",
         "patchSetId": 19
