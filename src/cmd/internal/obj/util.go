@@ -50,7 +50,12 @@ func Bopenr(name string) (*Biobuf, error) {
 }
 
 func Binitw(w io.Writer) *Biobuf {
-	return &Biobuf{w: bufio.NewWriter(w)}
+	r := &Biobuf{w: bufio.NewWriter(w)}
+	// TODO(mwhudson): gross but expedient to allow Bseek to work.
+	if f, ok := w.(*os.File); ok {
+		r.f = f
+	}
+	return r
 }
 
 func Binitr(r io.Reader) *Biobuf {
@@ -59,6 +64,10 @@ func Binitr(r io.Reader) *Biobuf {
 
 func (b *Biobuf) Write(p []byte) (int, error) {
 	return b.w.Write(p)
+}
+
+func (b *Biobuf) R() io.Reader {
+	return b.r
 }
 
 func Bwritestring(b *Biobuf, p string) (int, error) {
@@ -77,7 +86,7 @@ func Bseek(b *Biobuf, offset int64, whence int) int64 {
 	}
 	off, err := b.f.Seek(offset, whence)
 	if err != nil {
-		log.Fatalf("seeking in output: %v", err)
+		log.Fatalf("seeking in output: %v %v %v", err, offset, whence)
 	}
 	if b.r != nil {
 		b.r.Reset(b.f)
