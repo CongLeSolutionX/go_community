@@ -334,6 +334,8 @@ type LSym struct {
 	Pcln   *Pcln
 	P      []byte
 	R      []Reloc
+	index  int
+	ispath bool
 }
 
 type Pcln struct {
@@ -643,6 +645,10 @@ type Link struct {
 	Data  *LSym
 	Etext *LSym
 	Edata *LSym
+
+	orderedsyms    []*LSym
+	orderedstrings []string
+	ordereddata    [][]byte
 
 	// Cache of Progs
 	allocIdx int
