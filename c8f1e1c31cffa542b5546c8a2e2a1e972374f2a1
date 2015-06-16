@@ -34,6 +34,24 @@
       "revId": "c8f1e1c31cffa542b5546c8a2e2a1e972374f2a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_805846d0",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-06-16T23:31:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure, but I think this fix is slightly at the wrong level. The problem AIUI is that the linker\u0027s idea of what read-only means is more \"read only after relocations\", which is fine for the read-only segment in the executable case, but not in the shared library case -- the shared libs produced by -buildmode\u003dshared on linux/amd64 have relocations against the text segment.  I know how to fix this but it involves grubbing around in the linker quite a bit and I didn\u0027t want to push that for 1.5.  See issue #10914.\n\nI guess in summary what I want to say is: let\u0027s paper over the problem for now, but fix it properly early in 1.6.",
+      "parentUuid": "594a3c43_efed96b5",
+      "revId": "c8f1e1c31cffa542b5546c8a2e2a1e972374f2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
