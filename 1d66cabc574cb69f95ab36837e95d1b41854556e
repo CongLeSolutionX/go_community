@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "594a3c43_e76ce082",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "add a little comment",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_4774cc46",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "give this the right initial capacity? might be low-level enough to matter.",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_c767dc9b",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "default case with panic?",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_877eb424",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "initOnce sync.Once",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_27a5083a",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "remove this line and swap the behavior or acquireSema and releaseSema to try to send and receive respectively.",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_079724ca",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "document that path is \"/etc/resolv.conf\" and it\u0027s only a variable for ease of testing.",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_e74300e3",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "conf.initOnce.Do(conf.init)",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_47a20c33",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "tryAcquireSema",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_2730a8a3",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "why? I think the old name is better.",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_672ab033",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_47892ca9",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-16T19:14:21Z",
+      "side": 1,
+      "message": "you can\u0027t pair this acquireSema (which might not acquire it and returns false) with a release below.\n\nin addition to renaming acquireSema to tryAcquireSema, you should add an acquireSema method which blocks until it\u0027s acquired and doesn\u0027t return a bool",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
