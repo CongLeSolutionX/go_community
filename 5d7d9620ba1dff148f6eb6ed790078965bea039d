@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99abd4ef_9586c6eb",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "I\u0027d roll TestInvalidStreams and TestValidStreams into a single table-driven test:\n\nfunc TestHuffman(t *testing.T) {\n  testCases :\u003d []struct{\n    desc string\n    in   string\n    want string // \"fail\" means that decoding should fail.\n  }{{\n    desc: \"over-subscribed HCLenTree\",\n    in: \"344c4a4e494d4b070000ff2e2eff2e2e2e2e2eff\",\n    want: \"fail\",\n  }, {\n    etc,\n  }, {\n    desc: \"complete HCLenTree, complete HLitTree, degenerate HDistTree, use valid HDist symbol\",\n    in: \"000100feff000de0010400000000100000000000000000000000000000000000\" +\n\t\t\t\"0000000000000000000000000000003c\",\n    want: \"00000000\",\n  }, {\n    etc,\n  }}\n\n  for _, tc :\u003d range testCases {\n    etc\n  }\n}",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_d5f20e95",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "s/idx/i/ but I\u0027d replace it with _ and print the test case description instead of a numeric index.",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_f57bca71",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother resetting a reader. Just use a new one each time:\n\ngot, err :\u003d ioutil.ReadAll(NewReader(bytes.NewReader(etc)))\n\nand for valid streams, compare got to tc.want.",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_b58142d8",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "It\u0027s hard to line up each input element to each output element. I\u0027d define an anonymous struct to group each test case instead. (See above).",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 5
+      },
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_55df3ef6",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "I\u0027d say:\n// The next three numbers come from the RFC, section 3.2.7, with the additional\n// proviso in section 3.2.6 that \"distance codes 30-31 will never actually\n// occur in the compressed data\".",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_35e8b2a2",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "s/IE/i.e./",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_b59ae24b",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "s/if tree/if the tree/ and I\u0027d be more explicit \"See the comment in decompressor.huffSym.\"\n\nIt\u0027s also worth commenting that an empty tree is valid for some Huffman trees (HDIST) but not others (HCLEN, HLIT), and why.",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_959fe63b",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "Either \u003e should be \u003e\u003d, or maxDist should be 29 instead of 30.\n\nPick the one that is consistent with maxLit.\n\nThe C code you linked to says \u003e 30 instead of \u003e\u003d 30. Is that a bug in that C code? If so, don\u0027t copy the bug in the Go code, and also add a note about that in the CL description.\n\nOr is \u003e instead of \u003e\u003d actually correct because of an \"HDIST + 1\" somewhere?\n\nIs it possible to get a test case that lands exactly on 30?",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_f5a46a91",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "Should 286 be maxLit?",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_d5a96e69",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T06:28:19Z",
+      "side": 1,
+      "message": "Should 30 be maxDist?",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
