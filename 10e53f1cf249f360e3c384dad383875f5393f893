@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_e0778a7b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5270
+      },
+      "writtenOn": "2015-06-16T21:38:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_27f8a8f4",
+      "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_67f2b014",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 2
@@ -77,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_205a3201",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5270
+      },
+      "writtenOn": "2015-06-16T21:38:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_67f2b014",
+      "range": {
+        "startLine": 128,
+        "startChar": 41,
+        "endLine": 128,
+        "endChar": 42
+      },
+      "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_27bfc81e",
         "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
         "patchSetId": 2
@@ -88,6 +130,24 @@
       "writtenOn": "2015-06-16T19:42:18Z",
       "side": 1,
       "message": "use addOff?",
+      "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_a05462cf",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5270
+      },
+      "writtenOn": "2015-06-16T21:38:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_27bfc81e",
       "revId": "10e53f1cf249f360e3c384dad383875f5393f893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
