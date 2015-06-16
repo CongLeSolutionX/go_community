@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99abd4ef_8067a6c7",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "The usual Go name is s/expect/want/",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_405dbef7",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "I\u0027d combine this line with the next one, so that the overall indentation is smaller: it should be \"}{{\".",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_c04fee39",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "Can we get a bit more description than an issue number? Similarly below.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_60643ac3",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "Similarly, combine this line with the next one: \"}}\".",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_40449e19",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "s/idx/i/",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_004a9629",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "No need for an rd variable, just roll this into the next line.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_a0cbc215",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "I don\u0027t think the end-of-line comment adds much.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_e04e6a3b",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "Use %q without quotes instead of \u0027%s\u0027 with quotes. But I\u0027d just say:\n\nt.Errorf(\"#%d (%s): got nil error, want non-nil\", i, tc.desc)",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_00d1f6c5",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "I don\u0027t think the end-of-line comment adds much.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_e0d5cab1",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "Similarly, I\u0027d say:\nt.Errorf(\"#%d (%s): %v\", i, tc.desc, err)\n\nAlso, add a continue after this. If we got an unexpected error, there\u0027s little point in checking what we got with tc.want.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_803e8695",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "The usual name is s/out/got/, so that comparing what you got with what you want is literally \"got !\u003d tc.want\".",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_80e5e6a1",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "The usual order is got and want, not want and got. I\u0027d also put them on different lines so it\u0027s very easy to eyeball the difference:\n\nt.Errorf(\"#%d (%s):\\ngot  %q\\nwant %q\", i, tc.desc, got, tc.want)\n\nNote the two spaces after the \"got\" in the format string.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_c0ed2e88",
+        "filename": "src/compress/flate/gen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "Do you need to copy the comment here too?",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_60e27a99",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:31:36Z",
+      "side": 1,
+      "message": "Typo in \"guaranteed\".",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
