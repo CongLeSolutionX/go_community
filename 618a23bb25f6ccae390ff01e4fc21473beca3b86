@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "594a3c43_c72a7c86",
+        "filename": "misc/cgo/testsovar/cgoso.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-16T18:16:50Z",
+      "side": 1,
+      "message": "Please add a comment somewhere, here or in main.go, explaining what this is testing.",
+      "revId": "618a23bb25f6ccae390ff01e4fc21473beca3b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
