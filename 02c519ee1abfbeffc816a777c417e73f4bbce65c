@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_60739ac6",
+        "filename": "src/net/cgo_sockold.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-16T18:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99abd4ef_cf77217c",
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_b5676a9c",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 19
@@ -125,6 +143,30 @@
       "writtenOn": "2015-06-15T18:43:19Z",
       "side": 1,
       "message": "Why switch for a single case?",
+      "range": {
+        "startLine": 207,
+        "startChar": 9,
+        "endLine": 207,
+        "endChar": 15
+      },
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_0020d6a2",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-16T18:52:10Z",
+      "side": 1,
+      "message": "just make it look the same as cgoLookupPort, cgoLookupIPCNAME.\nit\u0027s easy to capture other EAII_XXX errors if needed.",
+      "parentUuid": "594a3c43_b5676a9c",
       "range": {
         "startLine": 207,
         "startChar": 9,
@@ -154,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_c0fece7c",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-16T18:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99abd4ef_4f64d1c2",
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_5581de96",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 19
@@ -165,6 +225,30 @@
       "writtenOn": "2015-06-15T18:43:19Z",
       "side": 1,
       "message": "This can be just a regular \"if\" instead of an \"else if\".",
+      "range": {
+        "startLine": 231,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 7
+      },
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_e00dca40",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-16T18:52:10Z",
+      "side": 1,
+      "message": "in that case we need a expr: ip.To16() !\u003d nil \u0026\u0026 ip.To4() \u003d\u003d nil.\ni\u0027m fine either way.",
+      "parentUuid": "594a3c43_5581de96",
       "range": {
         "startLine": 231,
         "startChar": 3,
@@ -194,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_c0252eb7",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-16T18:52:10Z",
+      "side": 1,
+      "message": "yup, make cgoSockaddr not return error",
+      "parentUuid": "99abd4ef_af4f353a",
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_8f54f9cf",
         "filename": "src/net/lookup_unix.go",
         "patchSetId": 19
@@ -205,6 +307,24 @@
       "writtenOn": "2015-06-15T03:01:04Z",
       "side": 1,
       "message": "Now we\u0027ve changed all the code to decide whether to use Go first, and then use cgo.  I guess this code should do the same.",
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_e024aab8",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-16T18:52:10Z",
+      "side": 1,
+      "message": "well... i didn\u0027t know that. ah... is it true? looks like lookup{Port,CNAME} have no order change.",
+      "parentUuid": "99abd4ef_8f54f9cf",
       "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
