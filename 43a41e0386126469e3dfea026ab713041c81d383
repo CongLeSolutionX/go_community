@@ -22,6 +22,30 @@
       "revId": "43a41e0386126469e3dfea026ab713041c81d383",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_40dbfee5",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5270
+      },
+      "writtenOn": "2015-06-16T21:25:52Z",
+      "side": 1,
+      "message": "whoops, got confused",
+      "parentUuid": "99abd4ef_20419209",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "43a41e0386126469e3dfea026ab713041c81d383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
