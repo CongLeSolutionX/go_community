@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "594a3c43_c74efc0d",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-06-16T19:05:27Z",
+      "side": 1,
+      "message": "Why would you need \"\u0026\u0026 ip.To4() \u003d\u003d nil\"?  If that was false (i.e., ip.To4() !\u003d nil), then the preceding \"return\" statement would execute.\n\n    if ip4 :\u003d ip.To4(); ip4 !\u003d nil {\n        return cgoSockaddrInet4(ip4), ...\n    }\n    if ip6 :\u003d ip.To6(); ip6 !\u003d nil {\n        return cgoSockaddrInet6(ip6), ...\n    }\n    return nil, 0",
+      "parentUuid": "99abd4ef_e00dca40",
+      "range": {
+        "startLine": 231,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 7
+      },
+      "revId": "02c519ee1abfbeffc816a777c417e73f4bbce65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_af4f353a",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 19
