@@ -138,7 +138,7 @@ func init() {
 		{name: "MOVBload", reg: gpload},                   // load byte from arg0+auxint. arg1=mem
 		{name: "MOVBQZXload", reg: gpload},                // ditto, extend to uint64
 		{name: "MOVBQSXload", reg: gpload},                // ditto, extend to int64
-		{name: "MOVQload", reg: gpload},                   // load 8 bytes from arg0+auxint. arg1=mem
+		{name: "MOVQload", reg: gpload, asm: x86.AMOVQ},   // load 8 bytes from arg0+auxint. arg1=mem
 		{name: "MOVQloadidx8", reg: gploadidx},            // load 8 bytes from arg0+8*arg1+auxint. arg2=mem
 		{name: "MOVBstore", reg: gpstore, asm: x86.AMOVB}, // store byte in arg1 to arg0+auxint. arg2=mem
 		{name: "MOVQstore", reg: gpstore, asm: x86.AMOVQ}, // store 8 bytes in arg1 to arg0+auxint. arg2=mem
