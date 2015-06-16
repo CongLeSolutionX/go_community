@@ -110,6 +110,23 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_752a3a33",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T07:27:55Z",
+      "side": 1,
+      "message": "BTW, keep the RHS false when you upload the next patch, but do the tests all pass when you s/false/true/?\n\nIf not, and you can describe the failures, maybe mdemspky can offer some advice.",
+      "revId": "5d7d9620ba1dff148f6eb6ed790078965bea039d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_b59ae24b",
         "filename": "src/compress/flate/inflate.go",
         "patchSetId": 2
