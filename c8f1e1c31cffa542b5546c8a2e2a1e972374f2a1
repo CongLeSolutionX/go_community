@@ -16,6 +16,24 @@
       "revId": "c8f1e1c31cffa542b5546c8a2e2a1e972374f2a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_efed96b5",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-06-16T23:20:15Z",
+      "side": 1,
+      "message": "Darwin\u0027s external linker doesn\u0027t want relocs in non-executable sections.  It even has a flag:\n\n-read_only_relocs treatment: Enables the use of relocations which will cause dyld to modify (copy-on-write) read-only pages.  The compiler will normally never generate such code.\n\n(Note that this flag cannot be applied in 64-bit mode.)\n\nSo it seems that for amd64, 386, and arm64 (as minux@ discovered), Darwin external linker won\u0027t link the go.o file unless these sections are moved to \"DATA\" segment.  I assumed that this is true across the board for the external linker and hence the change.  Also, my impression was that arm64 and amd64+c-shared are the only situations where we use external linking, am I wrong in that assumption?\n\nI initially had the big \"if\" which tested, in addition to existing condition, for \"darwin/amd64\" and \"c-shared\" build, but I figured that this is cleaner.  It\u0027s definitely not safer, I can revert the change to the big \"if\".",
+      "parentUuid": "594a3c43_2f4ebe8b",
+      "revId": "c8f1e1c31cffa542b5546c8a2e2a1e972374f2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
