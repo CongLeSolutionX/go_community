@@ -34,6 +34,24 @@
       "revId": "40bc9ad2a0a14b4e490db65a0c2d145423777e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_a0bbc213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-16T14:19:07Z",
+      "side": 1,
+      "message": "Please add the \"fixes\" line to the CL description.  Thanks.",
+      "parentUuid": "397f484e_2767be1b",
+      "revId": "40bc9ad2a0a14b4e490db65a0c2d145423777e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
