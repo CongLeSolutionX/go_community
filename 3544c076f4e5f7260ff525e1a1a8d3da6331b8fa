@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99abd4ef_55c8de43",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 6345
+      },
+      "writtenOn": "2015-06-16T05:57:06Z",
+      "side": 1,
+      "message": "This sentence is hard to parse, it\u0027s not clear what \"were not reported\" refers to (errors). Maybe:\n\n\n// Do not panic if there are errors in header blocks after the pax header.",
+      "revId": "3544c076f4e5f7260ff525e1a1a8d3da6331b8fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
