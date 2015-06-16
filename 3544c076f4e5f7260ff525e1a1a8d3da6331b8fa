@@ -16,6 +16,24 @@
       "revId": "3544c076f4e5f7260ff525e1a1a8d3da6331b8fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "397f484e_0472b85d",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 6715
+      },
+      "writtenOn": "2015-06-16T06:17:51Z",
+      "side": 1,
+      "message": "Done. Thanks",
+      "parentUuid": "99abd4ef_55c8de43",
+      "revId": "3544c076f4e5f7260ff525e1a1a8d3da6331b8fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
