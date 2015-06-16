@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "99abd4ef_00e8d673",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-06-16T21:32:26Z",
+      "side": 1,
+      "message": "This needs updating.",
+      "revId": "62da403a30f2ce3b5ef67c1ba7a70ccc9ecfa67d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_8067a6c7",
         "filename": "src/compress/flate/flate_test.go",
         "patchSetId": 4
