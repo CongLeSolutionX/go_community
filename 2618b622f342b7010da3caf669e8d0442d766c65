@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "594a3c43_f96c8882",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-16T21:05:24Z",
+      "side": 1,
+      "message": "s/trivial/cgo/ ?",
+      "revId": "2618b622f342b7010da3caf669e8d0442d766c65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
