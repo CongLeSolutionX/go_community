@@ -16,6 +16,24 @@
       "revId": "40bc9ad2a0a14b4e490db65a0c2d145423777e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "397f484e_2767be1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-06-16T12:22:34Z",
+      "side": 1,
+      "message": "Yes, I created the Github issue after I created the patch request.",
+      "parentUuid": "b9733893_78107d05",
+      "revId": "40bc9ad2a0a14b4e490db65a0c2d145423777e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
