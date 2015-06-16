@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "594a3c43_cf57f229",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-16T23:01:35Z",
+      "side": 1,
+      "message": "s/+\u003d/\u003d/",
+      "range": {
+        "startLine": 98,
+        "startChar": 14,
+        "endLine": 98,
+        "endChar": 16
+      },
+      "revId": "12f8ebe4358ba272d7fe78c2ba6017857cfbdcd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
