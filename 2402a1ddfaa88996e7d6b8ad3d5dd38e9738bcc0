@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_3b3a63d6",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-17T03:33:36Z",
+      "side": 1,
+      "message": "This code is parsing local-part as dot-atom. RFC 5322 3.4.1 says this:\n\n\"\"\"\nIf the [local-part] can be represented as a dot-atom (that is, it contains no characters other than atext characters or \".\" surrounded by atext characters), then the dot-atom form SHOULD be used and the quoted-string form SHOULD NOT be used.\n\"\"\"\n\nThat is saying that dot-atom is defined in such a way that \"..\" is not legal (and leading/trailing dots are not okay either). That means that consumeAtom should be the one enforcing that (when its dot arg is true).",
+      "parentUuid": "d9fb8c32_9388ee2b",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
