@@ -36,6 +36,91 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_e6afa29a",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T18:09:10Z",
+      "side": 1,
+      "message": "Nitpick, but the fibonacci sequence usually starts 0, 1, not 1, 2. See https://oeis.org/A000045",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_c6a0a6b0",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T18:09:10Z",
+      "side": 1,
+      "message": "I\u0027d suggest removing \"using the Exp function\" -- it is clearly used two lines later.",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_66457262",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T18:09:10Z",
+      "side": 1,
+      "message": "I\u0027d suggest removing \"using the Exp function\" -- it is clearly used two lines later.",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_86485e7e",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T18:09:10Z",
+      "side": 1,
+      "message": "I\u0027d suggest removing \"using the Exp function\" -- it is clearly used two lines later.",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_06abce92",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T18:09:10Z",
+      "side": 1,
+      "message": "This is correct but subtle. fib1.Add modifies fib1. That\u0027s ok, because we then assign fib1 to be fib2, but anyone who started modifying this might get surprising results. I don\u0027t have a concrete suggestion for improvement, though.",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_0dbbc264",
         "filename": "src/math/big/example_fib_test.go",
         "patchSetId": 2
