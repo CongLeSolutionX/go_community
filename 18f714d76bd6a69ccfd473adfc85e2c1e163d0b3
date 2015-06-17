@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "594a3c43_efb4b643",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-06-17T00:06:15Z",
+      "side": 1,
+      "message": "Nit: s/reesult/result/",
+      "range": {
+        "startLine": 92,
+        "startChar": 28,
+        "endLine": 92,
+        "endChar": 35
+      },
+      "revId": "18f714d76bd6a69ccfd473adfc85e2c1e163d0b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
