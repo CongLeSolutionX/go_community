@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "799460c1_4f64dd14",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-06-17T18:12:20Z",
+      "side": 1,
+      "message": "Are you sure about this? I followed the conventions for package-level examples (https://blog.golang.org/examples, at the bottom). \n\nFor example the sort package (https://golang.org/pkg/sort) has top level examples and the function names are Example_sortKey, Example_sortMultiKeys, etc..).\n\nWith Example_fibonacci the snippet shows up at the top as \"Example (Fibonacci)\", but if I rename it to ExampleFibonacci godoc won\u0027t even put it in the documentation (because \"ExampleFibonacci\" says \"this documents the Fibonacci function\", which does not exists).\n\nGodoc complains, too:\n\n2015/06/17 20:10:44 skipping example \u0027ExampleFibonacci\u0027 because \u0027Fibonacci\u0027 is not a known function or type",
+      "parentUuid": "594a3c43_8d5892d0",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_e6afa29a",
         "filename": "src/math/big/example_fib_test.go",
         "patchSetId": 2
