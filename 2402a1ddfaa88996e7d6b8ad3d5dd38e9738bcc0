@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "799460c1_cfe2ad15",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-06-17T17:24:02Z",
+      "side": 1,
+      "message": "Yes you\u0027re right, but where do I violate the RFC here? I understand that it would be \"nicer\"/\"more appropriate\" to put the code that checks all of that inside the `consumeAtom`. But this interferes with code for parsing the name before an address. But right now I am too busy to look into it right now.\n\nCheck line 310, which actually checks whether it is a quoted string or not. So if it is a quoted string `consumeQuotedString` is used which doesn\u0027t care about the dots. Else however we consume it first as a dot atom, and then I do the additional check for the double dots etc.\n\nI can take a look into it, but not for the first weeks, have other things to tackle first...",
+      "parentUuid": "99abd4ef_3b3a63d6",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
