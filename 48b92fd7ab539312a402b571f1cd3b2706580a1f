@@ -192,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_26e52ac9",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T19:44:45Z",
+      "side": 1,
+      "message": "This does have the advantage of making it clear that Add modifies the receiver, which is one of the trickiest parts of math/big.\n\ngri, thoughts?",
+      "parentUuid": "5e114241_7ab6592f",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_0dbbc264",
         "filename": "src/math/big/example_fib_test.go",
         "patchSetId": 2
