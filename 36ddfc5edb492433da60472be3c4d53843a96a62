@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99abd4ef_c69a664d",
+        "filename": "src/math/big/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T19:44:45Z",
+      "side": 1,
+      "message": "Capital Fibonacci, to match other examples",
+      "revId": "36ddfc5edb492433da60472be3c4d53843a96a62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_66df32f7",
+        "filename": "src/math/big/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T19:44:45Z",
+      "side": 1,
+      "message": "s/digits/digit/\nCapital F in fibonacci",
+      "revId": "36ddfc5edb492433da60472be3c4d53843a96a62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_86e21ebf",
+        "filename": "src/math/big/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-17T19:44:45Z",
+      "side": 1,
+      "message": "Now that we have output below, you don\u0027t need the \"// false\" comment here.",
+      "revId": "36ddfc5edb492433da60472be3c4d53843a96a62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
