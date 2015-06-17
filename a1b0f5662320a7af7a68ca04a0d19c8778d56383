@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_80db2693",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-17T00:14:06Z",
+      "side": 1,
+      "message": "I just looked at the top five in git log.",
+      "parentUuid": "99abd4ef_e034aa6a",
+      "revId": "a1b0f5662320a7af7a68ca04a0d19c8778d56383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99abd4ef_2047d2ce",
         "filename": "doc/go1.5.txt",
         "patchSetId": 1
