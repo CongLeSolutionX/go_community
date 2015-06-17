@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_1bffa72d",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_e76ce082",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_4774cc46",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-16T19:14:21Z",
       "side": 1,
       "message": "give this the right initial capacity? might be low-level enough to matter.",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_9b19d73a",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "let\u0027s try 4",
+      "parentUuid": "594a3c43_4774cc46",
       "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_fb1e1b1e",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "i agree with alex, we can just ignore other rrs here (and we can make dnsmsg parsers robust later)",
+      "parentUuid": "3968289e_82d24044",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_877eb424",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 2
@@ -82,6 +136,24 @@
       "writtenOn": "2015-06-16T19:14:21Z",
       "side": 1,
       "message": "initOnce sync.Once",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_db235f66",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_877eb424",
       "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -123,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_7b718bd5",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "alex, i think no one tries to change the existing access semantics. it\u0027s a suggestion--how to make wrong code look wrong. we have no plan to throttle querier goroutines using builtin DNS stub resolver. resolvConf.ch throttles resolvConf updaters, the same as before.",
+      "parentUuid": "3968289e_a2dd8456",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_079724ca",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 2
@@ -134,6 +224,24 @@
       "writtenOn": "2015-06-16T19:14:21Z",
       "side": 1,
       "message": "document that path is \"/etc/resolv.conf\" and it\u0027s only a variable for ease of testing.",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_db3a3f86",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_079724ca",
       "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_3b30a3a3",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_e74300e3",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_47a20c33",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 2
@@ -168,6 +294,24 @@
       "writtenOn": "2015-06-16T19:14:21Z",
       "side": 1,
       "message": "tryAcquireSema",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_1b2de749",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_47a20c33",
       "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -191,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "99abd4ef_fbe73ba2",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_2730a8a3",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_672ab033",
         "filename": "src/net/dnsclient_unix_test.go",
         "patchSetId": 2
@@ -202,6 +364,24 @@
       "writtenOn": "2015-06-16T19:14:21Z",
       "side": 1,
       "message": "likewise",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_dbecff89",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "594a3c43_672ab033",
       "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -237,6 +417,24 @@
       "side": 1,
       "message": "This is not the way this should work.  An asker should ask for it, and if it\u0027s not available not care.  Otherwise it breaks concurrency it seems.  Perhaps the names are bad, but in this case, it should ask for a semaphore and continue if it\u0027s not available.",
       "parentUuid": "594a3c43_47892ca9",
+      "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_3b0263c7",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T06:17:34Z",
+      "side": 1,
+      "message": "i think we can use newResolvConfTest here",
+      "parentUuid": "3968289e_02dd5051",
       "revId": "1d66cabc574cb69f95ab36837e95d1b41854556e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
