@@ -69,6 +69,24 @@
       "revId": "a1b0f5662320a7af7a68ca04a0d19c8778d56383",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_40f81ef5",
+        "filename": "doc/go1.5.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-17T00:26:06Z",
+      "side": 1,
+      "message": "iirc, mr. pike didn\u0027t like the word \"happy eyeballs.\"\nhttps://groups.google.com/d/msg/golang-dev/HoqPXnab2c4/Zkhfc-8rL20J\n\ni\u0027m fine either way.",
+      "parentUuid": "99abd4ef_2047d2ce",
+      "revId": "a1b0f5662320a7af7a68ca04a0d19c8778d56383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
