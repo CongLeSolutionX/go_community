@@ -174,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "5e114241_7ab6592f",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-06-17T19:26:22Z",
+      "side": 1,
+      "message": "I agree. If you feel it\u0027s too tricky for a package example I\u0027ll try to come up with something different. One option is the classic\n\ntemp \u003d fib1\nfib1 \u003d fib2\nfib2.Add(temp, fib2)\n\nbut I don\u0027t like it much.",
+      "parentUuid": "99abd4ef_06abce92",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "594a3c43_0dbbc264",
         "filename": "src/math/big/example_fib_test.go",
         "patchSetId": 2
