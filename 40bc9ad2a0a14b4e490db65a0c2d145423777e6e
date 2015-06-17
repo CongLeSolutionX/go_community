@@ -52,6 +52,29 @@
       "revId": "40bc9ad2a0a14b4e490db65a0c2d145423777e6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99abd4ef_bb25b3b7",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-17T03:33:36Z",
+      "side": 1,
+      "message": "unnecessary conversion",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 164,
+        "endChar": 21
+      },
+      "revId": "40bc9ad2a0a14b4e490db65a0c2d145423777e6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
