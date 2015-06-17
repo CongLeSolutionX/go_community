@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "594a3c43_ed9cbef1",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-17T17:03:27Z",
+      "side": 1,
+      "message": "The example is small enough that you could just add it to the example_test.go file (that file is pretty short, too).",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_8d5892d0",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-17T17:03:27Z",
+      "side": 1,
+      "message": "s/Example_fibonacci/ExampleFibonacci/",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594a3c43_0dbbc264",
+        "filename": "src/math/big/example_fib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-17T17:03:27Z",
+      "side": 1,
+      "message": "Please add an Output comment (see example_test.go) - this way the example also serves as a test:\n\n// Output:\n// 1070066266382758936764980584...\n// false\n\nit\u0027s going to be a long line, but that\u0027s fine (or you could restrict the example to say 100 digits, it would still be fine)",
+      "revId": "48b92fd7ab539312a402b571f1cd3b2706580a1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
