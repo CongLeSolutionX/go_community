@@ -31,9 +31,13 @@ func (file *File) Stat() (FileInfo, error) {
 	if err != nil {
 		return nil, &PathError{"GetFileType", file.name, err}
 	}
+
 	switch ft {
 	case syscall.FILE_TYPE_PIPE, syscall.FILE_TYPE_CHAR:
-		return &fileStat{name: basename(file.name), filetype: ft}, nil
+		return &fileStat{
+			name:     basename(file.name),
+			filetype: ft,
+		}, nil
 	}
 
 	var d syscall.ByHandleFileInformation
