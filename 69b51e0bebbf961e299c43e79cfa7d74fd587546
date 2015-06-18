@@ -33,6 +33,24 @@
       "revId": "69b51e0bebbf961e299c43e79cfa7d74fd587546",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ecf3a47_4cf51f80",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-06-18T10:57:32Z",
+      "side": 1,
+      "message": "Yes, on Plan 9, we don\u0027t have a \"hostname\" command,\nsince we read the host name from the #c/sysname file.",
+      "parentUuid": "1edc2afc_10aac48c",
+      "revId": "69b51e0bebbf961e299c43e79cfa7d74fd587546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
