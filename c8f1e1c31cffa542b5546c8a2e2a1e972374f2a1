@@ -52,6 +52,24 @@
       "revId": "c8f1e1c31cffa542b5546c8a2e2a1e972374f2a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_3f130f98",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T17:56:09Z",
+      "side": 1,
+      "message": "Please do NOT make this change as written. Anything you are doing now should be guarded by Thechar \u003d\u003d \u00277\u0027 to make absolutely sure that you are not breaking the existing non-amd64 systems. If you need to condition on LinkExternal that\u0027s fine, but it should be:\n\nif Thearch.Thechar \u003d\u003d \u00277\u0027 \u0026\u0026 Linkmode \u003d\u003d LinkExternal \u0026\u0026 sect.Rwx\u00261 \u003d\u003d 0 {",
+      "parentUuid": "99abd4ef_805846d0",
+      "revId": "c8f1e1c31cffa542b5546c8a2e2a1e972374f2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
