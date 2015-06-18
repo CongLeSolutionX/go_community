@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1edc2afc_70a550bd",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-06-18T10:37:58Z",
+      "side": 1,
+      "message": "Instead of mentioning the issue number, point out in the skip text that android doesn\u0027t have /bin/pwd.",
+      "revId": "69b51e0bebbf961e299c43e79cfa7d74fd587546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1edc2afc_10aac48c",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-06-18T10:37:58Z",
+      "side": 1,
+      "message": "doesn\u0027t have /bin/hostname",
+      "revId": "69b51e0bebbf961e299c43e79cfa7d74fd587546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
