@@ -138,8 +138,16 @@ func (e *encoder) Write(p []byte) (n int, err error) {
 	if len(p) == 0 {
 		return 0, nil
 	}
-	n = len(p)
 	litMask := uint32(1<<e.litWidth - 1)
+	if litMask != 0xff {
+		for _, b := range p {
+			if uint32(b) > litMask {
+				e.err = errors.New("lzw: input byte too large for the litWidth")
+				return 0, e.err
+			}
+		}
+	}
+	n = len(p)
 	code := e.savedCode
 	if code == invalidCode {
 		// The first code sent is always a literal code.
