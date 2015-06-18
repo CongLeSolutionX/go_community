@@ -82,11 +82,13 @@ func lookupPort(network, service string) (int, error) {
 }
 
 func lookupCNAME(name string) (string, error) {
-	cname, err, ok := cgoLookupCNAME(name)
-	if !ok {
-		cname, err = goLookupCNAME(name)
+	order := systemConf().hostLookupOrder(name)
+	if order == hostLookupCgo {
+		if cname, err, ok := cgoLookupCNAME(name); ok {
+			return cname, err
+		}
 	}
-	return cname, err
+	return goLookupCNAME(name)
 }
 
 func lookupSRV(service, proto, name string) (string, []*SRV, error) {
@@ -148,9 +150,13 @@ func lookupTXT(name string) ([]string, error) {
 }
 
 func lookupAddr(addr string) ([]string, error) {
-	ptrs, err, ok := cgoLookupPTR(addr)
-	if !ok {
-		ptrs, err = goLookupPTR(addr)
+	order := systemConf().hostLookupOrder("localhost") // follow hosts database in nsswitch.conf
+	if order == hostLookupCgo {
+		if ptrs, err, ok := cgoLookupPTR(addr); ok {
+			return ptrs, err
+		}
+		// cgo not available (or netgo); fall back to Go's DNS resolver
+		order = hostLookupFilesDNS
 	}
-	return ptrs, err
+	return goLookupPTROrder(addr, order)
 }
