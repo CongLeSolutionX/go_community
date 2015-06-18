@@ -74,19 +74,23 @@ func lookupIP(host string) (addrs []IPAddr, err error) {
 }
 
 func lookupPort(network, service string) (int, error) {
-	port, err, ok := cgoLookupPort(network, service)
-	if !ok {
-		port, err = goLookupPort(network, service)
+	order := systemConf().hostLookupOrder("localhost") // follow hosts database in nsswitch.conf
+	if order == hostLookupCgo {
+		if port, err, ok := cgoLookupPort(network, service); ok {
+			return port, err
+		}
 	}
-	return port, err
+	return goLookupPort(network, service)
 }
 
 func lookupCNAME(name string) (string, error) {
-	cname, err, ok := cgoLookupCNAME(name)
-	if !ok {
-		cname, err = goLookupCNAME(name)
+	order := systemConf().hostLookupOrder(name)
+	if order == hostLookupCgo {
+		if cname, err, ok := cgoLookupCNAME(name); ok {
+			return cname, err
+		}
 	}
-	return cname, err
+	return goLookupCNAME(name)
 }
 
 func lookupSRV(service, proto, name string) (string, []*SRV, error) {
@@ -148,9 +152,20 @@ func lookupTXT(name string) ([]string, error) {
 }
 
 func lookupAddr(addr string) ([]string, error) {
-	ptrs, err, ok := cgoLookupPTR(addr)
-	if !ok {
-		ptrs, err = goLookupPTR(addr)
+	order := systemConf().hostLookupOrder("localhost") // follow hosts database in nsswitch.conf
+	if order == hostLookupCgo {
+		if ptrs, err, ok := cgoLookupPTR(addr); ok {
+			return ptrs, err
+		}
+		// cgo not available (or netgo); fall back to Go's DNS resolver
+		order = hostLookupFilesDNS
 	}
-	return ptrs, err
+	if order == hostLookupFilesDNS || order == hostLookupFiles {
+		// Use entries from /etc/hosts if they match.
+		names := lookupStaticAddr(addr)
+		if len(names) > 0 || order == hostLookupFiles {
+			return names, nil
+		}
+	}
+	return goLookupPTR(addr)
 }

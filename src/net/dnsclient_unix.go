@@ -486,10 +486,6 @@ func goLookupCNAME(name string) (cname string, err error) {
 // Normally we let cgo use the C library resolver instead of depending
 // on our lookup code, so that Go and C get the same answers.
 func goLookupPTR(addr string) ([]string, error) {
-	names := lookupStaticAddr(addr)
-	if len(names) > 0 {
-		return names, nil
-	}
 	arpa, err := reverseaddr(addr)
 	if err != nil {
 		return nil, err
