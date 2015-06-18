@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e700ec3_19ff4be0",
+        "filename": "src/debug/elf/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T16:17:58Z",
+      "side": 1,
+      "message": "FWIW, this was https://go-review.googlesource.com/#/c/7266/3.\nThe test there is for relocations in DWARF. Perhaps they pre-subtract? I don\u0027t know, obviously.",
+      "revId": "53a19ef3f36ece03f1c5156781dc4313bb8b38de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
