@@ -8,6 +8,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"internal/syscall/windows"
 )
 
 // A fileStat is the implementation of FileInfo returned by Stat and Lstat.
@@ -15,6 +17,9 @@ type fileStat struct {
 	name     string
 	sys      syscall.Win32FileAttributeData
 	filetype uint32 // what syscall.GetFileType returns
+
+	// used for reparse point tags
+	rdb *windows.ReparseDataBuffer
 
 	// used to implement SameFile
 	sync.Mutex
@@ -41,7 +46,13 @@ func (fs *fileStat) Mode() (m FileMode) {
 		m |= 0666
 	}
 	if fs.sys.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT != 0 {
-		m |= ModeSymlink
+		// Check if the REPARSE_POINT is indeed a symlink or
+		// mountpoint, to be considered as actual symlink.
+		// On windows a REPARSE_POINT might point to an actual
+		// file which is de-duped created after NTFS deduplication.
+		if fs.rdb.ReparseTag == syscall.IO_REPARSE_TAG_SYMLINK || fs.rdb.ReparseTag == windows.IO_REPARSE_TAG_MOUNT_POINT {
+			m |= ModeSymlink
+		}
 	}
 	switch fs.filetype {
 	case syscall.FILE_TYPE_PIPE:

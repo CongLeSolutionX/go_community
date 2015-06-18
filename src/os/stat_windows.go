@@ -27,13 +27,23 @@ func (file *File) Stat() (FileInfo, error) {
 		return &devNullStat, nil
 	}
 
+	rdb, err := windows.ReadReparse(file.name)
+	if err != nil {
+		return nil, &PathError{"ReadReparse", file.name, err}
+	}
+
 	ft, err := file.pfd.GetFileType()
 	if err != nil {
 		return nil, &PathError{"GetFileType", file.name, err}
 	}
+
 	switch ft {
 	case syscall.FILE_TYPE_PIPE, syscall.FILE_TYPE_CHAR:
-		return &fileStat{name: basename(file.name), filetype: ft}, nil
+		return &fileStat{
+			name:     basename(file.name),
+			rdb:      rdb,
+			filetype: ft,
+		}, nil
 	}
 
 	var d syscall.ByHandleFileInformation
@@ -51,6 +61,7 @@ func (file *File) Stat() (FileInfo, error) {
 			FileSizeHigh:   d.FileSizeHigh,
 			FileSizeLow:    d.FileSizeLow,
 		},
+		rdb:      rdb,
 		filetype: ft,
 		vol:      d.VolumeSerialNumber,
 		idxhi:    d.FileIndexHigh,
@@ -130,5 +141,10 @@ func Lstat(name string) (FileInfo, error) {
 			return nil, e
 		}
 	}
+	rdb, e := windows.ReadReparse(fs.path)
+	if e != nil {
+		return nil, &PathError{"ReadReparse", name, e}
+	}
+	fs.rdb = rdb
 	return fs, nil
 }
