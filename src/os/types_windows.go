@@ -40,7 +40,12 @@ func (fs *fileStat) Mode() (m FileMode) {
 		m |= 0666
 	}
 	if fs.sys.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT != 0 {
-		m |= ModeSymlink
+		rdb, _ := syscall.ReadReparse(fs.path)
+
+		// Alternatively, test for Surrogate flag 0x20000000
+		if rdb.ReparseTag == syscall.IO_REPARSE_TAG_SYMLINK || rdb.ReparseTag == syscall.IO_REPARSE_TAG_MOUNT_POINT {
+			m |= ModeSymlink
+		}
 	}
 	return m
 }

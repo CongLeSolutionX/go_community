@@ -993,28 +993,19 @@ func LoadCreateSymbolicLink() error {
 
 // Readlink returns the destination of the named symbolic link.
 func Readlink(path string, buf []byte) (n int, err error) {
-	fd, err := CreateFile(StringToUTF16Ptr(path), GENERIC_READ, 0, nil, OPEN_EXISTING,
-		FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0)
-	if err != nil {
-		return -1, err
-	}
-	defer CloseHandle(fd)
 
-	rdbbuf := make([]byte, MAXIMUM_REPARSE_DATA_BUFFER_SIZE)
-	var bytesReturned uint32
-	err = DeviceIoControl(fd, FSCTL_GET_REPARSE_POINT, nil, 0, &rdbbuf[0], uint32(len(rdbbuf)), &bytesReturned, nil)
+	rdb, err := ReadReparse(path)
 	if err != nil {
 		return -1, err
 	}
 
-	rdb := (*reparseDataBuffer)(unsafe.Pointer(&rdbbuf[0]))
 	var s string
 	switch rdb.ReparseTag {
 	case IO_REPARSE_TAG_SYMLINK:
 		data := (*symbolicLinkReparseBuffer)(unsafe.Pointer(&rdb.reparseBuffer))
 		p := (*[0xffff]uint16)(unsafe.Pointer(&data.PathBuffer[0]))
 		s = UTF16ToString(p[data.PrintNameOffset/2 : (data.PrintNameLength-data.PrintNameOffset)/2])
-	case _IO_REPARSE_TAG_MOUNT_POINT:
+	case IO_REPARSE_TAG_MOUNT_POINT:
 		data := (*mountPointReparseBuffer)(unsafe.Pointer(&rdb.reparseBuffer))
 		p := (*[0xffff]uint16)(unsafe.Pointer(&data.PathBuffer[0]))
 		s = UTF16ToString(p[data.PrintNameOffset/2 : (data.PrintNameLength-data.PrintNameOffset)/2])
@@ -1026,4 +1017,26 @@ func Readlink(path string, buf []byte) (n int, err error) {
 	n = copy(buf, []byte(s))
 
 	return n, nil
+}
+
+// ReadReparse extracts reparse data for the given path
+func ReadReparse(path string) (r *ReparseDataBuffer, err error) {
+	rdbbuf := make([]byte, MAXIMUM_REPARSE_DATA_BUFFER_SIZE)
+	fd, err := CreateFile(StringToUTF16Ptr(path), GENERIC_READ, 0, nil, OPEN_EXISTING,
+		FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0)
+	if err != nil {
+		return nil, err
+	}
+	defer CloseHandle(fd)
+
+	var bytesReturned uint32
+	err = DeviceIoControl(fd, FSCTL_GET_REPARSE_POINT, nil, 0, &rdbbuf[0], uint32(len(rdbbuf)), &bytesReturned, nil)
+
+	rdb := (*ReparseDataBuffer)(unsafe.Pointer(&rdbbuf[0]))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rdb, nil
 }

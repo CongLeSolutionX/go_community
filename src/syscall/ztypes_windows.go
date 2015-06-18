@@ -1100,7 +1100,7 @@ type mountPointReparseBuffer struct {
 	PathBuffer           [1]uint16
 }
 
-type reparseDataBuffer struct {
+type ReparseDataBuffer struct {
 	ReparseTag        uint32
 	ReparseDataLength uint16
 	Reserved          uint16
@@ -1112,7 +1112,7 @@ type reparseDataBuffer struct {
 const (
 	FSCTL_GET_REPARSE_POINT          = 0x900A8
 	MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024
-	_IO_REPARSE_TAG_MOUNT_POINT      = 0xA0000003
+	IO_REPARSE_TAG_MOUNT_POINT       = 0xA0000003
 	IO_REPARSE_TAG_SYMLINK           = 0xA000000C
 	SYMBOLIC_LINK_FLAG_DIRECTORY     = 0x1
 )
