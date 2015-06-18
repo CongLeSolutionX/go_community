@@ -797,6 +797,10 @@ func exec(t *testing.T, dir, cmd string, args []string, expect string) {
 func TestStartProcess(t *testing.T) {
 	testenv.MustHaveExec(t)
 
+	if runtime.GOOS == "android" { // see golang.org/issue/11268
+		t.Skip("skipping on android")
+	}
+
 	var dir, cmd string
 	var args []string
 	if runtime.GOOS == "windows" {
@@ -1252,7 +1256,7 @@ func TestHostname(t *testing.T) {
 	// There is no other way to fetch hostname on windows, but via winapi.
 	// On Plan 9 it can be taken from #c/sysname as Hostname() does.
 	switch runtime.GOOS {
-	case "plan9":
+	case "android", "plan9": // see golang.org/issue/11268
 		t.Skipf("skipping on %s", runtime.GOOS)
 	case "windows":
 		testWindowsHostname(t)
