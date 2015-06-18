@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e700ec3_88bbff12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T20:56:41Z",
+      "side": 1,
+      "message": "When using the vendoring experiment, fetch...",
+      "revId": "f0efef06630cb5b860e2508b6deb78e226dc3377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_cd4b49a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T20:56:41Z",
+      "side": 1,
+      "message": "s/Fixes/For/\n\n(It\u0027s not a fix since it will not be on by default.)",
+      "revId": "f0efef06630cb5b860e2508b6deb78e226dc3377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_0d69411c",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T20:56:41Z",
+      "side": 1,
+      "message": "s/(s)/s/",
+      "revId": "f0efef06630cb5b860e2508b6deb78e226dc3377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
