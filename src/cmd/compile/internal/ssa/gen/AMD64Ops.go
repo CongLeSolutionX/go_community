@@ -92,10 +92,18 @@ func init() {
 
 	// TODO: 2-address instructions.  Mark ops as needing matching input/output regs.
 	var AMD64ops = []opData{
-		{name: "ADDQ", reg: gp21},                    // arg0 + arg1
-		{name: "ADDQconst", reg: gp11},               // arg0 + auxint
-		{name: "SUBQ", reg: gp21, asm: "SUBQ"},       // arg0 - arg1
-		{name: "SUBQconst", reg: gp11, asm: "SUBQ"},  // arg0 - auxint
+		{name: "ADDQ", reg: gp21},              // arg0 + arg1
+		{name: "ADDL", reg: gp21, asm: "ADDL"}, // arg0 + arg1
+		{name: "ADDW", reg: gp21, asm: "ADDW"}, // arg0 + arg1
+		{name: "ADDB", reg: gp21, asm: "ADDB"}, // arg0 + arg1
+		{name: "ADDQconst", reg: gp11},         // arg0 + auxint
+
+		{name: "SUBQ", reg: gp21, asm: "SUBQ"},      // arg0 - arg1
+		{name: "SUBL", reg: gp21, asm: "SUBL"},      // arg0 - arg1
+		{name: "SUBW", reg: gp21, asm: "SUBW"},      // arg0 - arg1
+		{name: "SUBB", reg: gp21, asm: "SUBB"},      // arg0 - arg1
+		{name: "SUBQconst", reg: gp11, asm: "SUBQ"}, // arg0 - auxint
+
 		{name: "MULQ", reg: gp21, asm: "IMULQ"},      // arg0 * arg1
 		{name: "MULQconst", reg: gp11, asm: "IMULQ"}, // arg0 * auxint
 		{name: "ANDQ", reg: gp21, asm: "ANDQ"},       // arg0 & arg1
@@ -159,10 +167,6 @@ func init() {
 		{name: "CALLclosure", reg: regInfo{[]regMask{gpsp, buildReg("DX"), 0}, 0, nil}}, // call function via closure.  arg0=codeptr, arg1=closure, arg2=mem returns mem
 
 		{name: "REPMOVSB", reg: regInfo{[]regMask{buildReg("DI"), buildReg("SI"), buildReg("CX")}, buildReg("DI SI CX"), nil}}, // move arg2 bytes from arg1 to arg0.  arg3=mem, returns memory
-
-		{name: "ADDL", reg: gp21, asm: "ADDL"}, // arg0+arg1
-		{name: "ADDW", reg: gp21, asm: "ADDW"}, // arg0+arg1
-		{name: "ADDB", reg: gp21, asm: "ADDB"}, // arg0+arg1
 
 		// (InvertFlags (CMPQ a b)) == (CMPQ b a)
 		// So if we want (SETL (CMPQ a b)) but we can't do that because a is a constant,

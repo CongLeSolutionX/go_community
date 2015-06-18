@@ -21,13 +21,17 @@
 (Add <t> x y) && is8BitInt(t) && !isSigned(t) -> (ADDB x y)
 (Add <t> x y) && is8BitInt(t) && isSigned(t) -> (MOVBQSX (ADDB <t> x y))
 (Sub <t> x y) && is64BitInt(t) -> (SUBQ x y)
+(Sub <t> x y) && is32BitInt(t) && !isSigned(t) -> (SUBL x y)
+(Sub <t> x y) && is32BitInt(t) && isSigned(t) -> (MOVLQSX (SUBL <t> x y))
+(Sub <t> x y) && is16BitInt(t) && !isSigned(t) -> (SUBW x y)
+(Sub <t> x y) && is16BitInt(t) && isSigned(t) -> (MOVWQSX (SUBW <t> x y))
+(Sub <t> x y) && is8BitInt(t) && !isSigned(t) -> (SUBB x y)
+(Sub <t> x y) && is8BitInt(t) && isSigned(t) -> (MOVBQSX (SUBB <t> x y))
 (Mul <t> x y) && is64BitInt(t) -> (MULQ x y)
 
 (MOVLstore ptr (MOVLQSX x) mem) -> (MOVLstore ptr x mem)
 (MOVWstore ptr (MOVWQSX x) mem) -> (MOVWstore ptr x mem)
 (MOVBstore ptr (MOVBQSX x) mem) -> (MOVBstore ptr x mem)
-
-(Convert <t> x) && t.IsInteger() && x.Type.IsInteger() -> (Copy x)
 
 // Lowering shifts
 // Note: unsigned shifts need to return 0 if shift amount is >= 64.

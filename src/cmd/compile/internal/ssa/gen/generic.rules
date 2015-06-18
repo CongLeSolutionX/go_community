@@ -20,7 +20,8 @@
 // For now, the generated successors must be a permutation of the matched successors.
 
 // constant folding
-(Add <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c+d])
+(Add <t> (Const [c]) (Const [d])) && t.IsInteger() -> (Const [c+d])
+(Sub <t> (Const [c]) (Const [d])) && t.IsInteger() -> (Const [c-d])
 (Mul <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c*d])
 (IsInBounds (Const [c]) (Const [d])) -> (Const {inBounds(c,d)})
 
@@ -48,3 +49,6 @@
 
 (If (Const {c}) yes no) && c.(bool) -> (Plain nil yes)
 (If (Const {c}) yes no) && !c.(bool) -> (Plain nil no)
+
+(Convert <t> x) && t.IsInteger() && x.Type.IsInteger() -> (ConvNop <t> x)
+(ConvNop <t> (Const <t2> [a])) && t.IsInteger() && t2.IsInteger() -> (Const <t> [a])

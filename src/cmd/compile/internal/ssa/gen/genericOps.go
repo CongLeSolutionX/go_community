@@ -78,7 +78,13 @@ var genericOps = []opData{
 	// TODO: remove these, make them arch-specific ops stored
 	// in the fields of Config instead.
 	{name: "StoreReg8"},
+	{name: "StoreReg4"},
+	{name: "StoreReg2"},
+	{name: "StoreReg1"},
 	{name: "LoadReg8"},
+	{name: "LoadReg4"},
+	{name: "LoadReg2"},
+	{name: "LoadReg1"},
 
 	// Used during ssa construction.  Like Copy, but the arg has not been specified yet.
 	{name: "FwdRef"},

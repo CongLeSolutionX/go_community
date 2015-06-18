@@ -792,7 +792,7 @@ func genValue(v *ssa.Value) {
 		p.From.Index = regnum(v.Args[1])
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
-	case ssa.OpAMD64ADDB, ssa.OpAMD64ANDQ:
+	case ssa.OpAMD64ADDB, ssa.OpAMD64ANDQ, ssa.OpAMD64SUBQ, ssa.OpAMD64SUBL, ssa.OpAMD64SUBW, ssa.OpAMD64SUBB:
 		r := regnum(v)
 		x := regnum(v.Args[0])
 		y := regnum(v.Args[1])
@@ -983,15 +983,39 @@ func genValue(v *ssa.Value) {
 			p.To.Type = obj.TYPE_REG
 			p.To.Reg = y
 		}
-	case ssa.OpLoadReg8:
-		p := Prog(x86.AMOVQ)
+	case ssa.OpLoadReg8, ssa.OpLoadReg4, ssa.OpLoadReg2, ssa.OpLoadReg1:
+		var asm int
+		// TODO: Lower OpLoadReg. earlier
+		switch v.Op {
+		case ssa.OpLoadReg8:
+			asm = x86.AMOVQ
+		case ssa.OpLoadReg4:
+			asm = x86.AMOVL
+		case ssa.OpLoadReg2:
+			asm = x86.AMOVW
+		case ssa.OpLoadReg1:
+			asm = x86.AMOVB
+		}
+		p := Prog(asm)
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = x86.REG_SP
 		p.From.Offset = localOffset(v.Args[0])
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
-	case ssa.OpStoreReg8:
-		p := Prog(x86.AMOVQ)
+	case ssa.OpStoreReg8, ssa.OpStoreReg4, ssa.OpStoreReg2, ssa.OpStoreReg1:
+		var asm int
+		// TODO: Lower OpStoreReg. earlier
+		switch v.Op {
+		case ssa.OpStoreReg8:
+			asm = x86.AMOVQ
+		case ssa.OpStoreReg4:
+			asm = x86.AMOVL
+		case ssa.OpStoreReg2:
+			asm = x86.AMOVW
+		case ssa.OpStoreReg1:
+			asm = x86.AMOVB
+		}
+		p := Prog(asm)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = regnum(v.Args[0])
 		p.To.Type = obj.TYPE_MEM

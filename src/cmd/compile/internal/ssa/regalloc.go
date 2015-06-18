@@ -244,7 +244,7 @@ func regalloc(f *Func) {
 						c := regs[r].c
 						if regs[r].dirty && lastUse[x.ID] > idx {
 							// Write x back to home.  Its value is currently held in c.
-							x.Op = OpStoreReg8
+							x.Op = storeRegOp(c.Type)
 							x.Aux = nil
 							x.resetArgs()
 							x.AddArg(c)
@@ -278,7 +278,20 @@ func regalloc(f *Func) {
 						c = b.NewValue1(w.Line, OpCopy, w.Type, regs[s].c)
 					} else {
 						// Load from home location
-						c = b.NewValue1(w.Line, OpLoadReg8, w.Type, w)
+						var loadreg Op
+						switch w.Type.Size() {
+						case 8:
+							loadreg = OpLoadReg8
+						case 4:
+							loadreg = OpLoadReg4
+						case 2:
+							loadreg = OpLoadReg2
+						case 1:
+							loadreg = OpLoadReg1
+						default:
+							panic("load not implemented")
+						}
+						c = b.NewValue1(w.Line, loadreg, w.Type, w)
 					}
 					home = setloc(home, c, &registers[r])
 					// Remember what we did
@@ -321,7 +334,7 @@ func regalloc(f *Func) {
 					c := regs[r].c
 					if regs[r].dirty && lastUse[x.ID] > idx {
 						// Write x back to home.  Its value is currently held in c.
-						x.Op = OpStoreReg8
+						x.Op = storeRegOp(c.Type)
 						x.Aux = nil
 						x.resetArgs()
 						x.AddArg(c)
@@ -375,7 +388,7 @@ func regalloc(f *Func) {
 			}
 
 			// change v to be a copy of c
-			v.Op = OpStoreReg8
+			v.Op = storeRegOp(c.Type)
 			v.Aux = nil
 			v.resetArgs()
 			v.AddArg(c)
@@ -471,6 +484,22 @@ func live(f *Func) [][]ID {
 		}
 	}
 	return live
+}
+
+// storeRegOp returns appropriate StoreReg Op for this register's size.
+func storeRegOp(t Type) Op {
+	switch t.Size() {
+	case 8:
+		return OpStoreReg8
+	case 4:
+		return OpStoreReg4
+	case 2:
+		return OpStoreReg2
+	case 1:
+		return OpStoreReg1
+	default:
+		panic("store op not implemented for type")
+	}
 }
 
 // for sorting a pair of integers by key

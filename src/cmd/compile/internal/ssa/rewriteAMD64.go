@@ -481,26 +481,6 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		goto end4c8bfe9df26fc5aa2bd76b211792732a
 	end4c8bfe9df26fc5aa2bd76b211792732a:
 		;
-	case OpConvert:
-		// match: (Convert <t> x)
-		// cond: t.IsInteger() && x.Type.IsInteger()
-		// result: (Copy x)
-		{
-			t := v.Type
-			x := v.Args[0]
-			if !(t.IsInteger() && x.Type.IsInteger()) {
-				goto endcc7894224d4f6b0bcabcece5d0185912
-			}
-			v.Op = OpCopy
-			v.AuxInt = 0
-			v.Aux = nil
-			v.resetArgs()
-			v.AddArg(x)
-			return true
-		}
-		goto endcc7894224d4f6b0bcabcece5d0185912
-	endcc7894224d4f6b0bcabcece5d0185912:
-		;
 	case OpGlobal:
 		// match: (Global {sym})
 		// cond:
@@ -1465,6 +1445,141 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		}
 		goto ende6ef29f885a8ecf3058212bb95917323
 	ende6ef29f885a8ecf3058212bb95917323:
+		;
+		// match: (Sub <t> x y)
+		// cond: is32BitInt(t) && !isSigned(t)
+		// result: (SUBL x y)
+		{
+			t := v.Type
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(is32BitInt(t) && !isSigned(t)) {
+				goto end6f42cb887526b684e4c19196857372a1
+			}
+			v.Op = OpAMD64SUBL
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AddArg(x)
+			v.AddArg(y)
+			return true
+		}
+		goto end6f42cb887526b684e4c19196857372a1
+	end6f42cb887526b684e4c19196857372a1:
+		;
+		// match: (Sub <t> x y)
+		// cond: is32BitInt(t) && isSigned(t)
+		// result: (MOVLQSX (SUBL <t> x y))
+		{
+			t := v.Type
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(is32BitInt(t) && isSigned(t)) {
+				goto endfed17beec8a91acf703412a621be598b
+			}
+			v.Op = OpAMD64MOVLQSX
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBL, TypeInvalid)
+			v0.Type = t
+			v0.AddArg(x)
+			v0.AddArg(y)
+			v.AddArg(v0)
+			return true
+		}
+		goto endfed17beec8a91acf703412a621be598b
+	endfed17beec8a91acf703412a621be598b:
+		;
+		// match: (Sub <t> x y)
+		// cond: is16BitInt(t) && !isSigned(t)
+		// result: (SUBW x y)
+		{
+			t := v.Type
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(is16BitInt(t) && !isSigned(t)) {
+				goto end19e512bb3fe27faedcfaca4e7d32407a
+			}
+			v.Op = OpAMD64SUBW
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AddArg(x)
+			v.AddArg(y)
+			return true
+		}
+		goto end19e512bb3fe27faedcfaca4e7d32407a
+	end19e512bb3fe27faedcfaca4e7d32407a:
+		;
+		// match: (Sub <t> x y)
+		// cond: is16BitInt(t) && isSigned(t)
+		// result: (MOVWQSX (SUBW <t> x y))
+		{
+			t := v.Type
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(is16BitInt(t) && isSigned(t)) {
+				goto endcee6f9096b64081440cef50a80d151a4
+			}
+			v.Op = OpAMD64MOVWQSX
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBW, TypeInvalid)
+			v0.Type = t
+			v0.AddArg(x)
+			v0.AddArg(y)
+			v.AddArg(v0)
+			return true
+		}
+		goto endcee6f9096b64081440cef50a80d151a4
+	endcee6f9096b64081440cef50a80d151a4:
+		;
+		// match: (Sub <t> x y)
+		// cond: is8BitInt(t) && !isSigned(t)
+		// result: (SUBB x y)
+		{
+			t := v.Type
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(is8BitInt(t) && !isSigned(t)) {
+				goto end69f1e29a3e27bbe7ca44cab8fd36b7f4
+			}
+			v.Op = OpAMD64SUBB
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AddArg(x)
+			v.AddArg(y)
+			return true
+		}
+		goto end69f1e29a3e27bbe7ca44cab8fd36b7f4
+	end69f1e29a3e27bbe7ca44cab8fd36b7f4:
+		;
+		// match: (Sub <t> x y)
+		// cond: is8BitInt(t) && isSigned(t)
+		// result: (MOVBQSX (SUBB <t> x y))
+		{
+			t := v.Type
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(is8BitInt(t) && isSigned(t)) {
+				goto endb3db498321be5204e51ee0a4ae0cabb4
+			}
+			v.Op = OpAMD64MOVBQSX
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBB, TypeInvalid)
+			v0.Type = t
+			v0.AddArg(x)
+			v0.AddArg(y)
+			v.AddArg(v0)
+			return true
+		}
+		goto endb3db498321be5204e51ee0a4ae0cabb4
+	endb3db498321be5204e51ee0a4ae0cabb4:
 	}
 	return false
 }

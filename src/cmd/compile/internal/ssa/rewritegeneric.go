@@ -6,20 +6,20 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 	switch v.Op {
 	case OpAdd:
 		// match: (Add <t> (Const [c]) (Const [d]))
-		// cond: is64BitInt(t)
+		// cond: t.IsInteger()
 		// result: (Const [c+d])
 		{
 			t := v.Type
 			if v.Args[0].Op != OpConst {
-				goto end279f4ea85ed10e5ffc5b53f9e060529b
+				goto end7b83e57566d24fbcf8448b8c871107d2
 			}
 			c := v.Args[0].AuxInt
 			if v.Args[1].Op != OpConst {
-				goto end279f4ea85ed10e5ffc5b53f9e060529b
+				goto end7b83e57566d24fbcf8448b8c871107d2
 			}
 			d := v.Args[1].AuxInt
-			if !(is64BitInt(t)) {
-				goto end279f4ea85ed10e5ffc5b53f9e060529b
+			if !(t.IsInteger()) {
+				goto end7b83e57566d24fbcf8448b8c871107d2
 			}
 			v.Op = OpConst
 			v.AuxInt = 0
@@ -28,8 +28,8 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.AuxInt = c + d
 			return true
 		}
-		goto end279f4ea85ed10e5ffc5b53f9e060529b
-	end279f4ea85ed10e5ffc5b53f9e060529b:
+		goto end7b83e57566d24fbcf8448b8c871107d2
+	end7b83e57566d24fbcf8448b8c871107d2:
 		;
 	case OpArrayIndex:
 		// match: (ArrayIndex (Load ptr mem) idx)
@@ -87,6 +87,52 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		}
 		goto end6d6321106a054a5984b2ed0acec52a5b
 	end6d6321106a054a5984b2ed0acec52a5b:
+		;
+	case OpConvNop:
+		// match: (ConvNop <t> (Const <t2> [a]))
+		// cond: t.IsInteger() && t2.IsInteger()
+		// result: (Const <t> [a])
+		{
+			t := v.Type
+			if v.Args[0].Op != OpConst {
+				goto end1ed826736fc9a5ea1292f425508965d5
+			}
+			t2 := v.Args[0].Type
+			a := v.Args[0].AuxInt
+			if !(t.IsInteger() && t2.IsInteger()) {
+				goto end1ed826736fc9a5ea1292f425508965d5
+			}
+			v.Op = OpConst
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Type = t
+			v.AuxInt = a
+			return true
+		}
+		goto end1ed826736fc9a5ea1292f425508965d5
+	end1ed826736fc9a5ea1292f425508965d5:
+		;
+	case OpConvert:
+		// match: (Convert <t> x)
+		// cond: t.IsInteger() && x.Type.IsInteger()
+		// result: (ConvNop <t> x)
+		{
+			t := v.Type
+			x := v.Args[0]
+			if !(t.IsInteger() && x.Type.IsInteger()) {
+				goto enddcdaa7eb62710e207179e3453f6766d8
+			}
+			v.Op = OpConvNop
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Type = t
+			v.AddArg(x)
+			return true
+		}
+		goto enddcdaa7eb62710e207179e3453f6766d8
+	enddcdaa7eb62710e207179e3453f6766d8:
 		;
 	case OpIsInBounds:
 		// match: (IsInBounds (Const [c]) (Const [d]))
@@ -380,6 +426,33 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		}
 		goto end061edc5d85c73ad909089af2556d9380
 	end061edc5d85c73ad909089af2556d9380:
+		;
+	case OpSub:
+		// match: (Sub <t> (Const [c]) (Const [d]))
+		// cond: t.IsInteger()
+		// result: (Const [c-d])
+		{
+			t := v.Type
+			if v.Args[0].Op != OpConst {
+				goto end069b5198a43359d6b4dfbc0b3703357c
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst {
+				goto end069b5198a43359d6b4dfbc0b3703357c
+			}
+			d := v.Args[1].AuxInt
+			if !(t.IsInteger()) {
+				goto end069b5198a43359d6b4dfbc0b3703357c
+			}
+			v.Op = OpConst
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c - d
+			return true
+		}
+		goto end069b5198a43359d6b4dfbc0b3703357c
+	end069b5198a43359d6b4dfbc0b3703357c:
 	}
 	return false
 }

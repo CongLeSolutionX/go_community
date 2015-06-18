@@ -50,8 +50,14 @@ const (
 	OpInvalid Op = iota
 
 	OpAMD64ADDQ
+	OpAMD64ADDL
+	OpAMD64ADDW
+	OpAMD64ADDB
 	OpAMD64ADDQconst
 	OpAMD64SUBQ
+	OpAMD64SUBL
+	OpAMD64SUBW
+	OpAMD64SUBB
 	OpAMD64SUBQconst
 	OpAMD64MULQ
 	OpAMD64MULQconst
@@ -102,9 +108,6 @@ const (
 	OpAMD64CALLstatic
 	OpAMD64CALLclosure
 	OpAMD64REPMOVSB
-	OpAMD64ADDL
-	OpAMD64ADDW
-	OpAMD64ADDB
 	OpAMD64InvertFlags
 
 	OpAdd
@@ -141,7 +144,13 @@ const (
 	OpStringPtr
 	OpStringLen
 	OpStoreReg8
+	OpStoreReg4
+	OpStoreReg2
+	OpStoreReg1
 	OpLoadReg8
+	OpLoadReg4
+	OpLoadReg2
+	OpLoadReg1
 	OpFwdRef
 )
 
@@ -150,6 +159,48 @@ var opcodeTable = [...]opInfo{
 
 	{
 		name: "ADDQ",
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "ADDL",
+		asm:  x86.AADDL,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "ADDW",
+		asm:  x86.AADDW,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "ADDB",
+		asm:  x86.AADDB,
 		reg: regInfo{
 			inputs: []regMask{
 				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
@@ -176,6 +227,48 @@ var opcodeTable = [...]opInfo{
 	{
 		name: "SUBQ",
 		asm:  x86.ASUBQ,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "SUBL",
+		asm:  x86.ASUBL,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "SUBW",
+		asm:  x86.ASUBW,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
+			},
+			clobbers: 0,
+			outputs: []regMask{
+				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+			},
+		},
+	},
+	{
+		name: "SUBB",
+		asm:  x86.ASUBB,
 		reg: regInfo{
 			inputs: []regMask{
 				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
@@ -823,48 +916,6 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name: "ADDL",
-		asm:  x86.AADDL,
-		reg: regInfo{
-			inputs: []regMask{
-				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
-				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
-			},
-			clobbers: 0,
-			outputs: []regMask{
-				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
-			},
-		},
-	},
-	{
-		name: "ADDW",
-		asm:  x86.AADDW,
-		reg: regInfo{
-			inputs: []regMask{
-				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
-				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
-			},
-			clobbers: 0,
-			outputs: []regMask{
-				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
-			},
-		},
-	},
-	{
-		name: "ADDB",
-		asm:  x86.AADDB,
-		reg: regInfo{
-			inputs: []regMask{
-				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
-				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .FP
-			},
-			clobbers: 0,
-			outputs: []regMask{
-				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
-			},
-		},
-	},
-	{
 		name: "InvertFlags",
 		reg: regInfo{
 			inputs:   []regMask{},
@@ -1180,7 +1231,61 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name: "StoreReg4",
+		reg: regInfo{
+			inputs:   []regMask{},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+		generic: true,
+	},
+	{
+		name: "StoreReg2",
+		reg: regInfo{
+			inputs:   []regMask{},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+		generic: true,
+	},
+	{
+		name: "StoreReg1",
+		reg: regInfo{
+			inputs:   []regMask{},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+		generic: true,
+	},
+	{
 		name: "LoadReg8",
+		reg: regInfo{
+			inputs:   []regMask{},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+		generic: true,
+	},
+	{
+		name: "LoadReg4",
+		reg: regInfo{
+			inputs:   []regMask{},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+		generic: true,
+	},
+	{
+		name: "LoadReg2",
+		reg: regInfo{
+			inputs:   []regMask{},
+			clobbers: 0,
+			outputs:  []regMask{},
+		},
+		generic: true,
+	},
+	{
+		name: "LoadReg1",
 		reg: regInfo{
 			inputs:   []regMask{},
 			clobbers: 0,
