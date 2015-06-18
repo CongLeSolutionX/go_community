@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e700ec3_fc41250a",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1847,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T17:32:54Z",
+      "side": 1,
+      "message": "Delete (or make it a real message).",
+      "revId": "2802ef9ba29086294e6cb20dda10b4b1ca8905c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_9c3ee995",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1851,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T17:32:54Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "2802ef9ba29086294e6cb20dda10b4b1ca8905c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_1ce97977",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T17:32:54Z",
+      "side": 1,
+      "message": "Drop. This isn\u0027t at all clear at the (two) call sites. Better to just put the isSecureScheme checks where you want them.",
+      "revId": "2802ef9ba29086294e6cb20dda10b4b1ca8905c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_bc272d68",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T17:32:54Z",
+      "side": 1,
+      "message": "This is really easy to misread at the uses: it looks like the code says, unconditionally, to allow insecure things. Why not just use *getInsecure directly? If the answer is that you want vcs.go to stay in sync with the copy in the subrepo, okay, but in that case make an explicit mode:\n\ntype securityMode int\n\nconst (\n    secure securityMode \u003d iota\n    insecure\n)\n\nand then\n\nrepoRootForImportPath(importPath string, security securityMode)\n\nrr, err :\u003d repoRootForImportPathStatic(importPath, \"\", security)\n\netc.",
+      "revId": "2802ef9ba29086294e6cb20dda10b4b1ca8905c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_9cfca937",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T17:32:54Z",
+      "side": 1,
+      "message": "if (isSecureScheme[scheme] || allowInsecure) \u0026\u0026 vcs.ping...",
+      "revId": "2802ef9ba29086294e6cb20dda10b4b1ca8905c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
