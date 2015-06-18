@@ -486,10 +486,6 @@ func goLookupCNAME(name string) (cname string, err error) {
 // Normally we let cgo use the C library resolver instead of depending
 // on our lookup code, so that Go and C get the same answers.
 func goLookupPTR(addr string) ([]string, error) {
-	names := lookupStaticAddr(addr)
-	if len(names) > 0 {
-		return names, nil
-	}
 	arpa, err := reverseaddr(addr)
 	if err != nil {
 		return nil, err
@@ -503,4 +499,22 @@ func goLookupPTR(addr string) ([]string, error) {
 		ptrs[i] = rr.(*dnsRR_PTR).Ptr
 	}
 	return ptrs, nil
+}
+
+func goLookupPTROrder(addr string, order hostLookupOrder) ([]string, error) {
+	if order == hostLookupFilesDNS || order == hostLookupFiles {
+		// Use entries from /etc/hosts if they match.
+		names := lookupStaticAddr(addr)
+		if len(names) > 0 || order == hostLookupFiles {
+			return names, nil
+		}
+	}
+	if order == hostLookupFilesDNS || order == hostLookupDNS || order == hostLookupDNSFiles {
+		names, err := goLookupPTR(addr)
+		if err == nil || order == hostLookupFilesDNS || order == hostLookupDNS {
+			return names, err
+		}
+	}
+	names := lookupStaticAddr(addr)
+	return names, nil
 }
