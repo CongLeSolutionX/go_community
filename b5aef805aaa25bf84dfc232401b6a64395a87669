@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7e48c6a0_3bb6572e",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-18T21:31:47Z",
+      "side": 1,
+      "message": "technically yes. but i think almost of getaddrinfo implementations follow the order of \"hosts database\" line in nsswitch.conf even in the case of service entries like the following:\n\nswitch (_nsdispatch(\u0026result, dtab, NSDB_HOSTS, \"getaddrinfo\",\n    default_dns_files, hostname, pai)) {\ncase NS_XXX: ...; break;\ncase NS_YYY: ...; break;\n}",
+      "parentUuid": "3e700ec3_3feb0f29",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "b5aef805aaa25bf84dfc232401b6a64395a87669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e700ec3_bf839f87",
         "filename": "src/net/lookup_unix.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-06-18T18:49:42Z",
       "side": 1,
       "message": "If I\u0027m reading glibc correctly, this lookup should be done for the DNS encoding of the name (e.g., 1.0.0.127.in-addr.arpa).",
+      "range": {
+        "startLine": 155,
+        "startChar": 39,
+        "endLine": 155,
+        "endChar": 50
+      },
+      "revId": "b5aef805aaa25bf84dfc232401b6a64395a87669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_7bc0df70",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-18T21:31:47Z",
+      "side": 1,
+      "message": "the same as lookupPort, we need a hint of getaddrinfo behaviour thus we use \"localhost\" to probe it.",
+      "parentUuid": "3e700ec3_ffa357fc",
       "range": {
         "startLine": 155,
         "startChar": 39,
