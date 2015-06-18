@@ -4,9 +4,15 @@
 
 package windows
 
+import (
+	"syscall"
+	"unsafe"
+)
+
 const (
 	FSCTL_SET_REPARSE_POINT    = 0x000900A4
 	IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003
+	IO_REPARSE_TAG_DEDUP       = 0x80000013
 
 	SYMLINK_FLAG_RELATIVE = 1
 )
@@ -61,4 +67,33 @@ type MountPointReparseBuffer struct {
 	// PrintNameLength is similar to SubstituteNameLength.
 	PrintNameLength uint16
 	PathBuffer      [1]uint16
+}
+
+type ReparseDataBuffer struct {
+	ReparseTag        uint32
+	ReparseDataLength uint16
+	Reserved          uint16
+
+	// GenericReparseBuffer
+	reparseBuffer byte
+}
+
+// ReadReparse extracts reparse data for the given path
+func ReadReparse(path string) (r *ReparseDataBuffer, err error) {
+	rdbbuf := make([]byte, syscall.MAXIMUM_REPARSE_DATA_BUFFER_SIZE)
+	fd, err := syscall.CreateFile(syscall.StringToUTF16Ptr(path), syscall.GENERIC_READ, 0, nil, syscall.OPEN_EXISTING,
+		syscall.FILE_FLAG_OPEN_REPARSE_POINT|syscall.FILE_FLAG_BACKUP_SEMANTICS, 0)
+	if err != nil {
+		return nil, err
+	}
+	defer syscall.CloseHandle(fd)
+
+	var bytesReturned uint32
+	err = syscall.DeviceIoControl(fd, syscall.FSCTL_GET_REPARSE_POINT, nil, 0, &rdbbuf[0], uint32(len(rdbbuf)), &bytesReturned, nil)
+
+	rdb := (*ReparseDataBuffer)(unsafe.Pointer(&rdbbuf[0]))
+	if err != nil {
+		return nil, err
+	}
+	return rdb, nil
 }

@@ -8,6 +8,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"internal/syscall/windows"
 )
 
 // A fileStat is the implementation of FileInfo returned by Stat and Lstat.
@@ -38,7 +40,17 @@ func (fs *fileStat) Mode() (m FileMode) {
 		m |= 0666
 	}
 	if fs.sys.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT != 0 {
-		return m | ModeSymlink
+		// Check if the REPARSE_POINT is indeed a symlink or
+		// mountpoint, to be considered as actual symlink.
+		// On windows a REPARSE_POINT might point to an actual
+		// file which is de-duped file created after NTFS
+		// deduplication.
+		rdb, _ := windows.ReadReparse(fs.path)
+		if rdb != nil {
+			if rdb.ReparseTag == syscall.IO_REPARSE_TAG_SYMLINK || rdb.ReparseTag == windows.IO_REPARSE_TAG_MOUNT_POINT {
+				return m | ModeSymlink
+			}
+		}
 	}
 	if fs.sys.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY != 0 {
 		m |= ModeDir | 0111
