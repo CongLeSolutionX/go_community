@@ -653,12 +653,21 @@ func (f *File) applyRelocationsARM(dst []byte, rels []byte) error {
 		sym := &symbols[symNo-1]
 
 		switch t {
+		case R_ARM_ABS32:
+			if rel.Off+4 >= uint32(len(dst)) {
+				continue
+			}
+			val := f.ByteOrder.Uint32(dst[rel.Off : rel.Off+4])
+			val += uint32(sym.Value)
+			f.ByteOrder.PutUint32(dst[rel.Off:rel.Off+4], val)
 		case R_ARM_REL32:
 			if rel.Off+4 >= uint32(len(dst)) {
 				continue
 			}
 			val := f.ByteOrder.Uint32(dst[rel.Off : rel.Off+4])
 			val += uint32(sym.Value)
+			// TODO: This is a PC-relative reloc; why don't
+			// we need val -= rel.Off?
 			f.ByteOrder.PutUint32(dst[rel.Off:rel.Off+4], val)
 		}
 	}
