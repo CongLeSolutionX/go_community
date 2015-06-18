@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e700ec3_dc4ea18a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T16:58:41Z",
+      "side": 1,
+      "message": "cmd/go: fetch git submodules in \u0027go get\u0027",
+      "revId": "245d2da76614c612f41733b74b617b06e4aff2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_7ca515bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-18T16:58:41Z",
+      "side": 1,
+      "message": "Avoid markdown, prefer imperatives to passive voice, avoid shell expansion syntax (it doesn\u0027t search well):\n\n    Change createCmd, downloadCmd, tagSyncCmd, tagSyncDefault\n    to allow multiple commands.\n\n    Fetch git submodules in \u0027go get\u0027, and update them in \u0027go get -u\u0027.\n\n    Fixes #7764.",
+      "revId": "245d2da76614c612f41733b74b617b06e4aff2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
