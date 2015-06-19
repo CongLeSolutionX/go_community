@@ -16,6 +16,24 @@
       "revId": "53a19ef3f36ece03f1c5156781dc4313bb8b38de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deae1265_4983c5df",
+        "filename": "src/debug/elf/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-19T01:10:27Z",
+      "side": 1,
+      "message": "Yeah, I figured that out.  The thing is, the test case added with that CL does not have any R_ARM_REL32 relocs.  I think that CL was just mistaken.  I will test a bit more.",
+      "parentUuid": "3e700ec3_19ff4be0",
+      "revId": "53a19ef3f36ece03f1c5156781dc4313bb8b38de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
