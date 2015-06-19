@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7e48c6a0_fbad0f21",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-19T06:59:11Z",
+      "side": 1,
+      "message": "ah, i missed that. thanks.",
+      "parentUuid": "3e700ec3_08bb6f30",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "b5aef805aaa25bf84dfc232401b6a64395a87669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e700ec3_bf839f87",
         "filename": "src/net/lookup_unix.go",
         "patchSetId": 1
@@ -160,6 +184,30 @@
         "startChar": 39,
         "endLine": 155,
         "endChar": 50
+      },
+      "revId": "b5aef805aaa25bf84dfc232401b6a64395a87669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_9ba04b2b",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-19T06:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e700ec3_bf839f87",
+      "range": {
+        "startLine": 155,
+        "startChar": 1,
+        "endLine": 155,
+        "endChar": 6
       },
       "revId": "b5aef805aaa25bf84dfc232401b6a64395a87669",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
