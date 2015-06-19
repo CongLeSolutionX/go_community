@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1edc2afc_5314d600",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-19T18:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e48c6a0_1b571b2e",
+      "range": {
+        "startLine": 327,
+        "startChar": 5,
+        "endLine": 327,
+        "endChar": 23
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e48c6a0_5b61a306",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-19T00:52:52Z",
       "side": 1,
       "message": "invert this and continue?",
+      "range": {
+        "startLine": 340,
+        "startChar": 5,
+        "endLine": 340,
+        "endChar": 52
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1edc2afc_131e4e1f",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-19T18:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e48c6a0_5b61a306",
       "range": {
         "startLine": 340,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1edc2afc_3323526a",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-19T18:28:11Z",
+      "side": 1,
+      "message": "It caches better. Added comment.",
+      "parentUuid": "7e48c6a0_bb654715",
+      "range": {
+        "startLine": 341,
+        "startChar": 6,
+        "endLine": 341,
+        "endChar": 45
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e48c6a0_9b620b09",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1edc2afc_f32dca49",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-19T18:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e48c6a0_9b620b09",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 41
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e48c6a0_9b904b59",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2015-06-19T00:52:52Z",
       "side": 1,
       "message": "// Refuse to import under a path containing \"vendor\".",
+      "range": {
+        "startLine": 465,
+        "startChar": 1,
+        "endLine": 465,
+        "endChar": 35
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1edc2afc_932a3e2f",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-19T18:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e48c6a0_9b904b59",
       "range": {
         "startLine": 465,
         "startChar": 1,
@@ -152,6 +272,30 @@
       "side": 1,
       "message": "I wondered about this, but I think there are actually four cases:\n1. at beginning, matches second switch case\n2. at end, matches neither switch case\n3. in middle, matches first switch case\n4. not in string, matches neither",
       "parentUuid": "7e48c6a0_3b89372e",
+      "range": {
+        "startLine": 522,
+        "startChar": 4,
+        "endLine": 522,
+        "endChar": 8
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1edc2afc_93fc7e37",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-19T18:28:11Z",
+      "side": 1,
+      "message": "It should say two. For internal (where this code was copied from) there are four cases: \"internal\", \"internal/x\", \"x/internal\", \"x/internal/x\". For vendor, there are only two: \"vendor/x\" and \"x/vendor/x\". The other two, \"vendor\" and \"x/vendor\", are clearly not the vendored copy of import \"\" (the empty import path), so I don\u0027t treat those as matching. Among other things, this will allow people to have a package or command named \"vendor\" if they so choose. That may help reduce breakage when we make this the default.\n\nI expanded the comment.",
+      "parentUuid": "deae1265_a9dfd9f4",
       "range": {
         "startLine": 522,
         "startChar": 4,
