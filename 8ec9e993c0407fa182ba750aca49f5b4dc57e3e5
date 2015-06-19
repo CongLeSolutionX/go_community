@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e48c6a0_1b571b2e",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "comment?",
+      "range": {
+        "startLine": 327,
+        "startChar": 5,
+        "endLine": 327,
+        "endChar": 23
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_5b61a306",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "invert this and continue?",
+      "range": {
+        "startLine": 340,
+        "startChar": 5,
+        "endLine": 340,
+        "endChar": 52
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_bb654715",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "why is this test necessary?",
+      "range": {
+        "startLine": 341,
+        "startChar": 6,
+        "endLine": 341,
+        "endChar": 45
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_9b620b09",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "I\u0027m having trouble deciphering this. Can you add a comment?",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 41
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_9b904b59",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "// Refuse to import under a path containing \"vendor\".",
+      "range": {
+        "startLine": 465,
+        "startChar": 1,
+        "endLine": 465,
+        "endChar": 35
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_3b89372e",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "three",
+      "range": {
+        "startLine": 522,
+        "startChar": 4,
+        "endLine": 522,
+        "endChar": 8
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_9b796ba9",
+        "filename": "src/cmd/go/vendor_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "if have \u003d\u003d want {\n return\n}",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e48c6a0_db73f3c4",
+        "filename": "src/cmd/go/vendor_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-19T00:52:52Z",
+      "side": 1,
+      "message": "put this in a function?",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 10
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
