@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deae1265_09a4ed8f",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-06-19T01:05:03Z",
+      "side": 1,
+      "message": "What we are worried about is that when you run this if Thechar \u003d\u003d \u00276\u0027 you will break people using amd64 Darwin.  Right now those systems work.  You are making a change that affects all builds, not just those with -buildmode\u003dc-shared.  We\u0027re worried that something subtle will break.",
+      "revId": "4b5b9f30e361b512ebd39b1474a3c72a3553e586",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
