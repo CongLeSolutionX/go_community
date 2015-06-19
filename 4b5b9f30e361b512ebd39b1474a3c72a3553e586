@@ -16,6 +16,24 @@
       "revId": "4b5b9f30e361b512ebd39b1474a3c72a3553e586",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e700ec3_384b202e",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 6605
+      },
+      "writtenOn": "2015-06-19T17:16:25Z",
+      "side": 1,
+      "message": "Sorry, my bad, I thought that this is a problem for all external linkings on Darwin, but when I run: \"go build -ldflags\u003d\"-linkmode\u003dexternal\" test.go\", it works.\n\nI\u0027ve changed the code to look for -buildmode\u003dc-shared, where the linking fails without this change.",
+      "parentUuid": "deae1265_09a4ed8f",
+      "revId": "4b5b9f30e361b512ebd39b1474a3c72a3553e586",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
