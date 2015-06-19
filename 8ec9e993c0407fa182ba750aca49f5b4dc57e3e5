@@ -140,6 +140,30 @@
     },
     {
       "key": {
+        "uuid": "deae1265_a9dfd9f4",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 7185
+      },
+      "writtenOn": "2015-06-19T00:59:39Z",
+      "side": 1,
+      "message": "I wondered about this, but I think there are actually four cases:\n1. at beginning, matches second switch case\n2. at end, matches neither switch case\n3. in middle, matches first switch case\n4. not in string, matches neither",
+      "parentUuid": "7e48c6a0_3b89372e",
+      "range": {
+        "startLine": 522,
+        "startChar": 4,
+        "endLine": 522,
+        "endChar": 8
+      },
+      "revId": "8ec9e993c0407fa182ba750aca49f5b4dc57e3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e48c6a0_9b796ba9",
         "filename": "src/cmd/go/vendor_test.go",
         "patchSetId": 4
