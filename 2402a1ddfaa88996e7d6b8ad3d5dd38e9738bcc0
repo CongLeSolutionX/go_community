@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "dec53225_779ea2e9",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-06-22T18:22:32Z",
+      "side": 1,
+      "message": "You\u0027re completely right, I have examined why adding it to `consumeAtom` breaks existing tests:\n\nIssue #4938 allows an un-quoted  `phrase` in `display-name` to have a trailing dot. And `consumePhrase` method uses the `consumeAtom` function. So checking on the trailing/starting dot on a `dot-atom` fixes everything for the `local-part` of the address, but breaks a unit tests for an invalid `display-name`.\n\nHow do you suggest I fix this?\nAdding a parameter to the `consumeAtom` which sets whether the function should be persmissive or not? Or how should I fix this?",
+      "parentUuid": "9e665a35_140a5491",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
