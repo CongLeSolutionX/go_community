@@ -360,7 +360,15 @@ func vendoredImportPath(parent *Package, path string) (found string, searched []
 	}
 	dir := filepath.Clean(parent.Dir)
 	root := filepath.Clean(parent.Root)
-	if !strings.HasPrefix(dir, root) || len(dir) <= len(root) || dir[len(root)] != filepath.Separator {
+	dirInRoot := false
+	if runtime.GOOS == "windows" {
+		// Windows ignores case. This may not usually be a problem but often
+		// the drive letter is specified in a different case.
+		dirInRoot = strings.HasPrefix(strings.ToLower(dir), strings.ToLower(root))
+	} else {
+		dirInRoot = strings.HasPrefix(dir, root)
+	}
+	if !dirInRoot || len(dir) <= len(root) || dir[len(root)] != filepath.Separator {
 		fatalf("invalid vendoredImportPath: dir=%q root=%q separator=%q", dir, root, string(filepath.Separator))
 	}
 	vpath := "vendor/" + path
