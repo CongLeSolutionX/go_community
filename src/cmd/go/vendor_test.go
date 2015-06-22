@@ -53,6 +53,20 @@ func TestVendorRun(t *testing.T) {
 	tg.grepStdout("hello, world", "missing hello world output")
 }
 
+func TestVendorGOPATH(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	gopath := filepath.Join(tg.pwd(), "testdata")
+	vol := filepath.VolumeName(gopath)
+	gopath = strings.ToLower(vol) + gopath[len(vol):]
+
+	tg.setenv("GOPATH", gopath)
+	tg.setenv("GO15VENDOREXPERIMENT", "1")
+	tg.cd(filepath.Join(tg.pwd(), "testdata/src/vend/hello"))
+	tg.run("run", "hello.go")
+	tg.grepStdout("hello, world", "missing hello world output")
+}
+
 func TestVendorTest(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
