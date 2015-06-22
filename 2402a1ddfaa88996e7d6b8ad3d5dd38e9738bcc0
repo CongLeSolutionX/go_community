@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9e665a35_140a5491",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-22T04:45:42Z",
+      "side": 1,
+      "message": "You\u0027re scattering code that should be centralised, making this harder to maintain in the long term. This highlighted code is enforcing a restriction on dot-atom, which is the responsibility of the consumeAtom method.",
+      "parentUuid": "799460c1_cfe2ad15",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
