@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef6069f_b40706cf",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-22T21:08:26Z",
+      "side": 0,
+      "message": "I\u0027m really sorry, but removing this is wrong too.\n\nThe code last week had two checks here: one that the shift count was not negative, and one that the value being shifted did not have the high bit set. This CL changed the condition to check the shift count but is reporting about the value.\n\nThe point of checking the value was so that people would not silently get unsigned shift when they meant signed shift: instead any shift with the high bit set is an error.\n\nWe need tests for this code.",
+      "revId": "98c9e9e74ffbdaeb7ff4af8a478d502123014626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
