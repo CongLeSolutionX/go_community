@@ -344,3 +344,8 @@ func ChainCap() {
 	default:
 	}
 }
+
+func ChainComplement(a byte) byte {
+	return  1 + ^^^^^^^^^^^^a
+}
+

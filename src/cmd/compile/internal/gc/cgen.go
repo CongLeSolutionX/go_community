@@ -381,12 +381,12 @@ func cgen_wb(n, res *Node, wb bool) {
 		a := Thearch.Optoas(OXOR, nl.Type)
 
 		var n1 Node
-		Regalloc(&n1, nl.Type, nil)
+		Tempname(&n1, nl.Type)
 		Cgen(nl, &n1)
 		var n2 Node
 		Nodconst(&n2, nl.Type, -1)
 		Thearch.Gins(a, &n2, &n1)
-		cgen_norm(n, &n1, res)
+		Thearch.Gmove(&n1, res)
 		return
 
 	case OMINUS:
