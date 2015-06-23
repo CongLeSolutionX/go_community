@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1edc2afc_c46c7efd",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-06-23T13:31:51Z",
+      "side": 1,
+      "message": "I\u0027m likely missing some subtlety of this, but I figured I\u0027d put it up for a review anyway.  I welcome any comments, and more than willing to abandon.",
+      "revId": "7ec2fcf5ae946bae6be2f26f097b0cb7a2ef446d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
