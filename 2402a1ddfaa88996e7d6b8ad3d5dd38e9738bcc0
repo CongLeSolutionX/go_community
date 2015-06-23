@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "feb116f2_d7ec7c06",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 7490
+      },
+      "writtenOn": "2015-06-23T20:11:08Z",
+      "side": 1,
+      "message": "I moved all the checks to the `consumeAtom` function and added the `permissive` flag. There was already a test for issue #4938 so I didn\u0027t write others.",
+      "parentUuid": "9e665a35_dad00540",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
