@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec53225_777d42de",
+        "filename": "src/cmd/go/http.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-23T07:35:19Z",
+      "side": 1,
+      "message": "\u0026http.Client\n\nTo match the type of httpClient, and because we don\u0027t really ever use http.Client as a value type.",
+      "revId": "3884412c7e4e180ca6e690a592560651d82e2f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec53225_1782be51",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-23T07:35:19Z",
+      "side": 1,
+      "message": "little comments?",
+      "revId": "3884412c7e4e180ca6e690a592560651d82e2f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
