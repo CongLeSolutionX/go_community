@@ -67,6 +67,24 @@
       "revId": "a3d4b0b36d44f8edfc000083682054caa501a86f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1edc2afc_846d16af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-23T18:21:01Z",
+      "side": 1,
+      "message": "I\u0027m interested in this as well.  Removing the inlining only saves 2 instructions as far as I can tell.  It might be better to not inline, as then we get the improvement for both byte and string comparisons.  But it would be good to measure and check that assumption.",
+      "parentUuid": "deae1265_8f653dc3",
+      "revId": "a3d4b0b36d44f8edfc000083682054caa501a86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
