@@ -26,8 +26,8 @@ func Must(t *Template, err error) *Template {
 }
 
 // ParseFiles creates a new Template and parses the template definitions from
-// the named files. The returned template's name will have the (base) name and
-// (parsed) contents of the first file. There must be at least one file.
+// the named files. The returned template's name will have the base name and
+// parsed contents of the first file. There must be at least one file.
 // If an error occurs, parsing stops and the returned *Template is nil.
 func ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(nil, filenames...)
@@ -36,6 +36,11 @@ func ParseFiles(filenames ...string) (*Template, error) {
 // ParseFiles parses the named files and associates the resulting templates with
 // t. If an error occurs, parsing stops and the returned template is nil;
 // otherwise it is t. There must be at least one file.
+// Since the templates created by ParseFiles are named by the base
+// names of the argument files, t should usually have the name of one
+// of the (base) names of the files. If it does not, and t is initially empty,
+// t.Execute will fail; in that case use t.ExecuteTemplate to identify a
+// valid template.
 func (t *Template) ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(t, filenames...)
 }
