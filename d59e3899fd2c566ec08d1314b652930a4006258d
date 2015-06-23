@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef6069f_2566424b",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-23T03:40:47Z",
+      "side": 1,
+      "message": "s/divide/divide of value/, to match message for right shift?",
+      "revId": "d59e3899fd2c566ec08d1314b652930a4006258d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
