@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e665a35_1abb9d14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-23T02:57:57Z",
+      "side": 1,
+      "message": "These is no package named os/syscall, just use comma to separate package names, like\n\nos, syscall: ...",
+      "revId": "a5f0b733ebe99c5c28392d9ded10d4af1f3f3e8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e665a35_7ac0d170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-23T02:57:57Z",
+      "side": 1,
+      "message": "Move \"Fixes #10935\" to the very end of CL description. On a separate line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 79,
+        "endLine": 7,
+        "endChar": 91
+      },
+      "revId": "a5f0b733ebe99c5c28392d9ded10d4af1f3f3e8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e665a35_775bca7e",
+        "filename": "src/syscall/ztypes_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-23T02:57:57Z",
+      "side": 1,
+      "message": "syscall package is frozen for changes like these - we are not allowed to export any new consts/vars/functions out of it. Please, revert changes in this file.",
+      "revId": "a5f0b733ebe99c5c28392d9ded10d4af1f3f3e8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e665a35_b754424e",
+        "filename": "test/fixedbugs/issue10935.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-23T02:57:57Z",
+      "side": 1,
+      "message": "I think this is a wrong approach for testing. No-one is going to call this program of yours with parameters you need (during automatic build). You should create new test in os package instead - see, for example, TestStatJunctionLink in os_windows_test.go. Something similar. Create all files you need during the test yourself, or, if you know where you can find such file on every Windows system, use them instead.\n\nGood test is important for this codereview, because the test would be ultimate judge of you proposed code change. The test should fail if it is run against current tip, but succeed once this CL is applied.",
+      "revId": "a5f0b733ebe99c5c28392d9ded10d4af1f3f3e8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
