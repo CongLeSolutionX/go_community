@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deae1265_af6279b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-23T00:04:25Z",
+      "side": 1,
+      "message": "Please base your changes on HEAD, rather than the release branch. Release branches are used only for cutting releases and cherry-picking critical fixes for point releases.",
+      "revId": "a3d4b0b36d44f8edfc000083682054caa501a86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deae1265_6f6d61ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-23T00:04:25Z",
+      "side": 1,
+      "message": "Present tense: s/improved/improve/\n\ns/()//\n\nNo trailing period, please",
+      "revId": "a3d4b0b36d44f8edfc000083682054caa501a86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deae1265_cf5b3503",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-23T00:04:25Z",
+      "side": 1,
+      "message": "improvement\n\nPlease include your performance changes as output from benchcmp (go get golang.org/x/tools/cmd/benchcmp) or, better, benchstat (go get rsc.io/benchstat). That is much more precise than a range.\n\nDo these performance changes vary significantly across different x86 hardware generations?",
+      "revId": "a3d4b0b36d44f8edfc000083682054caa501a86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deae1265_8f653dc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-23T00:04:25Z",
+      "side": 1,
+      "message": "It would be helpful for reviewers if you could separate out the inlining change from other changes. That will make it clearer (a) what the other changes are and (b) how each of the changes contributes to the performance impact.\n\nInlining in particular is unfortunate from a maintenance perspective, so it would be good to know how it contributes to the performance improvement.",
+      "revId": "a3d4b0b36d44f8edfc000083682054caa501a86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
