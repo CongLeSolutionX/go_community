@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "9e665a35_dad00540",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-23T03:04:55Z",
+      "side": 1,
+      "message": "Ugh. This is the mess when such changes are made randomly like that.\n\nYes, let\u0027s add a `permissive` arg to consumeAtom. If it is true then it\u0027ll parse everything as normal, but accept double dots and trailing dots too; if it is false, it does this highlighted checking. Add some unit tests for this.",
+      "parentUuid": "dec53225_779ea2e9",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 4
+      },
+      "revId": "2402a1ddfaa88996e7d6b8ad3d5dd38e9738bcc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad213187_94e0b216",
         "filename": "src/net/mail/message.go",
         "patchSetId": 3
