@@ -29,6 +29,7 @@ type common struct {
 type Template struct {
 	name string
 	*parse.Tree
+	commonMu sync.RWMutex
 	*common
 	leftDelim  string
 	rightDelim string
@@ -52,6 +53,7 @@ func (t *Template) Name() string {
 // delimiters. The association, which is transitive, allows one template to
 // invoke another with a {{template}} action.
 func (t *Template) New(name string) *Template {
+	t.init()
 	nt := &Template{
 		name:       name,
 		common:     t.common,
@@ -63,6 +65,20 @@ func (t *Template) New(name string) *Template {
 
 // init guarantees that t has a valid common structure.
 func (t *Template) init() {
+	// init is called from every exported method, to handle
+	// the case where users use new(Template) instead of template.New
+	// to construct a template group.
+	// We expect that the overwhelmingly common case is
+	// that t.common is already initialized, so we use an
+	// rwmutex to avoid serializing parallel execution.
+	t.commonMu.RLock()
+	if t.common != nil {
+		t.commonMu.RUnlock()
+		return
+	}
+	t.commonMu.RUnlock()
+
+	t.commonMu.Lock()
 	if t.common == nil {
 		c := new(common)
 		c.tmpl = make(map[string]*Template)
@@ -70,6 +86,7 @@ func (t *Template) init() {
 		c.execFuncs = make(map[string]reflect.Value)
 		t.common = c
 	}
+	t.commonMu.Unlock()
 }
 
 // Clone returns a duplicate of the template, including all associated
@@ -79,6 +96,7 @@ func (t *Template) init() {
 // common templates and use them with variant definitions for other templates
 // by adding the variants after the clone is made.
 func (t *Template) Clone() (*Template, error) {
+	t.init()
 	nt := t.copy(nil)
 	nt.init()
 	for k, v := range t.tmpl {
@@ -90,13 +108,15 @@ func (t *Template) Clone() (*Template, error) {
 		tmpl := v.copy(nt.common)
 		nt.tmpl[k] = tmpl
 	}
-	t.muFuncs.RLock()
-	defer t.muFuncs.RUnlock()
-	for k, v := range t.parseFuncs {
-		nt.parseFuncs[k] = v
-	}
-	for k, v := range t.execFuncs {
-		nt.execFuncs[k] = v
+	if t.common != nil {
+		t.muFuncs.RLock()
+		defer t.muFuncs.RUnlock()
+		for k, v := range t.parseFuncs {
+			nt.parseFuncs[k] = v
+		}
+		for k, v := range t.execFuncs {
+			nt.execFuncs[k] = v
+		}
 	}
 	return nt, nil
 }
@@ -115,6 +135,7 @@ func (t *Template) copy(c *common) *Template {
 // If the template does not already exist, it will create a new one.
 // It is an error to reuse a name except to overwrite an empty template.
 func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error) {
+	t.init()
 	// If the name is the name of this template, overwrite this template.
 	// The associate method checks it's not a redefinition.
 	nt := t
@@ -132,6 +153,7 @@ func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error
 
 // Templates returns a slice of defined templates associated with t.
 func (t *Template) Templates() []*Template {
+	t.init()
 	// Return a slice so we don't expose the map.
 	m := make([]*Template, 0, len(t.tmpl))
 	for _, v := range t.tmpl {
@@ -146,6 +168,7 @@ func (t *Template) Templates() []*Template {
 // corresponding default: {{ or }}.
 // The return value is the template, so calls can be chained.
 func (t *Template) Delims(left, right string) *Template {
+	t.init()
 	t.leftDelim = left
 	t.rightDelim = right
 	return t
@@ -156,6 +179,7 @@ func (t *Template) Delims(left, right string) *Template {
 // type. However, it is legal to overwrite elements of the map. The return
 // value is the template, so calls can be chained.
 func (t *Template) Funcs(funcMap FuncMap) *Template {
+	t.init()
 	t.muFuncs.Lock()
 	defer t.muFuncs.Unlock()
 	addValueFuncs(t.execFuncs, funcMap)
@@ -166,6 +190,7 @@ func (t *Template) Funcs(funcMap FuncMap) *Template {
 // Lookup returns the template with the given name that is associated with t.
 // It returns nil if there is no such template or the template has no definition.
 func (t *Template) Lookup(name string) *Template {
+	t.init()
 	return t.tmpl[name]
 }
 
@@ -177,6 +202,7 @@ func (t *Template) Lookup(name string) *Template {
 // (In multiple calls to Parse with the same receiver template, only one call
 // can contain text other than space, comments, and template definitions.)
 func (t *Template) Parse(text string) (*Template, error) {
+	t.init()
 	t.muFuncs.RLock()
 	trees, err := parse.Parse(t.name, text, t.leftDelim, t.rightDelim, t.parseFuncs, builtins)
 	t.muFuncs.RUnlock()

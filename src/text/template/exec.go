@@ -146,6 +146,7 @@ func (t *Template) Execute(wr io.Writer, data interface{}) (err error) {
 // it returns the empty string. For generating an error message here
 // and in html/template.
 func (t *Template) DefinedTemplates() string {
+	t.init()
 	var b bytes.Buffer
 	for name, tmpl := range t.tmpl {
 		if tmpl.Tree == nil || tmpl.Root == nil {
