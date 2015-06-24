@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fea4b6cc_650082be",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-24T15:25:04Z",
+      "side": 1,
+      "message": "// Stderr holds the initial standard error output,\n// if standard error was not otherwise being collected.",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea4b6cc_45e45ea4",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-24T15:25:04Z",
+      "side": 1,
+      "message": "Not quite true (see line 396). ExitError doesn\u0027t make sense there, so probably this comment just needs to be adjusted.",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea4b6cc_25e15a94",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-24T15:25:04Z",
+      "side": 1,
+      "message": "Since the bytes.Buffer is growing dynamically, I think we can give it more than 4k. Maybe 64k?\n\nAlso, only do this if c.Stderr \u003d\u003d nil. Maybe the caller set up Stderr already. And then remember whether we did this so that we can set the Stderr \u003d stderr.Bytes() only if we were keeping it.",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea4b6cc_a5ed6a84",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-24T15:25:04Z",
+      "side": 1,
+      "message": "This is going to return 0, nil for a non-0 length write once the limit is reached. That may cause the caller to loop or die. Should test this and fix.",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
