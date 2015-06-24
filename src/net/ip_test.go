@@ -7,6 +7,7 @@ package net
 import (
 	"reflect"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -48,6 +49,49 @@ func TestParseIP(t *testing.T) {
 		var out IP
 		if err := out.UnmarshalText([]byte(tt.in)); !reflect.DeepEqual(out, tt.out) || (tt.out == nil) != (err != nil) {
 			t.Errorf("IP.UnmarshalText(%q) = %v, %v, want %v", tt.in, out, err, tt.out)
+		}
+	}
+}
+
+func TestLookupWithIP(t *testing.T) {
+	_, err := LookupIP("")
+	if err == nil {
+		t.Errorf(`LookupIP("") succeeded, should fail`)
+	}
+	_, err = LookupHost("")
+	if err == nil {
+		t.Errorf(`LookupIP("") succeeded, should fail`)
+	}
+
+	// Test that LookupHost and LookupIP, which normally
+	// expect host names, work with IP addresses.
+	for _, tt := range parseIPTests {
+		// As long as ParseIP rejects it, we can't control what the host resolver does.
+		// In the case of IPv6 addresses with %foo suffixes, the host resolver accepts them.
+		// So don't insist on getting an error for those.
+		if tt.out == nil && strings.Contains(tt.in, "%") {
+			continue
+		}
+		addrs, err := LookupHost(tt.in)
+		if tt.out != nil {
+			if len(addrs) != 1 || addrs[0] != tt.in || err != nil {
+				t.Errorf("LookupHost(%q) = %v, %v, want %v, nil", tt.in, addrs, err, []string{tt.in})
+			}
+		} else {
+			if err == nil {
+				t.Errorf("LookupHost(%q) = %v, want error", tt.in, addrs)
+			}
+		}
+
+		ips, err := LookupIP(tt.in)
+		if tt.out != nil {
+			if len(ips) != 1 || !reflect.DeepEqual(ips[0], tt.out) || err != nil {
+				t.Errorf("LookupIP(%q) = %v, %v, want %v, nil", tt.in, ips, err, []IP{tt.out})
+			}
+		} else {
+			if err == nil {
+				t.Errorf("LookupIP(%q) = %v, want error", tt.in, ips)
+			}
 		}
 	}
 }
