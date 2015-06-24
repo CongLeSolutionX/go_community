@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e9bae8e_e17c86e4",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-24T16:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed0a495c_58853155",
+      "revId": "bff459bfe63c74b117c375be04fd26fd1949dfc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed0a495c_d8700106",
         "filename": "src/runtime/race/testdata/sync_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-13T21:33:34Z",
       "side": 1,
       "message": "Does it help to runtime.Gosched here to force the x\u003d2 to happen before the mu.Lock?",
+      "revId": "bff459bfe63c74b117c375be04fd26fd1949dfc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e9bae8e_a1867e62",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-24T16:47:27Z",
+      "side": 1,
+      "message": "time.Sleep is better than runtime.Gosched, and it is already present here",
+      "parentUuid": "ed0a495c_d8700106",
       "revId": "bff459bfe63c74b117c375be04fd26fd1949dfc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
