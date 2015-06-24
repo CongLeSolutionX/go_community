@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee0623c_22f06edb",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-24T22:25:59Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 106,
+        "endChar": 22
+      },
+      "revId": "e75cc093f4e90f468122e29a072eb98cd5e75c67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
