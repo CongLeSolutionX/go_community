@@ -16,6 +16,24 @@
       "revId": "d8e7eec71c39d4bf4123661f1726fc6288391e8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e7a8634_eb08f162",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-06-24T22:57:11Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to use filepath.Rel. It would accept invalid paths like \".\". We could compare volume name separately from the path and not use ToLower.",
+      "parentUuid": "9e665a35_b7a6020e",
+      "revId": "d8e7eec71c39d4bf4123661f1726fc6288391e8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
