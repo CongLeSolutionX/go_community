@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe0bd6a6_6aa4d73e",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-24T18:28:51Z",
+      "side": 1,
+      "message": "That\u0027s a data point, not a plan, I hope, since the String method on types is not injective. :)",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0bd6a6_aa176fd2",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-24T18:28:51Z",
+      "side": 1,
+      "message": "if checkedptr(b) !\u003d nil { ?",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0bd6a6_6af977f7",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-24T18:28:51Z",
+      "side": 1,
+      "message": "You can recursively remove any chain of fixed offset calculations, i.e., struct fields and array elements, even with non-constant indices, such as x.a.b[i].c.  If the base value x denotes the address of a local or global variable x, then it is non-nil.  I would expect this gives a a huge benefit.",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0bd6a6_ca12a3e4",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-06-24T18:28:51Z",
+      "side": 1,
+      "message": "I know we usually reject failure cases first, but conditions like this are easier to read when expressed in the positive:\n\nif b.Kind \u003d\u003d BlockIf \u0026\u0026 b.Control.Op \u003d\u003d OpIsNonNil {\n    return b.Control.Args[0]\n}\nreturn nil",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
