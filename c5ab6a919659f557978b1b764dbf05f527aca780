@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be2b1e16_d5b59c21",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-24T19:31:26Z",
+      "side": 1,
+      "message": "Yep. :) Clarified the comment.",
+      "parentUuid": "fe0bd6a6_6aa4d73e",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe0bd6a6_aa176fd2",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-24T18:28:51Z",
       "side": 1,
       "message": "if checkedptr(b) !\u003d nil { ?",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be2b1e16_f5ba180f",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-24T19:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0bd6a6_aa176fd2",
       "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "be2b1e16_95bf24fe",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-24T19:31:26Z",
+      "side": 1,
+      "message": "An earlier and much more complicated version of this pass did this, but I didn\u0027t have enough of the base cases (args, globals, addr-of-local) covered for it to matter. Added a comment; thanks.",
+      "parentUuid": "fe0bd6a6_6af977f7",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe0bd6a6_ca12a3e4",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-24T18:28:51Z",
       "side": 1,
       "message": "I know we usually reject failure cases first, but conditions like this are easier to read when expressed in the positive:\n\nif b.Kind \u003d\u003d BlockIf \u0026\u0026 b.Control.Op \u003d\u003d OpIsNonNil {\n    return b.Control.Args[0]\n}\nreturn nil",
+      "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be2b1e16_55caec8f",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-24T19:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0bd6a6_ca12a3e4",
       "revId": "c5ab6a919659f557978b1b764dbf05f527aca780",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
