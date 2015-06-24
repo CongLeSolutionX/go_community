@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe0bd6a6_ca562330",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-24T17:46:05Z",
+      "side": 1,
+      "message": "What\u0027s the point of the outer go here? Since this is supposed to parallel RaceCond, I would expect it to be structured as\n\nfunc TestNoRaceCond(t *testing.T) {\n ...\n go func() {\n   x \u003d 1\n   ...\n }()\n mu.Lock()\n for condition !\u003d 1 {\n  cond.Wait()\n }\n ...\n}",
+      "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0bd6a6_4a4c7390",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-24T17:46:05Z",
+      "side": 1,
+      "message": "Consider adding // Enter cond.Wait loop",
+      "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0bd6a6_2a493f80",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-24T17:46:05Z",
+      "side": 1,
+      "message": "and // Exit cond.Wait loop",
+      "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
