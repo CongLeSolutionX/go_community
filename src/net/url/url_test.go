@@ -1074,6 +1074,34 @@ func TestParseFailure(t *testing.T) {
 	}
 }
 
+func TestParseAuthority(t *testing.T) {
+	tests := []struct {
+		in      string
+		wantErr bool
+	}{
+		{"http://[::1]", false},
+		{"http://[::1]:80", false},
+		{"http://[::1]:namedport", true}, // rfc3986 3.2.3
+		{"http://[::1]/", false},
+		{"http://[::1]a", true},
+		{"http://[::1]%23", true},
+		{"http://[::1%25en0]", false}, // valid zone id
+		{"http://%41:8080/", true},    // TODO: arguably we should accept reg-name with %xx
+	}
+	for _, tt := range tests {
+		u, err := Parse(tt.in)
+		if tt.wantErr {
+			if err == nil {
+				t.Errorf("Parse(%q) = %#v; want an error", tt.in, u)
+			}
+			continue
+		}
+		if err != nil {
+			t.Logf("Parse(%q) = %v; want no error", tt.in, err)
+		}
+	}
+}
+
 type shouldEscapeTest struct {
 	in     byte
 	mode   encoding
