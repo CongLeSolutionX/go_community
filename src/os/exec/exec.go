@@ -347,6 +347,11 @@ func (c *Cmd) Start() error {
 // An ExitError reports an unsuccessful exit by a command.
 type ExitError struct {
 	*os.ProcessState
+
+	// Stderr holds the standard error output from the Cmd.Output
+	// method if standard error was not otherwise being collected.
+	// The collected output may be truncated.
+	Stderr []byte
 }
 
 func (e *ExitError) Error() string {
@@ -392,21 +397,32 @@ func (c *Cmd) Wait() error {
 	if err != nil {
 		return err
 	} else if !state.Success() {
-		return &ExitError{state}
+		return &ExitError{ProcessState: state}
 	}
 
 	return copyError
 }
 
 // Output runs the command and returns its standard output.
+// Any returned error will usually be of type *ExitError.
+// If c.Stderr was nil, Output populates ExitError.Stderr.
 func (c *Cmd) Output() ([]byte, error) {
 	if c.Stdout != nil {
 		return nil, errors.New("exec: Stdout already set")
 	}
-	var b bytes.Buffer
-	c.Stdout = &b
+	var stdout, stderr bytes.Buffer
+	c.Stdout = &stdout
+
+	captureErr := c.Stderr == nil
+	if captureErr {
+		c.Stderr = &limitWriter{&stderr, 64 << 10}
+	}
+
 	err := c.Run()
-	return b.Bytes(), err
+	if err != nil && captureErr {
+		err.(*ExitError).Stderr = stderr.Bytes()
+	}
+	return stdout.Bytes(), err
 }
 
 // CombinedOutput runs the command and returns its combined standard
@@ -513,4 +529,22 @@ func (c *Cmd) StderrPipe() (io.ReadCloser, error) {
 	c.closeAfterStart = append(c.closeAfterStart, pw)
 	c.closeAfterWait = append(c.closeAfterWait, pr)
 	return pr, nil
+}
+
+type limitWriter struct {
+	w      io.Writer
+	remain int
+}
+
+func (lw *limitWriter) Write(p []byte) (n int, err error) {
+	n = len(p)
+	if len(p) > lw.remain {
+		p = p[:lw.remain]
+	}
+	n0, err := lw.w.Write(p)
+	lw.remain -= n0
+	if err != nil {
+		n = n0
+	}
+	return
 }
