@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9eb57afa_df8ddf39",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-24T17:51:47Z",
+      "side": 1,
+      "message": "This code is a very old translation of even older race test suite. Original intentions got lost long ago :)\nRemoved the outer goroutine, indeed seems to be useless.",
+      "parentUuid": "fe0bd6a6_ca562330",
+      "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe0bd6a6_4a4c7390",
         "filename": "src/runtime/race/testdata/sync_test.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9eb57afa_3f9e036b",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-24T17:51:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0bd6a6_4a4c7390",
+      "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe0bd6a6_2a493f80",
         "filename": "src/runtime/race/testdata/sync_test.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-06-24T17:46:05Z",
       "side": 1,
       "message": "and // Exit cond.Wait loop",
+      "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eb57afa_5f91cf5a",
+        "filename": "src/runtime/race/testdata/sync_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-24T17:51:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0bd6a6_2a493f80",
       "revId": "fce13e0a6f4e62e0d1050f057c4bd91fff256d5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
