@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eb57afa_1cea35e8",
+        "filename": "src/cmd/go/testdata/failssh/ssh",
+        "patchSetId": 16
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-24T06:34:44Z",
+      "side": 1,
+      "message": "and I guess it\u0027ll fail for other reasons on Windows",
+      "revId": "90d0dfbf92291be18ed8c0f4e7babea14301940e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
