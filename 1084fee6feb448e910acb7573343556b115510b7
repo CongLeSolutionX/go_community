@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ef0aadb_106344be",
+        "filename": "test/fixedbugs/issue11369.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-06-24T23:06:52Z",
+      "side": 1,
+      "message": "Ah yes, will fix.",
+      "parentUuid": "3ec48e7c_39fd0f32",
+      "revId": "1084fee6feb448e910acb7573343556b115510b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ded45230_f63c4085",
         "filename": "test/fixedbugs/issue11369.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-24T16:14:13Z",
       "side": 1,
       "message": "Please gofmt this file.",
+      "revId": "1084fee6feb448e910acb7573343556b115510b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_67e672d8",
+        "filename": "test/fixedbugs/issue11369.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-06-24T23:06:52Z",
+      "side": 1,
+      "message": "Just added it to my on write hook.",
+      "parentUuid": "ded45230_f63c4085",
       "revId": "1084fee6feb448e910acb7573343556b115510b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
