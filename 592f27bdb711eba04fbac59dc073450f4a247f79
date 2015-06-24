@@ -70,6 +70,30 @@
       "revId": "592f27bdb711eba04fbac59dc073450f4a247f79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ec48e7c_993bfb89",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-24T06:20:50Z",
+      "side": 1,
+      "message": "I am pretty sure this is the wrong fix. A variable ($X) is not an identifier, exactly, so saying it is an identifier is incorrect.  I believe the correct return value in this case is nil, which gives the same error but doesn\u0027t treat X as a function.",
+      "parentUuid": "3ec48e7c_f9131718",
+      "range": {
+        "startLine": 217,
+        "startChar": 13,
+        "endLine": 217,
+        "endChar": 25
+      },
+      "revId": "592f27bdb711eba04fbac59dc073450f4a247f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
