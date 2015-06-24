@@ -113,6 +113,7 @@ func errRecover(errp *error) {
 // the output writer.
 // A template may be executed safely in parallel.
 func (t *Template) ExecuteTemplate(wr io.Writer, name string, data interface{}) error {
+	t.init()
 	tmpl := t.tmpl[name]
 	if tmpl == nil {
 		return fmt.Errorf("template: no template %q associated with template %q", name, t.name)
@@ -127,6 +128,7 @@ func (t *Template) ExecuteTemplate(wr io.Writer, name string, data interface{}) 
 // the output writer.
 // A template may be executed safely in parallel.
 func (t *Template) Execute(wr io.Writer, data interface{}) (err error) {
+	//t.init()
 	defer errRecover(&err)
 	value := reflect.ValueOf(data)
 	state := &state{
@@ -146,6 +148,7 @@ func (t *Template) Execute(wr io.Writer, data interface{}) (err error) {
 // it returns the empty string. For generating an error message here
 // and in html/template.
 func (t *Template) DefinedTemplates() string {
+	t.init()
 	var b bytes.Buffer
 	for name, tmpl := range t.tmpl {
 		if tmpl.Tree == nil || tmpl.Root == nil {
