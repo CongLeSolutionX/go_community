@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eb57afa_7cd01971",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-24T14:41:59Z",
+      "side": 1,
+      "message": "resolver",
+      "revId": "dd584905b23654f07e0ca801bf499c1755c093b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
