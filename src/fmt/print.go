@@ -285,15 +285,20 @@ func getField(v reflect.Value, i int) reflect.Value {
 	return val
 }
 
+// tooLarge reports whether the magnitude of the integer is
+// too large to be used as a formatting width or precision.
+func tooLarge(x int) bool {
+	const max int = 1e6
+	return x > max || x < -max
+}
+
 // parsenum converts ASCII to integer.  num is 0 (and isnum is false) if no number present.
 func parsenum(s string, start, end int) (num int, isnum bool, newi int) {
 	if start >= end {
 		return 0, false, end
 	}
 	for newi = start; newi < end && '0' <= s[newi] && s[newi] <= '9'; newi++ {
-		const maxInt32 = 1<<31 - 1 // 31 bits is plenty for a width.
-		max := maxInt32/10 - 1
-		if num > max {
+		if tooLarge(num) {
 			return 0, false, end // Overflow; crazy long number most likely.
 		}
 		num = num*10 + int(s[newi]-'0')
@@ -1119,8 +1124,20 @@ func (p *pp) doPrintf(format string, a []interface{}) {
 		if i < end && format[i] == '*' {
 			i++
 			p.fmt.wid, p.fmt.widPresent, argNum = intFromArg(a, argNum)
+
+			if tooLarge(p.fmt.wid) {
+				p.fmt.wid = 0
+				p.fmt.widPresent = false
+			}
 			if !p.fmt.widPresent {
 				p.buf.Write(badWidthBytes)
+			}
+
+			// We have a negative width, so take its value and ensure
+			// that the minus flag is set
+			if p.fmt.wid < 0 {
+				p.fmt.wid = -p.fmt.wid
+				p.fmt.minus = true
 			}
 			afterIndex = false
 		} else {
@@ -1140,6 +1157,11 @@ func (p *pp) doPrintf(format string, a []interface{}) {
 			if i < end && format[i] == '*' {
 				i++
 				p.fmt.prec, p.fmt.precPresent, argNum = intFromArg(a, argNum)
+				// Negative or very large precision arguments don't make sense
+				if p.fmt.prec < 0 || tooLarge(p.fmt.prec) {
+					p.fmt.prec = 0
+					p.fmt.precPresent = false
+				}
 				if !p.fmt.precPresent {
 					p.buf.Write(badPrecBytes)
 				}
