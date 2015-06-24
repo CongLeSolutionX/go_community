@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee0623c_02c0ca6f",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-24T21:48:13Z",
+      "side": 1,
+      "message": "too large",
+      "range": {
+        "startLine": 289,
+        "startChar": 3,
+        "endLine": 289,
+        "endChar": 5
+      },
+      "revId": "48ad2c218025048bd56a2a81dfb4311eb950e533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_e2c4c685",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-24T21:48:13Z",
+      "side": 1,
+      "message": "a lot of calculation to compute an arbitrary number. why not just pick one, like 1e6 or 1e8?",
+      "range": {
+        "startLine": 292,
+        "startChar": 8,
+        "endLine": 292,
+        "endChar": 16
+      },
+      "revId": "48ad2c218025048bd56a2a81dfb4311eb950e533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_42cad28f",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-24T21:48:13Z",
+      "side": 1,
+      "message": "i am not convinced that a negative width should invert the negative flag. that\u0027s not what C does, for instance. i would have the explicit - in the format override.\n\ni have generally used C behavior for flags as a guide when they apply. Try this:\n\n#include \u003cstdio.h\u003e\n\nint\nmain(int argc, char *argv[]) {\n\tprintf(\"\u0027%*d\u0027\\n\", 10, 1);\n\tprintf(\"\u0027%-*d\u0027\\n\", 10, 1);\n\tprintf(\"\u0027%-*d\u0027\\n\", 10, 1);\n\tprintf(\"\u0027%-*d\u0027\\n\", -10, 1);\n}\n\nproduces \n\n\u0027         1\u0027\n\u00271         \u0027\n\u00271         \u0027\n\u00271         \u0027",
+      "range": {
+        "startLine": 1139,
+        "startChar": 6,
+        "endLine": 1139,
+        "endChar": 16
+      },
+      "revId": "48ad2c218025048bd56a2a81dfb4311eb950e533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
