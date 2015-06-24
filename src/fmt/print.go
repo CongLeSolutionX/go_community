@@ -1122,6 +1122,14 @@ func (p *pp) doPrintf(format string, a []interface{}) {
 			if !p.fmt.widPresent {
 				p.buf.Write(badWidthBytes)
 			}
+
+			// We have a negative width, so take its value and invert
+			// our minus flag to enusre that "%-d",-width, d does something
+			// reasonable
+			if p.fmt.wid < 0 {
+				p.fmt.wid = p.fmt.wid * -1
+				p.fmt.minus = !p.fmt.minus
+			}
 			afterIndex = false
 		} else {
 			p.fmt.wid, p.fmt.widPresent, i = parsenum(format, i, end)
@@ -1140,6 +1148,11 @@ func (p *pp) doPrintf(format string, a []interface{}) {
 			if i < end && format[i] == '*' {
 				i++
 				p.fmt.prec, p.fmt.precPresent, argNum = intFromArg(a, argNum)
+				// Negative precision argument doesn't make sense
+				if p.fmt.prec < 0 {
+					p.fmt.prec = 0
+					p.fmt.precPresent = false
+				}
 				if !p.fmt.precPresent {
 					p.buf.Write(badPrecBytes)
 				}
