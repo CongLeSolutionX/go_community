@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3e6e4e7b_69f5e5c2",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-24T21:56:40Z",
+      "side": 1,
+      "message": "My vote for 1e6. A larger padding is most likely a mistake. It is always possible to pad manually to any value. And in \u003e1e6 case you probably want something more efficient (zero-copy, or stream directly into network/disk).",
+      "parentUuid": "5ee0623c_e2c4c685",
+      "range": {
+        "startLine": 292,
+        "startChar": 8,
+        "endLine": 292,
+        "endChar": 16
+      },
+      "revId": "48ad2c218025048bd56a2a81dfb4311eb950e533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ee0623c_42cad28f",
         "filename": "src/fmt/print.go",
         "patchSetId": 2
