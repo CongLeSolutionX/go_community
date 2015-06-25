@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "3e6e4e7b_09ca293d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-25T07:11:39Z",
+      "side": 1,
+      "message": "\"functions\" and \"are split\"",
+      "revId": "931fd8d272aa31d2458a81130ee5ca166bb66c50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e6e4e7b_29c7ed35",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-25T07:11:39Z",
+      "side": 1,
+      "message": "\"Suff\" sounds weird. just spell it out as \"Suffix\".  likewise below.",
+      "revId": "931fd8d272aa31d2458a81130ee5ca166bb66c50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79254042_e7034a7d",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 6
