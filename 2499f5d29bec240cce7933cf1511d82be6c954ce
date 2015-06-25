@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "def37219_c498b2fe",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-25T04:20:58Z",
+      "side": 1,
+      "message": "Do we need signed/unsigned extension variants?\n\nI\u0027ve been thinking maybe we don\u0027t want properly extended values in registers.  It would make this easier, as well as some sub-fullreg math.  It would make indexing require an extension, but maybe that doesn\u0027t happen that often.",
+      "range": {
+        "startLine": 993,
+        "startChar": 13,
+        "endLine": 993,
+        "endChar": 18
+      },
+      "revId": "2499f5d29bec240cce7933cf1511d82be6c954ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_47556e47",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-25T04:20:58Z",
+      "side": 1,
+      "message": "Hmm, I think this works for SUBL (it zeros the upper 32 bits), but it doesn\u0027t work for SUBW and SUBB, they only write the low parts.  So an explicit zero extension is needed (modulo my previous comment).  Same fix for ADDW/ADDB.",
+      "range": {
+        "startLine": 28,
+        "startChar": 50,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "2499f5d29bec240cce7933cf1511d82be6c954ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_074f76b5",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-25T04:20:58Z",
+      "side": 1,
+      "message": "Don\u0027t you need to possibly truncate and/or extend the constant?",
+      "range": {
+        "startLine": 54,
+        "startChar": 81,
+        "endLine": 54,
+        "endChar": 82
+      },
+      "revId": "2499f5d29bec240cce7933cf1511d82be6c954ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_274cfabd",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-25T04:20:58Z",
+      "side": 1,
+      "message": "Introduce loadRegOp also?",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 18
+      },
+      "revId": "2499f5d29bec240cce7933cf1511d82be6c954ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
