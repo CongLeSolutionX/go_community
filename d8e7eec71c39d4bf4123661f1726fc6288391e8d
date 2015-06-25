@@ -34,6 +34,24 @@
       "revId": "d8e7eec71c39d4bf4123661f1726fc6288391e8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_02a44a8f",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-25T02:20:23Z",
+      "side": 1,
+      "message": "If it is something to do with file paths manipulation, it should live in path/filepath. If path/filepath is not useful, perhaps we need some fixes in path/filepath.",
+      "parentUuid": "7e7a8634_eb08f162",
+      "revId": "d8e7eec71c39d4bf4123661f1726fc6288391e8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
