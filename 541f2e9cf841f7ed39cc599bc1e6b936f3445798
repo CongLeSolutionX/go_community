@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0623c_85b864b3",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8c2a86_b087b817",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe8e767f_af875917",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-25T03:15:07Z",
       "side": 1,
       "message": "represents",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_65b560b9",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe8e767f_af875917",
       "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0623c_c5826cdb",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8c2a86_507d2c92",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e6e4e7b_29460d71",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-25T03:15:07Z",
       "side": 1,
       "message": "configuration",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_a58768e9",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e6e4e7b_29460d71",
       "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0623c_057d7465",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e6e4e7b_c99f316b",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e8c2a86_707ab09d",
         "filename": "src/net/dnsclient_unix_test.go",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2015-06-25T03:15:07Z",
       "side": 1,
       "message": "why do you need a sleep here?  why not just acquire the sema, however long it takes? don\u0027t use tryAcquireSema, and don\u0027t have a loop?",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_e58170d5",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "1e8c2a86_707ab09d",
       "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0623c_45977c19",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e856e59_7163980f",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe8e767f_4f7d8d92",
         "filename": "src/net/dnsclient_unix_test.go",
         "patchSetId": 6
@@ -132,6 +258,24 @@
       "writtenOn": "2015-06-25T03:15:07Z",
       "side": 1,
       "message": "describe these fields?",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_2594f812",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe8e767f_4f7d8d92",
       "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0623c_85918425",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e6e4e7b_e9a475c3",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e856e59_11700cd2",
         "filename": "src/net/dnsclient_unix_test.go",
         "patchSetId": 6
@@ -166,6 +328,24 @@
       "writtenOn": "2015-06-25T03:15:07Z",
       "side": 1,
       "message": "lines:",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_658e0001",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e856e59_11700cd2",
       "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "5ee0623c_c5670cce",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8c2a86_1077a4b4",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e8c2a86_307428ad",
         "filename": "src/net/dnsclient_unix_test.go",
         "patchSetId": 6
@@ -200,6 +398,24 @@
       "writtenOn": "2015-06-25T03:15:07Z",
       "side": 1,
       "message": "test failure doesn\u0027t say which test failed",
+      "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ee0623c_6228b637",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T11:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8c2a86_307428ad",
       "revId": "541f2e9cf841f7ed39cc599bc1e6b936f3445798",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
