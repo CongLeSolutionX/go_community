@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee0623c_8287ba94",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-06-25T06:06:44Z",
+      "side": 1,
+      "message": "maybe\n\nreq :\u003d \"POST / HTTP/1.1\\r\\n\" +\n\t\t\t\"Host: test\\r\\n\" +\nif tt.reqClose {\n  req +\u003d \"Connection: close\\r\\n\"\n}\nif tt.bodyChunked {\n...\n\n?",
+      "revId": "d149bf9d25842a83831ba63e89b5ffc23a5a106b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
