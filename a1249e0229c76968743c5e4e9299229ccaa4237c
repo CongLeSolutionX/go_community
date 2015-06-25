@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe67569d_0a769bff",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-25T20:51:34Z",
+      "side": 1,
+      "message": "shouldn\u0027t those first two * both be +?",
+      "revId": "a1249e0229c76968743c5e4e9299229ccaa4237c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
