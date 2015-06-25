@@ -46,15 +46,25 @@ var isSecureScheme = map[string]bool{
 	"git+ssh": true,
 	"bzr+ssh": true,
 	"svn+ssh": true,
+	"ssh":     true,
 }
 
 func (v *vcsCmd) isSecure(repo string) bool {
+	if v.name == "Git" && isSCPSyntax(repo) {
+		return true
+	}
 	u, err := url.Parse(repo)
 	if err != nil {
 		// If repo is not a URL, it's not secure.
 		return false
 	}
 	return isSecureScheme[u.Scheme]
+}
+
+var scpSyntaxRE = regexp.MustCompile(`^([^/@:]+@)?[-.a-zA-Z0-9]+:(|.|[^/].*|/[^/].*)$`)
+
+func isSCPSyntax(repo string) bool {
+	return scpSyntaxRE.MatchString(repo)
 }
 
 // A tagCmd describes a command to list available tags

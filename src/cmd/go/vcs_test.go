@@ -117,3 +117,66 @@ func TestRepoRootForImportPath(t *testing.T) {
 		}
 	}
 }
+
+func TestIsSecure(t *testing.T) {
+	tests := []struct {
+		vcs    *vcsCmd
+		url    string
+		secure bool
+	}{
+		{vcsGit, "http://example.com/foo.git", false},
+		{vcsGit, "https://example.com/foo.git", true},
+		{vcsBzr, "http://example.com/foo.bzr", false},
+		{vcsBzr, "https://example.com/foo.bzr", true},
+		{vcsSvn, "http://example.com/svn", false},
+		{vcsSvn, "https://example.com/svn", true},
+		{vcsHg, "http://example.com/foo.hg", false},
+		{vcsHg, "https://example.com/foo.hg", true},
+		{vcsGit, "ssh://user@example.com/foo.git", true},
+		{vcsGit, "user@server:path/to/repo.git", true},
+		{vcsGit, "user@server:", true},
+		{vcsGit, "server:repo.git", true},
+		{vcsGit, "server:path/to/repo.git", true},
+		{vcsGit, "example.com:path/to/repo.git", true},
+		{vcsGit, "path/that/contains/a:colon/repo.git", false},
+		{vcsHg, "ssh://user@example.com/path/to/repo.hg", true},
+		{vcsHg, "user@server:path/to/repo.git", false},
+		{vcsHg, "user@server:", false},
+		{vcsHg, "server:repo.git", false},
+	}
+
+	for _, test := range tests {
+		secure := test.vcs.isSecure(test.url)
+		if secure != test.secure {
+			t.Errorf("%s isSecure(%q) = %t; want %t", test.vcs, test.url, secure, test.secure)
+		}
+	}
+}
+
+func TestIsSCPSyntax(t *testing.T) {
+	tests := []struct {
+		repo  string
+		isSCP bool
+	}{
+		{"", false},
+		{"example.com", false},
+		{"ssh://user@example.com/", false},
+		{"http://example.com/foo", false},
+		{"user@server:path/to/repo.git", true},
+		{"user@server:", true},
+		{"@:", false},
+		{":", false},
+		{"server:repo.git", true},
+		{"server:path/to/repo.git", true},
+		{"example.com:path/to/repo.git", true},
+		{"user@example.com:path/to/repo.git", true},
+		{"path/that/contains/a:colon/repo.git", false},
+	}
+
+	for _, test := range tests {
+		isSCP := isSCPSyntax(test.repo)
+		if isSCP != test.isSCP {
+			t.Errorf("isSCPSyntax(%q) = %t; want %t", test.repo, isSCP, test.isSCP)
+		}
+	}
+}
