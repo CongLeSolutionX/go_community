@@ -33,6 +33,24 @@
       "revId": "c8464e5113ffd97fc119583a93d3a5c04f33f3ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_87304678",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-06-25T02:21:51Z",
+      "side": 1,
+      "message": "This change doesn\u0027t actually fix anything.  And I don\u0027t want to mark the bug as fixed just now, in case we decide to do a 1.4.3. (unlikely, I know)",
+      "parentUuid": "ded45230_564894dc",
+      "revId": "c8464e5113ffd97fc119583a93d3a5c04f33f3ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
