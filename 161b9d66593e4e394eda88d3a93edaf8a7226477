@@ -22,6 +22,30 @@
       "revId": "161b9d66593e4e394eda88d3a93edaf8a7226477",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_678af29f",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-06-25T01:57:30Z",
+      "side": 1,
+      "message": "I waffled between putting it there, or creating a separate function.  My only concern with inside intFromArg was how it tied intFromArg specifically to smaller ints.  Not a big deal as it\u0027s only used for that, will fix.",
+      "parentUuid": "5ee0623c_423bf2d8",
+      "range": {
+        "startLine": 1128,
+        "startChar": 6,
+        "endLine": 1128,
+        "endChar": 14
+      },
+      "revId": "161b9d66593e4e394eda88d3a93edaf8a7226477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
