@@ -150,3 +150,55 @@ func TestLineNumber(t *testing.T) {
 		}
 	}
 }
+
+func lineNumber() int {
+	_, _, line, _ := runtime.Caller(1)
+	return line // return 0 for error
+}
+
+// Do not add/remove lines in this block without updating the line numbers.
+var firstLine = lineNumber() // 0
+var (                        // 1
+	lineVar1             = lineNumber()               // 2
+	lineVar2a, lineVar2b = lineNumber(), lineNumber() // 3
+)                        // 4
+var compLit = []struct { // 5
+	lineA, lineB int // 6
+}{ // 7
+	{ // 8
+		lineNumber(), lineNumber(), // 9
+	}, // 10
+	{ // 11
+		lineNumber(), // 12
+		lineNumber(), // 13
+	}, // 14
+	{ // 15
+		lineB: lineNumber(), // 16
+		lineA: lineNumber(), // 17
+	}, // 18
+} // 19
+// Modifications below this line are okay.
+
+func TestLineNumber(t *testing.T) {
+	for _, test := range []struct {
+		name string
+		val  int
+		want int
+	}{
+		{"firstLine", firstLine, 0},
+		{"lineVar1", lineVar1, 2},
+		{"lineVar2a", lineVar2a, 3},
+		{"lineVar2b", lineVar2b, 3},
+		{"compLit[0].lineA", compLit[0].lineA, 9},
+		{"compLit[0].lineB", compLit[0].lineB, 9},
+		{"compLit[1].lineA", compLit[1].lineA, 12},
+		{"compLit[1].lineB", compLit[1].lineB, 13},
+		{"compLit[2].lineA", compLit[2].lineA, 17},
+		{"compLit[2].lineB", compLit[2].lineB, 16},
+	} {
+		if got := test.val - firstLine; got != test.want {
+			t.Errorf("%s on firstLine+%d want firstLine+%d (firstLine=%d, val=%d)",
+				test.name, got, test.want, firstLine, test.val)
+		}
+	}
+}
