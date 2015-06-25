@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee0623c_a22bde88",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-06-25T01:42:02Z",
+      "side": 1,
+      "message": "if \u00270\u0027 \u003e b || b \u003e \u00279\u0027 {",
+      "range": {
+        "startLine": 564,
+        "startChar": 2,
+        "endLine": 564,
+        "endChar": 25
+      },
+      "revId": "703166ea14e510a4aee805f956475570130f2df2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
