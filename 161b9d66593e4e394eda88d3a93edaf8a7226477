@@ -46,6 +46,30 @@
       "revId": "161b9d66593e4e394eda88d3a93edaf8a7226477",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67569d_2784fa8e",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-06-25T02:04:19Z",
+      "side": 1,
+      "message": "I missed that it\u0027s in parseNum as well.  Is the preferred fix to leave tooLarge, or put the check in both intFromArg and parsenum?",
+      "parentUuid": "fe67569d_678af29f",
+      "range": {
+        "startLine": 1128,
+        "startChar": 6,
+        "endLine": 1128,
+        "endChar": 14
+      },
+      "revId": "161b9d66593e4e394eda88d3a93edaf8a7226477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
