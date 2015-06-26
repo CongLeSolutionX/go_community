@@ -63,6 +63,24 @@
       "revId": "692b4a2bba85914fc5aefbe8706e5960fb4ba192",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deca92dd_467dd227",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-06-26T03:47:11Z",
+      "side": 1,
+      "message": "Due to this note: \"HasPrefix exists for historical compatibility and should not be used.\"",
+      "parentUuid": "fe5676ec_cf71bd8c",
+      "revId": "692b4a2bba85914fc5aefbe8706e5960fb4ba192",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
