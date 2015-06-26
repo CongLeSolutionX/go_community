@@ -80,6 +80,24 @@
       "revId": "dc6bc18dc71781b4991b4215b494e982d11b32a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "337049c3_f9c5b77f",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-06-26T21:44:26Z",
+      "side": 1,
+      "message": "Aww. I liked this line.",
+      "parentUuid": "3e680e9e_39528f61",
+      "revId": "dc6bc18dc71781b4991b4215b494e982d11b32a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
