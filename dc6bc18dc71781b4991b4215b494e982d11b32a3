@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e7ce256_424cb290",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2015-06-26T05:48:52Z",
+      "side": 1,
+      "message": "http://www.unicode.org/versions/Unicode8.0.0/",
+      "range": {
+        "startLine": 548,
+        "startChar": 9,
+        "endLine": 548,
+        "endChar": 52
+      },
+      "revId": "dc6bc18dc71781b4991b4215b494e982d11b32a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
