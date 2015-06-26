@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e680e9e_fc872516",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-26T16:21:43Z",
+      "side": 1,
+      "message": "non-overlapping sounds weird because it takes a second to realize what it can\u0027t overlap with; maybe \"subsequent\" would suffice",
+      "revId": "e1195e29fb92a03960cb2409918fe57b307b620b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e680e9e_5c7731b3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-26T16:21:43Z",
+      "side": 1,
+      "message": "Slightly confusing, because \u0027\u0027 is not a rune literal (the rune is missing). Maybe say\n\nsingle quotes (U+0027).\nor\nsingle quotes, like \u003ccode\u003e\u0027x\u0027\u003c/code\u003e.",
+      "revId": "e1195e29fb92a03960cb2409918fe57b307b620b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
