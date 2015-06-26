@@ -657,6 +657,22 @@ func (z *Int) ModSqrt(x, p *Int) *Int {
 		x = new(Int).Mod(x, p)
 	}
 
+	// Check whether p is 3 mod 4, and if so, use the identity
+	//
+	//      (a^((p+1)/4))^2 mod p
+	//   == u^(p+1)         mod p
+	//   == u^2             mod p
+	//
+	// rather than Tonelli-Shanks.
+	if len(p.abs) > 0 && (p.abs[0]&Word(0x3)) == Word(3) {
+		one := new(Int).SetUint64(1)
+		z.Set(p)       // z = p
+		z.Add(z, one)  // z = p + 1
+		z.Rsh(z, 2)    // z = (p + 1) / 4
+		z.Exp(x, z, p) // z = x^z mod p
+		return z
+	}
+
 	// Break p-1 into s*2^e such that s is odd.
 	var s Int
 	s.Sub(p, intOne)
