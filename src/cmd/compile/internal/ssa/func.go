@@ -4,6 +4,8 @@
 
 package ssa
 
+import "sync"
+
 // A Func represents a Go func declaration (or function literal) and
 // its body.  This package compiles each Func independently.
 type Func struct {
@@ -31,13 +33,37 @@ func (f *Func) NumValues() int {
 	return f.vid.num()
 }
 
+const (
+	blockSize = 100
+)
+
+type blockPool struct {
+	blocks []Block
+	curBlk int
+	mu     sync.Mutex
+}
+
+func (bp *blockPool) newBlock() *Block {
+	bp.mu.Lock()
+	defer bp.mu.Unlock()
+
+	if bp.curBlk < int(len(bp.blocks)) {
+		bp.curBlk++
+		return &bp.blocks[bp.curBlk-1]
+	}
+	bp.curBlk = 1
+	bp.blocks = make([]Block, blockSize, blockSize)
+	return &bp.blocks[0]
+}
+
+var bp blockPool
+
 // NewBlock returns a new block of the given kind and appends it to f.Blocks.
 func (f *Func) NewBlock(kind BlockKind) *Block {
-	b := &Block{
-		ID:   f.bid.get(),
-		Kind: kind,
-		Func: f,
-	}
+	b := bp.newBlock()
+	b.ID = f.bid.get()
+	b.Kind = kind
+	b.Func = f
 	f.Blocks = append(f.Blocks, b)
 	return b
 }
