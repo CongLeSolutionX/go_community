@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e680e9e_59766300",
+        "filename": "src/cmd/asm/internal/asm/expr_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-26T15:30:26Z",
+      "side": 1,
+      "message": "maybe add that if error \u003d\u003d \"\" no error is expected, so that you can test that for example while (1\u003c\u003c63)\u003e\u003e2 is bad, (1\u003c\u003c63)\u003c\u003c2 is fine.",
+      "revId": "d8fae0f0841938c7df18de79aa949cbb1c1ba272",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
