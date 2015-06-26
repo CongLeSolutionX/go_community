@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e680e9e_3c4c3d90",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-26T16:15:34Z",
+      "side": 1,
+      "message": "Please copy and paste and customize the comment for each value instead of introducing new syntaxes like this. Tools might try to associate comments with specific values, for example, and this will break that.",
+      "revId": "39a536ec79b84eb213f9d2c23b6ac9df5e02157f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
