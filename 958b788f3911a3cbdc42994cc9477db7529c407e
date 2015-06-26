@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe5676ec_0f5f45b9",
+        "filename": "src/cmd/go/vendor_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-06-26T05:34:40Z",
+      "side": 1,
+      "message": "This test passes regardless of your other changes. Why?",
+      "revId": "958b788f3911a3cbdc42994cc9477db7529c407e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
