@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe5676ec_cf345d0d",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-26T01:42:41Z",
+      "side": 1,
+      "message": "permissive",
+      "range": {
+        "startLine": 422,
+        "startChar": 6,
+        "endLine": 422,
+        "endChar": 16
+      },
+      "revId": "20e70f15097df0f2cc68a4a8bdf94cf7fb75be3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe5676ec_0f4f4587",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-26T01:42:41Z",
+      "side": 1,
+      "message": "golang.org/issue/4938",
+      "range": {
+        "startLine": 422,
+        "startChar": 95,
+        "endLine": 422,
+        "endChar": 106
+      },
+      "revId": "20e70f15097df0f2cc68a4a8bdf94cf7fb75be3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe5676ec_ef392102",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-06-26T01:42:41Z",
+      "side": 1,
+      "message": "it also looks for double dots",
+      "range": {
+        "startLine": 422,
+        "startChar": 55,
+        "endLine": 422,
+        "endChar": 76
+      },
+      "revId": "20e70f15097df0f2cc68a4a8bdf94cf7fb75be3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
