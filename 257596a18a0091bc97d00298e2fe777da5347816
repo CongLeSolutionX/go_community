@@ -34,6 +34,24 @@
       "revId": "257596a18a0091bc97d00298e2fe777da5347816",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e680e9e_9c770901",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-26T18:32:38Z",
+      "side": 1,
+      "message": "I verified that if I write an HTML page like:\n\u003ca href\u003d\"https://swtch.com/%23/\"\u003etest\u003c/a\u003e\nthen the browser does take that and go to that page, not interpreting the %23 as a fragment name. So I think this test is fine as is.",
+      "parentUuid": "500f6eb1_8a16eb45",
+      "revId": "257596a18a0091bc97d00298e2fe777da5347816",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
