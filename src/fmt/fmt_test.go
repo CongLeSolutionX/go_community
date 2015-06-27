@@ -456,6 +456,28 @@ var fmtTests = []struct {
 	{"%x", []byte{}, ""},
 	{"%02x", []byte{}, ""},
 	{"% 02x", []byte{}, ""},
+	// Padding.
+	{"%04x", []byte{0xab}, "00ab"},
+	{"% 04x", []byte{0xab}, "00ab"},
+	{"%04x", []byte{0xab, 0xcd}, "00ab00cd"},
+	{"% 04x", []byte{0xab, 0xcd}, "00ab 00cd"},
+	{"%4x", []byte{0xab}, "  ab"},
+	{"% 4x", []byte{0xab}, "  ab"},
+	{"%4x", []byte{0xab, 0xcd}, "  ab  cd"},
+	{"% 4x", []byte{0xab, 0xcd}, "  ab   cd"},
+	// Same for strings
+	{"%x", "", ""},
+	{"%02x", "", ""},
+	{"% 02x", "", ""},
+	// Padding.
+	{"%04x", "\xab", "00ab"},
+	{"% 04x", "\xab", "00ab"},
+	{"%04x", "\xab\xcd", "00ab00cd"},
+	{"% 04x", "\xab\xcd", "00ab 00cd"},
+	{"%4x", "\xab", "  ab"},
+	{"% 4x", "\xab", "  ab"},
+	{"%4x", "\xab\xcd", "  ab  cd"},
+	{"% 4x", "\xab\xcd", "  ab   cd"},
 
 	// renamings
 	{"%v", renamedBool(true), "true"},

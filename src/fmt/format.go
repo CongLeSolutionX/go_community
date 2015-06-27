@@ -344,6 +344,15 @@ func (f *fmt) fmt_sbx(s string, b []byte, digits string) {
 		} else {
 			c = b[i]
 		}
+		if f.widPresent && f.wid > 2 {
+			var pad byte = ' '
+			if f.zero {
+				pad = '0'
+			}
+			for i := 2; i < f.wid; i++ {
+				buf = append(buf, pad)
+			}
+		}
 		buf = append(buf, digits[c>>4], digits[c&0xF])
 	}
 	f.buf.Write(buf)
