@@ -500,6 +500,13 @@ but is otherwise unnecessary as strings support comparison natively.
 </li>
 
 <li>
+The <a href="/pkg/sync/#WaitGroup"><code>WaitGroup</code></a> function in
+package <a href="/pkg/sync/"><code>sync</code></a>
+now diagnoses racy use, such as adding a goroutine when already waiting.
+If this happens, <code>WaitGroup</code> panics.
+</li>
+
+<li>
 In the <a href="/pkg/syscall/"><code>syscall</code></a> package,
 the Linux <code>SysProcAttr</code> struct now has a
 <code>GidMappingsEnableSetgroups</code> field, made necessary
