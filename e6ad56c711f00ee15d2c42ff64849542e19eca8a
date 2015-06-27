@@ -16,6 +16,24 @@
       "revId": "e6ad56c711f00ee15d2c42ff64849542e19eca8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ae0d65_a61866a4",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-06-27T22:36:30Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "734801a1_5b16c384",
+      "revId": "e6ad56c711f00ee15d2c42ff64849542e19eca8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
