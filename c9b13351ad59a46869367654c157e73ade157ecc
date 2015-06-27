@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "734801a1_7b329f1d",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-27T19:01:08Z",
+      "side": 1,
+      "message": "functions returning bool have names that sound like conditions. check does not. Use isValidDirective please:\n\n// isValidDirective reports whether dir is a valid directive text,\n// meaning angle brackets are matched, ignoring comments and strings.\nfunc isValidDirective(dir Directive) bool {",
+      "revId": "c9b13351ad59a46869367654c157e73ade157ecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
