@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "734801a1_fb6eaff6",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-27T18:56:29Z",
+      "side": 1,
+      "message": "Can you please give an example of a string matching this expression? This seems incredibly general.\n\nNote that the go command ONLY does URLs. If your example does not contain ://, it\u0027s not okay. I expect that\u0027s what\u0027s going on here. I believe users can use ssh:// URLs instead of this syntax, in which case this should be removed.",
+      "revId": "e4a849ae319e943163034195bac628d233666139",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "734801a1_db6bf3e4",
+        "filename": "src/cmd/go/vcs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-27T18:56:29Z",
+      "side": 1,
+      "message": "Yes, this is what we don\u0027t support.",
+      "revId": "e4a849ae319e943163034195bac628d233666139",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
