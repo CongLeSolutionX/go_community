@@ -132,6 +132,18 @@
 
 (ADDQconst [0] x) -> (Copy x)
 
+// lower Zero instructions with word sizes
+(Zero [0] _ mem) -> (Copy mem)
+(Zero [1] destptr mem) -> (MOVBstore destptr (Const <TypeInt8> [0]) mem)
+(Zero [2] destptr mem) -> (MOVWstore destptr (Const <TypeInt16> [0]) mem)
+(Zero [4] destptr mem) -> (MOVLstore destptr (Const <TypeInt32> [0]) mem)
+(Zero [8] destptr mem) -> (MOVQstore destptr (Const <TypeInt64> [0]) mem)
+
+// rewrite anything less than 4 words into a series of MOV[BWLQ] $0, ptr(off) instructions
+(Zero [size] destptr mem) && size < 4*8 -> (MOVZero [size] destptr mem)
+// Use STOQ to zero memory
+(Zero [size] destptr mem) && size >= 4*8 -> (REPSTOSQ [size] destptr mem)
+
 // Absorb InvertFlags into branches.
 (LT (InvertFlags cmp) yes no) -> (GT cmp yes no)
 (GT (InvertFlags cmp) yes no) -> (LT cmp yes no)
