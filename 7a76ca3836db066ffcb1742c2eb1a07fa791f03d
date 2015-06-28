@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f33cf1f3_5f3d0b7b",
+        "filename": "src/image/png/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 8735
+      },
+      "writtenOn": "2015-06-28T04:05:57Z",
+      "side": 1,
+      "message": "I would like to ask what the best route forward here is for ensuring the variant that tRNS follows PLTE (as that is not explicitly checked for here). My thought to address this was to introduce the state of chunks seen vs. the strict ordering introduced in the decoding stages enum (i.e. d.sawPLTE as a boolean) but really open to anything.",
+      "revId": "7a76ca3836db066ffcb1742c2eb1a07fa791f03d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
