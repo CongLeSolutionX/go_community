@@ -38,6 +38,9 @@ var filenames = []string{
 	"basn4a16",
 	"basn6a08",
 	"basn6a16",
+	"tbbn2c16",
+	"tbgn2c16",
+	"tbrn2c08",
 }
 
 var filenamesPaletted = []string{
@@ -141,6 +144,22 @@ func sng(w io.WriteCloser, filename string, png image.Image) {
 			}
 			io.WriteString(w, "}\n")
 		}
+	}
+
+	// For the transparency images we have a tRNS to print
+	if strings.HasPrefix(filename, "tb") {
+		io.WriteString(w, "tRNS {\n")
+		// First point is always transparent for the pngsuite transparent images
+		f := png.At(0, 0)
+		r, g, b, _ := f.RGBA()
+		switch {
+		case cm == color.RGBAModel:
+			r >>= 8
+			b >>= 8
+			g >>= 8
+		}
+		fmt.Fprintf(w, "    red: %d; green: %d; blue: %d;", r, g, b)
+		io.WriteString(w, "}\n")
 	}
 
 	// Write the IMAGE.
