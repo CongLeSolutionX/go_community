@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f33cf1f3_7f38cf8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-28T04:07:22Z",
+      "side": 1,
+      "message": "No, it\u0027s also fixed now.",
+      "parentUuid": "734801a1_9b34cbe6",
+      "revId": "c1a00c4fedd458d7a4f3dffe180447adb991b5b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "734801a1_bb3707ea",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-28T02:09:19Z",
       "side": 1,
       "message": "Just making sure I understand: the DefaultClient.Do just above blocks until the CancelRequest from the proxy happens, so the fact that this select is non-blocking is okay because the only way for there not to be something on backendRespc is if the proxy died early?",
+      "revId": "c1a00c4fedd458d7a4f3dffe180447adb991b5b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f33cf1f3_9f2e7347",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2496,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-28T04:07:22Z",
+      "side": 1,
+      "message": "Yes, this select is only defensive for the case where one of the two proxy handler error cases fired before the send to backendRespc. That doesn\u0027t happen now (because the test is passing), but might be useful in the future if this test gets broken again.",
+      "parentUuid": "734801a1_bb3707ea",
       "revId": "c1a00c4fedd458d7a4f3dffe180447adb991b5b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
