@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3a99960_2516ae84",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2015-06-28T05:54:59Z",
+      "side": 1,
+      "message": "This doc change about WaitGroup is unrelated to this patch.",
+      "revId": "97994f40bcfec146aa0de0a4568673d9ae8a0ec9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
