@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "734801a1_9b34cbe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-28T02:09:19Z",
+      "side": 1,
+      "message": "Does this mean the test will still fail on the dashboard, but won\u0027t deadlock when it does?",
+      "revId": "c1a00c4fedd458d7a4f3dffe180447adb991b5b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "734801a1_bb3707ea",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2496,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-28T02:09:19Z",
+      "side": 1,
+      "message": "Just making sure I understand: the DefaultClient.Do just above blocks until the CancelRequest from the proxy happens, so the fact that this select is non-blocking is okay because the only way for there not to be something on backendRespc is if the proxy died early?",
+      "revId": "c1a00c4fedd458d7a4f3dffe180447adb991b5b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
