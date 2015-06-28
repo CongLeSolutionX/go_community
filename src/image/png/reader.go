@@ -113,6 +113,7 @@ type decoder struct {
 	idatLength    uint32
 	tmp           [3 * 256]byte
 	interlace     int
+	tc            color.Color
 }
 
 // A FormatError reports that the input is not a valid PNG.
@@ -263,8 +264,18 @@ func (d *decoder) parsetRNS(length uint32) error {
 	switch d.cb {
 	case cbG8, cbG16:
 		return UnsupportedError("grayscale transparency")
-	case cbTC8, cbTC16:
-		return UnsupportedError("truecolor transparency")
+	case cbTC8:
+		r := uint8(d.tmp[1])
+		g := uint8(d.tmp[3])
+		b := uint8(d.tmp[5])
+		rgba := color.RGBA{r, g, b, 0xff}
+		d.tc = rgba
+	case cbTC16:
+		r := uint16(d.tmp[0])<<8 | uint16(d.tmp[1])
+		g := uint16(d.tmp[2])<<8 | uint16(d.tmp[3])
+		b := uint16(d.tmp[4])<<8 | uint16(d.tmp[5])
+		rgba := color.RGBA64{r, g, b, 0xffff}
+		d.tc = rgba
 	case cbP1, cbP2, cbP4, cbP8:
 		if len(d.palette) < n {
 			d.palette = d.palette[:n]
@@ -510,6 +521,12 @@ func (d *decoder) readImagePass(r io.Reader, pass int, allocateOnly bool) (image
 				pix[i+1] = cdat[j+1]
 				pix[i+2] = cdat[j+2]
 				pix[i+3] = 0xff
+				if d.tc != nil {
+					r, g, b, _ := d.tc.RGBA()
+					if pix[i+0] == uint8(r) && pix[i+1] == uint8(g) && pix[i+2] == uint8(b) {
+						pix[i+3] = 0
+					}
+				}
 				i += 4
 				j += 3
 			}
@@ -579,7 +596,11 @@ func (d *decoder) readImagePass(r io.Reader, pass int, allocateOnly bool) (image
 				rcol := uint16(cdat[6*x+0])<<8 | uint16(cdat[6*x+1])
 				gcol := uint16(cdat[6*x+2])<<8 | uint16(cdat[6*x+3])
 				bcol := uint16(cdat[6*x+4])<<8 | uint16(cdat[6*x+5])
-				rgba64.SetRGBA64(x, y, color.RGBA64{rcol, gcol, bcol, 0xffff})
+				col := color.RGBA64{rcol, gcol, bcol, 0xffff}
+				if col == d.tc {
+					col.A = 0
+				}
+				rgba64.SetRGBA64(x, y, col)
 			}
 		case cbTCA16:
 			for x := 0; x < width; x++ {
@@ -698,7 +719,7 @@ func (d *decoder) parseChunk() error {
 		d.stage = dsSeenPLTE
 		return d.parsePLTE(length)
 	case "tRNS":
-		if d.stage != dsSeenPLTE {
+		if d.stage < dsSeenIHDR || d.stage == dsSeentRNS || d.stage > dsSeenIDAT {
 			return chunkOrderError
 		}
 		d.stage = dsSeentRNS

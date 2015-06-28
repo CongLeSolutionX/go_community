@@ -28,6 +28,7 @@ type encoder struct {
 	header [8]byte
 	footer [4]byte
 	tmp    [4 * 256]byte
+	st     color.Color
 }
 
 type CompressionLevel int
@@ -69,6 +70,27 @@ func opaque(m image.Image) bool {
 		}
 	}
 	return true
+}
+
+// Returns whether or not the image contains only one transparent type pixel
+// which could be coded for Truecolor images into the tRNS chunk.
+func simpleTransparency(m image.Image) color.Color {
+	b := m.Bounds()
+	var st color.Color
+	for y := b.Min.Y; y < b.Max.Y; y++ {
+		for x := b.Min.X; x < b.Max.X; x++ {
+			c := m.At(x, y)
+			_, _, _, a := c.RGBA()
+			if a != 0xffff {
+				if st != nil && c != st {
+					return nil
+				} else {
+					st = m.At(x, y)
+				}
+			}
+		}
+	}
+	return st
 }
 
 // The absolute value of a byte interpreted as a signed int8.
@@ -162,6 +184,26 @@ func (e *encoder) writePLTEAndTRNS(p color.Palette) {
 	e.writeChunk(e.tmp[:3*len(p)], "PLTE")
 	if last != -1 {
 		e.writeChunk(e.tmp[3*256:3*256+1+last], "tRNS")
+	}
+}
+
+func (e *encoder) writetRNS() {
+	c := e.st
+
+	switch e.cb {
+	case cbTC8:
+		r, g, b, _ := c.RGBA()
+		r8, g8, b8 := uint8(r), uint8(g), uint8(b)
+		e.writeChunk([]byte{r8, r8, g8, g8, b8, b8}, "tRNS")
+	case cbTC16:
+		r, g, b, _ := c.RGBA()
+		r1 := uint8(r >> 8)
+		r2 := uint8(r)
+		g1 := uint8(g >> 8)
+		g2 := uint8(g)
+		b1 := uint8(b >> 8)
+		b2 := uint8(b)
+		e.writeChunk([]byte{r1, r2, g1, g2, b1, b2}, "tRNS")
 	}
 }
 
@@ -490,6 +532,7 @@ func (enc *Encoder) Encode(w io.Writer, m image.Image) error {
 	e.enc = enc
 	e.w = w
 	e.m = m
+	e.st = simpleTransparency(m)
 
 	var pal color.Palette
 	// cbP8 encoding needs PalettedImage's ColorIndexAt method.
@@ -505,13 +548,13 @@ func (enc *Encoder) Encode(w io.Writer, m image.Image) error {
 		case color.Gray16Model:
 			e.cb = cbG16
 		case color.RGBAModel, color.NRGBAModel, color.AlphaModel:
-			if opaque(m) {
+			if opaque(m) || e.st != nil {
 				e.cb = cbTC8
 			} else {
 				e.cb = cbTCA8
 			}
 		default:
-			if opaque(m) {
+			if opaque(m) || e.st != nil {
 				e.cb = cbTC16
 			} else {
 				e.cb = cbTCA16
@@ -523,6 +566,8 @@ func (enc *Encoder) Encode(w io.Writer, m image.Image) error {
 	e.writeIHDR()
 	if pal != nil {
 		e.writePLTEAndTRNS(pal)
+	} else if e.st != nil {
+		e.writetRNS()
 	}
 	e.writeIDATs()
 	e.writeIEND()
