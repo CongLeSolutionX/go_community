@@ -26,7 +26,7 @@ func diff(m0, m1 image.Image) error {
 			c1 := m1.At(x+dx, y+dy)
 			r0, g0, b0, a0 := c0.RGBA()
 			r1, g1, b1, a1 := c1.RGBA()
-			if r0 != r1 || g0 != g1 || b0 != b1 || a0 != a1 {
+			if (r0 != r1 || g0 != g1 || b0 != b1 || a0 != a1) && (a1 != 0.0) {
 				return fmt.Errorf("colors differ at (%d, %d): %v vs %v", x, y, c0, c1)
 			}
 		}
