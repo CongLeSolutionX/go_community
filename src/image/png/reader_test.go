@@ -38,6 +38,9 @@ var filenames = []string{
 	"basn4a16",
 	"basn6a08",
 	"basn6a16",
+	"tbbn2c16",
+	"tbgn2c16",
+	"tbrn2c08",
 }
 
 var filenamesPaletted = []string{
@@ -120,7 +123,7 @@ func sng(w io.WriteCloser, filename string, png image.Image) {
 			var r, g, b, a uint8
 			switch c := c.(type) {
 			case color.RGBA:
-				r, g, b, a = c.R, c.G, c.B, 0xff
+				r, g, b, a = c.R, c.G, c.B, c.A
 			case color.NRGBA:
 				r, g, b, a = c.R, c.G, c.B, c.A
 			default:
@@ -141,6 +144,22 @@ func sng(w io.WriteCloser, filename string, png image.Image) {
 			}
 			io.WriteString(w, "}\n")
 		}
+	}
+
+	// For the transparency images we have a tRNS to print
+	if strings.HasPrefix(filename, "tb") {
+		io.WriteString(w, "tRNS {\n")
+		// First point is always transparent for the pngsuite transparent images
+		f := png.At(0, 0)
+		r, g, b, _ := f.RGBA()
+		switch {
+		case cm == color.RGBAModel:
+			r >>= 8
+			b >>= 8
+			g >>= 8
+		}
+		fmt.Fprintf(w, "    red: %d; green: %d; blue: %d;", r, g, b)
+		io.WriteString(w, "}\n")
 	}
 
 	// Write the IMAGE.
@@ -256,7 +275,7 @@ func TestReader(t *testing.T) {
 			ps := pb.Text()
 			ss := sb.Text()
 			if ps != ss {
-				t.Errorf("%s: Mismatch\n%sversus\n%s\n", fn, ps, ss)
+				t.Errorf("%s: Mismatch\n%xversus\n%x\n", fn, ps, ss)
 				break
 			}
 		}
