@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f33cf1f3_7f944fc4",
+        "filename": "src/image/png/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 8735
+      },
+      "writtenOn": "2015-06-28T08:10:22Z",
+      "side": 1,
+      "message": "This is wrong, at this point it must be asserted that the pixel has it\u0027s alpha channel set to be fully transparent.",
+      "revId": "6905cc83d7ae87874045abfa8c71ebd7039d413f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
