@@ -33,6 +33,24 @@
       "revId": "e4a849ae319e943163034195bac628d233666139",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "138ee5ef_cfdfc9cb",
+        "filename": "src/cmd/go/vcs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2015-06-29T15:45:25Z",
+      "side": 1,
+      "message": "This came out of my testing of golang.org/cl/10693.  If you change the remote to use the SCP syntax (which is often what GitHub gives you), then running `go get -u` will fail.",
+      "parentUuid": "734801a1_db6bf3e4",
+      "revId": "e4a849ae319e943163034195bac628d233666139",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
