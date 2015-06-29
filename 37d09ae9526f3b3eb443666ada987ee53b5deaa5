@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d3ae0d65_a642a65b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T13:12:24Z",
+      "side": 1,
+      "message": "Need to figure out what happens. I think I might have to lower the value into (MOVZero [remainder] (offset destptr) (REPSTOSQ destptr mem)), but I don\u0027t think the rewriter will recursively rewrite MOVZero [0] into a copy.",
+      "parentUuid": "734801a1_bb7d4795",
+      "range": {
+        "startLine": 145,
+        "startChar": 45,
+        "endLine": 145,
+        "endChar": 53
+      },
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "734801a1_9b7a0b99",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d3ae0d65_e6489e81",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T13:12:24Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "734801a1_9b7a0b99",
+      "range": {
+        "startLine": 156,
+        "startChar": 10,
+        "endLine": 156,
+        "endChar": 17
+      },
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "734801a1_fb77cfae",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-06-27T21:11:59Z",
       "side": 1,
       "message": "Since the instruction takes the count in a register, that count should be an argument to this instruction, not a aux constant.  The register allocator will put the constant into a register for us.\n\nMOVZero is an exception, but I\u0027d like to keep lowered SSA ops encoding exactly one machine instruction as often as we can.\n\nI don\u0027t see REPSTOSQ implemented in ssa.go.",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 18
+      },
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ae0d65_86452a68",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T13:12:24Z",
+      "side": 1,
+      "message": "I tried to implement this, but the lack of register clobbering in regalloc means that it doesn\u0027t quite work yet.",
+      "parentUuid": "734801a1_fb77cfae",
       "range": {
         "startLine": 157,
         "startChar": 10,
