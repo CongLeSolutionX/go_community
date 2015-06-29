@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "133a65f6_038e9003",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T22:02:04Z",
+      "side": 1,
+      "message": "also set alive \u003d false inside here?",
+      "revId": "3c354cde15819c305e83eddd223ceb3e8096057a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "133a65f6_a390841d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T22:02:04Z",
+      "side": 1,
+      "message": "actually I just realized this isn\u0027t correct. You need to only either do this iteration of the loop once (keep a copy of the req.Request.Cancel channel and nil it out when it fires), or return from here.  But as-is it\u0027s spinning.",
+      "revId": "3c354cde15819c305e83eddd223ceb3e8096057a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
