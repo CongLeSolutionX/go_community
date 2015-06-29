@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "3333e921_27fbde73",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T23:24:40Z",
+      "side": 1,
+      "message": "This and the 2 and 1 cases can be if statements, not for loops.",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73a3a180_c6e9e4a9",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -65,6 +82,24 @@
       "side": 1,
       "message": "Haven\u0027t got a clue.",
       "parentUuid": "73a3a180_c6e9e4a9",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a3a180_892bfd36",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T23:24:40Z",
+      "side": 1,
+      "message": "I was curious, so I added it in CL 11722. Works fine. But code freeze.",
+      "parentUuid": "d3ae0d65_49fd057e",
       "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
