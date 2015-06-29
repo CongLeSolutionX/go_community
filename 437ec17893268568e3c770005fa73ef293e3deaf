@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "138ee5ef_af68459b",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-29T15:32:24Z",
+      "side": 1,
+      "message": "Done (#11465)",
+      "parentUuid": "3e680e9e_fc9725c8",
+      "revId": "437ec17893268568e3c770005fa73ef293e3deaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e680e9e_1c8db9b5",
         "filename": "src/runtime/stack1.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-26T17:48:34Z",
       "side": 1,
       "message": "Same.",
+      "revId": "437ec17893268568e3c770005fa73ef293e3deaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "734801a1_3ba937ed",
+        "filename": "src/runtime/stack1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-29T15:32:24Z",
+      "side": 1,
+      "message": "Done (#11466)",
+      "parentUuid": "3e680e9e_1c8db9b5",
       "revId": "437ec17893268568e3c770005fa73ef293e3deaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
