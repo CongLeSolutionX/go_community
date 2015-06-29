@@ -2194,6 +2194,13 @@ func needwritebarrier(l *Node, r *Node) bool {
 		return false
 	}
 
+	// Ignore no-op conversions when making decision.
+	// Ensures that xp = unsafe.Pointer(&x) is treated
+	// the same as xp = &x.
+	for r.Op == OCONVNOP {
+		r = r.Left
+	}
+
 	// No write barrier for initialization to constant.
 	if r.Op == OLITERAL {
 		return false
