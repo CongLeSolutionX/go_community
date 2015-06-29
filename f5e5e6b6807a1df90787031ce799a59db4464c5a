@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3ae0d65_8931bdf5",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-29T20:09:30Z",
+      "side": 1,
+      "message": "This fails to instrument assignments to *p in the following program:\n\npackage a\n\nfunc baz() (int, int)\n\nfunc bar(p *int) {\n\t*p, *p \u003d baz()\n}",
+      "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ae0d65_a92ef994",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-29T20:09:30Z",
+      "side": 1,
+      "message": "isstack looks too broad, it returns true for temps, PAUTO and PPARAM. I think this needs to check exactly for OINDREG/REGSP.\nBut taking into account the previous comment, it may be irrelevant.",
+      "range": {
+        "startLine": 159,
+        "startChar": 48,
+        "endLine": 159,
+        "endChar": 54
+      },
+      "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
