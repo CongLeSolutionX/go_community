@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "734801a1_5b26c37a",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-29T04:39:20Z",
+      "side": 1,
+      "message": "Look for \"/s/ and replace with \"https://golang.org/s/ throughout.\n\nThe /s/ links are known only to the golang.org server, not to local godocs.",
+      "revId": "c0ad45a38dc6309074ad557e3322550028efdd7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "734801a1_bb0a67d7",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1631,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-29T04:39:20Z",
+      "side": 1,
+      "message": "drop (yet?) ?\nseems weird in a user-facing doc.\nor just drop entire phase.\n\"A native lexer ...\"\"",
+      "revId": "c0ad45a38dc6309074ad557e3322550028efdd7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "734801a1_fb14eff9",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1632,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-29T04:39:20Z",
+      "side": 1,
+      "message": "there is no \u0027go package\u0027.",
+      "revId": "c0ad45a38dc6309074ad557e3322550028efdd7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
