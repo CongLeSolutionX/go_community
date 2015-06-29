@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "d3ae0d65_49fd057e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T19:45:19Z",
+      "side": 1,
+      "message": "Haven\u0027t got a clue.",
+      "parentUuid": "73a3a180_c6e9e4a9",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3333e921_c4acb07b",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2015-06-29T16:42:22Z",
       "side": 1,
       "message": "// movZero generates...",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ae0d65_69024115",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T19:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3333e921_c4acb07b",
       "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "d3ae0d65_09070d24",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T19:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133a65f6_43b5381d",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "133a65f6_23bab40e",
         "filename": "src/cmd/compile/internal/ssa/func.go",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2015-06-29T16:42:22Z",
       "side": 1,
       "message": "Update copy/pasted doc comment.",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3a99960_e80dcb40",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T19:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133a65f6_23bab40e",
       "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -317,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "d3ae0d65_290c4945",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T19:45:19Z",
+      "side": 1,
+      "message": "Not an issue here, but the new calling rules for canSSA changed. Removed a fatal there.",
+      "parentUuid": "53305d12_02884aa5",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 18
+      },
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "133a65f6_63c4bc85",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 1
@@ -328,6 +424,24 @@
       "writtenOn": "2015-06-29T16:42:22Z",
       "side": 1,
       "message": "a/Arg0/arg0/ for consistency",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ae0d65_c9101558",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-06-29T19:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133a65f6_63c4bc85",
       "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
