@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "53305d12_429a52f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "cmd/compile/ssa: please",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53305d12_229f4ee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "Do these TODOs belong in the TODO file?",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a3a180_c6e9e4a9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "amd64\u0027s clearfat doesn\u0027t use MOVW. Any idea why? Just an oversight?",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3333e921_c4acb07b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "// movZero generates...",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "133a65f6_43b5381d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "Add a TODO to use ZR on architectures with a zero register?",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "133a65f6_23bab40e",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "Update copy/pasted doc comment.",
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "734801a1_bb7d4795",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 1
@@ -185,6 +287,47 @@
         "endLine": 157,
         "endChar": 18
       },
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53305d12_02884aa5",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "And be sure that all.bash still passes. If it doesn\u0027t, the TODO might have to be a call to Unimplementedf.",
+      "parentUuid": "734801a1_7b945fc4",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 18
+      },
+      "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "133a65f6_63c4bc85",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-06-29T16:42:22Z",
+      "side": 1,
+      "message": "a/Arg0/arg0/ for consistency",
       "revId": "37d09ae9526f3b3eb443666ada987ee53b5deaa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
