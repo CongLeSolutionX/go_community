@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53305d12_62615630",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1546,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T22:42:04Z",
+      "side": 1,
+      "message": "single l",
+      "revId": "523056bc740c9653c1fb753373737045a75cca90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
