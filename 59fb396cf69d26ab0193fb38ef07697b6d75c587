@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "53bbfd9f_ea8aa79f",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53305d12_22f10e61",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73a3a180_06285cbd",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-29T05:00:53Z",
       "side": 1,
       "message": "single \u0027l\u0027 for all canceled or canceling, etc, per Go and American style.",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53bbfd9f_8a876b96",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73a3a180_06285cbd",
       "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "53bbfd9f_aa84af91",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3333e921_e14c46c4",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "133a65f6_204d8a14",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-06-29T05:00:53Z",
       "side": 1,
       "message": "Add (before the Server bit):\n// All implementations of RoundTripper may not support Cancel.",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53bbfd9f_4a0df3c3",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "Done, with wording that sounds better to my ear. Let me know if you disagree.",
+      "parentUuid": "133a65f6_204d8a14",
       "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "53bbfd9f_6a1237e3",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133a65f6_40488e04",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73a3a180_262d58ce",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "53bbfd9f_2a1c3ff3",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73a3a180_262d58ce",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3333e921_44b5401d",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2015-06-29T05:00:53Z",
       "side": 1,
       "message": "I never like to see sleeps in code, or tests. How long does this test take to run? Should it be skipped in short mode?",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53bbfd9f_ea1dc7ee",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1496,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-06-29T05:12:56Z",
+      "side": 1,
+      "message": "It takes about a second, and already skips in short mode. I copied it from\nTestTransportCancelRequest above; let me know if you have advice for how to\nimprove it.",
+      "parentUuid": "3333e921_44b5401d",
       "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
