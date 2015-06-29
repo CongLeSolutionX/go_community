@@ -39,6 +39,24 @@
       "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3b791b3_0ad93b1c",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-06-29T20:15:26Z",
+      "side": 1,
+      "message": "In this case we can insert instrumentation _after_ the stack reading sequence. Since that sequence does not contain any calls, instrumentation is still properly sequenced against calls (potentially containing synchronization).\nInstrumentation won\u0027t be executed if one of the assignments trigger nil deref, but we can ignore this case.",
+      "parentUuid": "d3ae0d65_8931bdf5",
+      "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
