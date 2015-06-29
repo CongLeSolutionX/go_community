@@ -280,6 +280,17 @@ func staticinit(n *Node, out **NodeList) bool {
 	return staticassign(l, r, out)
 }
 
+// oasWithLineFromRHS creates an OAS node that gets its line
+// number from its RHS expression. This is useful/necessary
+// for the temporary assignments in code generated for
+// compound literal construction.
+func oasWithLineFromRHS(lhs, rhs *Node) *Node {
+	saved := setlineno(rhs)
+	n := Nod(OAS, lhs, rhs)
+	lineno = saved
+	return n
+}
+
 // like staticassign but we are copying an already
 // initialized value r.
 func staticcopy(l *Node, r *Node, out **NodeList) bool {
@@ -380,7 +391,7 @@ func staticcopy(l *Node, r *Node, out **NodeList) bool {
 					rr.Orig = rr // completely separate copy
 					rr.Type = ll.Type
 					rr.Xoffset += e.Xoffset
-					*out = list(*out, Nod(OAS, ll, rr))
+					*out = list(*out, oasWithLineFromRHS(ll, rr))
 				}
 			}
 		}
@@ -488,7 +499,7 @@ func staticassign(l *Node, r *Node, out **NodeList) bool {
 				*a = n1
 				a.Orig = a // completely separate copy
 				if !staticassign(a, e.Expr, out) {
-					*out = list(*out, Nod(OAS, a, e.Expr))
+					*out = list(*out, oasWithLineFromRHS(a, e.Expr))
 				}
 			}
 		}
@@ -638,7 +649,7 @@ func structlit(ctxt int, pass int, n *Node, var_ *Node, init **NodeList) {
 		// build list of var.field = expr
 		a = Nod(ODOT, var_, newname(index.Sym))
 
-		a = Nod(OAS, a, value)
+		a = oasWithLineFromRHS(a, value)
 		typecheck(&a, Etop)
 		if pass == 1 {
 			walkexpr(&a, init) // add any assignments in r to top
@@ -705,7 +716,7 @@ func arraylit(ctxt int, pass int, n *Node, var_ *Node, init **NodeList) {
 		// build list of var[index] = value
 		a = Nod(OINDEX, var_, index)
 
-		a = Nod(OAS, a, value)
+		a = oasWithLineFromRHS(a, value)
 		typecheck(&a, Etop)
 		if pass == 1 {
 			walkexpr(&a, init)
@@ -866,7 +877,7 @@ func slicelit(ctxt int, n *Node, var_ *Node, init **NodeList) {
 		}
 
 		// build list of var[c] = expr
-		a = Nod(OAS, a, value)
+		a = oasWithLineFromRHS(a, value)
 
 		typecheck(&a, Etop)
 		orderstmtinplace(&a)
@@ -958,7 +969,7 @@ func maplit(ctxt int, n *Node, var_ *Node, init **NodeList) {
 
 				a = Nod(OINDEX, vstat, a)
 				a = Nod(ODOT, a, newname(syma))
-				a = Nod(OAS, a, index)
+				a = oasWithLineFromRHS(a, index)
 				typecheck(&a, Etop)
 				walkexpr(&a, init)
 				a.Dodata = 2
@@ -969,7 +980,7 @@ func maplit(ctxt int, n *Node, var_ *Node, init **NodeList) {
 
 				a = Nod(OINDEX, vstat, a)
 				a = Nod(ODOT, a, newname(symb))
-				a = Nod(OAS, a, value)
+				a = oasWithLineFromRHS(a, value)
 				typecheck(&a, Etop)
 				walkexpr(&a, init)
 				a.Dodata = 2
@@ -1032,16 +1043,16 @@ func maplit(ctxt int, n *Node, var_ *Node, init **NodeList) {
 			val = temp(var_.Type.Type)
 		}
 
-		a = Nod(OAS, key, r.Left)
+		a = oasWithLineFromRHS(key, r.Left)
 		typecheck(&a, Etop)
 		walkstmt(&a)
 		*init = list(*init, a)
-		a = Nod(OAS, val, r.Right)
+		a = oasWithLineFromRHS(val, r.Right)
 		typecheck(&a, Etop)
 		walkstmt(&a)
 		*init = list(*init, a)
 
-		a = Nod(OAS, Nod(OINDEX, var_, key), val)
+		a = oasWithLineFromRHS(Nod(OINDEX, var_, key), val)
 		typecheck(&a, Etop)
 		walkstmt(&a)
 		*init = list(*init, a)
