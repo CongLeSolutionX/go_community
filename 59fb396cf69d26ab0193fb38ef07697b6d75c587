@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53305d12_22f10e61",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "drop the last sentence and instead start this:\n\n// Cancel is an optional channel ...\n\nAlso, you need to differentiate between server and client requests.  I\u0027d make this sentence start (after \"Cancel is...\") with wording that it\u0027s only about client requests.\n\nThe end with \"For Server requests, this field is not applicable.\"",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a3a180_06285cbd",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "single \u0027l\u0027 for all canceled or canceling, etc, per Go and American style.",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3333e921_e14c46c4",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "don\u0027t go into describing the mechanics of how the request is canceled. HTTP/2 cancelation works very differently from HTTP/1.1, for instance.",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "133a65f6_204d8a14",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "Add (before the Server bit):\n// All implementations of RoundTripper may not support Cancel.",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "133a65f6_40488e04",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "cancelation",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a3a180_262d58ce",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "This style of documentation seems a bit out of place. Just provide the information.\n\ne.g.:\n\n// CancelRequest should only be called after RoundTrip has returned.",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3333e921_44b5401d",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1496,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-06-29T05:00:53Z",
+      "side": 1,
+      "message": "I never like to see sleeps in code, or tests. How long does this test take to run? Should it be skipped in short mode?",
+      "revId": "59fb396cf69d26ab0193fb38ef07697b6d75c587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
