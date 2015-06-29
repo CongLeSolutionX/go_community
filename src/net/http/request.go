@@ -224,6 +224,12 @@ type Request struct {
 	// otherwise it leaves the field nil.
 	// This field is ignored by the HTTP client.
 	TLS *tls.ConnectionState
+
+	// Cancel is a channel whose closure indicates that the request should be
+	// regarded as cancelled. In-flight client requests whose Cancel channels are
+	// closed are cancelled by closing their connections. A nil channel is
+	// ignored.
+	Cancel <-chan struct{}
 }
 
 // ProtoAtLeast reports whether the HTTP protocol used

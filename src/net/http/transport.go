@@ -274,8 +274,10 @@ func (t *Transport) CloseIdleConnections() {
 	}
 }
 
-// CancelRequest cancels an in-flight request by closing its
-// connection.
+// CancelRequest cancels an in-flight request by closing its connection. Note
+// that the cancellation may be lost if CancelRequest is called before
+// RoundTrip has a chance to note the request. Users should therefore prefer
+// Request.Cancel.
 func (t *Transport) CancelRequest(req *Request) {
 	t.reqMu.Lock()
 	cancel := t.reqCanceler[req]
@@ -563,6 +565,9 @@ func (t *Transport) getConn(req *Request, cm connectMethod) (*persistConn, error
 		// when it finishes:
 		handlePendingDial()
 		return pc, nil
+	case <-req.Cancel:
+		handlePendingDial()
+		return nil, errors.New("net/http: request canceled while waiting for connection")
 	case <-cancelc:
 		handlePendingDial()
 		return nil, errors.New("net/http: request canceled while waiting for connection")
@@ -971,6 +976,8 @@ func (pc *persistConn) readLoop() {
 			// response body to be fully consumed before peek on
 			// the underlying bufio reader.
 			select {
+			case <-rc.req.Cancel:
+				pc.t.CancelRequest(rc.req)
 			case bodyEOF := <-waitForBodyRead:
 				pc.t.setReqCanceler(rc.req, nil) // before pc might return to idle pool
 				alive = alive &&
@@ -1193,6 +1200,8 @@ WaitResponse:
 			break WaitResponse
 		case re = <-resc:
 			break WaitResponse
+		case <-req.Request.Cancel:
+			pc.t.CancelRequest(req.Request)
 		}
 	}
 
