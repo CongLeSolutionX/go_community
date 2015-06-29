@@ -57,6 +57,42 @@
       "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7361e11e_73e92032",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-29T20:30:46Z",
+      "side": 1,
+      "message": "Can you send me a test case to add to this CL? This passes all the current tests. I\u0027m happy to fix it, but I need a target to aim for. Email is fine, no need for a CL.",
+      "parentUuid": "d3ae0d65_8931bdf5",
+      "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7361e11e_53eea43b",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-06-29T20:30:46Z",
+      "side": 1,
+      "message": "Will try that once there is a test case.",
+      "parentUuid": "f3b791b3_0ad93b1c",
+      "revId": "f5e5e6b6807a1df90787031ce799a59db4464c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
