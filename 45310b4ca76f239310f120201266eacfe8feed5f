@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3a6f9d3_060d40c4",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-30T23:48:56Z",
+      "side": 1,
+      "message": "comma after human-friendly (?)",
+      "revId": "45310b4ca76f239310f120201266eacfe8feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3a6f9d3_c61638d4",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-30T23:48:56Z",
+      "side": 1,
+      "message": "s/arithmetic/numbers/ (?)\n\n(depending on whether data type means the type plus operations, or just the values)",
+      "revId": "45310b4ca76f239310f120201266eacfe8feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3a6f9d3_e6e37452",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-30T23:48:56Z",
+      "side": 1,
+      "message": "A Float value is represented via a boolean, sign, a variable-length mantissa, and a 32bit signed exponent.",
+      "revId": "45310b4ca76f239310f120201266eacfe8feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3a6f9d3_a6044c85",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-30T23:48:56Z",
+      "side": 1,
+      "message": "The mantissa is not 256bits by default. There\u0027s no default, really. A Float takes the precision of the operands unless explicitly specified.\n\nHow about:\nThe precision of a Float (mantissa size in bits) can be specified explicitly, or otherwise is determined by the first operation that creates the value.\n\n(Once the precision is set, the only operation that can change it is SetPrec).",
+      "revId": "45310b4ca76f239310f120201266eacfe8feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3a6f9d3_46c7c8a6",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-06-30T23:48:56Z",
+      "side": 1,
+      "message": "Float operations support all IEEE-754 rounding modes. When the precision is set to 24 (or 53 bits), Float operations that stay within the range of normalized float32 (or float64) values, produce the same results as the corresponding IEEE-754 arithmetic on those values.",
+      "revId": "45310b4ca76f239310f120201266eacfe8feed5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
