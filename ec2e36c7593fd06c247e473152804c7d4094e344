@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "137d05ed_a8615b08",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-06-30T19:30:14Z",
+      "side": 1,
+      "message": "Consider explaining why this is \"or so\".\n\n  // 2 GB minus some space for text",
+      "revId": "ec2e36c7593fd06c247e473152804c7d4094e344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
