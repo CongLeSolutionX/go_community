@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "f3bdd1e6_9ac3e97d",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-01T14:48:37Z",
+      "side": 1,
+      "message": "the change itself wasn\u0027t that significant. The effect of it might be, though.",
+      "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3bdd1e6_3ad3bd4a",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-01T14:48:37Z",
+      "side": 1,
+      "message": "... and its thread overhead per request while the resolution is outstanding.\n\n?\n\n(explain the motivation of the change)",
+      "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3bdd1e6_5ac6718c",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-01T14:48:37Z",
+      "side": 1,
+      "message": "We might want to mention that this is selected at runtime now, as opposed to the old \"netgo\" build tag (which also still works).",
+      "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13f0a5db_d3e02611",
         "filename": "doc/go1.5.html",
         "patchSetId": 2
@@ -31,6 +82,41 @@
       "side": 1,
       "message": "Excellent. Thanks for the info. But... what should I say here about Windows?",
       "parentUuid": "13f0a5db_d3e02611",
+      "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3bdd1e6_dae04111",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-01T14:48:37Z",
+      "side": 1,
+      "message": "There are no changes to behavior on Mac OS X or Windows.\n\nJust don\u0027t mention cgo. Windows does its own system calls for this, like before.",
+      "parentUuid": "13f0a5db_93da9e57",
+      "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3bdd1e6_9adac957",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-01T14:48:37Z",
+      "side": 1,
+      "message": "For details, see the \u003ca href\u003d\"/pkg/net/http/#ResponseWriter\"\u003e\u003ccode\u003eResponseWriter\u003c/code\u003e docs\u003c/a\u003e.\n\nI\u0027ll send myself a note to improve those docs a bit.",
       "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
