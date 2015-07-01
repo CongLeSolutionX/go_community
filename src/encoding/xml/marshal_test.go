@@ -1062,15 +1062,16 @@ var marshalTests = []struct {
 		Value:     &NestedAndComment{AB: make([]string, 2), Comment: "test"},
 	},
 	{
-		ExpectXML: `<XMLNSFieldStruct xmlns="http://example.com/ns"><Body>hello world</Body></XMLNSFieldStruct>`,
-		Value:     &XMLNSFieldStruct{Ns: "http://example.com/ns", Body: "hello world"},
+		ExpectXML:   `<XMLNSFieldStruct><Body>hello world</Body></XMLNSFieldStruct>`,
+		Value:       &XMLNSFieldStruct{Ns: "http://example.com/ns", Body: "hello world"},
+		MarshalOnly: true,
 	},
 	{
-		ExpectXML: `<testns:test xmlns:testns="testns" xmlns="http://example.com/ns"><Body>hello world</Body></testns:test>`,
+		ExpectXML: `<testns:test xmlns:testns="testns" xmlns="http://example.com/ns" xmlns="http://example.com/ns"><Body>hello world</Body></testns:test>`,
 		Value:     &NamedXMLNSFieldStruct{Ns: "http://example.com/ns", Body: "hello world"},
 	},
 	{
-		ExpectXML: `<testns:test xmlns:testns="testns"><Body>hello world</Body></testns:test>`,
+		ExpectXML: `<testns:test xmlns:testns="testns" xmlns="" xmlns=""><Body>hello world</Body></testns:test>`,
 		Value:     &NamedXMLNSFieldStruct{Ns: "", Body: "hello world"},
 	},
 	{
@@ -1086,13 +1087,14 @@ var marshalTests = []struct {
 		MarshalOnly: true,
 	},
 	{
-		ExpectXML: `<RecursiveXMLNSFieldStruct xmlns="foo"><Body xmlns=""><Text>hello world</Text></Body></RecursiveXMLNSFieldStruct>`,
+		ExpectXML: `<RecursiveXMLNSFieldStruct><Body><Text>hello world</Text></Body></RecursiveXMLNSFieldStruct>`,
 		Value: &RecursiveXMLNSFieldStruct{
 			Ns: "foo",
 			Body: &RecursiveXMLNSFieldStruct{
 				Text: "hello world",
 			},
 		},
+		MarshalOnly: true,
 	},
 }
 
