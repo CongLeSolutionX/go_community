@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "137d05ed_4bd61936",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-07-01T14:49:15Z",
+      "side": 1,
+      "message": "Fixes? (The issue is just \"re-enable check\", which this does.)",
+      "revId": "77b740f155154eca9b2f45ca5edd8aee1a0ae213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
