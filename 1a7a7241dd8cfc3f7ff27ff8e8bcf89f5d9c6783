@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13f0a5db_d3e02611",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-07-01T08:47:58Z",
+      "side": 1,
+      "message": "We don\u0027t use cgo anywhere on Windows.",
+      "revId": "1a7a7241dd8cfc3f7ff27ff8e8bcf89f5d9c6783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
