@@ -113,10 +113,11 @@ type Auto struct {
 }
 
 type Shlib struct {
-	Path string
-	Hash []byte
-	Deps []string
-	File *elf.File
+	Path             string
+	Hash             []byte
+	Deps             []string
+	File             *elf.File
+	gcdata_addresses map[*LSym]uint64
 }
 
 type Link struct {
