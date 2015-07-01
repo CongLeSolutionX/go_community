@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "137d05ed_a8523b5b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-01T13:55:23Z",
+      "side": 1,
+      "message": "s/bytes/8-byte words/",
+      "range": {
+        "startLine": 158,
+        "startChar": 122,
+        "endLine": 158,
+        "endChar": 127
+      },
+      "revId": "a695fd5995dc4e3206f600e2aa8c1822b89d1207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
