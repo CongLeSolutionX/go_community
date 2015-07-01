@@ -16,6 +16,24 @@
       "revId": "cb61ec06c3aff98f01146b05cce4d34873ac1078",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "137d05ed_88749747",
+        "filename": "src/cmd/compile/internal/ssa/dom_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-01T03:10:33Z",
+      "side": 1,
+      "message": "Thanks, I wasn\u0027t aware of that option.",
+      "parentUuid": "b3da7933_7dde3706",
+      "revId": "cb61ec06c3aff98f01146b05cce4d34873ac1078",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
