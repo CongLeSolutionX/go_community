@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b3cfd99d_9536240e",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-07-01T08:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b5bdd8_baec5109",
+      "revId": "929bd3ac590bb60fbf5812ebe01a77eddce637dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53b5bdd8_1a07fd55",
         "filename": "src/encoding/xml/marshal.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-30T07:50:11Z",
       "side": 1,
       "message": "Is add always going to be equivalent to attr being non-zero? If so, do you need the add return value?",
+      "revId": "929bd3ac590bb60fbf5812ebe01a77eddce637dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13a265bf_a0367a0d",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-07-01T08:25:06Z",
+      "side": 1,
+      "message": "Good thought. Done.",
+      "parentUuid": "53b5bdd8_1a07fd55",
       "revId": "929bd3ac590bb60fbf5812ebe01a77eddce637dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -82,6 +118,24 @@
       "writtenOn": "2015-06-30T07:50:11Z",
       "side": 1,
       "message": "Is it possible to break this CL up into two parts, so the first one simply adds the test cases and the second one clearly shows the before/after diff in behavior?\n\nOr will trying to do the first one break because, prior to this CL, the new test cases don\u0027t round-trip unchanged?",
+      "revId": "929bd3ac590bb60fbf5812ebe01a77eddce637dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53c13d6b_daa725c6",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-07-01T08:25:06Z",
+      "side": 1,
+      "message": "Good idea but too late, I\u0027m afraid, as I had already submitted after rsc\u0027s +2. I have made https://go-review.googlesource.com/#/c/11831/ so that you can see the changes (in reverse) implied by the new code.\n\nPlease check that over to see if the behaviour changes look reasonable to you.",
+      "parentUuid": "53b5bdd8_7a163985",
       "revId": "929bd3ac590bb60fbf5812ebe01a77eddce637dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
