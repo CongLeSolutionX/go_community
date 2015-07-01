@@ -34,6 +34,24 @@
       "revId": "cb61ec06c3aff98f01146b05cce4d34873ac1078",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3bdd1e6_f799e0ff",
+        "filename": "src/cmd/compile/internal/ssa/dom_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-01T03:23:46Z",
+      "side": 1,
+      "message": "You can also get alloc info by passing -benchmem to \u0027go test\u0027.",
+      "parentUuid": "137d05ed_88749747",
+      "revId": "cb61ec06c3aff98f01146b05cce4d34873ac1078",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
