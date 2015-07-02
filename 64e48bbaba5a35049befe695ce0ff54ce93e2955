@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53ae9dfa_d288642c",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-07-02T01:48:04Z",
+      "side": 1,
+      "message": "This fixes it! Update the comment to explain the use of Stable.",
+      "range": {
+        "startLine": 256,
+        "startChar": 1,
+        "endLine": 256,
+        "endChar": 54
+      },
+      "revId": "64e48bbaba5a35049befe695ce0ff54ce93e2955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
