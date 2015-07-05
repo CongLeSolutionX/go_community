@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d3a1ad0d_742c004f",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1598,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:36:06Z",
+      "side": 1,
+      "message": "It does, but I\u0027d rather it was some other shorthand.\n\nIt\u0027s not a big deal, but it\u0027s also not a big deal to avoid.",
+      "parentUuid": "53ae9dfa_b5894a33",
+      "range": {
+        "startLine": 1598,
+        "startChar": 4,
+        "endLine": 1598,
+        "endChar": 12
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3a1ad0d_b4eb0875",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
