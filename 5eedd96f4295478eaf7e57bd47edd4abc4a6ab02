@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "d3a1ad0d_94f08c5e",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1598,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "as a question, \u0027standard\u0027 is ok, but we don\u0027t actually have a standard,\nso in our docs i prefer to use \u0027core\u0027. leave the question alone but please fix references within.",
+      "range": {
+        "startLine": 1598,
+        "startChar": 4,
+        "endLine": 1598,
+        "endChar": 12
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a1ad0d_b4eb0875",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "The core library only contains code fundamental to many users for most tasks.",
+      "range": {
+        "startLine": 1599,
+        "startChar": 27,
+        "endLine": 1599,
+        "endChar": 32
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a1ad0d_f4e5909e",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1603,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "core.",
+      "range": {
+        "startLine": 1603,
+        "startChar": 21,
+        "endLine": 1603,
+        "endChar": 29
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a1ad0d_d4ea146e",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "core",
+      "range": {
+        "startLine": 1605,
+        "startChar": 21,
+        "endLine": 1605,
+        "endChar": 29
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a1ad0d_3400b8bf",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1615,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "core",
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53ae9dfa_756fe2f3",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -30,6 +139,52 @@
       "writtenOn": "2015-07-05T21:14:54Z",
       "side": 1,
       "message": "compatibility",
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a1ad0d_74fa403b",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1620,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "s/on/at/? it\u0027s a location not a table, kinda",
+      "range": {
+        "startLine": 1620,
+        "startChar": 47,
+        "endLine": 1620,
+        "endChar": 49
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a1ad0d_54f7444f",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1625,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-05T23:08:00Z",
+      "side": 1,
+      "message": "core",
+      "range": {
+        "startLine": 1625,
+        "startChar": 9,
+        "endLine": 1625,
+        "endChar": 17
+      },
       "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
