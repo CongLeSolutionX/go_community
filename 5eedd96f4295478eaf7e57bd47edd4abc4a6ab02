@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53ae9dfa_b5894a33",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1598,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-05T23:14:47Z",
+      "side": 1,
+      "message": "Well, the Go tool does support \"go list std\", which I thought meant standard.",
+      "parentUuid": "d3a1ad0d_94f08c5e",
+      "range": {
+        "startLine": 1598,
+        "startChar": 4,
+        "endLine": 1598,
+        "endChar": 12
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3a1ad0d_b4eb0875",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
