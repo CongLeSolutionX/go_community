@@ -193,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "f36151bc_5a79f1eb",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-06T16:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ae9dfa_556c5efd",
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3a1ad0d_74fa403b",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -204,6 +222,30 @@
       "writtenOn": "2015-07-05T23:08:00Z",
       "side": 1,
       "message": "s/on/at/? it\u0027s a location not a table, kinda",
+      "range": {
+        "startLine": 1620,
+        "startChar": 47,
+        "endLine": 1620,
+        "endChar": 49
+      },
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f36151bc_7a76b5fc",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1620,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-06T16:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3a1ad0d_74fa403b",
       "range": {
         "startLine": 1620,
         "startChar": 47,
@@ -256,6 +298,24 @@
     },
     {
       "key": {
+        "uuid": "f36151bc_ba668d49",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-06T16:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ae9dfa_b5378a0d",
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53ae9dfa_953c06f3",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -267,6 +327,24 @@
       "writtenOn": "2015-07-05T21:14:54Z",
       "side": 1,
       "message": "curate",
+      "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f36151bc_da5b417c",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1630,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-06T16:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ae9dfa_953c06f3",
       "revId": "5eedd96f4295478eaf7e57bd47edd4abc4a6ab02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
