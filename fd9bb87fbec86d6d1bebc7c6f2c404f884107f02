@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58e87a65_82ed3a8a",
+        "filename": "src/cmd/compile/internal/ssa/deadcode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-06T23:11:05Z",
+      "side": 1,
+      "message": "Put mem first? Doesn\u0027t really matter.",
+      "revId": "fd9bb87fbec86d6d1bebc7c6f2c404f884107f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58e87a65_c2e10298",
+        "filename": "src/cmd/compile/internal/ssa/deadcode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-06T23:11:05Z",
+      "side": 1,
+      "message": "Add a CheckFunc here, just for good measure?",
+      "revId": "fd9bb87fbec86d6d1bebc7c6f2c404f884107f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
