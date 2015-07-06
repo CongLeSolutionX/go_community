@@ -107,13 +107,25 @@ func (f *Func) removePredecessor(b, c *Block) {
 
 		n := len(c.Preds) - 1
 
+		if len(c.Preds) == 0 {
+			continue // no need to work on already dead blocks
+		}
+
 		// find index of b in c's predecessor list
-		var i int
+		i := -1
 		for j, p := range c.Preds {
 			if p == b {
 				i = j
 				break
 			}
+		}
+
+		// couldn't find predecessor
+		if i == -1 {
+			if len(b.Preds) == 0 {
+				continue // predecessor was already dead
+			}
+			f.Fatalf("%s is not a predecessor of %s", b, c)
 		}
 
 		c.Preds[i] = c.Preds[n]
