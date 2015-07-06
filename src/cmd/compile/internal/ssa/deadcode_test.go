@@ -93,3 +93,41 @@ func TestNeverTaken(t *testing.T) {
 	}
 
 }
+
+func TestMultipleDeadBlocks(t *testing.T) {
+	c := NewConfig("amd64", DummyFrontend{t})
+	fun := Fun(c, "entry",
+		Bloc("entry",
+			Valu("cond", OpConst, TypeBool, 0, false),
+			Valu("mem", OpArg, TypeMem, 0, ".mem"),
+			If("cond", "b2", "b4")),
+		Bloc("b2",
+			If("cond", "b3", "b4")),
+		Bloc("b3",
+			Goto("exit")),
+		Bloc("b4",
+			Goto("exit")),
+		Bloc("exit",
+			Exit("mem")))
+
+	CheckFunc(fun.f)
+	Opt(fun.f)
+	Deadcode(fun.f)
+	CheckFunc(fun.f)
+	if fun.blocks["entry"].Kind != BlockPlain {
+		t.Errorf("if(false) not simplified")
+	}
+	for _, b := range fun.f.Blocks {
+		if b == fun.blocks["b2"] {
+			t.Errorf("b2 block still present")
+		}
+		if b == fun.blocks["b3"] {
+			t.Errorf("b3 block still present")
+		}
+		for _, v := range b.Values {
+			if v == fun.values["cond"] {
+				t.Errorf("constant condition still present")
+			}
+		}
+	}
+}

@@ -107,6 +107,11 @@ func (f *Func) removePredecessor(b, c *Block) {
 
 		n := len(c.Preds) - 1
 
+		// block is already dead
+		if n < 0 {
+			return
+		}
+
 		// find index of b in c's predecessor list
 		var i int
 		for j, p := range c.Preds {
