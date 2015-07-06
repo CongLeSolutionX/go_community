@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3814a632_99e13bc0",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-06T23:15:47Z",
+      "side": 1,
+      "message": "This has a problem too (scenario where len(c.Preds) \u003e 1, but the predecessor we\u0027re trying to remove was already removed due to the work list. Working on a fix.",
+      "revId": "fd9bb87fbec86d6d1bebc7c6f2c404f884107f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58e87a65_82ed3a8a",
         "filename": "src/cmd/compile/internal/ssa/deadcode_test.go",
         "patchSetId": 1
@@ -19,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3814a632_19f64b89",
+        "filename": "src/cmd/compile/internal/ssa/deadcode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-06T23:15:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e87a65_82ed3a8a",
+      "revId": "fd9bb87fbec86d6d1bebc7c6f2c404f884107f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58e87a65_c2e10298",
         "filename": "src/cmd/compile/internal/ssa/deadcode_test.go",
         "patchSetId": 1
@@ -30,6 +65,24 @@
       "writtenOn": "2015-07-06T23:11:05Z",
       "side": 1,
       "message": "Add a CheckFunc here, just for good measure?",
+      "revId": "fd9bb87fbec86d6d1bebc7c6f2c404f884107f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3814a632_19a76b98",
+        "filename": "src/cmd/compile/internal/ssa/deadcode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-06T23:15:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e87a65_c2e10298",
       "revId": "fd9bb87fbec86d6d1bebc7c6f2c404f884107f02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
