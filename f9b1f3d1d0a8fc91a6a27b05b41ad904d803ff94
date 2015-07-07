@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3814a632_3ca21d88",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-07T00:29:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t work (fails test). Down around line 158 when we start work on the successors in the next loop iteration, c.Preds might be zero due to the previous iteration. But the successor\u0027s preds list still contains the previous block c.",
+      "parentUuid": "58e87a65_e22f6642",
+      "revId": "f9b1f3d1d0a8fc91a6a27b05b41ad904d803ff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58e87a65_02336ab0",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-07T00:14:16Z",
       "side": 1,
       "message": "Should this be continue? There might be more work to do.",
+      "revId": "f9b1f3d1d0a8fc91a6a27b05b41ad904d803ff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3814a632_fcea659b",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-07T00:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e87a65_02336ab0",
       "revId": "f9b1f3d1d0a8fc91a6a27b05b41ad904d803ff94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3814a632_5cfcb168",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-07T00:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e87a65_223e6e78",
+      "revId": "f9b1f3d1d0a8fc91a6a27b05b41ad904d803ff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58e87a65_020a4ad8",
         "filename": "src/cmd/compile/internal/ssa/deadcode.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2015-07-07T00:14:16Z",
       "side": 1,
       "message": "No need for the .String() calls here -- the %s formatting verb will take care of that.",
+      "revId": "f9b1f3d1d0a8fc91a6a27b05b41ad904d803ff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3814a632_3cf1fd90",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-07T00:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e87a65_020a4ad8",
       "revId": "f9b1f3d1d0a8fc91a6a27b05b41ad904d803ff94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
