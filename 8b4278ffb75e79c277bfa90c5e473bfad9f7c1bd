@@ -22,6 +22,30 @@
       "revId": "8b4278ffb75e79c277bfa90c5e473bfad9f7c1bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "981e7258_973d8699",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-07-07T23:58:29Z",
+      "side": 1,
+      "message": "I cribbed this wording from other places in the package. Will send you a CL to\nfix them all, and another to add this to the release notes.",
+      "parentUuid": "981e7258_d743fe12",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 232,
+        "endChar": 14
+      },
+      "revId": "8b4278ffb75e79c277bfa90c5e473bfad9f7c1bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
