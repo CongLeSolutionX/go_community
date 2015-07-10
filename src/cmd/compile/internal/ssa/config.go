@@ -5,9 +5,10 @@
 package ssa
 
 type Config struct {
-	arch       string                     // "amd64", etc.
-	ptrSize    int64                      // 4 or 8
-	Uintptr    Type                       // pointer arithmetic type
+	arch       string // "amd64", etc.
+	ptrSize    int64  // 4 or 8
+	Uintptr    Type   // pointer arithmetic type
+	Int        Type
 	lowerBlock func(*Block) bool          // lowering function
 	lowerValue func(*Value, *Config) bool // lowering function
 	fe         Frontend                   // callbacks into compiler frontend
@@ -50,8 +51,10 @@ func NewConfig(arch string, fe Frontend) *Config {
 
 	// cache the intptr type in the config
 	c.Uintptr = TypeUInt32
+	c.Int = TypeInt32
 	if c.ptrSize == 8 {
 		c.Uintptr = TypeUInt64
+		c.Int = TypeInt64
 	}
 
 	return c
