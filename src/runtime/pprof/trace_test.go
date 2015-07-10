@@ -130,7 +130,8 @@ func TestTraceStress(t *testing.T) {
 		t.Fatalf("failed to start tracing: %v", err)
 	}
 
-	procs := runtime.GOMAXPROCS(10)
+	const N = 10
+	procs := runtime.GOMAXPROCS(N)
 	time.Sleep(50 * time.Millisecond) // test proc stop/start events
 
 	go func() {
@@ -145,18 +146,25 @@ func TestTraceStress(t *testing.T) {
 		}
 	}()
 
+	nmallocs := 1000
+	malloclen := 1 << 20
+	gplaylen := 1 << 16
+	if runtime.GOARCH == "386" {
+		nmallocs /= 2
+		gplaylen /= 2
+	}
 	runtime.GC()
 	// Trigger GC from malloc.
-	for i := 0; i < 1e3; i++ {
-		_ = make([]byte, 1<<20)
+	for i := 0; i < nmallocs; i++ {
+		_ = make([]byte, malloclen)
 	}
 
 	// Create a bunch of busy goroutines to load all Ps.
-	for p := 0; p < 10; p++ {
+	for p := 0; p < N; p++ {
 		wg.Add(1)
 		go func() {
 			// Do something useful.
-			tmp := make([]byte, 1<<16)
+			tmp := make([]byte, gplaylen)
 			for i := range tmp {
 				tmp[i]++
 			}
@@ -186,7 +194,8 @@ func TestTraceStress(t *testing.T) {
 	// A bit of network.
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
-		t.Fatalf("listen failed: %v", err)
+		runtime.GOMAXPROCS(procs)
+		t.Fatal(err)
 	}
 	defer ln.Close()
 	go func() {
@@ -201,7 +210,8 @@ func TestTraceStress(t *testing.T) {
 	}()
 	c, err := net.Dial("tcp", ln.Addr().String())
 	if err != nil {
-		t.Fatalf("dial failed: %v", err)
+		runtime.GOMAXPROCS(procs)
+		t.Fatal(err)
 	}
 	var tmp [1]byte
 	c.Read(tmp[:])
