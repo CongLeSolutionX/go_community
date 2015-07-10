@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78ca9e3a_6b580101",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_efcfb5dc",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_cfd4f175",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "78ca9e3a_0b4dbd41",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_cfd4f175",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_0fcb29cd",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-04-06T14:12:03Z",
       "side": 1,
       "message": "Maybe something like:\n\n   for {\n      pconn, err :\u003d t.getConn(req, cm)\n      ....\n\n      if err \u003d\u003d nil {\n          return resp, nil\n      }\n      if err :\u003d checkTransportResend(err, req, pconn); err !\u003d nil {\n        return nil, err\n      }\n   }\n\nThen:\n\n   // checkTransportResend checks whether a failed HTTP request can be\n   // resent on a new connection. The non-nil input error is the\n   // error from XYZ, often wrapped in a beforeRespHeaderError error.\n   //\n   // The return value is nil if the request can be tried again.\n   func checkTransportResend(err error, ...) error {\n          ...\n   }\n\n?",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ca9e3a_2b52f9e0",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_0fcb29cd",
       "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "78ca9e3a_eb439112",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ve created an unexported isReplayable() method to contain this logic. As of now, it just makes sure that the request has no body and that it uses a \"safe\" method as defined by RFC7231 (GET, HEAD, OPTIONS, and TRACE).",
+      "parentUuid": "2312b2d8_0f368962",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_8fdef98f",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -99,6 +171,24 @@
       "writtenOn": "2015-04-06T14:12:03Z",
       "side": 1,
       "message": "delete. this is a little buried (and by indentation) above. see earlier comment for alternate flow.",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ca9e3a_8b40cd07",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_8fdef98f",
       "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "78ca9e3a_ab3d8998",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_6fc4e5be",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_4f3c8142",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -133,6 +241,24 @@
       "writtenOn": "2015-04-06T14:12:03Z",
       "side": 1,
       "message": "this doesn\u0027t need to return anything",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ca9e3a_4bc42509",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_4f3c8142",
       "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "78ca9e3a_6bc9e11d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_2f394d52",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_eff8d5fd",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "78ca9e3a_8be1ad98",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "As far as I could tell, the only case where we return a non-network or I/O error from Write was if the request had no Host or URL. I\u0027ve turned that error into a var in the http package so that I could match against it when determining whether to retry or not. I also exported that error as ErrMissingHost, which may or may not be the right decision.\n\nThat was the most straightforward solution I could think of here. I think it covers the scenario you were concerned about, but please let me know if I misunderstood.",
+      "parentUuid": "2312b2d8_eff8d5fd",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2312b2d8_afd9bdab",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -184,6 +346,24 @@
       "writtenOn": "2015-04-06T14:12:03Z",
       "side": 1,
       "message": "put the new markReused method next to this one? And move the new accessors down here too?",
+      "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78ca9e3a_0bce1d27",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-07-10T19:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2312b2d8_afd9bdab",
       "revId": "4643489d820f93dc73e9dafd0e5d33061d025b7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
