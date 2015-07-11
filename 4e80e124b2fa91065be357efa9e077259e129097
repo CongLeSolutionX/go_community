@@ -69,6 +69,53 @@
       "revId": "4e80e124b2fa91065be357efa9e077259e129097",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8ec16cf_6d103589",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1598,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-11T22:13:42Z",
+      "side": 1,
+      "message": "I don\u0027t believe users should \"expect\" to depend on external packages. I believe it\u0027s possible, even likely, but if your code does not depend on something external it\u0027s not failing to meet an expectation.\n\nAlso this wording doesn\u0027t help answer the question. It\u0027s on the fence.\n\nHow about this:\n\nThe standard library\u0027s purpose is to support the runtime, connect to the operating system, and provide key functionality that many\nGo programs require, such as formatted I/O and networking.\nIt also contains elements important for web programming, including\ncryptography and support for standards like HTTP, JSON, and XML.\n\u003cp\u003e\nThere is no clear criterion that defines what is included because\nfor a long time, this was the _only_ Go library.\nThere are criteria that define what gets added today, however.",
+      "parentUuid": "f36151bc_5d464b73",
+      "range": {
+        "startLine": 1598,
+        "startChar": 0,
+        "endLine": 1598,
+        "endChar": 1
+      },
+      "revId": "4e80e124b2fa91065be357efa9e077259e129097",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8ec16cf_adf97dbf",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1638,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-11T22:13:42Z",
+      "side": 1,
+      "message": "I would drop lines all but the last sentence of this paragraph. It\u0027s more detail than the FAQ usually carries. Certainly tighten it. How about this:\n\nAlthough there are pieces in the library that don\u0027t really belong,\nsuch as log/syslog, we continue to maintain everything in the\nlibrary because of the Go 1 compatibility promise.\nBut we encourage most new code to live elsewhere.",
+      "range": {
+        "startLine": 1638,
+        "startChar": 0,
+        "endLine": 1638,
+        "endChar": 3
+      },
+      "revId": "4e80e124b2fa91065be357efa9e077259e129097",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
