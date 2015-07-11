@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78753eb8_3c2475b9",
+        "filename": "src/runtime/pprof/trace_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-07-11T02:50:59Z",
+      "side": 1,
+      "message": "do defer runtime.GOMAXPROCS(procs) above instead\nit won\u0027t hurt if we call runtime.GOMAXPROCS(procs) twice (explicitly and via defer)",
+      "revId": "e15048d353698dbbfee151c544e0597535796e9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
