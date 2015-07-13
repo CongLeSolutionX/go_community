@@ -78,7 +78,17 @@ func slicebytetostring(buf *tmpBuf, b []byte) string {
 		// Turns out to be a relatively common case.
 		// Consider that you want to parse out data between parens in "foo()bar",
 		// you find the indices and convert the subslice to string.
-		return ""
+		// This could be
+		//	return ""
+		// but that will return the string (nil, 0).
+		// Historically we have returned the string (&zerobase, 0).
+		// That is, the string base has been a non-nil pointer.
+		// Code that knows far too much about what's going on
+		// may depend on this (we've seen one breakage),
+		// and there is no harm in continuing to return that value.
+		// It's just slightly more work.
+		s := stringStruct{unsafe.Pointer(&zerobase), 0}
+		return *(*string)(unsafe.Pointer(&s))
 	}
 	if raceenabled && l > 0 {
 		racereadrangepc(unsafe.Pointer(&b[0]),
