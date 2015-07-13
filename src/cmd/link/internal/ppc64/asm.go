@@ -349,16 +349,14 @@ func archreloc(r *ld.Reloc, s *ld.LSym, val *int64) int {
 
 	case obj.R_PPC64_ADDR16_LO:
 		v := (ld.Symaddr(r.Sym) + r.Add) & 0xffff
-		// There is an almost-bug here. We always used R_PPC64_ADDR16_LO to
-		// insert the low 16 bits of an address. Almost all loads are
-		// "D-form" instructions, which have a 16-bit immediate in the lower
-		// 16-bits of the instruction word. But the load doubleword
-		// instruction is a "DS-form" instruction: the immediate only
-		// occupies bits 16-29 of the instruction and is implicity padded
-		// with zeros on the right. The reason the below isn't a bug is
-		// because we only ever use immediates that have zeros on in their
-		// lower bits with ld, and we combine the immediate with | so bits 30
-		// and 31 are preserved.
+		*val |= v
+		return 0
+
+	case obj.R_PPC64_ADDR16_LO_DS:
+		v := (ld.Symaddr(r.Sym) + r.Add) & 0xffff
+		if v&0x3 != 0 {
+			ld.Ctxt.Diag("bad DS reloc for %s: %d", s.Name, ld.Symaddr(r.Sym))
+		}
 		*val |= v
 		return 0
 

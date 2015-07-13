@@ -425,6 +425,10 @@ const (
 	// R_PPC64_ADDR16_LO puts the low word of the computed address into the
 	// low 16 bits of an instruction doubleword.
 	R_PPC64_ADDR16_LO
+	// R_PPC64_ADDR16_LO_DS puts bits [16:3] of the computed address
+	// into the bits [16:3] of an instruction doubleword and
+	// checks that the 2 lowest bits of the address are zero.
+	R_PPC64_ADDR16_LO_DS
 )
 
 type Auto struct {
