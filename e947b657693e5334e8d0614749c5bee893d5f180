@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8ec16cf_cd75e9a9",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-13T01:57:30Z",
+      "side": 1,
+      "message": "s/code/i/g\n\nX is a free variable, not the window system system",
+      "range": {
+        "startLine": 1595,
+        "startChar": 17,
+        "endLine": 1595,
+        "endChar": 19
+      },
+      "revId": "e947b657693e5334e8d0614749c5bee893d5f180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8ec16cf_2dfc6d81",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1607,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-13T01:57:30Z",
+      "side": 1,
+      "message": "one space after period.\nbetter: newline after period and it\u0027s a non-issue",
+      "range": {
+        "startLine": 1607,
+        "startChar": 49,
+        "endLine": 1607,
+        "endChar": 51
+      },
+      "revId": "e947b657693e5334e8d0614749c5bee893d5f180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8ec16cf_4d0bb92d",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1617,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-13T01:57:30Z",
+      "side": 1,
+      "message": "it always prevents them, not just sometimes. also the doubled gerund is awkward. also you use preventing twice in this pp.\nhow about\n\n(blocking fixes to any flaws in the API)",
+      "range": {
+        "startLine": 1617,
+        "startChar": 1,
+        "endLine": 1617,
+        "endChar": 6
+      },
+      "revId": "e947b657693e5334e8d0614749c5bee893d5f180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
