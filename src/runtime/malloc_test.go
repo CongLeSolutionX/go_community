@@ -63,6 +63,22 @@ func TestStringConcatenationAllocs(t *testing.T) {
 	}
 }
 
+func TestBytesToEmptyString(t *testing.T) {
+	// Check that string([]byte{}) uses a non-nil base pointer.
+	// This is not required by the spec, but it's the way Go worked
+	// up through 1.4, and when we changed it to nil in 1.5 that
+	// broke at least one program. It's basically no cost not to
+	// break things (by continuing to use a non-nil base pointer),
+	// so test that we don't.
+	// Other implementations might behave differently, of course,
+	// but we don't want to break code we don't have to break.
+	var b []byte
+	s := string(b)
+	if *(*uintptr)(unsafe.Pointer(&s)) == 0 {
+		t.Fatalf("string([]byte{}) has nil base pointer")
+	}
+}
+
 var mallocSink uintptr
 
 func BenchmarkMalloc8(b *testing.B) {
