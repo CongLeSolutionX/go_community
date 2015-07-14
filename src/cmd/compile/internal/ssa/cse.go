@@ -32,11 +32,18 @@ func cse(f *Func) {
 		auxint int64
 		nargs  int
 	}
+
+	phiUsed := make([]int, f.NumValues())
 	m := map[key]eqclass{}
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			k := key{v.Op, v.Type.String(), v.Aux, v.AuxInt, len(v.Args)}
 			m[k] = append(m[k], v)
+			if v.Op == OpPhi {
+				for _, a := range v.Args {
+					phiUsed[a.ID]++
+				}
+			}
 		}
 	}
 
@@ -68,6 +75,7 @@ func cse(f *Func) {
 		eqloop:
 			for j := 1; j < len(e); {
 				w := e[j]
+
 				for i := 0; i < len(v.Args); i++ {
 					if valueEqClass[v.Args[i].ID] != valueEqClass[w.Args[i].ID] || !v.Type.Equal(w.Type) {
 						// w is not equivalent to v.
@@ -108,6 +116,17 @@ func cse(f *Func) {
 			for _, w := range e[1:] {
 				if dom(w.Block, v.Block, idom) {
 					v = w
+				}
+			}
+
+			// See if the rewrite would cause the value to be used
+			// as more than one phi argument
+			phiUses := 0
+			for _, w := range e {
+				phiUses = phiUses + phiUsed[w.ID]
+				if phiUses > 1 {
+					e = e[:0]
+					continue
 				}
 			}
 
