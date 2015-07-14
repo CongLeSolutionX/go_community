@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a442b9_50e88c2d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-14T05:36:15Z",
+      "side": 1,
+      "message": "No need to copy, just \"return s.expr(n.Left)\"",
+      "range": {
+        "startLine": 724,
+        "startChar": 11,
+        "endLine": 724,
+        "endChar": 20
+      },
+      "revId": "00571a0bfd7112adfe9098e5d754ce4b0d379c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
