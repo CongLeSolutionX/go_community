@@ -6,48 +6,16 @@ package ssa
 
 // nilcheckelim eliminates unnecessary nil checks.
 func nilcheckelim(f *Func) {
-	// Exit early if there are no nil checks to eliminate.
-	var found bool
-	for _, b := range f.Blocks {
-		if checkedptr(b) != nil {
-			found = true
-			break
-		}
-	}
-	if !found {
-		return
-	}
+	// A nil check is redundant if the same nil check was successful in a
+	// dominating block.  The efficacy of this pass depends heavily on the
+	// efficacy of the cse pass
+	idom := dominators(f)
+	domTree := make([][]*Block, f.NumBlocks())
 
-	// Eliminate redundant nil checks.
-	// A nil check is redundant if the same
-	// nil check has been performed by a
-	// dominating block.
-	// The efficacy of this pass depends
-	// heavily on the efficacy of the cse pass.
-	idom := dominators(f) // TODO: cache the dominator tree in the function, clearing when the CFG changes?
+	// Create a block ID -> [dominees] mapping
 	for _, b := range f.Blocks {
-		ptr := checkedptr(b)
-		if ptr == nil {
-			continue
-		}
-		var elim bool
-		// Walk up the dominator tree,
-		// looking for identical nil checks.
-		// TODO: This loop is O(n^2). See BenchmarkNilCheckDeep*.
-		for c := idom[b.ID]; c != nil; c = idom[c.ID] {
-			if checkedptr(c) == ptr {
-				elim = true
-				break
-			}
-		}
-		if elim {
-			// Eliminate the nil check.
-			// The deadcode pass will remove vestigial values,
-			// and the fuse pass will join this block with its successor.
-			b.Kind = BlockPlain
-			b.Control = nil
-			f.removePredecessor(b, b.Succs[1])
-			b.Succs = b.Succs[:1]
+		if dom := idom[b.ID]; dom != nil {
+			domTree[dom.ID] = append(domTree[dom.ID], b)
 		}
 	}
 
@@ -61,6 +29,72 @@ func nilcheckelim(f *Func) {
 	// i.e. struct fields and array elements,
 	// even with non-constant indices:
 	// x is non-nil iff x.a.b[i].c is.
+
+	type blockOp int
+	const (
+		Work   blockOp = iota // regular work node
+		AddPtr                // register the pointer as being nil checked
+		DelPtr                // unregister the pointer
+	)
+
+	type bp struct {
+		block *Block
+		ptr   *Value // if non-nil, ptr that is nilcheck'd in the block
+		op    blockOp
+	}
+
+	work := make([]bp, 0, 256)
+	work = append(work, bp{block: f.Entry, ptr: checkedptr(f.Entry)})
+
+	// map from value ID to bool indicating if there is a nil check in the
+	// current dominator path being walked
+	nilchecks := make([]bool, f.NumValues())
+
+	// perform a depth first walk of the dominator tree
+	for len(work) > 0 {
+		node := work[len(work)-1]
+		work = work[:len(work)-1]
+
+		switch node.op {
+		case Work:
+			if node.ptr != nil {
+				nilchecks[node.ptr.ID] = true
+				// register a DelPtr block to clear the ptr from the map
+				// of nil checks once we traverse back up the tree
+				work = append(work, bp{op: DelPtr, ptr: node.ptr})
+			}
+		case AddPtr:
+			nilchecks[node.ptr.ID] = true
+			continue
+		case DelPtr:
+			nilchecks[node.ptr.ID] = false
+			continue
+		}
+
+		for _, w := range domTree[node.block.ID] {
+			// We are about to traverse down the 'ptr is nil' side
+			// of a nilcheck block.
+			if node.block.Kind == BlockIf && node.block.Control.Op == OpIsNonNil {
+				if w == node.block.Succs[1] {
+					work = append(work, bp{op: AddPtr, ptr: node.ptr})
+					nilchecks[node.ptr.ID] = false
+				}
+			}
+			nb := bp{block: w, ptr: checkedptr(w)}
+			if nb.ptr != nil && nilchecks[nb.ptr.ID] {
+				// Eliminate the nil check.
+				// The deadcode pass will remove vestigial values,
+				// and the fuse pass will join this block with its successor.
+				w.Kind = BlockPlain
+				w.Control = nil
+				f.removePredecessor(w, w.Succs[1])
+				w.Succs = w.Succs[:1]
+
+				nb.ptr = nil
+			}
+			work = append(work, nb)
+		}
+	}
 }
 
 // checkedptr returns the Value, if any,
