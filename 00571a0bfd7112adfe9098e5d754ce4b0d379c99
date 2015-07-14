@@ -22,6 +22,30 @@
       "revId": "00571a0bfd7112adfe9098e5d754ce4b0d379c99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58831a1d_d3563ea1",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-14T11:12:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18a442b9_50e88c2d",
+      "range": {
+        "startLine": 724,
+        "startChar": 11,
+        "endLine": 724,
+        "endChar": 20
+      },
+      "revId": "00571a0bfd7112adfe9098e5d754ce4b0d379c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
