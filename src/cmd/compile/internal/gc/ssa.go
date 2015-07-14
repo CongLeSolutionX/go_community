@@ -719,6 +719,8 @@ func (s *state) addr(n *Node) *ssa.Value {
 			s.boundsCheck(i, len)
 			return s.newValue2(ssa.OpPtrIndex, Ptrto(n.Left.Type.Type), a, i)
 		}
+	case OIND:
+		return s.expr(n.Left)
 	case ODOT:
 		p := s.addr(n.Left)
 		return s.newValue2(ssa.OpAdd, p.Type, p, s.constInt(s.config.Uintptr, n.Xoffset))
