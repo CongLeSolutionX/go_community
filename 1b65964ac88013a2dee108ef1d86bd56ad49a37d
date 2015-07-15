@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3837466d_c1c2c27a",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4734,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-15T05:14:42Z",
+      "side": 1,
+      "message": "Call t.Error rather than panic.",
+      "revId": "1b65964ac88013a2dee108ef1d86bd56ad49a37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
