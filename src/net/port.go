@@ -14,7 +14,7 @@ func parsePort(net, port string) (int, error) {
 		var err error
 		p, err = LookupPort(net, port)
 		if err != nil {
-			return 0, err
+			return 0, &AddrError{Err: "invalid port", Addr: port}
 		}
 	}
 	if p < 0 || p > 0xFFFF {
