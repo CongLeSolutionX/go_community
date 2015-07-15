@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18f0c2db_f0c32000",
+        "filename": "src/net/port.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7020
+      },
+      "writtenOn": "2015-07-15T11:35:05Z",
+      "side": 1,
+      "message": "Doesn\u0027t goLookupPort() already give a similar Err with a descriptive Addr?  Is it the \"tcp/\" prefix you dislike?  Having \"invalid port\" for not found in services, port out of range, ... could be improved instead of them all being the same.",
+      "revId": "8a7de7048dc194d5e6f761add433b915beebb2e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
