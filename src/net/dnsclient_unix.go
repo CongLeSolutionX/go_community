@@ -297,15 +297,20 @@ func (conf *resolverConfig) releaseSema() {
 	<-conf.ch
 }
 
+func (conf *resolverConfig) dnsConf() *dnsConfig {
+	conf.tryUpdate("/etc/resolv.conf")
+	conf.mu.RLock()
+	dnsConf := *conf.dnsConfig
+	conf.mu.RUnlock()
+	return &dnsConf
+}
+
 func lookup(name string, qtype uint16) (cname string, rrs []dnsRR, err error) {
 	if !isDomainName(name) {
 		return name, nil, &DNSError{Err: "invalid domain name", Name: name}
 	}
 
-	resolvConf.tryUpdate("/etc/resolv.conf")
-	resolvConf.mu.RLock()
-	resolv := resolvConf.dnsConfig
-	resolvConf.mu.RUnlock()
+	resolv := resolvConf.dnsConf()
 
 	// If name is rooted (trailing dot) or has enough dots,
 	// try it by itself first.
