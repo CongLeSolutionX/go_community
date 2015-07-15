@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "985112ab_3cf8713e",
+        "filename": "src/image/color/ycbcr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 7020
+      },
+      "writtenOn": "2015-07-15T11:43:13Z",
+      "side": 1,
+      "message": "Hex. prefix, decimal format specifier.  Suggest \"%#02x\".",
+      "range": {
+        "startLine": 71,
+        "startChar": 15,
+        "endLine": 71,
+        "endChar": 21
+      },
+      "revId": "c2023a07915cccff1ffba9b96e160f444f77aeae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18f0c2db_f0ec408d",
+        "filename": "src/image/color/ycbcr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 7020
+      },
+      "writtenOn": "2015-07-15T11:43:13Z",
+      "side": 1,
+      "message": "Ditto.",
+      "range": {
+        "startLine": 120,
+        "startChar": 15,
+        "endLine": 120,
+        "endChar": 21
+      },
+      "revId": "c2023a07915cccff1ffba9b96e160f444f77aeae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
