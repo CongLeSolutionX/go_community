@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78b0de09_b5c23079",
+        "filename": "AUTHORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-15T01:37:35Z",
+      "side": 1,
+      "message": "Dunno? I guess https://github.com/fumin/ has it capitalized too, but no \"first name\".",
+      "parentUuid": "18a442b9_36d30000",
+      "revId": "d306fc930fe4c37070883c605ea5cc5739cf52fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18a442b9_56d88417",
         "filename": "CONTRIBUTORS",
         "patchSetId": 1
