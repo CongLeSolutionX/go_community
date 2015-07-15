@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a442b9_961f4ce6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-15T04:20:54Z",
+      "side": 1,
+      "message": "not clear from this text what the status is of the newline at the end of a // comment.\nthe comment \"stops at the end of the line\" but is that before or after the \\n byte?",
+      "revId": "4991f8a4a477d897d6b6617f1a54c27c693e9989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18a442b9_d629d416",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-15T04:20:54Z",
+      "side": 1,
+      "message": "\u0027\\\u0027\u0027 // rune constant containing single quote character",
+      "revId": "4991f8a4a477d897d6b6617f1a54c27c693e9989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18a442b9_b61c50f2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-15T04:20:54Z",
+      "side": 1,
+      "message": "there should be an example with an escaped \"",
+      "revId": "4991f8a4a477d897d6b6617f1a54c27c693e9989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
