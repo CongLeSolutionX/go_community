@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98fcb2c6_44446e1b",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-15T17:55:49Z",
+      "side": 1,
+      "message": "why do you need to copy this? The pointer in resolverConfig.dnsConfig always points to an immutable version, no? It seems to only be updated by tryUpdate, and line 281 calls dnsReadConfig which always returns a new value.",
+      "revId": "3e7432071ca03354e2b2255f7a74b1bbe8a92c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
