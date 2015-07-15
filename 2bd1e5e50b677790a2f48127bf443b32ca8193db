@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8470aeb_3eb389d6",
+        "filename": "src/cmd/pprof/internal/commands/commands.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 7020
+      },
+      "writtenOn": "2015-07-15T11:09:03Z",
+      "side": 1,
+      "message": "Is $BROWSER simply the command to run?\nWhen Eric Raymond proposed it, he made it a PATH-like list to try,\n    http://www.catb.org/esr/BROWSER/index.html\nand this is what Python, for example, does\n    https://hg.python.org/cpython/file/a4fe32477df6/Lib/webbrowser.py#l708\n    https://docs.python.org/3/library/webbrowser.html",
+      "revId": "2bd1e5e50b677790a2f48127bf443b32ca8193db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
