@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8754a3f_11d24e46",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-16T22:10:53Z",
+      "side": 1,
+      "message": "this function signature went from bad to worse. What is string? What is int?\n\nThe docs for it need love too.",
+      "revId": "aacca2c0f09a6a54a08ffc083e8f8531b40b31eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8754a3f_d1dcc657",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-16T22:10:53Z",
+      "side": 1,
+      "message": "why -1 here? what does -1 mean? why not 0? Normally if error !\u003d nil, that means the rest of the parameters are ignored. Is that not the case here? If so, it needs to be documented loudly.",
+      "revId": "aacca2c0f09a6a54a08ffc083e8f8531b40b31eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
