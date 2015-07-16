@@ -300,7 +300,12 @@ func (s *state) stmt(n *Node) {
 	case OBLOCK:
 		s.stmtList(n.List)
 
+	// No-ops
 	case OEMPTY, ODCLCONST, ODCLTYPE:
+
+	// Expression statements
+	case OCALLMETH, OCALLINTER:
+		s.expr(n)
 
 	case ODCL:
 		if n.Left.Class&PHEAP == 0 {
