@@ -6,6 +6,7 @@ package http_test
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -84,5 +85,25 @@ func ExampleServeMux_Handle() {
 			return
 		}
 		fmt.Fprintf(w, "Welcome to the home page!")
+	})
+}
+
+func ExampleResponseWriter_trailers() {
+	// HTTP Trailers are a set of key/value pairs like headers that come
+	// after the HTTP response, instead of before.
+	mux := http.NewServeMux()
+	mux.HandleFunc("/sendstrailers", func(w http.ResponseWriter, req *http.Request) {
+		// Declare the trailers you will set during the HTTP response,
+		// before any call to WriteHeader or Write.
+		w.Header().Set("Trailer", "AtEnd1, AtEnd2")
+		w.Header().Add("Trailer", "AtEnd3")
+
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		w.WriteHeader(http.StatusOK)
+
+		w.Header().Set("AtEnd1", "value 1")
+		io.WriteString(w, "HTTP response has both headers before and after this text.\n")
+		w.Header().Set("AtEnd2", "value 2")
+		w.Header().Set("AtEnd3", "value 3") // These will appear as trailers.
 	})
 }
