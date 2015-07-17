@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "981672ff_9700a60d",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-17T21:15:21Z",
+      "side": 1,
+      "message": "not sure this is an improvement. my feeling about named return parameters isn\u0027t as strong as some people\u0027s, especially in such a short function. and you have to write two var declarations i consider ugly.\n\nbut it\u0027s up to you.",
+      "range": {
+        "startLine": 51,
+        "startChar": 24,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "d7ee945eabf4ca3d242ecc010bb9c417ec7ad439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
