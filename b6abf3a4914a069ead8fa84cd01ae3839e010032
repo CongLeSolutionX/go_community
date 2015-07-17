@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8754a3f_584eb2ba",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-17T22:37:52Z",
+      "side": 1,
+      "message": "No point to a cleanup after t.Fatalf.  The Fatalf should be Errorf.  In fact, I think all the Fatalf\u0027s in this function ought to be Errorf\u0027s.",
+      "revId": "b6abf3a4914a069ead8fa84cd01ae3839e010032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
