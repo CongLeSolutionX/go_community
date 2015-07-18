@@ -22,6 +22,30 @@
       "revId": "d7ee945eabf4ca3d242ecc010bb9c417ec7ad439",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8754a3f_cb8f2a80",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-18T01:01:57Z",
+      "side": 1,
+      "message": "I don\u0027t mind the extra variable declarations. I only care about what shows up in the godoc.\n\nNote that this only adds 1 line here because I also removed 1 line of dead code at the end, which was misleading, as the for loop can never terminate.",
+      "parentUuid": "981672ff_9700a60d",
+      "range": {
+        "startLine": 51,
+        "startChar": 24,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "d7ee945eabf4ca3d242ecc010bb9c417ec7ad439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
