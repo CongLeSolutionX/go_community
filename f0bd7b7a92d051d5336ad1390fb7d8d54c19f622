@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8754a3f_4e7b4834",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-18T22:33:08Z",
+      "side": 1,
+      "message": "what is n used for?",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "f0bd7b7a92d051d5336ad1390fb7d8d54c19f622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8754a3f_0e4ea00f",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-18T22:33:08Z",
+      "side": 1,
+      "message": "This will lead to a lot of allocations (one per block).  Any way we can make work a []bp instead of []*bp?",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "f0bd7b7a92d051d5336ad1390fb7d8d54c19f622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8754a3f_ae42ece1",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-18T22:33:08Z",
+      "side": 1,
+      "message": "This feels a little weird because we eliminate the nil check on both sides of the branch (both true and false).  So it really is only correct when the false branch always goes directly to the exit.  I guess that will always be true for Go code (except maybe when inlining?).  In any case, deserves a good comment.",
+      "range": {
+        "startLine": 68,
+        "startChar": 25,
+        "endLine": 68,
+        "endChar": 30
+      },
+      "revId": "f0bd7b7a92d051d5336ad1390fb7d8d54c19f622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
