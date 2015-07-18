@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8ba0e36_6fe2719d",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5310
+      },
+      "writtenOn": "2015-07-18T11:36:07Z",
+      "side": 1,
+      "message": "Having this example got me thinking, What happens if a header is present in both the trailer set and the header proper before  a call to WriteHeader?\n\nLooks like in the current implementation, the header will be included in both the trailer and the header, which is probably not what\u0027s intended, since trailers are meant to be just extensions of the header and you\u0027re not supposed to have duplicated headers.",
+      "revId": "e0e20b06dab6c8dadcd4f83f73c6b509ba0cc7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
