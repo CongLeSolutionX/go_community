@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d81c6a21_39a54b05",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-19T21:51:43Z",
+      "side": 1,
+      "message": "1) AddPtr only registers a nilcheck, but doesn\u0027t include a traversal to successors.  \u0027Work\u0027 adds a nilcheck if it\u0027s in the node, and also follows successors.\n\n2) I thought about making that change.  I\u0027ve been looking at another change on top of this (eliminating nilchecks of values resulting from an OpAddr) that would benefit from it.\n\n3) I\u0027ll see if I can rework the code to clarify.  AddPtr is only used to re-register the ptr that we clear on line 80 when traversing up from the false branch of the nilcheck.\n\nWhen we reach an OpIsNonNil block, the work list gets modified in this way:\n\n- register ptr [not in work list, line 61]\n- append DelPtr\n- append non-nil true successor\n- append AddPtr\n- unregister ptr [not in work list, line 80]\n- append non-nil false successor\n\nThe AddPtr pairs up with the initial DelPtr for the block which was inserted to re-add the ptr once we traverse back up from the false side of OpIsNonNil.\n\nOf course, now that I\u0027ve written it down it seems pretty counter-intuitive.",
+      "parentUuid": "d81c6a21_59c3e79a",
+      "range": {
+        "startLine": 54,
+        "startChar": 9,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "9d78cfdbc407c5f43a2cf6d72d278c902f85b13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d81c6a21_b9903ba4",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-19T21:23:23Z",
       "side": 1,
       "message": "Combine this condition with the previous block.",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "9d78cfdbc407c5f43a2cf6d72d278c902f85b13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "387f464e_012e2ac9",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-19T21:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d81c6a21_b9903ba4",
       "range": {
         "startLine": 78,
         "startChar": 12,
