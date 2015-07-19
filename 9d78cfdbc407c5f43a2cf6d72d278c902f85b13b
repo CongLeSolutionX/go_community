@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d81c6a21_59c3e79a",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-19T21:23:23Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m just very confused by this code.  I think it could use a reorg.\n\nWhy do both Work and AddPtr add pointers to nilchecks?\nWhy are we eliminating the nil checks as part of queueing domTree successors, and not as part of the Work case?\nIt seems that all AddPtrs should have a corresponding DelPtr, but that doesn\u0027t seem obvious from this code.",
+      "range": {
+        "startLine": 54,
+        "startChar": 9,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "9d78cfdbc407c5f43a2cf6d72d278c902f85b13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d81c6a21_b9903ba4",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-19T21:23:23Z",
+      "side": 1,
+      "message": "Combine this condition with the previous block.",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "9d78cfdbc407c5f43a2cf6d72d278c902f85b13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
