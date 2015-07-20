@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "387f464e_e132261d",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-20T01:00:17Z",
+      "side": 1,
+      "message": "I\u0027d be interested in any opinions on this.",
+      "revId": "e940869e769feafff5274ff8ad3aeecad78c16ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
