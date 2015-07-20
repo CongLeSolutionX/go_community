@@ -20,10 +20,36 @@
 // For now, the generated successors must be a permutation of the matched successors.
 
 // constant folding
+(IsInBounds (Const [c]) (Const [d])) -> (Const {inBounds(c,d)})
+(Mul <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c*d])
+(Mul (Const [0]) _) -> (Const [0])
+(Mul _ (Const [0])) -> (Const [0])
+
+// 64 bits, sorted by operation.
 (Add64 (Const [c]) (Const [d])) -> (Const [c+d])
 (Add64U (Const [c]) (Const [d])) -> (Const [c+d])
-(Mul <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c*d])
-(IsInBounds (Const [c]) (Const [d])) -> (Const {inBounds(c,d)})
+(Eq64 (Const [c]) (Const [d])) -> (Const {c == d})
+(Geq64 (Const [c]) (Const [d])) -> (Const {c >= d})
+(Geq64U _ (Const [0])) -> (Const {true})
+(Greater64 (Const [c]) (Const [d])) -> (Const {c > d})
+(Greater64U (Const [0]) _) -> (Const {false})
+(Leq64 (Const [c]) (Const [d])) -> (Const {c <= d})
+(Leq64U (Const [0]) _) -> (Const {true})
+(Less64 (Const [c]) (Const [d])) -> (Const {c < d})
+(Less64U _ (Const [0])) -> (Const {false})
+(Lsh64 _ (Const [c])) && c >= 64 -> (Const [0])
+(Lsh64 (Const [c]) (Const [d])) && d >= 0 -> (Const [c<<uint(d)])
+(Neq64 (Const [c]) (Const [d])) -> (Const {c != d})
+(Rsh64 (Const [c]) (Const [d])) -> (Const [c>>uint(d)])
+(Rsh64U _ (Const [c])) && c >= 64 -> (Const [0])
+(Rsh64U (Const [c]) (Const [d])) -> (Const [c>>uint(d)])
+(Sub64U x y) && x == y -> (Const [0])
+(Sub64 x y) && x == y -> (Const [0])
+
+// TODO: Add constant operations for 8, 16 and 32 bit sizes.
+// Special care must be given to overflowing. For example:
+// a, b := uint8(100), uint8(200)
+// int(a+b) == 44 && int(a+b) != 300
 
 // tear apart slices
 // TODO: anything that generates a slice needs to go in here.
