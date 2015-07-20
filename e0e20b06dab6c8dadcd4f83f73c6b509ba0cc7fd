@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "981672ff_f742bae2",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-07-20T00:29:06Z",
+      "side": 1,
+      "message": "make this a comment on the example function itself. It\u0027ll be rendered by godoc above the example itself.",
+      "range": {
+        "startLine": 92,
+        "startChar": 1,
+        "endLine": 93,
+        "endChar": 47
+      },
+      "revId": "e0e20b06dab6c8dadcd4f83f73c6b509ba0cc7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "981672ff_974d4615",
+        "filename": "src/net/http/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-07-20T00:29:06Z",
+      "side": 1,
+      "message": "Add a comment to the effect that this is a normal header?\nIt\u0027s also not required that you set this header, don\u0027t want to give the impression that it is.",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 61
+      },
+      "revId": "e0e20b06dab6c8dadcd4f83f73c6b509ba0cc7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8ba0e36_6fe2719d",
         "filename": "src/net/http/example_test.go",
         "patchSetId": 1
