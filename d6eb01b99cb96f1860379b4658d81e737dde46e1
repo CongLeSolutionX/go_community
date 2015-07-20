@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d83d4aa0_5179f6a2",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-20T22:07:05Z",
+      "side": 1,
+      "message": "Did the former, since we already have a link to Request following.",
+      "parentUuid": "981672ff_5adf55cb",
+      "range": {
+        "startLine": 1095,
+        "startChar": 25,
+        "endLine": 1095,
+        "endChar": 31
+      },
+      "revId": "d6eb01b99cb96f1860379b4658d81e737dde46e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "981672ff_baeca98c",
         "filename": "doc/go1.5.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-20T21:15:25Z",
       "side": 1,
       "message": "start new sentence on new line",
+      "range": {
+        "startLine": 1098,
+        "startChar": 9,
+        "endLine": 1098,
+        "endChar": 10
+      },
+      "revId": "d6eb01b99cb96f1860379b4658d81e737dde46e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d83d4aa0_d105e61b",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-20T22:07:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "981672ff_baeca98c",
       "range": {
         "startLine": 1098,
         "startChar": 9,
