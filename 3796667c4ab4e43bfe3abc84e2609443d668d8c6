@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d81c6a21_7f1a0376",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-20T17:33:57Z",
+      "side": 1,
+      "message": "Can we do this in two CLs? The first just rewrites the existing algorithm to be more efficient, the second adds OpAddr support. That might make it easier to see exactly what is happening.",
+      "revId": "3796667c4ab4e43bfe3abc84e2609443d668d8c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d81c6a21_3f108b56",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-20T17:33:57Z",
+      "side": 1,
+      "message": "I\u0027ll take a deeper look at this later, but would it help to separate out the tree-walking logic from the processing? It might make this code clearer and also might be reusable.",
+      "revId": "3796667c4ab4e43bfe3abc84e2609443d668d8c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
