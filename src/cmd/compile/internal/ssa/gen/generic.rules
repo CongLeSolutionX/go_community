@@ -21,8 +21,28 @@
 
 // constant folding
 (Add <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c+d])
+(Sub <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c-d])
 (Mul <t> (Const [c]) (Const [d])) && is64BitInt(t) -> (Const [c*d])
+(Rsh <t> (Const [c]) (Const [d])) && is64BitInt(t) && d >= 0 -> (Const [c>>uint(d)])
+(Lsh <t> (Const [c]) (Const [d])) && is64BitInt(t) && d >= 0 -> (Const [c<<uint(d)])
 (IsInBounds (Const [c]) (Const [d])) -> (Const {inBounds(c,d)})
+(Eq (Const [c]) (Const [d])) -> (Const {c == d})
+(Neq (Const [c]) (Const [d])) -> (Const {c != d})
+(Less (Const [c]) (Const [d])) -> (Const {c < d})
+(Leq (Const [c]) (Const [d])) -> (Const {c <= d})
+(Greater (Const [c]) (Const [d])) -> (Const {c > d})
+(Geq (Const [c]) (Const [d])) -> (Const {c >= d})
+
+// constant operations
+(Less <t> (Const [c]) _) && c < 0 && !t.IsSigned() -> (Const {true})
+(Leq <t> (Const [0]) _) && !t.IsSigned() -> (Const {true})
+(Greater <t> (Const [c]) _) && c < 0 && !t.IsSigned() -> (Const {false})
+(Geq <t> _ (Const [0])) && !t.IsSigned() -> (Const {true})
+(Mul (Const [0]) _) -> (Const [0])
+(Mul _ (Const [0])) -> (Const [0])
+(Sub x y) && x == y -> (Const [0])
+(Rsh <t> _ (Const [c])) && !t.IsSigned() && c >= 8*t.Size() -> (Const [0])
+(Lsh <t> _ (Const [c])) && !t.IsSigned() && c >= 8*t.Size() -> (Const [0])
 
 // tear apart slices
 // TODO: anything that generates a slice needs to go in here.
