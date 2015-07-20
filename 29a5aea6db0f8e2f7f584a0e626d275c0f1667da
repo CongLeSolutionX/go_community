@@ -87,6 +87,53 @@
       "revId": "29a5aea6db0f8e2f7f584a0e626d275c0f1667da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d83d4aa0_7130b2f0",
+        "filename": "api/go1.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-07-20T23:42:28Z",
+      "side": 1,
+      "message": "It\u0027s unfortunate that this array is exposed. That said, it would be pretty foolish to depend on that array size anywhere. We could change it to a slice - I\u0027d be ok with that.\n\nWith respect to the element type, *Basic is the natural type here, avoiding the two dozen extra GC roots won\u0027t really make a difference.",
+      "parentUuid": "981672ff_77f50af8",
+      "range": {
+        "startLine": 715,
+        "startChar": 23,
+        "endLine": 715,
+        "endChar": 25
+      },
+      "revId": "29a5aea6db0f8e2f7f584a0e626d275c0f1667da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d83d4aa0_316b8a19",
+        "filename": "api/go1.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-07-20T23:42:28Z",
+      "side": 1,
+      "message": "I\u0027be ok not exporting these (UniverseByte/Rune) - there\u0027s other ways to get to them.",
+      "range": {
+        "startLine": 717,
+        "startChar": 18,
+        "endLine": 717,
+        "endChar": 30
+      },
+      "revId": "29a5aea6db0f8e2f7f584a0e626d275c0f1667da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
