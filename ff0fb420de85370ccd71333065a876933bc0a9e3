@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18b8c23c_d06e9c78",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 9077
+      },
+      "writtenOn": "2015-07-20T08:51:18Z",
+      "side": 1,
+      "message": "foundThirdCheck ?",
+      "range": {
+        "startLine": 256,
+        "startChar": 3,
+        "endLine": 256,
+        "endChar": 19
+      },
+      "revId": "ff0fb420de85370ccd71333065a876933bc0a9e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18b8c23c_30744846",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 9077
+      },
+      "writtenOn": "2015-07-20T08:51:18Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 262,
+        "startChar": 5,
+        "endLine": 262,
+        "endChar": 21
+      },
+      "revId": "ff0fb420de85370ccd71333065a876933bc0a9e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
