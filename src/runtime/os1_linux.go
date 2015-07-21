@@ -132,8 +132,15 @@ func newosproc(mp *m, stk unsafe.Pointer) {
 	// Disable signals during clone, so that the new thread starts
 	// with signals disabled.  It will enable them in minit.
 	var oset sigset
+	havep := getg().m.p != nil
 	rtsigprocmask(_SIG_SETMASK, &sigset_all, &oset, int32(unsafe.Sizeof(oset)))
+	if havep {
+		entersyscall(0)
+	}
 	ret := clone(cloneFlags, stk, unsafe.Pointer(mp), unsafe.Pointer(mp.g0), unsafe.Pointer(funcPC(mstart)))
+	if havep {
+		exitsyscall(0)
+	}
 	rtsigprocmask(_SIG_SETMASK, &oset, nil, int32(unsafe.Sizeof(oset)))
 
 	if ret < 0 {

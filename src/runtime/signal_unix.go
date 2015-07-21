@@ -40,9 +40,12 @@ func sigfwdgo(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 	if g != nil && g.m != nil && g.m.curg != nil && g.m.curg.syscallsp == 0 {
 		return false
 	}
+	write(2, unsafe.Pointer(&sigfwd1[0]), int32(len(sigfwd1)))
 	// Signal not handled by Go, forward it.
 	if fwdFn != _SIG_IGN {
 		sigfwd(fwdFn, sig, info, ctx)
 	}
 	return true
 }
+
+var sigfwd1 = []byte("fwd1\n")

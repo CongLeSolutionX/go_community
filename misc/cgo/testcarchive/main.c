@@ -8,6 +8,11 @@
 #include "p.h"
 #include "libgo.h"
 
+void causeCrash() {
+      int *i = NULL;
+       printf("%d", *i + 10);
+}
+
 int main(void) {
 	int32_t res;
 
@@ -27,6 +32,7 @@ int main(void) {
 		return 2;
 	}
 
+	causeCrash();
 	CheckArgs();
 
 	fprintf(stderr, "PASS\n");
