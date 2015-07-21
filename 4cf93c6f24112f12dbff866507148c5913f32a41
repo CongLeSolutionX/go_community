@@ -22,6 +22,30 @@
       "revId": "4cf93c6f24112f12dbff866507148c5913f32a41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d83d4aa0_62045e4b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-21T13:40:45Z",
+      "side": 1,
+      "message": "Probably so. I was just focused on getting my break_ssa code to be runnable. :)\n\nI\u0027ll send a follow-up CL with the unsigned conditions, to avoid git pain.",
+      "parentUuid": "d83d4aa0_5741e609",
+      "range": {
+        "startLine": 130,
+        "startChar": 58,
+        "endLine": 130,
+        "endChar": 66
+      },
+      "revId": "4cf93c6f24112f12dbff866507148c5913f32a41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
