@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b83896b1_930b64b0",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-21T00:15:07Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll split it.  I debated putting it in but it was only 4 lines of non-comment code :)",
+      "parentUuid": "d81c6a21_7f1a0376",
+      "revId": "3796667c4ab4e43bfe3abc84e2609443d668d8c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d81c6a21_3f108b56",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-20T17:33:57Z",
       "side": 1,
       "message": "I\u0027ll take a deeper look at this later, but would it help to separate out the tree-walking logic from the processing? It might make this code clearer and also might be reusable.",
+      "revId": "3796667c4ab4e43bfe3abc84e2609443d668d8c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d143a33_9c5809d3",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-21T00:15:07Z",
+      "side": 1,
+      "message": "Maybe?  It might be a little difficult as this isn\u0027t a straightforward walk.  It reorders sibling dominees of an OpIsNonNil to ensure that the first one evaluated (last one pushed to the slice) is the false branch and nilchecks there are not eliminated. There are other ways to do that though.\n\n\n*I think* that this allows us to rewrite user nil checks to OpIsNonNil and remove more redundant nil checks correctly:\n\n  if (b !\u003d nil) {\n    *b \u003d 1 // we will eliminate this nilcheck due to the dominating user check\n  } else {\n    *b \u003d 1 // but keep this one since it\u0027s on the false branch\n  }",
+      "parentUuid": "d81c6a21_3f108b56",
       "revId": "3796667c4ab4e43bfe3abc84e2609443d668d8c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
