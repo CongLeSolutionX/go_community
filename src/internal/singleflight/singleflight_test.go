@@ -51,7 +51,7 @@ func TestDoDupSuppress(t *testing.T) {
 		return v, nil
 	}
 
-	const n = 10
+	const n = 2
 	var wg sync.WaitGroup
 	for i := 0; i < n; i++ {
 		wg.Add(1)
