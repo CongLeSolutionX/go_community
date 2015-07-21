@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d365ee0_b2e7601c",
+        "filename": "api/go1.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-21T00:47:02Z",
+      "side": 1,
+      "message": "Yes. It makes it possible for custom flag parsers to use the `` notation. It\u0027s in the release notes.",
+      "parentUuid": "d83d4aa0_8e8a5b23",
+      "revId": "29a5aea6db0f8e2f7f584a0e626d275c0f1667da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8754a3f_5733e6af",
         "filename": "api/go1.5.txt",
         "patchSetId": 2
