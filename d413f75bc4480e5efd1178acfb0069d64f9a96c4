@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dcab237_eba63109",
+        "filename": "src/runtime/os1_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-07-22T20:32:23Z",
+      "side": 1,
+      "message": "Maybe\n\n  const maxCPUs \u003d 65536\n  var buf [maxCPUS / (ptrSize * 8)]uintptr",
+      "revId": "d413f75bc4480e5efd1178acfb0069d64f9a96c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
