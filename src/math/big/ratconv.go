@@ -206,6 +206,7 @@ func (x *Rat) RatString() string {
 
 // FloatString returns a string representation of x in decimal form with prec
 // digits of precision after the decimal point and the last digit rounded.
+// The rounding is to nearest with round half to even.
 func (x *Rat) FloatString(prec int) string {
 	if x.IsInt() {
 		s := x.a.String()
