@@ -327,6 +327,79 @@ but new packages are always downloaded into the first directory
 in the list.
 
 See https://golang.org/doc/code.html for an example.
+
+Internal Directories
+
+Code contained within an internal/ directory is only importable
+by code in the directory tree rooted at the parent of internal/.
+Here's an extended version of the directory layout above:
+
+    /home/user/gocode/
+        src/
+            crash/
+                bang/              (go code in package bang)
+                    b.go
+            foo/                   (go code in package foo)
+                f.go
+                bar/               (go code in package bar)
+                    x.go
+                internal/
+                    baz/           (go code in package baz)
+                        z.go
+                quux/              (go code in package main)
+                    y.go
+
+
+The code in z.go is imported as "foo/internal/baz", but that
+import statement can only appear in source files in the subtree
+rooted at foo/. The source files foo/f.go, foo/bar/x.go, and
+foo/quux/y.go can all import "foo/internal/baz", but the source file
+crash/bang/b.go cannot.
+
+See https://golang.org/s/go14internal for details.
+
+Vendor Directories
+
+If the environment variable GO15VENDOREXPERIMENT=1 is set,
+code contained within a vendor/ directory is only importable
+by code in the directory tree rooted at the parent of vendor/,
+and only using an import path that omits the prefix up to and
+including the vendor element.
+
+Here's the example from the previous section,
+but with the internal/ directory renamed to vendor/
+and a new foo/vendor/crash/bang/ directory added:
+
+    /home/user/gocode/
+        src/
+            crash/
+                bang/              (go code in package bang)
+                    b.go
+            foo/                   (go code in package foo)
+                f.go
+                bar/               (go code in package bar)
+                    x.go
+                vendor/
+                    crash/
+                        bang/      (go code in package bang)
+                            b.go
+                    baz/           (go code in package baz)
+                        z.go
+                quux/              (go code in package main)
+                    y.go
+
+The same visibility rules apply as for internal, but the code
+in z.go is imported as "baz", not as "foo/vendor/baz".
+
+Code in vendor/ directories deeper in the source tree shadows
+code in higher directories. Within the foo/ subtree, an import
+of "crash/bang" resolves to "foo/vendor/crash/bang", not the
+top-level "crash/bang".
+
+The vendor semantics are an experiment, and they may change
+in future releases. Once settled, they will be on by default.
+
+See https://golang.org/s/go15vendor for details.
 	`,
 }
 
