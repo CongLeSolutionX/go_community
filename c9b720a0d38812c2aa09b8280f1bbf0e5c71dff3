@@ -16,6 +16,24 @@
       "revId": "c9b720a0d38812c2aa09b8280f1bbf0e5c71dff3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dcab237_8bcc4dce",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-07-22T20:28:41Z",
+      "side": 1,
+      "message": "Agreed. Added TODO.",
+      "parentUuid": "0ddfa2f3_3837ad9b",
+      "revId": "c9b720a0d38812c2aa09b8280f1bbf0e5c71dff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
