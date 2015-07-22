@@ -52,7 +52,7 @@ func isforkfunc(fn *Node) bool {
 }
 
 func racewalk(fn *Node) {
-	if ispkgin(omit_pkgs) || isforkfunc(fn) {
+	if ispkgin(omit_pkgs) || isforkfunc(fn) || fn.Func.Norace {
 		return
 	}
 
