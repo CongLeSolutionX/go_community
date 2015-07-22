@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dcab237_0b961dd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-07-22T19:44:48Z",
+      "side": 1,
+      "message": "adjust\n(lower case)",
+      "revId": "4636ec08038bf23eee441f5c2edb22aff4da3827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dcab237_cb8fb5b2",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2587,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-07-22T19:44:48Z",
+      "side": 1,
+      "message": "Even with tests passing, this loop still must be wrong. It can\u0027t be right to just blindly walk into .Left without looking at .Op.",
+      "revId": "4636ec08038bf23eee441f5c2edb22aff4da3827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
