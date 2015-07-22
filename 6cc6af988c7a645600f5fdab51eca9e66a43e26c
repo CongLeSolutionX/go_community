@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ddfa2f3_55c35c02",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-07-22T16:59:42Z",
+      "side": 1,
+      "message": "nit: trailing whitespace.",
+      "revId": "6cc6af988c7a645600f5fdab51eca9e66a43e26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
