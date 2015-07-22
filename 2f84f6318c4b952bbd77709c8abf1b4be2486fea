@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ddfa2f3_c32c769a",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-22T22:05:02Z",
+      "side": 1,
+      "message": "delete comma",
+      "range": {
+        "startLine": 54,
+        "startChar": 30,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "2f84f6318c4b952bbd77709c8abf1b4be2486fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_231c6272",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-22T22:05:02Z",
+      "side": 1,
+      "message": "delete comma",
+      "range": {
+        "startLine": 264,
+        "startChar": 31,
+        "endLine": 264,
+        "endChar": 38
+      },
+      "revId": "2f84f6318c4b952bbd77709c8abf1b4be2486fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_e3bc1ab7",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-22T22:05:02Z",
+      "side": 1,
+      "message": "this says what\u0027s going on but starts by mentioning \"the vendoring experiment\" without an introduction, like The Quatermass Experiment. then the rest of the paragraph is a definition of that term, which is poor documentation style.\n\nhow about an operational definition that starts something like\n\nIf the environment variable GO15VENDOREXPERIMENT is set to 1, import patch checking is disabled....\nThat feature is experimental and may be modified or deleted in future releases.",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 8
+      },
+      "revId": "2f84f6318c4b952bbd77709c8abf1b4be2486fea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
