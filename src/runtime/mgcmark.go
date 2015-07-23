@@ -61,17 +61,17 @@ func markroot(desc *parfor, i uint32) {
 	switch i {
 	case _RootData:
 		for datap := &firstmoduledata; datap != nil; datap = datap.next {
-			scanblock(datap.data, datap.edata-datap.data, datap.gcdatamask.bytedata, &gcw)
+			scanblock(datap.data, datap.edata-datap.data, datap.gcdatamask.bytedata, &gcw, nil)
 		}
 
 	case _RootBss:
 		for datap := &firstmoduledata; datap != nil; datap = datap.next {
-			scanblock(datap.bss, datap.ebss-datap.bss, datap.gcbssmask.bytedata, &gcw)
+			scanblock(datap.bss, datap.ebss-datap.bss, datap.gcbssmask.bytedata, &gcw, nil)
 		}
 
 	case _RootFinalizers:
 		for fb := allfin; fb != nil; fb = fb.alllink {
-			scanblock(uintptr(unsafe.Pointer(&fb.fin[0])), uintptr(fb.cnt)*unsafe.Sizeof(fb.fin[0]), &finptrmask[0], &gcw)
+			scanblock(uintptr(unsafe.Pointer(&fb.fin[0])), uintptr(fb.cnt)*unsafe.Sizeof(fb.fin[0]), &finptrmask[0], &gcw, nil)
 		}
 
 	case _RootSpans:
@@ -99,7 +99,7 @@ func markroot(desc *parfor, i uint32) {
 				if gcphase != _GCscan {
 					scanobject(p, &gcw) // scanned during mark termination
 				}
-				scanblock(uintptr(unsafe.Pointer(&spf.fn)), ptrSize, &oneptrmask[0], &gcw)
+				scanblock(uintptr(unsafe.Pointer(&spf.fn)), ptrSize, &oneptrmask[0], &gcw, nil)
 			}
 		}
 
@@ -297,6 +297,42 @@ retry:
 	}
 }
 
+// gcCopyBuf copies pointers encountered to the slack room between
+// the end of the stack allocation and the stack pointer
+//
+// Traceback is expensive and it is common to have many goroutines
+// which are in the waiting state. Instead of doing traceback on each GC,
+// copy the pointers that were scanned into the space between the stack
+// pointer and the end of the stack allocation. It's ok if there's not enough
+// room. Just throw away the data and scan the stack normally.
+//
+// Note that this cache wont work with goroutines in syscall, since some platforms have to have space
+// above the stack pointer to syscalls. Since every G in syscall state has to run on a thread
+// it's unlikely that we will have thousands of them anyway.
+//
+// The cache is invalidated when a goroutine goes from the waiting state, see casfrom_Gscanstatus
+// and casgstatus
+//
+// There is one case where the stack can change without the G itself being in the running state.
+// See the comment in ./chan.go:/syncsend/ for more information
+type gcCopyBuf struct {
+	ptrcache uintptr
+	stacklo  uintptr
+}
+
+//go:nowritebarrier
+func (gcp *gcCopyBuf) add(p uintptr) {
+	if gcp == nil || gcp.ptrcache == 0 {
+		return
+	}
+	ptr := (*uintptr)(unsafe.Pointer(gcp.ptrcache))
+	*ptr = p
+	gcp.ptrcache -= ptrSize
+	if gcp.ptrcache <= gcp.stacklo {
+		gcp.ptrcache = 0
+	}
+}
+
 //go:nowritebarrier
 func scanstack(gp *g) {
 	if gp.gcscanvalid {
@@ -311,6 +347,7 @@ func scanstack(gp *g) {
 		throw("scanstack - bad status")
 	}
 
+	canptrCache := false
 	switch readgstatus(gp) &^ _Gscan {
 	default:
 		print("runtime: gp=", gp, ", goid=", gp.goid, ", gp->atomicstatus=", readgstatus(gp), "\n")
@@ -320,8 +357,10 @@ func scanstack(gp *g) {
 	case _Grunning:
 		print("runtime: gp=", gp, ", goid=", gp.goid, ", gp->atomicstatus=", readgstatus(gp), "\n")
 		throw("scanstack: goroutine not stopped")
-	case _Grunnable, _Gsyscall, _Gwaiting:
+	case _Grunnable, _Gsyscall:
 		// ok
+	case _Gwaiting:
+		canptrCache = true
 	}
 
 	if gp == getg() {
@@ -338,6 +377,39 @@ func scanstack(gp *g) {
 	} else {
 		sp = gp.sched.sp
 	}
+
+	// we have a cache.
+	// we should never have a cache if !gcscanvalid and gcphase == _GCmarktermination.
+	// Any operation that causes gcscanvalid to go false should also clear the cache,
+	// but for the debugging and non-concurrent modes, we rerun marktermination
+	// as a STW step. In that case, ignore the cache, clear it and don't fill it.
+	if canptrCache && gp.gcptrcache != 0 && gcphase == _GCscan {
+		if gp.gcptrcache < gp.stack.lo || gp.gcptrcache > gp.stack.hi {
+			print("ptrcache=", hex(gp.gcptrcache), " stack.lo=", hex(gp.stack.lo), " stack.hi=", hex(gp.stack.hi), "\n")
+			throw("ptrcache outside stack")
+		}
+		objiter := gp.sched.sp - ptrSize
+		objend := gp.gcptrcache
+		// if there were no pointers on this stack, skip the greying step
+		if objiter != objend {
+			gcw := &getg().m.p.ptr().gcw
+			for ; objiter > gp.gcptrcache; objiter -= ptrSize {
+				obj := *(*uintptr)(unsafe.Pointer(objiter))
+				nobj, hbits, span := heapBitsForObject(obj)
+				if nobj != obj {
+					print("nobj=", hex(nobj), " obj=", hex(obj), "\n")
+					throw("inconsistent ptrcache")
+				}
+				greyobject(obj, 0, 0, hbits, span, gcw)
+			}
+		}
+		gp.gcscanvalid = true
+		return
+	} else if gcphase == _GCmarktermination {
+		canptrCache = false
+		gp.gcptrcache = 0
+	}
+
 	switch gcphase {
 	case _GCscan:
 		// Install stack barriers during stack scan.
@@ -380,8 +452,13 @@ func scanstack(gp *g) {
 
 	gcw := &getg().m.p.ptr().gcw
 	n := 0
+	var gcb gcCopyBuf
+	if canptrCache {
+		gcb.stacklo = gp.stack.lo
+		gcb.ptrcache = gp.sched.sp - ptrSize
+	}
 	scanframe := func(frame *stkframe, unused unsafe.Pointer) bool {
-		scanframeworker(frame, unused, gcw)
+		scanframeworker(frame, unused, gcw, &gcb)
 
 		if frame.fp > nextBarrier {
 			// We skip installing a barrier on bottom-most
@@ -409,12 +486,15 @@ func scanstack(gp *g) {
 	if gcphase == _GCmarktermination {
 		gcw.dispose()
 	}
+	if canptrCache && gcb.ptrcache != 0 {
+		gp.gcptrcache = gcb.ptrcache
+	}
 	gp.gcscanvalid = true
 }
 
 // Scan a stack frame: local variables and function arguments/results.
 //go:nowritebarrier
-func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
+func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork, gcp *gcCopyBuf) {
 
 	f := frame.fn
 	targetpc := frame.continpc
@@ -447,6 +527,7 @@ func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
 	default:
 		minsize = ptrSize
 	}
+
 	if size > minsize {
 		stkmap := (*stackmap)(funcdata(f, _FUNCDATA_LocalsPointerMaps))
 		if stkmap == nil || stkmap.n <= 0 {
@@ -462,7 +543,7 @@ func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
 		}
 		bv := stackmapdata(stkmap, pcdata)
 		size = uintptr(bv.n) * ptrSize
-		scanblock(frame.varp-size, size, bv.bytedata, gcw)
+		scanblock(frame.varp-size, size, bv.bytedata, gcw, gcp)
 	}
 
 	// Scan arguments.
@@ -483,7 +564,7 @@ func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
 			}
 			bv = stackmapdata(stkmap, pcdata)
 		}
-		scanblock(frame.argp, uintptr(bv.n)*ptrSize, bv.bytedata, gcw)
+		scanblock(frame.argp, uintptr(bv.n)*ptrSize, bv.bytedata, gcw, gcp)
 	}
 }
 
@@ -787,7 +868,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) {
 // gcw.bytesMarked or gcw.scanWork.
 //
 //go:nowritebarrier
-func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
+func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, gcp *gcCopyBuf) {
 	// Use local copies of original parameters, so that a stack trace
 	// due to one of the throws below shows the original block
 	// base and extent.
@@ -810,6 +891,7 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
 				obj := *(*uintptr)(unsafe.Pointer(b + i))
 				if obj != 0 && arena_start <= obj && obj < arena_used {
 					if obj, hbits, span := heapBitsForObject(obj); obj != 0 {
+						gcp.add(obj)
 						greyobject(obj, b, i, hbits, span, gcw)
 					}
 				}

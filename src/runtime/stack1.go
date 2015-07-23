@@ -640,6 +640,7 @@ func copystack(gp *g, newsize uintptr) {
 	gp.stackAlloc = newsize
 	gp.stkbar = newstkbar
 	gp.stktopsp += adjinfo.delta
+	gp.gcptrcache = 0
 
 	// free old stack
 	if stackPoisonCopy != 0 {

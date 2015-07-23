@@ -242,6 +242,7 @@ type g struct {
 	preemptscan    bool   // preempted g does scan for gc
 	gcscandone     bool   // g has scanned stack; protected by _Gscan bit in status
 	gcscanvalid    bool   // false at start of gc cycle, true if G has not run since last scan
+	gcptrcache     uintptr // cache of pointers to avoid having to traceback; protected by _Gscan bit in status
 	throwsplit     bool   // must not split stack
 	raceignore     int8   // ignore race detection events
 	sysblocktraced bool   // StartTrace has emitted EvGoInSyscall about this goroutine

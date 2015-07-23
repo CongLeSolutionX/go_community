@@ -287,6 +287,23 @@ func syncsend(c *hchan, sg *sudog, elem unsafe.Pointer) {
 	// typedmemmove will call heapBitsBulkBarrier, but the target bytes
 	// are not in the heap, so that will not help. We arrange to call
 	// memmove and typeBitsBulkBarrier instead.
+	//
+	// Another job for this function is to make sure that
+	// any pointer cache gets invalidated. Since g.gcptrcache is protected by
+	// the scan bit in g.status, we take it here.
+	//
+	// Since typeBitsBulkBarrier ensures that we will pick up any
+	// pointers in the potentially running GC, the cas here is to make sure
+	// that the next GC picks up the changes to the cache.
+	// Technically, we can skip this if we are certain that a full GC
+	// cycle won't happen between calling this function and
+	// the readying of the goroutine receiving the value.
+	// It seems unlikely, but playing it safe here anyway.
+	for !castogscanstatus(sg.g, _Gwaiting, _Gscanwaiting) {
+	}
+	sg.g.gcptrcache = 0
+	casfrom_Gscanstatus(sg.g, _Gscanwaiting, _Gwaiting)
+
 	memmove(sg.elem, elem, c.elemtype.size)
 	typeBitsBulkBarrier(c.elemtype, uintptr(sg.elem), c.elemtype.size)
 	sg.elem = nil
