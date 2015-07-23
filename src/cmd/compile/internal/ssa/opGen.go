@@ -88,8 +88,8 @@ const (
 	OpAMD64LEAQ4
 	OpAMD64LEAQ8
 	OpAMD64MOVBload
-	OpAMD64MOVBQZXload
 	OpAMD64MOVBQSXload
+	OpAMD64MOVBQZXload
 	OpAMD64MOVWload
 	OpAMD64MOVLload
 	OpAMD64MOVQload
@@ -128,27 +128,15 @@ const (
 	OpAdd16
 	OpAdd32
 	OpAdd64
-	OpAdd8U
-	OpAdd16U
-	OpAdd32U
-	OpAdd64U
 	OpAddPtr
 	OpSub8
 	OpSub16
 	OpSub32
 	OpSub64
-	OpSub8U
-	OpSub16U
-	OpSub32U
-	OpSub64U
 	OpMul8
 	OpMul16
 	OpMul32
 	OpMul64
-	OpMul8U
-	OpMul16U
-	OpMul32U
-	OpMul64U
 	OpMulPtr
 	OpLsh8
 	OpLsh16
@@ -207,10 +195,6 @@ const (
 	OpNeg16
 	OpNeg32
 	OpNeg64
-	OpNeg8U
-	OpNeg16U
-	OpNeg32U
-	OpNeg64U
 	OpPhi
 	OpCopy
 	OpConst
@@ -225,7 +209,24 @@ const (
 	OpZero
 	OpClosureCall
 	OpStaticCall
-	OpConvert
+	OpSext8to16
+	OpSext8to32
+	OpSext8to64
+	OpSext16to32
+	OpSext16to64
+	OpSext32to64
+	OpZext8to16
+	OpZext8to32
+	OpZext8to64
+	OpZext16to32
+	OpZext16to64
+	OpZext32to64
+	OpTrunc16to8
+	OpTrunc32to8
+	OpTrunc32to16
+	OpTrunc64to8
+	OpTrunc64to16
+	OpTrunc64to32
 	OpConvNop
 	OpIsNonNil
 	OpIsInBounds
@@ -698,7 +699,8 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name: "MOVBQZXload",
+		name: "MOVBQSXload",
+		asm:  x86.AMOVBQSX,
 		reg: regInfo{
 			inputs: []regMask{
 				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
@@ -710,7 +712,8 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name: "MOVBQSXload",
+		name: "MOVBQZXload",
+		asm:  x86.AMOVBQZX,
 		reg: regInfo{
 			inputs: []regMask{
 				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
@@ -1103,22 +1106,6 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "Add8U",
-		generic: true,
-	},
-	{
-		name:    "Add16U",
-		generic: true,
-	},
-	{
-		name:    "Add32U",
-		generic: true,
-	},
-	{
-		name:    "Add64U",
-		generic: true,
-	},
-	{
 		name:    "AddPtr",
 		generic: true,
 	},
@@ -1139,22 +1126,6 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "Sub8U",
-		generic: true,
-	},
-	{
-		name:    "Sub16U",
-		generic: true,
-	},
-	{
-		name:    "Sub32U",
-		generic: true,
-	},
-	{
-		name:    "Sub64U",
-		generic: true,
-	},
-	{
 		name:    "Mul8",
 		generic: true,
 	},
@@ -1168,22 +1139,6 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Mul64",
-		generic: true,
-	},
-	{
-		name:    "Mul8U",
-		generic: true,
-	},
-	{
-		name:    "Mul16U",
-		generic: true,
-	},
-	{
-		name:    "Mul32U",
-		generic: true,
-	},
-	{
-		name:    "Mul64U",
 		generic: true,
 	},
 	{
@@ -1419,22 +1374,6 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "Neg8U",
-		generic: true,
-	},
-	{
-		name:    "Neg16U",
-		generic: true,
-	},
-	{
-		name:    "Neg32U",
-		generic: true,
-	},
-	{
-		name:    "Neg64U",
-		generic: true,
-	},
-	{
 		name:    "Phi",
 		generic: true,
 	},
@@ -1491,7 +1430,75 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
-		name:    "Convert",
+		name:    "Sext8to16",
+		generic: true,
+	},
+	{
+		name:    "Sext8to32",
+		generic: true,
+	},
+	{
+		name:    "Sext8to64",
+		generic: true,
+	},
+	{
+		name:    "Sext16to32",
+		generic: true,
+	},
+	{
+		name:    "Sext16to64",
+		generic: true,
+	},
+	{
+		name:    "Sext32to64",
+		generic: true,
+	},
+	{
+		name:    "Zext8to16",
+		generic: true,
+	},
+	{
+		name:    "Zext8to32",
+		generic: true,
+	},
+	{
+		name:    "Zext8to64",
+		generic: true,
+	},
+	{
+		name:    "Zext16to32",
+		generic: true,
+	},
+	{
+		name:    "Zext16to64",
+		generic: true,
+	},
+	{
+		name:    "Zext32to64",
+		generic: true,
+	},
+	{
+		name:    "Trunc16to8",
+		generic: true,
+	},
+	{
+		name:    "Trunc32to8",
+		generic: true,
+	},
+	{
+		name:    "Trunc32to16",
+		generic: true,
+	},
+	{
+		name:    "Trunc64to8",
+		generic: true,
+	},
+	{
+		name:    "Trunc64to16",
+		generic: true,
+	},
+	{
+		name:    "Trunc64to32",
 		generic: true,
 	},
 	{
