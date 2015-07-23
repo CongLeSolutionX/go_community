@@ -194,10 +194,11 @@ Usage:
 
 	go doc [-u] [-c] [package|[package.]symbol[.method]]
 
-Doc prints the documentation comments associated with the item identified by its
-arguments (a package, const, func, type, var, or method) followed by a one-line
-summary of each of the first-level items "under" that item (package-level declarations
-for a package, methods for a type, etc.).
+Doc prints the documentation comments associated with the item
+identified by its arguments (a package, const, func, type, var, or
+method) followed by a one-line summary of each of the first-level
+items "under" that item (package-level declarations for a package,
+methods for a type, etc.).
 
 Doc accepts zero, one, or two arguments.
 
@@ -205,48 +206,52 @@ Given no arguments, that is, when run as
 
 	go doc
 
-it prints the package documentation for the package in the current directory.  If
-the package is a command (package main), the exported symbols of the package are
-elided from the presentation unless the -cmd flag is provided.
+it prints the package documentation for the package in the current
+directory.  If the package is a command (package main), the exported
+symbols of the package are elided from the presentation unless the
+-cmd flag is provided.
 
-When run with one argument, the argument is treated as a Go-syntax-like representation
-of the item to be documented. What the argument selects depends on what is installed
-in GOROOT and GOPATH, as well as the form of the argument, which is schematically
-one of these:
+When run with one argument, the argument is treated as a
+Go-syntax-like representation of the item to be documented. What the
+argument selects depends on what is installed in GOROOT and GOPATH, as
+well as the form of the argument, which is schematically one of these:
 
 	go doc <pkg>
 	go doc <sym>[.<method>]
 	go doc [<pkg>].<sym>[.<method>]
 
-The first item in this list matched by the argument is the one whose documentation
-is printed. (See the examples below.) For packages, the order of scanning is
-determined lexically, but the GOROOT tree is always scanned before GOPATH.
+The first item in this list matched by the argument is the one whose
+documentation is printed. (See the examples below.) For packages, the
+order of scanning is determined lexically, but the GOROOT tree is
+always scanned before GOPATH.
 
-If there is no package specified or matched, the package in the current directory
-is selected, so "go doc Foo" shows the documentation for symbol Foo in the current
-package.
+If there is no package specified or matched, the package in the
+current directory is selected, so "go doc Foo" shows the documentation
+for symbol Foo in the current package.
 
-The package path must be either a qualified path or a proper suffix of a path. The
-go tool's usual package mechanism does not apply: package path elements like . and
-... are not implemented by go doc.
+The package path must be either a qualified path or a proper suffix of
+a path. The go tool's usual package mechanism does not apply: package
+path elements like . and ... are not implemented by go doc.
 
-When run with two arguments, the first must be a full package path (not just a
-suffix), and the second is a symbol or symbol and method; this is similar to the
-syntax accepted by godoc:
+When run with two arguments, the first must be a full package path
+(not just a suffix), and the second is a symbol or symbol and method;
+this is similar to the syntax accepted by godoc:
 
 	go doc <pkg> <sym>[.<method>]
 
-In all forms, when matching symbols, lower-case letters in the argument match
-either case but upper-case letters match exactly. This means that there may be
-multiple matches of a lower-case argument in a package if different symbols have
-different cases. If this occurs, documentation for all matches is printed.
+In all forms, when matching symbols, lower-case letters in the
+argument match either case but upper-case letters match exactly. This
+means that there may be multiple matches of a lower-case argument in a
+package if different symbols have different cases. If this occurs,
+documentation for all matches is printed.
 
 Examples:
 	go doc
 		Show documentation for current package.
 	go doc Foo
 		Show documentation for Foo in the current package.
-		(Foo starts with a capital letter so it cannot match a package path.)
+		(Foo starts with a capital letter so it cannot match
+		a package path.)
 	go doc encoding/json
 		Show documentation for the encoding/json package.
 	go doc json
@@ -613,7 +618,8 @@ Run compiles and runs the main package comprising the named Go source files.
 A Go source file is defined to be a file ending in a literal ".go" suffix.
 
 By default, 'go run' runs the compiled binary directly: 'a.out arguments...'.
-If the -exec flag is given, 'go run' invokes the binary using xprog: 'xprog a.out arguments...'.
+If the -exec flag is given, 'go run' invokes the binary using xprog:
+	'xprog a.out arguments...'.
 If the -exec flag is not given, GOOS or GOARCH is different from the system
 default, and a program named go_$GOOS_$GOARCH_exec can be found
 on the current search path, 'go run' invokes the binary using that program,
