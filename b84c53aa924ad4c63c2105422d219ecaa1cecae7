@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ddfa2f3_09e13db8",
+        "filename": "doc/go1.5.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "go should be \u003ccode\u003eed",
+      "range": {
+        "startLine": 458,
+        "startChar": 85,
+        "endLine": 458,
+        "endChar": 87
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_49ef45a9",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "vendor/ looks like a typo. maybe vendor/... ?",
+      "range": {
+        "startLine": 265,
+        "startChar": 60,
+        "endLine": 265,
+        "endChar": 66
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_a9dd9104",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "see below.",
+      "range": {
+        "startLine": 338,
+        "startChar": 25,
+        "endLine": 338,
+        "endChar": 33
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_89a44d8e",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "vendor/ doesn\u0027t look right to me. given the associated definition and example, i would go with \"vendor\" here and \"internal\" above, with the quotes, or else reword so you can say\n\nvendor/... directory tree",
+      "range": {
+        "startLine": 374,
+        "startChar": 24,
+        "endLine": 374,
+        "endChar": 30
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_c9da550a",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "here you don\u0027t need the trailing /",
+      "range": {
+        "startLine": 375,
+        "startChar": 54,
+        "endLine": 375,
+        "endChar": 60
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_699fa942",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 380,
+        "startChar": 13,
+        "endLine": 380,
+        "endChar": 21
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_49ae656e",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 404,
+        "startChar": 8,
+        "endLine": 404,
+        "endChar": 14
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_09b05dc5",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 409,
+        "startChar": 8,
+        "endLine": 409,
+        "endChar": 14
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ddfa2f3_a9bcb1a3",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:11:28Z",
+      "side": 1,
+      "message": "vendoring",
+      "range": {
+        "startLine": 416,
+        "startChar": 4,
+        "endLine": 416,
+        "endChar": 10
+      },
+      "revId": "b84c53aa924ad4c63c2105422d219ecaa1cecae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
