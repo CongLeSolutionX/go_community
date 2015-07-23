@@ -292,6 +292,7 @@ func casfrom_Gscanstatus(gp *g, oldval, newval uint32) {
 	}
 	if newval == _Grunning {
 		gp.gcscanvalid = false
+		gp.gcptrcache = 0
 	}
 }
 
@@ -355,6 +356,7 @@ func casgstatus(gp *g, oldval, newval uint32) {
 	}
 	if newval == _Grunning {
 		gp.gcscanvalid = false
+		gp.gcptrcache = 0
 	}
 }
 
