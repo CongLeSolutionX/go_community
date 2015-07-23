@@ -1753,23 +1753,6 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		goto end8ab0bcb910c0d3213dd8726fbcc4848e
 	end8ab0bcb910c0d3213dd8726fbcc4848e:
 		;
-	case OpNot:
-		// match: (Not x)
-		// cond:
-		// result: (XORQconst [1] x)
-		{
-			x := v.Args[0]
-			v.Op = OpAMD64XORQconst
-			v.AuxInt = 0
-			v.Aux = nil
-			v.resetArgs()
-			v.AuxInt = 1
-			v.AddArg(x)
-			return true
-		}
-		goto endaabd7f5e27417cf3182cd5e4f4360410
-	endaabd7f5e27417cf3182cd5e4f4360410:
-		;
 	case OpOffPtr:
 		// match: (OffPtr [off] ptr)
 		// cond:

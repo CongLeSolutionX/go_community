@@ -105,8 +105,6 @@
 
 (Move [size] dst src mem) -> (REPMOVSB dst src (Const <TypeUInt64> [size]) mem)
 
-(Not x) -> (XORQconst [1] x)
-
 (OffPtr [off] ptr) -> (ADDQconst [off] ptr)
 
 (Const <t> [val]) && t.IsInteger() -> (MOVQconst [val])
