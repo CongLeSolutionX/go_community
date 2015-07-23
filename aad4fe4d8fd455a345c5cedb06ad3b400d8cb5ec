@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ddfa2f3_695489d4",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-23T05:54:26Z",
+      "side": 1,
+      "message": "reflow this paragraph",
+      "range": {
+        "startLine": 373,
+        "startChar": 16,
+        "endLine": 373,
+        "endChar": 26
+      },
+      "revId": "aad4fe4d8fd455a345c5cedb06ad3b400d8cb5ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
