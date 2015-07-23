@@ -240,7 +240,13 @@ func tmpl(w io.Writer, text string, data interface{}) {
 	t.Funcs(template.FuncMap{"trim": strings.TrimSpace, "capitalize": capitalize})
 	template.Must(t.Parse(text))
 	if err := t.Execute(w, data); err != nil {
-		panic(err)
+		// Broken pipes caused by piping our output
+		// into something like head(1) are not so serious.
+		if strings.Contains(err.Error(), "broken pipe") {
+			return
+		}
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(2)
 	}
 }
 
