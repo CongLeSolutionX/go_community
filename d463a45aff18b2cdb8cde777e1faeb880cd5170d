@@ -22,6 +22,30 @@
       "revId": "d463a45aff18b2cdb8cde777e1faeb880cd5170d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd158a84_eb93652c",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-07-24T00:52:43Z",
+      "side": 1,
+      "message": "Actually, I suppose it still affects how package net is built for the host platform, which affects how the resulting \"go\" tool that runs on the host will operate.  It just doesn\u0027t affect whether the resulting toolchain will use cgo by default for compiling code for the target platform?\n\nIf so, I guess that makes sense.",
+      "parentUuid": "cd158a84_4baef96d",
+      "range": {
+        "startLine": 95,
+        "startChar": 18,
+        "endLine": 97,
+        "endChar": 39
+      },
+      "revId": "d463a45aff18b2cdb8cde777e1faeb880cd5170d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
