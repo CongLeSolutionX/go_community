@@ -420,6 +420,77 @@ See https://golang.org/s/go15vendor for details.
 	`,
 }
 
+var helpEnvironment = &Command{
+	UsageLine: "environment",
+	Short:     "environment variables",
+	Long: `
+
+The go command, and the tools it invokes, examine a few different
+environment variables.  For many of these, you can see the default
+value on your system by running 'go env VAR'.
+
+General-purpose environment variables:
+
+	GCCGO
+		The gccgo command to run for 'go build -compiler=gccgo'.
+	GOARCH
+		The architecture, or processor, for which to compile code.
+		Examples are amd64, 386, arm, ppc64.
+	GOBIN
+		The directory where 'go install' will install a command.
+	GOOS
+		The operating system for which to compile code.
+		Examples are linux, darwin, windows, netbsd.
+	GOPATH
+		See 'go help gopath'.
+	GORACE
+		Options for the race detector.
+		See https://golang.org/doc/articles/race_detector.html.
+	GOROOT
+		The root of the go tree.
+
+Environment variables for use with cgo:
+
+	CC
+		The command to use to compile C code.
+	CGO_ENABLED
+		Whether the cgo command is supported.  Either 0 or 1.
+	CGO_CFLAGS
+		Flags that cgo will pass to the compiler when compiling
+		C code.
+	CGO_CPPFLAGS
+		Flags that cgo will pass to the compiler when compiling
+		C or C++ code.
+	CGO_CXXFLAGS
+		Flags that cgo will pass to the compiler when compiling
+		C++ code.
+	CGO_LDFLAGS
+		Flags that cgo will pass to the compiler when linking.
+	CXX
+		The command to use to compile C++ code.
+
+Architecture-specific environment variables:
+
+	GOARM
+		For GOARCH=arm, the arm architecture for which to compile.
+		Valid values are 5, 6, 7.
+	GO386
+		For GOARCH=386, the floating point instruction set.
+		Valid values are 387, sse2.
+
+Special-purpose environment variables:
+
+	GOROOT_FINAL
+		Rewrite GOROOT file names to GOROOT_FINAL for stack traces.
+	GO15VENDOREXPERIMENT
+		Enable Go 1.5 vendoring experiment.
+	GO_EXTLINK_ENABLED
+		Whether the linker should use external linking mode
+		when using -linkmode=auto with code that uses cgo.
+		Either 0 or 1.
+	`,
+}
+
 var helpFileType = &Command{
 	UsageLine: "filetype",
 	Short:     "file types",
