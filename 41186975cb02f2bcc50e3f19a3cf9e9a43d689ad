@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd882a39_8dcca1e0",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-24T05:13:36Z",
+      "side": 1,
+      "message": "The basic idea seems fine but this doesn\u0027t seem like quite the right way to put it.  It\u0027s that build establishes these conventions, it\u0027s that the go tool in general establishes, for build, get, test, install, etc.\n\nMaybe more like\n\nNote: build requires the source code to use the directory hierarchy described by \u0027go help gopath\u0027.  Not all projects can follow....",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 11
+      },
+      "revId": "41186975cb02f2bcc50e3f19a3cf9e9a43d689ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
