@@ -16,6 +16,24 @@
       "revId": "140abde9e288c2fb137919fd22becd0db7462fe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_701aeeff",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-24T17:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd710a1d_e567f6c1",
+      "revId": "140abde9e288c2fb137919fd22becd0db7462fe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
