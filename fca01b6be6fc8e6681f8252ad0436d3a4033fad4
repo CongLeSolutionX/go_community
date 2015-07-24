@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd882a39_0d67d19b",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 6090
+      },
+      "writtenOn": "2015-07-24T04:55:05Z",
+      "side": 1,
+      "message": "Fix comment, here since there are no queries there is no \u0027otherwise\u0027",
+      "revId": "fca01b6be6fc8e6681f8252ad0436d3a4033fad4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_2d6c8d7d",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 6090
+      },
+      "writtenOn": "2015-07-24T04:55:05Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "fca01b6be6fc8e6681f8252ad0436d3a4033fad4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
