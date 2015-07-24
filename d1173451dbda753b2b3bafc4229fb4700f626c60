@@ -16,6 +16,24 @@
       "revId": "d1173451dbda753b2b3bafc4229fb4700f626c60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_2d164d0c",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-07-24T04:43:16Z",
+      "side": 1,
+      "message": "dropped the completed flag. yup, it\u0027s wrong and unnecessary while we have no cancellation mech for A/AAAA racers. thanks.",
+      "parentUuid": "8dcab237_aeafd713",
+      "revId": "d1173451dbda753b2b3bafc4229fb4700f626c60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
