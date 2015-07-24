@@ -1697,6 +1697,12 @@ func genValue(v *ssa.Value) {
 		p := Prog(v.Op.Asm())
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
+	case ssa.OpAMD64REPSTOSQ:
+		Prog(x86.AREP)
+		Prog(x86.ASTOSQ)
+	case ssa.OpAMD64REPMOVSB:
+		Prog(x86.AREP)
+		Prog(x86.AMOVSB)
 	default:
 		v.Unimplementedf("genValue not implemented: %s", v.LongString())
 	}
