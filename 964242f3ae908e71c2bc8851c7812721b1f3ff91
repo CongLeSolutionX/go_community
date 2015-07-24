@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd882a39_70274ee8",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-07-24T07:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_70102e8d",
+      "range": {
+        "startLine": 308,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 12
+      },
+      "revId": "964242f3ae908e71c2bc8851c7812721b1f3ff91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882a39_3006a65a",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-24T06:38:59Z",
       "side": 1,
       "message": "Seems simpler to only return the []string; and if name is rooted, then return early.\n\nAs is, you\u0027re constructing additional string temporaries that will never be used, and requiring both lookup and goLookupIPOrder to reimplement the short-circuit-when-rooted logic.",
+      "range": {
+        "startLine": 324,
+        "startChar": 45,
+        "endLine": 324,
+        "endChar": 61
+      },
+      "revId": "964242f3ae908e71c2bc8851c7812721b1f3ff91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_b018d6ac",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-07-24T07:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_3006a65a",
       "range": {
         "startLine": 324,
         "startChar": 45,
