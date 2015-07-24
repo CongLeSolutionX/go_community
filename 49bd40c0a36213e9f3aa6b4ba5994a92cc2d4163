@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd882a39_2dbacd5c",
+        "filename": "test/fixedbugs/issue10607.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-24T05:05:16Z",
+      "side": 1,
+      "message": "It seems to me that this should be\n// +build linux\n// +build !ppc64,!ppc64le",
+      "revId": "49bd40c0a36213e9f3aa6b4ba5994a92cc2d4163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
