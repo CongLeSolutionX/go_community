@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd882a39_3c2d9dca",
+        "filename": "src/runtime/os1_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-07-25T18:06:01Z",
+      "side": 1,
+      "message": "Possibly this could do with a bug targeting 1.6 as a reminder to fix this.\n\n// Except on ARM where the system stack is only 8k. See issue NNNN",
+      "revId": "660b4db20cbc0988e027370306975b90ac1c71de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
