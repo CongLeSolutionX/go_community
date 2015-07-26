@@ -16,6 +16,24 @@
       "revId": "49bd40c0a36213e9f3aa6b4ba5994a92cc2d4163",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd710a1d_48cd3f2c",
+        "filename": "test/fixedbugs/issue10607.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-07-26T22:47:14Z",
+      "side": 1,
+      "message": "Yes, indeed, not sure how I managed to push the wrong version. Fixed.",
+      "parentUuid": "cd882a39_2dbacd5c",
+      "revId": "49bd40c0a36213e9f3aa6b4ba5994a92cc2d4163",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
