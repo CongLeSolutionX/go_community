@@ -16,6 +16,24 @@
       "revId": "660b4db20cbc0988e027370306975b90ac1c71de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd710a1d_8899f752",
+        "filename": "src/runtime/os1_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-07-26T02:20:58Z",
+      "side": 1,
+      "message": "Unless something is different on ARM, this particular system stack is the one the OS handed us, so there may not be anything we can do to \"fix\" this. OTOH, the 8K size is just how big we assumed the OS-provided stack is in runtime.rt0_go, and I have no idea where that assumption comes from. We assume 64K on every other architecture.",
+      "parentUuid": "cd882a39_3c2d9dca",
+      "revId": "660b4db20cbc0988e027370306975b90ac1c71de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
