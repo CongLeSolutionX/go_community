@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd882a39_7cbe4520",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "s/pass/pass./",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_9cc21199",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "It is mildly confusing to call this an op. Maybe walkState? I\u0027m not sure that\u0027s any better.",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_bcbfcd17",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "s/SetPtr/RecPtr/?",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_dccc99cf",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "s/bet/be/\ns/SetPtr/RecPtr/?\n\nI\u0027m sure I\u0027m missing something obvious, but why is this just a single Value? Couldn\u0027t we encounter multiple non-nil values as we walk down the tree? (Are we re-walking the full tree for every nil check? Seems more efficient to just walk it once and keep around a slice of nil checks to eliminate.)",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_fcc955bc",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "s/dominator/dominee/?",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_7c956594",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "s/nodes/node\u0027s/",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd882a39_9ca931dd",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-27T16:31:50Z",
+      "side": 1,
+      "message": "Consder s/falseBranch/nilBranch/ or some such. Re-computing false(nonnil) as I read is confusing.",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
