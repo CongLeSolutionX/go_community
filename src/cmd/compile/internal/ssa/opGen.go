@@ -169,10 +169,14 @@ const (
 	OpEq16
 	OpEq32
 	OpEq64
+	OpEqPtr
+	OpEqFat
 	OpNeq8
 	OpNeq16
 	OpNeq32
 	OpNeq64
+	OpNeqPtr
+	OpNeqFat
 	OpLess8
 	OpLess8U
 	OpLess16
@@ -1294,6 +1298,14 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name:    "EqPtr",
+		generic: true,
+	},
+	{
+		name:    "EqFat",
+		generic: true,
+	},
+	{
 		name:    "Neq8",
 		generic: true,
 	},
@@ -1307,6 +1319,14 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Neq64",
+		generic: true,
+	},
+	{
+		name:    "NeqPtr",
+		generic: true,
+	},
+	{
+		name:    "NeqFat",
 		generic: true,
 	},
 	{

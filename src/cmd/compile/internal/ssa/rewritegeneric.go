@@ -129,6 +129,54 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		goto enda6f250a3c775ae5a239ece8074b46cea
 	enda6f250a3c775ae5a239ece8074b46cea:
 		;
+	case OpEqFat:
+		// match: (EqFat x y)
+		// cond: x.Op == OpConst
+		// result: (EqFat y x)
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.Op == OpConst) {
+				goto end682267c512581988b8b21642aa0f8a9c
+			}
+			v.Op = OpEqFat
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AddArg(y)
+			v.AddArg(x)
+			return true
+		}
+		goto end682267c512581988b8b21642aa0f8a9c
+	end682267c512581988b8b21642aa0f8a9c:
+		;
+		// match: (EqFat (Load ptr mem) _)
+		// cond:
+		// result: (EqPtr (Load <config.Uintptr> ptr mem) (Const <config.Uintptr> [0]))
+		{
+			if v.Args[0].Op != OpLoad {
+				goto end3b9f30b709822e33c71c81079880bd4a
+			}
+			ptr := v.Args[0].Args[0]
+			mem := v.Args[0].Args[1]
+			v.Op = OpEqPtr
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v0 := v.Block.NewValue0(v.Line, OpLoad, TypeInvalid)
+			v0.Type = config.Uintptr
+			v0.AddArg(ptr)
+			v0.AddArg(mem)
+			v.AddArg(v0)
+			v1 := v.Block.NewValue0(v.Line, OpConst, TypeInvalid)
+			v1.Type = config.Uintptr
+			v1.AuxInt = 0
+			v.AddArg(v1)
+			return true
+		}
+		goto end3b9f30b709822e33c71c81079880bd4a
+	end3b9f30b709822e33c71c81079880bd4a:
+		;
 	case OpIsInBounds:
 		// match: (IsInBounds (Const [c]) (Const [d]))
 		// cond:
@@ -254,6 +302,54 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		}
 		goto end10541de7ea2bce703c1e372ac9a271e7
 	end10541de7ea2bce703c1e372ac9a271e7:
+		;
+	case OpNeqFat:
+		// match: (NeqFat x y)
+		// cond: x.Op == OpConst
+		// result: (NeqFat y x)
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.Op == OpConst) {
+				goto end16adf628d98998518d82ab572a6a2c03
+			}
+			v.Op = OpNeqFat
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AddArg(y)
+			v.AddArg(x)
+			return true
+		}
+		goto end16adf628d98998518d82ab572a6a2c03
+	end16adf628d98998518d82ab572a6a2c03:
+		;
+		// match: (NeqFat (Load ptr mem) _)
+		// cond:
+		// result: (NeqPtr (Load <config.Uintptr> ptr mem) (Const <config.Uintptr> [0]))
+		{
+			if v.Args[0].Op != OpLoad {
+				goto endf2929fc84565ef55f688a6f8c1e1cf3c
+			}
+			ptr := v.Args[0].Args[0]
+			mem := v.Args[0].Args[1]
+			v.Op = OpNeqPtr
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v0 := v.Block.NewValue0(v.Line, OpLoad, TypeInvalid)
+			v0.Type = config.Uintptr
+			v0.AddArg(ptr)
+			v0.AddArg(mem)
+			v.AddArg(v0)
+			v1 := v.Block.NewValue0(v.Line, OpConst, TypeInvalid)
+			v1.Type = config.Uintptr
+			v1.AuxInt = 0
+			v.AddArg(v1)
+			return true
+		}
+		goto endf2929fc84565ef55f688a6f8c1e1cf3c
+	endf2929fc84565ef55f688a6f8c1e1cf3c:
 		;
 	case OpPtrIndex:
 		// match: (PtrIndex <t> ptr idx)
