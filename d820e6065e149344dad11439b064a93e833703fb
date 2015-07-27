@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad5136aa_9f041721",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_7cbe4520",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882a39_9cc21199",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-27T16:31:50Z",
       "side": 1,
       "message": "It is mildly confusing to call this an op. Maybe walkState? I\u0027m not sure that\u0027s any better.",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad5136aa_3f162356",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "Changing to walkState, I tried to come up with a better name and failed.  It\u0027s a combination \"block to act on\" or \"operation to apply to nilcheck slice\".",
+      "parentUuid": "cd882a39_9cc21199",
       "revId": "d820e6065e149344dad11439b064a93e833703fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ad5136aa_df213fa7",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_bcbfcd17",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882a39_dccc99cf",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2015-07-27T16:31:50Z",
       "side": 1,
       "message": "s/bet/be/\ns/SetPtr/RecPtr/?\n\nI\u0027m sure I\u0027m missing something obvious, but why is this just a single Value? Couldn\u0027t we encounter multiple non-nil values as we walk down the tree? (Are we re-walking the full tree for every nil check? Seems more efficient to just walk it once and keep around a slice of nil checks to eliminate.)",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad5136aa_7f334bfc",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "I think every nil check is implicit (e.g. OpAddr), or there is only one explicit check per block (OpIsNonNil and in the future a user nil check).\n\nWe don\u0027t walk the tree multiple times, AddPtr/ClearPtr act as diffs to nonNilValues  that I push to the work tree before traversing down various paths.  The only wrinkle is that \u0027Work\u0027 states might also have a ptr attached, this might be clearer if that didn\u0027t occur.  The downside being that if you come across a nilcheck you push both a Work node and a SetPtr node to the work list.",
+      "parentUuid": "cd882a39_dccc99cf",
       "revId": "d820e6065e149344dad11439b064a93e833703fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ad5136aa_1f3007ed",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_fcc955bc",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882a39_7c956594",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 8
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "ad5136aa_dfc85f51",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_7c956594",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882a39_9ca931dd",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 8
@@ -115,6 +223,24 @@
       "writtenOn": "2015-07-27T16:31:50Z",
       "side": 1,
       "message": "Consder s/falseBranch/nilBranch/ or some such. Re-computing false(nonnil) as I read is confusing.",
+      "revId": "d820e6065e149344dad11439b064a93e833703fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad5136aa_9fd2d7fd",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-27T22:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd882a39_9ca931dd",
       "revId": "d820e6065e149344dad11439b064a93e833703fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
