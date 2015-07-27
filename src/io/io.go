@@ -10,6 +10,9 @@
 // Because these interfaces and primitives wrap lower-level operations with
 // various implementations, unless otherwise informed clients should not
 // assume they are safe for parallel execution.
+//
+// The most important interfaces are io.Reader and io.Writer that derive
+// other composite interfaces.
 package io
 
 import (
