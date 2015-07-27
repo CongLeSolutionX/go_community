@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad5136aa_1f6b2793",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-27T22:41:18Z",
+      "side": 1,
+      "message": "This could lead to an inifinite rewrite loop.  Only for nil \u003d\u003d nil I guess, but it is better to be safe.  Add \"\u0026\u0026 y.Op !\u003d OpConst\".",
+      "range": {
+        "startLine": 40,
+        "startChar": 16,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "38d8287a1ba27d338a10982833d5fa25839349d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad5136aa_3f686393",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-27T22:41:18Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 23
+      },
+      "revId": "38d8287a1ba27d338a10982833d5fa25839349d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
