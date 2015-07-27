@@ -99,8 +99,8 @@ TEXT runtime·exit1(SB),NOSPLIT,$0
 
 TEXT runtime·raise(SB),NOSPLIT,$0
 	// Ideally we'd send the signal to the current thread,
-	// not the whole process, but that's too hard on OS X.
-	JMP	runtime·raiseproc(SB)
+	// not the whole process, but that's too hard on darwin.
+	B	runtime·raiseproc(SB)
 
 TEXT runtime·raiseproc(SB),NOSPLIT,$24
 	MOVW	$SYS_getpid, R12
