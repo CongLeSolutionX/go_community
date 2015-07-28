@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd9caada_ed1ae52e",
+        "filename": "src/go/types/testdata/stmt0.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-28T17:30:37Z",
+      "side": 1,
+      "message": "Where is this behavior specified?  I find it very odd that \u0027x\u003d\u003dx\u0027 does not behave like \u0027true\u0027 here.  Although one is non-constant and the other constant, both are untyped booleans.\n\nIt also breaks symmetry with \u0027if tag \u003d\u003d casevalue\u0027:\n\nhttp://play.golang.org/p/b-lCYhoBxx",
+      "revId": "f0103803fa0d293e079a42ed52c3ac3842f436fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
