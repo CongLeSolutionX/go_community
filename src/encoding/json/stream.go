@@ -437,6 +437,7 @@ func (dec *Decoder) More() bool {
 }
 
 func (dec *Decoder) peek() (byte, error) {
+	var err error
 	for {
 		for i := dec.scanp; i < len(dec.buf); i++ {
 			c := dec.buf[i]
@@ -446,7 +447,13 @@ func (dec *Decoder) peek() (byte, error) {
 			dec.scanp = i
 			return c, nil
 		}
-		if err := dec.refill(); err != nil {
+		// buffer has been scanned, now report EOF
+		if err == io.EOF {
+			return 0, err
+		}
+		err = dec.refill()
+		// scan the buffer before reporting EOF
+		if err != nil && err != io.EOF {
 			return 0, err
 		}
 	}
