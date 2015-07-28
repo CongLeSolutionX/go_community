@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db8e63c_56a104ee",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-28T22:55:32Z",
+      "side": 1,
+      "message": "Can\u0027t you just return x here?  If the copy is going to be elided anyway, might as well do it now.\n\nSo what exactly does CONVNOP mean anyway?  Is it used just to add/remove type names?  Does it allow sign/unsign conversion?  Does it allow changing width (wider or thinner)?  I think we need to write down what ssa expects of such conversions and check them here.\n\nI think we expect the width not to change.  Maybe signedness might change, and I think the backend is (recently) ok with that.",
+      "range": {
+        "startLine": 880,
+        "startChar": 25,
+        "endLine": 880,
+        "endChar": 31
+      },
+      "revId": "98b704890a1e3f31be6672e5f4ceaa4578329b8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
