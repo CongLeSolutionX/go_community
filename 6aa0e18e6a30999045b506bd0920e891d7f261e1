@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d09fedc_baa4b1be",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-07-28T03:29:49Z",
+      "side": 1,
+      "message": "ah... anti-old plain dns hjacking w/ nxdomain, done.",
+      "parentUuid": "cd710a1d_289ba3cd",
+      "revId": "6aa0e18e6a30999045b506bd0920e891d7f261e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd710a1d_4890dfa5",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-27T16:21:26Z",
       "side": 1,
       "message": "This function is a bit convoluted, because it used to have the tryOneName calls inside it. Now that they are gone, it is easier for rooted to be handled first and then the search completely separated.\n\n    // If name is rooted (trailing dot), try only that name.\n    rooted :\u003d ...\n    if rooted {\n        return []string{name}\n    }\n\n    // Build list of search choices.\n    names :\u003d make([]string, ...)\n\n    // If name has enough dots, try unsuffixed first.\n    if count(name, \u0027.\u0027) \u003e\u003d conf.ndots {\n        names \u003d append(names, name+\".\")\n    }\n\n    // Try suffixes.\n    for _, suffix :\u003d range conf.search {\n        ...\n    }\n\n    // Try unsuffixed, if not tried first above.\n    if count(name, \u0027.\u0027) \u003c conf.ndots {\n        ...\n    }\n\n    return names",
+      "revId": "6aa0e18e6a30999045b506bd0920e891d7f261e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d09fedc_faae299c",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-07-28T03:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd710a1d_4890dfa5",
       "revId": "6aa0e18e6a30999045b506bd0920e891d7f261e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
