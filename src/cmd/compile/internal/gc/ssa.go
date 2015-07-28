@@ -877,7 +877,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 	case OCONVNOP:
 		x := s.expr(n.Left)
-		return s.newValue1(ssa.OpConvNop, n.Type, x)
+		return s.newValue1(ssa.OpCopy, n.Type, x)
 	case OCONV:
 		x := s.expr(n.Left)
 		ft := n.Left.Type // from type
@@ -885,7 +885,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		if ft.IsInteger() && tt.IsInteger() {
 			var op ssa.Op
 			if tt.Size() == ft.Size() {
-				op = ssa.OpConvNop
+				op = ssa.OpCopy
 			} else if tt.Size() < ft.Size() {
 				// truncation
 				switch 10*ft.Size() + tt.Size() {
