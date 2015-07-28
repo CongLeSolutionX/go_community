@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db8e63c_f3e3ea92",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-28T18:56:28Z",
+      "side": 1,
+      "message": "FWIW, this is a bit complicated, since the failure side of OpIsNonNil is a panic (or will be, anyway). Perhaps fixing this is nothing more than setting up the initial block structure correctly.",
+      "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e63c_d3e86672",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-28T18:56:28Z",
+      "side": 1,
+      "message": "Comment, please",
+      "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e63c_13fb0e3e",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-28T18:56:28Z",
+      "side": 1,
+      "message": "Please add a call to b.ReportAllocs() in here somewhere and update the commit message with the new data.",
+      "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
