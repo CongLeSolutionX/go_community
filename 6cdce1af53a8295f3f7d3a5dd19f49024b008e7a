@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "2db8e63c_5372b6d6",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-28T17:47:48Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "2db8e63c_b07cb8e1",
+      "revId": "6cdce1af53a8295f3f7d3a5dd19f49024b008e7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd882a39_2d056d85",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 1
@@ -151,6 +169,24 @@
       "side": 1,
       "message": "Mostly just to match the runtime invariant.  If we keep only the low N bits, we would need to decide whether we keep them signed or unsigned in the AuxInt field, so there is ambiguity either way.\n\nOr maybe we should have Const8, Const8U, ... opcodes?",
       "parentUuid": "cd882a39_2d056d85",
+      "revId": "6cdce1af53a8295f3f7d3a5dd19f49024b008e7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e63c_b33de2ee",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-28T17:47:48Z",
+      "side": 1,
+      "message": "Const8 style OpCodes would match the explicitness we\u0027ve been introducing elsewhere, so if you\u0027re happy with that, so am I.\n\nEither way, having a method on Value that returns a ready-to-use AuxInt would be helpful.\n\nSeparate CL ok.",
+      "parentUuid": "2db8e63c_13c4ae83",
       "revId": "6cdce1af53a8295f3f7d3a5dd19f49024b008e7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
