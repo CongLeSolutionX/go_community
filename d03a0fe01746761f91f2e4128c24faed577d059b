@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d862697_c0b7de21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-28T06:29:11Z",
+      "side": 1,
+      "message": "Missing the # before 11897 (for our tools and Github\u0027s magic)",
+      "revId": "d03a0fe01746761f91f2e4128c24faed577d059b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
