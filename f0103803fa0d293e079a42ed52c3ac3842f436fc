@@ -16,6 +16,24 @@
       "revId": "f0103803fa0d293e079a42ed52c3ac3842f436fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e63c_d326a6ea",
+        "filename": "src/go/types/testdata/stmt0.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-07-28T17:35:37Z",
+      "side": 1,
+      "message": "It does behave like true. But, as all other untyped types, that will assume assume the default type, which is bool. Which then conflicts later.\n\nThis is based on gc\u0027s current behavior, and on the pending spec change.",
+      "parentUuid": "cd9caada_ed1ae52e",
+      "revId": "f0103803fa0d293e079a42ed52c3ac3842f436fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
