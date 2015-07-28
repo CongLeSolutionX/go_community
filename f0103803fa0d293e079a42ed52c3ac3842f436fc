@@ -34,6 +34,24 @@
       "revId": "f0103803fa0d293e079a42ed52c3ac3842f436fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd9caada_90deda52",
+        "filename": "src/go/types/testdata/stmt0.src",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-28T22:03:26Z",
+      "side": 1,
+      "message": "You\u0027re quite right, it does behave like true; the symmetry between \u0027switch\u0027 and \u0027if\u0027 was already broken.",
+      "parentUuid": "2db8e63c_d326a6ea",
+      "revId": "f0103803fa0d293e079a42ed52c3ac3842f436fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
