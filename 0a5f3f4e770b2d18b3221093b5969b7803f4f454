@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a0b6c19_9814954f",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-29T16:33:34Z",
+      "side": 1,
+      "message": "Ugh, that\u0027s awful.",
+      "revId": "0a5f3f4e770b2d18b3221093b5969b7803f4f454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a0b6c19_d80a0d29",
+        "filename": "src/go/types/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-29T16:33:34Z",
+      "side": 1,
+      "message": "\"cautious\"",
+      "revId": "0a5f3f4e770b2d18b3221093b5969b7803f4f454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a0b6c19_58ff1d74",
+        "filename": "src/go/types/testdata/issues.src",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-29T16:33:34Z",
+      "side": 1,
+      "message": "I sense the handle of dvyukov. :)",
+      "revId": "0a5f3f4e770b2d18b3221093b5969b7803f4f454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
