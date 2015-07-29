@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db8e63c_19784f37",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T00:40:58Z",
+      "side": 1,
+      "message": "Unindent one stop",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e63c_79851ba7",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1646,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T00:40:58Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
