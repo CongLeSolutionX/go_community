@@ -42,10 +42,10 @@ func testNEWUSERRemap(t *testing.T, uid, gid int, setgroups bool) {
 	cmd := whoamiCmd(t, uid, gid, setgroups)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		// On some systems, there is a sysctl setting.
+		// On some systems, root is required.
 		if os.IsPermission(err) && os.Getuid() != 0 {
 			data, errRead := ioutil.ReadFile("/proc/sys/kernel/unprivileged_userns_clone")
-			if errRead == nil && data[0] == '0' {
+			if (errRead == nil && data[0] == '0') || os.IsNotExist(errRead) {
 				t.Skip("kernel prohibits user namespace in unprivileged process")
 			}
 		}
