@@ -33,6 +33,176 @@
       "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a142033_bcfd0da8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1697,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Collapse the ADDXconst cases? They vary only by op.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a11e441_fdb143cd",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1739,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Why isn\u0027t this with the other ADDXconst cases?",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eafb1432_612eb0c7",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1745,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Add the other XORXconst cases while we\u0027re at it?",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eafb1432_c116a47f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1979,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "If you feel inspired, you could pull in the actual implementations here and then call Unimplementedf after inserting the Progs to prevent them from actually getting used.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eafb1432_615b505c",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "FWIW, I think this is probably a good idea. I\u0027ve been toying with the idea of removing Value.Type entirely, since most of the relevant information is duplicated already in Value.Op. There are several wrinkles, though. If the ruminations/experiments go well, I\u0027ll send an email.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aeb4063_a43f2c8d",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Thanks.\n\nThis reminds me, do you think that the register allocator might at some point learn which ops can operate directly on memory?\n\nIs there a regalloc wishlist that you\u0027re working against for the new register allocator? So far off the top of my head I have: clobber support, two output ops, in-place ops, operate-on-memory ops.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a0b6c19_1beabf67",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Why not \u002615? Could use a comment. Same below.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a0b6c19_dbfb273a",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Add a space between arg0, *, and arg1, for consistency. Same on next line.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a142033_7ca415bf",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Shift amount mod 16? If not, comment please. Same below.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a0ea828_dab8c1c0",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T19:25:49Z",
+      "side": 1,
+      "message": "Ick. I agree on all fronts.\n\nIf we get false positives or false negatives on this, I\u0027ll write a quick version using go/ast. It\u0027ll still be a hack, but at least it\u0027ll be a more precise hack.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
