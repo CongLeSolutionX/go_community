@@ -22,6 +22,30 @@
       "revId": "98b704890a1e3f31be6672e5f4ceaa4578329b8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db8e63c_f91aab2e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-29T00:15:50Z",
+      "side": 1,
+      "message": "\u003e Can\u0027t you just return x here?\n\nI wanted to make sure that the value had the right (converted) type. I suppose I could modify x\u0027s Type in place, but that seemed awkward. Would you prefer that?\n\n\n\u003e So what exactly does CONVNOP mean anyway?\n\nAs I understand it, it means \"the in-memory representation of these two Nodes is identical\". As such, it does not allow changing width or sign, although it does allow changing (say) etype.\n\nI\u0027ve added a bunch of checks that exhaustively cover all the CONVNOPs that the front end currently generate.\n\nEverything is ok (I think) except closures, which are not yet handled. Thanks for pushing back.",
+      "parentUuid": "2db8e63c_56a104ee",
+      "range": {
+        "startLine": 880,
+        "startChar": 25,
+        "endLine": 880,
+        "endChar": 31
+      },
+      "revId": "98b704890a1e3f31be6672e5f4ceaa4578329b8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
