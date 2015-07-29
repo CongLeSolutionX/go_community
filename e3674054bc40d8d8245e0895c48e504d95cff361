@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "0a0ea828_dd7d5b90",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1739,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-29T21:29:27Z",
+      "side": 1,
+      "message": "Because there is no LEAB.  Only LEA{WLQ}.",
+      "parentUuid": "6a11e441_fdb143cd",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eafb1432_612eb0c7",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -138,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "eafb1432_218b0871",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-29T21:29:27Z",
+      "side": 1,
+      "message": "There are two different parts to this.  One is to combine an op with a load, as in\n   ADDQ 8(SP), AX\nThe other is to combine with a store as well, as in\n   ADDQ AX, 8(SP)\n\nThey can both be solved with some combination of rewrite rules and regalloc.  I think I know how to make them happen with rewrite rules, for example (ADDQ x (LOAD ptr mem)) -\u003e (ADDQload x ptr mem) or some such.  The only impediment is that it will be a lot of rules (and opcodes), one for each addressing mode of each instruction.\n\nThe more challenging part is doing this during regalloc when the input values have been spilled.  I\u0027m sure it is doable, but I haven\u0027t thought much about it yet.\n\nThe regalloc wishlist is in the regalloc section of the TODO file.",
+      "parentUuid": "4aeb4063_a43f2c8d",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a0b6c19_1beabf67",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 1
@@ -149,6 +185,24 @@
       "writtenOn": "2015-07-29T19:25:49Z",
       "side": 1,
       "message": "Why not \u002615? Could use a comment. Same below.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aeb4063_47762281",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-29T21:29:27Z",
+      "side": 1,
+      "message": "Weird x86 semantics.  64 bit shifts use the low 6 bits, 8,16,and 32 bit shifts use the low 5 bits.  So if we somehow generate a (SHLW x (MOVWconst [24])), then (SHLWconst [8] x) isn\u0027t right.  Not that we\u0027d ever generate the former, but just to be safe.",
+      "parentUuid": "2a0b6c19_1beabf67",
       "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -200,6 +254,24 @@
       "writtenOn": "2015-07-29T19:25:49Z",
       "side": 1,
       "message": "Ick. I agree on all fronts.\n\nIf we get false positives or false negatives on this, I\u0027ll write a quick version using go/ast. It\u0027ll still be a hack, but at least it\u0027ll be a more precise hack.",
+      "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eafb1432_a4e5e615",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-29T21:29:27Z",
+      "side": 1,
+      "message": "I was thinking about using go/ast also.  Big hammer if/when we need it...",
+      "parentUuid": "0a0ea828_dab8c1c0",
       "revId": "e3674054bc40d8d8245e0895c48e504d95cff361",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
