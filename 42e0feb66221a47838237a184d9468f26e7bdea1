@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad72168f_f7bd7a22",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4583,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-29T23:44:54Z",
+      "side": 1,
+      "message": "is this line redundant?",
+      "range": {
+        "startLine": 4583,
+        "startChar": 3,
+        "endLine": 4583,
+        "endChar": 5
+      },
+      "revId": "42e0feb66221a47838237a184d9468f26e7bdea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad72168f_17c3d69f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4590,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-29T23:44:54Z",
+      "side": 1,
+      "message": "does the next sentence cover this?",
+      "range": {
+        "startLine": 4590,
+        "startChar": 3,
+        "endLine": 4590,
+        "endChar": 6
+      },
+      "revId": "42e0feb66221a47838237a184d9468f26e7bdea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
