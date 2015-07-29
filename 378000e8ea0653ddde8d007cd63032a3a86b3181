@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd73ca92_f57bb864",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-07-29T00:23:50Z",
+      "side": 1,
+      "message": "I suppose this will be a method on an ekind type eventually.",
+      "revId": "378000e8ea0653ddde8d007cd63032a3a86b3181",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
