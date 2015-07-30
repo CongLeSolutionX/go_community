@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eafb1432_32c11878",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 4596,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-30T01:19:32Z",
+      "side": 1,
+      "message": "s/and //\ns/is the/is that/ ?",
+      "revId": "c1031a8c07b507e3bd0bc856f5fc6825aab0d67b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
