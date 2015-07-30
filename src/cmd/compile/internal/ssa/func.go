@@ -11,17 +11,49 @@ import "sync"
 type Func struct {
 	Config     *Config     // architecture information
 	Name       string      // e.g. bytes·Compare
-	Type       Type        // type signature of the function.
+	Type       Type        // type signature of the function. // TODO: unused/unset??
 	StaticData interface{} // associated static data, untouched by the ssa package
 	Blocks     []*Block    // unordered set of all basic blocks (note: not indexable by ID)
 	Entry      *Block      // the entry basic block
 	bid        idAlloc     // block ID allocator
 	vid        idAlloc     // value ID allocator
 
+	// types holds all types found in this function.
+	// TODO: make a package level variable? The same set of types will typically be reused.
+	types      []Type
+	typeLookup map[string][]int32 // all locations in types of Types with the given name
+
 	// when register allocation is done, maps value ids to locations
 	RegAlloc []Location
 	// when stackalloc is done, the size of the stack frame
 	FrameSize int64
+}
+
+func (f *Func) typeIndex(t Type) int32 {
+	if ct, ok := t.(*CompilerType); ok {
+		switch ct {
+		case TypeInvalid:
+			return typeInvalidIndex
+		case TypeMem:
+			return typeMemIndex
+		case TypeFlags:
+			return typeFlagIndex
+		}
+	}
+
+	s := t.String()
+	for _, i := range f.typeLookup[s] {
+		if tt := f.types[i]; t.Equal(tt) {
+			return i
+		}
+	}
+	f.types = append(f.types, t)
+	i := len(f.types) - 1
+	if int(int32(i)) != i {
+		panic("too many types")
+	}
+	f.typeLookup[s] = append(f.typeLookup[s], int32(i))
+	return int32(i)
 }
 
 // NumBlocks returns an integer larger than the id of any Block in the Func.
@@ -73,11 +105,11 @@ func (f *Func) NewBlock(kind BlockKind) *Block {
 // NewValue0 returns a new value in the block with no arguments and zero aux values.
 func (b *Block) NewValue0(line int32, op Op, t Type) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Block: b,
-		Line:  line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:0]
 	b.Values = append(b.Values, v)
@@ -87,12 +119,12 @@ func (b *Block) NewValue0(line int32, op Op, t Type) *Value {
 // NewValue returns a new value in the block with no arguments and an auxint value.
 func (b *Block) NewValue0I(line int32, op Op, t Type, auxint int64) *Value {
 	v := &Value{
-		ID:     b.Func.vid.get(),
-		Op:     op,
-		Type:   t,
-		AuxInt: auxint,
-		Block:  b,
-		Line:   line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		AuxInt:    auxint,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:0]
 	b.Values = append(b.Values, v)
@@ -108,12 +140,12 @@ func (b *Block) NewValue0A(line int32, op Op, t Type, aux interface{}) *Value {
 		b.Fatalf("aux field has int64 type op=%s type=%s aux=%v", op, t, aux)
 	}
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Aux:   aux,
-		Block: b,
-		Line:  line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		Aux:       aux,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:0]
 	b.Values = append(b.Values, v)
@@ -123,13 +155,13 @@ func (b *Block) NewValue0A(line int32, op Op, t Type, aux interface{}) *Value {
 // NewValue returns a new value in the block with no arguments and both an auxint and aux values.
 func (b *Block) NewValue0IA(line int32, op Op, t Type, auxint int64, aux interface{}) *Value {
 	v := &Value{
-		ID:     b.Func.vid.get(),
-		Op:     op,
-		Type:   t,
-		AuxInt: auxint,
-		Aux:    aux,
-		Block:  b,
-		Line:   line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		AuxInt:    auxint,
+		Aux:       aux,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:0]
 	b.Values = append(b.Values, v)
@@ -139,11 +171,11 @@ func (b *Block) NewValue0IA(line int32, op Op, t Type, auxint int64, aux interfa
 // NewValue1 returns a new value in the block with one argument and zero aux values.
 func (b *Block) NewValue1(line int32, op Op, t Type, arg *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Block: b,
-		Line:  line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:1]
 	v.Args[0] = arg
@@ -154,12 +186,12 @@ func (b *Block) NewValue1(line int32, op Op, t Type, arg *Value) *Value {
 // NewValue1I returns a new value in the block with one argument and an auxint value.
 func (b *Block) NewValue1I(line int32, op Op, t Type, auxint int64, arg *Value) *Value {
 	v := &Value{
-		ID:     b.Func.vid.get(),
-		Op:     op,
-		Type:   t,
-		AuxInt: auxint,
-		Block:  b,
-		Line:   line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		AuxInt:    auxint,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:1]
 	v.Args[0] = arg
@@ -170,12 +202,12 @@ func (b *Block) NewValue1I(line int32, op Op, t Type, auxint int64, arg *Value) 
 // NewValue1A returns a new value in the block with one argument and an aux value.
 func (b *Block) NewValue1A(line int32, op Op, t Type, aux interface{}, arg *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Aux:   aux,
-		Block: b,
-		Line:  line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		Aux:       aux,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:1]
 	v.Args[0] = arg
@@ -186,13 +218,13 @@ func (b *Block) NewValue1A(line int32, op Op, t Type, aux interface{}, arg *Valu
 // NewValue1IA returns a new value in the block with one argument and both an auxint and aux values.
 func (b *Block) NewValue1IA(line int32, op Op, t Type, auxint int64, aux interface{}, arg *Value) *Value {
 	v := &Value{
-		ID:     b.Func.vid.get(),
-		Op:     op,
-		Type:   t,
-		AuxInt: auxint,
-		Aux:    aux,
-		Block:  b,
-		Line:   line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		AuxInt:    auxint,
+		Aux:       aux,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:1]
 	v.Args[0] = arg
@@ -203,11 +235,11 @@ func (b *Block) NewValue1IA(line int32, op Op, t Type, auxint int64, aux interfa
 // NewValue2 returns a new value in the block with two arguments and zero aux values.
 func (b *Block) NewValue2(line int32, op Op, t Type, arg0, arg1 *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Block: b,
-		Line:  line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:2]
 	v.Args[0] = arg0
@@ -219,12 +251,12 @@ func (b *Block) NewValue2(line int32, op Op, t Type, arg0, arg1 *Value) *Value {
 // NewValue2I returns a new value in the block with two arguments and an auxint value.
 func (b *Block) NewValue2I(line int32, op Op, t Type, aux int64, arg0, arg1 *Value) *Value {
 	v := &Value{
-		ID:     b.Func.vid.get(),
-		Op:     op,
-		Type:   t,
-		AuxInt: aux,
-		Block:  b,
-		Line:   line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		AuxInt:    aux,
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = v.argstorage[:2]
 	v.Args[0] = arg0
@@ -236,11 +268,11 @@ func (b *Block) NewValue2I(line int32, op Op, t Type, aux int64, arg0, arg1 *Val
 // NewValue3 returns a new value in the block with three arguments and zero aux values.
 func (b *Block) NewValue3(line int32, op Op, t Type, arg0, arg1, arg2 *Value) *Value {
 	v := &Value{
-		ID:    b.Func.vid.get(),
-		Op:    op,
-		Type:  t,
-		Block: b,
-		Line:  line,
+		ID:        b.Func.vid.get(),
+		Op:        op,
+		TypeIndex: b.Func.typeIndex(t),
+		Block:     b,
+		Line:      line,
 	}
 	v.Args = []*Value{arg0, arg1, arg2}
 	b.Values = append(b.Values, v)

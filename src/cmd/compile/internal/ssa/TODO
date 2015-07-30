@@ -12,9 +12,6 @@ Scheduling
    variables first.
 
 Values
- - Store *Type instead of Type?  Keep an array of used Types in Func
-   and reference by id?  Unify with the type ../gc so we just use a
-   pointer instead of an interface?
  - Recycle dead values instead of using GC to do that.
  - A lot of Aux fields are just int64.  Add a separate AuxInt field?
    If not that, then cache the interfaces that wrap int64s.

@@ -178,7 +178,7 @@ func regalloc(f *Func) {
 				b.Values = append(b.Values, v)
 				continue
 			}
-			if v.Op == OpCopy && v.Type.IsMemory() {
+			if v.Op == OpCopy && v.IsMemory() {
 				b.Values = append(b.Values, v)
 				continue
 			}
@@ -260,23 +260,23 @@ func regalloc(f *Func) {
 						if w.Op == OpSB {
 							c = w
 						} else if w.Op == OpSP {
-							c = b.NewValue1(w.Line, OpCopy, w.Type, w)
+							c = b.NewValue1(w.Line, OpCopy, w.Type(), w)
 						} else {
-							c = b.NewValue0IA(w.Line, w.Op, w.Type, w.AuxInt, w.Aux)
+							c = b.NewValue0IA(w.Line, w.Op, w.Type(), w.AuxInt, w.Aux)
 						}
 					} else if len(w.Args) == 1 && (w.Args[0].Op == OpSP || w.Args[0].Op == OpSB) {
 						// Materialize offsets from SP/SB
-						c = b.NewValue1IA(w.Line, w.Op, w.Type, w.AuxInt, w.Aux, w.Args[0])
+						c = b.NewValue1IA(w.Line, w.Op, w.Type(), w.AuxInt, w.Aux, w.Args[0])
 					} else if wreg != 0 {
 						// Copy from another register.
 						// Typically just an optimization, but this is
 						// required if w is dirty.
 						s := pickReg(wreg)
 						// inv: s != r
-						c = b.NewValue1(w.Line, OpCopy, w.Type, regs[s].c)
+						c = b.NewValue1(w.Line, OpCopy, w.Type(), regs[s].c)
 					} else {
 						// Load from home location
-						c = b.NewValue1(w.Line, OpLoadReg, w.Type, w)
+						c = b.NewValue1(w.Line, OpLoadReg, w.Type(), w)
 					}
 					home = setloc(home, c, &registers[r])
 					// Remember what we did
@@ -333,7 +333,7 @@ func regalloc(f *Func) {
 				}
 
 				// Reissue v with new op, with r as its home.
-				c := b.NewValue0IA(v.Line, v.Op, v.Type, v.AuxInt, v.Aux)
+				c := b.NewValue0IA(v.Line, v.Op, v.Type(), v.AuxInt, v.Aux)
 				c.AddArgs(v.Args...)
 				home = setloc(home, c, &registers[r])
 
@@ -397,12 +397,12 @@ func addPhiCopies(f *Func) {
 			if v.Op != OpPhi {
 				break // all phis should appear first
 			}
-			if v.Type.IsMemory() { // TODO: only "regallocable" types
+			if v.IsMemory() { // TODO: only "regallocable" types
 				continue
 			}
 			for i, w := range v.Args {
 				c := b.Preds[i]
-				cpy := c.NewValue1(w.Line, OpCopy, v.Type, w)
+				cpy := c.NewValue1(w.Line, OpCopy, v.Type(), w)
 				v.Args[i] = cpy
 			}
 		}

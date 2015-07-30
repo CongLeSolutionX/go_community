@@ -25,10 +25,10 @@ func dse(f *Func) {
 				// Ignore phis - they will always be first and can't be eliminated
 				continue
 			}
-			if v.Type.IsMemory() {
+			if v.IsMemory() {
 				stores = append(stores, v)
 				for _, a := range v.Args {
-					if a.Block == b && a.Type.IsMemory() {
+					if a.Block == b && a.IsMemory() {
 						storeUse.add(a.ID)
 						if v.Op != OpStore {
 							// CALL, DUFFCOPY, etc. are both
@@ -39,7 +39,7 @@ func dse(f *Func) {
 				}
 			} else {
 				for _, a := range v.Args {
-					if a.Block == b && a.Type.IsMemory() {
+					if a.Block == b && a.IsMemory() {
 						loadUse.add(a.ID)
 					}
 				}
@@ -92,7 +92,7 @@ func dse(f *Func) {
 			continue // At start of block.  Move on to next block.
 		}
 		for _, a := range v.Args {
-			if a.Block == b && a.Type.IsMemory() {
+			if a.Block == b && a.IsMemory() {
 				v = a
 				goto walkloop
 			}

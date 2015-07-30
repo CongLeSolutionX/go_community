@@ -25,10 +25,10 @@ func cse(f *Func) {
 	// It starts with a coarse partition and iteratively refines it
 	// until it reaches a fixed point.
 
-	// Make initial partition based on opcode, type-name, aux, auxint, nargs, phi-block, and the ops of v's first args
+	// Make initial partition based on opcode, type, aux, auxint, nargs, phi-block, and the ops of v's first args
 	type key struct {
 		op     Op
-		typ    string
+		typ    int32
 		aux    interface{}
 		auxint int64
 		nargs  int
@@ -51,7 +51,7 @@ func cse(f *Func) {
 			if len(v.Args) > 1 {
 				arg1op = v.Args[1].Op
 			}
-			k := key{v.Op, v.Type.String(), v.Aux, v.AuxInt, len(v.Args), bid, arg0op, arg1op}
+			k := key{v.Op, v.TypeIndex, v.Aux, v.AuxInt, len(v.Args), bid, arg0op, arg1op}
 			m[k] = append(m[k], v)
 		}
 	}
@@ -95,7 +95,7 @@ func cse(f *Func) {
 			for j := 1; j < len(e); {
 				w := e[j]
 				for i := 0; i < len(v.Args); i++ {
-					if valueEqClass[v.Args[i].ID] != valueEqClass[w.Args[i].ID] || !v.Type.Equal(w.Type) {
+					if valueEqClass[v.Args[i].ID] != valueEqClass[w.Args[i].ID] {
 						// w is not equivalent to v.
 						// move it to the end, shrink e, and move the split.
 						e[j], e[len(e)-1] = e[len(e)-1], e[j]

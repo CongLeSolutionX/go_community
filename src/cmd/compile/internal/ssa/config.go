@@ -71,10 +71,24 @@ func NewConfig(arch string, fe Frontend) *Config {
 
 func (c *Config) Frontend() Frontend { return c.fe }
 
+const (
+	typeInvalidIndex = iota
+	typeMemIndex
+	typeFlagIndex
+)
+
 // NewFunc returns a new, empty function object
 func (c *Config) NewFunc() *Func {
 	// TODO(khr): should this function take name, type, etc. as arguments?
-	return &Func{Config: c}
+	return &Func{
+		Config: c,
+		types: []Type{
+			typeInvalidIndex: TypeInvalid,
+			typeMemIndex:     TypeMem,
+			typeFlagIndex:    TypeFlags,
+		},
+		typeLookup: make(map[string][]int32),
+	}
 }
 
 func (c *Config) Logf(msg string, args ...interface{})           { c.fe.Logf(msg, args...) }

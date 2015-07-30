@@ -56,7 +56,7 @@ func checkFunc(f *Func) {
 			if b.Control == nil {
 				f.Fatalf("exit block %s has no control value", b)
 			}
-			if !b.Control.Type.IsMemory() {
+			if !b.Control.Type().IsMemory() {
 				f.Fatalf("exit block %s has non-memory control value %s", b, b.Control.LongString())
 			}
 		case BlockDead:
@@ -86,7 +86,7 @@ func checkFunc(f *Func) {
 			if b.Control == nil {
 				f.Fatalf("if block %s has no control value", b)
 			}
-			if !b.Control.Type.IsBoolean() {
+			if !b.Control.Type().IsBoolean() {
 				f.Fatalf("if block %s has non-bool control value %s", b, b.Control.LongString())
 			}
 		case BlockCall:
@@ -96,7 +96,7 @@ func checkFunc(f *Func) {
 			if b.Control == nil {
 				f.Fatalf("call block %s has no control value", b)
 			}
-			if !b.Control.Type.IsMemory() {
+			if !b.Control.Type().IsMemory() {
 				f.Fatalf("call block %s has non-memory control value %s", b, b.Control.LongString())
 			}
 			if b.Succs[1].Kind != BlockExit {
