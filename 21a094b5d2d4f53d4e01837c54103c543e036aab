@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a40cc41_d043fcc4",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-07-30T11:09:58Z",
+      "side": 1,
+      "message": "It\u0027s not what the package is suitable for, it\u0027s the properties of its random numbers that matter. Also I like to avoid the passive-aggressive \"consider\" when describing uses of software.\n\nAny more words here should be unnecessary because the word \"deterministic\" appears in the existing paragraph, although it is not properly bound. So to be crystal clear for those people who shouldn\u0027t be doing cryptography at all, let alone with this package, try this:\n\nFor random numbers suitable for cryptography, see the crypto/rand package.",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "21a094b5d2d4f53d4e01837c54103c543e036aab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
