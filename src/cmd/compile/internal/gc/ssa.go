@@ -754,6 +754,15 @@ var opToSSA = map[opAndType]ssa.Op{
 	opAndType{OOR, TINT64}:  ssa.OpOr64,
 	opAndType{OOR, TUINT64}: ssa.OpOr64,
 
+	opAndType{OXOR, TINT8}:   ssa.OpXor8,
+	opAndType{OXOR, TUINT8}:  ssa.OpXor8,
+	opAndType{OXOR, TINT16}:  ssa.OpXor16,
+	opAndType{OXOR, TUINT16}: ssa.OpXor16,
+	opAndType{OXOR, TINT32}:  ssa.OpXor32,
+	opAndType{OXOR, TUINT32}: ssa.OpXor32,
+	opAndType{OXOR, TINT64}:  ssa.OpXor64,
+	opAndType{OXOR, TUINT64}: ssa.OpXor64,
+
 	opAndType{OLSH, TINT8}:   ssa.OpLsh8,
 	opAndType{OLSH, TUINT8}:  ssa.OpLsh8,
 	opAndType{OLSH, TINT16}:  ssa.OpLsh16,
@@ -999,7 +1008,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaOp(n.Op, n.Left.Type), ssa.TypeBool, a, b)
-	case OADD, OAND, OLSH, OMUL, OOR, ORSH, OSUB:
+	case OADD, OAND, OLSH, OMUL, OOR, ORSH, OSUB, OXOR:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)

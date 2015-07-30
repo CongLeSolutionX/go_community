@@ -57,9 +57,15 @@ func testBitwiseLogic() {
 	a, b := uint32(57623283), uint32(1314713839)
 	if want, got := uint32(38551779), testBitwiseAnd_ssa(a, b); want != got {
 		println("testBitwiseAnd failed, wanted", want, "got", got)
+		failed = true
 	}
 	if want, got := uint32(1333785343), testBitwiseOr_ssa(a, b); want != got {
-		println("testBitwiseAnd failed, wanted", want, "got", got)
+		println("testBitwiseOr failed, wanted", want, "got", got)
+		failed = true
+	}
+	if want, got := uint32(1295233564), testBitwiseXor_ssa(a, b); want != got {
+		println("testBitwiseXor failed, wanted", want, "got", got)
+		failed = true
 	}
 }
 
@@ -75,6 +81,12 @@ func testBitwiseOr_ssa(a, b uint32) uint32 {
 	return a | b
 }
 
+func testBitwiseXor_ssa(a, b uint32) uint32 {
+	switch { // prevent inlining
+	}
+	return a ^ b
+}
+
 var failed = false
 
 func main() {
@@ -82,6 +94,7 @@ func main() {
 	test64BitConstMult(1, 2)
 	test64BitConstAdd(1, 2)
 	testRegallocCVSpill(1, 2, 3, 4)
+	testBitwiseLogic()
 
 	if failed {
 		panic("failed")
