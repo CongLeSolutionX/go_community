@@ -5,30 +5,13 @@ package gc
 const runtimeimport = "" +
 	"package runtime\n" +
 	"import runtime \"runtime\"\n" +
-	"func @\"\".newobject (@\"\".typ·2 *byte) (? *any)\n" +
 	"func @\"\".panicindex ()\n" +
 	"func @\"\".panicslice ()\n" +
-	"func @\"\".panicdivide ()\n" +
 	"func @\"\".throwreturn ()\n" +
 	"func @\"\".throwinit ()\n" +
 	"func @\"\".panicwrap (? string, ? string, ? string)\n" +
 	"func @\"\".gopanic (? interface {})\n" +
 	"func @\"\".gorecover (? *int32) (? interface {})\n" +
-	"func @\"\".printbool (? bool)\n" +
-	"func @\"\".printfloat (? float64)\n" +
-	"func @\"\".printint (? int64)\n" +
-	"func @\"\".printhex (? uint64)\n" +
-	"func @\"\".printuint (? uint64)\n" +
-	"func @\"\".printcomplex (? complex128)\n" +
-	"func @\"\".printstring (? string)\n" +
-	"func @\"\".printpointer (? any)\n" +
-	"func @\"\".printiface (? any)\n" +
-	"func @\"\".printeface (? any)\n" +
-	"func @\"\".printslice (? any)\n" +
-	"func @\"\".printnl ()\n" +
-	"func @\"\".printsp ()\n" +
-	"func @\"\".printlock ()\n" +
-	"func @\"\".printunlock ()\n" +
 	"func @\"\".concatstring2 (? *[32]byte, ? string, ? string) (? string)\n" +
 	"func @\"\".concatstring3 (? *[32]byte, ? string, ? string, ? string) (? string)\n" +
 	"func @\"\".concatstring4 (? *[32]byte, ? string, ? string, ? string, ? string) (? string)\n" +
@@ -48,22 +31,6 @@ const runtimeimport = "" +
 	"func @\"\".slicecopy (@\"\".to·2 any, @\"\".fr·3 any, @\"\".wid·4 uintptr) (? int)\n" +
 	"func @\"\".slicestringcopy (@\"\".to·2 any, @\"\".fr·3 any) (? int)\n" +
 	"func @\"\".typ2Itab (@\"\".typ·2 *byte, @\"\".typ2·3 *byte, @\"\".cache·4 **byte) (@\"\".ret·1 *byte)\n" +
-	"func @\"\".convI2E (@\"\".elem·2 any) (@\"\".ret·1 any)\n" +
-	"func @\"\".convI2I (@\"\".typ·2 *byte, @\"\".elem·3 any) (@\"\".ret·1 any)\n" +
-	"func @\"\".convT2E (@\"\".typ·2 *byte, @\"\".elem·3 *any, @\"\".buf·4 *any) (@\"\".ret·1 any)\n" +
-	"func @\"\".convT2I (@\"\".typ·2 *byte, @\"\".typ2·3 *byte, @\"\".cache·4 **byte, @\"\".elem·5 *any, @\"\".buf·6 *any) (@\"\".ret·1 any)\n" +
-	"func @\"\".assertE2E (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
-	"func @\"\".assertE2E2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
-	"func @\"\".assertE2I (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
-	"func @\"\".assertE2I2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
-	"func @\"\".assertE2T (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
-	"func @\"\".assertE2T2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
-	"func @\"\".assertI2E (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
-	"func @\"\".assertI2E2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
-	"func @\"\".assertI2I (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
-	"func @\"\".assertI2I2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
-	"func @\"\".assertI2T (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
-	"func @\"\".assertI2T2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
 	"func @\"\".panicdottype (@\"\".have·1 *byte, @\"\".want·2 *byte, @\"\".iface·3 *byte)\n" +
 	"func @\"\".ifaceeq (@\"\".i1·2 any, @\"\".i2·3 any) (@\"\".ret·1 bool)\n" +
 	"func @\"\".efaceeq (@\"\".i1·2 any, @\"\".i2·3 any) (@\"\".ret·1 bool)\n" +
@@ -87,8 +54,120 @@ const runtimeimport = "" +
 	"func @\"\".chanrecv2 (@\"\".chanType·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any) (? bool)\n" +
 	"func @\"\".chansend1 (@\"\".chanType·1 *byte, @\"\".hchan·2 chan<- any, @\"\".elem·3 *any)\n" +
 	"func @\"\".closechan (@\"\".hchan·1 any)\n" +
-	"var @\"\".writeBarrierEnabled bool\n" +
+	"func @\"\".typedslicecopy (@\"\".typ·2 *byte, @\"\".dst·3 any, @\"\".src·4 any) (? int)\n" +
+	"func @\"\".selectnbsend (@\"\".chanType·2 *byte, @\"\".hchan·3 chan<- any, @\"\".elem·4 *any) (? bool)\n" +
+	"func @\"\".selectnbrecv (@\"\".chanType·2 *byte, @\"\".elem·3 *any, @\"\".hchan·4 <-chan any) (? bool)\n" +
+	"func @\"\".selectnbrecv2 (@\"\".chanType·2 *byte, @\"\".elem·3 *any, @\"\".received·4 *bool, @\"\".hchan·5 <-chan any) (? bool)\n" +
+	"func @\"\".newselect (@\"\".sel·1 *byte, @\"\".selsize·2 int64, @\"\".size·3 int32)\n" +
+	"func @\"\".selectsend (@\"\".sel·2 *byte, @\"\".hchan·3 chan<- any, @\"\".elem·4 *any) (@\"\".selected·1 bool)\n" +
+	"func @\"\".selectrecv (@\"\".sel·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any) (@\"\".selected·1 bool)\n" +
+	"func @\"\".selectrecv2 (@\"\".sel·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any, @\"\".received·5 *bool) (@\"\".selected·1 bool)\n" +
+	"func @\"\".selectdefault (@\"\".sel·2 *byte) (@\"\".selected·1 bool)\n" +
+	"func @\"\".selectgo (@\"\".sel·1 *byte)\n" +
+	"func @\"\".block ()\n" +
+	"func @\"\".makeslice (@\"\".typ·2 *byte, @\"\".nel·3 int64, @\"\".cap·4 int64) (@\"\".ary·1 []any)\n" +
+	"func @\"\".growslice (@\"\".typ·2 *byte, @\"\".old·3 []any, @\"\".cap·4 int) (@\"\".ary·1 []any)\n" +
+	"func @\"\".growslice_n (@\"\".typ·2 *byte, @\"\".old·3 []any, @\"\".n·4 int) (@\"\".ary·1 []any)\n" +
+	"func @\"\".memequal (@\"\".x·2 *any, @\"\".y·3 *any, @\"\".size·4 uintptr) (? bool)\n" +
+	"func @\"\".memequal8 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
+	"func @\"\".memequal16 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
+	"func @\"\".memequal32 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
+	"func @\"\".memequal64 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
+	"func @\"\".memequal128 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
+	"func @\"\".int64div (? int64, ? int64) (? int64)\n" +
+	"func @\"\".uint64div (? uint64, ? uint64) (? uint64)\n" +
+	"func @\"\".int64mod (? int64, ? int64) (? int64)\n" +
+	"func @\"\".uint64mod (? uint64, ? uint64) (? uint64)\n" +
+	"func @\"\".float64toint64 (? float64) (? int64)\n" +
+	"func @\"\".float64touint64 (? float64) (? uint64)\n" +
+	"func @\"\".int64tofloat64 (? int64) (? float64)\n" +
+	"func @\"\".uint64tofloat64 (? uint64) (? float64)\n" +
+	"func @\"\".complex128div (@\"\".num·2 complex128, @\"\".den·3 complex128) (@\"\".quo·1 complex128)\n" +
+	"func @\"\".racefuncenter (? uintptr)\n" +
+	"func @\"\".racefuncexit ()\n" +
+	"func @\"\".raceread (? uintptr)\n" +
+	"func @\"\".racewrite (? uintptr)\n" +
+	"func @\"\".racereadrange (@\"\".addr·1 uintptr, @\"\".size·2 uintptr)\n" +
+	"func @\"\".racewriterange (@\"\".addr·1 uintptr, @\"\".size·2 uintptr)\n" +
+	"\n" +
+	"$$\n"
+
+const baseimport = "" +
+	"package base\n" +
+	"import runtime \"runtime\"\n" +
+	"func @\"\".panicdivide ()\n" +
+	"func @\"\".printlock ()\n" +
+	"func @\"\".printunlock ()\n" +
+	"func @\"\".memmove (@\"\".to·1 *any, @\"\".frm·2 *any, @\"\".length·3 uintptr)\n" +
+	"func @\"\".memclr (@\"\".ptr·1 *byte, @\"\".length·2 uintptr)\n" +
+	"\n" +
+	"$$\n"
+
+const gcimport = "" +
+	"package gc\n" +
+	"import runtime \"runtime\"\n" +
+	"\n" +
+	"$$\n"
+
+const ifaceimport = "" +
+	"package iface\n" +
+	"import runtime \"runtime\"\n" +
+	"func @\"\".newobject (@\"\".typ·2 *byte) (? *any)\n" +
+	"func @\"\".convI2E (@\"\".elem·2 any) (@\"\".ret·1 any)\n" +
+	"func @\"\".convI2I (@\"\".typ·2 *byte, @\"\".elem·3 any) (@\"\".ret·1 any)\n" +
+	"func @\"\".convT2E (@\"\".typ·2 *byte, @\"\".elem·3 *any, @\"\".buf·4 *any) (@\"\".ret·1 any)\n" +
+	"func @\"\".convT2I (@\"\".typ·2 *byte, @\"\".typ2·3 *byte, @\"\".cache·4 **byte, @\"\".elem·5 *any, @\"\".buf·6 *any) (@\"\".ret·1 any)\n" +
+	"func @\"\".assertE2E (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
+	"func @\"\".assertE2E2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
+	"func @\"\".assertE2I (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
+	"func @\"\".assertE2I2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
+	"func @\"\".assertE2T (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
+	"func @\"\".assertE2T2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
+	"func @\"\".assertI2E (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
+	"func @\"\".assertI2E2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
+	"func @\"\".assertI2I (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
+	"func @\"\".assertI2I2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
+	"func @\"\".assertI2T (@\"\".typ·1 *byte, @\"\".iface·2 any, @\"\".ret·3 *any)\n" +
+	"func @\"\".assertI2T2 (@\"\".typ·2 *byte, @\"\".iface·3 any, @\"\".ret·4 *any) (? bool)\n" +
 	"func @\"\".writebarrierptr (@\"\".dst·1 *any, @\"\".src·2 any)\n" +
+	"func @\"\".typedmemmove (@\"\".typ·1 *byte, @\"\".dst·2 *any, @\"\".src·3 *any)\n" +
+	"\n" +
+	"$$\n"
+
+const lockimport = "" +
+	"package lock\n" +
+	"import runtime \"runtime\"\n" +
+	"\n" +
+	"$$\n"
+
+const printimport = "" +
+	"package print\n" +
+	"import runtime \"runtime\"\n" +
+	"func @\"\".printbool (? bool)\n" +
+	"func @\"\".printfloat (? float64)\n" +
+	"func @\"\".printint (? int64)\n" +
+	"func @\"\".printhex (? uint64)\n" +
+	"func @\"\".printuint (? uint64)\n" +
+	"func @\"\".printcomplex (? complex128)\n" +
+	"func @\"\".printstring (? string)\n" +
+	"func @\"\".printpointer (? any)\n" +
+	"func @\"\".printiface (? any)\n" +
+	"func @\"\".printeface (? any)\n" +
+	"func @\"\".printslice (? any)\n" +
+	"func @\"\".printnl ()\n" +
+	"func @\"\".printsp ()\n" +
+	"\n" +
+	"$$\n"
+
+const raceimport = "" +
+	"package race\n" +
+	"import runtime \"runtime\"\n" +
+	"\n" +
+	"$$\n"
+
+const writebarrierimport = "" +
+	"package writebarrier\n" +
+	"import runtime \"runtime\"\n" +
 	"func @\"\".writebarrierstring (@\"\".dst·1 *any, @\"\".src·2 any)\n" +
 	"func @\"\".writebarrierslice (@\"\".dst·1 *any, @\"\".src·2 any)\n" +
 	"func @\"\".writebarrieriface (@\"\".dst·1 *any, @\"\".src·2 any)\n" +
@@ -117,44 +196,6 @@ const runtimeimport = "" +
 	"func @\"\".writebarrierfat1101 (@\"\".dst·1 *any, _ uintptr, @\"\".src·3 any)\n" +
 	"func @\"\".writebarrierfat1110 (@\"\".dst·1 *any, _ uintptr, @\"\".src·3 any)\n" +
 	"func @\"\".writebarrierfat1111 (@\"\".dst·1 *any, _ uintptr, @\"\".src·3 any)\n" +
-	"func @\"\".typedmemmove (@\"\".typ·1 *byte, @\"\".dst·2 *any, @\"\".src·3 *any)\n" +
-	"func @\"\".typedslicecopy (@\"\".typ·2 *byte, @\"\".dst·3 any, @\"\".src·4 any) (? int)\n" +
-	"func @\"\".selectnbsend (@\"\".chanType·2 *byte, @\"\".hchan·3 chan<- any, @\"\".elem·4 *any) (? bool)\n" +
-	"func @\"\".selectnbrecv (@\"\".chanType·2 *byte, @\"\".elem·3 *any, @\"\".hchan·4 <-chan any) (? bool)\n" +
-	"func @\"\".selectnbrecv2 (@\"\".chanType·2 *byte, @\"\".elem·3 *any, @\"\".received·4 *bool, @\"\".hchan·5 <-chan any) (? bool)\n" +
-	"func @\"\".newselect (@\"\".sel·1 *byte, @\"\".selsize·2 int64, @\"\".size·3 int32)\n" +
-	"func @\"\".selectsend (@\"\".sel·2 *byte, @\"\".hchan·3 chan<- any, @\"\".elem·4 *any) (@\"\".selected·1 bool)\n" +
-	"func @\"\".selectrecv (@\"\".sel·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any) (@\"\".selected·1 bool)\n" +
-	"func @\"\".selectrecv2 (@\"\".sel·2 *byte, @\"\".hchan·3 <-chan any, @\"\".elem·4 *any, @\"\".received·5 *bool) (@\"\".selected·1 bool)\n" +
-	"func @\"\".selectdefault (@\"\".sel·2 *byte) (@\"\".selected·1 bool)\n" +
-	"func @\"\".selectgo (@\"\".sel·1 *byte)\n" +
-	"func @\"\".block ()\n" +
-	"func @\"\".makeslice (@\"\".typ·2 *byte, @\"\".nel·3 int64, @\"\".cap·4 int64) (@\"\".ary·1 []any)\n" +
-	"func @\"\".growslice (@\"\".typ·2 *byte, @\"\".old·3 []any, @\"\".cap·4 int) (@\"\".ary·1 []any)\n" +
-	"func @\"\".growslice_n (@\"\".typ·2 *byte, @\"\".old·3 []any, @\"\".n·4 int) (@\"\".ary·1 []any)\n" +
-	"func @\"\".memmove (@\"\".to·1 *any, @\"\".frm·2 *any, @\"\".length·3 uintptr)\n" +
-	"func @\"\".memclr (@\"\".ptr·1 *byte, @\"\".length·2 uintptr)\n" +
-	"func @\"\".memequal (@\"\".x·2 *any, @\"\".y·3 *any, @\"\".size·4 uintptr) (? bool)\n" +
-	"func @\"\".memequal8 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
-	"func @\"\".memequal16 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
-	"func @\"\".memequal32 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
-	"func @\"\".memequal64 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
-	"func @\"\".memequal128 (@\"\".x·2 *any, @\"\".y·3 *any) (? bool)\n" +
-	"func @\"\".int64div (? int64, ? int64) (? int64)\n" +
-	"func @\"\".uint64div (? uint64, ? uint64) (? uint64)\n" +
-	"func @\"\".int64mod (? int64, ? int64) (? int64)\n" +
-	"func @\"\".uint64mod (? uint64, ? uint64) (? uint64)\n" +
-	"func @\"\".float64toint64 (? float64) (? int64)\n" +
-	"func @\"\".float64touint64 (? float64) (? uint64)\n" +
-	"func @\"\".int64tofloat64 (? int64) (? float64)\n" +
-	"func @\"\".uint64tofloat64 (? uint64) (? float64)\n" +
-	"func @\"\".complex128div (@\"\".num·2 complex128, @\"\".den·3 complex128) (@\"\".quo·1 complex128)\n" +
-	"func @\"\".racefuncenter (? uintptr)\n" +
-	"func @\"\".racefuncexit ()\n" +
-	"func @\"\".raceread (? uintptr)\n" +
-	"func @\"\".racewrite (? uintptr)\n" +
-	"func @\"\".racereadrange (@\"\".addr·1 uintptr, @\"\".size·2 uintptr)\n" +
-	"func @\"\".racewriterange (@\"\".addr·1 uintptr, @\"\".size·2 uintptr)\n" +
 	"\n" +
 	"$$\n"
 

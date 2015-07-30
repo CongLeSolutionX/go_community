@@ -1,0 +1,20 @@
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package gc
+
+import (
+	_base "runtime/internal/base"
+)
+
+// runtimeInitTime is the nanotime() at which the runtime started.
+var RuntimeInitTime int64
+
+//go:nosplit
+
+// Gosched yields the processor, allowing other goroutines to run.  It does not
+// suspend the current goroutine, so execution resumes automatically.
+func Gosched() {
+	_base.Mcall(gosched_m)
+}

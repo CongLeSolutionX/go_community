@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System call support for 386, Darwin
@@ -13,7 +13,7 @@
 // func Syscall6(trap int32, a1, a2, a3, a4, a5, a6 int32) (r1, r2, err int32);
 // Trap # in AX, args on stack above caller pc.
 
-TEXT	·Syscall(SB),NOSPLIT,$0-28
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-28
 	CALL	runtime·entersyscall(SB)
 	MOVL	trap+0(FP), AX	// syscall entry
 	// slide args down on top of system call number
@@ -28,16 +28,16 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVL	$-1, r1+16(FP)
 	MOVL	$-1, r2+20(FP)
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVL	AX, r1+16(FP)
 	MOVL	DX, r2+20(FP)
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·Syscall6(SB),NOSPLIT,$0-40
 	CALL	runtime·entersyscall(SB)
 	MOVL	trap+0(FP), AX	// syscall entry
 	// slide args down on top of system call number
@@ -55,16 +55,16 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVL	$-1, r1+28(FP)
 	MOVL	$-1, r2+32(FP)
 	MOVL	AX, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVL	AX, r1+28(FP)
 	MOVL	DX, r2+32(FP)
 	MOVL	$0, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall9(SB),NOSPLIT,$0-52
+TEXT	syscall·Syscall9(SB),NOSPLIT,$0-52
 	CALL	runtime·entersyscall(SB)
 	MOVL	num+0(FP), AX	// syscall entry
 	// slide args down on top of system call number
@@ -85,16 +85,16 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-52
 	MOVL	$-1, r1+40(FP)
 	MOVL	$-1, r2+44(FP)
 	MOVL	AX, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok9:
 	MOVL	AX, r1+40(FP)
 	MOVL	DX, r2+44(FP)
 	MOVL	$0, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0-28
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-28
 	MOVL	trap+0(FP), AX	// syscall entry
 	// slide args down on top of system call number
 	LEAL		a1+4(FP), SI
@@ -115,7 +115,7 @@ ok1:
 	MOVL	$0, err+24(FP)
 	RET
 
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-40
 	MOVL	trap+0(FP), AX	// syscall entry
 	// slide args down on top of system call number
 	LEAL		a1+4(FP), SI

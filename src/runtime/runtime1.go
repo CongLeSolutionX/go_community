@@ -4,35 +4,11 @@
 
 package runtime
 
-import "unsafe"
-
-// Keep a cached value to make gotraceback fast,
-// since we call it on every call to gentraceback.
-// The cached value is a uint32 in which the low bit
-// is the "crash" setting and the top 31 bits are the
-// gotraceback value.
-var traceback_cache uint32 = 2 << 1
-
-// The GOTRACEBACK environment variable controls the
-// behavior of a Go program that is crashing and exiting.
-//	GOTRACEBACK=0   suppress all tracebacks
-//	GOTRACEBACK=1   default behavior - show tracebacks but exclude runtime frames
-//	GOTRACEBACK=2   show tracebacks including runtime frames
-//	GOTRACEBACK=crash   show tracebacks including runtime frames, then crash (core dump etc)
-//go:nosplit
-func gotraceback(crash *bool) int32 {
-	_g_ := getg()
-	if crash != nil {
-		*crash = false
-	}
-	if _g_.m.traceback != 0 {
-		return int32(_g_.m.traceback)
-	}
-	if crash != nil {
-		*crash = traceback_cache&1 != 0
-	}
-	return int32(traceback_cache >> 1)
-}
+import (
+	_base "runtime/internal/base"
+	_gc "runtime/internal/gc"
+	"unsafe"
+)
 
 var (
 	argc int32
@@ -42,7 +18,7 @@ var (
 // nosplit for use in linux/386 startup linux_setup_vdso
 //go:nosplit
 func argv_index(argv **byte, i int32) *byte {
-	return *(**byte)(add(unsafe.Pointer(argv), uintptr(i)*ptrSize))
+	return *(**byte)(_base.Add(unsafe.Pointer(argv), uintptr(i)*_base.PtrSize))
 }
 
 func args(c int32, v **byte) {
@@ -59,13 +35,13 @@ var (
 )
 
 func goargs() {
-	if GOOS == "windows" {
+	if _base.GOOS == "windows" {
 		return
 	}
 
 	argslice = make([]string, argc)
 	for i := int32(0); i < argc; i++ {
-		argslice[i] = gostringnocopy(argv_index(argv, i))
+		argslice[i] = _base.Gostringnocopy(argv_index(argv, i))
 	}
 }
 
@@ -78,14 +54,10 @@ func goenvs_unix() {
 		n++
 	}
 
-	envs = make([]string, n)
+	_gc.Envs = make([]string, n)
 	for i := int32(0); i < n; i++ {
-		envs[i] = gostring(argv_index(argv, argc+1+i))
+		_gc.Envs[i] = gostring(argv_index(argv, argc+1+i))
 	}
-}
-
-func environ() []string {
-	return envs
 }
 
 // TODO: These should be locals in testAtomic64, but we don't 8-byte
@@ -98,38 +70,38 @@ func testAtomic64() {
 	prefetcht0(uintptr(unsafe.Pointer(&test_z64)))
 	prefetcht1(uintptr(unsafe.Pointer(&test_z64)))
 	prefetcht2(uintptr(unsafe.Pointer(&test_z64)))
-	prefetchnta(uintptr(unsafe.Pointer(&test_z64)))
-	if cas64(&test_z64, test_x64, 1) {
-		throw("cas64 failed")
+	_base.Prefetchnta(uintptr(unsafe.Pointer(&test_z64)))
+	if _base.Cas64(&test_z64, test_x64, 1) {
+		_base.Throw("cas64 failed")
 	}
 	if test_x64 != 0 {
-		throw("cas64 failed")
+		_base.Throw("cas64 failed")
 	}
 	test_x64 = 42
-	if !cas64(&test_z64, test_x64, 1) {
-		throw("cas64 failed")
+	if !_base.Cas64(&test_z64, test_x64, 1) {
+		_base.Throw("cas64 failed")
 	}
 	if test_x64 != 42 || test_z64 != 1 {
-		throw("cas64 failed")
+		_base.Throw("cas64 failed")
 	}
-	if atomicload64(&test_z64) != 1 {
-		throw("load64 failed")
+	if _base.Atomicload64(&test_z64) != 1 {
+		_base.Throw("load64 failed")
 	}
-	atomicstore64(&test_z64, (1<<40)+1)
-	if atomicload64(&test_z64) != (1<<40)+1 {
-		throw("store64 failed")
+	_base.Atomicstore64(&test_z64, (1<<40)+1)
+	if _base.Atomicload64(&test_z64) != (1<<40)+1 {
+		_base.Throw("store64 failed")
 	}
-	if xadd64(&test_z64, (1<<40)+1) != (2<<40)+2 {
-		throw("xadd64 failed")
+	if _base.Xadd64(&test_z64, (1<<40)+1) != (2<<40)+2 {
+		_base.Throw("xadd64 failed")
 	}
-	if atomicload64(&test_z64) != (2<<40)+2 {
-		throw("xadd64 failed")
+	if _base.Atomicload64(&test_z64) != (2<<40)+2 {
+		_base.Throw("xadd64 failed")
 	}
-	if xchg64(&test_z64, (3<<40)+3) != (2<<40)+2 {
-		throw("xchg64 failed")
+	if _base.Xchg64(&test_z64, (3<<40)+3) != (2<<40)+2 {
+		_base.Throw("xchg64 failed")
 	}
-	if atomicload64(&test_z64) != (3<<40)+3 {
-		throw("xchg64 failed")
+	if _base.Atomicload64(&test_z64) != (3<<40)+3 {
+		_base.Throw("xchg64 failed")
 	}
 }
 
@@ -160,137 +132,137 @@ func check() {
 	var y1 y1t
 
 	if unsafe.Sizeof(a) != 1 {
-		throw("bad a")
+		_base.Throw("bad a")
 	}
 	if unsafe.Sizeof(b) != 1 {
-		throw("bad b")
+		_base.Throw("bad b")
 	}
 	if unsafe.Sizeof(c) != 2 {
-		throw("bad c")
+		_base.Throw("bad c")
 	}
 	if unsafe.Sizeof(d) != 2 {
-		throw("bad d")
+		_base.Throw("bad d")
 	}
 	if unsafe.Sizeof(e) != 4 {
-		throw("bad e")
+		_base.Throw("bad e")
 	}
 	if unsafe.Sizeof(f) != 4 {
-		throw("bad f")
+		_base.Throw("bad f")
 	}
 	if unsafe.Sizeof(g) != 8 {
-		throw("bad g")
+		_base.Throw("bad g")
 	}
 	if unsafe.Sizeof(h) != 8 {
-		throw("bad h")
+		_base.Throw("bad h")
 	}
 	if unsafe.Sizeof(i) != 4 {
-		throw("bad i")
+		_base.Throw("bad i")
 	}
 	if unsafe.Sizeof(j) != 8 {
-		throw("bad j")
+		_base.Throw("bad j")
 	}
-	if unsafe.Sizeof(k) != ptrSize {
-		throw("bad k")
+	if unsafe.Sizeof(k) != _base.PtrSize {
+		_base.Throw("bad k")
 	}
-	if unsafe.Sizeof(l) != ptrSize {
-		throw("bad l")
+	if unsafe.Sizeof(l) != _base.PtrSize {
+		_base.Throw("bad l")
 	}
 	if unsafe.Sizeof(x1) != 1 {
-		throw("bad unsafe.Sizeof x1")
+		_base.Throw("bad unsafe.Sizeof x1")
 	}
 	if unsafe.Offsetof(y1.y) != 1 {
-		throw("bad offsetof y1.y")
+		_base.Throw("bad offsetof y1.y")
 	}
 	if unsafe.Sizeof(y1) != 2 {
-		throw("bad unsafe.Sizeof y1")
+		_base.Throw("bad unsafe.Sizeof y1")
 	}
 
-	if timediv(12345*1000000000+54321, 1000000000, &e) != 12345 || e != 54321 {
-		throw("bad timediv")
+	if _base.Timediv(12345*1000000000+54321, 1000000000, &e) != 12345 || e != 54321 {
+		_base.Throw("bad timediv")
 	}
 
 	var z uint32
 	z = 1
-	if !cas(&z, 1, 2) {
-		throw("cas1")
+	if !_base.Cas(&z, 1, 2) {
+		_base.Throw("cas1")
 	}
 	if z != 2 {
-		throw("cas2")
+		_base.Throw("cas2")
 	}
 
 	z = 4
-	if cas(&z, 5, 6) {
-		throw("cas3")
+	if _base.Cas(&z, 5, 6) {
+		_base.Throw("cas3")
 	}
 	if z != 4 {
-		throw("cas4")
+		_base.Throw("cas4")
 	}
 
 	z = 0xffffffff
-	if !cas(&z, 0xffffffff, 0xfffffffe) {
-		throw("cas5")
+	if !_base.Cas(&z, 0xffffffff, 0xfffffffe) {
+		_base.Throw("cas5")
 	}
 	if z != 0xfffffffe {
-		throw("cas6")
+		_base.Throw("cas6")
 	}
 
 	k = unsafe.Pointer(uintptr(0xfedcb123))
-	if ptrSize == 8 {
+	if _base.PtrSize == 8 {
 		k = unsafe.Pointer(uintptr(unsafe.Pointer(k)) << 10)
 	}
 	if casp(&k, nil, nil) {
-		throw("casp1")
+		_base.Throw("casp1")
 	}
-	k1 = add(k, 1)
+	k1 = _base.Add(k, 1)
 	if !casp(&k, k, k1) {
-		throw("casp2")
+		_base.Throw("casp2")
 	}
 	if k != k1 {
-		throw("casp3")
+		_base.Throw("casp3")
 	}
 
 	m = [4]byte{1, 1, 1, 1}
-	atomicor8(&m[1], 0xf0)
+	_base.Atomicor8(&m[1], 0xf0)
 	if m[0] != 1 || m[1] != 0xf1 || m[2] != 1 || m[3] != 1 {
-		throw("atomicor8")
+		_base.Throw("atomicor8")
 	}
 
 	*(*uint64)(unsafe.Pointer(&j)) = ^uint64(0)
 	if j == j {
-		throw("float64nan")
+		_base.Throw("float64nan")
 	}
 	if !(j != j) {
-		throw("float64nan1")
+		_base.Throw("float64nan1")
 	}
 
 	*(*uint64)(unsafe.Pointer(&j1)) = ^uint64(1)
 	if j == j1 {
-		throw("float64nan2")
+		_base.Throw("float64nan2")
 	}
 	if !(j != j1) {
-		throw("float64nan3")
+		_base.Throw("float64nan3")
 	}
 
 	*(*uint32)(unsafe.Pointer(&i)) = ^uint32(0)
 	if i == i {
-		throw("float32nan")
+		_base.Throw("float32nan")
 	}
 	if i == i {
-		throw("float32nan1")
+		_base.Throw("float32nan1")
 	}
 
 	*(*uint32)(unsafe.Pointer(&i1)) = ^uint32(1)
 	if i == i1 {
-		throw("float32nan2")
+		_base.Throw("float32nan2")
 	}
 	if i == i1 {
-		throw("float32nan3")
+		_base.Throw("float32nan3")
 	}
 
 	testAtomic64()
 
-	if _FixedStack != round2(_FixedStack) {
-		throw("FixedStack is not power-of-2")
+	if _base.FixedStack != _base.Round2(_base.FixedStack) {
+		_base.Throw("FixedStack is not power-of-2")
 	}
 }
 
@@ -299,56 +271,33 @@ type dbgVar struct {
 	value *int32
 }
 
-// TODO(rsc): Make GC respect debug.invalidptr.
-
-// Holds variables parsed from GODEBUG env var,
-// except for "memprofilerate" since there is an
-// existing int var for that value, which may
-// already have an initial value.
-var debug struct {
-	allocfreetrace    int32
-	efence            int32
-	gccheckmark       int32
-	gcpacertrace      int32
-	gcshrinkstackoff  int32
-	gcstackbarrieroff int32
-	gcstoptheworld    int32
-	gctrace           int32
-	invalidptr        int32
-	sbrk              int32
-	scavenge          int32
-	scheddetail       int32
-	schedtrace        int32
-	wbshadow          int32
-}
-
 var dbgvars = []dbgVar{
-	{"allocfreetrace", &debug.allocfreetrace},
-	{"efence", &debug.efence},
-	{"gccheckmark", &debug.gccheckmark},
-	{"gcpacertrace", &debug.gcpacertrace},
-	{"gcshrinkstackoff", &debug.gcshrinkstackoff},
-	{"gcstackbarrieroff", &debug.gcstackbarrieroff},
-	{"gcstoptheworld", &debug.gcstoptheworld},
-	{"gctrace", &debug.gctrace},
-	{"invalidptr", &debug.invalidptr},
-	{"sbrk", &debug.sbrk},
-	{"scavenge", &debug.scavenge},
-	{"scheddetail", &debug.scheddetail},
-	{"schedtrace", &debug.schedtrace},
-	{"wbshadow", &debug.wbshadow},
+	{"allocfreetrace", &_base.Debug.Allocfreetrace},
+	{"efence", &_base.Debug.Efence},
+	{"gccheckmark", &_base.Debug.Gccheckmark},
+	{"gcpacertrace", &_base.Debug.Gcpacertrace},
+	{"gcshrinkstackoff", &_base.Debug.Gcshrinkstackoff},
+	{"gcstackbarrieroff", &_base.Debug.Gcstackbarrieroff},
+	{"gcstoptheworld", &_base.Debug.Gcstoptheworld},
+	{"gctrace", &_base.Debug.Gctrace},
+	{"invalidptr", &_base.Debug.Invalidptr},
+	{"sbrk", &_base.Debug.Sbrk},
+	{"scavenge", &_base.Debug.Scavenge},
+	{"scheddetail", &_base.Debug.Scheddetail},
+	{"schedtrace", &_base.Debug.Schedtrace},
+	{"wbshadow", &_base.Debug.Wbshadow},
 }
 
 func parsedebugvars() {
-	for p := gogetenv("GODEBUG"); p != ""; {
+	for p := _gc.Gogetenv("GODEBUG"); p != ""; {
 		field := ""
-		i := index(p, ",")
+		i := _base.Index(p, ",")
 		if i < 0 {
 			field, p = p, ""
 		} else {
 			field, p = p[:i], p[i+1:]
 		}
-		i = index(field, "=")
+		i = _base.Index(field, "=")
 		if i < 0 {
 			continue
 		}
@@ -358,86 +307,37 @@ func parsedebugvars() {
 		// is int, not int32, and should only be updated
 		// if specified in GODEBUG.
 		if key == "memprofilerate" {
-			MemProfileRate = atoi(value)
+			_base.MemProfileRate = _gc.Atoi(value)
 		} else {
 			for _, v := range dbgvars {
 				if v.name == key {
-					*v.value = int32(atoi(value))
+					*v.value = int32(_gc.Atoi(value))
 				}
 			}
 		}
 	}
 
-	switch p := gogetenv("GOTRACEBACK"); p {
+	switch p := _gc.Gogetenv("GOTRACEBACK"); p {
 	case "":
-		traceback_cache = 1 << 1
+		_base.Traceback_cache = 1 << 1
 	case "crash":
-		traceback_cache = 2<<1 | 1
+		_base.Traceback_cache = 2<<1 | 1
 	default:
-		traceback_cache = uint32(atoi(p)) << 1
+		_base.Traceback_cache = uint32(_gc.Atoi(p)) << 1
 	}
 	// when C owns the process, simply exit'ing the process on fatal errors
 	// and panics is surprising. Be louder and abort instead.
-	if islibrary || isarchive {
-		traceback_cache |= 1
+	if _base.Islibrary || _base.Isarchive {
+		_base.Traceback_cache |= 1
 	}
-}
-
-// Poor mans 64-bit division.
-// This is a very special function, do not use it if you are not sure what you are doing.
-// int64 division is lowered into _divv() call on 386, which does not fit into nosplit functions.
-// Handles overflow in a time-specific manner.
-//go:nosplit
-func timediv(v int64, div int32, rem *int32) int32 {
-	res := int32(0)
-	for bit := 30; bit >= 0; bit-- {
-		if v >= int64(div)<<uint(bit) {
-			v = v - (int64(div) << uint(bit))
-			res += 1 << uint(bit)
-		}
-	}
-	if v >= int64(div) {
-		if rem != nil {
-			*rem = 0
-		}
-		return 0x7fffffff
-	}
-	if rem != nil {
-		*rem = int32(v)
-	}
-	return res
-}
-
-// Helpers for Go. Must be NOSPLIT, must only call NOSPLIT functions, and must not block.
-
-//go:nosplit
-func acquirem() *m {
-	_g_ := getg()
-	_g_.m.locks++
-	return _g_.m
-}
-
-//go:nosplit
-func releasem(mp *m) {
-	_g_ := getg()
-	mp.locks--
-	if mp.locks == 0 && _g_.preempt {
-		// restore the preemption request in case we've cleared it in newstack
-		_g_.stackguard0 = stackPreempt
-	}
-}
-
-//go:nosplit
-func gomcache() *mcache {
-	return getg().m.mcache
 }
 
 //go:linkname reflect_typelinks reflect.typelinks
 //go:nosplit
-func reflect_typelinks() [][]*_type {
-	ret := [][]*_type{firstmoduledata.typelinks}
-	for datap := firstmoduledata.next; datap != nil; datap = datap.next {
-		ret = append(ret, datap.typelinks)
+func reflect_typelinks() [][]*_base.Type {
+	ret := [][]*_base.Type{_base.Firstmoduledata.Typelinks}
+	for datap := _base.Firstmoduledata.Next; datap != nil; datap = datap.Next {
+		ret = append(ret, datap.Typelinks)
 	}
 	return ret
 }

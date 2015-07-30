@@ -6,44 +6,37 @@
 
 package runtime
 
-// Integrated network poller (kqueue-based implementation).
-
-import "unsafe"
-
-func kqueue() int32
-
-//go:noescape
-func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
-func closeonexec(fd int32)
-
-var (
-	kq             int32 = -1
-	netpolllasterr int32
+import (
+	_base "runtime/internal/base"
+	"unsafe"
 )
 
+func kqueue() int32
+func closeonexec(fd int32)
+
 func netpollinit() {
-	kq = kqueue()
-	if kq < 0 {
-		println("netpollinit: kqueue failed with", -kq)
-		throw("netpollinit: kqueue failed")
+	_base.Kq = kqueue()
+	if _base.Kq < 0 {
+		println("netpollinit: kqueue failed with", -_base.Kq)
+		_base.Throw("netpollinit: kqueue failed")
 	}
-	closeonexec(kq)
+	closeonexec(_base.Kq)
 }
 
-func netpollopen(fd uintptr, pd *pollDesc) int32 {
+func netpollopen(fd uintptr, pd *_base.PollDesc) int32 {
 	// Arm both EVFILT_READ and EVFILT_WRITE in edge-triggered mode (EV_CLEAR)
 	// for the whole fd lifetime.  The notifications are automatically unregistered
 	// when fd is closed.
-	var ev [2]keventt
-	*(*uintptr)(unsafe.Pointer(&ev[0].ident)) = fd
-	ev[0].filter = _EVFILT_READ
-	ev[0].flags = _EV_ADD | _EV_CLEAR
-	ev[0].fflags = 0
-	ev[0].data = 0
-	ev[0].udata = (*byte)(unsafe.Pointer(pd))
+	var ev [2]_base.Keventt
+	*(*uintptr)(unsafe.Pointer(&ev[0].Ident)) = fd
+	ev[0].Filter = _base.EVFILT_READ
+	ev[0].Flags = _base.EV_ADD | _base.EV_CLEAR
+	ev[0].Fflags = 0
+	ev[0].Data = 0
+	ev[0].Udata = (*byte)(unsafe.Pointer(pd))
 	ev[1] = ev[0]
-	ev[1].filter = _EVFILT_WRITE
-	n := kevent(kq, &ev[0], 2, nil, 0, nil)
+	ev[1].Filter = _base.EVFILT_WRITE
+	n := _base.Kevent(_base.Kq, &ev[0], 2, nil, 0, nil)
 	if n < 0 {
 		return -n
 	}
@@ -56,47 +49,6 @@ func netpollclose(fd uintptr) int32 {
 	return 0
 }
 
-func netpollarm(pd *pollDesc, mode int) {
-	throw("unused")
-}
-
-// Polls for ready network connections.
-// Returns list of goroutines that become runnable.
-func netpoll(block bool) *g {
-	if kq == -1 {
-		return nil
-	}
-	var tp *timespec
-	var ts timespec
-	if !block {
-		tp = &ts
-	}
-	var events [64]keventt
-retry:
-	n := kevent(kq, nil, 0, &events[0], int32(len(events)), tp)
-	if n < 0 {
-		if n != -_EINTR && n != netpolllasterr {
-			netpolllasterr = n
-			println("runtime: kevent on fd", kq, "failed with", -n)
-		}
-		goto retry
-	}
-	var gp guintptr
-	for i := 0; i < int(n); i++ {
-		ev := &events[i]
-		var mode int32
-		if ev.filter == _EVFILT_READ {
-			mode += 'r'
-		}
-		if ev.filter == _EVFILT_WRITE {
-			mode += 'w'
-		}
-		if mode != 0 {
-			netpollready(&gp, (*pollDesc)(unsafe.Pointer(ev.udata)), mode)
-		}
-	}
-	if block && gp == 0 {
-		goto retry
-	}
-	return gp.ptr()
+func netpollarm(pd *_base.PollDesc, mode int) {
+	_base.Throw("unused")
 }

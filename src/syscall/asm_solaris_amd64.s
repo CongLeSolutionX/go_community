@@ -8,77 +8,77 @@
 // System calls for solaris/amd64 are implemented in ../runtime/syscall_solaris.go
 //
 
-TEXT ·sysvicall6(SB),NOSPLIT,$0
+TEXT syscall·sysvicall6(SB),NOSPLIT,$0
 	JMP	runtime·syscall_sysvicall6(SB)
 
-TEXT ·rawSysvicall6(SB),NOSPLIT,$0
+TEXT syscall·rawSysvicall6(SB),NOSPLIT,$0
 	JMP	runtime·syscall_rawsysvicall6(SB)
 
-TEXT ·chdir(SB),NOSPLIT,$0
+TEXT syscall·chdir(SB),NOSPLIT,$0
 	JMP	runtime·syscall_chdir(SB)
 
-TEXT ·chroot1(SB),NOSPLIT,$0
+TEXT syscall·chroot1(SB),NOSPLIT,$0
 	JMP	runtime·syscall_chroot(SB)
 
-TEXT ·close(SB),NOSPLIT,$0
+TEXT syscall·close(SB),NOSPLIT,$0
 	JMP	runtime·syscall_close(SB)
 
-TEXT ·dlopen(SB),NOSPLIT,$0
+TEXT syscall·dlopen(SB),NOSPLIT,$0
 	JMP	runtime·syscall_dlopen(SB)
 
-TEXT ·dlclose(SB),NOSPLIT,$0
+TEXT syscall·dlclose(SB),NOSPLIT,$0
 	JMP	runtime·syscall_dlclose(SB)
 
-TEXT ·dlsym(SB),NOSPLIT,$0
+TEXT syscall·dlsym(SB),NOSPLIT,$0
 	JMP	runtime·syscall_dlsym(SB)
 
-TEXT ·execve(SB),NOSPLIT,$0
+TEXT syscall·execve(SB),NOSPLIT,$0
 	JMP	runtime·syscall_execve(SB)
 
-TEXT ·exit(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
 	JMP	runtime·syscall_exit(SB)
 
-TEXT ·fcntl1(SB),NOSPLIT,$0
+TEXT syscall·fcntl1(SB),NOSPLIT,$0
 	JMP	runtime·syscall_fcntl(SB)
 
-TEXT ·forkx(SB),NOSPLIT,$0
+TEXT syscall·forkx(SB),NOSPLIT,$0
 	JMP	runtime·syscall_forkx(SB)
 
-TEXT ·gethostname(SB),NOSPLIT,$0
+TEXT syscall·gethostname(SB),NOSPLIT,$0
 	JMP	runtime·syscall_gethostname(SB)
 
-TEXT ·getpid(SB),NOSPLIT,$0
+TEXT syscall·getpid(SB),NOSPLIT,$0
 	JMP	runtime·syscall_getpid(SB)
 
-TEXT ·ioctl(SB),NOSPLIT,$0
+TEXT syscall·ioctl(SB),NOSPLIT,$0
 	JMP	runtime·syscall_ioctl(SB)
 
-TEXT ·pipe(SB),NOSPLIT,$0
+TEXT syscall·pipe(SB),NOSPLIT,$0
 	JMP	runtime·syscall_pipe(SB)
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0
 	JMP	runtime·syscall_rawsyscall(SB)
 
-TEXT ·setgid(SB),NOSPLIT,$0
+TEXT syscall·setgid(SB),NOSPLIT,$0
 	JMP	runtime·syscall_setgid(SB)
 
-TEXT ·setgroups1(SB),NOSPLIT,$0
+TEXT syscall·setgroups1(SB),NOSPLIT,$0
 	JMP	runtime·syscall_setgroups(SB)
 
-TEXT ·setsid(SB),NOSPLIT,$0
+TEXT syscall·setsid(SB),NOSPLIT,$0
 	JMP	runtime·syscall_setsid(SB)
 
-TEXT ·setuid(SB),NOSPLIT,$0
+TEXT syscall·setuid(SB),NOSPLIT,$0
 	JMP	runtime·syscall_setuid(SB)
 
-TEXT ·setpgid(SB),NOSPLIT,$0
+TEXT syscall·setpgid(SB),NOSPLIT,$0
 	JMP	runtime·syscall_setpgid(SB)
 
-TEXT ·Syscall(SB),NOSPLIT,$0
+TEXT syscall·Syscall(SB),NOSPLIT,$0
 	JMP	runtime·syscall_syscall(SB)
 
-TEXT ·wait4(SB),NOSPLIT,$0
+TEXT syscall·wait4(SB),NOSPLIT,$0
 	JMP	runtime·syscall_wait4(SB)
 
-TEXT ·write1(SB),NOSPLIT,$0
+TEXT syscall·write1(SB),NOSPLIT,$0
 	JMP	runtime·syscall_write(SB)

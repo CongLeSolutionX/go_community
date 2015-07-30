@@ -508,7 +508,14 @@ var gostringpkg *Pkg // fake pkg for Go strings
 
 var itabpkg *Pkg // fake pkg for itab cache
 
-var Runtimepkg *Pkg // package runtime
+var Basepkg *Pkg         //package runtime/internal/base
+var Lockpkg *Pkg         //package runtime/internal/lock
+var Gcpkg *Pkg           //package runtime/internal/gc
+var Ifacepkg *Pkg        //package runtime/internal/iface
+var Writebarrierpkg *Pkg //package runtime/internal/writebarrier
+var Racepkg *Pkg         //package runtime/internal/race
+var Printpkg *Pkg        //package runtime/internal/print
+var Runtimepkg *Pkg      //package runtime
 
 var racepkg *Pkg // package runtime/race
 
