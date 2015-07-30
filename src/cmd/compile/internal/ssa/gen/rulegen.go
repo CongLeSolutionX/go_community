@@ -403,6 +403,9 @@ func genResult0(w io.Writer, arch arch, result string, alloc *int, top bool) str
 		if a[0] == '<' {
 			// type restriction
 			t := a[1 : len(a)-1] // remove <>
+			if strings.HasPrefix(t, "Type") && t != "TypeFlags" && t != "TypeMem" {
+				t = "v.Block.Func.Config.Frontend()." + t + "()"
+			}
 			fmt.Fprintf(w, "%s.Type = %s\n", v, t)
 			hasType = true
 		} else if a[0] == '[' {
