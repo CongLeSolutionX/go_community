@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d7fda4c_24589c84",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 8600
+      },
+      "writtenOn": "2015-07-30T10:06:39Z",
+      "side": 1,
+      "message": "Would it be better for this warning to go one paragraph earlier? Right now it reads like godoc\u0027s following examples might be related to using crypto/rand instead.",
+      "revId": "d27411784decff0001a822dce78ffdab5087a4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
