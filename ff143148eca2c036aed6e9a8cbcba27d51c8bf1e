@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a5ce834_a7260a68",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-30T20:37:18Z",
+      "side": 1,
+      "message": "This is used as the type for the pointer slot of a string.  Maybe we could use unsafe.Pointer instead.\n(another CL, perhaps)",
+      "range": {
+        "startLine": 31,
+        "startChar": 37,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "ff143148eca2c036aed6e9a8cbcba27d51c8bf1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_a783aaa4",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-30T20:37:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these all be config.TypeUintptr() and friends?",
+      "range": {
+        "startLine": 32,
+        "startChar": 69,
+        "endLine": 32,
+        "endChar": 80
+      },
+      "revId": "ff143148eca2c036aed6e9a8cbcba27d51c8bf1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_8759c6d6",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-30T20:37:18Z",
+      "side": 1,
+      "message": "I see... magic!  I\u0027d rather just use config.Uintptr() everywhere.  It\u0027s not that much longer than TypeUintptr.\n\nBTW, the variable \"config\" is available for all rules.  It is identical to v.Block.Func.Config.",
+      "range": {
+        "startLine": 406,
+        "startChar": 0,
+        "endLine": 408,
+        "endChar": 4
+      },
+      "revId": "ff143148eca2c036aed6e9a8cbcba27d51c8bf1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_a7b16a7c",
+        "filename": "src/cmd/compile/internal/ssa/type_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-30T20:37:18Z",
+      "side": 1,
+      "message": "While we are here, make this unexported?",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 13
+      },
+      "revId": "ff143148eca2c036aed6e9a8cbcba27d51c8bf1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
