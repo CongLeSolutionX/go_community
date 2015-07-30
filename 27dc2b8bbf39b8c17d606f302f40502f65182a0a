@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a5ce834_8a2d4b95",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-07-30T22:22:02Z",
+      "side": 1,
+      "message": "maybe - but it\u0027s very self-contained and leads to a nice switch\n\nprefer to leave as is",
+      "parentUuid": "aa7afca7_74b76825",
+      "revId": "27dc2b8bbf39b8c17d606f302f40502f65182a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa7afca7_14bcf404",
         "filename": "src/go/types/builtins.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-30T22:15:58Z",
       "side": 1,
       "message": "What if that shift expression turns out to have a float32 type, and the other operand was also a float32?  Won\u0027t that lead to a spurious error?",
+      "revId": "27dc2b8bbf39b8c17d606f302f40502f65182a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_6af1f78f",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-07-30T22:22:02Z",
+      "side": 1,
+      "message": "If the other operand has type float32, one of the operands is typed and we won\u0027t reach here.\n\nThis can only happen if both are untyped - if they are not constants, both must contain shifts. We could choose float32 or float64 - it seems float64 would be the natural choice since it the default type for untyped floats, and we expect a float number. But it doesn\u0027t matter because it would result in a shift of a float (float32 or float64) which is invalid in the first place. This is pathological and won\u0027t ever happen, but we care about getting an error, and we get it.",
+      "parentUuid": "aa7afca7_14bcf404",
       "revId": "27dc2b8bbf39b8c17d606f302f40502f65182a0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
