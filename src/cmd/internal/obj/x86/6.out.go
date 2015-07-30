@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (4b8031 [dev.ssa] cmd/compile/internal/ssa: fix shift operations)
 // Inferno utils/6c/6.out.h
 // http://code.google.com/p/inferno-os/source/browse/utils/6c/6.out.h
 //
@@ -908,3 +909,5 @@ const (
 	T_64     = 1 << 6
 	T_GOTYPE = 1 << 7
 )
+=======
+>>>>>>> BRANCH (e0c180 runtime/cgo: fix darwin/amd64 signal handling setup)
