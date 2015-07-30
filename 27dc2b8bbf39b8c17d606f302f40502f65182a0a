@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa7afca7_74b76825",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-30T22:15:58Z",
+      "side": 1,
+      "message": "The bit field seems a bit unnecessary.\nTwo booleans would be simpler.",
+      "revId": "27dc2b8bbf39b8c17d606f302f40502f65182a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa7afca7_14bcf404",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-07-30T22:15:58Z",
+      "side": 1,
+      "message": "What if that shift expression turns out to have a float32 type, and the other operand was also a float32?  Won\u0027t that lead to a spurious error?",
+      "revId": "27dc2b8bbf39b8c17d606f302f40502f65182a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
