@@ -16,7 +16,7 @@ func critical(f *Func) {
 		// decide if we need to split edges coming into b.
 		hasphi := false
 		for _, v := range b.Values {
-			if v.Op == OpPhi && v.Type != TypeMem {
+			if v.Op == OpPhi && !v.IsMemory() {
 				hasphi = true
 				break
 			}

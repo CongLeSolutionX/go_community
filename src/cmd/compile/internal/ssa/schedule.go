@@ -29,9 +29,9 @@ func schedule(f *Func) {
 		// block.  This loop resets the nextMem entries to be correct
 		// for this block.
 		for _, v := range b.Values {
-			if v.Type.IsMemory() {
+			if v.IsMemory() {
 				for _, w := range v.Args {
-					if w.Type.IsMemory() {
+					if w.IsMemory() {
 						nextMem[w.ID] = v
 					}
 				}
@@ -41,11 +41,11 @@ func schedule(f *Func) {
 		// following the memory value that v loads from.
 		// This will enforce the single-live-mem restriction.
 		for _, v := range b.Values {
-			if v.Type.IsMemory() {
+			if v.IsMemory() {
 				continue
 			}
 			for _, w := range v.Args {
-				if w.Type.IsMemory() && nextMem[w.ID] != nil {
+				if w.IsMemory() && nextMem[w.ID] != nil {
 					// Filter for intra-block edges.
 					if n := nextMem[w.ID]; n.Block == b {
 						additionalEdges[n.ID] = append(additionalEdges[n.ID], v)
@@ -63,7 +63,7 @@ func schedule(f *Func) {
 				// mem ops all the time, which shouldn't matter.  But for
 				// regular ops we might be violating invariants about where
 				// control ops live.
-				if v == b.Control && !v.Type.IsMemory() {
+				if v == b.Control && !v.IsMemory() {
 					f.Unimplementedf("phi is a control op %s %s", v, b)
 				}
 				order = append(order, v)

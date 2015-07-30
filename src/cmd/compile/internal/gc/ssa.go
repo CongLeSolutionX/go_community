@@ -1135,11 +1135,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case OADD, OAND, OMUL, OOR, OSUB, OXOR:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
-		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type(), a, b)
 	case OLSH, ORSH:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
-		return s.newValue2(s.ssaShiftOp(n.Op, n.Type, n.Right.Type), a.Type, a, b)
+		return s.newValue2(s.ssaShiftOp(n.Op, n.Type, n.Right.Type), a.Type(), a, b)
 	case OANDAND, OOROR:
 		// To implement OANDAND (and OOROR), we introduce a
 		// new temporary variable to hold the result. The
@@ -1184,7 +1184,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 	// unary ops
 	case ONOT, OMINUS, OCOM:
 		a := s.expr(n.Left)
-		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
+		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type(), a)
 
 	case OADDR:
 		return s.addr(n.Left)
@@ -1209,7 +1209,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case ODOTPTR:
 		p := s.expr(n.Left)
 		s.nilCheck(p)
-		p = s.newValue2(ssa.OpAddPtr, p.Type, p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
+		p = s.newValue2(ssa.OpAddPtr, p.Type(), p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
 		return s.newValue2(ssa.OpLoad, n.Type, p, s.mem())
 
 	case OINDEX:
@@ -1386,7 +1386,7 @@ func (s *state) addr(n *Node) *ssa.Value {
 			v := s.entryNewValue1A(ssa.OpAddr, Ptrto(n.Type), aux, s.sb)
 			// TODO: Make OpAddr use AuxInt as well as Aux.
 			if n.Xoffset != 0 {
-				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type, n.Xoffset, v)
+				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type(), n.Xoffset, v)
 			}
 			return v
 		case PPARAM, PPARAMOUT, PAUTO:
@@ -1436,11 +1436,11 @@ func (s *state) addr(n *Node) *ssa.Value {
 		return p
 	case ODOT:
 		p := s.addr(n.Left)
-		return s.newValue2(ssa.OpAddPtr, p.Type, p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
+		return s.newValue2(ssa.OpAddPtr, p.Type(), p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
 	case ODOTPTR:
 		p := s.expr(n.Left)
 		s.nilCheck(p)
-		return s.newValue2(ssa.OpAddPtr, p.Type, p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
+		return s.newValue2(ssa.OpAddPtr, p.Type(), p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
 	default:
 		s.Unimplementedf("addr: bad op %v", Oconv(int(n.Op), 0))
 		return nil
@@ -1595,7 +1595,7 @@ func (s *state) linkForwardReferences() {
 			name := v.Aux.(*Node)
 			v.Op = ssa.OpCopy
 			v.Aux = nil
-			v.SetArgs1(s.lookupVarIncoming(b, v.Type, name))
+			v.SetArgs1(s.lookupVarIncoming(b, v.Type(), name))
 		}
 	}
 }
@@ -1787,7 +1787,7 @@ func genValue(v *ssa.Value) {
 		x := regnum(v.Args[0])
 		y := regnum(v.Args[1])
 		if x != r && y != r {
-			p := Prog(regMoveAMD64(v.Type.Size()))
+			p := Prog(regMoveAMD64(v.Type().Size()))
 			p.From.Type = obj.TYPE_REG
 			p.From.Reg = x
 			p.To.Type = obj.TYPE_REG
@@ -1815,7 +1815,7 @@ func genValue(v *ssa.Value) {
 			neg = true
 		}
 		if x != r {
-			p := Prog(regMoveAMD64(v.Type.Size()))
+			p := Prog(regMoveAMD64(v.Type().Size()))
 			p.From.Type = obj.TYPE_REG
 			p.From.Reg = x
 			p.To.Type = obj.TYPE_REG
@@ -1841,7 +1841,7 @@ func genValue(v *ssa.Value) {
 			if r == x86.REG_CX {
 				v.Fatalf("can't implement %s, target and shift both in CX", v.LongString())
 			}
-			p := Prog(regMoveAMD64(v.Type.Size()))
+			p := Prog(regMoveAMD64(v.Type().Size()))
 			p.From.Type = obj.TYPE_REG
 			p.From.Reg = x
 			p.To.Type = obj.TYPE_REG
@@ -1873,7 +1873,7 @@ func genValue(v *ssa.Value) {
 		r := regnum(v)
 		x := regnum(v.Args[0])
 		if r != x {
-			p := Prog(regMoveAMD64(v.Type.Size()))
+			p := Prog(regMoveAMD64(v.Type().Size()))
 			p.From.Type = obj.TYPE_REG
 			p.From.Reg = x
 			p.To.Type = obj.TYPE_REG
@@ -1902,7 +1902,7 @@ func genValue(v *ssa.Value) {
 		x := regnum(v.Args[0])
 		r := regnum(v)
 		if x != r {
-			p := Prog(regMoveAMD64(v.Type.Size()))
+			p := Prog(regMoveAMD64(v.Type().Size()))
 			p.From.Type = obj.TYPE_REG
 			p.From.Reg = x
 			p.To.Type = obj.TYPE_REG
@@ -2032,7 +2032,7 @@ func genValue(v *ssa.Value) {
 			nb, offset = movZero(x86.AMOVB, 1, nb, offset, reg)
 		}
 	case ssa.OpCopy: // TODO: lower to MOVQ earlier?
-		if v.Type.IsMemory() {
+		if v.IsMemory() {
 			return
 		}
 		x := regnum(v.Args[0])
@@ -2045,22 +2045,22 @@ func genValue(v *ssa.Value) {
 			p.To.Reg = y
 		}
 	case ssa.OpLoadReg:
-		if v.Type.IsFlags() {
+		if v.Type().IsFlags() {
 			v.Unimplementedf("load flags not implemented: %v", v.LongString())
 			return
 		}
-		p := Prog(movSize(v.Type.Size()))
+		p := Prog(movSize(v.Type().Size()))
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = x86.REG_SP
 		p.From.Offset = localOffset(v.Args[0])
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
 	case ssa.OpStoreReg:
-		if v.Type.IsFlags() {
+		if v.Type().IsFlags() {
 			v.Unimplementedf("store flags not implemented: %v", v.LongString())
 			return
 		}
-		p := Prog(movSize(v.Type.Size()))
+		p := Prog(movSize(v.Type().Size()))
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = regnum(v.Args[0])
 		p.To.Type = obj.TYPE_MEM
@@ -2244,7 +2244,7 @@ func addAux(a *obj.Addr, v *ssa.Value) {
 
 // extendIndex extends v to a full pointer width.
 func (s *state) extendIndex(v *ssa.Value) *ssa.Value {
-	size := v.Type.Size()
+	size := v.Type().Size()
 	if size == s.config.PtrSize {
 		return v
 	}
@@ -2257,7 +2257,7 @@ func (s *state) extendIndex(v *ssa.Value) *ssa.Value {
 
 	// Extend value to the required size
 	var op ssa.Op
-	if v.Type.IsSigned() {
+	if v.Type().IsSigned() {
 		switch 10*size + s.config.PtrSize {
 		case 14:
 			op = ssa.OpSignExt8to32

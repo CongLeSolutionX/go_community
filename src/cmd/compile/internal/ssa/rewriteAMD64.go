@@ -929,7 +929,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
@@ -973,7 +973,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
@@ -1023,7 +1023,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
@@ -1067,7 +1067,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
@@ -1306,7 +1306,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1327,7 +1327,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1348,7 +1348,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1369,7 +1369,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1390,7 +1390,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1411,7 +1411,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1432,7 +1432,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1453,7 +1453,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1474,7 +1474,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1495,7 +1495,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1516,7 +1516,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1537,7 +1537,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1558,7 +1558,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1579,7 +1579,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1600,7 +1600,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1621,7 +1621,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1642,7 +1642,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1663,7 +1663,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1684,7 +1684,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1705,7 +1705,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1726,7 +1726,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1747,7 +1747,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(idx)
 			v0.AddArg(len)
 			v.AddArg(v0)
@@ -1767,7 +1767,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64TESTQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(p)
 			v0.AddArg(p)
 			v.AddArg(v0)
@@ -1788,7 +1788,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1809,7 +1809,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1830,7 +1830,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1851,7 +1851,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1872,7 +1872,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1893,7 +1893,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1914,7 +1914,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1935,7 +1935,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1956,7 +1956,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1977,7 +1977,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -1998,7 +1998,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -2019,7 +2019,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -2040,7 +2040,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -2061,7 +2061,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -2082,7 +2082,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -2103,7 +2103,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -2117,7 +2117,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond: (is64BitInt(t) || isPtr(t))
 		// result: (MOVQload ptr mem)
 		{
-			t := v.Type
+			t := v.Type()
 			ptr := v.Args[0]
 			mem := v.Args[1]
 			if !(is64BitInt(t) || isPtr(t)) {
@@ -2138,7 +2138,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond: is32BitInt(t)
 		// result: (MOVLload ptr mem)
 		{
-			t := v.Type
+			t := v.Type()
 			ptr := v.Args[0]
 			mem := v.Args[1]
 			if !(is32BitInt(t)) {
@@ -2159,7 +2159,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond: is16BitInt(t)
 		// result: (MOVWload ptr mem)
 		{
-			t := v.Type
+			t := v.Type()
 			ptr := v.Args[0]
 			mem := v.Args[1]
 			if !(is16BitInt(t)) {
@@ -2180,7 +2180,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond: (t.IsBoolean() || is8BitInt(t))
 		// result: (MOVBload ptr mem)
 		{
-			t := v.Type
+			t := v.Type()
 			ptr := v.Args[0]
 			mem := v.Args[1]
 			if !(t.IsBoolean() || is8BitInt(t)) {
@@ -2202,7 +2202,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHLW <t> x y) (SBBLcarrymask <t> (CMPWconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -2210,14 +2210,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2232,7 +2232,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHLW <t> x y) (SBBLcarrymask <t> (CMPLconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -2240,14 +2240,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2262,7 +2262,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHLW <t> x y) (SBBLcarrymask <t> (CMPQconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -2270,14 +2270,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2292,7 +2292,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHLW <t> x y) (SBBLcarrymask <t> (CMPBconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -2300,14 +2300,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2322,7 +2322,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHLL <t> x y) (SBBLcarrymask <t> (CMPWconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -2330,14 +2330,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2352,7 +2352,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHLL <t> x y) (SBBLcarrymask <t> (CMPLconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -2360,14 +2360,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2382,7 +2382,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHLL <t> x y) (SBBLcarrymask <t> (CMPQconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -2390,14 +2390,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2412,7 +2412,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHLL <t> x y) (SBBLcarrymask <t> (CMPBconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -2420,14 +2420,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2442,7 +2442,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHLQ <t> x y) (SBBQcarrymask <t> (CMPWconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -2450,14 +2450,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2472,7 +2472,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHLQ <t> x y) (SBBQcarrymask <t> (CMPLconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -2480,14 +2480,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2502,7 +2502,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHLQ <t> x y) (SBBQcarrymask <t> (CMPQconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -2510,14 +2510,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2532,7 +2532,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHLQ <t> x y) (SBBQcarrymask <t> (CMPBconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -2540,14 +2540,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2562,7 +2562,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHLB <t> x y) (SBBLcarrymask <t> (CMPWconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -2570,14 +2570,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2592,7 +2592,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHLB <t> x y) (SBBLcarrymask <t> (CMPLconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -2600,14 +2600,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2622,7 +2622,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHLB <t> x y) (SBBLcarrymask <t> (CMPQconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -2630,14 +2630,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -2652,7 +2652,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHLB <t> x y) (SBBLcarrymask <t> (CMPBconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -2660,14 +2660,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHLB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -3405,7 +3405,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(dst)
 			v.AddArg(src)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64MOVQconst, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeUInt64()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUInt64())
 			v0.AuxInt = size
 			v.AddArg(v0)
 			v.AddArg(mem)
@@ -3656,7 +3656,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPW, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -3677,7 +3677,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPL, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -3698,7 +3698,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -3719,7 +3719,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -3740,7 +3740,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64CMPQ, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
@@ -4257,7 +4257,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHRW <t> x y) (SBBLcarrymask <t> (CMPWconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -4265,14 +4265,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4287,7 +4287,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHRW <t> x y) (SBBLcarrymask <t> (CMPLconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -4295,14 +4295,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4317,7 +4317,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHRW <t> x y) (SBBLcarrymask <t> (CMPQconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -4325,14 +4325,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4347,7 +4347,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDW (SHRW <t> x y) (SBBLcarrymask <t> (CMPBconst <TypeFlags> [16] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDW
@@ -4355,14 +4355,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRW, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 16
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4375,26 +4375,26 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 	case OpRsh16x16:
 		// match: (Rsh16x16 <t> x y)
 		// cond:
-		// result: (SARW <t> x (ORW <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPWconst <TypeFlags> [16] y)))))
+		// result: (SARW <t> x (ORW <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPWconst <TypeFlags> [16] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARW
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORW, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 16
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4403,32 +4403,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto endbcd8fd69ada08517f6f94f35da91e1c3
-	endbcd8fd69ada08517f6f94f35da91e1c3:
+		goto endb0662e567b49432b7055f436191b4253
+	endb0662e567b49432b7055f436191b4253:
 		;
 	case OpRsh16x32:
 		// match: (Rsh16x32 <t> x y)
 		// cond:
-		// result: (SARW <t> x (ORL <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPLconst <TypeFlags> [16] y)))))
+		// result: (SARW <t> x (ORL <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPLconst <TypeFlags> [16] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARW
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORL, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 16
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4437,32 +4437,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto endec3994083e7f82857ecec05906c29aa6
-	endec3994083e7f82857ecec05906c29aa6:
+		goto endad28e13334235f33d866dc1972662a5b
+	endad28e13334235f33d866dc1972662a5b:
 		;
 	case OpRsh16x64:
 		// match: (Rsh16x64 <t> x y)
 		// cond:
-		// result: (SARW <t> x (ORQ <y.Type> y (NOTQ <y.Type> (SBBQcarrymask <y.Type> (CMPQconst <TypeFlags> [16] y)))))
+		// result: (SARW <t> x (ORQ <y.Type()> y (NOTQ <y.Type()> (SBBQcarrymask <y.Type()> (CMPQconst <TypeFlags> [16] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARW
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORQ, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTQ, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 16
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4471,32 +4471,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end19da3883e21ffa3a45d7fc648ef38b66
-	end19da3883e21ffa3a45d7fc648ef38b66:
+		goto endd424de5ecbc569c96f9f2abba7795583
+	endd424de5ecbc569c96f9f2abba7795583:
 		;
 	case OpRsh16x8:
 		// match: (Rsh16x8 <t> x y)
 		// cond:
-		// result: (SARW <t> x (ORB <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPBconst <TypeFlags> [16] y)))))
+		// result: (SARW <t> x (ORB <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPBconst <TypeFlags> [16] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARW
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORB, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 16
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4505,15 +4505,15 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end3c989f6931d059ea04e4ba93601b6c51
-	end3c989f6931d059ea04e4ba93601b6c51:
+		goto endbafceffd3aea87a65990a4895a35fef8
+	endbafceffd3aea87a65990a4895a35fef8:
 		;
 	case OpRsh32Ux16:
 		// match: (Rsh32Ux16 <t> x y)
 		// cond:
 		// result: (ANDL (SHRL <t> x y) (SBBLcarrymask <t> (CMPWconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -4521,14 +4521,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4543,7 +4543,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHRL <t> x y) (SBBLcarrymask <t> (CMPLconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -4551,14 +4551,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4573,7 +4573,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHRL <t> x y) (SBBLcarrymask <t> (CMPQconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -4581,14 +4581,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4603,7 +4603,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDL (SHRL <t> x y) (SBBLcarrymask <t> (CMPBconst <TypeFlags> [32] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDL
@@ -4611,14 +4611,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRL, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 32
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4631,26 +4631,26 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 	case OpRsh32x16:
 		// match: (Rsh32x16 <t> x y)
 		// cond:
-		// result: (SARL <t> x (ORW <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPWconst <TypeFlags> [32] y)))))
+		// result: (SARL <t> x (ORW <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPWconst <TypeFlags> [32] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARL
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORW, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 32
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4659,32 +4659,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end5d1b8d7e1d1e53e621d13bb0eafc9102
-	end5d1b8d7e1d1e53e621d13bb0eafc9102:
+		goto end6804aaa098ea9b5eab723af35cf5d4d6
+	end6804aaa098ea9b5eab723af35cf5d4d6:
 		;
 	case OpRsh32x32:
 		// match: (Rsh32x32 <t> x y)
 		// cond:
-		// result: (SARL <t> x (ORL <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPLconst <TypeFlags> [32] y)))))
+		// result: (SARL <t> x (ORL <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPLconst <TypeFlags> [32] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARL
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORL, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 32
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4693,32 +4693,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end9c27383961c2161a9955012fce808cab
-	end9c27383961c2161a9955012fce808cab:
+		goto end4ba851f3ff9d09f3d3a706067f9c9c8d
+	end4ba851f3ff9d09f3d3a706067f9c9c8d:
 		;
 	case OpRsh32x64:
 		// match: (Rsh32x64 <t> x y)
 		// cond:
-		// result: (SARL <t> x (ORQ <y.Type> y (NOTQ <y.Type> (SBBQcarrymask <y.Type> (CMPQconst <TypeFlags> [32] y)))))
+		// result: (SARL <t> x (ORQ <y.Type()> y (NOTQ <y.Type()> (SBBQcarrymask <y.Type()> (CMPQconst <TypeFlags> [32] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARL
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORQ, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTQ, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 32
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4727,32 +4727,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end75dc7144497705c800e0c60dcd4a2828
-	end75dc7144497705c800e0c60dcd4a2828:
+		goto end155e87306f631662e5c7851fb9541e05
+	end155e87306f631662e5c7851fb9541e05:
 		;
 	case OpRsh32x8:
 		// match: (Rsh32x8 <t> x y)
 		// cond:
-		// result: (SARL <t> x (ORB <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPBconst <TypeFlags> [32] y)))))
+		// result: (SARL <t> x (ORB <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPBconst <TypeFlags> [32] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARL
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORB, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 32
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4761,15 +4761,15 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto enda7b94b2fd5cbcd12bb2dcd576bdca481
-	enda7b94b2fd5cbcd12bb2dcd576bdca481:
+		goto endc22639140d6c67321bacc85ca3930984
+	endc22639140d6c67321bacc85ca3930984:
 		;
 	case OpRsh64Ux16:
 		// match: (Rsh64Ux16 <t> x y)
 		// cond:
 		// result: (ANDQ (SHRQ <t> x y) (SBBQcarrymask <t> (CMPWconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -4777,14 +4777,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4799,7 +4799,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHRQ <t> x y) (SBBQcarrymask <t> (CMPLconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -4807,14 +4807,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4829,7 +4829,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHRQ <t> x y) (SBBQcarrymask <t> (CMPQconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -4837,14 +4837,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4859,7 +4859,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDQ (SHRQ <t> x y) (SBBQcarrymask <t> (CMPBconst <TypeFlags> [64] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDQ
@@ -4867,14 +4867,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRQ, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 64
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -4887,26 +4887,26 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 	case OpRsh64x16:
 		// match: (Rsh64x16 <t> x y)
 		// cond:
-		// result: (SARQ <t> x (ORW <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPWconst <TypeFlags> [64] y)))))
+		// result: (SARQ <t> x (ORW <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPWconst <TypeFlags> [64] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARQ
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORW, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 64
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4915,32 +4915,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto endb370ee74ca256a604138321ddca9d543
-	endb370ee74ca256a604138321ddca9d543:
+		goto endad60b1e7184392228c6617291f74390c
+	endad60b1e7184392228c6617291f74390c:
 		;
 	case OpRsh64x32:
 		// match: (Rsh64x32 <t> x y)
 		// cond:
-		// result: (SARQ <t> x (ORL <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPLconst <TypeFlags> [64] y)))))
+		// result: (SARQ <t> x (ORL <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPLconst <TypeFlags> [64] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARQ
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORL, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 64
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4949,32 +4949,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end3cc6edf5b286a449332757ea12d2d601
-	end3cc6edf5b286a449332757ea12d2d601:
+		goto endcbdab009551bad1d1b8efc8059139a8e
+	endcbdab009551bad1d1b8efc8059139a8e:
 		;
 	case OpRsh64x64:
 		// match: (Rsh64x64 <t> x y)
 		// cond:
-		// result: (SARQ <t> x (ORQ <y.Type> y (NOTQ <y.Type> (SBBQcarrymask <y.Type> (CMPQconst <TypeFlags> [64] y)))))
+		// result: (SARQ <t> x (ORQ <y.Type()> y (NOTQ <y.Type()> (SBBQcarrymask <y.Type()> (CMPQconst <TypeFlags> [64] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARQ
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORQ, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTQ, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 64
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -4983,32 +4983,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end45de7b33396d9fd2ba377bd095f1d7a6
-	end45de7b33396d9fd2ba377bd095f1d7a6:
+		goto endaf7dcc5a0806946fa36c72af966bf1f8
+	endaf7dcc5a0806946fa36c72af966bf1f8:
 		;
 	case OpRsh64x8:
 		// match: (Rsh64x8 <t> x y)
 		// cond:
-		// result: (SARQ <t> x (ORB <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPBconst <TypeFlags> [64] y)))))
+		// result: (SARQ <t> x (ORB <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPBconst <TypeFlags> [64] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARQ
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORB, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 64
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -5017,15 +5017,15 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto ende03fa68104fd18bb9b2bb94370e0c8b3
-	ende03fa68104fd18bb9b2bb94370e0c8b3:
+		goto end89a1239214e0844efaeb22a3d2a268b1
+	end89a1239214e0844efaeb22a3d2a268b1:
 		;
 	case OpRsh8Ux16:
 		// match: (Rsh8Ux16 <t> x y)
 		// cond:
 		// result: (ANDB (SHRB <t> x y) (SBBLcarrymask <t> (CMPWconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -5033,14 +5033,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -5055,7 +5055,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHRB <t> x y) (SBBLcarrymask <t> (CMPLconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -5063,14 +5063,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -5085,7 +5085,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHRB <t> x y) (SBBLcarrymask <t> (CMPQconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -5093,14 +5093,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -5115,7 +5115,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		// cond:
 		// result: (ANDB (SHRB <t> x y) (SBBLcarrymask <t> (CMPBconst <TypeFlags> [8] y)))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64ANDB
@@ -5123,14 +5123,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SHRB, TypeInvalid)
-			v0.Type = t
+			v0.TypeIndex = v.Block.Func.typeIndex(t)
 			v0.AddArg(x)
 			v0.AddArg(y)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v1.Type = t
+			v1.TypeIndex = v.Block.Func.typeIndex(t)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v2.Type = TypeFlags
+			v2.TypeIndex = typeFlagIndex
 			v2.AuxInt = 8
 			v2.AddArg(y)
 			v1.AddArg(v2)
@@ -5143,26 +5143,26 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 	case OpRsh8x16:
 		// match: (Rsh8x16 <t> x y)
 		// cond:
-		// result: (SARB <t> x (ORW <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPWconst <TypeFlags> [8] y)))))
+		// result: (SARB <t> x (ORW <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPWconst <TypeFlags> [8] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARB
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORW, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPWconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 8
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -5171,32 +5171,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto endd303f390b49d9716dc783d5c4d57ddd1
-	endd303f390b49d9716dc783d5c4d57ddd1:
+		goto end1ac460b92aaeb92c55f138fe85aeefb2
+	end1ac460b92aaeb92c55f138fe85aeefb2:
 		;
 	case OpRsh8x32:
 		// match: (Rsh8x32 <t> x y)
 		// cond:
-		// result: (SARB <t> x (ORL <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPLconst <TypeFlags> [8] y)))))
+		// result: (SARB <t> x (ORL <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPLconst <TypeFlags> [8] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARB
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORL, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPLconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 8
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -5205,32 +5205,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto ende12a524a6fc68eb245140c6919034337
-	ende12a524a6fc68eb245140c6919034337:
+		goto end0a7190720c0125d5206ea6c74713ad0b
+	end0a7190720c0125d5206ea6c74713ad0b:
 		;
 	case OpRsh8x64:
 		// match: (Rsh8x64 <t> x y)
 		// cond:
-		// result: (SARB <t> x (ORQ <y.Type> y (NOTQ <y.Type> (SBBQcarrymask <y.Type> (CMPQconst <TypeFlags> [8] y)))))
+		// result: (SARB <t> x (ORQ <y.Type()> y (NOTQ <y.Type()> (SBBQcarrymask <y.Type()> (CMPQconst <TypeFlags> [8] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARB
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORQ, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTQ, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBQcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPQconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 8
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -5239,32 +5239,32 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end6ee53459daa5458d163c86ea02dd2f31
-	end6ee53459daa5458d163c86ea02dd2f31:
+		goto endf9c988acd1506bcd51bcbe44aa7100c9
+	endf9c988acd1506bcd51bcbe44aa7100c9:
 		;
 	case OpRsh8x8:
 		// match: (Rsh8x8 <t> x y)
 		// cond:
-		// result: (SARB <t> x (ORB <y.Type> y (NOTL <y.Type> (SBBLcarrymask <y.Type> (CMPBconst <TypeFlags> [8] y)))))
+		// result: (SARB <t> x (ORB <y.Type()> y (NOTL <y.Type()> (SBBLcarrymask <y.Type()> (CMPBconst <TypeFlags> [8] y)))))
 		{
-			t := v.Type
+			t := v.Type()
 			x := v.Args[0]
 			y := v.Args[1]
 			v.Op = OpAMD64SARB
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
-			v.Type = t
+			v.TypeIndex = v.Block.Func.typeIndex(t)
 			v.AddArg(x)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64ORB, TypeInvalid)
-			v0.Type = y.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v0.AddArg(y)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64NOTL, TypeInvalid)
-			v1.Type = y.Type
+			v1.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v2 := v.Block.NewValue0(v.Line, OpAMD64SBBLcarrymask, TypeInvalid)
-			v2.Type = y.Type
+			v2.TypeIndex = v.Block.Func.typeIndex(y.Type())
 			v3 := v.Block.NewValue0(v.Line, OpAMD64CMPBconst, TypeInvalid)
-			v3.Type = TypeFlags
+			v3.TypeIndex = typeFlagIndex
 			v3.AuxInt = 8
 			v3.AddArg(y)
 			v2.AddArg(v3)
@@ -5273,8 +5273,8 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(v0)
 			return true
 		}
-		goto end07f447a7e25b048c41d412c242330ec0
-	end07f447a7e25b048c41d412c242330ec0:
+		goto end58d2dea64d4df2d458ce35b69c50cbde
+	end58d2dea64d4df2d458ce35b69c50cbde:
 		;
 	case OpAMD64SARB:
 		// match: (SARB x (MOVBconst [c]))
@@ -5942,10 +5942,10 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		;
 		// match: (SUBB (MOVBconst [c]) x)
 		// cond:
-		// result: (NEGB (SUBBconst <v.Type> x [c]))
+		// result: (NEGB (SUBBconst <v.Type()> x [c]))
 		{
 			if v.Args[0].Op != OpAMD64MOVBconst {
-				goto endc288755d69b04d24a6aac32a73956411
+				goto end29c4be0a6c3a3fb828d0ff835c74fbb9
 			}
 			c := v.Args[0].AuxInt
 			x := v.Args[1]
@@ -5954,14 +5954,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBBconst, TypeInvalid)
-			v0.Type = v.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Type())
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
 			return true
 		}
-		goto endc288755d69b04d24a6aac32a73956411
-	endc288755d69b04d24a6aac32a73956411:
+		goto end29c4be0a6c3a3fb828d0ff835c74fbb9
+	end29c4be0a6c3a3fb828d0ff835c74fbb9:
 		;
 	case OpAMD64SUBBconst:
 		// match: (SUBBconst [c] (MOVBconst [d]))
@@ -6006,10 +6006,10 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		;
 		// match: (SUBL (MOVLconst [c]) x)
 		// cond:
-		// result: (NEGL (SUBLconst <v.Type> x [c]))
+		// result: (NEGL (SUBLconst <v.Type()> x [c]))
 		{
 			if v.Args[0].Op != OpAMD64MOVLconst {
-				goto endb0efe6e15ec20486b849534a00483ae2
+				goto endc07a9ee2d2539664a927827ab3877f73
 			}
 			c := v.Args[0].AuxInt
 			x := v.Args[1]
@@ -6018,14 +6018,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBLconst, TypeInvalid)
-			v0.Type = v.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Type())
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
 			return true
 		}
-		goto endb0efe6e15ec20486b849534a00483ae2
-	endb0efe6e15ec20486b849534a00483ae2:
+		goto endc07a9ee2d2539664a927827ab3877f73
+	endc07a9ee2d2539664a927827ab3877f73:
 		;
 	case OpAMD64SUBLconst:
 		// match: (SUBLconst [c] (MOVLconst [d]))
@@ -6073,29 +6073,29 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		;
 		// match: (SUBQ (MOVQconst [c]) x)
 		// cond: is32Bit(c)
-		// result: (NEGQ (SUBQconst <v.Type> x [c]))
+		// result: (NEGQ (SUBQconst <v.Type()> x [c]))
 		{
 			if v.Args[0].Op != OpAMD64MOVQconst {
-				goto end8beb96de3efee9206d1bd4b7d777d2cb
+				goto endcbd0a4009fbffa337c391a6425d3791d
 			}
 			c := v.Args[0].AuxInt
 			x := v.Args[1]
 			if !(is32Bit(c)) {
-				goto end8beb96de3efee9206d1bd4b7d777d2cb
+				goto endcbd0a4009fbffa337c391a6425d3791d
 			}
 			v.Op = OpAMD64NEGQ
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBQconst, TypeInvalid)
-			v0.Type = v.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Type())
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
 			return true
 		}
-		goto end8beb96de3efee9206d1bd4b7d777d2cb
-	end8beb96de3efee9206d1bd4b7d777d2cb:
+		goto endcbd0a4009fbffa337c391a6425d3791d
+	endcbd0a4009fbffa337c391a6425d3791d:
 		;
 	case OpAMD64SUBQconst:
 		// match: (SUBQconst [c] (MOVQconst [d]))
@@ -6140,10 +6140,10 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		;
 		// match: (SUBW (MOVWconst [c]) x)
 		// cond:
-		// result: (NEGW (SUBWconst <v.Type> x [c]))
+		// result: (NEGW (SUBWconst <v.Type()> x [c]))
 		{
 			if v.Args[0].Op != OpAMD64MOVWconst {
-				goto end44d23f7e65a4b1c42d0e6463f8e493b6
+				goto end6f3547358b61a645807f3af29d8c4eff
 			}
 			c := v.Args[0].AuxInt
 			x := v.Args[1]
@@ -6152,14 +6152,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAMD64SUBWconst, TypeInvalid)
-			v0.Type = v.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Type())
 			v0.AddArg(x)
 			v0.AuxInt = c
 			v.AddArg(v0)
 			return true
 		}
-		goto end44d23f7e65a4b1c42d0e6463f8e493b6
-	end44d23f7e65a4b1c42d0e6463f8e493b6:
+		goto end6f3547358b61a645807f3af29d8c4eff
+	end6f3547358b61a645807f3af29d8c4eff:
 		;
 	case OpAMD64SUBWconst:
 		// match: (SUBWconst [c] (MOVWconst [d]))
@@ -6299,14 +6299,14 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		;
 	case OpStore:
 		// match: (Store ptr val mem)
-		// cond: (is64BitInt(val.Type) || isPtr(val.Type))
+		// cond: (is64BitInt(val.Type()) || isPtr(val.Type()))
 		// result: (MOVQstore ptr val mem)
 		{
 			ptr := v.Args[0]
 			val := v.Args[1]
 			mem := v.Args[2]
-			if !(is64BitInt(val.Type) || isPtr(val.Type)) {
-				goto endbaeb60123806948cd2433605820d5af1
+			if !(is64BitInt(val.Type()) || isPtr(val.Type())) {
+				goto end7d2913fbfc10830e29c71dcab6cc7703
 			}
 			v.Op = OpAMD64MOVQstore
 			v.AuxInt = 0
@@ -6317,18 +6317,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(mem)
 			return true
 		}
-		goto endbaeb60123806948cd2433605820d5af1
-	endbaeb60123806948cd2433605820d5af1:
+		goto end7d2913fbfc10830e29c71dcab6cc7703
+	end7d2913fbfc10830e29c71dcab6cc7703:
 		;
 		// match: (Store ptr val mem)
-		// cond: is32BitInt(val.Type)
+		// cond: is32BitInt(val.Type())
 		// result: (MOVLstore ptr val mem)
 		{
 			ptr := v.Args[0]
 			val := v.Args[1]
 			mem := v.Args[2]
-			if !(is32BitInt(val.Type)) {
-				goto end582e895008657c728c141c6b95070de7
+			if !(is32BitInt(val.Type())) {
+				goto endb954f16c0556b8a23c0277cef327b9ce
 			}
 			v.Op = OpAMD64MOVLstore
 			v.AuxInt = 0
@@ -6339,18 +6339,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(mem)
 			return true
 		}
-		goto end582e895008657c728c141c6b95070de7
-	end582e895008657c728c141c6b95070de7:
+		goto endb954f16c0556b8a23c0277cef327b9ce
+	endb954f16c0556b8a23c0277cef327b9ce:
 		;
 		// match: (Store ptr val mem)
-		// cond: is16BitInt(val.Type)
+		// cond: is16BitInt(val.Type())
 		// result: (MOVWstore ptr val mem)
 		{
 			ptr := v.Args[0]
 			val := v.Args[1]
 			mem := v.Args[2]
-			if !(is16BitInt(val.Type)) {
-				goto enda3f6a985b6ebb277665f80ad30b178df
+			if !(is16BitInt(val.Type())) {
+				goto end63c26283acd04f6a91d09184c74d9616
 			}
 			v.Op = OpAMD64MOVWstore
 			v.AuxInt = 0
@@ -6361,18 +6361,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(mem)
 			return true
 		}
-		goto enda3f6a985b6ebb277665f80ad30b178df
-	enda3f6a985b6ebb277665f80ad30b178df:
+		goto end63c26283acd04f6a91d09184c74d9616
+	end63c26283acd04f6a91d09184c74d9616:
 		;
 		// match: (Store ptr val mem)
-		// cond: is8BitInt(val.Type)
+		// cond: is8BitInt(val.Type())
 		// result: (MOVBstore ptr val mem)
 		{
 			ptr := v.Args[0]
 			val := v.Args[1]
 			mem := v.Args[2]
-			if !(is8BitInt(val.Type)) {
-				goto ende2dee0bc82f631e3c6b0031bf8d224c1
+			if !(is8BitInt(val.Type())) {
+				goto endd1623558b7422384492c855eb3ce0f85
 			}
 			v.Op = OpAMD64MOVBstore
 			v.AuxInt = 0
@@ -6383,18 +6383,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(mem)
 			return true
 		}
-		goto ende2dee0bc82f631e3c6b0031bf8d224c1
-	ende2dee0bc82f631e3c6b0031bf8d224c1:
+		goto endd1623558b7422384492c855eb3ce0f85
+	endd1623558b7422384492c855eb3ce0f85:
 		;
 		// match: (Store ptr val mem)
-		// cond: val.Type.IsBoolean()
+		// cond: val.Type().IsBoolean()
 		// result: (MOVBstore ptr val mem)
 		{
 			ptr := v.Args[0]
 			val := v.Args[1]
 			mem := v.Args[2]
-			if !(val.Type.IsBoolean()) {
-				goto end6f343b676bf49740054e459f972b24f5
+			if !(val.Type().IsBoolean()) {
+				goto endae1b96dd633295d53bd67d2ad8556ff0
 			}
 			v.Op = OpAMD64MOVBstore
 			v.AuxInt = 0
@@ -6405,8 +6405,8 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.AddArg(mem)
 			return true
 		}
-		goto end6f343b676bf49740054e459f972b24f5
-	end6f343b676bf49740054e459f972b24f5:
+		goto endae1b96dd633295d53bd67d2ad8556ff0
+	endae1b96dd633295d53bd67d2ad8556ff0:
 		;
 	case OpSub16:
 		// match: (Sub16 x y)
@@ -6932,7 +6932,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.resetArgs()
 			v.AddArg(destptr)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64MOVBconst, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeInt8()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeInt8())
 			v0.AuxInt = 0
 			v.AddArg(v0)
 			v.AddArg(mem)
@@ -6956,7 +6956,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.resetArgs()
 			v.AddArg(destptr)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64MOVWconst, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeInt16()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeInt16())
 			v0.AuxInt = 0
 			v.AddArg(v0)
 			v.AddArg(mem)
@@ -6980,7 +6980,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.resetArgs()
 			v.AddArg(destptr)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64MOVLconst, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeInt32()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeInt32())
 			v0.AuxInt = 0
 			v.AddArg(v0)
 			v.AddArg(mem)
@@ -7004,7 +7004,7 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.resetArgs()
 			v.AddArg(destptr)
 			v0 := v.Block.NewValue0(v.Line, OpAMD64MOVQconst, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeInt64()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeInt64())
 			v0.AuxInt = 0
 			v.AddArg(v0)
 			v.AddArg(mem)
@@ -7051,15 +7051,15 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 			v.resetArgs()
 			v.AuxInt = size % 8
 			v0 := v.Block.NewValue0(v.Line, OpOffPtr, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeUInt64()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUInt64())
 			v0.AuxInt = size - (size % 8)
 			v0.AddArg(destptr)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpAMD64REPSTOSQ, TypeInvalid)
-			v1.Type = TypeMem
+			v1.TypeIndex = typeMemIndex
 			v1.AddArg(destptr)
 			v2 := v.Block.NewValue0(v.Line, OpAMD64MOVQconst, TypeInvalid)
-			v2.Type = v.Block.Func.Config.Frontend().TypeUInt64()
+			v2.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUInt64())
 			v2.AuxInt = size / 8
 			v1.AddArg(v2)
 			v1.AddArg(mem)
@@ -7446,7 +7446,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			}
 			b.Kind = BlockAMD64NE
 			v0 := v.Block.NewValue0(v.Line, OpAMD64TESTB, TypeInvalid)
-			v0.Type = TypeFlags
+			v0.TypeIndex = typeFlagIndex
 			v0.AddArg(cond)
 			v0.AddArg(cond)
 			b.Control = v0

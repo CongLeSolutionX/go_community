@@ -53,10 +53,10 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 	case OpArrayIndex:
 		// match: (ArrayIndex (Load ptr mem) idx)
 		// cond:
-		// result: (Load (PtrIndex <v.Type.PtrTo()> ptr idx) mem)
+		// result: (Load (PtrIndex <v.Type().PtrTo()> ptr idx) mem)
 		{
 			if v.Args[0].Op != OpLoad {
-				goto end4894dd7b58383fee5f8a92be08437c33
+				goto end2b1b8c303f8a75fe0f2923b1f283f672
 			}
 			ptr := v.Args[0].Args[0]
 			mem := v.Args[0].Args[1]
@@ -66,15 +66,15 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpPtrIndex, TypeInvalid)
-			v0.Type = v.Type.PtrTo()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Type().PtrTo())
 			v0.AddArg(ptr)
 			v0.AddArg(idx)
 			v.AddArg(v0)
 			v.AddArg(mem)
 			return true
 		}
-		goto end4894dd7b58383fee5f8a92be08437c33
-	end4894dd7b58383fee5f8a92be08437c33:
+		goto end2b1b8c303f8a75fe0f2923b1f283f672
+	end2b1b8c303f8a75fe0f2923b1f283f672:
 		;
 	case OpConstString:
 		// match: (ConstString {s})
@@ -87,14 +87,14 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAddr, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeBytePtr()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeBytePtr())
 			v0.Aux = config.fe.StringData(s.(string))
 			v1 := v.Block.NewValue0(v.Line, OpSB, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v0.AddArg(v1)
 			v.AddArg(v0)
 			v2 := v.Block.NewValue0(v.Line, OpConstPtr, TypeInvalid)
-			v2.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v2.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v2.AuxInt = int64(len(s.(string)))
 			v.AddArg(v2)
 			return true
@@ -140,12 +140,12 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpLoad, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v0.AddArg(ptr)
 			v0.AddArg(mem)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpConstPtr, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v1.AuxInt = 0
 			v.AddArg(v1)
 			return true
@@ -181,7 +181,7 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		// cond: t.IsString()
 		// result: (StringMake (Load <TypeBytePtr> ptr mem) (Load <TypeUintptr> (OffPtr <TypeBytePtr> [config.PtrSize] ptr) mem))
 		{
-			t := v.Type
+			t := v.Type()
 			ptr := v.Args[0]
 			mem := v.Args[1]
 			if !(t.IsString()) {
@@ -192,14 +192,14 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpLoad, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeBytePtr()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeBytePtr())
 			v0.AddArg(ptr)
 			v0.AddArg(mem)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpLoad, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v2 := v.Block.NewValue0(v.Line, OpOffPtr, TypeInvalid)
-			v2.Type = v.Block.Func.Config.Frontend().TypeBytePtr()
+			v2.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeBytePtr())
 			v2.AuxInt = config.PtrSize
 			v2.AddArg(ptr)
 			v1.AddArg(v2)
@@ -294,12 +294,12 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpLoad, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v0.AddArg(ptr)
 			v0.AddArg(mem)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpConstPtr, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v1.AuxInt = 0
 			v.AddArg(v1)
 			return true
@@ -312,7 +312,7 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		// cond:
 		// result: (AddPtr ptr (MulPtr <TypeUintptr> idx (ConstPtr <TypeUintptr> [t.Elem().Size()])))
 		{
-			t := v.Type
+			t := v.Type()
 			ptr := v.Args[0]
 			idx := v.Args[1]
 			v.Op = OpAddPtr
@@ -321,10 +321,10 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.resetArgs()
 			v.AddArg(ptr)
 			v0 := v.Block.NewValue0(v.Line, OpMulPtr, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v0.AddArg(idx)
 			v1 := v.Block.NewValue0(v.Line, OpConstPtr, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v1.AuxInt = t.Elem().Size()
 			v0.AddArg(v1)
 			v.AddArg(v0)
@@ -336,10 +336,10 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 	case OpSliceCap:
 		// match: (SliceCap (Load ptr mem))
 		// cond:
-		// result: (Load (AddPtr <ptr.Type> ptr (ConstPtr <TypeUintptr> [config.PtrSize*2])) mem)
+		// result: (Load (AddPtr <ptr.Type()> ptr (ConstPtr <TypeUintptr> [config.PtrSize*2])) mem)
 		{
 			if v.Args[0].Op != OpLoad {
-				goto end9454b7aa0939cf19393cb194a2278623
+				goto enddfc963c554800f2005aa63a441d2e8f0
 			}
 			ptr := v.Args[0].Args[0]
 			mem := v.Args[0].Args[1]
@@ -348,26 +348,26 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAddPtr, TypeInvalid)
-			v0.Type = ptr.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(ptr.Type())
 			v0.AddArg(ptr)
 			v1 := v.Block.NewValue0(v.Line, OpConstPtr, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v1.AuxInt = config.PtrSize * 2
 			v0.AddArg(v1)
 			v.AddArg(v0)
 			v.AddArg(mem)
 			return true
 		}
-		goto end9454b7aa0939cf19393cb194a2278623
-	end9454b7aa0939cf19393cb194a2278623:
+		goto enddfc963c554800f2005aa63a441d2e8f0
+	enddfc963c554800f2005aa63a441d2e8f0:
 		;
 	case OpSliceLen:
 		// match: (SliceLen (Load ptr mem))
 		// cond:
-		// result: (Load (AddPtr <ptr.Type> ptr (ConstPtr <TypeUintptr> [config.PtrSize])) mem)
+		// result: (Load (AddPtr <ptr.Type()> ptr (ConstPtr <TypeUintptr> [config.PtrSize])) mem)
 		{
 			if v.Args[0].Op != OpLoad {
-				goto endbceff96d6994995803f3529317d46d34
+				goto end3ed028ecd6469668e62563fe3efe9ac8
 			}
 			ptr := v.Args[0].Args[0]
 			mem := v.Args[0].Args[1]
@@ -376,18 +376,18 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpAddPtr, TypeInvalid)
-			v0.Type = ptr.Type
+			v0.TypeIndex = v.Block.Func.typeIndex(ptr.Type())
 			v0.AddArg(ptr)
 			v1 := v.Block.NewValue0(v.Line, OpConstPtr, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v1.AuxInt = config.PtrSize
 			v0.AddArg(v1)
 			v.AddArg(v0)
 			v.AddArg(mem)
 			return true
 		}
-		goto endbceff96d6994995803f3529317d46d34
-	endbceff96d6994995803f3529317d46d34:
+		goto end3ed028ecd6469668e62563fe3efe9ac8
+	end3ed028ecd6469668e62563fe3efe9ac8:
 		;
 	case OpSlicePtr:
 		// match: (SlicePtr (Load ptr mem))
@@ -419,7 +419,7 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			if v.Args[1].Op != OpLoad {
 				goto end324ffb6d2771808da4267f62c854e9c8
 			}
-			t := v.Args[1].Type
+			t := v.Args[1].Type()
 			src := v.Args[1].Args[0]
 			mem := v.Args[1].Args[1]
 			if v.Args[2] != v.Args[1].Args[1] {
@@ -442,41 +442,41 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 	end324ffb6d2771808da4267f62c854e9c8:
 		;
 		// match: (Store dst str mem)
-		// cond: str.Type.IsString()
+		// cond: str.Type().IsString()
 		// result: (Store (OffPtr <TypeBytePtr> [config.PtrSize] dst) (StringLen <TypeUintptr> str) (Store <TypeMem> dst (StringPtr <TypeBytePtr> str) mem))
 		{
 			dst := v.Args[0]
 			str := v.Args[1]
 			mem := v.Args[2]
-			if !(str.Type.IsString()) {
-				goto endd50bd5e555bc95e043e912b09dc9db92
+			if !(str.Type().IsString()) {
+				goto end74b8bd8e1b816dcbf80822caebe240b9
 			}
 			v.Op = OpStore
 			v.AuxInt = 0
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpOffPtr, TypeInvalid)
-			v0.Type = v.Block.Func.Config.Frontend().TypeBytePtr()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeBytePtr())
 			v0.AuxInt = config.PtrSize
 			v0.AddArg(dst)
 			v.AddArg(v0)
 			v1 := v.Block.NewValue0(v.Line, OpStringLen, TypeInvalid)
-			v1.Type = v.Block.Func.Config.Frontend().TypeUintptr()
+			v1.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeUintptr())
 			v1.AddArg(str)
 			v.AddArg(v1)
 			v2 := v.Block.NewValue0(v.Line, OpStore, TypeInvalid)
-			v2.Type = TypeMem
+			v2.TypeIndex = typeMemIndex
 			v2.AddArg(dst)
 			v3 := v.Block.NewValue0(v.Line, OpStringPtr, TypeInvalid)
-			v3.Type = v.Block.Func.Config.Frontend().TypeBytePtr()
+			v3.TypeIndex = v.Block.Func.typeIndex(v.Block.Func.Config.Frontend().TypeBytePtr())
 			v3.AddArg(str)
 			v2.AddArg(v3)
 			v2.AddArg(mem)
 			v.AddArg(v2)
 			return true
 		}
-		goto endd50bd5e555bc95e043e912b09dc9db92
-	endd50bd5e555bc95e043e912b09dc9db92:
+		goto end74b8bd8e1b816dcbf80822caebe240b9
+	end74b8bd8e1b816dcbf80822caebe240b9:
 		;
 	case OpStringLen:
 		// match: (StringLen (StringMake _ len))
@@ -519,11 +519,11 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 	case OpStructSelect:
 		// match: (StructSelect [idx] (Load ptr mem))
 		// cond:
-		// result: (Load (OffPtr <v.Type.PtrTo()> [idx] ptr) mem)
+		// result: (Load (OffPtr <v.Type().PtrTo()> [idx] ptr) mem)
 		{
 			idx := v.AuxInt
 			if v.Args[0].Op != OpLoad {
-				goto end16fdb45e1dd08feb36e3cc3fb5ed8935
+				goto endd4c92247c08eb96b6c2e5c2023c815cb
 			}
 			ptr := v.Args[0].Args[0]
 			mem := v.Args[0].Args[1]
@@ -532,15 +532,15 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 			v.Aux = nil
 			v.resetArgs()
 			v0 := v.Block.NewValue0(v.Line, OpOffPtr, TypeInvalid)
-			v0.Type = v.Type.PtrTo()
+			v0.TypeIndex = v.Block.Func.typeIndex(v.Type().PtrTo())
 			v0.AuxInt = idx
 			v0.AddArg(ptr)
 			v.AddArg(v0)
 			v.AddArg(mem)
 			return true
 		}
-		goto end16fdb45e1dd08feb36e3cc3fb5ed8935
-	end16fdb45e1dd08feb36e3cc3fb5ed8935:
+		goto endd4c92247c08eb96b6c2e5c2023c815cb
+	endd4c92247c08eb96b6c2e5c2023c815cb:
 	}
 	return false
 }

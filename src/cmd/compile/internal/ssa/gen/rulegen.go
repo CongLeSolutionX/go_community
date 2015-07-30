@@ -317,17 +317,19 @@ func genMatch0(w io.Writer, arch arch, match, v, fail string, m map[string]strin
 		if a[0] == '<' {
 			// type restriction
 			t := a[1 : len(a)-1] // remove <>
+			// TODO: Use TypeIndex throughout here rather than Type()?
+			// It'd be more efficient, but it make the rules harder to write nicely.
 			if !isVariable(t) {
 				// code.  We must match the results of this code.
-				fmt.Fprintf(w, "if %s.Type != %s %s", v, t, fail)
+				fmt.Fprintf(w, "if !%s.Type().Equal(%s) %s", v, t, fail)
 			} else {
 				// variable
 				if u, ok := m[t]; ok {
 					// must match previous variable
-					fmt.Fprintf(w, "if %s.Type != %s %s", v, u, fail)
+					fmt.Fprintf(w, "if !%s.Type().Equal(%s) %s", v, u, fail)
 				} else {
-					m[t] = v + ".Type"
-					fmt.Fprintf(w, "%s := %s.Type\n", t, v)
+					m[t] = v + ".Type()"
+					fmt.Fprintf(w, "%s := %s.Type()\n", t, v)
 				}
 			}
 		} else if a[0] == '[' {
@@ -403,10 +405,23 @@ func genResult0(w io.Writer, arch arch, result string, alloc *int, top bool) str
 		if a[0] == '<' {
 			// type restriction
 			t := a[1 : len(a)-1] // remove <>
-			if strings.HasPrefix(t, "Type") && t != "TypeFlags" && t != "TypeMem" {
-				t = "v.Block.Func.Config.Frontend()." + t + "()"
+			ct := ""
+			switch t {
+			case "TypeInvalid":
+				ct = "typeInvalidIndex"
+			case "TypeMem":
+				ct = "typeMemIndex"
+			case "TypeFlags":
+				ct = "typeFlagIndex"
 			}
-			fmt.Fprintf(w, "%s.Type = %s\n", v, t)
+			if ct != "" {
+				fmt.Fprintf(w, "%s.TypeIndex = %s\n", v, ct)
+			} else {
+				if strings.HasPrefix(t, "Type") {
+					t = "v.Block.Func.Config.Frontend()." + t + "()"
+				}
+				fmt.Fprintf(w, "%s.TypeIndex = v.Block.Func.typeIndex(%s)\n", v, t)
+			}
 			hasType = true
 		} else if a[0] == '[' {
 			// auxint restriction

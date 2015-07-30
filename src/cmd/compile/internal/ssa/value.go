@@ -17,10 +17,6 @@ type Value struct {
 	// The operation that computes this value.  See op.go.
 	Op Op
 
-	// The type of this value.  Normally this will be a Go type, but there
-	// are a few other pseudo-types, see type.go.
-	Type Type
-
 	// Auxiliary info for this value.  The type of this information depends on the opcode and type.
 	// AuxInt is used for integer values, Aux is used for other values.
 	AuxInt int64
@@ -32,11 +28,23 @@ type Value struct {
 	// Containing basic block
 	Block *Block
 
+	// The type of this value, as an index into Func.types.
+	// Normally this will be a Go type, but there are a few other pseudo-types, see type.go.
+	TypeIndex int32
+
 	// Source line number
 	Line int32
 
 	// Storage for the first two args
 	argstorage [2]*Value
+}
+
+func (v *Value) Type() Type {
+	return v.Block.Func.types[v.TypeIndex]
+}
+
+func (v *Value) IsMemory() bool {
+	return v.Type().IsMemory()
 }
 
 // Examples:
@@ -54,7 +62,7 @@ func (v *Value) String() string {
 // long form print.  v# = opcode <type> [aux] args [: reg]
 func (v *Value) LongString() string {
 	s := fmt.Sprintf("v%d = %s", v.ID, v.Op.String())
-	s += " <" + v.Type.String() + ">"
+	s += " <" + v.Type().String() + ">"
 	if v.AuxInt != 0 {
 		s += fmt.Sprintf(" [%d]", v.AuxInt)
 	}

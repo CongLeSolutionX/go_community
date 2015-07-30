@@ -33,13 +33,13 @@ func stackalloc(f *Func) {
 			if v.Op != OpPhi {
 				continue
 			}
-			if v.Type.IsMemory() { // TODO: only "regallocable" types
+			if v.IsMemory() { // TODO: only "regallocable" types
 				continue
 			}
-			n = align(n, v.Type.Alignment())
-			f.Logf("stackalloc: %d-%d for %v\n", n, n+v.Type.Size(), v)
+			n = align(n, v.Type().Alignment())
+			f.Logf("stackalloc: %d-%d for %v\n", n, n+v.Type().Size(), v)
 			loc := &LocalSlot{n}
-			n += v.Type.Size()
+			n += v.Type().Size()
 			home = setloc(home, v, loc)
 			for _, w := range v.Args {
 				home = setloc(home, w, loc)
@@ -53,7 +53,7 @@ func stackalloc(f *Func) {
 			if v.ID < ID(len(home)) && home[v.ID] != nil {
 				continue
 			}
-			if v.Type.IsMemory() { // TODO: only "regallocable" types
+			if v.IsMemory() { // TODO: only "regallocable" types
 				continue
 			}
 			if len(v.Args) == 0 {
@@ -63,10 +63,10 @@ func stackalloc(f *Func) {
 			if len(v.Args) == 1 && (v.Args[0].Op == OpSP || v.Args[0].Op == OpSB) {
 				continue
 			}
-			n = align(n, v.Type.Alignment())
-			f.Logf("stackalloc: %d-%d for %v\n", n, n+v.Type.Size(), v)
+			n = align(n, v.Type().Alignment())
+			f.Logf("stackalloc: %d-%d for %v\n", n, n+v.Type().Size(), v)
 			loc := &LocalSlot{n}
-			n += v.Type.Size()
+			n += v.Type().Size()
 			home = setloc(home, v, loc)
 		}
 	}
