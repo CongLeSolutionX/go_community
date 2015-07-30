@@ -22,6 +22,30 @@
       "revId": "21a094b5d2d4f53d4e01837c54103c543e036aab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d7fda4c_e70a365d",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 8600
+      },
+      "writtenOn": "2015-07-30T11:17:22Z",
+      "side": 1,
+      "message": "I worry that a lot of people don\u0027t consider what constitutes as cryptography.\n\nSearching Github, I see a lot of code using (unseeded!) math/rand for generating passwords and session keys. I suspect such users might consider this \"security-sensitive\" work, but not necessarily \"cryptography\" (I suspect they imagine cryptography being directly related to encryption). I understand that this isn\u0027t strictly true but I\u0027m trying to find phrasing to best guide novice developers.\n\nHow about:\n\nFor random numbers suitable for security-sensitive work, see the crypto/rand package.",
+      "parentUuid": "2a40cc41_d043fcc4",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "21a094b5d2d4f53d4e01837c54103c543e036aab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
