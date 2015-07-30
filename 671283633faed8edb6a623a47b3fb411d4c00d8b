@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d9472c2_de3181a7",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2015-07-30T12:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d4ade43_e6f946f8",
+      "revId": "671283633faed8edb6a623a47b3fb411d4c00d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed788e71_59d10745",
         "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-30T12:29:53Z",
       "side": 1,
       "message": "Call testBitwiseLogic here",
+      "revId": "671283633faed8edb6a623a47b3fb411d4c00d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed8faeab_c168c414",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2015-07-30T12:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed788e71_59d10745",
       "revId": "671283633faed8edb6a623a47b3fb411d4c00d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
