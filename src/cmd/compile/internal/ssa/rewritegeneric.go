@@ -4,6 +4,52 @@ package ssa
 
 func rewriteValuegeneric(v *Value, config *Config) bool {
 	switch v.Op {
+	case OpAdd16:
+		// match: (Add16 (Const16 [c]) (Const16 [d]))
+		// cond:
+		// result: (Const16 [c+d])
+		{
+			if v.Args[0].Op != OpConst16 {
+				goto end359c546ef662b7990116329cb30d6892
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst16 {
+				goto end359c546ef662b7990116329cb30d6892
+			}
+			d := v.Args[1].AuxInt
+			v.Op = OpConst16
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c + d
+			return true
+		}
+		goto end359c546ef662b7990116329cb30d6892
+	end359c546ef662b7990116329cb30d6892:
+		;
+	case OpAdd32:
+		// match: (Add32 (Const32 [c]) (Const32 [d]))
+		// cond:
+		// result: (Const32 [c+d])
+		{
+			if v.Args[0].Op != OpConst32 {
+				goto enda3edaa9a512bd1d7a95f002c890bfb88
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst32 {
+				goto enda3edaa9a512bd1d7a95f002c890bfb88
+			}
+			d := v.Args[1].AuxInt
+			v.Op = OpConst32
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c + d
+			return true
+		}
+		goto enda3edaa9a512bd1d7a95f002c890bfb88
+	enda3edaa9a512bd1d7a95f002c890bfb88:
+		;
 	case OpAdd64:
 		// match: (Add64 (Const64 [c]) (Const64 [d]))
 		// cond:
@@ -26,6 +72,29 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		}
 		goto end8c46df6f85a11cb1d594076b0e467908
 	end8c46df6f85a11cb1d594076b0e467908:
+		;
+	case OpAdd8:
+		// match: (Add8 (Const8 [c]) (Const8 [d]))
+		// cond:
+		// result: (Const8 [c+d])
+		{
+			if v.Args[0].Op != OpConst8 {
+				goto end60c66721511a442aade8e4da2fb326bd
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst8 {
+				goto end60c66721511a442aade8e4da2fb326bd
+			}
+			d := v.Args[1].AuxInt
+			v.Op = OpConst8
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c + d
+			return true
+		}
+		goto end60c66721511a442aade8e4da2fb326bd
+	end60c66721511a442aade8e4da2fb326bd:
 		;
 	case OpAddPtr:
 		// match: (AddPtr (ConstPtr [c]) (ConstPtr [d]))
@@ -210,6 +279,52 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		goto end18afa4a6fdd6d0b92ed292840898c8f6
 	end18afa4a6fdd6d0b92ed292840898c8f6:
 		;
+	case OpMul16:
+		// match: (Mul16 (Const16 [c]) (Const16 [d]))
+		// cond:
+		// result: (Const16 [c*d])
+		{
+			if v.Args[0].Op != OpConst16 {
+				goto ende8dd468add3015aea24531cf3c89ccb7
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst16 {
+				goto ende8dd468add3015aea24531cf3c89ccb7
+			}
+			d := v.Args[1].AuxInt
+			v.Op = OpConst16
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c * d
+			return true
+		}
+		goto ende8dd468add3015aea24531cf3c89ccb7
+	ende8dd468add3015aea24531cf3c89ccb7:
+		;
+	case OpMul32:
+		// match: (Mul32 (Const32 [c]) (Const32 [d]))
+		// cond:
+		// result: (Const32 [c*d])
+		{
+			if v.Args[0].Op != OpConst32 {
+				goto end60b4523099fa7b55e2e872e05bd497a7
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst32 {
+				goto end60b4523099fa7b55e2e872e05bd497a7
+			}
+			d := v.Args[1].AuxInt
+			v.Op = OpConst32
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c * d
+			return true
+		}
+		goto end60b4523099fa7b55e2e872e05bd497a7
+	end60b4523099fa7b55e2e872e05bd497a7:
+		;
 	case OpMul64:
 		// match: (Mul64 (Const64 [c]) (Const64 [d]))
 		// cond:
@@ -232,6 +347,29 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		}
 		goto end7aea1048b5d1230974b97f17238380ae
 	end7aea1048b5d1230974b97f17238380ae:
+		;
+	case OpMul8:
+		// match: (Mul8 (Const8 [c]) (Const8 [d]))
+		// cond:
+		// result: (Const8 [c*d])
+		{
+			if v.Args[0].Op != OpConst8 {
+				goto end2f1952fd654c4a62ff00511041728809
+			}
+			c := v.Args[0].AuxInt
+			if v.Args[1].Op != OpConst8 {
+				goto end2f1952fd654c4a62ff00511041728809
+			}
+			d := v.Args[1].AuxInt
+			v.Op = OpConst8
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.AuxInt = c * d
+			return true
+		}
+		goto end2f1952fd654c4a62ff00511041728809
+	end2f1952fd654c4a62ff00511041728809:
 		;
 	case OpMulPtr:
 		// match: (MulPtr (ConstPtr [c]) (ConstPtr [d]))
