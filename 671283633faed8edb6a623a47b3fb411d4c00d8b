@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d4ade43_e6f946f8",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-30T12:29:53Z",
+      "side": 1,
+      "message": "Add failed \u003d true to these",
+      "revId": "671283633faed8edb6a623a47b3fb411d4c00d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed788e71_59d10745",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-07-30T12:29:53Z",
+      "side": 1,
+      "message": "Call testBitwiseLogic here",
+      "revId": "671283633faed8edb6a623a47b3fb411d4c00d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
