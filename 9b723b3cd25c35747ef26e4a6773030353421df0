@@ -22,6 +22,30 @@
       "revId": "9b723b3cd25c35747ef26e4a6773030353421df0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_c76c5e2b",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-07-30T21:16:13Z",
+      "side": 1,
+      "message": "The options I see are all mediocre:\n\n* Make \u003ct\u003e refer to type index instead of type. Makes rewrite rules uglier--instead of TypeInvalid, you now write typeInvalidIndex.\n\n* Add new rule syntax to get/set the type index instead of the type. Feels like an abstraction leak.\n\n* Add magic to the rule rewrite engine. Meh.\n\nI\u0027ll keep pondering. Suggestions welcome.",
+      "parentUuid": "0a5ce834_a78a8a9e",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 49
+      },
+      "revId": "9b723b3cd25c35747ef26e4a6773030353421df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
