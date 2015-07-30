@@ -70,6 +70,30 @@
       "revId": "21a094b5d2d4f53d4e01837c54103c543e036aab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d657ec3_9db46771",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 8600
+      },
+      "writtenOn": "2015-07-30T11:50:29Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s hard to know when you\u0027re delving beyond your own understanding and into dangerous territory. Our options are either to try to scare these people away, or to try to guide them in the right direction and reduce possible damage through better defaults.",
+      "parentUuid": "2a40cc41_70d8d09f",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "21a094b5d2d4f53d4e01837c54103c543e036aab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
