@@ -22,6 +22,29 @@
       "revId": "f601be46e8fe5d214c80f6b32aebb5515651d684",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_ea0de742",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 9186
+      },
+      "writtenOn": "2015-07-30T22:11:57Z",
+      "side": 1,
+      "message": "FWIW, I\u0027m willing to tackle this TODO once this lands.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 60
+      },
+      "revId": "f601be46e8fe5d214c80f6b32aebb5515651d684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
