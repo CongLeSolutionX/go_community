@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a5ce834_a78a8a9e",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-07-30T20:48:24Z",
+      "side": 1,
+      "message": "This seems unfortunate.  We\u0027re converting from type index to type and back to type index, when we could just copy the index.  Maybe there is a better way?",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 49
+      },
+      "revId": "9b723b3cd25c35747ef26e4a6773030353421df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
