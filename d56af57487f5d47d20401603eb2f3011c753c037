@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a5ce834_506a620a",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-31T18:06:40Z",
+      "side": 0,
+      "message": "The intent of this code was so that\n    go build -buildmode\u003dc-archive -o libgo.a libgo\nwould, when appropriate, create not just libgo.a but also libgo.h.  I think that removing this code will cause misc/cgo/testcarchive to fail.",
+      "revId": "d56af57487f5d47d20401603eb2f3011c753c037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

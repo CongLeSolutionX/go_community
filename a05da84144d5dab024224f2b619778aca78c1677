@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a5ce834_30912eab",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2304,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-31T18:06:40Z",
+      "side": 1,
+      "message": "Use tg.must:\n   tg.must(os.Remove(tg.path(\"x\" + exeSuffix)))",
+      "revId": "a05da84144d5dab024224f2b619778aca78c1677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_10962aa3",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2325,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-31T18:06:40Z",
+      "side": 1,
+      "message": "tg.must",
+      "range": {
+        "startLine": 2325,
+        "startChar": 4,
+        "endLine": 2325,
+        "endChar": 10
+      },
+      "revId": "a05da84144d5dab024224f2b619778aca78c1677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a5ce834_90a1faf1",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2330,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-07-31T18:06:40Z",
+      "side": 1,
+      "message": "Perhaps also:\n    tg.mustNotExist(\"gofmt\"+exeSuffix)\n    tg.mustNotExist(\"gofmt\"+nonExeSuffix)",
+      "revId": "a05da84144d5dab024224f2b619778aca78c1677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
