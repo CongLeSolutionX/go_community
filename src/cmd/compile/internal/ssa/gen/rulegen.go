@@ -245,7 +245,7 @@ func genRules(arch arch) {
 			if t[1] == "nil" {
 				fmt.Fprintf(w, "b.Control = nil\n")
 			} else {
-				fmt.Fprintf(w, "b.Control = %s\n", genResult0(w, arch, t[1], new(int), false))
+				fmt.Fprintf(w, "b.Control = %s\n", genResult0(w, arch, t[1], new(int), false, "b"))
 			}
 			if len(newsuccs) < len(succs) {
 				fmt.Fprintf(w, "b.Succs = b.Succs[:%d]\n", len(newsuccs))
@@ -369,9 +369,9 @@ func genMatch0(w io.Writer, arch arch, match, v, fail string, m map[string]strin
 }
 
 func genResult(w io.Writer, arch arch, result string) {
-	genResult0(w, arch, result, new(int), true)
+	genResult0(w, arch, result, new(int), true, "")
 }
-func genResult0(w io.Writer, arch arch, result string, alloc *int, top bool) string {
+func genResult0(w io.Writer, arch arch, result string, alloc *int, top bool, block string) string {
 	if result[0] != '(' {
 		// variable
 		if top {
@@ -397,7 +397,10 @@ func genResult0(w io.Writer, arch arch, result string, alloc *int, top bool) str
 	} else {
 		v = fmt.Sprintf("v%d", *alloc)
 		*alloc++
-		fmt.Fprintf(w, "%s := v.Block.NewValue0(v.Line, %s, TypeInvalid)\n", v, opName(s[0], arch))
+		if block == "" {
+			block = "v.Block"
+		}
+		fmt.Fprintf(w, "%s := %s.NewValue0(v.Line, %s, TypeInvalid)\n", v, block, opName(s[0], arch))
 	}
 	for _, a := range s[1:] {
 		if a[0] == '<' {
@@ -415,7 +418,7 @@ func genResult0(w io.Writer, arch arch, result string, alloc *int, top bool) str
 			fmt.Fprintf(w, "%s.Aux = %s\n", v, x)
 		} else {
 			// regular argument (sexpr or variable)
-			x := genResult0(w, arch, a, alloc, false)
+			x := genResult0(w, arch, a, alloc, false, "")
 			fmt.Fprintf(w, "%s.AddArg(%s)\n", v, x)
 		}
 	}

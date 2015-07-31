@@ -8057,7 +8057,7 @@ func rewriteBlockAMD64(b *Block) bool {
 				goto end7e22019fb0effc80f85c05ea30bdb5d9
 			}
 			b.Kind = BlockAMD64NE
-			v0 := v.Block.NewValue0(v.Line, OpAMD64TESTB, TypeInvalid)
+			v0 := b.NewValue0(v.Line, OpAMD64TESTB, TypeInvalid)
 			v0.Type = TypeFlags
 			v0.AddArg(cond)
 			v0.AddArg(cond)
