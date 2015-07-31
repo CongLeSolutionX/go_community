@@ -102,6 +102,86 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		goto end68cc91679848c7c30bd8b0a8ed533843
 	end68cc91679848c7c30bd8b0a8ed533843:
 		;
+	case OpEq16:
+		// match: (Eq16 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {true})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto end2b517e339f53d342b535d743d99ac489
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = true
+			return true
+		}
+		goto end2b517e339f53d342b535d743d99ac489
+	end2b517e339f53d342b535d743d99ac489:
+		;
+	case OpEq32:
+		// match: (Eq32 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {true})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto end4c1b6f22f5e82d01f4f1af5c23c33f4f
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = true
+			return true
+		}
+		goto end4c1b6f22f5e82d01f4f1af5c23c33f4f
+	end4c1b6f22f5e82d01f4f1af5c23c33f4f:
+		;
+	case OpEq64:
+		// match: (Eq64 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {true})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto end82484dba3b21cca12935c825fce2bd20
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = true
+			return true
+		}
+		goto end82484dba3b21cca12935c825fce2bd20
+	end82484dba3b21cca12935c825fce2bd20:
+		;
+	case OpEq8:
+		// match: (Eq8 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {true})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto end64431b043e76b8c79146b97be671c2dd
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = true
+			return true
+		}
+		goto end64431b043e76b8c79146b97be671c2dd
+	end64431b043e76b8c79146b97be671c2dd:
+		;
 	case OpEqFat:
 		// match: (EqFat x y)
 		// cond: x.Op == OpConstNil && y.Op != OpConstNil
@@ -255,6 +335,86 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		}
 		goto end808c190f346658bb1ad032bf37a1059f
 	end808c190f346658bb1ad032bf37a1059f:
+		;
+	case OpNeq16:
+		// match: (Neq16 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {false})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto endfe687a7f9b47d5416a5c7ee1acb43625
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = false
+			return true
+		}
+		goto endfe687a7f9b47d5416a5c7ee1acb43625
+	endfe687a7f9b47d5416a5c7ee1acb43625:
+		;
+	case OpNeq32:
+		// match: (Neq32 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {false})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto enda624a8193f623452c6e187e4650c0b35
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = false
+			return true
+		}
+		goto enda624a8193f623452c6e187e4650c0b35
+	enda624a8193f623452c6e187e4650c0b35:
+		;
+	case OpNeq64:
+		// match: (Neq64 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {false})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto end7c8f9f158465f8bd5fcf0aaf7061f541
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = false
+			return true
+		}
+		goto end7c8f9f158465f8bd5fcf0aaf7061f541
+	end7c8f9f158465f8bd5fcf0aaf7061f541:
+		;
+	case OpNeq8:
+		// match: (Neq8 x y)
+		// cond: x.ID==y.ID
+		// result: (ConstBool {false})
+		{
+			x := v.Args[0]
+			y := v.Args[1]
+			if !(x.ID == y.ID) {
+				goto end695ce82ea9737d67c3c4f7589e2e0638
+			}
+			v.Op = OpConstBool
+			v.AuxInt = 0
+			v.Aux = nil
+			v.resetArgs()
+			v.Aux = false
+			return true
+		}
+		goto end695ce82ea9737d67c3c4f7589e2e0638
+	end695ce82ea9737d67c3c4f7589e2e0638:
 		;
 	case OpNeqFat:
 		// match: (NeqFat x y)
