@@ -16,6 +16,24 @@
       "revId": "d56af57487f5d47d20401603eb2f3011c753c037",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa83c5c_e4ae5a69",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-07-31T19:07:17Z",
+      "side": 0,
+      "message": "Because mode stays modeInstall now during b.action, this is already handled during b.action. testcarchive is happy. testcshared is not; looking into that one.",
+      "parentUuid": "0a5ce834_506a620a",
+      "revId": "d56af57487f5d47d20401603eb2f3011c753c037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
