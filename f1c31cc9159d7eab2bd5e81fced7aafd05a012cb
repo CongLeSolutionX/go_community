@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad9936fb_855968d8",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2015-07-31T17:23:06Z",
+      "side": 1,
+      "message": "I temporarily disabled it for testing. Forgot to enable it back.",
+      "parentUuid": "0a5ce834_f0bb96ba",
+      "range": {
+        "startLine": 126,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 17
+      },
+      "revId": "f1c31cc9159d7eab2bd5e81fced7aafd05a012cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a5ce834_d0b892c0",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-31T16:30:43Z",
       "side": 1,
       "message": "(SUBQ x x) should work.",
+      "range": {
+        "startLine": 490,
+        "startChar": 14,
+        "endLine": 490,
+        "endChar": 24
+      },
+      "revId": "f1c31cc9159d7eab2bd5e81fced7aafd05a012cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9936fb_a5b4a470",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2015-07-31T17:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a5ce834_d0b892c0",
       "range": {
         "startLine": 490,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ad9936fb_c5b9b069",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2015-07-31T17:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a5ce834_b0c51e33",
+      "range": {
+        "startLine": 493,
+        "startChar": 29,
+        "endLine": 493,
+        "endChar": 38
+      },
+      "revId": "f1c31cc9159d7eab2bd5e81fced7aafd05a012cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a5ce834_90c21a27",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-07-31T16:30:43Z",
       "side": 1,
       "message": "Same here, (Eq64 x x)",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "f1c31cc9159d7eab2bd5e81fced7aafd05a012cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9936fb_e5beac4e",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2015-07-31T17:23:06Z",
+      "side": 1,
+      "message": "Done. Had to modify gen/rulegen.go because of the error:\n\nbootstrap/compile/internal/ssa/rewriteAMD64.go:6357]: x declared and not used\n\n(x not used in the generated code)",
+      "parentUuid": "0a5ce834_90c21a27",
       "range": {
         "startLine": 28,
         "startChar": 0,
