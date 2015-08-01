@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad72168f_4845af17",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2015-08-01T03:13:14Z",
+      "side": 1,
+      "message": "Drop \"with msg\"",
+      "revId": "036a7d4c91762f6513790633e68fcd9d8d7c82ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
