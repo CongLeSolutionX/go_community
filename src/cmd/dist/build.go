@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -461,6 +462,12 @@ var deptab = []struct {
 		"zdefaultcc.go",
 	}},
 	{"runtime", []string{
+		"zversion_theversion.go",
+	}},
+	{"runtime/internal/base", []string{
+		"zversion_stack_guard_multiplier.go",
+	}},
+	{"runtime", []string{
 		"zversion.go",
 	}},
 }
@@ -477,6 +484,8 @@ var gentab = []struct {
 	gen        func(string, string)
 }{
 	{"zdefaultcc.go", mkzdefaultcc},
+	{"zversion_theversion.go", mkzversion_theversion},
+	{"zversion_stack_guard_multiplier.go", mkzversion_stack_guard_multiplier},
 	{"zversion.go", mkzversion},
 
 	// not generated anymore, but delete the file if we see it
@@ -489,6 +498,8 @@ var gentab = []struct {
 
 // install installs the library, package, or binary associated with dir,
 // which is relative to $GOROOT/src.
+var go_asm bytes.Buffer
+
 func install(dir string) {
 	if vflag > 0 {
 		if goos != gohostos || goarch != gohostarch {
@@ -603,7 +614,8 @@ func install(dir string) {
 	}
 
 	// For package runtime, copy some files into the work space.
-	if dir == "runtime" {
+	//x
+	if dir == "runtime" || strings.HasPrefix(dir, "runtime/") {
 		xmkdirall(pathf("%s/pkg/include", goroot))
 		// For use by assembly and C files.
 		copyfile(pathf("%s/pkg/include/textflag.h", goroot),
@@ -666,11 +678,25 @@ func install(dir string) {
 		archive = b
 	}
 	compile := []string{pathf("%s/compile", tooldir), "-pack", "-o", b, "-p", pkg}
-	if dir == "runtime" {
+	//y
+	if dir == "runtime" || strings.HasPrefix(dir, "runtime/") {
 		compile = append(compile, "-+", "-asmhdr", pathf("%s/go_asm.h", workdir))
 	}
 	compile = append(compile, gofiles...)
 	run(path, CheckExit|ShowOutput, compile...)
+
+	cmd := exec.Command("tail", pathf("%s/go_asm.h", workdir))
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
+
+	// HACK
+	c, err := ioutil.ReadFile(pathf("%s/go_asm.h", workdir))
+	if err == nil {
+		go_asm.Write(c)
+		ioutil.WriteFile(pathf("%s/go_asm.h"), go_asm.Bytes(), os.FileMode(0666))
+		ioutil.WriteFile(pathf("/Users/michaelmatloob/Desktop/go_asm2.h"), go_asm.Bytes(), os.FileMode(0666))
+	}
 
 	// Compile the files.
 	for _, p := range files {
@@ -844,6 +870,12 @@ func dopack(dst, src string, extra []string) {
 // maintained by hand, but the order doesn't change often.
 var buildorder = []string{
 	// Go libraries and programs for bootstrap.
+	"runtime/internal/base",
+	"runtime/internal/gc",
+	"runtime/internal/iface",
+	"runtime/internal/writebarrier",
+	"runtime/internal/race",
+	"runtime/internal/print",
 	"runtime",
 	"errors",
 	"sync/atomic",

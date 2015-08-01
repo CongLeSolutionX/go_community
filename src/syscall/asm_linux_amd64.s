@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System calls for AMD64, Linux
@@ -14,7 +14,7 @@
 // Note that this differs from "standard" ABI convention, which
 // would pass 4th arg in CX, not R10.
 
-TEXT	·Syscall(SB),NOSPLIT,$0-56
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-56
 	CALL	runtime·entersyscall(SB)
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
@@ -30,17 +30,17 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	MOVQ	$0, r2+40(FP)
 	NEGQ	AX
 	MOVQ	AX, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVQ	AX, r1+32(FP)
 	MOVQ	DX, r2+40(FP)
 	MOVQ	$0, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
-TEXT ·Syscall6(SB),NOSPLIT,$0-80
+TEXT syscall·Syscall6(SB),NOSPLIT,$0-80
 	CALL	runtime·entersyscall(SB)
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
@@ -56,17 +56,17 @@ TEXT ·Syscall6(SB),NOSPLIT,$0-80
 	MOVQ	$0, r2+64(FP)
 	NEGQ	AX
 	MOVQ	AX, err+72(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVQ	AX, r1+56(FP)
 	MOVQ	DX, r2+64(FP)
 	MOVQ	$0, err+72(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2, err uintptr)
-TEXT ·RawSyscall(SB),NOSPLIT,$0-56
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-56
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
 	MOVQ	a3+24(FP), DX
@@ -89,7 +89,7 @@ ok1:
 	RET
 
 // func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
-TEXT ·RawSyscall6(SB),NOSPLIT,$0-80
+TEXT syscall·RawSyscall6(SB),NOSPLIT,$0-80
 	MOVQ	a1+8(FP), DI
 	MOVQ	a2+16(FP), SI
 	MOVQ	a3+24(FP), DX
@@ -112,7 +112,7 @@ ok2:
 	RET
 
 // func gettimeofday(tv *Timeval) (err uintptr)
-TEXT ·gettimeofday(SB),NOSPLIT,$0-16
+TEXT syscall·gettimeofday(SB),NOSPLIT,$0-16
 	MOVQ	tv+0(FP), DI
 	MOVQ	$0, SI
 	MOVQ	runtime·__vdso_gettimeofday_sym(SB), AX

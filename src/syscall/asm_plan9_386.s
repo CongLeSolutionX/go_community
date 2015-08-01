@@ -6,7 +6,7 @@
 // so that go vet can check that they are correct.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System call support for 386, Plan 9
@@ -18,7 +18,7 @@
 //func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
 
 // Trap # in AX, args on stack above caller pc.
-TEXT	·Syscall(SB),NOSPLIT,$0-32
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-32
 	CALL	runtime·entersyscall(SB)
 	MOVL	4(SP), AX	// syscall entry
 	// slide args down on top of system call number
@@ -50,10 +50,10 @@ copyresult3:
 	MOVSL
 	MOVSL
 
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall6(SB),NOSPLIT,$0-44
+TEXT	syscall·Syscall6(SB),NOSPLIT,$0-44
 	CALL	runtime·entersyscall(SB)
 	MOVL	4(SP), AX	// syscall entry
 	// slide args down on top of system call number
@@ -88,10 +88,10 @@ copyresult4:
 	MOVSL
 	MOVSL
 
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0-28
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-28
 	MOVL	4(SP), AX	// syscall entry
 	// slide args down on top of system call number
 	LEAL		8(SP), SI
@@ -106,7 +106,7 @@ TEXT ·RawSyscall(SB),NOSPLIT,$0-28
 	MOVL	AX, err+28(SP)
 	RET
 
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-40
 	MOVL	4(SP), AX	// syscall entry
 	// slide args down on top of system call number
 	LEAL		8(SP), SI
@@ -127,7 +127,7 @@ TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
 #define SYS_SEEK 39	/* from zsysnum_plan9_386.go */
 
 //func seek(placeholder uintptr, fd int, offset int64, whence int) (newoffset int64, err string)
-TEXT ·seek(SB),NOSPLIT,$0-36
+TEXT syscall·seek(SB),NOSPLIT,$0-36
 	LEAL	newoffset+24(SP), AX
 	MOVL	AX, placeholder+4(SP)
 	
@@ -156,11 +156,11 @@ copyresult6:
 	MOVSL
 	RET
 
-//func exit(code int)
-// Import runtime·exit for cleanly exiting.
-TEXT ·exit(SB),NOSPLIT,$4-4
+//func Exit(code int)
+// Import runtime∕internal∕base·Exit for cleanly exiting.
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$4-4
 	NO_LOCAL_POINTERS
 	MOVL	code+0(FP), AX
 	MOVL	AX, 0(SP)
-	CALL	runtime·exit(SB)
+	CALL	runtime∕internal∕base·Exit(SB)
 	RET

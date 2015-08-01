@@ -1524,10 +1524,7 @@ func deep(t *Type) *Type {
 }
 
 func syslook(name string, copy int) *Node {
-	s := Pkglookup(name, Runtimepkg)
-	if s == nil || s.Def == nil {
-		Fatal("syslook: can't find runtime.%s", name)
-	}
+	s := runtimelookup(name)
 
 	if copy == 0 {
 		return s.Def
@@ -1538,6 +1535,41 @@ func syslook(name string, copy int) *Node {
 	n.Type = deep(s.Def.Type)
 
 	return n
+}
+
+func runtimelookup(name string) *Sym {
+	var s *Sym
+
+	s = Pkglookup(name, Basepkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	s = Pkglookup(name, Gcpkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	s = Pkglookup(name, Ifacepkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	s = Pkglookup(name, Writebarrierpkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	s = Pkglookup(name, Racepkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	s = Pkglookup(name, Printpkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	s = Pkglookup(name, Runtimepkg)
+	if s != nil && s.Def != nil {
+		return s
+	}
+	Fatal("syslook: can't find runtime.%s (see subr.go:runtimelookup)", name)
+	return s
 }
 
 /*
@@ -2506,7 +2538,7 @@ func genwrapper(rcvr *Type, method *Type, newnam *Sym, iface int) {
 }
 
 func hashmem(t *Type) *Node {
-	sym := Pkglookup("memhash", Runtimepkg)
+	sym := Pkglookup("memhash", Basepkg)
 
 	n := newname(sym)
 	n.Class = PFUNC

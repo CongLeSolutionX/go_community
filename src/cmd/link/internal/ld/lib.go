@@ -1581,7 +1581,9 @@ func stkcheck(up *Chain, depth int) int {
 	// This check will be wrong if there are any hand-inserted calls to morestack.
 	// There are not any now, nor should there ever be.
 	for _, r := range s.R {
-		if r.Sym == nil || !strings.HasPrefix(r.Sym.Name, "runtime.morestack") {
+		// Check against both morestack and morestack.*
+		// Check against both morestack and morestack.*
+		if strings.HasPrefix(r.Sym.Name, "runtime.morestack") || strings.HasPrefix(r.Sym.Name, "runtime.morestack") {
 			continue
 		}
 		// Ignore non-calls to morestack, such as the jump to morestack
@@ -1629,7 +1631,8 @@ func stkcheck(up *Chain, depth int) int {
 			// Direct call.
 			case obj.R_CALL, obj.R_CALLARM, obj.R_CALLARM64, obj.R_CALLPOWER:
 				// We handled calls to morestack already.
-				if strings.HasPrefix(r.Sym.Name, "runtime.morestack") {
+				// Check against both morestack and morestack.*
+				if strings.HasPrefix(r.Sym.Name, "runtime.morestack") || strings.HasPrefix(r.Sym.Name, "runtime.morestack") {
 					continue
 				}
 

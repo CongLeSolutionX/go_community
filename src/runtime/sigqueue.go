@@ -28,74 +28,19 @@
 
 package runtime
 
-import "unsafe"
-
-var sig struct {
-	note   note
-	mask   [(_NSIG + 31) / 32]uint32
-	wanted [(_NSIG + 31) / 32]uint32
-	recv   [(_NSIG + 31) / 32]uint32
-	state  uint32
-	inuse  bool
-}
-
-const (
-	sigIdle = iota
-	sigReceiving
-	sigSending
+import (
+	_base "runtime/internal/base"
+	"unsafe"
 )
-
-// Called from sighandler to send a signal back out of the signal handling thread.
-// Reports whether the signal was sent. If not, the caller typically crashes the program.
-func sigsend(s uint32) bool {
-	bit := uint32(1) << uint(s&31)
-	if !sig.inuse || s < 0 || int(s) >= 32*len(sig.wanted) || sig.wanted[s/32]&bit == 0 {
-		return false
-	}
-
-	// Add signal to outgoing queue.
-	for {
-		mask := sig.mask[s/32]
-		if mask&bit != 0 {
-			return true // signal already in queue
-		}
-		if cas(&sig.mask[s/32], mask, mask|bit) {
-			break
-		}
-	}
-
-	// Notify receiver that queue has new bit.
-Send:
-	for {
-		switch atomicload(&sig.state) {
-		default:
-			throw("sigsend: inconsistent state")
-		case sigIdle:
-			if cas(&sig.state, sigIdle, sigSending) {
-				break Send
-			}
-		case sigSending:
-			// notification already pending
-			break Send
-		case sigReceiving:
-			if cas(&sig.state, sigReceiving, sigIdle) {
-				notewakeup(&sig.note)
-				break Send
-			}
-		}
-	}
-
-	return true
-}
 
 // Called to receive the next queued signal.
 // Must only be called from a single goroutine at a time.
 func signal_recv() uint32 {
 	for {
 		// Serve any signals from local copy.
-		for i := uint32(0); i < _NSIG; i++ {
-			if sig.recv[i/32]&(1<<(i&31)) != 0 {
-				sig.recv[i/32] &^= 1 << (i & 31)
+		for i := uint32(0); i < _base.NSIG; i++ {
+			if _base.Sig.Recv[i/32]&(1<<(i&31)) != 0 {
+				_base.Sig.Recv[i/32] &^= 1 << (i & 31)
 				return i
 			}
 		}
@@ -103,62 +48,62 @@ func signal_recv() uint32 {
 		// Wait for updates to be available from signal sender.
 	Receive:
 		for {
-			switch atomicload(&sig.state) {
+			switch _base.Atomicload(&_base.Sig.State) {
 			default:
-				throw("signal_recv: inconsistent state")
-			case sigIdle:
-				if cas(&sig.state, sigIdle, sigReceiving) {
-					notetsleepg(&sig.note, -1)
-					noteclear(&sig.note)
+				_base.Throw("signal_recv: inconsistent state")
+			case _base.SigIdle:
+				if _base.Cas(&_base.Sig.State, _base.SigIdle, _base.SigReceiving) {
+					_base.Notetsleepg(&_base.Sig.Note, -1)
+					_base.Noteclear(&_base.Sig.Note)
 					break Receive
 				}
-			case sigSending:
-				if cas(&sig.state, sigSending, sigIdle) {
+			case _base.SigSending:
+				if _base.Cas(&_base.Sig.State, _base.SigSending, _base.SigIdle) {
 					break Receive
 				}
 			}
 		}
 
 		// Incorporate updates from sender into local copy.
-		for i := range sig.mask {
-			sig.recv[i] = xchg(&sig.mask[i], 0)
+		for i := range _base.Sig.Mask {
+			_base.Sig.Recv[i] = xchg(&_base.Sig.Mask[i], 0)
 		}
 	}
 }
 
 // Must only be called from a single goroutine at a time.
 func signal_enable(s uint32) {
-	if !sig.inuse {
+	if !_base.Sig.Inuse {
 		// The first call to signal_enable is for us
 		// to use for initialization.  It does not pass
 		// signal information in m.
-		sig.inuse = true // enable reception of signals; cannot disable
-		noteclear(&sig.note)
+		_base.Sig.Inuse = true // enable reception of signals; cannot disable
+		_base.Noteclear(&_base.Sig.Note)
 		return
 	}
 
-	if int(s) >= len(sig.wanted)*32 {
+	if int(s) >= len(_base.Sig.Wanted)*32 {
 		return
 	}
-	sig.wanted[s/32] |= 1 << (s & 31)
+	_base.Sig.Wanted[s/32] |= 1 << (s & 31)
 	sigenable(s)
 }
 
 // Must only be called from a single goroutine at a time.
 func signal_disable(s uint32) {
-	if int(s) >= len(sig.wanted)*32 {
+	if int(s) >= len(_base.Sig.Wanted)*32 {
 		return
 	}
-	sig.wanted[s/32] &^= 1 << (s & 31)
+	_base.Sig.Wanted[s/32] &^= 1 << (s & 31)
 	sigdisable(s)
 }
 
 // Must only be called from a single goroutine at a time.
 func signal_ignore(s uint32) {
-	if int(s) >= len(sig.wanted)*32 {
+	if int(s) >= len(_base.Sig.Wanted)*32 {
 		return
 	}
-	sig.wanted[s/32] &^= 1 << (s & 31)
+	_base.Sig.Wanted[s/32] &^= 1 << (s & 31)
 	sigignore(s)
 }
 
@@ -166,11 +111,11 @@ func signal_ignore(s uint32) {
 //go:nosplit
 //go:norace
 func badsignal(sig uintptr) {
-	cgocallback(unsafe.Pointer(funcPC(badsignalgo)), noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig))
+	cgocallback(unsafe.Pointer(_base.FuncPC(badsignalgo)), _base.Noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig))
 }
 
 func badsignalgo(sig uintptr) {
-	if !sigsend(uint32(sig)) {
+	if !_base.Sigsend(uint32(sig)) {
 		// A foreign thread received the signal sig, and the
 		// Go code does not want to handle it.
 		raisebadsignal(int32(sig))

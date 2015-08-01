@@ -4,5 +4,5 @@
 
 #include "textflag.h"
 
-TEXT ·use(SB),NOSPLIT,$0
+TEXT syscall·use(SB),NOSPLIT,$0
 	RET
