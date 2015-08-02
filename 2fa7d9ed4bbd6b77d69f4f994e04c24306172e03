@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d5f06fb_fbc1eb77",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-02T18:45:04Z",
+      "side": 1,
+      "message": "This code isn\u0027t really needed currently, there are no nil checks on the nil branch as it immediately exits.  I added this to address a comment of Keiths, and with the possibility of removing user nil checks as well.\n\nI agree about the complexity though, I just couldn\u0027t think of a simpler way to accomplish it.",
+      "parentUuid": "2db8e63c_f3e3ea92",
+      "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2db8e63c_d3e86672",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0d6242c0_17583484",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-02T18:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db8e63c_d3e86672",
+      "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2db8e63c_13fb0e3e",
         "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2015-07-28T18:56:28Z",
       "side": 1,
       "message": "Please add a call to b.ReportAllocs() in here somewhere and update the commit message with the new data.",
+      "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d57a2ea_526bb291",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-02T18:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db8e63c_13fb0e3e",
       "revId": "2fa7d9ed4bbd6b77d69f4f994e04c24306172e03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
