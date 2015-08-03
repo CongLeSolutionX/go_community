@@ -385,7 +385,7 @@ type Reloc struct {
 const (
 	R_ADDR = 1 + iota
 	R_ADDRPOWER
-	R_ADDRARM64
+	_
 	R_SIZE
 	R_CALL
 	R_CALLARM
@@ -429,6 +429,24 @@ const (
 	// which get easier to read with a bit of practice.
 
 	// Arm64.
+
+	// The names here come from the ELF for the ARM 64-bit Architecture document,
+	// which can be found at:
+	// http://infocenter.arm.com/help/topic/com.arm.doc.ihi0056b/IHI0056B_aaelf64.pdf
+	// We only support the few relocations we actually generate out of the hundred or
+	// so defined by the platform. Macho uses similar relocations, but they don't seem
+	// to be as well documented.
+
+	// Set an ADRP immediate value to bits [32:12] of the displacement from the "page
+	// address" (i.e. addr&^0xfff) of the relocated place to the page address of the
+	// referenced symbol, plus addend. Error if the displacement is too large to
+	// entirely fit.
+	R_AARCH64_ADR_PREL_PG_HI21
+
+	// Set an ADD immediate value to bits [11:0] to the location of the referenced
+	// symbol, plus addend. No error if the displacement does not entirely fit (as it
+	// is expected that this is used in conjunction with R_AARCH64_ADR_PREL_PG_HI21).
+	R_AARCH64_ADD_ABS_LO12_NC
 
 	// Set a MOV[NZ] immediate field to bits [15:0] of the offset from the thread
 	// local base to the thread local variable defined by the referenced (thread
