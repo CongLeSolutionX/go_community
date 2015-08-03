@@ -16,6 +16,24 @@
       "revId": "7423fa2fea0df3d36426e48740e8653bcdb229ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a536c56_9be16fbc",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-08-03T15:48:59Z",
+      "side": 1,
+      "message": "\u003e It seems to me that GC startup and shutdown must be done with world stopped. The Gosched below tries to achieve that, but it achieves it poorly.\n\nThat would be a very large change at this point since GC startup involves scheduling and switching goroutines (which is, of course, all tied up in the cause of this issue). The Gosched definitely solves the problem poorly. I don\u0027t think anybody would argue with that. But that\u0027s why it\u0027s a workaround. It\u0027s a good solution in the sense of being a very small and low-risk change for this point in the cycle (if something is wrong with this code, we voluntarily schedule more often; oh well).\n\nStopping the world as soon as we hit the GC trigger in order to start up GC would probably fix this particular issue, but I think the approach I outlined in issue #11970 is a better solution. It\u0027s more complex, certainly, but it addresses many other issues simultaneously and should improve the overall robustness of the GC, not just its startup behavior.\n\n\u003e It should make cl/13043 unnecessary.\n\nI think it would make cl/13043 far more necessary. If we\u0027re going to finish sweep with the world stopped, we *definitely* want concurrent sweep to have done all of the work already.",
+      "parentUuid": "ad9936fb_9068c495",
+      "revId": "7423fa2fea0df3d36426e48740e8653bcdb229ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
