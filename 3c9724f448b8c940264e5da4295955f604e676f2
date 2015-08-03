@@ -16,6 +16,24 @@
       "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9936fb_4555a049",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-08-03T09:25:05Z",
+      "side": 1,
+      "message": "I\u0027m fixing a data race, not a higher-level logical race.\n\nWe don\u0027t care if another goroutine calls Close on the shared body here I don\u0027t think... all bets are already off then once somebody\u0027s started tearing things down.\n\nWhat do you mean by \"fatal error\"? Show me a new failing test if that\u0027s easier to explain with?",
+      "parentUuid": "ea6cf416_769110aa",
+      "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
