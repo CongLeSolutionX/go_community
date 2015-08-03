@@ -46,6 +46,30 @@
       "revId": "bb2357c7047b16a24750f124f562829e8b335936",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a536c56_18156500",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-08-03T00:49:49Z",
+      "side": 1,
+      "message": "To expand on this a bit, the point is that the build creates the header file, and install removes it, so this sequence inserts installHeader as a second dependency of install that itself depends on build.\n\nInstall -\u003e Build\nInstall -\u003e InstallHeader\nInstallHeader -\u003e Build\n\nThese dependencies forces the pieces to run in order: Build, InstallHeader, Install.\n\nIt\u0027s okay for Install to depend directly on Build and also indirectly on it through InstallHeader (sometimes). The execution will do the right thing.",
+      "parentUuid": "2a536c56_d8f5ad47",
+      "range": {
+        "startLine": 923,
+        "startChar": 11,
+        "endLine": 923,
+        "endChar": 30
+      },
+      "revId": "bb2357c7047b16a24750f124f562829e8b335936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
