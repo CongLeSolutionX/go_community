@@ -34,6 +34,24 @@
       "revId": "7423fa2fea0df3d36426e48740e8653bcdb229ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a536c56_5b86b7f1",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-08-03T16:16:35Z",
+      "side": 1,
+      "message": "\u003e allocate with m.locks\u003e0\n\nI believe we can preempt at this point now so there shouldn\u0027t be any new correctness issues.",
+      "parentUuid": "ad9936fb_9068c495",
+      "revId": "7423fa2fea0df3d36426e48740e8653bcdb229ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
