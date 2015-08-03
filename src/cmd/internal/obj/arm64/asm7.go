@@ -261,16 +261,16 @@ var optab = []Optab{
 	{AMOVW, C_VCONADDR, C_NONE, C_REG, 68, 8, 0, 0, 0},
 	{AMOVD, C_VCON, C_NONE, C_REG, 12, 4, 0, LFROM, 0},
 	{AMOVD, C_VCONADDR, C_NONE, C_REG, 68, 8, 0, 0, 0},
-	{AMOVB, C_REG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AMOVBU, C_REG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AMOVH, C_REG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AMOVW, C_REG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AMOVD, C_REG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AMOVB, C_ADDR, C_NONE, C_REG, 65, 12, 0, 0, 0},
-	{AMOVBU, C_ADDR, C_NONE, C_REG, 65, 12, 0, 0, 0},
-	{AMOVH, C_ADDR, C_NONE, C_REG, 65, 12, 0, 0, 0},
-	{AMOVW, C_ADDR, C_NONE, C_REG, 65, 12, 0, 0, 0},
-	{AMOVD, C_ADDR, C_NONE, C_REG, 65, 12, 0, 0, 0},
+	{AMOVB, C_REG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AMOVBU, C_REG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AMOVH, C_REG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AMOVW, C_REG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AMOVD, C_REG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AMOVB, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
+	{AMOVBU, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
+	{AMOVH, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
+	{AMOVW, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
+	{AMOVD, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
 	{AMOVD, C_TLS, C_NONE, C_REG, 69, 4, 0, 0, 0},
 	{AMUL, C_REG, C_REG, C_REG, 15, 4, 0, 0, 0},
 	{AMUL, C_REG, C_NONE, C_REG, 15, 4, 0, 0, 0},
@@ -450,10 +450,10 @@ var optab = []Optab{
 	{AFMOVS, C_LOREG, C_NONE, C_FREG, 31, 8, 0, LFROM, 0},
 	{AFMOVD, C_LAUTO, C_NONE, C_FREG, 31, 8, REGSP, LFROM, 0},
 	{AFMOVD, C_LOREG, C_NONE, C_FREG, 31, 8, 0, LFROM, 0},
-	{AFMOVS, C_FREG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AFMOVS, C_ADDR, C_NONE, C_FREG, 65, 12, 0, 0, 0},
-	{AFMOVD, C_FREG, C_NONE, C_ADDR, 64, 12, 0, 0, 0},
-	{AFMOVD, C_ADDR, C_NONE, C_FREG, 65, 12, 0, 0, 0},
+	{AFMOVS, C_FREG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AFMOVS, C_ADDR, C_NONE, C_FREG, 65, 8, 0, 0, 0},
+	{AFMOVD, C_FREG, C_NONE, C_ADDR, 64, 8, 0, 0, 0},
+	{AFMOVD, C_ADDR, C_NONE, C_FREG, 65, 8, 0, 0, 0},
 	{AFADDS, C_FREG, C_NONE, C_FREG, 54, 4, 0, 0, 0},
 	{AFADDS, C_FREG, C_FREG, C_FREG, 54, 4, 0, 0, 0},
 	{AFADDS, C_FCON, C_NONE, C_FREG, 54, 4, 0, 0, 0},
@@ -2725,8 +2725,8 @@ func asmout(ctxt *obj.Link, p *obj.Prog, o *Optab, out []uint32) {
 			ctxt.Diag("FIXME: some relocation needed in bcase\n%v", p)
 		}
 
-		/* reloc ops */
-	case 64: /* movT R,addr -> adrp + add + movT R, (REGTMP) */
+	/* reloc ops */
+	case 64: /* movT R,addr -> adrp REGTMP, 0; str R, [REGTMP, #0] + relocs */
 		o1 = ADR(1, 0, REGTMP)
 		rel := obj.Addrel(ctxt.Cursym)
 		rel.Off = int32(ctxt.Pc)
@@ -2734,16 +2734,15 @@ func asmout(ctxt *obj.Link, p *obj.Prog, o *Optab, out []uint32) {
 		rel.Sym = p.To.Sym
 		rel.Add = p.To.Offset
 		rel.Type = obj.R_AARCH64_ADR_PREL_PG_HI21
-		o2 = opirr(ctxt, AADD) | REGTMP&31<<5 | REGTMP&31
+		o2 = olsr12u(ctxt, int32(opstr12(ctxt, int(p.As))), 0, REGTMP, int(p.From.Reg))
 		rel = obj.Addrel(ctxt.Cursym)
 		rel.Off = int32(ctxt.Pc) + 4
 		rel.Siz = 4
 		rel.Sym = p.To.Sym
 		rel.Add = p.To.Offset
-		rel.Type = obj.R_AARCH64_ADD_ABS_LO12_NC
-		o3 = olsr12u(ctxt, int32(opstr12(ctxt, int(p.As))), 0, REGTMP, int(p.From.Reg))
+		rel.Type = movereloc(p.As)
 
-	case 65: /* movT addr,R -> adrp + add + movT (REGTMP), R */
+	case 65: /* movT addr,R -> adrp REGTMP, 0; ldr R, [REGTMP, #0] + relocs */
 		o1 = ADR(1, 0, REGTMP)
 		rel := obj.Addrel(ctxt.Cursym)
 		rel.Off = int32(ctxt.Pc)
@@ -2751,14 +2750,13 @@ func asmout(ctxt *obj.Link, p *obj.Prog, o *Optab, out []uint32) {
 		rel.Sym = p.From.Sym
 		rel.Add = p.From.Offset
 		rel.Type = obj.R_AARCH64_ADR_PREL_PG_HI21
-		o2 = opirr(ctxt, AADD) | REGTMP&31<<5 | REGTMP&31
+		o2 = olsr12u(ctxt, int32(opldr12(ctxt, int(p.As))), 0, REGTMP, int(p.To.Reg))
 		rel = obj.Addrel(ctxt.Cursym)
 		rel.Off = int32(ctxt.Pc) + 4
 		rel.Siz = 4
 		rel.Sym = p.From.Sym
 		rel.Add = p.From.Offset
-		rel.Type = obj.R_AARCH64_ADD_ABS_LO12_NC
-		o3 = olsr12u(ctxt, int32(opldr12(ctxt, int(p.As))), 0, REGTMP, int(p.To.Reg))
+		rel.Type = movereloc(p.As)
 
 	case 66: /* ldp O(R)!, (r1, r2); ldp (R)O!, (r1, r2) */
 		v := int32(p.From.Offset)
@@ -4189,4 +4187,20 @@ func movesize(a int) int {
 	default:
 		return -1
 	}
+}
+
+func movereloc(a int16) int32 {
+	switch movesize(int(a)) {
+	case 0:
+		return obj.R_AARCH64_LDST8_ABS_LO12_NC
+	case 1:
+		return obj.R_AARCH64_LDST16_ABS_LO12_NC
+	case 2:
+		return obj.R_AARCH64_LDST32_ABS_LO12_NC
+	case 3:
+		return obj.R_AARCH64_LDST64_ABS_LO12_NC
+	case -1:
+		panic("xxx")
+	}
+	return -1
 }
