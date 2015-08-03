@@ -34,6 +34,24 @@
       "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa667c34_77d58a2e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2015-08-03T17:44:06Z",
+      "side": 1,
+      "message": "Say you had a handler that was just `go req.Body.Close()`.  A malicious fake chunked encoding request arrives.  Let\u0027s say the serving goroutine gets to line 899 and pauses.  Meanwhile, payload blows up inside of body.Close, but nothing is checking that.  When the serving goroutine resumes, CopyN will return ErrBodyReadAfterClose.\n\nIt\u0027s certainly pretty dubious behavior if you\u0027re closing the body in another goroutine while allowing ServeHTTP to return.  It would only be an issue on servers written with buggy handlers doing things to the request body without syncing, but it\u0027s still not a hole we should leave open.\n\nThis might be \"good enough\" for now.  I\u0027ve spent the last couple hours studying the the various scenarios, and a complete fix is going to be a bit more far reaching.  But I think I\u0027ll have something working tomorrow morning.\n\nBasically, we want to call body.Close here, and to soup up body.Close to consistently return any read errors encountered.  It\u0027ll already handle up to maxPostHandlerReadBytes for us.",
+      "parentUuid": "ad9936fb_4555a049",
+      "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
