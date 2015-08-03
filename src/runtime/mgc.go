@@ -145,6 +145,11 @@ const (
 	// bookkeeping will use a large amount of each stack.
 	firstStackBarrierOffset = 1024
 	debugStackBarrier       = false
+
+	// sweepMinHeapDistance is a lower bound on the heap distance
+	// (in bytes) reserved for concurrent sweeping between GC
+	// cycles.
+	sweepMinHeapDistance = 1024 * 1024
 )
 
 // heapminimum is the minimum heap size at which to trigger GC.
@@ -1488,6 +1493,17 @@ func gcMark(start_time int64) {
 	memstats.heap_live = work.bytesMarked
 	memstats.heap_marked = work.bytesMarked
 	memstats.heap_scan = uint64(gcController.scanWork)
+
+	if memstats.next_gc < memstats.heap_live+sweepMinHeapDistance {
+		// We're already past the trigger. This can happen if
+		// the triggerRatio is very low and our reachable heap
+		// estimate is less than the live heap size.
+		//
+		// Bump next_gc up to give the concurrent sweep phase
+		// some heap distance in which to perform sweeping
+		// before we start the next GC cycle.
+		memstats.next_gc = memstats.heap_live + sweepMinHeapDistance
+	}
 
 	if trace.enabled {
 		traceHeapAlloc()
