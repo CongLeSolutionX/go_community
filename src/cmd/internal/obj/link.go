@@ -448,6 +448,20 @@ const (
 	// is expected that this is used in conjunction with R_AARCH64_ADR_PREL_PG_HI21).
 	R_AARCH64_ADD_ABS_LO12_NC
 
+	// Set a load or store immediate value to bits [11:Y] of the locations of the
+	// referenced symbol plus addend. No error if the displacement does not entirely
+	// fit (as it is expected that this is used in conjunction with
+	// R_AARCH64_ADR_PREL_PG_HI21) but check that the bottom Y bits of the address are
+	// zero.
+	// Y=0
+	R_AARCH64_LDST8_ABS_LO12_NC
+	// Y=1
+	R_AARCH64_LDST16_ABS_LO12_NC
+	// Y=2
+	R_AARCH64_LDST32_ABS_LO12_NC
+	// Y=3
+	R_AARCH64_LDST64_ABS_LO12_NC
+
 	// Set a MOV[NZ] immediate field to bits [15:0] of the offset from the thread
 	// local base to the thread local variable defined by the referenced (thread
 	// local) symbol. Error if the offset does not fit into 16 bits.
