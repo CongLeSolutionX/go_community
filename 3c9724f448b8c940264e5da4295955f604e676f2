@@ -52,6 +52,24 @@
       "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9936fb_f0702854",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-08-03T17:52:44Z",
+      "side": 1,
+      "message": "I\u0027m not very concerned about handlers with their own data races.\n\nIt\u0027s also very late in Go 1.5 (overdue now), and I\u0027m now well into vacation at this point and my upcoming schedule leaves zero slack time to review code. So I think we\u0027ll have to say this is enough for now.\n\nFile bugs with notes for 1.6. But you\u0027ll need a more compelling case than it being possible to write a buggy handler. I\u0027m more interested in active attackers against plausible handlers.",
+      "parentUuid": "aa667c34_77d58a2e",
+      "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
