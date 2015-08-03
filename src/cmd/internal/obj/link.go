@@ -454,6 +454,11 @@ const (
 	// local base to the thread local variable defined by the referenced (thread
 	// local) symbol. Error if the offset does not fit into 16 bits.
 	R_ARM64_TLS_LE
+
+	R_ARM64_LOAD8
+	R_ARM64_LOAD16
+	R_ARM64_LOAD32
+	R_ARM64_LOAD64
 )
 
 type Auto struct {
