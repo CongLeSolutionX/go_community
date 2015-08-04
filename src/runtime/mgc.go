@@ -129,9 +129,10 @@ const (
 	_RootData        = 0
 	_RootBss         = 1
 	_RootFinalizers  = 2
-	_RootSpans       = 3
-	_RootFlushCaches = 4
-	_RootCount       = 5
+	_RootSpans0      = 3
+	_RootSpansShards = 128
+	_RootFlushCaches = _RootSpans0 + _RootSpansShards
+	_RootCount       = _RootFlushCaches + 1
 
 	// firstStackBarrierOffset is the approximate byte offset at
 	// which to place the first stack barrier from the current SP.
