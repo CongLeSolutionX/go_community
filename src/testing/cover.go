@@ -13,8 +13,6 @@ import (
 )
 
 // CoverBlock records the coverage data for a single basic block.
-// NOTE: This struct is internal to the testing infrastructure and may change.
-// It is not covered (yet) by the Go 1 compatibility guidelines.
 type CoverBlock struct {
 	Line0 uint32
 	Col0  uint16
