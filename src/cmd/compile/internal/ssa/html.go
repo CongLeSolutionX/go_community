@@ -419,7 +419,7 @@ type htmlFuncPrinter struct {
 
 func (p htmlFuncPrinter) header(f *Func) {}
 
-func (p htmlFuncPrinter) startBlock(b *Block, reachable bool) {
+func (p htmlFuncPrinter) startBlock(b *Block, reachable bool, idom []*Block) {
 	// TODO: Make blocks collapsable?
 	var dead string
 	if !reachable {
@@ -433,6 +433,16 @@ func (p htmlFuncPrinter) startBlock(b *Block, reachable bool) {
 			fmt.Fprintf(p.w, " %s", pred.HTML())
 		}
 	}
+
+	// print dominators
+	if idom[b.ID] != nil {
+		fmt.Fprintf(p.w, " [dom")
+		for d := idom[b.ID]; d != nil; d = idom[d.ID] {
+			fmt.Fprintf(p.w, " %s", d.HTML())
+		}
+		fmt.Fprintf(p.w, "]")
+	}
+
 	io.WriteString(p.w, "</li>")
 	if len(b.Values) > 0 { // start list of values
 		io.WriteString(p.w, "<li class=\"ssa-value-list\">")

@@ -23,7 +23,7 @@ func (f *Func) String() string {
 
 type funcPrinter interface {
 	header(f *Func)
-	startBlock(b *Block, reachable bool)
+	startBlock(b *Block, reachable bool, idom []*Block)
 	endBlock(b *Block)
 	value(v *Value, live bool)
 	startDepCycle()
@@ -40,12 +40,21 @@ func (p stringFuncPrinter) header(f *Func) {
 	fmt.Fprintln(p.w, f.Type)
 }
 
-func (p stringFuncPrinter) startBlock(b *Block, reachable bool) {
+func (p stringFuncPrinter) startBlock(b *Block, reachable bool, idom []*Block) {
 	fmt.Fprintf(p.w, "  b%d:", b.ID)
 	if len(b.Preds) > 0 {
 		io.WriteString(p.w, " <-")
 		for _, pred := range b.Preds {
 			fmt.Fprintf(p.w, " b%d", pred.ID)
+		}
+
+		// print dominators
+		if idom[b.ID] != nil {
+			fmt.Fprintf(p.w, " [dom")
+			for d := idom[b.ID]; d != nil; d = idom[d.ID] {
+				fmt.Fprintf(p.w, " b%d", d.ID)
+			}
+			fmt.Fprintf(p.w, "]")
 		}
 	}
 	if !reachable {
@@ -77,8 +86,9 @@ func fprintFunc(p funcPrinter, f *Func) {
 	reachable, live := findlive(f)
 	p.header(f)
 	printed := make([]bool, f.NumValues())
+	idom := dominators(f)
 	for _, b := range f.Blocks {
-		p.startBlock(b, reachable[b.ID])
+		p.startBlock(b, reachable[b.ID], idom)
 
 		if f.scheduled {
 			// Order of Values has been decided - print in that order.
