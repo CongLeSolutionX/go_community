@@ -25,15 +25,25 @@ func fprintFunc(w io.Writer, f *Func) {
 	fmt.Fprint(w, " ")
 	fmt.Fprintln(w, f.Type)
 	printed := make([]bool, f.NumValues())
+	idom := dominators(f)
 	for _, b := range f.Blocks {
 		fmt.Fprintf(w, "  b%d:", b.ID)
 		if len(b.Preds) > 0 {
-			io.WriteString(w, " <-")
+			fmt.Fprintf(w, " <-")
 			for _, pred := range b.Preds {
 				fmt.Fprintf(w, " b%d", pred.ID)
 			}
+
+			// print dominators
+			if idom[b.ID] != nil {
+				fmt.Fprintf(w, " [dom")
+				for d := idom[b.ID]; d != nil; d = idom[d.ID] {
+					fmt.Fprintf(w, " b%d", d.ID)
+				}
+				fmt.Fprintf(w, "]")
+			}
 		}
-		io.WriteString(w, "\n")
+		fmt.Fprintf(w, "\n")
 
 		if f.scheduled {
 			// Order of Values has been decided - print in that order.
