@@ -25,12 +25,22 @@ func fprintFunc(w io.Writer, f *Func) {
 	fmt.Fprint(w, " ")
 	fmt.Fprintln(w, f.Type)
 	printed := make([]bool, f.NumValues())
+	idom := dominators(f)
 	for _, b := range f.Blocks {
 		fmt.Fprintf(w, "  b%d:", b.ID)
 		if len(b.Preds) > 0 {
 			io.WriteString(w, " <-")
 			for _, pred := range b.Preds {
 				fmt.Fprintf(w, " b%d", pred.ID)
+			}
+
+			// print dominators
+			if idom[b.ID] != nil {
+				io.WriteString(w, " [dom")
+				for d := idom[b.ID]; d != nil; d = idom[d.ID] {
+					fmt.Fprintf(w, " b%d", d.ID)
+				}
+				io.WriteString(w, "]")
 			}
 		}
 		io.WriteString(w, "\n")
