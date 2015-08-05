@@ -307,3 +307,25 @@ func TestVerifyHostname(t *testing.T) {
 		t.Fatalf("verify www.google.com succeeded with InsecureSkipVerify=true")
 	}
 }
+
+func TestVerifyHostnameResumed(t *testing.T) {
+	testenv.MustHaveExternalNetwork(t)
+
+	cfg := &Config{
+		ClientSessionCache: NewLRUClientSessionCache(32),
+	}
+	for i := 0; i < 4; i++ {
+		c, err := Dial("tcp", "www.google.com:https", cfg)
+		if err != nil {
+			t.Fatalf("Dial #%d: %v", i, err)
+		}
+		cs := c.ConnectionState()
+		if cs.VerifiedChains == nil {
+			t.Fatalf("Dial #%d: cs.VerifiedChains == nil", i)
+		}
+		if err := c.VerifyHostname("www.google.com"); err != nil {
+			t.Fatalf("verify www.google.com #%d: %v", i, err)
+		}
+		c.Close()
+	}
+}
