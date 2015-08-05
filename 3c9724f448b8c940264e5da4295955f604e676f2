@@ -70,6 +70,24 @@
       "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa667c34_5a8cf53e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2015-08-05T05:54:04Z",
+      "side": 1,
+      "message": "Indeed.  I feel bad intruding into your vacation as-is.\n\nPlugging this hole is becoming more of a small refactoring effort.  I think it\u0027s worth doing, but it would certainly be better done without such a looming deadline.  I think we can consolidate the handling of some errors and make things a little more clear (ie, the handler calls Close early vs. the same maxPostHandlerReadBytes behavior right here)\n\nWhen do you get back?  I\u0027ll bug you some time after that :)\n\nEnjoy your trip, and thanks for all your work here.",
+      "parentUuid": "ad9936fb_f0702854",
+      "revId": "3c9724f448b8c940264e5da4295955f604e676f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
