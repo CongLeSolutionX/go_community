@@ -65,6 +65,7 @@ var passes = [...]pass{
 	{"generic deadcode", deadcode},
 	{"dse", dse},
 	{"fuse", fuse},
+	{"fused deadcode", deadcode},
 	{"tighten", tighten}, // move values closer to their uses
 	{"lower", lower},
 	{"lowered cse", cse},
@@ -95,6 +96,8 @@ var passOrder = [...]constraint{
 	{"nilcheckelim", "generic deadcode"},
 	// nilcheckelim generates sequences of plain basic blocks
 	{"nilcheckelim", "fuse"},
+	// fuse generates invalid blocks
+	{"fuse", "fused deadcode"},
 	// tighten should happen before lowering to avoid splitting naturally paired instructions such as CMP/SET
 	{"tighten", "lower"},
 	// tighten will be most effective when as many values have been removed as possible
