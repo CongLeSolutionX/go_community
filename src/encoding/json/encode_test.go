@@ -37,6 +37,14 @@ type Optionals struct {
 
 	Str struct{} `json:"str"`
 	Sto struct{} `json:"sto,omitempty"`
+
+	// non-nil pointers
+	Psr *struct{} `json:"psr"`
+	Pso *struct{} `json:"pso,omitempty"`
+
+	// nil pointers
+	Nsr *struct{} `json:"nsr"`
+	Nso *struct{} `json:"nso,omitempty"`
 }
 
 var optionalsExpected = `{
@@ -48,7 +56,9 @@ var optionalsExpected = `{
  "br": false,
  "ur": 0,
  "str": {},
- "sto": {}
+ "psr": {},
+ "pso": {},
+ "nsr": null
 }`
 
 func TestOmitEmpty(t *testing.T) {
@@ -56,6 +66,8 @@ func TestOmitEmpty(t *testing.T) {
 	o.Sw = "something"
 	o.Mr = map[string]interface{}{}
 	o.Mo = map[string]interface{}{}
+	o.Psr = new(struct{})
+	o.Pso = new(struct{})
 
 	got, err := MarshalIndent(&o, "", " ")
 	if err != nil {
