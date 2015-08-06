@@ -204,14 +204,21 @@ type OmitAttrTest struct {
 }
 
 type OmitFieldTest struct {
-	Int   int           `xml:",omitempty"`
-	Named int           `xml:"int,omitempty"`
-	Float float64       `xml:",omitempty"`
-	Uint8 uint8         `xml:",omitempty"`
-	Bool  bool          `xml:",omitempty"`
-	Str   string        `xml:",omitempty"`
-	Bytes []byte        `xml:",omitempty"`
-	Ptr   *PresenceTest `xml:",omitempty"`
+	Int    int           `xml:",omitempty"`
+	Named  int           `xml:"int,omitempty"`
+	Float  float64       `xml:",omitempty"`
+	Uint8  uint8         `xml:",omitempty"`
+	Bool   bool          `xml:",omitempty"`
+	Str    string        `xml:",omitempty"`
+	Bytes  []byte        `xml:",omitempty"`
+	Ptr    *PresenceTest `xml:",omitempty"`
+	Struct PresenceTest  `xml:",omitempty"`
+}
+
+type OmitFieldNonComparableTest struct {
+	Inner struct {
+		S []string
+	} `xml:",omitempty"`
 }
 
 type AnyTest struct {
@@ -838,14 +845,15 @@ var marshalTests = []struct {
 	// omitempty on fields
 	{
 		Value: &OmitFieldTest{
-			Int:   8,
-			Named: 9,
-			Float: 23.5,
-			Uint8: 255,
-			Bool:  true,
-			Str:   "str",
-			Bytes: []byte("byt"),
-			Ptr:   &PresenceTest{},
+			Int:    8,
+			Named:  9,
+			Float:  23.5,
+			Uint8:  255,
+			Bool:   true,
+			Str:    "str",
+			Bytes:  []byte("byt"),
+			Ptr:    &PresenceTest{},
+			Struct: PresenceTest{},
 		},
 		ExpectXML: `<OmitFieldTest>` +
 			`<Int>8</Int>` +
@@ -861,6 +869,10 @@ var marshalTests = []struct {
 	{
 		Value:     &OmitFieldTest{},
 		ExpectXML: `<OmitFieldTest></OmitFieldTest>`,
+	},
+	{
+		Value:     &OmitFieldNonComparableTest{},
+		ExpectXML: `<OmitFieldNonComparableTest></OmitFieldNonComparableTest>`,
 	},
 
 	// Test ",any"
