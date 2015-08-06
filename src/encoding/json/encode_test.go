@@ -37,6 +37,14 @@ type Optionals struct {
 
 	Str struct{} `json:"str"`
 	Sto struct{} `json:"sto,omitempty"`
+
+	// non-nil pointers
+	Psr *struct{} `json:"psr"`
+	Pso *struct{} `json:"pso,omitempty"`
+
+	// nil pointers
+	Nsr *struct{} `json:"nsr"`
+	Nso *struct{} `json:"nso,omitempty"`
 }
 
 var optionalsExpected = `{
@@ -48,7 +56,9 @@ var optionalsExpected = `{
  "br": false,
  "ur": 0,
  "str": {},
- "sto": {}
+ "psr": {},
+ "pso": {},
+ "nsr": null
 }`
 
 func TestOmitEmpty(t *testing.T) {
@@ -56,6 +66,8 @@ func TestOmitEmpty(t *testing.T) {
 	o.Sw = "something"
 	o.Mr = map[string]interface{}{}
 	o.Mo = map[string]interface{}{}
+	o.Psr = new(struct{})
+	o.Pso = new(struct{})
 
 	got, err := MarshalIndent(&o, "", " ")
 	if err != nil {
@@ -63,6 +75,25 @@ func TestOmitEmpty(t *testing.T) {
 	}
 	if got := string(got); got != optionalsExpected {
 		t.Errorf(" got: %s\nwant: %s\n", got, optionalsExpected)
+	}
+}
+
+func TestOmitEmptyStructNonComparable(t *testing.T) {
+	type noncomp struct {
+		Inner struct {
+			S []string
+		} `json:",omitempty"`
+	}
+
+	var x noncomp
+
+	got, err := Marshal(&x)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if string(got) != "{}" {
+		t.Fatalf(" got: %s\nwant: {}\n", got)
 	}
 }
 

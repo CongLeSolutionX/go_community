@@ -55,6 +55,7 @@ const (
 //       the "--" string within it.
 //     - a field with a tag including the "omitempty" option is omitted
 //       if the field value is empty. The empty values are false, 0, any
+//       zeroed struct, any
 //       nil pointer or interface value, and any array, slice, map, or
 //       string of length zero.
 //     - an anonymous struct field is handled as if the fields of its
@@ -757,13 +758,14 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 		if finfo.flags&fAttr != 0 {
 			continue
 		}
-		vf := finfo.value(val)
+		ovf := finfo.value(val)
 
 		// Dereference or skip nil pointer, interface values.
-		switch vf.Kind() {
+		vf := ovf
+		switch ovf.Kind() {
 		case reflect.Ptr, reflect.Interface:
-			if !vf.IsNil() {
-				vf = vf.Elem()
+			if !ovf.IsNil() {
+				vf = ovf.Elem()
 			}
 		}
 
@@ -880,7 +882,7 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 				}
 			}
 		}
-		if err := p.marshalValue(vf, finfo, nil); err != nil {
+		if err := p.marshalValue(ovf, finfo, nil); err != nil {
 			return err
 		}
 	}
@@ -984,6 +986,8 @@ func isEmptyValue(v reflect.Value) bool {
 		return v.Float() == 0
 	case reflect.Interface, reflect.Ptr:
 		return v.IsNil()
+	case reflect.Struct:
+		return reflect.DeepEqual(v.Interface(), reflect.Zero(v.Type()).Interface())
 	}
 	return false
 }

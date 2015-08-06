@@ -57,7 +57,7 @@ import (
 // becomes a member of the object unless
 //   - the field's tag is "-", or
 //   - the field is empty and its tag specifies the "omitempty" option.
-// The empty values are false, 0, any
+// The empty values are false, 0, any zeroed struct, any
 // nil pointer or interface value, and any array, slice, map, or string of
 // length zero. The object's default key string is the struct field name
 // but can be specified in the struct field's tag value. The "json" key in
@@ -292,6 +292,8 @@ func isEmptyValue(v reflect.Value) bool {
 		return v.Float() == 0
 	case reflect.Interface, reflect.Ptr:
 		return v.IsNil()
+	case reflect.Struct:
+		return reflect.DeepEqual(v.Interface(), reflect.Zero(v.Type()).Interface())
 	}
 	return false
 }
