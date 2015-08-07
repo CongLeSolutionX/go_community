@@ -46,6 +46,30 @@
       "revId": "e1f5e1869cc121657486ef9fb05c4fedda9d5fbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7242fa6_9f8ebf05",
+        "filename": "src/cmd/compile/internal/ssa/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-07T19:35:38Z",
+      "side": 1,
+      "message": "It\u0027s ok, but since this code is totally performance irrelevant, I\u0027d personally just go with uniform fmt.Fprint for readability. It really doesn\u0027t matter, though.",
+      "parentUuid": "0a5788ea_4f7b0d9b",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 17
+      },
+      "revId": "e1f5e1869cc121657486ef9fb05c4fedda9d5fbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
