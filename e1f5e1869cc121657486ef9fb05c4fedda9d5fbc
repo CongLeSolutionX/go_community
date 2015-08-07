@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a6d38b6_d35fb444",
+        "filename": "src/cmd/compile/internal/ssa/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-07T01:31:42Z",
+      "side": 1,
+      "message": "I know this preceded your change, and perhaps I just don\u0027t know enough Go standard libraries, but mixing Fprintf and io.WriteString, that is kosher?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 17
+      },
+      "revId": "e1f5e1869cc121657486ef9fb05c4fedda9d5fbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
