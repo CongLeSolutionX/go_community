@@ -22,6 +22,30 @@
       "revId": "1d75b40de8ecfaa947e1d61311d3a725fe4ec575",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e730af80_5660b477",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-08-11T06:37:01Z",
+      "side": 1,
+      "message": "whoops. thanks. I\u0027ll fix.",
+      "parentUuid": "47e97bf9_abe9a52f",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 18
+      },
+      "revId": "1d75b40de8ecfaa947e1d61311d3a725fe4ec575",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
