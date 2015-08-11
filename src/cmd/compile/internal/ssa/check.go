@@ -140,6 +140,10 @@ func checkFunc(f *Func) {
 		}
 	}
 
+	if len(f.Entry.Preds) > 0 {
+		f.Fatalf("entry block %s of %s has predecessor(s) %v", f.Entry, f.Name, f.Entry.Preds)
+	}
+
 	// Check to make sure all Blocks referenced are in the function.
 	if !blockMark[f.Entry.ID] {
 		f.Fatalf("entry block %v is missing", f.Entry)

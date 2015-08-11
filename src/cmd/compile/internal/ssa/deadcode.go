@@ -6,6 +6,14 @@ package ssa
 
 // deadcode removes dead code from f.
 func deadcode(f *Func) {
+	// deadcode after regalloc is forbidden for now.  Regalloc
+	// doesn't quite generate legal SSA which will lead to some
+	// required moves being eliminated.  See the comment at the
+	// top of regalloc.go for details.
+	if f.RegAlloc != nil {
+		f.Fatalf("deadcode after regalloc")
+	}
+
 	// Find all reachable basic blocks.
 	reachable := make([]bool, f.NumBlocks())
 	reachable[f.Entry.ID] = true
