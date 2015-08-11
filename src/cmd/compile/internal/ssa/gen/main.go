@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"log"
 	"regexp"
+	"sort"
 )
 
 type arch struct {
@@ -142,6 +143,25 @@ func genOp() {
 				}
 				fmt.Fprintln(w, "},")
 			}
+
+			// Compute input allocation order.  We allocate from the
+			// most to the least constrained input.  This order guarantees
+			// that we will always be able to find a register.
+			var s []intPair
+			for i, r := range v.reg.inputs {
+				if r != 0 {
+					s = append(s, intPair{countRegs(r), i})
+				}
+			}
+			if len(s) > 0 {
+				sort.Sort(byKey(s))
+				fmt.Fprintln(w, "inputOrder: []int{")
+				for _, p := range s {
+					fmt.Fprintf(w, "%d,\n", p.val)
+				}
+				fmt.Fprintln(w, "},")
+			}
+
 			fmt.Fprintln(w, "},") // close reg info
 			fmt.Fprintln(w, "},") // close op
 		}
@@ -203,3 +223,23 @@ func genLower() {
 		genRules(a)
 	}
 }
+
+// countRegs returns the number of set bits in the register mask.
+func countRegs(r regMask) int {
+	n := 0
+	for r != 0 {
+		n += int(r & 1)
+		r >>= 1
+	}
+	return n
+}
+
+// for sorting a pair of integers by key
+type intPair struct {
+	key, val int
+}
+type byKey []intPair
+
+func (a byKey) Len() int           { return len(a) }
+func (a byKey) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a byKey) Less(i, j int) bool { return a[i].key < a[j].key }

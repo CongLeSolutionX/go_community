@@ -20,7 +20,8 @@ type opInfo struct {
 }
 
 type regInfo struct {
-	inputs   []regMask
-	clobbers regMask
-	outputs  []regMask // NOTE: values can only have 1 output for now.
+	inputs     []regMask
+	inputOrder []int // order in which to allocate registers
+	clobbers   regMask
+	outputs    []regMask // NOTE: values can only have 1 output for now.
 }

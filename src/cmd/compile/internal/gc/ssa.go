@@ -1311,6 +1311,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 		dowidth(left.Type)
 		call.AuxInt = left.Type.Argwid // call operations carry the argsize of the callee along with them
+		s.vars[&memvar] = call
 		b := s.endBlock()
 		b.Kind = ssa.BlockCall
 		b.Control = call
@@ -1319,7 +1320,6 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		// read result from stack at the start of the fallthrough block
 		s.startBlock(bNext)
-		s.vars[&memvar] = call
 		var titer Iter
 		fp := Structfirst(&titer, Getoutarg(left.Type))
 		if fp == nil {
@@ -2138,6 +2138,9 @@ func genValue(v *ssa.Value) {
 		p.To.Offset = localOffset(v)
 	case ssa.OpPhi:
 		// just check to make sure regalloc did it right
+		if v.Type.IsMemory() {
+			return
+		}
 		f := v.Block.Func
 		loc := f.RegAlloc[v.ID]
 		for _, a := range v.Args {
@@ -2207,13 +2210,16 @@ func genValue(v *ssa.Value) {
 	case ssa.OpAMD64InvertFlags:
 		v.Fatalf("InvertFlags should never make it to codegen %v", v)
 	case ssa.OpAMD64REPSTOSQ:
+		p := Prog(x86.AXORL) // TODO: lift out zeroing into its own instruction?
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = x86.REG_AX
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = x86.REG_AX
 		Prog(x86.AREP)
 		Prog(x86.ASTOSQ)
-		v.Unimplementedf("REPSTOSQ clobbers not implemented: %s", v.LongString())
 	case ssa.OpAMD64REPMOVSB:
 		Prog(x86.AREP)
 		Prog(x86.AMOVSB)
-		v.Unimplementedf("REPMOVSB clobbers not implemented: %s", v.LongString())
 	default:
 		v.Unimplementedf("genValue not implemented: %s", v.LongString())
 	}
