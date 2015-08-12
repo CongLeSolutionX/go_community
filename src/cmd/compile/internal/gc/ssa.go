@@ -707,6 +707,9 @@ var opToSSA = map[opAndType]ssa.Op{
 	opAndType{OADD, TUINT64}: ssa.OpAdd64,
 	opAndType{OADD, TPTR64}:  ssa.OpAdd64,
 
+	opAndType{OADD, TFLOAT32}: ssa.OpAdd32F,
+	opAndType{OADD, TFLOAT64}: ssa.OpAdd64F,
+
 	opAndType{OSUB, TINT8}:   ssa.OpSub8,
 	opAndType{OSUB, TUINT8}:  ssa.OpSub8,
 	opAndType{OSUB, TINT16}:  ssa.OpSub16,
@@ -1847,7 +1850,7 @@ func genValue(v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
 	// 2-address opcode arithmetic, symmetric
-	case ssa.OpAMD64ADDB,
+	case ssa.OpAMD64ADDB, ssa.OpAMD64ADDSS, ssa.OpAMD64ADDSD,
 		ssa.OpAMD64ANDQ, ssa.OpAMD64ANDL, ssa.OpAMD64ANDW, ssa.OpAMD64ANDB,
 		ssa.OpAMD64ORQ, ssa.OpAMD64ORL, ssa.OpAMD64ORW, ssa.OpAMD64ORB,
 		ssa.OpAMD64XORQ, ssa.OpAMD64XORL, ssa.OpAMD64XORW, ssa.OpAMD64XORB,
@@ -2047,15 +2050,15 @@ func genValue(v *ssa.Value) {
 		p.From.Offset = i
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = x
-	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVBQZXload:
+	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVBQZXload:
 		p := Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = regnum(v.Args[0])
 		addAux(&p.From, v)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
-	case ssa.OpAMD64MOVQloadidx8:
-		p := Prog(x86.AMOVQ)
+	case ssa.OpAMD64MOVQloadidx8, ssa.OpAMD64MOVSDloadidx8:
+		p := Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = regnum(v.Args[0])
 		addAux(&p.From, v)
@@ -2063,20 +2066,38 @@ func genValue(v *ssa.Value) {
 		p.From.Index = regnum(v.Args[1])
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
-	case ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore:
+	case ssa.OpAMD64MOVSSloadidx4:
+		p := Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_MEM
+		p.From.Reg = regnum(v.Args[0])
+		addAux(&p.From, v)
+		p.From.Scale = 4
+		p.From.Index = regnum(v.Args[1])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = regnum(v)
+	case ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVSSstore, ssa.OpAMD64MOVSDstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore:
 		p := Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = regnum(v.Args[1])
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = regnum(v.Args[0])
 		addAux(&p.To, v)
-	case ssa.OpAMD64MOVQstoreidx8:
-		p := Prog(x86.AMOVQ)
+	case ssa.OpAMD64MOVQstoreidx8, ssa.OpAMD64MOVSDstoreidx8:
+		p := Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = regnum(v.Args[2])
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = regnum(v.Args[0])
 		p.To.Scale = 8
+		p.To.Index = regnum(v.Args[1])
+		addAux(&p.To, v)
+	case ssa.OpAMD64MOVSSstoreidx4:
+		p := Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = regnum(v.Args[2])
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = regnum(v.Args[0])
+		p.To.Scale = 4
 		p.To.Index = regnum(v.Args[1])
 		addAux(&p.To, v)
 	case ssa.OpAMD64MOVLQSX, ssa.OpAMD64MOVWQSX, ssa.OpAMD64MOVBQSX, ssa.OpAMD64MOVLQZX, ssa.OpAMD64MOVWQZX, ssa.OpAMD64MOVBQZX:

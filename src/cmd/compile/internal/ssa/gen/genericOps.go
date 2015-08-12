@@ -13,6 +13,8 @@ var genericOps = []opData{
 	{name: "Add32"},
 	{name: "Add64"},
 	{name: "AddPtr"},
+	{name: "Add32F"},
+	{name: "Add64F"},
 	// TODO: Add32F, Add64F, Add64C, Add128C
 
 	{name: "Sub8"}, // arg0 - arg1

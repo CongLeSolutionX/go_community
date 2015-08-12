@@ -51,6 +51,16 @@ func (k BlockKind) String() string { return blockString[k] }
 const (
 	OpInvalid Op = iota
 
+	OpAMD64ADDSS
+	OpAMD64ADDSD
+	OpAMD64MOVSSload
+	OpAMD64MOVSDload
+	OpAMD64MOVSSloadidx4
+	OpAMD64MOVSDloadidx8
+	OpAMD64MOVSSstore
+	OpAMD64MOVSDstore
+	OpAMD64MOVSSstoreidx4
+	OpAMD64MOVSDstoreidx8
 	OpAMD64ADDQ
 	OpAMD64ADDL
 	OpAMD64ADDW
@@ -201,6 +211,8 @@ const (
 	OpAdd32
 	OpAdd64
 	OpAddPtr
+	OpAdd32F
+	OpAdd64F
 	OpSub8
 	OpSub16
 	OpSub32
@@ -389,6 +401,132 @@ const (
 var opcodeTable = [...]opInfo{
 	{name: "OpInvalid"},
 
+	{
+		name: "ADDSS",
+		asm:  x86.AADDSS,
+		reg: regInfo{
+			inputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+			outputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+		},
+	},
+	{
+		name: "ADDSD",
+		asm:  x86.AADDSD,
+		reg: regInfo{
+			inputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+			outputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+		},
+	},
+	{
+		name: "MOVSSload",
+		asm:  x86.AMOVSS,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				0,
+			},
+			outputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+		},
+	},
+	{
+		name: "MOVSDload",
+		asm:  x86.AMOVSD,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				0,
+			},
+			outputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+		},
+	},
+	{
+		name: "MOVSSloadidx4",
+		asm:  x86.AMOVSS,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				65535,      // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+				0,
+			},
+			outputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+		},
+	},
+	{
+		name: "MOVSDloadidx8",
+		asm:  x86.AMOVSD,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				65535,      // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+				0,
+			},
+			outputs: []regMask{
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+			},
+		},
+	},
+	{
+		name: "MOVSSstore",
+		asm:  x86.AMOVSS,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+				0,
+			},
+		},
+	},
+	{
+		name: "MOVSDstore",
+		asm:  x86.AMOVSD,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+				0,
+			},
+		},
+	},
+	{
+		name: "MOVSSstoreidx4",
+		asm:  x86.AMOVSS,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				65535,      // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+				0,
+			},
+		},
+	},
+	{
+		name: "MOVSDstoreidx8",
+		asm:  x86.AMOVSD,
+		reg: regInfo{
+			inputs: []regMask{
+				4295032831, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
+				65535,      // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
+				4294901760, // .X0 .X1 .X2 .X3 .X4 .X5 .X6 .X7 .X8 .X9 .X10 .X11 .X12 .X13 .X14 .X15
+				0,
+			},
+		},
+	},
 	{
 		name: "ADDQ",
 		asm:  x86.AADDQ,
@@ -2138,6 +2276,14 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "AddPtr",
+		generic: true,
+	},
+	{
+		name:    "Add32F",
+		generic: true,
+	},
+	{
+		name:    "Add64F",
 		generic: true,
 	},
 	{

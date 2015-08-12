@@ -15,6 +15,8 @@
 (Add32 x y) -> (ADDL x y)
 (Add16 x y) -> (ADDW x y)
 (Add8 x y) -> (ADDB x y)
+(Add32F x y) -> (ADDSS x y)
+(Add64F x y) -> (ADDSD x y)
 
 (Sub64 x y) -> (SUBQ x y)
 (Sub32 x y) -> (SUBL x y)
@@ -206,6 +208,12 @@
 (Load <t> ptr mem) && is32BitInt(t) -> (MOVLload ptr mem)
 (Load <t> ptr mem) && is16BitInt(t) -> (MOVWload ptr mem)
 (Load <t> ptr mem) && (t.IsBoolean() || is8BitInt(t)) -> (MOVBload ptr mem)
+
+(Load <t> ptr mem) && is32BitFloat(t) -> (MOVSSload ptr mem)
+(Load <t> ptr mem) && is64BitFloat(t) -> (MOVSDload ptr mem)
+(Store ptr val mem) && is32BitFloat(val.Type) -> (MOVSSstore ptr val mem)
+(Store ptr val mem) && is64BitFloat(val.Type) -> (MOVSDstore ptr val mem)
+
 (Store ptr val mem) && (is64BitInt(val.Type) || isPtr(val.Type)) -> (MOVQstore ptr val mem)
 (Store ptr val mem) && is32BitInt(val.Type) -> (MOVLstore ptr val mem)
 (Store ptr val mem) && is16BitInt(val.Type) -> (MOVWstore ptr val mem)
@@ -405,12 +413,38 @@
 (MOVQstore [off1] {sym1} (LEAQ [off2] {sym2} base) val mem) && (sym1 == nil || sym2 == nil) ->
 	   (MOVQstore [addOff(off1,off2)] {mergeSym(sym1,sym2)} base val mem)
 
+(MOVSSload [off1] (ADDQconst [off2] ptr) mem) -> (MOVSSload [addOff(off1, off2)] ptr mem)
+(MOVSSstore [off1] (ADDQconst [off2] ptr) val mem) -> (MOVSSstore [addOff(off1, off2)] ptr val mem)
+
+(MOVSSload [off1] {sym1} (LEAQ [off2] {sym2} base) mem) && (sym1 == nil || sym2 == nil) ->
+	  (MOVSSload [addOff(off1,off2)] {mergeSym(sym1,sym2)} base mem)
+(MOVSSstore [off1] {sym1} (LEAQ [off2] {sym2} base) val mem) && (sym1 == nil || sym2 == nil) ->
+	   (MOVSSstore [addOff(off1,off2)] {mergeSym(sym1,sym2)} base val mem)
+
+(MOVSDload [off1] (ADDQconst [off2] ptr) mem) -> (MOVSDload [addOff(off1, off2)] ptr mem)
+(MOVSDstore [off1] (ADDQconst [off2] ptr) val mem) -> (MOVSDstore [addOff(off1, off2)] ptr val mem)
+
+(MOVSDload [off1] {sym1} (LEAQ [off2] {sym2} base) mem) && (sym1 == nil || sym2 == nil) ->
+	  (MOVSDload [addOff(off1,off2)] {mergeSym(sym1,sym2)} base mem)
+(MOVSDstore [off1] {sym1} (LEAQ [off2] {sym2} base) val mem) && (sym1 == nil || sym2 == nil) ->
+	   (MOVSDstore [addOff(off1,off2)] {mergeSym(sym1,sym2)} base val mem)
+
 // indexed loads and stores
 (MOVQload [off1] (LEAQ8 [off2] ptr idx) mem) -> (MOVQloadidx8 [addOff(off1, off2)] ptr idx mem)
 (MOVQstore [off1] (LEAQ8 [off2] ptr idx) val mem) -> (MOVQstoreidx8 [addOff(off1, off2)] ptr idx val mem)
-
 (MOVQloadidx8 [off1] (ADDQconst [off2] ptr) idx mem) -> (MOVQloadidx8 [addOff(off1, off2)] ptr idx mem)
 (MOVQstoreidx8 [off1] (ADDQconst [off2] ptr) idx val mem) -> (MOVQstoreidx8 [addOff(off1, off2)] ptr idx val mem)
+
+(MOVSSload [off1] (LEAQ4 [off2] ptr idx) mem) -> (MOVSSloadidx4 [addOff(off1, off2)] ptr idx mem)
+(MOVSSstore [off1] (LEAQ4 [off2] ptr idx) val mem) -> (MOVSSstoreidx4 [addOff(off1, off2)] ptr idx val mem)
+(MOVSSloadidx4 [off1] (ADDQconst [off2] ptr) idx mem) -> (MOVSSloadidx4 [addOff(off1, off2)] ptr idx mem)
+(MOVSSstoreidx4 [off1] (ADDQconst [off2] ptr) idx val mem) -> (MOVSSstoreidx4 [addOff(off1, off2)] ptr idx val mem)
+
+(MOVSDload [off1] (LEAQ8 [off2] ptr idx) mem) -> (MOVSDloadidx8 [addOff(off1, off2)] ptr idx mem)
+(MOVSDstore [off1] (LEAQ8 [off2] ptr idx) val mem) -> (MOVSDstoreidx8 [addOff(off1, off2)] ptr idx val mem)
+(MOVSDloadidx8 [off1] (ADDQconst [off2] ptr) idx mem) -> (MOVSDloadidx8 [addOff(off1, off2)] ptr idx mem)
+(MOVSDstoreidx8 [off1] (ADDQconst [off2] ptr) idx val mem) -> (MOVSDstoreidx8 [addOff(off1, off2)] ptr idx val mem)
+
 
 (ADDQconst [0] x) -> x
 
