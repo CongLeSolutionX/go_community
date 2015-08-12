@@ -274,6 +274,94 @@ func testSubConst() {
 	}
 }
 
+func testFPops() {
+	a := 3.0
+	b := 4.0
+
+	c := float32(3.0)
+	d := float32(4.0)
+
+	fails := 0
+	fails += fail64("+", add64_ssa, a, b, 7.0)
+	fails += fail64("*", mul64_ssa, a, b, 12.0)
+	fails += fail64("-", sub64_ssa, a, b, -1.0)
+	fails += fail64("/", div64_ssa, a, b, 0.75)
+
+	fails += fail32("+", add32_ssa, c, d, 7.0)
+	fails += fail32("*", mul32_ssa, c, d, 12.0)
+	fails += fail32("-", sub32_ssa, c, d, -1.0)
+	fails += fail32("/", div32_ssa, c, d, 0.75)
+
+	if fails > 0 {
+		println("Saw %v failures", fails)
+	}
+
+}
+func fail64(s string, f func(a, b float64) float64, a, b, e float64) int {
+	d := f(a, b)
+	if d != e {
+		println("For (float64)", a, s, b, "expected", e, "got", d)
+		return 1
+	}
+	return 0
+}
+
+func fail32(s string, f func(a, b float32) float32, a, b, e float32) int {
+	d := f(a, b)
+	if d != e {
+		println("For (float32)", a, s, b, "expected", e, "got", d)
+		return 1
+	}
+	return 0
+}
+
+func add64_ssa(a, b float64) float64 {
+	switch {
+	}
+	return a + b
+}
+
+func mul64_ssa(a, b float64) float64 {
+	switch {
+	}
+	return a * b
+}
+
+func sub64_ssa(a, b float64) float64 {
+	switch {
+	}
+	return a - b
+}
+
+func div64_ssa(a, b float64) float64 {
+	switch {
+	}
+	return a / b
+}
+
+func add32_ssa(a, b float32) float32 {
+	switch {
+	}
+	return a + b
+}
+
+func mul32_ssa(a, b float32) float32 {
+	switch {
+	}
+	return a * b
+}
+
+func sub32_ssa(a, b float32) float32 {
+	switch {
+	}
+	return a - b
+}
+func div32_ssa(a, b float32) float32 {
+	switch {
+	}
+	return a / b
+}
+
 var failed = false
 
 func main() {
@@ -287,6 +375,7 @@ func main() {
 	testLrot()
 	testShiftCX()
 	testSubConst()
+	testFPops()
 
 	if failed {
 		panic("failed")
