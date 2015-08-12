@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "645f5d28_9457a9d7",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-12T23:58:12Z",
+      "side": 1,
+      "message": "Get rid of this conditional?",
+      "range": {
+        "startLine": 180,
+        "startChar": 23,
+        "endLine": 180,
+        "endChar": 38
+      },
+      "revId": "83c4c500685aa9c038306b26818d43b7ba3896ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
