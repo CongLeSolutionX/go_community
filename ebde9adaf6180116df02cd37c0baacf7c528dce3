@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "645f5d28_7fac13f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-12T21:28:56Z",
+      "side": 1,
+      "message": "Cut this from the description. :)",
+      "revId": "ebde9adaf6180116df02cd37c0baacf7c528dce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_1fc517d6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-12T21:28:56Z",
+      "side": 1,
+      "message": "Nit, but remove this blank line.",
+      "revId": "ebde9adaf6180116df02cd37c0baacf7c528dce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_5fa4af37",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-12T21:28:56Z",
+      "side": 1,
+      "message": "Do you need to teach regMoveAMD64 about FP registers?",
+      "revId": "ebde9adaf6180116df02cd37c0baacf7c528dce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_1f02b77e",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-12T21:28:56Z",
+      "side": 1,
+      "message": "Place these next to the other loads and stores, respectively?\n\nUnrelated to this CL, but our code organization in general is a bit chaotic--ops, case statements, etc. Worth alphabetizing at some point, or just muddling on?",
+      "revId": "ebde9adaf6180116df02cd37c0baacf7c528dce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
