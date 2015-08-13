@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "64591d73_3a2141a9",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "645f5d28_2af2d490",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "645f5d28_aab6c4be",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2015-08-13T17:25:20Z",
       "side": 1,
       "message": "Is this NOTE still true?",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_fa15094a",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "645f5d28_aab6c4be",
       "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "64591d73_7ae45957",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "645f5d28_ea5efcf4",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "645f5d28_8a5780d7",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -115,6 +169,24 @@
       "writtenOn": "2015-08-13T17:25:20Z",
       "side": 1,
       "message": "It\u0027s not clear to me what it means for a phi value to \"start out on the stack\" vs a register. It looks to me like the salient feature is whether or not the phi value\u0027s arguments were allocated the same register. (Or is that a consequence rather than a cause?)\n\nMaybe this will become clearer once I read the code, but a little clarification up front would help.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_5ae9952b",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "I\u0027ve added some description.",
+      "parentUuid": "645f5d28_8a5780d7",
       "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "64591d73_9a416dc2",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "645f5d28_6ac56c07",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "645f5d28_8ae9c079",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -149,6 +239,24 @@
       "writtenOn": "2015-08-13T17:25:20Z",
       "side": 1,
       "message": "If it\u0027s not too bad, I think we should. It\u0027ll help when debugging to be able to see exactly what is going on without having to reason it though. And it avoids having to explain. :) Ok to leave as a TODO for this CL, though.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_1adf1d87",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "It is tricky because we have to find all the uses (in the example, replace all x3\u0027s with x5\u0027s).  It might be possible to deal with it earlier by recognizing the merge using the live variable info.\n\nIt is also possible that our phi building algorithm puts all the phis in the right places already.  It is not a minimal phi alg, so it sometimes adds redundant phis not unlike the one needed here.  I\u0027ll have to think about whether it really does all the phis that we would need.",
+      "parentUuid": "645f5d28_8ae9c079",
       "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -206,6 +314,24 @@
     },
     {
       "key": {
+        "uuid": "64591d73_bacd51de",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "645f5d28_aaf3645f",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "645f5d28_0a99504d",
         "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
         "patchSetId": 1
@@ -217,6 +343,24 @@
       "writtenOn": "2015-08-13T17:25:20Z",
       "side": 1,
       "message": "It might be helpful at this point for home to be an exported, named type with methods like RegNum, LocalOffset, IsReg, etc.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_fad7c967",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-13T20:45:23Z",
+      "side": 1,
+      "message": "Yes, it is kind of clunky.  I\u0027ll address this in a separate CL.",
+      "parentUuid": "645f5d28_0a99504d",
       "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
