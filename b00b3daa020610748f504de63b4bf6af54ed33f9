@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "64591d73_9de327c4",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T21:59:37Z",
+      "side": 1,
+      "message": "Thank you. Note that HTML printing calls deadcode to get printing info; we\u0027ll need to suppress that when regalloc has run. Sorry for the churn.",
+      "revId": "b00b3daa020610748f504de63b4bf6af54ed33f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64591d73_9d084734",
         "filename": "src/cmd/compile/internal/ssa/opGen.go",
         "patchSetId": 3
@@ -31,6 +48,41 @@
       "side": 1,
       "message": "That won\u0027t work.  I need to sometimes allocate inputs out-of-order.  For instance,\n  SHLQ x, y\n\nI want to allocate y (arg #1) first because it can only be in CX.  Then x (arg #0) can take any other register.  If I allocate x first and it happens to get CX, then the allocation of y will fail.",
       "parentUuid": "64591d73_9d084734",
+      "revId": "b00b3daa020610748f504de63b4bf6af54ed33f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_3df3fb98",
+        "filename": "src/cmd/compile/internal/ssa/opGen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T21:59:37Z",
+      "side": 1,
+      "message": "Ohhh right. I see. Thanks.",
+      "parentUuid": "64591d73_5dd98f1d",
+      "revId": "b00b3daa020610748f504de63b4bf6af54ed33f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_5df22f91",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T21:59:37Z",
+      "side": 1,
+      "message": "HTML support is submitted; please dup this change there.",
       "revId": "b00b3daa020610748f504de63b4bf6af54ed33f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
