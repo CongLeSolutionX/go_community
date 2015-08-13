@@ -476,6 +476,7 @@ var ptrnames = []string{
 type adjustinfo struct {
 	old   stack
 	delta uintptr // ptr distance from old to new stack (newbase - oldbase)
+	cache pcvalueCache
 }
 
 // Adjustpointer checks whether *vpp is in the old stack described by adjinfo.
@@ -569,7 +570,7 @@ func adjustframe(frame *stkframe, arg unsafe.Pointer) bool {
 	if targetpc != f.entry {
 		targetpc--
 	}
-	pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc)
+	pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc, &adjinfo.cache)
 	if pcdata == -1 {
 		pcdata = 0 // in prologue
 	}
