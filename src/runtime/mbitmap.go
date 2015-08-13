@@ -1682,7 +1682,7 @@ func getgcmask(ep interface{}) (mask []byte) {
 			if targetpc != f.entry {
 				targetpc--
 			}
-			pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc)
+			pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc, nil)
 			if pcdata == -1 {
 				return
 			}
