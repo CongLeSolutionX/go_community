@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "645f5d28_8af30097",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "Rebase?",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_4a5188df",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2140,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "s/regalloc/regalloc and stackalloc/",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_2af2d490",
+        "filename": "src/cmd/compile/internal/ssa/gen/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "Why not instead print the inputs in the desired order above?\n\n(The consumer of the data could check r !\u003d 0 as needed.)",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_aab6c4be",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "Is this NOTE still true?",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_2a7d3457",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "s/are/has been/",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_ea5efcf4",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "Say who removes it and when.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_8a5780d7",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me what it means for a phi value to \"start out on the stack\" vs a register. It looks to me like the salient feature is whether or not the phi value\u0027s arguments were allocated the same register. (Or is that a consequence rather than a cause?)\n\nMaybe this will become clearer once I read the code, but a little clarification up front would help.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_6ac56c07",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "For now at least, can we add a check at the beginning of deadcode that calls Fatal if register allocation has occurred?",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_8ae9c079",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "If it\u0027s not too bad, I think we should. It\u0027ll help when debugging to be able to see exactly what is going on without having to reason it though. And it avoids having to explain. :) Ok to leave as a TODO for this CL, though.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_0afdd02d",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "Does it matter much to performance that we use this encoding? Can we do something simpler and clearer instead, like add another field?",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_4a1ce827",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "successor",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_aaf3645f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "Lost the \"update tighten pass\" part of this TODO.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_0a99504d",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "It might be helpful at this point for home to be an exported, named type with methods like RegNum, LocalOffset, IsReg, etc.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "645f5d28_4a786867",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-13T17:25:20Z",
+      "side": 1,
+      "message": "At some point soon, we should decide whether or not the ssa html stuff should go in, so that these fixes can go in both places at once (or not). Meantime, I\u0027ll keep maintaining the html stuff out of tree.",
+      "revId": "97ea603d6d5ba78db02ee92aec9cda94fa50db45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
