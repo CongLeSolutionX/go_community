@@ -387,10 +387,11 @@ func scanstack(gp *g) {
 		throw("scanstack in wrong phase")
 	}
 
+	var cache pcvalueCache
 	gcw := &getg().m.p.ptr().gcw
 	n := 0
 	scanframe := func(frame *stkframe, unused unsafe.Pointer) bool {
-		scanframeworker(frame, unused, gcw)
+		scanframeworker(frame, &cache, gcw)
 
 		if frame.fp > nextBarrier {
 			// We skip installing a barrier on bottom-most
@@ -423,7 +424,7 @@ func scanstack(gp *g) {
 
 // Scan a stack frame: local variables and function arguments/results.
 //go:nowritebarrier
-func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
+func scanframeworker(frame *stkframe, cache *pcvalueCache, gcw *gcWork) {
 
 	f := frame.fn
 	targetpc := frame.continpc
@@ -437,7 +438,7 @@ func scanframeworker(frame *stkframe, unused unsafe.Pointer, gcw *gcWork) {
 	if targetpc != f.entry {
 		targetpc--
 	}
-	pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc)
+	pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc, cache)
 	if pcdata == -1 {
 		// We do not have a valid pcdata value but there might be a
 		// stackmap for this function.  It is likely that we are looking

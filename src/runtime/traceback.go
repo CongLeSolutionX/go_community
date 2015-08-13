@@ -197,6 +197,8 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 	}
 	frame.fn = f
 
+	var cache pcvalueCache
+
 	n := 0
 	for n < max {
 		// Typically:
@@ -218,7 +220,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				sp = gp.m.curg.sched.sp
 				stkbar = gp.m.curg.stkbar[gp.m.curg.stkbarPos:]
 			}
-			frame.fp = sp + uintptr(funcspdelta(f, frame.pc))
+			frame.fp = sp + uintptr(funcspdelta(f, frame.pc, &cache))
 			if !usesLR {
 				// On x86, call instruction pushes return PC before entering new function.
 				frame.fp += regSize
@@ -405,7 +407,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			frame.fn = f
 			if f == nil {
 				frame.pc = x
-			} else if funcspdelta(f, frame.pc) == 0 {
+			} else if funcspdelta(f, frame.pc, &cache) == 0 {
 				frame.lr = x
 			}
 		}
