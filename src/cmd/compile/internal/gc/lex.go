@@ -58,6 +58,7 @@ var debugtab = []struct {
 	{"slice", &Debug_slice},           // print information about slice compilation
 	{"typeassert", &Debug_typeassert}, // print information about type assertion inlining
 	{"wb", &Debug_wb},                 // print information about write barriers
+	{"export", &Debug_export},         // print export data
 }
 
 // Our own isdigit, isspace, isalpha, isalnum that take care
@@ -220,6 +221,7 @@ func Main() {
 	obj.Flagcount("l", "disable inlining", &Debug['l'])
 	obj.Flagcount("live", "debug liveness analysis", &debuglive)
 	obj.Flagcount("m", "print optimization decisions", &Debug['m'])
+	obj.Flagcount("newexport", "use new export format", &newexport) // TODO remove eventually
 	obj.Flagcount("nolocalimports", "reject local (relative) imports", &nolocalimports)
 	obj.Flagstr("o", "write output to `file`", &outfile)
 	obj.Flagstr("p", "set expected package import `path`", &myimportpath)
@@ -789,8 +791,9 @@ func importfile(f *Val, line int) {
 	linehistpragma(file[len(file)-len(path_)-2:]) // acts as #pragma lib
 
 	/*
-	 * position the input right
-	 * after $$ and return
+	 * position the input right after:
+	 * $$ (old format) and return
+	 * $! (new format) and import directly (not yet implemented)
 	 */
 	pushedio = curio
 
@@ -801,23 +804,26 @@ func importfile(f *Val, line int) {
 	curio.nlsemi = 0
 	typecheckok = 1
 
-	var c int32
 	for {
-		c = int32(getc())
+		c := getc()
 		if c == EOF {
 			break
 		}
 		if c != '$' {
 			continue
 		}
-		c = int32(getc())
+		c = getc()
 		if c == EOF {
 			break
 		}
-		if c != '$' {
-			continue
+		if c == '$' {
+			return // old style import
 		}
-		return
+		if c == '!' {
+			Yyerror("unsupported import format in %q", f.U.(string))
+			unimportfile()
+			return
+		}
 	}
 
 	Yyerror("no import in %q", f.U.(string))
