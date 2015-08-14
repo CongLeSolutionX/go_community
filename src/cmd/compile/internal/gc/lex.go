@@ -13,6 +13,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -58,6 +59,7 @@ var debugtab = []struct {
 	{"slice", &Debug_slice},           // print information about slice compilation
 	{"typeassert", &Debug_typeassert}, // print information about type assertion inlining
 	{"wb", &Debug_wb},                 // print information about write barriers
+	{"export", &Debug_export},         // print export data
 }
 
 const (
@@ -200,6 +202,7 @@ func Main() {
 	obj.Flagcount("l", "disable inlining", &Debug['l'])
 	obj.Flagcount("live", "debug liveness analysis", &debuglive)
 	obj.Flagcount("m", "print optimization decisions", &Debug['m'])
+	obj.Flagcount("newexport", "use new export format", &newexport) // TODO remove eventually
 	obj.Flagcount("nolocalimports", "reject local (relative) imports", &nolocalimports)
 	obj.Flagstr("o", "write output to `file`", &outfile)
 	obj.Flagstr("p", "set expected package import `path`", &myimportpath)
@@ -640,6 +643,7 @@ func fakeimport() {
 	cannedimports("fake.o", "$$\n")
 }
 
+// TODO(gri) line argument doesn't appear to be used
 func importfile(f *Val, line int) {
 	if _, ok := f.U.(string); !ok {
 		Yyerror("import statement not a string")
@@ -771,10 +775,9 @@ func importfile(f *Val, line int) {
 	// so don't record the full path.
 	linehistpragma(file[len(file)-len(path_)-2:]) // acts as #pragma lib
 
-	/*
-	 * position the input right
-	 * after $$ and return
-	 */
+	// In the importfile, if we find:
+	// $$  (old format): position the input right after $$ and return
+	// $$B (new format): import directly, then feed the lexer a dummy statement
 	pushedio = curio
 
 	curio.bin = imp
@@ -784,26 +787,52 @@ func importfile(f *Val, line int) {
 	curio.nlsemi = false
 	typecheckok = true
 
+	// look for $$
+	var c int
 	for {
-		c := getc()
-		if c == EOF {
-			break
-		}
-		if c != '$' {
-			continue
-		}
 		c = getc()
 		if c == EOF {
 			break
 		}
-		if c != '$' {
-			continue
+		if c == '$' {
+			c = getc()
+			if c == '$' || c == EOF {
+				break
+			}
 		}
+	}
+
+	if c == EOF {
+		Yyerror("no import in %q", f.U.(string))
+		unimportfile()
 		return
 	}
 
-	Yyerror("no import in %q", f.U.(string))
-	unimportfile()
+	if getc() == 'B' {
+		// new export format
+		unimportfile()
+
+		// TODO(gri) don't open/read the (entire) file again
+		data, err := ioutil.ReadFile(file)
+		if err != nil {
+			Yyerror("can't open import: %q: %v", f.U.(string), err)
+			errorexit()
+		}
+		// look for marker
+		// TODO(gri) don't do this again
+		const marker = "\n$$B\n"
+		start := bytes.Index(data, []byte(marker))
+		Import(data[start+len(marker):])
+
+		// continue as if the package was imported before (see above)
+		tag := ""
+		if importpkg.Safe {
+			tag = "safe"
+		}
+
+		p := fmt.Sprintf("package %s %s\n$$\n", importpkg.Name, tag)
+		cannedimports(file, p)
+	}
 }
 
 func unimportfile() {
