@@ -124,6 +124,7 @@ func testdclstack() {
 			if nerrors != 0 {
 				errorexit()
 			}
+			panic(0)
 			Yyerror("mark left on the stack")
 			continue
 		}
@@ -884,11 +885,18 @@ func checkdupfields(t *Type, what string) {
  * a type for struct/interface/arglist
  */
 func tostruct(l *NodeList) *Type {
-	var f *Type
 	t := typ(TSTRUCT)
+	tostruct0(t, l)
+	return t
+}
+
+func tostruct0(t *Type, l *NodeList) {
+	if t == nil || t.Etype != TSTRUCT {
+		Fatalf("struct expected")
+	}
 
 	for tp := &t.Type; l != nil; l = l.Next {
-		f = structfield(l.N)
+		f := structfield(l.N)
 
 		*tp = f
 		tp = &f.Down
@@ -906,8 +914,6 @@ func tostruct(l *NodeList) *Type {
 	if !t.Broke {
 		checkwidth(t)
 	}
-
-	return t
 }
 
 func tofunargs(l *NodeList) *Type {
@@ -1006,18 +1012,23 @@ func interfacefield(n *Node) *Type {
 }
 
 func tointerface(l *NodeList) *Type {
-	var f *Type
-	var t1 *Type
-
 	t := typ(TINTER)
+	tointerface0(t, l)
+	return t
+}
+
+func tointerface0(t *Type, l *NodeList) *Type {
+	if t == nil || t.Etype != TINTER {
+		Fatalf("interface expected")
+	}
 
 	tp := &t.Type
 	for ; l != nil; l = l.Next {
-		f = interfacefield(l.N)
+		f := interfacefield(l.N)
 
 		if l.N.Left == nil && f.Type.Etype == TINTER {
 			// embedded interface, inline methods
-			for t1 = f.Type.Type; t1 != nil; t1 = t1.Down {
+			for t1 := f.Type.Type; t1 != nil; t1 = t1.Down {
 				f = typ(TFIELD)
 				f.Type = t1.Type
 				f.Broke = t1.Broke
@@ -1210,6 +1221,14 @@ func isifacemethod(f *Type) bool {
  */
 func functype(this *Node, in *NodeList, out *NodeList) *Type {
 	t := typ(TFUNC)
+	functype0(t, this, in, out)
+	return t
+}
+
+func functype0(t *Type, this *Node, in *NodeList, out *NodeList) {
+	if t == nil || t.Etype != TFUNC {
+		Fatalf("function type expected")
+	}
 
 	var rcvr *NodeList
 	if this != nil {
@@ -1240,8 +1259,6 @@ func functype(this *Node, in *NodeList, out *NodeList) *Type {
 			t.Outnamed = true
 		}
 	}
-
-	return t
 }
 
 var methodsym_toppkg *Pkg
