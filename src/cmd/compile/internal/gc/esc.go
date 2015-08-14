@@ -1376,6 +1376,10 @@ func esccall(e *EscState, n *Node, up *Node) {
 		// If there is a receiver, it also leaks to heap.
 		if n.Op != OCALLFUNC {
 			t := getthisx(fntype).Type
+			if t == nil {
+				fmt.Printf("node = %s\n", n)
+				panic(0)
+			}
 			src := n.Left.Left
 			if haspointers(t.Type) {
 				escassign(e, &e.theSink, src)
