@@ -10,8 +10,8 @@
 #include "go_tls.h"
 #include "textflag.h"
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$0
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
 	MOVL	$1, AX
 	INT	$0x80
 	MOVL	$0xf1, 0xf1  // crash
@@ -50,7 +50,7 @@ TEXT runtime·read(SB),NOSPLIT,$0
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0
 	MOVL	$4, AX
 	INT	$0x80
 	JAE	2(PC)
@@ -58,23 +58,23 @@ TEXT runtime·write(SB),NOSPLIT,$0
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$0
 	// Ideally we'd send the signal to the current thread,
 	// not the whole process, but that's too hard on OS X.
-	JMP	runtime·raiseproc(SB)
+	JMP	runtime∕internal∕base·raiseproc(SB)
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$16
 	MOVL	$20, AX // getpid
 	INT	$0x80
 	MOVL	AX, 4(SP)	// pid
-	MOVL	sig+0(FP), AX
+	MOVL	Sig+0(FP), AX
 	MOVL	AX, 8(SP)	// signal
 	MOVL	$1, 12(SP)	// posix
 	MOVL	$37, AX // kill
 	INT	$0x80
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVL	$197, AX
 	INT	$0x80
 	MOVL	AX, ret+24(FP)
@@ -83,17 +83,17 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	$75, AX
 	INT	$0x80
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVL	$73, AX
 	INT	$0x80
 	JAE	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$0
 	MOVL	$83, AX
 	INT	$0x80
 	RET
@@ -112,7 +112,7 @@ TEXT runtime·setitimer(SB),NOSPLIT,$0
 
 // called from assembly
 // 64-bit unix nanoseconds returned in DX:AX.
-// I'd much rather write this in C but we need
+// I'd much rather Write this in C but we need
 // assembly for the 96-bit multiply and RDTSC.
 TEXT runtime·now(SB),NOSPLIT,$40
 	MOVL	$0xffff0000, BP /* comm page base */
@@ -221,21 +221,21 @@ TEXT time·now(SB),NOSPLIT,$0
 	MOVL	DX, nsec+8(FP)
 	RET
 
-// func nanotime() int64
-TEXT runtime·nanotime(SB),NOSPLIT,$0
+// func Nanotime() int64
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$0
 	CALL	runtime·now(SB)
 	MOVL	AX, ret_lo+0(FP)
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
-	MOVL	$329, AX  // pthread_sigmask (on OS X, sigprocmask==entire process)
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$0
+	MOVL	$329, AX  // pthread_sigmask (on OS X, Sigprocmask==entire process)
 	INT	$0x80
 	JAE	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$0
 	MOVL	$46, AX
 	INT	$0x80
 	JAE	2(PC)
@@ -250,29 +250,29 @@ TEXT runtime·sigaction(SB),NOSPLIT,$0
 //	12(FP)	siginfo style
 //	16(FP)	siginfo
 //	20(FP)	context
-TEXT runtime·sigtramp(SB),NOSPLIT,$40
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$40
 	get_tls(CX)
 	
 	// check that g exists
 	MOVL	g(CX), DI
 	CMPL	DI, $0
 	JNE	6(PC)
-	MOVL	sig+8(FP), BX
+	MOVL	Sig+8(FP), BX
 	MOVL	BX, 0(SP)
 	MOVL	$runtime·badsignal(SB), AX
 	CALL	AX
 	JMP 	ret
 
-	// save g
+	// Save g
 	MOVL	DI, 20(SP)
 
 	// g = m->gsignal
-	MOVL	g_m(DI), BP
-	MOVL	m_gsignal(BP), BP
+	MOVL	G_M(DI), BP
+	MOVL	M_Gsignal(BP), BP
 	MOVL	BP, g(CX)
 
-	// copy arguments to sighandler
-	MOVL	sig+8(FP), BX
+	// copy arguments to Sighandler
+	MOVL	Sig+8(FP), BX
 	MOVL	BX, 0(SP)
 	MOVL	info+12(FP), BX
 	MOVL	BX, 4(SP)
@@ -300,14 +300,14 @@ ret:
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$0
 	MOVL	$53, AX
 	INT	$0x80
 	JAE	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$32
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$32
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -327,9 +327,9 @@ TEXT runtime·usleep(SB),NOSPLIT,$32
 	INT	$0x80
 	RET
 
-// func bsdthread_create(stk, arg unsafe.Pointer, fn uintptr) int32
+// func Bsdthread_create(stk, arg unsafe.Pointer, fn uintptr) int32
 // System call args are: func arg stack pthread flags.
-TEXT runtime·bsdthread_create(SB),NOSPLIT,$32
+TEXT runtime∕internal∕base·Bsdthread_create(SB),NOSPLIT,$32
 	MOVL	$360, AX
 	// 0(SP) is where the caller PC would be; kernel skips it
 	MOVL	fn+8(FP), BX
@@ -349,7 +349,7 @@ TEXT runtime·bsdthread_create(SB),NOSPLIT,$32
 	MOVL	AX, ret+12(FP)
 	RET
 
-// The thread that bsdthread_create creates starts executing here,
+// The thread that Bsdthread_create creates starts executing here,
 // because we registered this function using bsdthread_register
 // at startup.
 //	AX = "pthread" (= 0x0)
@@ -363,11 +363,11 @@ TEXT runtime·bsdthread_start(SB),NOSPLIT,$0
 	// set up ldt 7+id to point at m->tls.
 	// m->tls is at m+40.  newosproc left
 	// the m->id in tls[0].
-	LEAL	m_tls(DX), BP
+	LEAL	M_tls(DX), BP
 	MOVL	0(BP), DI
-	ADDL	$7, DI	// m0 is LDT#7. count up.
+	ADDL	$7, DI	// M0 is LDT#7. count up.
 	// setldt(tls#, &tls, sizeof tls)
-	PUSHAL	// save registers
+	PUSHAL	// Save registers
 	PUSHL	$32	// sizeof tls
 	PUSHL	BP	// &tls
 	PUSHL	DI	// tls #
@@ -379,17 +379,17 @@ TEXT runtime·bsdthread_start(SB),NOSPLIT,$0
 
 	// Now segment is established.  Initialize m, g.
 	get_tls(BP)
-	MOVL    m_g0(DX), AX
+	MOVL    M_G0(DX), AX
 	MOVL	AX, g(BP)
-	MOVL	DX, g_m(AX)
-	MOVL	BX, m_procid(DX)	// m->procid = thread port (for debuggers)
+	MOVL	DX, G_M(AX)
+	MOVL	BX, M_Procid(DX)	// m->procid = thread port (for debuggers)
 	CALL	runtime·stackcheck(SB)		// smashes AX
 	CALL	CX	// fn()
 	CALL	runtime·exit1(SB)
 	RET
 
 // func bsdthread_register() int32
-// registers callbacks for threadstart (see bsdthread_create above
+// registers callbacks for threadstart (see Bsdthread_create above
 // and wqthread and pthsize (not used).  returns 0 on success.
 TEXT runtime·bsdthread_register(SB),NOSPLIT,$40
 	MOVL	$366, AX
@@ -426,19 +426,19 @@ TEXT runtime·sysenter(SB),NOSPLIT,$0
 	BYTE $0x0F; BYTE $0x34;  // SYSENTER
 	// returns to DX with SP set to CX
 
-TEXT runtime·mach_msg_trap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_msg_trap(SB),NOSPLIT,$0
 	MOVL	$-31, AX
 	CALL	runtime·sysenter(SB)
 	MOVL	AX, ret+28(FP)
 	RET
 
-TEXT runtime·mach_reply_port(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_reply_port(SB),NOSPLIT,$0
 	MOVL	$-26, AX
 	CALL	runtime·sysenter(SB)
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·mach_task_self(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mach_task_self(SB),NOSPLIT,$0
 	MOVL	$-28, AX
 	CALL	runtime·sysenter(SB)
 	MOVL	AX, ret+0(FP)
@@ -448,21 +448,21 @@ TEXT runtime·mach_task_self(SB),NOSPLIT,$0
 // instead of requiring the use of RPC.
 
 // func mach_semaphore_wait(sema uint32) int32
-TEXT runtime·mach_semaphore_wait(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_wait(SB),NOSPLIT,$0
 	MOVL	$-36, AX
 	CALL	runtime·sysenter(SB)
 	MOVL	AX, ret+4(FP)
 	RET
 
 // func mach_semaphore_timedwait(sema, sec, nsec uint32) int32
-TEXT runtime·mach_semaphore_timedwait(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_timedwait(SB),NOSPLIT,$0
 	MOVL	$-38, AX
 	CALL	runtime·sysenter(SB)
 	MOVL	AX, ret+12(FP)
 	RET
 
 // func mach_semaphore_signal(sema uint32) int32
-TEXT runtime·mach_semaphore_signal(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_signal(SB),NOSPLIT,$0
 	MOVL	$-33, AX
 	CALL	runtime·sysenter(SB)
 	MOVL	AX, ret+4(FP)
@@ -531,8 +531,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// func Kevent(Kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$0
 	MOVL	$363, AX
 	INT	$0x80
 	JAE	2(PC)

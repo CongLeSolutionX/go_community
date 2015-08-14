@@ -14,7 +14,7 @@ TEXT runtime·settls(SB),NOSPLIT,$0
 	MOVL	DI, TLS // really BP
 	RET
 
-TEXT runtime·exit(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
 	MOVL code+0(FP), DI
 	NACL_SYSCALL(SYS_exit)
 	RET
@@ -53,25 +53,25 @@ TEXT syscall·naclWrite(SB), NOSPLIT, $24-20
 	MOVL DI, 0(SP)
 	MOVL SI, 4(SP)
 	MOVL DX, 8(SP)
-	CALL runtime·write(SB)
+	CALL runtime∕internal∕print·Write(SB)
 	MOVL 16(SP), AX
 	MOVL AX, ret+16(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$16-20
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$16-20
 	// If using fake time and writing to stdout or stderr,
 	// emit playback header before actual data.
-	MOVQ runtime·faketime(SB), AX
+	MOVQ runtime∕internal∕base·Faketime(SB), AX
 	CMPQ AX, $0
-	JEQ write
+	JEQ Write
 	MOVL fd+0(FP), DI
 	CMPL DI, $1
 	JEQ playback
 	CMPL DI, $2
 	JEQ playback
 
-write:
-	// Ordinary write.
+Write:
+	// Ordinary Write.
 	MOVL fd+0(FP), DI
 	MOVL p+4(FP), SI
 	MOVL n+8(FP), DX
@@ -80,7 +80,7 @@ write:
 	RET
 
 	// Write with playback header.
-	// First, lock to avoid interleaving writes.
+	// First, Lock to avoid interleaving writes.
 playback:
 	MOVL $1, BX
 	XCHGL	runtime·writelock(SB), BX
@@ -194,7 +194,7 @@ TEXT runtime·nacl_cond_broadcast(SB),NOSPLIT,$0
 
 TEXT runtime·nacl_cond_timed_wait_abs(SB),NOSPLIT,$0
 	MOVL cond+0(FP), DI
-	MOVL lock+4(FP), SI
+	MOVL Lock+4(FP), SI
 	MOVL ts+8(FP), DX
 	NACL_SYSCALL(SYS_cond_timed_wait_abs)
 	MOVL AX, ret+16(FP)
@@ -213,7 +213,7 @@ TEXT runtime·mstart_nacl(SB),NOSPLIT,$0
 	NACL_SYSCALL(SYS_tls_get)
 	SUBL	$8, AX
 	MOVL	AX, TLS
-	JMP runtime·mstart(SB)
+	JMP runtime∕internal∕base·Mstart(SB)
 
 TEXT runtime·nacl_nanosleep(SB),NOSPLIT,$0
 	MOVL ts+0(FP), DI
@@ -222,11 +222,11 @@ TEXT runtime·nacl_nanosleep(SB),NOSPLIT,$0
 	MOVL AX, ret+8(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	NACL_SYSCALL(SYS_sched_yield)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$8
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$8
 	MOVL addr+0(FP), DI
 	MOVL n+4(FP), SI
 	MOVL prot+8(FP), DX
@@ -243,7 +243,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$8
 	RET
 
 TEXT time·now(SB),NOSPLIT,$16
-	MOVQ runtime·faketime(SB), AX
+	MOVQ runtime∕internal∕base·Faketime(SB), AX
 	CMPQ AX, $0
 	JEQ realtime
 	MOVQ $0, DX
@@ -277,8 +277,8 @@ TEXT runtime·nacl_clock_gettime(SB),NOSPLIT,$0
 	MOVL AX, ret+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$16
-	MOVQ runtime·faketime(SB), AX
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$16
+	MOVQ runtime∕internal∕base·Faketime(SB), AX
 	CMPQ AX, $0
 	JEQ 3(PC)
 	MOVQ	AX, ret+0(FP)
@@ -297,7 +297,7 @@ TEXT runtime·nanotime(SB),NOSPLIT,$16
 	MOVQ	AX, ret+0(FP)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$80
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$80
 	// restore TLS register at time of execution,
 	// in case it's been smashed.
 	// the TLS register is really BP, but for consistency
@@ -315,24 +315,24 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$80
 	CMPL	DI, $0
 	JEQ	nog
 
-	// save g
+	// Save g
 	MOVL	DI, 20(SP)
 	
 	// g = m->gsignal
-	MOVL	g_m(DI), BX
-	MOVL	m_gsignal(BX), BX
+	MOVL	G_M(DI), BX
+	MOVL	M_Gsignal(BX), BX
 	MOVL	BX, g(CX)
 
 //JMP debughandler
 
-	// copy arguments for sighandler
+	// copy arguments for Sighandler
 	MOVL	$11, 0(SP) // signal
 	MOVL	$0, 4(SP) // siginfo
 	LEAL	ctxt+0(FP), AX
 	MOVL	AX, 8(SP) // context
 	MOVL	DI, 12(SP) // g
 
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	get_tls(CX)
@@ -399,7 +399,7 @@ debughandler:
 	get_tls(CX)
 	MOVL	g(CX), BX
 	MOVL	BX, 12(SP)	// gp
-	CALL	runtime·traceback(SB)
+	CALL	runtime∕internal∕base·Traceback(SB)
 
 notls:
 	MOVL	0, AX

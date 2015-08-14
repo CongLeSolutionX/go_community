@@ -4,26 +4,16 @@
 
 package runtime
 
-import "unsafe"
-
-//go:nosplit
-func findnull(s *byte) int {
-	if s == nil {
-		return 0
-	}
-	p := (*[_MaxMem/2 - 1]byte)(unsafe.Pointer(s))
-	l := 0
-	for p[l] != 0 {
-		l++
-	}
-	return l
-}
+import (
+	_base "runtime/internal/base"
+	"unsafe"
+)
 
 func findnullw(s *uint16) int {
 	if s == nil {
 		return 0
 	}
-	p := (*[_MaxMem/2/2 - 1]uint16)(unsafe.Pointer(s))
+	p := (*[_base.MaxMem/2/2 - 1]uint16)(unsafe.Pointer(s))
 	l := 0
 	for p[l] != 0 {
 		l++
@@ -31,24 +21,9 @@ func findnullw(s *uint16) int {
 	return l
 }
 
-var maxstring uintptr = 256 // a hint for print
-
-//go:nosplit
-func gostringnocopy(str *byte) string {
-	ss := stringStruct{str: unsafe.Pointer(str), len: findnull(str)}
-	s := *(*string)(unsafe.Pointer(&ss))
-	for {
-		ms := maxstring
-		if uintptr(len(s)) <= ms || casuintptr(&maxstring, ms, uintptr(len(s))) {
-			break
-		}
-	}
-	return s
-}
-
 func gostringw(strw *uint16) string {
 	var buf [8]byte
-	str := (*[_MaxMem/2/2 - 1]uint16)(unsafe.Pointer(strw))
+	str := (*[_base.MaxMem/2/2 - 1]uint16)(unsafe.Pointer(strw))
 	n1 := 0
 	for i := 0; str[i] != 0; i++ {
 		n1 += runetochar(buf[:], rune(str[i]))

@@ -1070,9 +1070,9 @@ func defgotype(gotype *LSym) *DWDie {
 		nfields := int(decodetype_ifacemethodcount(gotype))
 		var s *LSym
 		if nfields == 0 {
-			s = lookup_or_diag("type.runtime.eface")
+			s = lookup_or_diag("type.runtime/internal/iface.Eface")
 		} else {
-			s = lookup_or_diag("type.runtime.iface")
+			s = lookup_or_diag("type.runtime/internal/iface.Iface")
 		}
 		newrefattr(die, DW_AT_type, defgotype(s))
 
@@ -1187,7 +1187,7 @@ func substitutetype(structdie *DWDie, field string, dwtype *DWDie) {
 }
 
 func synthesizestringtypes(die *DWDie) {
-	prototype := walktypedef(defgotype(lookup_or_diag("type.runtime._string")))
+	prototype := walktypedef(defgotype(lookup_or_diag("type.runtime/internal/print.String")))
 	if prototype == nil {
 		return
 	}
@@ -1201,7 +1201,7 @@ func synthesizestringtypes(die *DWDie) {
 }
 
 func synthesizeslicetypes(die *DWDie) {
-	prototype := walktypedef(defgotype(lookup_or_diag("type.runtime.slice")))
+	prototype := walktypedef(defgotype(lookup_or_diag("type.runtime/internal/base.Slice")))
 	if prototype == nil {
 		return
 	}
@@ -1213,7 +1213,7 @@ func synthesizeslicetypes(die *DWDie) {
 		}
 		copychildren(die, prototype)
 		elem = getattr(die, DW_AT_go_elem).data.(*DWDie)
-		substitutetype(die, "array", defptrto(elem))
+		substitutetype(die, "Array", defptrto(elem))
 	}
 }
 
@@ -1345,8 +1345,8 @@ func synthesizemaptypes(die *DWDie) {
 		dwh = newdie(&dwtypes, DW_ABRV_STRUCTTYPE, mkinternaltypename("hash", getattr(keytype, DW_AT_name).data.(string), getattr(valtype, DW_AT_name).data.(string)))
 
 		copychildren(dwh, hash)
-		substitutetype(dwh, "buckets", defptrto(dwhb))
-		substitutetype(dwh, "oldbuckets", defptrto(dwhb))
+		substitutetype(dwh, "", defptrto(dwhb))
+		substitutetype(dwh, "", defptrto(dwhb))
 		newattr(dwh, DW_AT_byte_size, DW_CLS_CONSTANT, getattr(hash, DW_AT_byte_size).value, nil)
 
 		// make map type a pointer to hash<K,V>
@@ -1355,9 +1355,9 @@ func synthesizemaptypes(die *DWDie) {
 }
 
 func synthesizechantypes(die *DWDie) {
-	sudog := walktypedef(defgotype(lookup_or_diag("type.runtime.sudog")))
-	waitq := walktypedef(defgotype(lookup_or_diag("type.runtime.waitq")))
-	hchan := walktypedef(defgotype(lookup_or_diag("type.runtime.hchan")))
+	sudog := walktypedef(defgotype(lookup_or_diag("type.runtime/internal/base.Sudog")))
+	waitq := walktypedef(defgotype(lookup_or_diag("type.runtime/internal/race.Waitq")))
+	hchan := walktypedef(defgotype(lookup_or_diag("type.runtime/internal/race.Hchan")))
 	if sudog == nil || waitq == nil || hchan == nil {
 		return
 	}
@@ -1386,7 +1386,7 @@ func synthesizechantypes(die *DWDie) {
 		dws = newdie(&dwtypes, DW_ABRV_STRUCTTYPE, mkinternaltypename("sudog", getattr(elemtype, DW_AT_name).data.(string), ""))
 
 		copychildren(dws, sudog)
-		substitutetype(dws, "elem", elemtype)
+		substitutetype(dws, "", elemtype)
 		if elemsize > 8 {
 			elemsize -= 8
 		} else {
@@ -1398,16 +1398,16 @@ func synthesizechantypes(die *DWDie) {
 		dww = newdie(&dwtypes, DW_ABRV_STRUCTTYPE, mkinternaltypename("waitq", getattr(elemtype, DW_AT_name).data.(string), ""))
 
 		copychildren(dww, waitq)
-		substitutetype(dww, "first", defptrto(dws))
-		substitutetype(dww, "last", defptrto(dws))
+		substitutetype(dww, "", defptrto(dws))
+		substitutetype(dww, "", defptrto(dws))
 		newattr(dww, DW_AT_byte_size, DW_CLS_CONSTANT, getattr(waitq, DW_AT_byte_size).value, nil)
 
 		// hchan<T>
 		dwh = newdie(&dwtypes, DW_ABRV_STRUCTTYPE, mkinternaltypename("hchan", getattr(elemtype, DW_AT_name).data.(string), ""))
 
 		copychildren(dwh, hchan)
-		substitutetype(dwh, "recvq", dww)
-		substitutetype(dwh, "sendq", dww)
+		substitutetype(dwh, "", dww)
+		substitutetype(dwh, "", dww)
 		newattr(dwh, DW_AT_byte_size, DW_CLS_CONSTANT, getattr(hchan, DW_AT_byte_size).value, nil)
 
 		newrefattr(die, DW_AT_type, defptrto(dwh))
@@ -2171,10 +2171,10 @@ func Dwarfemitdebugsections() {
 	newattr(die, DW_AT_go_kind, DW_CLS_CONSTANT, obj.KindUintptr, 0)
 
 	// Needed by the prettyprinter code for interface inspection.
-	defgotype(lookup_or_diag("type.runtime._type"))
+	defgotype(lookup_or_diag("type.runtime/internal/base.Type"))
 
-	defgotype(lookup_or_diag("type.runtime.interfacetype"))
-	defgotype(lookup_or_diag("type.runtime.itab"))
+	defgotype(lookup_or_diag("type.runtime/internal/iface.Interfacetype"))
+	defgotype(lookup_or_diag("type.runtime/internal/iface.Itab"))
 
 	genasmsym(defdwsymb)
 

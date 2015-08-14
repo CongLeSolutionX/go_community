@@ -47,7 +47,7 @@
 #define SYS_clock_gettime	246
 #define SYS_epoll_create1	315
 
-TEXT runtime·exit(SB),NOSPLIT,$-8-4
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-8-4
 	MOVW	code+0(FP), R3
 	SYSCALL	$SYS_exit_group
 	RET
@@ -75,7 +75,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$-8-12
 	MOVW	R3, ret+8(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-8-28
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-8-28
 	MOVD	fd+0(FP), R3
 	MOVD	p+8(FP), R4
 	MOVW	n+16(FP), R5
@@ -102,7 +102,7 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$-8-20
 	MOVW	R3, ret+16(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16-4
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$16-4
 	MOVW	usec+0(FP), R3
 	MOVD	R3, R5
 	MOVW	$1000000, R4
@@ -126,21 +126,21 @@ TEXT runtime·gettid(SB),NOSPLIT,$0-4
 	MOVW	R3, ret+0(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$-8
 	SYSCALL	$SYS_gettid
 	MOVW	R3, R3	// arg 1 tid
-	MOVW	sig+0(FP), R4	// arg 2
+	MOVW	Sig+0(FP), R4	// arg 2
 	SYSCALL	$SYS_tkill
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$-8
 	SYSCALL	$SYS_getpid
 	MOVW	R3, R3	// arg 1 pid
-	MOVW	sig+0(FP), R4	// arg 2
+	MOVW	Sig+0(FP), R4	// arg 2
 	SYSCALL	$SYS_kill
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$-8-24
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$-8-24
 	MOVW	mode+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
@@ -168,7 +168,7 @@ TEXT time·now(SB),NOSPLIT,$16
 	MOVW	R5, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$16
 	MOVW	$1, R3 // CLOCK_MONOTONIC
 	MOVD	$0(R1), R4
 	SYSCALL	$SYS_clock_gettime
@@ -183,7 +183,7 @@ TEXT runtime·nanotime(SB),NOSPLIT,$16
 	RET
 
 TEXT runtime·rtsigprocmask(SB),NOSPLIT,$-8-28
-	MOVW	sig+0(FP), R3
+	MOVW	Sig+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
 	MOVW	size+24(FP), R6
@@ -193,7 +193,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT,$-8-28
 	RET
 
 TEXT runtime·rt_sigaction(SB),NOSPLIT,$-8-36
-	MOVD	sig+0(FP), R3
+	MOVD	Sig+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
 	MOVD	size+24(FP), R6
@@ -202,7 +202,7 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$-8-36
 	RET
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
-	MOVW	sig+8(FP), R3
+	MOVW	Sig+8(FP), R3
 	MOVD	info+16(FP), R4
 	MOVD	ctx+24(FP), R5
 	MOVD	fn+0(FP), R31
@@ -212,10 +212,10 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 
 #ifdef GOARCH_ppc64le
 // ppc64le doesn't need function descriptors
-TEXT runtime·sigtramp(SB),NOSPLIT,$64
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$64
 #else
 // function descriptor for the real sigtramp
-TEXT runtime·sigtramp(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$-8
 	DWORD	$runtime·_sigtramp(SB)
 	DWORD	$0
 	DWORD	$0
@@ -226,7 +226,7 @@ TEXT runtime·_sigtramp(SB),NOSPLIT,$64
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R6
+	MOVB	runtime∕internal∕base·Iscgo(SB), R6
 	CMP 	R6, $0
 	BEQ	2(PC)
 	BL	runtime·load_g(SB)
@@ -239,7 +239,7 @@ TEXT runtime·_sigtramp(SB),NOSPLIT,$64
 	BL	(CTR)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$-8
 	MOVD	addr+0(FP), R3
 	MOVD	n+8(FP), R4
 	MOVW	prot+16(FP), R5
@@ -251,7 +251,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$-8
 	MOVD	R3, ret+32(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$-8
 	MOVD	addr+0(FP), R3
 	MOVD	n+8(FP), R4
 	SYSCALL	$SYS_munmap
@@ -264,7 +264,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$-8
 	MOVD	n+8(FP), R4
 	MOVW	flags+16(FP), R5
 	SYSCALL	$SYS_madvise
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
 // int64 futex(int32 *uaddr, int32 op, int32 val,
@@ -325,12 +325,12 @@ TEXT runtime·clone(SB),NOSPLIT,$-8
 	CMP	R8, $0
 	BEQ	nog
 
-	MOVD	R3, m_procid(R7)
+	MOVD	R3, M_Procid(R7)
 
 	// TODO: setup TLS.
 
 	// In child, set up new stack
-	MOVD	R7, g_m(R8)
+	MOVD	R7, G_M(R8)
 	MOVD	R8, g
 	//CALL	runtime·stackcheck(SB)
 
@@ -339,12 +339,12 @@ nog:
 	MOVD	R12, CTR
 	BL	(CTR)
 
-	// It shouldn't return.	 If it does, exit that thread.
+	// It shouldn't return.	 If it does, Exit that thread.
 	MOVW	$111, R3
 	SYSCALL	$SYS_exit
 	BR	-2(PC)	// keep exiting
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-8
 	MOVD	new+0(FP), R3
 	MOVD	old+8(FP), R4
 	SYSCALL	$SYS_sigaltstack
@@ -352,7 +352,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 	MOVD	R0, 0xf1(R0)  // crash
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$-8
 	SYSCALL	$SYS_sched_yield
 	RET
 

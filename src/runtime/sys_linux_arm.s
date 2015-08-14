@@ -73,7 +73,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$0
 	MOVW	R0, ret+4(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0
 	MOVW	fd+0(FP), R0
 	MOVW	p+4(FP), R1
 	MOVW	n+8(FP), R2
@@ -105,7 +105,7 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$0
 	MOVW	R0, ret+8(FP)
 	RET
 
-TEXT runtime·exit(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-4
 	MOVW	code+0(FP), R0
 	MOVW	$SYS_exit_group, R7
 	SWI	$0
@@ -127,25 +127,25 @@ TEXT runtime·gettid(SB),NOSPLIT,$0-4
 	MOVW	R0, ret+0(FP)
 	RET
 
-TEXT	runtime·raise(SB),NOSPLIT,$-4
+TEXT	runtime∕internal∕base·Raise(SB),NOSPLIT,$-4
 	MOVW	$SYS_gettid, R7
 	SWI	$0
 	// arg 1 tid already in R0 from gettid
-	MOVW	sig+0(FP), R1	// arg 2 - signal
+	MOVW	Sig+0(FP), R1	// arg 2 - signal
 	MOVW	$SYS_tkill, R7
 	SWI	$0
 	RET
 
-TEXT	runtime·raiseproc(SB),NOSPLIT,$-4
+TEXT	runtime∕internal∕base·raiseproc(SB),NOSPLIT,$-4
 	MOVW	$SYS_getpid, R7
 	SWI	$0
 	// arg 1 tid already in R0 from getpid
-	MOVW	sig+0(FP), R1	// arg 2 - signal
+	MOVW	Sig+0(FP), R1	// arg 2 - signal
 	MOVW	$SYS_kill, R7
 	SWI	$0
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVW	addr+0(FP), R0
 	MOVW	n+4(FP), R1
 	MOVW	prot+8(FP), R2
@@ -160,7 +160,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVW	addr+0(FP), R0
 	MOVW	n+4(FP), R1
 	MOVW	$SYS_munmap, R7
@@ -177,10 +177,10 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVW	flags+8(FP), R2
 	MOVW	$SYS_madvise, R7
 	SWI	$0
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$0
 	MOVW	mode+0(FP), R0
 	MOVW	new+4(FP), R1
 	MOVW	old+8(FP), R2
@@ -212,8 +212,8 @@ TEXT time·now(SB), NOSPLIT, $32
 	MOVW	R2, nsec+8(FP)
 	RET	
 
-// int64 nanotime(void)
-TEXT runtime·nanotime(SB),NOSPLIT,$32
+// int64 Nanotime(void)
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$32
 	MOVW	$1, R0  // CLOCK_MONOTONIC
 	MOVW	$8(R13), R1  // timespec
 	MOVW	$SYS_clock_gettime, R7
@@ -293,7 +293,7 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	BEQ	nog
 
 	MOVW	R0, g
-	MOVW	R8, g_m(g)
+	MOVW	R8, G_M(g)
 
 	// paranoia; check they are not nil
 	MOVW	0(R8), R0
@@ -304,8 +304,8 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	// Initialize m->procid to Linux tid
 	MOVW	$SYS_gettid, R7
 	SWI	$0
-	MOVW	g_m(g), R8
-	MOVW	R0, m_procid(R8)
+	MOVW	G_M(g), R8
+	MOVW	R0, M_Procid(R8)
 
 nog:
 	// Call fn
@@ -313,7 +313,7 @@ nog:
 	MOVW	$16(R13), R13
 	BL	(R0)
 
-	// It shouldn't return.  If it does, exit that thread.
+	// It shouldn't return.  If it does, Exit that thread.
 	SUB	$16, R13 // restore the stack pointer to avoid memory corruption
 	MOVW	$0, R0
 	MOVW	R0, 4(R13)
@@ -323,7 +323,7 @@ nog:
 	MOVW	$1005, R1
 	MOVW	R0, (R1)
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$0
 	MOVW	new+0(FP), R0
 	MOVW	old+4(FP), R1
 	MOVW	$SYS_sigaltstack, R7
@@ -335,19 +335,19 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
-	MOVW	sig+4(FP), R0
+	MOVW	Sig+4(FP), R0
 	MOVW	info+8(FP), R1
 	MOVW	ctx+12(FP), R2
 	MOVW	fn+0(FP), R11
 	BL	(R11)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$12
 	// this might be called in external code context,
 	// where g is not set.
-	// first save R0, because runtime·load_g will clobber it
+	// first Save R0, because runtime·load_g will clobber it
 	MOVW	R0, 4(R13)
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime∕internal∕base·Iscgo(SB), R0
 	CMP 	$0, R0
 	BL.NE	runtime·load_g(SB)
 
@@ -358,7 +358,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$12
 	RET
 
 TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
-	MOVW	sig+0(FP), R0
+	MOVW	Sig+0(FP), R0
 	MOVW	new+4(FP), R1
 	MOVW	old+8(FP), R2
 	MOVW	size+12(FP), R3
@@ -367,7 +367,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
-	MOVW	sig+0(FP), R0
+	MOVW	Sig+0(FP), R0
 	MOVW	new+4(FP), R1
 	MOVW	old+8(FP), R2
 	MOVW	size+12(FP), R3
@@ -376,7 +376,7 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
 	MOVW	R0, ret+16(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$12
 	MOVW	usec+0(FP), R0
 	CALL	runtime·usplitR0(SB)
 	MOVW	R0, 4(R13)
@@ -392,15 +392,15 @@ TEXT runtime·usleep(SB),NOSPLIT,$12
 
 // Use kernel version instead of native armcas in asm_arm.s.
 // See ../sync/atomic/asm_linux_arm.s for details.
-TEXT cas<>(SB),NOSPLIT,$0
+TEXT Cas<>(SB),NOSPLIT,$0
 	MOVW	$0xffff0fc0, R15 // R15 is hardware PC.
 
-TEXT runtime·cas(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Cas(SB),NOSPLIT,$0
 	MOVW	ptr+0(FP), R2
 	MOVW	old+4(FP), R0
 loop:
 	MOVW	new+8(FP), R1
-	BL	cas<>(SB)
+	BL	Cas<>(SB)
 	BCC	check
 	MOVW	$1, R0
 	MOVB	R0, ret+12(FP)
@@ -417,9 +417,9 @@ check:
 	RET
 
 TEXT runtime·casp1(SB),NOSPLIT,$0
-	B	runtime·cas(SB)
+	B	runtime∕internal∕base·Cas(SB)
 
-// As for cas, memory barriers are complicated on ARM, but the kernel
+// As for Cas, memory barriers are complicated on ARM, but the kernel
 // provides a user helper. ARMv5 does not support SMP and has no
 // memory barrier instruction at all. ARMv6 added SMP support and has
 // a memory barrier, but it requires writing to a coprocessor
@@ -431,11 +431,11 @@ TEXT publicationBarrier<>(SB),NOSPLIT,$0
 	// void __kuser_memory_barrier(void);
 	MOVW	$0xffff0fa0, R15 // R15 is hardware PC.
 
-TEXT ·publicationBarrier(SB),NOSPLIT,$0
+TEXT runtime∕internal∕iface·publicationBarrier(SB),NOSPLIT,$0
 	BL	publicationBarrier<>(SB)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	MOVW	$SYS_sched_yield, R7
 	SWI	$0
 	RET

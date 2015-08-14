@@ -4,37 +4,37 @@
 
 #include "textflag.h"
 
-// uint32 runtime·atomicload(uint32 volatile* addr)
-TEXT ·atomicload(SB),NOSPLIT,$-8-12
+// uint32 runtime∕internal∕base·Atomicload(uint32 volatile* addr)
+TEXT runtime∕internal∕base·Atomicload(SB),NOSPLIT,$-8-12
 	MOVD	ptr+0(FP), R0
 	LDARW	(R0), R0
 	MOVW	R0, ret+8(FP)
 	RET
 
-// uint64 runtime·atomicload64(uint64 volatile* addr)
-TEXT ·atomicload64(SB),NOSPLIT,$-8-16
+// uint64 runtime∕internal∕base·Atomicload64(uint64 volatile* addr)
+TEXT runtime∕internal∕base·Atomicload64(SB),NOSPLIT,$-8-16
 	MOVD	ptr+0(FP), R0
 	LDAR	(R0), R0
 	MOVD	R0, ret+8(FP)
 	RET
 
-// void *runtime·atomicloadp(void *volatile *addr)
-TEXT ·atomicloadp(SB),NOSPLIT,$-8-16
+// void *runtime∕internal∕iface·Atomicloadp(void *volatile *addr)
+TEXT runtime∕internal∕iface·Atomicloadp(SB),NOSPLIT,$-8-16
 	MOVD	ptr+0(FP), R0
 	LDAR	(R0), R0
 	MOVD	R0, ret+8(FP)
 	RET
 
-TEXT runtime·atomicstorep1(SB), NOSPLIT, $0-16
-	B	runtime·atomicstore64(SB)
+TEXT runtime∕internal∕base·Atomicstorep1(SB), NOSPLIT, $0-16
+	B	runtime∕internal∕base·Atomicstore64(SB)
 
-TEXT runtime·atomicstore(SB), NOSPLIT, $0-12
+TEXT runtime∕internal∕base·Atomicstore(SB), NOSPLIT, $0-12
 	MOVD	ptr+0(FP), R0
 	MOVW	val+8(FP), R1
 	STLRW	R1, (R0)
 	RET
 
-TEXT runtime·atomicstore64(SB), NOSPLIT, $0-16
+TEXT runtime∕internal∕base·Atomicstore64(SB), NOSPLIT, $0-16
 	MOVD	ptr+0(FP), R0
 	MOVD	val+8(FP), R1
 	STLR	R1, (R0)
@@ -50,7 +50,7 @@ again:
 	MOVW	R2, ret+16(FP)
 	RET
 
-TEXT runtime·xchg64(SB), NOSPLIT, $0-24
+TEXT runtime∕internal∕base·Xchg64(SB), NOSPLIT, $0-24
 again:
 	MOVD	ptr+0(FP), R0
 	MOVD	new+8(FP), R1
@@ -60,7 +60,7 @@ again:
 	MOVD	R2, ret+16(FP)
 	RET
 
-// bool runtime·cas64(uint64 *ptr, uint64 old, uint64 new)
+// bool runtime∕internal∕base·Cas64(uint64 *ptr, uint64 old, uint64 new)
 // Atomically:
 //      if(*val == *old){
 //              *val = new;
@@ -68,7 +68,7 @@ again:
 //      } else {
 //              return 0;
 //      }
-TEXT runtime·cas64(SB), NOSPLIT, $0-25
+TEXT runtime∕internal∕base·Cas64(SB), NOSPLIT, $0-25
 	MOVD	ptr+0(FP), R0
 	MOVD	old+8(FP), R1
 	MOVD	new+16(FP), R2
@@ -83,11 +83,11 @@ ok:
 	MOVB	R0, ret+24(FP)
 	RET
 
-// uint32 xadd(uint32 volatile *ptr, int32 delta)
+// uint32 Xadd(uint32 volatile *ptr, int32 delta)
 // Atomically:
 //      *val += delta;
 //      return *val;
-TEXT runtime·xadd(SB), NOSPLIT, $0-20
+TEXT runtime∕internal∕base·Xadd(SB), NOSPLIT, $0-20
 again:
 	MOVD	ptr+0(FP), R0
 	MOVW	delta+8(FP), R1
@@ -98,7 +98,7 @@ again:
 	MOVW	R2, ret+16(FP)
 	RET
 
-TEXT runtime·xadd64(SB), NOSPLIT, $0-24
+TEXT runtime∕internal∕base·Xadd64(SB), NOSPLIT, $0-24
 again:
 	MOVD	ptr+0(FP), R0
 	MOVD	delta+8(FP), R1
@@ -110,8 +110,8 @@ again:
 	RET
 
 TEXT runtime·xchguintptr(SB), NOSPLIT, $0-24
-	B	runtime·xchg64(SB)
+	B	runtime∕internal∕base·Xchg64(SB)
 
-TEXT ·publicationBarrier(SB),NOSPLIT,$-8-0
+TEXT runtime∕internal∕iface·publicationBarrier(SB),NOSPLIT,$-8-0
 	DMB	$0xe	// DMB ST
 	RET

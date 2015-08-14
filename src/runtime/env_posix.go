@@ -6,20 +6,11 @@
 
 package runtime
 
-import "unsafe"
-
-func gogetenv(key string) string {
-	env := environ()
-	if env == nil {
-		throw("getenv before env init")
-	}
-	for _, s := range environ() {
-		if len(s) > len(key) && s[len(key)] == '=' && s[:len(key)] == key {
-			return s[len(key)+1:]
-		}
-	}
-	return ""
-}
+import (
+	_base "runtime/internal/base"
+	_print "runtime/internal/print"
+	"unsafe"
+)
 
 var _cgo_setenv unsafe.Pointer   // pointer to C function
 var _cgo_unsetenv unsafe.Pointer // pointer to C function
@@ -32,7 +23,7 @@ func syscall_setenv_c(k string, v string) {
 		return
 	}
 	arg := [2]unsafe.Pointer{cstring(k), cstring(v)}
-	asmcgocall(unsafe.Pointer(_cgo_setenv), unsafe.Pointer(&arg))
+	_base.Asmcgocall(unsafe.Pointer(_cgo_setenv), unsafe.Pointer(&arg))
 }
 
 // Update the C environment if cgo is loaded.
@@ -43,12 +34,12 @@ func syscall_unsetenv_c(k string) {
 		return
 	}
 	arg := [1]unsafe.Pointer{cstring(k)}
-	asmcgocall(unsafe.Pointer(_cgo_unsetenv), unsafe.Pointer(&arg))
+	_base.Asmcgocall(unsafe.Pointer(_cgo_unsetenv), unsafe.Pointer(&arg))
 }
 
 func cstring(s string) unsafe.Pointer {
 	p := make([]byte, len(s)+1)
-	sp := (*_string)(unsafe.Pointer(&s))
-	memmove(unsafe.Pointer(&p[0]), unsafe.Pointer(sp.str), uintptr(len(s)))
+	sp := (*_print.String)(unsafe.Pointer(&s))
+	_base.Memmove(unsafe.Pointer(&p[0]), unsafe.Pointer(sp.Str), uintptr(len(s)))
 	return unsafe.Pointer(&p[0])
 }

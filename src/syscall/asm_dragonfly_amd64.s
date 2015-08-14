@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System call support for AMD64, DragonFly
@@ -14,7 +14,7 @@
 // func Syscall9(trap int64, a1, a2, a3, a4, a5, a6, a7, a8, a9 int64) (r1, r2, err int64)
 // Trap # in AX, args in DI SI DX, return in AX DX
 
-TEXT	·Syscall(SB),NOSPLIT,$0-64
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-64
 	CALL	runtime·entersyscall(SB)
 	MOVQ	16(SP), DI
 	MOVQ	24(SP), SI
@@ -28,16 +28,16 @@ TEXT	·Syscall(SB),NOSPLIT,$0-64
 	MOVQ	$-1, 40(SP)	// r1
 	MOVQ	$0, 48(SP)	// r2
 	MOVQ	AX, 56(SP)  // errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVQ	AX, 40(SP)	// r1
 	MOVQ	DX, 48(SP)	// r2
 	MOVQ	$0, 56(SP)	// errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall6(SB),NOSPLIT,$0-88
+TEXT	syscall·Syscall6(SB),NOSPLIT,$0-88
 	CALL	runtime·entersyscall(SB)
 	MOVQ	16(SP), DI
 	MOVQ	24(SP), SI
@@ -51,16 +51,16 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-88
 	MOVQ	$-1, 64(SP)	// r1
 	MOVQ	$0, 72(SP)	// r2
 	MOVQ	AX, 80(SP)  // errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVQ	AX, 64(SP)	// r1
 	MOVQ	DX, 72(SP)	// r2
 	MOVQ	$0, 80(SP)	// errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall9(SB),NOSPLIT,$0-112
+TEXT	syscall·Syscall9(SB),NOSPLIT,$0-112
 	CALL	runtime·entersyscall(SB)
 	MOVQ	8(SP), AX
 	MOVQ	16(SP), DI
@@ -84,16 +84,16 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-112
 	MOVQ	$-1, 88(SP)	// r1
 	MOVQ	$0, 96(SP)	// r2
 	MOVQ	AX, 104(SP)  // errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok9:
 	MOVQ	AX, 88(SP)	// r1
 	MOVQ	DX, 96(SP)	// r2
 	MOVQ	$0, 104(SP)	// errno
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0-64
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-64
 	MOVQ	16(SP), DI
 	MOVQ	24(SP), SI
 	MOVQ	32(SP), DX
@@ -113,7 +113,7 @@ ok1:
 	MOVQ	$0, 56(SP)	// errno
 	RET
 
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-88
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-88
 	MOVQ	16(SP), DI
 	MOVQ	24(SP), SI
 	MOVQ	32(SP), DX

@@ -10,15 +10,15 @@
 #include "go_tls.h"
 #include "textflag.h"
 
-TEXT runtime·exit(SB),NOSPLIT,$0-4
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
-	MOVL	$231, AX	// exitgroup - force all os threads to exit
+	MOVL	$231, AX	// exitgroup - force all os threads to Exit
 	SYSCALL
 	RET
 
 TEXT runtime·exit1(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
-	MOVL	$60, AX	// exit - exit the current os thread
+	MOVL	$60, AX	// Exit - Exit the current os thread
 	SYSCALL
 	RET
 
@@ -44,7 +44,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$0-12
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0-28
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0-28
 	MOVQ	fd+0(FP), DI
 	MOVQ	p+8(FP), SI
 	MOVL	n+16(FP), DX
@@ -76,7 +76,7 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$0-20
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$16
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -100,25 +100,25 @@ TEXT runtime·gettid(SB),NOSPLIT,$0-4
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$0
 	MOVL	$186, AX	// syscall - gettid
 	SYSCALL
 	MOVL	AX, DI	// arg 1 tid
-	MOVL	sig+0(FP), SI	// arg 2
+	MOVL	Sig+0(FP), SI	// arg 2
 	MOVL	$200, AX	// syscall - tkill
 	SYSCALL
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$0
 	MOVL	$39, AX	// syscall - getpid
 	SYSCALL
 	MOVL	AX, DI	// arg 1 pid
-	MOVL	sig+0(FP), SI	// arg 2
+	MOVL	Sig+0(FP), SI	// arg 2
 	MOVL	$62, AX	// syscall - kill
 	SYSCALL
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0-24
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$0-24
 	MOVL	mode+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
@@ -164,7 +164,7 @@ fallback:
 	MOVL	DX, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$16
 	// Duplicate time.now here to avoid using up precious stack space.
 	// See comment above in time.now.
 	MOVQ	runtime·__vdso_clock_gettime_sym(SB), AX
@@ -197,7 +197,7 @@ fallback:
 	RET
 
 TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0-28
-	MOVL	sig+0(FP), DI
+	MOVL	Sig+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
 	MOVL	size+24(FP), R10
@@ -209,7 +209,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0-28
 	RET
 
 TEXT runtime·rt_sigaction(SB),NOSPLIT,$0-36
-	MOVQ	sig+0(FP), DI
+	MOVQ	Sig+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
 	MOVQ	size+24(FP), R10
@@ -219,14 +219,14 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$0-36
 	RET
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
-	MOVL	sig+8(FP), DI
+	MOVL	Sig+8(FP), DI
 	MOVQ	info+16(FP), SI
 	MOVQ	ctx+24(FP), DX
 	MOVQ	fn+0(FP), AX
 	CALL	AX
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$24
 	MOVQ	DI, 0(SP)   // signum
 	MOVQ	SI, 8(SP)   // info
 	MOVQ	DX, 16(SP)  // ctx
@@ -239,7 +239,7 @@ TEXT runtime·sigreturn(SB),NOSPLIT,$0
 	SYSCALL
 	INT $3	// not reached
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVL	prot+16(FP), DX
@@ -247,7 +247,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVL	fd+24(FP), R8
 	MOVL	off+28(FP), R9
 
-	MOVL	$9, AX			// mmap
+	MOVL	$9, AX			// Mmap
 	SYSCALL
 	CMPQ	AX, $0xfffffffffffff001
 	JLS	3(PC)
@@ -256,7 +256,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVQ	AX, ret+32(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVQ	$11, AX	// munmap
@@ -272,7 +272,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	flags+16(FP), DX
 	MOVQ	$28, AX	// madvise
 	SYSCALL
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
 // int64 futex(int32 *uaddr, int32 op, int32 val,
@@ -323,15 +323,15 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	// Initialize m->procid to Linux tid
 	MOVL	$186, AX	// gettid
 	SYSCALL
-	MOVQ	AX, m_procid(R8)
+	MOVQ	AX, M_Procid(R8)
 
 	// Set FS to point at m->tls.
-	LEAQ	m_tls(R8), DI
+	LEAQ	M_tls(R8), DI
 	CALL	runtime·settls(SB)
 
 	// In child, set up new stack
 	get_tls(CX)
-	MOVQ	R8, g_m(R9)
+	MOVQ	R8, G_M(R9)
 	MOVQ	R9, g(CX)
 	CALL	runtime·stackcheck(SB)
 
@@ -339,13 +339,13 @@ nog:
 	// Call fn
 	CALL	R12
 
-	// It shouldn't return.  If it does, exit that thread.
+	// It shouldn't return.  If it does, Exit that thread.
 	MOVL	$111, DI
 	MOVL	$60, AX
 	SYSCALL
 	JMP	-3(PC)	// keep exiting
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-8
 	MOVQ	new+8(SP), DI
 	MOVQ	old+16(SP), SI
 	MOVQ	$131, AX
@@ -368,7 +368,7 @@ TEXT runtime·settls(SB),NOSPLIT,$32
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	MOVL	$24, AX
 	SYSCALL
 	RET

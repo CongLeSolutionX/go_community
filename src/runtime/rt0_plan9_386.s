@@ -9,7 +9,7 @@ TEXT _rt0_386_plan9(SB),NOSPLIT,$12
 	LEAL	8(SP), AX
 	MOVL	AX, _privates(SB)
 	MOVL	$1, _nprivates(SB)
-	CALL	runtime·asminit(SB)
+	CALL	runtime∕internal∕base·Asminit(SB)
 	MOVL	inargc-4(FP), AX
 	MOVL	AX, 0(SP)
 	LEAL	inargv+0(FP), AX

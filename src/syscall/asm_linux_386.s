@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System calls for 386, Linux
@@ -12,7 +12,7 @@
 // func Syscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr);
 // Trap # in AX, args in BX CX DX SI DI, return in AX
 
-TEXT	·Syscall(SB),NOSPLIT,$0-28
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-28
 	CALL	runtime·entersyscall(SB)
 	MOVL	trap+0(FP), AX	// syscall entry
 	MOVL	a1+4(FP), BX
@@ -27,17 +27,17 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVL	$0, r2+20(FP)
 	NEGL	AX
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVL	AX, r1+16(FP)
 	MOVL	DX, r2+20(FP)
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
-TEXT	·Syscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·Syscall6(SB),NOSPLIT,$0-40
 	CALL	runtime·entersyscall(SB)
 	MOVL	trap+0(FP), AX	// syscall entry
 	MOVL	a1+4(FP), BX
@@ -53,17 +53,17 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVL	$0, r2+32(FP)
 	NEGL	AX
 	MOVL	AX, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVL	AX, r1+28(FP)
 	MOVL	DX, r2+32(FP)
 	MOVL	$0, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr);
-TEXT ·RawSyscall(SB),NOSPLIT,$0-28
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-28
 	MOVL	trap+0(FP), AX	// syscall entry
 	MOVL	a1+4(FP), BX
 	MOVL	a2+8(FP), CX
@@ -85,7 +85,7 @@ ok1:
 	RET
 
 // func RawSyscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-40
 	MOVL	trap+0(FP), AX	// syscall entry
 	MOVL	a1+4(FP), BX
 	MOVL	a2+8(FP), CX
@@ -111,7 +111,7 @@ ok2:
 
 // func socketcall(call int, a0, a1, a2, a3, a4, a5 uintptr) (n int, err int)
 // Kernel interface gets call sub-number and pointer to a0.
-TEXT ·socketcall(SB),NOSPLIT,$0-36
+TEXT syscall·socketcall(SB),NOSPLIT,$0-36
 	CALL	runtime·entersyscall(SB)
 	MOVL	$SYS_SOCKETCALL, AX	// syscall entry
 	MOVL	call+0(FP), BX	// socket call number
@@ -125,17 +125,17 @@ TEXT ·socketcall(SB),NOSPLIT,$0-36
 	MOVL	$-1, n+28(FP)
 	NEGL	AX
 	MOVL	AX, err+32(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 oksock:
 	MOVL	AX, n+28(FP)
 	MOVL	$0, err+32(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func rawsocketcall(call int, a0, a1, a2, a3, a4, a5 uintptr) (n int, err int)
 // Kernel interface gets call sub-number and pointer to a0.
-TEXT ·rawsocketcall(SB),NOSPLIT,$0-36
+TEXT syscall·rawsocketcall(SB),NOSPLIT,$0-36
 	MOVL	$SYS_SOCKETCALL, AX	// syscall entry
 	MOVL	call+0(FP), BX	// socket call number
 	LEAL		a0+4(FP), CX	// pointer to call arguments
@@ -160,7 +160,7 @@ oksock1:
 // taking the address of the return value newoffset.
 // Underlying system call is
 //	llseek(int fd, int offhi, int offlo, int64 *result, int whence)
-TEXT ·seek(SB),NOSPLIT,$0-28
+TEXT syscall·seek(SB),NOSPLIT,$0-28
 	CALL	runtime·entersyscall(SB)
 	MOVL	$SYS__LLSEEK, AX	// syscall entry
 	MOVL	fd+0(FP), BX
@@ -175,10 +175,10 @@ TEXT ·seek(SB),NOSPLIT,$0-28
 	MOVL	$-1, newoffset_hi+20(FP)
 	NEGL	AX
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 okseek:
 	// system call filled in newoffset already
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET

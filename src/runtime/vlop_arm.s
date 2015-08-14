@@ -25,7 +25,7 @@
 
 #include "go_asm.h"
 #include "go_tls.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 #include "textflag.h"
 
 /* replaced use of R10 by R11 because the former can be the data segment base register */
@@ -63,7 +63,7 @@ TEXT _sfloat(SB), NOSPLIT, $68-0 // 4 arg + 14*4 saved regs + cpsr + return valu
 	// m->freghi, m->freglo, m->fflag, if the goroutine is moved
 	// to a different m or another goroutine runs on this m.
 	// Rescheduling at ordinary function calls is okay because
-	// all registers are caller save, but _sfloat2 and the things
+	// all registers are caller Save, but _sfloat2 and the things
 	// that it runs are simulating the execution of individual
 	// program instructions, and those instructions do not expect
 	// the floating point registers to be lost.
@@ -71,20 +71,20 @@ TEXT _sfloat(SB), NOSPLIT, $68-0 // 4 arg + 14*4 saved regs + cpsr + return valu
 	// registers into G, but they do not need to be kept at the 
 	// usual places a goroutine reschedules (at function calls),
 	// so it would be a waste of 132 bytes per G.
-	MOVW	g_m(g), R8
-	MOVW	m_locks(R8), R1
+	MOVW	G_M(g), R8
+	MOVW	M_Locks(R8), R1
 	ADD	$1, R1
-	MOVW	R1, m_locks(R8)
+	MOVW	R1, M_Locks(R8)
 	MOVW	$1, R1
-	MOVW	R1, m_softfloat(R8)
+	MOVW	R1, M_Softfloat(R8)
 	BL	runtime·_sfloat2(SB)
 	MOVW	68(R13), R0
-	MOVW	g_m(g), R8
-	MOVW	m_locks(R8), R1
+	MOVW	G_M(g), R8
+	MOVW	M_Locks(R8), R1
 	SUB	$1, R1
-	MOVW	R1, m_locks(R8)
+	MOVW	R1, M_Locks(R8)
 	MOVW	$0, R1
-	MOVW	R1, m_softfloat(R8)
+	MOVW	R1, M_Softfloat(R8)
 	MOVW	R0, 0(R13)
 	MOVW	64(R13), R1
 	WORD	$0xe128f001	// msr cpsr_f, r1
@@ -98,13 +98,13 @@ TEXT _sfloat(SB), NOSPLIT, $68-0 // 4 arg + 14*4 saved regs + cpsr + return valu
 // _sfloat2 instructs _sfloat to return here.
 // We need to push a fake saved LR onto the stack,
 // load the signal fault address into LR, and jump
-// to the real sigpanic.
-// This simulates what sighandler does for a memory fault.
+// to the real Sigpanic.
+// This simulates what Sighandler does for a memory fault.
 TEXT runtime·_sfloatpanic(SB),NOSPLIT,$-4
 	MOVW	$0, R0
 	MOVW.W	R0, -4(R13)
-	MOVW	g_sigpc(g), LR
-	B	runtime·sigpanic(SB)
+	MOVW	G_Sigpc(g), LR
+	B	runtime∕internal∕base·Sigpanic(SB)
 
 // func udiv(n, d uint32) (q, r uint32)
 // Reference: 
@@ -121,7 +121,7 @@ TEXT udiv<>(SB),NOSPLIT,$-4
 	CLZ 	Rq, Rs // find normalizing shift
 	MOVW.S	Rq<<Rs, Ra
 	MOVW	$fast_udiv_tab<>-64(SB), RM
-	ADD.NE	Ra>>25, RM, Ra // index by most significant 7 bits of divisor
+	ADD.NE	Ra>>25, RM, Ra // Index by most significant 7 bits of divisor
 	MOVBU.NE	(Ra), Ra
 
 	SUB.S	$7, Rs
@@ -178,7 +178,7 @@ udiv_by_0_or_1:
 	RET
 
 udiv_by_0:
-	MOVW	$runtime·panicdivide(SB), R11
+	MOVW	$runtime∕internal∕base·panicdivide(SB), R11
 	B	(R11)
 
 // var tab [64]byte
@@ -225,8 +225,8 @@ TEXT _divu(SB), NOSPLIT, $16-0
 	MOVW	RM, 16(R13)
 
 	MOVW	RTMP, Rr		/* numerator */
-	MOVW	g_m(g), Rq
-	MOVW	m_divmod(Rq), Rq	/* denominator */
+	MOVW	G_M(g), Rq
+	MOVW	M_divmod(Rq), Rq	/* denominator */
 	BL  	udiv<>(SB)
 	MOVW	Rq, RTMP
 	MOVW	4(R13), Rq
@@ -243,8 +243,8 @@ TEXT _modu(SB), NOSPLIT, $16-0
 	MOVW	RM, 16(R13)
 
 	MOVW	RTMP, Rr		/* numerator */
-	MOVW	g_m(g), Rq
-	MOVW	m_divmod(Rq), Rq	/* denominator */
+	MOVW	G_M(g), Rq
+	MOVW	M_divmod(Rq), Rq	/* denominator */
 	BL  	udiv<>(SB)
 	MOVW	Rr, RTMP
 	MOVW	4(R13), Rq
@@ -260,8 +260,8 @@ TEXT _div(SB),NOSPLIT,$16-0
 	MOVW	Rs, 12(R13)
 	MOVW	RM, 16(R13)
 	MOVW	RTMP, Rr		/* numerator */
-	MOVW	g_m(g), Rq
-	MOVW	m_divmod(Rq), Rq	/* denominator */
+	MOVW	G_M(g), Rq
+	MOVW	M_divmod(Rq), Rq	/* denominator */
 	CMP 	$0, Rr
 	BGE 	d1
 	RSB 	$0, Rr, Rr
@@ -293,17 +293,17 @@ TEXT _mod(SB),NOSPLIT,$16-0
 	MOVW	Rs, 12(R13)
 	MOVW	RM, 16(R13)
 	MOVW	RTMP, Rr		/* numerator */
-	MOVW	g_m(g), Rq
-	MOVW	m_divmod(Rq), Rq	/* denominator */
+	MOVW	G_M(g), Rq
+	MOVW	M_divmod(Rq), Rq	/* denominator */
 	CMP 	$0, Rq
 	RSB.LT	$0, Rq, Rq
 	CMP 	$0, Rr
-	BGE 	m1
+	BGE 	const_m1
 	RSB 	$0, Rr, Rr
 	BL  	udiv<>(SB)  		/* neg numerator */
 	RSB 	$0, Rr, RTMP
 	B   	out
-m1:
+const_m1:
 	BL  	udiv<>(SB)  		/* pos numerator */
 	MOVW	Rr, RTMP
 out:
