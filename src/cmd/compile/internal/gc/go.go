@@ -288,7 +288,7 @@ const (
 
 	TFUNC
 	TARRAY
-	T_old_DARRAY
+	T_old_DARRAY // remove? (doesn't seem to be used)
 	TSTRUCT
 	TCHAN
 	TMAP
