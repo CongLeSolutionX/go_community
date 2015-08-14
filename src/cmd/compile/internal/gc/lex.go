@@ -58,6 +58,7 @@ var debugtab = []struct {
 	{"slice", &Debug_slice},           // print information about slice compilation
 	{"typeassert", &Debug_typeassert}, // print information about type assertion inlining
 	{"wb", &Debug_wb},                 // print information about write barriers
+	{"export", &Debug_export},         // print export data
 }
 
 // Our own isdigit, isspace, isalpha, isalnum that take care
