@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4dac934_9df5c3c1",
+        "filename": "src/cmd/compile/internal/arm64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-08-15T03:54:25Z",
+      "side": 1,
+      "message": "ppc has this production\n\n     if gc.Reginuse(ppc64.REGRT1) {\n                gc.Fatal(\"%v in use during clearfat\", obj.Rconv(ppc64.REGRT1))\n        }\n\nI\u0027m going to see if this can be used in arm64 as well.",
+      "revId": "e3083aa24cdbc4f70612c8935c0539387df780da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
