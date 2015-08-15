@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64591d73_6f077127",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1888,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-15T02:07:15Z",
+      "side": 1,
+      "message": "Maybe return p so that it can be modified subsequently?  Might be useful for setting Offset etc.",
+      "revId": "f50e32e9e8bd23b00d3dd3ae2a50f70690605246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_cf0b1d2f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-15T02:07:15Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 1982,
+        "startChar": 3,
+        "endLine": 1983,
+        "endChar": 68
+      },
+      "revId": "f50e32e9e8bd23b00d3dd3ae2a50f70690605246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_0f16b555",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-15T02:07:15Z",
+      "side": 1,
+      "message": "Yes, Alexandru just fixed this.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "f50e32e9e8bd23b00d3dd3ae2a50f70690605246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
