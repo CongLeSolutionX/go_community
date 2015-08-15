@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0456a145_5aab515d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1888,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-15T15:23:49Z",
+      "side": 1,
+      "message": "That makes sense.  It occurred to me, in light of recent subtraction dyslexia in the patterns that I ought to swap the src, dest operands here.",
+      "parentUuid": "64591d73_6f077127",
+      "revId": "f50e32e9e8bd23b00d3dd3ae2a50f70690605246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64591d73_cf0b1d2f",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-08-15T02:07:15Z",
       "side": 1,
       "message": "Remove?",
+      "range": {
+        "startLine": 1982,
+        "startChar": 3,
+        "endLine": 1983,
+        "endChar": 68
+      },
+      "revId": "f50e32e9e8bd23b00d3dd3ae2a50f70690605246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0456a145_baaf0d68",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-15T15:23:49Z",
+      "side": 1,
+      "message": "Probably ought to, but it hasn\u0027t failed yet, which means that we don\u0027t have a test for that code I wrote, either :-).",
+      "parentUuid": "64591d73_cf0b1d2f",
       "range": {
         "startLine": 1982,
         "startChar": 3,
