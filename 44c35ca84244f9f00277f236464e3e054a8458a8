@@ -1,0 +1,571 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64591d73_2f6c5926",
+        "filename": "src/cmd/compile/internal/ssa/deadcode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "This check should probably go in findlive. Even though it doesn\u0027t alter the Func, it\u0027ll give bad output after regalloc. This\u0027ll require checking f.RegAlloc in fprintFunc.\n\nAlternatively, we could just have have findlive report that all values are live if f.RegAlloc !\u003d nil.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_6f665148",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Paranoid, but maybe add\n\nfunc init() {\n  if int(numRegs) \u003e\u003d int(noRegister) {\n    panic(\"bad noRegister\")\n  }\n}",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_cf5afd79",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "May as well do this faster, e.g. https://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetKernighan",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_af57c951",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Same -- this could be O(1) using bit twiddling hacks.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_0f551549",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Comment that uses is sorted",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_ef51c15c",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Given the number of slices involved, it might be cheaper and clearer for this to be a map[struct{blockID ID, idx int}][]ID.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_61b0252b",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Comment what the indices are (by what is it ordered?)",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_41b52119",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Instead of commenting out all this debug printing, I\u0027d control it either with a const at the top or a bool in regalloc. The former gets compiled away, but the latter can later be hooked up to a debug flag to the compiler. Either way, having it be real code helps avoid rot.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_a1ba3d06",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "There\u0027s a lot of regMask(1) \u003c\u003c r scattered about, including some less readable versions like plain 1\u003c\u003c0. I\u0027d suggest something like\n\nfunc regN(r register) regMask { return regMask(1 \u003c\u003c r) }",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_e1c3957f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Add\n\ns.home \u003d s.home[:cap(s.home)-1]\n\nhere. That way we loop only as many times as we need to grow the slice.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_c1c01176",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "For readability, I\u0027d suggest a local variable name:\n\nif unused :\u003d mask \u0026^ s.used; unused !\u003d 0 {\n  return pickReg(unused)\n}",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_21ce2da7",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "It\u0027d be nice to have top level constants or vars for regSP and regSB. 4 and 32 are scattered about now. This would then read\n\nmask \u0026^\u003d regN(regSP) | regN(regSB)\n\nIt\u0027s a bit noisier, but I think clearer overall.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_01cb2996",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "if n :\u003d s.values[v.ID].uses[0]; n \u003e maxuse {\n  r \u003d t\n  maxuse \u003d n\n}",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_41dec152",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Also sanity check that s.regs[r].c !\u003d nil?",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_a1d35d48",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Looks like blockOrder could be a local variable instead of a field.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_81d8d963",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Move the defn of \"primary predecessor\" to the field doc in struct regAllocState.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_e1ec3506",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Just \u003e? No block can be its own predecessor or successor. (Maybe we should add this to checkFunc.)\n\nAlso, I\u0027d suggest flipping this:\n\ns.blockOrder[b.ID] \u003c s.blockOrder[p.ID]\n\nI had to read the original several times to understand it. I\u0027d even suggest defining above something like\n\nbefore :\u003d func(b, c *Block) bool {\n  return s.blockOrder[a.ID] \u003c s.blockOrder[b.ID]\n}\n\nThen this would read\n\nif before(b, p) { ...",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_c1e931f4",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "endpc :\u003d pc * 2 - 1 // pc is now at the start of the next block\n\nand then use endpc below instead of pc * 2 - 1. The goal is explaining the calculation.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_21e74d21",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "fmt.Printf(\"%s\", f)\n\nf.String() might contain formatting verbs.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_8f612531",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "This TODO is now stranded/out of place.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_6102e54a",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Doc says \"start state of registers\" but type is [][]*Value and registers have two associated Values (v and c). Clarify the comment?",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_4107e158",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "I\u0027d suggest slicing oldSched into phi and non-phi here (oldPhi :\u003d oldSched[:cutoff]; oldNonPhi :\u003d oldSched[cutoff:]), and checking along the way that phi values are all at the front. This was an invariant that failed sometime in the past and caused problems, and is not checked here. This\u0027ll also simplify the control flow below.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_a10cfd7a",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Hard to see on Gerrit, but I think you can continue in the prev two cases and unindent here. This whole function would benefit from a bit of indentation popping.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_8111f991",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Tiny nit, but use p instead of c here. It is what we call predecessors elsewhere. Or not.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_c1f2d1d5",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Here and many other places in this package we have \"find the index of this successor\" and \"find the index of this predecessor\". I think that at this point we\u0027d benefit from methods (returning -1 if not found).\n\nfunc (b *Block) predIndex(p *Block) int\nfunc (b *Block) succIndex(c *Block) int",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_2100ed39",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Break this up:\n\n// registers from primary predecessor\nregs :\u003d s.values[v.Args[idx].ID].regs\nm :\u003d regs \u0026^ used",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_01fde9a2",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Place first, continue at end, unindent other case",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_612b05b9",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Why isn\u0027t pc incremented here?",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_41308121",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "w",
+      "range": {
+        "startLine": 620,
+        "startChar": 16,
+        "endLine": 620,
+        "endChar": 17
+      },
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_a1251de5",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Are there any arch- or instruction-specific quirks around using the same register as a dying input?",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_812a99af",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "already",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_e11ef595",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Any reason to clear Aux or AuxInt?",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_c11bf1a3",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:37:29Z",
+      "side": 1,
+      "message": "Move this method up with the other short regAllocState methods.",
+      "revId": "44c35ca84244f9f00277f236464e3e054a8458a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
