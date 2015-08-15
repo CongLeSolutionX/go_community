@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64591d73_4159a15f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:44:13Z",
+      "side": 1,
+      "message": "s/aux/auxint/",
+      "revId": "a434c935c31cb6bfd186f7c1f4b07fb2c3086411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_6154a52b",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-15T17:44:13Z",
+      "side": 1,
+      "message": "Does 8 here need to be config.PtrSize?",
+      "revId": "a434c935c31cb6bfd186f7c1f4b07fb2c3086411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
