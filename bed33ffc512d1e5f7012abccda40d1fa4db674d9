@@ -193,6 +193,24 @@
       "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0456a145_7dc0cfc6",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-08-18T18:17:12Z",
+      "side": 1,
+      "message": "Can you give an example of a system + configuration for which net.LookupAddr used to return \"x.google.com\" instead of \"x.google.com.\"?\n\nWe received a report by email about the missing dot here breaking real code, and I\u0027ve tried running Go back to version 1.1 on my Linux desktop, both with and without cgo, and I cannot find any way to produce an address without a trailing dot here. Looking at the source code, we never used cgo in Go 1.4 and before.\n\nGiven that apparent overwhelming consistency in what has been returned until now, I don\u0027t believe it makes sense to change this. It is especially bad that the test now accepts both forms: the code seems to have gone from always returning a trailing dot to not having any idea what it returns. \n\nPlease circulate semantic changes like this more widely in the future. They matter a lot.",
+      "parentUuid": "578d9743_942f4cb3",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
