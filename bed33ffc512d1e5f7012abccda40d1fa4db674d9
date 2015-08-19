@@ -211,6 +211,24 @@
       "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4dac934_a3989e4a",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-08-19T00:55:48Z",
+      "side": 1,
+      "message": "try lookupaddr(\"8.8.8.8\") on windows.",
+      "parentUuid": "0456a145_7dc0cfc6",
+      "revId": "bed33ffc512d1e5f7012abccda40d1fa4db674d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
