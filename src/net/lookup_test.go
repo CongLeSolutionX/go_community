@@ -395,9 +395,11 @@ func TestLookupIPDeadline(t *testing.T) {
 }
 
 func TestLookupDots(t *testing.T) {
-	if testing.Short() || !*testExternal {
-		t.Skipf("skipping external network test")
-	}
+	/*
+		if testing.Short() || !*testExternal {
+			t.Skipf("skipping external network test")
+		}
+	*/
 
 	c := systemConf()
 	oldGo := c.netGo
