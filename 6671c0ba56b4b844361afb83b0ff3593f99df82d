@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4dac934_a377be46",
+        "filename": "src/net/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-08-19T03:34:51Z",
+      "side": 1,
+      "message": "-,.s/via/with/",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "6671c0ba56b4b844361afb83b0ff3593f99df82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4dac934_c374ca44",
+        "filename": "src/net/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-08-19T03:34:51Z",
+      "side": 1,
+      "message": "please length-justify this and the next paragraph. they\u0027re ragged and ugly",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 10
+      },
+      "revId": "6671c0ba56b4b844361afb83b0ff3593f99df82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4dac934_e381c69f",
+        "filename": "src/net/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-08-19T03:34:51Z",
+      "side": 1,
+      "message": "s/of //\ndo you mean \"from\"?",
+      "range": {
+        "startLine": 66,
+        "startChar": 47,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "6671c0ba56b4b844361afb83b0ff3593f99df82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
