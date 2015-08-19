@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0456a145_800c5c7b",
+        "filename": "src/net/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-08-19T03:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4dac934_a377be46",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "6671c0ba56b4b844361afb83b0ff3593f99df82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4dac934_c374ca44",
         "filename": "src/net/net.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0456a145_4002444a",
+        "filename": "src/net/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-08-19T03:42:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4dac934_c374ca44",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 10
+      },
+      "revId": "6671c0ba56b4b844361afb83b0ff3593f99df82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4dac934_e381c69f",
         "filename": "src/net/net.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-08-19T03:34:51Z",
       "side": 1,
       "message": "s/of //\ndo you mean \"from\"?",
+      "range": {
+        "startLine": 66,
+        "startChar": 47,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "6671c0ba56b4b844361afb83b0ff3593f99df82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0456a145_2007505a",
+        "filename": "src/net/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-08-19T03:42:40Z",
+      "side": 1,
+      "message": "Done.\nno it was an editing dreg (used to be \"during the building of\")",
+      "parentUuid": "c4dac934_e381c69f",
       "range": {
         "startLine": 66,
         "startChar": 47,
