@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64591d73_a5a6b7c7",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "Can we do this algebra in rewrite rules instead of here?\n\n(SETNEF x) -\u003e (ORB (SETNE x) (SETPS x))\n\nI think this would mean that we don\u0027t need SETNEF at all, just generate the RHS directly from Neq64f.",
+      "range": {
+        "startLine": 2505,
+        "startChar": 2,
+        "endLine": 2511,
+        "endChar": 43
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_6572dfd6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "AORB?",
+      "range": {
+        "startLine": 2511,
+        "startChar": 15,
+        "endLine": 2511,
+        "endChar": 19
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_85abb38e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2520,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "AANDB",
+      "range": {
+        "startLine": 2520,
+        "startChar": 15,
+        "endLine": 2520,
+        "endChar": 20
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_a58fd737",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2585,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "This could also be {x86.AJPS, 1}, {x86.AJEQ, 0}, right?  No need to change it, just trying to get my head around the logic.",
+      "range": {
+        "startLine": 2585,
+        "startChar": 2,
+        "endLine": 2585,
+        "endChar": 30
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_c58e4b39",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2618,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "Instead of passing \"0, likely\" and \"1, likely\", why not just \"likely\" and \"-likely\"?  And pass \u0026jumps[0][0] and \u0026jumps[0][1] as appropriate.",
+      "range": {
+        "startLine": 2618,
+        "startChar": 37,
+        "endLine": 2618,
+        "endChar": 46
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_2583c712",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2662,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "This is fixed now, right?",
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_126feb20",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "no parentheses required here.",
+      "range": {
+        "startLine": 964,
+        "startChar": 39,
+        "endLine": 964,
+        "endChar": 51
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_f261972f",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "Why the block here?",
+      "range": {
+        "startLine": 976,
+        "startChar": 1,
+        "endLine": 976,
+        "endChar": 2
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_25f627cc",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-19T22:30:13Z",
+      "side": 1,
+      "message": "I\u0027m confused - if we\u0027re swapping, shouldn\u0027t the UCOMISD operands be \"y x\", not \"x y\"?  Or did you define UCOMISD backwards?  I\u0027d just redefine UCOMISD to take the ops in the order that makes sense here (and visually, looking at an SSA dump).",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
