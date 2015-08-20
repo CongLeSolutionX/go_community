@@ -76,17 +76,17 @@ TEXT runtime·setlasterror(SB),NOSPLIT,$0
 // exception record and context pointers.
 // Handler function is stored in AX.
 // Return 0 for 'not handled', -1 for handled.
-TEXT runtime·sigtramp(SB),NOSPLIT,$0-0
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$0-0
 	MOVL	ptrs+0(FP), CX
 	SUBL	$40, SP
 
-	// save callee-saved registers
+	// Save callee-saved registers
 	MOVL	BX, 28(SP)
 	MOVL	BP, 16(SP)
 	MOVL	SI, 20(SP)
 	MOVL	DI, 24(SP)
 
-	MOVL	AX, SI	// save handler address
+	MOVL	AX, SI	// Save handler address
 
 	// find g
 	get_tls(DX)
@@ -99,27 +99,27 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0-0
 	JNE	2(PC)
 	CALL	runtime·badsignal2(SB)
 
-	// save g and SP in case of stack switch
+	// Save g and SP in case of stack switch
 	MOVL	DX, 32(SP)	// g
 	MOVL	SP, 36(SP)
 
 	// do we need to switch to the g0 stack?
-	MOVL	g_m(DX), BX
-	MOVL	m_g0(BX), BX
+	MOVL	G_M(DX), BX
+	MOVL	M_G0(BX), BX
 	CMPL	DX, BX
 	JEQ	g0
 
 	// switch to the g0 stack
 	get_tls(BP)
 	MOVL	BX, g(BP)
-	MOVL	(g_sched+gobuf_sp)(BX), DI
-	// make it look like mstart called us on g0, to stop traceback
+	MOVL	(G_Sched+Gobuf_Sp)(BX), DI
+	// make it look like Mstart called us on g0, to stop Traceback
 	SUBL	$4, DI
-	MOVL	$runtime·mstart(SB), 0(DI)
-	// traceback will think that we've done SUBL
+	MOVL	$runtime∕internal∕base·Mstart(SB), 0(DI)
+	// Traceback will think that we've done SUBL
 	// on this stack, so subtract them here to match.
-	// (we need room for sighandler arguments anyway).
-	// and re-save old SP for restoring later.
+	// (we need room for Sighandler arguments anyway).
+	// and re-Save old SP for restoring later.
 	SUBL	$40, DI
 	MOVL	SP, 36(DI)
 	MOVL	DI, SP
@@ -155,7 +155,7 @@ done:
  
 TEXT runtime·exceptiontramp(SB),NOSPLIT,$0
 	MOVL	$runtime·exceptionhandler(SB), AX
-	JMP	runtime·sigtramp(SB)
+	JMP	runtime∕internal∕base·sigtramp(SB)
 
 TEXT runtime·firstcontinuetramp(SB),NOSPLIT,$0-0
 	// is never called
@@ -163,7 +163,7 @@ TEXT runtime·firstcontinuetramp(SB),NOSPLIT,$0-0
 
 TEXT runtime·lastcontinuetramp(SB),NOSPLIT,$0-0
 	MOVL	$runtime·lastcontinuehandler(SB), AX
-	JMP	runtime·sigtramp(SB)
+	JMP	runtime∕internal∕base·sigtramp(SB)
 
 TEXT runtime·ctrlhandler(SB),NOSPLIT,$0
 	PUSHL	$runtime·ctrlhandler1(SB)
@@ -192,26 +192,26 @@ TEXT runtime·externalthreadhandler(SB),NOSPLIT,$0
 	SUBL	$m__size, SP		// space for M
 	MOVL	SP, 0(SP)
 	MOVL	$m__size, 4(SP)
-	CALL	runtime·memclr(SB)	// smashes AX,BX,CX
+	CALL	runtime∕internal∕base·Memclr(SB)	// smashes AX,BX,CX
 
-	LEAL	m_tls(SP), CX
+	LEAL	M_tls(SP), CX
 	MOVL	CX, 0x14(FS)
 	MOVL	SP, BX
 	SUBL	$g__size, SP		// space for G
 	MOVL	SP, g(CX)
-	MOVL	SP, m_g0(BX)
+	MOVL	SP, M_G0(BX)
 
 	MOVL	SP, 0(SP)
 	MOVL	$g__size, 4(SP)
-	CALL	runtime·memclr(SB)	// smashes AX,BX,CX
+	CALL	runtime∕internal∕base·Memclr(SB)	// smashes AX,BX,CX
 	LEAL	g__size(SP), BX
-	MOVL	BX, g_m(SP)
+	MOVL	BX, G_M(SP)
 	LEAL	-8192(SP), CX
-	MOVL	CX, (g_stack+stack_lo)(SP)
-	ADDL	$const__StackGuard, CX
-	MOVL	CX, g_stackguard0(SP)
-	MOVL	CX, g_stackguard1(SP)
-	MOVL	DX, (g_stack+stack_hi)(SP)
+	MOVL	CX, (G_Stack+Stack_Lo)(SP)
+	ADDL	$const_StackGuard, CX
+	MOVL	CX, G_Stackguard0(SP)
+	MOVL	CX, G_stackguard1(SP)
+	MOVL	DX, (G_Stack+Stack_Hi)(SP)
 
 	PUSHL	AX			// room for return value
 	PUSHL	16(BP)			// arg for handler
@@ -221,7 +221,7 @@ TEXT runtime·externalthreadhandler(SB),NOSPLIT,$0
 
 	get_tls(CX)
 	MOVL	g(CX), CX
-	MOVL	(g_stack+stack_hi)(CX), SP
+	MOVL	(G_Stack+Stack_Hi)(CX), SP
 	POPL	0x14(FS)
 	POPL	DI
 	POPL	SI
@@ -240,13 +240,13 @@ TEXT runtime·callbackasm1+0(SB),NOSPLIT,$0
 	// address to callback parameters into CX
 	LEAL	4(SP), CX
 
-	// save registers as required for windows callback
+	// Save registers as required for windows callback
 	PUSHL	DI
 	PUSHL	SI
 	PUSHL	BP
 	PUSHL	BX
 
-	// determine index into runtime·cbctxts table
+	// determine Index into runtime·cbctxts table
 	SUBL	$runtime·callbackasm(SB), AX
 	MOVL	$0, DX
 	MOVL	$5, BX	// divide by 5 because each call instruction in runtime·callbacks is 5 bytes long
@@ -306,44 +306,44 @@ TEXT runtime·callbackasm1+0(SB),NOSPLIT,$0
 
 	RET
 
-// void tstart(M *newm);
+// void tstart(M *Newm);
 TEXT runtime·tstart(SB),NOSPLIT,$0
-	MOVL	newm+4(SP), CX		// m
-	MOVL	m_g0(CX), DX		// g
+	MOVL	Newm+4(SP), CX		// m
+	MOVL	M_G0(CX), DX		// g
 
 	// Layout new m scheduler stack on os stack.
 	MOVL	SP, AX
-	MOVL	AX, (g_stack+stack_hi)(DX)
+	MOVL	AX, (G_Stack+Stack_Hi)(DX)
 	SUBL	$(64*1024), AX		// stack size
-	MOVL	AX, (g_stack+stack_lo)(DX)
-	ADDL	$const__StackGuard, AX
-	MOVL	AX, g_stackguard0(DX)
-	MOVL	AX, g_stackguard1(DX)
+	MOVL	AX, (G_Stack+Stack_Lo)(DX)
+	ADDL	$const_StackGuard, AX
+	MOVL	AX, G_Stackguard0(DX)
+	MOVL	AX, G_stackguard1(DX)
 
 	// Set up tls.
-	LEAL	m_tls(CX), SI
+	LEAL	M_tls(CX), SI
 	MOVL	SI, 0x14(FS)
-	MOVL	CX, g_m(DX)
+	MOVL	CX, G_M(DX)
 	MOVL	DX, g(SI)
 
 	// Someday the convention will be D is always cleared.
 	CLD
 
 	CALL	runtime·stackcheck(SB)	// clobbers AX,CX
-	CALL	runtime·mstart(SB)
+	CALL	runtime∕internal∕base·Mstart(SB)
 
 	RET
 
-// uint32 tstart_stdcall(M *newm);
+// uint32 tstart_stdcall(M *Newm);
 TEXT runtime·tstart_stdcall(SB),NOSPLIT,$0
-	MOVL	newm+4(SP), BX
+	MOVL	Newm+4(SP), BX
 
 	PUSHL	BX
 	CALL	runtime·tstart(SB)
 	POPL	BX
 
 	// Adjust stack for stdcall to return properly.
-	MOVL	(SP), AX		// save return address
+	MOVL	(SP), AX		// Save return address
 	ADDL	$4, SP			// remove single parameter
 	MOVL	AX, (SP)		// restore return address
 
@@ -372,19 +372,19 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 	RET
 
 	MOVL	g(CX), BP
-	MOVL	g_m(BP), BP
+	MOVL	G_M(BP), BP
 
 	// leave pc/sp for cpu profiler
 	MOVL	(SP), SI
-	MOVL	SI, m_libcallpc(BP)
+	MOVL	SI, M_libcallpc(BP)
 	MOVL	g(CX), SI
-	MOVL	SI, m_libcallg(BP)
+	MOVL	SI, M_libcallg(BP)
 	// sp must be the last, because once async cpu profiler finds
 	// all three values to be non-zero, it will use them
 	LEAL	usec+0(FP), SI
-	MOVL	SI, m_libcallsp(BP)
+	MOVL	SI, M_Libcallsp(BP)
 
-	MOVL	m_g0(BP), SI
+	MOVL	M_G0(BP), SI
 	CMPL	g(CX), SI
 	JNE	switch
 	// executing on m->g0 already
@@ -393,7 +393,7 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 
 switch:
 	// Switch to m->g0 stack and back.
-	MOVL	(g_sched+gobuf_sp)(SI), SI
+	MOVL	(G_Sched+Gobuf_Sp)(SI), SI
 	MOVL	SP, -4(SI)
 	LEAL	-4(SI), SP
 	CALL	AX
@@ -402,8 +402,8 @@ switch:
 ret:
 	get_tls(CX)
 	MOVL	g(CX), BP
-	MOVL	g_m(BP), BP
-	MOVL	$0, m_libcallsp(BP)
+	MOVL	G_M(BP), BP
+	MOVL	$0, M_Libcallsp(BP)
 	RET
 
 // Runs on OS stack. duration (in 100ns units) is in BX.

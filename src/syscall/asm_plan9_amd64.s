@@ -6,7 +6,7 @@
 // so that go vet can check that they are correct.
 
 #include "textflag.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 
 //
 // System call support for Plan 9
@@ -17,7 +17,7 @@
 //func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2, err uintptr)
 //func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
 
-TEXT	·Syscall(SB),NOSPLIT,$0-64
+TEXT	syscall·Syscall(SB),NOSPLIT,$0-64
 	CALL	runtime·entersyscall(SB)
 	MOVQ	8(SP), BP	// syscall entry
 	// slide args down on top of system call number
@@ -49,10 +49,10 @@ copyresult3:
 	MOVSQ
 	MOVSQ
 
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT	·Syscall6(SB),NOSPLIT,$0-88
+TEXT	syscall·Syscall6(SB),NOSPLIT,$0-88
 	CALL	runtime·entersyscall(SB)
 	MOVQ	8(SP), BP	// syscall entry
 	// slide args down on top of system call number
@@ -87,10 +87,10 @@ copyresult4:
 	MOVSQ
 	MOVSQ
 
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0-56
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-56
 	MOVQ	8(SP), BP	// syscall entry
 	// slide args down on top of system call number
 	LEAQ		16(SP), SI
@@ -105,7 +105,7 @@ TEXT ·RawSyscall(SB),NOSPLIT,$0-56
 	MOVQ	AX, err+56(SP)
 	RET
 
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-80
 	MOVQ	8(SP), BP	// syscall entry
 	// slide args down on top of system call number
 	LEAQ		16(SP), SI
@@ -126,7 +126,7 @@ TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
 #define SYS_SEEK 39	/* from zsysnum_plan9_amd64.go */
 
 //func seek(placeholder uintptr, fd int, offset int64, whence int) (newoffset int64, err string)
-TEXT ·seek(SB),NOSPLIT,$0-56
+TEXT syscall·seek(SB),NOSPLIT,$0-56
 	LEAQ	newoffset+40(SP), AX
 	MOVQ	AX, placeholder+8(SP)
 	
@@ -154,11 +154,11 @@ copyresult6:
 	MOVSQ
 	RET
 
-//func exit(code int)
-// Import runtime·exit for cleanly exiting.
-TEXT ·exit(SB),NOSPLIT,$8-8
+//func Exit(code int)
+// Import runtime∕internal∕base·Exit for cleanly exiting.
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$8-8
 	NO_LOCAL_POINTERS
 	MOVQ	code+0(FP), AX
 	MOVQ	AX, 0(SP)
-	CALL	runtime·exit(SB)
+	CALL	runtime∕internal∕base·Exit(SB)
 	RET

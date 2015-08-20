@@ -8,6 +8,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"sort"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -447,6 +448,13 @@ func importimport(s *Sym, path string) {
 	}
 
 	if incannedimport == 0 && myimportpath != "" && path == myimportpath {
+		// HACK(matloob): Skip cycle check for runtime. There seems to be a hidden
+		// import of the runtime package by other packages, but we know there's
+		// no cycle.
+		if strings.HasPrefix(importpkg.Path, "runtime") {
+			return
+		}
+
 		Yyerror("import %q: package depends on %q (import cycle)", importpkg.Path, path)
 		errorexit()
 	}
