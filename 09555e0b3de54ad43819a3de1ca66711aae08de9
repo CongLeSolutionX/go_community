@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e45eedce_46ed72fe",
+        "filename": "src/make.bash",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-08-20T08:32:47Z",
+      "side": 1,
+      "message": "This won\u0027t catch synonymous paths but I guess it\u0027s good enough.",
+      "revId": "09555e0b3de54ad43819a3de1ca66711aae08de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
