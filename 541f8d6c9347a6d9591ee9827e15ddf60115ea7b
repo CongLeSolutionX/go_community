@@ -189,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "e4026d8c_0642fa12",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2618,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T15:45:24Z",
+      "side": 1,
+      "message": "I\u0027ll do that, except that there\u0027s a bug in my likely-logic.  It should depend on jumps[i].index, not i.",
+      "parentUuid": "64591d73_c58e4b39",
+      "range": {
+        "startLine": 2618,
+        "startChar": 37,
+        "endLine": 2618,
+        "endChar": 46
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64591d73_2583c712",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -359,6 +383,30 @@
       "side": 1,
       "message": "I\u0027d rather swap UCOMISD args and leave the name unchanged.  Reorder the operands in genValue if needed.\nIt will make our SSA easier to read and won\u0027t change what the final assembly looks like.  That\u0027s beyond our control.",
       "parentUuid": "e4026d8c_46bb52ba",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_4648f232",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T15:45:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64591d73_76a1f4a8",
       "range": {
         "startLine": 184,
         "startChar": 0,
