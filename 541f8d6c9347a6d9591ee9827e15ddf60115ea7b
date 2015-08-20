@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "e4026d8c_262f3690",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T01:49:32Z",
+      "side": 1,
+      "message": "Current compiler uses AORQ:\n\t0x000c 00012 (fp_ssa.go:772)\tUCOMISD\tX0, X1\n\t0x0010 00016 (fp_ssa.go:772)\tSETNE\tBL\n\t0x0013 00019 (fp_ssa.go:772)\tSETPS\tAL\n\t0x0016 00022 (fp_ssa.go:772)\tORQ\tBX, AX\nSo I just copied it.",
+      "parentUuid": "64591d73_6572dfd6",
+      "range": {
+        "startLine": 2511,
+        "startChar": 15,
+        "endLine": 2511,
+        "endChar": 19
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_463232f8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T01:49:32Z",
+      "side": 1,
+      "message": "I think we need to keep SETNEF for the rewrites that short-circuit it out of if-then-else.  But we could do the other rewrite in the patterns after the short-circuits, yes?  Or would it interfere?",
+      "parentUuid": "64591d73_a5a6b7c7",
+      "range": {
+        "startLine": 2505,
+        "startChar": 2,
+        "endLine": 2511,
+        "endChar": 43
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64591d73_85abb38e",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2015-08-19T22:30:13Z",
       "side": 1,
       "message": "This could also be {x86.AJPS, 1}, {x86.AJEQ, 0}, right?  No need to change it, just trying to get my head around the logic.",
+      "range": {
+        "startLine": 2585,
+        "startChar": 2,
+        "endLine": 2585,
+        "endChar": 30
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_062c3a97",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2585,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T01:49:32Z",
+      "side": 1,
+      "message": "You could do that, but you must check for NaN first (as you did) since unordered sets Z, P, and C.  I was trying to decide if it made sense to do the extremely predictable NaN tests first or second.\n\nThis little annoying bit was the long pole on getting comparisons done right.",
+      "parentUuid": "64591d73_a58fd737",
       "range": {
         "startLine": 2585,
         "startChar": 2,
@@ -180,6 +252,30 @@
     },
     {
       "key": {
+        "uuid": "e4026d8c_26c85649",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T01:49:32Z",
+      "side": 1,
+      "message": "Don\u0027t I need a block if I want to sleazily redefine zero/one/inf/nan to 32-bit versions of what they previously were?",
+      "parentUuid": "64591d73_f261972f",
+      "range": {
+        "startLine": 976,
+        "startChar": 1,
+        "endLine": 976,
+        "endChar": 2
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64591d73_25f627cc",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 1
@@ -191,6 +287,30 @@
       "writtenOn": "2015-08-19T22:30:13Z",
       "side": 1,
       "message": "I\u0027m confused - if we\u0027re swapping, shouldn\u0027t the UCOMISD operands be \"y x\", not \"x y\"?  Or did you define UCOMISD backwards?  I\u0027d just redefine UCOMISD to take the ops in the order that makes sense here (and visually, looking at an SSA dump).",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_46bb52ba",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-20T01:49:32Z",
+      "side": 1,
+      "message": "To the best of my knowledge, UCOMIS{S,D} has swapped operands, at least in our assembler.  What you see here is a swap of a swap, thus the x y order is preserved (but notice Less64F -\u003e SETGF).\n\nPerhaps a less terse comment -- \"UCOMISD has swapped operands, but they are swapped a second time for the Less-\u003eGT mapping, which we do because of NaNs complicating FP comparisons\".\n\nIf I want to swap the operands in SSA for sanity against CMP, I think we need to give it a name that is not UCOMISD else people will go crazy comparing SSA and assembly.  Perhaps, UCOMISD_swapped?\n\nI\u0027m still not 100% sure of this -- I cannot find any swappage one I read the Intel manuals, but the old assembly language looks swapped, and stuff darn sure worked wrong till I swapped the operands.",
+      "parentUuid": "64591d73_25f627cc",
       "range": {
         "startLine": 184,
         "startChar": 0,
