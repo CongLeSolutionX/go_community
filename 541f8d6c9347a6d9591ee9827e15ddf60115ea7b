@@ -276,6 +276,30 @@
     },
     {
       "key": {
+        "uuid": "64591d73_d68f2037",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-20T02:36:28Z",
+      "side": 1,
+      "message": "Tried it, I guess you do.  Learn something new every day.",
+      "parentUuid": "e4026d8c_26c85649",
+      "range": {
+        "startLine": 976,
+        "startChar": 1,
+        "endLine": 976,
+        "endChar": 2
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64591d73_25f627cc",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 1
@@ -311,6 +335,30 @@
       "side": 1,
       "message": "To the best of my knowledge, UCOMIS{S,D} has swapped operands, at least in our assembler.  What you see here is a swap of a swap, thus the x y order is preserved (but notice Less64F -\u003e SETGF).\n\nPerhaps a less terse comment -- \"UCOMISD has swapped operands, but they are swapped a second time for the Less-\u003eGT mapping, which we do because of NaNs complicating FP comparisons\".\n\nIf I want to swap the operands in SSA for sanity against CMP, I think we need to give it a name that is not UCOMISD else people will go crazy comparing SSA and assembly.  Perhaps, UCOMISD_swapped?\n\nI\u0027m still not 100% sure of this -- I cannot find any swappage one I read the Intel manuals, but the old assembly language looks swapped, and stuff darn sure worked wrong till I swapped the operands.",
       "parentUuid": "64591d73_25f627cc",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 50
+      },
+      "revId": "541f8d6c9347a6d9591ee9827e15ddf60115ea7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64591d73_76a1f4a8",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-20T02:36:28Z",
+      "side": 1,
+      "message": "I\u0027d rather swap UCOMISD args and leave the name unchanged.  Reorder the operands in genValue if needed.\nIt will make our SSA easier to read and won\u0027t change what the final assembly looks like.  That\u0027s beyond our control.",
+      "parentUuid": "e4026d8c_46bb52ba",
       "range": {
         "startLine": 184,
         "startChar": 0,
