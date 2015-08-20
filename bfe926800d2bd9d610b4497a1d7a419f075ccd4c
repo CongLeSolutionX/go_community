@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64091ddd_3a838113",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-08-20T21:19:49Z",
+      "side": 1,
+      "message": "crypto/tls: (not just \"tls: \").\n\nAnd put a blank line after the subject line.",
+      "revId": "bfe926800d2bd9d610b4497a1d7a419f075ccd4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
