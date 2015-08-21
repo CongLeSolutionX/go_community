@@ -6,48 +6,16 @@
 
 package runtime
 
-func sigpanic() {
-	g := getg()
-	if !canpanic(g) {
-		throw("unexpected signal during runtime execution")
-	}
-
-	switch g.sig {
-	case _SIGBUS:
-		if g.sigcode0 == _BUS_ADRERR && g.sigcode1 < 0x1000 || g.paniconfault {
-			panicmem()
-		}
-		print("unexpected fault address ", hex(g.sigcode1), "\n")
-		throw("fault")
-	case _SIGSEGV:
-		if (g.sigcode0 == 0 || g.sigcode0 == _SEGV_MAPERR || g.sigcode0 == _SEGV_ACCERR) && g.sigcode1 < 0x1000 || g.paniconfault {
-			panicmem()
-		}
-		print("unexpected fault address ", hex(g.sigcode1), "\n")
-		throw("fault")
-	case _SIGFPE:
-		switch g.sigcode0 {
-		case _FPE_INTDIV:
-			panicdivide()
-		case _FPE_INTOVF:
-			panicoverflow()
-		}
-		panicfloat()
-	}
-
-	if g.sig >= uint32(len(sigtable)) {
-		// can't happen: we looked up g.sig in sigtable to decide to call sigpanic
-		throw("unexpected signal value")
-	}
-	panic(errorString(sigtable[g.sig].name))
-}
+import (
+	_base "runtime/internal/base"
+)
 
 // setsigsegv is used on darwin/arm{,64} to fake a segmentation fault.
 //go:nosplit
 func setsigsegv(pc uintptr) {
-	g := getg()
-	g.sig = _SIGSEGV
-	g.sigpc = pc
-	g.sigcode0 = _SEGV_MAPERR
-	g.sigcode1 = 0 // TODO: emulate si_addr
+	g := _base.Getg()
+	g.Sig = _base.SIGSEGV
+	g.Sigpc = pc
+	g.Sigcode0 = _base.SEGV_MAPERR
+	g.Sigcode1 = 0 // TODO: emulate si_addr
 }

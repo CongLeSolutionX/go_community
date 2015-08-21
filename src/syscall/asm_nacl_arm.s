@@ -33,12 +33,12 @@ TEXT ·Syscall(SB),NOSPLIT,$0-28
 	MOVW	R1, r2+20(FP)
 	RSB	$0, R0
 	MOVW	R0, err+24(FP)
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVW	R0, r1+16(FP)
 	MOVW	R1, r2+20(FP)
 	MOVW	$0, R2
 	MOVW	R2, err+24(FP)
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET	

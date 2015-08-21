@@ -4,12 +4,12 @@
 
 #include "go_asm.h"
 #include "go_tls.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 #include "textflag.h"
 #include "tls_arm64.h"
 
 TEXT runtime·load_g(SB),NOSPLIT,$0
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime∕internal∕base·Iscgo(SB), R0
 	CMP	$0, R0
 	BEQ	nocgo
 
@@ -31,7 +31,7 @@ nocgo:
 	RET
 
 TEXT runtime·save_g(SB),NOSPLIT,$0
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime∕internal∕base·Iscgo(SB), R0
 	CMP	$0, R0
 	BEQ	nocgo
 

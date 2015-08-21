@@ -12,8 +12,8 @@
 
 // void runtime·asmstdcall(void *c);
 TEXT runtime·asmstdcall(SB),NOSPLIT,$0
-	// asmcgocall will put first argument into CX.
-	PUSHQ	CX			// save for later
+	// Asmcgocall will put first argument into CX.
+	PUSHQ	CX			// Save for later
 	MOVQ	libcall_fn(CX), AX
 	MOVQ	libcall_args(CX), SI
 	MOVQ	libcall_n(CX), CX
@@ -102,7 +102,7 @@ TEXT runtime·setlasterror(SB),NOSPLIT,$0
 // exception record and context pointers.
 // Handler function is stored in AX.
 // Return 0 for 'not handled', -1 for handled.
-TEXT runtime·sigtramp(SB),NOSPLIT,$0-0
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$0-0
 	// CX: PEXCEPTION_POINTERS ExceptionInfo
 
 	// DI SI BP BX R12 R13 R14 R15 registers and DF flag are preserved
@@ -118,7 +118,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0-0
 	MOVQ	R14, 32(SP)
 	MOVQ	R15, 88(SP)
 
-	MOVQ	AX, R15	// save handler address
+	MOVQ	AX, R15	// Save handler address
 
 	// find g
 	get_tls(DX)
@@ -131,30 +131,30 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0-0
 	JNE	2(PC)
 	CALL	runtime·badsignal2(SB)
 
-	// save g and SP in case of stack switch
+	// Save g and SP in case of stack switch
 	MOVQ	DX, 96(SP) // g
 	MOVQ	SP, 104(SP)
 
 	// do we need to switch to the g0 stack?
-	MOVQ	g_m(DX), BX
-	MOVQ	m_g0(BX), BX
+	MOVQ	G_M(DX), BX
+	MOVQ	M_G0(BX), BX
 	CMPQ	DX, BX
 	JEQ	g0
 
 	// switch to g0 stack
 	get_tls(BP)
 	MOVQ	BX, g(BP)
-	MOVQ	(g_sched+gobuf_sp)(BX), DI
-	// make it look like mstart called us on g0, to stop traceback
+	MOVQ	(G_Sched+Gobuf_Sp)(BX), DI
+	// make it look like Mstart called us on g0, to stop Traceback
 	SUBQ	$8, DI
-	MOVQ	$runtime·mstart(SB), SI
+	MOVQ	$runtime∕internal∕base·Mstart(SB), SI
 	MOVQ	SI, 0(DI)
-	// traceback will think that we've done PUSHFQ and SUBQ
+	// Traceback will think that we've done PUSHFQ and SUBQ
 	// on this stack, so subtract them here to match.
-	// (we need room for sighandler arguments anyway).
-	// and re-save old SP for restoring later.
+	// (we need room for Sighandler arguments anyway).
+	// and re-Save old SP for restoring later.
 	SUBQ	$(112+8), DI
-	// save g, save old stack pointer.
+	// Save g, Save old stack pointer.
 	MOVQ	SP, 104(DI)
 	MOVQ	DI, SP
 
@@ -192,15 +192,15 @@ done:
 
 TEXT runtime·exceptiontramp(SB),NOSPLIT,$0
 	MOVQ	$runtime·exceptionhandler(SB), AX
-	JMP	runtime·sigtramp(SB)
+	JMP	runtime∕internal∕base·sigtramp(SB)
 
 TEXT runtime·firstcontinuetramp(SB),NOSPLIT,$0-0
 	MOVQ	$runtime·firstcontinuehandler(SB), AX
-	JMP	runtime·sigtramp(SB)
+	JMP	runtime∕internal∕base·sigtramp(SB)
 
 TEXT runtime·lastcontinuetramp(SB),NOSPLIT,$0-0
 	MOVQ	$runtime·lastcontinuehandler(SB), AX
-	JMP	runtime·sigtramp(SB)
+	JMP	runtime∕internal∕base·sigtramp(SB)
 
 TEXT runtime·ctrlhandler(SB),NOSPLIT,$8
 	MOVQ	CX, 16(SP)		// spill
@@ -228,27 +228,27 @@ TEXT runtime·externalthreadhandler(SB),NOSPLIT,$0
 	SUBQ	$m__size, SP		// space for M
 	MOVQ	SP, 0(SP)
 	MOVQ	$m__size, 8(SP)
-	CALL	runtime·memclr(SB)	// smashes AX,BX,CX
+	CALL	runtime∕internal∕base·Memclr(SB)	// smashes AX,BX,CX
 
-	LEAQ	m_tls(SP), CX
+	LEAQ	M_tls(SP), CX
 	MOVQ	CX, 0x28(GS)
 	MOVQ	SP, BX
 	SUBQ	$g__size, SP		// space for G
 	MOVQ	SP, g(CX)
-	MOVQ	SP, m_g0(BX)
+	MOVQ	SP, M_G0(BX)
 
 	MOVQ	SP, 0(SP)
 	MOVQ	$g__size, 8(SP)
-	CALL	runtime·memclr(SB)	// smashes AX,BX,CX
+	CALL	runtime∕internal∕base·Memclr(SB)	// smashes AX,BX,CX
 	LEAQ	g__size(SP), BX
-	MOVQ	BX, g_m(SP)
+	MOVQ	BX, G_M(SP)
 
 	LEAQ	-8192(SP), CX
-	MOVQ	CX, (g_stack+stack_lo)(SP)
-	ADDQ	$const__StackGuard, CX
-	MOVQ	CX, g_stackguard0(SP)
-	MOVQ	CX, g_stackguard1(SP)
-	MOVQ	DX, (g_stack+stack_hi)(SP)
+	MOVQ	CX, (G_Stack+Stack_Lo)(SP)
+	ADDQ	$const_StackGuard, CX
+	MOVQ	CX, G_Stackguard0(SP)
+	MOVQ	CX, G_stackguard1(SP)
+	MOVQ	DX, (G_Stack+Stack_Hi)(SP)
 
 	PUSHQ	AX			// room for return value
 	PUSHQ	32(BP)			// arg for handler
@@ -258,7 +258,7 @@ TEXT runtime·externalthreadhandler(SB),NOSPLIT,$0
 
 	get_tls(CX)
 	MOVQ	g(CX), CX
-	MOVQ	(g_stack+stack_hi)(CX), SP
+	MOVQ	(G_Stack+Stack_Hi)(CX), SP
 	POPQ	0x28(GS)
 	POPQ	DI
 	POPQ	SI
@@ -284,7 +284,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$0
   	MOVQ	0(SP), AX
 	ADDQ	$8, SP
 
-	// determine index into runtime·cbctxts table
+	// determine Index into runtime·cbctxts table
 	MOVQ	$runtime·callbackasm(SB), DX
 	SUBQ	DX, AX
 	MOVQ	$0, DX
@@ -347,31 +347,31 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$0
 	POPQ	-8(CX)(DX*1)      // restore bytes just after the args
 	RET
 
-// uint32 tstart_stdcall(M *newm);
+// uint32 tstart_stdcall(M *Newm);
 TEXT runtime·tstart_stdcall(SB),NOSPLIT,$0
-	// CX contains first arg newm
-	MOVQ	m_g0(CX), DX		// g
+	// CX contains first arg Newm
+	MOVQ	M_G0(CX), DX		// g
 
 	// Layout new m scheduler stack on os stack.
 	MOVQ	SP, AX
-	MOVQ	AX, (g_stack+stack_hi)(DX)
+	MOVQ	AX, (G_Stack+Stack_Hi)(DX)
 	SUBQ	$(64*1024), AX		// stack size
-	MOVQ	AX, (g_stack+stack_lo)(DX)
-	ADDQ	$const__StackGuard, AX
-	MOVQ	AX, g_stackguard0(DX)
-	MOVQ	AX, g_stackguard1(DX)
+	MOVQ	AX, (G_Stack+Stack_Lo)(DX)
+	ADDQ	$const_StackGuard, AX
+	MOVQ	AX, G_Stackguard0(DX)
+	MOVQ	AX, G_stackguard1(DX)
 
 	// Set up tls.
-	LEAQ	m_tls(CX), SI
+	LEAQ	M_tls(CX), SI
 	MOVQ	SI, 0x28(GS)
-	MOVQ	CX, g_m(DX)
+	MOVQ	CX, G_M(DX)
 	MOVQ	DX, g(SI)
 
 	// Someday the convention will be D is always cleared.
 	CLD
 
 	CALL	runtime·stackcheck(SB)	// clobbers AX,CX
-	CALL	runtime·mstart(SB)
+	CALL	runtime∕internal∕base·Mstart(SB)
 
 	XORL	AX, AX			// return 0 == success
 	RET
@@ -396,19 +396,19 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 	RET
 
 	MOVQ	g(R15), R13
-	MOVQ	g_m(R13), R13
+	MOVQ	G_M(R13), R13
 
 	// leave pc/sp for cpu profiler
 	MOVQ	(SP), R12
-	MOVQ	R12, m_libcallpc(R13)
+	MOVQ	R12, M_libcallpc(R13)
 	MOVQ	g(R15), R12
-	MOVQ	R12, m_libcallg(R13)
+	MOVQ	R12, M_libcallg(R13)
 	// sp must be the last, because once async cpu profiler finds
 	// all three values to be non-zero, it will use them
 	LEAQ	usec+0(FP), R12
-	MOVQ	R12, m_libcallsp(R13)
+	MOVQ	R12, M_Libcallsp(R13)
 
-	MOVQ	m_g0(R13), R14
+	MOVQ	M_G0(R13), R14
 	CMPQ	g(R15), R14
 	JNE	switch
 	// executing on m->g0 already
@@ -417,14 +417,14 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 
 switch:
 	// Switch to m->g0 stack and back.
-	MOVQ	(g_sched+gobuf_sp)(R14), R14
+	MOVQ	(G_Sched+Gobuf_Sp)(R14), R14
 	MOVQ	SP, -8(R14)
 	LEAQ	-8(R14), SP
 	CALL	AX
 	MOVQ	0(SP), SP
 
 ret:
-	MOVQ	$0, m_libcallsp(R13)
+	MOVQ	$0, M_Libcallsp(R13)
 	RET
 
 // Runs on OS stack. duration (in 100ns units) is in BX.

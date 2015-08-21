@@ -53,7 +53,7 @@ DATA  _rt0_arm_darwin_lib_argv<>(SB)/4, $0
 GLOBL _rt0_arm_darwin_lib_argv<>(SB),NOPTR, $4
 
 TEXT main(SB),NOSPLIT,$-8
-	// save argc and argv onto stack
+	// Save argc and argv onto stack
 	MOVM.DB.W [R0-R1], (R13)
 	MOVW	$runtime·rt0_go(SB), R4
 	B		(R4)

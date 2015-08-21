@@ -104,7 +104,7 @@ TEXT runtime·nsec(SB),NOSPLIT,$8
 
 // func now() (sec int64, nsec int32)
 TEXT time·now(SB),NOSPLIT,$8-12
-	CALL	runtime·nanotime(SB)
+	CALL	runtime∕internal∕base·Nanotime(SB)
 	MOVL	0(SP), AX
 	MOVL	4(SP), DX
 
@@ -140,70 +140,70 @@ TEXT runtime·rfork(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·tstart_plan9(SB),NOSPLIT,$0
-	MOVL	newm+0(FP), CX
-	MOVL	m_g0(CX), DX
+	MOVL	Newm+0(FP), CX
+	MOVL	M_G0(CX), DX
 
 	// Layout new m scheduler stack on os stack.
 	MOVL	SP, AX
-	MOVL	AX, (g_stack+stack_hi)(DX)
+	MOVL	AX, (G_Stack+Stack_Hi)(DX)
 	SUBL	$(64*1024), AX		// stack size
-	MOVL	AX, (g_stack+stack_lo)(DX)
-	MOVL	AX, g_stackguard0(DX)
-	MOVL	AX, g_stackguard1(DX)
+	MOVL	AX, (G_Stack+Stack_Lo)(DX)
+	MOVL	AX, G_Stackguard0(DX)
+	MOVL	AX, G_stackguard1(DX)
 
 	// Initialize procid from TOS struct.
 	MOVL	_tos(SB), AX
 	MOVL	48(AX), AX
-	MOVL	AX, m_procid(CX)	// save pid as m->procid
+	MOVL	AX, M_Procid(CX)	// Save pid as m->procid
 
 	// Finally, initialize g.
 	get_tls(BX)
 	MOVL	DX, g(BX)
 
 	CALL	runtime·stackcheck(SB)	// smashes AX, CX
-	CALL	runtime·mstart(SB)
+	CALL	runtime∕internal∕base·Mstart(SB)
 
 	MOVL	$0x1234, 0x1234		// not reached
 	RET
 
 // void sigtramp(void *ureg, int8 *note)
-TEXT runtime·sigtramp(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$0
 	get_tls(AX)
 
 	// check that g exists
 	MOVL	g(AX), BX
 	CMPL	BX, $0
 	JNE	3(PC)
-	CALL	runtime·badsignal2(SB) // will exit
+	CALL	runtime·badsignal2(SB) // will Exit
 	RET
 
-	// save args
+	// Save args
 	MOVL	ureg+4(SP), CX
 	MOVL	note+8(SP), DX
 
 	// change stack
-	MOVL	g_m(BX), BX
-	MOVL	m_gsignal(BX), BP
-	MOVL	(g_stack+stack_hi)(BP), BP
+	MOVL	G_M(BX), BX
+	MOVL	M_Gsignal(BX), BP
+	MOVL	(G_Stack+Stack_Hi)(BP), BP
 	MOVL	BP, SP
 
 	// make room for args and g
 	SUBL	$24, SP
 
-	// save g
+	// Save g
 	MOVL	g(AX), BP
 	MOVL	BP, 20(SP)
 
 	// g = m->gsignal
-	MOVL	m_gsignal(BX), DI
+	MOVL	M_Gsignal(BX), DI
 	MOVL	DI, g(AX)
 
-	// load args and call sighandler
+	// load args and call Sighandler
 	MOVL	CX, 0(SP)
 	MOVL	DX, 4(SP)
 	MOVL	BP, 8(SP)
 
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 	MOVL	12(SP), AX
 
 	// restore g
@@ -233,16 +233,16 @@ TEXT errstr<>(SB),NOSPLIT,$0
 // Grab error string due to a syscall made
 // in entersyscall mode, without going
 // through the allocator (issue 4994).
-// See ../syscall/asm_plan9_386.s:/·Syscall/
+// See ../syscall/asm_plan9_386.s:/runtime·Syscall/
 TEXT runtime·errstr(SB),NOSPLIT,$8-8
 	get_tls(AX)
 	MOVL	g(AX), BX
-	MOVL	g_m(BX), BX
-	MOVL	m_errstr(BX), CX
+	MOVL	G_M(BX), BX
+	MOVL	M_errstr(BX), CX
 	MOVL	CX, 0(SP)
 	MOVL	$ERRMAX, 4(SP)
 	CALL	errstr<>(SB)
-	CALL	runtime·findnull(SB)
+	CALL	runtime∕internal∕base·Findnull(SB)
 	MOVL	4(SP), AX
 	MOVL	AX, ret_len+4(FP)
 	MOVL	0(SP), AX

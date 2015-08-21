@@ -4,7 +4,12 @@
 
 package runtime
 
-import "unsafe"
+import (
+	_base "runtime/internal/base"
+	_gc "runtime/internal/gc"
+	_iface "runtime/internal/iface"
+	"unsafe"
+)
 
 // GOMAXPROCS sets the maximum number of CPUs that can be executing
 // simultaneously and returns the previous setting.  If n < 1, it does not
@@ -12,12 +17,12 @@ import "unsafe"
 // The number of logical CPUs on the local machine can be queried with NumCPU.
 // This call will go away when the scheduler improves.
 func GOMAXPROCS(n int) int {
-	if n > _MaxGomaxprocs {
-		n = _MaxGomaxprocs
+	if n > _base.MaxGomaxprocs {
+		n = _base.MaxGomaxprocs
 	}
-	lock(&sched.lock)
-	ret := int(gomaxprocs)
-	unlock(&sched.lock)
+	_base.Lock(&_base.Sched.Lock)
+	ret := int(_base.Gomaxprocs)
+	_base.Unlock(&_base.Sched.Lock)
 	if n <= 0 || n == ret {
 		return ret
 	}
@@ -25,7 +30,7 @@ func GOMAXPROCS(n int) int {
 	stopTheWorld("GOMAXPROCS")
 
 	// newprocs will be processed by startTheWorld
-	newprocs = int32(n)
+	_gc.Newprocs = int32(n)
 
 	startTheWorld()
 	return ret
@@ -33,14 +38,14 @@ func GOMAXPROCS(n int) int {
 
 // NumCPU returns the number of logical CPUs usable by the current process.
 func NumCPU() int {
-	return int(ncpu)
+	return int(_base.Ncpu)
 }
 
 // NumCgoCall returns the number of cgo calls made by the current process.
 func NumCgoCall() int64 {
 	var n int64
-	for mp := (*m)(atomicloadp(unsafe.Pointer(&allm))); mp != nil; mp = mp.alllink {
-		n += int64(mp.ncgocall)
+	for mp := (*_base.M)(_iface.Atomicloadp(unsafe.Pointer(&_base.Allm))); mp != nil; mp = mp.Alllink {
+		n += int64(mp.Ncgocall)
 	}
 	return n
 }

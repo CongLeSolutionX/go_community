@@ -1,5 +1,5 @@
-// Inferno's libkern/memmove-arm.s
-// http://code.google.com/p/inferno-os/source/browse/libkern/memmove-arm.s
+// Inferno's libkern/Memmove-arm.s
+// http://code.google.com/p/inferno-os/source/browse/libkern/Memmove-arm.s
 //
 //         Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //         Revisions Copyright © 2000-2007 Vita Nuova Holdings Limited (www.vitanuova.com).  All rights reserved.
@@ -58,7 +58,7 @@
 #define FW3	R4
 #define FR3	R8					/* shared with TE */
 
-TEXT runtime·memmove(SB), NOSPLIT, $4-12
+TEXT runtime∕internal∕base·Memmove(SB), NOSPLIT, $4-12
 _memmove:
 	MOVW	to+0(FP), TS
 	MOVW	from+4(FP), FROM
@@ -123,8 +123,8 @@ _f4align:				/* align destination on 4 */
 	AND.S	$3, TS, TMP
 	BEQ	_f4aligned
 
-	MOVBU.P	1(FROM), TMP	/* implicit write back */
-	MOVBU.P	TMP, 1(TS)	/* implicit write back */
+	MOVBU.P	1(FROM), TMP	/* implicit Write back */
+	MOVBU.P	TMP, 1(TS)	/* implicit Write back */
 	B	_f4align
 
 _f4aligned:				/* is source now aligned? */
@@ -148,16 +148,16 @@ _f4loop:
 	CMP	TMP, TS
 	BHS	_f1tail
 
-	MOVW.P	4(FROM), TMP1	/* implicit write back */
-	MOVW.P	TMP1, 4(TS)	/* implicit write back */
+	MOVW.P	4(FROM), TMP1	/* implicit Write back */
+	MOVW.P	TMP1, 4(TS)	/* implicit Write back */
 	B	_f4loop
 
 _f1tail:
 	CMP	TS, TE
 	BEQ	_return
 
-	MOVBU.P	1(FROM), TMP	/* implicit write back */
-	MOVBU.P	TMP, 1(TS)	/* implicit write back */
+	MOVBU.P	1(FROM), TMP	/* implicit Write back */
+	MOVBU.P	TMP, 1(TS)	/* implicit Write back */
 	B	_f1tail
 
 _return:
@@ -233,7 +233,7 @@ _funaligned:
 
 	BIC	$3, FROM		/* align source */
 	MOVW	TE, savedte-4(SP)
-	MOVW.P	4(FROM), FR3	/* prime last block register, implicit write back */
+	MOVW.P	4(FROM), FR3	/* prime last block register, implicit Write back */
 
 _fu16loop:
 	CMP	TMP, TS
