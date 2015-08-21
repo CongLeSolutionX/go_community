@@ -13,7 +13,7 @@ TEXT _rt0_arm_linux(SB),NOSPLIT,$-4
 // When building with -buildmode=c-shared, this symbol is called when the shared
 // library is loaded.
 TEXT _rt0_arm_linux_lib(SB),NOSPLIT,$32
-	// Preserve callee-save registers.  Raspberry Pi's dlopen(), for example,
+	// Preserve callee-Save registers.  Raspberry Pi's dlopen(), for example,
 	// actually cares that R11 is preserved.
 	MOVW	R4, 12(R13)
 	MOVW	R5, 16(R13)
@@ -41,7 +41,7 @@ nocgo:
 	MOVW	R1, 8(R13)
 	BL	runtime·newosproc0(SB)
 rr:
-	// Restore callee-save registers and return.
+	// Restore callee-Save registers and return.
 	MOVW	12(R13), R4
 	MOVW	16(R13), R5
 	MOVW	20(R13), R6
@@ -108,7 +108,7 @@ TEXT _rt0_arm_linux1(SB),NOSPLIT,$-4
 	B	runtime·rt0_go(SB)
 
 TEXT bad_abi<>(SB),NOSPLIT,$-4
-	// give diagnosis and exit
+	// give diagnosis and Exit
 	MOVW	$2, R0 // stderr
 	MOVW	$bad_abi_msg(SB), R1 // data
 	MOVW	$45, R2 // len

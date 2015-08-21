@@ -18,23 +18,23 @@ TEXT runtime·settls(SB),NOSPLIT,$8
 //
 // Set the TLS errno pointer in M.
 //
-// Called using runtime·asmcgocall from os_solaris.c:/minit.
+// Called using runtime∕internal∕base·Asmcgocall from os_solaris.c:/Minit.
 // NOT USING GO CALLING CONVENTION.
 TEXT runtime·miniterrno(SB),NOSPLIT,$0
-	// asmcgocall will put first argument into DI.
+	// Asmcgocall will put first argument into DI.
 	CALL	DI	// SysV ABI so returns in AX
 	get_tls(CX)
 	MOVQ	g(CX), BX
-	MOVQ	g_m(BX), BX
-	MOVQ	AX,	m_perrno(BX)
+	MOVQ	G_M(BX), BX
+	MOVQ	AX,	M_perrno(BX)
 	RET
 
 // int64 runtime·nanotime1(void);
 //
 // clock_gettime(3c) wrapper because Timespec is too large for
-// runtime·nanotime stack.
+// runtime∕internal∕base·Nanotime stack.
 //
-// Called using runtime·sysvicall6 from os_solaris.c:/nanotime.
+// Called using runtime·sysvicall6 from os_solaris.c:/Nanotime.
 // NOT USING GO CALLING CONVENTION.
 TEXT runtime·nanotime1(SB),NOSPLIT,$0
 	// need space for the timespec argument.
@@ -69,19 +69,19 @@ TEXT runtime·pipe1(SB),NOSPLIT,$0
 //   AMD64 Architecture Processor Supplement
 // section 3.2.3.
 //
-// Called by runtime·asmcgocall or runtime·cgocall.
+// Called by runtime∕internal∕base·Asmcgocall or runtime·cgocall.
 // NOT USING GO CALLING CONVENTION.
 TEXT runtime·asmsysvicall6(SB),NOSPLIT,$0
-	// asmcgocall will put first argument into DI.
-	PUSHQ	DI			// save for later
+	// Asmcgocall will put first argument into DI.
+	PUSHQ	DI			// Save for later
 	MOVQ	libcall_fn(DI), AX
 	MOVQ	libcall_args(DI), R11
 	MOVQ	libcall_n(DI), R10
 
 	get_tls(CX)
 	MOVQ	g(CX), BX
-	MOVQ	g_m(BX), BX
-	MOVQ	m_perrno(BX), DX
+	MOVQ	G_M(BX), BX
+	MOVQ	M_perrno(BX), DX
 	CMPQ	DX, $0
 	JEQ	skiperrno1
 	MOVL	$0, 0(DX)
@@ -108,8 +108,8 @@ skipargs:
 
 	get_tls(CX)
 	MOVQ	g(CX), BX
-	MOVQ	g_m(BX), BX
-	MOVQ	m_perrno(BX), AX
+	MOVQ	G_M(BX), BX
+	MOVQ	M_perrno(BX), AX
 	CMPQ	AX, $0
 	JEQ	skiperrno2
 	MOVL	0(AX), AX
@@ -118,30 +118,30 @@ skipargs:
 skiperrno2:	
 	RET
 
-// uint32 tstart_sysvicall(M *newm);
+// uint32 tstart_sysvicall(M *Newm);
 TEXT runtime·tstart_sysvicall(SB),NOSPLIT,$0
-	// DI contains first arg newm
-	MOVQ	m_g0(DI), DX		// g
+	// DI contains first arg Newm
+	MOVQ	M_G0(DI), DX		// g
 
 	// Make TLS entries point at g and m.
 	get_tls(BX)
 	MOVQ	DX, g(BX)
-	MOVQ	DI, g_m(DX)
+	MOVQ	DI, G_M(DX)
 
 	// Layout new m scheduler stack on os stack.
 	MOVQ	SP, AX
-	MOVQ	AX, (g_stack+stack_hi)(DX)
+	MOVQ	AX, (G_Stack+Stack_Hi)(DX)
 	SUBQ	$(0x100000), AX		// stack size
-	MOVQ	AX, (g_stack+stack_lo)(DX)
-	ADDQ	$const__StackGuard, AX
-	MOVQ	AX, g_stackguard0(DX)
-	MOVQ	AX, g_stackguard1(DX)
+	MOVQ	AX, (G_Stack+Stack_Lo)(DX)
+	ADDQ	$const_StackGuard, AX
+	MOVQ	AX, G_Stackguard0(DX)
+	MOVQ	AX, G_stackguard1(DX)
 
 	// Someday the convention will be D is always cleared.
 	CLD
 
 	CALL	runtime·stackcheck(SB)	// clobbers AX,CX
-	CALL	runtime·mstart(SB)
+	CALL	runtime∕internal∕base·Mstart(SB)
 
 	XORL	AX, AX			// return 0 == success
 	MOVL	AX, ret+8(FP)
@@ -149,14 +149,14 @@ TEXT runtime·tstart_sysvicall(SB),NOSPLIT,$0
 
 // Careful, this is called by __sighndlr, a libc function. We must preserve
 // registers as per AMD 64 ABI.
-TEXT runtime·sigtramp(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$0
 	// Note that we are executing on altsigstack here, so we have
 	// more stack available than NOSPLIT would have us believe.
 	// To defeat the linker, we make our own stack frame with
 	// more space:
 	SUBQ    $184, SP
 
-	// save registers
+	// Save registers
 	MOVQ    BX, 32(SP)
 	MOVQ    BP, 40(SP)
 	MOVQ	R12, 48(SP)
@@ -172,18 +172,18 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	MOVQ	DI, 0(SP)
 	MOVQ	$runtime·badsignal(SB), AX
 	CALL	AX
-	JMP	exit
+	JMP	Exit
 
 allgood:
-	// save g
+	// Save g
 	MOVQ	R10, 80(SP)
 
 	// Save m->libcall and m->scratch. We need to do this because we
-	// might get interrupted by a signal in runtime·asmcgocall.
+	// might get interrupted by a signal in runtime∕internal∕base·Asmcgocall.
 
-	// save m->libcall 
-	MOVQ	g_m(R10), BP
-	LEAQ	m_libcall(BP), R11
+	// Save m->libcall 
+	MOVQ	G_M(R10), BP
+	LEAQ	M_libcall(BP), R11
 	MOVQ	libcall_fn(R11), R10
 	MOVQ	R10, 88(SP)
 	MOVQ	libcall_args(R11), R10
@@ -195,8 +195,8 @@ allgood:
 	MOVQ    libcall_r2(R11), R10
 	MOVQ    R10, 176(SP)
 
-	// save m->scratch
-	LEAQ	m_scratch(BP), R11
+	// Save m->scratch
+	LEAQ	M_scratch(BP), R11
 	MOVQ	0(R11), R10
 	MOVQ	R10, 112(SP)
 	MOVQ	8(R11), R10
@@ -210,14 +210,14 @@ allgood:
 	MOVQ	40(R11), R10
 	MOVQ	R10, 152(SP)
 
-	// save errno, it might be EINTR; stuff we do here might reset it.
-	MOVQ	m_perrno(BP), R10
+	// Save errno, it might be EINTR; stuff we do here might reset it.
+	MOVQ	M_perrno(BP), R10
 	MOVL	0(R10), R10
 	MOVQ	R10, 160(SP)
 
 	MOVQ	g(BX), R10
 	// g = m->gsignal
-	MOVQ	m_gsignal(BP), BP
+	MOVQ	M_Gsignal(BP), BP
 	MOVQ	BP, g(BX)
 
 	// prepare call
@@ -225,13 +225,13 @@ allgood:
 	MOVQ	SI, 8(SP)
 	MOVQ	DX, 16(SP)
 	MOVQ	R10, 24(SP)
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 
 	get_tls(BX)
 	MOVQ	g(BX), BP
-	MOVQ	g_m(BP), BP
+	MOVQ	G_M(BP), BP
 	// restore libcall
-	LEAQ	m_libcall(BP), R11
+	LEAQ	M_libcall(BP), R11
 	MOVQ	88(SP), R10
 	MOVQ	R10, libcall_fn(R11)
 	MOVQ	96(SP), R10
@@ -244,7 +244,7 @@ allgood:
 	MOVQ    R10, libcall_r2(R11)
 
 	// restore scratch
-	LEAQ	m_scratch(BP), R11
+	LEAQ	M_scratch(BP), R11
 	MOVQ	112(SP), R10
 	MOVQ	R10, 0(R11)
 	MOVQ	120(SP), R10
@@ -259,7 +259,7 @@ allgood:
 	MOVQ	R10, 40(R11)
 
 	// restore errno
-	MOVQ	m_perrno(BP), R11
+	MOVQ	M_perrno(BP), R11
 	MOVQ	160(SP), R10
 	MOVL	R10, 0(R11)
 
@@ -267,7 +267,7 @@ allgood:
 	MOVQ	80(SP), R10
 	MOVQ	R10, g(BX)
 
-exit:
+Exit:
 	// restore registers
 	MOVQ	32(SP), BX
 	MOVQ	40(SP), BP
@@ -279,7 +279,7 @@ exit:
 	ADDQ    $184, SP
 	RET
 
-// Called from runtime·usleep (Go). Can be called on Go stack, on OS stack,
+// Called from runtime∕internal∕base·Usleep (Go). Can be called on Go stack, on OS stack,
 // can also be called in cgo callback path without a g->m.
 TEXT runtime·usleep1(SB),NOSPLIT,$0
 	MOVL	usec+0(FP), DI
@@ -293,12 +293,12 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 	MOVQ	g(R15), R13
 	CMPQ	R13, $0
 	JE	noswitch
-	MOVQ	g_m(R13), R13
+	MOVQ	G_M(R13), R13
 	CMPQ	R13, $0
 	JE	noswitch
 	// TODO(aram): do something about the cpu profiler here.
 
-	MOVQ	m_g0(R13), R14
+	MOVQ	M_G0(R13), R14
 	CMPQ	g(R15), R14
 	JNE	switch
 	// executing on m->g0 already
@@ -307,7 +307,7 @@ TEXT runtime·usleep1(SB),NOSPLIT,$0
 
 switch:
 	// Switch to m->g0 stack and back.
-	MOVQ	(g_sched+gobuf_sp)(R14), R14
+	MOVQ	(G_Sched+Gobuf_Sp)(R14), R14
 	MOVQ	SP, -8(R14)
 	LEAQ	-8(R14), SP
 	CALL	AX
@@ -325,7 +325,7 @@ TEXT runtime·usleep2(SB),NOSPLIT,$0
 	CALL	AX
 	RET
 
-// Runs on OS stack, called from runtime·osyield.
+// Runs on OS stack, called from runtime∕internal∕base·Osyield.
 TEXT runtime·osyield1(SB),NOSPLIT,$0
 	LEAQ	libc_sched_yield(SB), AX
 	CALL	AX
@@ -333,7 +333,7 @@ TEXT runtime·osyield1(SB),NOSPLIT,$0
 
 // func now() (sec int64, nsec int32)
 TEXT time·now(SB),NOSPLIT,$8-12
-	CALL	runtime·nanotime(SB)
+	CALL	runtime∕internal∕base·Nanotime(SB)
 	MOVQ	0(SP), AX
 
 	// generated code for

@@ -6,10 +6,10 @@
 
 #include "textflag.h"
 
-// NOTE: Windows externalthreadhandler expects memclr to preserve DX.
+// NOTE: Windows externalthreadhandler expects Memclr to preserve DX.
 
-// void runtime·memclr(void*, uintptr)
-TEXT runtime·memclr(SB), NOSPLIT, $0-8
+// void runtime∕internal∕base·Memclr(void*, uintptr)
+TEXT runtime∕internal∕base·Memclr(SB), NOSPLIT, $0-8
 	MOVL	ptr+0(FP), DI
 	MOVL	n+4(FP), BX
 	XORL	AX, AX

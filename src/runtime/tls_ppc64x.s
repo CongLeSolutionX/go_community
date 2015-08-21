@@ -6,10 +6,10 @@
 
 #include "go_asm.h"
 #include "go_tls.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 #include "textflag.h"
 
-// We have to resort to TLS variable to save g (R30).
+// We have to resort to TLS variable to Save g (R30).
 // One reason is that external code might trigger
 // SIGSEGV, and our runtime.sigtramp don't even know we
 // are in external code, and will continue to use R30,
@@ -19,11 +19,11 @@
 // thread-local memory, so that we can call externally compiled
 // ppc64 code that will overwrite this register.
 //
-// If !iscgo, this is a no-op.
+// If !Iscgo, this is a no-op.
 //
 // NOTE: setg_gcc<> assume this clobbers only R31.
 TEXT runtime·save_g(SB),NOSPLIT,$-8-0
-	MOVB	runtime·iscgo(SB), R31
+	MOVB	runtime∕internal∕base·Iscgo(SB), R31
 	CMP	R31, $0
 	BEQ	nocgo
 

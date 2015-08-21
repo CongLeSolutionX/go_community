@@ -32,11 +32,11 @@ TEXT ·Syscall(SB),NOSPLIT,$0-28
 	MOVL	$-1, r2+20(FP)
 	NEGL	AX
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVL	AX, r1+16(FP)
 	MOVL	DX, r2+20(FP)
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET	

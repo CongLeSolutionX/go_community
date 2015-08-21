@@ -10,7 +10,7 @@
 #define NACL_SYSCALL(code) \
 	MOVW	$(0x10000 + ((code)<<5)), R8; BL (R8)
 
-TEXT runtime·exit(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
 	MOVW	code+0(FP), R0
 	NACL_SYSCALL(SYS_exit)
 	RET
@@ -51,7 +51,7 @@ TEXT syscall·naclWrite(SB),NOSPLIT,$0
 	MOVW	R0, ret+16(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0
 	MOVW	fd+0(FP), R0
 	MOVW	p+4(FP), R1
 	MOVW	n+8(FP), R2
@@ -142,7 +142,7 @@ TEXT runtime·nacl_cond_broadcast(SB),NOSPLIT,$0
 
 TEXT runtime·nacl_cond_timed_wait_abs(SB),NOSPLIT,$0
 	MOVW	cond+0(FP), R0
-	MOVW	lock+4(FP), R1
+	MOVW	Lock+4(FP), R1
 	MOVW	ts+8(FP), R2
 	NACL_SYSCALL(SYS_cond_timed_wait_abs)
 	MOVW	R0, ret+12(FP)
@@ -161,9 +161,9 @@ TEXT runtime·mstart_nacl(SB),NOSPLIT,$0
 	MOVW	0(R9), R0 // TLS
 	MOVW	-8(R0), R1 // g
 	MOVW	-4(R0), R2 // m
-	MOVW	R2, g_m(R1)
+	MOVW	R2, G_M(R1)
 	MOVW	R1, g
-	B runtime·mstart(SB)
+	B runtime∕internal∕base·Mstart(SB)
 
 TEXT runtime·nacl_nanosleep(SB),NOSPLIT,$0
 	MOVW	ts+0(FP), R0
@@ -172,11 +172,11 @@ TEXT runtime·nacl_nanosleep(SB),NOSPLIT,$0
 	MOVW	R0, ret+8(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	NACL_SYSCALL(SYS_sched_yield)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$8
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$8
 	MOVW	addr+0(FP), R0
 	MOVW	n+4(FP), R1
 	MOVW	prot+8(FP), R2
@@ -218,9 +218,9 @@ TEXT runtime·nacl_clock_gettime(SB),NOSPLIT,$0
 	MOVW	R0, ret+8(FP)
 	RET
 
-// int64 nanotime(void) so really
-// void nanotime(int64 *nsec)
-TEXT runtime·nanotime(SB),NOSPLIT,$16
+// int64 Nanotime(void) so really
+// void Nanotime(int64 *nsec)
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$16
 	MOVW	$0, R0 // real time clock
 	MOVW	$4(R13), R1
 	NACL_SYSCALL(SYS_clock_gettime)
@@ -236,7 +236,7 @@ TEXT runtime·nanotime(SB),NOSPLIT,$16
 	MOVW	R1, ret_hi+4(FP)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$80
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$80
 	// load g from thread context
 	MOVW	$ctxt+-4(FP), R0
 	MOVW	(16*4+10*4)(R0), g
@@ -248,15 +248,15 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$80
 	BL	(R11)
 	RET
 
-	// save g
+	// Save g
 	MOVW	g, R3
 	MOVW	g, 20(R13)
 
 	// g = m->gsignal
-	MOVW	g_m(g), R8
-	MOVW	m_gsignal(R8), g
+	MOVW	G_M(g), R8
+	MOVW	M_Gsignal(R8), g
 
-	// copy arguments for call to sighandler
+	// copy arguments for call to Sighandler
 	MOVW	$11, R0
 	MOVW	R0, 4(R13) // signal
 	MOVW	$0, R0
@@ -265,7 +265,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$80
 	MOVW	R0, 12(R13) // context
 	MOVW	R3, 16(R13) // g
 
-	BL	runtime·sighandler(SB)
+	BL	runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	MOVW	20(R13), g
@@ -285,7 +285,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$80
 	MOVW	(6*4)(R1), R6
 	MOVW	(7*4)(R1), R7
 	MOVW	(8*4)(R1), R8
-	// cannot write to R9
+	// cannot Write to R9
 	MOVW	(10*4)(R1), g
 	MOVW	(11*4)(R1), R11
 	MOVW	(12*4)(R1), R12
@@ -309,7 +309,7 @@ TEXT runtime·getRandomData(SB),NOSPLIT,$0-12
 	RET
 
 TEXT runtime·casp1(SB),NOSPLIT,$0
-	B	runtime·cas(SB)
+	B	runtime∕internal∕base·Cas(SB)
 
 // This is only valid for ARMv6+, however, NaCl/ARM is only defined
 // for ARMv7A anyway.
@@ -320,11 +320,11 @@ TEXT runtime·casp1(SB),NOSPLIT,$0
 //		return 1;
 //	}else
 //		return 0;
-TEXT runtime·cas(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Cas(SB),NOSPLIT,$0
 	B runtime·armcas(SB)
 
 // Likewise, this is only valid for ARMv7+, but that's okay.
-TEXT ·publicationBarrier(SB),NOSPLIT,$-4-0
+TEXT runtime∕internal∕iface·publicationBarrier(SB),NOSPLIT,$-4-0
 	B	runtime·armPublicationBarrier(SB)
 
 TEXT runtime·read_tls_fallback(SB),NOSPLIT,$-4

@@ -42,30 +42,30 @@ TEXT runtime·lwp_start(SB),NOSPLIT,$0
 	MOVQ	DI, R13 // m
 
 	// set up FS to point at m->tls
-	LEAQ	m_tls(R13), DI
+	LEAQ	M_tls(R13), DI
 	CALL	runtime·settls(SB)	// smashes DI
 
 	// set up m, g
 	get_tls(CX)
-	MOVQ	m_g0(R13), DI
-	MOVQ	R13, g_m(DI)
+	MOVQ	M_G0(R13), DI
+	MOVQ	R13, G_M(DI)
 	MOVQ	DI, g(CX)
 
 	CALL	runtime·stackcheck(SB)
-	CALL	runtime·mstart(SB)
+	CALL	runtime∕internal∕base·Mstart(SB)
 
 	MOVQ 0, AX			// crash (not reached)
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-8
-	MOVL	code+0(FP), DI		// arg 1 exit status
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-8
+	MOVL	code+0(FP), DI		// arg 1 Exit status
 	MOVL	$1, AX
 	SYSCALL
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
 TEXT runtime·exit1(SB),NOSPLIT,$-8
-	MOVL	code+0(FP), DI		// arg 1 exit status
+	MOVL	code+0(FP), DI		// arg 1 Exit status
 	MOVL	$431, AX
 	SYSCALL
 	MOVL	$0xf1, 0xf1  // crash
@@ -102,7 +102,7 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-8
 	MOVQ	fd+0(FP), DI		// arg 1 fd
 	MOVQ	p+8(FP), SI		// arg 2 buf
 	MOVL	n+16(FP), DX		// arg 3 count
@@ -121,26 +121,26 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$-8
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$16
 	MOVL	$496, AX	// lwp_gettid
 	SYSCALL
 	MOVQ	$-1, DI		// arg 1 - pid
 	MOVQ	AX, SI		// arg 2 - tid
-	MOVL	sig+0(FP), DX	// arg 3 - signum
+	MOVL	Sig+0(FP), DX	// arg 3 - signum
 	MOVL	$497, AX	// lwp_kill
 	SYSCALL
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$0
 	MOVL	$20, AX		// getpid
 	SYSCALL
 	MOVQ	AX, DI		// arg 1 - pid
-	MOVL	sig+0(FP), SI	// arg 2 - signum
+	MOVL	Sig+0(FP), SI	// arg 2 - signum
 	MOVL	$37, AX		// kill
 	SYSCALL
 	RET
 
-TEXT runtime·setitimer(SB), NOSPLIT, $-8
+TEXT runtime∕internal∕base·setitimer(SB), NOSPLIT, $-8
 	MOVL	mode+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
@@ -162,7 +162,7 @@ TEXT time·now(SB), NOSPLIT, $32
 	MOVL	DX, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB), NOSPLIT, $32
+TEXT runtime∕internal∕base·Nanotime(SB), NOSPLIT, $32
 	MOVL	$232, AX
 	MOVQ	$4, DI  	// CLOCK_MONOTONIC
 	LEAQ	8(SP), SI
@@ -177,8 +177,8 @@ TEXT runtime·nanotime(SB), NOSPLIT, $32
 	MOVQ	AX, ret+0(FP)
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$-8
-	MOVL	sig+0(FP), DI		// arg 1 sig
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$-8
+	MOVL	Sig+0(FP), DI		// arg 1 Sig
 	MOVQ	new+8(FP), SI		// arg 2 act
 	MOVQ	old+16(FP), DX		// arg 3 oact
 	MOVL	$342, AX
@@ -187,7 +187,7 @@ TEXT runtime·sigaction(SB),NOSPLIT,$-8
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$64
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$64
 	get_tls(BX)
 
 	// check that g exists
@@ -199,12 +199,12 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$64
 	CALL	AX
 	RET
 
-	// save g
+	// Save g
 	MOVQ	R10, 40(SP)
 	
 	// g = m->signal
-	MOVQ	g_m(R10), AX
-	MOVQ	m_gsignal(AX), AX
+	MOVQ	G_M(R10), AX
+	MOVQ	M_Gsignal(AX), AX
 	MOVQ	AX, g(BX)
 	
 	MOVQ	DI, 0(SP)
@@ -212,7 +212,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$64
 	MOVQ	DX, 16(SP)
 	MOVQ	R10, 24(SP)
 
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	get_tls(BX)
@@ -220,7 +220,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$64
 	MOVQ	R10, g(BX)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 - addr
 	MOVQ	n+8(FP), SI		// arg 2 - len
 	MOVL	prot+16(FP), DX		// arg 3 - prot
@@ -236,7 +236,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVQ	AX, ret+32(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
 	MOVQ	n+8(FP), SI		// arg 2 len
 	MOVL	$73, AX
@@ -251,10 +251,10 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	flags+16(FP), DX
 	MOVQ	$75, AX	// madvise
 	SYSCALL
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 	
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-8
 	MOVQ	new+8(SP), DI
 	MOVQ	old+16(SP), SI
 	MOVQ	$53, AX
@@ -263,7 +263,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$16
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -310,12 +310,12 @@ TEXT runtime·sysctl(SB),NOSPLIT,$0
 	MOVL	AX, ret+48(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$-4
 	MOVL	$331, AX		// sys_sched_yield
 	SYSCALL
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$0
 	MOVL	how+0(FP), DI		// arg 1 - how
 	MOVQ	new+8(FP), SI		// arg 2 - set
 	MOVQ	old+16(FP), DX		// arg 3 - oset
@@ -337,8 +337,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// int32 runtime∕internal∕base·Kevent(int Kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$0
 	MOVL	fd+0(FP), DI
 	MOVQ	ev1+8(FP), SI
 	MOVL	nev1+16(FP), DX

@@ -10,7 +10,7 @@
 #include "go_tls.h"
 #include "textflag.h"
 
-TEXT runtime·exit(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
 	MOVL	$252, AX	// syscall number
 	MOVL	code+0(FP), BX
 	CALL	*runtime·_vdso(SB)
@@ -18,7 +18,7 @@ TEXT runtime·exit(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·exit1(SB),NOSPLIT,$0
-	MOVL	$1, AX	// exit - exit the current os thread
+	MOVL	$1, AX	// Exit - Exit the current os thread
 	MOVL	code+0(FP), BX
 	CALL	*runtime·_vdso(SB)
 	INT $3	// not reached
@@ -46,8 +46,8 @@ TEXT runtime·closefd(SB),NOSPLIT,$0
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0
-	MOVL	$4, AX		// syscall - write
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0
+	MOVL	$4, AX		// syscall - Write
 	MOVL	fd+0(FP), BX
 	MOVL	p+4(FP), CX
 	MOVL	n+8(FP), DX
@@ -78,7 +78,7 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$0
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$8
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$8
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -102,25 +102,25 @@ TEXT runtime·gettid(SB),NOSPLIT,$0-4
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$12
 	MOVL	$224, AX	// syscall - gettid
 	CALL	*runtime·_vdso(SB)
 	MOVL	AX, BX	// arg 1 tid
-	MOVL	sig+0(FP), CX	// arg 2 signal
+	MOVL	Sig+0(FP), CX	// arg 2 signal
 	MOVL	$238, AX	// syscall - tkill
 	CALL	*runtime·_vdso(SB)
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$12
 	MOVL	$20, AX	// syscall - getpid
 	CALL	*runtime·_vdso(SB)
 	MOVL	AX, BX	// arg 1 pid
-	MOVL	sig+0(FP), CX	// arg 2 signal
+	MOVL	Sig+0(FP), CX	// arg 2 signal
 	MOVL	$37, AX	// syscall - kill
 	CALL	*runtime·_vdso(SB)
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0-12
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$0-12
 	MOVL	$104, AX			// syscall - setitimer
 	MOVL	mode+0(FP), BX
 	MOVL	new+4(FP), CX
@@ -153,9 +153,9 @@ TEXT time·now(SB), NOSPLIT, $32
 	MOVL	BX, nsec+8(FP)
 	RET
 
-// int64 nanotime(void) so really
-// void nanotime(int64 *nsec)
-TEXT runtime·nanotime(SB), NOSPLIT, $32
+// int64 Nanotime(void) so really
+// void Nanotime(int64 *nsec)
+TEXT runtime∕internal∕base·Nanotime(SB), NOSPLIT, $32
 	MOVL	$265, AX			// syscall - clock_gettime
 	MOVL	$1, BX		// CLOCK_MONOTONIC
 	LEAL	8(SP), CX
@@ -177,7 +177,7 @@ TEXT runtime·nanotime(SB), NOSPLIT, $32
 
 TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
 	MOVL	$175, AX		// syscall entry
-	MOVL	sig+0(FP), BX
+	MOVL	Sig+0(FP), BX
 	MOVL	new+4(FP), CX
 	MOVL	old+8(FP), DX
 	MOVL	size+12(FP), SI
@@ -189,7 +189,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
 
 TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
 	MOVL	$174, AX		// syscall - rt_sigaction
-	MOVL	sig+0(FP), BX
+	MOVL	Sig+0(FP), BX
 	MOVL	new+4(FP), CX
 	MOVL	old+8(FP), DX
 	MOVL	size+12(FP), SI
@@ -198,7 +198,7 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
-	MOVL	sig+4(FP), AX
+	MOVL	Sig+4(FP), AX
 	MOVL	AX, 0(SP)
 	MOVL	info+8(FP), AX
 	MOVL	AX, 4(SP)
@@ -208,8 +208,8 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
 	CALL	AX
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$12
-	MOVL	sig+0(FP), BX
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$12
+	MOVL	Sig+0(FP), BX
 	MOVL	BX, 0(SP)
 	MOVL	info+4(FP), BX
 	MOVL	BX, 4(SP)
@@ -226,7 +226,7 @@ TEXT runtime·sigreturn(SB),NOSPLIT,$0
 	INT $3	// not reached
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVL	$192, AX	// mmap2
 	MOVL	addr+0(FP), BX
 	MOVL	n+4(FP), CX
@@ -243,7 +243,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVL	$91, AX	// munmap
 	MOVL	addr+0(FP), BX
 	MOVL	n+4(FP), CX
@@ -259,7 +259,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	n+4(FP), CX
 	MOVL	flags+8(FP), DX
 	CALL	*runtime·_vdso(SB)
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
 // int32 futex(int32 *uaddr, int32 op, int32 val,
@@ -325,15 +325,15 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	CMPL	DX, $0
 	JEQ	nog
 
-	MOVL	AX, m_procid(BX)	// save tid as m->procid
+	MOVL	AX, M_Procid(BX)	// Save tid as m->procid
 
 	// set up ldt 7+id to point at m->tls.
 	// newosproc left the id in tls[0].
-	LEAL	m_tls(BX), BP
+	LEAL	M_tls(BX), BP
 	MOVL	0(BP), DI
-	ADDL	$7, DI	// m0 is LDT#7. count up.
+	ADDL	$7, DI	// M0 is LDT#7. count up.
 	// setldt(tls#, &tls, sizeof tls)
-	PUSHAL	// save registers
+	PUSHAL	// Save registers
 	PUSHL	$32	// sizeof tls
 	PUSHL	BP	// &tls
 	PUSHL	DI	// tls #
@@ -346,7 +346,7 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	// Now segment is established.  Initialize m, g.
 	get_tls(AX)
 	MOVL	DX, g(AX)
-	MOVL	BX, g_m(DX)
+	MOVL	BX, G_M(DX)
 
 	CALL	runtime·stackcheck(SB)	// smashes AX, CX
 	MOVL	0(DX), DX	// paranoia; check they are not nil
@@ -362,7 +362,7 @@ nog:
 	CALL	runtime·exit1(SB)
 	MOVL	$0x1234, 0x1005
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-8
 	MOVL	$186, AX	// sigaltstack
 	MOVL	new+4(SP), BX
 	MOVL	old+8(SP), CX
@@ -423,7 +423,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 	MOVL	$(SEG_32BIT|LIMIT_IN_PAGES|USEABLE|CONTENTS_DATA), 12(AX)	// flag bits
 
 	// call modify_ldt
-	MOVL	$1, BX	// func = 1 (write)
+	MOVL	$1, BX	// func = 1 (Write)
 	MOVL	AX, CX	// user_desc
 	MOVL	$16, DX	// sizeof(user_desc)
 	MOVL	$123, AX	// syscall - modify_ldt
@@ -442,7 +442,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	MOVL	$158, AX
 	CALL	*runtime·_vdso(SB)
 	RET
