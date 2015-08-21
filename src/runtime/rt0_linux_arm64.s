@@ -12,8 +12,8 @@ TEXT _rt0_arm64_linux(SB),NOSPLIT,$-8
 TEXT main(SB),NOSPLIT,$-8
 	MOVD	$runtime·rt0_go(SB), R2
 	BL	(R2)
-exit:
+Exit:
 	MOVD $0, R0
 	MOVD	$94, R8	// sys_exit
 	SVC
-	B	exit
+	B	Exit

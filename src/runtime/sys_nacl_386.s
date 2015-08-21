@@ -10,7 +10,7 @@
 #define NACL_SYSCALL(code) \
 	MOVL $(0x10000 + ((code)<<5)), AX; CALL AX
 
-TEXT runtime·exit(SB),NOSPLIT,$4
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$4
 	MOVL code+0(FP), AX
 	MOVL AX, 0(SP)
 	NACL_SYSCALL(SYS_exit)
@@ -58,11 +58,11 @@ TEXT syscall·naclWrite(SB), NOSPLIT, $16-16
 	MOVL DI, 0(SP)
 	MOVL SI, 4(SP)
 	MOVL DX, 8(SP)
-	CALL runtime·write(SB)
+	CALL runtime∕internal∕print·Write(SB)
 	MOVL AX, ret+16(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$12
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$12
 	MOVL fd+0(FP), AX
 	MOVL AX, 0(SP)
 	MOVL p+4(FP), AX
@@ -173,7 +173,7 @@ TEXT runtime·nacl_cond_broadcast(SB),NOSPLIT,$4
 TEXT runtime·nacl_cond_timed_wait_abs(SB),NOSPLIT,$12
 	MOVL cond+0(FP), AX
 	MOVL AX, 0(SP)
-	MOVL lock+4(FP), AX
+	MOVL Lock+4(FP), AX
 	MOVL AX, 4(SP)
 	MOVL ts+8(FP), AX
 	MOVL AX, 8(SP)
@@ -195,7 +195,7 @@ TEXT runtime·nacl_thread_create(SB),NOSPLIT,$16
 	RET
 
 TEXT runtime·mstart_nacl(SB),NOSPLIT,$0
-	JMP runtime·mstart(SB)
+	JMP runtime∕internal∕base·Mstart(SB)
 
 TEXT runtime·nacl_nanosleep(SB),NOSPLIT,$8
 	MOVL ts+0(FP), AX
@@ -206,11 +206,11 @@ TEXT runtime·nacl_nanosleep(SB),NOSPLIT,$8
 	MOVL AX, ret+8(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	NACL_SYSCALL(SYS_sched_yield)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$32
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$32
 	MOVL	addr+0(FP), AX
 	MOVL	AX, 0(SP)
 	MOVL	n+4(FP), AX
@@ -257,7 +257,7 @@ TEXT runtime·nacl_clock_gettime(SB),NOSPLIT,$8
 	MOVL AX, ret+8(FP)
 	RET
 	
-TEXT runtime·nanotime(SB),NOSPLIT,$20
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$20
 	MOVL $0, 0(SP) // real time clock
 	LEAL 8(SP), AX
 	MOVL AX, 4(SP) // timespec
@@ -283,7 +283,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$8
 	NACL_SYSCALL(SYS_tls_init)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$0
 	get_tls(CX)
 
 	// check that g exists
@@ -296,22 +296,22 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	CALL	AX
 	JMP 	ret
 
-	// save g
+	// Save g
 	MOVL	DI, 20(SP)
 	
 	// g = m->gsignal
-	MOVL	g_m(DI), BX
-	MOVL	m_gsignal(BX), BX
+	MOVL	G_M(DI), BX
+	MOVL	M_Gsignal(BX), BX
 	MOVL	BX, g(CX)
 	
-	// copy arguments for sighandler
+	// copy arguments for Sighandler
 	MOVL	$11, 0(SP) // signal
 	MOVL	$0, 4(SP) // siginfo
 	LEAL	ctxt+4(FP), AX
 	MOVL	AX, 8(SP) // context
 	MOVL	DI, 12(SP) // g
 
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	get_tls(CX)
@@ -337,7 +337,7 @@ ret:
 	// Similarly, there is no way to restore EFLAGS; the usual way is to use
 	// POPFL, but NaCl rejects that instruction. We could inspect the bits and
 	// execute a sequence of instructions designed to recreate those flag
-	// settings, but that's a lot of work.
+	// settings, but that's a lot of Work.
 	//
 	// Thankfully, Go's signal handlers never try to return directly to the
 	// executing code, so all the registers and EFLAGS are dead and can be

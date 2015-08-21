@@ -23,13 +23,13 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	MOVD	ZR, r2+40(FP)	// r2
 	NEG	R0, R0
 	MOVD	R0, err+48(FP)	// errno
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVD	R0, r1+32(FP)	// r1
 	MOVD	R1, r2+40(FP)	// r2
 	MOVD	ZR, err+48(FP)	// errno
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT ·Syscall6(SB),NOSPLIT,$0-80
@@ -49,16 +49,16 @@ TEXT ·Syscall6(SB),NOSPLIT,$0-80
 	MOVD	ZR, r2+64(FP)	// r2
 	NEG	R0, R0
 	MOVD	R0, err+72(FP)	// errno
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVD	R0, r1+56(FP)	// r1
 	MOVD	R1, r2+64(FP)	// r2
 	MOVD	ZR, err+72(FP)	// errno
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
-TEXT ·RawSyscall(SB),NOSPLIT,$0-56
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-56
 	MOVD	a1+8(FP), R0
 	MOVD	a2+16(FP), R1
 	MOVD	a3+24(FP), R2
@@ -81,7 +81,7 @@ ok:
 	MOVD	ZR, err+48(FP)	// errno
 	RET
 
-TEXT ·RawSyscall6(SB),NOSPLIT,$0-80
+TEXT syscall·RawSyscall6(SB),NOSPLIT,$0-80
 	MOVD	a1+8(FP), R0
 	MOVD	a2+16(FP), R1
 	MOVD	a3+24(FP), R2

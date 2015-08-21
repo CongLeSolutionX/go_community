@@ -18,7 +18,30 @@ var labellist *Label
 var lastlabel *Label
 
 func Sysfunc(name string) *Node {
-	n := newname(Pkglookup(name, Runtimepkg))
+	// TODO(matloob): It would be better to know the correct
+	// package name at the callsite but this is easier to do
+	// for now.
+	pkg := Runtimepkg
+	switch name {
+
+	case "panicdivide":
+		pkg = Basepkg
+	case "newproc":
+		pkg = Runtimepkg
+	case "deferproc":
+		pkg = Runtimepkg
+	case "deferreturn":
+		pkg = Runtimepkg
+	case "panicindex":
+		pkg = Runtimepkg
+	case "panicslice":
+		pkg = Runtimepkg
+	case "throwreturn":
+		pkg = Runtimepkg
+	default:
+		Yyerror("sysfunc: failed to lookup %s", name)
+	}
+	n := newname(Pkglookup(name, pkg))
 	n.Class = PFUNC
 	return n
 }

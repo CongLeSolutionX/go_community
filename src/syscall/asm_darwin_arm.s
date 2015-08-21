@@ -22,18 +22,18 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVW	$0, R2
 	MOVW	R2, r2+24(SP)	// r2
 	MOVW	R0, errno+28(SP)	// errno
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVW	R0, r1+20(SP) // r1
 	MOVW	R1, r2+24(SP)	// r2
 	MOVW	$0, R0
 	MOVW	R0, errno+28(SP)	// errno
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr)
-TEXT ·RawSyscall(SB),NOSPLIT,$0-28
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-28
 	MOVW	syscall+4(SP), R12	// syscall entry
 	MOVW	a1+8(SP), R0
 	MOVW	a2+12(SP), R1
@@ -70,18 +70,18 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVW	$0, R2
 	MOVW	R2, r2+36(SP)	// r2
 	MOVW	R0, errno+40(SP)	// errno
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVW	R0, r1+32(SP) // r1
 	MOVW	R1, r2+36(SP)	// r2
 	MOVW	$0, R0
 	MOVW	R0, errno+40(SP)	// errno
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-40
 	MOVW	trap+4(SP), R12	// syscall entry
 	MOVW	a1+8(SP), R0
 	MOVW	a2+12(SP), R1
@@ -105,7 +105,7 @@ ok2:
 	RET
 
 // Actually Syscall7.
-TEXT	·Syscall9(SB),NOSPLIT,$0-52
+TEXT	syscall·Syscall9(SB),NOSPLIT,$0-52
 	BL runtime·entersyscall(SB)
 	MOVW	syscall+4(SP), R12	// syscall entry
 	MOVW	a1+8(SP), R0
@@ -122,13 +122,13 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-52
 	MOVW	$0, R2
 	MOVW	R2, r2+48(SP)	// r2
 	MOVW	R0, errno+52(SP)	// errno
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok9:
 	MOVW	R0, r1+44(SP) // r1
 	MOVW	R1, r2+48(SP)	// r2
 	MOVW	$0, R0
 	MOVW	R0, errno+52(SP)	// errno
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 

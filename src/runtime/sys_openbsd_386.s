@@ -12,8 +12,8 @@
 
 #define	CLOCK_MONOTONIC	$3
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-4
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-4
 	MOVL	$1, AX
 	INT	$0x80
 	MOVL	$0xf1, 0xf1		// crash
@@ -52,7 +52,7 @@ TEXT runtime·read(SB),NOSPLIT,$-4
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-4
 	MOVL	$4, AX			// sys_write
 	INT	$0x80
 	JAE	2(PC)
@@ -60,7 +60,7 @@ TEXT runtime·write(SB),NOSPLIT,$-4
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$24
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -79,29 +79,29 @@ TEXT runtime·usleep(SB),NOSPLIT,$24
 	INT	$0x80
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$12
 	MOVL	$299, AX		// sys_getthrid
 	INT	$0x80
 	MOVL	$0, 0(SP)
 	MOVL	AX, 4(SP)		// arg 1 - pid
-	MOVL	sig+0(FP), AX
+	MOVL	Sig+0(FP), AX
 	MOVL	AX, 8(SP)		// arg 2 - signum
 	MOVL	$37, AX			// sys_kill
 	INT	$0x80
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$12
 	MOVL	$20, AX			// sys_getpid
 	INT	$0x80
 	MOVL	$0, 0(SP)
 	MOVL	AX, 4(SP)		// arg 1 - pid
-	MOVL	sig+0(FP), AX
+	MOVL	Sig+0(FP), AX
 	MOVL	AX, 8(SP)		// arg 2 - signum
 	MOVL	$37, AX			// sys_kill
 	INT	$0x80
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$36
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$36
 	LEAL	addr+0(FP), SI
 	LEAL	4(SP), DI
 	CLD
@@ -120,7 +120,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$36
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$-4
 	MOVL	$73, AX			// sys_munmap
 	INT	$0x80
 	JAE	2(PC)
@@ -134,7 +134,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$-4
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$-4
 	MOVL	$69, AX
 	INT	$0x80
 	RET
@@ -156,9 +156,9 @@ TEXT time·now(SB), NOSPLIT, $32
 	MOVL	BX, nsec+8(FP)
 	RET
 
-// int64 nanotime(void) so really
-// void nanotime(int64 *nsec)
-TEXT runtime·nanotime(SB),NOSPLIT,$32
+// int64 Nanotime(void) so really
+// void Nanotime(int64 *nsec)
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$32
 	LEAL	12(SP), BX
 	MOVL	CLOCK_MONOTONIC, 4(SP)	// arg 1 - clock_id
 	MOVL	BX, 8(SP)		// arg 2 - tp
@@ -174,20 +174,20 @@ TEXT runtime·nanotime(SB),NOSPLIT,$32
 
 	MOVL	20(SP), BX		// nsec
 	ADDL	BX, AX
-	ADCL	CX, DX			// add high bits with carry
+	ADCL	CX, DX			// Add high bits with carry
 
 	MOVL	AX, ret_lo+0(FP)
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$-4
 	MOVL	$46, AX			// sys_sigaction
 	INT	$0x80
 	JAE	2(PC)
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$-4
 	MOVL	$48, AX			// sys_sigprocmask
 	INT	$0x80
 	JAE	2(PC)
@@ -195,7 +195,7 @@ TEXT runtime·sigprocmask(SB),NOSPLIT,$-4
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$44
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$44
 	get_tls(CX)
 
 	// check that g exists
@@ -208,15 +208,15 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$44
 	CALL	AX
 	JMP 	ret
 
-	// save g
+	// Save g
 	MOVL	DI, 20(SP)
 	
 	// g = m->gsignal
-	MOVL	g_m(DI), BX
-	MOVL	m_gsignal(BX), BX
+	MOVL	G_M(DI), BX
+	MOVL	M_Gsignal(BX), BX
 	MOVL	BX, g(CX)
 
-	// copy arguments for call to sighandler
+	// copy arguments for call to Sighandler
 	MOVL	signo+0(FP), BX
 	MOVL	BX, 0(SP)
 	MOVL	info+4(FP), BX
@@ -225,7 +225,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$44
 	MOVL	BX, 8(SP)
 	MOVL	DI, 12(SP)
 
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	get_tls(CX)
@@ -290,8 +290,8 @@ TEXT runtime·tfork(SB),NOSPLIT,$12
 	MOVL	8(SP), SI		// fn
 
 	// Set FS to point at m->tls.
-	LEAL	m_tls(BX), BP
-	PUSHAL				// save registers
+	LEAL	M_tls(BX), BP
+	PUSHAL				// Save registers
 	PUSHL	BP
 	CALL	runtime·settls(SB)
 	POPL	AX
@@ -300,7 +300,7 @@ TEXT runtime·tfork(SB),NOSPLIT,$12
 	// Now segment is established.  Initialize m, g.
 	get_tls(AX)
 	MOVL	DX, g(AX)
-	MOVL	BX, g_m(DX)
+	MOVL	BX, G_M(DX)
 
 	CALL	runtime·stackcheck(SB)	// smashes AX, CX
 	MOVL	0(DX), DX		// paranoia; check they are not nil
@@ -318,7 +318,7 @@ TEXT runtime·tfork(SB),NOSPLIT,$12
 	MOVL	$0x1234, 0x1005
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-8
 	MOVL	$288, AX		// sys_sigaltstack
 	MOVL	new+4(SP), BX
 	MOVL	old+8(SP), CX
@@ -347,7 +347,7 @@ TEXT runtime·settls(SB),NOSPLIT,$8
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$-4
 	MOVL	$298, AX		// sys_sched_yield
 	INT	$0x80
 	RET
@@ -393,8 +393,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// int32 runtime∕internal∕base·Kevent(int Kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$0
 	MOVL	$72, AX			// sys_kevent
 	INT	$0x80
 	JAE	2(PC)
