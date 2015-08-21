@@ -265,6 +265,13 @@ func Get(name string) Var {
 	return vars[name]
 }
 
+// Get all published variables.
+func GetAll() map[string]Var {
+	mutex.RLock()
+	defer mutex.RUnlock()
+	return vars
+}
+
 // Convenience functions for creating new exported variables.
 
 func NewInt(name string) *Int {
