@@ -11,9 +11,11 @@
 package json
 
 import (
+	"bufio"
 	"bytes"
 	"encoding"
 	"encoding/base64"
+	"io"
 	"math"
 	"reflect"
 	"runtime"
@@ -24,6 +26,18 @@ import (
 	"unicode"
 	"unicode/utf8"
 )
+
+var marshalPool sync.Pool
+
+func getMarshalBuffer() (b *bytes.Buffer) {
+	if v := marshalPool.Get(); v != nil {
+		b = v.(*bytes.Buffer)
+		b.Reset()
+		return
+	}
+	b = new(bytes.Buffer)
+	return
+}
 
 // Marshal returns the JSON encoding of v.
 //
@@ -131,12 +145,20 @@ import (
 // an infinite recursion.
 //
 func Marshal(v interface{}) ([]byte, error) {
-	e := &encodeState{}
+	buf := getMarshalBuffer()
+	e := newEncodeState(buf)
 	err := e.marshal(v)
 	if err != nil {
 		return nil, err
 	}
-	return e.Bytes(), nil
+	e.Flush()
+
+	b := buf.Bytes()
+	d := make([]byte, len(b))
+	copy(d, b)
+	marshalPool.Put(buf)
+
+	return d, nil
 }
 
 // MarshalIndent is like Marshal but applies Indent to format the output.
@@ -240,19 +262,13 @@ var hex = "0123456789abcdef"
 
 // An encodeState encodes JSON into a bytes.Buffer.
 type encodeState struct {
-	bytes.Buffer // accumulated output
-	scratch      [64]byte
+	w       *bufio.Writer // buffered writer to write to
+	n       int           // total amount written
+	scratch [64]byte
 }
 
-var encodeStatePool sync.Pool
-
-func newEncodeState() *encodeState {
-	if v := encodeStatePool.Get(); v != nil {
-		e := v.(*encodeState)
-		e.Reset()
-		return e
-	}
-	return new(encodeState)
+func newEncodeState(w io.Writer) *encodeState {
+	return &encodeState{w: bufio.NewWriter(w)}
 }
 
 func (e *encodeState) marshal(v interface{}) (err error) {
@@ -273,6 +289,40 @@ func (e *encodeState) marshal(v interface{}) (err error) {
 
 func (e *encodeState) error(err error) {
 	panic(err)
+}
+
+func (e *encodeState) WriteByte(b byte) error {
+	if err := e.w.WriteByte(b); e != nil {
+		return err
+	}
+	e.n++
+	return nil
+}
+
+func (e *encodeState) WriteString(s string) (int, error) {
+	n, err := e.w.WriteString(s)
+	e.n += n
+	return n, err
+}
+
+func (e *encodeState) Write(b []byte) (int, error) {
+	n, err := e.w.Write(b)
+	e.n += n
+	return n, err
+}
+
+func (e *encodeState) WriteRune(r rune) (int, error) {
+	n, err := e.w.WriteRune(r)
+	e.n += n
+	return n, err
+}
+
+func (e *encodeState) Flush() error {
+	return e.w.Flush()
+}
+
+func (e *encodeState) Len() int {
+	return e.n
 }
 
 func isEmptyValue(v reflect.Value) bool {
@@ -412,13 +462,17 @@ func marshalerEncoder(e *encodeState, v reflect.Value, quoted bool) {
 	}
 	m := v.Interface().(Marshaler)
 	b, err := m.MarshalJSON()
+	buf := getMarshalBuffer()
 	if err == nil {
 		// copy JSON into buffer, checking validity.
-		err = compact(&e.Buffer, b, true)
+		err = compact(buf, b, true)
 	}
 	if err != nil {
 		e.error(&MarshalerError{v.Type(), err})
 	}
+	e.Write(buf.Bytes())
+	e.Flush()
+	marshalPool.Put(buf)
 }
 
 func addrMarshalerEncoder(e *encodeState, v reflect.Value, quoted bool) {
@@ -429,13 +483,17 @@ func addrMarshalerEncoder(e *encodeState, v reflect.Value, quoted bool) {
 	}
 	m := va.Interface().(Marshaler)
 	b, err := m.MarshalJSON()
+	buf := getMarshalBuffer()
 	if err == nil {
 		// copy JSON into buffer, checking validity.
-		err = compact(&e.Buffer, b, true)
+		err = compact(buf, b, true)
 	}
 	if err != nil {
 		e.error(&MarshalerError{v.Type(), err})
 	}
+	e.Write(buf.Bytes())
+	e.Flush()
+	marshalPool.Put(buf)
 }
 
 func textMarshalerEncoder(e *encodeState, v reflect.Value, quoted bool) {
