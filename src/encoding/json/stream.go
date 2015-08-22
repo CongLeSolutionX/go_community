@@ -166,13 +166,13 @@ func nonSpace(b []byte) bool {
 
 // An Encoder writes JSON objects to an output stream.
 type Encoder struct {
-	w   io.Writer
+	es  *encodeState
 	err error
 }
 
 // NewEncoder returns a new encoder that writes to w.
 func NewEncoder(w io.Writer) *Encoder {
-	return &Encoder{w: w}
+	return &Encoder{es: newEncodeState(w)}
 }
 
 // Encode writes the JSON encoding of v to the stream,
@@ -184,8 +184,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 	if enc.err != nil {
 		return enc.err
 	}
-	e := newEncodeState()
-	err := e.marshal(v)
+	err := enc.es.marshal(v)
 	if err != nil {
 		return err
 	}
@@ -196,13 +195,11 @@ func (enc *Encoder) Encode(v interface{}) error {
 	// is required if the encoded value was a number,
 	// so that the reader knows there aren't more
 	// digits coming.
-	e.WriteByte('\n')
-
-	if _, err = enc.w.Write(e.Bytes()); err != nil {
+	enc.es.WriteByte('\n')
+	if err := enc.es.Flush(); err != nil {
 		enc.err = err
 	}
-	encodeStatePool.Put(e)
-	return err
+	return enc.err
 }
 
 // RawMessage is a raw encoded JSON object.
