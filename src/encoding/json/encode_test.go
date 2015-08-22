@@ -375,7 +375,8 @@ func TestDuplicatedFieldDisappears(t *testing.T) {
 
 func TestStringBytes(t *testing.T) {
 	// Test that encodeState.stringBytes and encodeState.string use the same encoding.
-	es := &encodeState{}
+	esBuf := getMarshalBuffer()
+	es := newEncodeState(esBuf)
 	var r []rune
 	for i := '\u0000'; i <= unicode.MaxRune; i++ {
 		r = append(r, i)
@@ -386,14 +387,18 @@ func TestStringBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	esBytes := &encodeState{}
-	_, err = esBytes.stringBytes([]byte(s))
+	esbBuf := getMarshalBuffer()
+	esb := newEncodeState(esbBuf)
+	_, err = esb.stringBytes([]byte(s))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	enc := es.Buffer.String()
-	encBytes := esBytes.Buffer.String()
+	es.Flush()
+	esb.Flush()
+
+	enc := esBuf.String()
+	encBytes := esbBuf.String()
 	if enc != encBytes {
 		i := 0
 		for i < len(enc) && i < len(encBytes) && enc[i] == encBytes[i] {
