@@ -184,7 +184,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 	if enc.err != nil {
 		return enc.err
 	}
-	e := newEncodeState()
+	e := newEncodeState(enc.w)
 	err := e.marshal(v)
 	if err != nil {
 		return err
@@ -197,12 +197,10 @@ func (enc *Encoder) Encode(v interface{}) error {
 	// so that the reader knows there aren't more
 	// digits coming.
 	e.WriteByte('\n')
-
-	if _, err = enc.w.Write(e.Bytes()); err != nil {
+	if err := e.Flush(); err != nil {
 		enc.err = err
 	}
-	encodeStatePool.Put(e)
-	return err
+	return enc.err
 }
 
 // RawMessage is a raw encoded JSON object.
