@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a45875e6_64cbcac8",
+        "filename": "src/testing/quick/quick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-08-22T21:03:21Z",
+      "side": 1,
+      "message": "Could have changed this also to \u0027size\u0027, but not necessary since a string will never contain other data.",
+      "revId": "6a79f2abf323acc5dec1d786585422223cc6452a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
