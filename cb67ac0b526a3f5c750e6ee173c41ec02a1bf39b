@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a47f9520_8206e3d7",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 9641
+      },
+      "writtenOn": "2015-08-24T23:28:55Z",
+      "side": 1,
+      "message": "See my response wrt Reset() below. What do you think?",
+      "parentUuid": "a47f9520_694ba231",
+      "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_a950aadd",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-23T14:10:37Z",
       "side": 1,
       "message": "don\u0027t use named return values here. (in general, don\u0027t use them unless it aids in documentation or really cleans up the code... neither true here)",
+      "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_620df7ef",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 9641
+      },
+      "writtenOn": "2015-08-24T23:28:55Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "a47f9520_a950aadd",
       "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a47f9520_e220075c",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 9641
+      },
+      "writtenOn": "2015-08-24T23:28:55Z",
+      "side": 1,
+      "message": "This is different behavior compared to what the existing newEncodeState does and generally different than many other exaples in the stdlib (see: newTextprotoReader, newFlateWriter, newPrinter, and possibly others). That doesn\u0027t make this right, but I was trying to be consistent.",
+      "parentUuid": "a47f9520_89484e34",
+      "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_49426614",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a47f9520_6226576c",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 9641
+      },
+      "writtenOn": "2015-08-24T23:28:55Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "a47f9520_49426614",
+      "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_e9bf9278",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2015-08-23T14:10:37Z",
       "side": 1,
       "message": "why not just return b and not put the bytes.Buffer back in the pool?",
+      "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_82782337",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 9641
+      },
+      "writtenOn": "2015-08-24T23:28:55Z",
+      "side": 1,
+      "message": "I can. I wasn\u0027t sure which would be better. To recycle the struct with it\u0027s underlying, already grown []byte and to return a copy of that slice that\u0027s just the right size or to return buf.Bytes() and throw away the bufio.Buffer.\n\nI\u0027ll run the tests both ways and see with compares better (or if there is any difference).",
+      "parentUuid": "a47f9520_e9bf9278",
       "revId": "cb67ac0b526a3f5c750e6ee173c41ec02a1bf39b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
