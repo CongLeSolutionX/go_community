@@ -277,7 +277,7 @@ func mapaccess1(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 		raceReadObjectPC(t.key, key, callerpc, pc)
 	}
 	if h == nil || h.count == 0 {
-		return zeroptr
+		return atomicloadp(unsafe.Pointer(&zeroptr))
 	}
 	alg := t.key.alg
 	hash := alg.hash(key, uintptr(h.hash0))
@@ -312,7 +312,7 @@ func mapaccess1(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 		}
 		b = b.overflow(t)
 		if b == nil {
-			return zeroptr
+			return atomicloadp(unsafe.Pointer(&zeroptr))
 		}
 	}
 }
@@ -325,7 +325,7 @@ func mapaccess2(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, bool) 
 		raceReadObjectPC(t.key, key, callerpc, pc)
 	}
 	if h == nil || h.count == 0 {
-		return zeroptr, false
+		return atomicloadp(unsafe.Pointer(&zeroptr)), false
 	}
 	alg := t.key.alg
 	hash := alg.hash(key, uintptr(h.hash0))
@@ -360,7 +360,7 @@ func mapaccess2(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, bool) 
 		}
 		b = b.overflow(t)
 		if b == nil {
-			return zeroptr, false
+			return atomicloadp(unsafe.Pointer(&zeroptr)), false
 		}
 	}
 }
@@ -999,28 +999,34 @@ var zerolock mutex
 const initialZeroSize = 1024
 
 var zeroinitial [initialZeroSize]byte
+
+// All accesses to zeroptr and zerosize must be atomic so that they
+// can be accessed without locks in the common case.
 var zeroptr unsafe.Pointer = unsafe.Pointer(&zeroinitial)
 var zerosize uintptr = initialZeroSize
 
 // mapzero ensures that zeroptr points to a buffer large enough to
 // serve as the zero value for t.
 func mapzero(t *_type) {
-	// Small enough for existing buffer.
-	if t.size <= zerosize {
+	// Is the type small enough for existing buffer?
+	cursize := uintptr(atomicloadp(unsafe.Pointer(&zerosize)))
+	if t.size <= cursize {
 		return
 	}
 
 	// Allocate a new buffer.
 	lock(&zerolock)
-	if zerosize < t.size {
-		for zerosize < t.size {
-			zerosize *= 2
-			if zerosize == 0 {
+	cursize = uintptr(atomicloadp(unsafe.Pointer(&zerosize)))
+	if cursize < t.size {
+		for cursize < t.size {
+			cursize *= 2
+			if cursize == 0 {
 				// need >2GB zero on 32-bit machine
 				throw("map element too large")
 			}
 		}
-		zeroptr = persistentalloc(zerosize, 64, &memstats.other_sys)
+		atomicstorep1(unsafe.Pointer(&zeroptr), persistentalloc(cursize, 64, &memstats.other_sys))
+		atomicstorep1(unsafe.Pointer(&zerosize), unsafe.Pointer(zerosize))
 	}
 	unlock(&zerolock)
 }
