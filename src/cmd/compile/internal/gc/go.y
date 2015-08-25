@@ -1392,6 +1392,7 @@ xfndcl:
 		$$.Noescape = noescape;
 		$$.Func.Norace = norace;
 		$$.Func.Nosplit = nosplit;
+		$$.Func.Noinline = noinline;
 		$$.Func.Nowritebarrier = nowritebarrier;
 		$$.Func.Systemstack = systemstack;
 		funcbody($$);
@@ -1578,8 +1579,9 @@ xdcl_list:
 		if nsyntaxerrors == 0 {
 			testdclstack();
 		}
-		nointerface = false
 		noescape = false
+		noinline = false
+		nointerface = false
 		norace = false
 		nosplit = false
 		nowritebarrier = false
