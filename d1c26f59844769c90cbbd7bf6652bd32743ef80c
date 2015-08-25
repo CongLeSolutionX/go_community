@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4026d8c_ecf21f93",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-25T03:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a47f9520_38e71e21",
+      "revId": "d1c26f59844769c90cbbd7bf6652bd32743ef80c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_b80b0e62",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-25T02:47:16Z",
       "side": 1,
       "message": "If you are so inclined, you might send a follow-up CL that makes this chunk of code look like:\n\nswitch verb {\ncase \"go:nointerface\":\n  if obj.Fieldtrack....\ncase \"go:...\n}\n\nAlso, it looks at first glance like \"return c\" is unnecessary. That could be part of the switch CL.",
+      "revId": "d1c26f59844769c90cbbd7bf6652bd32743ef80c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_ccf76381",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1625,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-25T03:28:03Z",
+      "side": 1,
+      "message": "Sure, I can clean that up in a separate CL.",
+      "parentUuid": "a47f9520_b80b0e62",
       "revId": "d1c26f59844769c90cbbd7bf6652bd32743ef80c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
