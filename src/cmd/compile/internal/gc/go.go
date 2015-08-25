@@ -657,10 +657,11 @@ var flag_largemodel int
 // Pending annotations for next func declaration.
 var (
 	noescape       bool
+	noinline       bool
+	norace         bool
 	nosplit        bool
 	nowritebarrier bool
 	systemstack    bool
-	norace         bool
 )
 
 var debuglive int
