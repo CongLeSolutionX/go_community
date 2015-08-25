@@ -504,6 +504,29 @@ func libname(args []string) string {
 	return "lib" + libname + ".so"
 }
 
+// removes ' ', '/' and '.' at the beginning and
+// at the end of a string
+func filteredPath(path string) string {
+	const (
+		removePattern = "./ "
+	)
+	path = strings.TrimLeft(path, removePattern)
+	path = strings.TrimRight(path, removePattern)
+	return path
+}
+
+// filters arguments containing ' ', '/' and '.' only
+func filterArgs(args []string) []string {
+	result := make([]string, 0, len(args))
+	for _, arg := range args {
+		arg = filteredPath(arg)
+		if len(arg) > 0 {
+			result = append(result, arg)
+		}
+	}
+	return result
+}
+
 func runInstall(cmd *Command, args []string) {
 	raceInit()
 	buildModeInit()
@@ -530,7 +553,14 @@ func runInstall(cmd *Command, args []string) {
 	b.init()
 	var a *action
 	if buildBuildmode == "shared" {
-		a = b.libaction(libname(args), pkgs, modeInstall, modeInstall)
+		pkgNames := filterArgs(args)
+		if len(pkgNames) == 0 && len(pkgs) > 0 {
+			// we are building a library in the current path,
+			// so no args are provided. pkgs[0] contains information
+			// about the package and we can use it's import path as a name
+			pkgNames = []string{pkgs[0].ImportPath}
+		}
+		a = b.libaction(libname(pkgNames), pkgs, modeInstall, modeInstall)
 	} else {
 		a = &action{}
 		var tools []*action
