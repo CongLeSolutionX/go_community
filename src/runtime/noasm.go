@@ -35,6 +35,9 @@ func cmpstring(s1, s2 string) int {
 
 //go:linkname bytes_Compare bytes.Compare
 func bytes_Compare(s1, s2 []byte) int {
+	if len(s1) > 0 && len(s2) > 0 && &s1[0] == &s2[0] {
+		goto samebytes
+	}
 	l := len(s1)
 	if len(s2) < l {
 		l = len(s2)
@@ -48,6 +51,7 @@ func bytes_Compare(s1, s2 []byte) int {
 			return +1
 		}
 	}
+samebytes:
 	if len(s1) < len(s2) {
 		return -1
 	}
