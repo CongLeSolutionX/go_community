@@ -503,11 +503,47 @@ func libname(args []string) string {
 	return "lib" + libname + ".so"
 }
 
+// those meta packages consist of many others
+func isMetaPackage(name string) bool {
+	return name == "std" || name == "cmd" || name == "all"
+}
+
+// Use arguments for special packages:
+//	std --> libstd.so
+//	std cmd --> libstd,cmd.so
+// Use import path for other cases:
+//	somelib --> libsubdir-somelib.so
+//  somelib somelib2 --> libsubdir-somelib,subdir2-somelib-2.so
+//	./ or ../ --> libsubdir-somelib.so
+//	./... ---> libpkg1,pkg2.so - subset of all the import path's
+func packageNamesToInstall(args []string, pkgs []*Package) []string {
+	const (
+		maxResultLen = 32
+	)
+	result := make([]string, 0, len(args))
+	for _, arg := range args {
+		if isMetaPackage(arg) {
+			result = append(result, arg)
+		}
+	}
+	if len(result) > 0 {
+		return result
+	}
+	var totalLen int
+	for _, pkg := range pkgs {
+		result = append(result, pkg.ImportPath)
+		totalLen += len(pkg.ImportPath)
+		if totalLen >= maxResultLen {
+			break
+		}
+	}
+	return result
+}
+
 func runInstall(cmd *Command, args []string) {
 	raceInit()
 	buildModeInit()
 	pkgs := pkgsFilter(packagesForBuild(args))
-
 	for _, p := range pkgs {
 		if p.Target == "" && (!p.Standard || p.ImportPath != "unsafe") {
 			switch {
@@ -529,7 +565,8 @@ func runInstall(cmd *Command, args []string) {
 	b.init()
 	var a *action
 	if buildBuildmode == "shared" {
-		a = b.libaction(libname(args), pkgs, modeInstall, modeInstall)
+		pkgNames := packageNamesToInstall(args, pkgs)
+		a = b.libaction(libname(pkgNames), pkgs, modeInstall, modeInstall)
 	} else {
 		a = &action{}
 		var tools []*action
