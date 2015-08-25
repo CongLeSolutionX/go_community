@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64091ddd_a3dda856",
+        "filename": "src/runtime/noasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-08-25T08:16:10Z",
+      "side": 1,
+      "message": "the compiler is unimpressed by the jump over this decl. Can you move it to line 38, then you can use it in the comparison.",
+      "revId": "6515fc68953ac6b4ca7155cf2f1c9ebc0f32eeb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
