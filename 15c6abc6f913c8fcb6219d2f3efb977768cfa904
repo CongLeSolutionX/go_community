@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64091ddd_43d48cb6",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-25T22:26:00Z",
+      "side": 1,
+      "message": "Can you check for \"./...\" here too per #10473 and maaybe \".\"?",
+      "range": {
+        "startLine": 534,
+        "startChar": 6,
+        "endLine": 534,
+        "endChar": 40
+      },
+      "revId": "15c6abc6f913c8fcb6219d2f3efb977768cfa904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
