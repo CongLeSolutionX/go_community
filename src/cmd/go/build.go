@@ -480,7 +480,8 @@ func runBuild(cmd *Command, args []string) {
 
 	var a *action
 	if buildBuildmode == "shared" {
-		a = b.libaction(libname(args), pkgsFilter(packages(args)), modeBuild, depMode)
+		pkgs := pkgsFilter(packages(args))
+		a = b.libaction(libname(args, pkgs), pkgs, modeBuild, depMode)
 	} else {
 		a = &action{}
 		for _, p := range pkgsFilter(packages(args)) {
@@ -504,23 +505,48 @@ See also: go build, go get, go clean.
 	`,
 }
 
+// isMetaPackage checks if name is a reserved package name that expands to multiple packages
+func isMetaPackage(name string) bool {
+	return name == "std" || name == "cmd" || name == "all"
+}
+
 // libname returns the filename to use for the shared library when using
 // -buildmode=shared.  The rules we use are:
-//  1) Drop any trailing "/..."s if present
-//  2) Change / to -
-//  3) Join arguments with ,
-// So std -> libstd.so
-//    a b/... -> liba,b.so
-//    gopkg.in/tomb.v2 -> libgopkg.in-tomb.v2.so
-func libname(args []string) string {
+// Use arguments for special 'meta' packages:
+//	std --> libstd.so
+//	std cmd --> libstd,cmd.so
+// Use import paths for other cases, changing '/' to '-':
+//	somelib --> libsubdir-somelib.so
+//	./ or ../ --> libsubdir-somelib.so
+//	gopkg.in/tomb.v2 -> libgopkg.in-tomb.v2.so
+//	./... ---> libpkg1,pkg2.so - subset of all import paths
+// Name parts are joined with ','.
+// If there are several components in the name,
+// the total name len (without prefix and suffix) will not exceed 40 symbols.
+func libname(args []string, pkgs []*Package) string {
 	var libname string
-	for _, arg := range args {
-		arg = strings.TrimSuffix(arg, "/...")
-		arg = strings.Replace(arg, "/", "-", -1)
+	appendName := func(arg string) bool {
 		if libname == "" {
 			libname = arg
-		} else {
+		} else if len(libname)+len(arg) < 40 {
 			libname += "," + arg
+		} else {
+			return false
+		}
+		return true
+	}
+	for _, arg := range args {
+		if isMetaPackage(arg) {
+			if !appendName(arg) {
+				break
+			}
+		}
+	}
+	if len(libname) == 0 {
+		for _, pkg := range pkgs {
+			if !appendName(strings.Replace(pkg.ImportPath, "/", "-", -1)) {
+				break
+			}
 		}
 	}
 	// TODO(mwhudson): Needs to change for platforms that use different naming
@@ -558,7 +584,7 @@ func runInstall(cmd *Command, args []string) {
 	b.init()
 	var a *action
 	if buildBuildmode == "shared" {
-		a = b.libaction(libname(args), pkgs, modeInstall, modeInstall)
+		a = b.libaction(libname(args, pkgs), pkgs, modeInstall, modeInstall)
 	} else {
 		a = &action{}
 		var tools []*action
