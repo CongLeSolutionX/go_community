@@ -1660,6 +1660,11 @@ func getlinepragma() int {
 			return c
 		}
 
+		if verb == "go:noinline" {
+			noinline = true
+			return c
+		}
+
 		if verb == "go:systemstack" {
 			if compiling_runtime == 0 {
 				Yyerror("//go:systemstack only allowed in runtime")
