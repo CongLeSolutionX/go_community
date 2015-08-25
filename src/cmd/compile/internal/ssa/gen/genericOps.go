@@ -21,9 +21,11 @@ var genericOps = []opData{
 	{name: "Sub16"},
 	{name: "Sub32"},
 	{name: "Sub64"},
+	{name: "SubPtr"},
 	{name: "Sub32F"},
 	{name: "Sub64F"},
 	// TODO: Sub64C, Sub128C
+	// TODO: Sub32F, Sub64F, Sub64C, Sub128C
 
 	{name: "Mul8"}, // arg0 * arg1
 	{name: "Mul16"},
@@ -288,8 +290,9 @@ var genericOps = []opData{
 	{name: "Trunc64to32"},
 
 	// Automatically inserted safety checks
-	{name: "IsNonNil"},   // arg0 != nil
-	{name: "IsInBounds"}, // 0 <= arg0 < arg1
+	{name: "IsNonNil"},        // arg0 != nil
+	{name: "IsInBounds"},      // 0 <= arg0 < arg1
+	{name: "IsSliceInBounds"}, // 0 <= arg0 <= arg1
 
 	// Pseudo-ops
 	{name: "PanicNilCheck"},   // trigger a dereference fault; arg0=nil ptr, arg1=mem, returns mem

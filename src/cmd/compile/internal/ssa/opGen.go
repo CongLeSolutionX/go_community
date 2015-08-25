@@ -248,6 +248,7 @@ const (
 	OpSub16
 	OpSub32
 	OpSub64
+	OpSubPtr
 	OpSub32F
 	OpSub64F
 	OpMul8
@@ -443,6 +444,7 @@ const (
 	OpTrunc64to32
 	OpIsNonNil
 	OpIsInBounds
+	OpIsSliceInBounds
 	OpPanicNilCheck
 	OpPanicIndexCheck
 	OpPanicSliceCheck
@@ -2261,6 +2263,7 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
 			},
+			clobbers: 8589934592, // .FLAGS
 			outputs: []regMask{
 				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
 			},
@@ -2479,7 +2482,6 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
 			},
-			clobbers: 8589934592, // .FLAGS
 			outputs: []regMask{
 				65519, // .AX .CX .DX .BX .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
 			},
@@ -2832,6 +2834,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Sub64",
+		generic: true,
+	},
+	{
+		name:    "SubPtr",
 		generic: true,
 	},
 	{
@@ -3612,6 +3618,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "IsInBounds",
+		generic: true,
+	},
+	{
+		name:    "IsSliceInBounds",
 		generic: true,
 	},
 	{
