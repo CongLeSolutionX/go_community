@@ -71,3 +71,61 @@ func TestParseMetaGoImports(t *testing.T) {
 		}
 	}
 }
+
+func TestSharedLibName(t *testing.T) {
+	// TODO(avdva) - make these values platform-specific
+	prefix := "lib"
+	suffix := ".so"
+	testData := []struct {
+		args     []string
+		pkgs     []*Package
+		expected string
+	}{
+		{
+			[]string{"std"},
+			[]*Package{},
+			"std",
+		},
+		{
+			[]string{"std", "cmd"},
+			[]*Package{},
+			"std,cmd",
+		},
+		{
+			[]string{},
+			[]*Package{&Package{ImportPath: "gopkg.in/somelib"}},
+			"gopkg.in-somelib",
+		},
+		{
+			[]string{"./..."},
+			[]*Package{&Package{ImportPath: "somelib"}},
+			"somelib",
+		},
+		{
+			[]string{"../somelib", "../somelib"},
+			[]*Package{&Package{ImportPath: "somelib"}},
+			"somelib",
+		},
+		{
+			[]string{"../lib1", "../lib2"},
+			[]*Package{&Package{ImportPath: "gopkg.in/lib1"}, &Package{ImportPath: "gopkg.in/lib2"}},
+			"gopkg.in-lib1,gopkg.in-lib2",
+		},
+		{
+			[]string{"./..."},
+			[]*Package{
+				&Package{ImportPath: "gopkg.in/dir/lib1"},
+				&Package{ImportPath: "gopkg.in/lib2"},
+				&Package{ImportPath: "gopkg.in/lib3"},
+			},
+			"gopkg.in-dir-lib1,gopkg.in-lib2,gopkg.in-lib3",
+		},
+	}
+	for _, data := range testData {
+		expected := prefix + data.expected + suffix
+		computed := libname(data.args, data.pkgs)
+		if expected != computed {
+			t.Errorf("shared library name must be '%s', not '%s'", expected, computed)
+		}
+	}
+}
