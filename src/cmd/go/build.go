@@ -530,7 +530,14 @@ func runInstall(cmd *Command, args []string) {
 	b.init()
 	var a *action
 	if buildBuildmode == "shared" {
-		a = b.libaction(libname(args), pkgs, modeInstall, modeInstall)
+		pkgNames := args
+		if len(pkgNames) == 0 && len(pkgs) > 0 {
+			// we are building a library in the current path,
+			// so no args are provided. pkgs[0] contains information
+			// about the package and we can use it's import path as a name
+			pkgNames = []string{pkgs[0].ImportPath}
+		}
+		a = b.libaction(libname(pkgNames), pkgs, modeInstall, modeInstall)
 	} else {
 		a = &action{}
 		var tools []*action
