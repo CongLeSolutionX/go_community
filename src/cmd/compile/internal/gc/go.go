@@ -658,6 +658,7 @@ var flag_largemodel int
 var (
 	noescape       bool
 	nosplit        bool
+	noinline       bool
 	nowritebarrier bool
 	systemstack    bool
 	norace         bool

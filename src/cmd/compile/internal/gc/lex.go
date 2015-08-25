@@ -1622,6 +1622,11 @@ func getlinepragma() int {
 			return c
 		}
 
+		if verb == "go:noinline" {
+			noinline = true
+			return c
+		}
+
 		if verb == "go:systemstack" {
 			systemstack = true
 			return c

@@ -1392,6 +1392,7 @@ xfndcl:
 		$$.Noescape = noescape;
 		$$.Func.Norace = norace;
 		$$.Func.Nosplit = nosplit;
+		$$.Func.Noinline = noinline;
 		$$.Func.Nowritebarrier = nowritebarrier;
 		$$.Func.Systemstack = systemstack;
 		funcbody($$);

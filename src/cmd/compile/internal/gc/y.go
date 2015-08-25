@@ -2540,6 +2540,7 @@ yydefault:
 			yyVAL.node.Noescape = noescape
 			yyVAL.node.Func.Norace = norace
 			yyVAL.node.Func.Nosplit = nosplit
+			yyVAL.node.Func.Noinline = noinline
 			yyVAL.node.Func.Nowritebarrier = nowritebarrier
 			yyVAL.node.Func.Systemstack = systemstack
 			funcbody(yyVAL.node)
