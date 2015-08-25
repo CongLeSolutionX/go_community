@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47f9520_be5e97bb",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-08-25T18:41:06Z",
+      "side": 1,
+      "message": "No need for the explicit type conversions here.  This is clearer, I think:\n\n    if len(p.abs) \u003e 0 \u0026\u0026 p.abs[0]%4 \u003d\u003d 3 {",
+      "range": {
+        "startLine": 727,
+        "startChar": 22,
+        "endLine": 727,
+        "endChar": 53
+      },
+      "revId": "25d9c2242b90ce92eae83cda88ca23c173a5d4fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
