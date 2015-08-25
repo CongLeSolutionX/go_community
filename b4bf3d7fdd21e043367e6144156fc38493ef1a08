@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4026d8c_2c5b97ce",
+        "filename": "src/cmd/compile/internal/ssa/TODO",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-25T17:45:45Z",
+      "side": 1,
+      "message": "I still need to do floating-to-integer conversions.",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 8
+      },
+      "revId": "b4bf3d7fdd21e043367e6144156fc38493ef1a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
