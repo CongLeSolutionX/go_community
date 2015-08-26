@@ -940,3 +940,10 @@ func TestUnmarshalInvalidUTF8(t *testing.T) {
 		t.Fatalf("Expected error to mention %q but error was %q", expectedSubstring, err.Error())
 	}
 }
+
+func TestMarshalNilValue(t *testing.T) {
+	var v interface{}
+	if _, err := Marshal(v); err == nil {
+		t.Fatal("Successfully marshaled nil value")
+	}
+}

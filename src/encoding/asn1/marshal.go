@@ -640,6 +640,9 @@ func marshalField(out *forkableWriter, v reflect.Value, params fieldParameters) 
 //	printable:	causes strings to be marshaled as ASN.1, PrintableString strings.
 //	utf8:		causes strings to be marshaled as ASN.1, UTF8 strings
 func Marshal(val interface{}) ([]byte, error) {
+	if val == nil {
+		return nil, fmt.Errorf("asn1: cannot marshal nil value")
+	}
 	var out bytes.Buffer
 	v := reflect.ValueOf(val)
 	f := newForkableWriter()
