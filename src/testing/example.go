@@ -47,13 +47,13 @@ func runExample(eg InternalExample) (ok bool) {
 	}
 
 	// Capture stdout.
-	stdout := os.Stdout
+	stdout := *os.Stdout
 	r, w, err := os.Pipe()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	os.Stdout = w
+	*os.Stdout = *w
 	outC := make(chan string)
 	go func() {
 		var buf bytes.Buffer
@@ -75,7 +75,7 @@ func runExample(eg InternalExample) (ok bool) {
 
 		// Close pipe, restore stdout, get output.
 		w.Close()
-		os.Stdout = stdout
+		*os.Stdout = stdout
 		out := <-outC
 
 		var fail string
