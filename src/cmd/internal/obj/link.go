@@ -459,6 +459,10 @@ const (
 	R_ARM64_LOAD16
 	R_ARM64_LOAD32
 	R_ARM64_LOAD64
+
+	// Relocates adrp; ld to access initial exec model TLS
+	// TODO(mwhudson): expand this.
+	R_ARM64_TLS_IE
 )
 
 type Auto struct {
