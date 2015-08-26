@@ -1828,7 +1828,24 @@ func ReadBuildIDFromBinary(filename string) (id string, err error) {
 	}
 
 	if bytes.HasPrefix(data, elfPrefix) {
-		return readELFGoBuildID(filename, f, data)
+		buildid, err := readELFGoBuildID(filename, f, data)
+		if err == nil && buildid == "" && goos == "solaris" {
+			// For some versions of Solaris, the buildid may not be
+			// found in the first 16 kB or even the first few
+			// megabytes of the file due to differences in note
+			// segment placement; retry, this time reading the
+			// entire file.
+			_, err = f.Seek(0, 0)
+			if err != nil {
+				return "", err
+			}
+			data, err = ioutil.ReadAll(f)
+			if err != nil {
+				return "", err
+			}
+			return readELFGoBuildID(filename, f, data)
+		}
+		return buildid, err
 	}
 
 	i := bytes.Index(data, goBuildPrefix)
