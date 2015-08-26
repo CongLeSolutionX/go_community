@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "64091ddd_c3309c75",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-26T02:48:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a47f9520_b2bd661e",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_12955a96",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-26T00:59:13Z",
       "side": 1,
       "message": "All this is only meaningful with GNU ld (or gold) and the comment should probably indicate that.  For example, as far as I know the Solaris linker does not do anything special with .data.rel.ro.",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64091ddd_e32fa00f",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-26T02:48:42Z",
+      "side": 1,
+      "message": "Rewrote this section a bit.",
+      "parentUuid": "a47f9520_12955a96",
       "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "64091ddd_833fc43b",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-26T02:48:42Z",
+      "side": 1,
+      "message": "Yeah, I guess not.",
+      "parentUuid": "a47f9520_92a94ade",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_52a3e2fb",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "64091ddd_234238c5",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-26T02:48:42Z",
+      "side": 1,
+      "message": "It\u0027s a pretty useful sanity check, because if s.Outer and s have different types they get put in different sections but references to s become references to s.Outer + offset, which is not maintained by linking. It\u0027s found bugs for me.",
+      "parentUuid": "a47f9520_52a3e2fb",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_d287d265",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2015-08-26T00:59:13Z",
       "side": 1,
       "message": "Note that all sections .data.rel.ro.PREFIX will be gathered together.  You don\u0027t need to generate a single section.\n\nThere is also .data.rel.ro.local.PREFIX.  That is a way of making the dynamic relocation processing more efficient.  Sections are named .data.rel.ro.local.PREFIX if their relocations are all RELATIVE.\n\nI don\u0027t know if this makes any difference here, though.",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64091ddd_a3de4887",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-26T02:48:42Z",
+      "side": 1,
+      "message": "Oh, OK. Do the sections get lumped together into one .data.rel.ro section in the final .so?\n\nAs I said below, I don\u0027t really understand why some things  are in their own section at all. Can we just make one .rodata and one .data.rel.ro section?\n\n.data.rel.ro.local sounds interesting (all strings only have relative relocs, for a start) but perhaps something to take advantage of in another branch? Do you have any idea how much more efficient it is?",
+      "parentUuid": "a47f9520_d287d265",
       "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
