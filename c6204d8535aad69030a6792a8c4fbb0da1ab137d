@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47f9520_b2bd661e",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-26T00:59:13Z",
+      "side": 1,
+      "message": "The defer statement should move below the err !\u003d nil test.",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_12955a96",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-26T00:59:13Z",
+      "side": 1,
+      "message": "All this is only meaningful with GNU ld (or gold) and the comment should probably indicate that.  For example, as far as I know the Solaris linker does not do anything special with .data.rel.ro.",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_92a94ade",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-26T00:59:13Z",
+      "side": 1,
+      "message": "Why bother testing s.Outer.Type !\u003d s.Type ?",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_52a3e2fb",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-26T00:59:13Z",
+      "side": 1,
+      "message": "Do we really need this loop?",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_d287d265",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-26T00:59:13Z",
+      "side": 1,
+      "message": "Note that all sections .data.rel.ro.PREFIX will be gathered together.  You don\u0027t need to generate a single section.\n\nThere is also .data.rel.ro.local.PREFIX.  That is a way of making the dynamic relocation processing more efficient.  Sections are named .data.rel.ro.local.PREFIX if their relocations are all RELATIVE.\n\nI don\u0027t know if this makes any difference here, though.",
+      "revId": "c6204d8535aad69030a6792a8c4fbb0da1ab137d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
