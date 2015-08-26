@@ -466,6 +466,22 @@ const (
 	// local base to the thread local variable defined by the referenced (thread
 	// local) symbol. Error if the offset does not fit into 16 bits.
 	R_AARCH64_TLSLE_MOVW_TPREL_G0
+
+	// Initial exec model TLS. For a thread local symbol S, the static linker
+	// allocates a slot in the GOT ("GOT(S)") and arranges for the dynamic linker to
+	// fill this with the offset from the thread local base to the thread local
+	// storage for this symbol.
+
+	// Set a ADRP immediate value to bits [32:12] of the displacement from the "page
+	// address" (i.e. addr&^0xfff) of the relocated place to the page address of
+	// GOT(S). Error if the displacement is too large to entirely fit. Currently only
+	// supported for external linking.
+	R_AARCH64_TLSIE_ADR_GOTTPREL_PAGE21
+
+	// Set a load or store immediate value to bits [11:3] of the address of GOT(S). No
+	// error if the address does not fit, but error if address % 8 is not zero.
+	// Currently only supported for external linking.
+	R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC
 )
 
 type Auto struct {

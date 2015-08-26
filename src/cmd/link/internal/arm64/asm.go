@@ -71,9 +71,6 @@ func elfreloc1(r *ld.Reloc, sectoff int64) int {
 	case obj.R_AARCH64_ADD_ABS_LO12_NC:
 		ld.Thearch.Vput(ld.R_AARCH64_ADD_ABS_LO12_NC | uint64(elfsym)<<32)
 
-	case obj.R_AARCH64_TLSLE_MOVW_TPREL_G0:
-		ld.Thearch.Vput(ld.R_AARCH64_TLSLE_MOVW_TPREL_G0 | uint64(elfsym)<<32)
-
 	case obj.R_AARCH64_LDST8_ABS_LO12_NC:
 		ld.Thearch.Vput(ld.R_AARCH64_LDST8_ABS_LO12_NC | uint64(elfsym)<<32)
 
@@ -85,6 +82,15 @@ func elfreloc1(r *ld.Reloc, sectoff int64) int {
 
 	case obj.R_AARCH64_LDST64_ABS_LO12_NC:
 		ld.Thearch.Vput(ld.R_AARCH64_LDST64_ABS_LO12_NC | uint64(elfsym)<<32)
+
+	case obj.R_AARCH64_TLSLE_MOVW_TPREL_G0:
+		ld.Thearch.Vput(ld.R_AARCH64_TLSLE_MOVW_TPREL_G0 | uint64(elfsym)<<32)
+
+	case obj.R_AARCH64_TLSIE_ADR_GOTTPREL_PAGE21:
+		ld.Thearch.Vput(ld.R_AARCH64_TLSIE_ADR_GOTTPREL_PAGE21 | uint64(elfsym)<<32)
+
+	case obj.R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC:
+		ld.Thearch.Vput(ld.R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC | uint64(elfsym)<<32)
 
 	case obj.R_CALLARM64:
 		if r.Siz != 4 {
@@ -214,7 +220,9 @@ func archreloc(r *ld.Reloc, s *ld.LSym, val *int64) int {
 			return 0
 
 		case obj.R_CALLARM64,
-			obj.R_AARCH64_TLSLE_MOVW_TPREL_G0:
+			obj.R_AARCH64_TLSLE_MOVW_TPREL_G0,
+			obj.R_AARCH64_TLSIE_ADR_GOTTPREL_PAGE21,
+			obj.R_AARCH64_TLSIE_LD64_GOTTPREL_LO12_NC:
 			r.Done = 0
 			r.Xsym = r.Sym
 			r.Xadd = r.Add
