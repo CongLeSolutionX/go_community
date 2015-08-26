@@ -220,13 +220,14 @@ func Main() {
 	obj.Flagcount("y", "debug declarations in canned imports (with -d)", &Debug['y'])
 	var flag_shared int
 	var flag_dynlink bool
-	if Thearch.Thechar == '5' || Thearch.Thechar == '6' || Thearch.Thechar == '9' {
+	if Thearch.Thechar == '5' || Thearch.Thechar == '6' || Thearch.Thechar == '7' || Thearch.Thechar == '9' {
 		obj.Flagcount("shared", "generate code that can be linked into a shared library", &flag_shared)
+		flag.BoolVar(&flag_dynlink, "dynlink", false, "support references to Go symbols defined in other shared libraries")
 	}
 	if Thearch.Thechar == '6' {
 		obj.Flagcount("largemodel", "generate code that assumes a large memory model", &flag_largemodel)
 	}
-	if Thearch.Thechar == '6' || Thearch.Thechar == '8' || Thearch.Thechar == '9' {
+	if Thearch.Thechar == '6' || Thearch.Thechar == '8' || Thearch.Thechar == '7' || Thearch.Thechar == '9' {
 		flag.BoolVar(&flag_dynlink, "dynlink", false, "support references to Go symbols defined in other shared libraries")
 	}
 	obj.Flagstr("cpuprofile", "write cpu profile to `file`", &cpuprofile)
