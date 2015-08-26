@@ -16,6 +16,24 @@
       "revId": "79a3d239e99d8e60324701d313969cb6611bf308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_72ee1e2b",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-26T00:43:38Z",
+      "side": 1,
+      "message": "I don\u0027t see a problem with consistently using block comments in C code.\n\nI agree that this comment should also be changed.",
+      "parentUuid": "e4026d8c_6fc4e188",
+      "revId": "79a3d239e99d8e60324701d313969cb6611bf308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
