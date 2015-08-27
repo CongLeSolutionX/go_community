@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64091ddd_345f10f3",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-08-27T22:24:58Z",
+      "side": 1,
+      "message": "s/and/to/\ns/by //",
+      "revId": "62705c9cec7d71a832cd4dc0cc96496a8b97b016",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64091ddd_946c1cab",
+        "filename": "src/internal/syscall/windows/registry/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-08-27T22:24:58Z",
+      "side": 1,
+      "message": "s/e.g. //",
+      "range": {
+        "startLine": 139,
+        "startChar": 31,
+        "endLine": 139,
+        "endChar": 32
+      },
+      "revId": "62705c9cec7d71a832cd4dc0cc96496a8b97b016",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
