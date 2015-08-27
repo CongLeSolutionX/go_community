@@ -65,6 +65,12 @@ func elfreloc1(r *ld.Reloc, sectoff int64) int {
 			return -1
 		}
 
+	case obj.R_AARCH64_ADR_GOT_PAGE:
+		ld.Thearch.Vput(ld.R_AARCH64_ADR_GOT_PAGE | uint64(elfsym)<<32)
+
+	case obj.R_AARCH64_LD64_GOT_LO12_NC:
+		ld.Thearch.Vput(ld.R_AARCH64_LD64_GOT_LO12_NC | uint64(elfsym)<<32)
+
 	case obj.R_AARCH64_ADR_PREL_PG_HI21:
 		ld.Thearch.Vput(ld.R_AARCH64_ADR_PREL_PG_HI21 | uint64(elfsym)<<32)
 
@@ -197,6 +203,8 @@ func archreloc(r *ld.Reloc, s *ld.LSym, val *int64) int {
 
 		case obj.R_AARCH64_ADR_PREL_PG_HI21,
 			obj.R_AARCH64_ADD_ABS_LO12_NC,
+			obj.R_AARCH64_ADR_GOT_PAGE,
+			obj.R_AARCH64_LD64_GOT_LO12_NC,
 			obj.R_AARCH64_LDST8_ABS_LO12_NC,
 			obj.R_AARCH64_LDST16_ABS_LO12_NC,
 			obj.R_AARCH64_LDST32_ABS_LO12_NC,
@@ -212,7 +220,7 @@ func archreloc(r *ld.Reloc, s *ld.LSym, val *int64) int {
 				rs = rs.Outer
 			}
 
-			if rs.Type != obj.SHOSTOBJ && rs.Sect == nil {
+			if rs.Type != obj.SHOSTOBJ && rs.Type != obj.SDYNIMPORT && rs.Sect == nil {
 				ld.Diag("missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
