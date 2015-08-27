@@ -16,6 +16,24 @@
       "revId": "04ea2f3e2717c4fab2fb947f866396d3785e85f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44e3394a_2a2cc349",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 9715
+      },
+      "writtenOn": "2015-08-27T07:48:34Z",
+      "side": 1,
+      "message": "Sure, you\u0027re right. Done.",
+      "parentUuid": "a47f9520_7be7d61f",
+      "revId": "04ea2f3e2717c4fab2fb947f866396d3785e85f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
