@@ -22,6 +22,30 @@
       "revId": "99662b09358731e719768f1d148f9aa7e53d85df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44e3394a_aaa3b32f",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-08-27T10:00:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64091ddd_c9a55dbe",
+      "range": {
+        "startLine": 708,
+        "startChar": 13,
+        "endLine": 708,
+        "endChar": 23
+      },
+      "revId": "99662b09358731e719768f1d148f9aa7e53d85df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
