@@ -271,6 +271,7 @@ var optab = []Optab{
 	{AMOVH, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
 	{AMOVW, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
 	{AMOVD, C_ADDR, C_NONE, C_REG, 65, 8, 0, 0, 0},
+	{AMOVD, C_GOTADDR, C_NONE, C_REG, 71, 8, 0, 0, 0},
 	{AMOVD, C_TLS_LE, C_NONE, C_REG, 69, 4, 0, 0, 0},
 	{AMOVD, C_TLS_IE, C_NONE, C_REG, 70, 8, 0, 0, 0},
 	{AMUL, C_REG, C_REG, C_REG, 15, 4, 0, 0, 0},
@@ -984,6 +985,9 @@ func aclass(ctxt *obj.Link, a *obj.Addr) int {
 				return C_ADDR
 			}
 			return C_LEXT
+
+		case obj.NAME_GOTREF:
+			return C_GOTADDR
 
 		case obj.NAME_AUTO:
 			ctxt.Instoffset = int64(ctxt.Autosize) + a.Offset
@@ -2814,6 +2818,23 @@ func asmout(ctxt *obj.Link, p *obj.Prog, o *Optab, out []uint32) {
 		if p.From.Offset != 0 {
 			ctxt.Diag("invalid offset on MOVW $tlsvar")
 		}
+
+	case 71: /* movd sym@GOT, reg -> adrp REGTMP, #0; ldr reg, [REGTMP, #0] + relocs */
+		o1 = ADR(1, 0, REGTMP)
+		rel := obj.Addrel(ctxt.Cursym)
+		rel.Off = int32(ctxt.Pc)
+		rel.Siz = 4
+		rel.Sym = p.From.Sym
+		rel.Add = 0
+		rel.Type = obj.R_AARCH64_ADR_GOT_PAGE
+
+		o2 = olsr12u(ctxt, int32(opldr12(ctxt, AMOVD)), 0, REGTMP, int(p.To.Reg))
+		rel = obj.Addrel(ctxt.Cursym)
+		rel.Off = int32(ctxt.Pc) + 4
+		rel.Siz = 4
+		rel.Sym = p.From.Sym
+		rel.Add = 0
+		rel.Type = obj.R_AARCH64_LD64_GOT_LO12_NC
 
 	// This is supposed to be something that stops execution.
 	// It's not supposed to be reached, ever, but if it is, we'd
