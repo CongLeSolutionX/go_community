@@ -472,6 +472,9 @@ const (
 	R_ARM64_LOAD32
 	R_ARM64_LOAD64
 
+	// TODO(mwhudson): expand this.
+	R_ARM64_GOTPCREL
+
 	// PPC64.
 
 	// R_POWER_TLS_LE is used to implement the "local exec" model for tls
