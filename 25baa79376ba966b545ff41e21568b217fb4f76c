@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47f9520_be93ecde",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "Note that on a system that does not support relro, but does support shared libraries, we still want to move this data, but we want to move it to the .data section rather than the .data.rel.ro section.  Since we are generating an object file, probably everything will work fine as long we mark the sections writable.\n\nIn other words, maybe this should be when generating a shared library, and the only thing that really needs to change for relro support is whether to pass -z relro to the linker.",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_9e5870d0",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "s/inconsisent/inconsistent/",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_7e26e444",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "As noted we can put anything in its own section, just call it \".data.rel.ro.xxx\".",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_9eb1507a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "Changing the rodata symbol does not look right.  Shouldn\u0027t it still point to .rodata?",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_5ea44837",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right, as my understanding is that Solaris does not support relro, but on Solaris Iself will be true.",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_9e8ab0a0",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "But only add this on systems that support it.",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_3e085cb7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "Only on systems that support it.",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_9e239032",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "What happened to SFUNCTABRELRO?",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_3e313c77",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-08-27T18:33:54Z",
+      "side": 1,
+      "message": "This seems backward to me, I would expect typenorel to not require any relocations and therefore not be in STYPERELRO.",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
