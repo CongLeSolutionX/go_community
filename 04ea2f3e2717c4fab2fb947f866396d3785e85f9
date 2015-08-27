@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47f9520_7be7d61f",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-08-27T01:17:38Z",
+      "side": 1,
+      "message": "why not move the check above into marshalField instead, returning an error if !v.IsValid() (http://golang.org/pkg/reflect/#Value.IsValid), which might catch more cases than just a top-level nil?",
+      "revId": "04ea2f3e2717c4fab2fb947f866396d3785e85f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
