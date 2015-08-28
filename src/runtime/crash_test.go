@@ -103,7 +103,7 @@ func checkStaleRuntime(t *testing.T) {
 			return
 		}
 		if string(out) != "false\n" {
-			staleRuntimeErr = fmt.Errorf("Stale runtime.a. Run 'go install runtime'.")
+			staleRuntimeErr = fmt.Errorf("Stale runtime.a. Run 'go install runtime'.\n`go list -f {{.Stale}} runtime` output: %s", out)
 		}
 	})
 	if staleRuntimeErr != nil {
