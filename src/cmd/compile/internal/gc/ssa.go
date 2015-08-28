@@ -721,29 +721,33 @@ type opAndType struct {
 }
 
 var opToSSA = map[opAndType]ssa.Op{
-	opAndType{OADD, TINT8}:    ssa.OpAdd8,
-	opAndType{OADD, TUINT8}:   ssa.OpAdd8,
-	opAndType{OADD, TINT16}:   ssa.OpAdd16,
-	opAndType{OADD, TUINT16}:  ssa.OpAdd16,
-	opAndType{OADD, TINT32}:   ssa.OpAdd32,
-	opAndType{OADD, TUINT32}:  ssa.OpAdd32,
-	opAndType{OADD, TPTR32}:   ssa.OpAdd32,
-	opAndType{OADD, TINT64}:   ssa.OpAdd64,
-	opAndType{OADD, TUINT64}:  ssa.OpAdd64,
-	opAndType{OADD, TPTR64}:   ssa.OpAdd64,
-	opAndType{OADD, TFLOAT32}: ssa.OpAdd32F,
-	opAndType{OADD, TFLOAT64}: ssa.OpAdd64F,
+	opAndType{OADD, TINT8}:       ssa.OpAdd8,
+	opAndType{OADD, TUINT8}:      ssa.OpAdd8,
+	opAndType{OADD, TINT16}:      ssa.OpAdd16,
+	opAndType{OADD, TUINT16}:     ssa.OpAdd16,
+	opAndType{OADD, TINT32}:      ssa.OpAdd32,
+	opAndType{OADD, TUINT32}:     ssa.OpAdd32,
+	opAndType{OADD, TPTR32}:      ssa.OpAdd32,
+	opAndType{OADD, TINT64}:      ssa.OpAdd64,
+	opAndType{OADD, TUINT64}:     ssa.OpAdd64,
+	opAndType{OADD, TPTR64}:      ssa.OpAdd64,
+	opAndType{OADD, TFLOAT32}:    ssa.OpAdd32F,
+	opAndType{OADD, TFLOAT64}:    ssa.OpAdd64F,
+	opAndType{OADD, TCOMPLEX64}:  ssa.OpAdd32F, // Per-element operation
+	opAndType{OADD, TCOMPLEX128}: ssa.OpAdd64F, // Per-element operation
 
-	opAndType{OSUB, TINT8}:    ssa.OpSub8,
-	opAndType{OSUB, TUINT8}:   ssa.OpSub8,
-	opAndType{OSUB, TINT16}:   ssa.OpSub16,
-	opAndType{OSUB, TUINT16}:  ssa.OpSub16,
-	opAndType{OSUB, TINT32}:   ssa.OpSub32,
-	opAndType{OSUB, TUINT32}:  ssa.OpSub32,
-	opAndType{OSUB, TINT64}:   ssa.OpSub64,
-	opAndType{OSUB, TUINT64}:  ssa.OpSub64,
-	opAndType{OSUB, TFLOAT32}: ssa.OpSub32F,
-	opAndType{OSUB, TFLOAT64}: ssa.OpSub64F,
+	opAndType{OSUB, TINT8}:       ssa.OpSub8,
+	opAndType{OSUB, TUINT8}:      ssa.OpSub8,
+	opAndType{OSUB, TINT16}:      ssa.OpSub16,
+	opAndType{OSUB, TUINT16}:     ssa.OpSub16,
+	opAndType{OSUB, TINT32}:      ssa.OpSub32,
+	opAndType{OSUB, TUINT32}:     ssa.OpSub32,
+	opAndType{OSUB, TINT64}:      ssa.OpSub64,
+	opAndType{OSUB, TUINT64}:     ssa.OpSub64,
+	opAndType{OSUB, TFLOAT32}:    ssa.OpSub32F,
+	opAndType{OSUB, TFLOAT64}:    ssa.OpSub64F,
+	opAndType{OSUB, TCOMPLEX64}:  ssa.OpSub32F, // Per-element operation
+	opAndType{OSUB, TCOMPLEX128}: ssa.OpSub64F, // Per-element operation
 
 	opAndType{ONOT, TBOOL}: ssa.OpNot,
 
@@ -951,6 +955,14 @@ func (s *state) ssaOp(op uint8, t *Type) ssa.Op {
 		s.Unimplementedf("unhandled binary op %s %s", opnames[op], Econv(int(etype), 0))
 	}
 	return x
+}
+
+func floatForComplex(t *Type) *Type {
+	if t.Size() == 8 {
+		return Types[TFLOAT32]
+	} else {
+		return Types[TFLOAT64]
+	}
 }
 
 type opAndTwoTypes struct {
@@ -1404,7 +1416,92 @@ func (s *state) expr(n *Node) *ssa.Value {
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaOp(n.Op, n.Left.Type), Types[TBOOL], a, b)
-	case OADD, OAND, OMUL, OOR, OSUB, ODIV, OMOD, OHMUL, OXOR:
+	case OMUL:
+		a := s.expr(n.Left)
+		b := s.expr(n.Right)
+		if n.Type.IsComplex() {
+			mulop := ssa.OpMul64F
+			addop := ssa.OpAdd64F
+			subop := ssa.OpSub64F
+			pt := floatForComplex(n.Type) // Could be Float32 or Float64
+			wt := Types[TFLOAT64]         // Compute in Float64 to minimize cancellation error
+
+			areal := s.newValue1(ssa.OpComplexReal, pt, a)
+			breal := s.newValue1(ssa.OpComplexReal, pt, b)
+			aimag := s.newValue1(ssa.OpComplexImag, pt, a)
+			bimag := s.newValue1(ssa.OpComplexImag, pt, b)
+
+			if pt != wt { // Widen for calculation
+				areal = s.newValue1(ssa.OpCvt32Fto64F, wt, areal)
+				breal = s.newValue1(ssa.OpCvt32Fto64F, wt, breal)
+				aimag = s.newValue1(ssa.OpCvt32Fto64F, wt, aimag)
+				bimag = s.newValue1(ssa.OpCvt32Fto64F, wt, bimag)
+			}
+
+			xreal := s.newValue2(subop, wt, s.newValue2(mulop, wt, areal, breal), s.newValue2(mulop, wt, aimag, bimag))
+			ximag := s.newValue2(addop, wt, s.newValue2(mulop, wt, areal, bimag), s.newValue2(mulop, wt, aimag, breal))
+
+			if pt != wt { // Narrow to store back
+				xreal = s.newValue1(ssa.OpCvt64Fto32F, pt, xreal)
+				ximag = s.newValue1(ssa.OpCvt64Fto32F, pt, ximag)
+			}
+
+			return s.newValue2(ssa.OpComplexMake, n.Type, xreal, ximag)
+		}
+		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
+	case ODIV:
+		a := s.expr(n.Left)
+		b := s.expr(n.Right)
+		if n.Type.IsComplex() {
+			mulop := ssa.OpMul64F
+			addop := ssa.OpAdd64F
+			subop := ssa.OpSub64F
+			divop := ssa.OpDiv64F
+			pt := floatForComplex(n.Type) // Could be Float32 or Float64
+			wt := Types[TFLOAT64]         // Compute in Float64 to minimize cancellation error
+
+			areal := s.newValue1(ssa.OpComplexReal, pt, a)
+			breal := s.newValue1(ssa.OpComplexReal, pt, b)
+			aimag := s.newValue1(ssa.OpComplexImag, pt, a)
+			bimag := s.newValue1(ssa.OpComplexImag, pt, b)
+
+			if pt != wt { // Widen for calculation
+				areal = s.newValue1(ssa.OpCvt32Fto64F, wt, areal)
+				breal = s.newValue1(ssa.OpCvt32Fto64F, wt, breal)
+				aimag = s.newValue1(ssa.OpCvt32Fto64F, wt, aimag)
+				bimag = s.newValue1(ssa.OpCvt32Fto64F, wt, bimag)
+			}
+
+			denom := s.newValue2(addop, wt, s.newValue2(mulop, wt, breal, breal), s.newValue2(mulop, wt, bimag, bimag))
+			xreal := s.newValue2(addop, wt, s.newValue2(mulop, wt, areal, breal), s.newValue2(mulop, wt, aimag, bimag))
+			ximag := s.newValue2(subop, wt, s.newValue2(mulop, wt, aimag, breal), s.newValue2(mulop, wt, areal, bimag))
+
+			// TODO not sure if this is best done in wide precision or narrow
+			// Double-rounding might be an issue.
+			xreal = s.newValue2(divop, wt, xreal, denom)
+			ximag = s.newValue2(divop, wt, ximag, denom)
+
+			if pt != wt { // Narrow to store back
+				xreal = s.newValue1(ssa.OpCvt64Fto32F, pt, xreal)
+				ximag = s.newValue1(ssa.OpCvt64Fto32F, pt, ximag)
+			}
+
+			return s.newValue2(ssa.OpComplexMake, n.Type, xreal, ximag)
+		}
+		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+	case OADD, OSUB:
+		a := s.expr(n.Left)
+		b := s.expr(n.Right)
+		if n.Type.IsComplex() {
+			op := s.ssaOp(n.Op, n.Type)
+			pt := floatForComplex(n.Type)
+			return s.newValue2(ssa.OpComplexMake, n.Type,
+				s.newValue2(op, pt, s.newValue1(ssa.OpComplexReal, pt, a), s.newValue1(ssa.OpComplexReal, pt, b)),
+				s.newValue2(op, pt, s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b)))
+		}
+		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+	case OAND, OOR, OMOD, OHMUL, OXOR:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)

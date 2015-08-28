@@ -1306,7 +1306,7 @@ func fail32bool(s string, f func(a, b float32) bool, a, b float32, e bool) int {
 
 func expect64(s string, x, expected float64) int {
 	if x != expected {
-		println("Expected", expected, "for", s, ", got", x)
+		println("F64 Expected", expected, "for", s, ", got", x)
 		return 1
 	}
 	return 0
@@ -1314,7 +1314,7 @@ func expect64(s string, x, expected float64) int {
 
 func expect32(s string, x, expected float32) int {
 	if x != expected {
-		println("Expected", expected, "for", s, ", got", x)
+		println("F32 Expected", expected, "for", s, ", got", x)
 		return 1
 	}
 	return 0
@@ -1322,7 +1322,7 @@ func expect32(s string, x, expected float32) int {
 
 func expectUint64(s string, x, expected uint64) int {
 	if x != expected {
-		fmt.Printf("%s: Expected 0x%016x, got 0x%016x\n", s, expected, x)
+		fmt.Printf("U64 Expected 0x%016x for %s, got 0x%016x\n", expected, s, x)
 		return 1
 	}
 	return 0
@@ -1435,6 +1435,56 @@ func cmpOpTest(s string,
 	return fails
 }
 
+func expectCx128(s string, x, expected complex128) int {
+	if x != expected {
+		println("Cx 128 Expected", expected, "for", s, ", got", x)
+		return 1
+	}
+	return 0
+}
+
+func expectCx64(s string, x, expected complex64) int {
+	if x != expected {
+		println("Cx 64 Expected", expected, "for", s, ", got", x)
+		return 1
+	}
+	return 0
+}
+
+func complexTest128() int {
+	fails := 0
+	var a complex128 = 1 + 2i
+	var b complex128 = 3 + 6i
+	sum := a + b
+	diff := b - a
+	prod := a * b
+	quot := b / a
+
+	expectCx128("sum", sum, 4+8i)
+	expectCx128("diff", diff, 2+4i)
+	expectCx128("prod", prod, -9+12i)
+	expectCx128("quot", quot, 3+0i)
+
+	return fails
+}
+
+func complexTest64() int {
+	fails := 0
+	var a complex64 = 1 + 2i
+	var b complex64 = 3 + 6i
+	sum := a + b
+	diff := b - a
+	prod := a * b
+	quot := b / a
+
+	fails += expectCx64("sum", sum, 4+8i)
+	fails += expectCx64("diff", diff, 2+4i)
+	fails += expectCx64("prod", prod, -9+12i)
+	fails += expectCx64("quot", quot, 3+0i)
+
+	return fails
+}
+
 func main() {
 
 	a := 3.0
@@ -1523,6 +1573,8 @@ func main() {
 	}
 
 	fails += floatingToIntegerConversionsTest()
+	fails += complexTest128()
+	fails += complexTest64()
 
 	if fails > 0 {
 		fmt.Printf("Saw %v failures\n", fails)
