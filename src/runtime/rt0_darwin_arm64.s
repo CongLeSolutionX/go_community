@@ -19,7 +19,7 @@ TEXT _rt0_arm64_darwin(SB),NOSPLIT,$-8
 TEXT _rt0_arm64_darwin_lib(SB),NOSPLIT,$0
 	// R27 is REGTMP, reserved for liblink. It is used below to
 	// move R0/R1 into globals. However in the standard ARM64 calling
-	// convention, it is a callee-saved register. So we save it to a
+	// convention, it is a callee-saved register. So we Save it to a
 	// temporary register.
 	MOVD  R27, R7
 
@@ -48,8 +48,8 @@ GLOBL _rt0_arm64_darwin_lib_argv<>(SB),NOPTR, $8
 TEXT main(SB),NOSPLIT,$-8
 	MOVD	$runtime·rt0_go(SB), R2
 	BL	(R2)
-exit:
+Exit:
 	MOVD	$0, R0
 	MOVD	$1, R16	// sys_exit
 	SVC	$0x80
-	B	exit
+	B	Exit

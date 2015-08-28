@@ -4,6 +4,10 @@
 
 package runtime
 
+import (
+	_base "runtime/internal/base"
+)
+
 func setMaxStack(in int) (out int) {
 	out = int(maxstacksize)
 	maxstacksize = uintptr(in)
@@ -11,9 +15,9 @@ func setMaxStack(in int) (out int) {
 }
 
 func setPanicOnFault(new bool) (old bool) {
-	mp := acquirem()
-	old = mp.curg.paniconfault
-	mp.curg.paniconfault = new
-	releasem(mp)
+	mp := _base.Acquirem()
+	old = mp.Curg.Paniconfault
+	mp.Curg.Paniconfault = new
+	_base.Releasem(mp)
 	return old
 }

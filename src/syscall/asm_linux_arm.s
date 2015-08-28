@@ -32,14 +32,14 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVW	R2, r2+20(FP)
 	RSB		$0, R0, R0
 	MOVW	R0, err+24(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVW	R0, r1+16(FP)
 	MOVW	$0, R0
 	MOVW	R0, r2+20(FP)
 	MOVW	R0, err+24(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
@@ -63,19 +63,19 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVW	R2, r2+32(FP)
 	RSB		$0, R0, R0
 	MOVW	R0, err+36(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVW	R0, r1+28(FP)
 	MOVW	R1, r2+32(FP)
 	MOVW	$0, R0
 	MOVW	R0, err+36(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
 // Actually RawSyscall5 but the rest of the code expects it to be named RawSyscall6.
-TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
+TEXT	syscall·RawSyscall6(SB),NOSPLIT,$0-40
 	MOVW	trap+0(FP), R7	// syscall entry
 	MOVW	a1+4(FP), R0
 	MOVW	a2+8(FP), R1
@@ -107,7 +107,7 @@ ok2:
 // taking the address of the return value newoffset.
 // Underlying system call is
 //	llseek(int fd, int offhi, int offlo, int64 *result, int whence)
-TEXT ·seek(SB),NOSPLIT,$0-28
+TEXT syscall·seek(SB),NOSPLIT,$0-28
 	BL	runtime·entersyscall(SB)
 	MOVW	$SYS__LLSEEK, R7	// syscall entry
 	MOVW	fd+0(FP), R0
@@ -124,17 +124,17 @@ TEXT ·seek(SB),NOSPLIT,$0-28
 	MOVW	R1, newoffset_hi+20(FP)
 	RSB	$0, R0, R0
 	MOVW	R0, err+24(FP)
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 okseek:
 	// system call filled in newoffset already
 	MOVW	$0, R0
 	MOVW	R0, err+24(FP)
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET	
 
 // func RawSyscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr);
-TEXT ·RawSyscall(SB),NOSPLIT,$0-28
+TEXT syscall·RawSyscall(SB),NOSPLIT,$0-28
 	MOVW	trap+0(FP), R7	// syscall entry
 	MOVW	a1+4(FP), R0
 	MOVW	a2+8(FP), R1

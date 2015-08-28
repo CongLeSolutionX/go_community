@@ -23,8 +23,8 @@ TEXT runtime·thr_new(SB),NOSPLIT,$-4
 
 TEXT runtime·thr_start(SB),NOSPLIT,$0
 	MOVL	mm+0(FP), AX
-	MOVL	m_g0(AX), BX
-	LEAL	m_tls(AX), BP
+	MOVL	M_G0(AX), BX
+	LEAL	M_tls(AX), BP
 	MOVL	0(BP), DI
 	ADDL	$7, DI
 	PUSHAL
@@ -39,14 +39,14 @@ TEXT runtime·thr_start(SB),NOSPLIT,$0
 	get_tls(CX)
 	MOVL	BX, g(CX)
 	
-	MOVL	AX, g_m(BX)
+	MOVL	AX, G_M(BX)
 	CALL	runtime·stackcheck(SB)		// smashes AX
-	CALL	runtime·mstart(SB)
+	CALL	runtime∕internal∕base·Mstart(SB)
 
 	MOVL	0, AX			// crash (not reached)
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-4
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-4
 	MOVL	$1, AX
 	INT	$0x80
 	MOVL	$0xf1, 0xf1  // crash
@@ -83,7 +83,7 @@ TEXT runtime·read(SB),NOSPLIT,$-4
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-4
 	MOVL	$4, AX
 	INT	$0x80
 	JAE	2(PC)
@@ -97,7 +97,7 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$-4
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$16
 	// thr_self(&8(SP))
 	LEAL	8(SP), AX
 	MOVL	AX, 4(SP)
@@ -106,25 +106,25 @@ TEXT runtime·raise(SB),NOSPLIT,$16
 	// thr_kill(self, SIGPIPE)
 	MOVL	8(SP), AX
 	MOVL	AX, 4(SP)
-	MOVL	sig+0(FP), AX
+	MOVL	Sig+0(FP), AX
 	MOVL	AX, 8(SP)
 	MOVL	$433, AX
 	INT	$0x80
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$16
 	// getpid
 	MOVL	$20, AX
 	INT	$0x80
-	// kill(self, sig)
+	// kill(self, Sig)
 	MOVL	AX, 4(SP)
-	MOVL	sig+0(FP), AX
+	MOVL	Sig+0(FP), AX
 	MOVL	AX, 8(SP)
 	MOVL	$37, AX
 	INT	$0x80
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$32
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$32
 	LEAL addr+0(FP), SI
 	LEAL	4(SP), DI
 	CLD
@@ -141,7 +141,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$32
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$-4
 	MOVL	$73, AX
 	INT	$0x80
 	JAE	2(PC)
@@ -151,10 +151,10 @@ TEXT runtime·munmap(SB),NOSPLIT,$-4
 TEXT runtime·madvise(SB),NOSPLIT,$-4
 	MOVL	$75, AX	// madvise
 	INT	$0x80
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
-TEXT runtime·setitimer(SB), NOSPLIT, $-4
+TEXT runtime∕internal∕base·setitimer(SB), NOSPLIT, $-4
 	MOVL	$83, AX
 	INT	$0x80
 	RET
@@ -175,9 +175,9 @@ TEXT time·now(SB), NOSPLIT, $32
 	MOVL	BX, nsec+8(FP)
 	RET
 
-// int64 nanotime(void) so really
-// void nanotime(int64 *nsec)
-TEXT runtime·nanotime(SB), NOSPLIT, $32
+// int64 Nanotime(void) so really
+// void Nanotime(int64 *nsec)
+TEXT runtime∕internal∕base·Nanotime(SB), NOSPLIT, $32
 	MOVL	$232, AX
 	LEAL	12(SP), BX
 	// We can use CLOCK_MONOTONIC_FAST here when we drop
@@ -200,14 +200,14 @@ TEXT runtime·nanotime(SB), NOSPLIT, $32
 	RET
 
 
-TEXT runtime·sigaction(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$-4
 	MOVL	$416, AX
 	INT	$0x80
 	JAE	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$44
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$44
 	get_tls(CX)
 
 	// check that g exists
@@ -220,15 +220,15 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$44
 	CALL	AX
 	JMP 	ret
 
-	// save g
+	// Save g
 	MOVL	DI, 20(SP)
 	
 	// g = m->gsignal
-	MOVL	g_m(DI), BX
-	MOVL	m_gsignal(BX), BX
+	MOVL	G_M(DI), BX
+	MOVL	M_Gsignal(BX), BX
 	MOVL	BX, g(CX)
 
-	// copy arguments for call to sighandler
+	// copy arguments for call to Sighandler
 	MOVL	signo+0(FP), BX
 	MOVL	BX, 0(SP)
 	MOVL	info+4(FP), BX
@@ -237,7 +237,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$44
 	MOVL	BX, 8(SP)
 	MOVL	DI, 12(SP)
 
-	CALL	runtime·sighandler(SB)
+	CALL	runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	get_tls(CX)
@@ -254,14 +254,14 @@ ret:
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$0
 	MOVL	$53, AX
 	INT	$0x80
 	JAE	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$20
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$20
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -360,12 +360,12 @@ TEXT runtime·sysctl(SB),NOSPLIT,$28
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$-4
 	MOVL	$331, AX		// sys_sched_yield
 	INT	$0x80
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$16
 	MOVL	$0, 0(SP)		// syscall gap
 	MOVL	how+0(FP), AX		// arg 1 - how
 	MOVL	AX, 4(SP)
@@ -388,8 +388,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// int32 runtime∕internal∕base·Kevent(int Kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$0
 	MOVL	$363, AX
 	INT	$0x80
 	JAE	2(PC)

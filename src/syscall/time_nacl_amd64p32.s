@@ -4,8 +4,8 @@
 
 #include "textflag.h"
 
-TEXT ·startTimer(SB),NOSPLIT,$0
-	JMP time·startTimer(SB)
+TEXT runtime·startTimer(SB),NOSPLIT,$0
+	JMP runtime·startTimer(SB)
 
-TEXT ·stopTimer(SB),NOSPLIT,$0
-	JMP time·stopTimer(SB)
+TEXT runtime·stopTimer(SB),NOSPLIT,$0
+	JMP runtime·stopTimer(SB)

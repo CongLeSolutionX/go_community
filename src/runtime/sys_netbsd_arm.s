@@ -10,9 +10,9 @@
 #include "go_tls.h"
 #include "textflag.h"
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-4
-	MOVW code+0(FP), R0	// arg 1 exit status
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-4
+	MOVW code+0(FP), R0	// arg 1 Exit status
 	SWI $0xa00001
 	MOVW.CS $0, R8	// crash on syscall failure
 	MOVW.CS R8, (R8)
@@ -49,7 +49,7 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	MOVW	R0, ret+12(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-4
 	MOVW	fd+0(FP), R0	// arg 1 - fd
 	MOVW	p+4(FP), R1	// arg 2 - buf
 	MOVW	n+8(FP), R2	// arg 3 - nbyte
@@ -67,7 +67,7 @@ TEXT runtime·lwp_create(SB),NOSPLIT,$0
 	MOVW	R0, ret+12(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	SWI $0xa0015e	// sys_sched_yield
 	RET
 
@@ -93,7 +93,7 @@ TEXT runtime·lwp_self(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·lwp_tramp(SB),NOSPLIT,$0
-	MOVW R0, g_m(R1)
+	MOVW R0, G_M(R1)
 	MOVW R1, g
 
 	BL runtime·emptyfunc(SB) // fault if stack check is wrong
@@ -102,7 +102,7 @@ TEXT runtime·lwp_tramp(SB),NOSPLIT,$0
 	MOVW R8, (R8)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$16
 	MOVW usec+0(FP), R0
 	CALL runtime·usplitR0(SB)
 	// 0(R13) is the saved LR, don't use it
@@ -118,19 +118,19 @@ TEXT runtime·usleep(SB),NOSPLIT,$16
 	SWI $0xa001ae	// sys_nanosleep
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$16
 	SWI $0xa00137	// sys__lwp_self, the returned R0 is arg 1
-	MOVW	sig+0(FP), R1	// arg 2 - signal
+	MOVW	Sig+0(FP), R1	// arg 2 - signal
 	SWI $0xa0013e	// sys__lwp_kill
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$16
 	SWI $0xa00014	// sys_getpid, the returned R0 is arg 1
-	MOVW	sig+0(FP), R1	// arg 2 - signal
+	MOVW	Sig+0(FP), R1	// arg 2 - signal
 	SWI $0xa00025	// sys_kill
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$-4
 	MOVW mode+0(FP), R0	// arg 1 - which
 	MOVW new+4(FP), R1	// arg 2 - itv
 	MOVW old+8(FP), R2	// arg 3 - oitv
@@ -152,9 +152,9 @@ TEXT time·now(SB), NOSPLIT, $32
 	MOVW R2, nsec+8(FP)
 	RET
 
-// int64 nanotime(void) so really
-// void nanotime(int64 *nsec)
-TEXT runtime·nanotime(SB), NOSPLIT, $32
+// int64 Nanotime(void) so really
+// void Nanotime(int64 *nsec)
+TEXT runtime∕internal∕base·Nanotime(SB), NOSPLIT, $32
 	MOVW $0, R0 // CLOCK_REALTIME
 	MOVW $8(R13), R1
 	SWI $0xa001ab	// clock_gettime
@@ -180,7 +180,7 @@ TEXT runtime·getcontext(SB),NOSPLIT,$-4
 	MOVW.CS R8, (R8)
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$0
 	MOVW mode+0(FP), R0	// arg 1 - how
 	MOVW new+4(FP), R1	// arg 2 - set
 	MOVW old+8(FP), R2	// arg 3 - oset
@@ -190,17 +190,17 @@ TEXT runtime·sigprocmask(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·sigreturn_tramp(SB),NOSPLIT,$-4
-	// on entry, SP points to siginfo, we add sizeof(ucontext)
+	// on entry, SP points to siginfo, we Add sizeof(ucontext)
 	// to SP to get a pointer to ucontext.
 	ADD $0x80, R13, R0 // 0x80 == sizeof(UcontextT)
 	SWI $0xa00134	// sys_setcontext
-	// something failed, we have to exit
+	// something failed, we have to Exit
 	MOVW $0x4242, R0 // magic return number
 	SWI $0xa00001	// sys_exit
-	B -2(PC)	// continue exit
+	B -2(PC)	// continue Exit
 
-TEXT runtime·sigaction(SB),NOSPLIT,$4
-	MOVW sig+0(FP), R0	// arg 1 - signum
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$4
+	MOVW Sig+0(FP), R0	// arg 1 - signum
 	MOVW new+4(FP), R1	// arg 2 - nsa
 	MOVW old+8(FP), R2	// arg 3 - osa
 	MOVW $runtime·sigreturn_tramp(SB), R3	// arg 4 - tramp
@@ -213,12 +213,12 @@ TEXT runtime·sigaction(SB),NOSPLIT,$4
 	MOVW.CS R8, (R8)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$24
 	// this might be called in external code context,
 	// where g is not set.
-	// first save R0, because runtime·load_g will clobber it
+	// first Save R0, because runtime·load_g will clobber it
 	MOVW	R0, 4(R13) // signum
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime∕internal∕base·Iscgo(SB), R0
 	CMP 	$0, R0
 	BL.NE	runtime·load_g(SB)
 
@@ -229,26 +229,26 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$24
 	BL (R11)
 	RET
 
-	// save g
+	// Save g
 	MOVW g, R4
 	MOVW g, 20(R13)
 
 	// g = m->signal
-	MOVW g_m(g), R8
-	MOVW m_gsignal(R8), g
+	MOVW G_M(g), R8
+	MOVW M_Gsignal(R8), g
 
 	// R0 is already saved
 	MOVW R1, 8(R13) // info
 	MOVW R2, 12(R13) // context
 	MOVW R4, 16(R13) // gp
 
-	BL runtime·sighandler(SB)
+	BL runtime∕internal∕base·Sighandler(SB)
 
 	// restore g
 	MOVW 20(R13), g
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$12
 	MOVW addr+0(FP), R0	// arg 1 - addr
 	MOVW n+4(FP), R1	// arg 2 - len
 	MOVW prot+8(FP), R2	// arg 3 - prot
@@ -267,7 +267,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$12
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVW addr+0(FP), R0	// arg 1 - addr
 	MOVW n+4(FP), R1	// arg 2 - len
 	SWI $0xa00049	// sys_munmap
@@ -280,10 +280,10 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVW n+4(FP), R1	// arg 2 - len
 	MOVW flags+8(FP), R2	// arg 3 - behav
 	SWI $0xa0004b	// sys_madvise
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-4
 	MOVW new+0(FP), R0	// arg 1 - nss
 	MOVW old+4(FP), R1	// arg 2 - oss
 	SWI $0xa00119	// sys___sigaltstack14
@@ -313,9 +313,9 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVW	R0, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout)
-TEXT runtime·kevent(SB),NOSPLIT,$8
-	MOVW kq+0(FP), R0	// kq
+// int32 runtime∕internal∕base·Kevent(int Kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout)
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$8
+	MOVW Kq+0(FP), R0	// Kq
 	MOVW ch+4(FP), R1	// changelist
 	MOVW nch+8(FP), R2	// nchanges
 	MOVW ev+12(FP), R3	// eventlist
@@ -339,7 +339,7 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·casp1(SB),NOSPLIT,$0
-	B	runtime·cas(SB)
+	B	runtime∕internal∕base·Cas(SB)
 
 // TODO(minux): this is only valid for ARMv6+
 // bool armcas(int32 *val, int32 old, int32 new)
@@ -349,11 +349,11 @@ TEXT runtime·casp1(SB),NOSPLIT,$0
 //		return 1;
 //	}else
 //		return 0;
-TEXT runtime·cas(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Cas(SB),NOSPLIT,$0
 	B runtime·armcas(SB)
 
 // TODO: this is only valid for ARMv7+
-TEXT ·publicationBarrier(SB),NOSPLIT,$-4-0
+TEXT runtime∕internal∕iface·publicationBarrier(SB),NOSPLIT,$-4-0
 	B	runtime·armPublicationBarrier(SB)
 
 TEXT runtime·read_tls_fallback(SB),NOSPLIT,$-4

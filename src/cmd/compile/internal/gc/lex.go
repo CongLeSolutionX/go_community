@@ -147,9 +147,27 @@ func Main() {
 	unsafepkg.Name = "unsafe"
 
 	// real package, referred to by generated runtime calls
-	Runtimepkg = mkpkg("runtime")
+	//i mean packages
+	Gcpkg = mkpkg("runtime/internal/gc")
+	Gcpkg.Name = "gc"
 
+	Ifacepkg = mkpkg("runtime/internal/iface")
+	Ifacepkg.Name = "iface"
+
+	Writebarrierpkg = mkpkg("runtime/internal/writebarrier")
+	Writebarrierpkg.Name = "writebarrier"
+
+	Racepkg = mkpkg("runtime/internal/race")
+	Racepkg.Name = "race"
+
+	Printpkg = mkpkg("runtime/internal/print")
+	Printpkg.Name = "print"
+
+	Runtimepkg = mkpkg("runtime")
 	Runtimepkg.Name = "runtime"
+
+	Basepkg = mkpkg("runtime/internal/base")
+	Basepkg.Name = "base"
 
 	// pseudo-packages used in symbol tables
 	gostringpkg = mkpkg("go.string")

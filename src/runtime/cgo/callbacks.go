@@ -44,25 +44,25 @@ func _cgo_panic(a unsafe.Pointer, n int32) {
 
 //go:cgo_import_static x_cgo_init
 //go:linkname x_cgo_init x_cgo_init
-//go:linkname _cgo_init _cgo_init
+//go:linkname _cgo_init runtime._cgo_init
 var x_cgo_init byte
 var _cgo_init = &x_cgo_init
 
 //go:cgo_import_static x_cgo_malloc
 //go:linkname x_cgo_malloc x_cgo_malloc
-//go:linkname _cgo_malloc _cgo_malloc
+//go:linkname _cgo_malloc runtime._cgo_malloc
 var x_cgo_malloc byte
 var _cgo_malloc = &x_cgo_malloc
 
 //go:cgo_import_static x_cgo_free
 //go:linkname x_cgo_free x_cgo_free
-//go:linkname _cgo_free _cgo_free
+//go:linkname _cgo_free runtime._cgo_free
 var x_cgo_free byte
 var _cgo_free = &x_cgo_free
 
 //go:cgo_import_static x_cgo_thread_start
 //go:linkname x_cgo_thread_start x_cgo_thread_start
-//go:linkname _cgo_thread_start _cgo_thread_start
+//go:linkname _cgo_thread_start runtime/internal/base.Cgo_thread_start
 var x_cgo_thread_start byte
 var _cgo_thread_start = &x_cgo_thread_start
 
@@ -74,7 +74,7 @@ var _cgo_thread_start = &x_cgo_thread_start
 
 //go:cgo_import_static x_cgo_sys_thread_create
 //go:linkname x_cgo_sys_thread_create x_cgo_sys_thread_create
-//go:linkname _cgo_sys_thread_create _cgo_sys_thread_create
+//go:linkname _cgo_sys_thread_create runtime._cgo_sys_thread_create
 var x_cgo_sys_thread_create byte
 var _cgo_sys_thread_create = &x_cgo_sys_thread_create
 
@@ -88,7 +88,7 @@ var _cgo_sys_thread_create = &x_cgo_sys_thread_create
 
 //go:cgo_import_static x_cgo_notify_runtime_init_done
 //go:linkname x_cgo_notify_runtime_init_done x_cgo_notify_runtime_init_done
-//go:linkname _cgo_notify_runtime_init_done _cgo_notify_runtime_init_done
+//go:linkname _cgo_notify_runtime_init_done runtime._cgo_notify_runtime_init_done
 var x_cgo_notify_runtime_init_done byte
 var _cgo_notify_runtime_init_done = &x_cgo_notify_runtime_init_done
 
