@@ -272,6 +272,8 @@ func TestAddParseTreeToUnparsedTemplate(t *testing.T) {
 }
 
 func TestRedefinition(t *testing.T) {
+	t.Skip("this will be allowed")
+	return // XXX
 	var tmpl *Template
 	var err error
 	if tmpl, err = New("tmpl1").Parse(`{{define "test"}}foo{{end}}`); err != nil {
@@ -345,7 +347,6 @@ func TestNew(t *testing.T) {
 func TestParse(t *testing.T) {
 	// In multiple calls to Parse with the same receiver template, only one call
 	// can contain text other than space, comments, and template definitions
-	var err error
 	t1 := New("test")
 	if _, err := t1.Parse(`{{define "test"}}{{end}}`); err != nil {
 		t.Fatalf("parsing test: %s", err)
@@ -356,10 +357,12 @@ func TestParse(t *testing.T) {
 	if _, err := t1.Parse(`{{define "test"}}foo{{end}}`); err != nil {
 		t.Fatalf("parsing test: %s", err)
 	}
+	/* XXX
 	if _, err = t1.Parse(`{{define "test"}}foo{{end}}`); err == nil {
 		t.Fatal("no error from redefining a template")
 	}
 	if !strings.Contains(err.Error(), "redefinition") {
 		t.Fatalf("expected redefinition error; got %v", err)
 	}
+	*/
 }
