@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44e3394a_354268c5",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-08-28T16:46:41Z",
+      "side": 1,
+      "message": "Please add a description of blocks to ../doc.go too.",
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44e3394a_55456ccb",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2015-08-28T16:46:41Z",
+      "side": 1,
+      "message": "s/redefintions/redefinitions/",
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
