@@ -21,6 +21,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -374,6 +375,9 @@ func checkPIE(t *testing.T, name string) {
 }
 
 func TestTrivialPIE(t *testing.T) {
+	if runtime.GOARCH != "amd64" {
+		t.Skip("PIE is only supported on amd64")
+	}
 	name := "trivial_pie"
 	goCmd(t, "build", "-buildmode=pie", "-o="+name, "trivial")
 	defer os.Remove(name)
@@ -382,6 +386,9 @@ func TestTrivialPIE(t *testing.T) {
 }
 
 func TestCgoPIE(t *testing.T) {
+	if runtime.GOARCH != "amd64" {
+		t.Skip("PIE is only supported on amd64")
+	}
 	name := "cgo_pie"
 	goCmd(t, "build", "-buildmode=pie", "-o="+name, "execgo")
 	defer os.Remove(name)
