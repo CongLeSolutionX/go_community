@@ -73,6 +73,35 @@ func (t *Template) init() {
 	}
 }
 
+// Overlay parses text and installs the templates in a copy of t
+// which it then returns. The text may contain redefintions of
+// templates in the original template. Overlay therefore provides
+// a mechanism for substituting template definitions by name.
+func (t *Template) Overlay(text string) (*Template, error) {
+	// Parse the overlay text as a new independent template.
+	ot, err := t.clone(false)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := ot.Parse(text); err != nil {
+		return nil, err
+	}
+	// Clone the existing template.
+	t2, err := t.Clone()
+	if err != nil {
+		return nil, err
+	}
+	// Install the new template definitions into the clone template.
+	// We don't call t2.associate because redefinition is allowed.
+	for name, tmpl := range ot.tmpl {
+		// Substitute the common struct of the overlay template
+		// with that of the clone template.
+		tmpl.common = t2.common
+		t2.tmpl[name] = tmpl
+	}
+	return t2, nil
+}
+
 // Clone returns a duplicate of the template, including all associated
 // templates. The actual representation is not copied, but the name space of
 // associated templates is, so further calls to Parse in the copy will add
@@ -80,19 +109,25 @@ func (t *Template) init() {
 // common templates and use them with variant definitions for other templates
 // by adding the variants after the clone is made.
 func (t *Template) Clone() (*Template, error) {
+	return t.clone(true)
+}
+
+func (t *Template) clone(copyTree bool) (*Template, error) {
 	nt := t.copy(nil)
 	nt.init()
 	if t.common == nil {
 		return nt, nil
 	}
-	for k, v := range t.tmpl {
-		if k == t.name {
-			nt.tmpl[t.name] = nt
-			continue
+	if copyTree {
+		for k, v := range t.tmpl {
+			if k == t.name {
+				nt.tmpl[t.name] = nt
+				continue
+			}
+			// The associated templates share nt's common structure.
+			tmpl := v.copy(nt.common)
+			nt.tmpl[k] = tmpl
 		}
-		// The associated templates share nt's common structure.
-		tmpl := v.copy(nt.common)
-		nt.tmpl[k] = tmpl
 	}
 	t.muFuncs.RLock()
 	defer t.muFuncs.RUnlock()
