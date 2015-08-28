@@ -44,7 +44,7 @@
 #define SYS_epoll_pwait		22
 #define SYS_clock_gettime	113
 
-TEXT runtime·exit(SB),NOSPLIT,$-8-4
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-8-4
 	MOVW	code+0(FP), R0
 	MOVD	$SYS_exit_group, R8
 	SVC
@@ -81,7 +81,7 @@ done:
 	MOVW	R0, ret+8(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-8-28
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-8-28
 	MOVD	fd+0(FP), R0
 	MOVD	p+8(FP), R1
 	MOVW	n+16(FP), R2
@@ -115,7 +115,7 @@ TEXT runtime·getrlimit(SB),NOSPLIT,$-8-20
 	MOVW	R0, ret+16(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$24-4
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$24-4
 	MOVWU	usec+0(FP), R3
 	MOVD	R3, R5
 	MOVW	$1000000, R4
@@ -144,25 +144,25 @@ TEXT runtime·gettid(SB),NOSPLIT,$0-4
 	MOVW	R0, ret+0(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$-8
 	MOVD	$SYS_gettid, R8
 	SVC
 	MOVW	R0, R0	// arg 1 tid
-	MOVW	sig+0(FP), R1	// arg 2
+	MOVW	Sig+0(FP), R1	// arg 2
 	MOVD	$SYS_tkill, R8
 	SVC
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$-8
 	MOVD	$SYS_getpid, R8
 	SVC
 	MOVW	R0, R0		// arg 1 pid
-	MOVW	sig+0(FP), R1	// arg 2
+	MOVW	Sig+0(FP), R1	// arg 2
 	MOVD	$SYS_kill, R8
 	SVC
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$-8-24
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$-8-24
 	MOVW	mode+0(FP), R0
 	MOVD	new+8(FP), R1
 	MOVD	old+16(FP), R2
@@ -193,7 +193,7 @@ TEXT time·now(SB),NOSPLIT,$24-12
 	MOVW	R5, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$24-8
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$24-8
 	MOVW	$1, R0 // CLOCK_MONOTONIC
 	MOVD	RSP, R1
 	MOVD	$SYS_clock_gettime, R8
@@ -209,7 +209,7 @@ TEXT runtime·nanotime(SB),NOSPLIT,$24-8
 	RET
 
 TEXT runtime·rtsigprocmask(SB),NOSPLIT,$-8-28
-	MOVW	sig+0(FP), R0
+	MOVW	Sig+0(FP), R0
 	MOVD	new+8(FP), R1
 	MOVD	old+16(FP), R2
 	MOVW	size+24(FP), R3
@@ -223,7 +223,7 @@ done:
 	RET
 
 TEXT runtime·rt_sigaction(SB),NOSPLIT,$-8-36
-	MOVD	sig+0(FP), R0
+	MOVD	Sig+0(FP), R0
 	MOVD	new+8(FP), R1
 	MOVD	old+16(FP), R2
 	MOVD	size+24(FP), R3
@@ -233,19 +233,19 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$-8-36
 	RET
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
-	MOVW	sig+8(FP), R0
+	MOVW	Sig+8(FP), R0
 	MOVD	info+16(FP), R1
 	MOVD	ctx+24(FP), R2
 	MOVD	fn+0(FP), R11
 	BL	(R11)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$24
 	// this might be called in external code context,
 	// where g is not set.
-	// first save R0, because runtime·load_g will clobber it
+	// first Save R0, because runtime·load_g will clobber it
 	MOVW	R0, 8(RSP)
-	MOVBU	runtime·iscgo(SB), R0
+	MOVBU	runtime∕internal∕base·Iscgo(SB), R0
 	CMP	$0, R0
 	BEQ	2(PC)
 	BL	runtime·load_g(SB)
@@ -256,7 +256,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$24
 	BL	(R0)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$-8
 	MOVD	addr+0(FP), R0
 	MOVD	n+8(FP), R1
 	MOVW	prot+16(FP), R2
@@ -269,7 +269,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$-8
 	MOVD	R0, ret+32(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$-8
 	MOVD	addr+0(FP), R0
 	MOVD	n+8(FP), R1
 	MOVD	$SYS_munmap, R8
@@ -286,7 +286,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$-8
 	MOVW	flags+16(FP), R2
 	MOVD	$SYS_madvise, R8
 	SVC
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
 // int64 futex(int32 *uaddr, int32 op, int32 val,
@@ -351,12 +351,12 @@ good:
 	CMP	$0, R11
 	BEQ	nog
 
-	MOVD	R0, m_procid(R10)
+	MOVD	R0, M_Procid(R10)
 
 	// TODO: setup TLS.
 
 	// In child, set up new stack
-	MOVD	R10, g_m(R11)
+	MOVD	R10, G_M(R11)
 	MOVD	R11, g
 	//CALL	runtime·stackcheck(SB)
 
@@ -365,14 +365,14 @@ nog:
 	MOVD	R12, R0
 	BL	(R0)
 
-	// It shouldn't return.	 If it does, exit that thread.
+	// It shouldn't return.	 If it does, Exit that thread.
 	MOVW	$111, R0
 again:
 	MOVD	$SYS_exit, R8
 	SVC
 	B	again	// keep exiting
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$-8
 	MOVD	new+0(FP), R0
 	MOVD	old+8(FP), R1
 	MOVD	$SYS_sigaltstack, R8
@@ -384,7 +384,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 ok:
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$-8
 	MOVD	$SYS_sched_yield, R8
 	SVC
 	RET

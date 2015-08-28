@@ -6,6 +6,8 @@
 
 package cgo
 
+import _ "unsafe"
+
 import _ "unsafe" // for go:linkname
 
 // Supply environ and __progname, because we don't

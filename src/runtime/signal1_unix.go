@@ -6,23 +6,9 @@
 
 package runtime
 
-const (
-	_SIG_DFL uintptr = 0
-	_SIG_IGN uintptr = 1
+import (
+	_base "runtime/internal/base"
 )
-
-// Stores the signal handlers registered before Go installed its own.
-// These signal handlers will be invoked in cases where Go doesn't want to
-// handle a particular signal (e.g., signal occurred on a non-Go thread).
-// See sigfwdgo() for more information on when the signals are forwarded.
-//
-// Signal forwarding is currently available only on Linux.
-var fwdSig [_NSIG]uintptr
-
-// sigmask represents a general signal mask compatible with the GOOS
-// specific sigset types: the signal numbered x is represented by bit x-1
-// to match the representation expected by sigprocmask.
-type sigmask [(_NSIG + 31) / 32]uint32
 
 // channels for synchronizing signal mask updates with the signal mask
 // thread
@@ -32,128 +18,78 @@ var (
 	maskUpdatedChan chan struct{}
 )
 
-func initsig() {
-	// _NSIG is the number of signals on this operating system.
-	// sigtable should describe what to do for all the possible signals.
-	if len(sigtable) != _NSIG {
-		print("runtime: len(sigtable)=", len(sigtable), " _NSIG=", _NSIG, "\n")
-		throw("initsig")
-	}
-
-	// First call: basic setup.
-	for i := int32(0); i < _NSIG; i++ {
-		t := &sigtable[i]
-		if t.flags == 0 || t.flags&_SigDefault != 0 {
-			continue
-		}
-		fwdSig[i] = getsig(i)
-		// For some signals, we respect an inherited SIG_IGN handler
-		// rather than insist on installing our own default handler.
-		// Even these signals can be fetched using the os/signal package.
-		switch i {
-		case _SIGHUP, _SIGINT:
-			if getsig(i) == _SIG_IGN {
-				t.flags = _SigNotify | _SigIgnored
-				continue
-			}
-		}
-
-		if t.flags&_SigSetStack != 0 {
-			setsigstack(i)
-			continue
-		}
-
-		t.flags |= _SigHandling
-		setsig(i, funcPC(sighandler), true)
-	}
-}
-
 func sigenable(sig uint32) {
-	if sig >= uint32(len(sigtable)) {
+	if sig >= uint32(len(_base.Sigtable)) {
 		return
 	}
 
-	t := &sigtable[sig]
-	if t.flags&_SigNotify != 0 {
+	t := &_base.Sigtable[sig]
+	if t.Flags&_base.SigNotify != 0 {
 		ensureSigM()
 		enableSigChan <- sig
 		<-maskUpdatedChan
-		if t.flags&_SigHandling == 0 {
-			t.flags |= _SigHandling
-			if getsig(int32(sig)) == _SIG_IGN {
-				t.flags |= _SigIgnored
+		if t.Flags&_base.SigHandling == 0 {
+			t.Flags |= _base.SigHandling
+			if _base.Getsig(int32(sig)) == _base.SIG_IGN {
+				t.Flags |= _base.SigIgnored
 			}
-			setsig(int32(sig), funcPC(sighandler), true)
+			_base.Setsig(int32(sig), _base.FuncPC(_base.Sighandler), true)
 		}
 	}
 }
 
 func sigdisable(sig uint32) {
-	if sig >= uint32(len(sigtable)) {
+	if sig >= uint32(len(_base.Sigtable)) {
 		return
 	}
 
-	t := &sigtable[sig]
-	if t.flags&_SigNotify != 0 {
+	t := &_base.Sigtable[sig]
+	if t.Flags&_base.SigNotify != 0 {
 		ensureSigM()
 		disableSigChan <- sig
 		<-maskUpdatedChan
-		if t.flags&_SigHandling != 0 {
-			t.flags &^= _SigHandling
-			if t.flags&_SigIgnored != 0 {
-				setsig(int32(sig), _SIG_IGN, true)
+		if t.Flags&_base.SigHandling != 0 {
+			t.Flags &^= _base.SigHandling
+			if t.Flags&_base.SigIgnored != 0 {
+				_base.Setsig(int32(sig), _base.SIG_IGN, true)
 			} else {
-				setsig(int32(sig), _SIG_DFL, true)
+				_base.Setsig(int32(sig), _base.SIG_DFL, true)
 			}
 		}
 	}
 }
 
 func sigignore(sig uint32) {
-	if sig >= uint32(len(sigtable)) {
+	if sig >= uint32(len(_base.Sigtable)) {
 		return
 	}
 
-	t := &sigtable[sig]
-	if t.flags&_SigNotify != 0 {
-		t.flags &^= _SigHandling
-		setsig(int32(sig), _SIG_IGN, true)
+	t := &_base.Sigtable[sig]
+	if t.Flags&_base.SigNotify != 0 {
+		t.Flags &^= _base.SigHandling
+		_base.Setsig(int32(sig), _base.SIG_IGN, true)
 	}
-}
-
-func resetcpuprofiler(hz int32) {
-	var it itimerval
-	if hz == 0 {
-		setitimer(_ITIMER_PROF, &it, nil)
-	} else {
-		it.it_interval.tv_sec = 0
-		it.it_interval.set_usec(1000000 / hz)
-		it.it_value = it.it_interval
-		setitimer(_ITIMER_PROF, &it, nil)
-	}
-	_g_ := getg()
-	_g_.m.profilehz = hz
 }
 
 func sigpipe() {
-	setsig(_SIGPIPE, _SIG_DFL, false)
-	raise(_SIGPIPE)
+	_base.Setsig(_base.SIGPIPE, _base.SIG_DFL, false)
+	_base.Raise(_base.SIGPIPE)
 }
 
 // raisebadsignal is called when a signal is received on a non-Go
 // thread, and the Go program does not want to handle it (that is, the
 // program has not called os/signal.Notify for the signal).
 func raisebadsignal(sig int32) {
-	if sig == _SIGPROF {
+	if sig == _base.SIGPROF {
 		// Ignore profiling signals that arrive on non-Go threads.
 		return
 	}
 
 	var handler uintptr
-	if sig >= _NSIG {
-		handler = _SIG_DFL
+	if sig >= _base.NSIG {
+		handler = _base.SIG_DFL
 	} else {
-		handler = fwdSig[sig]
+		handler = _base.FwdSig[sig]
 	}
 
 	// Reset the signal handler and raise the signal.
@@ -165,8 +101,8 @@ func raisebadsignal(sig int32) {
 	// it.  That means that we don't have to worry about blocking it
 	// again.
 	unblocksig(sig)
-	setsig(sig, handler, false)
-	raise(sig)
+	_base.Setsig(sig, handler, false)
+	_base.Raise(sig)
 
 	// If the signal didn't cause the program to exit, restore the
 	// Go signal handler and carry on.
@@ -174,25 +110,7 @@ func raisebadsignal(sig int32) {
 	// We may receive another instance of the signal before we
 	// restore the Go handler, but that is not so bad: we know
 	// that the Go program has been ignoring the signal.
-	setsig(sig, funcPC(sighandler), true)
-}
-
-func crash() {
-	if GOOS == "darwin" {
-		// OS X core dumps are linear dumps of the mapped memory,
-		// from the first virtual byte to the last, with zeros in the gaps.
-		// Because of the way we arrange the address space on 64-bit systems,
-		// this means the OS X core file will be >128 GB and even on a zippy
-		// workstation can take OS X well over an hour to write (uninterruptible).
-		// Save users from making that mistake.
-		if ptrSize == 8 {
-			return
-		}
-	}
-
-	updatesigmask(sigmask{})
-	setsig(_SIGABRT, _SIG_DFL, false)
-	raise(_SIGABRT)
+	_base.Setsig(sig, _base.FuncPC(_base.Sighandler), true)
 }
 
 // createSigM starts one global, sleeping thread to make sure at least one thread
@@ -213,16 +131,16 @@ func ensureSigM() {
 		// initially all signals except the essential. When signal.Notify()/Stop is called,
 		// sigenable/sigdisable in turn notify this thread to update its signal
 		// mask accordingly.
-		var sigBlocked sigmask
+		var sigBlocked _base.Sigmask
 		for i := range sigBlocked {
 			sigBlocked[i] = ^uint32(0)
 		}
-		for i := range sigtable {
-			if sigtable[i].flags&_SigUnblock != 0 {
+		for i := range _base.Sigtable {
+			if _base.Sigtable[i].Flags&_base.SigUnblock != 0 {
 				sigBlocked[(i-1)/32] &^= 1 << ((uint32(i) - 1) & 31)
 			}
 		}
-		updatesigmask(sigBlocked)
+		_base.Updatesigmask(sigBlocked)
 		for {
 			select {
 			case sig := <-enableSigChan:
@@ -234,7 +152,7 @@ func ensureSigM() {
 					sigBlocked[b/32] |= (1 << (b & 31))
 				}
 			}
-			updatesigmask(sigBlocked)
+			_base.Updatesigmask(sigBlocked)
 			maskUpdatedChan <- struct{}{}
 		}
 	}()

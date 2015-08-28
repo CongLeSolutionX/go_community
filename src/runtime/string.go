@@ -5,6 +5,9 @@
 package runtime
 
 import (
+	_base "runtime/internal/base"
+	_iface "runtime/internal/iface"
+	_race "runtime/internal/race"
 	"unsafe"
 )
 
@@ -29,7 +32,7 @@ func concatstrings(buf *tmpBuf, a []string) string {
 			continue
 		}
 		if l+n < l {
-			throw("string concatenation too long")
+			_base.Throw("string concatenation too long")
 		}
 		l += n
 		count++
@@ -80,11 +83,11 @@ func slicebytetostring(buf *tmpBuf, b []byte) string {
 		// you find the indices and convert the subslice to string.
 		return ""
 	}
-	if raceenabled && l > 0 {
-		racereadrangepc(unsafe.Pointer(&b[0]),
+	if _base.Raceenabled && l > 0 {
+		_race.Racereadrangepc(unsafe.Pointer(&b[0]),
 			uintptr(l),
-			getcallerpc(unsafe.Pointer(&b)),
-			funcPC(slicebytetostring))
+			_base.Getcallerpc(unsafe.Pointer(&b)),
+			_base.FuncPC(slicebytetostring))
 	}
 	s, c := rawstringtmp(buf, l)
 	copy(c, b)
@@ -94,9 +97,9 @@ func slicebytetostring(buf *tmpBuf, b []byte) string {
 // stringDataOnStack reports whether the string's data is
 // stored on the current goroutine's stack.
 func stringDataOnStack(s string) bool {
-	ptr := uintptr((*stringStruct)(unsafe.Pointer(&s)).str)
-	stk := getg().stack
-	return stk.lo <= ptr && ptr < stk.hi
+	ptr := uintptr((*_base.StringStruct)(unsafe.Pointer(&s)).Str)
+	stk := _base.Getg().Stack
+	return stk.Lo <= ptr && ptr < stk.Hi
 }
 
 func rawstringtmp(buf *tmpBuf, l int) (s string, b []byte) {
@@ -120,11 +123,11 @@ func slicebytetostringtmp(b []byte) string {
 	// Second such case is "<"+string(b)+">" concatenation where b is []byte.
 	// Third such case is string(b)=="foo" comparison where b is []byte.
 
-	if raceenabled && len(b) > 0 {
-		racereadrangepc(unsafe.Pointer(&b[0]),
+	if _base.Raceenabled && len(b) > 0 {
+		_race.Racereadrangepc(unsafe.Pointer(&b[0]),
 			uintptr(len(b)),
-			getcallerpc(unsafe.Pointer(&b)),
-			funcPC(slicebytetostringtmp))
+			_base.Getcallerpc(unsafe.Pointer(&b)),
+			_base.FuncPC(slicebytetostringtmp))
 	}
 	return *(*string)(unsafe.Pointer(&b))
 }
@@ -147,8 +150,8 @@ func stringtoslicebytetmp(s string) []byte {
 	// The only such case today is:
 	// for i, c := range []byte(str)
 
-	str := (*stringStruct)(unsafe.Pointer(&s))
-	ret := slice{array: unsafe.Pointer(str.str), len: str.len, cap: str.len}
+	str := (*_base.StringStruct)(unsafe.Pointer(&s))
+	ret := _base.Slice{Array: unsafe.Pointer(str.Str), Len: str.Len, Cap: str.Len}
 	return *(*[]byte)(unsafe.Pointer(&ret))
 }
 
@@ -179,11 +182,11 @@ func stringtoslicerune(buf *[tmpStringBufSize]rune, s string) []rune {
 }
 
 func slicerunetostring(buf *tmpBuf, a []rune) string {
-	if raceenabled && len(a) > 0 {
-		racereadrangepc(unsafe.Pointer(&a[0]),
+	if _base.Raceenabled && len(a) > 0 {
+		_race.Racereadrangepc(unsafe.Pointer(&a[0]),
 			uintptr(len(a))*unsafe.Sizeof(a[0]),
-			getcallerpc(unsafe.Pointer(&a)),
-			funcPC(slicerunetostring))
+			_base.Getcallerpc(unsafe.Pointer(&a)),
+			_base.FuncPC(slicerunetostring))
 	}
 	var dum [4]byte
 	size1 := 0
@@ -200,11 +203,6 @@ func slicerunetostring(buf *tmpBuf, a []rune) string {
 		size2 += runetochar(b[size2:], r)
 	}
 	return s[:size2]
-}
-
-type stringStruct struct {
-	str unsafe.Pointer
-	len int
 }
 
 func intstring(buf *[4]byte, v int64) string {
@@ -261,16 +259,16 @@ func stringiter2(s string, k int) (int, rune) {
 // The storage is not zeroed. Callers should use
 // b to set the string contents and then drop b.
 func rawstring(size int) (s string, b []byte) {
-	p := mallocgc(uintptr(size), nil, flagNoScan|flagNoZero)
+	p := _iface.Mallocgc(uintptr(size), nil, _base.XFlagNoScan|_base.XFlagNoZero)
 
-	(*stringStruct)(unsafe.Pointer(&s)).str = p
-	(*stringStruct)(unsafe.Pointer(&s)).len = size
+	(*_base.StringStruct)(unsafe.Pointer(&s)).Str = p
+	(*_base.StringStruct)(unsafe.Pointer(&s)).Len = size
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{p, size, size}
+	*(*_base.Slice)(unsafe.Pointer(&b)) = _base.Slice{p, size, size}
 
 	for {
-		ms := maxstring
-		if uintptr(size) <= uintptr(ms) || casuintptr((*uintptr)(unsafe.Pointer(&maxstring)), uintptr(ms), uintptr(size)) {
+		ms := _base.Maxstring
+		if uintptr(size) <= uintptr(ms) || _base.Casuintptr((*uintptr)(unsafe.Pointer(&_base.Maxstring)), uintptr(ms), uintptr(size)) {
 			return
 		}
 	}
@@ -279,27 +277,27 @@ func rawstring(size int) (s string, b []byte) {
 // rawbyteslice allocates a new byte slice. The byte slice is not zeroed.
 func rawbyteslice(size int) (b []byte) {
 	cap := roundupsize(uintptr(size))
-	p := mallocgc(cap, nil, flagNoScan|flagNoZero)
+	p := _iface.Mallocgc(cap, nil, _base.XFlagNoScan|_base.XFlagNoZero)
 	if cap != uintptr(size) {
-		memclr(add(p, uintptr(size)), cap-uintptr(size))
+		_base.Memclr(_base.Add(p, uintptr(size)), cap-uintptr(size))
 	}
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{p, size, int(cap)}
+	*(*_base.Slice)(unsafe.Pointer(&b)) = _base.Slice{p, size, int(cap)}
 	return
 }
 
 // rawruneslice allocates a new rune slice. The rune slice is not zeroed.
 func rawruneslice(size int) (b []rune) {
-	if uintptr(size) > _MaxMem/4 {
-		throw("out of memory")
+	if uintptr(size) > _base.MaxMem/4 {
+		_base.Throw("out of memory")
 	}
 	mem := roundupsize(uintptr(size) * 4)
-	p := mallocgc(mem, nil, flagNoScan|flagNoZero)
+	p := _iface.Mallocgc(mem, nil, _base.XFlagNoScan|_base.XFlagNoZero)
 	if mem != uintptr(size)*4 {
-		memclr(add(p, uintptr(size)*4), mem-uintptr(size)*4)
+		_base.Memclr(_base.Add(p, uintptr(size)*4), mem-uintptr(size)*4)
 	}
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{p, size, int(mem / 4)}
+	*(*_base.Slice)(unsafe.Pointer(&b)) = _base.Slice{p, size, int(mem / 4)}
 	return
 }
 
@@ -309,17 +307,17 @@ func gobytes(p *byte, n int) []byte {
 		return make([]byte, 0)
 	}
 	x := make([]byte, n)
-	memmove(unsafe.Pointer(&x[0]), unsafe.Pointer(p), uintptr(n))
+	_base.Memmove(unsafe.Pointer(&x[0]), unsafe.Pointer(p), uintptr(n))
 	return x
 }
 
 func gostring(p *byte) string {
-	l := findnull(p)
+	l := _base.Findnull(p)
 	if l == 0 {
 		return ""
 	}
 	s, b := rawstring(l)
-	memmove(unsafe.Pointer(&b[0]), unsafe.Pointer(p), uintptr(l))
+	_base.Memmove(unsafe.Pointer(&b[0]), unsafe.Pointer(p), uintptr(l))
 	return s
 }
 
@@ -328,35 +326,6 @@ func gostringn(p *byte, l int) string {
 		return ""
 	}
 	s, b := rawstring(l)
-	memmove(unsafe.Pointer(&b[0]), unsafe.Pointer(p), uintptr(l))
+	_base.Memmove(unsafe.Pointer(&b[0]), unsafe.Pointer(p), uintptr(l))
 	return s
-}
-
-func index(s, t string) int {
-	if len(t) == 0 {
-		return 0
-	}
-	for i := 0; i < len(s); i++ {
-		if s[i] == t[0] && hasprefix(s[i:], t) {
-			return i
-		}
-	}
-	return -1
-}
-
-func contains(s, t string) bool {
-	return index(s, t) >= 0
-}
-
-func hasprefix(s, t string) bool {
-	return len(s) >= len(t) && s[:len(t)] == t
-}
-
-func atoi(s string) int {
-	n := 0
-	for len(s) > 0 && '0' <= s[0] && s[0] <= '9' {
-		n = n*10 + int(s[0]) - '0'
-		s = s[1:]
-	}
-	return n
 }

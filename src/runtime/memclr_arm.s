@@ -30,7 +30,7 @@
 #define N	R12
 #define TMP	R12				/* N and TMP don't overlap */
 
-TEXT runtime·memclr(SB),NOSPLIT,$0-8
+TEXT runtime∕internal∕base·Memclr(SB),NOSPLIT,$0-8
 	MOVW	ptr+0(FP), TO
 	MOVW	n+4(FP), N
 	MOVW	$0, R0
@@ -44,7 +44,7 @@ _4align:				/* align on 4 */
 	AND.S	$3, TO, TMP
 	BEQ	_4aligned
 
-	MOVBU.P	R0, 1(TO)		/* implicit write back */
+	MOVBU.P	R0, 1(TO)		/* implicit Write back */
 	B	_4align
 
 _4aligned:
@@ -73,14 +73,14 @@ _4loop:
 	CMP	TMP, TO
 	BHS	_1tail
 
-	MOVW.P	R0, 4(TO)		/* implicit write back */
+	MOVW.P	R0, 4(TO)		/* implicit Write back */
 	B	_4loop
 
 _1tail:
 	CMP	TO, TOE
 	BEQ	_return
 
-	MOVBU.P	R0, 1(TO)		/* implicit write back */
+	MOVBU.P	R0, 1(TO)		/* implicit Write back */
 	B	_1tail
 
 _return:

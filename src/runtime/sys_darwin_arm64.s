@@ -60,7 +60,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$0
 	MOVW	R0, ret+8(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0
 	MOVW	fd+0(FP), R0
 	MOVD	p+8(FP), R1
 	MOVW	n+16(FP), R2
@@ -80,7 +80,7 @@ TEXT runtime·read(SB),NOSPLIT,$0
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·exit(SB),NOSPLIT,$-8
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-8
 	MOVW	code+0(FP), R0
 	MOVW	$SYS_exit, R16
 	SVC	$0x80
@@ -97,22 +97,22 @@ TEXT runtime·exit1(SB),NOSPLIT,$0
 	MOVD	$1003, R1
 	MOVD	R0, (R1)	// fail hard
 
-TEXT runtime·raise(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$0
 	// Ideally we'd send the signal to the current thread,
 	// not the whole process, but that's too hard on OS X.
-	JMP	runtime·raiseproc(SB)
+	JMP	runtime∕internal∕base·raiseproc(SB)
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$0
 	MOVW	$SYS_getpid, R16
 	SVC	$0x80
 	// arg 1 pid already in R0 from getpid
-	MOVW	sig+0(FP), R1	// arg 2 - signal
+	MOVW	Sig+0(FP), R1	// arg 2 - signal
 	MOVW	$1, R2	// arg 3 - posix
 	MOVW	$SYS_kill, R16
 	SVC	$0x80
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVD	addr+0(FP), R0
 	MOVD	n+8(FP), R1
 	MOVW	prot+16(FP), R2
@@ -124,7 +124,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVD	R0, ret+32(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVD	addr+0(FP), R0
 	MOVD	n+8(FP), R1
 	MOVW	$SYS_munmap, R16
@@ -143,7 +143,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$0
 	MOVW	mode+0(FP), R0
 	MOVD	new+8(FP), R1
 	MOVD	old+16(FP), R2
@@ -164,7 +164,7 @@ TEXT time·now(SB),NOSPLIT,$40-12
 	MOVW	R1, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$40
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$40
 	MOVD	RSP, R0	// timeval
 	MOVD	R0, R9	// this is how dyld calls gettimeofday
 	MOVW	$0, R1	// zone
@@ -188,12 +188,12 @@ TEXT runtime·nanotime(SB),NOSPLIT,$40
 //	R2	signal number
 //	R3	siginfo
 //	R4	context
-TEXT runtime·sigtramp(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$0
 	// this might be called in external code context,
 	// where g is not set.
-	// first save R0, because runtime·load_g will clobber it
+	// first Save R0, because runtime·load_g will clobber it
 	MOVD.W	R0, -16(RSP)	// note: stack must be 16-byte aligned
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime∕internal∕base·Iscgo(SB), R0
 	CMP	$0, R0
 	BEQ	2(PC)
 	BL	runtime·load_g(SB)
@@ -207,7 +207,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	// to do sigreturn.
 	MOVD.W	R1, -16(RSP)
 	MOVD	R2, 8(RSP)
-	MOVD	R4, 24(RSP)	// save ucontext, badsignal might clobber R4
+	MOVD	R4, 24(RSP)	// Save ucontext, badsignal might clobber R4
 	MOVD	$runtime·badsignal(SB), R26
 	BL	(R26)
 	MOVD	0(RSP), R1	// saved infostype
@@ -221,12 +221,12 @@ cont:
 
 	// NOTE: some Darwin/ARM kernels always use the main stack to run the
 	// signal handler. We need to switch to gsignal ourselves.
-	MOVD	g_m(g), R11
-	MOVD	m_gsignal(R11), R5
-	MOVD	(g_stack+stack_hi)(R5), R6
+	MOVD	G_M(g), R11
+	MOVD	M_Gsignal(R11), R5
+	MOVD	(G_Stack+Stack_Hi)(R5), R6
 	SUB	$64, R6
 
-	// copy arguments for call to sighandler
+	// copy arguments for call to Sighandler
 	MOVD	R2, 8(R6)	// signal num
 	MOVD	R3, 16(R6)	// signal info
 	MOVD	R4, 24(R6)	// context
@@ -249,11 +249,11 @@ ret:
 	MOVW	$SYS_sigreturn, R16 // sigreturn(ucontext, infostyle)
 	SVC	$0x80
 
-	// if sigreturn fails, we can do nothing but exit
-	B	runtime·exit(SB)
+	// if sigreturn fails, we can do nothing but Exit
+	B	runtime∕internal∕base·Exit(SB)
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
-	MOVW	sig+0(FP), R0
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$0
+	MOVW	Sig+0(FP), R0
 	MOVD	new+8(FP), R1
 	MOVD	old+16(FP), R2
 	MOVW	$SYS_sigprocmask, R16
@@ -262,7 +262,7 @@ TEXT runtime·sigprocmask(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$0
 	MOVW	mode+0(FP), R0
 	MOVD	new+8(FP), R1
 	MOVD	old+16(FP), R2
@@ -272,7 +272,7 @@ TEXT runtime·sigaction(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$24
 	MOVW	usec+0(FP), R0
 	MOVW	R0, R1
 	MOVW	$1000000, R2
@@ -313,16 +313,16 @@ ok:
 // Thread related functions
 // Note: On darwin/arm64, it is no longer possible to use bsdthread_register
 // as the libc is always linked in. The runtime must use runtime/cgo to
-// create threads, so all thread related functions will just exit with a
+// create threads, so all thread related functions will just Exit with a
 // unique status.
-// void bsdthread_create(void *stk, M *m, G *g, void (*fn)(void))
-TEXT runtime·bsdthread_create(SB),NOSPLIT,$0
+// void Bsdthread_create(void *stk, M *m, G *g, void (*fn)(void))
+TEXT runtime∕internal∕base·Bsdthread_create(SB),NOSPLIT,$0
 	MOVD	$44, R0
 	MOVW	$SYS_exit, R16
 	SVC	$0x80
 	RET
 
-// The thread that bsdthread_create creates starts executing here,
+// The thread that Bsdthread_create creates starts executing here,
 // because we registered this function using bsdthread_register
 // at startup.
 //	R0 = "pthread"
@@ -338,7 +338,7 @@ TEXT runtime·bsdthread_start(SB),NOSPLIT,$0
 	RET
 
 // int32 bsdthread_register(void)
-// registers callbacks for threadstart (see bsdthread_create above
+// registers callbacks for threadstart (see Bsdthread_create above
 // and wqthread and pthsize (not used).  returns 0 on success.
 TEXT runtime·bsdthread_register(SB),NOSPLIT,$0
 	MOVD	$46, R0
@@ -347,7 +347,7 @@ TEXT runtime·bsdthread_register(SB),NOSPLIT,$0
 	RET
 
 // uint32 mach_msg_trap(void*, uint32, uint32, uint32, uint32, uint32, uint32)
-TEXT runtime·mach_msg_trap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_msg_trap(SB),NOSPLIT,$0
 	MOVD	h+0(FP), R0
 	MOVW	op+8(FP), R1
 	MOVW	send_size+12(FP), R2
@@ -360,7 +360,7 @@ TEXT runtime·mach_msg_trap(SB),NOSPLIT,$0
 	MOVW	R0, ret+32(FP)
 	RET
 
-TEXT runtime·mach_task_self(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mach_task_self(SB),NOSPLIT,$0
 	MOVN	$27, R16 // task_self_trap
 	SVC	$0x80
 	MOVW	R0, ret+0(FP)
@@ -372,7 +372,7 @@ TEXT runtime·mach_thread_self(SB),NOSPLIT,$0
 	MOVW	R0, ret+0(FP)
 	RET
 
-TEXT runtime·mach_reply_port(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_reply_port(SB),NOSPLIT,$0
 	MOVN	$25, R16	// mach_reply_port
 	SVC	$0x80
 	MOVW	R0, ret+0(FP)
@@ -382,7 +382,7 @@ TEXT runtime·mach_reply_port(SB),NOSPLIT,$0
 // instead of requiring the use of RPC.
 
 // uint32 mach_semaphore_wait(uint32)
-TEXT runtime·mach_semaphore_wait(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_wait(SB),NOSPLIT,$0
 	MOVW	sema+0(FP), R0
 	MOVN	$35, R16	// semaphore_wait_trap
 	SVC	$0x80
@@ -390,7 +390,7 @@ TEXT runtime·mach_semaphore_wait(SB),NOSPLIT,$0
 	RET
 
 // uint32 mach_semaphore_timedwait(uint32, uint32, uint32)
-TEXT runtime·mach_semaphore_timedwait(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_timedwait(SB),NOSPLIT,$0
 	MOVW	sema+0(FP), R0
 	MOVW	sec+4(FP), R1
 	MOVW	nsec+8(FP), R2
@@ -400,7 +400,7 @@ TEXT runtime·mach_semaphore_timedwait(SB),NOSPLIT,$0
 	RET
 
 // uint32 mach_semaphore_signal(uint32)
-TEXT runtime·mach_semaphore_signal(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_signal(SB),NOSPLIT,$0
 	MOVW	sema+0(FP), R0
 	MOVN	$32, R16	// semaphore_signal_trap
 	SVC	$0x80
@@ -424,9 +424,9 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVW	R0, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *ch, int nch, Kevent *ev, int nev, Timespec *ts)
-TEXT runtime·kevent(SB),NOSPLIT,$0
-	MOVW	kq+0(FP), R0
+// int32 runtime∕internal∕base·Kevent(int Kq, Kevent *ch, int nch, Kevent *ev, int nev, Timespec *ts)
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$0
+	MOVW	Kq+0(FP), R0
 	MOVD	ch+8(FP), R1
 	MOVW	nch+16(FP), R2
 	MOVD	ev+24(FP), R3
@@ -451,5 +451,5 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 // sigaltstack on some darwin/arm version is buggy and will always
 // run the signal handler on the main stack, so our sigtramp has
 // to do the stack switch ourselves.
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$0
 	RET

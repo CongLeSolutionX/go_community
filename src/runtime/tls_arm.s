@@ -4,10 +4,10 @@
 
 #include "go_asm.h"
 #include "go_tls.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 #include "textflag.h"
 
-// We have to resort to TLS variable to save g(R10).
+// We have to resort to TLS variable to Save g(R10).
 // One reason is that external code might trigger
 // SIGSEGV, and our runtime.sigtramp don't even know we
 // are in external code, and will continue to use R10,
@@ -27,8 +27,8 @@
 // save_g saves the g register into pthread-provided
 // thread-local memory, so that we can call externally compiled
 // ARM code that will overwrite those registers.
-// NOTE: runtime.gogo assumes that R1 is preserved by this function.
-//       runtime.mcall assumes this function only clobbers R0 and R11.
+// NOTE: runtime.Gogo assumes that R1 is preserved by this function.
+//       runtime.Mcall assumes this function only clobbers R0 and R11.
 // Returns with g in R0.
 TEXT runtime·save_g(SB),NOSPLIT,$-4
 #ifdef GOOS_nacl

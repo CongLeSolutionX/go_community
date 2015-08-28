@@ -351,7 +351,7 @@ func symtab() {
 	// pseudo-symbols to mark locations of type, string, and go string data.
 	var symtype *LSym
 	if !DynlinkingGo() {
-		s = Linklookup(Ctxt, "type.*", 0)
+		s = Linklookup(Ctxt, "Type.*", 0)
 
 		s.Type = obj.STYPE
 		s.Size = 0
@@ -452,7 +452,7 @@ func symtab() {
 	// runtime to use. Any changes here must be matched by changes to
 	// the definition of moduledata in runtime/symtab.go.
 	// This code uses several global variables that are set by pcln.go:pclntab.
-	moduledata := Linklookup(Ctxt, "runtime.firstmoduledata", 0)
+	moduledata := Linklookup(Ctxt, "runtime/internal/base.Firstmoduledata", 0)
 	moduledata.Type = obj.SNOPTRDATA
 	moduledata.Size = 0 // truncate symbol back to 0 bytes to reinitialize
 	moduledata.Reachable = true
@@ -528,7 +528,7 @@ func symtab() {
 	// When linking an object that does not contain the runtime we are
 	// creating the moduledata from scratch and it does not have a
 	// compiler-provided size, so read it from the type data.
-	moduledatatype := Linkrlookup(Ctxt, "type.runtime.moduledata", 0)
+	moduledatatype := Linkrlookup(Ctxt, "type.runtime/internal/base.Moduledata", 0)
 	moduledata.Size = decodetype_size(moduledatatype)
 	Symgrow(Ctxt, moduledata, moduledata.Size)
 

@@ -13,8 +13,8 @@
 #define CLOCK_REALTIME	$0
 #define	CLOCK_MONOTONIC	$3
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-4
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$-4
 	MOVW	status+0(FP), R0	// arg 1 - status
 	MOVW	$1, R12			// sys_exit
 	SWI	$0
@@ -58,7 +58,7 @@ TEXT runtime·read(SB),NOSPLIT,$-4
 	MOVW	R0, ret+12(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$-4
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$-4
 	MOVW	fd+0(FP), R0		// arg 1 - fd
 	MOVW	buf+4(FP), R1		// arg 2 - buf
 	MOVW	nbyte+8(FP), R2		// arg 3 - nbyte
@@ -68,7 +68,7 @@ TEXT runtime·write(SB),NOSPLIT,$-4
 	MOVW	R0, ret+12(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$16
 	MOVW	usec+0(FP), R0
 	CALL	runtime·usplitR0(SB)
 	MOVW	R0, 4(R13)		// tv_sec - l32
@@ -84,25 +84,25 @@ TEXT runtime·usleep(SB),NOSPLIT,$16
 	SWI	$0
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$12
 	MOVW	$0x12B, R12
 	SWI	$0			// sys_getthrid
 					// arg 1 - pid, already in R0
-	MOVW	sig+0(FP), R1		// arg 2 - signum
+	MOVW	Sig+0(FP), R1		// arg 2 - signum
 	MOVW	$37, R12		// sys_kill
 	SWI	$0
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$12
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$12
 	MOVW	$20, R12
 	SWI	$0			// sys_getpid
 					// arg 1 - pid, already in R0
-	MOVW	sig+0(FP), R1		// arg 2 - signum
+	MOVW	Sig+0(FP), R1		// arg 2 - signum
 	MOVW	$37, R12		// sys_kill
 	SWI	$0
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$16
 	MOVW	addr+0(FP), R0		// arg 1 - addr
 	MOVW	len+4(FP), R1		// arg 2 - len
 	MOVW	prot+8(FP), R2		// arg 3 - prot
@@ -122,7 +122,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$16
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVW	addr+0(FP), R0		// arg 1 - addr
 	MOVW	len+4(FP), R1		// arg 2 - len
 	MOVW	$73, R12		// sys_munmap
@@ -141,7 +141,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVW.CS	R8, (R8)
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·setitimer(SB),NOSPLIT,$0
 	MOVW	which+0(FP), R0		// arg 1 - which
 	MOVW	value+4(FP), R1		// arg 2 - value
 	MOVW	ovalue+8(FP), R2	// arg 3 - ovalue
@@ -166,9 +166,9 @@ TEXT time·now(SB), NOSPLIT, $32
 
 	RET
 
-// int64 nanotime(void) so really
-// void nanotime(int64 *nsec)
-TEXT runtime·nanotime(SB),NOSPLIT,$32
+// int64 Nanotime(void) so really
+// void Nanotime(int64 *nsec)
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$32
 	MOVW	CLOCK_MONOTONIC, R0	// arg 1 - clock_id
 	MOVW	$8(R13), R1		// arg 2 - tp
 	MOVW	$87, R12		// sys_clock_gettime
@@ -188,7 +188,7 @@ TEXT runtime·nanotime(SB),NOSPLIT,$32
 	MOVW	R1, ret_hi+4(FP)
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$0
 	MOVW	signum+0(FP), R0	// arg 1 - signum
 	MOVW	nsa+4(FP), R1		// arg 2 - nsa
 	MOVW	osa+8(FP), R2		// arg 3 - osa
@@ -198,7 +198,7 @@ TEXT runtime·sigaction(SB),NOSPLIT,$0
 	MOVW.CS	R8, (R8)
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$0
 	MOVW	how+0(FP), R0		// arg 1 - how
 	MOVW	mask+4(FP), R1		// arg 2 - mask
 	MOVW	$48, R12		// sys_sigprocmask
@@ -208,11 +208,11 @@ TEXT runtime·sigprocmask(SB),NOSPLIT,$0
 	MOVW	R0, ret+8(FP)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$24
 	// If called from an external code context, g will not be set.
 	// Save R0, since runtime·load_g will clobber it.
 	MOVW	R0, 4(R13)		// signum
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	runtime∕internal∕base·Iscgo(SB), R0
 	CMP	$0, R0
 	BL.NE	runtime·load_g(SB)
 
@@ -228,15 +228,15 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$24
 	MOVW	g, 20(R13)
 
 	// g = m->signal
-	MOVW	g_m(g), R8
-	MOVW	m_gsignal(R8), g
+	MOVW	G_M(g), R8
+	MOVW	M_Gsignal(R8), g
 
 	// R0 already saved.
 	MOVW	R1, 8(R13)		// info
 	MOVW	R2, 12(R13)		// context
 	MOVW	R3, 16(R13)		// gp (original g)
 
-	BL	runtime·sighandler(SB)
+	BL	runtime∕internal∕base·Sighandler(SB)
 
 	// Restore g.
 	MOVW	20(R13), g
@@ -269,7 +269,7 @@ TEXT runtime·tfork(SB),NOSPLIT,$0
 
 	// Initialise m, g.
 	MOVW	R5, g
-	MOVW	R4, g_m(g)
+	MOVW	R4, G_M(g)
 
 	// Paranoia; check that stack splitting code works.
 	BL	runtime·emptyfunc(SB)
@@ -282,7 +282,7 @@ TEXT runtime·tfork(SB),NOSPLIT,$0
 	MOVW	R8, (R8)
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$0
 	MOVW	nss+0(FP), R0		// arg 1 - nss
 	MOVW	oss+4(FP), R1		// arg 2 - oss
 	MOVW	$288, R12		// sys_sigaltstack
@@ -291,7 +291,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$0
 	MOVW.CS	R8, (R8)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Osyield(SB),NOSPLIT,$0
 	MOVW	$298, R12		// sys_sched_yield
 	SWI	$0
 	RET
@@ -300,7 +300,7 @@ TEXT runtime·thrsleep(SB),NOSPLIT,$4
 	MOVW	ident+0(FP), R0		// arg 1 - ident
 	MOVW	clock_id+4(FP), R1	// arg 2 - clock_id
 	MOVW	tp+8(FP), R2		// arg 3 - tp
-	MOVW	lock+12(FP), R3		// arg 4 - lock
+	MOVW	Lock+12(FP), R3		// arg 4 - Lock
 	MOVW	abort+16(FP), R4	// arg 5 - abort (on stack)
 	MOVW	R4, 4(R13)
 	ADD	$4, R13
@@ -344,8 +344,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVW	R0, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
-TEXT runtime·kevent(SB),NOSPLIT,$8
+// int32 runtime∕internal∕base·Kevent(int Kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$8
 	MOVW	fd+0(FP), R0		// arg 1 - fd
 	MOVW	changelist+4(FP), R1	// arg 2 - changelist
 	MOVW	nchanges+8(FP), R2	// arg 3 - nchanges
@@ -375,12 +375,12 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 
 TEXT runtime·casp1(SB),NOSPLIT,$0
 	//B	runtime·armcas(SB)
-	B	runtime·cas(SB)
+	B	runtime∕internal∕base·Cas(SB)
 
-TEXT runtime·cas(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Cas(SB),NOSPLIT,$0
 	B	runtime·armcas(SB)
 
-TEXT ·publicationBarrier(SB),NOSPLIT,$-4-0
+TEXT runtime∕internal∕iface·publicationBarrier(SB),NOSPLIT,$-4-0
 	B	runtime·armPublicationBarrier(SB)
 
 // TODO(jsing): Implement.

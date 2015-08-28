@@ -6,6 +6,8 @@
 
 package cgo
 
+import _ "unsafe"
+
 import _ "unsafe" // for go:linkname
 
 //go:cgo_import_static x_cgo_setenv
