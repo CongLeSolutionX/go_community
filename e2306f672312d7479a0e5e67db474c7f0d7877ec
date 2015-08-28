@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64091ddd_148f6c87",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-28T03:35:23Z",
+      "side": 1,
+      "message": "Isn\u0027t this just path \u003d strings.Trim(path, \"./ \") ? which could be inlined at the call site.",
+      "range": {
+        "startLine": 510,
+        "startChar": 1,
+        "endLine": 514,
+        "endChar": 46
+      },
+      "revId": "e2306f672312d7479a0e5e67db474c7f0d7877ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_f078bc37",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-28T03:35:23Z",
+      "side": 1,
+      "message": "Sorry to be a pest about this, but I think the ideal algorithm is a little different. How about this:\n\nFor each arg \u0027a\u0027:\n\n * b \u003d a with /... stripped off the end, if present\n * c \u003d b with ./ stripped off the front\n * if c is not the empty string, use that as the argument to libname for this argument\n * if c is the empty string, find the package that b refers to and use that as the argument to libname\n\nThis isn\u0027t perfect and might be a fiddle because b might not actually refer to a package (if you say -buildmode\u003dshared ./... and all the packages are in subdirs, not .), but I think it\u0027s close enough.\n\nWhat do you think?",
+      "range": {
+        "startLine": 556,
+        "startChar": 2,
+        "endLine": 562,
+        "endChar": 3
+      },
+      "revId": "e2306f672312d7479a0e5e67db474c7f0d7877ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
