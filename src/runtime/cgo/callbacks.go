@@ -62,7 +62,7 @@ var _cgo_free = &x_cgo_free
 
 //go:cgo_import_static x_cgo_thread_start
 //go:linkname x_cgo_thread_start x_cgo_thread_start
-//go:linkname _cgo_thread_start _cgo_thread_start
+//go:linkname _cgo_thread_start runtime/internal/base.Cgo_thread_start
 var x_cgo_thread_start byte
 var _cgo_thread_start = &x_cgo_thread_start
 

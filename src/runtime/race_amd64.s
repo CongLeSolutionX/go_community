@@ -6,7 +6,7 @@
 
 #include "go_asm.h"
 #include "go_tls.h"
-#include "funcdata.h"
+#include "Funcdata.h"
 #include "textflag.h"
 
 // The following thunks allow calling the gcc-compiled race runtime directly
@@ -53,8 +53,8 @@ TEXT	runtime·RaceRead(SB), NOSPLIT, $0-8
 	// This needs to be a tail call, because raceread reads caller pc.
 	JMP	runtime·raceread(SB)
 
-// void runtime·racereadpc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
+// void runtime∕internal∕race·Racereadpc(void *addr, void *callpc, void *pc)
+TEXT	runtime∕internal∕race·Racereadpc(SB), NOSPLIT, $0-24
 	MOVQ	addr+0(FP), RARG1
 	MOVQ	callpc+8(FP), RARG2
 	MOVQ	pc+16(FP), RARG3
@@ -77,8 +77,8 @@ TEXT	runtime·RaceWrite(SB), NOSPLIT, $0-8
 	// This needs to be a tail call, because racewrite reads caller pc.
 	JMP	runtime·racewrite(SB)
 
-// void runtime·racewritepc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
+// void runtime∕internal∕race·Racewritepc(void *addr, void *callpc, void *pc)
+TEXT	runtime∕internal∕race·Racewritepc(SB), NOSPLIT, $0-24
 	MOVQ	addr+0(FP), RARG1
 	MOVQ	callpc+8(FP), RARG2
 	MOVQ	pc+16(FP), RARG3
@@ -142,7 +142,7 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
 	get_tls(R12)
 	MOVQ	g(R12), R14
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
 	CMPQ	RARG1, runtime·racearenastart(SB)
 	JB	data
@@ -162,10 +162,10 @@ ret:
 // func runtime·racefuncenter(pc uintptr)
 // Called from instrumented code.
 TEXT	runtime·racefuncenter(SB), NOSPLIT, $0-8
-	MOVQ	DX, R15		// save function entry context (for closures)
+	MOVQ	DX, R15		// Save function entry context (for closures)
 	get_tls(R12)
 	MOVQ	g(R12), R14
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	MOVQ	callpc+0(FP), RARG1
 	// void __tsan_func_enter(ThreadState *thr, void *pc);
 	MOVQ	$__tsan_func_enter(SB), AX
@@ -179,7 +179,7 @@ TEXT	runtime·racefuncenter(SB), NOSPLIT, $0-8
 TEXT	runtime·racefuncexit(SB), NOSPLIT, $0-0
 	get_tls(R12)
 	MOVQ	g(R12), R14
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	// void __tsan_func_exit(ThreadState *thr);
 	MOVQ	$__tsan_func_exit(SB), AX
 	JMP	racecall<>(SB)
@@ -253,14 +253,14 @@ TEXT	sync∕atomic·SwapUintptr(SB), NOSPLIT, $0-0
 TEXT	sync∕atomic·AddInt32(SB), NOSPLIT, $0-0
 	MOVQ	$__tsan_go_atomic32_fetch_add(SB), AX
 	CALL	racecallatomic<>(SB)
-	MOVL	add+8(FP), AX	// convert fetch_add to add_fetch
+	MOVL	Add+8(FP), AX	// convert fetch_add to add_fetch
 	ADDL	AX, ret+16(FP)
 	RET
 
 TEXT	sync∕atomic·AddInt64(SB), NOSPLIT, $0-0
 	MOVQ	$__tsan_go_atomic64_fetch_add(SB), AX
 	CALL	racecallatomic<>(SB)
-	MOVQ	add+8(FP), AX	// convert fetch_add to add_fetch
+	MOVQ	Add+8(FP), AX	// convert fetch_add to add_fetch
 	ADDQ	AX, ret+16(FP)
 	RET
 
@@ -313,7 +313,7 @@ racecallatomic_ok:
 	// Addr is within the good range, call the atomic function.
 	get_tls(R12)
 	MOVQ	g(R12), R14
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	MOVQ	8(SP), RARG1	// caller pc
 	MOVQ	(SP), RARG2	// pc
 	LEAQ	16(SP), RARG3	// arguments
@@ -325,18 +325,18 @@ racecallatomic_ignore:
 	MOVQ	AX, R15	// remember the original function
 	MOVQ	$__tsan_go_ignore_sync_begin(SB), AX
 	MOVQ	g(R12), R14
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	CALL	racecall<>(SB)
 	MOVQ	R15, AX	// restore the original function
 	// Call the atomic function.
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	MOVQ	8(SP), RARG1	// caller pc
 	MOVQ	(SP), RARG2	// pc
 	LEAQ	16(SP), RARG3	// arguments
 	CALL	racecall<>(SB)
 	// Call __tsan_go_ignore_sync_end.
 	MOVQ	$__tsan_go_ignore_sync_end(SB), AX
-	MOVQ	g_racectx(R14), RARG0	// goroutine context
+	MOVQ	G_Racectx(R14), RARG0	// goroutine context
 	JMP	racecall<>(SB)
 
 // void runtime·racecall(void(*f)(...), ...)
@@ -354,13 +354,13 @@ TEXT	runtime·racecall(SB), NOSPLIT, $0-0
 TEXT	racecall<>(SB), NOSPLIT, $0-0
 	get_tls(R12)
 	MOVQ	g(R12), R14
-	MOVQ	g_m(R14), R13
+	MOVQ	G_M(R14), R13
 	// Switch to g0 stack.
 	MOVQ	SP, R12		// callee-saved, preserved across the CALL
-	MOVQ	m_g0(R13), R10
+	MOVQ	M_G0(R13), R10
 	CMPQ	R10, R14
 	JE	call	// already on g0
-	MOVQ	(g_sched+gobuf_sp)(R10), SP
+	MOVQ	(G_Sched+Gobuf_Sp)(R10), SP
 call:
 	ANDQ	$~15, SP	// alignment for gcc ABI
 	CALL	AX
@@ -369,7 +369,7 @@ call:
 
 // C->Go callback thunk that allows to call runtime·racesymbolize from C code.
 // Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
-// The overall effect of Go->C->Go call chain is similar to that of mcall.
+// The overall effect of Go->C->Go call chain is similar to that of Mcall.
 TEXT	runtime·racesymbolizethunk(SB), NOSPLIT, $56-8
 	// Save callee-saved registers (Go code won't respect that).
 	// This is superset of darwin/linux/windows registers.
@@ -384,8 +384,8 @@ TEXT	runtime·racesymbolizethunk(SB), NOSPLIT, $56-8
 	// Set g = g0.
 	get_tls(R12)
 	MOVQ	g(R12), R13
-	MOVQ	g_m(R13), R13
-	MOVQ	m_g0(R13), R14
+	MOVQ	G_M(R13), R13
+	MOVQ	M_G0(R13), R14
 	MOVQ	R14, g(R12)	// g = m->g0
 	PUSHQ	RARG0	// func arg
 	CALL	runtime·racesymbolize(SB)
@@ -393,8 +393,8 @@ TEXT	runtime·racesymbolizethunk(SB), NOSPLIT, $56-8
 	// All registers are smashed after Go code, reload.
 	get_tls(R12)
 	MOVQ	g(R12), R13
-	MOVQ	g_m(R13), R13
-	MOVQ	m_curg(R13), R14
+	MOVQ	G_M(R13), R13
+	MOVQ	M_Curg(R13), R14
 	MOVQ	R14, g(R12)	// g = m->curg
 	// Restore callee-saved registers.
 	POPQ	R15

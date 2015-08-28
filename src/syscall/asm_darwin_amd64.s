@@ -27,13 +27,13 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	MOVQ	$-1, r1+32(FP)
 	MOVQ	$0, r2+40(FP)
 	MOVQ	AX, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVQ	AX, r1+32(FP)
 	MOVQ	DX, r2+40(FP)
 	MOVQ	$0, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno);
@@ -52,13 +52,13 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-80
 	MOVQ	$-1, r1+56(FP)
 	MOVQ	$0, r2+64(FP)
 	MOVQ	AX, err+72(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVQ	AX, r1+56(FP)
 	MOVQ	DX, r2+64(FP)
 	MOVQ	$0, err+72(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall9(trap, a1, a2, a3, a4, a5, a6, a7, a8, a9 uintptr) (r1, r2 uintptr, err Errno)
@@ -85,14 +85,14 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-104
 	MOVQ	$-1, r1+80(FP)
 	MOVQ	$0, r2+88(FP)
 	MOVQ	AX, err+96(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok9:
 	ADDQ	$32, SP
 	MOVQ	AX, r1+80(FP)
 	MOVQ	DX, r2+88(FP)
 	MOVQ	$0, err+96(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)

@@ -26,7 +26,7 @@ TEXT ·close(SB),NOSPLIT,$0
 TEXT ·execve(SB),NOSPLIT,$0
 	JMP	runtime·syscall_execve(SB)
 
-TEXT ·exit(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
 	JMP	runtime·syscall_exit(SB)
 
 TEXT ·fcntl1(SB),NOSPLIT,$0

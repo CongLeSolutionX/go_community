@@ -27,14 +27,14 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVW R0, r1+16(FP)		// ret 1
 	MOVW R1, r2+20(FP)		// ret 2
 	MOVW R2, err+24(FP)		// err
-	BL runtime·exitsyscall(SB)
+	BL runtime∕internal∕base·Exitsyscall(SB)
 	RET
 error:
 	MOVW $-1, R3
 	MOVW R3, r1+16(FP)		// ret 1
 	MOVW R2, r2+20(FP)		// ret 2
 	MOVW R0, err+24(FP)		// err
-	BL runtime·exitsyscall(SB)
+	BL runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-40
@@ -53,14 +53,14 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVW R0, r1+28(FP)		// ret 1
 	MOVW R1, r2+32(FP)		// ret 2
 	MOVW R2, err+36(FP)		// err
-	BL runtime·exitsyscall(SB)
+	BL runtime∕internal∕base·Exitsyscall(SB)
 	RET
 error6:
 	MOVW $-1, R3
 	MOVW R3, r1+28(FP)		// ret 1
 	MOVW R2, r2+32(FP)		// ret 2
 	MOVW R0, err+36(FP)		// err
-	BL runtime·exitsyscall(SB)
+	BL runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT	·Syscall9(SB),NOSPLIT,$0-52
@@ -79,14 +79,14 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-52
 	MOVW R0, r1+40(FP)		// ret 1
 	MOVW R1, r2+44(FP)		// ret 2
 	MOVW R2, err+48(FP)		// err
-	BL runtime·exitsyscall(SB)
+	BL runtime∕internal∕base·Exitsyscall(SB)
 	RET
 error9:
 	MOVW $-1, R3
 	MOVW R3, r1+40(FP)		// ret 1
 	MOVW R2, r2+44(FP)		// ret 2
 	MOVW R0, err+48(FP)		// err
-	BL runtime·exitsyscall(SB)
+	BL runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT	·RawSyscall(SB),NOSPLIT,$0-28

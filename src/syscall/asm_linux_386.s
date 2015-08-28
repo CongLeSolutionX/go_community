@@ -27,13 +27,13 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVL	$0, r2+20(FP)
 	NEGL	AX
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVL	AX, r1+16(FP)
 	MOVL	DX, r2+20(FP)
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
@@ -53,13 +53,13 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVL	$0, r2+32(FP)
 	NEGL	AX
 	MOVL	AX, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVL	AX, r1+28(FP)
 	MOVL	DX, r2+32(FP)
 	MOVL	$0, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr);
@@ -125,12 +125,12 @@ TEXT ·socketcall(SB),NOSPLIT,$0-36
 	MOVL	$-1, n+28(FP)
 	NEGL	AX
 	MOVL	AX, err+32(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 oksock:
 	MOVL	AX, n+28(FP)
 	MOVL	$0, err+32(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func rawsocketcall(call int, a0, a1, a2, a3, a4, a5 uintptr) (n int, err int)
@@ -175,10 +175,10 @@ TEXT ·seek(SB),NOSPLIT,$0-28
 	MOVL	$-1, newoffset_hi+20(FP)
 	NEGL	AX
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 okseek:
 	// system call filled in newoffset already
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET

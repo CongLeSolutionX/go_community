@@ -32,14 +32,14 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVW	R2, r2+20(FP)
 	RSB		$0, R0, R0
 	MOVW	R0, err+24(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVW	R0, r1+16(FP)
 	MOVW	$0, R0
 	MOVW	R0, r2+20(FP)
 	MOVW	R0, err+24(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func Syscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
@@ -63,14 +63,14 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVW	R2, r2+32(FP)
 	RSB		$0, R0, R0
 	MOVW	R0, err+36(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVW	R0, r1+28(FP)
 	MOVW	R1, r2+32(FP)
 	MOVW	$0, R0
 	MOVW	R0, err+36(FP)
-	BL		runtime·exitsyscall(SB)
+	BL		runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 // func RawSyscall6(trap uintptr, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr);
@@ -124,13 +124,13 @@ TEXT ·seek(SB),NOSPLIT,$0-28
 	MOVW	R1, newoffset_hi+20(FP)
 	RSB	$0, R0, R0
 	MOVW	R0, err+24(FP)
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 okseek:
 	// system call filled in newoffset already
 	MOVW	$0, R0
 	MOVW	R0, err+24(FP)
-	BL	runtime·exitsyscall(SB)
+	BL	runtime∕internal∕base·Exitsyscall(SB)
 	RET	
 
 // func RawSyscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr);

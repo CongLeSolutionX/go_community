@@ -50,7 +50,7 @@ copyresult3:
 	MOVSL
 	MOVSL
 
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-44
@@ -88,7 +88,7 @@ copyresult4:
 	MOVSL
 	MOVSL
 
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT ·RawSyscall(SB),NOSPLIT,$0-28
@@ -156,11 +156,11 @@ copyresult6:
 	MOVSL
 	RET
 
-//func exit(code int)
-// Import runtime·exit for cleanly exiting.
-TEXT ·exit(SB),NOSPLIT,$4-4
+//func Exit(code int)
+// Import runtime∕internal∕base·Exit for cleanly exiting.
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$4-4
 	NO_LOCAL_POINTERS
 	MOVL	code+0(FP), AX
 	MOVL	AX, 0(SP)
-	CALL	runtime·exit(SB)
+	CALL	runtime∕internal∕base·Exit(SB)
 	RET

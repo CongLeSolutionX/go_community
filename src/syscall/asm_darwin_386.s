@@ -28,13 +28,13 @@ TEXT	·Syscall(SB),NOSPLIT,$0-28
 	MOVL	$-1, r1+16(FP)
 	MOVL	$-1, r2+20(FP)
 	MOVL	AX, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok:
 	MOVL	AX, r1+16(FP)
 	MOVL	DX, r2+20(FP)
 	MOVL	$0, err+24(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-40
@@ -55,13 +55,13 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-40
 	MOVL	$-1, r1+28(FP)
 	MOVL	$-1, r2+32(FP)
 	MOVL	AX, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok6:
 	MOVL	AX, r1+28(FP)
 	MOVL	DX, r2+32(FP)
 	MOVL	$0, err+36(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT	·Syscall9(SB),NOSPLIT,$0-52
@@ -85,13 +85,13 @@ TEXT	·Syscall9(SB),NOSPLIT,$0-52
 	MOVL	$-1, r1+40(FP)
 	MOVL	$-1, r2+44(FP)
 	MOVL	AX, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 ok9:
 	MOVL	AX, r1+40(FP)
 	MOVL	DX, r2+44(FP)
 	MOVL	$0, err+48(FP)
-	CALL	runtime·exitsyscall(SB)
+	CALL	runtime∕internal∕base·Exitsyscall(SB)
 	RET
 
 TEXT ·RawSyscall(SB),NOSPLIT,$0-28

@@ -15,9 +15,9 @@
 #include "go_tls.h"
 #include "textflag.h"
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$0
-	MOVL	code+0(FP), DI		// arg 1 exit status
+// Exit the entire program (like C Exit)
+TEXT runtime∕internal∕base·Exit(SB),NOSPLIT,$0
+	MOVL	code+0(FP), DI		// arg 1 Exit status
 	MOVL	$(0x2000000+1), AX	// syscall entry
 	SYSCALL
 	MOVL	$0xf1, 0xf1  // crash
@@ -26,7 +26,7 @@ TEXT runtime·exit(SB),NOSPLIT,$0
 // Exit this OS thread (like pthread_exit, which eventually
 // calls __bsdthread_terminate).
 TEXT runtime·exit1(SB),NOSPLIT,$0
-	MOVL	code+0(FP), DI		// arg 1 exit status
+	MOVL	code+0(FP), DI		// arg 1 Exit status
 	MOVL	$(0x2000000+361), AX	// syscall entry
 	SYSCALL
 	MOVL	$0xf1, 0xf1  // crash
@@ -63,7 +63,7 @@ TEXT runtime·read(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0
+TEXT runtime∕internal∕print·Write(SB),NOSPLIT,$0
 	MOVQ	fd+0(FP), DI		// arg 1 fd
 	MOVQ	p+8(FP), SI		// arg 2 buf
 	MOVL	n+16(FP), DX		// arg 3 count
@@ -74,22 +74,22 @@ TEXT runtime·write(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Raise(SB),NOSPLIT,$0
 	// Ideally we'd send the signal to the current thread,
 	// not the whole process, but that's too hard on OS X.
-	JMP	runtime·raiseproc(SB)
+	JMP	runtime∕internal∕base·raiseproc(SB)
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$24
+TEXT runtime∕internal∕base·raiseproc(SB),NOSPLIT,$24
 	MOVL	$(0x2000000+20), AX // getpid
 	SYSCALL
 	MOVQ	AX, DI	// arg 1 - pid
-	MOVL	sig+0(FP), SI	// arg 2 - signal
+	MOVL	Sig+0(FP), SI	// arg 2 - signal
 	MOVL	$1, DX	// arg 3 - posix
 	MOVL	$(0x2000000+37), AX // kill
 	SYSCALL
 	RET
 
-TEXT runtime·setitimer(SB), NOSPLIT, $0
+TEXT runtime∕internal∕base·setitimer(SB), NOSPLIT, $0
 	MOVL	mode+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
@@ -103,7 +103,7 @@ TEXT runtime·madvise(SB), NOSPLIT, $0
 	MOVL	flags+16(FP), DX		// arg 3 advice
 	MOVL	$(0x2000000+75), AX	// syscall entry madvise
 	SYSCALL
-	// ignore failure - maybe pages are locked
+	// ignore failure - maybe pages are const_Locked
 	RET
 
 // OS X comm page time offsets
@@ -117,7 +117,7 @@ TEXT runtime·madvise(SB), NOSPLIT, $0
 #define	gtod_ns_base	0x70
 #define	gtod_sec_base	0x78
 
-TEXT nanotime<>(SB), NOSPLIT, $32
+TEXT Nanotime<>(SB), NOSPLIT, $32
 	MOVQ	$0x7fffffe00000, BP	/* comm page base */
 	// Loop trying to take a consistent snapshot
 	// of the time parameters.
@@ -166,14 +166,14 @@ systime:
 	ADDQ	DX, AX
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$0-8
-	CALL	nanotime<>(SB)
+TEXT runtime∕internal∕base·Nanotime(SB),NOSPLIT,$0-8
+	CALL	Nanotime<>(SB)
 	MOVQ	AX, ret+0(FP)
 	RET
 
 // func now() (sec int64, nsec int32)
 TEXT time·now(SB),NOSPLIT,$0-12
-	CALL	nanotime<>(SB)
+	CALL	Nanotime<>(SB)
 
 	// generated code for
 	//	func f(x uint64) (uint64, uint64) { return x/1000000000, x%100000000 }
@@ -190,18 +190,18 @@ TEXT time·now(SB),NOSPLIT,$0-12
 	MOVL	CX, nsec+8(FP)
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
-	MOVL	sig+0(FP), DI
+TEXT runtime∕internal∕base·Sigprocmask(SB),NOSPLIT,$0
+	MOVL	Sig+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
-	MOVL	$(0x2000000+329), AX  // pthread_sigmask (on OS X, sigprocmask==entire process)
+	MOVL	$(0x2000000+329), AX  // pthread_sigmask (on OS X, Sigprocmask==entire process)
 	SYSCALL
 	JCC	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$0-24
-	MOVL	mode+0(FP), DI		// arg 1 sig
+TEXT runtime∕internal∕base·sigaction(SB),NOSPLIT,$0-24
+	MOVL	mode+0(FP), DI		// arg 1 Sig
 	MOVQ	new+8(FP), SI		// arg 2 act
 	MOVQ	old+16(FP), DX		// arg 3 oact
 	MOVQ	old+16(FP), CX		// arg 3 oact
@@ -214,7 +214,7 @@ TEXT runtime·sigaction(SB),NOSPLIT,$0-24
 
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ fn+0(FP),    AX
-	MOVQ sig+8(FP),   DI
+	MOVQ Sig+8(FP),   DI
 	MOVQ info+16(FP), SI
 	MOVQ ctx+24(FP),  DX
 	CALL AX
@@ -227,16 +227,16 @@ TEXT runtime·sigreturn(SB),NOSPLIT,$0-12
 	SYSCALL
 	INT $3 // not reached
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$32
+TEXT runtime∕internal∕base·sigtramp(SB),NOSPLIT,$32
 	MOVQ DI,  0(SP) // fn
 	MOVL SI,  8(SP) // infostyle
-	MOVL DX, 12(SP) // sig
+	MOVL DX, 12(SP) // Sig
 	MOVQ CX, 16(SP) // info
 	MOVQ R8, 24(SP) // ctx
 	MOVQ $runtime·sigtrampgo(SB), AX
 	CALL AX
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
 	MOVQ	n+8(FP), SI		// arg 2 len
 	MOVL	prot+16(FP), DX		// arg 3 prot
@@ -248,7 +248,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVQ	AX, ret+32(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·munmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
 	MOVQ	n+8(FP), SI		// arg 2 len
 	MOVL	$(0x2000000+73), AX	// syscall entry
@@ -257,7 +257,7 @@ TEXT runtime·munmap(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·sigaltstack(SB),NOSPLIT,$0
 	MOVQ	new+0(FP), DI
 	MOVQ	old+8(FP), SI
 	MOVQ	$(0x2000000+53), AX
@@ -266,7 +266,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT runtime∕internal∕base·Usleep(SB),NOSPLIT,$16
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -284,9 +284,9 @@ TEXT runtime·usleep(SB),NOSPLIT,$16
 	SYSCALL
 	RET
 
-// func bsdthread_create(stk, arg unsafe.Pointer, fn uintptr) int32
-TEXT runtime·bsdthread_create(SB),NOSPLIT,$0
-	// Set up arguments to bsdthread_create system call.
+// func Bsdthread_create(stk, arg unsafe.Pointer, fn uintptr) int32
+TEXT runtime∕internal∕base·Bsdthread_create(SB),NOSPLIT,$0
+	// Set up arguments to Bsdthread_create system call.
 	// The ones in quotes pass through to the thread callback
 	// uninterpreted, so we can put whatever we want there.
 	MOVQ	fn+16(FP),   DI
@@ -295,7 +295,7 @@ TEXT runtime·bsdthread_create(SB),NOSPLIT,$0
 	MOVQ	$0x01000000, R8  // flags = PTHREAD_START_CUSTOM
 	MOVQ	$0,          R9  // paranoia
 	MOVQ	$0,          R10 // paranoia, "pthread"
-	MOVQ	$(0x2000000+360), AX	// bsdthread_create
+	MOVQ	$(0x2000000+360), AX	// Bsdthread_create
 	SYSCALL
 	JCC 4(PC)
 	NEGQ	AX
@@ -305,7 +305,7 @@ TEXT runtime·bsdthread_create(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-// The thread that bsdthread_create creates starts executing here,
+// The thread that Bsdthread_create creates starts executing here,
 // because we registered this function using bsdthread_register
 // at startup.
 //	DI = "pthread"
@@ -323,7 +323,7 @@ TEXT runtime·bsdthread_start(SB),NOSPLIT,$0
 	PUSHQ	SI
 
 	// set up thread local storage pointing at m->tls.
-	LEAQ	m_tls(CX), DI
+	LEAQ	M_tls(CX), DI
 	CALL	runtime·settls(SB)
 
 	POPQ	SI
@@ -331,17 +331,17 @@ TEXT runtime·bsdthread_start(SB),NOSPLIT,$0
 	POPQ	DX
 
 	get_tls(BX)
-	MOVQ	SI, m_procid(CX)	// thread port is m->procid
-	MOVQ	m_g0(CX), AX
+	MOVQ	SI, M_Procid(CX)	// thread port is m->procid
+	MOVQ	M_G0(CX), AX
 	MOVQ	AX, g(BX)
-	MOVQ	CX, g_m(AX)
+	MOVQ	CX, G_M(AX)
 	CALL	runtime·stackcheck(SB)	// smashes AX, CX
 	CALL	DX	// fn
 	CALL	runtime·exit1(SB)
 	RET
 
 // func bsdthread_register() int32
-// registers callbacks for threadstart (see bsdthread_create above
+// registers callbacks for threadstart (see Bsdthread_create above
 // and wqthread and pthsize (not used).  returns 0 on success.
 TEXT runtime·bsdthread_register(SB),NOSPLIT,$0
 	MOVQ	$runtime·bsdthread_start(SB), DI	// threadstart
@@ -363,7 +363,7 @@ TEXT runtime·bsdthread_register(SB),NOSPLIT,$0
 // Mach system calls use 0x1000000 instead of the BSD's 0x2000000.
 
 // func mach_msg_trap(h unsafe.Pointer, op int32, send_size, rcv_size, rcv_name, timeout, notify uint32) int32
-TEXT runtime·mach_msg_trap(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_msg_trap(SB),NOSPLIT,$0
 	MOVQ	h+0(FP), DI
 	MOVL	op+8(FP), SI
 	MOVL	send_size+12(FP), DX
@@ -378,7 +378,7 @@ TEXT runtime·mach_msg_trap(SB),NOSPLIT,$0
 	MOVL	AX, ret+32(FP)
 	RET
 
-TEXT runtime·mach_task_self(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·Mach_task_self(SB),NOSPLIT,$0
 	MOVL	$(0x1000000+28), AX	// task_self_trap
 	SYSCALL
 	MOVL	AX, ret+0(FP)
@@ -390,7 +390,7 @@ TEXT runtime·mach_thread_self(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·mach_reply_port(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_reply_port(SB),NOSPLIT,$0
 	MOVL	$(0x1000000+26), AX	// mach_reply_port
 	SYSCALL
 	MOVL	AX, ret+0(FP)
@@ -400,7 +400,7 @@ TEXT runtime·mach_reply_port(SB),NOSPLIT,$0
 // instead of requiring the use of RPC.
 
 // func mach_semaphore_wait(sema uint32) int32
-TEXT runtime·mach_semaphore_wait(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_wait(SB),NOSPLIT,$0
 	MOVL	sema+0(FP), DI
 	MOVL	$(0x1000000+36), AX	// semaphore_wait_trap
 	SYSCALL
@@ -408,7 +408,7 @@ TEXT runtime·mach_semaphore_wait(SB),NOSPLIT,$0
 	RET
 
 // func mach_semaphore_timedwait(sema, sec, nsec uint32) int32
-TEXT runtime·mach_semaphore_timedwait(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_timedwait(SB),NOSPLIT,$0
 	MOVL	sema+0(FP), DI
 	MOVL	sec+4(FP), SI
 	MOVL	nsec+8(FP), DX
@@ -418,7 +418,7 @@ TEXT runtime·mach_semaphore_timedwait(SB),NOSPLIT,$0
 	RET
 
 // func mach_semaphore_signal(sema uint32) int32
-TEXT runtime·mach_semaphore_signal(SB),NOSPLIT,$0
+TEXT runtime∕internal∕base·mach_semaphore_signal(SB),NOSPLIT,$0
 	MOVL	sema+0(FP), DI
 	MOVL	$(0x1000000+33), AX	// semaphore_signal_trap
 	SYSCALL
@@ -475,9 +475,9 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
-TEXT runtime·kevent(SB),NOSPLIT,$0
-	MOVL    kq+0(FP), DI
+// func Kevent(Kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
+TEXT runtime∕internal∕base·Kevent(SB),NOSPLIT,$0
+	MOVL    Kq+0(FP), DI
 	MOVQ    ch+8(FP), SI
 	MOVL    nch+16(FP), DX
 	MOVQ    ev+24(FP), R10
