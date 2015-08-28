@@ -1574,27 +1574,25 @@ func rewriteBlockgeneric(b *Block) bool {
 	case BlockIf:
 		// match: (If (IsNonNil (GetG)) yes no)
 		// cond:
-		// result: (Plain nil yes)
+		// result: (PlainAndDead nil yes no)
 		{
 			v := b.Control
 			if v.Op != OpIsNonNil {
-				goto end0f2bb0111a86be0436b44210dbd83a90
+				goto endaa5b185d013abce4540256d4f518cadc
 			}
 			if v.Args[0].Op != OpGetG {
-				goto end0f2bb0111a86be0436b44210dbd83a90
+				goto endaa5b185d013abce4540256d4f518cadc
 			}
 			yes := b.Succs[0]
 			no := b.Succs[1]
-			b.Func.removePredecessor(b, no)
-			b.Kind = BlockPlain
+			b.Kind = BlockPlainAndDead
 			b.Control = nil
-			b.Succs = b.Succs[:1]
 			b.Succs[0] = yes
-			b.Likely = BranchUnknown
+			b.Succs[1] = no
 			return true
 		}
-		goto end0f2bb0111a86be0436b44210dbd83a90
-	end0f2bb0111a86be0436b44210dbd83a90:
+		goto endaa5b185d013abce4540256d4f518cadc
+	endaa5b185d013abce4540256d4f518cadc:
 		;
 		// match: (If (Not cond) yes no)
 		// cond:
@@ -1619,53 +1617,50 @@ func rewriteBlockgeneric(b *Block) bool {
 		;
 		// match: (If (ConstBool {c}) yes no)
 		// cond: c.(bool)
-		// result: (Plain nil yes)
+		// result: (PlainAndDead nil yes no)
 		{
 			v := b.Control
 			if v.Op != OpConstBool {
-				goto end9ff0273f9b1657f4afc287562ca889f0
+				goto end615371068804f90d693e201fbb005510
 			}
 			c := v.Aux
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			if !(c.(bool)) {
-				goto end9ff0273f9b1657f4afc287562ca889f0
+				goto end615371068804f90d693e201fbb005510
 			}
-			b.Func.removePredecessor(b, no)
-			b.Kind = BlockPlain
+			b.Kind = BlockPlainAndDead
 			b.Control = nil
-			b.Succs = b.Succs[:1]
 			b.Succs[0] = yes
-			b.Likely = BranchUnknown
+			b.Succs[1] = no
 			return true
 		}
-		goto end9ff0273f9b1657f4afc287562ca889f0
-	end9ff0273f9b1657f4afc287562ca889f0:
+		goto end615371068804f90d693e201fbb005510
+	end615371068804f90d693e201fbb005510:
 		;
 		// match: (If (ConstBool {c}) yes no)
 		// cond: !c.(bool)
-		// result: (Plain nil no)
+		// result: (PlainAndDead nil no yes)
 		{
 			v := b.Control
 			if v.Op != OpConstBool {
-				goto endf401a4553c3c7c6bed64801da7bba076
+				goto end75ad6147d390f067cb86b09777abc4be
 			}
 			c := v.Aux
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			if !(!c.(bool)) {
-				goto endf401a4553c3c7c6bed64801da7bba076
+				goto end75ad6147d390f067cb86b09777abc4be
 			}
-			b.Func.removePredecessor(b, yes)
-			b.Kind = BlockPlain
+			b.Kind = BlockPlainAndDead
 			b.Control = nil
-			b.Succs = b.Succs[:1]
 			b.Succs[0] = no
-			b.Likely = BranchUnknown
+			b.Succs[1] = yes
+			b.Likely *= -1
 			return true
 		}
-		goto endf401a4553c3c7c6bed64801da7bba076
-	endf401a4553c3c7c6bed64801da7bba076:
+		goto end75ad6147d390f067cb86b09777abc4be
+	end75ad6147d390f067cb86b09777abc4be:
 	}
 	return false
 }

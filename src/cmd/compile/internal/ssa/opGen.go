@@ -27,6 +27,7 @@ const (
 	BlockPlain
 	BlockIf
 	BlockCall
+	BlockPlainAndDead
 )
 
 var blockString = [...]string{
@@ -47,11 +48,12 @@ var blockString = [...]string{
 	BlockAMD64ORD: "ORD",
 	BlockAMD64NAN: "NAN",
 
-	BlockExit:  "Exit",
-	BlockDead:  "Dead",
-	BlockPlain: "Plain",
-	BlockIf:    "If",
-	BlockCall:  "Call",
+	BlockExit:         "Exit",
+	BlockDead:         "Dead",
+	BlockPlain:        "Plain",
+	BlockIf:           "If",
+	BlockCall:         "Call",
+	BlockPlainAndDead: "PlainAndDead",
 }
 
 func (k BlockKind) String() string { return blockString[k] }
