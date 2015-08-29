@@ -710,6 +710,44 @@ func (s *state) stmt(n *Node) {
 	case OVARKILL:
 		// TODO(khr): ??? anything to do here?  Only for addrtaken variables?
 		// Maybe just link it in the store chain?
+
+	case OPROC, ODEFER:
+		call := n.Left
+		fn := call.Left
+		if call.Op != OCALLFUNC {
+			s.Unimplementedf("defer/go of %s", opnames[call.Op])
+		}
+
+		// Write argsize and closure (args to Newproc/Deferproc)
+		argsize := s.constInt32(Types[TUINT32], int32(fn.Type.Argwid))
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, 4, s.sp, argsize, s.mem())
+		closure := s.expr(fn)
+		addr := s.entryNewValue1I(ssa.OpOffPtr, Ptrto(Types[TUINTPTR]), int64(Widthptr), s.sp)
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, int64(Widthptr), addr, closure, s.mem())
+
+		// Run all argument assignments.  The arg slots have already
+		// been offset by 2*widthptr.
+		s.stmtList(call.List)
+
+		// Call deferproc or newproc
+		bNext := s.f.NewBlock(ssa.BlockPlain)
+		var target *Node
+		switch n.Op {
+		case ODEFER:
+			target = Deferproc
+		case OPROC:
+			target = Newproc
+		}
+		r := s.newValue1A(ssa.OpStaticCall, ssa.TypeMem, target.Sym, s.mem())
+		r.AuxInt = fn.Type.Argwid + 2*int64(Widthptr) // total stack space used
+		s.vars[&memvar] = r
+		b := s.endBlock()
+		b.Kind = ssa.BlockCall
+		b.Control = r
+		addEdge(b, bNext)
+		addEdge(b, s.exit)
+		s.startBlock(bNext)
+
 	default:
 		s.Unimplementedf("unhandled stmt %s", opnames[n.Op])
 	}
@@ -3239,6 +3277,21 @@ func genBlock(b, next *ssa.Block, branches []branch) []branch {
 			branches = append(branches, branch{p, b.Succs[0]})
 		}
 	case ssa.BlockExit:
+		if Hasdefer != 0 {
+			// Deferred calls will appear to be returning to
+			// the CALL deferreturn(SB) that we are about to emit.
+			// However, the stack trace code will show the line
+			// of the instruction byte before the return PC.
+			// To avoid that being an unrelated instruction,
+			// insert an actual hardware NOP that will have the right line number.
+			// This is different from obj.ANOP, which is a virtual no-op
+			// that doesn't make it into the instruction stream.
+			Thearch.Ginsnop()
+			p := Prog(obj.ACALL)
+			p.To.Type = obj.TYPE_MEM
+			p.To.Name = obj.NAME_EXTERN
+			p.To.Sym = Linksym(Deferreturn.Sym)
+		}
 		Prog(obj.ARET)
 	case ssa.BlockCall:
 		if b.Succs[0] != next {
