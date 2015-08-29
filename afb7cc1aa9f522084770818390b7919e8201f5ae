@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a47f9520_dfb10b79",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-29T17:11:58Z",
+      "side": 1,
+      "message": "First it is.",
+      "parentUuid": "a47f9520_df582bd1",
+      "revId": "afb7cc1aa9f522084770818390b7919e8201f5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_9fbb835d",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-08-29T16:45:35Z",
       "side": 1,
       "message": "Let\u0027s add checks to checkFunc that PlainAndDead blocks have nil control value, two successors, etc. Also, let\u0027s add a default case to checkFunc\u0027s switch b.Kind so that we don\u0027t forget it in the future.",
+      "revId": "afb7cc1aa9f522084770818390b7919e8201f5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_bfb43f69",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-29T17:11:58Z",
+      "side": 1,
+      "message": "That last part is tricky because there are machine-dependent branch kinds.  We would need to mark kinds as generic or not, then check for unknown generic ones.\nOr list all the machine-dependent kinds, but that\u0027s ugly.",
+      "parentUuid": "a47f9520_9fbb835d",
       "revId": "afb7cc1aa9f522084770818390b7919e8201f5ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
