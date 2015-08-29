@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4026d8c_20def6fb",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1454,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-29T02:54:13Z",
+      "side": 1,
+      "message": "Done.  That was a mistake.  Turns out division is done in the runtime, and the _ssa version fails for lack of a the (known-unimplemented) Complex64 to Complex128 conversion.",
+      "parentUuid": "e4026d8c_e0ce9e5a",
+      "revId": "c8ee7dfb52a552f1e7bd21252f8faafad2f99d02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4026d8c_00cada48",
         "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-29T01:40:14Z",
       "side": 1,
       "message": "fails +\u003d",
+      "revId": "c8ee7dfb52a552f1e7bd21252f8faafad2f99d02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_009c1a48",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-29T02:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4026d8c_00cada48",
       "revId": "c8ee7dfb52a552f1e7bd21252f8faafad2f99d02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
