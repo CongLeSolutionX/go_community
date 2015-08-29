@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4026d8c_e0ce9e5a",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1454,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-29T01:40:14Z",
+      "side": 1,
+      "message": "This should end in _ssa, or the arithmetic should be moved out to another function that does end in _ssa, right?",
+      "revId": "c8ee7dfb52a552f1e7bd21252f8faafad2f99d02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4026d8c_00cada48",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-08-29T01:40:14Z",
+      "side": 1,
+      "message": "fails +\u003d",
+      "revId": "c8ee7dfb52a552f1e7bd21252f8faafad2f99d02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
