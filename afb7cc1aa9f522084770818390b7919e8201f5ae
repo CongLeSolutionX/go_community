@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47f9520_7fb6d778",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-29T16:45:35Z",
+      "side": 1,
+      "message": "Could we now add a check to rulegen.go that all block rewrites must preserve the number of successors?",
+      "revId": "afb7cc1aa9f522084770818390b7919e8201f5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_df582bd1",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-29T16:45:35Z",
+      "side": 1,
+      "message": "The name PlainAndDead is confusing. Maybe First? Or NeedsTrim?",
+      "revId": "afb7cc1aa9f522084770818390b7919e8201f5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_9fbb835d",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-29T16:45:35Z",
+      "side": 1,
+      "message": "Let\u0027s add checks to checkFunc that PlainAndDead blocks have nil control value, two successors, etc. Also, let\u0027s add a default case to checkFunc\u0027s switch b.Kind so that we don\u0027t forget it in the future.",
+      "revId": "afb7cc1aa9f522084770818390b7919e8201f5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
