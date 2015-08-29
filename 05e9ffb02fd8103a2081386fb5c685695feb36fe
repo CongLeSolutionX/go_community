@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a47f9520_5fc51bd4",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-29T16:56:41Z",
+      "side": 1,
+      "message": "b.AddEdgeTo(bNext)",
+      "revId": "05e9ffb02fd8103a2081386fb5c685695feb36fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_ffaac707",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-08-29T16:56:41Z",
+      "side": 1,
+      "message": "Can these runtime function calls fail? If not, can this have just one successor? (Maybe a new block kind?) I think that this is not the only case. Could be a follow-up CL.",
+      "revId": "05e9ffb02fd8103a2081386fb5c685695feb36fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
