@@ -579,9 +579,12 @@ func typefmt(t *Type, flag int) string {
 		buf.WriteString("interface {")
 		for t1 := t.Type; t1 != nil; t1 = t1.Down {
 			buf.WriteString(" ")
-			if exportname(t1.Sym.Name) {
+			switch {
+			case t1.Sym == nil:
+				// Do not output anything
+			case exportname(t1.Sym.Name):
 				buf.WriteString(Sconv(t1.Sym, obj.FmtShort))
-			} else {
+			default:
 				buf.WriteString(Sconv(t1.Sym, obj.FmtUnsigned))
 			}
 			buf.WriteString(Tconv(t1.Type, obj.FmtShort))
