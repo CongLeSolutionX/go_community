@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a47f9520_ca162b55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-08-30T15:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d862697_c0b7de21",
+      "revId": "d03a0fe01746761f91f2e4128c24faed577d059b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eac87477_f69ee06c",
         "filename": "src/crypto/x509/x509.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-08-05T05:43:31Z",
       "side": 1,
       "message": "this should be left in place, for better compatibility with clients that (stupidly) do not use tagged literals to initialize the request.",
+      "range": {
+        "startLine": 1727,
+        "startChar": 1,
+        "endLine": 1727,
+        "endChar": 11
+      },
+      "revId": "d03a0fe01746761f91f2e4128c24faed577d059b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a47f9520_ea13e762",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1727,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-08-30T15:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eac87477_f69ee06c",
       "range": {
         "startLine": 1727,
         "startChar": 1,
