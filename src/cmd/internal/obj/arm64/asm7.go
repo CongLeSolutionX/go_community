@@ -468,8 +468,6 @@ var optab = []Optab{
 	{AFCCMPS, C_COND, C_REG, C_VCON, 57, 4, 0, 0, 0},
 	{AFCSELD, C_COND, C_REG, C_FREG, 18, 4, 0, 0, 0},
 	{AFCVTSD, C_FREG, C_NONE, C_FREG, 29, 4, 0, 0, 0},
-	{ACASE, C_REG, C_NONE, C_REG, 62, 4 * 4, 0, 0, 0},
-	{ABCASE, C_NONE, C_NONE, C_SBRA, 63, 4, 0, 0, 0},
 	{ACLREX, C_NONE, C_NONE, C_VCON, 38, 4, 0, 0, 0},
 	{ACLREX, C_NONE, C_NONE, C_NONE, 38, 4, 0, 0, 0},
 	{ACBZ, C_REG, C_NONE, C_SBRA, 39, 4, 0, 0, 0},
@@ -1570,8 +1568,6 @@ func buildop(ctxt *obj.Link) {
 			ADWORD,
 			obj.ARET,
 			obj.ATEXT,
-			ACASE,
-			ABCASE,
 			ASTP,
 			ALDP:
 			break
