@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "441eda5a_54592cfe",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2015-08-31T17:10:29Z",
+      "side": 1,
+      "message": "Do we need to decompose these operations here?  Can we introduce Mul64C/Mul128C and implement this using rewrite rules (in generic.rules, or maybe a new pass)?",
+      "range": {
+        "startLine": 1451,
+        "startChar": 2,
+        "endLine": 1451,
+        "endChar": 25
+      },
+      "revId": "3e880a05961e3aef3fe1c80a2460674fd7e45512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "441eda5a_f4471815",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2015-08-31T17:10:29Z",
+      "side": 1,
+      "message": "Same here, introduce Neg64F and rewrite it to the multiply required.",
+      "range": {
+        "startLine": 1602,
+        "startChar": 3,
+        "endLine": 1602,
+        "endChar": 21
+      },
+      "revId": "3e880a05961e3aef3fe1c80a2460674fd7e45512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
