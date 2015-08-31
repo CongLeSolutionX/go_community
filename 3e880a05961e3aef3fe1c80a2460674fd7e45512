@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8497f201_e1bc2043",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-08-31T22:49:03Z",
+      "side": 1,
+      "message": "I\u0027m not saying complex should make it to register allocation.  Everything should be lowered to float at some point.  I\u0027m just saying I\u0027d rather do that with rules than with Go code.  ssa.go is already very unwieldy.\n\n(Mul128f x y) -\u003e (ComplexMake\n  (Sub64f\n     (Mul64f (ComplexReal x) (ComplexReal y))\n     (Mul64f (ComplexImag x) (ComplexImag y)))\n  (Add64f\n     (Mul64f (ComplexReal x) (ComplexImag y))\n     (Mul64f (ComplexImag x) (ComplexReal y))))\n\nThis seems much easier to understand.\nThis could go in generic.rules, or we could make it another rules-generated pass (right before/after decompose?) if you\u0027d like.\n\nIf some platforms can do negate with an instruction, then we should have a Neg64f machine-independent opcode, then put\n\n(Neg64f x) -\u003e (Mul64f x (Const64f {-1.0}))\n\nIn AMD64.rules.\n\nCan\u0027t we do floating negation with pxor 0x8000000000000000?",
+      "parentUuid": "242e4691_6b2461f2",
+      "range": {
+        "startLine": 1451,
+        "startChar": 2,
+        "endLine": 1451,
+        "endChar": 25
+      },
+      "revId": "3e880a05961e3aef3fe1c80a2460674fd7e45512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "441eda5a_f4471815",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 3
