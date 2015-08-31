@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "64091ddd_4fedcdfe",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "a47f9520_be93ecde",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_9e5870d0",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-27T18:33:54Z",
       "side": 1,
       "message": "s/inconsisent/inconsistent/",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4405fafc_9c18057f",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a47f9520_9e5870d0",
       "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,47 @@
     },
     {
       "key": {
+        "uuid": "4405fafc_9cafe560",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "So I\u0027ve changed to do this but it doesn\u0027t make a great deal of difference: the static linker just takes all the .data.rel.ro.foo sections and smooshes them into a single .data.rel.ro section.\n\nThis means that pprof is even further away from working on a Go shared library, but we can worry about that another day.",
+      "parentUuid": "a47f9520_7e26e444",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4405fafc_7cb539b7",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1503,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "I found part of an answer to this: pprof depends on .gosymtab being in its own section at least. I really doubt using pprof with a dynamically linked Go binary works to any extent at all though currently.",
+      "range": {
+        "startLine": 1502,
+        "startChar": 0,
+        "endLine": 1503,
+        "endChar": 72
+      },
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_9eb1507a",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 5
@@ -64,6 +141,47 @@
       "writtenOn": "2015-08-27T18:33:54Z",
       "side": 1,
       "message": "Changing the rodata symbol does not look right.  Shouldn\u0027t it still point to .rodata?",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4405fafc_5cba7da9",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "I have no recollection as to why I did this. Probably all the runtime.* symbols can be removed now, but not in this branch... removed this line anyway.",
+      "parentUuid": "a47f9520_9eb1507a",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4405fafc_3cbfb199",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "I guess I should change this error message :-)",
+      "range": {
+        "startLine": 1518,
+        "startChar": 39,
+        "endLine": 1519,
+        "endChar": 4
+      },
       "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +256,24 @@
     },
     {
       "key": {
+        "uuid": "64091ddd_2fea19e8",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "Ah good question: I don\u0027t think SFUNCTAB is actually used anywhere at all. So we should kill it and SFUNCTABRELRO.",
+      "parentUuid": "a47f9520_9e239032",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_3e313c77",
         "filename": "src/cmd/link/internal/ld/symtab.go",
         "patchSetId": 5
@@ -149,6 +285,24 @@
       "writtenOn": "2015-08-27T18:33:54Z",
       "side": 1,
       "message": "This seems backward to me, I would expect typenorel to not require any relocations and therefore not be in STYPERELRO.",
+      "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4405fafc_fca8295c",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-08-31T22:56:34Z",
+      "side": 1,
+      "message": "Ah yes, I got this backwards.",
+      "parentUuid": "a47f9520_3e313c77",
       "revId": "25baa79376ba966b545ff41e21568b217fb4f76c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
