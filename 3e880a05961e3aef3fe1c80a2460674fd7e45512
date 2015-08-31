@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "242e4691_6b2461f2",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-08-31T21:48:28Z",
+      "side": 1,
+      "message": "This seemed simpler, from the point-of-view of register allocation, because we could perhaps avoid the need to implement \"complex\"-valued register pairs, and elide the extract/make steps in a general-purpose phase so that it just looks like floats-to-floats.\n\nGiven that the code is machine-independent, why wouldn\u0027t we want to go directly to the floating-point equivalents?\n\nUnlike most of the transformations in generic.rules, this would also not be an optimization, but a mere expansion.\n\nThe same case for negate is not as strong since there might be floating point hardware somewhere with a negate instruction -- would you expect that expansion in generic.rules, or in the machine-specific rules?",
+      "parentUuid": "441eda5a_54592cfe",
+      "range": {
+        "startLine": 1451,
+        "startChar": 2,
+        "endLine": 1451,
+        "endChar": 25
+      },
+      "revId": "3e880a05961e3aef3fe1c80a2460674fd7e45512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "441eda5a_f4471815",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 3
