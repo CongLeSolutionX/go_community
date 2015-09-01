@@ -184,6 +184,7 @@ const (
 	Zm_r
 	Zm2_r
 	Zm_r_xm
+	Zm_r_xm_vex
 	Zm_r_i_xm
 	Zm_r_3d
 	Zm_r_xm_nr
@@ -196,6 +197,7 @@ const (
 	Zpseudo
 	Zr_m
 	Zr_m_xm
+	Zr_m_xm_vex
 	Zrp_
 	Z_ib
 	Z_il
@@ -209,21 +211,23 @@ const (
 )
 
 const (
-	Px  = 0
-	Px1 = 1    // symbolic; exact value doesn't matter
-	P32 = 0x32 /* 32-bit only */
-	Pe  = 0x66 /* operand escape */
-	Pm  = 0x0f /* 2byte opcode escape */
-	Pq  = 0xff /* both escapes: 66 0f */
-	Pb  = 0xfe /* byte operands */
-	Pf2 = 0xf2 /* xmm escape 1: f2 0f */
-	Pf3 = 0xf3 /* xmm escape 2: f3 0f */
-	Pq3 = 0x67 /* xmm escape 3: 66 48 0f */
-	Pw  = 0x48 /* Rex.w */
-	Pw8 = 0x90 // symbolic; exact value doesn't matter
-	Py  = 0x80 /* defaults to 64-bit mode */
-	Py1 = 0x81 // symbolic; exact value doesn't matter
-	Py3 = 0x83 // symbolic; exact value doesn't matter
+	Px    = 0
+	Px1   = 1    // symbolic; exact value doesn't matter
+	P32   = 0x32 /* 32-bit only */
+	Pe    = 0x66 /* operand escape */
+	Pm    = 0x0f /* 2byte opcode escape */
+	Pq    = 0xff /* both escapes: 66 0f */
+	Pb    = 0xfe /* byte operands */
+	Pf2   = 0xf2 /* xmm escape 1: f2 0f */
+	Pf3   = 0xf3 /* xmm escape 2: f3 0f */
+	Pq3   = 0x67 /* xmm escape 3: 66 48 0f */
+	Pvex1 = 0xc5 /* 66 escape, vex encoding */
+	Pvex2 = 0xc6 /* f3 escape, vex encoding */
+	Pw    = 0x48 /* Rex.w */
+	Pw8   = 0x90 // symbolic; exact value doesn't matter
+	Py    = 0x80 /* defaults to 64-bit mode */
+	Py1   = 0x81 // symbolic; exact value doesn't matter
+	Py3   = 0x83 // symbolic; exact value doesn't matter
 
 	Rxf = 1 << 9 /* internal flag for Rxr on from */
 	Rxt = 1 << 8 /* internal flag for Rxr on to */
@@ -634,6 +638,10 @@ var yxr_ml = []ytab{
 	{Yxr, Ynone, Yml, Zr_m_xm, 1},
 }
 
+var yxr_ml_vex = []ytab{
+	{Yxr, Ynone, Yml, Zr_m_xm_vex, 1},
+}
+
 var ymr = []ytab{
 	{Ymr, Ynone, Ymr, Zm_r, 1},
 }
@@ -648,6 +656,11 @@ var yxcmp = []ytab{
 
 var yxcmpi = []ytab{
 	{Yxm, Yxr, Yi8, Zm_r_i_xm, 2},
+}
+
+var yxmov_vex = []ytab{
+	{Yxm, Ynone, Yxr, Zm_r_xm_vex, 1},
+	{Yxr, Ynone, Yxm, Zr_m_xm_vex, 1},
 }
 
 var yxmov = []ytab{
@@ -1488,6 +1501,10 @@ var optab =
 	Optab{AAESKEYGENASSIST, yaes2, Pq, [23]uint8{0x3a, 0xdf, 0}},
 	Optab{APSHUFD, yxshuf, Pq, [23]uint8{0x70, 0}},
 	Optab{APCLMULQDQ, yxshuf, Pq, [23]uint8{0x3a, 0x44, 0}},
+	Optab{AVZEROUPPER, ynone, Px, [23]uint8{0xc5, 0xf8, 0x77}},
+	Optab{AMOVHDU, yxmov_vex, Pvex2, [23]uint8{0x6f, 0x7f}},
+	Optab{AMOVNTHD, yxr_ml_vex, Pvex1, [23]uint8{0xe7}},
+	Optab{AMOVHDA, yxmov_vex, Pvex1, [23]uint8{0x6f, 0x7f}},
 	Optab{obj.AUSEFIELD, ynop, Px, [23]uint8{0, 0}},
 	Optab{obj.ATYPE, nil, 0, [23]uint8{}},
 	Optab{obj.AFUNCDATA, yfuncdata, Px, [23]uint8{0, 0}},
@@ -2919,6 +2936,53 @@ var bpduff2 = []byte{
 	0x48, 0x8b, 0x6d, 0x00, // MOVQ 0(BP), BP
 }
 
+func build_vex_prefix(ctxt *obj.Link, to *obj.Addr, from *obj.Addr, pref uint8) {
+	rex_r := regrex[to.Reg]
+	rex_b := regrex[from.Reg]
+	rex_x := regrex[from.Index]
+	var pref_bit uint8
+	if pref == Pvex1 {
+		pref_bit = 1
+	} else if pref == Pvex2 {
+		pref_bit = 2
+	} //TODO add Pvex0,Pvex3
+
+	if rex_x == 0 && rex_b == 0 { //2-byte vex prefix
+		ctxt.Andptr[0] = 0xc5
+		ctxt.Andptr = ctxt.Andptr[1:]
+
+		if rex_r != 0 {
+			ctxt.Andptr[0] = 0x7c
+		} else {
+			ctxt.Andptr[0] = 0xfc
+		}
+		ctxt.Andptr[0] |= pref_bit
+		ctxt.Andptr = ctxt.Andptr[1:]
+		return
+
+	} else {
+		ctxt.Andptr[0] = 0xc4
+		ctxt.Andptr = ctxt.Andptr[1:]
+
+		ctxt.Andptr[0] = 0x1 //TODO handle different prefix
+		if rex_r == 0 {
+			ctxt.Andptr[0] |= 0x80
+		}
+		if rex_x == 0 {
+			ctxt.Andptr[0] |= 0x40
+		}
+		if rex_b == 0 {
+			ctxt.Andptr[0] |= 0x20
+		}
+		ctxt.Andptr = ctxt.Andptr[1:]
+
+		ctxt.Andptr[0] = 0x7c
+		ctxt.Andptr[0] |= pref_bit
+		ctxt.Andptr = ctxt.Andptr[1:]
+		return
+	}
+}
+
 func doasm(ctxt *obj.Link, p *obj.Prog) {
 	ctxt.Curp = p // TODO
 
@@ -3152,6 +3216,13 @@ func doasm(ctxt *obj.Link, p *obj.Prog) {
 				mediaop(ctxt, o, op, int(yt.zoffset), z)
 				asmand(ctxt, p, &p.From, &p.To)
 
+			case Zm_r_xm_vex:
+				ctxt.Vexflag = 1
+				build_vex_prefix(ctxt, &p.To, &p.From, o.prefix)
+				ctxt.Andptr[0] = byte(op)
+				ctxt.Andptr = ctxt.Andptr[1:]
+				asmand(ctxt, p, &p.From, &p.To)
+
 			case Zm_r_xm_nr:
 				ctxt.Rexflag = 0
 				mediaop(ctxt, o, op, int(yt.zoffset), z)
@@ -3203,6 +3274,13 @@ func doasm(ctxt *obj.Link, p *obj.Prog) {
 				asmando(ctxt, p, &p.From, int(o.op[z+1]))
 
 			case Zr_m:
+				ctxt.Andptr[0] = byte(op)
+				ctxt.Andptr = ctxt.Andptr[1:]
+				asmand(ctxt, p, &p.To, &p.From)
+
+			case Zr_m_xm_vex:
+				ctxt.Vexflag = 1
+				build_vex_prefix(ctxt, &p.From, &p.To, o.prefix)
 				ctxt.Andptr[0] = byte(op)
 				ctxt.Andptr = ctxt.Andptr[1:]
 				asmand(ctxt, p, &p.To, &p.From)
@@ -4315,10 +4393,11 @@ func asmins(ctxt *obj.Link, p *obj.Prog) {
 	}
 
 	ctxt.Rexflag = 0
+	ctxt.Vexflag = 0
 	and0 := ctxt.Andptr
 	ctxt.Asmode = int(p.Mode)
 	doasm(ctxt, p)
-	if ctxt.Rexflag != 0 {
+	if ctxt.Rexflag != 0 && ctxt.Vexflag == 0 {
 		/*
 		 * as befits the whole approach of the architecture,
 		 * the rex prefix must appear before the first opcode byte
