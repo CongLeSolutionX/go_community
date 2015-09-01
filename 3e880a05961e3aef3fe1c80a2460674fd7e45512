@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "242e4691_ae1b777a",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-09-01T00:47:20Z",
+      "side": 1,
+      "message": "As long as  generic.rules comes before CSE, I am okay writing these expansions in CSE.  The one for complex64 multiply introduces CSEs otherwise, and I think that adding an entire pass for the sake of incrementally beautifying ssa.go is not worth it.\n\nBut if you have a strong preference, I\u0027ll do it in generic.rules.  ssa.go might also profit from a round of cleanup -- for example, I\u0027ve been substituting opregreg wherever I notice the opportunity.\n\nFor negation, I was copying what the existing compiler does.  I don\u0027t see why PXOR should not work, and I guess I can try that and see if any tests fail.\n\nOne glitch I am running into as I start to implement this is \"well, if you have a special opcode for multiplication, what about division?  What about addition and subtraction?\"  I think we shouldn\u0027t discount the advantage of not even specifying nodes for complex arithmetic operations.  If don\u0027t exist, they can\u0027t ever be used incorrectly or documented wrong.",
+      "parentUuid": "8497f201_e1bc2043",
+      "range": {
+        "startLine": 1451,
+        "startChar": 2,
+        "endLine": 1451,
+        "endChar": 25
+      },
+      "revId": "3e880a05961e3aef3fe1c80a2460674fd7e45512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "441eda5a_f4471815",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 3
