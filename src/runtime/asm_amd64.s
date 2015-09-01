@@ -1005,9 +1005,9 @@ endofpage:
 	RET
 
 aes0:
-	// return input seed
-	MOVQ	h+8(FP), AX
-	MOVQ	AX, (DX)
+	// Return scrambled input seed
+	AESENC	X7, X6
+	MOVQ	X6, (DX)
 	RET
 
 aes16:
