@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_530da63e",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-02T02:37:49Z",
+      "side": 1,
+      "message": "Remove \u0026\u0026 false",
+      "revId": "c564f70cf793c3c66e1283c753f6371e956f5622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_f32152ae",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-02T02:37:49Z",
+      "side": 1,
+      "message": "Debugging dregs",
+      "revId": "c564f70cf793c3c66e1283c753f6371e956f5622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
