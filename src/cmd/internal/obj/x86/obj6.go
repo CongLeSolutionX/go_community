@@ -220,8 +220,10 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 	switch p.As {
 	// Convert AMOVSS $(0), Xx to AXORPS Xx, Xx
 	case AMOVSS:
-		if p.From.Type == obj.TYPE_FCONST {
-			if p.From.Val.(float64) == 0 {
+		if p.From.Type == obj.TYPE_FCONST && false {
+			// value == 0 and value != -0
+			if f := p.From.Val.(float64); f == 0 && !math.Signbit(f) {
+				fmt.Printf("V = %#v\n", f)
 				if p.To.Type == obj.TYPE_REG && REG_X0 <= p.To.Reg && p.To.Reg <= REG_X15 {
 					p.As = AXORPS
 					p.From = p.To
@@ -261,7 +263,8 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 	case AMOVSD:
 		// Convert AMOVSD $(0), Xx to AXORPS Xx, Xx
 		if p.From.Type == obj.TYPE_FCONST {
-			if p.From.Val.(float64) == 0 {
+			// value == 0 and value != -0
+			if f := p.From.Val.(float64); f == 0 && !math.Signbit(f) {
 				if p.To.Type == obj.TYPE_REG && REG_X0 <= p.To.Reg && p.To.Reg <= REG_X15 {
 					p.As = AXORPS
 					p.From = p.To
