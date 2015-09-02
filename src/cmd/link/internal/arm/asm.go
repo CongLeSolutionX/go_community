@@ -334,7 +334,7 @@ func archreloc(r *ld.Reloc, s *ld.LSym, val *int64) int {
 				rs = rs.Outer
 			}
 
-			if rs.Type != obj.SHOSTOBJ && rs.Sect == nil {
+			if rs.Type != obj.SHOSTOBJ && rs.Type != obj.SDYNIMPORT && rs.Sect == nil {
 				ld.Diag("missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
