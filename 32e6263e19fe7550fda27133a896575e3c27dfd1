@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84ae1264_290529d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-02T22:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d42ed5_34db3e08",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "32e6263e19fe7550fda27133a896575e3c27dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d222e7_f271481f",
         "filename": "src/cmd/go/note.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-02T21:42:51Z",
       "side": 1,
       "message": "d\n\nAlso pass through fmt(1), if you\u0027re at it.",
+      "range": {
+        "startLine": 74,
+        "startChar": 71,
+        "endLine": 74,
+        "endChar": 76
+      },
+      "revId": "32e6263e19fe7550fda27133a896575e3c27dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ae1264_c919f545",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-02T22:50:25Z",
+      "side": 1,
+      "message": "I don\u0027t understand what \u0027d\u0027 means in this context; delete this entire line?\n\nAlso, all of the modified files have already been passed through gofmt.  You\u0027re actually talking about fmt(1) instead?  For what reason?  For future reference, is there a document somewhere that states what the expected formatting of comments is?  I see nothing on the contribute page.",
+      "parentUuid": "04d222e7_f271481f",
       "range": {
         "startLine": 74,
         "startChar": 71,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "84ae1264_e9163113",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-02T22:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2461e61f_b3757856",
+      "range": {
+        "startLine": 76,
+        "startChar": 34,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "32e6263e19fe7550fda27133a896575e3c27dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4d42ed5_14d63adf",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-09-02T21:42:51Z",
       "side": 1,
       "message": "Seems dangerous.",
+      "range": {
+        "startLine": 1842,
+        "startChar": 0,
+        "endLine": 1842,
+        "endChar": 32
+      },
+      "revId": "32e6263e19fe7550fda27133a896575e3c27dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ae1264_8913fd21",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-02T22:50:25Z",
+      "side": 1,
+      "message": "How is this dangerous?  We might read a large file, but we already know it\u0027s an elf file, and we were already requested to read it.  We know that the Go process is only 64-bit on Solaris, so there shouldn\u0027t be an issue there.\n\nThe only other alternative I could think of was to instead modify readELFGoBuildID to detect when the offset of the note was outside of the data[] provided and to instead directly read just that section from the file.  But it seemed wrong to modify readELFGoBuildID that way, so I did not.  However, if that\u0027s considered a better solution I can rework this.",
+      "parentUuid": "e4d42ed5_14d63adf",
       "range": {
         "startLine": 1842,
         "startChar": 0,
