@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "647bdead_98e3590c",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-09-02T02:47:10Z",
+      "side": 1,
+      "message": "Apparently it\u0027s too late for me to still be coding, was using that for debugging :)\n\nDone.",
+      "parentUuid": "8497f201_530da63e",
+      "revId": "c564f70cf793c3c66e1283c753f6371e956f5622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_f32152ae",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-02T02:37:49Z",
       "side": 1,
       "message": "Debugging dregs",
+      "revId": "c564f70cf793c3c66e1283c753f6371e956f5622",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647bdead_b8e095ff",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-09-02T02:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_f32152ae",
       "revId": "c564f70cf793c3c66e1283c753f6371e956f5622",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
