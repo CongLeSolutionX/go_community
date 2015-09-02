@@ -566,6 +566,14 @@ func loadlib() {
 		// symbol back to 0 bytes so we can define its entire
 		// contents.
 		moduledata.Size = 0
+
+		// embed goarm to runtime.goarm into the module that contains runtime
+		if Thearch.Thechar == '5' {
+			s := Linklookup(Ctxt, "runtime.goarm", 0)
+
+			s.Type = obj.SRODATA
+			Adduint8(Ctxt, s, uint8(Ctxt.Goarm))
+		}
 	}
 	// Either way we mark it as noptrdata to hide it from the GC.
 	moduledata.Type = obj.SNOPTRDATA
