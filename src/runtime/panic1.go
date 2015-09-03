@@ -4,6 +4,8 @@
 
 package runtime
 
+import "runtime/internal/atomic"
+
 // Code related to defer, panic and recover.
 // TODO: Merge into panic.go.
 
@@ -52,7 +54,7 @@ func startpanic_m() {
 		if _g_ != nil {
 			_g_.writebuf = nil
 		}
-		xadd(&panicking, 1)
+		atomic.Xadd(&panicking, 1)
 		lock(&paniclk)
 		if debug.schedtrace > 0 || debug.scheddetail > 0 {
 			schedtrace(true)
@@ -106,7 +108,7 @@ func dopanic_m(gp *g, pc, sp uintptr) {
 	}
 	unlock(&paniclk)
 
-	if xadd(&panicking, -1) != 0 {
+	if atomic.Xadd(&panicking, -1) != 0 {
 		// Some other m is panicking too.
 		// Let it print what it needs to print.
 		// Wait forever without chewing up cpu.
