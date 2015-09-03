@@ -54,6 +54,7 @@ package runtime
 // before the table grows.  Typical tables will be somewhat less loaded.
 
 import (
+	"runtime/internal/atomic"
 	"unsafe"
 )
 
@@ -277,7 +278,7 @@ func mapaccess1(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 		raceReadObjectPC(t.key, key, callerpc, pc)
 	}
 	if h == nil || h.count == 0 {
-		return atomicloadp(unsafe.Pointer(&zeroptr))
+		return atomic.Loadp(unsafe.Pointer(&zeroptr))
 	}
 	alg := t.key.alg
 	hash := alg.hash(key, uintptr(h.hash0))
@@ -312,7 +313,7 @@ func mapaccess1(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 		}
 		b = b.overflow(t)
 		if b == nil {
-			return atomicloadp(unsafe.Pointer(&zeroptr))
+			return atomic.Loadp(unsafe.Pointer(&zeroptr))
 		}
 	}
 }
@@ -325,7 +326,7 @@ func mapaccess2(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, bool) 
 		raceReadObjectPC(t.key, key, callerpc, pc)
 	}
 	if h == nil || h.count == 0 {
-		return atomicloadp(unsafe.Pointer(&zeroptr)), false
+		return atomic.Loadp(unsafe.Pointer(&zeroptr)), false
 	}
 	alg := t.key.alg
 	hash := alg.hash(key, uintptr(h.hash0))
@@ -360,7 +361,7 @@ func mapaccess2(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, bool) 
 		}
 		b = b.overflow(t)
 		if b == nil {
-			return atomicloadp(unsafe.Pointer(&zeroptr)), false
+			return atomic.Loadp(unsafe.Pointer(&zeroptr)), false
 		}
 	}
 }
@@ -612,7 +613,7 @@ func mapiterinit(t *maptype, h *hmap, it *hiter) {
 	// Remember we have an iterator.
 	// Can run concurrently with another hash_iter_init().
 	if old := h.flags; old&(iterator|oldIterator) != iterator|oldIterator {
-		atomicor8(&h.flags, iterator|oldIterator)
+		atomic.Or8(&h.flags, iterator|oldIterator)
 	}
 
 	mapiternext(it)
@@ -1009,14 +1010,14 @@ var zerosize uintptr = initialZeroSize
 // serve as the zero value for t.
 func mapzero(t *_type) {
 	// Is the type small enough for existing buffer?
-	cursize := uintptr(atomicloadp(unsafe.Pointer(&zerosize)))
+	cursize := uintptr(atomic.Loadp(unsafe.Pointer(&zerosize)))
 	if t.size <= cursize {
 		return
 	}
 
 	// Allocate a new buffer.
 	lock(&zerolock)
-	cursize = uintptr(atomicloadp(unsafe.Pointer(&zerosize)))
+	cursize = uintptr(atomic.Loadp(unsafe.Pointer(&zerosize)))
 	if cursize < t.size {
 		for cursize < t.size {
 			cursize *= 2
@@ -1025,8 +1026,8 @@ func mapzero(t *_type) {
 				throw("map element too large")
 			}
 		}
-		atomicstorep1(unsafe.Pointer(&zeroptr), persistentalloc(cursize, 64, &memstats.other_sys))
-		atomicstorep1(unsafe.Pointer(&zerosize), unsafe.Pointer(zerosize))
+		atomic.Storep1(unsafe.Pointer(&zeroptr), persistentalloc(cursize, 64, &memstats.other_sys))
+		atomic.Storep1(unsafe.Pointer(&zerosize), unsafe.Pointer(zerosize))
 	}
 	unlock(&zerolock)
 }

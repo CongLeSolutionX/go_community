@@ -66,7 +66,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 const (
 	bitPointer = 1 << 0
@@ -288,7 +291,7 @@ func (h heapBits) setMarked() {
 	// Might be racing with other updates, so use atomic update always.
 	// We used to be clever here and use a non-atomic update in certain
 	// cases, but it's not worth the risk.
-	atomicor8(h.bitp, bitMarked<<h.shift)
+	atomic.Or8(h.bitp, bitMarked<<h.shift)
 }
 
 // setMarkedNonAtomic sets the marked bit in the heap bits, non-atomically.
@@ -353,10 +356,10 @@ func (h heapBits) isCheckmarked(size uintptr) bool {
 // h must describe the initial word of the object.
 func (h heapBits) setCheckmarked(size uintptr) {
 	if size == ptrSize {
-		atomicor8(h.bitp, bitPointer<<h.shift)
+		atomic.Or8(h.bitp, bitPointer<<h.shift)
 		return
 	}
-	atomicor8(h.bitp, bitMarked<<(heapBitsShift+h.shift))
+	atomic.Or8(h.bitp, bitMarked<<(heapBitsShift+h.shift))
 }
 
 // heapBitsBulkBarrier executes writebarrierptr_nostore
@@ -710,14 +713,14 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 				if gcphase == _GCoff {
 					*h.bitp |= bitPointer << h.shift
 				} else {
-					atomicor8(h.bitp, bitPointer<<h.shift)
+					atomic.Or8(h.bitp, bitPointer<<h.shift)
 				}
 			} else {
 				// 2-element slice of pointer.
 				if gcphase == _GCoff {
 					*h.bitp |= (bitPointer | bitPointer<<heapBitsShift) << h.shift
 				} else {
-					atomicor8(h.bitp, (bitPointer|bitPointer<<heapBitsShift)<<h.shift)
+					atomic.Or8(h.bitp, (bitPointer|bitPointer<<heapBitsShift)<<h.shift)
 				}
 			}
 			return
@@ -734,7 +737,7 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 		if gcphase == _GCoff {
 			*h.bitp |= uint8(hb << h.shift)
 		} else {
-			atomicor8(h.bitp, uint8(hb<<h.shift))
+			atomic.Or8(h.bitp, uint8(hb<<h.shift))
 		}
 		return
 	}
@@ -946,7 +949,7 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 		if gcphase == _GCoff {
 			*hbitp |= uint8(hb)
 		} else {
-			atomicor8(hbitp, uint8(hb))
+			atomic.Or8(hbitp, uint8(hb))
 		}
 		hbitp = subtract1(hbitp)
 		if w += 2; w >= nw {
@@ -1066,8 +1069,8 @@ Phase3:
 		if gcphase == _GCoff {
 			*hbitp = *hbitp&^(bitPointer|bitMarked|(bitPointer|bitMarked)<<heapBitsShift) | uint8(hb)
 		} else {
-			atomicand8(hbitp, ^uint8(bitPointer|bitMarked|(bitPointer|bitMarked)<<heapBitsShift))
-			atomicor8(hbitp, uint8(hb))
+			atomic.And8(hbitp, ^uint8(bitPointer|bitMarked|(bitPointer|bitMarked)<<heapBitsShift))
+			atomic.Or8(hbitp, uint8(hb))
 		}
 	}
 

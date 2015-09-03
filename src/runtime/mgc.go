@@ -120,7 +120,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 const (
 	_DebugGC         = 0
@@ -255,7 +258,7 @@ const (
 
 //go:nosplit
 func setGCPhase(x uint32) {
-	atomicstore(&gcphase, x)
+	atomic.Store(&gcphase, x)
 	writeBarrierEnabled = gcphase == _GCmark || gcphase == _GCmarktermination || gcphase == _GCscan
 }
 
@@ -580,11 +583,11 @@ func (c *gcControllerState) findRunnableGCWorker(_p_ *p) *g {
 
 	decIfPositive := func(ptr *int64) bool {
 		if *ptr > 0 {
-			if xaddint64(ptr, -1) >= 0 {
+			if atomic.Xaddint64(ptr, -1) >= 0 {
 				return true
 			}
 			// We lost a race
-			xaddint64(ptr, +1)
+			atomic.Xaddint64(ptr, +1)
 		}
 		return false
 	}
@@ -668,7 +671,7 @@ func (c *gcControllerState) findRunnableGCWorker(_p_ *p) *g {
 		timeUsed := c.fractionalMarkTime + gcForcePreemptNS
 		if then > 0 && float64(timeUsed)/float64(then) > c.fractionalUtilizationGoal {
 			// Nope, we'd overshoot the utilization goal
-			xaddint64(&c.fractionalMarkWorkersNeeded, +1)
+			atomic.Xaddint64(&c.fractionalMarkWorkersNeeded, +1)
 			return nil
 		}
 		_p_.gcMarkWorkerMode = gcMarkWorkerFractionalMode
@@ -708,7 +711,7 @@ const gcAssistTimeSlack = 5000
 // A false negative simple does not start a GC, a false positive
 // will start a GC needlessly. Neither have correctness issues.
 func shouldtriggergc() bool {
-	return memstats.heap_live >= memstats.next_gc && atomicloaduint(&bggc.working) == 0
+	return memstats.heap_live >= memstats.next_gc && atomic.Loaduint(&bggc.working) == 0
 }
 
 // bgMarkSignal synchronizes the GC coordinator and background mark workers.
@@ -742,7 +745,7 @@ func (s *bgMarkSignal) wait() {
 // after calling complete in order to let the coordinator goroutine
 // run.
 func (s *bgMarkSignal) complete() bool {
-	if cas(&s.done, 0, 1) {
+	if atomic.Cas(&s.done, 0, 1) {
 		// This is the first worker to reach this completion point.
 		// Signal the main GC goroutine.
 		lock(&s.lock)
@@ -986,7 +989,7 @@ func gc(mode int) {
 			// black invariant. Enable mutator assists to
 			// put back-pressure on fast allocating
 			// mutators.
-			atomicstore(&gcBlackenEnabled, 1)
+			atomic.Store(&gcBlackenEnabled, 1)
 
 			// Concurrent scan.
 			startTheWorldWithSema()
@@ -1065,7 +1068,7 @@ func gc(mode int) {
 
 	// World is stopped.
 	// Start marktermination which includes enabling the write barrier.
-	atomicstore(&gcBlackenEnabled, 0)
+	atomic.Store(&gcBlackenEnabled, 0)
 	gcBlackenPromptly = false
 	setGCPhase(_GCmarktermination)
 
@@ -1149,7 +1152,7 @@ func gc(mode int) {
 	// Update timing memstats
 	now, unixNow := nanotime(), unixnanotime()
 	pauseNS += now - pauseStart
-	atomicstore64(&memstats.last_gc, uint64(unixNow)) // must be Unix time to make sense to user
+	atomic.Store64(&memstats.last_gc, uint64(unixNow)) // must be Unix time to make sense to user
 	memstats.pause_ns[memstats.numgc%uint32(len(memstats.pause_ns))] = uint64(pauseNS)
 	memstats.pause_end[memstats.numgc%uint32(len(memstats.pause_end))] = uint64(unixNow)
 	memstats.pause_total_ns += uint64(pauseNS)
@@ -1306,7 +1309,7 @@ func gcBgMarkWorker(p *p) {
 
 		startTime := nanotime()
 
-		decnwait := xadd(&work.nwait, -1)
+		decnwait := atomic.Xadd(&work.nwait, -1)
 		if decnwait == work.nproc {
 			println("runtime: work.nwait=", decnwait, "work.nproc=", work.nproc)
 			throw("work.nwait was > work.nproc")
@@ -1318,7 +1321,7 @@ func gcBgMarkWorker(p *p) {
 			throw("gcBgMarkWorker: unexpected gcMarkWorkerMode")
 		case gcMarkWorkerDedicatedMode:
 			gcDrain(&p.gcw, gcBgCreditSlack)
-			// gcDrain did the xadd(&work.nwait +1) to
+			// gcDrain did the atomic.Xadd(&work.nwait +1) to
 			// match the decrement above. It only returns
 			// at a mark completion point.
 			done = true
@@ -1340,7 +1343,7 @@ func gcBgMarkWorker(p *p) {
 
 			// Was this the last worker and did we run out
 			// of work?
-			incnwait := xadd(&work.nwait, +1)
+			incnwait := atomic.Xadd(&work.nwait, +1)
 			if incnwait > work.nproc {
 				println("runtime: p.gcMarkWorkerMode=", p.gcMarkWorkerMode,
 					"work.nwait=", incnwait, "work.nproc=", work.nproc)
@@ -1365,13 +1368,13 @@ func gcBgMarkWorker(p *p) {
 		duration := nanotime() - startTime
 		switch p.gcMarkWorkerMode {
 		case gcMarkWorkerDedicatedMode:
-			xaddint64(&gcController.dedicatedMarkTime, duration)
-			xaddint64(&gcController.dedicatedMarkWorkersNeeded, 1)
+			atomic.Xaddint64(&gcController.dedicatedMarkTime, duration)
+			atomic.Xaddint64(&gcController.dedicatedMarkWorkersNeeded, 1)
 		case gcMarkWorkerFractionalMode:
-			xaddint64(&gcController.fractionalMarkTime, duration)
-			xaddint64(&gcController.fractionalMarkWorkersNeeded, 1)
+			atomic.Xaddint64(&gcController.fractionalMarkTime, duration)
+			atomic.Xaddint64(&gcController.fractionalMarkWorkersNeeded, 1)
 		case gcMarkWorkerIdleMode:
-			xaddint64(&gcController.idleMarkTime, duration)
+			atomic.Xaddint64(&gcController.idleMarkTime, duration)
 		}
 	}
 }
@@ -1382,7 +1385,7 @@ func gcMarkWorkAvailable(p *p) bool {
 	if !p.gcw.empty() {
 		return true
 	}
-	if atomicload64(&work.full) != 0 || atomicload64(&work.partial) != 0 {
+	if atomic.Load64(&work.full) != 0 || atomic.Load64(&work.partial) != 0 {
 		return true // global work available
 	}
 	return false
@@ -1710,7 +1713,7 @@ func gchelper() {
 	}
 
 	nproc := work.nproc // work.nproc can change right after we increment work.ndone
-	if xadd(&work.ndone, +1) == nproc-1 {
+	if atomic.Xadd(&work.ndone, +1) == nproc-1 {
 		notewakeup(&work.alldone)
 	}
 	_g_.m.traceback = 0
