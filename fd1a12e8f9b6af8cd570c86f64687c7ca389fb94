@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_8cd8e5b2",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1728,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-03T04:24:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you test for Shared or CShared here?",
+      "revId": "fd1a12e8f9b6af8cd570c86f64687c7ca389fb94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
