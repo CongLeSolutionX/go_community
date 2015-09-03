@@ -2,7 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package runtime
+// +build arm
+
+package atomic
 
 import "unsafe"
 
@@ -17,67 +19,67 @@ func addrLock(addr *uint64) *mutex {
 
 // Atomic add and return new value.
 //go:nosplit
-func xadd(val *uint32, delta int32) uint32 {
+func Xadd(val *uint32, delta int32) uint32 {
 	for {
 		oval := *val
 		nval := oval + uint32(delta)
-		if cas(val, oval, nval) {
+		if Cas(val, oval, nval) {
 			return nval
 		}
 	}
 }
 
 //go:noescape
-//go:linkname xadduintptr runtime.xadd
-func xadduintptr(ptr *uintptr, delta uintptr) uintptr
+//go:linkname Xadduintptr runtime/internal/atomic.Xadd
+func Xadduintptr(ptr *uintptr, delta uintptr) uintptr
 
 //go:nosplit
-func xchg(addr *uint32, v uint32) uint32 {
+func Xchg(addr *uint32, v uint32) uint32 {
 	for {
 		old := *addr
-		if cas(addr, old, v) {
+		if Cas(addr, old, v) {
 			return old
 		}
 	}
 }
 
 //go:nosplit
-func xchguintptr(addr *uintptr, v uintptr) uintptr {
-	return uintptr(xchg((*uint32)(unsafe.Pointer(addr)), uint32(v)))
+func Xchguintptr(addr *uintptr, v uintptr) uintptr {
+	return uintptr(Xchg((*uint32)(unsafe.Pointer(addr)), uint32(v)))
 }
 
 //go:nosplit
-func atomicload(addr *uint32) uint32 {
-	return xadd(addr, 0)
+func Atomicload(addr *uint32) uint32 {
+	return add(addr, 0)
 }
 
 //go:nosplit
-func atomicloadp(addr unsafe.Pointer) unsafe.Pointer {
+func Atomicloadp(addr unsafe.Pointer) unsafe.Pointer {
 	return unsafe.Pointer(uintptr(xadd((*uint32)(addr), 0)))
 }
 
 //go:nosplit
-func atomicstorep1(addr unsafe.Pointer, v unsafe.Pointer) {
+func Atomicstorep1(addr unsafe.Pointer, v unsafe.Pointer) {
 	for {
 		old := *(*unsafe.Pointer)(addr)
-		if casp1((*unsafe.Pointer)(addr), old, v) {
+		if Casp1((*unsafe.Pointer)(addr), old, v) {
 			return
 		}
 	}
 }
 
 //go:nosplit
-func atomicstore(addr *uint32, v uint32) {
+func Atomicstore(addr *uint32, v uint32) {
 	for {
 		old := *addr
-		if cas(addr, old, v) {
+		if Cas(addr, old, v) {
 			return
 		}
 	}
 }
 
 //go:nosplit
-func cas64(addr *uint64, old, new uint64) bool {
+func Cas64(addr *uint64, old, new uint64) bool {
 	var ok bool
 	systemstack(func() {
 		lock(addrLock(addr))
@@ -91,7 +93,7 @@ func cas64(addr *uint64, old, new uint64) bool {
 }
 
 //go:nosplit
-func xadd64(addr *uint64, delta int64) uint64 {
+func Xadd64(addr *uint64, delta int64) uint64 {
 	var r uint64
 	systemstack(func() {
 		lock(addrLock(addr))
@@ -103,7 +105,7 @@ func xadd64(addr *uint64, delta int64) uint64 {
 }
 
 //go:nosplit
-func xchg64(addr *uint64, v uint64) uint64 {
+func Xchg64(addr *uint64, v uint64) uint64 {
 	var r uint64
 	systemstack(func() {
 		lock(addrLock(addr))
@@ -115,7 +117,7 @@ func xchg64(addr *uint64, v uint64) uint64 {
 }
 
 //go:nosplit
-func atomicload64(addr *uint64) uint64 {
+func Atomicload64(addr *uint64) uint64 {
 	var r uint64
 	systemstack(func() {
 		lock(addrLock(addr))
@@ -126,7 +128,7 @@ func atomicload64(addr *uint64) uint64 {
 }
 
 //go:nosplit
-func atomicstore64(addr *uint64, v uint64) {
+func Atomicstore64(addr *uint64, v uint64) {
 	systemstack(func() {
 		lock(addrLock(addr))
 		*addr = v
@@ -135,21 +137,21 @@ func atomicstore64(addr *uint64, v uint64) {
 }
 
 //go:nosplit
-func atomicor8(addr *uint8, v uint8) {
+func Atomicor8(addr *uint8, v uint8) {
 	// Align down to 4 bytes and use 32-bit CAS.
 	uaddr := uintptr(unsafe.Pointer(addr))
 	addr32 := (*uint32)(unsafe.Pointer(uaddr &^ 3))
 	word := uint32(v) << ((uaddr & 3) * 8) // little endian
 	for {
 		old := *addr32
-		if cas(addr32, old, old|word) {
+		if Cas(addr32, old, old|word) {
 			return
 		}
 	}
 }
 
 //go:nosplit
-func atomicand8(addr *uint8, v uint8) {
+func Atomicand8(addr *uint8, v uint8) {
 	// Align down to 4 bytes and use 32-bit CAS.
 	uaddr := uintptr(unsafe.Pointer(addr))
 	addr32 := (*uint32)(unsafe.Pointer(uaddr &^ 3))
@@ -158,7 +160,7 @@ func atomicand8(addr *uint8, v uint8) {
 	word |= ^mask
 	for {
 		old := *addr32
-		if cas(addr32, old, old&word) {
+		if Cas(addr32, old, old&word) {
 			return
 		}
 	}

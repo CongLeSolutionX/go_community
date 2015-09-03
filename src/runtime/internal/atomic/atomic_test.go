@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package runtime_test
+package atomic_test
 
 import (
 	"runtime"
+	"runtime/internal/atomic"
 	"testing"
 	"unsafe"
 )
@@ -32,15 +33,15 @@ func TestXadduintptr(t *testing.T) {
 	inc := uintptr(100)
 	total := uintptr(0)
 	runParallel(N, iter, func() {
-		runtime.Xadduintptr(&total, inc)
+		atomic.Xadduintptr(&total, inc)
 	})
 	if want := uintptr(N * iter * inc); want != total {
 		t.Fatalf("xadduintpr error, want %d, got %d", want, total)
 	}
 	total = 0
 	runParallel(N, iter, func() {
-		runtime.Xadduintptr(&total, inc)
-		runtime.Xadduintptr(&total, uintptr(-int64(inc)))
+		atomic.Xadduintptr(&total, inc)
+		atomic.Xadduintptr(&total, uintptr(-int64(inc)))
 	})
 	if total != 0 {
 		t.Fatalf("xadduintpr total error, want %d, got %d", 0, total)
@@ -59,7 +60,7 @@ func TestXadduintptrOnUint64(t *testing.T) {
 	}
 	const inc = 100
 	val := uint64(0)
-	runtime.Xadduintptr((*uintptr)(unsafe.Pointer(&val)), inc)
+	atomic.Xadduintptr((*uintptr)(unsafe.Pointer(&val)), inc)
 	if inc != val {
 		t.Fatalf("xadduintptr should increase lower-order bits, want %d, got %d", inc, val)
 	}
