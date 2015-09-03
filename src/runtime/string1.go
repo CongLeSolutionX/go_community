@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 //go:nosplit
 func findnull(s *byte) int {
@@ -39,7 +42,7 @@ func gostringnocopy(str *byte) string {
 	s := *(*string)(unsafe.Pointer(&ss))
 	for {
 		ms := maxstring
-		if uintptr(len(s)) <= ms || casuintptr(&maxstring, ms, uintptr(len(s))) {
+		if uintptr(len(s)) <= ms || atomic.Casuintptr(&maxstring, ms, uintptr(len(s))) {
 			break
 		}
 	}
