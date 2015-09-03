@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84ae1264_0c7abbb7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-09-03T07:40:40Z",
+      "side": 1,
+      "message": "Could you please edit this comment to explain that to get to this code path, you have to be linking something with the runtime package (is this main.main ?).",
+      "revId": "dbac3f8015ade907bf76a672b8983552730ea907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
