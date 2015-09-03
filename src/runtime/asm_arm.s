@@ -1072,3 +1072,8 @@ TEXT runtime·usplitR0(SB),NOSPLIT,$0
 	MULU	R0, R1
 	SUB	R1, R3, R1
 	RET
+
+TEXT ·checkASM(SB),NOSPLIT,$0-1
+	MOVB	$1, R3
+	MOVB	R3, ret+0(FP)
+	RET

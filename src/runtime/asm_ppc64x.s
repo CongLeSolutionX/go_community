@@ -1226,3 +1226,8 @@ TEXT runtime·prefetcht2(SB),NOSPLIT,$0-8
 
 TEXT runtime·prefetchnta(SB),NOSPLIT,$0-8
 	RET
+
+TEXT ·checkASM(SB),NOSPLIT,$0-1
+	MOVB	$1, R3
+	MOVB	R3, ret+0(FP)
+	RET
