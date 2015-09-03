@@ -6,7 +6,10 @@ package runtime
 
 // This file contains the implementation of Go channels.
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 const (
 	maxAlign  = 8
@@ -388,8 +391,8 @@ func chanrecv(t *chantype, c *hchan, ep unsafe.Pointer, block bool) (selected, r
 	// The order of operations is important here: reversing the operations can lead to
 	// incorrect behavior when racing with a close.
 	if !block && (c.dataqsiz == 0 && c.sendq.first == nil ||
-		c.dataqsiz > 0 && atomicloaduint(&c.qcount) == 0) &&
-		atomicload(&c.closed) == 0 {
+		c.dataqsiz > 0 && atomic.Loaduint(&c.qcount) == 0) &&
+		atomic.Load(&c.closed) == 0 {
 		return
 	}
 
@@ -692,7 +695,7 @@ func (q *waitq) dequeue() *sudog {
 		// if sgp participates in a select and is already signaled, ignore it
 		if sgp.selectdone != nil {
 			// claim the right to signal
-			if *sgp.selectdone != 0 || !cas(sgp.selectdone, 0, 1) {
+			if *sgp.selectdone != 0 || !atomic.Cas(sgp.selectdone, 0, 1) {
 				continue
 			}
 		}
