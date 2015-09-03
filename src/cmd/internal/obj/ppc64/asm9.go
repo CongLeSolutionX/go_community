@@ -1377,14 +1377,20 @@ func oclass(a *obj.Addr) int {
 	return int(a.Class) - 1
 }
 
-// add R_ADDRPOWER relocation to symbol s with addend d
+// add relocations to compute the address of symbol s with addend d
 func addaddrreloc(ctxt *obj.Link, s *obj.LSym, d int64) {
 	rel := obj.Addrel(ctxt.Cursym)
 	rel.Off = int32(ctxt.Pc)
-	rel.Siz = 8
+	rel.Siz = 4
 	rel.Sym = s
 	rel.Add = d
-	rel.Type = obj.R_ADDRPOWER
+	rel.Type = obj.R_PPC64_ADDR16_HA
+	rel = obj.Addrel(ctxt.Cursym)
+	rel.Off = int32(ctxt.Pc) + 4
+	rel.Siz = 4
+	rel.Sym = s
+	rel.Add = d
+	rel.Type = obj.R_PPC64_ADDR16_LO
 }
 
 /*

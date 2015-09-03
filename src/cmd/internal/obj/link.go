@@ -384,7 +384,7 @@ type Reloc struct {
 // Reloc.type
 const (
 	R_ADDR = 1 + iota
-	R_ADDRPOWER
+	_
 	R_ADDRARM64
 	R_SIZE
 	R_CALL
@@ -416,8 +416,15 @@ const (
 
 	// R_PPC64_TPREL16 resolves to the offset of the thread-local symbol from the
 	// thread local base and is used to implement the "local exec" model for tls
-	// access and inserts this value into the low 16 bits of an instruction word.
+	// access and inserts this value into the low 16 bits of an instruction
+	// doubleword.
 	R_PPC64_TPREL16
+	// R_PPC64_ADDR16_HA puts the high (adjusted) word of the computed address into the
+	// low 16 bits of an instruction doubleword.
+	R_PPC64_ADDR16_HA
+	// R_PPC64_ADDR16_LO puts the low word of the computed address into the
+	// low 16 bits of an instruction doubleword.
+	R_PPC64_ADDR16_LO
 )
 
 type Auto struct {

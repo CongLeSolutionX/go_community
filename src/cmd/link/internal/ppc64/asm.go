@@ -347,45 +347,31 @@ func archreloc(r *ld.Reloc, s *ld.LSym, val *int64) int {
 		*val = ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ld.Linklookup(ld.Ctxt, ".got", 0))
 		return 0
 
-	case obj.R_ADDRPOWER:
-		// We are spreading a 31-bit address across two instructions,
-		// putting the high (adjusted) part in the low 16 bits of the
-		// first instruction and the low part in the low 16 bits of the
-		// second instruction.
-		t := ld.Symaddr(r.Sym) + r.Add
-		if t < 0 || t >= 1<<31 {
+	case obj.R_PPC64_ADDR16_LO:
+		v := (ld.Symaddr(r.Sym) + r.Add) & 0xffff
+		// There is an almost-bug here. We always used R_PPC64_ADDR16_LO to
+		// insert the low 16 bits of an address. Almost all loads are
+		// "D-form" instructions, which have a 16-bit immediate in the lower
+		// 16-bits of the instruction word. But the load doubleword
+		// instruction is a "DS-form" instruction: the immediate only
+		// occupies bits 16-29 of the instruction and is implicity padded
+		// with zeros on the right. The reason the below isn't a bug is
+		// because we only ever use immediates that have zeros on in their
+		// lower bits with ld, and we combine the immediate with | so bits 30
+		// and 31 are preserved.
+		*val |= v
+		return 0
+
+	case obj.R_PPC64_ADDR16_HA:
+		v := (ld.Symaddr(r.Sym) + r.Add)
+		if v&0x8000 != 0 {
+			v += 0x10000
+		}
+		v >>= 16
+		if v < -32768 || v >= 32768 {
 			ld.Ctxt.Diag("relocation for %s is too big (>=2G): %d", s.Name, ld.Symaddr(r.Sym))
 		}
-		var o1, o2 uint32
-		if ld.Ctxt.Arch.ByteOrder == binary.BigEndian {
-			o1 = uint32(*val >> 32)
-			o2 = uint32(*val)
-		} else {
-			o1 = uint32(*val)
-			o2 = uint32(*val >> 32)
-		}
-		if t&0x8000 != 0 {
-			t += 0x10000
-		}
-		// There is an almost-bug here. When R_ADDRPOWER is relocating a
-		// load, the two instructions are addi and then a load. addi and
-		// almost all loads are "D-form" instructions, which have a
-		// 16-bit immediate in the lower 16-bits of the instruction
-		// word. But the load doubleword instruction is a "DS-form"
-		// instruction: the immediate only occupies bits 16-29 of the
-		// instruction and is implicity padded with zeros on the
-		// right. The reason the belows isn't a bug is because we only
-		// ever use immediates that have zeros on in their lower bits
-		// with ld, and we combine the immediate with | so bits 30 and
-		// 31 are preserved.
-		o1 |= (uint32(t) >> 16) & 0xffff
-		o2 |= uint32(t) & 0xffff
-
-		if ld.Ctxt.Arch.ByteOrder == binary.BigEndian {
-			*val = int64(o1)<<32 | int64(o2)
-		} else {
-			*val = int64(o2)<<32 | int64(o1)
-		}
+		*val |= v
 		return 0
 
 	case obj.R_CALLPOWER:
@@ -587,14 +573,19 @@ func ensureglinkresolver() *ld.LSym {
 	ld.Adduint32(ld.Ctxt, glink, 0x7800f082) // srdi r0,r0,2
 
 	// r11 = address of the first byte of the PLT
-	r := ld.Addrel(glink)
 
+	r := ld.Addrel(glink)
 	r.Off = int32(glink.Size)
 	r.Sym = ld.Linklookup(ld.Ctxt, ".plt", 0)
-	r.Siz = 8
-	r.Type = obj.R_ADDRPOWER
-
+	r.Siz = 4
+	r.Type = obj.R_PPC64_ADDR16_HA
 	ld.Adduint32(ld.Ctxt, glink, 0x3d600000) // addis r11,0,.plt@ha
+
+	r = ld.Addrel(glink)
+	r.Off = int32(glink.Size)
+	r.Sym = ld.Linklookup(ld.Ctxt, ".plt", 0)
+	r.Siz = 4
+	r.Type = obj.R_PPC64_ADDR16_LO
 	ld.Adduint32(ld.Ctxt, glink, 0x396b0000) // addi r11,r11,.plt@l
 
 	// Load r12 = dynamic resolver address and r11 = DSO
