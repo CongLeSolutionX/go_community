@@ -725,6 +725,35 @@ var cgoSyscallExclude = map[string]bool{
 	"runtime/race": true,
 }
 
+var runtimeOrder = []string{
+	"unsafe",
+	"runtime/internal/atomic",
+	"runtime",
+}
+
+// runtimeImportOk returns true if a can import b.
+func runtimeImportOk(a, b string) bool {
+	if a == "runtime/internal/atomic" {
+		return false
+	}
+	if a == "runtime/cgo" || a == "runtime/pprof" || a == "runtime/debug" || a == "runtime/race" || a == "runtime/trace" {
+		return true
+	}
+	ax, bx := -1, -1
+	for i, p := range runtimeOrder {
+		if a == p {
+			ax = i
+		}
+		if b == p {
+			bx = i
+		}
+	}
+	if ax < 0 || bx < 0 {
+		panic("!! runtimeImportOk(" + a + ", " + b + ")")
+	}
+	return bx < ax
+}
+
 // load populates p using information from bp, err, which should
 // be the result of calling build.Context.Import.
 func (p *Package) load(stk *importStack, bp *build.Package, err error) *Package {
@@ -897,6 +926,10 @@ func (p *Package) load(stk *importStack, bp *build.Package, err error) *Package 
 	deps := make(map[string]*Package)
 	for i, path := range importPaths {
 		if path == "C" {
+			continue
+		}
+		if strings.HasPrefix(p.ImportPath, "runtime") && !runtimeImportOk(p.ImportPath, path) {
+			// TODO(matloob): remove spurious runtime imports
 			continue
 		}
 		p1 := loadImport(path, p.Dir, p, stk, p.build.ImportPos[path], useVendor)
