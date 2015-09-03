@@ -6,7 +6,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 var sweep sweepdata
 
@@ -79,7 +82,7 @@ func sweepone() uintptr {
 	_g_.m.locks++
 	sg := mheap_.sweepgen
 	for {
-		idx := xadd(&sweep.spanidx, 1) - 1
+		idx := atomic.Xadd(&sweep.spanidx, 1) - 1
 		if idx >= uint32(len(work.spans)) {
 			mheap_.sweepdone = 1
 			_g_.m.locks--
@@ -90,7 +93,7 @@ func sweepone() uintptr {
 			s.sweepgen = sg
 			continue
 		}
-		if s.sweepgen != sg-2 || !cas(&s.sweepgen, sg-2, sg-1) {
+		if s.sweepgen != sg-2 || !atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			continue
 		}
 		npages := s.npages
@@ -128,16 +131,16 @@ func mSpan_EnsureSwept(s *mspan) {
 	}
 
 	sg := mheap_.sweepgen
-	if atomicload(&s.sweepgen) == sg {
+	if atomic.Load(&s.sweepgen) == sg {
 		return
 	}
 	// The caller must be sure that the span is a MSpanInUse span.
-	if cas(&s.sweepgen, sg-2, sg-1) {
+	if atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 		mSpan_Sweep(s, false)
 		return
 	}
 	// unfortunate condition, and we don't have efficient means to wait
-	for atomicload(&s.sweepgen) != sg {
+	for atomic.Load(&s.sweepgen) != sg {
 		osyield()
 	}
 }
@@ -165,7 +168,7 @@ func mSpan_Sweep(s *mspan, preserve bool) bool {
 		traceGCSweepStart()
 	}
 
-	xadd64(&mheap_.pagesSwept, int64(s.npages))
+	atomic.Xadd64(&mheap_.pagesSwept, int64(s.npages))
 
 	cl := s.sizeclass
 	size := s.elemsize
@@ -268,7 +271,7 @@ func mSpan_Sweep(s *mspan, preserve bool) bool {
 			print("MSpan_Sweep: state=", s.state, " sweepgen=", s.sweepgen, " mheap.sweepgen=", sweepgen, "\n")
 			throw("MSpan_Sweep: bad span state after sweep")
 		}
-		atomicstore(&s.sweepgen, sweepgen)
+		atomic.Store(&s.sweepgen, sweepgen)
 	}
 	if nfree > 0 {
 		c.local_nsmallfree[cl] += uintptr(nfree)
@@ -327,11 +330,11 @@ func deductSweepCredit(spanBytes uintptr, callerSweepPages uintptr) {
 	}
 
 	// Account for this span allocation.
-	spanBytesAlloc := xadd64(&mheap_.spanBytesAlloc, int64(spanBytes))
+	spanBytesAlloc := atomic.Xadd64(&mheap_.spanBytesAlloc, int64(spanBytes))
 
 	// Fix debt if necessary.
 	pagesOwed := int64(mheap_.sweepPagesPerByte * float64(spanBytesAlloc))
-	for pagesOwed-int64(atomicload64(&mheap_.pagesSwept)) > int64(callerSweepPages) {
+	for pagesOwed-int64(atomic.Load64(&mheap_.pagesSwept)) > int64(callerSweepPages) {
 		if gosweepone() == ^uintptr(0) {
 			mheap_.sweepPagesPerByte = 0
 			break

@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 //go:linkname runtime_init runtime.init
 func runtime_init()
@@ -148,7 +151,7 @@ func forcegchelper() {
 		if forcegc.idle != 0 {
 			throw("forcegc: phase error")
 		}
-		atomicstore(&forcegc.idle, 1)
+		atomic.Store(&forcegc.idle, 1)
 		goparkunlock(&forcegc.lock, "force gc (idle)", traceEvGoBlock, 1)
 		// this goroutine is explicitly resumed by sysmon
 		if debug.gctrace > 0 {
