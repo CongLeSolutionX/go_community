@@ -844,6 +844,7 @@ func dopack(dst, src string, extra []string) {
 // maintained by hand, but the order doesn't change often.
 var buildorder = []string{
 	// Go libraries and programs for bootstrap.
+	"runtime/internal/atomic",
 	"runtime",
 	"errors",
 	"sync/atomic",
