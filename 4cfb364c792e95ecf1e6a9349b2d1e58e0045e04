@@ -22,6 +22,30 @@
       "revId": "4cfb364c792e95ecf1e6a9349b2d1e58e0045e04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647bdead_fbe6071d",
+        "filename": "src/cmd/compile/internal/gc/testdata/fp_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-09-03T03:04:15Z",
+      "side": 1,
+      "message": "Sure thing.",
+      "parentUuid": "8497f201_4c7bbd88",
+      "range": {
+        "startLine": 1502,
+        "startChar": 6,
+        "endLine": 1502,
+        "endChar": 12
+      },
+      "revId": "4cfb364c792e95ecf1e6a9349b2d1e58e0045e04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
