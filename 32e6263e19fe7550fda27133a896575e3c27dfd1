@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a455d63a_77e91078",
+        "filename": "src/cmd/go/note.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-03T10:27:46Z",
+      "side": 1,
+      "message": "Yes, d is like in ed(1), delete, but not the entire line, only the highlighted word, \"first\".\n\nYes, please pass the comment through fmt(1), there are no rules for that, just that now the lines are of different length and jagged. fmt(1) solves that problem.\n\nIn general, cosmetic changes are frowned upon, but here is fine since you\u0027re modifying the code anyway.",
+      "parentUuid": "84ae1264_c919f545",
+      "range": {
+        "startLine": 74,
+        "startChar": 71,
+        "endLine": 74,
+        "endChar": 76
+      },
+      "revId": "32e6263e19fe7550fda27133a896575e3c27dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2461e61f_b3757856",
         "filename": "src/cmd/go/note.go",
         "patchSetId": 1
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "How is this dangerous?  We might read a large file, but we already know it\u0027s an elf file, and we were already requested to read it.  We know that the Go process is only 64-bit on Solaris, so there shouldn\u0027t be an issue there.\n\nThe only other alternative I could think of was to instead modify readELFGoBuildID to detect when the offset of the note was outside of the data[] provided and to instead directly read just that section from the file.  But it seemed wrong to modify readELFGoBuildID that way, so I did not.  However, if that\u0027s considered a better solution I can rework this.",
       "parentUuid": "e4d42ed5_14d63adf",
+      "range": {
+        "startLine": 1842,
+        "startChar": 0,
+        "endLine": 1842,
+        "endChar": 32
+      },
+      "revId": "32e6263e19fe7550fda27133a896575e3c27dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d42ed5_740b06ef",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-03T10:27:46Z",
+      "side": 1,
+      "message": "\u003e How is this dangerous?  We might read a large file, but we already\n\u003e know it\u0027s an elf file, and we were already requested to read it.\n\u003e We know that the Go process is only 64-bit on Solaris, so there\n\u003e shouldn\u0027t be an issue there.\n\nIt doesn\u0027t seem too extraordinary to have 1,000 binaries, 10MB each.\nThat\u0027s 10GB to read, just for the build id, that seems excessive.\n\nIf we know where the build id is, we should just read it from there.\n\n\u003e The only other alternative I could think of was to instead modify\n\u003e readELFGoBuildID to detect when the offset of the note was outside\n\u003e of the data[] provided and to instead directly read just that section\n\u003e from the file.  But it seemed wrong to modify readELFGoBuildID that\n\u003e way, so I did not.  However, if that\u0027s considered a better solution\n\u003e I can rework this.\n\nI think it\u0027s fine to keep the read logic here (albeit more complex),\nbut read only what we need. If we also need to change readELFGoBuildID\nfor some related reason, so be it.",
+      "parentUuid": "84ae1264_8913fd21",
       "range": {
         "startLine": 1842,
         "startChar": 0,
