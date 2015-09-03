@@ -110,7 +110,7 @@ func TestImport(t *testing.T) {
 		// referenced by the exportdata, which may be more than
 		// the import statements in the package's source, but
 		// fewer than the transitive closure of dependencies.
-		want := `[package ast ("go/ast") package token ("go/token") package runtime ("runtime")]`
+		want := `[package ast ("go/ast") package token ("go/token") package runtime ("runtime") package atomic ("runtime/internal/atomic")]`
 		got := fmt.Sprint(pkg.Imports())
 		if got != want {
 			t.Errorf(`Package("exports").Imports() = %s, want %s`, got, want)

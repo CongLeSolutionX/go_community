@@ -146,7 +146,6 @@ func Main() {
 
 	unsafepkg.Name = "unsafe"
 
-	// real package, referred to by generated runtime calls
 	Runtimepkg = mkpkg("runtime")
 
 	Runtimepkg.Name = "runtime"
