@@ -140,7 +140,7 @@ func testExtDis(
 		inst, text := disasm(syntax, arch, pad(enc))
 		totalTests++
 		if *dumpTest {
-			fmt.Printf("%x -> %s [%d]\n", enc[:len(enc)], dec.text, dec.nenc)
+			fmt.Printf("%x -> %s [%d]\n", enc[:], dec.text, dec.nenc)
 		}
 		if text != dec.text || inst.Len != dec.nenc {
 			suffix := ""
