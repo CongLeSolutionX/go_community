@@ -34,6 +34,24 @@
       "revId": "6e6c3bd940eaf2d8bc46226aed49bbe996126762",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_f637ef15",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-04T17:25:03Z",
+      "side": 1,
+      "message": "That won\u0027t look good. The user will thing they wrote \"ü\" but see a single byte of that UTF-8 encoding in the error message. It\u0027ll be pretty much useless, and we can\u0027t guess which encoding they tried to use either.",
+      "parentUuid": "a4d8763b_ff6a3fdf",
+      "revId": "6e6c3bd940eaf2d8bc46226aed49bbe996126762",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
