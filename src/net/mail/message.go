@@ -447,11 +447,20 @@ Loop:
 // If permissive is true, consumeAtom will not fail on
 // leading/trailing/double dots in the atom (see golang.org/issue/4938).
 func (p *addrParser) consumeAtom(dot bool, permissive bool) (atom string, err error) {
-	if !isAtext(p.peek(), false) {
+	if c := p.peek(); c > 127 {
+		return "", errors.New("mail: invalid charset, only ASCII allowed")
+	} else if !isAtext(c, false) {
 		return "", errors.New("mail: invalid string")
 	}
 	i := 1
-	for ; i < p.len() && isAtext(p.s[i], dot); i++ {
+	for ; i < p.len(); i++ {
+		c := p.s[i]
+		if c > 127 {
+			return "", errors.New("mail: invalid charset, only ASCII allowed")
+		}
+		if !isAtext(c, dot) {
+			return "", errors.New("mail: invalid string")
+		}
 	}
 	atom, p.s = string(p.s[:i]), p.s[i:]
 	if !permissive {
