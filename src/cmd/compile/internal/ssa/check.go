@@ -122,6 +122,15 @@ func checkFunc(f *Func) {
 		}
 
 		for _, v := range b.Values {
+
+			if _, ok := v.Aux.(float32); ok {
+				f.Fatalf("value %v has a float32 Aux value, should be AuxInt", v.LongString())
+			}
+
+			if _, ok := v.Aux.(float64); ok {
+				f.Fatalf("value %v has a float64 Aux value, should be AuxInt", v.LongString())
+			}
+
 			for _, arg := range v.Args {
 				if arg == nil {
 					f.Fatalf("value %v has nil arg", v.LongString())

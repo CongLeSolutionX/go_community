@@ -4,7 +4,10 @@
 
 package ssa
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func applyRewrite(f *Func, rb func(*Block) bool, rv func(*Value, *Config) bool) {
 	// repeat rewrites until we find no more rewrites
@@ -161,4 +164,9 @@ func isPowerOfTwo(n int64) bool {
 // is32Bit reports whether n can be represented as a signed 32 bit integer.
 func is32Bit(n int64) bool {
 	return n == int64(int32(n))
+}
+
+// f2i is used in the rules for storing a float in AuxInt.
+func f2i(f float64) int64 {
+	return int64(math.Float64bits(f))
 }
