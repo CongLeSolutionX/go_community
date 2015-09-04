@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "647bdead_9efa61aa",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-09-04T13:28:23Z",
+      "side": 1,
+      "message": "I added this for debugging purposes, hoping it doesn\u0027t clutter up the output too much.  I certainly can\u0027t do a bits -\u003e float translation in my head :)\n\nThese two bool cases assume that 14276 is merged first, the output is technically wrong with just this CL as bools are still stored in aux.",
+      "revId": "82624895b0bc8b56a35ad4ac2a3ebf28313eb0fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
