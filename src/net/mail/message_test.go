@@ -127,6 +127,14 @@ func TestAddressParsingError(t *testing.T) {
 	}
 }
 
+func TestAddressParsingErrorUnquotedNonASCII(t *testing.T) {
+	const txt = "µ <micro@example.net>"
+	_, err := ParseAddress(txt)
+	if err == nil || !strings.Contains(err.Error(), "invalid charset, only ASCII allowed") {
+		t.Errorf(`mail.ParseAddress(%q) err: %q, want ".*invalid charset, only ASCII allowed.*"`, txt, err)
+	}
+}
+
 func TestAddressParsing(t *testing.T) {
 	tests := []struct {
 		addrsStr string
