@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84ae1264_8f1bfd7a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-04T03:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_0149f6f6",
+      "revId": "b5a605f369e7cf1759641666666216ae37ce20a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_a1e5a24f",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "84ae1264_af18397e",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-04T03:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_a1e5a24f",
+      "revId": "b5a605f369e7cf1759641666666216ae37ce20a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_81f42602",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2015-09-04T01:30:21Z",
       "side": 1,
       "message": "Seems like we should only add -z,relro if UseRelro returns true.  Same below.",
+      "revId": "b5a605f369e7cf1759641666666216ae37ce20a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ae1264_4fb505b7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-04T03:25:37Z",
+      "side": 1,
+      "message": "Oops. Done.",
+      "parentUuid": "8497f201_81f42602",
       "revId": "b5a605f369e7cf1759641666666216ae37ce20a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
