@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_3332498a",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-04T16:37:05Z",
+      "side": 1,
+      "message": "pull this out into a variable at package scope (errNotASCII) rather than repeating the string twice",
+      "revId": "b674466f6398113da7f5335a85bbc917a3fbe8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
