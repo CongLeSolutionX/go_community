@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_33fa493b",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-04T15:13:53Z",
+      "side": 1,
+      "message": "just errors, without [:]. it\u0027s already slice.",
+      "revId": "0157d0e259078aaf01d563ea6cd0e69ab90f8be5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_d30685e6",
+        "filename": "src/cmd/vendor/golang.org/x/arch/arm/armasm/ext_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-04T15:13:53Z",
+      "side": 1,
+      "message": "these should be fixed upstream in the x/arch subrepo and then pulled in here later.",
+      "revId": "0157d0e259078aaf01d563ea6cd0e69ab90f8be5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
