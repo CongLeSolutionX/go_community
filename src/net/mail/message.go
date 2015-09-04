@@ -28,7 +28,7 @@ import (
 	"time"
 )
 
-var debug = debugT(false)
+const debug = debugT(false)
 
 type debugT bool
 
@@ -202,7 +202,6 @@ func (a *Address) String() string {
 	}
 	if quoteLocal {
 		local = quoteString(local)
-
 	}
 
 	s := "<" + local + "@" + domain + ">"
@@ -523,18 +522,18 @@ func (e charsetError) Error() string {
 	return fmt.Sprintf("charset not supported: %q", string(e))
 }
 
-var atextChars = []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-	"abcdefghijklmnopqrstuvwxyz" +
-	"0123456789" +
-	"!#$%&'*+-/=?^_`{|}~")
+var specialsCharsWODot = []byte("()<>[]:;@\\,\"")
 
 // isAtext reports whether c is an RFC 5322 atext character.
-// If dot is true, period is included.
+// Iff dot is true, period is included.
 func isAtext(c byte, dot bool) bool {
-	if dot && c == '.' {
-		return true
+	if c == '.' {
+		return dot
 	}
-	return bytes.IndexByte(atextChars, c) >= 0
+	if bytes.IndexByte(specialsCharsWODot, c) >= 0 {
+		return false
+	}
+	return c >= '!' && c <= '~'
 }
 
 // isQtext reports whether c is an RFC 5322 qtext character.
