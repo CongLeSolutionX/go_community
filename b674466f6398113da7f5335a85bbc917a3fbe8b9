@@ -16,6 +16,24 @@
       "revId": "b674466f6398113da7f5335a85bbc917a3fbe8b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d42ed5_d7bc3443",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2015-09-04T16:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_3332498a",
+      "revId": "b674466f6398113da7f5335a85bbc917a3fbe8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
