@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_13262d95",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-04T15:02:56Z",
+      "side": 1,
+      "message": "Leave a comment here about not keeping floats in Aux, just in case anyone decides to go back the other way.",
+      "revId": "f2b962bb42c7ee7b0a4ae72ab245bbafea3dc767",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_33232985",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-04T15:02:56Z",
+      "side": 1,
+      "message": "Maybe no space here to put the number and translation as close together as possible?",
+      "range": {
+        "startLine": 69,
+        "startChar": 21,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "f2b962bb42c7ee7b0a4ae72ab245bbafea3dc767",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_d3df65cc",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-04T15:02:56Z",
+      "side": 1,
+      "message": "Default is unnecessary.",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 10
+      },
+      "revId": "f2b962bb42c7ee7b0a4ae72ab245bbafea3dc767",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
