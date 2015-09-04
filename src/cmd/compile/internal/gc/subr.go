@@ -86,7 +86,7 @@ func Flusherrors() {
 	if len(errors) == 0 {
 		return
 	}
-	sort.Sort(errcmp(errors[:len(errors)]))
+	sort.Sort(errcmp(errors[:]))
 	for i := 0; i < len(errors); i++ {
 		if i == 0 || errors[i].msg != errors[i-1].msg {
 			fmt.Printf("%s", errors[i].msg)
