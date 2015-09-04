@@ -7,178 +7,181 @@ package syscall
 
 import "unsafe"
 
+//go:cgo_import_dynamic libc_getcwd getcwd "libc.so"
 //go:cgo_import_dynamic libc_getgroups getgroups "libc.so"
 //go:cgo_import_dynamic libc_setgroups setgroups "libc.so"
 //go:cgo_import_dynamic libc_fcntl fcntl "libc.so"
-//go:cgo_import_dynamic libc_accept accept "libsocket.so"
-//go:cgo_import_dynamic libc_sendmsg sendmsg "libsocket.so"
-//go:cgo_import_dynamic libc_Access access "libc.so"
-//go:cgo_import_dynamic libc_Adjtime adjtime "libc.so"
-//go:cgo_import_dynamic libc_Chdir chdir "libc.so"
-//go:cgo_import_dynamic libc_Chmod chmod "libc.so"
-//go:cgo_import_dynamic libc_Chown chown "libc.so"
-//go:cgo_import_dynamic libc_Chroot chroot "libc.so"
-//go:cgo_import_dynamic libc_Close close "libc.so"
-//go:cgo_import_dynamic libc_Dup dup "libc.so"
-//go:cgo_import_dynamic libc_Exit exit "libc.so"
-//go:cgo_import_dynamic libc_Fchdir fchdir "libc.so"
-//go:cgo_import_dynamic libc_Fchmod fchmod "libc.so"
-//go:cgo_import_dynamic libc_Fchown fchown "libc.so"
-//go:cgo_import_dynamic libc_Fpathconf fpathconf "libc.so"
-//go:cgo_import_dynamic libc_Fstat fstat "libc.so"
-//go:cgo_import_dynamic libc_Getdents getdents "libc.so"
-//go:cgo_import_dynamic libc_Getgid getgid "libc.so"
-//go:cgo_import_dynamic libc_Getpid getpid "libc.so"
-//go:cgo_import_dynamic libc_Geteuid geteuid "libc.so"
-//go:cgo_import_dynamic libc_Getegid getegid "libc.so"
-//go:cgo_import_dynamic libc_Getppid getppid "libc.so"
-//go:cgo_import_dynamic libc_Getpriority getpriority "libc.so"
-//go:cgo_import_dynamic libc_Getrlimit getrlimit "libc.so"
-//go:cgo_import_dynamic libc_Gettimeofday gettimeofday "libc.so"
-//go:cgo_import_dynamic libc_Getuid getuid "libc.so"
-//go:cgo_import_dynamic libc_Kill kill "libc.so"
-//go:cgo_import_dynamic libc_Lchown lchown "libc.so"
-//go:cgo_import_dynamic libc_Link link "libc.so"
-//go:cgo_import_dynamic libc_listen listen "libsocket.so"
-//go:cgo_import_dynamic libc_Lstat lstat "libc.so"
-//go:cgo_import_dynamic libc_Mkdir mkdir "libc.so"
-//go:cgo_import_dynamic libc_Mknod mknod "libc.so"
-//go:cgo_import_dynamic libc_Nanosleep nanosleep "libc.so"
-//go:cgo_import_dynamic libc_Open open "libc.so"
-//go:cgo_import_dynamic libc_Pathconf pathconf "libc.so"
-//go:cgo_import_dynamic libc_Pread pread "libc.so"
-//go:cgo_import_dynamic libc_Pwrite pwrite "libc.so"
+//go:cgo_import_dynamic libsocket_accept accept "libsocket.so"
+//go:cgo_import_dynamic libsocket_sendmsg sendmsg "libsocket.so"
+//go:cgo_import_dynamic libc_access access "libc.so"
+//go:cgo_import_dynamic libc_adjtime adjtime "libc.so"
+//go:cgo_import_dynamic libc_chdir chdir "libc.so"
+//go:cgo_import_dynamic libc_chmod chmod "libc.so"
+//go:cgo_import_dynamic libc_chown chown "libc.so"
+//go:cgo_import_dynamic libc_chroot chroot "libc.so"
+//go:cgo_import_dynamic libc_close close "libc.so"
+//go:cgo_import_dynamic libc_dup dup "libc.so"
+//go:cgo_import_dynamic libc_exit exit "libc.so"
+//go:cgo_import_dynamic libc_fchdir fchdir "libc.so"
+//go:cgo_import_dynamic libc_fchmod fchmod "libc.so"
+//go:cgo_import_dynamic libc_fchown fchown "libc.so"
+//go:cgo_import_dynamic libc_fpathconf fpathconf "libc.so"
+//go:cgo_import_dynamic libc_fstat fstat "libc.so"
+//go:cgo_import_dynamic libc_getdents getdents "libc.so"
+//go:cgo_import_dynamic libc_getgid getgid "libc.so"
+//go:cgo_import_dynamic libc_getpid getpid "libc.so"
+//go:cgo_import_dynamic libc_geteuid geteuid "libc.so"
+//go:cgo_import_dynamic libc_getegid getegid "libc.so"
+//go:cgo_import_dynamic libc_getppid getppid "libc.so"
+//go:cgo_import_dynamic libc_getpriority getpriority "libc.so"
+//go:cgo_import_dynamic libc_getrlimit getrlimit "libc.so"
+//go:cgo_import_dynamic libc_gettimeofday gettimeofday "libc.so"
+//go:cgo_import_dynamic libc_getuid getuid "libc.so"
+//go:cgo_import_dynamic libc_kill kill "libc.so"
+//go:cgo_import_dynamic libc_lchown lchown "libc.so"
+//go:cgo_import_dynamic libc_link link "libc.so"
+//go:cgo_import_dynamic libsocket_listen listen "libsocket.so"
+//go:cgo_import_dynamic libc_lstat lstat "libc.so"
+//go:cgo_import_dynamic libc_mkdir mkdir "libc.so"
+//go:cgo_import_dynamic libc_mknod mknod "libc.so"
+//go:cgo_import_dynamic libc_nanosleep nanosleep "libc.so"
+//go:cgo_import_dynamic libc_open open "libc.so"
+//go:cgo_import_dynamic libc_pathconf pathconf "libc.so"
+//go:cgo_import_dynamic libc_pread pread "libc.so"
+//go:cgo_import_dynamic libc_pwrite pwrite "libc.so"
 //go:cgo_import_dynamic libc_read read "libc.so"
-//go:cgo_import_dynamic libc_Readlink readlink "libc.so"
-//go:cgo_import_dynamic libc_Rename rename "libc.so"
-//go:cgo_import_dynamic libc_Rmdir rmdir "libc.so"
+//go:cgo_import_dynamic libc_readlink readlink "libc.so"
+//go:cgo_import_dynamic libc_rename rename "libc.so"
+//go:cgo_import_dynamic libc_rmdir rmdir "libc.so"
 //go:cgo_import_dynamic libc_lseek lseek "libc.so"
-//go:cgo_import_dynamic libc_sendfile sendfile "libsendfile.so"
-//go:cgo_import_dynamic libc_Setegid setegid "libc.so"
-//go:cgo_import_dynamic libc_Seteuid seteuid "libc.so"
-//go:cgo_import_dynamic libc_Setgid setgid "libc.so"
-//go:cgo_import_dynamic libc_Setpgid setpgid "libc.so"
-//go:cgo_import_dynamic libc_Setpriority setpriority "libc.so"
-//go:cgo_import_dynamic libc_Setregid setregid "libc.so"
-//go:cgo_import_dynamic libc_Setreuid setreuid "libc.so"
-//go:cgo_import_dynamic libc_Setrlimit setrlimit "libc.so"
-//go:cgo_import_dynamic libc_Setsid setsid "libc.so"
-//go:cgo_import_dynamic libc_Setuid setuid "libc.so"
-//go:cgo_import_dynamic libc_shutdown shutdown "libsocket.so"
-//go:cgo_import_dynamic libc_Stat stat "libc.so"
-//go:cgo_import_dynamic libc_Symlink symlink "libc.so"
-//go:cgo_import_dynamic libc_Sync sync "libc.so"
-//go:cgo_import_dynamic libc_Truncate truncate "libc.so"
-//go:cgo_import_dynamic libc_Fsync fsync "libc.so"
-//go:cgo_import_dynamic libc_Ftruncate ftruncate "libc.so"
-//go:cgo_import_dynamic libc_Umask umask "libc.so"
-//go:cgo_import_dynamic libc_Unlink unlink "libc.so"
-//go:cgo_import_dynamic libc_Utimes utimes "libc.so"
-//go:cgo_import_dynamic libc_bind bind "libsocket.so"
-//go:cgo_import_dynamic libc_connect connect "libsocket.so"
+//go:cgo_import_dynamic libsendfile_sendfile sendfile "libsendfile.so"
+//go:cgo_import_dynamic libc_setegid setegid "libc.so"
+//go:cgo_import_dynamic libc_seteuid seteuid "libc.so"
+//go:cgo_import_dynamic libc_setgid setgid "libc.so"
+//go:cgo_import_dynamic libc_setpgid setpgid "libc.so"
+//go:cgo_import_dynamic libc_setpriority setpriority "libc.so"
+//go:cgo_import_dynamic libc_setregid setregid "libc.so"
+//go:cgo_import_dynamic libc_setreuid setreuid "libc.so"
+//go:cgo_import_dynamic libc_setrlimit setrlimit "libc.so"
+//go:cgo_import_dynamic libc_setsid setsid "libc.so"
+//go:cgo_import_dynamic libc_setuid setuid "libc.so"
+//go:cgo_import_dynamic libsocket_shutdown shutdown "libsocket.so"
+//go:cgo_import_dynamic libc_stat stat "libc.so"
+//go:cgo_import_dynamic libc_symlink symlink "libc.so"
+//go:cgo_import_dynamic libc_sync sync "libc.so"
+//go:cgo_import_dynamic libc_truncate truncate "libc.so"
+//go:cgo_import_dynamic libc_fsync fsync "libc.so"
+//go:cgo_import_dynamic libc_ftruncate ftruncate "libc.so"
+//go:cgo_import_dynamic libc_umask umask "libc.so"
+//go:cgo_import_dynamic libc_unlink unlink "libc.so"
+//go:cgo_import_dynamic libc_utimes utimes "libc.so"
+//go:cgo_import_dynamic libsocket_bind bind "libsocket.so"
+//go:cgo_import_dynamic libsocket_connect connect "libsocket.so"
 //go:cgo_import_dynamic libc_mmap mmap "libc.so"
 //go:cgo_import_dynamic libc_munmap munmap "libc.so"
-//go:cgo_import_dynamic libc_sendto sendto "libsocket.so"
-//go:cgo_import_dynamic libc_socket socket "libsocket.so"
-//go:cgo_import_dynamic libc_socketpair socketpair "libsocket.so"
+//go:cgo_import_dynamic libsocket_sendto sendto "libsocket.so"
+//go:cgo_import_dynamic libsocket_socket socket "libsocket.so"
+//go:cgo_import_dynamic libsocket_socketpair socketpair "libsocket.so"
 //go:cgo_import_dynamic libc_write write "libc.so"
-//go:cgo_import_dynamic libc_getsockopt getsockopt "libsocket.so"
-//go:cgo_import_dynamic libc_getpeername getpeername "libsocket.so"
-//go:cgo_import_dynamic libc_getsockname getsockname "libsocket.so"
-//go:cgo_import_dynamic libc_setsockopt setsockopt "libsocket.so"
-//go:cgo_import_dynamic libc_recvfrom recvfrom "libsocket.so"
-//go:cgo_import_dynamic libc_recvmsg recvmsg "libsocket.so"
+//go:cgo_import_dynamic libsocket_getsockopt getsockopt "libsocket.so"
+//go:cgo_import_dynamic libsocket_getpeername getpeername "libsocket.so"
+//go:cgo_import_dynamic libsocket_getsockname getsockname "libsocket.so"
+//go:cgo_import_dynamic libsocket_setsockopt setsockopt "libsocket.so"
+//go:cgo_import_dynamic libsocket_recvfrom recvfrom "libsocket.so"
+//go:cgo_import_dynamic libsocket_recvmsg recvmsg "libsocket.so"
 
+//go:linkname libc_Getcwd libc_getcwd
 //go:linkname libc_getgroups libc_getgroups
 //go:linkname libc_setgroups libc_setgroups
 //go:linkname libc_fcntl libc_fcntl
-//go:linkname libc_accept libc_accept
-//go:linkname libc_sendmsg libc_sendmsg
-//go:linkname libc_Access libc_Access
-//go:linkname libc_Adjtime libc_Adjtime
-//go:linkname libc_Chdir libc_Chdir
-//go:linkname libc_Chmod libc_Chmod
-//go:linkname libc_Chown libc_Chown
-//go:linkname libc_Chroot libc_Chroot
-//go:linkname libc_Close libc_Close
-//go:linkname libc_Dup libc_Dup
-//go:linkname libc_Exit libc_Exit
-//go:linkname libc_Fchdir libc_Fchdir
-//go:linkname libc_Fchmod libc_Fchmod
-//go:linkname libc_Fchown libc_Fchown
-//go:linkname libc_Fpathconf libc_Fpathconf
-//go:linkname libc_Fstat libc_Fstat
-//go:linkname libc_Getdents libc_Getdents
-//go:linkname libc_Getgid libc_Getgid
-//go:linkname libc_Getpid libc_Getpid
-//go:linkname libc_Geteuid libc_Geteuid
-//go:linkname libc_Getegid libc_Getegid
-//go:linkname libc_Getppid libc_Getppid
-//go:linkname libc_Getpriority libc_Getpriority
-//go:linkname libc_Getrlimit libc_Getrlimit
-//go:linkname libc_Gettimeofday libc_Gettimeofday
-//go:linkname libc_Getuid libc_Getuid
-//go:linkname libc_Kill libc_Kill
-//go:linkname libc_Lchown libc_Lchown
-//go:linkname libc_Link libc_Link
-//go:linkname libc_listen libc_listen
-//go:linkname libc_Lstat libc_Lstat
-//go:linkname libc_Mkdir libc_Mkdir
-//go:linkname libc_Mknod libc_Mknod
-//go:linkname libc_Nanosleep libc_Nanosleep
-//go:linkname libc_Open libc_Open
-//go:linkname libc_Pathconf libc_Pathconf
-//go:linkname libc_Pread libc_Pread
-//go:linkname libc_Pwrite libc_Pwrite
+//go:linkname libsocket_accept libsocket_accept
+//go:linkname libsocket_sendmsg libsocket_sendmsg
+//go:linkname libc_Access libc_access
+//go:linkname libc_Adjtime libc_adjtime
+//go:linkname libc_Chdir libc_chdir
+//go:linkname libc_Chmod libc_chmod
+//go:linkname libc_Chown libc_chown
+//go:linkname libc_Chroot libc_chroot
+//go:linkname libc_Close libc_close
+//go:linkname libc_Dup libc_dup
+//go:linkname libc_Exit libc_exit
+//go:linkname libc_Fchdir libc_fchdir
+//go:linkname libc_Fchmod libc_fchmod
+//go:linkname libc_Fchown libc_fchown
+//go:linkname libc_Fpathconf libc_fpathconf
+//go:linkname libc_Fstat libc_fstat
+//go:linkname libc_Getdents libc_getdents
+//go:linkname libc_Getgid libc_getgid
+//go:linkname libc_Getpid libc_getpid
+//go:linkname libc_Geteuid libc_geteuid
+//go:linkname libc_Getegid libc_getegid
+//go:linkname libc_Getppid libc_getppid
+//go:linkname libc_Getpriority libc_getpriority
+//go:linkname libc_Getrlimit libc_getrlimit
+//go:linkname libc_Gettimeofday libc_gettimeofday
+//go:linkname libc_Getuid libc_getuid
+//go:linkname libc_Kill libc_kill
+//go:linkname libc_Lchown libc_lchown
+//go:linkname libc_Link libc_link
+//go:linkname libsocket_listen libsocket_listen
+//go:linkname libc_Lstat libc_lstat
+//go:linkname libc_Mkdir libc_mkdir
+//go:linkname libc_Mknod libc_mknod
+//go:linkname libc_Nanosleep libc_nanosleep
+//go:linkname libc_Open libc_open
+//go:linkname libc_Pathconf libc_pathconf
+//go:linkname libc_Pread libc_pread
+//go:linkname libc_Pwrite libc_pwrite
 //go:linkname libc_read libc_read
-//go:linkname libc_Readlink libc_Readlink
-//go:linkname libc_Rename libc_Rename
-//go:linkname libc_Rmdir libc_Rmdir
+//go:linkname libc_Readlink libc_readlink
+//go:linkname libc_Rename libc_rename
+//go:linkname libc_Rmdir libc_rmdir
 //go:linkname libc_lseek libc_lseek
-//go:linkname libc_sendfile libc_sendfile
-//go:linkname libc_Setegid libc_Setegid
-//go:linkname libc_Seteuid libc_Seteuid
-//go:linkname libc_Setgid libc_Setgid
-//go:linkname libc_Setpgid libc_Setpgid
-//go:linkname libc_Setpriority libc_Setpriority
-//go:linkname libc_Setregid libc_Setregid
-//go:linkname libc_Setreuid libc_Setreuid
-//go:linkname libc_Setrlimit libc_Setrlimit
-//go:linkname libc_Setsid libc_Setsid
-//go:linkname libc_Setuid libc_Setuid
-//go:linkname libc_shutdown libc_shutdown
-//go:linkname libc_Stat libc_Stat
-//go:linkname libc_Symlink libc_Symlink
-//go:linkname libc_Sync libc_Sync
-//go:linkname libc_Truncate libc_Truncate
-//go:linkname libc_Fsync libc_Fsync
-//go:linkname libc_Ftruncate libc_Ftruncate
-//go:linkname libc_Umask libc_Umask
-//go:linkname libc_Unlink libc_Unlink
-//go:linkname libc_Utimes libc_Utimes
-//go:linkname libc_bind libc_bind
-//go:linkname libc_connect libc_connect
+//go:linkname libsendfile_sendfile libsendfile_sendfile
+//go:linkname libc_Setegid libc_setegid
+//go:linkname libc_Seteuid libc_seteuid
+//go:linkname libc_Setgid libc_setgid
+//go:linkname libc_Setpgid libc_setpgid
+//go:linkname libc_Setpriority libc_setpriority
+//go:linkname libc_Setregid libc_setregid
+//go:linkname libc_Setreuid libc_setreuid
+//go:linkname libc_Setrlimit libc_setrlimit
+//go:linkname libc_Setsid libc_setsid
+//go:linkname libc_Setuid libc_setuid
+//go:linkname libsocket_shutdown libsocket_shutdown
+//go:linkname libc_Stat libc_stat
+//go:linkname libc_Symlink libc_symlink
+//go:linkname libc_Sync libc_sync
+//go:linkname libc_Truncate libc_truncate
+//go:linkname libc_Fsync libc_fsync
+//go:linkname libc_Ftruncate libc_ftruncate
+//go:linkname libc_Umask libc_umask
+//go:linkname libc_Unlink libc_unlink
+//go:linkname libc_Utimes libc_utimes
+//go:linkname libsocket_bind libsocket_bind
+//go:linkname libsocket_connect libsocket_connect
 //go:linkname libc_mmap libc_mmap
 //go:linkname libc_munmap libc_munmap
-//go:linkname libc_sendto libc_sendto
-//go:linkname libc_socket libc_socket
-//go:linkname libc_socketpair libc_socketpair
+//go:linkname libsocket_sendto libsocket_sendto
+//go:linkname libsocket_socket libsocket_socket
+//go:linkname libsocket_socketpair libsocket_socketpair
 //go:linkname libc_write libc_write
-//go:linkname libc_getsockopt libc_getsockopt
-//go:linkname libc_getpeername libc_getpeername
-//go:linkname libc_getsockname libc_getsockname
-//go:linkname libc_setsockopt libc_setsockopt
-//go:linkname libc_recvfrom libc_recvfrom
-//go:linkname libc_recvmsg libc_recvmsg
+//go:linkname libsocket_getsockopt libsocket_getsockopt
+//go:linkname libsocket_getpeername libsocket_getpeername
+//go:linkname libsocket_getsockname libsocket_getsockname
+//go:linkname libsocket_setsockopt libsocket_setsockopt
+//go:linkname libsocket_recvfrom libsocket_recvfrom
+//go:linkname libsocket_recvmsg libsocket_recvmsg
 
 type libcFunc uintptr
 
 var (
+	libc_Getcwd,
 	libc_getgroups,
 	libc_setgroups,
 	libc_fcntl,
-	libc_accept,
-	libc_sendmsg,
+	libsocket_accept,
+	libsocket_sendmsg,
 	libc_Access,
 	libc_Adjtime,
 	libc_Chdir,
@@ -206,7 +209,7 @@ var (
 	libc_Kill,
 	libc_Lchown,
 	libc_Link,
-	libc_listen,
+	libsocket_listen,
 	libc_Lstat,
 	libc_Mkdir,
 	libc_Mknod,
@@ -220,7 +223,7 @@ var (
 	libc_Rename,
 	libc_Rmdir,
 	libc_lseek,
-	libc_sendfile,
+	libsendfile_sendfile,
 	libc_Setegid,
 	libc_Seteuid,
 	libc_Setgid,
@@ -231,7 +234,7 @@ var (
 	libc_Setrlimit,
 	libc_Setsid,
 	libc_Setuid,
-	libc_shutdown,
+	libsocket_shutdown,
 	libc_Stat,
 	libc_Symlink,
 	libc_Sync,
@@ -241,21 +244,34 @@ var (
 	libc_Umask,
 	libc_Unlink,
 	libc_Utimes,
-	libc_bind,
-	libc_connect,
+	libsocket_bind,
+	libsocket_connect,
 	libc_mmap,
 	libc_munmap,
-	libc_sendto,
-	libc_socket,
-	libc_socketpair,
+	libsocket_sendto,
+	libsocket_socket,
+	libsocket_socketpair,
 	libc_write,
-	libc_getsockopt,
-	libc_getpeername,
-	libc_getsockname,
-	libc_setsockopt,
-	libc_recvfrom,
-	libc_recvmsg libcFunc
+	libsocket_getsockopt,
+	libsocket_getpeername,
+	libsocket_getsockname,
+	libsocket_setsockopt,
+	libsocket_recvfrom,
+	libsocket_recvmsg libcFunc
 )
+
+func Getcwd(buf []byte) (n int, err error) {
+	var _p0 *byte
+	if len(buf) > 0 {
+		_p0 = &buf[0]
+	}
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_Getcwd)), 2, uintptr(unsafe.Pointer(_p0)), uintptr(len(buf)), 0, 0, 0, 0)
+	n = int(r0)
+	if e1 != 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
 
 func getgroups(ngid int, gid *_Gid_t) (n int, err error) {
 	r0, _, e1 := rawSysvicall6(uintptr(unsafe.Pointer(&libc_getgroups)), 2, uintptr(ngid), uintptr(unsafe.Pointer(gid)), 0, 0, 0, 0)
@@ -284,7 +300,7 @@ func fcntl(fd int, cmd int, arg int) (val int, err error) {
 }
 
 func accept(s int, rsa *RawSockaddrAny, addrlen *_Socklen) (fd int, err error) {
-	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_accept)), 3, uintptr(s), uintptr(unsafe.Pointer(rsa)), uintptr(unsafe.Pointer(addrlen)), 0, 0, 0)
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_accept)), 3, uintptr(s), uintptr(unsafe.Pointer(rsa)), uintptr(unsafe.Pointer(addrlen)), 0, 0, 0)
 	fd = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -293,7 +309,7 @@ func accept(s int, rsa *RawSockaddrAny, addrlen *_Socklen) (fd int, err error) {
 }
 
 func sendmsg(s int, msg *Msghdr, flags int) (n int, err error) {
-	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_sendmsg)), 3, uintptr(s), uintptr(unsafe.Pointer(msg)), uintptr(flags), 0, 0, 0)
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_sendmsg)), 3, uintptr(s), uintptr(unsafe.Pointer(msg)), uintptr(flags), 0, 0, 0)
 	n = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -559,7 +575,7 @@ func Link(path string, link string) (err error) {
 }
 
 func Listen(s int, backlog int) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_listen)), 2, uintptr(s), uintptr(backlog), 0, 0, 0, 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_listen)), 2, uintptr(s), uintptr(backlog), 0, 0, 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -748,7 +764,7 @@ func Seek(fd int, offset int64, whence int) (newoffset int64, err error) {
 }
 
 func sendfile(outfd int, infd int, offset *int64, count int) (written int, err error) {
-	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_sendfile)), 4, uintptr(outfd), uintptr(infd), uintptr(unsafe.Pointer(offset)), uintptr(count), 0, 0)
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsendfile_sendfile)), 4, uintptr(outfd), uintptr(infd), uintptr(unsafe.Pointer(offset)), uintptr(count), 0, 0)
 	written = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -838,7 +854,7 @@ func Setuid(uid int) (err error) {
 }
 
 func Shutdown(s int, how int) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_shutdown)), 2, uintptr(s), uintptr(how), 0, 0, 0, 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_shutdown)), 2, uintptr(s), uintptr(how), 0, 0, 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -952,7 +968,7 @@ func Utimes(path string, times *[2]Timeval) (err error) {
 }
 
 func bind(s int, addr unsafe.Pointer, addrlen _Socklen) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_bind)), 3, uintptr(s), uintptr(addr), uintptr(addrlen), 0, 0, 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_bind)), 3, uintptr(s), uintptr(addr), uintptr(addrlen), 0, 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -960,7 +976,7 @@ func bind(s int, addr unsafe.Pointer, addrlen _Socklen) (err error) {
 }
 
 func connect(s int, addr unsafe.Pointer, addrlen _Socklen) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_connect)), 3, uintptr(s), uintptr(addr), uintptr(addrlen), 0, 0, 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_connect)), 3, uintptr(s), uintptr(addr), uintptr(addrlen), 0, 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -989,7 +1005,7 @@ func sendto(s int, buf []byte, flags int, to unsafe.Pointer, addrlen _Socklen) (
 	if len(buf) > 0 {
 		_p0 = &buf[0]
 	}
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_sendto)), 6, uintptr(s), uintptr(unsafe.Pointer(_p0)), uintptr(len(buf)), uintptr(flags), uintptr(to), uintptr(addrlen))
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_sendto)), 6, uintptr(s), uintptr(unsafe.Pointer(_p0)), uintptr(len(buf)), uintptr(flags), uintptr(to), uintptr(addrlen))
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -997,7 +1013,7 @@ func sendto(s int, buf []byte, flags int, to unsafe.Pointer, addrlen _Socklen) (
 }
 
 func socket(domain int, typ int, proto int) (fd int, err error) {
-	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_socket)), 3, uintptr(domain), uintptr(typ), uintptr(proto), 0, 0, 0)
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_socket)), 3, uintptr(domain), uintptr(typ), uintptr(proto), 0, 0, 0)
 	fd = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1006,7 +1022,7 @@ func socket(domain int, typ int, proto int) (fd int, err error) {
 }
 
 func socketpair(domain int, typ int, proto int, fd *[2]int32) (err error) {
-	_, _, e1 := rawSysvicall6(uintptr(unsafe.Pointer(&libc_socketpair)), 4, uintptr(domain), uintptr(typ), uintptr(proto), uintptr(unsafe.Pointer(fd)), 0, 0)
+	_, _, e1 := rawSysvicall6(uintptr(unsafe.Pointer(&libsocket_socketpair)), 4, uintptr(domain), uintptr(typ), uintptr(proto), uintptr(unsafe.Pointer(fd)), 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -1027,7 +1043,7 @@ func write(fd int, p []byte) (n int, err error) {
 }
 
 func getsockopt(s int, level int, name int, val unsafe.Pointer, vallen *_Socklen) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_getsockopt)), 5, uintptr(s), uintptr(level), uintptr(name), uintptr(val), uintptr(unsafe.Pointer(vallen)), 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_getsockopt)), 5, uintptr(s), uintptr(level), uintptr(name), uintptr(val), uintptr(unsafe.Pointer(vallen)), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -1035,7 +1051,7 @@ func getsockopt(s int, level int, name int, val unsafe.Pointer, vallen *_Socklen
 }
 
 func getpeername(fd int, rsa *RawSockaddrAny, addrlen *_Socklen) (err error) {
-	_, _, e1 := rawSysvicall6(uintptr(unsafe.Pointer(&libc_getpeername)), 3, uintptr(fd), uintptr(unsafe.Pointer(rsa)), uintptr(unsafe.Pointer(addrlen)), 0, 0, 0)
+	_, _, e1 := rawSysvicall6(uintptr(unsafe.Pointer(&libsocket_getpeername)), 3, uintptr(fd), uintptr(unsafe.Pointer(rsa)), uintptr(unsafe.Pointer(addrlen)), 0, 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -1043,7 +1059,7 @@ func getpeername(fd int, rsa *RawSockaddrAny, addrlen *_Socklen) (err error) {
 }
 
 func getsockname(fd int, rsa *RawSockaddrAny, addrlen *_Socklen) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_getsockname)), 3, uintptr(fd), uintptr(unsafe.Pointer(rsa)), uintptr(unsafe.Pointer(addrlen)), 0, 0, 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_getsockname)), 3, uintptr(fd), uintptr(unsafe.Pointer(rsa)), uintptr(unsafe.Pointer(addrlen)), 0, 0, 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -1051,7 +1067,7 @@ func getsockname(fd int, rsa *RawSockaddrAny, addrlen *_Socklen) (err error) {
 }
 
 func setsockopt(s int, level int, name int, val unsafe.Pointer, vallen uintptr) (err error) {
-	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_setsockopt)), 5, uintptr(s), uintptr(level), uintptr(name), uintptr(val), uintptr(vallen), 0)
+	_, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_setsockopt)), 5, uintptr(s), uintptr(level), uintptr(name), uintptr(val), uintptr(vallen), 0)
 	if e1 != 0 {
 		err = errnoErr(e1)
 	}
@@ -1063,7 +1079,7 @@ func recvfrom(fd int, p []byte, flags int, from *RawSockaddrAny, fromlen *_Sockl
 	if len(p) > 0 {
 		_p0 = &p[0]
 	}
-	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_recvfrom)), 6, uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(len(p)), uintptr(flags), uintptr(unsafe.Pointer(from)), uintptr(unsafe.Pointer(fromlen)))
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_recvfrom)), 6, uintptr(fd), uintptr(unsafe.Pointer(_p0)), uintptr(len(p)), uintptr(flags), uintptr(unsafe.Pointer(from)), uintptr(unsafe.Pointer(fromlen)))
 	n = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
@@ -1072,7 +1088,7 @@ func recvfrom(fd int, p []byte, flags int, from *RawSockaddrAny, fromlen *_Sockl
 }
 
 func recvmsg(s int, msg *Msghdr, flags int) (n int, err error) {
-	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_recvmsg)), 3, uintptr(s), uintptr(unsafe.Pointer(msg)), uintptr(flags), 0, 0, 0)
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libsocket_recvmsg)), 3, uintptr(s), uintptr(unsafe.Pointer(msg)), uintptr(flags), 0, 0, 0)
 	n = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
