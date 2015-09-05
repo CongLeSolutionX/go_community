@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8480d2c5_1938af65",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-09-05T16:21:44Z",
+      "side": 1,
+      "message": "Done - deleted \"previously\" for all of them.",
+      "parentUuid": "8497f201_e71c1702",
+      "range": {
+        "startLine": 244,
+        "startChar": 36,
+        "endLine": 244,
+        "endChar": 46
+      },
+      "revId": "507f58f4f838556d56262940c6e9f49f87d69bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_a7260f4e",
         "filename": "src/cmd/asm/internal/asm/parse.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-05T15:13:13Z",
       "side": 1,
       "message": "s/bitsize/maxReg/",
+      "range": {
+        "startLine": 705,
+        "startChar": 7,
+        "endLine": 705,
+        "endChar": 15
+      },
+      "revId": "507f58f4f838556d56262940c6e9f49f87d69bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84c53226_b1f65afc",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-09-05T16:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_a7260f4e",
       "range": {
         "startLine": 705,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a46956e6_fa71251f",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-09-05T16:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_6728071a",
+      "range": {
+        "startLine": 727,
+        "startChar": 21,
+        "endLine": 727,
+        "endChar": 23
+      },
+      "revId": "507f58f4f838556d56262940c6e9f49f87d69bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_87219339",
         "filename": "src/cmd/asm/internal/asm/parse.go",
         "patchSetId": 4
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "a4d8763b_df1bbb79",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-09-05T16:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_87219339",
+      "revId": "507f58f4f838556d56262940c6e9f49f87d69bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_07358371",
         "filename": "src/cmd/asm/internal/asm/parse.go",
         "patchSetId": 4
@@ -99,6 +189,30 @@
       "writtenOn": "2015-09-05T15:13:13Z",
       "side": 1,
       "message": "s/still //",
+      "range": {
+        "startLine": 759,
+        "startChar": 11,
+        "endLine": 759,
+        "endChar": 16
+      },
+      "revId": "507f58f4f838556d56262940c6e9f49f87d69bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a455d63a_ba8c2d2c",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-09-05T16:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_07358371",
       "range": {
         "startLine": 759,
         "startChar": 11,
