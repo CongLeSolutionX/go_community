@@ -16,6 +16,24 @@
       "revId": "16f0bdae17e500047151eeacfd1db903182348de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d42ed5_b7f650fc",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-09-05T14:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4d8763b_5f088b30",
+      "revId": "16f0bdae17e500047151eeacfd1db903182348de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
