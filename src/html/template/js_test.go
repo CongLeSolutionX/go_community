@@ -332,6 +332,24 @@ func TestEscapersOnLower7AndSelectHighCodepoints(t *testing.T) {
 	}
 }
 
+func TestIsJsMimeType(t *testing.T) {
+	tests := []struct {
+		mimeType string
+		isJs     bool
+	}{
+		{"application/javascript;version=1.8", true},
+		{"application/javascript;version=1.8;foo=bar", true},
+		{"application/javascript/version=1.8", false},
+		{"text/javascript", true},
+	}
+
+	for _, test := range tests {
+		if isJsMimeType(test.mimeType) != test.isJs {
+			t.Errorf("want %s got %q", test.isJs, !test.isJs)
+		}
+	}
+}
+
 func BenchmarkJSValEscaperWithNum(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		jsValEscaper(3.141592654)
