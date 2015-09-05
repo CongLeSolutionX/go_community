@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "647bdead_1e85f18f",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-09-05T01:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8497f201_e7dbb756",
+      "revId": "153f11cfb2f99f2d1e9e6031943b38f93819f302",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_27caff84",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-05T00:10:31Z",
       "side": 1,
       "message": "Passing thought: I wonder whether we should teach rulegen about symmetric ops, as it knows about default types. Then it could generate the second member of these pairs.",
+      "revId": "153f11cfb2f99f2d1e9e6031943b38f93819f302",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647bdead_3e8a2da1",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2015-09-05T01:06:10Z",
+      "side": 1,
+      "message": "Sounds like it would work, I added it to my list of things to look into.",
+      "parentUuid": "8497f201_27caff84",
       "revId": "153f11cfb2f99f2d1e9e6031943b38f93819f302",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
