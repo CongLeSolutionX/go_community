@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_a73daf57",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-05T16:26:06Z",
+      "side": 1,
+      "message": "is [1:] correct here? I would expect to see the i variable involved?\n\nAre there tests for this?\n\n(Disclaimer: just woke up. eyes blurry and working on first coffee)",
+      "revId": "58aee87de6c7f4a9d09e8104ef19718758916708",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
