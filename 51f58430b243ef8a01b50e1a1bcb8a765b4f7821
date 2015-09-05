@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_87ef532d",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-05T17:07:59Z",
+      "side": 1,
+      "message": "s/just //",
+      "range": {
+        "startLine": 186,
+        "startChar": 40,
+        "endLine": 186,
+        "endChar": 44
+      },
+      "revId": "51f58430b243ef8a01b50e1a1bcb8a765b4f7821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_a7f4cf01",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-05T17:07:59Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 244,
+        "startChar": 40,
+        "endLine": 244,
+        "endChar": 44
+      },
+      "revId": "51f58430b243ef8a01b50e1a1bcb8a765b4f7821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_47d94b93",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-05T17:07:59Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 293,
+        "startChar": 44,
+        "endLine": 293,
+        "endChar": 48
+      },
+      "revId": "51f58430b243ef8a01b50e1a1bcb8a765b4f7821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_67d6c765",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-05T17:07:59Z",
+      "side": 1,
+      "message": "s/,/;/",
+      "range": {
+        "startLine": 294,
+        "startChar": 66,
+        "endLine": 294,
+        "endChar": 67
+      },
+      "revId": "51f58430b243ef8a01b50e1a1bcb8a765b4f7821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_c7e55b4f",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-05T17:07:59Z",
+      "side": 1,
+      "message": "s/range/range\u0027s/ or just\nParse the upper and lower bounds.",
+      "range": {
+        "startLine": 717,
+        "startChar": 15,
+        "endLine": 717,
+        "endChar": 20
+      },
+      "revId": "51f58430b243ef8a01b50e1a1bcb8a765b4f7821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_e7ead71d",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-05T17:07:59Z",
+      "side": 1,
+      "message": "now that i see this in situ, the second line just echoes the code. it can go: it\u0027s the loop condition.",
+      "range": {
+        "startLine": 728,
+        "startChar": 14,
+        "endLine": 728,
+        "endChar": 15
+      },
+      "revId": "51f58430b243ef8a01b50e1a1bcb8a765b4f7821",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
