@@ -101,12 +101,6 @@ var (
 	eod = [3]uintptr{0, 1, 0}
 )
 
-func setcpuprofilerate(hz int32) {
-	systemstack(func() {
-		setcpuprofilerate_m(hz)
-	})
-}
-
 // lostProfileData is a no-op function used in profiles
 // to mark the number of profiling stack traces that were
 // discarded due to slow data writers.
@@ -148,12 +142,12 @@ func SetCPUProfileRate(hz int) {
 		// pprof binary header format.
 		// http://code.google.com/p/google-perftools/source/browse/trunk/src/profiledata.cc#117
 		p := &cpuprof.log[0]
-		p[0] = 0                 // count for header
-		p[1] = 3                 // depth for header
-		p[2] = 0                 // version number
-		p[3] = uintptr(1e6 / hz) // period (microseconds)
+		p[0] = 0 // count for header
+		p[1] = 3 // depth for header
+		p[2] = 0 // version number
+		p[3] = 0 // period, filled in below
 		p[4] = 0
-		cpuprof.nlog = 5
+		cpuprof.nlog = 0
 		cpuprof.toggle = 0
 		cpuprof.wholding = false
 		cpuprof.wtoggle = 0
@@ -161,7 +155,9 @@ func SetCPUProfileRate(hz int) {
 		cpuprof.eodSent = false
 		noteclear(&cpuprof.wait)
 
-		setcpuprofilerate(int32(hz))
+		hz = int(setcpuprofilerate(int32(hz)))
+		p[3] = 1000000 / uintptr(hz) // period (microseconds)
+		cpuprof.nlog = 5
 	} else if cpuprof != nil && cpuprof.on {
 		setcpuprofilerate(0)
 		cpuprof.on = false

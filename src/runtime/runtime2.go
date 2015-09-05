@@ -258,6 +258,7 @@ type g struct {
 	racectx        uintptr
 	waiting        *sudog // sudog structures this g is waiting on (that have a valid elem ptr)
 	readyg         *g     // scratch for readyExecute
+	proftag        uint64
 
 	// Per-G gcController state
 	gcalloc    uintptr // bytes allocated during this GC cycle
@@ -392,6 +393,7 @@ type p struct {
 	sudogcache []*sudog
 	sudogbuf   [128]*sudog
 
+	bgcpu    *profBuf
 	tracebuf *traceBuf
 
 	palloc persistentAlloc // per-P to avoid mutex

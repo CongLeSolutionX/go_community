@@ -1078,6 +1078,7 @@ func freespecial(s *special, p unsafe.Pointer, size uintptr, freed bool) bool {
 		return false // don't free p until finalizer is done
 	case _KindSpecialProfile:
 		sp := (*specialprofile)(unsafe.Pointer(s))
+		bgmalloc(uintptr(p), ^uintptr(0), nil)
 		mProf_Free(sp.b, size, freed)
 		lock(&mheap_.speciallock)
 		fixAlloc_Free(&mheap_.specialprofilealloc, (unsafe.Pointer)(sp))

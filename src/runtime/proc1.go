@@ -1746,6 +1746,7 @@ func goexit0(gp *g) {
 
 	casgstatus(gp, _Grunning, _Gdead)
 	gp.m = nil
+	gp.proftag = 0
 	gp.lockedm = nil
 	_g_.m.lockedg = nil
 	gp.paniconfault = false
@@ -2485,8 +2486,10 @@ func mcount() int32 {
 }
 
 var prof struct {
-	lock uint32
-	hz   int32
+	lock   uint32
+	hz     int32
+	active bool // main profiler in use
+	bg     bool // background profiler in use
 }
 
 func _System()       { _System() }
@@ -2612,12 +2615,15 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 	}
 	atomicstore(&gp.stackLock, 0)
 
-	if prof.hz != 0 {
+	if prof.active || prof.bg {
 		// Simple cas-lock to coordinate with setcpuprofilerate.
 		for !cas(&prof.lock, 0, 1) {
 			osyield()
 		}
-		if prof.hz != 0 {
+		if prof.bg {
+			bgcpu(gp, stk[:n])
+		}
+		if prof.active {
 			cpuprof.add(stk[:n])
 		}
 		atomicstore(&prof.lock, 0)
@@ -2650,7 +2656,8 @@ func setsSP(pc uintptr) bool {
 }
 
 // Arrange to call fn with a traceback hz times a second.
-func setcpuprofilerate_m(hz int32) {
+// Returns actual hz.
+func setcpuprofilerate(hz int32) int32 {
 	// Force sane arguments.
 	if hz < 0 {
 		hz = 0
@@ -2669,7 +2676,44 @@ func setcpuprofilerate_m(hz int32) {
 	for !cas(&prof.lock, 0, 1) {
 		osyield()
 	}
-	prof.hz = hz
+	if !prof.bg {
+		prof.hz = hz
+	}
+	hz = prof.hz
+	prof.active = hz != 0
+	atomicstore(&prof.lock, 0)
+
+	lock(&sched.lock)
+	sched.profilehz = hz
+	unlock(&sched.lock)
+
+	if hz != 0 {
+		resetcpuprofiler(hz)
+	}
+
+	_g_.m.locks--
+	return hz
+}
+
+// enablebgcpu enables background CPU profiling at the given sample rate.
+func enablebgcpu(hz int32) {
+	_g_ := getg()
+	_g_.m.locks++
+
+	// Stop profiler on this thread so that it is safe to lock prof.
+	// if a profiling signal came in while we had prof locked,
+	// it would deadlock.
+	resetcpuprofiler(0)
+
+	for !cas(&prof.lock, 0, 1) {
+		osyield()
+	}
+
+	if hz != 0 || !prof.active {
+		prof.hz = hz
+	}
+	hz = prof.hz
+	prof.bg = hz != 0
 	atomicstore(&prof.lock, 0)
 
 	lock(&sched.lock)
@@ -2713,6 +2757,12 @@ func procresize(nprocs int32) *p {
 			pp.sudogcache = pp.sudogbuf[:0]
 			for i := range pp.deferpool {
 				pp.deferpool[i] = pp.deferpoolbuf[i][:0]
+			}
+			if i > 0 {
+				b0 := allp[0].bgcpu
+				if b0 != nil {
+					pp.bgcpu = newProfBuf(int(b0.hdrsize), len(b0.data))
+				}
 			}
 			atomicstorep(unsafe.Pointer(&allp[i]), unsafe.Pointer(pp))
 		}
