@@ -362,3 +362,15 @@ func isJSIdentPart(r rune) bool {
 	}
 	return false
 }
+
+// isJsScriptType returns true if a script tag with the given type attribute value
+// should be considered as JavaScript container.
+func isJsScriptType(scriptType string) bool {
+	// per http://www.w3.org/TR/html5/scripting-1.html#attr-script-type
+	switch scriptType {
+	case "text/javascript", "":
+		return true
+	default:
+		return false
+	}
+}
