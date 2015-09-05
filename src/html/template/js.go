@@ -362,3 +362,9 @@ func isJSIdentPart(r rune) bool {
 	}
 	return false
 }
+
+// isJsMimeType reports whether the given MIME type should be considered JS.
+func isJsMimeType(mimeType string) bool {
+	// per http://www.w3.org/TR/html5/scripting-1.html#attr-script-type
+	return mimeType == "text/javascript"
+}

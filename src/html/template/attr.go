@@ -173,3 +173,21 @@ func attrType(name string) contentType {
 	}
 	return contentTypePlain
 }
+
+// getAttr returns attr given its name and context.
+func getAttr(c context, name string) attr {
+	if c.element == elementScript && name == "type" {
+		return attrScriptType
+	}
+
+	switch attrType(name) {
+	case contentTypeURL:
+		return attrURL
+	case contentTypeCSS:
+		return attrStyle
+	case contentTypeJS:
+		return attrScript
+	default:
+		return attrNone
+	}
+}
