@@ -98,21 +98,14 @@ func tTag(c context, s []byte) (context, int) {
 	if err != nil {
 		return context{state: stateError, err: err}, len(s)
 	}
-	state, attr := stateTag, attrNone
+	state := stateTag
 	if i == j {
 		return context{
 			state: stateError,
 			err:   errorf(ErrBadHTML, nil, 0, "expected space, attr name, or end of tag, but got %q", s[i:]),
 		}, len(s)
 	}
-	switch attrType(string(s[i:j])) {
-	case contentTypeURL:
-		attr = attrURL
-	case contentTypeCSS:
-		attr = attrStyle
-	case contentTypeJS:
-		attr = attrScript
-	}
+	attr := getAttr(c, string(s[i:j]))
 	if j == len(s) {
 		state = stateAttrName
 	} else {
@@ -149,10 +142,11 @@ func tAfterName(c context, s []byte) (context, int) {
 }
 
 var attrStartStates = [...]state{
-	attrNone:   stateAttr,
-	attrScript: stateJS,
-	attrStyle:  stateCSS,
-	attrURL:    stateURL,
+	attrNone:       stateAttr,
+	attrScript:     stateJS,
+	attrScriptType: stateAttr,
+	attrStyle:      stateCSS,
+	attrURL:        stateURL,
 }
 
 // tBeforeValue is the context transition function for stateBeforeValue.
