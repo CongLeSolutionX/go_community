@@ -702,6 +702,7 @@ func (p *Parser) registerIndirect(a *obj.Addr, prefix rune) {
 // The opening bracket has been consumed.
 func (p *Parser) registerList(a *obj.Addr) {
 	// One range per loop.
+	const bitsSize = 16
 	var bits uint16
 ListLoop:
 	for {
@@ -713,6 +714,7 @@ ListLoop:
 			p.errorf("missing ']' in register list")
 			return
 		}
+		// Parse the range lower and upper bounds.
 		lo := p.registerNumber(tok.String())
 		hi := lo
 		if p.peek() == '-' {
@@ -722,7 +724,9 @@ ListLoop:
 		if hi < lo {
 			lo, hi = hi, lo
 		}
-		for lo <= hi {
+		// Check the range in the bitset.
+		// Make sure it cannot loop more than the widest possible range even if the bounds are wrong.
+		for i := 0; lo <= hi && i < bitsSize; i++ {
 			if bits&(1<<lo) != 0 {
 				p.errorf("register R%d already in list", lo)
 			}
@@ -739,17 +743,25 @@ ListLoop:
 
 // register number is ARM-specific. It returns the number of the specified register.
 func (p *Parser) registerNumber(name string) uint16 {
+
 	if p.arch.Thechar == '5' && name == "g" {
 		return 10
 	}
 	if name[0] != 'R' {
 		p.errorf("expected g or R0 through R15; found %s", name)
+		return 0
 	}
 	r, ok := p.registerReference(name)
 	if !ok {
 		return 0
 	}
-	return uint16(r - p.arch.Register["R0"])
+	reg := r - p.arch.Register["R0"]
+	if reg < 0 {
+		// Could still happen for an architecture having other registers prefixed by R
+		p.errorf("expected g or R0 through R15; found %s", name)
+		return 0
+	}
+	return uint16(reg)
 }
 
 // Note: There are two changes in the expression handling here
