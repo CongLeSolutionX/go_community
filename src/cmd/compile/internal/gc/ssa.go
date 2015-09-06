@@ -1561,7 +1561,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		s.startBlock(bResult)
 		return s.variable(n, Types[TBOOL])
 
-		// unary ops
+	// unary ops
 	case OMINUS:
 		a := s.expr(n.Left)
 		if n.Type.IsComplex() {
@@ -1575,6 +1575,8 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case ONOT, OCOM:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
+	case OPLUS:
+		return s.expr(n.Left)
 
 	case OADDR:
 		return s.addr(n.Left)
