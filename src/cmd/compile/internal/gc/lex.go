@@ -423,7 +423,7 @@ func Main() {
 	if Debug['l'] > 1 {
 		// Typecheck imported function bodies if debug['l'] > 1,
 		// otherwise lazily when used or re-exported.
-		for l := importlist; l != nil; l = l.Next {
+		for _, l := range importlist {
 			if l.N.Func.Inl != nil {
 				saveerrors()
 				typecheckinl(l.N)

@@ -588,7 +588,7 @@ var externdcl *NodeList
 
 var exportlist []*Node
 
-var importlist *NodeList // imported functions and methods with inlinable bodies
+var importlist *[]Node // imported functions and methods with inlinable bodies
 
 var funcsyms *NodeList
 
