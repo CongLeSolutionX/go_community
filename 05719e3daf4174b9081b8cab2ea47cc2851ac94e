@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_82b98104",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2691,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-06T02:26:30Z",
+      "side": 1,
+      "message": "Why not\n\nfunc (s *genState) genValue(v *ssa.Value)\n\nand similarly so for genBlock?",
+      "revId": "05719e3daf4174b9081b8cab2ea47cc2851ac94e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
