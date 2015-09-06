@@ -22,6 +22,30 @@
       "revId": "665bee6dabfe03fc4a82c60613106cabdcd3c074",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647bdead_e9c2bd6d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-09-06T03:26:17Z",
+      "side": 1,
+      "message": "OPLUS(-0.0) is still -0.0.\n\nhttp://play.golang.org/p/isL3v3wxrO",
+      "parentUuid": "8497f201_a20cbd7c",
+      "range": {
+        "startLine": 1579,
+        "startChar": 0,
+        "endLine": 1579,
+        "endChar": 23
+      },
+      "revId": "665bee6dabfe03fc4a82c60613106cabdcd3c074",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
