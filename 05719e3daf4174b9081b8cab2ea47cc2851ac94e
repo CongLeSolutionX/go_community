@@ -16,6 +16,24 @@
       "revId": "05719e3daf4174b9081b8cab2ea47cc2851ac94e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_02e49112",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2691,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2015-09-06T02:42:14Z",
+      "side": 1,
+      "message": "Excellent idea, not sure why I missed that.",
+      "parentUuid": "8497f201_82b98104",
+      "revId": "05719e3daf4174b9081b8cab2ea47cc2851ac94e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
