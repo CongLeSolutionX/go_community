@@ -16,17 +16,17 @@ const zero = 0.0
 func main() {
 	x := -zero
 	b := math.Float64bits(x)
-	if b != 0 {
+	if b != 0x8000000000000000 {
 		panic(b)
 	}
 	x = -float64(zero)
 	b = math.Float64bits(x)
-	if b != 0 {
+	if b != 0x8000000000000000 {
 		panic(b)
 	}
-	v := x
+	v := x // v is now -zero
 	b = math.Float64bits(-v)
-	if b != 0x8000000000000000 {
+	if b != 0 {
 		panic(b)
 	}
 }
