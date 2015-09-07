@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4d8763b_621e98a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-09-07T19:53:00Z",
+      "side": 1,
+      "message": "Thanks, I still don\u0027t understand how this could happen but seems to work now.\n\nPTAL.",
+      "parentUuid": "84ae1264_1a5c2dde",
+      "revId": "733a140658c39f702f73f097badd93e26460133e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84ae1264_5a62a59f",
         "filename": "src/cmd/compile/internal/gc/go.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e4d42ed5_da2bf95d",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-09-07T19:53:00Z",
+      "side": 1,
+      "message": "Yes :-P\n\nFixed.",
+      "parentUuid": "84ae1264_5a62a59f",
+      "revId": "733a140658c39f702f73f097badd93e26460133e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84ae1264_7a6761ae",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-09-06T23:49:50Z",
       "side": 1,
       "message": "should this be l.Func ?\n\nplease rename this to be\n\nfor _, n :\u003d range importlist",
+      "revId": "733a140658c39f702f73f097badd93e26460133e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ae4a93_786001cb",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-09-07T19:53:00Z",
+      "side": 1,
+      "message": "Yes, this should be l.Func, or rather n.Func with your suggestion.\n\nDone.",
+      "parentUuid": "84ae1264_7a6761ae",
       "revId": "733a140658c39f702f73f097badd93e26460133e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
