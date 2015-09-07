@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_8238a167",
+        "filename": "src/cmd/compile/internal/ssa/sparseTree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-07T17:06:10Z",
+      "side": 1,
+      "message": "\"block-to-parent tree\" is confusing.  Maybe \"map from block ID to parent block\"?",
+      "range": {
+        "startLine": 27,
+        "startChar": 45,
+        "endLine": 27,
+        "endChar": 66
+      },
+      "revId": "a66b59e77f0f2e82813d4f7162390da4cf1e191a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_02357171",
+        "filename": "src/cmd/compile/internal/ssa/sparseTree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-07T17:06:10Z",
+      "side": 1,
+      "message": "call \"tree\" \"parent\" instead?",
+      "range": {
+        "startLine": 28,
+        "startChar": 28,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "a66b59e77f0f2e82813d4f7162390da4cf1e191a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_2232ed89",
+        "filename": "src/cmd/compile/internal/ssa/sparseTree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-07T17:06:10Z",
+      "side": 1,
+      "message": "\u0026t[b.ID]?  That way we aren\u0027t copying sparseTreeBlocks around.",
+      "revId": "a66b59e77f0f2e82813d4f7162390da4cf1e191a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_e243a5db",
+        "filename": "src/cmd/compile/internal/ssa/sparseTree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-07T17:06:10Z",
+      "side": 1,
+      "message": "Then get rid of this.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "a66b59e77f0f2e82813d4f7162390da4cf1e191a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_c23ea955",
+        "filename": "src/cmd/compile/internal/ssa/sparseTree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-07T17:06:10Z",
+      "side": 1,
+      "message": "Same here, use \u0026t[x.ID]",
+      "range": {
+        "startLine": 62,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "a66b59e77f0f2e82813d4f7162390da4cf1e191a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
