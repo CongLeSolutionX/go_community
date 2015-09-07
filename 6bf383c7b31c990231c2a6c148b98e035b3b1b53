@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_425cd98c",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-07T22:25:23Z",
+      "side": 0,
+      "message": "Might be worth keeping around, to compare the sophisticated implementation vs the simple one.",
+      "revId": "6bf383c7b31c990231c2a6c148b98e035b3b1b53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
