@@ -19,6 +19,115 @@
     },
     {
       "key": {
+        "uuid": "8497f201_bd994272",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T12:41:44Z",
+      "side": 1,
+      "message": "In fact it must be a constant string, see parseTemplateName, line 583",
+      "range": {
+        "startLine": 533,
+        "startChar": 17,
+        "endLine": 533,
+        "endChar": 59
+      },
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_9da8067d",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T12:41:44Z",
+      "side": 1,
+      "message": "OOC: why mandatory?",
+      "range": {
+        "startLine": 534,
+        "startChar": 3,
+        "endLine": 534,
+        "endChar": 28
+      },
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_5d8a7e0f",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T12:41:44Z",
+      "side": 1,
+      "message": "FWIU, a block should not only define a template, but also use it, therefore \n\n  {{block \"Foo\" .}}Bar{{end}}\n\nit should be equivalent to\n\n  {{define \"Foo\" .}}Bar{{end}}{{template \"Foo\" .}}\n\nThis code does not seem to use the defined template. Consider adding a test that uses a non-overlayed template.",
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_7da3baa0",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T12:41:44Z",
+      "side": 1,
+      "message": "\"a constant string\"",
+      "range": {
+        "startLine": 559,
+        "startChar": 47,
+        "endLine": 559,
+        "endChar": 74
+      },
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_dd9e8e58",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T12:41:44Z",
+      "side": 1,
+      "message": "nit: double space",
+      "range": {
+        "startLine": 559,
+        "startChar": 29,
+        "endLine": 559,
+        "endChar": 30
+      },
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44e3394a_55456ccb",
         "filename": "src/text/template/template.go",
         "patchSetId": 1
@@ -30,6 +139,23 @@
       "writtenOn": "2015-08-28T16:46:41Z",
       "side": 1,
       "message": "s/redefintions/redefinitions/",
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8497f201_fd96ea39",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T12:41:44Z",
+      "side": 1,
+      "message": "Consider returning an error if ot contains non-template non-whitespace nodes, otherwise they will be silently ignored",
       "revId": "987de67c4a2357f4566254d42a8631243447b66d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
