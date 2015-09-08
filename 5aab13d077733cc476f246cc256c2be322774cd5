@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_3df1b2cf",
+        "filename": "src/cmd/compile/internal/ssa/sparsetree.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-08T03:01:53Z",
+      "side": 1,
+      "message": "I still can\u0027t grok what all the numbers might be for. It needs an example, at least.  How about something like:\n\n    A\n  / | \\\n B C  D\n\nA entry: 2 exit: 23\nB entry: 5 exit: 9\nC entry: 11 exit: 15\nD entry: 17 exit: 21\n\nSo 2 is at A\u0027s entry, 3 is between A\u0027s phis and body, 4 is after A but before its children, 5 is at B\u0027s entry, etc.  Explain 21, 22, 23 also.  And check my math.\n\nI\u0027m also confused by all the off-by-one tidbits in here.  We tell b to start numbering at n, but then its entry field is n+1.  Huh?  Can\u0027t numberBlock(b,n) start numbering b at n and return the next free number after it is done?",
+      "revId": "5aab13d077733cc476f246cc256c2be322774cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
