@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8497f201_dd29aeca",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-08T03:09:04Z",
+      "side": 1,
+      "message": "Maybe check from.Etype here as well?  It should be a pointer type, right?",
+      "revId": "ec49e68ea1fd1cb1dfbf4c0da8c31a14260b3483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
