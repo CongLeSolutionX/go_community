@@ -54,3 +54,6 @@ func TestArithmeticBoundary(t *testing.T) { runTest(t, "arithBoundary_ssa.go") }
 
 // TestArithmeticConst tests results for arithmetic operations against constants.
 func TestArithmeticConst(t *testing.T) { runTest(t, "arithConst_ssa.go") }
+
+// TestClosure tests closure related behavior.
+func TestClosure(t *testing.T) { runTest(t, "closure_ssa.go") }
