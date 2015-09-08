@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "841a92b2_6c4e6f37",
+        "filename": "src/text/template/parse/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-08T13:01:14Z",
+      "side": 1,
+      "message": "Ignore this, I see that it applies the template. I thought newTemplate defines, not uses the template",
+      "parentUuid": "8497f201_5d8a7e0f",
+      "revId": "987de67c4a2357f4566254d42a8631243447b66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8497f201_7da3baa0",
         "filename": "src/text/template/parse/parse.go",
         "patchSetId": 1
