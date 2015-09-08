@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_ff376bc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-08T20:52:45Z",
+      "side": 1,
+      "message": "s/()//\n\nI don\u0027t see STYPELINK in the change to genasmsym--is this comment right?",
+      "revId": "d11c6962a5fc10eae438f607a8204833848c9294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
