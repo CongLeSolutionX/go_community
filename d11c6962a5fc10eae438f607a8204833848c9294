@@ -16,6 +16,24 @@
       "revId": "d11c6962a5fc10eae438f607a8204833848c9294",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ae1264_c0f6a2fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-08T22:51:28Z",
+      "side": 1,
+      "message": "That would apparently be because I uploaded the wrong commit -- thanks for checking!",
+      "parentUuid": "c4ef2afe_ff376bc6",
+      "revId": "d11c6962a5fc10eae438f607a8204833848c9294",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
