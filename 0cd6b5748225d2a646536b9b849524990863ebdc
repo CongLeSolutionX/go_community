@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_90fba981",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-08T22:49:38Z",
+      "side": 1,
+      "message": "Moving the setting of cpuprof.nlog \u003d 5 down here seems pointless.",
+      "revId": "0cd6b5748225d2a646536b9b849524990863ebdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
