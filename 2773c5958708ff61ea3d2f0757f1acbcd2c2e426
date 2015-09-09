@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44517aa7_bcc1e18c",
+        "filename": "src/mime/encodedword.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2015-09-09T19:26:20Z",
+      "side": 1,
+      "message": "This comment seems to be wrong. The function always returns an empty string when the given word is not RFC 2047 encoded, which is also what the tests expect.",
+      "range": {
+        "startLine": 101,
+        "startChar": 35,
+        "endLine": 102,
+        "endChar": 30
+      },
+      "revId": "2773c5958708ff61ea3d2f0757f1acbcd2c2e426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
