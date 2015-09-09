@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_c104c5dc",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-09T17:46:53Z",
+      "side": 1,
+      "message": "// bytes cleared by one block",
+      "revId": "e5c23f5ef7a2f48128645dbdda09505813738f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_e1ffc925",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-09T17:46:53Z",
+      "side": 1,
+      "message": "I think this would be clearer as q*int64(gc.Widthreg)/dzClearLen*dzBlockSize",
+      "range": {
+        "startLine": 83,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 47
+      },
+      "revId": "e5c23f5ef7a2f48128645dbdda09505813738f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_e136a9b1",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-09T17:46:53Z",
+      "side": 1,
+      "message": "You could do the same as here for zeroing X0.  That way you\u0027d only have to do it once for potentially several consecutive zerorange calls.\n\nMaybe we should also move this code in to where AX is used, that way if we\u0027re zeroing exactly a multiple of 64 bytes we don\u0027t zero AX unnecessarily.",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 94,
+        "endChar": 2
+      },
+      "revId": "e5c23f5ef7a2f48128645dbdda09505813738f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_0132cdbf",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-09T17:46:53Z",
+      "side": 1,
+      "message": "Part of the charm of the duffzero code is that we can jump into the middle of it, even into the middle of a block.  That is what dzDI and friends are for.  In your code, we use the duff device to zero 64-byte chunks and do the rest with movq (up to 8 of them).  You could as before precalc the jumps/offset you need to get it down to exactly the right number of 16-byte writes, then you would only need at most one extra MOVQ.  You also wouldn\u0027t need to up the movq sequence above to 8.",
+      "revId": "e5c23f5ef7a2f48128645dbdda09505813738f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_a148a127",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-09T17:46:53Z",
+      "side": 1,
+      "message": "For 9 through 15 bytes, can we just use two overlapped MOVQs?\nSame for 5 though 7 bytes for MOVLs.",
+      "revId": "e5c23f5ef7a2f48128645dbdda09505813738f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
