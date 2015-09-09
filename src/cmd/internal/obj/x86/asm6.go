@@ -1532,8 +1532,8 @@ func fillnop(p []byte, n int) {
 	}
 }
 
-func naclpad(ctxt *obj.Link, s *obj.LSym, c int32, pad int32) int32 {
-	obj.Symgrow(ctxt, s, int64(c)+int64(pad))
+func naclpad(s *obj.LSym, c int32, pad int32) int32 {
+	obj.Symgrow(s, int64(c)+int64(pad))
 	fillnop(s.P[c:], int(pad))
 	return c + pad
 }
@@ -1633,19 +1633,19 @@ func span6(ctxt *obj.Link, s *obj.LSym) {
 
 				// pad everything to avoid crossing 32-byte boundary
 				if c>>5 != (c+int32(p.Isize)-1)>>5 {
-					c = naclpad(ctxt, s, c, -c&31)
+					c = naclpad(s, c, -c&31)
 				}
 
 				// pad call deferreturn to start at 32-byte boundary
 				// so that subtracting 5 in jmpdefer will jump back
 				// to that boundary and rerun the call.
 				if p.As == obj.ACALL && p.To.Sym == deferreturn {
-					c = naclpad(ctxt, s, c, -c&31)
+					c = naclpad(s, c, -c&31)
 				}
 
 				// pad call to end at 32-byte boundary
 				if p.As == obj.ACALL {
-					c = naclpad(ctxt, s, c, -(c+int32(p.Isize))&31)
+					c = naclpad(s, c, -(c+int32(p.Isize))&31)
 				}
 
 				// the linker treats REP and STOSQ as different instructions
@@ -1653,14 +1653,14 @@ func span6(ctxt *obj.Link, s *obj.LSym) {
 				// make sure REP has room for 2 more bytes, so that
 				// padding will not be inserted before the next instruction.
 				if (p.As == AREP || p.As == AREPN) && c>>5 != (c+3-1)>>5 {
-					c = naclpad(ctxt, s, c, -c&31)
+					c = naclpad(s, c, -c&31)
 				}
 
 				// same for LOCK.
 				// various instructions follow; the longest is 4 bytes.
 				// give ourselves 8 bytes so as to avoid surprises.
 				if p.As == ALOCK && c>>5 != (c+8-1)>>5 {
-					c = naclpad(ctxt, s, c, -c&31)
+					c = naclpad(s, c, -c&31)
 				}
 			}
 
@@ -1669,7 +1669,7 @@ func span6(ctxt *obj.Link, s *obj.LSym) {
 				v = -c & (LoopAlign - 1)
 
 				if v <= MaxLoopPad {
-					obj.Symgrow(ctxt, s, int64(c)+int64(v))
+					obj.Symgrow(s, int64(c)+int64(v))
 					fillnop(s.P[c:], int(v))
 					c += v
 				}
@@ -1713,7 +1713,7 @@ func span6(ctxt *obj.Link, s *obj.LSym) {
 				loop++
 			}
 
-			obj.Symgrow(ctxt, s, p.Pc+int64(m))
+			obj.Symgrow(s, p.Pc+int64(m))
 			copy(s.P[p.Pc:][:m], ctxt.And[:m])
 			p.Mark = uint16(m)
 			c += int32(m)
@@ -1730,7 +1730,7 @@ func span6(ctxt *obj.Link, s *obj.LSym) {
 	}
 
 	if ctxt.Headtype == obj.Hnacl {
-		c = naclpad(ctxt, s, c, -c&31)
+		c = naclpad(s, c, -c&31)
 	}
 
 	c += -c & (FuncAlign - 1)
