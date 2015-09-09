@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_157f9276",
+        "filename": "src/html/template/content_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-09T23:28:20Z",
+      "side": 1,
+      "message": "this test is same as above",
+      "revId": "050617e0c4d8bd5f68ff75f2253917c7df0e0d0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_d5fd8a33",
+        "filename": "src/html/template/context.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-09-09T23:28:20Z",
+      "side": 1,
+      "message": "repurposing elementScript. This is how it is actually treated",
+      "revId": "050617e0c4d8bd5f68ff75f2253917c7df0e0d0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
