@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_81735d6f",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2857,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-09T16:37:22Z",
+      "side": 1,
+      "message": "given the words in the CL description, this is worth a comment",
+      "revId": "6c18b90afb63778b996a6496fc68f26f007df1a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
