@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24256643_d30db443",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-09-09T17:15:22Z",
+      "side": 1,
+      "message": "Needs mention in this table, too.",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 47
+      },
+      "revId": "01b15bfcdfb1e754ab81f45bb448047128e6a1bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
