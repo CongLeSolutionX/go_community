@@ -16,6 +16,24 @@
       "revId": "c46408ce4b74231ec77c23b07af27d935b81b3cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_01864d4d",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-09T17:05:30Z",
+      "side": 1,
+      "message": "I tried to find names for most of these but could not. Google\u0027s CLA system also doesn\u0027t know. And when we know their Github account at least, usually their Github accounts also don\u0027t have a name.\n\nIf Google\u0027s lawyers seem cool with it, are we going to be stricter?\n\nOr should we just mail these people and ask for optional-but-encouraged names?",
+      "parentUuid": "c4ef2afe_61fab9e5",
+      "revId": "c46408ce4b74231ec77c23b07af27d935b81b3cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
