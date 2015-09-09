@@ -634,7 +634,7 @@ func span7(ctxt *obj.Link, cursym *obj.LSym) {
 	if ctxt.Tlsg == nil {
 		ctxt.Tlsg = obj.Linklookup(ctxt, "runtime.tlsg", 0)
 	}
-	obj.Symgrow(ctxt, cursym, cursym.Size)
+	obj.Symgrow(cursym, cursym.Size)
 	bp := cursym.P
 	psz := int32(0)
 	var i int

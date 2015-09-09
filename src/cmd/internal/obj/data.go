@@ -36,7 +36,8 @@ import (
 	"math"
 )
 
-func Symgrow(ctxt *Link, s *LSym, lsiz int64) {
+// Symgrow increases the capacity of s.P to at least lsiz.
+func Symgrow(s *LSym, lsiz int64) {
 	siz := int(lsiz)
 	if int64(siz) != lsiz {
 		log.Fatalf("Symgrow size %d too long", lsiz)
@@ -44,8 +45,6 @@ func Symgrow(ctxt *Link, s *LSym, lsiz int64) {
 	if len(s.P) >= siz {
 		return
 	}
-	// TODO(dfc) append cap-len at once, rather than
-	// one byte at a time.
 	for cap(s.P) < siz {
 		s.P = append(s.P[:cap(s.P)], 0)
 	}
@@ -64,7 +63,7 @@ func savedata(ctxt *Link, s *LSym, p *Prog, file string) {
 	if s.Type == SBSS || s.Type == STLSBSS {
 		ctxt.Diag("cannot supply data for BSS var")
 	}
-	Symgrow(ctxt, s, int64(off+siz))
+	Symgrow(s, int64(off+siz))
 
 	switch int(p.To.Type) {
 	default:
@@ -124,7 +123,7 @@ func Setuintxx(ctxt *Link, s *LSym, off int64, v uint64, wid int64) int64 {
 	}
 	if s.Size < off+wid {
 		s.Size = off + wid
-		Symgrow(ctxt, s, s.Size)
+		Symgrow(s, s.Size)
 	}
 
 	switch wid {

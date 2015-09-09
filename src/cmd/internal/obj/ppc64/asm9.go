@@ -508,7 +508,7 @@ func span9(ctxt *obj.Link, cursym *obj.LSym) {
 		ctxt.Tlsg = obj.Linklookup(ctxt, "runtime.tlsg", 0)
 	}
 
-	obj.Symgrow(ctxt, cursym, cursym.Size)
+	obj.Symgrow(cursym, cursym.Size)
 
 	bp := cursym.P
 	var i int32
