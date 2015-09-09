@@ -16,6 +16,24 @@
       "revId": "0cd6b5748225d2a646536b9b849524990863ebdc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647bdead_49f41101",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-09-09T00:04:17Z",
+      "side": 1,
+      "message": "I agree, I don\u0027t know why I did that. The CL I was starting from is over a year old, and I don\u0027t remember what I was thinking. Maybe it was some kind of write ordering thing. Will fix if I revise this CL.",
+      "parentUuid": "c4ef2afe_90fba981",
+      "revId": "0cd6b5748225d2a646536b9b849524990863ebdc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
