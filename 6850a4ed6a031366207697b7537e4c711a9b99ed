@@ -16,6 +16,24 @@
       "revId": "6850a4ed6a031366207697b7537e4c711a9b99ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_7c5cb963",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6062
+      },
+      "writtenOn": "2015-09-09T07:11:15Z",
+      "side": 1,
+      "message": "I attempted to highlight, that the the proposed fix completes the existing, partial detection of unmatched start elements: \n\nE.g. \"\u003c/bar\u003e\" closing \"\u003cfoo\u003e\" already is detected, as highlighted here: http://play.golang.org/p/aGiwOf-zi5\n\nI might remove the \"root\" as well, if it makes more clear what is intended. Should I get rid of it?",
+      "parentUuid": "84ae1264_9b257f8a",
+      "revId": "6850a4ed6a031366207697b7537e4c711a9b99ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
