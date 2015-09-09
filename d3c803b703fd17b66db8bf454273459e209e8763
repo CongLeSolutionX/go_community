@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e436ee6e_0102ea49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-09T09:22:44Z",
+      "side": 1,
+      "message": "syscall: implement getwd on Solaris",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44076d4_ff019f45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-09T09:22:44Z",
+      "side": 1,
+      "message": "s/:/./",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f726e3_030f8e65",
+        "filename": "src/syscall/mkerrors.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-09T09:22:44Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_3c6b91e6",
+        "filename": "src/syscall/mksyscall_solaris.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-09T09:22:44Z",
+      "side": 1,
+      "message": "No need. libc_foo doesn\u0027t mean foo comes fro libc.so, it means it comes from some system library. Perhaps libc_ is not the best prefix, but it\u0027s what we have.\n\nIt\u0027s better to preserve the invariant that all external symbols start with the same prefix.",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_1c6ed5f5",
+        "filename": "src/syscall/mksyscall_solaris.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-09T09:22:44Z",
+      "side": 1,
+      "message": "No need.",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
