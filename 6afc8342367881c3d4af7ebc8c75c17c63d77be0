@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c4ef2afe_817b5d88",
+        "filename": "src/cmd/internal/obj/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-09T15:40:02Z",
+      "side": 1,
+      "message": "did you verify that this doesn\u0027t allocate for the make?\n\nI\u0027m not convinced.\n\nHow much do these typically grow to? 80 bytes or so?\n\nWhy not just have a global of 100 zero bytes and turn the if into a for loop, and append up to 100 bytes until you\u0027re at the target cap?",
+      "revId": "6afc8342367881c3d4af7ebc8c75c17c63d77be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4ef2afe_a1d0a1e0",
         "filename": "src/cmd/internal/obj/data_test.go",
         "patchSetId": 1
