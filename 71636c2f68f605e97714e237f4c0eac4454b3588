@@ -16,6 +16,24 @@
       "revId": "71636c2f68f605e97714e237f4c0eac4454b3588",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "845e12ce_8654ca3e",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-09T21:04:43Z",
+      "side": 1,
+      "message": "gohostarch is arm though (this is a schroot with \"the linux32 personality\" enabled, which leads to uname -m being armv8l which leads to gohostarch \u003d\u003d arm).",
+      "parentUuid": "84ae1264_7b13e367",
+      "revId": "71636c2f68f605e97714e237f4c0eac4454b3588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
