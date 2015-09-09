@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "a40b16a8_8704a6db",
+        "filename": "src/syscall/mkerrors.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-09T17:26:39Z",
+      "side": 1,
+      "message": "As the comment indicates, this script (without any of my changes) uses GNU-specific options to awk, etc.  So the default (Solaris) version of awk in the PATH does not work causing the script to fail unless you have /usr/gnu/bin first in your PATH (which is not the default on Solaris for many good reasons).",
+      "parentUuid": "24f726e3_030f8e65",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44517aa7_3c6b91e6",
         "filename": "src/syscall/mksyscall_solaris.pl",
         "patchSetId": 1
@@ -76,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "a40b16a8_e72c8264",
+        "filename": "src/syscall/mksyscall_solaris.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-09T17:26:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44517aa7_3c6b91e6",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44517aa7_1c6ed5f5",
         "filename": "src/syscall/mksyscall_solaris.pl",
         "patchSetId": 1
@@ -87,6 +123,24 @@
       "writtenOn": "2015-09-09T09:22:44Z",
       "side": 1,
       "message": "No need.",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a40b16a8_4717ce0f",
+        "filename": "src/syscall/mksyscall_solaris.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-09T17:26:39Z",
+      "side": 1,
+      "message": "As it stands right now, every time someone runs the generation scripts, they have to remember to put this back manually.  Why would you not want to do this since the checked in version already has it?  In what way would this not be beneficial or wrong?",
+      "parentUuid": "44517aa7_1c6ed5f5",
       "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
