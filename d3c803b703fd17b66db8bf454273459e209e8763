@@ -222,6 +222,24 @@
       "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_9c374576",
+        "filename": "src/syscall/mksyscall_solaris.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5036
+      },
+      "writtenOn": "2015-09-09T17:40:04Z",
+      "side": 1,
+      "message": "\u003e it didn\u0027t have build tags until Minux added them (for all platforms) in 3863184. I have no idea why he did that\n\nOh, I know now. Yes, let\u0027s put it here.",
+      "parentUuid": "44517aa7_dc3dcd59",
+      "revId": "d3c803b703fd17b66db8bf454273459e209e8763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
