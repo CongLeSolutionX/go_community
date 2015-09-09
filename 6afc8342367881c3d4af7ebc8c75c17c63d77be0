@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_a1d0a1e0",
+        "filename": "src/cmd/internal/obj/data_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-09T15:10:53Z",
+      "side": 1,
+      "message": "got first, then want.\n\nMight be easier to include the test number before \"Symgrow(%v)\" and omit some of the input parameters and disambiguate between size: 4 (which appears twice in the test cases)",
+      "revId": "6afc8342367881c3d4af7ebc8c75c17c63d77be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
