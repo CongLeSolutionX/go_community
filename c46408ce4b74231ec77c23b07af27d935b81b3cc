@@ -34,6 +34,24 @@
       "revId": "c46408ce4b74231ec77c23b07af27d935b81b3cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_617f59ec",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-09T17:06:40Z",
+      "side": 1,
+      "message": "Oh, this is YAMANASHI Takeshi. Gerrit knows the name, but the git history and Google do not.",
+      "parentUuid": "c4ef2afe_01864d4d",
+      "revId": "c46408ce4b74231ec77c23b07af27d935b81b3cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
