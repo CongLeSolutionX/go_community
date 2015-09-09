@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "24256643_d337f4c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-09-09T21:51:25Z",
+      "side": 1,
+      "message": "use \"runtime: optimize duffzero for amd64\" please.\n\nNo \"src/\" part, and use all lower case.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "e5c23f5ef7a2f48128645dbdda09505813738f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4ef2afe_c104c5dc",
         "filename": "src/cmd/compile/internal/amd64/ggen.go",
         "patchSetId": 1
