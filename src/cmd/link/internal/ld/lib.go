@@ -1675,7 +1675,7 @@ func stkcheck(up *Chain, depth int) int {
 			r = &s.R[ri]
 			switch r.Type {
 			// Direct call.
-			case obj.R_CALL, obj.R_CALLARM, obj.R_CALLARM64, obj.R_CALLPOWER:
+			case obj.R_CALL, obj.R_CALLARM, obj.R_CALLARM64, obj.R_CALLPOWER, obj.R_CALLMIPS:
 				ch.limit = int(int32(limit) - pcsp.value - int32(callsize()))
 				ch.sym = r.Sym
 				if stkcheck(&ch, depth+1) < 0 {
@@ -1997,7 +1997,7 @@ func callgraph() {
 			if r.Sym == nil {
 				continue
 			}
-			if (r.Type == obj.R_CALL || r.Type == obj.R_CALLARM || r.Type == obj.R_CALLPOWER) && r.Sym.Type == obj.STEXT {
+			if (r.Type == obj.R_CALL || r.Type == obj.R_CALLARM || r.Type == obj.R_CALLPOWER || r.Type == obj.R_CALLMIPS) && r.Sym.Type == obj.STEXT {
 				fmt.Fprintf(&Bso, "%s calls %s\n", s.Name, r.Sym.Name)
 			}
 		}
