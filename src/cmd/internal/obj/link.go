@@ -406,12 +406,18 @@ const (
 	R_ADDR = 1 + iota
 	R_ADDRPOWER
 	R_ADDRARM64
+	// R_ADDRMIPS (only used on mips64) resolves to a 32-bit external address,
+	// by loading the address into a register with two instructions (lui, ori).
+	R_ADDRMIPS
 	R_SIZE
 	R_CALL
 	R_CALLARM
 	R_CALLARM64
 	R_CALLIND
 	R_CALLPOWER
+	// R_CALLMIPS (only used on mips64) resolves to non-PC-relative target address
+	// of a CALL (JAL) instruction, by encoding the address into the instruction.
+	R_CALLMIPS
 	R_CONST
 	R_PCREL
 	// R_TLS (only used on arm currently, and not on android and darwin where tlsg is
@@ -439,6 +445,10 @@ const (
 	R_USEFIELD
 	R_POWER_TOC
 	R_GOTPCREL
+	// R_JMPMIPS (only used on mips64) resolves to non-PC-relative target address
+	// of a JMP instruction, by encoding the address into the instruction.
+	// The stack nosplit check ignores this since it is not a function call.
+	R_JMPMIPS
 )
 
 type Auto struct {
