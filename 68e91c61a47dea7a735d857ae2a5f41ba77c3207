@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_68d26b60",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-10T21:29:52Z",
+      "side": 1,
+      "message": "I\u0027d prefer these be keyed like I did in https://go-review.googlesource.com/10517 with the zero values removed.\n\nProbably in a separate change.",
+      "revId": "68e91c61a47dea7a735d857ae2a5f41ba77c3207",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
