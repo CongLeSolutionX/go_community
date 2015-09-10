@@ -537,3 +537,16 @@ func writelen(fd int, buf *byte, nbuf int) (n int, err error) {
 	}
 	return
 }
+
+// Since pagesize cannot change after the system is booted, it's pointless
+// to incur the overhead of this every time the function is called.
+var pageSize = 0
+
+//sys	sysconf(name int) (n int, err error)
+func Getpagesize() int {
+	if pageSize == 0 {
+		n, _ := sysconf(_SC_PAGESIZE)
+		pageSize = int(n)
+	}
+	return pageSize
+}

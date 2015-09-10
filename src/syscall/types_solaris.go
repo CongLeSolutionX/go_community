@@ -46,6 +46,7 @@ package syscall
 #include <netinet/in.h>
 #include <netinet/icmp6.h>
 #include <netinet/tcp.h>
+#include <unistd.h>
 
 enum {
 	sizeofPtr = sizeof(void*),
@@ -223,6 +224,10 @@ type BpfInsn C.struct_bpf_insn
 type BpfTimeval C.struct_bpf_timeval
 
 type BpfHdr C.struct_bpf_hdr
+
+// sysconf information
+
+const _SC_PAGESIZE = C._SC_PAGESIZE
 
 // Terminal handling
 

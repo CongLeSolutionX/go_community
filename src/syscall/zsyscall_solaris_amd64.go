@@ -89,6 +89,7 @@ import "unsafe"
 //go:cgo_import_dynamic libc_setsockopt setsockopt "libsocket.so"
 //go:cgo_import_dynamic libc_recvfrom recvfrom "libsocket.so"
 //go:cgo_import_dynamic libc_recvmsg recvmsg "libsocket.so"
+//go:cgo_import_dynamic libc_sysconf sysconf "libc.so"
 
 //go:linkname libc_Getcwd libc_Getcwd
 //go:linkname libc_getgroups libc_getgroups
@@ -172,6 +173,7 @@ import "unsafe"
 //go:linkname libc_setsockopt libc_setsockopt
 //go:linkname libc_recvfrom libc_recvfrom
 //go:linkname libc_recvmsg libc_recvmsg
+//go:linkname libc_sysconf libc_sysconf
 
 type libcFunc uintptr
 
@@ -257,7 +259,8 @@ var (
 	libc_getsockname,
 	libc_setsockopt,
 	libc_recvfrom,
-	libc_recvmsg libcFunc
+	libc_recvmsg,
+	libc_sysconf libcFunc
 )
 
 func Getcwd(buf []byte) (n int, err error) {
@@ -1089,6 +1092,15 @@ func recvfrom(fd int, p []byte, flags int, from *RawSockaddrAny, fromlen *_Sockl
 
 func recvmsg(s int, msg *Msghdr, flags int) (n int, err error) {
 	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_recvmsg)), 3, uintptr(s), uintptr(unsafe.Pointer(msg)), uintptr(flags), 0, 0, 0)
+	n = int(r0)
+	if e1 != 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func sysconf(name int) (n int, err error) {
+	r0, _, e1 := sysvicall6(uintptr(unsafe.Pointer(&libc_sysconf)), 1, uintptr(name), 0, 0, 0, 0, 0)
 	n = int(r0)
 	if e1 != 0 {
 		err = errnoErr(e1)
