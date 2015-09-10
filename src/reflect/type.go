@@ -80,12 +80,20 @@ type Type interface {
 	// String returns a string representation of the type.
 	// The string representation may use shortened package names
 	// (e.g., base64 instead of "encoding/base64") and is not
-	// guaranteed to be unique among types.  To test for equality,
+	// guaranteed to be unique among types. To test for equality,
 	// compare the Types directly.
 	String() string
 
 	// Kind returns the specific kind of this type.
 	Kind() Kind
+
+	// IsInt reports whether the type is one of
+	// int, int8, int16, int32, int64.
+	IsInt() bool
+
+	// IsUInt reports whether the type is one of
+	// uint, uint8, uint16, uint32, uint64, uintptr.
+	IsUint() bool
 
 	// Implements reports whether the type implements the interface type u.
 	Implements(u Type) bool
@@ -442,6 +450,18 @@ var kindNames = []string{
 	UnsafePointer: "unsafe.Pointer",
 }
 
+// IsInt reports whether k is one of
+// Int, Int8, Int16, Int32, Int64.
+func (k Kind) IsInt() bool {
+	return k == Int || k == Int8 || k == Int16 || k == Int32 || k == Int64
+}
+
+// IsUInt reports whether k is one of
+// Uint, Uint8, Uint16, Uint32, Uint64, Uintptr.
+func (k Kind) IsUint() bool {
+	return k == Uint || k == Uint8 || k == Uint16 || k == Uint32 || k == Uint64 || k == Uintptr
+}
+
 func (t *uncommonType) uncommon() *uncommonType {
 	return t
 }
@@ -480,6 +500,10 @@ func (t *rtype) Align() int { return int(t.align) }
 func (t *rtype) FieldAlign() int { return int(t.fieldAlign) }
 
 func (t *rtype) Kind() Kind { return Kind(t.kind & kindMask) }
+
+func (t *rtype) IsInt() bool { return t.Kind().IsInt() }
+
+func (t *rtype) IsUint() bool { return t.Kind().IsUint() }
 
 func (t *rtype) pointers() bool { return t.kind&kindNoPointers == 0 }
 
