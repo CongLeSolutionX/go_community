@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_48f687fe",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-10T21:27:18Z",
+      "side": 1,
+      "message": "bad names. stutter.\n\nShould be atomic.LoadPointer or atomic.Loadp\n\nBut I\u0027m not sure how I feel about two atomic packages (runtime/internal/atomic vs sync/atomic) with slightly different and overlapping functions.",
+      "revId": "34153e4ef9c7647fb67e62134dc70fece4e37513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
