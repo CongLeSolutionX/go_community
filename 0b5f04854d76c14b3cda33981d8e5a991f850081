@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_7b0b6fef",
+        "filename": "src/mime/encodedword.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-10T16:27:18Z",
+      "side": 1,
+      "message": "no need to call it fields anymore. Just make three variables with good names. Then the code below looks better, instead of fields[0].\n\nIn fact, field[1] can be a byte, instead of a string.\n\nThen your comment can just be:\n\n// split word \"UTF-8?q?ascii\" into \"UTF-8\", \u0027q\u0027, and \"ascii\".\n\n(note the single quotes for the \u0027q\u0027 byte)",
+      "revId": "0b5f04854d76c14b3cda33981d8e5a991f850081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
