@@ -52,6 +52,24 @@
       "revId": "bb77563042b2cf073993a89364a7e4e8e31d98d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "845e12ce_86f04a9f",
+        "filename": "src/syscall/syscall_solaris.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-10T01:17:42Z",
+      "side": 1,
+      "message": "Duly noted; I appreciate the note about the race detector, which sadly isn\u0027t available on Solaris yet.",
+      "parentUuid": "c4ef2afe_403c3a91",
+      "revId": "bb77563042b2cf073993a89364a7e4e8e31d98d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
