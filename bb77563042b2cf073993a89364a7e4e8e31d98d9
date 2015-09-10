@@ -16,6 +16,24 @@
       "revId": "bb77563042b2cf073993a89364a7e4e8e31d98d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "845e12ce_467492c7",
+        "filename": "src/syscall/syscall_solaris.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2015-09-10T01:10:30Z",
+      "side": 1,
+      "message": "I didn\u0027t think it was a race that mattered since as the comment indicates, the default page size can never change after the system is booted.  So the worst that could happen as far as I know would be multiple calls to sysconf().\n\nWith that said, I\u0027m perfectly fine with changing this to use atomics and will do so tomorrow.",
+      "parentUuid": "c4ef2afe_40379ac5",
+      "revId": "bb77563042b2cf073993a89364a7e4e8e31d98d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
