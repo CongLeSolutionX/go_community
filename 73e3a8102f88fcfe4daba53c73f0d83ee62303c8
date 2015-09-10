@@ -16,6 +16,24 @@
       "revId": "73e3a8102f88fcfe4daba53c73f0d83ee62303c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_9f209735",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-10T23:45:48Z",
+      "side": 1,
+      "message": "Sry about wasting your time.",
+      "parentUuid": "c4ef2afe_cb24b148",
+      "revId": "73e3a8102f88fcfe4daba53c73f0d83ee62303c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
