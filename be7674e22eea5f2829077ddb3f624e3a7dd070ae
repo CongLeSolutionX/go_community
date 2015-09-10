@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_c835d7bd",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "Please move this example at the end of example_test.go. We already have a proliferation of files in this package.",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_8816af11",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "Please change to:\n\n(n-1)/3 * 2\n\n(to match the code better - we do the division by 3 before the multiplication to run longer before overflow)\n\nAlso:\n\nn \u003d\u003d 1 (mod 3) is fine and correct mathematical notation but it may throw off people reading the code (and not understanding the math). Just:\n\nn mod 3 !\u003d 1\nn mod 3 \u003d\u003d 1\n\ninstead? just as clear and matches code more directly",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_285583c3",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "leave comment away - the code is self-explanatory here",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_2807c3e3",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "These values are not fractions to begin with. Use SetInt64. I\u0027d write:\n\n// Compute the n\u0027th term.\nterm :\u003d new(big.Rat)\nif n%3 \u003d\u003d 1 {\n   term.SetInt64((n-1)/3 * 2)\n} else {\n   term.SetInt64(1)\n}\n\ni.e.,\n\n1) use \u0027term\u0027 as the name since this is how you describe the function\n2) use (n-1) even though the -1 is not needed since it\u0027s an integer division, but stick to the example\n3) use SetInt64 since you are setting integer values",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_881d8f29",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "s/r/frac/\n\nsince this would be the fractional part?",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_4827a777",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "\"lowest terms\" doesn\u0027t really mean anything. It\u0027s also not relevant that the fraction is reduced. The result is still correct. Just leave the comment away.",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_a849732c",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "s/and display//",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_88446f11",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "get rid of eConvergent, just:\n\nr :\u003d recur(0, i)\n\nit\u0027s clear enough. This code is about using big.Frac not calling functions.",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_c88837aa",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-10T21:03:06Z",
+      "side": 1,
+      "message": "fmt.Printf(\"%13s \u003d %s\\n\", r, r.FloatString(8))\n\nno need to spead it into separate calls.\n\nConsider leaving the \u0027-\u0027 in the format away unless you want to highlight that mechanism (but again, that\u0027s not a big.Rat feature).",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
