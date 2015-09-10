@@ -944,6 +944,12 @@ func (v Value) InterfaceData() [2]uintptr {
 	return *(*[2]uintptr)(v.ptr)
 }
 
+// IsIntKind reports whether the Kind of v is one of
+// Int, Int8, Int16, Int32, Int64.
+func (v Value) IsIntKind() bool {
+	return v.kind().IsInt()
+}
+
 // IsNil reports whether its argument v is nil. The argument must be
 // a chan, func, interface, map, pointer, or slice value; if it is
 // not, IsNil panics. Note that IsNil is not always equivalent to a
@@ -969,6 +975,12 @@ func (v Value) IsNil() bool {
 		return *(*unsafe.Pointer)(v.ptr) == nil
 	}
 	panic(&ValueError{"reflect.Value.IsNil", v.kind()})
+}
+
+// IsUIntKind reports whether the Kind of v is one of
+// Uint, Uint8, Uint16, Uint32, Uint64, Uintptr.
+func (v Value) IsUintKind() bool {
+	return v.kind().IsUint()
 }
 
 // IsValid reports whether v represents a value.
