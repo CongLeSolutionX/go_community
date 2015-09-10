@@ -34,6 +34,24 @@
       "revId": "bb77563042b2cf073993a89364a7e4e8e31d98d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_403c3a91",
+        "filename": "src/syscall/syscall_solaris.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-10T01:15:31Z",
+      "side": 1,
+      "message": "Races always matter.  If for no other reason than that the race detector will complain about them.",
+      "parentUuid": "845e12ce_467492c7",
+      "revId": "bb77563042b2cf073993a89364a7e4e8e31d98d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
