@@ -444,6 +444,12 @@ func (s *state) stmt(n *Node) {
 	case OCALLFUNC, OCALLMETH, OCALLINTER:
 		s.expr(n)
 
+	case OAS2DOTTYPE:
+		res, resok := s.dottype(n.Rlist.N, true)
+		s.assign(n.List.N, res, false)
+		s.assign(n.List.Next.N, resok, false)
+		return
+
 	case ODCL:
 		if n.Left.Class&PHEAP == 0 {
 			return
@@ -1461,6 +1467,10 @@ func (s *state) expr(n *Node) *ssa.Value {
 		s.Unimplementedf("unhandled OCONV %s -> %s", Econv(int(n.Left.Type.Etype), 0), Econv(int(n.Type.Etype), 0))
 		return nil
 
+	case ODOTTYPE:
+		res, _ := s.dottype(n, false) // TODO: write barrier
+		return res
+
 	// binary ops
 	case OLT, OEQ, ONE, OLE, OGE, OGT:
 		a := s.expr(n.Left)
@@ -2414,6 +2424,108 @@ func (s *state) floatToUint(cvttab *f2uCvtTab, n *Node, x *ssa.Value, ft, tt *Ty
 
 	s.startBlock(bAfter)
 	return s.variable(n, n.Type)
+}
+
+// ifaceType returns the value for the word containing the type.
+// n is the node for the interface expression.
+// v is the corresponding value.
+func (s *state) ifaceType(n *Node, v *ssa.Value) *ssa.Value {
+	byteptr := Ptrto(Types[TUINT8]) // type used in runtime prototypes for runtime type (*byte)
+
+	if isnilinter(n.Type) {
+		// Have *eface. The type is the first word in the struct.
+		return s.newValue1(ssa.OpITab, byteptr, v)
+	}
+
+	// Have *iface.
+	// The first word in the struct is the *itab.
+	// If the *itab is nil, return 0.
+	// Otherwise, the second word in the *itab is the type.
+
+	// We can't use n as our fake var for conversion to SSA,
+	// because it might be an ONAME or used elsewhere,
+	// so a fake Node for our variable.
+	var typNod Node
+
+	tab := s.newValue1(ssa.OpITab, byteptr, v)
+	s.vars[&typNod] = tab
+	isnil := s.newValue2(ssa.OpNeqPtr, Types[TBOOL], tab, s.constIntPtr(byteptr.PtrTo(), 0))
+	b := s.endBlock()
+	b.Kind = ssa.BlockIf
+	b.Control = isnil
+	b.Likely = ssa.BranchLikely
+
+	bLoad := s.f.NewBlock(ssa.BlockPlain)
+	bEnd := s.f.NewBlock(ssa.BlockPlain)
+
+	b.AddEdgeTo(bLoad)
+	b.AddEdgeTo(bEnd)
+	bLoad.AddEdgeTo(bEnd)
+
+	s.startBlock(bLoad)
+	off := s.newValue1I(ssa.OpOffPtr, byteptr.PtrTo(), int64(Widthptr), tab)
+	s.vars[&typNod] = s.newValue2(ssa.OpLoad, byteptr, off, s.mem())
+	s.endBlock()
+
+	s.startBlock(bEnd)
+	return s.variable(&typNod, byteptr)
+}
+
+// dottype generates SSA for a type assertion node.
+// commaok indicates whether to panic or return a bool.
+// If commaok is false, resok will be nil.
+func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
+	iface := s.expr(n.Left)
+	typ := s.ifaceType(n.Left, iface)  // actual concrete type
+	target := s.expr(typename(n.Type)) // target type
+
+	cond := s.newValue2(ssa.OpEqPtr, Types[TBOOL], typ, target)
+	b := s.endBlock()
+	b.Kind = ssa.BlockIf
+	b.Control = cond
+	b.Likely = ssa.BranchLikely
+
+	bOk := s.f.NewBlock(ssa.BlockPlain)
+	bFail := s.f.NewBlock(ssa.BlockPlain)
+	bEnd := s.f.NewBlock(ssa.BlockPlain)
+
+	b.AddEdgeTo(bOk)
+	b.AddEdgeTo(bFail)
+
+	byteptr := Ptrto(Types[TUINT8])
+	var idata, ok Node // fake Nodes for SSA construction
+
+	// type assertion succeeded
+	s.startBlock(bOk)
+	s.vars[&idata] = s.newValue1(ssa.OpIData, n.Type, iface) // TODO: write barrier in here somewhere
+	if commaok {
+		s.vars[&ok] = s.constBool(true)
+	}
+	s.endBlock()
+	bOk.AddEdgeTo(bEnd)
+
+	// type assertion failed
+	s.startBlock(bFail)
+	s.vars[&idata] = s.constIntPtr(byteptr, 0) // TODO: write barrier in here somewhere
+	if commaok {
+		s.vars[&ok] = s.constBool(false)
+		s.endBlock()
+		bFail.AddEdgeTo(bEnd)
+	} else {
+		// TODO: panic by calling panicdottype
+		s.Unimplementedf("panicdottype")
+		mem := s.mem()
+		s.endBlock()
+		bFail.Kind = ssa.BlockExit
+		bFail.Control = mem
+	}
+
+	s.startBlock(bEnd)
+	res = s.variable(&idata, byteptr)
+	if commaok {
+		resok = s.variable(&ok, Types[TBOOL])
+	}
+	return res, resok
 }
 
 // checkgoto checks that a goto from from to to does not
