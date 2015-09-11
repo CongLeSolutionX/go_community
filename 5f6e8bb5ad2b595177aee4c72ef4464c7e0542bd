@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_d4cf9c8f",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T21:35:10Z",
+      "side": 1,
+      "message": "\u003e\u003d dzClearStep",
+      "range": {
+        "startLine": 85,
+        "startChar": 36,
+        "endLine": 85,
+        "endChar": 56
+      },
+      "revId": "5f6e8bb5ad2b595177aee4c72ef4464c7e0542bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_5412ac8f",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T21:35:10Z",
+      "side": 1,
+      "message": "I still find this code very confusing to read.  I think there are a few issues here.\n\n1) The code was originally written to do 8-byte writes, so dzDI/dzOff took # of 8-byte words as input.  Now that you\u0027re doing 16-byte writes, it doesn\u0027t make any sense anymore.  You end up just needing lots of *widthreg/clearstep conversion factors.  Maybe changing these ops to take bytes would make it clearer?  If not, maybe 16-byte chunks?\n\n2) Too many configurable constants.  We\u0027re in the amd64 directory already, I don\u0027t think it is very helpful to have gc.Widthreg instead of 8.  Perhaps simplifying some of this would make it easier to read.  Maybe some helper functions would clear things up as well, like a function that takes # of bytes and returns # of blocks, # of steps, and leftover bytes.",
+      "revId": "5f6e8bb5ad2b595177aee4c72ef4464c7e0542bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_34e7f01a",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T21:35:10Z",
+      "side": 1,
+      "message": "++",
+      "range": {
+        "startLine": 134,
+        "startChar": 35,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "5f6e8bb5ad2b595177aee4c72ef4464c7e0542bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
