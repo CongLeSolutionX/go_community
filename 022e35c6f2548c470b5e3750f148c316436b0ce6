@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44ab3af0_1294ac01",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2452,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T20:18:35Z",
+      "side": 1,
+      "message": "If isnil, then use OpEqPtr.  Or rename to isnonnil.",
+      "range": {
+        "startLine": 2452,
+        "startChar": 1,
+        "endLine": 2452,
+        "endChar": 6
+      },
+      "revId": "022e35c6f2548c470b5e3750f148c316436b0ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ab3af0_b282f8c8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2470,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T20:18:35Z",
+      "side": 1,
+      "message": "v \u003d s.variable(...)\ndelete(s.vars, \u0026typNod)\nreturn v\n\nThis will prevent the map from growing large.\n\nSame below in dottype.",
+      "revId": "022e35c6f2548c470b5e3750f148c316436b0ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ab3af0_7278908b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2482,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T20:18:35Z",
+      "side": 1,
+      "message": "I feel like the condition in the ifaceType call can be merged in here.  If it is a nonempty interface and its itab field is nil, then this test is redundant and we should have just branched directly to bFail.\n\nI guess we can save that optimization for a separate CL.  Maybe add a TODO comment.",
+      "revId": "022e35c6f2548c470b5e3750f148c316436b0ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ab3af0_f2be409a",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2500,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T20:18:35Z",
+      "side": 1,
+      "message": "I don\u0027t see why we need a write barrier here.  We\u0027re just loading from the interface and writing to an SSA variable.",
+      "revId": "022e35c6f2548c470b5e3750f148c316436b0ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ab3af0_12a66c8d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2509,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T20:18:35Z",
+      "side": 1,
+      "message": "Use OpConstNil?",
+      "range": {
+        "startLine": 2509,
+        "startChar": 18,
+        "endLine": 2509,
+        "endChar": 43
+      },
+      "revId": "022e35c6f2548c470b5e3750f148c316436b0ce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
