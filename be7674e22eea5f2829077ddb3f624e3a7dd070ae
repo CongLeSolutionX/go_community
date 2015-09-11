@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0434e264_456b1ce5",
+        "filename": "src/math/big/example_rat_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-09-11T10:19:11Z",
+      "side": 1,
+      "message": "I believe only single-function examples can be put in any file. A multiple-function example needs its own file. Is this a problem?",
+      "parentUuid": "c4ef2afe_c835d7bd",
+      "revId": "be7674e22eea5f2829077ddb3f624e3a7dd070ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4ef2afe_8816af11",
         "filename": "src/math/big/example_rat_test.go",
         "patchSetId": 3
