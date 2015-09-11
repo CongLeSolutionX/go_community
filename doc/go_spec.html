@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of August 5, 2015",
+	"Subtitle": "Version of September 11, 2015",
 	"Path": "/ref/spec"
 }-->
 
@@ -2342,9 +2342,9 @@ tmp[0 : n]
 
 <p>
 Within a composite literal of array, slice, or map type <code>T</code>,
-elements or map keys that are themselves composite literals may elide the respective
+element values or map keys that are themselves composite literals may elide the respective
 literal type if it is identical to the element or key type of <code>T</code>.
-Similarly, elements or keys that are addresses of composite literals may elide
+Similarly, element values or keys that are addresses of composite literals may elide
 the <code>&amp;T</code> when the element or key type is <code>*T</code>.
 </p>
 
