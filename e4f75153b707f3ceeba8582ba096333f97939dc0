@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "44517aa7_4219d680",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-11T21:09:43Z",
+      "side": 1,
+      "message": "var val int64\nfor i :\u003d 0; i \u003c len(p); i++ {\n    if i%7 \u003d\u003d 0 {\n        val \u003d r.src.Int63()\n    }\n    p[i] \u003d byte(val)\n    val \u003e\u003e\u003d 8\n}\nreturn len(p), nil\n\nThis version could also be fast and elegant IMHO.\nMaybe you want to compare benchmarks?",
+      "parentUuid": "c45e4afd_b8ebf9b1",
+      "revId": "e4f75153b707f3ceeba8582ba096333f97939dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44ab3af0_9236dc19",
         "filename": "src/math/rand/rand.go",
         "patchSetId": 1
