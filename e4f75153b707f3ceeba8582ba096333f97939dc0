@@ -143,6 +143,42 @@
     },
     {
       "key": {
+        "uuid": "84ca92dc_a698066e",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 10000
+      },
+      "writtenOn": "2015-09-11T21:22:24Z",
+      "side": 1,
+      "message": "Surprisingly (to me), this too is slower than as written:\n\n \n$ benchcmp me.bench marvin.bench\nbenchmark               old ns/op     new ns/op     delta\nBenchmarkRead3-8        11.0          12.3          +11.82%\nBenchmarkRead64-8       113           162           +43.36%\nBenchmarkRead1000-8     1629          2402          +47.45%",
+      "parentUuid": "44517aa7_4219d680",
+      "revId": "e4f75153b707f3ceeba8582ba096333f97939dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ca92dc_8684eafd",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 10000
+      },
+      "writtenOn": "2015-09-11T21:22:24Z",
+      "side": 1,
+      "message": "Performance at these micro-scales is pretty unintuitive! \n\nBasing everything on my Macbook\u0027s results might not be exactly rigorous, but here\u0027s the numbers anyway:\n\n \n$ benchcmp me.bench marvin2.bench\nbenchmark               old ns/op     new ns/op     delta\nBenchmarkRead3-8        11.0          12.2          +10.91%\nBenchmarkRead64-8       113           179           +58.41%\nBenchmarkRead1000-8     1629          2522          +54.82%",
+      "parentUuid": "44517aa7_02baeea8",
+      "revId": "e4f75153b707f3ceeba8582ba096333f97939dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44ab3af0_9236dc19",
         "filename": "src/math/rand/rand.go",
         "patchSetId": 1
