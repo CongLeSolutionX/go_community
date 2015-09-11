@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_513ceef4",
+        "filename": "src/io/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:20:04Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to leave the package comment in io.go.  I don\u0027t see a benefit to moving it.",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_319a8a66",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:20:04Z",
+      "side": 1,
+      "message": "This example doesn\u0027t seem especially useful as it doesn\u0027t show the point of using CopyBuffer.  Perhaps you could use a larger buffer, call CopyBuffer twice, and add a comment about not allocating an extra buffer.",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
