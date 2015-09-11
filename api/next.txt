@@ -1,0 +1,2 @@
+pkg math/rand, method (r *Rand) Read([]uint8) (int, error)
+pkg math/rand, func Read([]uint8) (int, error)
