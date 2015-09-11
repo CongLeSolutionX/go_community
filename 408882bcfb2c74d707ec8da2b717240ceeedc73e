@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_14975409",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-11T21:35:57Z",
+      "side": 1,
+      "message": "Early exit if os.Getenv(\"GOSSAHASH\") is \"\".",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_34945002",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-11T21:35:57Z",
+      "side": 1,
+      "message": "At which point this len check is not necessary.",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_f43658c8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-11T21:35:57Z",
+      "side": 1,
+      "message": "s.vars[\u0026memvar] \u003d call",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_74232884",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1951,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-11T21:35:57Z",
+      "side": 1,
+      "message": "It might be worth refactoring out the mechanics of making a simple runtime call, since (a) it is easy to forget something--see above, and (b) it\u0027ll be used elsewhere, at least panicdottype and probably more over time.\n\nDoesn\u0027t need to be done here, but I\u0027m unlikely to do it.",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_942c4464",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-11T21:35:57Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_14211466",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-11T21:35:57Z",
+      "side": 1,
+      "message": "Does it matter whether the memmove occurs inside this nosplit function? Could there be a race condition in which GC occurs between the (external) memmove and the call to typememmove_nostore?",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
