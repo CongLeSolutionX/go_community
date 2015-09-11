@@ -1859,6 +1859,100 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case OGETG:
 		return s.newValue0(ssa.OpGetG, n.Type)
 
+	case OAPPEND:
+		// append(s, e1, e2, e3).  Compile like:
+		// ptr,len,cap := s
+		// newlen := len + 3
+		// if newlen > s.cap {
+		//     ptr,_,cap = growslice(s, newlen)
+		// }
+		// *(ptr+len) = e1
+		// *(ptr+len+1) = e2
+		// *(ptr+len+2) = e3
+		// makeslice(ptr,newlen,cap)
+
+		et := n.Type.Type
+		pt := Ptrto(et)
+
+		// use two arbitrary nodes as variables
+		// TODO: introduce new variables some other way?  This seems hacky.
+		ptrvar := n
+		capvar := n.List.N
+
+		// Evaluate slice
+		slice := s.expr(n.List.N)
+
+		// Evaluate args
+		nargs := int64(count(n.List) - 1)
+		args := make([]*ssa.Value, 0, nargs)
+		for l := n.List.Next; l != nil; l = l.Next {
+			args = append(args, s.expr(l.N))
+		}
+
+		// Allocate new blocks
+		grow := s.f.NewBlock(ssa.BlockPlain)
+		growresult := s.f.NewBlock(ssa.BlockPlain)
+		assign := s.f.NewBlock(ssa.BlockPlain)
+
+		// Decide if we need to grow
+		p := s.newValue1(ssa.OpSlicePtr, pt, slice)
+		l := s.newValue1(ssa.OpSliceLen, Types[TINT], slice)
+		c := s.newValue1(ssa.OpSliceCap, Types[TINT], slice)
+		nl := s.newValue2(s.ssaOp(OADD, Types[TINT]), Types[TINT], l, s.constInt(Types[TINT], nargs))
+		cmp := s.newValue2(s.ssaOp(OGT, Types[TINT]), Types[TBOOL], nl, c)
+		s.vars[ptrvar] = p
+		s.vars[capvar] = c
+		b := s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.Likely = ssa.BranchUnlikely
+		b.Control = cmp
+		b.AddEdgeTo(grow)
+		b.AddEdgeTo(assign)
+
+		// Call growslice
+		s.startBlock(grow)
+		taddr := s.newValue1A(ssa.OpAddr, Types[TUINTPTR], &ssa.ExternSymbol{Types[TUINTPTR], typenamesym(n.Type)}, s.sb)
+
+		spplus1 := s.newValue1I(ssa.OpOffPtr, Types[TUINTPTR], int64(Widthptr), s.sp)
+		spplus2 := s.newValue1I(ssa.OpOffPtr, Types[TUINTPTR], int64(2*Widthptr), s.sp)
+		spplus3 := s.newValue1I(ssa.OpOffPtr, Types[TUINTPTR], int64(3*Widthptr), s.sp)
+		spplus4 := s.newValue1I(ssa.OpOffPtr, Types[TUINTPTR], int64(4*Widthptr), s.sp)
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, int64(Widthptr), s.sp, taddr, s.mem())
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, int64(Widthptr), spplus1, p, s.mem())
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, int64(Widthptr), spplus2, l, s.mem())
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, int64(Widthptr), spplus3, c, s.mem())
+		s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, int64(Widthptr), spplus4, nl, s.mem())
+		call := s.newValue1A(ssa.OpStaticCall, ssa.TypeMem, syslook("growslice", 0).Sym, s.mem())
+		call.AuxInt = int64(8 * Widthptr)
+		s.vars[&memvar] = call
+		b = s.endBlock()
+		b.Kind = ssa.BlockCall
+		b.Control = call
+		b.AddEdgeTo(growresult)
+
+		// Read result of growslice
+		s.startBlock(growresult)
+		spplus5 := s.newValue1I(ssa.OpOffPtr, Types[TUINTPTR], int64(5*Widthptr), s.sp)
+		// Note: we don't need to read the result's length.
+		spplus7 := s.newValue1I(ssa.OpOffPtr, Types[TUINTPTR], int64(7*Widthptr), s.sp)
+		s.vars[ptrvar] = s.newValue2(ssa.OpLoad, pt, spplus5, s.mem())
+		s.vars[capvar] = s.newValue2(ssa.OpLoad, Types[TINT], spplus7, s.mem())
+		b = s.endBlock()
+		b.AddEdgeTo(assign)
+
+		// assign new elements to slots
+		s.startBlock(assign)
+		p = s.variable(ptrvar, pt)          // generates phi for ptr
+		c = s.variable(capvar, Types[TINT]) // generates phi for cap
+		p2 := s.newValue2(ssa.OpPtrIndex, pt, p, l)
+		for i, arg := range args {
+			addr := s.newValue2(ssa.OpPtrIndex, pt, p2, s.constInt(Types[TUINTPTR], int64(i)))
+			s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, et.Size(), addr, arg, s.mem())
+		}
+
+		// make result
+		return s.newValue3(ssa.OpSliceMake, n.Type, p, nl, c)
+
 	default:
 		s.Unimplementedf("unhandled expr %s", opnames[n.Op])
 		return nil

@@ -81,3 +81,5 @@ func TestDeferNoReturn(t *testing.T) { buildTest(t, "deferNoReturn_ssa.go") }
 
 // TestClosure tests closure related behavior.
 func TestClosure(t *testing.T) { runTest(t, "closure_ssa.go") }
+
+func TestAppend(t *testing.T) { runTest(t, "append_ssa.go") }
