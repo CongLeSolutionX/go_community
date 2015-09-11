@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44517aa7_c2596677",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-11T15:58:13Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 790,
+        "startChar": 2,
+        "endLine": 790,
+        "endChar": 13
+      },
+      "revId": "7733dbc6cc7972f4292d96168355858fc56e3705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_625f325a",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-11T15:58:13Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 857,
+        "startChar": 1,
+        "endLine": 857,
+        "endChar": 10
+      },
+      "revId": "7733dbc6cc7972f4292d96168355858fc56e3705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_825cbe64",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-11T15:58:13Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 1029,
+        "startChar": 17,
+        "endLine": 1029,
+        "endChar": 24
+      },
+      "revId": "7733dbc6cc7972f4292d96168355858fc56e3705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44517aa7_a2545a3e",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-11T15:58:13Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 1379,
+        "startChar": 50,
+        "endLine": 1379,
+        "endChar": 52
+      },
+      "revId": "7733dbc6cc7972f4292d96168355858fc56e3705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
