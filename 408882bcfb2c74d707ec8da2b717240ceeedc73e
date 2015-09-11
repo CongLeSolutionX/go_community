@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "44725a92_14bd943c",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T21:47:29Z",
+      "side": 1,
+      "message": "SSA-compiled code uses more stack at the moment, and the largest user of guard space is the write barrier code.  As this change puts the two together for the first time, we need more guard space overall.\n\nWe\u0027ll definitely want to get this back down for release.",
+      "parentUuid": "44725a92_942c4464",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44725a92_14211466",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 1
@@ -98,6 +116,24 @@
       "writtenOn": "2015-09-11T21:35:57Z",
       "side": 1,
       "message": "Does it matter whether the memmove occurs inside this nosplit function? Could there be a race condition in which GC occurs between the (external) memmove and the call to typememmove_nostore?",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_54c70ccc",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-11T21:47:29Z",
+      "side": 1,
+      "message": "There must not be a suspend point between the write and the typedmemmove_nostore call.  I\u0027ll add a comment to that effect.",
+      "parentUuid": "44725a92_14211466",
       "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
