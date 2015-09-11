@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4ef2afe_b1755ac5",
+        "filename": "src/unicode/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:38:14Z",
+      "side": 1,
+      "message": "This is a new file so should be copyright 2015.  Just noticed this one--any other new files in other CLs should also be copyright 2015.",
+      "revId": "716cfe17443f69d9a33407aa10624d81ae8b4381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_31e84ab6",
+        "filename": "src/unicode/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:38:14Z",
+      "side": 1,
+      "message": "There are a lot of IsXXX examples here, and none of them really explain.  Perhaps there should be one example that uses a string with various kinds of characters, and a loop like\n    for _, c :\u003d range s {\n        if unicode.IsControl(c) {\n            fmt.Printf(\"%c control\\n\")\n        }\n        if unicode.IsDigit(c) {\n            fmt.Printf(\"%c digit\\n\")\n        }\n        ...\n\nIt wouldn\u0027t break down as neatly as a per-function example, but it might be more helpful.",
+      "revId": "716cfe17443f69d9a33407aa10624d81ae8b4381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_716ff2f1",
+        "filename": "src/unicode/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:38:14Z",
+      "side": 1,
+      "message": "I would use regular string literals here and in the other Println statements.",
+      "revId": "716cfe17443f69d9a33407aa10624d81ae8b4381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_917016d4",
+        "filename": "src/unicode/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:38:14Z",
+      "side": 1,
+      "message": "This looks like an example of IsDigit, not Isgraphic.",
+      "revId": "716cfe17443f69d9a33407aa10624d81ae8b4381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef2afe_516aaee1",
+        "filename": "src/unicode/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-11T13:38:14Z",
+      "side": 1,
+      "message": "Perhaps a comment indicating what this character is.",
+      "revId": "716cfe17443f69d9a33407aa10624d81ae8b4381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
