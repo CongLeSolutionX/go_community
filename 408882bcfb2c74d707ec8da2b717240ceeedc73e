@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "44725a92_5a7f35eb",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-13T02:44:43Z",
+      "side": 1,
+      "message": "Add a TODO entry or issue?",
+      "parentUuid": "44725a92_14bd943c",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44725a92_14211466",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 1
@@ -134,6 +152,24 @@
       "side": 1,
       "message": "There must not be a suspend point between the write and the typedmemmove_nostore call.  I\u0027ll add a comment to that effect.",
       "parentUuid": "44725a92_14211466",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_7a7cf1f5",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-13T02:44:43Z",
+      "side": 1,
+      "message": "What if the write gets eliminated, e.g. via dse?",
+      "parentUuid": "44725a92_54c70ccc",
       "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
