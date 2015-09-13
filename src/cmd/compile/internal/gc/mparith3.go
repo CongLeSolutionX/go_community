@@ -45,13 +45,6 @@ func mpaddfltflt(a *Mpflt, b *Mpflt) {
 	}
 }
 
-func mpaddcflt(a *Mpflt, c float64) {
-	var b Mpflt
-
-	Mpmovecflt(&b, c)
-	mpaddfltflt(a, &b)
-}
-
 func mpsubfltflt(a *Mpflt, b *Mpflt) {
 	if Mpdebug {
 		fmt.Printf("\n%v - %v", a, b)
@@ -74,13 +67,6 @@ func mpmulfltflt(a *Mpflt, b *Mpflt) {
 	if Mpdebug {
 		fmt.Printf(" = %v\n\n", a)
 	}
-}
-
-func mpmulcflt(a *Mpflt, c float64) {
-	var b Mpflt
-
-	Mpmovecflt(&b, c)
-	mpmulfltflt(a, &b)
 }
 
 func mpdivfltflt(a *Mpflt, b *Mpflt) {

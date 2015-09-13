@@ -23,14 +23,6 @@ func bvsize(n uint32) uint32 {
 	return ((n + WORDBITS - 1) / WORDBITS) * WORDSIZE
 }
 
-func bvbits(bv Bvec) int32 {
-	return bv.n
-}
-
-func bvwords(bv Bvec) int32 {
-	return (bv.n + WORDBITS - 1) / WORDBITS
-}
-
 func bvalloc(n int32) Bvec {
 	return Bvec{n, make([]uint32, bvsize(uint32(n))/4)}
 }
@@ -79,21 +71,6 @@ func bvcopy(dst Bvec, src Bvec) {
 	for i, x := range src.b {
 		dst.b[i] = x
 	}
-}
-
-func bvconcat(src1 Bvec, src2 Bvec) Bvec {
-	dst := bvalloc(src1.n + src2.n)
-	for i := int32(0); i < src1.n; i++ {
-		if bvget(src1, i) != 0 {
-			bvset(dst, i)
-		}
-	}
-	for i := int32(0); i < src2.n; i++ {
-		if bvget(src2, i) != 0 {
-			bvset(dst, i+src1.n)
-		}
-	}
-	return dst
 }
 
 func bvget(bv Bvec, i int32) int {
@@ -170,14 +147,6 @@ func bvprint(bv Bvec) {
 	for i := int32(0); i < bv.n; i++ {
 		fmt.Printf("%d", bvget(bv, i))
 	}
-}
-
-func bvreset(bv Bvec, i int32) {
-	if i < 0 || i >= bv.n {
-		Fatalf("bvreset: index %d is out of bounds with length %d\n", i, bv.n)
-	}
-	mask := uint32(^(1 << uint(i%WORDBITS)))
-	bv.b[i/WORDBITS] &= mask
 }
 
 func bvresetall(bv Bvec) {
