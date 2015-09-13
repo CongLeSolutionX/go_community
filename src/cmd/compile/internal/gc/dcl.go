@@ -79,16 +79,6 @@ func popdcl() {
 	block = d.Block
 }
 
-func poptodcl() {
-	// pop the old marker and push a new one
-	// (cannot reuse the existing one)
-	// because we use the markers to identify blocks
-	// for the goto restriction checks.
-	popdcl()
-
-	markdcl()
-}
-
 func markdcl() {
 	d := push()
 	d.Name = "" // used as a mark in fifo
@@ -96,26 +86,6 @@ func markdcl() {
 
 	blockgen++
 	block = blockgen
-}
-
-//	if(dflag())
-//		print("markdcl\n");
-func dumpdcl(st string) {
-	var s *Sym
-
-	i := 0
-	for d := dclstack; d != nil; d = d.Link {
-		i++
-		fmt.Printf("    %.2d %p", i, d)
-		if d.Name == "" {
-			fmt.Printf("\n")
-			continue
-		}
-
-		fmt.Printf(" '%s'", d.Name)
-		s = Pkglookup(d.Name, d.Pkg)
-		fmt.Printf(" %v\n", s)
-	}
 }
 
 func testdclstack() {
