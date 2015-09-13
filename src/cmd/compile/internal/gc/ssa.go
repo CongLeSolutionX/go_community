@@ -461,8 +461,7 @@ func (s *state) stmt(n *Node) {
 			palloc = callnew(n.Left.Type)
 			prealloc[n.Left] = palloc
 		}
-		r := s.expr(palloc)
-		s.assign(n.Left.Name.Heapaddr, r, false)
+		s.assign(OAS, n.Left.Name.Heapaddr, palloc)
 
 	case OLABEL:
 		sym := n.Left.Sym
@@ -531,11 +530,7 @@ func (s *state) stmt(n *Node) {
 			s.f.StaticData = append(data, n)
 			return
 		}
-		var r *ssa.Value
-		if n.Right != nil {
-			r = s.expr(n.Right)
-		}
-		s.assign(n.Left, r, n.Op == OASWB)
+		s.assign(n.Op, n.Left, n.Right)
 
 	case OIF:
 		cond := s.expr(n.Left)
@@ -1874,16 +1869,20 @@ func (s *state) expr(n *Node) *ssa.Value {
 	}
 }
 
-func (s *state) assign(left *Node, right *ssa.Value, wb bool) {
+func (s *state) assign(op uint8, left *Node, right *Node) {
+	var val *ssa.Value
+	if right != nil {
+		val = s.expr(right)
+	}
 	if left.Op == ONAME && isblank(left) {
 		return
 	}
 	// TODO: do write barrier
-	// if wb
+	// if op == OASWB
 	t := left.Type
 	dowidth(t)
-	if right == nil {
-		// right == nil means use the zero value of the assigned type.
+	if val == nil {
+		// val == nil means use the zero value of the assigned type.
 		if !canSSA(left) {
 			// if we can't ssa this memory, treat it as just zeroing out the backing memory
 			addr := s.addr(left)
@@ -1893,11 +1892,11 @@ func (s *state) assign(left *Node, right *ssa.Value, wb bool) {
 			s.vars[&memvar] = s.newValue2I(ssa.OpZero, ssa.TypeMem, t.Size(), addr, s.mem())
 			return
 		}
-		right = s.zeroVal(t)
+		val = s.zeroVal(t)
 	}
 	if left.Op == ONAME && canSSA(left) {
 		// Update variable assignment.
-		s.vars[left] = right
+		s.vars[left] = val
 		return
 	}
 	// not ssa-able.  Treat as a store.
@@ -1905,7 +1904,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb bool) {
 	if left.Op == ONAME {
 		s.vars[&memvar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, left, s.mem())
 	}
-	s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), addr, right, s.mem())
+	s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), addr, val, s.mem())
 }
 
 // zeroVal returns the zero value for type t.
