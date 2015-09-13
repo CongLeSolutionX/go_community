@@ -461,8 +461,7 @@ func (s *state) stmt(n *Node) {
 			palloc = callnew(n.Left.Type)
 			prealloc[n.Left] = palloc
 		}
-		r := s.expr(palloc)
-		s.assign(n.Left.Name.Heapaddr, r, false)
+		s.assign(OAS, n.Left.Name.Heapaddr, palloc)
 
 	case OLABEL:
 		sym := n.Left.Sym
@@ -531,11 +530,7 @@ func (s *state) stmt(n *Node) {
 			s.f.StaticData = append(data, n)
 			return
 		}
-		var r *ssa.Value
-		if n.Right != nil {
-			r = s.expr(n.Right)
-		}
-		s.assign(n.Left, r, n.Op == OASWB)
+		s.assign(n.Op, n.Left, n.Right)
 
 	case OIF:
 		cond := s.expr(n.Left)
@@ -1289,7 +1284,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		default:
 			s.Unimplementedf("unhandled OLITERAL %v", n.Val().Ctype())
-			return nil
+			return s.mem()
 		}
 	case OCONVNOP:
 		to := n.Type
@@ -1327,7 +1322,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		if flag_race != 0 {
 			s.Unimplementedf("questionable CONVNOP from race detector %v -> %v\n", from, to)
-			return nil
+			return s.mem()
 		}
 
 		if etypesign(from.Etype) == 0 {
@@ -1465,7 +1460,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 
 		s.Unimplementedf("unhandled OCONV %s -> %s", Econv(int(n.Left.Type.Etype), 0), Econv(int(n.Type.Etype), 0))
-		return nil
+		return s.mem()
 
 	// binary ops
 	case OLT, OEQ, ONE, OLE, OGE, OGT:
@@ -1668,7 +1663,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 	case OINDREG:
 		if int(n.Reg) != Thearch.REGSP {
 			s.Unimplementedf("OINDREG of non-SP register %s in expr: %v", obj.Rconv(int(n.Reg)), n)
-			return nil
+			return s.mem()
 		}
 		addr := s.entryNewValue1I(ssa.OpOffPtr, Ptrto(n.Type), n.Xoffset, s.sp)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
@@ -1860,7 +1855,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		fp := Structfirst(&titer, Getoutarg(left.Type))
 		if fp == nil {
 			// CALLFUNC has no return value. Continue with the next statement.
-			return nil
+			return s.mem()
 		}
 		a := s.entryNewValue1I(ssa.OpOffPtr, Ptrto(fp.Type), fp.Width, s.sp)
 		return s.newValue2(ssa.OpLoad, fp.Type, a, call)
@@ -1870,18 +1865,25 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 	default:
 		s.Unimplementedf("unhandled expr %s", opnames[n.Op])
-		return nil
+		return s.mem()
 	}
 }
 
-func (s *state) assign(left *Node, right *ssa.Value, wb bool) {
+func (s *state) assign(op uint8, left *Node, right *Node) {
+	var val *ssa.Value
+	if right != nil {
+		val = s.expr(right)
+	}
 	if left.Op == ONAME && isblank(left) {
 		return
 	}
 	// TODO: do write barrier
-	// if wb
+	// if op == OASWB
 	t := left.Type
 	dowidth(t)
+	if (right == nil) != (val == nil) {
+		fmt.Println("right=", Oconv(int(right.Op), 0), right, "val=", val)
+	}
 	if right == nil {
 		// right == nil means use the zero value of the assigned type.
 		if !canSSA(left) {
@@ -1893,11 +1895,11 @@ func (s *state) assign(left *Node, right *ssa.Value, wb bool) {
 			s.vars[&memvar] = s.newValue2I(ssa.OpZero, ssa.TypeMem, t.Size(), addr, s.mem())
 			return
 		}
-		right = s.zeroVal(t)
+		val = s.zeroVal(t)
 	}
 	if left.Op == ONAME && canSSA(left) {
 		// Update variable assignment.
-		s.vars[left] = right
+		s.vars[left] = val
 		return
 	}
 	// not ssa-able.  Treat as a store.
@@ -1905,7 +1907,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb bool) {
 	if left.Op == ONAME {
 		s.vars[&memvar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, left, s.mem())
 	}
-	s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), addr, right, s.mem())
+	s.vars[&memvar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), addr, val, s.mem())
 }
 
 // zeroVal returns the zero value for type t.
@@ -2012,14 +2014,14 @@ func (s *state) addr(n *Node) *ssa.Value {
 			return s.expr(n.Name.Heapaddr)
 		default:
 			s.Unimplementedf("variable address class %v not implemented", n.Class)
-			return nil
+			return s.mem()
 		}
 	case OINDREG:
 		// indirect off a register
 		// used for storing/loading arguments/returns to/from callees
 		if int(n.Reg) != Thearch.REGSP {
 			s.Unimplementedf("OINDREG of non-SP register %s in addr: %v", obj.Rconv(int(n.Reg)), n)
-			return nil
+			return s.mem()
 		}
 		return s.entryNewValue1I(ssa.OpOffPtr, Ptrto(n.Type), n.Xoffset, s.sp)
 	case OINDEX:
@@ -2056,7 +2058,7 @@ func (s *state) addr(n *Node) *ssa.Value {
 		return s.newValue2(ssa.OpAddPtr, p.Type, p, s.constIntPtr(Types[TUINTPTR], n.Xoffset))
 	default:
 		s.Unimplementedf("unhandled addr %v", Oconv(int(n.Op), 0))
-		return nil
+		return s.mem()
 	}
 }
 
