@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "44725a92_bdda0353",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-13T05:34:33Z",
+      "side": 1,
+      "message": "I\u0027ll open an issue.",
+      "parentUuid": "44725a92_5a7f35eb",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44725a92_14211466",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 1
@@ -170,6 +188,24 @@
       "side": 1,
       "message": "What if the write gets eliminated, e.g. via dse?",
       "parentUuid": "44725a92_54c70ccc",
+      "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_9dd54726",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-13T05:34:33Z",
+      "side": 1,
+      "message": "Extraneous write barriers are ok.",
+      "parentUuid": "44725a92_7a7cf1f5",
       "revId": "408882bcfb2c74d707ec8da2b717240ceeedc73e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
