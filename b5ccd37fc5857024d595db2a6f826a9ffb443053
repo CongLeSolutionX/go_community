@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9f10352_c029fe4c",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-09-14T05:04:17Z",
+      "side": 1,
+      "message": "getr calls getc which returns an int. why not change getr to return an int, or a rune, rather than an int32, that might reduce some of the conversions here.",
+      "revId": "b5ccd37fc5857024d595db2a6f826a9ffb443053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_a026fa7a",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-09-14T05:04:17Z",
+      "side": 1,
+      "message": "yeah, i think getr should return the same value as getc.",
+      "revId": "b5ccd37fc5857024d595db2a6f826a9ffb443053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
