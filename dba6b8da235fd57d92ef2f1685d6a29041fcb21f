@@ -22,6 +22,30 @@
       "revId": "dba6b8da235fd57d92ef2f1685d6a29041fcb21f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84ca92dc_e6931e95",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-09-14T16:46:37Z",
+      "side": 1,
+      "message": "Done. I had originally striped it for simplicity, but it\u0027s only mildly more complex to chunk it, and you\u0027re right that it will have somewhat better locality. (Though, I suspect most of the locality cost is not in reading the pointer, but in reading the mspan.)",
+      "parentUuid": "44725a92_dd933f95",
+      "range": {
+        "startLine": 121,
+        "startChar": 5,
+        "endLine": 121,
+        "endChar": 87
+      },
+      "revId": "dba6b8da235fd57d92ef2f1685d6a29041fcb21f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
