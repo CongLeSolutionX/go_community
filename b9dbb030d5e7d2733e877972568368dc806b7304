@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_1d75b70b",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-14T16:12:58Z",
+      "side": 0,
+      "message": "What happened to this?  I think we still want it.",
+      "range": {
+        "startLine": 542,
+        "startChar": 1,
+        "endLine": 545,
+        "endChar": 2
+      },
+      "revId": "b9dbb030d5e7d2733e877972568368dc806b7304",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

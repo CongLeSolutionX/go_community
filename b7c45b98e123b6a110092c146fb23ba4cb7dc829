@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_5d7f2feb",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-14T16:12:58Z",
+      "side": 1,
+      "message": "I don\u0027t think you need the first half of this conditional anymore.",
+      "range": {
+        "startLine": 584,
+        "startChar": 4,
+        "endLine": 584,
+        "endChar": 16
+      },
+      "revId": "b7c45b98e123b6a110092c146fb23ba4cb7dc829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_dd617f49",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-14T16:12:58Z",
+      "side": 1,
+      "message": "I think you\u0027re always passing nil to clearfat_tail, so this arg is not used anymore.",
+      "range": {
+        "startLine": 625,
+        "startChar": 41,
+        "endLine": 625,
+        "endChar": 58
+      },
+      "revId": "b7c45b98e123b6a110092c146fb23ba4cb7dc829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_fd663b5e",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-14T16:12:58Z",
+      "side": 1,
+      "message": "Freeing vec_zero can now be unconditional.",
+      "range": {
+        "startLine": 628,
+        "startChar": 2,
+        "endLine": 628,
+        "endChar": 15
+      },
+      "revId": "b7c45b98e123b6a110092c146fb23ba4cb7dc829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
