@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_a03d6ff3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1879,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-15T18:06:46Z",
+      "side": 1,
+      "message": "How about\n\nvar ptrvar Node\n\nwith a delete at the end.\n\nOr maybe tempvar and freevar methods on s that return a new Node and delete it from the map, respectively. You could even pass in a mnemonic and ssociate the node with a symbol so that it printed nicely. Methods would also allow easier changing of the underlying representative and probably require fewer docs at the call sites. The dottype stuff could use it, too, as well as OANDAND/OROR.\n\nSeparate CL, of course.",
+      "revId": "5fa46ecdf230090e9e8387ba6d1eb304b969be5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_c098ab6f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-15T18:06:46Z",
+      "side": 1,
+      "message": "Again, a helper method to make a runtime call would be nice.",
+      "revId": "5fa46ecdf230090e9e8387ba6d1eb304b969be5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_20a87f7b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-15T18:06:46Z",
+      "side": 1,
+      "message": "Need write barriers in here anywhere? The old backend has fancy WB decisions, which is why OAPPEND is no longer rewritten by the frontend.",
+      "revId": "5fa46ecdf230090e9e8387ba6d1eb304b969be5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_80979335",
+        "filename": "src/cmd/compile/internal/gc/testdata/append_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-09-15T18:06:46Z",
+      "side": 1,
+      "message": "unnecessary",
+      "revId": "5fa46ecdf230090e9e8387ba6d1eb304b969be5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
