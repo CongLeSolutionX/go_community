@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_ca828cca",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2939,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "No underscores in Go names.  I would just call this vexprefix.",
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_0a8d64f8",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2940,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "s/rex_r/rexR/\netc.",
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_ea8748d7",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2943,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "s/pref_bit/prefBit/",
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_2a6940c0",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2948,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "Space after \"//\".",
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_ca69acc4",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2961,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "Drop the return and the blank line.",
+      "range": {
+        "startLine": 2961,
+        "startChar": 2,
+        "endLine": 2961,
+        "endChar": 8
+      },
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_4a7e7c7a",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2967,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "Space after \"//\".",
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44725a92_ea6e68c9",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2982,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T16:11:50Z",
+      "side": 1,
+      "message": "Drop the return.",
+      "revId": "7d661d433228a6b7319b85236ec211ed4d1b5eb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
