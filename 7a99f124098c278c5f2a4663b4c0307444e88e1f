@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9f4cf41_1f9aa3a9",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-09-15T20:36:55Z",
+      "side": 1,
+      "message": "Any idea how important this guarantee is? Could we use sort.Sort instead (not guaranteed to be O(n log n) but designed to behave like that for most inputs)?\n\nRight now the only use of listsort is for sorting stack variables in pgen.go.",
+      "revId": "7a99f124098c278c5f2a4663b4c0307444e88e1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
