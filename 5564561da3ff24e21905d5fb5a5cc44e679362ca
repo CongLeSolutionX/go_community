@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_caae0cbb",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-15T14:22:31Z",
+      "side": 1,
+      "message": "s/makes/sets/",
+      "revId": "5564561da3ff24e21905d5fb5a5cc44e679362ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
