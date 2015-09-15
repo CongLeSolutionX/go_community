@@ -522,3 +522,36 @@ func TestEmptyLinesOK(t *testing.T) {
 		t.Fatalf("stopped with %d left to process", c)
 	}
 }
+
+// Make sure we can read a huge token if a big enough buffer is provided.
+func TestHugeBuffer(t *testing.T) {
+	text := strings.Repeat("x", 2*MaxScanTokenSize)
+	s := NewScanner(strings.NewReader(text + "\n"))
+	s.Buffer(make([]byte, 3*MaxScanTokenSize))
+	for s.Scan() {
+		token := s.Text()
+		if token != text {
+			t.Errorf("scan got incorrect token of length %d", len(token))
+		}
+	}
+	if s.Err() != nil {
+		t.Fatal("after scan:", s.Err())
+	}
+}
+
+// Make sure we do not allocate a bigger buffer if a small one is provided.
+func TestTinyBuffer(t *testing.T) {
+	text := strings.Repeat("x", 100)
+	s := NewScanner(strings.NewReader(text + "\n"))
+	s.Buffer(make([]byte, 10))
+	for s.Scan() {
+		t.Fatalf("scan recovered a token %q; should not have", s.Bytes())
+	}
+	err := s.Err()
+	if err == nil {
+		t.Fatal("scan should have failed")
+	}
+	if !strings.Contains(err.Error(), "token too long") {
+		t.Fatal("expected token too long error; got %q", err)
+	}
+}
