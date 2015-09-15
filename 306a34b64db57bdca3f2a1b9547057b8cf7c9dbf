@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "c9f10352_c3c588c6",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "put the \\n in the source string",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4ef2afe_319a8a66",
         "filename": "src/io/example_test.go",
         "patchSetId": 2
@@ -30,6 +47,177 @@
       "writtenOn": "2015-09-11T13:20:04Z",
       "side": 1,
       "message": "This example doesn\u0027t seem especially useful as it doesn\u0027t show the point of using CopyBuffer.  Perhaps you could use a larger buffer, call CopyBuffer twice, and add a comment about not allocating an extra buffer.",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_a3c284ba",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "just use io.Copy",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_83b1c066",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "\"first reader \"",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_63b6bc5e",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "second reader",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_43abb8f0",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "third",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_23b0b45c",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "don\u0027t bother printing n here",
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_e3a1ac0e",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "s/f/read/\nput this function below the call to TeeReader",
+      "range": {
+        "startLine": 159,
+        "startChar": 1,
+        "endLine": 159,
+        "endChar": 2
+      },
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_03a5b01a",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "use ReadAll",
+      "range": {
+        "startLine": 160,
+        "startChar": 15,
+        "endLine": 160,
+        "endChar": 19
+      },
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_43397868",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "drop this, or use println",
+      "range": {
+        "startLine": 191,
+        "startChar": 30,
+        "endLine": 191,
+        "endChar": 34
+      },
+      "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_035370ae",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-15T03:57:17Z",
+      "side": 1,
+      "message": "this example doesn\u0027t have a blank line between the } and fmt.Print.\nPlease be consistent, and be consistent in your use of Print/Println/Printf",
       "revId": "306a34b64db57bdca3f2a1b9547057b8cf7c9dbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
