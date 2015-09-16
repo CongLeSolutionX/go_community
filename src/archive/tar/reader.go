@@ -113,72 +113,83 @@ func NewReader(r io.Reader) *Reader { return &Reader{r: r} }
 //
 // io.EOF is returned at the end of the input.
 func (tr *Reader) Next() (*Header, error) {
-	var hdr *Header
-	if tr.err == nil {
-		tr.skipUnread()
-	}
 	if tr.err != nil {
-		return hdr, tr.err
+		return nil, tr.err
 	}
-	hdr = tr.readHeader()
-	if hdr == nil {
-		return hdr, tr.err
-	}
-	// Check for PAX/GNU header.
-	switch hdr.Typeflag {
-	case TypeXHeader:
-		//  PAX extended header
-		headers, err := parsePAX(tr)
-		if err != nil {
-			return nil, err
-		}
-		// We actually read the whole file,
-		// but this skips alignment padding
+
+	var hdr *Header
+	var extHdrs map[string]string
+
+	// Externally, Next iterates through the tar archive as if it is a series of
+	// files. Internally, the tar format often uses fake "files" to add meta
+	// data that describes the next file. These meta data "files" should not
+	// normally be visible to the outside. As such, this loop iterates through
+	// one or more "header files" until it finds a "normal file".
+loop:
+	for {
 		tr.skipUnread()
 		if tr.err != nil {
 			return nil, tr.err
 		}
+
 		hdr = tr.readHeader()
-		if hdr == nil {
+		if tr.err != nil {
 			return nil, tr.err
 		}
-		mergePAX(hdr, headers)
 
-		// Check for a PAX format sparse file
-		sp, err := tr.checkForGNUSparsePAXHeaders(hdr, headers)
-		if err != nil {
-			tr.err = err
-			return nil, err
-		}
-		if sp != nil {
-			// Current file is a PAX format GNU sparse file.
-			// Set the current file reader to a sparse file reader.
-			tr.curr, tr.err = newSparseFileReader(tr.curr, sp, hdr.Size)
+		// Check for PAX/GNU special headers and files.
+		switch hdr.Typeflag {
+		case TypeXHeader:
+			extHdrs, tr.err = parsePAX(tr)
 			if tr.err != nil {
 				return nil, tr.err
 			}
+			continue loop // This is a meta header affecting the next header
+		case TypeGNULongName:
+			realname, err := ioutil.ReadAll(tr)
+			if err != nil {
+				return nil, err
+			}
+
+			// Convert GNU extensions to use PAX headers.
+			if extHdrs == nil {
+				extHdrs = make(map[string]string)
+			}
+			extHdrs[paxPath] = cString(realname)
+			continue loop // This is a meta header affecting the next header
+		case TypeGNULongLink:
+			realname, err := ioutil.ReadAll(tr)
+			if err != nil {
+				return nil, err
+			}
+
+			// Convert GNU extensions to use PAX headers.
+			if extHdrs == nil {
+				extHdrs = make(map[string]string)
+			}
+			extHdrs[paxLinkpath] = cString(realname)
+			continue loop // This is a meta header affecting the next header
+		default:
+			mergePAX(hdr, extHdrs)
+
+			// Check for a PAX format sparse file
+			sp, err := tr.checkForGNUSparsePAXHeaders(hdr, extHdrs)
+			if err != nil {
+				tr.err = err
+				return nil, err
+			}
+			if sp != nil {
+				// Current file is a PAX format GNU sparse file.
+				// Set the current file reader to a sparse file reader.
+				tr.curr, tr.err = newSparseFileReader(tr.curr, sp, hdr.Size)
+				if tr.err != nil {
+					return nil, tr.err
+				}
+			}
+			break loop // This is a file, so stop
 		}
-		return hdr, nil
-	case TypeGNULongName:
-		// We have a GNU long name header. Its contents are the real file name.
-		realname, err := ioutil.ReadAll(tr)
-		if err != nil {
-			return nil, err
-		}
-		hdr, err := tr.Next()
-		hdr.Name = cString(realname)
-		return hdr, err
-	case TypeGNULongLink:
-		// We have a GNU long link header.
-		realname, err := ioutil.ReadAll(tr)
-		if err != nil {
-			return nil, err
-		}
-		hdr, err := tr.Next()
-		hdr.Linkname = cString(realname)
-		return hdr, err
 	}
-	return hdr, tr.err
+	return hdr, nil
 }
 
 // checkForGNUSparsePAXHeaders checks the PAX headers for GNU sparse headers. If they are found, then
