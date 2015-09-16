@@ -287,6 +287,30 @@ var untarTests = []*untarTest{
 			},
 		},
 	},
+	{
+		// Matches the behavior of GNU, BSD, and STAR tar utilities.
+		file: "testdata/gnu-multi-hdrs.tar",
+		headers: []*Header{
+			{
+				Name:     "GNU2/GNU2/long-path-name",
+				Linkname: "GNU4/GNU4/long-linkpath-name",
+				ModTime:  time.Unix(0, 0),
+				Typeflag: '2',
+			},
+		},
+	},
+	{
+		// Matches the behavior of GNU and BSD tar utilities.
+		file: "testdata/pax-multi-hdrs.tar",
+		headers: []*Header{
+			{
+				Name:     "bar",
+				Linkname: "PAX4/PAX4/long-linkpath-name",
+				ModTime:  time.Unix(0, 0),
+				Typeflag: '2',
+			},
+		},
+	},
 }
 
 func TestReader(t *testing.T) {
@@ -864,6 +888,20 @@ func TestIssue10968(t *testing.T) {
 // Issue 11169
 func TestIssue11169(t *testing.T) {
 	f, err := os.Open("testdata/issue11169.tar")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	r := NewReader(f)
+	_, err = r.Next()
+	if err == nil {
+		t.Fatal("Unexpected success")
+	}
+}
+
+// Do not panic if tar file is truncated after a header.
+func TestIssue12435(t *testing.T) {
+	f, err := os.Open("testdata/issue12435.tar")
 	if err != nil {
 		t.Fatal(err)
 	}
