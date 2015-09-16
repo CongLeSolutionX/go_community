@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9f10352_c9b129c8",
+        "filename": "test/recover4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-09-16T04:31:16Z",
+      "side": 1,
+      "message": "what value does this return on arm64 systems ? I think it\u0027s hard coded to be 4096",
+      "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_89dd61fe",
+        "filename": "test/recover4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-09-16T04:31:16Z",
+      "side": 1,
+      "message": "16 x 4096 is exactly 64k, on a 64k system, we cannot unmap \u003c 64k, which might happen if the page size is reported incorrectly as 4k",
+      "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_e9a4ed87",
+        "filename": "test/recover4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-09-16T04:31:16Z",
+      "side": 1,
+      "message": "Should we go for double underpants and use Mincore to check that the hole we asked for exists ?",
+      "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
