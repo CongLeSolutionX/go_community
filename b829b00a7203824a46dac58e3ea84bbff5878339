@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c9f10352_c9c5a9c6",
+        "filename": "test/recover4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-16T08:33:09Z",
+      "side": 1,
+      "message": "64k, funnily enough:\n\n(wily-arm64)mwh@rugby:~$ cat pagesize.go \npackage main\nimport \"syscall\"\nfunc main() {\nprintln(syscall.Getpagesize())\n}\n(wily-arm64)mwh@rugby:~$ go run pagesize.go\n65536",
+      "parentUuid": "c9f10352_c9b129c8",
+      "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9f10352_89dd61fe",
         "filename": "test/recover4.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c9f10352_89b1e166",
+        "filename": "test/recover4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-16T08:33:09Z",
+      "side": 1,
+      "message": "But this is a 4k system (rugby):\n\n(wily-arm64)mwh@rugby:~$ getconf PAGESIZE\n4096\n\nSo if there is any confusion, it\u0027s the other way around.",
+      "parentUuid": "c9f10352_89dd61fe",
+      "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9f10352_e9a4ed87",
         "filename": "test/recover4.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-09-16T04:31:16Z",
       "side": 1,
       "message": "Should we go for double underpants and use Mincore to check that the hole we asked for exists ?",
+      "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9f10352_a9c265ba",
+        "filename": "test/recover4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-16T08:33:09Z",
+      "side": 1,
+      "message": "I don\u0027t know that that would help. Seems better to just not do any allocation between the unmap and triggering the segfault.",
+      "parentUuid": "c9f10352_e9a4ed87",
       "revId": "b829b00a7203824a46dac58e3ea84bbff5878339",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
