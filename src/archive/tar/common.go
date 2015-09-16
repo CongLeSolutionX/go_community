@@ -7,9 +7,9 @@
 // by GNU and BSD tars.
 //
 // References:
-//   http://www.freebsd.org/cgi/man.cgi?query=tar&sektion=5
-//   http://www.gnu.org/software/tar/manual/html_node/Standard.html
-//   http://pubs.opengroup.org/onlinepubs/9699919799/utilities/pax.html
+//	https://www.freebsd.org/cgi/man.cgi?query=tar&sektion=5
+//	https://www.gnu.org/software/tar/manual/html_node/Standard.html
+//	http://pubs.opengroup.org/onlinepubs/9699919799/utilities/pax.html
 package tar
 
 import (
@@ -21,10 +21,132 @@ import (
 	"time"
 )
 
-const (
-	blockSize = 512
+// Additional references:
+//	http://manpages.ubuntu.com/manpages/intrepid/man5/star.5.html
+//
+// Popular implementations:
+//	http://git.savannah.gnu.org/cgit/tar.git
+//	https://github.com/libarchive/libarchive
+//	http://sourceforge.net/projects/s-tar/
 
-	// Types
+// BUG: Use of the Uid and Gid fields in Header could overflow on 32-bit
+// architectures. If a large value is encountered when decoding, the result
+// stored in Header will be the truncated version. Similarly, the truncated
+// version will be used when encoding.
+
+const (
+	// The format is unknown.
+	formatUnknown = iota
+
+	// The format of the original Unix V7 tar tool prior to standardization.
+	/*
+		type headerV7 struct {
+			name     [100]byte //   0
+			mode     [8]byte   // 100
+			uid      [8]byte   // 108
+			gid      [8]byte   // 116
+			size     [12]byte  // 124
+			mtime    [12]byte  // 136
+			chksum   [8]byte   // 148
+			typeflag [1]byte   // 156
+			linkname [100]byte // 157
+			                   // 257
+		}
+	*/
+	formatV7
+
+	// The old and new GNU formats, which are incompatible with USTAR.
+	// This does cover the old GNU sparse extension.
+	// This does not cover the GNU sparse extensions using PAX headers,
+	// versions 0.0, 0.1, and 1.0; these fall under the PAX format.
+	/*
+		// The magic and version forms "ustar  \x00"
+		type headerGNU struct {
+			headerV7                   //   0
+			magic      [6]byte         // 257
+			version    [2]byte         // 263
+			uname      [32]byte        // 265
+			gname      [32]byte        // 297
+			devmajor   [8]byte         // 329
+			devminor   [8]byte         // 337
+			atime      [12]byte        // 345
+			ctime      [12]byte        // 357
+			offset     [12]byte        // 369
+			longnames  [4]byte         // 381
+			unused     [1]byte         // 385
+			sparse     [4]headerSparse // 386
+			isextended [1]byte         // 482
+			realsize   [12]byte        // 483
+			                           // 495
+		}
+
+		type headerSparse struct {
+			offset   [12]byte //  0
+			numbytes [12]byte // 12
+			                  // 24
+		}
+	*/
+	formatGNU
+
+	// Schily's tar format, which is incompatible with USTAR.
+	// This does not cover STAR extensions to the PAX format; these fall under
+	// the PAX format.
+	/*
+		// The magic forms "ustar\x00".
+		// The trailer forms "tar\x00".
+		type headerSTAR struct {
+			headerV7           //   0
+			magic    [6]byte   // 257
+			version  [2]byte   // 263
+			uname    [32]byte  // 265
+			gname    [32]byte  // 297
+			devmajor [8]byte   // 329
+			devminor [8]byte   // 337
+			prefix   [131]byte // 345
+			atime    [12]byte  // 476
+			ctime    [12]byte  // 488
+			                   // 500
+		}
+	*/
+	formatSTAR
+
+	// USTAR is the former standardization of tar defined in POSIX.1-1988.
+	// This is an extension of USTAR and is "backwards compatible" with it.
+	// This is incompatible with the GNU and STAR formats.
+	/*
+		// The magic forms "ustar\x00".
+		type headerUSTAR struct {
+			headerV7           //   0
+			magic    [6]byte   // 257
+			version  [2]byte   // 263
+			uname    [32]byte  // 265
+			gname    [32]byte  // 297
+			devmajor [8]byte   // 329
+			devminor [8]byte   // 337
+			prefix   [155]byte // 345
+			                   // 500
+		}
+	*/
+	formatUSTAR
+
+	// PAX is the latest standardization of tar defined in POSIX.1-2001.
+	// It adds a new header format that allows for arbitrarily long fields and
+	// is an extension of the previous USTAR format.
+	//
+	// Some formats add their own extensions to PAX, such as GNU sparse files
+	// and SCHILY extended attributes.
+	formatPAX
+)
+
+// Magics used to identify various formats.
+const (
+	magicSTAR  = "tar\x00"
+	magicUSTAR = "ustar\x00"
+	magicGNU   = "ustar  \x00"
+)
+
+// Header type flags.
+const (
 	TypeReg           = '0'    // regular file
 	TypeRegA          = '\x00' // regular file
 	TypeLink          = '1'    // hard link
@@ -61,8 +183,9 @@ type Header struct {
 	Xattrs     map[string]string
 }
 
-// File name constants from the tar spec.
+// Size constants from the tar spec.
 const (
+	blockSize          = 512
 	fileNameSize       = 100 // Maximum number of bytes in a standard tar name.
 	fileNamePrefixSize = 155 // Maximum number of ustar extension bytes.
 )
@@ -177,22 +300,20 @@ const (
 	c_ISSOCK = 0140000 // Socket
 )
 
-// Keywords for the PAX Extended Header
+// Keywords for the PAX Extended Header.
 const (
-	paxAtime    = "atime"
-	paxCharset  = "charset"
-	paxComment  = "comment"
-	paxCtime    = "ctime" // please note that ctime is not a valid pax header.
-	paxGid      = "gid"
-	paxGname    = "gname"
-	paxLinkpath = "linkpath"
-	paxMtime    = "mtime"
-	paxPath     = "path"
-	paxSize     = "size"
-	paxUid      = "uid"
-	paxUname    = "uname"
-	paxXattr    = "SCHILY.xattr."
 	paxNone     = ""
+	paxPath     = "path"
+	paxLinkpath = "linkpath"
+	paxUname    = "uname"
+	paxGname    = "gname"
+	paxUid      = "uid"
+	paxGid      = "gid"
+	paxAtime    = "atime"
+	paxMtime    = "mtime"
+	paxCtime    = "ctime"
+	paxSize     = "size"
+	paxXattr    = "SCHILY.xattr."
 )
 
 // FileInfoHeader creates a partially-populated Header from fi.
@@ -280,6 +401,17 @@ func FileInfoHeader(fi os.FileInfo, link string) (*Header, error) {
 }
 
 var zeroBlock = make([]byte, blockSize)
+
+// isHeaderOnlyType checks if the given type flag is of the type that has no
+// data section even if a size is specified.
+func isHeaderOnlyType(tf byte) bool {
+	switch tf {
+	case TypeLink, TypeSymlink, TypeChar, TypeBlock, TypeDir, TypeFifo:
+		return true
+	default:
+		return false
+	}
+}
 
 // POSIX specifies a sum of the unsigned byte values, but the Sun tar uses signed byte values.
 // We compute and return both.
