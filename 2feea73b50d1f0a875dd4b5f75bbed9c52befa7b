@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_a38c8fba",
+        "filename": "api/next.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-16T17:45:43Z",
+      "side": 1,
+      "message": "please delete this edit. we manage the metadata separately from the CLs themselves.",
+      "range": {
+        "startLine": 2,
+        "startChar": 19,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "2feea73b50d1f0a875dd4b5f75bbed9c52befa7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
