@@ -286,6 +286,28 @@ var untarTests = []*untarTest{
 			},
 		},
 	},
+	{
+		file: "testdata/gnu-multi-hdrs.tar",
+		headers: []*Header{
+			{
+				Name:     "GNU2/GNU2/long-path-name",
+				Linkname: "GNU4/GNU4/long-linkpath-name",
+				ModTime:  time.Unix(0, 0),
+				Typeflag: '2',
+			},
+		},
+	},
+	{
+		file: "testdata/pax-multi-hdrs.tar",
+		headers: []*Header{
+			{
+				Name:     "PAX2/PAX2/long-path-name",
+				Linkname: "PAX4/PAX4/long-linkpath-name",
+				ModTime:  time.Unix(0, 0),
+				Typeflag: '2',
+			},
+		},
+	},
 }
 
 func TestReader(t *testing.T) {
@@ -447,7 +469,7 @@ func TestParsePAXHeader(t *testing.T) {
 	for _, test := range paxTests {
 		key, expected, raw := test[0], test[1], test[2]
 		reader := bytes.NewReader([]byte(raw))
-		headers, err := parsePAX(reader)
+		headers, err := parsePAX(reader, nil)
 		if err != nil {
 			t.Errorf("Couldn't parse correctly formatted headers: %v", err)
 			continue
@@ -467,7 +489,7 @@ func TestParsePAXHeader(t *testing.T) {
 		[]byte("50 tooshort=\n"),
 	}
 	for _, test := range badHeaderTests {
-		if _, err := parsePAX(bytes.NewReader(test)); err != ErrHeader {
+		if _, err := parsePAX(bytes.NewReader(test), nil); err != ErrHeader {
 			t.Fatal("Unexpected success when parsing bad header")
 		}
 	}
