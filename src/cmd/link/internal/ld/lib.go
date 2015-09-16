@@ -997,6 +997,21 @@ func hostlink() {
 		// think we may well end up wanting to use -Bsymbolic here
 		// anyway.
 		argv = append(argv, "-Wl,-Bsymbolic-functions")
+		if Thearch.Thechar == '5' {
+			// ld.bfd in binutils releases before 2.26 (unreleased at the
+			// time of writing) mis-handles -Bsymbolic-functions in a way
+			// that breaks shared libraries: the flag has no effect on
+			// function pointers (vs function calls) and so the function
+			// pointers in findfunctab get relocated in a way that
+			// updates them to point at the PLT stub not the function --
+			// which not only breaks the functionality of findfunctab but
+			// also breaks the ordering assumptions that are checked
+			// during program startup. The symptom is programs crashing
+			// on startup with "function symbol table not sorted by
+			// program counter". Fortunately, gold does not have the
+			// same bug so just force the use of that.
+			argv = append(argv, "-fuse-ld=gold")
+		}
 		if UseRelro() {
 			argv = append(argv, "-Wl,-z,relro")
 		}
