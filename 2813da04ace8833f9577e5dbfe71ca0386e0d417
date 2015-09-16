@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44725a92_70995bb5",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-16T16:28:06Z",
+      "side": 1,
+      "message": "This is only a best effort option, that will do nothing if gold is not installed.  Can you be more precise about what will break if we use an older version of GNU ld?",
+      "revId": "2813da04ace8833f9577e5dbfe71ca0386e0d417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
