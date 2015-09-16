@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "490513fd_bfb173c8",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-09-16T21:10:27Z",
+      "side": 1,
+      "message": "I made cmpstackvarlt a thin wrapper around cmpstackvar. Reverted the latter and added unit test to cover all code paths of cmpstackvar.\n\nWill send follow-up CL to do the refactoring of listsort.",
+      "parentUuid": "c9f10352_890fa13a",
+      "revId": "7a99f124098c278c5f2a4663b4c0307444e88e1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9f10352_49be399c",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-16T04:18:40Z",
       "side": 1,
       "message": "I think this can be rewritten as\n\nif a.Used !\u003d b.Used {\n    return a.Used\n}",
+      "revId": "7a99f124098c278c5f2a4663b4c0307444e88e1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89fb8b33_8163fca2",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-09-16T21:10:27Z",
+      "side": 1,
+      "message": "You\u0027re right. Will do this in next CL.",
+      "parentUuid": "c9f10352_49be399c",
       "revId": "7a99f124098c278c5f2a4663b4c0307444e88e1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
