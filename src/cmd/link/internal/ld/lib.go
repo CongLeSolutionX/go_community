@@ -997,6 +997,13 @@ func hostlink() {
 		// think we may well end up wanting to use -Bsymbolic here
 		// anyway.
 		argv = append(argv, "-Wl,-Bsymbolic-functions")
+		if Thearch.Thechar == '5' {
+			// ld.bfd in binutils releases before 2.26 (unreleased at the
+			// time of writing) mis-handles -Bsymbolic-functions in a way
+			// that breaks shared libraries. Fortunately, gold does not
+			// have the same bug so just force the use of that.
+			argv = append(argv, "-fuse-ld=gold")
+		}
 		if UseRelro() {
 			argv = append(argv, "-Wl,-z,relro")
 		}
