@@ -260,9 +260,7 @@ func (check *Checker) argument(sig *Signature, i int, x *operand, ellipsis token
 		typ = typ.(*Slice).elem
 	}
 
-	if reason := ""; !check.assignment(x, typ, &reason) && x.mode != invalid {
-		check.xerrorf(x.pos(), reason, "cannot pass argument %s to parameter of type %s", x, typ)
-	}
+	check.assignment(x, typ, "argument")
 }
 
 func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
