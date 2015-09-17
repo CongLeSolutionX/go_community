@@ -243,6 +243,14 @@ func (check *Checker) collectObjects() {
 							check.declare(fileScope, nil, obj, token.NoPos)
 						}
 
+						// import "C" specifics - match cmd/compile (not prescribed by spec)
+						if obj.imported.path == "C" {
+							obj.used = true // don't complain about unused "C" packages
+							if obj.name == "_" {
+								check.softErrorf(obj.pos, `cannot rename import "C"`)
+							}
+						}
+
 					case *ast.ValueSpec:
 						switch d.Tok {
 						case token.CONST:
