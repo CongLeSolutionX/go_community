@@ -360,11 +360,11 @@ func TestPaxNonAscii(t *testing.T) {
 	// some sample data
 	chineseFilename := "文件名"
 	chineseGroupname := "組"
-	chineseUsername := "用戶名"
+	nullUsername := "\x00hehehe"
 
 	hdr.Name = chineseFilename
 	hdr.Gname = chineseGroupname
-	hdr.Uname = chineseUsername
+	hdr.Uname = nullUsername
 
 	contents := strings.Repeat(" ", int(hdr.Size))
 
@@ -395,7 +395,7 @@ func TestPaxNonAscii(t *testing.T) {
 	if hdr.Gname != chineseGroupname {
 		t.Fatal("Couldn't recover unicode group")
 	}
-	if hdr.Uname != chineseUsername {
+	if hdr.Uname != nullUsername {
 		t.Fatal("Couldn't recover unicode user")
 	}
 }
