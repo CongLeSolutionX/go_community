@@ -23,7 +23,6 @@ var (
 	ErrWriteTooLong    = errors.New("archive/tar: write too long")
 	ErrFieldTooLong    = errors.New("archive/tar: header field too long")
 	ErrWriteAfterClose = errors.New("archive/tar: write after close")
-	errNameTooLong     = errors.New("archive/tar: name too long")
 	errInvalidHeader   = errors.New("archive/tar: header field too long or contains invalid values")
 )
 
@@ -215,25 +214,15 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 	_, paxPathUsed := paxHeaders[paxPath]
 	// try to use a ustar header when only the name is too long
 	if !tw.preferPax && len(paxHeaders) == 1 && paxPathUsed {
-		suffix := hdr.Name
-		prefix := ""
-		if len(hdr.Name) > fileNameSize && isASCII(hdr.Name) {
-			var err error
-			prefix, suffix, err = tw.splitUSTARLongName(hdr.Name)
-			if err == nil {
-				// ok we can use a ustar long name instead of pax, now correct the fields
-
-				// remove the path field from the pax header. this will suppress the pax header
+		if isASCII(hdr.Name) {
+			prefix, suffix, ok := splitUSTARPath(hdr.Name)
+			if ok {
+				// Since we can encode in USTAR format, disable PAX header.
 				delete(paxHeaders, paxPath)
 
-				// update the path fields
+				// Update the path fields
 				tw.cString(pathHeaderBytes, suffix, false, paxNone, nil)
 				tw.cString(prefixHeaderBytes, prefix, false, paxNone, nil)
-
-				// Use the ustar magic if we used ustar long names.
-				if len(prefix) > 0 && !tw.usedBinary {
-					copy(header[257:265], []byte("ustar\x00"))
-				}
 			}
 		}
 	}
@@ -270,28 +259,25 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 	return tw.err
 }
 
-// writeUSTARLongName splits a USTAR long name hdr.Name.
-// name must be < 256 characters. errNameTooLong is returned
-// if hdr.Name can't be split. The splitting heuristic
-// is compatible with gnu tar.
-func (tw *Writer) splitUSTARLongName(name string) (prefix, suffix string, err error) {
+// splitUSTARPath splits a path according to USTAR prefix and suffix rules.
+// If the path is not splittable, then it will return false.
+func splitUSTARPath(name string) (prefix, suffix string, ok bool) {
 	length := len(name)
-	if length > fileNamePrefixSize+1 {
+	if length <= fileNameSize {
+		return "", name, true
+	} else if length > fileNamePrefixSize+1 {
 		length = fileNamePrefixSize + 1
 	} else if name[length-1] == '/' {
 		length--
 	}
-	i := strings.LastIndex(name[:length], "/")
-	// nlen contains the resulting length in the name field.
-	// plen contains the resulting length in the prefix field.
-	nlen := len(name) - i - 1
-	plen := i
-	if i <= 0 || nlen > fileNameSize || nlen == 0 || plen > fileNamePrefixSize {
-		err = errNameTooLong
-		return
+
+	pos := strings.LastIndexByte(name[:length], '/')
+	plen := pos                 // plen is length of prefix
+	nlen := len(name) - pos - 1 // nlen is length of suffix
+	if pos <= 0 || plen > fileNamePrefixSize || nlen > fileNameSize || nlen == 0 {
+		return "", "", false
 	}
-	prefix, suffix = name[:i], name[i+1:]
-	return
+	return name[:pos], name[pos+1:], true
 }
 
 // writePaxHeader writes an extended pax header to the
