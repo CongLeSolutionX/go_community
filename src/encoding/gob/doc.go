@@ -26,6 +26,11 @@ all type information is sent before it is needed.  At the receive side, a
 Decoder retrieves values from the encoded stream and unpacks them into local
 variables.
 
+If allocation is required, the decoder will allocate memory. If not, it will update
+the destination variables with values read from the stream. It does not initialize
+them first, so if the destination is a compound value such as a map, struct, or
+slice, the decoded values will be merged elementwise into the existing variables.
+
 Types and Values
 
 The source and destination values/types need not correspond exactly.  For structs,
