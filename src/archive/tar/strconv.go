@@ -12,22 +12,25 @@ import (
 	"time"
 )
 
+// isASCII reports whether the input is an ASCII C-style string.
 func isASCII(s string) bool {
 	for _, c := range s {
-		if c >= 0x80 {
+		if c >= 0x80 || c == 0x00 {
 			return false
 		}
 	}
 	return true
 }
 
+// toASCII converts the input to an ASCII C-style string.
+// This a best effort conversion, so invalid characters are dropped.
 func toASCII(s string) string {
 	if isASCII(s) {
 		return s
 	}
 	var buf bytes.Buffer
 	for _, c := range s {
-		if c < 0x80 {
+		if c < 0x80 && c != 0x00 {
 			buf.WriteByte(byte(c))
 		}
 	}
@@ -232,12 +235,21 @@ func parsePAXRecord(s string) (k, v, r string, err error) {
 	if eq == -1 {
 		return "", "", s, ErrHeader
 	}
-	return rec[:eq], rec[eq+1:], rem, nil
+	k, v = rec[:eq], rec[eq+1:]
+
+	if !validPAXRecord(k, v) {
+		return "", "", s, ErrHeader
+	}
+	return k, v, rem, nil
 }
 
 // formatPAXRecord formats a single PAX record, prefixing it with the
 // appropriate length.
-func formatPAXRecord(k, v string) string {
+func formatPAXRecord(k, v string) (string, error) {
+	if !validPAXRecord(k, v) {
+		return "", ErrHeader
+	}
+
 	const padding = 3 // Extra padding for ' ', '=', and '\n'
 	size := len(k) + len(v) + padding
 	size += len(strconv.Itoa(size))
@@ -248,5 +260,17 @@ func formatPAXRecord(k, v string) string {
 		size = len(record)
 		record = fmt.Sprintf("%d %s=%s\n", size, k, v)
 	}
-	return record
+	return record, nil
+}
+
+// validPAXRecord reports whether the key-value pair is valid.
+// Keys may not contain NUL, while the value may not contain NUL for PAX values
+// extending the USTAR string fields.
+func validPAXRecord(k, v string) bool {
+	switch k {
+	case paxPath, paxLinkpath, paxUname, paxGname:
+		return strings.IndexByte(v, 0) < 0
+	default:
+		return strings.IndexByte(k, 0) < 0
+	}
 }
