@@ -65,6 +65,7 @@ func TestWriter(t *testing.T) {
 	vectors := []struct {
 		file    string // filename of expected output
 		entries []*entry
+		err     error // expected error on WriteHeader
 	}{{
 		// The writer test file was produced with this command:
 		// tar (GNU tar) 1.26
@@ -214,24 +215,28 @@ func TestWriter(t *testing.T) {
 			},
 			// no contents
 		}},
+	}, {
+		entries: []*entry{{
+			header: &Header{
+				Name:     "bad-null-\x00.txt",
+				Typeflag: '0',
+			},
+		}},
+		err: ErrHeader,
 	}}
 
 testLoop:
 	for i, v := range vectors {
-		expected, err := ioutil.ReadFile(v.file)
-		if err != nil {
-			t.Errorf("test %d: Unexpected error: %v", i, err)
-			continue
-		}
-
 		buf := new(bytes.Buffer)
 		tw := NewWriter(iotest.TruncateWriter(buf, 4<<10)) // only catch the first 4 KB
-		big := false
+		canFail := false
 		for j, entry := range v.entries {
-			big = big || entry.header.Size > 1<<10
-			if err := tw.WriteHeader(entry.header); err != nil {
-				t.Errorf("test %d, entry %d: Failed writing header: %v", i, j, err)
-				continue testLoop
+			canFail = canFail || entry.header.Size > 1<<10 || v.err != nil
+
+			err := tw.WriteHeader(entry.header)
+			if err != v.err {
+				t.Errorf("test %d, entry %d: WriteHeader error mismatch: got %v, want %v", err, v.err)
+				break
 			}
 			if _, err := io.WriteString(tw, entry.contents); err != nil {
 				t.Errorf("test %d, entry %d: Failed writing contents: %v", i, j, err)
@@ -239,18 +244,22 @@ testLoop:
 			}
 		}
 		// Only interested in Close failures for the small tests.
-		if err := tw.Close(); err != nil && !big {
+		if err := tw.Close(); err != nil && !canFail {
 			t.Errorf("test %d: Failed closing archive: %v", i, err)
 			continue testLoop
 		}
 
-		actual := buf.Bytes()
-		if !bytes.Equal(expected, actual) {
-			t.Errorf("test %d: Incorrect result: (-=expected, +=actual)\n%v",
-				i, bytediff(expected, actual))
-		}
-		if testing.Short() { // The second test is expensive.
-			break
+		if v.file != "" {
+			want, err := ioutil.ReadFile(v.file)
+			if err != nil {
+				t.Errorf("test %d: Unexpected error: %v", i, err)
+				continue
+			}
+			got := buf.Bytes()
+			if !bytes.Equal(want, got) {
+				t.Errorf("test %d: Incorrect result: (-=want, +=got)\n%v",
+					i, bytediff(want, got))
+			}
 		}
 	}
 }

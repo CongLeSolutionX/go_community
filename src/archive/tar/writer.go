@@ -118,6 +118,10 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 	// argument extends beyond the capacity of the input byte slice.
 	var f formatter
 	var formatString = func(b []byte, s string, paxKeyword string) {
+		hasNull := strings.IndexBytes(s, 0) >= 0 || strings.IndexByte(paxKeyword, 0) >= 0
+		if hasNull && f.err == nil {
+			f.err = ErrHeader
+		}
 		needsPaxHeader := paxKeyword != paxNone && len(s) > len(b) || !isASCII(s)
 		if needsPaxHeader {
 			paxHeaders[paxKeyword] = s

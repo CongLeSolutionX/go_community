@@ -294,17 +294,26 @@ func (tr *Reader) checkForGNUSparsePAXHeaders(hdr *Header, headers map[string]st
 // struct with higher precision or longer values. Esp. useful
 // for name and linkname fields.
 func mergePAX(hdr *Header, headers map[string]string) (err error) {
+	// BSD tar rejects PAX strings with NULs in them.
+	checkString := func(s string) string {
+		if strings.IndexByte(s, 0) >= 0 {
+			err = ErrHeader
+			return ""
+		}
+		return s
+	}
+
 	var id64 int64
 	for k, v := range headers {
 		switch k {
 		case paxPath:
-			hdr.Name = v
+			hdr.Name = checkString(v)
 		case paxLinkpath:
-			hdr.Linkname = v
+			hdr.Linkname = checkString(v)
 		case paxUname:
-			hdr.Uname = v
+			hdr.Uname = checkString(v)
 		case paxGname:
-			hdr.Gname = v
+			hdr.Gname = checkString(v)
 		case paxUid:
 			id64, err = strconv.ParseInt(v, 10, 64)
 			hdr.Uid = int(id64) // Integer overflow possible

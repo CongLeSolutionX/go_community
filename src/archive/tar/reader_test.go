@@ -335,6 +335,29 @@ func TestReader(t *testing.T) {
 			Typeflag: '2',
 		}},
 	}, {
+		// Both BSD and GNU tar truncate long names at first NUL even
+		// if there is data following that NUL character.
+		// This is reasonable as GNU long names are C-strings.
+		file: "testdata/gnu-long-nul.tar",
+		headers: []*Header{{
+			Name:     "0123456789",
+			Mode:     0644,
+			Uid:      1000,
+			Gid:      1000,
+			ModTime:  time.Unix(1486082191, 0),
+			Typeflag: '0',
+			Uname:    "rawr",
+			Gname:    "dsnet",
+		}},
+	}, {
+		// BSD tar v3.1.2 rejects PAX records with NULs in them, while
+		// GNU tar v1.27.1 simply truncates at first NUL.
+		// We emulate the behavior of BSD since it is strange doing NUL
+		// truncations since PAX records are length-prefix strings instead
+		// of NUL-terminated C-strings.
+		file: "testdata/pax-long-nul.tar",
+		err:  ErrHeader,
+	}, {
 		file: "testdata/neg-size.tar",
 		err:  ErrHeader,
 	}, {

@@ -12,22 +12,25 @@ import (
 	"time"
 )
 
+// isASCII reports whether the input is an ASCII C-style string.
 func isASCII(s string) bool {
 	for _, c := range s {
-		if c >= 0x80 {
+		if c >= 0x80 || c == 0x00 {
 			return false
 		}
 	}
 	return true
 }
 
+// toASCII converts the input to an ASCII C-style string.
+// This a best effort conversion, so invalid characters are dropped.
 func toASCII(s string) string {
 	if isASCII(s) {
 		return s
 	}
 	var buf bytes.Buffer
 	for _, c := range s {
-		if c < 0x80 {
+		if c < 0x80 && c != 0x00 {
 			buf.WriteByte(byte(c))
 		}
 	}
