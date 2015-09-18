@@ -52,6 +52,24 @@
       "revId": "2813da04ace8833f9577e5dbfe71ca0386e0d417",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a90befa7_67fad27e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-09-18T02:04:24Z",
+      "side": 1,
+      "message": "The alternative is of course to try to push the binutils bugfix into all the systems we want to target. I\u0027m doing that for arm64, partly because the workaround of using gold is not available on the system the builders run -- there is no arm64 gold in the version of binutils in ubuntu trusty, but also arm is a much more diverse ecosystem and I don\u0027t know what versions of binutils people are using. Of course I only really care about Debian/Ubuntu and I can probably get those fixed.\n\nI agree the error message is pretty opaque.",
+      "parentUuid": "e99c0776_17699c31",
+      "revId": "2813da04ace8833f9577e5dbfe71ca0386e0d417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
