@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9ef43fe_b0b7d80e",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-09-18T05:36:27Z",
+      "side": 1,
+      "message": "I didn\u0027t check, but I suspect that gc may reject any renaming, not just to _.",
+      "revId": "d818a157cd95275530703df6d8c7cd978b634874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
