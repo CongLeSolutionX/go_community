@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6971f71a_45d28a94",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-18T15:21:09Z",
+      "side": 1,
+      "message": "switch operand\n\n(i.e. the operand of a switch statement)\nOtherwise it sounds like switch is used as an expression.",
+      "revId": "d0871cea362dc66c67832453d543e48b5b996b33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6971f71a_65d78683",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-18T15:21:09Z",
+      "side": 1,
+      "message": "\"loop variable declaration\"",
+      "revId": "d0871cea362dc66c67832453d543e48b5b996b33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
