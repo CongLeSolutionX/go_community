@@ -146,3 +146,14 @@ func ExampleRegexp_SubexpNames() {
 	// ${last} ${first}
 	// Turing Alan
 }
+
+func ExampleRegexp_Split() {
+	re := regexp.MustCompile("b*")
+	fmt.Println(re.Split("abcabcabc", 5))
+	fmt.Println(re.Split("abcabcabc", 2))
+	fmt.Println(re.Split("bbccaa", 3))
+	// Output:
+	// [a c a c abc]
+	// [a cabcabc]
+	// [ c caa]
+}

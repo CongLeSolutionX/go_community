@@ -1077,10 +1077,6 @@ func (re *Regexp) FindAllStringSubmatchIndex(s string, n int) [][]int {
 // not contained in the slice returned by FindAllString. When called on an expression
 // that contains no metacharacters, it is equivalent to strings.SplitN.
 //
-// Example:
-//   s := regexp.MustCompile("a*").Split("abaabaccadaaae", 5)
-//   // s: ["", "b", "b", "c", "cadaaae"]
-//
 // The count determines the number of substrings to return:
 //   n > 0: at most n substrings; the last substring will be the unsplit remainder.
 //   n == 0: the result is nil (zero substrings)
