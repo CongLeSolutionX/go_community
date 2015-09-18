@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e99c0776_254ae69a",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-18T16:32:23Z",
+      "side": 1,
+      "message": "add some trivial cases too?",
+      "revId": "1ca81cdad65e36bf0db11a671d4e5da9417d0ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e99c0776_a51896b0",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-18T16:32:23Z",
+      "side": 0,
+      "message": "I would keep this, as it\u0027s part of the prose here.\n\nYou can make it _also_ an example, though.",
+      "revId": "1fd78e1f600d10475b85381427bda9f14f86e0f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
