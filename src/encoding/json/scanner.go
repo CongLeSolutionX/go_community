@@ -50,7 +50,7 @@ func nextValue(data []byte, scan *scanner) (value, rest []byte, err error) {
 			case scanError:
 				return nil, nil, scan.err
 			case scanEnd:
-				return data[0:i], data[i:], nil
+				return data[:i], data[i:], nil
 			}
 		}
 	}
@@ -349,8 +349,7 @@ func stateInStringEsc(s *scanner, c int) int {
 	case 'b', 'f', 'n', 'r', 't', '\\', '/', '"':
 		s.step = stateInString
 		return scanContinue
-	}
-	if c == 'u' {
+	case 'u':
 		s.step = stateInStringEscU
 		return scanContinue
 	}
@@ -447,7 +446,6 @@ func stateDot(s *scanner, c int) int {
 // digits of a number, such as after reading `3.14`.
 func stateDot0(s *scanner, c int) int {
 	if '0' <= c && c <= '9' {
-		s.step = stateDot0
 		return scanContinue
 	}
 	if c == 'e' || c == 'E' {
@@ -460,11 +458,7 @@ func stateDot0(s *scanner, c int) int {
 // stateE is the state after reading the mantissa and e in a number,
 // such as after reading `314e` or `0.314e`.
 func stateE(s *scanner, c int) int {
-	if c == '+' {
-		s.step = stateESign
-		return scanContinue
-	}
-	if c == '-' {
+	if c == '+' || c == '-' {
 		s.step = stateESign
 		return scanContinue
 	}
@@ -486,7 +480,6 @@ func stateESign(s *scanner, c int) int {
 // such as after reading `314e-2` or `0.314e+1` or `3.14e0`.
 func stateE0(s *scanner, c int) int {
 	if '0' <= c && c <= '9' {
-		s.step = stateE0
 		return scanContinue
 	}
 	return stateEndValue(s, c)
