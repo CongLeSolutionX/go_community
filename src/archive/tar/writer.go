@@ -45,24 +45,15 @@ type Writer struct {
 // NewWriter creates a new Writer writing to w.
 func NewWriter(w io.Writer) *Writer { return &Writer{w: w} }
 
-// Flush finishes writing the current file (optional).
+// Flush finishes writing the current file's block padding (optional).
+// The current file must be fully written before Flush can be called.
 func (tw *Writer) Flush() error {
 	if tw.nb > 0 {
 		tw.err = fmt.Errorf("archive/tar: missed writing %d bytes", tw.nb)
 		return tw.err
 	}
 
-	n := tw.nb + tw.pad
-	for n > 0 && tw.err == nil {
-		nr := n
-		if nr > blockSize {
-			nr = blockSize
-		}
-		var nw int
-		nw, tw.err = tw.w.Write(zeroBlock[0:nr])
-		n -= int64(nw)
-	}
-	tw.nb = 0
+	_, tw.err = tw.w.Write(zeroBlock[:tw.pad])
 	tw.pad = 0
 	return tw.err
 }
