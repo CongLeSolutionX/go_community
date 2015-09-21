@@ -491,7 +491,7 @@ func TestStability(t *testing.T) {
 
 var countOpsSizes = []int{1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5, 1e6}
 
-func countOps(t *testing.T, algo func(Interface), name string) {
+func countOps(t *testing.T, algo func(Interface), name string, div int) {
 	sizes := countOpsSizes
 	if testing.Short() {
 		sizes = sizes[:5]
@@ -507,17 +507,18 @@ func countOps(t *testing.T, algo func(Interface), name string) {
 			maxswap: 1<<31 - 1,
 		}
 		for i := 0; i < n; i++ {
-			td.data[i] = rand.Intn(n / 5)
+			td.data[i] = rand.Intn(n / div)
 		}
 		algo(&td)
 		t.Logf("%s %8d elements: %11d Swap, %10d Less", name, n, td.nswap, td.ncmp)
 	}
 }
 
-func TestCountStableOps(t *testing.T) { countOps(t, Stable, "Stable") }
-func TestCountSortOps(t *testing.T)   { countOps(t, Sort, "Sort  ") }
+func TestCountStableOps(t *testing.T) { countOps(t, Stable, "Stable", 5) }
+func TestCountSortOps_5(t *testing.T) { countOps(t, Sort, "Sort5 ", 5) }
+func TestCountSortOps_2(t *testing.T) { countOps(t, Sort, "Sort2 ", 2) }
 
-func bench(b *testing.B, size int, algo func(Interface), name string) {
+func bench(b *testing.B, size, div int, algo func(Interface), name string) {
 	b.StopTimer()
 	data := make(intPairs, size)
 	x := ^uint32(0)
@@ -529,7 +530,7 @@ func bench(b *testing.B, size int, algo func(Interface), name string) {
 				if int32(x) < 0 {
 					x ^= 0x88888eef
 				}
-				data[i].a = int(x % uint32(n/5))
+				data[i].a = int(x % uint32(n/div))
 			}
 			data.initB()
 			b.StartTimer()
@@ -545,9 +546,12 @@ func bench(b *testing.B, size int, algo func(Interface), name string) {
 	}
 }
 
-func BenchmarkSort1e2(b *testing.B)   { bench(b, 1e2, Sort, "Sort") }
-func BenchmarkStable1e2(b *testing.B) { bench(b, 1e2, Stable, "Stable") }
-func BenchmarkSort1e4(b *testing.B)   { bench(b, 1e4, Sort, "Sort") }
-func BenchmarkStable1e4(b *testing.B) { bench(b, 1e4, Stable, "Stable") }
-func BenchmarkSort1e6(b *testing.B)   { bench(b, 1e6, Sort, "Sort") }
-func BenchmarkStable1e6(b *testing.B) { bench(b, 1e6, Stable, "Stable") }
+func BenchmarkSort1e2_5(b *testing.B) { bench(b, 1e2, 5, Sort, "Sort") }
+func BenchmarkSort1e2_2(b *testing.B) { bench(b, 1e2, 2, Sort, "Sort") }
+func BenchmarkStable1e2(b *testing.B) { bench(b, 1e2, 5, Stable, "Stable") }
+func BenchmarkSort1e4_5(b *testing.B) { bench(b, 1e4, 5, Sort, "Sort") }
+func BenchmarkSort1e4_2(b *testing.B) { bench(b, 1e4, 2, Sort, "Sort") }
+func BenchmarkStable1e4(b *testing.B) { bench(b, 1e4, 5, Stable, "Stable") }
+func BenchmarkSort1e6_5(b *testing.B) { bench(b, 1e6, 5, Sort, "Sort") }
+func BenchmarkSort1e6_2(b *testing.B) { bench(b, 1e6, 2, Sort, "Sort") }
+func BenchmarkStable1e6(b *testing.B) { bench(b, 1e6, 5, Stable, "Stable") }

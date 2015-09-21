@@ -75,21 +75,141 @@ func heapSort(data Interface, a, b int) {
 // Quicksort, following Bentley and McIlroy,
 // ``Engineering a Sort Function,'' SP&E November 1993.
 
-// medianOfThree moves the median of the three values data[m0], data[m1], data[m2] into data[m1].
-func medianOfThree(data Interface, m1, m0, m2 int) {
-	// sort 3 elements
-	if data.Less(m1, m0) {
-		data.Swap(m1, m0)
-	}
-	// data[m0] <= data[m1]
-	if data.Less(m2, m1) {
-		data.Swap(m2, m1)
-		// data[m0] <= data[m2] && data[m1] < data[m2]
-		if data.Less(m1, m0) {
-			data.Swap(m1, m0)
+// searchPivots sorts nine points and returns pivots and min/max
+// it returns many values to be passed to takePivots
+func searchPivots(data Interface, lo, hi int) (d Interface, l, h, mn, p1, p2, mx int) {
+	m := lo + (hi-lo)/2 // Written like this to avoid integer overflow.
+	j := (hi - lo) / 8
+	ix := [9]int{lo, lo + j, lo + j*2, m - j, m, m + j, hi - 1 - j*2, hi - 1 - j, hi - 1}
+
+	// micro shell sort
+	for i := 5; i < 9; i++ {
+		if data.Less(ix[i], ix[i-5]) {
+			ix[i], ix[i-5] = ix[i-5], ix[i]
 		}
 	}
-	// now data[m0] <= data[m1] <= data[m2]
+	for i := 1; i < 9; i++ {
+		for j := i; j > 0 && data.Less(ix[j], ix[j-1]); j-- {
+			ix[j], ix[j-1] = ix[j-1], ix[j]
+		}
+	}
+
+	return data, lo, hi, ix[0], ix[1], ix[4], ix[8]
+}
+
+// searchPivots sorts five points and returns pivots and min/max
+// it returns many values to be passed to takePivots
+func searchPivotsSmall(data Interface, lo, hi int) (d Interface, l, h, mn, p1, p2, mx int) {
+	m := lo + (hi-lo)/2 // Written like this to avoid integer overflow.
+	j := (hi - lo) / 4
+	ix := [5]int{lo, lo + j, m, hi - 1 - j, hi - 1}
+
+	for i := 1; i < 5; i++ {
+		for j := i; j > 0 && data.Less(ix[j], ix[j-1]); j-- {
+			ix[j], ix[j-1] = ix[j-1], ix[j]
+		}
+	}
+
+	return data, lo, hi, ix[0], ix[1], ix[2], ix[4]
+}
+
+// takePivots does sanity check agains skewed distributions
+// and puts pivots to lo and hi-1
+// returns true if chosen pivots are equal
+func takePivots(data Interface, lo, hi, mn, p1, p2, mx int) (equal bool) {
+	equal = true
+	if !data.Less(p1, p2) {
+	} else if !data.Less(mn, p1) {
+		p2 = mn
+	} else if !data.Less(p2, mx) {
+		p1 = mx
+	} else {
+		equal = false
+	}
+	data.Swap(lo, p1)
+	if p2 != lo {
+		data.Swap(p2, hi-1)
+	} else {
+		data.Swap(p1, hi-1)
+	}
+	return
+}
+
+func doTwoPivot(data Interface, lo, hi int) (midlo, midhi int, equal bool) {
+	if hi-lo > 400 {
+		equal = takePivots(searchPivots(data, lo, hi))
+	} else {
+		equal = takePivots(searchPivotsSmall(data, lo, hi))
+	}
+	pivot1, pivot2 := lo, hi-1
+	a, c := lo+1, hi-1
+	// Invariants are:
+	//	data[lo] = pivot1 (set up by ChoosePivot)
+	//	data[lo <= i < a] < pivot1
+	//	data[a <= i < b] >= pivot1 <= pivot2
+	//	data[b <= i < c] is unexamined
+	//	data[c <= i < hi-1] > pivot2
+	//	data[hi-1] = pivot2 (set up by ChoosePivot)
+	for ; a < c && data.Less(a, pivot1); a++ { // data[a] < pivot1
+	}
+	for ; a < c && data.Less(pivot2, c-1); c-- { // data[c-1] > pivot2
+	}
+	b := a
+	for ; b < c; b++ {
+		if data.Less(pivot2, b) { // data[b] > pivot2
+			data.Swap(b, c-1)
+			for c--; b < c && data.Less(pivot2, c-1); c-- { // data[c-1] > pivot2
+			}
+			if b == c {
+				break
+			}
+		}
+		if data.Less(b, pivot1) { // data[b] < pivot1
+			if a != b {
+				data.Swap(a, b)
+			}
+			a++
+		}
+	}
+	data.Swap(pivot1, a-1)
+	data.Swap(pivot2, c)
+	return a - 1, c, equal
+}
+
+// medianOfFive moves the median of the five points between lo and hi-1 into lo.
+func medianOfFive(data Interface, lo, hi int) {
+	s := (hi - lo) / 2
+	ix := [4]int{lo, lo + s/2, lo + s, hi - 1 - s/2}
+	for i := 1; i < 4; i++ {
+		for j := i; j > 0 && data.Less(ix[j], ix[j-1]); j-- {
+			ix[j], ix[j-1] = ix[j-1], ix[j]
+		}
+	}
+	m := hi - 1
+	if data.Less(ix[2], m) {
+		m = ix[2]
+	} else if data.Less(m, ix[1]) {
+		m = ix[1]
+	}
+	data.Swap(m, lo)
+}
+
+// medianOfThree moves the median of the three values data[m], data[lo], data[hi-1] into data[lo].
+func medianOfThree(data Interface, lo, hi int) {
+	m := lo + (hi-lo)/2
+	// sort 3 elements
+	if data.Less(lo, m) {
+		data.Swap(lo, m)
+	}
+	// data[m] <= data[lo]
+	if data.Less(hi-1, lo) {
+		data.Swap(hi-1, lo)
+		// data[m] <= data[hi-1] && data[lo] < data[hi]
+		if data.Less(lo, m) {
+			data.Swap(lo, m)
+		}
+	}
+	// now data[m] <= data[lo] <= data[hi]
 }
 
 func swapRange(data Interface, a, b, n int) {
@@ -99,85 +219,96 @@ func swapRange(data Interface, a, b, n int) {
 }
 
 func doPivot(data Interface, lo, hi int) (midlo, midhi int) {
-	m := lo + (hi-lo)/2 // Written like this to avoid integer overflow.
 	if hi-lo > 40 {
-		// Tukey's ``Ninther,'' median of three medians of three.
-		s := (hi - lo) / 8
-		medianOfThree(data, lo, lo+s, lo+2*s)
-		medianOfThree(data, m, m-s, m+s)
-		medianOfThree(data, hi-1, hi-1-s, hi-1-2*s)
+		medianOfFive(data, lo, hi)
+	} else {
+		medianOfThree(data, lo, hi)
 	}
-	medianOfThree(data, lo, m, hi-1)
 
 	// Invariants are:
 	//	data[lo] = pivot (set up by ChoosePivot)
 	//	data[lo <= i < a] = pivot
-	//	data[a <= i < b] < pivot
+	//	data[a <= i < b] <= pivot - doesn't break and a bit faster on unique data
 	//	data[b <= i < c] is unexamined
-	//	data[c <= i < d] > pivot
-	//	data[d <= i < hi] = pivot
+	//	data[c <= i < hi] > pivot
 	//
 	// Once b meets c, can swap the "= pivot" sections
 	// into the middle of the slice.
 	pivot := lo
-	a, b, c, d := lo+1, lo+1, hi, hi
-	for {
-		for b < c {
-			if data.Less(b, pivot) { // data[b] < pivot
-				b++
-			} else if !data.Less(pivot, b) { // data[b] = pivot
-				data.Swap(a, b)
-				a++
-				b++
-			} else {
-				break
+	a, b, c := lo+1, lo+1, hi
+	for ; b < c && data.Less(pivot, c-1); c-- { // data[c-1] > pivot
+	}
+	for ; b < c; b++ {
+		if data.Less(b, pivot) { // data[b] < pivot
+		} else if !data.Less(pivot, b) { // data[b] = pivot
+			data.Swap(a, b)
+			a++
+		} else {
+			// data[b] > pivot; data[c-1] <= pivot
+			data.Swap(b, c-1)
+			c--
+			for bb := b + 1; bb < c && data.Less(pivot, c-1); c-- { // data[c-1] > pivot
 			}
+			// Note we are cheating here:
+			// after this swap data[b] could be == pivot, but we don't check it.
+			// Skewed distribution will be correctly handled on next level of recursion,
+			// and for unique data data[b] likely to be < pivot, so we save comparison.
 		}
-		for b < c {
-			if data.Less(pivot, c-1) { // data[c-1] > pivot
-				c--
-			} else if !data.Less(c-1, pivot) { // data[c-1] = pivot
-				data.Swap(c-1, d-1)
-				c--
-				d--
-			} else {
-				break
-			}
-		}
-		if b >= c {
-			break
-		}
-		// data[b] > pivot; data[c-1] < pivot
-		data.Swap(b, c-1)
-		b++
-		c--
 	}
 
 	n := min(b-a, a-lo)
 	swapRange(data, lo, b-n, n)
 
-	n = min(hi-d, d-c)
-	swapRange(data, c, hi-n, n)
-
-	return lo + b - a, hi - (d - c)
+	return lo + b - a, c
 }
 
 func quickSort(data Interface, a, b, maxDepth int) {
-	for b-a > 7 {
+	for b-a > 17 {
 		if maxDepth == 0 {
 			heapSort(data, a, b)
 			return
 		}
 		maxDepth--
-		mlo, mhi := doPivot(data, a, b)
+		var mlo, mhi int
+		var equal bool
+		if b-a > 120 {
+			mlo, mhi, equal = doTwoPivot(data, a, b)
+		} else {
+			equal = true
+			mlo, mhi = doPivot(data, a, b)
+		}
 		// Avoiding recursion on the larger subproblem guarantees
 		// a stack depth of at most lg(b-a).
-		if mlo-a < b-mhi {
+		bigsize := mlo - a
+		if b-mhi > bigsize {
+			bigsize = b - mhi
+		}
+		if !equal {
+			if mlo-mhi < bigsize {
+				quickSort(data, mlo, mhi, maxDepth)
+			} else {
+				quickSort(data, a, mlo, maxDepth)
+				quickSort(data, mhi, b, maxDepth)
+				a, b = mlo, mhi // i.e., quickSort(data, mlo, mhi)
+			}
+		}
+		if b-mhi == bigsize {
 			quickSort(data, a, mlo, maxDepth)
 			a = mhi // i.e., quickSort(data, mhi, b)
 		} else {
 			quickSort(data, mhi, b, maxDepth)
 			b = mlo // i.e., quickSort(data, a, mlo)
+		}
+	}
+	// ShellSort with gaps 7,3,1.
+	for i := a + 7; i < b; i++ {
+		for j := i - 7; j >= a && data.Less(j+7, j); j -= 7 {
+			data.Swap(j, j+7)
+		}
+	}
+	for i := a + 3; i < b; i++ {
+		for j := i - 3; j >= a && data.Less(j+3, j); j -= 3 {
+			data.Swap(j, j+3)
 		}
 	}
 	if b-a > 1 {
