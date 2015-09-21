@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c98bc36e_ff598bff",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2015-09-21T20:02:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a90befa7_cde19dbb",
+      "range": {
+        "startLine": 217,
+        "startChar": 2,
+        "endLine": 217,
+        "endChar": 23
+      },
+      "revId": "6ca5b232da4897ed5853f78a7fea6606dec65d41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a90befa7_eddc6101",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-21T05:31:46Z",
       "side": 1,
       "message": "previously, nothing was touched if len(hdr.Name) \u003c\u003d fileNameSize. Shouldn\u0027t this, then, return !ok?",
+      "range": {
+        "startLine": 267,
+        "startChar": 3,
+        "endLine": 267,
+        "endChar": 23
+      },
+      "revId": "6ca5b232da4897ed5853f78a7fea6606dec65d41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c98bc36e_ff7e6b42",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2015-09-21T20:02:40Z",
+      "side": 1,
+      "message": "I figured that splitUSTARPath should return true as long as it is encodable by USTAR. Thus, if the suffix gets set again, it is still correct, but may be repeated work.\n\nTo avoid repeated execution, I did your recommendation.",
+      "parentUuid": "a90befa7_eddc6101",
       "range": {
         "startLine": 267,
         "startChar": 3,
