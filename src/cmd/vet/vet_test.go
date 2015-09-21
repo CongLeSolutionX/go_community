@@ -10,6 +10,8 @@ package main_test
 
 import (
 	"bytes"
+	"flag"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -22,6 +24,18 @@ const (
 	binary  = "testvet.exe"
 )
 
+// We implement TestMain so we can build the test binary only once.
+func TestMain(m *testing.M) {
+	flag.Parse()
+	os.Exit(runTests(m))
+}
+
+func runTests(m *testing.M) int {
+	Build()
+	defer os.Remove(binary)
+	return m.Run()
+}
+
 func CanRun(t *testing.T) bool {
 	// Plan 9 and Windows systems can't be guaranteed to have Perl and so can't run errchk.
 	switch runtime.GOOS {
@@ -32,10 +46,14 @@ func CanRun(t *testing.T) bool {
 	return true
 }
 
-func Build(t *testing.T) {
-	// go build
+func Build() {
 	cmd := exec.Command("go", "build", "-o", binary)
-	run(cmd, t)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", output)
+		fmt.Fprintln(os.Stderr, "cannot build:", err)
+		os.Exit(2)
+	}
 }
 
 func Vet(t *testing.T, files []string) {
@@ -61,8 +79,6 @@ func TestVet(t *testing.T) {
 	if !CanRun(t) {
 		t.Skip("cannot run on this environment")
 	}
-	Build(t)
-	defer os.Remove(binary)
 
 	// errchk ./testvet
 	gos, err := filepath.Glob(filepath.Join(dataDir, "*.go"))
@@ -81,8 +97,6 @@ func TestDivergentPackagesExamples(t *testing.T) {
 	if !CanRun(t) {
 		t.Skip("cannot run on this environment")
 	}
-	Build(t)
-	defer os.Remove(binary)
 
 	// errchk ./testvet
 	Vet(t, []string{"testdata/divergent/buf.go", "testdata/divergent/buf_test.go"})
@@ -92,8 +106,6 @@ func TestIncompleteExamples(t *testing.T) {
 	if !CanRun(t) {
 		t.Skip("cannot run on this environment")
 	}
-	Build(t)
-	defer os.Remove(binary)
 
 	// errchk ./testvet
 	Vet(t, []string{"testdata/incomplete/examples_test.go"})
@@ -115,18 +127,12 @@ func run(c *exec.Cmd, t *testing.T) bool {
 
 // TestTags verifies that the -tags argument controls which files to check.
 func TestTags(t *testing.T) {
-	// go build
-	cmd := exec.Command("go", "build", "-o", binary)
-	run(cmd, t)
-
-	defer os.Remove(binary)
-
 	args := []string{
 		"-tags=testtag",
 		"-v", // We're going to look at the files it examines.
 		"testdata/tagtest",
 	}
-	cmd = exec.Command("./"+binary, args...)
+	cmd := exec.Command("./"+binary, args...)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatal(err)
