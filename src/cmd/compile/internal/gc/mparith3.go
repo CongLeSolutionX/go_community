@@ -165,17 +165,6 @@ func mpatoflt(a *Mpflt, as string) {
 		for i < len(as) && as[i] == '0' {
 			i++
 		}
-		// TODO(rsc): This should be > 10, because we're supposed
-		// to accept any signed 32-bit int as an exponent.
-		// But that's not working terribly well, so we deviate from the
-		// spec in order to make sure that what we accept works.
-		// We can remove this restriction once those larger exponents work.
-		// See golang.org/issue/11326 and test/fixedbugs/issue11326*.go.
-		if len(as)-i > 8 {
-			Yyerror("malformed constant: %s (exponent too large)", as)
-			a.Val.SetUint64(0)
-			return
-		}
 	}
 
 	f, ok := a.Val.SetString(as)
