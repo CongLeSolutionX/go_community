@@ -528,19 +528,45 @@ func TestValidTypeflagWithPAXHeader(t *testing.T) {
 	}
 }
 
-func TestWriteAfterClose(t *testing.T) {
-	var buffer bytes.Buffer
-	tw := NewWriter(&buffer)
+func TestWriteBeforeHeader(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	if _, err := tw.Write([]byte("Kilts")); err != ErrWriteTooLong {
+		t.Fatalf("Write(...) before WriteHeader(...): got %v, want %v", err, ErrWriteTooLong)
+	}
+}
 
-	hdr := &Header{
-		Name: "small.txt",
-		Size: 5,
-	}
+func TestWriteAfterClose(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	hdr := &Header{Name: "small.txt"}
 	if err := tw.WriteHeader(hdr); err != nil {
-		t.Fatalf("Failed to write header: %s", err)
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, nil)
 	}
-	tw.Close()
+	if err := tw.Close(); err != nil {
+		t.Fatalf("Close(): unexpected error: got %v, want %v", err, nil)
+	}
 	if _, err := tw.Write([]byte("Kilts")); err != ErrWriteAfterClose {
-		t.Fatalf("Write: got %v; want ErrWriteAfterClose", err)
+		t.Fatalf("Write(...) after Close(): got %v, want %v", err, ErrWriteAfterClose)
+	}
+}
+
+func TestPrematureFlush(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	hdr := &Header{Name: "small.txt", Size: 5}
+	if err := tw.WriteHeader(hdr); err != nil {
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, nil)
+	}
+	if err := tw.Flush(); err == nil {
+		t.Fatalf("Flush() before Write(...): got %v, want non-nil", err)
+	}
+}
+
+func TestPrematureClose(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	hdr := &Header{Name: "small.txt", Size: 5}
+	if err := tw.WriteHeader(hdr); err != nil {
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, nil)
+	}
+	if err := tw.Close(); err == nil {
+		t.Fatalf("Close() before Write(...): got %v, want non-nil", err)
 	}
 }
