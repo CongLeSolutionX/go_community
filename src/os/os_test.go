@@ -1159,6 +1159,32 @@ func TestSeek(t *testing.T) {
 	}
 }
 
+func TestSeekAppend(t *testing.T) {
+	f := newFile("TestSeekAppend", t)
+	defer Remove(f.Name())
+
+	const data = "hello, world\n"
+	if _, err := io.WriteString(f, data); err != nil {
+		t.Fatal(err)
+	}
+	pos, err := f.Seek(0, SEEK_CUR)
+	t.Errorf("Seek1 = %v, %v", pos, err)
+	if err := f.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	f, err = OpenFile(f.Name(), O_WRONLY|O_APPEND, 0666)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	pos, err = f.Seek(0, SEEK_CUR)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Errorf("Seek2 = %v (intentional failure for testing)", pos)
+}
+
 type openErrorTest struct {
 	path  string
 	mode  int
