@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "091ddbf6_1d71f766",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-22T10:59:44Z",
+      "side": 1,
+      "message": "the subject should say what the change does, not a summary of the bug report.\n\nfor example:\n\n   compress/flate: return io.UnexpectedEOF on truncated streams\nor\n   compress/flate: detect truncated streams\nor\n   compress/flate: detect truncated streams and return UnexpectedEOF\nor\n   compress/flate: make Reader return UnexpectedEOF when stream stops early\n\nIt should almost always start with a verb and say that the new behavior is, rather than the old state of things.\n\nYou can use the rest of the commit to tell the backstory and explain the commit.",
+      "revId": "07835c6785cec15c89d942f61925c74a9890d0f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
