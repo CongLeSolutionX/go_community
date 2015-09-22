@@ -4,9 +4,6 @@
 
 package tar
 
-// TODO(dsymonds):
-// - catch more errors (no first header, etc.)
-
 import (
 	"bytes"
 	"errors"
@@ -33,9 +30,8 @@ var (
 type Writer struct {
 	w          io.Writer
 	err        error
-	nb         int64 // number of unwritten bytes for current file entry
-	pad        int64 // amount of padding to write after current file entry
-	closed     bool
+	nb         int64           // number of unwritten bytes for current file entry
+	pad        int64           // amount of padding to write after current file entry
 	usedBinary bool            // whether the binary numeric field extension was used
 	preferPax  bool            // use pax header instead of binary numeric header
 	hdrBuff    [blockSize]byte // buffer to use in writeHeader when writing a regular header
@@ -47,6 +43,9 @@ func NewWriter(w io.Writer) *Writer { return &Writer{w: w} }
 
 // Flush finishes writing the current file (optional).
 func (tw *Writer) Flush() error {
+	if tw.err != nil {
+		return tw.err
+	}
 	if tw.nb > 0 {
 		tw.err = fmt.Errorf("archive/tar: missed writing %d bytes", tw.nb)
 		return tw.err
@@ -144,12 +143,7 @@ func (tw *Writer) WriteHeader(hdr *Header) error {
 // As this method is called internally by writePax header to allow it to
 // suppress writing the pax header.
 func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
-	if tw.closed {
-		return ErrWriteAfterClose
-	}
-	if tw.err == nil {
-		tw.Flush()
-	}
+	tw.err = tw.Flush()
 	if tw.err != nil {
 		return tw.err
 	}
@@ -338,43 +332,48 @@ func paxHeader(msg string) string {
 // Write returns the error ErrWriteTooLong if more than
 // hdr.Size bytes are written after WriteHeader.
 func (tw *Writer) Write(b []byte) (n int, err error) {
-	if tw.closed {
-		err = ErrWriteAfterClose
-		return
+	if tw.err != nil {
+		return n, tw.err
 	}
+
 	overwrite := false
 	if int64(len(b)) > tw.nb {
 		b = b[0:tw.nb]
 		overwrite = true
 	}
-	n, err = tw.w.Write(b)
+
+	n, tw.err = tw.w.Write(b)
 	tw.nb -= int64(n)
-	if err == nil && overwrite {
-		err = ErrWriteTooLong
-		return
+	if tw.err == nil && overwrite {
+		tw.err = ErrWriteTooLong
 	}
-	tw.err = err
-	return
+	return n, tw.err
 }
 
 // Close closes the tar archive, flushing any unwritten
 // data to the underlying writer.
 func (tw *Writer) Close() error {
-	if tw.err != nil || tw.closed {
-		return tw.err
+	if tw.err == ErrWriteAfterClose {
+		return nil
 	}
-	tw.Flush()
-	tw.closed = true
 	if tw.err != nil {
 		return tw.err
 	}
 
-	// trailer: two zero blocks
+	tw.err = tw.Flush()
+	if tw.err != nil {
+		return tw.err
+	}
+
+	// Trailer: two zero blocks.
 	for i := 0; i < 2; i++ {
 		_, tw.err = tw.w.Write(zeroBlock)
 		if tw.err != nil {
-			break
+			return tw.err
 		}
 	}
-	return tw.err
+
+	// Ensure all future actions are invalid.
+	tw.err = ErrWriteAfterClose
+	return nil
 }
