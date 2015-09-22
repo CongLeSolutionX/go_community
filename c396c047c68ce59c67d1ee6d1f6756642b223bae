@@ -16,6 +16,24 @@
       "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9ef43fe_b31ec29c",
+        "filename": "test/fixedbugs/issue11326.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-09-22T05:34:05Z",
+      "side": 1,
+      "message": "Why is not changing gccgo desirable?\nIf the compilers match in such implementation details:\n- we can have tests like this\n- users have less surprises when switching compilers\n- we can do more randomized testing\nIs there a single reason to have different implementation details in our compilers?",
+      "parentUuid": "49fc33c5_9e586d72",
+      "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
