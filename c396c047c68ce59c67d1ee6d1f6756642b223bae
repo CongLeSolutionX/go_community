@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49fc33c5_9e586d72",
+        "filename": "test/fixedbugs/issue11326.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-22T03:15:42Z",
+      "side": 1,
+      "message": "I don\u0027t really like tests like this.  The spec doesn\u0027t say that the compiler must implement an exponent of exactly 32 bits.  It says that it must implement an exponent of at least 32 bits.  When you write a test like this ERROR \"constant too large\" in the testsuite gccgo has to either change to implement the exact floating point format as gc, or it has to skip this test.  Neither is desirable.",
+      "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
