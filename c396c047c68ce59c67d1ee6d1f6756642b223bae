@@ -34,6 +34,24 @@
       "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49fc33c5_2b101a85",
+        "filename": "test/fixedbugs/issue11326.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-22T16:39:50Z",
+      "side": 1,
+      "message": "I tend to agree with @iant.\n\nThe spec sets minimal criteria for the implementation. It\u0027s unfortunate for testing, but it doesn\u0027t make sense to de-facto hardwire implementation restrictions via tests.\n\nSee: https://go-review.googlesource.com/14837",
+      "parentUuid": "c9ef43fe_b31ec29c",
+      "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
