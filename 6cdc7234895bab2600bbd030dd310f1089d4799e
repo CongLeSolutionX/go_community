@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49fc33c5_d9595f00",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-22T09:20:11Z",
+      "side": 1,
+      "message": "I am unsure if this is the correct behavior. The wording from RFC1952 is:\n\n\nA gzip file consists of a series of \"members\" (compressed data sets).  The format of each member is specified in the following section.  The members simply appear one after another in the file, with no additional information before, between, or after them.\n\n\nIt really comes down to whether the definition of \"series\" is \"zero or more\", or \"one or more\". As a data point, the gzip tool chokes on an empty input, contrary to what we do now.",
+      "revId": "6cdc7234895bab2600bbd030dd310f1089d4799e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
