@@ -17,6 +17,19 @@ import (
 	"time"
 )
 
+// badWriter starts returning io.ErrShortWrite when the count reaches zero.
+type badWriter int
+
+func (n *badWriter) Write(b []byte) (int, error) {
+	var err error
+	if len(b) > int(*n) {
+		b = b[:int(*n)]
+		err = io.ErrShortWrite
+	}
+	*n -= badWriter(len(b))
+	return len(b), err
+}
+
 type writerTestEntry struct {
 	header   *Header
 	contents string
@@ -528,20 +541,72 @@ func TestValidTypeflagWithPAXHeader(t *testing.T) {
 	}
 }
 
-func TestWriteAfterClose(t *testing.T) {
-	var buffer bytes.Buffer
-	tw := NewWriter(&buffer)
+func TestWriteBeforeHeader(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	if _, err := tw.Write([]byte("Kilts")); err != ErrWriteTooLong {
+		t.Fatalf("Write(...) before WriteHeader(...): got %v, want %v", err, ErrWriteTooLong)
+	}
+}
 
-	hdr := &Header{
-		Name: "small.txt",
-		Size: 5,
-	}
+func TestWriteAfterClose(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	hdr := &Header{Name: "small.txt"}
 	if err := tw.WriteHeader(hdr); err != nil {
-		t.Fatalf("Failed to write header: %s", err)
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, nil)
 	}
-	tw.Close()
+	if err := tw.Close(); err != nil {
+		t.Fatalf("Close(): unexpected error: got %v, want %v", err, nil)
+	}
 	if _, err := tw.Write([]byte("Kilts")); err != ErrWriteAfterClose {
-		t.Fatalf("Write: got %v; want ErrWriteAfterClose", err)
+		t.Fatalf("Write(...) after Close(): got %v, want %v", err, ErrWriteAfterClose)
+	}
+	if err := tw.Flush(); err != ErrWriteAfterClose {
+		t.Fatalf("Flush() after Close(): got %v, want %v", err, ErrWriteAfterClose)
+	}
+	if err := tw.Close(); err != nil {
+		t.Fatalf("Close(): unexpected error: got %v, want %v", err, nil)
+	}
+}
+
+func TestPrematureFlush(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	hdr := &Header{Name: "small.txt", Size: 5}
+	if err := tw.WriteHeader(hdr); err != nil {
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, nil)
+	}
+	if err := tw.Flush(); err == nil {
+		t.Fatalf("Flush() before Write(...): got %v, want non-nil", err)
+	}
+}
+
+func TestPrematureClose(t *testing.T) {
+	tw := NewWriter(new(bytes.Buffer))
+	hdr := &Header{Name: "small.txt", Size: 5}
+	if err := tw.WriteHeader(hdr); err != nil {
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, nil)
+	}
+	if err := tw.Close(); err == nil {
+		t.Fatalf("Close() before Write(...): got %v, want non-nil", err)
+	}
+}
+
+func TestPersistentError(t *testing.T) {
+	bw := new(badWriter) // This causes Write to fail immediately
+	tw := NewWriter(bw)
+	if err := tw.WriteHeader(&Header{}); err != io.ErrShortWrite {
+		t.Fatalf("WriteHeader(...): unexpected error: got %v, want %v", err, io.ErrShortWrite)
+	}
+	if err := tw.WriteHeader(&Header{Name: "small.txt"}); err == nil {
+		t.Errorf("WriteHeader(...) after error: got %v, want non-nil", err)
+	}
+	if _, err := tw.Write(nil); err == nil {
+		t.Errorf("Write(...) after error: got %v, want non-nil", err)
+	}
+	if err := tw.Flush(); err == nil {
+		t.Errorf("Flush() after error: got %v, want non-nil", err)
+	}
+	if err := tw.Close(); err == nil {
+		t.Errorf("Close() after error: got %v, want non-nil", err)
 	}
 }
 
