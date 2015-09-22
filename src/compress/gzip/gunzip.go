@@ -167,6 +167,9 @@ func (z *Reader) readString() (string, error) {
 func (z *Reader) read2() (uint32, error) {
 	_, err := io.ReadFull(z.r, z.buf[0:2])
 	if err != nil {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
 		return 0, err
 	}
 	return uint32(z.buf[0]) | uint32(z.buf[1])<<8, nil
@@ -175,6 +178,7 @@ func (z *Reader) read2() (uint32, error) {
 func (z *Reader) readHeader(save bool) error {
 	_, err := io.ReadFull(z.r, z.buf[0:10])
 	if err != nil {
+		// io.EOF okay since gzip is made of zero or more streams.
 		return err
 	}
 	if z.buf[0] != gzipID1 || z.buf[1] != gzipID2 || z.buf[2] != gzipDeflate {
@@ -196,6 +200,9 @@ func (z *Reader) readHeader(save bool) error {
 		}
 		data := make([]byte, n)
 		if _, err = io.ReadFull(z.r, data); err != nil {
+			if err == io.EOF {
+				err = io.ErrUnexpectedEOF
+			}
 			return err
 		}
 		if save {
@@ -260,6 +267,9 @@ func (z *Reader) Read(p []byte) (n int, err error) {
 
 	// Finished file; check checksum + size.
 	if _, err := io.ReadFull(z.r, z.buf[0:8]); err != nil {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
 		z.err = err
 		return 0, err
 	}

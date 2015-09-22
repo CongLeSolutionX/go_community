@@ -6,6 +6,7 @@ package gzip
 
 import (
 	"bytes"
+	"compress/flate"
 	"io"
 	"io/ioutil"
 	"os"
@@ -406,5 +407,26 @@ Found:
 
 	if err := r.Reset(br); err != io.EOF {
 		t.Fatalf("third reset: err=%v, want io.EOF", err)
+	}
+}
+
+func TestTruncatedStreams(t *testing.T) {
+	const data = "\x1f\x8b\b\x04\x00\tn\x88\x00\xff\a\x00foo bar\xcbH\xcd\xc9\xc9\xd7Q(\xcf/\xcaI\x01\x04:r\xab\xff\f\x00\x00\x00"
+
+	for i := 1; i < len(data)-1; i++ {
+		r, err := NewReader(bytes.NewReader([]byte(data[:i])))
+		if err != nil {
+			if err != io.ErrUnexpectedEOF {
+				t.Errorf("NewReader(%d) on truncated stream: got %q, want %q", i, err, io.ErrUnexpectedEOF)
+			}
+			continue
+		}
+		_, err = io.Copy(ioutil.Discard, r)
+		if ferr, ok := err.(*flate.ReadError); ok {
+			err = ferr.Err
+		}
+		if err != io.ErrUnexpectedEOF {
+			t.Errorf("io.Copy(%d) on truncated stream: got %q, want %q", i, err, io.ErrUnexpectedEOF)
+		}
 	}
 }
