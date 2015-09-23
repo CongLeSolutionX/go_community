@@ -22,6 +22,30 @@
       "revId": "5a3ff6c8955a5df81f6dd83e143a47bd51266b61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_83f9beb5",
+        "filename": "src/net/server_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 6050
+      },
+      "writtenOn": "2015-09-23T23:13:04Z",
+      "side": 1,
+      "message": "OpError uses Source-\u003eDestination.  Prior to this change, this line was logging Destination-\u003eSource, which seemed obviously wrong to me.\n\nAre you suggesting that I reverse both the arrow and the parameters (tt.taddr+\"-\u003e\"+tt.saddr) ?  That would still sort of make sense, but has the disadvantage that the chronology is backwards.\n\nWhen describing the situation, \"first a server is created, then a client connects to the server\", server\u003c-client just seems like the most clear and unambiguous notation.",
+      "parentUuid": "c9d0238b_48403ffc",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 65
+      },
+      "revId": "5a3ff6c8955a5df81f6dd83e143a47bd51266b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
