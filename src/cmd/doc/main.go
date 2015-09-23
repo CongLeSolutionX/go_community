@@ -32,6 +32,7 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"go/build"
@@ -40,6 +41,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -67,6 +69,10 @@ func usage() {
 }
 
 func main() {
+	// We set GOMAXPROCS to 1 so the scanning goroutine (findPackage)
+	// doesn't run in parallel. There's no reason for it to scan ahead since
+	// the first result is almost always the one weant.
+	runtime.GOMAXPROCS(1)
 	log.SetFlags(0)
 	log.SetPrefix("doc: ")
 	err := do(os.Stdout, flag.CommandLine, os.Args[1:])
@@ -84,40 +90,71 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 	flagSet.BoolVar(&matchCase, "c", false, "symbol matching honors case (paths not affected)")
 	flagSet.BoolVar(&showCmd, "cmd", false, "show symbols with package docs even if package is a command")
 	flagSet.Parse(args)
-	buildPackage, userPath, symbol := parseArgs(flagSet.Args())
+	more := make(chan string)
+	buildPackage, userPath, symbol := parseArgs(flagSet.Args(), more)
 	symbol, method := parseSymbol(symbol)
-	pkg := parsePackage(writer, buildPackage, userPath)
+	var paths []string
+	// Loop until something is printed.
+	for {
+		pkg := parsePackage(writer, buildPackage, userPath)
+		paths = append(paths, pkg.prettyPath())
 
-	defer func() {
-		pkg.flush()
-		e := recover()
-		if e == nil {
-			return
+		defer func() {
+			pkg.flush()
+			e := recover()
+			if e == nil {
+				return
+			}
+			pkgError, ok := e.(PackageError)
+			if ok {
+				err = pkgError
+				return
+			}
+			panic(e)
+		}()
+
+		// The builtin package needs special treatment: its symbols are lower
+		// case but we want to see them, always.
+		if pkg.build.ImportPath == "builtin" {
+			unexported = true
 		}
-		pkgError, ok := e.(PackageError)
-		if ok {
-			err = pkgError
+
+		switch {
+		case symbol == "":
+			pkg.packageDoc() // The package exists, so we got some output.
 			return
+		case method == "":
+			if pkg.symbolDoc(symbol) {
+				return
+			}
+		default:
+			if pkg.methodDoc(symbol, method) {
+				return
+			}
 		}
-		panic(e)
-	}()
-
-	// The builtin package needs special treatment: its symbols are lower
-	// case but we want to see them, always.
-	if pkg.build.ImportPath == "builtin" {
-		unexported = true
+		// No luck with this path. Might there be more places to look?
+		path, ok := <-more
+		if !ok {
+			break
+		}
+		buildPackage = importDir(path)
 	}
-
-	switch {
-	case symbol == "":
-		pkg.packageDoc()
-		return
-	case method == "":
-		pkg.symbolDoc(symbol)
-	default:
-		pkg.methodDoc(symbol, method)
+	// Create a nice error message.
+	var b bytes.Buffer
+	if len(paths) > 1 {
+		b.WriteString("s")
 	}
-	return nil
+	b.WriteString(" ")
+	for i, path := range paths {
+		if i > 0 {
+			b.WriteString(", ")
+		}
+		b.WriteString(path)
+	}
+	if method == "" {
+		return fmt.Errorf("no symbol %s in package%s", symbol, &b)
+	}
+	return fmt.Errorf("no method %s.%s in package%s", symbol, method, &b)
 }
 
 // parseArgs analyzes the arguments (if any) and returns the package
@@ -125,11 +162,15 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 // the path (or "" if it's the current package) and the symbol
 // (possibly with a .method) within that package.
 // parseSymbol is used to analyze the symbol itself.
-func parseArgs(args []string) (*build.Package, string, string) {
+// The "more" channel will be set up to a generator for more package
+// paths in case the one delivered here does not have the desired symbol.
+// The channel will be closed if there is no point in asking for more paths.
+func parseArgs(args []string, more chan string) (*build.Package, string, string) {
 	switch len(args) {
 	default:
 		usage()
 	case 0:
+		close(more)
 		// Easy: current directory.
 		return importDir(pwd()), "", ""
 	case 1:
@@ -140,6 +181,7 @@ func parseArgs(args []string) (*build.Package, string, string) {
 		if err != nil {
 			log.Fatalf("%s", err)
 		}
+		close(more)
 		return pkg, args[0], args[1]
 	}
 	// Usual case: one argument.
@@ -150,6 +192,7 @@ func parseArgs(args []string) (*build.Package, string, string) {
 	// package paths as their prefix.
 	pkg, err := build.Import(arg, "", build.ImportComment)
 	if err == nil {
+		close(more)
 		return pkg, arg, ""
 	}
 	// Another disambiguator: If the symbol starts with an upper
@@ -159,6 +202,7 @@ func parseArgs(args []string) (*build.Package, string, string) {
 	if isUpper(arg) {
 		pkg, err := build.ImportDir(".", build.ImportComment)
 		if err == nil {
+			close(more)
 			return pkg, "", arg
 		}
 	}
@@ -173,6 +217,7 @@ func parseArgs(args []string) (*build.Package, string, string) {
 	var period int
 	// slash+1: if there's no slash, the value is -1 and start is 0; otherwise
 	// start is the byte after the slash.
+	closed := false
 	for start := slash + 1; start < len(arg); start = period + 1 {
 		period = strings.Index(arg[start:], ".")
 		symbol := ""
@@ -185,20 +230,27 @@ func parseArgs(args []string) (*build.Package, string, string) {
 		// Have we identified a package already?
 		pkg, err := build.Import(arg[0:period], "", build.ImportComment)
 		if err == nil {
+			close(more)
 			return pkg, arg[0:period], symbol
 		}
 		// See if we have the basename or tail of a package, as in json for encoding/json
 		// or ivy/value for robpike.io/ivy/value.
-		path := findPackage(arg[0:period])
-		if path != "" {
+		// Launch findPackage as a goroutine so it can return multiple paths if required.
+		go findPackage(arg[0:period], more)
+		path, ok := <-more
+		if ok {
 			return importDir(path), arg[0:period], symbol
 		}
+		closed = true
 	}
 	// If it has a slash, we've failed.
 	if slash >= 0 {
 		log.Fatalf("no such package %s", arg[0:period])
 	}
 	// Guess it's a symbol in the current directory.
+	if !closed {
+		close(more)
+	}
 	return importDir(pwd()), "", arg
 }
 
@@ -260,26 +312,20 @@ func isUpper(name string) bool {
 	return unicode.IsUpper(ch)
 }
 
-// findPackage returns the full file name path specified by the
-// (perhaps partial) package path pkg.
-func findPackage(pkg string) string {
-	if pkg == "" {
-		return ""
+// findPackage responds on the channel with the full file name paths specified by the
+// (perhaps partial) package path pkg. For example, if pkg is "rand", it will respond
+// "crypto/rand" and "math/rand". It sends the empty string if no matches are found.
+// The function runs as a goroutine started by parseArgs.
+func findPackage(pkg string, packagePaths chan<- string) {
+	if pkg == "" || isUpper(pkg) { // Upper case symbol cannot be a package name.
+		close(packagePaths)
+		return
 	}
-	if isUpper(pkg) {
-		return "" // Upper case symbol cannot be a package name.
-	}
-	path := pathFor(build.Default.GOROOT, pkg)
-	if path != "" {
-		return path
-	}
+	pathsFor(build.Default.GOROOT, pkg, packagePaths)
 	for _, root := range splitGopath() {
-		path = pathFor(root, pkg)
-		if path != "" {
-			return path
-		}
+		pathsFor(root, pkg, packagePaths)
 	}
-	return ""
+	close(packagePaths)
 }
 
 // splitGopath splits $GOPATH into a list of roots.
@@ -288,22 +334,14 @@ func splitGopath() []string {
 }
 
 // pathsFor recursively walks the tree at root looking for possible directories for the package:
-// those whose package path is pkg or which have a proper suffix pkg.
-func pathFor(root, pkg string) (result string) {
+// those whose package path is pkg or which have a proper suffix pkg. For each it finds,
+// it sends the full package path on the channel.
+func pathsFor(root, pkg string, packagePaths chan<- string) {
 	root = path.Join(root, "src")
 	slashDot := string(filepath.Separator) + "."
 	// We put a slash on the pkg so can use simple string comparison below
 	// yet avoid inadvertent matches, like /foobar matching bar.
 	pkgString := filepath.Clean(string(filepath.Separator) + pkg)
-
-	// We use panic/defer to short-circuit processing at the first match.
-	// A nil panic reports that the path has been found.
-	defer func() {
-		err := recover()
-		if err != nil {
-			panic(err)
-		}
-	}()
 
 	visit := func(pathName string, f os.FileInfo, err error) error {
 		if err != nil {
@@ -319,14 +357,13 @@ func pathFor(root, pkg string) (result string) {
 		}
 		// Is the tail of the path correct?
 		if strings.HasSuffix(pathName, pkgString) && hasGoFiles(pathName) {
-			result = pathName
-			panic(nil)
+			packagePaths <- pathName
+			return nil
 		}
 		return nil
 	}
 
 	filepath.Walk(root, visit)
-	return "" // Call to panic above sets the real value.
 }
 
 // hasGoFiles tests whether the directory contains at least one file with ".go"
