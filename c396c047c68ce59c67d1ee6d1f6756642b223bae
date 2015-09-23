@@ -124,6 +124,24 @@
       "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9ba0f35_d5f4cc93",
+        "filename": "test/fixedbugs/issue11326.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-23T17:15:48Z",
+      "side": 1,
+      "message": "The implementations of untyped floating point constants are completely different in gc and gccgo.  There is no shared code whatsoever; there isn\u0027t even a shared approach to the problem.  Requiring these two different code bases to work precisely identically is something that belongs in the spec, if it belongs anywhere.",
+      "parentUuid": "a9612fbd_d7b79c0d",
+      "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
