@@ -16,6 +16,24 @@
       "revId": "6cdc7234895bab2600bbd030dd310f1089d4799e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e90b27d5_99b29b1f",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-23T06:01:23Z",
+      "side": 1,
+      "message": "I would error on the side of not changing Go\u0027s behavior. Please just this commentary from your Gerrit comment here into the code itself.\n\nAnd adding a test to lock in the legacy behavior to make sure we don\u0027t change it in the future too.",
+      "parentUuid": "49fc33c5_d9595f00",
+      "revId": "6cdc7234895bab2600bbd030dd310f1089d4799e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
