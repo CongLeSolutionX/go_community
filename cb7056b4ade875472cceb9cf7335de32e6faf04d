@@ -34,6 +34,41 @@
       "revId": "cb7056b4ade875472cceb9cf7335de32e6faf04d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9ba0f35_b84f7d59",
+        "filename": "src/cmd/go/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-23T19:48:44Z",
+      "side": 1,
+      "message": "Looks like an extra space after \"find\".",
+      "parentUuid": "a9ba0f35_ef62e14c",
+      "revId": "cb7056b4ade875472cceb9cf7335de32e6faf04d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9ba0f35_382d4d72",
+        "filename": "src/cmd/go/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-23T19:48:44Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary now.  The zero value of nil is fine.",
+      "revId": "cb7056b4ade875472cceb9cf7335de32e6faf04d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
