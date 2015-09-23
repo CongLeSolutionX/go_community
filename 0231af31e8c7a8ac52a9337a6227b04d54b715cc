@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9d0238b_0bbf61e4",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-09-23T23:13:37Z",
+      "side": 1,
+      "message": "it will return (\"\", \"\", false).",
+      "range": {
+        "startLine": 261,
+        "startChar": 34,
+        "endLine": 261,
+        "endChar": 60
+      },
+      "revId": "0231af31e8c7a8ac52a9337a6227b04d54b715cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9d0238b_6bcc1da0",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-09-23T23:13:37Z",
+      "side": 1,
+      "message": "change this back to `i`. Please try to keep the diff minimal.",
+      "range": {
+        "startLine": 272,
+        "startChar": 1,
+        "endLine": 272,
+        "endChar": 4
+      },
+      "revId": "0231af31e8c7a8ac52a9337a6227b04d54b715cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
