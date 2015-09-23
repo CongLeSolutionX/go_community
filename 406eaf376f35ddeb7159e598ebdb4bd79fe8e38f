@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c902e3ba_f8d0f134",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-23T08:06:48Z",
+      "side": 1,
+      "message": "%q instead of \u0026q\n\nBut actually, conventionally we use %v for errors instead of %q. Because %q doesn\u0027t show nil values nicely: http://play.golang.org/p/1BJyzFxkLl",
+      "revId": "406eaf376f35ddeb7159e598ebdb4bd79fe8e38f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c902e3ba_d8d52d23",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-23T08:06:48Z",
+      "side": 1,
+      "message": "%v",
+      "revId": "406eaf376f35ddeb7159e598ebdb4bd79fe8e38f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
