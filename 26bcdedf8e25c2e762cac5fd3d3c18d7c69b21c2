@@ -16,6 +16,24 @@
       "revId": "26bcdedf8e25c2e762cac5fd3d3c18d7c69b21c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9ba0f35_7227f691",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-23T08:02:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9d0238b_481aff76",
+      "revId": "26bcdedf8e25c2e762cac5fd3d3c18d7c69b21c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
