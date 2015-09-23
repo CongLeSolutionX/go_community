@@ -106,6 +106,24 @@
       "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9ba0f35_12fe6ad7",
+        "filename": "test/fixedbugs/issue11326.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-23T16:14:37Z",
+      "side": 1,
+      "message": "It\u0027s going to be difficult to justify that all implementations should essentially implement their constant arithmetic the same way. It would also make the spec unnecessarily complex for something that rarely matters in practice.\n\nThe whole point of how Go constants work is that as a programmer one doesn\u0027t have to worry about them (bounds, ranges, precision, etc.). And I claim that is indeed true for 99.999% of all realistic code.",
+      "parentUuid": "e90b27d5_f9d0f734",
+      "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
