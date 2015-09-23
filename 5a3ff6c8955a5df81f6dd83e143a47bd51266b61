@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9d0238b_48403ffc",
+        "filename": "src/net/server_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-09-23T10:55:10Z",
+      "side": 1,
+      "message": "can you pls revert this change? it looks different from an output of operror (or net.FD.name) for passive-open (server) side. i\u0027d prefer to use that notation (source-\u003esomewhere) even in tests.",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 65
+      },
+      "revId": "5a3ff6c8955a5df81f6dd83e143a47bd51266b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
