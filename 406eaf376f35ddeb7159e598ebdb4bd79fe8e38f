@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9ba0f35_52f91244",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-23T08:08:50Z",
+      "side": 1,
+      "message": "Sadness :(\n\nDone.",
+      "parentUuid": "c902e3ba_f8d0f134",
+      "revId": "406eaf376f35ddeb7159e598ebdb4bd79fe8e38f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c902e3ba_d8d52d23",
         "filename": "src/compress/gzip/gunzip_test.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-23T08:06:48Z",
       "side": 1,
       "message": "%v",
+      "revId": "406eaf376f35ddeb7159e598ebdb4bd79fe8e38f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9ba0f35_920b7aed",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-23T08:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c902e3ba_d8d52d23",
       "revId": "406eaf376f35ddeb7159e598ebdb4bd79fe8e38f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
