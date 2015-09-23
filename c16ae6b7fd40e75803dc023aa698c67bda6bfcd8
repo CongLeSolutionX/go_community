@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49c433d2_a40e423c",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-09-23T23:28:43Z",
+      "side": 1,
+      "message": "please put more of these changes back too. Drop \"Byte\" here, and change the second arg to be a string.",
+      "range": {
+        "startLine": 272,
+        "startChar": 23,
+        "endLine": 272,
+        "endChar": 27
+      },
+      "revId": "c16ae6b7fd40e75803dc023aa698c67bda6bfcd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49c433d2_84134668",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-09-23T23:28:43Z",
+      "side": 1,
+      "message": "this came before plen before",
+      "range": {
+        "startLine": 274,
+        "startChar": 1,
+        "endLine": 274,
+        "endChar": 5
+      },
+      "revId": "c16ae6b7fd40e75803dc023aa698c67bda6bfcd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e6de1ec_7ab2f91e",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-09-23T23:28:43Z",
+      "side": 1,
+      "message": "rearrange the order here to be how it was",
+      "revId": "c16ae6b7fd40e75803dc023aa698c67bda6bfcd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
