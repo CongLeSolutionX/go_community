@@ -70,6 +70,24 @@
       "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9612fbd_d7b79c0d",
+        "filename": "test/fixedbugs/issue11326.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-09-23T07:18:56Z",
+      "side": 1,
+      "message": "I don\u0027t question that both compilers are correct as per spec. What I am saying is that I see more value in keeping implementation behaving the same way unless there are serious reasons to diverge (e.g. 32-bit and 64-bit compilers probably want different size of int).\nIf there are reasons to choose a particular implementation restriction in one compiler, why do not they apply to the other?\nOf it if the restrictions were chosen by a fair dice roll and are not particularly important, why not align them and be able to have tests that can detect changes in behavior? (and be able to run randomized tests)\nOr if we absolutely don\u0027t want users to depend on a particular implementation detail (like map iteration order), differences in various compilers are not enough for that (most people use only one), and we need to take measures within a single compiler.\n\nOr put it another way, assuming that all compilers behave the same today, would there be any reasons to make them behave differently?",
+      "parentUuid": "c98bc36e_ea6a2bb6",
+      "revId": "c396c047c68ce59c67d1ee6d1f6756642b223bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
