@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9d0238b_481aff76",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-09-23T06:06:30Z",
+      "side": 1,
+      "message": "r :\u003d NewReader(strings.NewReader(data[:i]))\n\nOr, above, say\n\ndata :\u003d []byte(\"etc\")",
+      "revId": "26bcdedf8e25c2e762cac5fd3d3c18d7c69b21c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
