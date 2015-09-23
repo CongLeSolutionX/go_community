@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a90befa7_5b18c33e",
+        "filename": "src/cmd/go/testflag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-23T00:43:47Z",
+      "side": 1,
+      "message": "Is this documented in the user-facing docs?",
+      "revId": "cb7056b4ade875472cceb9cf7335de32e6faf04d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
