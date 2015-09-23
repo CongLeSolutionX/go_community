@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9d0238b_e8bdb39e",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-09-23T06:08:48Z",
+      "side": 1,
+      "message": "s/1/0/ ?",
+      "range": {
+        "startLine": 416,
+        "startChar": 10,
+        "endLine": 416,
+        "endChar": 11
+      },
+      "revId": "629c40c4bfd20802c9080c319c438b8e96531df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9d0238b_c8c26f20",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-09-23T06:08:48Z",
+      "side": 1,
+      "message": "Ditto what I said on https://go-review.googlesource.com/#/c/14833/",
+      "revId": "629c40c4bfd20802c9080c319c438b8e96531df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
