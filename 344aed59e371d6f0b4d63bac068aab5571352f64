@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e3d51a1_2ee5e712",
+        "filename": "src/math/big/intconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-24T22:53:59Z",
+      "side": 1,
+      "message": "redundant parens",
+      "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e3d51a1_6edfef3c",
+        "filename": "src/math/big/natconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-24T22:53:59Z",
+      "side": 1,
+      "message": "redundant conversion?",
+      "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e3d51a1_8efedba1",
+        "filename": "src/math/big/natconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-24T22:53:59Z",
+      "side": 1,
+      "message": "Do these slices escape through the API or get modified by the caller?  If not, I\u0027d be tempted to make this one a global since it\u0027s by far the most common case.",
+      "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
