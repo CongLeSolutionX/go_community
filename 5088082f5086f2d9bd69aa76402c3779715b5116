@@ -153,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "8e80f1c5_96980c66",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T02:11:38Z",
+      "side": 1,
+      "message": "but findPackage is called here in a loop... and in fact the loop only loops if the more channel is closed. still doesn\u0027t seem right",
+      "parentUuid": "2e470569_060ddcb1",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e80f1c5_f6e4e018",
         "filename": "src/cmd/doc/main.go",
         "patchSetId": 1
