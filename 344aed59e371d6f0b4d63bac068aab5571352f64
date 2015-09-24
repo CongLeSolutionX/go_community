@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_fd1927b3",
+        "filename": "src/math/big/intconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-24T23:06:50Z",
+      "side": 1,
+      "message": "I was trying to express that we add the digit value (d - \u0027a\u0027) to \u0027A\u0027. Doesn\u0027t matter, leaving as is.\n\nAlso, as an aside, note that \u0027A\u0027 - \u0027a\u0027 + d doesn\u0027t work because \u0027A\u0027 - \u0027a\u0027 is negative which is not permitted since that expression gets converted to a byte.",
+      "parentUuid": "8e3d51a1_2ee5e712",
+      "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3d51a1_6edfef3c",
         "filename": "src/math/big/natconv.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_fd17e70c",
+        "filename": "src/math/big/natconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-24T23:06:50Z",
+      "side": 1,
+      "message": "yes\n\n(introduced because of the MaxBase change to int, which I had to undo to avoid an API change)",
+      "parentUuid": "8e3d51a1_6edfef3c",
+      "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3d51a1_8efedba1",
         "filename": "src/math/big/natconv.go",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2015-09-24T22:53:59Z",
       "side": 1,
       "message": "Do these slices escape through the API or get modified by the caller?  If not, I\u0027d be tempted to make this one a global since it\u0027s by far the most common case.",
+      "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_bd116f19",
+        "filename": "src/math/big/natconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-24T23:06:50Z",
+      "side": 1,
+      "message": "It doesn\u0027t at the moment, but I\u0027d rather stay clean here. This is not performance-critical unless one prints a lot of zeroes.",
+      "parentUuid": "8e3d51a1_8efedba1",
       "revId": "344aed59e371d6f0b4d63bac068aab5571352f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
