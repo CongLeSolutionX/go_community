@@ -46,6 +46,30 @@
       "revId": "5a3ff6c8955a5df81f6dd83e143a47bd51266b61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e80f1c5_b6f988b5",
+        "filename": "src/net/server_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-09-24T00:42:10Z",
+      "side": 1,
+      "message": "\u003e Prior to this change, this line was logging Destination-\u003eSource,\n\ni guess this test is mainly for server-side stuff, and the line logs that we are skipping this server-side test. or am i misunderstand? (if so, no need to revert)",
+      "parentUuid": "2e470569_83f9beb5",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 65
+      },
+      "revId": "5a3ff6c8955a5df81f6dd83e143a47bd51266b61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
