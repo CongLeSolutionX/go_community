@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e470569_720c4649",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-24T21:43:00Z",
+      "side": 1,
+      "message": "In this example there is one final empty token to be delivered.  Would this onComma function do the expected thing if the input were \"1,2,3,4\"?",
+      "revId": "6c107c4a8b384a8f254239bdce4cb22c7e07eadd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_9216a24e",
+        "filename": "src/bufio/scan_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-24T21:43:00Z",
+      "side": 1,
+      "message": "Perhaps add another test that uses commaSplit where the input does not have a trailing comma.",
+      "revId": "6c107c4a8b384a8f254239bdce4cb22c7e07eadd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
