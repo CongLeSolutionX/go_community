@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_2608d8a1",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-24T02:04:20Z",
+      "side": 1,
+      "message": "It will stop it once a second result becomes available, but if there\u0027s only one, it will scan the rest of the file system.\n\nYou\u0027re right it\u0027s odd and I could drop it, but it\u0027s easy to control that runaway.",
+      "parentUuid": "8e80f1c5_16ce3c98",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e80f1c5_96ca4c86",
         "filename": "src/cmd/doc/main.go",
         "patchSetId": 1
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_4613d4d5",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-24T02:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e80f1c5_56ffd49f",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e80f1c5_b6c7487d",
         "filename": "src/cmd/doc/main.go",
         "patchSetId": 1
@@ -93,6 +129,24 @@
       "writtenOn": "2015-09-24T00:26:45Z",
       "side": 1,
       "message": "this seems wrong; there\u0027ll be multiple findPackage goroutines executing in concurrently and any of them might close the channel while another is trying to send",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_060ddcb1",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-24T02:04:20Z",
+      "side": 1,
+      "message": "No there won\u0027t. parseArgs is only called once.",
+      "parentUuid": "8e80f1c5_96e1ec07",
       "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
