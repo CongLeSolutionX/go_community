@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e470569_b8ca9d85",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-24T23:14:21Z",
+      "side": 1,
+      "message": "OK, I think what confused me is this comment.  Perhaps\n// There is one final, possibly empty, token to be delivered.",
+      "revId": "03938fefae6198a5c826d000c5a9fc6280782c02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
