@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e470569_dded4b85",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-24T23:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e80f1c5_39d32b3d",
+      "range": {
+        "startLine": 73,
+        "startChar": 46,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "e179807a42f9e3ed42957c7d19d4ef69a312bc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e80f1c5_d9e7971b",
         "filename": "src/cmd/doc/main.go",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_9df7d34f",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-24T23:03:47Z",
+      "side": 1,
+      "message": "sorry, this was a dreg. no longer needed.",
+      "parentUuid": "8e80f1c5_d9e7971b",
+      "revId": "e179807a42f9e3ed42957c7d19d4ef69a312bc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e80f1c5_f9e4d318",
         "filename": "src/cmd/doc/main.go",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2015-09-24T22:23:50Z",
       "side": 1,
       "message": "these arguments should probably be named.\n\n(pkg *build.Package, path, symbol string, more bool)",
+      "range": {
+        "startLine": 171,
+        "startChar": 31,
+        "endLine": 171,
+        "endChar": 67
+      },
+      "revId": "e179807a42f9e3ed42957c7d19d4ef69a312bc99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_7d0417e0",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-24T23:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e80f1c5_f9e4d318",
       "range": {
         "startLine": 171,
         "startChar": 31,
