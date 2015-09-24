@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e80f1c5_16ce3c98",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T00:26:45Z",
+      "side": 1,
+      "message": "Won\u0027t the backpressure of the synchronous channel ops do this anyway? Seems like an antipattern to use gomaxprocs in this way",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e80f1c5_96ca4c86",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T00:26:45Z",
+      "side": 1,
+      "message": "want",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 51
+      },
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e80f1c5_56ffd49f",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T00:26:45Z",
+      "side": 1,
+      "message": "why pass this in instead of having the function create and return it?",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e80f1c5_b6c7487d",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T00:26:45Z",
+      "side": 1,
+      "message": "set up to a generator?",
+      "range": {
+        "startLine": 165,
+        "startChar": 30,
+        "endLine": 165,
+        "endChar": 51
+      },
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e80f1c5_96e1ec07",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T00:26:45Z",
+      "side": 1,
+      "message": "this seems wrong; there\u0027ll be multiple findPackage goroutines executing in concurrently and any of them might close the channel while another is trying to send",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e80f1c5_f6e4e018",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-24T00:26:45Z",
+      "side": 1,
+      "message": "defer close(packagePaths) at the top",
+      "revId": "5088082f5086f2d9bd69aa76402c3779715b5116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
