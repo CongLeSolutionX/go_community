@@ -37,7 +37,8 @@ import (
 // printed by the 'e', 'E', 'f', 'g', and 'G' formats. For 'e', 'E', and 'f'
 // it is the number of digits after the decimal point. For 'g' and 'G' it is
 // the total number of digits. A negative precision selects the smallest
-// number of digits necessary to identify the value x uniquely.
+// number of decimal digits necessary to identify the value x uniquely using
+// x.Prec() mantissa bits.
 // The prec value is ignored for the 'b' or 'p' format.
 func (x *Float) Text(format byte, prec int) string {
 	const extra = 10 // TODO(gri) determine a good/better value here
