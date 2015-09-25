@@ -16,14 +16,16 @@ import (
 //
 // As returned by NewWriter, a Writer writes records terminated by a
 // newline and uses ',' as the field delimiter.  The exported fields can be
-// changed to customize the details before the first call to Write or WriteAll.
+// changed to customize the details.
 //
 // Comma is the field delimiter.
 //
 // If UseCRLF is true, the Writer ends each record with \r\n instead of \n.
+// If Quote is true, the Writer encloses each field in quotes.
 type Writer struct {
 	Comma   rune // Field delimiter (set to ',' by NewWriter)
 	UseCRLF bool // True to use \r\n as the line terminator
+	Quote   bool // True to force quotation of fields
 	w       *bufio.Writer
 }
 
@@ -57,8 +59,8 @@ func (w *Writer) Write(record []string) (err error) {
 			return
 		}
 
-		for _, r1 := range field {
-			switch r1 {
+		for _, r := range field {
+			switch r {
 			case '"':
 				_, err = w.w.WriteString(`""`)
 			case '\r':
@@ -72,7 +74,7 @@ func (w *Writer) Write(record []string) (err error) {
 					err = w.w.WriteByte('\n')
 				}
 			default:
-				_, err = w.w.WriteRune(r1)
+				_, err = w.w.WriteRune(r)
 			}
 			if err != nil {
 				return
@@ -115,7 +117,8 @@ func (w *Writer) WriteAll(records [][]string) (err error) {
 }
 
 // fieldNeedsQuotes reports whether our field must be enclosed in quotes.
-// Fields with a Comma, fields with a quote or newline, and
+// If Quote is set every field must be enclosed in quotes.
+// Otherwise fields with a Comma, fields with a quote or newline, and
 // fields which start with a space must be enclosed in quotes.
 // We used to quote empty strings, but we do not anymore (as of Go 1.4).
 // The two representations should be equivalent, but Postgres distinguishes
@@ -127,6 +130,9 @@ func (w *Writer) WriteAll(records [][]string) (err error) {
 // of Microsoft Excel and Google Drive.
 // For Postgres, quote the data terminating string `\.`.
 func (w *Writer) fieldNeedsQuotes(field string) bool {
+	if w.Quote {
+		return true
+	}
 	if field == "" {
 		return false
 	}
@@ -134,6 +140,6 @@ func (w *Writer) fieldNeedsQuotes(field string) bool {
 		return true
 	}
 
-	r1, _ := utf8.DecodeRuneInString(field)
-	return unicode.IsSpace(r1)
+	r, _ := utf8.DecodeRuneInString(field)
+	return unicode.IsSpace(r)
 }
