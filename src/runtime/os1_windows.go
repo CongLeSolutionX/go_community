@@ -270,7 +270,8 @@ func semacreate() uintptr {
 //go:nowritebarrier
 func newosproc(mp *m, stk unsafe.Pointer) {
 	const _STACK_SIZE_PARAM_IS_A_RESERVATION = 0x00010000
-	thandle := stdcall6(_CreateThread, 0, 0x20000,
+	const _STACK_SIZE = 0x40000
+	thandle := stdcall6(_CreateThread, 0, _STACK_SIZE,
 		funcPC(tstart_stdcall), uintptr(unsafe.Pointer(mp)),
 		_STACK_SIZE_PARAM_IS_A_RESERVATION, 0)
 	if thandle == 0 {

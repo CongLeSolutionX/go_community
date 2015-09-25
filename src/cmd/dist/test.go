@@ -279,8 +279,8 @@ func (t *tester) registerStdTest(pkg string) {
 func (t *tester) registerSSATest(pkg string) {
 	switch pkg {
 	// known failures
-	case "runtime":
-		return
+	// case "runtime":
+	// 	return
 	}
 	t.tests = append(t.tests, distTest{
 		name:    "go_test_ssa:" + pkg,
