@@ -878,7 +878,7 @@ func allocm(_p_ *p, fn func()) *m {
 	if iscgo || GOOS == "solaris" || GOOS == "windows" || GOOS == "plan9" {
 		mp.g0 = malg(-1)
 	} else {
-		mp.g0 = malg(8192 * stackGuardMultiplier)
+		mp.g0 = malg(32768 * stackGuardMultiplier) // up from 8192, for SSA compilation
 	}
 	mp.g0.m = mp
 
