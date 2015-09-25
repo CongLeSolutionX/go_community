@@ -679,7 +679,7 @@ func mstart() {
 		// Cgo may have left stack size in stack.hi.
 		size := _g_.stack.hi
 		if size == 0 {
-			size = 8192 * stackGuardMultiplier
+			size = 16384 * stackGuardMultiplier // was 8192, larger to allow SSA to proceed
 		}
 		_g_.stack.hi = uintptr(noescape(unsafe.Pointer(&size)))
 		_g_.stack.lo = _g_.stack.hi - size + 1024
@@ -878,7 +878,7 @@ func allocm(_p_ *p, fn func()) *m {
 	if iscgo || GOOS == "solaris" || GOOS == "windows" || GOOS == "plan9" {
 		mp.g0 = malg(-1)
 	} else {
-		mp.g0 = malg(8192 * stackGuardMultiplier)
+		mp.g0 = malg(32768 * stackGuardMultiplier) // up from 8192, for SSA compilation
 	}
 	mp.g0.m = mp
 
