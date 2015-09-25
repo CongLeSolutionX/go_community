@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1330ae11_22b10e1a",
+        "filename": "src/runtime/sys_mips64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-09-25T08:03:30Z",
+      "side": 1,
+      "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "2691023a8017cb7772dc5746ee62f4f2ddd6758b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
