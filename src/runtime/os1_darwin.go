@@ -126,7 +126,7 @@ var failthreadcreate = []byte("runtime: failed to create new OS thread\n")
 // Called to initialize a new m (including the bootstrap m).
 // Called on the parent thread (main thread in case of bootstrap), can allocate memory.
 func mpreinit(mp *m) {
-	mp.gsignal = malg(32 * 1024) // OS X wants >= 8K
+	mp.gsignal = malg(512 * 1024) // OS X wants >= 8K // 16x for SSA
 	mp.gsignal.m = mp
 }
 

@@ -191,6 +191,21 @@ func buildssa(fn *Node) (ssafn *ssa.Func, usessa bool) {
 		fmt.Printf("GOSSAHASH triggered %s\n", name)
 		return s.f, true
 	}
+
+	// Iteratively try additional hashes to allow tests for multi-point
+	// failure.
+	for i := 0; true; i++ {
+		ev := fmt.Sprintf("GOSSAHASH%d", i)
+		evv := os.Getenv(ev)
+		if evv == "" {
+			break
+		}
+		if strings.HasSuffix(hstr, evv) {
+			fmt.Printf("%s triggered %s\n", ev, name)
+			return s.f, true
+		}
+	}
+
 	return s.f, false
 }
 
