@@ -512,3 +512,40 @@ Calls to Less O((log(n)-t) * n + bs*n) = O(log(n)*n + (bs-t)*n)
 Calls to Swap O(n * log^2(n) - (t^2+t)/2*n) = O(n * log^2(n))
 
 */
+
+// DedupSorted rearranges the already sorted underlying data structure
+// of the Interface in order to place all n pairwise different elements
+// on the first n spots. Hereby it preserves the ordering of these
+// elements.  It returns n, which should be used as the new length
+// for the deduplicated structure.
+func DedupSorted(data Interface) (n int) {
+	size := data.Len()
+	neq := func(i int) bool { return data.Less(n, i) || data.Less(i, n) }
+	eq := func(i int) bool { return !data.Less(i, n) && !data.Less(n, i) }
+	var l, r int
+	for i := 0; i < size; n++ {
+		if i != n {
+			data.Swap(i, n)
+		}
+		i++
+		if i == size || neq(i) {
+			continue
+		}
+		l, r = i, i+1
+		for off := 2; eq(r); off *= 2 {
+			l, r = r, i+off
+			if r >= size {
+				if eq(size - 1) {
+					return n + 1
+				}
+				r = size
+				break
+			}
+		}
+		l++
+		i = l + Search(r-l, func(j int) bool {
+			return neq(l + j)
+		})
+	}
+	return n
+}
