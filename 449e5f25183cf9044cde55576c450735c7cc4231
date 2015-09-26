@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "eececd75_04df983d",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-26T14:23:56Z",
+      "side": 1,
+      "message": "return dedupSorted(all)\n}\n\nfunc dedupSorted(dups []string) []string {\n\ti :\u003d 0\n\tfor _, s :\u003d range dups {\n\t\tif i \u003d\u003d 0 || s !\u003d dups[i-1] {\n\t\t\tdups[i] \u003d s\n\t\t\ti++\n\t\t}\n\t}\n\treturn dups[:i]\n}",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 864,
+        "endChar": 1
+      },
+      "revId": "449e5f25183cf9044cde55576c450735c7cc4231",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a47f9520_1981f307",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 1
