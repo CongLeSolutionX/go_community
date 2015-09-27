@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "eeb7ade1_3c04bd56",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T15:39:15Z",
+      "side": 1,
+      "message": "bgwait isn\u0027t safe to call from multiple goroutines at once.",
+      "revId": "449e5f25183cf9044cde55576c450735c7cc4231",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eececd75_04df983d",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 1
