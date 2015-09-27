@@ -1288,6 +1288,14 @@ func (c *conn) setState(nc net.Conn, state ConnState) {
 	}
 }
 
+func (c *conn) sendError(code int) {
+	statusString := strconv.Itoa(code) + " " + statusText[code]
+	io.WriteString(c.rwc, "HTTP/1.1 "+statusString+"\r\n")
+	io.WriteString(c.rwc, "Content-Type: text/plain\r\n")
+	io.WriteString(c.rwc, "Connection: close\r\n\r\n")
+	io.WriteString(c.rwc, statusString+"\r\n")
+}
+
 // Serve a new connection.
 func (c *conn) serve() {
 	origConn := c.rwc // copy it before it's set nil on Close or Hijack
@@ -1339,7 +1347,7 @@ func (c *conn) serve() {
 				// responding to them and hanging up
 				// while they're still writing their
 				// request.  Undefined behavior.
-				io.WriteString(c.rwc, "HTTP/1.1 413 Request Entity Too Large\r\n\r\n")
+				c.sendError(StatusRequestEntityTooLarge)
 				c.closeWriteAndWait()
 				break
 			} else if err == io.EOF {
@@ -1347,7 +1355,7 @@ func (c *conn) serve() {
 			} else if neterr, ok := err.(net.Error); ok && neterr.Timeout() {
 				break // Don't reply
 			}
-			io.WriteString(c.rwc, "HTTP/1.1 400 Bad Request\r\n\r\n")
+			c.sendError(StatusBadRequest)
 			break
 		}
 
