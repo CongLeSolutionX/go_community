@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e9a4178_55febe2a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T14:13:43Z",
+      "side": 1,
+      "message": "These should probably also both have a \"Connection: close\" header now that I think about it (HTTP/1.1 implies the connection can be reused by the client otherwise) and a now a \"Content-Type: text/plain\" too, now that there\u0027s any body. I\u0027d normally recommend the \"; charset\u003dutf-8\" part but this is only ASCII anyway.",
+      "revId": "043565f9c56e384f8d7014991c6643b102bb0cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
