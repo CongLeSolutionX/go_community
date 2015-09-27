@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "ceae6993_fedeb93f",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T07:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0bd6a6_e79242ad",
+      "range": {
+        "startLine": 342,
+        "startChar": 18,
+        "endLine": 342,
+        "endChar": 46
+      },
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceae6993_dee1f506",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T07:38:05Z",
+      "side": 1,
+      "message": "I did this, but then got nervous about moving the behavior from Output to Run or Start.\n\nI don\u0027t like the idea of hooking up pipes and goroutines to read them when we never did in the past (for straight Run calls).  At least with Output we are already doing it for stdout, so doing it for stderr isn\u0027t much different.\n\nI also considered opt-out mechanisms, like saying that ioutil.Discard was equivalent to nil for Stderr (and Stdout for consistency), so users could use ioutil.Discard as an explicit \"do not want output\", but then mapping that to a call to os.OpenFile(\"/dev/null\") is a bit surprising, that it would be opening and closing file descriptors rather than using the pure-Go ioutil.Discard.\n\nThe more I thought about this all, the more I went back to thinking this should just be for the Output method only, at least for now.",
+      "parentUuid": "fea4b6cc_650082be",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea4b6cc_45e45ea4",
         "filename": "src/os/exec/exec.go",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2015-06-24T15:25:04Z",
       "side": 1,
       "message": "Not quite true (see line 396). ExitError doesn\u0027t make sense there, so probably this comment just needs to be adjusted.",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceae6993_1effeda0",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T07:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea4b6cc_45e45ea4",
       "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "ceae6993_defc95a7",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T07:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea4b6cc_25e15a94",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea4b6cc_a5ed6a84",
         "filename": "src/os/exec/exec.go",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2015-06-24T15:25:04Z",
       "side": 1,
       "message": "This is going to return 0, nil for a non-0 length write once the limit is reached. That may cause the caller to loop or die. Should test this and fix.",
+      "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceae6993_fef959b4",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-27T07:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea4b6cc_a5ed6a84",
       "revId": "67b11378d5f8b7e88e7921142792cd7002621262",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
