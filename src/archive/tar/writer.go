@@ -68,16 +68,10 @@ func (tw *Writer) Flush() error {
 }
 
 // Write s into b, terminating it with a NUL if there is room.
-// If the value is too long for the field and allowPax is true add a paxheader record instead
-func (tw *Writer) cString(b []byte, s string, allowPax bool, paxKeyword string, paxHeaders map[string]string) {
-	needsPaxHeader := allowPax && len(s) > len(b) || !isASCII(s)
-	if needsPaxHeader {
-		paxHeaders[paxKeyword] = s
-		return
-	}
+func formatString(b []byte, s string, err *error) {
 	if len(s) > len(b) {
-		if tw.err == nil {
-			tw.err = ErrFieldTooLong
+		if *err == nil {
+			*err = ErrFieldTooLong
 		}
 		return
 	}
@@ -89,13 +83,13 @@ func (tw *Writer) cString(b []byte, s string, allowPax bool, paxKeyword string, 
 }
 
 // Encode x as an octal ASCII string and write it into b with leading zeros.
-func (tw *Writer) octal(b []byte, x int64) {
+func formatOctal(b []byte, x int64, err *error) {
 	s := strconv.FormatInt(x, 8)
 	// leading zeros, but leave room for a NUL.
 	for len(s)+1 < len(b) {
 		s = "0" + s
 	}
-	tw.cString(b, s, false, paxNone, nil)
+	formatString(b, s, err)
 }
 
 // Write x into b, either as octal or as binary (GNUtar/star extension).
@@ -104,13 +98,13 @@ func (tw *Writer) numeric(b []byte, x int64, allowPax bool, paxKeyword string, p
 	// Try octal first.
 	s := strconv.FormatInt(x, 8)
 	if len(s) < len(b) {
-		tw.octal(b, x)
+		formatOctal(b, x, &tw.err)
 		return
 	}
 
 	// If it is too long for octal, and pax is preferred, use a pax header
 	if allowPax && tw.preferPax {
-		tw.octal(b, 0)
+		formatOctal(b, 0, &tw.err)
 		s := strconv.FormatInt(x, 10)
 		paxHeaders[paxKeyword] = s
 		return
@@ -175,10 +169,21 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 	copy(header, zeroBlock)
 	s := slicer(header)
 
+	// Wrappers around formatString that automatically sets paxHeaders if the
+	// argument extends beyond the capacity of the input byte slice.
+	var cString = func(b []byte, s string, allowPax bool, paxKeyword string, err *error) {
+		needsPaxHeader := allowPax && len(s) > len(b) || !isASCII(s)
+		if needsPaxHeader {
+			paxHeaders[paxKeyword] = s
+			return
+		}
+		formatString(b, s, err)
+	}
+
 	// keep a reference to the filename to allow to overwrite it later if we detect that we can use ustar longnames instead of pax
 	pathHeaderBytes := s.next(fileNameSize)
 
-	tw.cString(pathHeaderBytes, hdr.Name, true, paxPath, paxHeaders)
+	cString(pathHeaderBytes, hdr.Name, true, paxPath, &tw.err)
 
 	// Handle out of range ModTime carefully.
 	var modTime int64
@@ -186,7 +191,7 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 		modTime = hdr.ModTime.Unix()
 	}
 
-	tw.octal(s.next(8), hdr.Mode)                                   // 100:108
+	formatOctal(s.next(8), hdr.Mode, &tw.err)                       // 100:108
 	tw.numeric(s.next(8), int64(hdr.Uid), true, paxUid, paxHeaders) // 108:116
 	tw.numeric(s.next(8), int64(hdr.Gid), true, paxGid, paxHeaders) // 116:124
 	tw.numeric(s.next(12), hdr.Size, true, paxSize, paxHeaders)     // 124:136
@@ -194,17 +199,17 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 	s.next(8)                                                       // chksum (148:156)
 	s.next(1)[0] = hdr.Typeflag                                     // 156:157
 
-	tw.cString(s.next(100), hdr.Linkname, true, paxLinkpath, paxHeaders)
+	cString(s.next(100), hdr.Linkname, true, paxLinkpath, &tw.err)
 
-	copy(s.next(8), []byte("ustar\x0000"))                        // 257:265
-	tw.cString(s.next(32), hdr.Uname, true, paxUname, paxHeaders) // 265:297
-	tw.cString(s.next(32), hdr.Gname, true, paxGname, paxHeaders) // 297:329
-	tw.numeric(s.next(8), hdr.Devmajor, false, paxNone, nil)      // 329:337
-	tw.numeric(s.next(8), hdr.Devminor, false, paxNone, nil)      // 337:345
+	copy(s.next(8), []byte("ustar\x0000"))                   // 257:265
+	cString(s.next(32), hdr.Uname, true, paxUname, &tw.err)  // 265:297
+	cString(s.next(32), hdr.Gname, true, paxGname, &tw.err)  // 297:329
+	tw.numeric(s.next(8), hdr.Devmajor, false, paxNone, nil) // 329:337
+	tw.numeric(s.next(8), hdr.Devminor, false, paxNone, nil) // 337:345
 
 	// keep a reference to the prefix to allow to overwrite it later if we detect that we can use ustar longnames instead of pax
 	prefixHeaderBytes := s.next(155)
-	tw.cString(prefixHeaderBytes, "", false, paxNone, nil) // 345:500  prefix
+	cString(prefixHeaderBytes, "", false, paxNone, &tw.err) // 345:500  prefix
 
 	// Use the GNU magic instead of POSIX magic if we used any GNU extensions.
 	if tw.usedBinary {
@@ -220,15 +225,15 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 			delete(paxHeaders, paxPath)
 
 			// Update the path fields
-			tw.cString(pathHeaderBytes, suffix, false, paxNone, nil)
-			tw.cString(prefixHeaderBytes, prefix, false, paxNone, nil)
+			cString(pathHeaderBytes, suffix, false, paxNone, &tw.err)
+			cString(prefixHeaderBytes, prefix, false, paxNone, &tw.err)
 		}
 	}
 
 	// The chksum field is terminated by a NUL and a space.
 	// This is different from the other octal fields.
 	chksum, _ := checksum(header)
-	tw.octal(header[148:155], chksum)
+	formatOctal(header[148:155], chksum, &tw.err) // Never fails
 	header[155] = ' '
 
 	if tw.err != nil {
@@ -303,7 +308,7 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHeaders map[string]string) erro
 	var buf bytes.Buffer
 
 	for k, v := range paxHeaders {
-		fmt.Fprint(&buf, paxHeader(k+"="+v))
+		fmt.Fprint(&buf, formatPAXRecord(k, v))
 	}
 
 	ext.Size = int64(len(buf.Bytes()))
@@ -319,17 +324,18 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHeaders map[string]string) erro
 	return nil
 }
 
-// paxHeader formats a single pax record, prefixing it with the appropriate length
-func paxHeader(msg string) string {
-	const padding = 2 // Extra padding for space and newline
-	size := len(msg) + padding
+// formatPAXRecord formats a single PAX record, prefixing it with the
+// appropriate length.
+func formatPAXRecord(k, v string) string {
+	const padding = 3 // Extra padding for ' ', '=', and '\n'
+	size := len(k) + len(v) + padding
 	size += len(strconv.Itoa(size))
-	record := fmt.Sprintf("%d %s\n", size, msg)
+	record := fmt.Sprintf("%d %s=%s\n", size, k, v)
+
+	// Final adjustment if adding size field increased the record size.
 	if len(record) != size {
-		// Final adjustment if adding size increased
-		// the number of digits in size
 		size = len(record)
-		record = fmt.Sprintf("%d %s\n", size, msg)
+		record = fmt.Sprintf("%d %s=%s\n", size, k, v)
 	}
 	return record
 }
