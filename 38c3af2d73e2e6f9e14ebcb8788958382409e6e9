@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1848cb9f_3b2017d9",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-28T20:58:36Z",
+      "side": 1,
+      "message": "s/,/;/",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1848cb9f_1b255be9",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-28T20:58:36Z",
+      "side": 1,
+      "message": "s/value/values/",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e61c51f_1ce399c4",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-28T20:58:36Z",
+      "side": 1,
+      "message": "\"also provide SetString\"",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea9fd5d_0e206fdc",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2015-09-28T20:58:36Z",
+      "side": 1,
+      "message": "\"Finally, *Int, *Rat, and *Float satisfy the fmt package\u0027s Scanner interface for scanning and Formatter interface for formatted printing. ...\"",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
