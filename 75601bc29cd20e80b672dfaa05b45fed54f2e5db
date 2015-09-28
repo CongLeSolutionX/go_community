@@ -46,6 +46,30 @@
       "revId": "75601bc29cd20e80b672dfaa05b45fed54f2e5db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceae6993_a1c0a468",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-28T21:03:20Z",
+      "side": 1,
+      "message": "Yeah, sry I realized that a few moments ago.\nIs it save, that \"cmd/go\" will always be installed last?",
+      "parentUuid": "7829c784_b1c51a22",
+      "range": {
+        "startLine": 1053,
+        "startChar": 2,
+        "endLine": 1053,
+        "endChar": 44
+      },
+      "revId": "75601bc29cd20e80b672dfaa05b45fed54f2e5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
