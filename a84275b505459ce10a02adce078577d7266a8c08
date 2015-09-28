@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eececd75_24cbbce2",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-28T21:23:17Z",
+      "side": 1,
+      "message": "no longer needed",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 37
+      },
+      "revId": "a84275b505459ce10a02adce078577d7266a8c08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceae6993_81d3a03a",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-28T21:23:17Z",
+      "side": 1,
+      "message": "Is there a rule of thumb, when use the\nif _, ok :\u003d f(); ok {   pattern\nand when not? I would have used it here...",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 9
+      },
+      "revId": "a84275b505459ce10a02adce078577d7266a8c08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e9a4178_b8436132",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-09-28T21:23:17Z",
+      "side": 1,
+      "message": "...and here.\nHope to get some insights now about idiomatic go :)",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 9
+      },
+      "revId": "a84275b505459ce10a02adce078577d7266a8c08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
