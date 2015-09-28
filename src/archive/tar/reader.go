@@ -37,6 +37,10 @@ type Reader struct {
 	hdrBuff [blockSize]byte // buffer to use in readHeader
 }
 
+type parser struct {
+	err error // Last error seen
+}
+
 // A numBytesReader is an io.Reader with a numBytes method, returning the number
 // of bytes remaining in the underlying encoded data.
 type numBytesReader interface {
@@ -113,6 +117,7 @@ func NewReader(r io.Reader) *Reader { return &Reader{r: r} }
 //
 // io.EOF is returned at the end of the input.
 func (tr *Reader) Next() (*Header, error) {
+	var p parser
 	var hdr *Header
 	if tr.err == nil {
 		tr.skipUnread()
@@ -176,7 +181,10 @@ func (tr *Reader) Next() (*Header, error) {
 		if tr.err != nil {
 			return nil, tr.err
 		}
-		hdr.Name = cString(realname)
+		hdr.Name = p.parseString(realname)
+		if p.err != nil {
+			return nil, p.err
+		}
 		return hdr, nil
 	case TypeGNULongLink:
 		// We have a GNU long link header.
@@ -188,7 +196,10 @@ func (tr *Reader) Next() (*Header, error) {
 		if tr.err != nil {
 			return nil, tr.err
 		}
-		hdr.Linkname = cString(realname)
+		hdr.Linkname = p.parseString(realname)
+		if p.err != nil {
+			return nil, p.err
+		}
 		return hdr, nil
 	}
 	return hdr, tr.err
@@ -274,13 +285,13 @@ func mergePAX(hdr *Header, headers map[string]string) error {
 		case paxUid:
 			uid, err := strconv.ParseInt(v, 10, 0)
 			if err != nil {
-				return err
+				return ErrHeader
 			}
 			hdr.Uid = int(uid)
 		case paxGid:
 			gid, err := strconv.ParseInt(v, 10, 0)
 			if err != nil {
-				return err
+				return ErrHeader
 			}
 			hdr.Gid = int(gid)
 		case paxAtime:
@@ -304,7 +315,7 @@ func mergePAX(hdr *Header, headers map[string]string) error {
 		case paxSize:
 			size, err := strconv.ParseInt(v, 10, 0)
 			if err != nil {
-				return err
+				return ErrHeader
 			}
 			hdr.Size = int64(size)
 		default:
@@ -329,12 +340,12 @@ func parsePAXTime(t string) (time.Time, error) {
 	if pos == -1 {
 		seconds, err = strconv.ParseInt(t, 10, 0)
 		if err != nil {
-			return time.Time{}, err
+			return time.Time{}, ErrHeader
 		}
 	} else {
 		seconds, err = strconv.ParseInt(string(buf[:pos]), 10, 0)
 		if err != nil {
-			return time.Time{}, err
+			return time.Time{}, ErrHeader
 		}
 		nano_buf := string(buf[pos+1:])
 		// Pad as needed before converting to a decimal.
@@ -348,7 +359,7 @@ func parsePAXTime(t string) (time.Time, error) {
 		}
 		nanoseconds, err = strconv.ParseInt(string(nano_buf), 10, 0)
 		if err != nil {
-			return time.Time{}, err
+			return time.Time{}, ErrHeader
 		}
 	}
 	ts := time.Unix(seconds, nanoseconds)
@@ -413,9 +424,9 @@ func parsePAX(r io.Reader) (map[string]string, error) {
 	return headers, nil
 }
 
-// cString parses bytes as a NUL-terminated C-style string.
+// parseString parses bytes as a NUL-terminated C-style string.
 // If a NUL byte is not found then the whole slice is returned as a string.
-func cString(b []byte) string {
+func (*parser) parseString(b []byte) string {
 	n := 0
 	for n < len(b) && b[n] != 0 {
 		n++
@@ -423,7 +434,7 @@ func cString(b []byte) string {
 	return string(b[0:n])
 }
 
-func (tr *Reader) octal(b []byte) int64 {
+func (p *parser) parseNumeric(b []byte) int64 {
 	// Check for binary format first.
 	if len(b) > 0 && b[0]&0x80 != 0 {
 		var x int64
@@ -436,6 +447,10 @@ func (tr *Reader) octal(b []byte) int64 {
 		return x
 	}
 
+	return p.parseOctal(b)
+}
+
+func (p *parser) parseOctal(b []byte) int64 {
 	// Because unused fields are filled with NULs, we need
 	// to skip leading NULs. Fields may also be padded with
 	// spaces or NULs.
@@ -446,9 +461,9 @@ func (tr *Reader) octal(b []byte) int64 {
 	if len(b) == 0 {
 		return 0
 	}
-	x, err := strconv.ParseUint(cString(b), 8, 64)
-	if err != nil {
-		tr.err = err
+	x, perr := strconv.ParseUint(p.parseString(b), 8, 64)
+	if perr != nil {
+		p.err = ErrHeader
 	}
 	return int64(x)
 }
@@ -499,7 +514,11 @@ func (tr *Reader) verifyChecksum(header []byte) bool {
 		return false
 	}
 
-	given := tr.octal(header[148:156])
+	// TODO(dsnet): This should use parseOctal instead
+	// of parseNumeric and should also check p.err.
+
+	var p parser
+	given := p.parseNumeric(header[148:156])
 	unsigned, signed := checksum(header)
 	return given == unsigned || given == signed
 }
@@ -538,18 +557,19 @@ func (tr *Reader) readHeader() *Header {
 	}
 
 	// Unpack
+	var p parser
 	hdr := new(Header)
 	s := slicer(header)
 
-	hdr.Name = cString(s.next(100))
-	hdr.Mode = tr.octal(s.next(8))
-	hdr.Uid = int(tr.octal(s.next(8)))
-	hdr.Gid = int(tr.octal(s.next(8)))
-	hdr.Size = tr.octal(s.next(12))
-	hdr.ModTime = time.Unix(tr.octal(s.next(12)), 0)
+	hdr.Name = p.parseString(s.next(100))
+	hdr.Mode = p.parseNumeric(s.next(8))
+	hdr.Uid = int(p.parseNumeric(s.next(8)))
+	hdr.Gid = int(p.parseNumeric(s.next(8)))
+	hdr.Size = p.parseNumeric(s.next(12))
+	hdr.ModTime = time.Unix(p.parseNumeric(s.next(12)), 0)
 	s.next(8) // chksum
 	hdr.Typeflag = s.next(1)[0]
-	hdr.Linkname = cString(s.next(100))
+	hdr.Linkname = p.parseString(s.next(100))
 
 	// The remainder of the header depends on the value of magic.
 	// The original (v7) version of tar had no explicit magic field,
@@ -569,30 +589,30 @@ func (tr *Reader) readHeader() *Header {
 
 	switch format {
 	case "posix", "gnu", "star":
-		hdr.Uname = cString(s.next(32))
-		hdr.Gname = cString(s.next(32))
+		hdr.Uname = p.parseString(s.next(32))
+		hdr.Gname = p.parseString(s.next(32))
 		devmajor := s.next(8)
 		devminor := s.next(8)
 		if hdr.Typeflag == TypeChar || hdr.Typeflag == TypeBlock {
-			hdr.Devmajor = tr.octal(devmajor)
-			hdr.Devminor = tr.octal(devminor)
+			hdr.Devmajor = p.parseNumeric(devmajor)
+			hdr.Devminor = p.parseNumeric(devminor)
 		}
 		var prefix string
 		switch format {
 		case "posix", "gnu":
-			prefix = cString(s.next(155))
+			prefix = p.parseString(s.next(155))
 		case "star":
-			prefix = cString(s.next(131))
-			hdr.AccessTime = time.Unix(tr.octal(s.next(12)), 0)
-			hdr.ChangeTime = time.Unix(tr.octal(s.next(12)), 0)
+			prefix = p.parseString(s.next(131))
+			hdr.AccessTime = time.Unix(p.parseNumeric(s.next(12)), 0)
+			hdr.ChangeTime = time.Unix(p.parseNumeric(s.next(12)), 0)
 		}
 		if len(prefix) > 0 {
 			hdr.Name = prefix + "/" + hdr.Name
 		}
 	}
 
-	if tr.err != nil {
-		tr.err = ErrHeader
+	if p.err != nil {
+		tr.err = p.err
 		return nil
 	}
 
@@ -612,7 +632,8 @@ func (tr *Reader) readHeader() *Header {
 	// Check for old GNU sparse format entry.
 	if hdr.Typeflag == TypeGNUSparse {
 		// Get the real size of the file.
-		hdr.Size = tr.octal(header[483:495])
+		hdr.Size = p.parseNumeric(header[483:495])
+		// TODO(dsnet): This should check p.err.
 
 		// Read the sparse map.
 		sp := tr.readOldGNUSparseMap(header)
@@ -634,6 +655,7 @@ func (tr *Reader) readHeader() *Header {
 // The sparse map is stored in the tar header if it's small enough. If it's larger than four entries,
 // then one or more extension headers are used to store the rest of the sparse map.
 func (tr *Reader) readOldGNUSparseMap(header []byte) []sparseEntry {
+	var p parser
 	isExtended := header[oldGNUSparseMainHeaderIsExtendedOffset] != 0
 	spCap := oldGNUSparseMainHeaderNumEntries
 	if isExtended {
@@ -644,9 +666,9 @@ func (tr *Reader) readOldGNUSparseMap(header []byte) []sparseEntry {
 
 	// Read the four entries from the main tar header
 	for i := 0; i < oldGNUSparseMainHeaderNumEntries; i++ {
-		offset := tr.octal(s.next(oldGNUSparseOffsetSize))
-		numBytes := tr.octal(s.next(oldGNUSparseNumBytesSize))
-		if tr.err != nil {
+		offset := p.parseNumeric(s.next(oldGNUSparseOffsetSize))
+		numBytes := p.parseNumeric(s.next(oldGNUSparseNumBytesSize))
+		if p.err != nil {
 			tr.err = ErrHeader
 			return nil
 		}
@@ -665,9 +687,9 @@ func (tr *Reader) readOldGNUSparseMap(header []byte) []sparseEntry {
 		isExtended = sparseHeader[oldGNUSparseExtendedHeaderIsExtendedOffset] != 0
 		s = slicer(sparseHeader)
 		for i := 0; i < oldGNUSparseExtendedHeaderNumEntries; i++ {
-			offset := tr.octal(s.next(oldGNUSparseOffsetSize))
-			numBytes := tr.octal(s.next(oldGNUSparseNumBytesSize))
-			if tr.err != nil {
+			offset := p.parseNumeric(s.next(oldGNUSparseOffsetSize))
+			numBytes := p.parseNumeric(s.next(oldGNUSparseNumBytesSize))
+			if p.err != nil {
 				tr.err = ErrHeader
 				return nil
 			}
