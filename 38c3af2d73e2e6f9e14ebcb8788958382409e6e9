@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e470569_e1b29365",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-28T21:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ec8f176_1979cf5a",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ceae6993_e1ca9c86",
         "filename": "src/math/big/doc.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-28T21:06:02Z",
       "side": 1,
       "message": "no final \u0027s\u0027, it\u0027s an adjective",
+      "range": {
+        "startLine": 29,
+        "startChar": 69,
+        "endLine": 29,
+        "endChar": 70
+      },
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_c1b79754",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-28T21:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceae6993_e1ca9c86",
       "range": {
         "startLine": 29,
         "startChar": 69,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_21a0ab08",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-28T21:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1848cb9f_3b2017d9",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1848cb9f_1b255be9",
         "filename": "src/math/big/doc.go",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2015-09-28T20:58:36Z",
       "side": 1,
       "message": "s/value/values/",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_019dafcb",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-28T21:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1848cb9f_1b255be9",
       "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "2e470569_c11af701",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-28T21:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e61c51f_1ce399c4",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea9fd5d_0e206fdc",
         "filename": "src/math/big/doc.go",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2015-09-28T20:58:36Z",
       "side": 1,
       "message": "\"Finally, *Int, *Rat, and *Float satisfy the fmt package\u0027s Scanner interface for scanning and Formatter interface for formatted printing. ...\"",
+      "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_21330b8e",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-09-28T21:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea9fd5d_0e206fdc",
       "revId": "38c3af2d73e2e6f9e14ebcb8788958382409e6e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
