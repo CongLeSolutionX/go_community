@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math"
 	"os"
 	"reflect"
 	"strings"
@@ -613,27 +614,58 @@ var sparseFileReadTests = []sparseFileReadTest{
 }
 
 func TestSparseFileReader(t *testing.T) {
-	for i, test := range sparseFileReadTests {
-		r := bytes.NewReader(test.sparseData)
-		nb := int64(r.Len())
-		sfr := &sparseFileReader{
-			rfr: &regFileReader{r: r, nb: nb},
-			sp:  test.sparseMap,
-			pos: 0,
-			tot: test.realSize,
-		}
-		if sfr.numBytes() != nb {
-			t.Errorf("test %d: Before reading, sfr.numBytes() = %d, want %d", i, sfr.numBytes(), nb)
-		}
-		buf, err := ioutil.ReadAll(sfr)
+	var vectors = []struct {
+		sparseMap  []sparseEntry // Input sparse map
+		realSize   int64         // Real size of the output file
+		sparseData string        // Input compact data
+		expected   string        // Expected output data
+		err        error         // Expected error outcome
+	}{
+		{[]sparseEntry{{0, 2}, {5, 3}}, 8, "abcde", "ab\x00\x00\x00cde", nil},
+		{[]sparseEntry{{0, 2}, {5, 3}}, 10, "abcde", "ab\x00\x00\x00cde\x00\x00", nil},
+		{[]sparseEntry{{1, 3}, {6, 2}}, 8, "abcde", "\x00abc\x00\x00de", nil},
+		{[]sparseEntry{{1, 3}, {6, 0}, {6, 0}, {6, 2}}, 8, "abcde", "\x00abc\x00\x00de", nil},
+		{[]sparseEntry{{1, 3}, {6, 2}}, 10, "abcde", "\x00abc\x00\x00de\x00\x00", nil},
+		{[]sparseEntry{{1, 3}, {6, 2}, {8, 0}, {8, 0}, {8, 0}, {8, 0}}, 10, "abcde", "\x00abc\x00\x00de\x00\x00", nil},
+		{[]sparseEntry{}, 2, "", "\x00\x00", nil},
+		{[]sparseEntry{}, -2, "", "", ErrHeader},
+		{[]sparseEntry{{1, 3}, {6, 2}}, -10, "abcde", "", ErrHeader},
+		{[]sparseEntry{{1, 3}, {6, 5}}, 10, "abcde", "", ErrHeader},
+		{[]sparseEntry{{1, 3}, {6, 5}}, 35, "abcde", "", io.ErrUnexpectedEOF},
+		{[]sparseEntry{{1, 3}, {6, -5}}, 35, "abcde", "", ErrHeader},
+		{[]sparseEntry{{math.MaxInt64, 3}, {6, -5}}, 35, "abcde", "", ErrHeader},
+		{[]sparseEntry{{1, 3}, {2, 2}}, 10, "abcde", "", ErrHeader},
+	}
+
+	for i, v := range vectors {
+		r := bytes.NewReader([]byte(v.sparseData))
+		rfr := &regFileReader{r: r, nb: int64(len(v.sparseData))}
+
+		var sfr *sparseFileReader
+		var err error
+		var buf []byte
+
+		sfr, err = newSparseFileReader(rfr, v.sparseMap, v.realSize)
 		if err != nil {
-			t.Errorf("test %d: Unexpected error: %v", i, err)
+			goto fail
 		}
-		if e := test.expected; !bytes.Equal(buf, e) {
-			t.Errorf("test %d: Contents = %v, want %v", i, buf, e)
+		if sfr.numBytes() != int64(len(v.sparseData)) {
+			t.Errorf("test %d, numBytes() before reading: got %d, want %d", i, sfr.numBytes(), len(v.sparseData))
+		}
+		buf, err = ioutil.ReadAll(sfr)
+		if err != nil {
+			goto fail
+		}
+		if string(buf) != v.expected {
+			t.Errorf("test %d, ReadAll(): got %q, want %q", i, string(buf), v.expected)
 		}
 		if sfr.numBytes() != 0 {
-			t.Errorf("test %d: After draining the reader, numBytes() was nonzero", i)
+			t.Errorf("test %d, numBytes() after reading: got %d, want %d", i, sfr.numBytes(), 0)
+		}
+
+	fail:
+		if err != v.err {
+			t.Errorf("test %d, unexpected error: got %v, want %v", i, err, v.err)
 		}
 	}
 }
@@ -771,10 +803,11 @@ func TestIssue10968(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer f.Close()
+
 	r := NewReader(f)
 	_, err = r.Next()
 	if err != nil {
-		t.Fatal(err)
+		return // Corruption detected, this is correct
 	}
 	_, err = io.Copy(ioutil.Discard, r)
 	if err != io.ErrUnexpectedEOF {
