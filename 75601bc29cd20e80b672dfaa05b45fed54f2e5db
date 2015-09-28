@@ -22,6 +22,30 @@
       "revId": "75601bc29cd20e80b672dfaa05b45fed54f2e5db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7829c784_b1c51a22",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-28T20:59:18Z",
+      "side": 1,
+      "message": "Why do you think it\u0027s no longer needed? This section or this line? Without this line the cross-compile builds like nacl-386 fail, with dup close of a channel.",
+      "parentUuid": "eeb7ade1_1c5619cf",
+      "range": {
+        "startLine": 1053,
+        "startChar": 2,
+        "endLine": 1053,
+        "endChar": 44
+      },
+      "revId": "75601bc29cd20e80b672dfaa05b45fed54f2e5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
