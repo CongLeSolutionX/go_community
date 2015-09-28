@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2e470569_b4d9775f",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-28T21:36:01Z",
+      "side": 1,
+      "message": "Dreg. Deleted.",
+      "parentUuid": "eececd75_24cbbce2",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 37
+      },
+      "revId": "a84275b505459ce10a02adce078577d7266a8c08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ceae6993_81d3a03a",
         "filename": "src/cmd/doc/pkg.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-09-28T21:23:17Z",
       "side": 1,
       "message": "Is there a rule of thumb, when use the\nif _, ok :\u003d f(); ok {   pattern\nand when not? I would have used it here...",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 9
+      },
+      "revId": "a84275b505459ce10a02adce078577d7266a8c08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e470569_94ce7b96",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-09-28T21:36:01Z",
+      "side": 1,
+      "message": "I know Nigel will want me to do it.",
+      "parentUuid": "ceae6993_81d3a03a",
       "range": {
         "startLine": 68,
         "startChar": 2,
