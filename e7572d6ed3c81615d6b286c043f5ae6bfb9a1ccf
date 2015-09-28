@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d8d473d5_11308c18",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-28T19:14:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e470569_de0412e2",
+      "revId": "e7572d6ed3c81615d6b286c043f5ae6bfb9a1ccf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e470569_1e44ea10",
         "filename": "src/cmd/dist/util.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-28T18:57:59Z",
       "side": 1,
       "message": "Seems slightly more reliable to write this as\n    select {\n    case \u003c-dying:\n        return\n    case w :\u003d \u003c-bgwork:\n        // Dying takes precedence over more work.\n        select {\n        case \u003c-dying:\n            return\n        default:\n            w()\n        }\n    }",
+      "revId": "e7572d6ed3c81615d6b286c043f5ae6bfb9a1ccf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8d473d5_d162041e",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-28T19:14:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e470569_1e44ea10",
       "revId": "e7572d6ed3c81615d6b286c043f5ae6bfb9a1ccf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
