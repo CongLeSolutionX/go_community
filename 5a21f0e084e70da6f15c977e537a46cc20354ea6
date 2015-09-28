@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e470569_cfffc367",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-09-28T04:32:02Z",
+      "side": 1,
+      "message": "In the unlikely event of a buffer overflow, I think I would want the last N bytes of stderr, not the first N bytes.  I see that Caleb said the same thing but I don\u0027t see a reply to his comment.",
+      "revId": "5a21f0e084e70da6f15c977e537a46cc20354ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
