@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f86a1765_cacc03fd",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-09-29T17:51:38Z",
+      "side": 1,
+      "message": "this whole *error and *string thing feels weird.",
+      "revId": "7ee8445caecfb4d6bea6e0aa9e80760a816b0fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
