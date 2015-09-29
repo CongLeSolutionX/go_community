@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f86a1765_b06ca0cc",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:43:23Z",
+      "side": 1,
+      "message": "Done.\n\nI knew that parseString is special in that it never fails. But its probably not good practice to not check the error.\n\nIn the mean time, I added the error check for the previous call to tr.Next(), which will actually fix Issue #12435.",
+      "parentUuid": "f86a1765_50e6841b",
+      "revId": "6d01a407285eb1bf031d1025c4cb28ee90934fa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f86a1765_10e00cfb",
         "filename": "src/archive/tar/reader.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-29T21:14:02Z",
       "side": 1,
       "message": "why are you allocating here?",
+      "revId": "6d01a407285eb1bf031d1025c4cb28ee90934fa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f86a1765_10a56c6b",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:43:23Z",
+      "side": 1,
+      "message": "The old implementation allocated anyways. See L341, L360, and L364.\n\nThis way, we allocate once to convert []byte to string rather than have a lot of small allocations.",
+      "parentUuid": "f86a1765_10e00cfb",
       "revId": "6d01a407285eb1bf031d1025c4cb28ee90934fa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f86a1765_b0958006",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:43:23Z",
+      "side": 1,
+      "message": "It could, see comment above. Also, it was done to be consistent with parsePAXTime which operates on strings.",
+      "parentUuid": "f86a1765_30dd104a",
+      "revId": "6d01a407285eb1bf031d1025c4cb28ee90934fa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f86a1765_b007c05a",
         "filename": "src/archive/tar/reader.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2015-09-29T21:14:02Z",
       "side": 1,
       "message": "you documented it as the first error seen. this is acting like the last.",
+      "revId": "6d01a407285eb1bf031d1025c4cb28ee90934fa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f86a1765_10724cd7",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:43:23Z",
+      "side": 1,
+      "message": "I actually wrote \"Last error seen\", but I don\u0027t think it really matters.\n\nI looked at all the strconv.ParseX functions in reader.go and discovered that the only type of error (other than IO errors) is ErrHeader. Fortunately, we never actually return strconv.SyntaxError.\n\n\nThe functions and line numbers below are in reference to the old code.\n\n Places where ErrHeader is used:\n    readHeader():        L192, L198\n    parsePAX():          L341\n    readGNUSparseMap1x0: L650\n    readGNUSparseMap0x1: L699, L714, L718\n\n Places where strconv.SyntaxError is used:\n    mergePAX(): L234, L240, L264\n       unfortunately errors from mergePAX are \n       never checked, see L120\n    parsePAXTime(): L289, L294, L308\n       since parsePAXTime is only called from mergePAX, \n       we can conclude that these errors never leak\n    octal(): L385\n       all parsing errors are masked as ErrHeader \n       anyways since L522 ignores the original error.\n\n\nSince we always use ErrHeader no matter what the parsing error was, I concluded it would just be more consistent for our functions to just return ErrHeader and that the order doesn\u0027t really matter.",
+      "parentUuid": "f86a1765_b007c05a",
       "revId": "6d01a407285eb1bf031d1025c4cb28ee90934fa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
