@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f86a1765_8d8e2568",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86a1765_aadbcfb1",
+      "revId": "7ee8445caecfb4d6bea6e0aa9e80760a816b0fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f86a1765_cacc03fd",
         "filename": "src/archive/tar/reader.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f86a1765_cd841d4c",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:04:34Z",
+      "side": 1,
+      "message": "I agree.",
+      "parentUuid": "f86a1765_cacc03fd",
+      "revId": "7ee8445caecfb4d6bea6e0aa9e80760a816b0fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f86a1765_cab3a367",
         "filename": "src/archive/tar/reader.go",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2015-09-29T17:53:44Z",
       "side": 1,
       "message": "I\u0027d rather see a small type that gathers the error inside it.\n\n   type blahParser struct {\n       err error // first error seen\n   }\n   func (p *blahParse) parseX(..) X { }\n   func (p *blahParse) parseY(..) Y { }\n   \n   var p blahParser\n   ....\n   if p.err !\u003d nil {\n     boom\n   }",
+      "revId": "7ee8445caecfb4d6bea6e0aa9e80760a816b0fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f86a1765_cd6bbd26",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-29T21:04:34Z",
+      "side": 1,
+      "message": "I think this is a fantastic idea. Thanks and done!",
+      "parentUuid": "f86a1765_cab3a367",
       "revId": "7ee8445caecfb4d6bea6e0aa9e80760a816b0fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
