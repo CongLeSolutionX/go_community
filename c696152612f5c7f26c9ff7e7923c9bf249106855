@@ -1,0 +1,294 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9555663b_7d58cf75",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Elaborate on why",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_bd61c71c",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "symmetry",
+      "range": {
+        "startLine": 85,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 12
+      },
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_dd963b3e",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "if len(predeclared) !\u003d len(p.typIndex)",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_1de713e4",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "resolve",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_dd6f5bea",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "explain",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_5d0a2b2c",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Explain why types are not sorted here.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_5dd86b0c",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Remove for now.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_fdc69f2c",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Leave this out for now?",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_3d6f77c4",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Consolidate these assertions or show examples of how they can be triggered.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_dd791b8a",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Resolve",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_3ddad7e0",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Use same mechanism as for functions?",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_7de44f9d",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "anonymous",
+      "range": {
+        "startLine": 601,
+        "startChar": 19,
+        "endLine": 601,
+        "endChar": 27
+      },
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_9d132328",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Explain",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_dd22bb63",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Remove pending resolution of negative zero constants in specification.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_bd7a673e",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Still needed?",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_1dd1d393",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-09-30T21:29:10Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
