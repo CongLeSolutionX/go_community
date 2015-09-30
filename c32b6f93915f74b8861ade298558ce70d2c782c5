@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35975a56_2c0813f4",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-30T23:25:08Z",
+      "side": 1,
+      "message": "should \u0027tot\u0027 be \u0027size\u0027 ?\nin any case, \u0027tot\u0027 is a poor name. \u0027total\u0027 would be better",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_6c021bd6",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-30T23:25:08Z",
+      "side": 1,
+      "message": "These test cases are much harder to read now. :-/",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_4cfd5f29",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-30T23:25:08Z",
+      "side": 1,
+      "message": "This isn\u0027t the right way to update the test. Shouldn\u0027t it now complain if err \u003d\u003d nil ?",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
