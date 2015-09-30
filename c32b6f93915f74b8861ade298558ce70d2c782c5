@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_4b21c5dd",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-30T23:37:24Z",
+      "side": 1,
+      "message": "If I rename that, I propose that we rename sparseFileReader.tot to be sparseFileReader.total as well. \n\nYour thoughts?",
+      "parentUuid": "35975a56_2c0813f4",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35975a56_6c021bd6",
         "filename": "src/archive/tar/reader_test.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_cbbdd5e9",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-30T23:37:24Z",
+      "side": 1,
+      "message": "Yes :(\n\nHowever, many entries are needed to test the malicious inputs. I wish the original author had even tried bad inputs...",
+      "parentUuid": "35975a56_6c021bd6",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35975a56_4cfd5f29",
         "filename": "src/archive/tar/reader_test.go",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2015-09-30T23:25:08Z",
       "side": 1,
       "message": "This isn\u0027t the right way to update the test. Shouldn\u0027t it now complain if err \u003d\u003d nil ?",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_8bb47d08",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-09-30T23:37:24Z",
+      "side": 1,
+      "message": "This is a terrible test anyways and I plan on removing it in a future CL when I fix a different integer overflow bug in Reader.octal(). This test makes the assumption that Reader will fail in a specific way on corrupt input. I\u0027d rather not spend too much time cleaning this up here.\n\n\nThe better approach is to modify TestReader to be able to handle intentionally corrupt files and check that the expected error is given. I have a corpus of malicious files that currently causes various issues with Reader, so I\u0027ll make that a different CL.\n\n\nThis goes for TestNegativeHdrSize and TestIssue11169 as well.",
+      "parentUuid": "35975a56_4cfd5f29",
       "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
