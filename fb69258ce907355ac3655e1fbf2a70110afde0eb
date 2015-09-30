@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35e91ad0_1caa95a2",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-09-30T05:14:03Z",
+      "side": 1,
+      "message": "You can just delete this whole switch.",
+      "range": {
+        "startLine": 280,
+        "startChar": 1,
+        "endLine": 284,
+        "endChar": 2
+      },
+      "revId": "fb69258ce907355ac3655e1fbf2a70110afde0eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
