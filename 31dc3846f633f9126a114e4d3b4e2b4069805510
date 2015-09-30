@@ -16,6 +16,24 @@
       "revId": "31dc3846f633f9126a114e4d3b4e2b4069805510",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b4e2df_da2ae553",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-09-30T20:23:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "957f26e6_a72d0a6f",
+      "revId": "31dc3846f633f9126a114e4d3b4e2b4069805510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
