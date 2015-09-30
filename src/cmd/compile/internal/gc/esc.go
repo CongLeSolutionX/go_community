@@ -946,6 +946,7 @@ func escassign(e *EscState, dst *Node, src *Node) {
 		OMAPLIT,
 		OSTRUCTLIT,
 		OPTRLIT,
+		ODDDARG,
 		OCALLPART:
 		break
 
@@ -1451,8 +1452,9 @@ func esccall(e *EscState, n *Node, up *Node) {
 		}
 	}
 
+	var src *Node
 	for t := getinargx(fntype).Type; ll != nil; ll = ll.Next {
-		src := ll.N
+		src = ll.N
 		if t.Isddd && !n.Isddd {
 			// Introduce ODDDARG node to represent ... allocation.
 			src = Nod(ODDDARG, nil, nil)
@@ -1493,17 +1495,17 @@ func esccall(e *EscState, n *Node, up *Node) {
 		}
 
 		if src != ll.N {
+			// This occurs when function parameter type Isddd and n not Isddd
 			break
 		}
 		t = t.Down
 	}
 
-	// "..." arguments are untracked
 	for ; ll != nil; ll = ll.Next {
-		escassign(e, &e.theSink, ll.N)
 		if Debug['m'] > 2 {
-			fmt.Printf("%v::esccall:: ... <- %v, untracked\n", Ctxt.Line(int(lineno)), Nconv(ll.N, obj.FmtShort))
+			fmt.Printf("%v::esccall:: ... <- %v\n", Ctxt.Line(int(lineno)), Nconv(ll.N, obj.FmtShort))
 		}
+		escassign(e, src, ll.N) // args to slice
 	}
 }
 
@@ -1689,6 +1691,16 @@ func escwalk(e *EscState, level Level, dst *Node, src *Node) {
 	case OAPPEND:
 		escwalk(e, level, dst, src.List.N)
 
+	case ODDDARG:
+		if leaks {
+			src.Esc = EscHeap
+			if Debug['m'] != 0 {
+				Warnl(int(src.Lineno), "%v escapes to heap", Nconv(src, obj.FmtShort))
+			}
+		}
+		// similar to a slice and its args.
+		level = level.dec()
+
 	case OARRAYLIT:
 		if Isfixedarray(src.Type) {
 			break
@@ -1699,7 +1711,7 @@ func escwalk(e *EscState, level Level, dst *Node, src *Node) {
 
 		fallthrough
 
-	case ODDDARG,
+	case
 		OMAKECHAN,
 		OMAKEMAP,
 		OMAKESLICE,
