@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "35975a56_0c28b748",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-30T23:42:43Z",
+      "side": 1,
+      "message": "Yes I agree",
+      "parentUuid": "9555663b_4b21c5dd",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35975a56_6c021bd6",
         "filename": "src/archive/tar/reader_test.go",
         "patchSetId": 3
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "35975a56_2c2d7359",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-30T23:42:43Z",
+      "side": 1,
+      "message": "having many test cases is fine. I don\u0027t mind scrolling",
+      "parentUuid": "9555663b_cbbdd5e9",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35975a56_4cfd5f29",
         "filename": "src/archive/tar/reader_test.go",
         "patchSetId": 3
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "This is a terrible test anyways and I plan on removing it in a future CL when I fix a different integer overflow bug in Reader.octal(). This test makes the assumption that Reader will fail in a specific way on corrupt input. I\u0027d rather not spend too much time cleaning this up here.\n\n\nThe better approach is to modify TestReader to be able to handle intentionally corrupt files and check that the expected error is given. I have a corpus of malicious files that currently causes various issues with Reader, so I\u0027ll make that a different CL.\n\n\nThis goes for TestNegativeHdrSize and TestIssue11169 as well.",
       "parentUuid": "35975a56_4cfd5f29",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_4c32bfbc",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-09-30T23:42:43Z",
+      "side": 1,
+      "message": "well if this is an interim change please add a TODO",
+      "parentUuid": "9555663b_8bb47d08",
       "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
