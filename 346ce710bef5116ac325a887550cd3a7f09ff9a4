@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "227abe33_4bbd85e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-10-01T20:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_ec4eef5a",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_4c3d5ba3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-01T19:43:05Z",
       "side": 1,
       "message": "was behaving",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "227abe33_6bbac1f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-10-01T20:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_4c3d5ba3",
       "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "227abe33_0bc77d83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-10-01T20:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_2c42a72e",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_6c3c9fa5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "227abe33_2bc4b97b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-10-01T20:28:15Z",
+      "side": 1,
+      "message": "According to the history, Go\u0027s DNS resolver had always this bug.",
+      "parentUuid": "9555663b_6c3c9fa5",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_cc304bcb",
         "filename": "src/go/build/deps_test.go",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2015-10-01T19:43:05Z",
       "side": 1,
       "message": "this is too big of a dependency. That means it includes unicode tables, etc. You\u0027ll have to do it without the strings package.",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82752a40_4ebd93e5",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-10-01T20:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_cc304bcb",
       "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -115,6 +205,24 @@
       "writtenOn": "2015-10-01T19:43:05Z",
       "side": 1,
       "message": "// TODO(jbd,bradfitz): avoid this alloc if host is already all lowercase?\n  // or linear scan the byName map if it\u0027s small enough?\n  lowerHost :\u003d []byte(string)\n  lowerASCIIBytes(lowerHost)\n  if ips, ok :\u003d hosts.byName[string(lowerASCIIBytes)]; ok {",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8230ca7f_f638e003",
+        "filename": "src/net/hosts.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-10-01T20:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_ec270f8b",
       "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
