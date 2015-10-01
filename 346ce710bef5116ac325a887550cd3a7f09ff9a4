@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9555663b_ec4eef5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "the subject line should start with a verb usually and say what the CL does, and not what the bug is.\n\nSo, something like:\n\n   net: make lookups from /etc/hosts be case-insensitive",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_4c3d5ba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "was behaving",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_2c42a72e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "were",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_6c3c9fa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a Go 1.4 vs Go 1.5 thing, is it? I assumed this was purely a result of using Go\u0027s DNS resolver more often now. But hasn\u0027t Go\u0027s DNS resolver always had this bug?",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_cc304bcb",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "this is too big of a dependency. That means it includes unicode tables, etc. You\u0027ll have to do it without the strings package.",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_4cda7be1",
+        "filename": "src/net/hosts.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "h :\u003d string(lowerASCIIBytes([]byte(f[i])))",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_ec270f8b",
+        "filename": "src/net/hosts.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-01T19:43:05Z",
+      "side": 1,
+      "message": "// TODO(jbd,bradfitz): avoid this alloc if host is already all lowercase?\n  // or linear scan the byName map if it\u0027s small enough?\n  lowerHost :\u003d []byte(string)\n  lowerASCIIBytes(lowerHost)\n  if ips, ok :\u003d hosts.byName[string(lowerASCIIBytes)]; ok {",
+      "revId": "346ce710bef5116ac325a887550cd3a7f09ff9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
