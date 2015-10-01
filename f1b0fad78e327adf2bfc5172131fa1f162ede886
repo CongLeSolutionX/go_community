@@ -22,6 +22,30 @@
       "revId": "f1b0fad78e327adf2bfc5172131fa1f162ede886",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b57c2af2_c874cf55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2015-10-01T11:52:13Z",
+      "side": 1,
+      "message": "Done. Note that the drop is because I renamed the benchmark. It is a choice between inconsistent naming or a one-time inconsistent benchmarking result.",
+      "parentUuid": "c4ef2afe_e15b49e6",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "f1b0fad78e327adf2bfc5172131fa1f162ede886",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
