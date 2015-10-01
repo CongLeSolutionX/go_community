@@ -5,6 +5,7 @@
 package net
 
 import (
+	"strings"
 	"sync"
 	"time"
 )
@@ -60,7 +61,7 @@ func readHosts() {
 				continue
 			}
 			for i := 1; i < len(f); i++ {
-				h := f[i]
+				h := strings.ToLower(f[i])
 				hs[h] = append(hs[h], addr)
 				is[addr] = append(is[addr], h)
 			}
@@ -80,7 +81,7 @@ func lookupStaticHost(host string) []string {
 	defer hosts.Unlock()
 	readHosts()
 	if len(hosts.byName) != 0 {
-		if ips, ok := hosts.byName[host]; ok {
+		if ips, ok := hosts.byName[strings.ToLower(host)]; ok {
 			return ips
 		}
 	}
