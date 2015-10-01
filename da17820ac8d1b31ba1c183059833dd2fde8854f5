@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35e91ad0_5cafbdf8",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-10-01T18:14:44Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "da17820ac8d1b31ba1c183059833dd2fde8854f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
