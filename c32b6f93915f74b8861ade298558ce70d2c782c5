@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_cba3157a",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-10-01T00:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35975a56_0c28b748",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35975a56_6c021bd6",
         "filename": "src/archive/tar/reader_test.go",
         "patchSetId": 3
@@ -108,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_8bbabda0",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-10-01T00:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35975a56_2c2d7359",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35975a56_4cfd5f29",
         "filename": "src/archive/tar/reader_test.go",
         "patchSetId": 3
@@ -155,6 +191,24 @@
       "side": 1,
       "message": "well if this is an interim change please add a TODO",
       "parentUuid": "9555663b_8bb47d08",
+      "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_6bbf6992",
+        "filename": "src/archive/tar/reader_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-10-01T00:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35975a56_4c32bfbc",
       "revId": "c32b6f93915f74b8861ade298558ce70d2c782c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
