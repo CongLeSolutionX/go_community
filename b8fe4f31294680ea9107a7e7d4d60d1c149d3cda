@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfefa9fe_f0a7a0db",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "Why not just AND $7, R4, R6? That would seem to be the more obvious implementation.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfefa9fe_b0b11817",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "Perhaps // TODO: Optimize for unaligned ptr.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "751ab2b5_accce74e",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "I\u0027d prefer \"BNE wordloop\" or something. Relative branches are all just bugs waiting to happen.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55da0e36_634bf628",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "Likewise, \"BNE byteloop\"",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55da0e36_835002d7",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "AND $7, R5, R6?",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15117609_9c0729e6",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "// TODO: Optimize for unaligned to/from, at least if to%8\u003d\u003dfrom%8.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff2e5e4_efa7c1db",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "Swap the inputs of one of these two ADDs so they\u0027re consistent.\n\nADD R4, R5, R4\nADD R3, R5, R3\n\nseems to be the most common order.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5515ae81_0e0ecfb1",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "\"lowest\"? It\u0027s last temporally, but first spatially.",
+      "range": {
+        "startLine": 63,
+        "startChar": 36,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff2e5e4_afb1b916",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "Is .W pre-increment (or pre-decrement, in this case)?",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff2e5e4_6fbcf1e9",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "word-by-word",
+      "range": {
+        "startLine": 71,
+        "startChar": 41,
+        "endLine": 71,
+        "endChar": 53
+      },
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff2e5e4_4fb92df8",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-02T22:10:22Z",
+      "side": 1,
+      "message": "Likewise, \"lowest\"?",
+      "range": {
+        "startLine": 76,
+        "startChar": 48,
+        "endLine": 76,
+        "endChar": 52
+      },
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
