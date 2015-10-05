@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab804cc5_16f87c35",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-05T17:36:52Z",
+      "side": 1,
+      "message": "s/has/have/",
+      "range": {
+        "startLine": 316,
+        "startChar": 52,
+        "endLine": 316,
+        "endChar": 55
+      },
+      "revId": "286e31e2b63800a97cb55812caa6da7b03c52b5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
