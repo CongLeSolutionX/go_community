@@ -423,7 +423,9 @@ func mHeap_Alloc_m(h *mheap, npage uintptr, sizeclass int32, large bool) *mspan 
 	memstats.tinyallocs += uint64(_g_.m.mcache.local_tinyallocs)
 	_g_.m.mcache.local_tinyallocs = 0
 
-	gcController.revise()
+	if gcphase != _GCoff {
+		gcController.revise()
+	}
 
 	s := mHeap_AllocSpanLocked(h, npage)
 	if s != nil {

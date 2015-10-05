@@ -351,11 +351,14 @@ type gcControllerState struct {
 	// dedicated mark workers get started.
 	dedicatedMarkWorkersNeeded int64
 
-	// assistRatio is the ratio of scan work to allocated bytes
-	// that should be performed by mutator assists. This is
+	// assistWorkPerByte is the ratio of scan work to allocated
+	// bytes that should be performed by mutator assists. This is
 	// computed at the beginning of each cycle and updated every
 	// time heap_scan is updated.
-	assistRatio float64
+	assistWorkPerByte float64
+
+	// assistBytesPerWork is 1/assistWorkPerByte.
+	assistBytesPerWork float64
 
 	// fractionalUtilizationGoal is the fraction of wall clock
 	// time that should be spent in the fractional mark worker.
@@ -432,7 +435,7 @@ func (c *gcControllerState) startCycle() {
 	c.revise()
 
 	if debug.gcpacertrace > 0 {
-		print("pacer: assist ratio=", c.assistRatio,
+		print("pacer: assist ratio=", c.assistWorkPerByte,
 			" (scan ", memstats.heap_scan>>20, " MB in ",
 			work.initialHeapLive>>20, "->",
 			c.heapGoal>>20, " MB)",
@@ -445,7 +448,7 @@ func (c *gcControllerState) startCycle() {
 // improved estimates. This should be called either under STW or
 // whenever memstats.heap_scan is updated (with mheap_.lock held).
 func (c *gcControllerState) revise() {
-	// Compute the expected scan work.
+	// Compute the expected remaining scan work at this moment.
 	//
 	// Note that the scannable heap size is likely to increase
 	// during the GC cycle. This is why it's important to revise
@@ -461,12 +464,16 @@ func (c *gcControllerState) revise() {
 	// mutator utilization, heap size, or assist time and it
 	// introduces the danger of under-estimating and letting the
 	// mutator outpace the garbage collector.
-	scanWorkExpected := memstats.heap_scan
+	scanWorkExpected := int64(memstats.heap_scan) - c.scanWork
+	if scanWorkExpected <= 0 {
+		// This is unlikely, but can happen because marking is
+		// racy and may result in double-scanning an object.
+		// We must be right at the end of the cycle.
+		scanWorkExpected = 1
+	}
 
-	// Compute the mutator assist ratio so by the time the mutator
-	// allocates the remaining heap bytes up to next_gc, it will
-	// have done (or stolen) the estimated amount of scan work.
-	heapDistance := int64(c.heapGoal) - int64(work.initialHeapLive)
+	// Compute the remaining heap distance at this moment.
+	heapDistance := int64(c.heapGoal) - int64(memstats.heap_live)
 	if heapDistance <= 1024*1024 {
 		// heapDistance can be negative if GC start is delayed
 		// or if the allocation that pushed heap_live over
@@ -476,7 +483,12 @@ func (c *gcControllerState) revise() {
 		// enforce a minimum on the distance.
 		heapDistance = 1024 * 1024
 	}
-	c.assistRatio = float64(scanWorkExpected) / float64(heapDistance)
+
+	// Compute the mutator assist ratio so by the time the mutator
+	// allocates the remaining heap bytes up to next_gc, it will
+	// have done (or stolen) the remaining amount of scan work.
+	c.assistWorkPerByte = float64(scanWorkExpected) / float64(heapDistance)
+	c.assistBytesPerWork = float64(heapDistance) / float64(scanWorkExpected)
 }
 
 // endCycle updates the GC controller state at the end of the
@@ -1630,8 +1642,7 @@ func gcResetGState() (numgs int) {
 	for _, gp := range allgs {
 		gp.gcscandone = false  // set to true in gcphasework
 		gp.gcscanvalid = false // stack has not been scanned
-		gp.gcalloc = 0
-		gp.gcscanwork = 0
+		gp.gcAssistBytes = 0
 	}
 	numgs = len(allgs)
 	unlock(&allglock)
