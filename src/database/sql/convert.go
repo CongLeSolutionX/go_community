@@ -203,12 +203,15 @@ func convertAssign(dest, src interface{}) error {
 	}
 
 	dv := reflect.Indirect(dpv)
-	if dv.Kind() == sv.Kind() {
+	if sv.IsValid() && sv.Type().AssignableTo(dv.Type()) {
 		dv.Set(sv)
 		return nil
 	}
 
 	switch dv.Kind() {
+	case sv.Kind():
+		dv.Set(sv.Convert(dv.Type()))
+		return nil
 	case reflect.Ptr:
 		if src == nil {
 			dv.Set(reflect.Zero(dv.Type()))
