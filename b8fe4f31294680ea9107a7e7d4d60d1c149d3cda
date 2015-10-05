@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "35975a56_d2a3a467",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Well https://github.com/golang/go/issues/12708, which I thought was an error rather than a warning. This was a right old rabbit hole and I have a change that starts to address this, but well, it\u0027s a lot larger than something I\u0027d hope to get into 1.5.2. I\u0027ll add a comment about why this is this way.",
+      "parentUuid": "bfefa9fe_f0a7a0db",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfefa9fe_b0b11817",
         "filename": "src/runtime/memclr_arm64.s",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-02T22:10:22Z",
       "side": 1,
       "message": "Perhaps // TODO: Optimize for unaligned ptr.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_f2a0a05d",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfefa9fe_b0b11817",
       "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "35975a56_126fecc3",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "751ab2b5_accce74e",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55da0e36_634bf628",
         "filename": "src/runtime/memclr_arm64.s",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2015-10-02T22:10:22Z",
       "side": 1,
       "message": "Likewise, \"BNE byteloop\"",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_3274e897",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55da0e36_634bf628",
       "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "35975a56_526974ba",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Do you think this is really worth it? I\u0027m not convinced. I\u0027ll add the comment if you like...",
+      "parentUuid": "15117609_9c0729e6",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff2e5e4_efa7c1db",
         "filename": "src/runtime/memmove_arm64.s",
         "patchSetId": 3
@@ -115,6 +205,24 @@
       "writtenOn": "2015-10-02T22:10:22Z",
       "side": 1,
       "message": "Swap the inputs of one of these two ADDs so they\u0027re consistent.\n\nADD R4, R5, R4\nADD R3, R5, R3\n\nseems to be the most common order.",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_726e70c5",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff2e5e4_efa7c1db",
       "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -144,6 +252,30 @@
     },
     {
       "key": {
+        "uuid": "35975a56_9282fcc1",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Argh, yeah your word is better :-)",
+      "parentUuid": "5515ae81_0e0ecfb1",
+      "range": {
+        "startLine": 63,
+        "startChar": 36,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff2e5e4_afb1b916",
         "filename": "src/runtime/memmove_arm64.s",
         "patchSetId": 3
@@ -155,6 +287,24 @@
       "writtenOn": "2015-10-02T22:10:22Z",
       "side": 1,
       "message": "Is .W pre-increment (or pre-decrement, in this case)?",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_b27ff86e",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Yes. (It stands for \"writeback\" here I think).",
+      "parentUuid": "9ff2e5e4_afb1b916",
       "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -184,6 +334,30 @@
     },
     {
       "key": {
+        "uuid": "35975a56_d27c847c",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff2e5e4_6fbcf1e9",
+      "range": {
+        "startLine": 71,
+        "startChar": 41,
+        "endLine": 71,
+        "endChar": 53
+      },
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff2e5e4_4fb92df8",
         "filename": "src/runtime/memmove_arm64.s",
         "patchSetId": 3
@@ -195,6 +369,30 @@
       "writtenOn": "2015-10-02T22:10:22Z",
       "side": 1,
       "message": "Likewise, \"lowest\"?",
+      "range": {
+        "startLine": 76,
+        "startChar": 48,
+        "endLine": 76,
+        "endChar": 52
+      },
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35975a56_f2798089",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-05T01:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff2e5e4_4fb92df8",
       "range": {
         "startLine": 76,
         "startChar": 48,
