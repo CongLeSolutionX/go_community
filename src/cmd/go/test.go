@@ -1223,6 +1223,12 @@ func loadTestFuncs(ptest *Package) (*testFuncs, error) {
 
 // writeTestmain writes the _testmain.go file for t to the file named out.
 func writeTestmain(out string, t *testFuncs) error {
+	dir := filepath.Dir(out)
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		if err := os.MkdirAll(dir, 0777); err != nil {
+			return err
+		}
+	}
 	f, err := os.Create(out)
 	if err != nil {
 		return err
