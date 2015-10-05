@@ -510,6 +510,24 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		return persistentalloc(size, align, &memstats.other_sys)
 	}
 
+	var assistGP *g
+	if gcBlackenEnabled != 0 {
+		// Charge the allocation against the G. We'll account
+		// for internal fragmentation at the end of mallocgc.
+		assistGP = getg()
+		if assistGP.m.curg != nil {
+			assistGP = assistGP.m.curg
+		}
+		assistGP.gcAssistBytes -= int64(size)
+
+		if assistGP.gcAssistBytes < 0 {
+			// This G is in debt. Assist the GC to correct
+			// this before allocating. This must happen
+			// before disabling preemption.
+			gcAssistAlloc(assistGP)
+		}
+	}
+
 	// Set mp.mallocing to keep from being preempted by GC.
 	mp := acquirem()
 	if mp.mallocing != 0 {
@@ -704,15 +722,15 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		}
 	}
 
+	if assistGP != nil {
+		// Account for internal fragmentation in the assist
+		// debt now that we know it.
+		assistGP.gcAssistBytes -= int64(dataSize - size)
+	}
+
 	if shouldhelpgc && shouldtriggergc() {
 		startGC(gcBackgroundMode, false)
-	} else if gcBlackenEnabled != 0 {
-		// Assist garbage collector. We delay this until the
-		// epilogue so that it doesn't interfere with the
-		// inner working of malloc such as mcache refills that
-		// might happen while doing the gcAssistAlloc.
-		gcAssistAlloc(size, shouldhelpgc)
-	} else if shouldhelpgc && bggc.working != 0 {
+	} else if shouldhelpgc && bggc.working != 0 && gcBlackenEnabled == 0 {
 		// The GC is starting up or shutting down, so we can't
 		// assist, but we also can't allocate unabated. Slow
 		// down this G's allocation and help the GC stay
