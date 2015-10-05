@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "156b3632_26bbd818",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2015-10-05T11:17:04Z",
+      "side": 1,
+      "message": "This will probably lead to problems, as \n1) writing only \u003cscript\u003e defaults to type\u003d\"text/javascript\" (I haven\u0027t checked whether the code handles this case)\n2) the correct mime-type for javascript (which browsers also accept) is \"application/javascript\"\n3) there are more mime-types for js, which are (I think) accepted by different browsers. See http://tools.ietf.org/html/rfc4329#section-3\n4) the mime type can have parameters (e.g. \"application/javascript;version\u003d1.8\"). does the calling code handle this?",
+      "range": {
+        "startLine": 369,
+        "startChar": 8,
+        "endLine": 369,
+        "endChar": 37
+      },
+      "revId": "09376e5d2165a7028af8167a5f19d8bea8b5da77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
