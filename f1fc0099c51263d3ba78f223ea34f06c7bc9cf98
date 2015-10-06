@@ -16,6 +16,24 @@
       "revId": "f1fc0099c51263d3ba78f223ea34f06c7bc9cf98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35e91ad0_c5477089",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5780
+      },
+      "writtenOn": "2015-10-06T11:15:04Z",
+      "side": 1,
+      "message": "Not quite:  This code isn\u0027t doing a mere assignment; it is also doing a conversion.  It assumes that one reflect.Value can be _converted_ to the type of another if they have the same Kind.  This assumption is valid here because we are only dealing with basic types.\n\nActually, on second inspection we are not only dealing with basic types; []byte and time.Time are possible source types.  I\u0027ll add an explicit check for convertibility.",
+      "parentUuid": "35975a56_b5f2829e",
+      "revId": "f1fc0099c51263d3ba78f223ea34f06c7bc9cf98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
