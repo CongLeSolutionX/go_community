@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35975a56_b5f2829e",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-06T02:57:43Z",
+      "side": 1,
+      "message": "your change description says\n\n\"don\u0027t assume that one reflect.Value can be assigned to another just because they have the same reflect.Kind.\"\n\nbut this bit of code here makes exactly that assumption, doesn\u0027t it?",
+      "revId": "f1fc0099c51263d3ba78f223ea34f06c7bc9cf98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
