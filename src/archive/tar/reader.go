@@ -165,7 +165,10 @@ func (tr *Reader) Next() (*Header, error) {
 		if err != nil {
 			return nil, err
 		}
-		hdr, err := tr.Next()
+		hdr, tr.err = tr.Next()
+		if tr.err != nil {
+			return nil, tr.err
+		}
 		hdr.Name = cString(realname)
 		return hdr, err
 	case TypeGNULongLink:
@@ -174,7 +177,10 @@ func (tr *Reader) Next() (*Header, error) {
 		if err != nil {
 			return nil, err
 		}
-		hdr, err := tr.Next()
+		hdr, tr.err = tr.Next()
+		if tr.err != nil {
+			return nil, tr.err
+		}
 		hdr.Linkname = cString(realname)
 		return hdr, err
 	}
