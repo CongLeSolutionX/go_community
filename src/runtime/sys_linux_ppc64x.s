@@ -231,9 +231,9 @@ TEXT runtime·_sigtramp(SB),NOSPLIT,$64
 	BEQ	2(PC)
 	BL	runtime·load_g(SB)
 
-	MOVW	R3, 8(R1)
-	MOVD	R4, 16(R1)
-	MOVD	R5, 24(R1)
+	MOVW	R3, FIXED_STACK+0(R1)
+	MOVD	R4, FIXED_STACK+8(R1)
+	MOVD	R5, FIXED_STACK+16(R1)
 	MOVD	$runtime·sigtrampgo(SB), R31
 	MOVD	R31, CTR
 	BL	(CTR)
