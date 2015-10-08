@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0bd31e7_9a13e9de",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-08T21:10:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d00a915c_3b302227",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d00a915c_9b25cee7",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d0bd31e7_7a0935a9",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-08T21:10:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d00a915c_9b25cee7",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d00a915c_7b2aaab4",
         "filename": "src/cmd/internal/obj/ppc64/obj9.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-10-08T15:39:37Z",
       "side": 1,
       "message": "Checking textstksiz \u003c 0 here changes this code.  Is this a bug fix?",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bd31e7_5a06719b",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-08T21:10:13Z",
+      "side": 1,
+      "message": "This code confused me for a long time. What it is all about is the way you can say:\n\nTEXT foo(SB),$-8\n\nto prevent a stack frame being set up at all. As the default stack frame is 8 bytes, saying you have \"-8\" bytes of local variables cancels that out and this code notices and uses that to suppress the SP manipulations. I decided I didn\u0027t want to change all the $-8\u0027s to $-FIXED_FRAME\u0027s so I\u0027ve changed this code to just take a negative local variable size to suppress the frame setup. This does change behaviour though -- it means you could write TEXT foo(SB),$-1 or $-12234532 and have them behave the same. Options that spring to mind include: a) deciding this is fine and we don\u0027t care, b) checking for textstksiz \u003d\u003d -8 only here, or c) changing the assembly to say $-FIXED_FRAME where appropriate and leave this code alone. \n\nI don\u0027t really have an opinion on which I favour. Maybe b)?",
+      "parentUuid": "d00a915c_7b2aaab4",
       "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
