@@ -122,6 +122,24 @@
       "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bd31e7_7ab7f52d",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-08T22:06:58Z",
+      "side": 1,
+      "message": "The closest thing to documentation for this that I can find is this comment in the /ARM/ section of asm.html: \"When defining a TEXT, specifying frame size $-4 tells the linker that this is a leaf function that does not need to save LR on entry.\"\n\nIn the vein of this sort of thing being very confusing, there are some functions that declare that they take an extremely implausible number of argument bytes, like:\n\n// memequal_varlen(a, b unsafe.Pointer) bool\nTEXT runtime·memequal_varlen(SB),NOSPLIT,$40-17\n\nI don\u0027t know why I mention this here :-) I\u0027ll email golang-dev and austin and minux I guess.\n\nDo you think I should also ask golang-dev about this issue too? I think I also prefer the idea of a NOFRAME flag.",
+      "parentUuid": "d00a915c_91f64f02",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
