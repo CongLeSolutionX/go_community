@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d00a915c_bb3b7206",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T15:45:12Z",
+      "side": 1,
+      "message": "This topic line is kind of long, we can shrink it a bit, maybe\n\nuse ppc64 asm constant for fixed frame size",
+      "revId": "4060323f71291f3d2c8a9e32fd8c28fa9dedcc59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_1b39de0d",
+        "filename": "src/reflect/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T15:45:12Z",
+      "side": 1,
+      "message": "FIXED_FRAME?",
+      "revId": "4060323f71291f3d2c8a9e32fd8c28fa9dedcc59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_5b90864c",
+        "filename": "src/runtime/textflag.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T15:45:12Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like the right place to define FIXED_STACK.  If this is going to stay as a #define, perhaps we need a ppc64-specific .h file.  There is precedent for this in tls_arm64.h.\n\nAlso, needs documentation.\n\nAlso should perhaps be named FIXED_FRAME.",
+      "revId": "4060323f71291f3d2c8a9e32fd8c28fa9dedcc59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
