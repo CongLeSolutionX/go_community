@@ -104,6 +104,24 @@
       "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_91f64f02",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T21:55:29Z",
+      "side": 1,
+      "message": "OK, well, that\u0027s perplexing.  The existing code is perplexing and the new code is perplexing.  Are there any docs on this?\n\nThis change doesn\u0027t seem right to me.  At least the -8 makes a certain weird kind of sense.  A cleaner approach might be another flag NOFRAME.",
+      "parentUuid": "d0bd31e7_5a06719b",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
