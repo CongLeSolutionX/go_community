@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "459421c1_7bd79f1b",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1662,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-10-08T21:13:27Z",
+      "side": 1,
+      "message": "Is this a switch from scan units to bytes. You seem to go out of your way to use units, which is a good idea, but here you let Bytes slip in.",
+      "range": {
+        "startLine": 1662,
+        "startChar": 5,
+        "endLine": 1662,
+        "endChar": 18
+      },
+      "revId": "9fd4458cf1badc76b9adfe00f703ac3587211dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "459421c1_bbfbe7a9",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-10-08T21:13:27Z",
+      "side": 1,
+      "message": "Use of Bytes instead of units again. I really like units since it provides an easy tuning point.",
+      "revId": "9fd4458cf1badc76b9adfe00f703ac3587211dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
