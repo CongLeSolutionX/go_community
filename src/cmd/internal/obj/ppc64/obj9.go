@@ -314,13 +314,17 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		case obj.ATEXT:
 			mov = AMOVD
 			aoffset = 0
-			autosize = int32(textstksiz + 8)
-			if (p.Mark&LEAF != 0) && autosize <= 8 {
+			if textstksiz < 0 {
+				autosize = 0
+			} else {
+				autosize = int32(textstksiz + ctxt.FixedFrameSize())
+			}
+			if (p.Mark&LEAF != 0) && autosize <= int32(ctxt.FixedFrameSize()) {
 				autosize = 0
 			} else if autosize&4 != 0 {
 				autosize += 4
 			}
-			p.To.Offset = int64(autosize) - 8
+			p.To.Offset = int64(autosize) - ctxt.FixedFrameSize()
 
 			if p.From3.Offset&obj.NOSPLIT == 0 {
 				p = stacksplit(ctxt, p, autosize) // emit split check
@@ -427,7 +431,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 				q = obj.Appendp(ctxt, q)
 				q.As = AADD
 				q.From.Type = obj.TYPE_CONST
-				q.From.Offset = int64(autosize) + 8
+				q.From.Offset = int64(autosize) + ctxt.FixedFrameSize()
 				q.Reg = REGSP
 				q.To.Type = obj.TYPE_REG
 				q.To.Reg = REG_R5
@@ -447,7 +451,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 				q = obj.Appendp(ctxt, q)
 				q.As = AADD
 				q.From.Type = obj.TYPE_CONST
-				q.From.Offset = 8
+				q.From.Offset = ctxt.FixedFrameSize()
 				q.Reg = REGSP
 				q.To.Type = obj.TYPE_REG
 				q.To.Reg = REG_R6
