@@ -982,11 +982,12 @@ func hostlink() {
 		if HEADTYPE == obj.Hdarwin {
 			argv = append(argv, "-dynamiclib")
 		} else {
+			// ELF.
 			argv = append(argv, "-Wl,-Bsymbolic")
 			if UseRelro() {
 				argv = append(argv, "-Wl,-z,relro")
 			}
-			argv = append(argv, "-shared")
+			argv = append(argv, "-shared", "-Wl,-z,nodelete")
 		}
 	case BuildmodeShared:
 		// TODO(mwhudson): unless you do this, dynamic relocations fill
