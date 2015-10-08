@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d00a915c_3b302227",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T15:39:37Z",
+      "side": 1,
+      "message": "FixedFrameSize ?",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_9b25cee7",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T15:39:37Z",
+      "side": 1,
+      "message": "Please fill in TODO.",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_7b2aaab4",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T15:39:37Z",
+      "side": 1,
+      "message": "Checking textstksiz \u003c 0 here changes this code.  Is this a bug fix?",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
