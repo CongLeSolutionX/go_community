@@ -523,6 +523,16 @@ type Link struct {
 	Etextp             *LSym
 }
 
+// TODO(mwhudson): document
+func (ctxt *Link) FixedStackSize() int64 {
+	switch ctxt.Arch.Thechar {
+	case '6', '8':
+		return 0
+	default:
+		return int64(ctxt.Arch.Ptrsize)
+	}
+}
+
 type SymVer struct {
 	Name    string
 	Version int // TODO: make int16 to match LSym.Version?
