@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9555663b_c0fc94de",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_7d58cf75",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_bd61c71c",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "symmetry",
+      "range": {
+        "startLine": 85,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 12
+      },
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_a0f9a0ec",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_bd61c71c",
       "range": {
         "startLine": 85,
         "startChar": 5,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_00f7acf8",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_dd963b3e",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_1de713e4",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -76,6 +142,24 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "resolve",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_20891061",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "added better comment",
+      "parentUuid": "9555663b_1de713e4",
       "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -117,6 +201,42 @@
     },
     {
       "key": {
+        "uuid": "9555663b_c0777410",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done\n\n(perhaps something for a fancy library-aware vet tool)",
+      "parentUuid": "9555663b_00a4cc6f",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_6bd2c93f",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_dd6f5bea",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_5d0a2b2c",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -128,6 +248,24 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "Explain why types are not sorted here.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_0bf6adc3",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_5d0a2b2c",
       "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_6b5da964",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_5dd86b0c",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_fdc69f2c",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -162,6 +318,24 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "Leave this out for now?",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_0b6ced0e",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "simplified and better comments for now",
+      "parentUuid": "9555663b_fdc69f2c",
       "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_cbf5d58a",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "rephrased comments",
+      "parentUuid": "9555663b_3d6f77c4",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_dd791b8a",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_cb7835ba",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_dd791b8a",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_3ddad7e0",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -213,6 +423,24 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "Use same mechanism as for functions?",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_eb96d93d",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "added TODO",
+      "parentUuid": "9555663b_3ddad7e0",
       "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -242,6 +470,30 @@
     },
     {
       "key": {
+        "uuid": "9555663b_0b9a2d62",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_7de44f9d",
+      "range": {
+        "startLine": 601,
+        "startChar": 19,
+        "endLine": 601,
+        "endChar": 27
+      },
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_9d132328",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -253,6 +505,24 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "Explain",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_ab8ce12d",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_9d132328",
       "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -276,6 +546,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_6b364918",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "added comment",
+      "parentUuid": "9555663b_dd22bb63",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_bd7a673e",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -293,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "9555663b_2b3c51f6",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "9555663b_bd7a673e",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_1dd1d393",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 14
@@ -304,6 +610,24 @@
       "writtenOn": "2015-09-30T21:29:10Z",
       "side": 1,
       "message": "Same as above.",
+      "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_4b370516",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-08T20:21:58Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "9555663b_1dd1d393",
       "revId": "c696152612f5c7f26c9ff7e7923c9bf249106855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
