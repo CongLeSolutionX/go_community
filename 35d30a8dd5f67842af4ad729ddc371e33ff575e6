@@ -140,6 +140,24 @@
       "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aeb1664_21b30e2a",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-10-08T22:11:09Z",
+      "side": 1,
+      "message": "// memequal_varlen(a, b unsafe.Pointer) bool\nTEXT runtime·memequal_varlen(SB),NOSPLIT,$40-17\n\nI think the argument size (17) is correct. Even though it\u0027s also\ncorrect to specify 24 here.\n\nYeah, sparc also seems to have very interesting stack\nlayout, I think we\u0027d better introduce NOFRAME option.",
+      "parentUuid": "d0bd31e7_7ab7f52d",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
