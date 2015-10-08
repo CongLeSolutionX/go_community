@@ -16,6 +16,24 @@
       "revId": "497aef7f49d412d5fc4f5c9e1ea95eaa301034f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bd31e7_da196100",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-08T20:59:46Z",
+      "side": 1,
+      "message": "I translated the picture I drew when debugging this into ascii art.",
+      "parentUuid": "d00a915c_1b0b9e61",
+      "revId": "497aef7f49d412d5fc4f5c9e1ea95eaa301034f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
