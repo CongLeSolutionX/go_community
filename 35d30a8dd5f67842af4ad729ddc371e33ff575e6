@@ -158,6 +158,24 @@
       "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0bd31e7_da8cc176",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-08T22:40:38Z",
+      "side": 1,
+      "message": "Oh, it includes the bool return value. Duh.",
+      "parentUuid": "0aeb1664_21b30e2a",
+      "revId": "35d30a8dd5f67842af4ad729ddc371e33ff575e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
