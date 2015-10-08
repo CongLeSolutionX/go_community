@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d00a915c_188e0429",
+        "filename": "src/runtime/memclr_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-08T00:45:54Z",
+      "side": 1,
+      "message": "\u0027Doh. Okay.\n\nNote that everywhere else in the source we use either \"issue NNNN\" or \"golang.org/issue/NNNN\".",
+      "parentUuid": "35975a56_d2a3a467",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfefa9fe_b0b11817",
         "filename": "src/runtime/memclr_arm64.s",
         "patchSetId": 3
@@ -188,6 +206,24 @@
       "side": 1,
       "message": "Do you think this is really worth it? I\u0027m not convinced. I\u0027ll add the comment if you like...",
       "parentUuid": "15117609_9c0729e6",
+      "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_7878f0b4",
+        "filename": "src/runtime/memmove_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-08T00:45:54Z",
+      "side": 1,
+      "message": "I guess your benchmarks show that it makes surprisingly little difference, so perhaps not.",
+      "parentUuid": "35975a56_526974ba",
       "revId": "b8fe4f31294680ea9107a7e7d4d60d1c149d3cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
