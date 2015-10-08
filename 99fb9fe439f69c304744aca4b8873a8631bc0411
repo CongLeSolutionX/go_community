@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "459421c1_5bc3c36a",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2015-10-08T20:59:55Z",
+      "side": 1,
+      "message": "If I\u0027m reading this correctly 2000 is the number of bytes collected. This seems pretty low given that when it is filled causes an atomic CAS (XADD) later in the CL.",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 690,
+        "endChar": 26
+      },
+      "revId": "99fb9fe439f69c304744aca4b8873a8631bc0411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
