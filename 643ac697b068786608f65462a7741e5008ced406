@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d00a915c_91c92f86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T19:51:17Z",
+      "side": 1,
+      "message": "Good point, I added some issues.",
+      "parentUuid": "d0bd31e7_5add5175",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "643ac697b068786608f65462a7741e5008ced406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0bd31e7_7ae01533",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-08T19:43:46Z",
       "side": 1,
       "message": "A small comment as to why we\u0027re doing this?",
+      "range": {
+        "startLine": 990,
+        "startChar": 42,
+        "endLine": 990,
+        "endChar": 50
+      },
+      "revId": "643ac697b068786608f65462a7741e5008ced406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d00a915c_d1e29702",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-08T19:51:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0bd31e7_7ae01533",
       "range": {
         "startLine": 990,
         "startChar": 42,
