@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaf16251_94ec54c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-09T21:41:07Z",
+      "side": 1,
+      "message": "Can you reference a bug number in this commit message? It\u0027s not clear from this text alone why this warrants being on the 1.5 release branch.",
+      "revId": "c44870cb321fe3117489d8cfe2260df80d1d4538",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
