@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaf16251_5475acbb",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-09T21:48:21Z",
+      "side": 1,
+      "message": "Is racefuncenter still used?",
+      "range": {
+        "startLine": 191,
+        "startChar": 5,
+        "endLine": 191,
+        "endChar": 18
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf16251_74c31021",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-09T21:48:21Z",
+      "side": 1,
+      "message": "This confuses me.  What is nodfp, exactly?  It\u0027s not a variable that holds the fp, I guess.  It is a (zero-sized?) placeholder in the stack frame, and its address is the frame pointer?\nWhy is its type int32?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf16251_54f6cc92",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-09T21:48:21Z",
+      "side": 1,
+      "message": "I think we can just delete this.  These conversions are fine in non-race mode, I don\u0027t see why they would be bad in race mode.",
+      "range": {
+        "startLine": 1378,
+        "startChar": 2,
+        "endLine": 1384,
+        "endChar": 3
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf16251_741af082",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-09T21:48:21Z",
+      "side": 1,
+      "message": "s/pc/fp/",
+      "range": {
+        "startLine": 162,
+        "startChar": 32,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf16251_f4ae006f",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-09T21:48:21Z",
+      "side": 1,
+      "message": "// R11 \u003d caller\u0027s return address.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 4
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
