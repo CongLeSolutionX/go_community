@@ -71,6 +71,64 @@
     },
     {
       "key": {
+        "uuid": "eaf16251_9470d467",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-10-09T22:23:59Z",
+      "side": 1,
+      "message": "IIRC, if we don\u0027t delete this, they\u0027ll fail on the Fatalf below. I don\u0027t have my setup here, but David, want to paste in a decent-sized sample of the sorts of conversions we see here?",
+      "parentUuid": "eaf16251_54f6cc92",
+      "range": {
+        "startLine": 1378,
+        "startChar": 2,
+        "endLine": 1384,
+        "endChar": 3
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf16251_9459f4e7",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4362,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-10-09T22:23:59Z",
+      "side": 1,
+      "message": "You could make alwaysLog vary based on the architecture (perhaps even with a bit of refactoring to add a function that reports whether an architecture has SSA support yet. Right now that intel is scattered.",
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf16251_347fc835",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2015-10-09T22:23:59Z",
+      "side": 1,
+      "message": "Please delete dead code rather than commenting it out.",
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaf16251_741af082",
         "filename": "src/runtime/race_amd64.s",
         "patchSetId": 2
