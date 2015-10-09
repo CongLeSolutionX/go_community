@@ -85,9 +85,14 @@ func schedule(f *Func) {
 				// context register is not stomped.  GetLoweredClosurePtr should only appear
 				// in the entry block where there are no phi functions, so there is no
 				// conflict or ambiguity here.
-				if b != f.Entry {
-					f.Fatalf("LoweredGetClosurePtr appeared outside of entry block.")
-				}
+				//
+				// Exception: when race detection is enabled, the first block contains
+				// race detection code, that is very careful to preserve the closure
+				// pointer.  So it is okay for this to appear in a non-first block.
+				//
+				// if b != f.Entry {
+				// 	f.Fatalf("LoweredGetClosurePtr appeared outside of entry block, b=%s", b.String())
+				// }
 				score[v.ID] = ScorePhi
 			case v.Op == OpPhi:
 				// We want all the phis first.
