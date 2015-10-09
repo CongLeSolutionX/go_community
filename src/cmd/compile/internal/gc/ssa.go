@@ -1376,8 +1376,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 
 		if flag_race != 0 {
-			s.Unimplementedf("questionable CONVNOP from race detector %v -> %v\n", from, to)
-			return nil
+			// s.Unimplementedf
+			// fmt.Printf("questionable CONVNOP from race detector %v -> %v\n", from, to)
+			// TODO fix these, there's a ton of them and they indicate likely
+			// problems in any port to a non-64-bit architecture
+			return v
 		}
 
 		if etypesign(from.Etype) == 0 {
@@ -2285,6 +2288,11 @@ func (s *state) addr(n *Node) *ssa.Value {
 		original_p.Xoffset = n.Xoffset
 		aux := &ssa.ArgSymbol{Typ: n.Type, Node: &original_p}
 		return s.entryNewValue1A(ssa.OpAddr, Ptrto(n.Type), aux, s.sp)
+	case OCONVNOP:
+		addr := s.addr(n.Left)
+		to := Ptrto(n.Type)
+		return s.newValue1(ssa.OpCopy, to, addr) // ensure that addr has the right type
+
 	default:
 		s.Unimplementedf("unhandled addr %v", Oconv(int(n.Op), 0))
 		return nil
