@@ -9,6 +9,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
+	"syscall"
 	"testing"
 )
 
@@ -80,6 +82,27 @@ func checkErrorPredicate(predName string, pred func(error) bool, err error) stri
 	return ""
 }
 
+func sysENOENT() syscall.Errno {
+	if runtime.GOOS == "windows" {
+		return syscall.Errno(53) // ERROR_BAD_NETPATH
+	}
+	return syscall.ENOENT
+}
+
+func sysEEXIST() syscall.Errno {
+	if runtime.GOOS == "windows" {
+		return syscall.Errno(80) // ERROR_FILE_EXISTS
+	}
+	return syscall.EEXIST
+}
+
+func sysEPERM() syscall.Errno {
+	if runtime.GOOS == "windows" {
+		return syscall.Errno(5) // ERROR_ACCESS_DENIED
+	}
+	return syscall.EPERM
+}
+
 var isExistTests = []struct {
 	err   error
 	is    bool
@@ -93,6 +116,8 @@ var isExistTests = []struct {
 	{&os.LinkError{Err: os.ErrPermission}, false, false},
 	{&os.LinkError{Err: os.ErrExist}, true, false},
 	{&os.LinkError{Err: os.ErrNotExist}, false, true},
+	{&os.SyscallError{Err: sysENOENT()}, false, true},
+	{&os.SyscallError{Err: sysEEXIST()}, true, false},
 	{nil, false, false},
 }
 
@@ -103,6 +128,23 @@ func TestIsExist(t *testing.T) {
 		}
 		if isnot := os.IsNotExist(tt.err); isnot != tt.isnot {
 			t.Errorf("os.IsNotExist(%T %v) = %v, want %v", tt.err, tt.err, isnot, tt.isnot)
+		}
+	}
+}
+
+var isPermissionTests = []struct {
+	err  error
+	want bool
+}{
+	{nil, false},
+	{&os.PathError{Err: os.ErrPermission}, true},
+	{&os.SyscallError{Err: sysEPERM()}, true},
+}
+
+func TestIsPermission(t *testing.T) {
+	for _, tt := range isPermissionTests {
+		if got := os.IsPermission(tt.err); got != tt.want {
+			t.Errorf("os.IsPermission(%#v) = %v; want %v", tt.err, got, tt.want)
 		}
 	}
 }
