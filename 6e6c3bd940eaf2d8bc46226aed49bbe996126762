@@ -52,6 +52,24 @@
       "revId": "6e6c3bd940eaf2d8bc46226aed49bbe996126762",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cad81e3d_5f496b24",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2015-10-11T13:33:37Z",
+      "side": 1,
+      "message": "Ok, so I left it as is. \n\n@Marvin, is this ok with you?",
+      "parentUuid": "8497f201_f637ef15",
+      "revId": "6e6c3bd940eaf2d8bc46226aed49bbe996126762",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
