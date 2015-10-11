@@ -1497,17 +1497,6 @@ var morestack *LSym
 // TODO: Record enough information in new object files to
 // allow stack checks here.
 
-func haslinkregister() bool {
-	return Thearch.Thechar == '5' || Thearch.Thechar == '9' || Thearch.Thechar == '7'
-}
-
-func callsize() int {
-	if haslinkregister() {
-		return 0
-	}
-	return Thearch.Regsize
-}
-
 func dostkcheck() {
 	var ch Chain
 
@@ -1516,13 +1505,13 @@ func dostkcheck() {
 	// Every splitting function ensures that there are at least StackLimit
 	// bytes available below SP when the splitting prologue finishes.
 	// If the splitting function calls F, then F begins execution with
-	// at least StackLimit - callsize() bytes available.
+	// at least StackLimit - int(Ctxt.FixedFrameSize()) bytes available.
 	// Check that every function behaves correctly with this amount
 	// of stack, following direct calls in order to piece together chains
 	// of non-splitting functions.
 	ch.up = nil
 
-	ch.limit = obj.StackLimit - callsize()
+	ch.limit = obj.StackLimit - int(Ctxt.FixedFrameSize())
 
 	// Check every function, but do the nosplit functions in a first pass,
 	// to make the printed failure chains as short as possible.
@@ -1556,7 +1545,7 @@ func stkcheck(up *Chain, depth int) int {
 
 	// Don't duplicate work: only need to consider each
 	// function at top of safe zone once.
-	top := limit == obj.StackLimit-callsize()
+	top := limit == obj.StackLimit-int(Ctxt.FixedFrameSize())
 	if top {
 		if s.Stkcheck != 0 {
 			return 0
@@ -1597,7 +1586,7 @@ func stkcheck(up *Chain, depth int) int {
 
 	if s.Nosplit == 0 {
 		// Ensure we have enough stack to call morestack.
-		ch.limit = limit - callsize()
+		ch.limit = limit - int(Ctxt.FixedFrameSize())
 		ch.sym = morestack
 		if stkcheck(&ch, depth+1) < 0 {
 			return -1
@@ -1606,10 +1595,7 @@ func stkcheck(up *Chain, depth int) int {
 			return 0
 		}
 		// Raise limit to allow frame.
-		limit = int(obj.StackLimit + s.Locals)
-		if haslinkregister() {
-			limit += Thearch.Regsize
-		}
+		limit = int(obj.StackLimit+s.Locals) + int(Ctxt.FixedFrameSize())
 	}
 
 	// Walk through sp adjustments in function, consuming relocs.
@@ -1634,7 +1620,7 @@ func stkcheck(up *Chain, depth int) int {
 			switch r.Type {
 			// Direct call.
 			case obj.R_CALL, obj.R_CALLARM, obj.R_CALLARM64, obj.R_CALLPOWER:
-				ch.limit = int(int32(limit) - pcsp.value - int32(callsize()))
+				ch.limit = int(int32(limit) - pcsp.value - int32(int(Ctxt.FixedFrameSize())))
 				ch.sym = r.Sym
 				if stkcheck(&ch, depth+1) < 0 {
 					return -1
@@ -1645,10 +1631,10 @@ func stkcheck(up *Chain, depth int) int {
 			// Arrange the data structures to report both calls, so that
 			// if there is an error, stkprint shows all the steps involved.
 			case obj.R_CALLIND:
-				ch.limit = int(int32(limit) - pcsp.value - int32(callsize()))
+				ch.limit = int(int32(limit) - pcsp.value - int32(int(Ctxt.FixedFrameSize())))
 
 				ch.sym = nil
-				ch1.limit = ch.limit - callsize() // for morestack in called prologue
+				ch1.limit = ch.limit - int(Ctxt.FixedFrameSize()) // for morestack in called prologue
 				ch1.up = &ch
 				ch1.sym = morestack
 				if stkcheck(&ch1, depth+2) < 0 {
@@ -1686,8 +1672,8 @@ func stkprint(ch *Chain, limit int) {
 			fmt.Printf("\t%d\tguaranteed after split check in %s\n", ch.limit, name)
 		}
 	} else {
-		stkprint(ch.up, ch.limit+callsize())
-		if !haslinkregister() {
+		stkprint(ch.up, ch.limit+int(Ctxt.FixedFrameSize()))
+		if Ctxt.FixedFrameSize() == 0 {
 			fmt.Printf("\t%d\ton entry to %s\n", ch.limit, name)
 		}
 	}
