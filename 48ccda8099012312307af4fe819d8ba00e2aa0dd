@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a149288_a42fe22b",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-10-11T16:06:33Z",
+      "side": 1,
+      "message": "if c :\u003d p.peek(); !isAtext(c, false) {\n        if c \u003e 127 {\n                return \"\", errNonASCII\n        }\n        return \"\", errors.New(\"mail: invalid string\")\n}",
+      "range": {
+        "startLine": 452,
+        "startChar": 1,
+        "endLine": 456,
+        "endChar": 2
+      },
+      "revId": "48ccda8099012312307af4fe819d8ba00e2aa0dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a149288_842c6638",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2015-10-11T16:06:33Z",
+      "side": 1,
+      "message": "if c :\u003d p.s[i]; !isAtext(c, dot) {\n        if c \u003e 127 {\n\t\treturn \"\", errNonASCII\n\t}\n\tbreak\n}",
+      "range": {
+        "startLine": 459,
+        "startChar": 2,
+        "endLine": 465,
+        "endChar": 3
+      },
+      "revId": "48ccda8099012312307af4fe819d8ba00e2aa0dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
