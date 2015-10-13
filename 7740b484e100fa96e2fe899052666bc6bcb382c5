@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f302a80_d6a284d2",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-13T00:57:27Z",
+      "side": 1,
+      "message": "Yes, it is used within the race detector itself.",
+      "parentUuid": "eaf16251_5475acbb",
+      "range": {
+        "startLine": 191,
+        "startChar": 5,
+        "endLine": 191,
+        "endChar": 18
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaf16251_74c31021",
         "filename": "src/cmd/compile/internal/gc/racewalk.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-09T21:48:21Z",
       "side": 1,
       "message": "This confuses me.  What is nodfp, exactly?  It\u0027s not a variable that holds the fp, I guess.  It is a (zero-sized?) placeholder in the stack frame, and its address is the frame pointer?\nWhy is its type int32?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f302a80_f6a780df",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-13T00:57:27Z",
+      "side": 1,
+      "message": "I think int32 is just a type that got picked for it.  I had the same question for Russ, and it just exists so you can take its address.",
+      "parentUuid": "eaf16251_74c31021",
       "range": {
         "startLine": 67,
         "startChar": 0,
