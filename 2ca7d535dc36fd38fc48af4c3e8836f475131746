@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "aac5aa25_f4693077",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-14T04:19:40Z",
+      "side": 1,
+      "message": "Yeah, the *T T thing is what I was thinking of.\nI don\u0027t think modifying the indirect function itself will be a silver bullet here.",
+      "parentUuid": "df39c202_ea5a5864",
+      "revId": "2ca7d535dc36fd38fc48af4c3e8836f475131746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aac5aa25_94f1cc56",
         "filename": "src/text/template/exec.go",
         "patchSetId": 2
