@@ -967,6 +967,25 @@ func TestTLSServer(t *testing.T) {
 	})
 }
 
+func TestServer_HTTP2_Auto(t *testing.T) { testHTTP2Enabled(t, false, true) }
+func TestServer_HTTP2_On(t *testing.T)   { testHTTP2Enabled(t, true, true) }
+func TestServer_HTTP2_Off(t *testing.T)  { testHTTP2Enabled(t, true, false) }
+
+func testHTTP2Enabled(t *testing.T, callSet, value bool) {
+	var s Server
+	if callSet {
+		s.SetHTTP2Enabled(value)
+	}
+	// Call ListenAndServeTLS for its side effects only.
+	if err := s.ListenAndServeTLS("", ""); err == nil {
+		t.Fatal("expected an error")
+	}
+	got := s.TLSNextProto["h2"] != nil
+	if got != value {
+		t.Errorf("http2 enabled = %v; want %v", got, value)
+	}
+}
+
 type serverExpectTest struct {
 	contentLength    int // of request body
 	chunked          bool
