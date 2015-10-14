@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aac5aa25_f43ff07f",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-14T03:38:46Z",
+      "side": 1,
+      "message": "What about this sentence? This change doesn\u0027t honor that intent.\nI don\u0027t think this fix is correct.",
+      "revId": "2ca7d535dc36fd38fc48af4c3e8836f475131746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aac5aa25_94f1cc56",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-14T03:38:46Z",
+      "side": 1,
+      "message": "elem :\u003d v.Elem()\nif elem \u003d\u003d v {\n  break\n}\nv \u003d elem",
+      "revId": "2ca7d535dc36fd38fc48af4c3e8836f475131746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
