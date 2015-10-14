@@ -255,6 +255,9 @@ type regAllocState struct {
 	// Home locations (registers) for Values
 	home []Location
 
+	// Available spill locations by type
+	freeSpillLocs map[Type][]*LocalSlot
+
 	// current block we're working on
 	curBlock *Block
 }
@@ -294,7 +297,32 @@ func (s *regAllocState) getHome(v *Value) register {
 	if int(v.ID) >= len(s.home) || s.home[v.ID] == nil {
 		return noRegister
 	}
-	return register(s.home[v.ID].(*Register).Num)
+	switch h := s.home[v.ID].(type) {
+	case *Register:
+		return register(h.Num)
+	default:
+		return noRegister
+	}
+}
+
+func (s *regAllocState) getStackHome(v *Value) *LocalSlot {
+	if int(v.ID) >= len(s.home) || s.home[v.ID] == nil {
+		return nil
+	}
+	switch h := s.home[v.ID].(type) {
+	case *LocalSlot:
+		return h
+	default:
+		return nil
+	}
+}
+func (s *regAllocState) setStackHome(v *Value, loc *LocalSlot) {
+	// Remember assignment.
+	for int(v.ID) >= len(s.home) {
+		s.home = append(s.home, nil)
+		s.home = s.home[:cap(s.home)]
+	}
+	s.home[v.ID] = loc
 }
 
 // assignReg assigns register r to hold c, a copy of v.
@@ -438,14 +466,20 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool) *Val
 			if logSpills {
 				fmt.Println("regalloc: load spill2")
 			}
+			if !vi.spill2used {
+				s.setStackHome(vi.spill2, s.getSpillLoc(v))
+				vi.spill2used = true
+			}
 			c = s.curBlock.NewValue1(v.Line, OpLoadReg, v.Type, vi.spill2)
-			vi.spill2used = true
 		case vi.spill != nil:
 			if logSpills {
 				fmt.Println("regalloc: load spill")
 			}
+			if !vi.spillUsed {
+				s.setStackHome(vi.spill, s.getSpillLoc(v))
+				vi.spillUsed = true
+			}
 			c = s.curBlock.NewValue1(v.Line, OpLoadReg, v.Type, vi.spill)
-			vi.spillUsed = true
 		default:
 			s.f.Fatalf("attempt to load unspilled value %v", v.LongString())
 		}
@@ -528,6 +562,8 @@ func (s *regAllocState) init(f *Func) {
 	if pc*2 < 0 {
 		f.Fatalf("pc too large: function too big")
 	}
+
+	s.freeSpillLocs = map[Type][]*LocalSlot{}
 }
 
 // clearUses drops any uses <= useIdx.  Any values which have no future
@@ -548,6 +584,12 @@ func (s *regAllocState) clearUses(useIdx int32) {
 		}
 		// Value is dead, free all registers that hold it (except SP & SB).
 		s.freeRegs(vi.regs &^ (1<<4 | 1<<32))
+
+		// Free any stack slot the value used.
+		if vi.spillUsed {
+			//fmt.Printf("free %s\n", s.getStackHome(vi.spill))
+			s.freeSpillLocs[vi.spill.Type] = append(s.freeSpillLocs[vi.spill.Type], s.getStackHome(vi.spill))
+		}
 	}
 }
 
@@ -560,6 +602,18 @@ func (s *regAllocState) setState(state []regState) {
 		}
 		s.assignReg(register(r), x.v, x.c)
 	}
+}
+
+// Get a location to spill v.
+func (s *regAllocState) getSpillLoc(v *Value) *LocalSlot {
+	// See if there are any spill locations we can reuse.
+	// TODO: check s.spillLocs
+	free := s.freeSpillLocs[v.Type]
+	if len(free) > 0 {
+		s.freeSpillLocs[v.Type] = free[1:]
+		return free[0]
+	}
+	return &LocalSlot{s.f.Config.fe.Auto(v.Type)}
 }
 
 // compatReg returns a register compatible with the a value and is used when
@@ -687,6 +741,7 @@ func (s *regAllocState) regalloc(f *Func) {
 					// Spills will be inserted in all the predecessors below.
 					s.values[v.ID].spill = v        // v starts life spilled
 					s.values[v.ID].spillUsed = true // use is guaranteed
+					s.setStackHome(v, s.getSpillLoc(v))
 					continue
 				}
 				// register-based phi
@@ -865,6 +920,7 @@ func (s *regAllocState) regalloc(f *Func) {
 				c := s.allocValToReg(v, s.values[v.ID].regs|compatReg(v), false)
 				d := p.NewValue1(v.Line, OpStoreReg, v.Type, c)
 				s.values[v.ID].spill2 = d
+				s.values[v.ID].spill2used = false
 			}
 
 			// Assign to stack-based phis.  We do stack phis first because
@@ -876,6 +932,7 @@ func (s *regAllocState) regalloc(f *Func) {
 				w := v.Args[i]
 				c := s.allocValToReg(w, s.values[w.ID].regs|compatReg(w), false)
 				v.Args[i] = p.NewValue1(v.Line, OpStoreReg, v.Type, c)
+				s.setStackHome(v.Args[i], s.getStackHome(v))
 			}
 			// Figure out what value goes in each register.
 			for r := register(0); r < numRegs; r++ {
