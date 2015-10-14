@@ -2043,6 +2043,10 @@ func (srv *Server) ListenAndServeTLS(certFile, keyFile string) error {
 		}
 	}
 
+	if srv.TLSNextProto == nil {
+		http2ConfigureServer(srv, nil)
+	}
+
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err
