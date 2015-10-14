@@ -1895,6 +1895,7 @@ func (srv *Server) ListenAndServe() error {
 // Serve always returns a non-nil error.
 func (srv *Server) Serve(l net.Listener) error {
 	defer l.Close()
+
 	var tempDelay time.Duration // how long to sleep on accept failure
 	for {
 		rw, e := l.Accept()
@@ -2048,8 +2049,28 @@ func (srv *Server) ListenAndServeTLS(certFile, keyFile string) error {
 		return err
 	}
 
+	if srv.TLSNextProto == nil {
+		srv.SetHTTP2Enabled(true)
+	}
+
 	tlsListener := tls.NewListener(tcpKeepAliveListener{ln.(*net.TCPListener)}, config)
 	return srv.Serve(tlsListener)
+}
+
+// SetHTTP2Enabled sets whether HTTP/2 should be enabled for this server.
+// Note that ListenAndServeTLS sets this to true by default, unless this is
+// called with false.
+func (srv *Server) SetHTTP2Enabled(v bool) {
+	if v {
+		http2ConfigureServer(srv, nil)
+	} else {
+		if srv.TLSNextProto == nil {
+			// Non-nil, so ListenAndServeTLS won't turn it on by default.
+			srv.TLSNextProto = make(map[string]func(*Server, *tls.Conn, Handler))
+		} else {
+			delete(srv.TLSNextProto, "h2")
+		}
+	}
 }
 
 // TimeoutHandler returns a Handler that runs h with the given time limit.
