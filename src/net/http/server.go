@@ -25,6 +25,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	_ "golang.org/x/net/http2" // unused still; test that it compiles
 )
 
 // Errors introduced by the HTTP server.
