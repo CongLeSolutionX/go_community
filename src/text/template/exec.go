@@ -829,16 +829,17 @@ func (s *state) evalEmptyInterface(dot reflect.Value, n parse.Node) reflect.Valu
 }
 
 // indirect returns the item at the end of indirection, and a bool to indicate if it's nil.
-// We indirect through pointers and empty interfaces (only) because
-// non-empty interfaces have methods we might need.
+// We indirect through pointers and interfaces.
 func indirect(v reflect.Value) (rv reflect.Value, isNil bool) {
-	for ; v.Kind() == reflect.Ptr || v.Kind() == reflect.Interface; v = v.Elem() {
+	for v.Kind() == reflect.Ptr || v.Kind() == reflect.Interface {
 		if v.IsNil() {
 			return v, true
 		}
-		if v.Kind() == reflect.Interface && v.NumMethod() > 0 {
+		elem := v.Elem()
+		if elem == v {
 			break
 		}
+		v = elem
 	}
 	return v, false
 }
