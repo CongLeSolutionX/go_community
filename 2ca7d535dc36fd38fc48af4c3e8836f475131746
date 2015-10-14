@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "df39c202_ea6ff8e5",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-14T05:20:38Z",
+      "side": 1,
+      "message": "I\u0027ve analyzed all usages of indirect. As a result found new bugs (https://github.com/golang/go/issues/12924#issuecomment-147934612)\nadded new tests\n\nAll new use cases need a fix, so indirect is right place for the fix.\n\nApparently, it is safe to derefence *T to T, even if T doesn\u0027t implement an interface, because code that resolves a method calls reflect.Value.MethodByName on a pointer to the indirected value https://github.com/golang/go/blob/master/src/text/template/exec.go#L529-L535\n\nSo I think the fix is correct.",
+      "parentUuid": "aac5aa25_f4693077",
+      "revId": "2ca7d535dc36fd38fc48af4c3e8836f475131746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aac5aa25_94f1cc56",
         "filename": "src/text/template/exec.go",
         "patchSetId": 2
