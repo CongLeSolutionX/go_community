@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df39c202_c0fbf372",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2047,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-10-14T21:20:11Z",
+      "side": 1,
+      "message": "Brad, how do I enable http2 for custom listeners and servers? Do I need to import `golang.org/x/net/http2`? I doubt that tree shaking will remove the bundled http2 code.\n\nWould it make sense to export a function or to put this in Server.Serve(...)?",
+      "revId": "ee463ed7bf6ba81a8ebc34959034b61de27435c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
