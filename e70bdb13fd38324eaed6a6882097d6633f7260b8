@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df39c202_0a697c6f",
+        "filename": "src/compress/gzip/gunzip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-14T15:49:14Z",
+      "side": 1,
+      "message": "I\u0027d just say \"want io.EOF\" and drop the io.EOF argument",
+      "revId": "e70bdb13fd38324eaed6a6882097d6633f7260b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
