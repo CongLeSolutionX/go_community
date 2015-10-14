@@ -755,6 +755,106 @@ func TestSetsRemoteAddr(t *testing.T) {
 	}
 }
 
+type blockingRemoteAddrListener struct {
+	net.Listener
+	conns chan<- net.Conn
+}
+
+func (l *blockingRemoteAddrListener) Accept() (net.Conn, error) {
+	c, err := l.Listener.Accept()
+	if err != nil {
+		return nil, err
+	}
+	brac := &blockingRemoteAddrConn{
+		Conn:  c,
+		addrs: make(chan net.Addr, 1),
+	}
+	l.conns <- brac
+	return brac, nil
+}
+
+type blockingRemoteAddrConn struct {
+	net.Conn
+	addrs chan net.Addr
+}
+
+func (c *blockingRemoteAddrConn) RemoteAddr() net.Addr {
+	return <-c.addrs
+}
+
+func TestAllowsBlockingRemoteAddr(t *testing.T) {
+	defer afterTest(t)
+	ts := httptest.NewUnstartedServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		_, _ = w.Write([]byte("RA: " + r.RemoteAddr))
+	}))
+	conns := make(chan net.Conn)
+	ts.Listener = &blockingRemoteAddrListener{
+		Listener: ts.Listener,
+		conns:    conns,
+	}
+	ts.Start()
+	defer ts.Close()
+
+	tr := &Transport{DisableKeepAlives: true}
+	defer tr.CloseIdleConnections()
+	c := &Client{Transport: tr, Timeout: time.Second}
+
+	fetch := func(response chan string) {
+		resp, err := c.Get(ts.URL)
+		if err != nil {
+			t.Error(err)
+			response <- ""
+			return
+		}
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			t.Error(err)
+			response <- ""
+			return
+		}
+		response <- string(body)
+	}
+
+	// Start a request. The server will block on getting conn.RemoteAddr.
+	response1c := make(chan string, 1)
+	go fetch(response1c)
+
+	// Wait for the server to accept it; grab the connection.
+	conn1 := <-conns
+
+	// Start another request and grab its connection
+	response2c := make(chan string, 1)
+	go fetch(response2c)
+	var conn2 net.Conn
+
+	select {
+	case conn2 = <-conns:
+	case <-time.After(time.Second):
+		t.Fatal("Second Accept didn't happen")
+	}
+
+	// Send a response on connection 2.
+	conn2.(*blockingRemoteAddrConn).addrs <- &net.TCPAddr{
+		IP: net.ParseIP("12.12.12.12"), Port: 12}
+
+	// ... and see it
+	response2 := <-response2c
+	if g, e := response2, "RA: 12.12.12.12:12"; g != e {
+		t.Fatalf("expected body of %s; got %s", e, g)
+	}
+
+	// Finish the first response.
+	conn1.(*blockingRemoteAddrConn).addrs <- &net.TCPAddr{
+		IP: net.ParseIP("21.21.21.21"), Port: 21}
+
+	// ... and see it
+	response1 := <-response1c
+	if g, e := response1, "RA: 21.21.21.21:21"; g != e {
+		t.Fatalf("expected body of %s; got %s", e, g)
+	}
+}
+
 func TestChunkedResponseHeaders(t *testing.T) {
 	defer afterTest(t)
 	log.SetOutput(ioutil.Discard) // is noisy otherwise
@@ -3025,10 +3125,7 @@ func (c *closeWriteTestConn) CloseWrite() error {
 func TestCloseWrite(t *testing.T) {
 	var srv Server
 	var testConn closeWriteTestConn
-	c, err := ExportServerNewConn(&srv, &testConn)
-	if err != nil {
-		t.Fatal(err)
-	}
+	c := ExportServerNewConn(&srv, &testConn)
 	ExportCloseWriteAndWait(c)
 	if !testConn.didCloseWrite {
 		t.Error("didn't see CloseWrite call")

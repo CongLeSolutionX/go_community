@@ -158,7 +158,7 @@ func (c *conn) hijack() (rwc net.Conn, buf *bufio.ReadWriter, err error) {
 	buf = c.buf
 	c.rwc = nil
 	c.buf = nil
-	c.setState(rwc, StateHijacked)
+	c.server.setState(rwc, StateHijacked)
 	return
 }
 
@@ -468,8 +468,8 @@ const noLimit int64 = (1 << 63) - 1
 const debugServerConnections = false
 
 // Create new connection from rwc.
-func (srv *Server) newConn(rwc net.Conn) (c *conn, err error) {
-	c = new(conn)
+func (srv *Server) newConn(rwc net.Conn) *conn {
+	c := new(conn)
 	c.remoteAddr = rwc.RemoteAddr().String()
 	c.server = srv
 	c.rwc = rwc
@@ -482,7 +482,7 @@ func (srv *Server) newConn(rwc net.Conn) (c *conn, err error) {
 	br := newBufioReader(c.lr)
 	bw := newBufioWriterSize(checkConnErrorWriter{c}, 4<<10)
 	c.buf = bufio.NewReadWriter(br, bw)
-	return c, nil
+	return c
 }
 
 var (
@@ -1282,12 +1282,6 @@ func validNPN(proto string) bool {
 	return true
 }
 
-func (c *conn) setState(nc net.Conn, state ConnState) {
-	if hook := c.server.ConnState; hook != nil {
-		hook(nc, state)
-	}
-}
-
 // Serve a new connection.
 func (c *conn) serve() {
 	origConn := c.rwc // copy it before it's set nil on Close or Hijack
@@ -1300,7 +1294,7 @@ func (c *conn) serve() {
 		}
 		if !c.hijacked() {
 			c.close()
-			c.setState(origConn, StateClosed)
+			c.server.setState(origConn, StateClosed)
 		}
 	}()
 
@@ -1330,7 +1324,7 @@ func (c *conn) serve() {
 		w, err := c.readRequest()
 		if c.lr.N != c.server.initialLimitedReaderSize() {
 			// If we read any bytes off the wire, we're active.
-			c.setState(c.rwc, StateActive)
+			c.server.setState(c.rwc, StateActive)
 		}
 		if err != nil {
 			if err == errTooLarge {
@@ -1380,7 +1374,7 @@ func (c *conn) serve() {
 			}
 			break
 		}
-		c.setState(c.rwc, StateIdle)
+		c.server.setState(c.rwc, StateIdle)
 	}
 }
 
@@ -1856,6 +1850,12 @@ func (c ConnState) String() string {
 	return stateName[c]
 }
 
+func (srv *Server) setState(nc net.Conn, state ConnState) {
+	if hook := srv.ConnState; hook != nil {
+		hook(nc, state)
+	}
+}
+
 // serverHandler delegates to either the server's Handler or
 // DefaultServeMux and also handles "OPTIONS *" requests.
 type serverHandler struct {
@@ -1915,12 +1915,10 @@ func (srv *Server) Serve(l net.Listener) error {
 			return e
 		}
 		tempDelay = 0
-		c, err := srv.newConn(rw)
-		if err != nil {
-			continue
-		}
-		c.setState(c.rwc, StateNew) // before Serve can return
-		go c.serve()
+		srv.setState(rw, StateNew) // before Serve can return
+		go func() {
+			srv.newConn(rw).serve()
+		}()
 	}
 }
 
