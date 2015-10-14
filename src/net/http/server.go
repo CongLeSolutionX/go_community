@@ -1889,12 +1889,22 @@ func (srv *Server) ListenAndServe() error {
 	return srv.Serve(tcpKeepAliveListener{ln.(*net.TCPListener)})
 }
 
+// addH2Mutex is held while mutating *Server inside http2ConfigureServer.
+var addH2Mutex sync.Mutex
+
 // Serve accepts incoming connections on the Listener l, creating a
 // new service goroutine for each. The service goroutines read requests and
 // then call srv.Handler to reply to them.
 // Serve always returns a non-nil error.
 func (srv *Server) Serve(l net.Listener) error {
 	defer l.Close()
+
+	addH2Mutex.Lock()
+	if srv.TLSNextProto == nil {
+		http2ConfigureServer(srv, nil)
+	}
+	addH2Mutex.Unlock()
+
 	var tempDelay time.Duration // how long to sleep on accept failure
 	for {
 		rw, e := l.Accept()
