@@ -119,22 +119,25 @@ var tVal = &T{
 		{"one": 1, "two": 2},
 		{"eleven": 11, "twelve": 12},
 	},
-	Empty1:            3,
-	Empty2:            "empty2",
-	Empty3:            []int{7, 8},
-	Empty4:            &U{"UinEmpty"},
-	NonEmptyInterface: new(T),
-	Str:               bytes.NewBuffer([]byte("foozle")),
-	Err:               errors.New("erroozle"),
-	PI:                newInt(23),
-	PS:                newString("a string"),
-	PSI:               newIntSlice(21, 22, 23),
-	BinaryFunc:        func(a, b string) string { return fmt.Sprintf("[%s=%s]", a, b) },
-	VariadicFunc:      func(s ...string) string { return fmt.Sprint("<", strings.Join(s, "+"), ">") },
-	VariadicFuncInt:   func(a int, s ...string) string { return fmt.Sprint(a, "=<", strings.Join(s, "+"), ">") },
-	NilOKFunc:         func(s *int) bool { return s == nil },
-	ErrFunc:           func() (string, error) { return "bla", nil },
-	Tmpl:              Must(New("x").Parse("test template")), // "x" is the value of .X
+	Empty1:          3,
+	Empty2:          "empty2",
+	Empty3:          []int{7, 8},
+	Empty4:          &U{"UinEmpty"},
+	Str:             bytes.NewBuffer([]byte("foozle")),
+	Err:             errors.New("erroozle"),
+	PI:              newInt(23),
+	PS:              newString("a string"),
+	PSI:             newIntSlice(21, 22, 23),
+	BinaryFunc:      func(a, b string) string { return fmt.Sprintf("[%s=%s]", a, b) },
+	VariadicFunc:    func(s ...string) string { return fmt.Sprint("<", strings.Join(s, "+"), ">") },
+	VariadicFuncInt: func(a int, s ...string) string { return fmt.Sprint(a, "=<", strings.Join(s, "+"), ">") },
+	NilOKFunc:       func(s *int) bool { return s == nil },
+	ErrFunc:         func() (string, error) { return "bla", nil },
+	Tmpl:            Must(New("x").Parse("test template")), // "x" is the value of .X
+}
+
+func init() {
+	tVal.NonEmptyInterface = tVal
 }
 
 // A non-empty interface.
@@ -550,6 +553,8 @@ var execTests = []execTest{
 	{"bug16i", "{{\"aaa\"|oneArg}}", "oneArg=aaa", tVal, true},
 	{"bug16j", "{{1+2i|printf \"%v\"}}", "(1+2i)", tVal, true},
 	{"bug16k", "{{\"aaa\"|printf }}", "aaa", tVal, true},
+	{"bug17a", "{{.NonEmptyInterface.X}}", "x", tVal, true},
+	{"bug17b", "-{{.NonEmptyInterface.Method1 1234}}-", "-1234-", tVal, true},
 }
 
 func zeroArgs() string {
