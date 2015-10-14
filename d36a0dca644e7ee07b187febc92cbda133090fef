@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df39c202_e089d7ef",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-14T21:43:17Z",
+      "side": 1,
+      "message": "TestServerAllows...\n\nAlso, put a comment above this:\n\n// Issue NNNN\n\nOh, there\u0027s no issue for this. File one first.",
+      "revId": "d36a0dca644e7ee07b187febc92cbda133090fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df39c202_c08653dd",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-14T21:43:17Z",
+      "side": 1,
+      "message": "drop the LHS.  just do:\n\n  fmt.Fprintf(w, \"RA:%s\", r.RemoteAddr)",
+      "revId": "d36a0dca644e7ee07b187febc92cbda133090fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df39c202_00815bc2",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-14T21:43:17Z",
+      "side": 1,
+      "message": "got goes before want/expect\n\n  \"response 2 addr \u003d %q; want %q\"",
+      "revId": "d36a0dca644e7ee07b187febc92cbda133090fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df39c202_605dc710",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-14T21:43:17Z",
+      "side": 1,
+      "message": "\"response 1 addr \u003d %q; want %q\", g, e",
+      "revId": "d36a0dca644e7ee07b187febc92cbda133090fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
