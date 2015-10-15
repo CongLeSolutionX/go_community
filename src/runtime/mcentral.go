@@ -16,8 +16,8 @@ package runtime
 type mcentral struct {
 	lock      mutex
 	sizeclass int32
-	nonempty  mspan // list of spans with a free object
-	empty     mspan // list of spans with no free objects (or cached in an mcache)
+	nonempty  mspanlist // list of spans with a free object
+	empty     mspanlist // list of spans with no free objects (or cached in an mcache)
 }
 
 // Initialize a single central free list.
@@ -36,7 +36,7 @@ func mCentral_CacheSpan(c *mcentral) *mspan {
 	sg := mheap_.sweepgen
 retry:
 	var s *mspan
-	for s = c.nonempty.next; s != &c.nonempty; s = s.next {
+	for s = c.nonempty.First(); s != nil; s = c.nonempty.Next(s) {
 		if s.sweepgen == sg-2 && cas(&s.sweepgen, sg-2, sg-1) {
 			mSpanList_Remove(s)
 			mSpanList_InsertBack(&c.empty, s)
@@ -55,7 +55,7 @@ retry:
 		goto havespan
 	}
 
-	for s = c.empty.next; s != &c.empty; s = s.next {
+	for s = c.empty.First(); s != nil; s = c.empty.Next(s) {
 		if s.sweepgen == sg-2 && cas(&s.sweepgen, sg-2, sg-1) {
 			// we have an empty span that requires sweeping,
 			// sweep it and see if we can free some space in it

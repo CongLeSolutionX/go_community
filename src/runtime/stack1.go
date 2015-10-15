@@ -41,12 +41,12 @@ const (
 //     order = log_2(size/FixedStack)
 // There is a free list for each order.
 // TODO: one lock per order?
-var stackpool [_NumStackOrders]mspan
+var stackpool [_NumStackOrders]mspanlist
 var stackpoolmu mutex
 
 // List of stack spans to be freed at the end of GC. Protected by
 // stackpoolmu.
-var stackFreeQueue mspan
+var stackFreeQueue mspanlist
 
 // Cached value of haveexperiment("framepointer")
 var framepointer_enabled bool
@@ -65,8 +65,8 @@ func stackinit() {
 // stackpoolmu held.
 func stackpoolalloc(order uint8) gclinkptr {
 	list := &stackpool[order]
-	s := list.next
-	if s == list {
+	s := list.First()
+	if s == nil {
 		// no free stacks.  Allocate another span worth.
 		s = mHeap_AllocStack(&mheap_, _StackCacheSize>>_PageShift)
 		if s == nil {
@@ -889,8 +889,8 @@ func freeStackSpans() {
 	// Scan stack pools for empty stack spans.
 	for order := range stackpool {
 		list := &stackpool[order]
-		for s := list.next; s != list; {
-			next := s.next
+		for s := list.First(); s != nil; {
+			next := list.Next(s)
 			if s.ref == 0 {
 				mSpanList_Remove(s)
 				s.freelist = 0
@@ -901,8 +901,8 @@ func freeStackSpans() {
 	}
 
 	// Free queued stack spans.
-	for stackFreeQueue.next != &stackFreeQueue {
-		s := stackFreeQueue.next
+	for !mSpanList_IsEmpty(&stackFreeQueue) {
+		s := stackFreeQueue.First()
 		mSpanList_Remove(s)
 		mHeap_FreeStack(&mheap_, s)
 	}

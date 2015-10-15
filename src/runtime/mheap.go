@@ -15,12 +15,12 @@ import "unsafe"
 // but all the other global data is here too.
 type mheap struct {
 	lock      mutex
-	free      [_MaxMHeapList]mspan // free lists of given length
-	freelarge mspan                // free lists length >= _MaxMHeapList
-	busy      [_MaxMHeapList]mspan // busy lists of large objects of given length
-	busylarge mspan                // busy lists of large objects length >= _MaxMHeapList
-	allspans  **mspan              // all spans out there
-	gcspans   **mspan              // copy of allspans referenced by gc marker or sweeper
+	free      [_MaxMHeapList]mspanlist // free lists of given length
+	freelarge mspanlist                // free lists length >= _MaxMHeapList
+	busy      [_MaxMHeapList]mspanlist // busy lists of large objects of given length
+	busylarge mspanlist                // busy lists of large objects length >= _MaxMHeapList
+	allspans  **mspan                  // all spans out there
+	gcspans   **mspan                  // copy of allspans referenced by gc marker or sweeper
 	nspan     uint32
 	sweepgen  uint32 // sweep generation, see comment in mspan
 	sweepdone uint32 // all spans are swept
@@ -77,7 +77,7 @@ var mheap_ mheap
 
 // Every MSpan is in one doubly-linked list,
 // either one of the MHeap's free lists or one of the
-// MCentral's span lists.  We use empty MSpan structures as list heads.
+// MCentral's span lists.
 
 // An MSpan representing actual memory has state _MSpanInUse,
 // _MSpanStack, or _MSpanFree. Transitions between these states are
@@ -97,16 +97,41 @@ const (
 	_MSpanInUse = iota // allocated for garbage collected heap
 	_MSpanStack        // allocated for use by stack allocator
 	_MSpanFree
-	_MSpanListHead
 	_MSpanDead
 )
 
+type mspanlink struct {
+	next *mspanlink // in a span linked list
+	prev *mspanlink // in a span linked list
+}
+
+func (link *mspanlink) nextSpan(list *mspanlist) *mspan {
+	if x := link.next; x != &list.mspanlink {
+		// Assumes mspanlink is the first field of mspan.
+		return (*mspan)(unsafe.Pointer(x))
+	}
+	return nil
+}
+
+type mspanlist struct {
+	mspanlink
+}
+
+// First returns the first mspan in list, or nil.
+func (list *mspanlist) First() *mspan {
+	return list.nextSpan(list)
+}
+
+// Next returns the next mspan after m in list, or nil.
+func (list *mspanlist) Next(m *mspan) *mspan {
+	return m.nextSpan(list)
+}
+
 type mspan struct {
-	next     *mspan    // in a span linked list
-	prev     *mspan    // in a span linked list
-	start    pageID    // starting page number
-	npages   uintptr   // number of pages in span
-	freelist gclinkptr // list of free objects
+	mspanlink           // must be first
+	start     pageID    // starting page number
+	npages    uintptr   // number of pages in span
+	freelist  gclinkptr // list of free objects
 	// sweep generation:
 	// if sweepgen == h->sweepgen - 2, the span needs sweeping
 	// if sweepgen == h->sweepgen - 1, the span is currently being swept
@@ -320,11 +345,11 @@ func mHeap_MapSpans(h *mheap, arena_used uintptr) {
 
 // Sweeps spans in list until reclaims at least npages into heap.
 // Returns the actual number of pages reclaimed.
-func mHeap_ReclaimList(h *mheap, list *mspan, npages uintptr) uintptr {
+func mHeap_ReclaimList(h *mheap, list *mspanlist, npages uintptr) uintptr {
 	n := uintptr(0)
 	sg := mheap_.sweepgen
 retry:
-	for s := list.next; s != list; s = s.next {
+	for s := list.First(); s != nil; s = list.Next(s) {
 		if s.sweepgen == sg-2 && cas(&s.sweepgen, sg-2, sg-1) {
 			mSpanList_Remove(s)
 			// swept spans are at the end of the list
@@ -528,7 +553,7 @@ func mHeap_AllocSpanLocked(h *mheap, npage uintptr) *mspan {
 	// Try in fixed-size lists up to max.
 	for i := int(npage); i < len(h.free); i++ {
 		if !mSpanList_IsEmpty(&h.free[i]) {
-			s = h.free[i].next
+			s = h.free[i].First()
 			goto HaveSpan
 		}
 	}
@@ -607,8 +632,8 @@ func mHeap_AllocLarge(h *mheap, npage uintptr) *mspan {
 // Search list for smallest span with >= npage pages.
 // If there are multiple smallest spans, take the one
 // with the earliest starting address.
-func bestFit(list *mspan, npage uintptr, best *mspan) *mspan {
-	for s := list.next; s != list; s = s.next {
+func bestFit(list *mspanlist, npage uintptr, best *mspan) *mspan {
+	for s := list.First(); s != nil; s = list.Next(s) {
 		if s.npages < npage {
 			continue
 		}
@@ -800,7 +825,7 @@ func mHeap_FreeSpanLocked(h *mheap, s *mspan, acctinuse, acctidle bool, unusedsi
 	}
 }
 
-func scavengelist(list *mspan, now, limit uint64) uintptr {
+func scavengelist(list *mspanlist, now, limit uint64) uintptr {
 	if _PhysPageSize > _PageSize {
 		// golang.org/issue/9993
 		// If the physical page size of the machine is larger than
@@ -815,7 +840,7 @@ func scavengelist(list *mspan, now, limit uint64) uintptr {
 	}
 
 	var sumreleased uintptr
-	for s := list.next; s != list; s = s.next {
+	for s := list.First(); s != nil; s = list.Next(s) {
 		if (now-uint64(s.unusedsince)) > limit && s.npreleased != s.npages {
 			released := (s.npages - s.npreleased) << _PageShift
 			memstats.heap_released += uint64(released)
@@ -873,10 +898,9 @@ func mSpan_Init(span *mspan, start pageID, npages uintptr) {
 }
 
 // Initialize an empty doubly-linked list.
-func mSpanList_Init(list *mspan) {
-	list.state = _MSpanListHead
-	list.next = list
-	list.prev = list
+func mSpanList_Init(list *mspanlist) {
+	list.next = &list.mspanlink
+	list.prev = &list.mspanlink
 }
 
 func mSpanList_Remove(span *mspan) {
@@ -889,30 +913,30 @@ func mSpanList_Remove(span *mspan) {
 	span.next = nil
 }
 
-func mSpanList_IsEmpty(list *mspan) bool {
-	return list.next == list
+func mSpanList_IsEmpty(list *mspanlist) bool {
+	return list.next == &list.mspanlink
 }
 
-func mSpanList_Insert(list *mspan, span *mspan) {
+func mSpanList_Insert(list *mspanlist, span *mspan) {
 	if span.next != nil || span.prev != nil {
 		println("failed MSpanList_Insert", span, span.next, span.prev)
 		throw("MSpanList_Insert")
 	}
 	span.next = list.next
-	span.prev = list
-	span.next.prev = span
-	span.prev.next = span
+	span.prev = &list.mspanlink
+	span.next.prev = &span.mspanlink
+	span.prev.next = &span.mspanlink
 }
 
-func mSpanList_InsertBack(list *mspan, span *mspan) {
+func mSpanList_InsertBack(list *mspanlist, span *mspan) {
 	if span.next != nil || span.prev != nil {
 		println("failed MSpanList_InsertBack", span, span.next, span.prev)
 		throw("MSpanList_InsertBack")
 	}
-	span.next = list
+	span.next = &list.mspanlink
 	span.prev = list.prev
-	span.next.prev = span
-	span.prev.next = span
+	span.next.prev = &span.mspanlink
+	span.prev.next = &span.mspanlink
 }
 
 const (
