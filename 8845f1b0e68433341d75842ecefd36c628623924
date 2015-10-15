@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9bdc694_099949b8",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-15T17:59:14Z",
+      "side": 1,
+      "message": "s[:i] doesn\u0027t allocate memory.\n\nI\u0027ll see if I can improve line 702 in a different CL.",
+      "parentUuid": "f9bdc694_c92c9137",
+      "revId": "8845f1b0e68433341d75842ecefd36c628623924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9bdc694_899bf9e4",
         "filename": "src/html/template/js.go",
         "patchSetId": 8
@@ -47,6 +65,24 @@
       "writtenOn": "2015-10-15T17:20:42Z",
       "side": 1,
       "message": "mimeType \u003d strings.TrimSpace(mimeType[:parameterStart])\n\n?",
+      "revId": "8845f1b0e68433341d75842ecefd36c628623924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_8c07875a",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-15T17:59:14Z",
+      "side": 1,
+      "message": "yes, thanks, except I trim it only on the right because trimming on both would be inconsistent, e.g. isJsMimeType(\" text/javascript \") would false, but isJsMimeType(\" text/javascript ;\") would be true",
+      "parentUuid": "f9bdc694_09a869f9",
       "revId": "8845f1b0e68433341d75842ecefd36c628623924",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
