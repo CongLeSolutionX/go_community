@@ -796,3 +796,44 @@ func TestNetIP(t *testing.T) {
 		t.Errorf("decoded to %v, want 1.2.3.4", ip.String())
 	}
 }
+
+type AliasedType struct {
+	I int
+}
+
+type Alias *AliasedType
+type Alias2Alias *Alias
+
+func (f AliasedType) GobEncode() (b []byte, err error) {
+	// Encode via the type alias.
+	buf := new(bytes.Buffer)
+	al := Alias(&f)
+	al2 := Alias2Alias(&al)
+	err = NewEncoder(buf).Encode(al2)
+	b = buf.Bytes()
+	return
+}
+
+func (f *AliasedType) GobDecode(b []byte) (err error) {
+	// Decode via the type alias.
+	al := Alias(f)
+	al2 := Alias2Alias(&al)
+	err = NewDecoder(bytes.NewReader(b)).Decode(al2)
+	return
+}
+
+func TestIssue12562(t *testing.T) {
+	buf := new(bytes.Buffer)
+	f := AliasedType{17}
+	if err := NewEncoder(buf).Encode(&f); err != nil {
+		t.Fatalf("Encode error: %v", err)
+		return
+	}
+	f = AliasedType{}
+	if err := NewDecoder(bytes.NewReader(buf.Bytes())).Decode(&f); err != nil {
+		t.Fatalf("Decode error: %v", err)
+	}
+	if f.I != 17 {
+		t.Fatalf("Expected 17 after decoding. Got %d", f.I)
+	}
+}

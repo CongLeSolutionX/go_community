@@ -181,7 +181,7 @@ func (enc *Encoder) sendTypeDescriptor(w io.Writer, state *encoderState, ut *use
 	// Make sure the type is known to the other side.
 	// First, have we already sent this type?
 	rt := ut.base
-	if ut.externalEnc != 0 {
+	if ut.externalEnc != 0 || isNamedPtrAlias(ut.user, rt) {
 		rt = ut.user
 	}
 	if _, alreadySent := enc.sent[rt]; !alreadySent {

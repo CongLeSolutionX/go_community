@@ -142,6 +142,9 @@ func implementsInterface(typ, gobEncDecType reflect.Type) (success bool, indir i
 				return false, 0
 			}
 			rt = p.Elem()
+			if len(p.Name()) > 0 && rt.Name() != p.Name() {
+				return false, 0
+			}
 			continue
 		}
 		break
@@ -450,6 +453,10 @@ func newTypeObject(name string, ut *userTypeInfo, rt reflect.Type) (gobType, err
 	if ut.externalEnc != 0 {
 		return newGobEncoderType(name), nil
 	}
+	t := rt
+	for t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
 	var err error
 	var type0, type1 gobType
 	defer func() {
@@ -459,7 +466,7 @@ func newTypeObject(name string, ut *userTypeInfo, rt reflect.Type) (gobType, err
 	}()
 	// Install the top-level type before the subtypes (e.g. struct before
 	// fields) so recursive types can be constructed safely.
-	switch t := rt; t.Kind() {
+	switch t.Kind() {
 	// All basic types are easy: they are predefined.
 	case reflect.Bool:
 		return tBool.gobType(), nil
@@ -592,7 +599,11 @@ func isSent(field *reflect.StructField) bool {
 // typeLock must be held.
 func getBaseType(name string, rt reflect.Type) (gobType, error) {
 	ut := userType(rt)
-	return getType(name, ut, ut.base)
+	t := ut.base
+	if isNamedPtrAlias(ut.user, t) {
+		t = ut.user
+	}
+	return getType(name, ut, t)
 }
 
 // getType returns the Gob type describing the given reflect.Type.
@@ -702,7 +713,7 @@ func lookupTypeInfo(rt reflect.Type) *typeInfo {
 
 func getTypeInfo(ut *userTypeInfo) (*typeInfo, error) {
 	rt := ut.base
-	if ut.externalEnc != 0 {
+	if ut.externalEnc != 0 || isNamedPtrAlias(ut.user, rt) {
 		// We want the user type, not the base type.
 		rt = ut.user
 	}
@@ -744,8 +755,12 @@ func buildTypeInfo(ut *userTypeInfo, rt reflect.Type) (*typeInfo, error) {
 		}
 		rt = ut.user
 	} else {
+		typ := rt
+		for typ.Kind() == reflect.Ptr {
+			typ = typ.Elem()
+		}
 		t := info.id.gobType()
-		switch typ := rt; typ.Kind() {
+		switch typ.Kind() {
 		case reflect.Array:
 			info.wire = &wireType{ArrayT: t.(*arrayType)}
 		case reflect.Map:
@@ -778,6 +793,13 @@ func mustGetTypeInfo(rt reflect.Type) *typeInfo {
 		panic("getTypeInfo: " + err.Error())
 	}
 	return t
+}
+
+// Returns true if the types are declared the following way:
+// type aliased
+// type alias *aliased
+func isNamedPtrAlias(alias, aliased reflect.Type) bool {
+	return len(alias.Name()) > 0 && aliased != alias && alias.Kind() == reflect.Ptr
 }
 
 // GobEncoder is the interface describing data that provides its own
