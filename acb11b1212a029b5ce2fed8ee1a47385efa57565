@@ -2,6 +2,142 @@
   "comments": [
     {
       "key": {
+        "uuid": "f9bdc694_49e981af",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "let\u0027s unexport this for now. This is fine to make it a variable, but it\u0027s unrelated to this CL and I don\u0027t want to add new API surface at the moment.\n\nThis is a user error problem anyway. Often times we just panic for stuff like this. If it were a runtime error I\u0027d be more inclined to export it.",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_09f3899d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "delete named return values",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_a9035d24",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "what about all these user error errors? these should also not be re-playable, right?\n\nadd checks in (*Request).isReplayable?",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_29f8cd76",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": ":\u003d",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_69eec5ba",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "Delete this line. We never get here.",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_c9fc916d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "which might be",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_e9f9557a",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "What\u0027s the return value otherwise? It seems like the unwrapped error?",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_89069935",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T15:52:44Z",
+      "side": 1,
+      "message": "can you return early and unindent?",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "791f1655_d53adc8d",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
