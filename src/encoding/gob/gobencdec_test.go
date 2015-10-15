@@ -796,3 +796,40 @@ func TestNetIP(t *testing.T) {
 		t.Errorf("decoded to %v, want 1.2.3.4", ip.String())
 	}
 }
+
+type IntStruct struct {
+	I int
+}
+
+type IntStructPtr *IntStruct
+type IntStructPtrPtr *IntStructPtr
+
+func (f IntStruct) GobEncode() ([]byte, error) {
+	// Encode via the pointer type.
+	buf := new(bytes.Buffer)
+	ptr := IntStructPtr(&f)
+	err := NewEncoder(buf).Encode(IntStructPtrPtr(&ptr))
+	return buf.Bytes(), err
+}
+
+func (f *IntStruct) GobDecode(b []byte) error {
+	// Decode via the pointer type.
+	ptr := IntStructPtr(f)
+	return NewDecoder(bytes.NewReader(b)).Decode(IntStructPtrPtr(&ptr))
+}
+
+func TestIssue12562(t *testing.T) {
+	buf := new(bytes.Buffer)
+	f := IntStruct{17}
+	if err := NewEncoder(buf).Encode(&f); err != nil {
+		t.Fatalf("Encode error: %v", err)
+		return
+	}
+	f = IntStruct{}
+	if err := NewDecoder(bytes.NewReader(buf.Bytes())).Decode(&f); err != nil {
+		t.Fatalf("Decode error: %v", err)
+	}
+	if f.I != 17 {
+		t.Fatalf("Expected 17 after decoding. Got %d", f.I)
+	}
+}
