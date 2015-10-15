@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df39c202_1b4d4c00",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-15T01:02:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aac5aa25_f70db207",
+      "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aac5aa25_970a2eed",
         "filename": "src/text/template/exec.go",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "df39c202_5b1514c6",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-15T01:02:38Z",
+      "side": 1,
+      "message": "It can\u0027t, and even it was, it wouldn\u0027t help:\n\nhttps://play.golang.org/p/hsWIghpd9A\n\nThis hangs today. Working around that would require keeping a list of visited pointers. I am not sure it is worthwhile.\n\nDeleted the check",
+      "parentUuid": "aac5aa25_970a2eed",
+      "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aac5aa25_b7072ae6",
         "filename": "src/text/template/exec_test.go",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2015-10-15T00:20:33Z",
       "side": 1,
       "message": "why create this circular reference, instead of just using new(T)?",
+      "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df39c202_9b0f9cb4",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-15T01:02:38Z",
+      "side": 1,
+      "message": "I need NonEmptyInterface.X to be filled, it is used in tests. I could do\n\n   NonEmptyInterface: \u0026T{X: \"x\"}\n\nbut I think it is simpler to reference itself, so we don\u0027t have to think whether values in tVal.NonEmptyInterface are different from tVal\n\nWe need init for NonEmptyInterfacePtS anyway",
+      "parentUuid": "aac5aa25_b7072ae6",
       "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
