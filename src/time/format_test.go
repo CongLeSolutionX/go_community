@@ -56,6 +56,7 @@ var formatTests = []FormatTest{
 	{"two-digit year", "06 01 02", "09 02 04"},
 	// Three-letter months and days must not be followed by lower-case letter.
 	{"Janet", "Hi Janet, the Month is January", "Hi Janet, the Month is February"},
+	{"ordinal", "2nd January", "4th February"},
 	// Time stamps, Fractional seconds.
 	{"Stamp", Stamp, "Feb  4 21:00:57"},
 	{"StampMilli", StampMilli, "Feb  4 21:00:57.012"},
@@ -183,6 +184,8 @@ var parseTests = []ParseTest{
 	{"", "Jan _2 15:04:05.999", "Feb  4 21:00:57.012345678", false, false, -1, 9},
 	{"", "Jan _2 15:04:05.999999999", "Feb  4 21:00:57.0123", false, false, -1, 4},
 	{"", "Jan _2 15:04:05.999999999", "Feb  4 21:00:57.012345678", false, false, -1, 9},
+
+	{"ordinal", "Mon 2nd Jan 2006 15:04:05", "Thu 4th Feb 2010 21:00:57", false, true, 1, 0},
 }
 
 func TestParse(t *testing.T) {
@@ -526,6 +529,57 @@ func TestFormatSecondsInTimeZone(t *testing.T) {
 		timestr := d.Format(test.format)
 		if timestr != test.value {
 			t.Errorf("Format = %s, want %s", timestr, test.value)
+		}
+	}
+}
+
+var ordinalValidMap = map[string][]int{
+		"st": []int{1, 21, 31},
+		"nd": []int{2, 22},
+		"rd": []int{3, 23},
+		"th": []int{4, 11, 12, 13, 20, 30},
+}
+
+var ordinalInvalidMap = map[string][]int{
+		"st": []int{2, 3, 4},
+		"nd": []int{1, 3, 4},
+		"rd": []int{1, 2, 4},
+		"th": []int{1, 2, 3},
+}
+
+func TestParseOrdinals(t *testing.T) {
+	for suffix, vals := range ordinalValidMap {
+		for _, test := range vals {
+			s := fmt.Sprintf("Jan %d%s", test, suffix)
+			d, err := Parse("Jan 2nd", s)
+			if err != nil {
+				t.Fatal("error parsing date:", err)
+			}
+			if (d.Day() != test) {
+				t.Errorf("got = %d, want %d", d.Day(), test)
+			}
+		}
+	}
+	for suffix, vals := range ordinalInvalidMap {
+		for _, test := range vals {
+			s := fmt.Sprintf("Jan %d%s", test, suffix)
+			_, err := Parse("Jan 2nd", s)
+			if err == nil {
+				t.Errorf("expected error for %q", s)
+			}
+		}
+	}
+}
+
+func TestFormatOrdinals(t *testing.T) {
+	for suffix, vals := range ordinalValidMap {
+		for _, test := range vals {
+			d := Date(2015, 1, test, 12, 0, 0, 0, UTC)
+			s := d.Format("Jan 2nd")
+			ex := fmt.Sprintf("Jan %d%s", test, suffix)
+			if (s != ex) {
+				t.Errorf("got = %s, want %s", s, ex)
+			}
 		}
 	}
 }

@@ -70,6 +70,7 @@ const (
 	stdLongWeekDay                                 // "Monday"
 	stdWeekDay                                     // "Mon"
 	stdDay                                         // "2"
+	stdOrdDay                                      // "2nd"
 	stdUnderDay                                    // "_2"
 	stdZeroDay                                     // "02"
 	stdHour                  = iota + stdNeedClock // "15"
@@ -159,6 +160,9 @@ func nextStdChunk(layout string) (prefix string, std int, suffix string) {
 		case '2': // 2006, 2
 			if len(layout) >= i+4 && layout[i:i+4] == "2006" {
 				return layout[0:i], stdLongYear, layout[i+4:]
+			}
+			if len(layout) >= i+3 && layout[i+1:i+3] == "nd" {
+				return layout[0:i], stdOrdDay, layout[i+3:]
 			}
 			return layout[0:i], stdDay, layout[i+1:]
 
@@ -401,6 +405,24 @@ func (t Time) String() string {
 	return t.Format("2006-01-02 15:04:05.999999999 -0700 MST")
 }
 
+func ordinalSuffix(day int) string {
+	switch (day % 10) {
+		case 1:
+			if day != 11 {
+				return "st"
+			}
+		case 2:
+			if day != 12 {
+				return "nd"
+			}
+		case 3:
+			if day != 13 {
+				return "rd"
+			}
+	}
+	return "th"
+}
+
 // Format returns a textual representation of the time value formatted
 // according to layout, which defines the format by showing how the reference
 // time, defined to be
@@ -490,6 +512,10 @@ func (t Time) AppendFormat(b []byte, layout string) []byte {
 			b = append(b, s...)
 		case stdDay:
 			b = appendInt(b, day, 0)
+		case stdOrdDay:
+			b = appendInt(b, day, 0)
+			s := ordinalSuffix(day)
+			b = append(b, s...)
 		case stdUnderDay:
 			if day < 10 {
 				b = append(b, ' ')
@@ -794,7 +820,7 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			_, value, err = lookup(shortDayNames, value)
 		case stdLongWeekDay:
 			_, value, err = lookup(longDayNames, value)
-		case stdDay, stdUnderDay, stdZeroDay:
+		case stdDay, stdOrdDay, stdUnderDay, stdZeroDay:
 			if std == stdUnderDay && len(value) > 0 && value[0] == ' ' {
 				value = value[1:]
 			}
@@ -802,6 +828,13 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			if day < 0 {
 				// Note that we allow any one- or two-digit day here.
 				rangeErrString = "day"
+			}
+			if std == stdOrdDay {
+				if (len(value) < 2) || value[0:2] != ordinalSuffix(day) {
+					err = errBad
+				} else {
+					value = value[2:]
+				}
 			}
 		case stdHour:
 			hour, value, err = getnum(value, false)
