@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9bdc694_890539e4",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T16:54:03Z",
+      "side": 1,
+      "message": "\"an empty comparable struct\" I think?",
+      "revId": "95adfab8e19514f0ffae18a089483496a01f52f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_69fd6521",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T16:54:03Z",
+      "side": 1,
+      "message": "this explodes at runtime if the struct contains a map or slice, though?",
+      "revId": "95adfab8e19514f0ffae18a089483496a01f52f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bdc694_4923c178",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-15T16:54:03Z",
+      "side": 1,
+      "message": "add a test somewhere (can be its own Test) that omitempty doesn\u0027t explode on a struct with a slice or map in it (some non-comparable type)",
+      "revId": "95adfab8e19514f0ffae18a089483496a01f52f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
