@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aac5aa25_f70db207",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-15T00:20:33Z",
+      "side": 1,
+      "message": "just delete this line entirely",
+      "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aac5aa25_970a2eed",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-15T00:20:33Z",
+      "side": 1,
+      "message": "I don\u0027t see how this could ever be true. Can you explain how it might be?",
+      "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aac5aa25_b7072ae6",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-15T00:20:33Z",
+      "side": 1,
+      "message": "why create this circular reference, instead of just using new(T)?",
+      "revId": "f193767f6ad17417ced88ae1b0b3989508284e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
