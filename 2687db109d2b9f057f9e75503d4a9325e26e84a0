@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9bdc694_08505aef",
+        "filename": "src/runtime/panic1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2015-10-16T02:14:26Z",
+      "side": 0,
+      "message": "This was deleted. The rest is just appended to panic.go",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 29
+      },
+      "revId": "2687db109d2b9f057f9e75503d4a9325e26e84a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
