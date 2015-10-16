@@ -34,5 +34,7 @@ check issue8442.go
 check issue11097a.go
 check issue11097b.go
 
+go run ptr.go
+
 rm -rf errs _obj
 exit 0
