@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90b4ea8_0d345575",
+        "filename": "src/runtime/mfixalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-16T23:31:46Z",
+      "side": 1,
+      "message": "you can name the args in the function type to make it clear what they are:\n\n  first func(arg unsafe.Pointer, p unsafe.Pointer) // called first time p is returned",
+      "revId": "cd6dfad995a53d60e9af0cdd5c7b065eacb2f191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
