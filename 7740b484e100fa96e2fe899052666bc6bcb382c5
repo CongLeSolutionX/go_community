@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "99d4ca2f_768830ed",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1384,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-16T20:31:11Z",
+      "side": 1,
+      "message": "Some of them fail.  One example that I think is new (from race.bash):\nmap[string]string -\u003e *uint8",
+      "parentUuid": "eaf16251_9470d467",
+      "range": {
+        "startLine": 1378,
+        "startChar": 2,
+        "endLine": 1384,
+        "endChar": 3
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaf16251_9459f4e7",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 2
@@ -200,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "99d4ca2f_d6bf0499",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-16T20:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaf16251_741af082",
+      "range": {
+        "startLine": 162,
+        "startChar": 32,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaf16251_f4ae006f",
         "filename": "src/runtime/race_amd64.s",
         "patchSetId": 2
@@ -211,6 +259,30 @@
       "writtenOn": "2015-10-09T21:48:21Z",
       "side": 1,
       "message": "// R11 \u003d caller\u0027s return address.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 4
+      },
+      "revId": "7740b484e100fa96e2fe899052666bc6bcb382c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99d4ca2f_b6c4882a",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-16T20:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaf16251_f4ae006f",
       "range": {
         "startLine": 176,
         "startChar": 0,
