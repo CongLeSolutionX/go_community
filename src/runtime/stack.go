@@ -120,7 +120,7 @@ const (
 	stackDebug       = 0
 	stackFromSystem  = 0 // allocate stacks from system memory instead of the heap
 	stackFaultOnFree = 0 // old stacks are mapped noaccess to detect use after free
-	stackPoisonCopy  = 0 // fill stack that should not be accessed with garbage, to detect bad dereferences during copy
+	stackPoisonCopy  = 1 // fill stack that should not be accessed with garbage, to detect bad dereferences during copy
 
 	stackCache = 1
 )
@@ -542,7 +542,7 @@ func adjustpointers(scanp unsafe.Pointer, cbv *bitvector, adjinfo *adjustinfo, f
 		if ptrbit(&bv, i) == 1 {
 			pp := (*uintptr)(add(scanp, i*sys.PtrSize))
 			p := *pp
-			if f != nil && 0 < p && p < _PageSize && debug.invalidptr != 0 || p == poisonStack {
+			if f != nil && 0 < p && p < _PageSize && debug.invalidptr != 0 || p > 0xf000000000000000 {
 				// Looks like a junk value in a pointer slot.
 				// Live analysis wrong?
 				getg().m.traceback = 2
