@@ -87,6 +87,8 @@ func buildssa(fn *Node) (ssafn *ssa.Func, usessa bool) {
 	s.startBlock(s.f.Entry)
 	s.vars[&memVar] = s.startmem
 
+	s.outsyms = map[*Node]*ssa.ArgSymbol{}
+
 	// Generate addresses of local declarations
 	s.decladdrs = map[*Node]*ssa.Value{}
 	for d := fn.Func.Dcl; d != nil; d = d.Next {
@@ -233,6 +235,9 @@ type state struct {
 
 	// addresses of PPARAM and PPARAMOUT variables.
 	decladdrs map[*Node]*ssa.Value
+
+	// symbols for PPARAMOUT variables so they can be reused.
+	outsyms map[*Node]*ssa.ArgSymbol
 
 	// starting values.  Memory, frame pointer, and stack pointer
 	startmem *ssa.Value
@@ -2222,7 +2227,15 @@ func (s *state) addr(n *Node) *ssa.Value {
 			aux := &ssa.AutoSymbol{Typ: n.Type, Node: n}
 			return s.newValue1A(ssa.OpAddr, Ptrto(n.Type), aux, s.sp)
 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
-			aux := &ssa.ArgSymbol{Typ: n.Type, Node: n}
+			var aux *ssa.ArgSymbol
+			// ensure that we reuse symbols for out parameters so
+			// that cse works on their addresses
+			if laux, ok := s.outsyms[n]; ok {
+				aux = laux
+			} else {
+				aux = &ssa.ArgSymbol{Typ: n.Type, Node: n}
+				s.outsyms[n] = aux
+			}
 			return s.newValue1A(ssa.OpAddr, Ptrto(n.Type), aux, s.sp)
 		case PAUTO | PHEAP, PPARAM | PHEAP, PPARAMOUT | PHEAP, PPARAMREF:
 			return s.expr(n.Name.Heapaddr)
