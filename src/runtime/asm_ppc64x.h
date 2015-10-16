@@ -23,3 +23,13 @@
 // and currently always use that much, PIC on ppc64 would need to use 48).
 
 #define FIXED_FRAME 32
+
+#ifdef GOBUILDMODE_pie
+#define POSITION_INDEPENDENT_CODE
+#endif
+
+#ifdef POSITION_INDEPENDENT_CODE
+#define MAYBE_RELOAD_TOC	MOVD 24(R1), R2
+#else
+#define MAYBE_RELOAD_TOC
+#endif
