@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "99d4ca2f_b6aa48aa",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5185
+      },
+      "writtenOn": "2015-10-16T14:07:28Z",
+      "side": 1,
+      "message": "It does, thanks.\n\nI\u0027ll update it to use reflect.DeepEqual() instead.  This is what encoding/asn1 does.",
+      "parentUuid": "f9bdc694_69fd6521",
+      "revId": "95adfab8e19514f0ffae18a089483496a01f52f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9bdc694_4923c178",
         "filename": "src/encoding/json/encode_test.go",
         "patchSetId": 1
