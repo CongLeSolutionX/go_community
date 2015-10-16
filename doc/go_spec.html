@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of September 24, 2015",
+	"Subtitle": "Version of October 16, 2015",
 	"Path": "/ref/spec"
 }-->
 
@@ -6301,9 +6301,8 @@ var p ptr = nil
 </pre>
 
 <p>
-The functions <code>Alignof</code> and <code>Sizeof</code> take an expression <code>x</code>
-of any type and return the alignment or size, respectively, of a hypothetical variable <code>v</code>
-as if <code>v</code> was declared via <code>var v = x</code>.
+The functions <code>Alignof</code> and <code>Sizeof</code> take an expression of any type <code>T</code>
+and return the alignment or size, respectively, of <code>T</code> in bytes.
 </p>
 <p>
 The function <code>Offsetof</code> takes a (possibly parenthesized) <a href="#Selectors">selector</a>
@@ -6321,9 +6320,7 @@ uintptr(unsafe.Pointer(&amp;s)) + unsafe.Offsetof(s.f) == uintptr(unsafe.Pointer
 <p>
 Computer architectures may require memory addresses to be <i>aligned</i>;
 that is, for addresses of a variable to be a multiple of a factor,
-the variable's type's <i>alignment</i>.  The function <code>Alignof</code>
-takes an expression denoting a variable of any type and returns the
-alignment of the (type of the) variable in bytes.  For a variable
+the variable's type's <i>alignment</i>.  For a variable
 <code>x</code>:
 </p>
 
@@ -6333,7 +6330,8 @@ uintptr(unsafe.Pointer(&amp;x)) % unsafe.Alignof(x) == 0
 
 <p>
 Calls to <code>Alignof</code>, <code>Offsetof</code>, and
-<code>Sizeof</code> are compile-time constant expressions of type <code>uintptr</code>.
+<code>Sizeof</code> are compile-time constant expressions of type <code>uintptr</code>
+and do not evaluate their arguments.
 </p>
 
 <h3 id="Size_and_alignment_guarantees">Size and alignment guarantees</h3>
@@ -6356,18 +6354,17 @@ complex128                           16
 The following minimal alignment properties are guaranteed:
 </p>
 <ol>
-<li>For a variable <code>x</code> of any type: <code>unsafe.Alignof(x)</code> is at least 1.
+<li>The alignment of any type is at least 1.
 </li>
 
-<li>For a variable <code>x</code> of struct type: <code>unsafe.Alignof(x)</code> is the largest of
-   all the values <code>unsafe.Alignof(x.f)</code> for each field <code>f</code> of <code>x</code>, but at least 1.
+<li>The alignment a struct type is at least as large as the alignment of its fields.
 </li>
 
-<li>For a variable <code>x</code> of array type: <code>unsafe.Alignof(x)</code> is the same as
-   <code>unsafe.Alignof(x[0])</code>, but at least 1.
+<li>The alignment of an array type is the same as the alignment of its element type.
 </li>
 </ol>
 
 <p>
-A struct or array type has size zero if it contains no fields (or elements, respectively) that have a size greater than zero. Two distinct zero-size variables may have the same address in memory.
+A struct or array type has size zero if it contains no fields or elements, respectively, that have a size greater than zero.
+Two distinct zero-size variables may have the same address in memory.
 </p>
