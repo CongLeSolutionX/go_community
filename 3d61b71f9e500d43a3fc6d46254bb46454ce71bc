@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99d4ca2f_79dca346",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-17T19:27:50Z",
+      "side": 1,
+      "message": "While we\u0027re introducing a new type, might as well be mSpanList and have a doc comment in Go style.",
+      "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99d4ca2f_59d9e754",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-17T19:27:50Z",
+      "side": 1,
+      "message": "Please make these names unexported so that the compiler can easily eliminate the reflection tables.",
+      "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99d4ca2f_39d62b25",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-17T19:27:50Z",
+      "side": 1,
+      "message": "As a follow-up, it would be awesome to make the mSpanList_* functions methods of mSpanList.",
+      "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
