@@ -517,9 +517,7 @@ func (d *decodeState) object(v reflect.Value) {
 			d.next() // skip over { } in input
 			return
 		}
-		if v.IsNil() {
-			v.Set(reflect.MakeMap(t))
-		}
+		v.Set(reflect.MakeMap(t))
 	case reflect.Struct:
 
 	default:
