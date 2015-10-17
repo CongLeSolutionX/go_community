@@ -532,8 +532,10 @@ func TestUnmarshal(t *testing.T) {
 			continue
 		}
 
-		// v = new(right-type)
-		v := reflect.New(reflect.TypeOf(tt.ptr).Elem())
+		// v = new(type of tt.ptr)
+		// *v = *tt.ptr
+		v := reflect.New(reflect.ValueOf(tt.ptr).Type().Elem())
+		v.Elem().Set(reflect.ValueOf(tt.ptr).Elem())
 		dec := NewDecoder(bytes.NewReader(in))
 		if tt.useNumber {
 			dec.UseNumber()
@@ -1365,7 +1367,7 @@ func TestPrefilled(t *testing.T) {
 		{
 			in:  `{"X": 1, "Y": 2}`,
 			ptr: ptrToMap(map[string]interface{}{"X": float32(3), "Y": int16(4), "Z": 1.5}),
-			out: ptrToMap(map[string]interface{}{"X": float64(1), "Y": float64(2), "Z": 1.5}),
+			out: ptrToMap(map[string]interface{}{"X": float64(1), "Y": float64(2)}),
 		},
 	}
 
