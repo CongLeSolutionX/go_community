@@ -310,7 +310,6 @@ var unmarshalTests = []unmarshalTest{
 	// This is different from package xml, but it's what we've always done.
 	// Now documented and tested.
 	{in: `[2]`, ptr: sliceAddr([]int{1}), out: []int{2}},
-	{in: `{"key": 2}`, ptr: mapAddr(map[string]int{"old": 0, "key": 1}), out: map[string]int{"key": 2}},
 
 	{
 		in: `{
@@ -532,8 +531,10 @@ func TestUnmarshal(t *testing.T) {
 			continue
 		}
 
-		// v = new(right-type)
+		// v = new(type of tt.ptr)
+		// *v = *tt.ptr
 		v := reflect.New(reflect.TypeOf(tt.ptr).Elem())
+		v.Elem().Set(reflect.ValueOf(tt.ptr).Elem())
 		dec := NewDecoder(bytes.NewReader(in))
 		if tt.useNumber {
 			dec.UseNumber()

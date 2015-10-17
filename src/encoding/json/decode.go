@@ -51,10 +51,6 @@ import (
 // To unmarshal a JSON array into a slice, Unmarshal resets the slice to nil
 // and then appends each element to the slice.
 //
-// To unmarshal a JSON object into a map, Unmarshal replaces the map
-// with an empty map and then adds key-value pairs from the object to
-// the map.
-//
 // If a JSON value is not appropriate for a given target type,
 // or if a JSON number overflows the target type, Unmarshal
 // skips that field and completes the unmarshaling as best it can.
