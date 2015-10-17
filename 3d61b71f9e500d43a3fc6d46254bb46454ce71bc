@@ -50,6 +50,24 @@
       "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_70d16655",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-17T23:53:13Z",
+      "side": 1,
+      "message": "Yep, changing the mFoo_Bar functions into mFoo methods was part of my motivation for this change.",
+      "parentUuid": "99d4ca2f_39d62b25",
+      "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
