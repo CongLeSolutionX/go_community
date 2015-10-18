@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b90b4ea8_5080a23a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-18T02:27:42Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "99d4ca2f_79dca346",
+      "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99d4ca2f_59d9e754",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-17T19:27:50Z",
       "side": 1,
       "message": "Please make these names unexported so that the compiler can easily eliminate the reflection tables.",
+      "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_308d2e73",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-18T02:27:42Z",
+      "side": 1,
+      "message": "Removed instead since they\u0027re no longer necessary with tail queues.",
+      "parentUuid": "99d4ca2f_59d9e754",
       "revId": "3d61b71f9e500d43a3fc6d46254bb46454ce71bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
