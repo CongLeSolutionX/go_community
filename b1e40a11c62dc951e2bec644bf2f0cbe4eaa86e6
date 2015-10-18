@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b90b4ea8_dbccb39d",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-18T16:22:54Z",
+      "side": 1,
+      "message": "There is no possibility of it being transitive.  All stack phis have all StoreRegs as arguments.\nWe have some tests, see cmd/compile/internal/gc/testdata/regalloc_ssa.go.",
+      "parentUuid": "99d4ca2f_b9259be3",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 21
+      },
+      "revId": "b1e40a11c62dc951e2bec644bf2f0cbe4eaa86e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99d4ca2f_d9305723",
         "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-18T13:54:33Z",
       "side": 1,
       "message": "Nice.  Is it right to call this a \"map\" in the comment when the data type is a slice, even though it\u0027s clear that it\u0027s all dense integers?",
+      "range": {
+        "startLine": 138,
+        "startChar": 28,
+        "endLine": 138,
+        "endChar": 34
+      },
+      "revId": "b1e40a11c62dc951e2bec644bf2f0cbe4eaa86e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_bbc1ff63",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-18T16:22:54Z",
+      "side": 1,
+      "message": "It\u0027s a map in the mathematical sense, not the Go type sense.",
+      "parentUuid": "99d4ca2f_d9305723",
       "range": {
         "startLine": 138,
         "startChar": 28,
