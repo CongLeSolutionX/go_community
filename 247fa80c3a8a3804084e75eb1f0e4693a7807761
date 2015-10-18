@@ -16,6 +16,24 @@
       "revId": "247fa80c3a8a3804084e75eb1f0e4693a7807761",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_3d906fd6",
+        "filename": "src/runtime/asm_ppc64x.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-18T23:15:16Z",
+      "side": 1,
+      "message": "I reworded this and will submit. Let me know if you\u0027d like more rewording.",
+      "parentUuid": "b90b4ea8_10bc6aee",
+      "revId": "247fa80c3a8a3804084e75eb1f0e4693a7807761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
