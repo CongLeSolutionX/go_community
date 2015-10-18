@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99d4ca2f_b9259be3",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-18T13:54:33Z",
+      "side": 1,
+      "message": "Is it worth commenting here, along the lines of \"collect interferences from phi args\"?  And is there an issue with this possibly being transitive?  i.e, if a2 \u003d phi(a1, a0) and a4\u003d phi(a2,a3), doesn\u0027t a4 depend not just on a2,a3 but also on a1, a0?\n\nWe don\u0027t have good tests for this sort of ssa-tricky stuff yet.",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 21
+      },
+      "revId": "b1e40a11c62dc951e2bec644bf2f0cbe4eaa86e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99d4ca2f_d9305723",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-18T13:54:33Z",
+      "side": 1,
+      "message": "Nice.  Is it right to call this a \"map\" in the comment when the data type is a slice, even though it\u0027s clear that it\u0027s all dense integers?",
+      "range": {
+        "startLine": 138,
+        "startChar": 28,
+        "endLine": 138,
+        "endChar": 34
+      },
+      "revId": "b1e40a11c62dc951e2bec644bf2f0cbe4eaa86e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
