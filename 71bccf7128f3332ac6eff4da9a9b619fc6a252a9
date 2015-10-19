@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "b90b4ea8_96f73287",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6354,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-19T17:20:34Z",
+      "side": 1,
+      "message": "PS: I take this back. I just reread your comment in the issue (alignment being defined as a property of a type above).\n\nThe same is probably true for sizes: All variables of a given type have the same size. So both alignment and size are property of types.",
+      "parentUuid": "b90b4ea8_d6300a23",
+      "range": {
+        "startLine": 6354,
+        "startChar": 21,
+        "endLine": 6354,
+        "endChar": 22
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90b4ea8_3663e61c",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
