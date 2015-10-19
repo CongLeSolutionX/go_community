@@ -229,6 +229,8 @@ func findfunc(pc uintptr) *_func {
 
 type pcvalueCache struct {
 	entries [16]pcvalueCacheEnt
+	ref     uint16 // "Referenced" bit for each entry
+	clock   uint16 // Clock hand position
 }
 
 type pcvalueCacheEnt struct {
@@ -249,13 +251,14 @@ func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict 
 	// cheaper than doing the hashing for a less associative
 	// cache.
 	if cache != nil {
-		for _, ent := range cache.entries {
+		for i, ent := range cache.entries {
 			// We check off first because we're more
 			// likely to have multiple entries with
 			// different offsets for the same targetpc
 			// than the other way around, so we'll usually
 			// fail in the first clause.
 			if ent.off == off && ent.targetpc == targetpc {
+				cache.ref |= 1 << uint16(i)
 				return ent.val
 			}
 		}
@@ -279,12 +282,22 @@ func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict 
 			break
 		}
 		if targetpc < pc {
-			// Replace a random entry in the cache. Random
-			// replacement prevents a performance cliff if
-			// a recursive stack's cycle is slightly
-			// larger than the cache.
+			// Use CLOCK to replace a cache entry.
 			if cache != nil {
-				ci := fastrand1() % uint32(len(cache.entries))
+				clock := cache.clock
+				ref := cache.ref>>clock | cache.ref<<(16-clock)
+				i := uint16(0)
+				for ref&(1<<i) != 0 {
+					i++
+				}
+				// Clear bits we walked over and set
+				// the bit we found.
+				ref ^= (1<<i - 1) | (1 << i)
+				cache.ref = ref<<clock | ref>>(16-clock)
+
+				ci := (clock + i) % uint16(len(cache.entries))
+				cache.clock = ci
+
 				cache.entries[ci] = pcvalueCacheEnt{
 					targetpc: targetpc,
 					off:      off,
