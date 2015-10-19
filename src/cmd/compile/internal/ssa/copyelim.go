@@ -4,7 +4,6 @@
 
 package ssa
 
-// copyelim removes all copies from f.
 func copyelim(f *Func) {
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
