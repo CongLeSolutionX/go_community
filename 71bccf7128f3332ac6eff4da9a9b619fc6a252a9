@@ -73,6 +73,53 @@
     },
     {
       "key": {
+        "uuid": "b90b4ea8_2960240c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6304,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-19T18:16:43Z",
+      "side": 1,
+      "message": "Done.  I snuck in \"return the alignment or size *in bytes*, respectively,\" since that seemed the least awkward placement.  Let me know if you can think of something better.",
+      "parentUuid": "b90b4ea8_e67a3bea",
+      "range": {
+        "startLine": 6304,
+        "startChar": 84,
+        "endLine": 6304,
+        "endChar": 85
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_0997a047",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-19T18:16:43Z",
+      "side": 1,
+      "message": "FYI: I also removed the phrase \"a factor,\" here, since it seemed unnecessary.",
+      "range": {
+        "startLine": 6322,
+        "startChar": 57,
+        "endLine": 6322,
+        "endChar": 66
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90b4ea8_9653b24f",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -84,6 +131,30 @@
       "writtenOn": "2015-10-19T17:05:54Z",
       "side": 1,
       "message": "s/of type \u003ccode\u003euintptr\u003c/code\u003e//\n\nseems redundant",
+      "range": {
+        "startLine": 6333,
+        "startChar": 58,
+        "endLine": 6333,
+        "endChar": 86
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_468d8771",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6333,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-19T18:16:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b90b4ea8_9653b24f",
       "range": {
         "startLine": 6333,
         "startChar": 58,
@@ -143,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "b90b4ea8_8940306d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6354,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-19T18:16:43Z",
+      "side": 1,
+      "message": "Cool, glad we\u0027re in agreement. :)\n\nI also reviewed the rest of the spec, and it seemed the only remaining wording talking about size as a property of variables was \"zero-size variables\", so I changed both of those two \"variables of zero-size type\".",
+      "parentUuid": "b90b4ea8_96f73287",
+      "range": {
+        "startLine": 6354,
+        "startChar": 21,
+        "endLine": 6354,
+        "endChar": 22
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90b4ea8_3663e61c",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -154,6 +249,30 @@
       "writtenOn": "2015-10-19T17:05:54Z",
       "side": 1,
       "message": "This is a change: \"at least as large\" is not the same as \"the largest\".",
+      "range": {
+        "startLine": 6360,
+        "startChar": 38,
+        "endLine": 6360,
+        "endChar": 43
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_693dfcf4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6360,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-19T18:16:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b90b4ea8_3663e61c",
       "range": {
         "startLine": 6360,
         "startChar": 38,
