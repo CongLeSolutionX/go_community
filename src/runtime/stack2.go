@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (c64a6f [dev.ssa] cmd/compile: Rematerialize in regalloc)
 // Copyright 2011 The Go Authors.  All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -106,3 +107,5 @@ const (
 	_StackPreempt = uintptrMask & -1314
 	_StackFork    = uintptrMask & -1234
 )
+=======
+>>>>>>> BRANCH (996c54 net: android no longer supports unix/unixgram)
