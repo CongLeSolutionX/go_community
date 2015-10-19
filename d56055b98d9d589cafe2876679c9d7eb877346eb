@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9555663b_0c524303",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-19T21:31:36Z",
+      "side": 1,
+      "message": "Can you elaborate on this workaround? I assume it is because you need to be able to declare functions that are imported like on line 85.",
+      "revId": "d56055b98d9d589cafe2876679c9d7eb877346eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_0c2b6359",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-19T21:31:36Z",
+      "side": 1,
+      "message": "Same here. Or make a reference to the comment in align.go:336 that mentions that you need to call defercheckwidth to import structs properly.",
+      "revId": "d56055b98d9d589cafe2876679c9d7eb877346eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9555663b_ac135727",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-19T21:31:36Z",
+      "side": 1,
+      "message": "(tag \u003d %d)",
+      "range": {
+        "startLine": 126,
+        "startChar": 29,
+        "endLine": 126,
+        "endChar": 35
+      },
+      "revId": "d56055b98d9d589cafe2876679c9d7eb877346eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
