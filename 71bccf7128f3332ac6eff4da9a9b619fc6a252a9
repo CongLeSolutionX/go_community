@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b90b4ea8_768b9e22",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6304,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-19T17:43:42Z",
+      "side": 1,
+      "message": "Ah, good point.  In the original wording, can \"an expression x of any type\" refer to an untyped expression though?  Should we omit \"of any type\", or maybe add mention to untyped constants/bools somehow?",
+      "parentUuid": "b90b4ea8_96af32ba",
+      "range": {
+        "startLine": 6304,
+        "startChar": 84,
+        "endLine": 6304,
+        "endChar": 85
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90b4ea8_9653b24f",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
