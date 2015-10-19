@@ -229,8 +229,7 @@ func findfunc(pc uintptr) *_func {
 
 type pcvalueCache struct {
 	entries [16]pcvalueCacheEnt
-	ref     uint16 // "Referenced" bit for each entry
-	clock   uint16 // Clock hand position
+	victim  int // Index of next victim
 }
 
 type pcvalueCacheEnt struct {
@@ -251,14 +250,13 @@ func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict 
 	// cheaper than doing the hashing for a less associative
 	// cache.
 	if cache != nil {
-		for i, ent := range cache.entries {
+		for _, ent := range cache.entries {
 			// We check off first because we're more
 			// likely to have multiple entries with
 			// different offsets for the same targetpc
 			// than the other way around, so we'll usually
 			// fail in the first clause.
 			if ent.off == off && ent.targetpc == targetpc {
-				cache.ref |= 1 << uint16(i)
 				return ent.val
 			}
 		}
@@ -282,22 +280,14 @@ func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict 
 			break
 		}
 		if targetpc < pc {
-			// Use CLOCK to replace a cache entry.
 			if cache != nil {
-				clock := cache.clock
-				ref := cache.ref>>clock | cache.ref<<(16-clock)
-				i := uint16(0)
-				for ref&(1<<i) != 0 {
-					i++
-				}
-				// Clear bits we walked over and set
-				// the bit we found.
-				ref ^= (1<<i - 1) | (1 << i)
-				cache.ref = ref<<clock | ref>>(16-clock)
-
-				ci := (clock + i) % uint16(len(cache.entries))
-				cache.clock = ci
-
+				// Replace the next victim. This
+				// simple round-robin approach is
+				// effective for recursive stacks, but
+				// also very cheap when the cache
+				// isn't being effective.
+				ci := cache.victim % len(cache.entries)
+				cache.victim++
 				cache.entries[ci] = pcvalueCacheEnt{
 					targetpc: targetpc,
 					off:      off,
