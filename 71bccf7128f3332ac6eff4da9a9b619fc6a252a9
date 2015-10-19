@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90b4ea8_96af32ba",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6304,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-19T17:05:54Z",
+      "side": 1,
+      "message": "This is not correct as is. For instance, Sizeof(0) works even though 0 is an untyped constant. The old sentence was carefully crafted to handle all these cases. Just leave as is with the additional information that the unit is bytes.\n\n(In retrospect, perhaps it would have been cleaner to only allow typed expressions, but that would be a backward-incompatible language change - even though unlikely to affect anyone, let\u0027s not go there.)",
+      "range": {
+        "startLine": 6304,
+        "startChar": 84,
+        "endLine": 6304,
+        "endChar": 85
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_9653b24f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6333,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-19T17:05:54Z",
+      "side": 1,
+      "message": "s/of type \u003ccode\u003euintptr\u003c/code\u003e//\n\nseems redundant",
+      "range": {
+        "startLine": 6333,
+        "startChar": 58,
+        "endLine": 6333,
+        "endChar": 86
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_d6300a23",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6354,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-19T17:05:54Z",
+      "side": 1,
+      "message": "I like the sentiment of the change below, but to be precise, types don\u0027t really have sizes of alignments - it\u0027s variables of a type that do.\n\nPerhaps this can be incorporated somehow (with one sentence for all)?\n\n(May need to adjust the language for 6340ff. as well).",
+      "range": {
+        "startLine": 6354,
+        "startChar": 21,
+        "endLine": 6354,
+        "endChar": 22
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_3663e61c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 6360,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-19T17:05:54Z",
+      "side": 1,
+      "message": "This is a change: \"at least as large\" is not the same as \"the largest\".",
+      "range": {
+        "startLine": 6360,
+        "startChar": 38,
+        "endLine": 6360,
+        "endChar": 43
+      },
+      "revId": "71bccf7128f3332ac6eff4da9a9b619fc6a252a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
