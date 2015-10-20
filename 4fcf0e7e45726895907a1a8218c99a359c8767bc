@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39111e0a_6899a7eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-20T22:21:31Z",
+      "side": 1,
+      "message": "No period at end of line.\n\nAlso I would s/;/:/ .",
+      "revId": "4fcf0e7e45726895907a1a8218c99a359c8767bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
