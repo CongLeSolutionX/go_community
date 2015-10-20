@@ -23,14 +23,7 @@ import (
 // builders (build.golang.org) don't have access to compiled packages for
 // import.
 func skipSpecialPlatforms(t *testing.T) {
-	switch platform := runtime.GOOS + "-" + runtime.GOARCH; platform {
-	case "nacl-amd64p32",
-		"nacl-386",
-		"nacl-arm",
-		"darwin-arm",
-		"darwin-arm64":
-		t.Skipf("no compiled packages available for import on %s", platform)
-	}
+	testenv.MustHaveGoBuild(t)
 }
 
 func compile(t *testing.T, dirname, filename string) string {
