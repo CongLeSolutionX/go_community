@@ -4,7 +4,10 @@
 
 package types
 
-import "sort"
+import (
+	"sort"
+	"sync"
+)
 
 // TODO(gri) Revisit factory functions - make sure they have all relevant parameters.
 
@@ -120,10 +123,10 @@ func (s *Slice) Elem() Type { return s.elem }
 
 // A Struct represents a struct type.
 type Struct struct {
-	fields []*Var
-	tags   []string // field tags; nil if there are no tags
-	// TODO(gri) access to offsets is not threadsafe - fix this
-	offsets []int64 // field offsets in bytes, lazily initialized
+	fields      []*Var
+	tags        []string  // field tags; nil if there are no tags
+	offsets     []int64   // field offsets in bytes, lazily initialized
+	offsetsOnce sync.Once // for threadsafe lazy initialization of offsets
 }
 
 // NewStruct returns a new struct with the given fields and corresponding field tags.
@@ -155,6 +158,17 @@ func (s *Struct) Tag(i int) string {
 		return s.tags[i]
 	}
 	return ""
+}
+
+// getOffsets returns offsets initialized in a threadsafe way
+// and true, if the values were calculated for the first time
+func (s *Struct) calcOffsets(sizes Sizes) ([]int64, bool) {
+	var calculated bool
+	s.offsetsOnce.Do(func() {
+		calculated = true
+		s.offsets = sizes.Offsetsof(s.fields)
+	})
+	return s.offsets, calculated
 }
 
 // A Pointer represents a pointer type.
