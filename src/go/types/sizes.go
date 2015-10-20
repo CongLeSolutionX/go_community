@@ -132,12 +132,7 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 		if n == 0 {
 			return 0
 		}
-		offsets := t.offsets
-		if t.offsets == nil {
-			// compute offsets on demand
-			offsets = s.Offsetsof(t.fields)
-			t.offsets = offsets
-		}
+		offsets, _ := t.calcOffsets(s)
 		return offsets[n-1] + s.Sizeof(t.fields[n-1].typ)
 	case *Interface:
 		return s.WordSize * 2
@@ -159,24 +154,25 @@ func (conf *Config) alignof(T Type) int64 {
 }
 
 func (conf *Config) offsetsof(T *Struct) []int64 {
-	offsets := T.offsets
-	if offsets == nil && T.NumFields() > 0 {
+	var offsets []int64
+	if T.NumFields() > 0 {
 		// compute offsets on demand
 		if s := conf.Sizes; s != nil {
-			offsets = s.Offsetsof(T.fields)
-			// sanity checks
-			if len(offsets) != T.NumFields() {
-				panic("Config.Sizes.Offsetsof returned the wrong number of offsets")
-			}
-			for _, o := range offsets {
-				if o < 0 {
-					panic("Config.Sizes.Offsetsof returned an offset < 0")
+			var calculated bool
+			if offsets, calculated = T.calcOffsets(s); calculated {
+				// sanity checks
+				if len(offsets) != T.NumFields() {
+					panic("Config.Sizes.Offsetsof returned the wrong number of offsets")
+				}
+				for _, o := range offsets {
+					if o < 0 {
+						panic("Config.Sizes.Offsetsof returned an offset < 0")
+					}
 				}
 			}
 		} else {
-			offsets = stdSizes.Offsetsof(T.fields)
+			offsets, _ = T.calcOffsets(&stdSizes)
 		}
-		T.offsets = offsets
 	}
 	return offsets
 }
