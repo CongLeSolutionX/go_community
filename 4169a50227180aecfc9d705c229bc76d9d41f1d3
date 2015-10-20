@@ -70,6 +70,30 @@
       "revId": "4169a50227180aecfc9d705c229bc76d9d41f1d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_e38ca60e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-10-20T00:36:11Z",
+      "side": 1,
+      "message": "@bradfitz: That\u0027s much smarter. Done.",
+      "parentUuid": "b90b4ea8_daa0249c",
+      "range": {
+        "startLine": 517,
+        "startChar": 1,
+        "endLine": 517,
+        "endChar": 7
+      },
+      "revId": "4169a50227180aecfc9d705c229bc76d9d41f1d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
