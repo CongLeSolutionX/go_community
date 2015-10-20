@@ -94,6 +94,30 @@
       "revId": "4169a50227180aecfc9d705c229bc76d9d41f1d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fdf2e7_bf0f7348",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-10-20T04:54:03Z",
+      "side": 1,
+      "message": "It\u0027s set here.\nhttp://tip.golang.org/src/cmd/link/internal/ld/pcln.go#L296",
+      "parentUuid": "7942b6df_63d656d8",
+      "range": {
+        "startLine": 517,
+        "startChar": 1,
+        "endLine": 517,
+        "endChar": 7
+      },
+      "revId": "4169a50227180aecfc9d705c229bc76d9d41f1d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
