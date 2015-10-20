@@ -227,9 +227,10 @@ func (t *Template) Clone() (*Template, error) {
 		textClone,
 		textClone.Tree,
 		&nameSpace{
-			set: make(map[string]*Template),
+			set: make(map[string]*Template, len(t.set)),
 		},
 	}
+	ret.set[ret.Name()] = ret
 	for _, x := range textClone.Templates() {
 		name := x.Name()
 		src := t.set[name]
