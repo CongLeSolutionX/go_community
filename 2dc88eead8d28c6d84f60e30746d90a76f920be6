@@ -22,6 +22,30 @@
       "revId": "2dc88eead8d28c6d84f60e30746d90a76f920be6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90b4ea8_3ad86077",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-20T02:50:26Z",
+      "side": 0,
+      "message": "Right.",
+      "parentUuid": "59fdf2e7_1f56673d",
+      "range": {
+        "startLine": 984,
+        "startChar": 2,
+        "endLine": 989,
+        "endChar": 2
+      },
+      "revId": "2dc88eead8d28c6d84f60e30746d90a76f920be6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
