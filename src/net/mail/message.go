@@ -234,7 +234,26 @@ func (a *Address) String() string {
 		return b.String()
 	}
 
+	// Text in an encoded-word in a display-name must not contains certain
+	// characters like quotes or parenthesis (see RFC 2047 section 5.3).
+	// When this is the case encode the name using base64 encoding.
+	for i := 0; i < len(a.Name); i++ {
+		if !isAllowedInPhrase(a.Name[i]) {
+			return mime.BEncoding.Encode("utf-8", a.Name) + " " + s
+		}
+	}
 	return mime.QEncoding.Encode("utf-8", a.Name) + " " + s
+}
+
+// isAllowedInPhrase returns whether b is allowed in a phrase context or is
+// encoded by mime.QEncoding.
+func isAllowedInPhrase(b byte) bool {
+	switch b {
+	case '"', '#', '$', '%', '&', '\'', '(', ')', ',', '.', ':', ';', '<', '>',
+		'@', '[', ']', '^', '`', '{', '|', '}', '~':
+		return false
+	}
+	return true
 }
 
 type addrParser struct {
