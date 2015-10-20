@@ -20,7 +20,15 @@ var simplifyTests = []struct {
 	{`(ab)?`, `(ab)?`},
 	{`.`, `(?s:.)`},
 	{`^`, `^`},
-	{`$`, `$`},
+
+	// This "simplification" is a complication because of the parsing
+	// flags used in TestSimplify below. Specifically, the use of
+	// `^OneLine` means that `$` matches end-of-line in addition to
+	// end-of-text; since the parsing default is that `$` is not allowed
+	// to match end-of-line, the flag `m` is needed to preserve semantics
+	// as parsed. See issue #12980.
+	{`$`, `(?m:$)`},
+
 	{`[ac]`, `[ac]`},
 	{`[^ac]`, `[^ac]`},
 
