@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59fdf2e7_1f56673d",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-10-20T02:30:59Z",
+      "side": 0,
+      "message": "The memory op (i.e., args[0] !\u003d SP/SB) acts to disqualify this instead, right?",
+      "range": {
+        "startLine": 984,
+        "startChar": 2,
+        "endLine": 989,
+        "endChar": 2
+      },
+      "revId": "2dc88eead8d28c6d84f60e30746d90a76f920be6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
