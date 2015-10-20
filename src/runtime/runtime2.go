@@ -513,8 +513,8 @@ type _func struct {
 	entry   uintptr // start pc
 	nameoff int32   // function name
 
-	args  int32 // in/out args size
-	frame int32 // legacy frame size; use pcsp if possible
+	args   int32 // in/out args size
+	unused int32 // Previously: legacy frame size
 
 	pcsp      int32
 	pcfile    int32
