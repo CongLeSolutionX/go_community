@@ -665,3 +665,15 @@ func BenchmarkOnePassLongNotPrefix(b *testing.B) {
 		re.Match(x)
 	}
 }
+
+func BenchmarkMachineCacheParallel(b *testing.B) {
+	re := MustCompile("foo (ba+r)? baz")
+	line := "this is a long line that contains foo bar baz"
+	b.ResetTimer()
+	b.RunParallel(func(pb *testing.PB) {
+		re := re.Copy()
+		for pb.Next() {
+			re.MatchString(line)
+		}
+	})
+}
