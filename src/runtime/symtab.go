@@ -229,7 +229,7 @@ func findfunc(pc uintptr) *_func {
 
 type pcvalueCache struct {
 	entries [16]pcvalueCacheEnt
-	victim  int // Index of next victim
+	count   int // Number of inserts.
 }
 
 type pcvalueCacheEnt struct {
@@ -237,6 +237,12 @@ type pcvalueCacheEnt struct {
 	off      int32
 	val      int32
 }
+
+// pcvalueCacheThreshold is the number of pcvalue lookups to prime the
+// cache with before using it for lookups. Setting it to non-zero
+// reduces the overhead of the cache for small stacks where it is
+// unlikely to be effective.
+const pcvalueCacheThreshold = 16
 
 func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict bool) int32 {
 	if off == 0 {
@@ -249,7 +255,7 @@ func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict 
 	// This cache is small enough that full associativity is
 	// cheaper than doing the hashing for a less associative
 	// cache.
-	if cache != nil {
+	if cache != nil && cache.count >= pcvalueCacheThreshold {
 		for _, ent := range cache.entries {
 			// We check off first because we're more
 			// likely to have multiple entries with
@@ -286,8 +292,8 @@ func pcvalue(f *_func, off int32, targetpc uintptr, cache *pcvalueCache, strict 
 				// effective for recursive stacks, but
 				// also very cheap when the cache
 				// isn't being effective.
-				ci := cache.victim % len(cache.entries)
-				cache.victim++
+				ci := cache.count % len(cache.entries)
+				cache.count++
 				cache.entries[ci] = pcvalueCacheEnt{
 					targetpc: targetpc,
 					off:      off,
