@@ -34,6 +34,24 @@
       "revId": "5a21f0e084e70da6f15c977e537a46cc20354ea6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_66a1846b",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-20T23:18:32Z",
+      "side": 1,
+      "message": "SGTM. And put \"... N bytes omitted ...\" in the middle.",
+      "parentUuid": "39111e0a_1c0af437",
+      "revId": "5a21f0e084e70da6f15c977e537a46cc20354ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
