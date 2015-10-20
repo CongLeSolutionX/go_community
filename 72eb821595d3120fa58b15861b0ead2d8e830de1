@@ -16,6 +16,24 @@
       "revId": "72eb821595d3120fa58b15861b0ead2d8e830de1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_23828ecb",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2015-10-20T02:16:03Z",
+      "side": 1,
+      "message": "Argh, please excuse my hurried text editing. Done, and this time verified.",
+      "parentUuid": "b90b4ea8_7a85b8d1",
+      "revId": "72eb821595d3120fa58b15861b0ead2d8e830de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
