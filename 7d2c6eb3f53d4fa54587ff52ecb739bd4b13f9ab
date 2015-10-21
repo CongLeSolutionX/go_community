@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59fdf2e7_62d39234",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-10-21T03:56:20Z",
+      "side": 1,
+      "message": "as replied on the discussion thread. this is misleading\nas it gives a false sense of security.\n\nif there is an invalid jump, then most of times it should\nhit the middle of functions rather than the 0xcc between\nfunctions.",
+      "revId": "7d2c6eb3f53d4fa54587ff52ecb739bd4b13f9ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fdf2e7_c2f266ca",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-10-21T03:56:20Z",
+      "side": 1,
+      "message": "and now it generates more garbage by enlarging the symbol.\n\nIf we really want to do it, we shouldn\u0027t filing the gap with 0xcc\nat span time. We should do it when writing the object file.",
+      "revId": "7d2c6eb3f53d4fa54587ff52ecb739bd4b13f9ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
