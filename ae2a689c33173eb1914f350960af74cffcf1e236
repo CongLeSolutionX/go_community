@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7942b6df_26385c94",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1610,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-21T04:45:42Z",
+      "side": 1,
+      "message": "use the singular for these (seenArg)",
+      "range": {
+        "startLine": 1610,
+        "startChar": 2,
+        "endLine": 1610,
+        "endChar": 10
+      },
+      "revId": "ae2a689c33173eb1914f350960af74cffcf1e236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_e674b457",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1611,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-21T04:45:42Z",
+      "side": 1,
+      "message": "I think you should be fine to use *Package as the key value, and compare pointers, because the loadPackage uses a package cache.",
+      "range": {
+        "startLine": 1611,
+        "startChar": 22,
+        "endLine": 1611,
+        "endChar": 28
+      },
+      "revId": "ae2a689c33173eb1914f350960af74cffcf1e236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_863b7092",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1615,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-21T04:45:42Z",
+      "side": 1,
+      "message": "if seenArg[arg] {\n  continue\n}\nseenArg[arg] \u003d true",
+      "revId": "ae2a689c33173eb1914f350960af74cffcf1e236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7942b6df_46356899",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1617,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-10-21T04:45:42Z",
+      "side": 1,
+      "message": "if seenPkg[pkg] {\n  continue\n}\nseekPkg[pkg] \u003d true",
+      "revId": "ae2a689c33173eb1914f350960af74cffcf1e236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
