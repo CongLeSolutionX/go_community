@@ -1604,14 +1604,21 @@ func packagesAndErrors(args []string) []*Package {
 	}
 
 	args = importPaths(args)
-	var pkgs []*Package
-	var stk importStack
-	var set = make(map[string]bool)
+	var (
+		pkgs     []*Package
+		stk      importStack
+		seenArgs = make(map[string]bool)
+		seenPkgs = make(map[string]bool)
+	)
 
 	for _, arg := range args {
-		if !set[arg] {
-			pkgs = append(pkgs, loadPackage(arg, &stk))
-			set[arg] = true
+		if !seenArgs[arg] {
+			pkg := loadPackage(arg, &stk)
+			if !seenPkgs[pkg.ImportPath] {
+				pkgs = append(pkgs, pkg)
+				seenPkgs[pkg.ImportPath] = true
+			}
+			seenArgs[arg] = true
 		}
 	}
 	computeStale(pkgs...)
