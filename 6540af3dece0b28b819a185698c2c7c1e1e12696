@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f935c6bb_9d44538d",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-21T23:58:42Z",
+      "side": 1,
+      "message": "Please write this as something like \"skipping because symlinks are not supported\")",
+      "revId": "6540af3dece0b28b819a185698c2c7c1e1e12696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
