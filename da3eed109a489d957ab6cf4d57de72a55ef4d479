@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "59fdf2e7_82bfbee4",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2015-10-21T02:24:49Z",
+      "side": 1,
+      "message": "LGTM.",
+      "parentUuid": "39111e0a_15c2c766",
+      "revId": "da3eed109a489d957ab6cf4d57de72a55ef4d479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59fdf2e7_5f8aaf5b",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 1
