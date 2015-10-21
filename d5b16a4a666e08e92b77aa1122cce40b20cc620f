@@ -16,6 +16,24 @@
       "revId": "d5b16a4a666e08e92b77aa1122cce40b20cc620f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_9f32338b",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2015-10-21T21:57:47Z",
+      "side": 1,
+      "message": "I removed the second sentence and replaced it with a note that copying can help avoid contention.\n\nDo you think it\u0027s better to say both things?\n\nPerhaps instead there should be a note about cached state machines and contention in the Regexp doc comment (after \"A Regexp is safe for concurrent use by multiple goroutines\") and a mention of Copy there.",
+      "parentUuid": "f935c6bb_a9147d59",
+      "revId": "d5b16a4a666e08e92b77aa1122cce40b20cc620f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
