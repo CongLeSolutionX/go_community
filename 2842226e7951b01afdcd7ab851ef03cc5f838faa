@@ -1,0 +1,316 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f935c6bb_8fe179b2",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Remove if this is now unused. Exporter and Importer have their own trace boolean.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2f9ecd2e",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Explain what safemode/\"safe\" means for gc export data. I\u0027m not sure what else is supposed to go in this section, but you could rewrite this block as `if safemode !\u003d 0 { p.string(\"safe\") }`. If that\u0027s not the correct translation, add comments explaining what other flags might need to be considered.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2f85edd2",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Instead of doing this check explicitly, would it better if tracef first checked if trace were true?",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2fb88d4d",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "For all the exporter and importer methods, it might be nice to include an example that has a code snippet and the human readable encoding it generates, like in the slides you presented.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2f86cda7",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Here you collect inlined function and on the top of the file there\u0027s a TODO about inlining functions. Can you move that comment closer and elaborate what needs TO be DOne?",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_afcb9ddb",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Explain the re-purposing of the T_old_DARRAY Etype here or reference where it is explained.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_6fc285bb",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "var s string",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_6f99a5eb",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Explain why T_old_DARRAY is a fake type and reference exporter.param in exporter.typ.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2f2a4d19",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Same as above; move all things related to function inlining closer and explain what\u0027s missing.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_8f3fb952",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Like mentioned earlier, maybe have this check for p.trace so you don\u0027t have to check each time you want to trace something. Also, consider adding an argument that indicates whether to check if the indentation is set properly so you can avoid the duplicate checks.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2f516d9d",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Probably remove the panic.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_8fea5914",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Maybe mention something about symmetry with the exporter here. Not necessary.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_2fdc0d7d",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "What happens here if safemode was 0 and the empty string was written by the exporter? Also, explain why this needs to be set here.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_4fe9411a",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Either make this \"from hidden_import\" or remove the from to be consistent.",
+      "range": {
+        "startLine": 90,
+        "startChar": 10,
+        "endLine": 90,
+        "endChar": 27
+      },
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_afc1dd8c",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Guessing this a debugging feature? Elaborate.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_6fd8c578",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Add references to this comment in bexport and bimport",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_8fa339f0",
+        "filename": "src/cmd/compile/internal/gc/go.y",
+        "patchSetId": 26
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Why do you need the line number for an init function? Just curious.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_cf9d31ae",
+        "filename": "src/cmd/compile/internal/gc/y.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T21:30:21Z",
+      "side": 1,
+      "message": "Same comment as in go.y",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
