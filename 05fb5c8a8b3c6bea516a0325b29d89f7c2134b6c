@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6f43d42_ffb37f21",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-10-21T07:36:49Z",
+      "side": 1,
+      "message": "I think we need another testenv predicate function,\ne.g. MustHasCompiledPackages, or similar.\n\nBecause the way android builder is run, on android\nwe have all the package files, so the test can be run\non android. (It only accesses the .a files, but it doesn\u0027t\ntry to build new .a files, so go tool and compiler are\nnot needed.)",
+      "revId": "05fb5c8a8b3c6bea516a0325b29d89f7c2134b6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
