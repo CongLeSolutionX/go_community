@@ -263,6 +263,40 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_32ac7673",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T23:00:38Z",
+      "side": 1,
+      "message": "Explain the split.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_52abaa4b",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T23:00:38Z",
+      "side": 1,
+      "message": "If this worked in the old export format, why would there be a problem now? For example, exporting a string constant with a value of \"$$\"",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_6fd8c578",
         "filename": "src/cmd/compile/internal/gc/go.go",
         "patchSetId": 26
@@ -308,6 +342,23 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Same comment as in go.y",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_f231febb",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2015-10-21T23:00:38Z",
+      "side": 1,
+      "message": "Explain why.",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
