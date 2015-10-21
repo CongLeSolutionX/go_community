@@ -1372,6 +1372,21 @@ func TestGoListCmdOnlyShowsCommands(t *testing.T) {
 	}
 }
 
+func TestGoListDedupsPackages(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.run("list", "xtestonly", "./testdata/src/xtestonly/...")
+	out := strings.TrimSpace(tg.getStdout())
+	seen := map[string]bool{}
+	for _, line := range strings.Split(out, "\n") {
+		if seen[line] {
+			t.Error("go list does not dedup packages")
+		}
+		seen[line] = true
+	}
+}
+
 // Issue 4096. Validate the output of unsuccessful go install foo/quxx.
 func TestUnsuccessfulGoInstallShouldMentionMissingPackage(t *testing.T) {
 	tg := testgo(t)
