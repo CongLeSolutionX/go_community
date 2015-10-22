@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b6f43d42_62feb81f",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T16:32:20Z",
+      "side": 1,
+      "message": "Naw. This was mostly a curiosity.",
+      "parentUuid": "f935c6bb_d896d917",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6f43d42_82753c8d",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 4
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Done, though I added \"or unlinked\", because mCentral_FreeSpan calls mHeap_FreeSpanLocked (via mHeap_Free) on unlinked spans.",
       "parentUuid": "b6f43d42_2274308b",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_42f3b455",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T16:32:20Z",
+      "side": 1,
+      "message": "Ah, yes, of course.\n\nThe other possibility is of course to pass the list in to mHeap_FreeSpanLocked. That would let many of the callers pass nil, but would push the complexity in to the other callers, since they don\u0027t know which busy list it\u0027s on any more than FreeSpanLocked does. So, I think it\u0027s better the way you have it, but it\u0027s something to consider.",
+      "parentUuid": "f935c6bb_188871ec",
       "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
