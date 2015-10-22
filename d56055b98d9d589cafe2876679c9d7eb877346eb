@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_f8c9dd42",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "This is to disable some type-checking until (defercheckwidth) until all types are read in completely (see e.g. \"import_there:\" in go.y).",
+      "parentUuid": "9555663b_0c524303",
+      "revId": "d56055b98d9d589cafe2876679c9d7eb877346eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_0c2b6359",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 16
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_38ac5573",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "see above\n\nadded comment",
+      "parentUuid": "9555663b_0c2b6359",
+      "revId": "d56055b98d9d589cafe2876679c9d7eb877346eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9555663b_ac135727",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 16
@@ -47,6 +83,30 @@
       "writtenOn": "2015-10-19T21:31:36Z",
       "side": 1,
       "message": "(tag \u003d %d)",
+      "range": {
+        "startLine": 126,
+        "startChar": 29,
+        "endLine": 126,
+        "endChar": 35
+      },
+      "revId": "d56055b98d9d589cafe2876679c9d7eb877346eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_98e1c1b2",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555663b_ac135727",
       "range": {
         "startLine": 126,
         "startChar": 29,
