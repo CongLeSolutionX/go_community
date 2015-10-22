@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6f43d42_82965c4a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T15:00:42Z",
+      "side": 1,
+      "message": "Does this trick actually originate with BSD?",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_82753c8d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T15:00:42Z",
+      "side": 1,
+      "message": "// For debugging. TODO: Remove.",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_22a550aa",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T15:00:42Z",
+      "side": 1,
+      "message": "list \u003d \u0026h.free[i]\nif !mSpanList_IsEmpty(list) { ... }",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_2274308b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T15:00:42Z",
+      "side": 1,
+      "message": "// s must be on a busy list (h.busy or h.busylarge).",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_426f34bb",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T15:00:42Z",
+      "side": 1,
+      "message": "When you remove the span.list !\u003d list check in a follow-up CL, you could still check that it\u0027s the right list when removing a tail element. That\u0027s probably enough to catch most mis-uses, at least in the long run.",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6f43d42_e29c0837",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-22T15:00:42Z",
+      "side": 1,
+      "message": "I would slightly prefer if list.first !\u003d nil for symmetry with the if body.",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
