@@ -332,6 +332,7 @@ var metaTests = []MetaTest{
 	{`foo\.\$`, `foo\\\.\\\$`, `foo.$`, true}, // has meta but no operator
 	{`foo.\$`, `foo\.\\\$`, `foo`, false},     // has escaped operators and real operators
 	{`!@#$%^&*()_+-=[{]}\|,<.>/?~`, `!@#\$%\^&\*\(\)_\+-=\[\{\]\}\\\|,<\.>/\?~`, `!@#`, false},
+	{`^0^0$`, `\^0\^0\$`, `0`, false}, // golang.org/issue/11175
 }
 
 func TestQuoteMeta(t *testing.T) {
