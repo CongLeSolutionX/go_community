@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_d896d917",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-22T16:27:39Z",
+      "side": 1,
+      "message": "Not sure if BSD originated the trick, but I can at least attest to:\n\n1. I learned about it from BSD and at least implemented it inspired by BSD\u0027s macros.\n2. In their HISTORY sections, the BSD and Linux queue(3) man pages say \"The queue functions first appeared in 4.4BSD.\" Technically that\u0027s just the API appearance though, not the underlying idea.\n3. Googling for \"tail queue\", I couldn\u0027t find anything authoritative to suggest it predates BSD.\n\nI can ask some of my BSD historian colleagues if they know more.",
+      "parentUuid": "b6f43d42_82965c4a",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6f43d42_82753c8d",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-22T15:00:42Z",
       "side": 1,
       "message": "// For debugging. TODO: Remove.",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_389e152f",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-22T16:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6f43d42_82753c8d",
       "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_b8784583",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-22T16:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6f43d42_22a550aa",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6f43d42_2274308b",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2015-10-22T15:00:42Z",
       "side": 1,
       "message": "// s must be on a busy list (h.busy or h.busylarge).",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_188871ec",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-22T16:27:39Z",
+      "side": 1,
+      "message": "Done, though I added \"or unlinked\", because mCentral_FreeSpan calls mHeap_FreeSpanLocked (via mHeap_Free) on unlinked spans.",
+      "parentUuid": "b6f43d42_2274308b",
       "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_3837f5c6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-22T16:27:39Z",
+      "side": 1,
+      "message": "Added a TODO note.",
+      "parentUuid": "b6f43d42_426f34bb",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6f43d42_e29c0837",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2015-10-22T15:00:42Z",
       "side": 1,
       "message": "I would slightly prefer if list.first !\u003d nil for symmetry with the if body.",
+      "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_d86899ad",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-22T16:27:39Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b6f43d42_e29c0837",
       "revId": "30c14f16fa4c61719d98909f506064daafc7a5f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
