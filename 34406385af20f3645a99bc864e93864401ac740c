@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f935c6bb_183a31b0",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-22T16:34:59Z",
+      "side": 1,
+      "message": "I think you mean \"panic is a fatal error\".  The old code just swallowed panics if e.unimplemented was true.\n\nI think you can delete this comment and the defer below.  Now that we implement everything panics should just propagate upward.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 45
+      },
+      "revId": "34406385af20f3645a99bc864e93864401ac740c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_38e29588",
+        "filename": "src/cmd/compile/internal/ssa/tighten.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-22T16:34:59Z",
+      "side": 1,
+      "message": "Yes, this is tricky.  A memory arg would do it, but maybe we should think about a separate safe-point ordering mechanism?  I\u0027m not sure.  In any case, this is ok for now.",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "34406385af20f3645a99bc864e93864401ac740c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_b8fcc526",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-22T16:34:59Z",
+      "side": 1,
+      "message": "When #16080 is in I think we can get away with 768.\n\nThe corresponding change to runtime/stack.go is missing.",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 19
+      },
+      "revId": "34406385af20f3645a99bc864e93864401ac740c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
