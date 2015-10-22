@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_b8e685c5",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_8fe179b2",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_2f9ecd2e",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 26
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Explain what safemode/\"safe\" means for gc export data. I\u0027m not sure what else is supposed to go in this section, but you could rewrite this block as `if safemode !\u003d 0 { p.string(\"safe\") }`. If that\u0027s not the correct translation, add comments explaining what other flags might need to be considered.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_d8db3900",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Just replicating the code from go.y:import_package.\nAdded comment.",
+      "parentUuid": "f935c6bb_2f9ecd2e",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_18d6b1d6",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "no - i want to be sure that this code disappears if we make p.trace a constant",
+      "parentUuid": "f935c6bb_2f85edd2",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_2fb88d4d",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 26
@@ -64,6 +118,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "For all the exporter and importer methods, it might be nice to include an example that has a code snippet and the human readable encoding it generates, like in the slides you presented.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_78cded40",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Prefer not to. a) The chance of comment and code to diverge is too large and the result confusing. b) I\u0027ve tried to organize the writing of the serialized data in blocks at the end functions, so it\u0027s actually pretty clear.",
+      "parentUuid": "f935c6bb_2fb88d4d",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_988c610e",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Moved and commented.",
+      "parentUuid": "f935c6bb_2f86cda7",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_afcb9ddb",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 26
@@ -98,6 +188,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Explain the re-purposing of the T_old_DARRAY Etype here or reference where it is explained.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_78a88d4e",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_afcb9ddb",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_388535d3",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_6fc285bb",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_6f99a5eb",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 26
@@ -132,6 +258,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Explain why T_old_DARRAY is a fake type and reference exporter.param in exporter.typ.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_787fad64",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_6f99a5eb",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_18531100",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_2f2a4d19",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_8f3fb952",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 26
@@ -166,6 +328,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Like mentioned earlier, maybe have this check for p.trace so you don\u0027t have to check each time you want to trace something. Also, consider adding an argument that indicates whether to check if the indentation is set properly so you can avoid the duplicate checks.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_98454132",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "See above: Prefer leaving the p.trace test outside.\nIndentation should be correct - we only check outside for consistency. Cannot easily move this here.",
+      "parentUuid": "f935c6bb_8f3fb952",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_b84a053f",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "needed to satisfy compiler - replaced with return nil",
+      "parentUuid": "f935c6bb_2f516d9d",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_8fea5914",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 26
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_5834a9bf",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_8fea5914",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_2fdc0d7d",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 26
@@ -217,6 +433,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "What happens here if safemode was 0 and the empty string was written by the exporter? Also, explain why this needs to be set here.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_f8df1dc2",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "well, if the empty string was written, then p.string() !\u003d \"safe\" and safemode is off - symmetric to export (see comment there)",
+      "parentUuid": "f935c6bb_2fdc0d7d",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -246,6 +480,30 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_18e5d18f",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_4fe9411a",
+      "range": {
+        "startLine": 90,
+        "startChar": 10,
+        "endLine": 90,
+        "endChar": 27
+      },
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_afc1dd8c",
         "filename": "src/cmd/compile/internal/gc/dcl.go",
         "patchSetId": 26
@@ -257,6 +515,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Guessing this a debugging feature? Elaborate.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_78ec0d7a",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "f935c6bb_afc1dd8c",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -297,6 +573,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_78032dde",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Good point. The old format looks for \"\\n$$\\n\" I believe and encodes strings with non-printables in quoted form - so it works. But needs to be investigated. Added better comment.",
+      "parentUuid": "f935c6bb_52abaa4b",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_6fd8c578",
         "filename": "src/cmd/compile/internal/gc/go.go",
         "patchSetId": 26
@@ -308,6 +602,24 @@
       "writtenOn": "2015-10-21T21:30:21Z",
       "side": 1,
       "message": "Add references to this comment in bexport and bimport",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_3814550c",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935c6bb_6fd8c578",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -331,6 +643,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_781ecd2d",
+        "filename": "src/cmd/compile/internal/gc/go.y",
+        "patchSetId": 26
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "copied from line 265\n\nYyerror has the wrong line number in this case when using the new import format (due to different ways of doing things). Easiest to set the line number to the value we know is correct.",
+      "parentUuid": "f935c6bb_8fa339f0",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_cf9d31ae",
         "filename": "src/cmd/compile/internal/gc/y.go",
         "patchSetId": 26
@@ -348,6 +678,24 @@
     },
     {
       "key": {
+        "uuid": "f935c6bb_9849c12f",
+        "filename": "src/cmd/compile/internal/gc/y.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "see go.y reply",
+      "parentUuid": "f935c6bb_cf9d31ae",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f935c6bb_f231febb",
         "filename": "src/cmd/internal/goobj/read.go",
         "patchSetId": 26
@@ -359,6 +707,24 @@
       "writtenOn": "2015-10-21T23:00:38Z",
       "side": 1,
       "message": "Explain why.",
+      "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f935c6bb_d8433909",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-22T17:17:08Z",
+      "side": 1,
+      "message": "The old export format couldn\u0027t contain 0 bytes. The new format can. Don\u0027t consider it an error. Added comment in source.",
+      "parentUuid": "f935c6bb_f231febb",
       "revId": "2842226e7951b01afdcd7ab851ef03cc5f838faa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
