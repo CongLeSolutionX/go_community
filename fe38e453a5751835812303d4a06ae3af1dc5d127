@@ -16,6 +16,24 @@
       "revId": "fe38e453a5751835812303d4a06ae3af1dc5d127",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6ae1193_d89cadde",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-10-23T20:07:37Z",
+      "side": 1,
+      "message": "note the spelling of the label ret that\u0027s removed by this change...\n\n(I don\u0027t think it matters much)",
+      "parentUuid": "763e45ee_1d91d321",
+      "revId": "fe38e453a5751835812303d4a06ae3af1dc5d127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
