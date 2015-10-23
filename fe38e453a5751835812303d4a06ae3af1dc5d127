@@ -34,6 +34,24 @@
       "revId": "fe38e453a5751835812303d4a06ae3af1dc5d127",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d67c51f3_88b3b722",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-10-23T20:53:44Z",
+      "side": 1,
+      "message": "To Brad\u0027s defence the original code was auto-converted from C, so Go style probably didn\u0027t influence it very much.\n\nCapitalization of labels seems a little inconsistent:\n\n  $ cd $GOROOT\n  $ git grep \u0027goto [A-Z]\\w*\u0027 | wc -l\n  603\n  $ git grep \u0027goto [a-z]\\w*\u0027 | wc -l\n  1001\n\n(disclaimer: not all these matches are relevant)",
+      "parentUuid": "d6ae1193_d89cadde",
+      "revId": "fe38e453a5751835812303d4a06ae3af1dc5d127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
