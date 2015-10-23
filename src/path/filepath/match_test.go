@@ -9,6 +9,7 @@ import (
 	"os"
 	. "path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -206,6 +207,105 @@ func TestGlobSymlink(t *testing.T) {
 		}
 		if !contains(matches, dest) {
 			t.Errorf("Glob(%#q) = %#v want %v", dest, matches, dest)
+		}
+	}
+}
+
+func TestGlobOrder(t *testing.T) {
+	root, err := ioutil.TempDir("", "goglob")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(root)
+
+	for _, d := range "abcde" {
+		createFiles(t, Join(root, string(d)), []string{""}, 20)
+	}
+
+	files, err := Glob(Join(root, "*/*"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	const want = 100
+	if got := len(files); got != want {
+		t.Errorf("got %d files; want %d", got, want)
+	}
+
+	for i := 1; i < len(files); i++ {
+		if files[i-1] > files[i] {
+			t.Fatalf("not sorted: %q comes before %q", files[i-1], files[i])
+		}
+	}
+}
+
+func benchmarkGlob(b *testing.B, files int, dirs ...int) {
+	root, err := ioutil.TempDir("", "goglob")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.RemoveAll(root)
+
+	prefixes := []string{"x", "y", "z"}
+	createDirs(b, root, dirs, prefixes, files)
+
+	pattern := ""
+	for range dirs {
+		pattern += "*/"
+	}
+	pattern += "x*"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Glob(Join(root, pattern))
+	}
+}
+
+func BenchmarkGlob_10_10(b *testing.B) {
+	benchmarkGlob(b, 10, 10)
+}
+
+func BenchmarkGlob_10_10_10(b *testing.B) {
+	benchmarkGlob(b, 10, 10, 10)
+}
+
+func BenchmarkGlob_5_5_5_5(b *testing.B) {
+	benchmarkGlob(b, 5, 5, 5, 5)
+}
+func BenchmarkGlob_5_5_5_5_5(b *testing.B) {
+	benchmarkGlob(b, 5, 5, 5, 5, 5)
+}
+
+func BenchmarkGlob_50_50(b *testing.B) {
+	benchmarkGlob(b, 50, 50)
+}
+
+func BenchmarkGlob_100_50(b *testing.B) {
+	benchmarkGlob(b, 100, 50)
+}
+
+func createDirs(tb testing.TB, dir string, dirs []int, filePrefixes []string, files int) {
+	if len(dirs) == 0 {
+		createFiles(tb, dir, filePrefixes, files)
+		return
+	}
+	for i := 0; i < dirs[0]; i++ {
+		dir := Join(dir, strconv.Itoa(i))
+		createDirs(tb, dir, dirs[1:], filePrefixes, files)
+	}
+}
+
+func createFiles(tb testing.TB, dir string, prefixes []string, count int) {
+	if err := os.MkdirAll(dir, 0777); err != nil {
+		tb.Fatal(err)
+	}
+
+	for _, prefix := range prefixes {
+		for j := 0; j < count; j++ {
+			filename := Join(dir, prefix+strconv.Itoa(j))
+			if err := ioutil.WriteFile(filename, nil, 0666); err != nil {
+				tb.Fatal(err)
+			}
 		}
 	}
 }

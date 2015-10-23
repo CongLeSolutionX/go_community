@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"sync"
 	"unicode/utf8"
 )
 
@@ -232,11 +233,25 @@ func getEsc(chunk string) (r rune, nchunk string, err error) {
 // The only possible returned error is ErrBadPattern, when pattern
 // is malformed.
 func Glob(pattern string) (matches []string, err error) {
+	c := make(chan string)
+	go func() {
+		defer close(c)
+		err = glob(pattern, c)
+	}()
+	for m := range c {
+		matches = append(matches, m)
+	}
+	return
+}
+
+// glob sends the names of all files matching pattern in lexicographical order.
+func glob(pattern string, matches chan string) (err error) {
 	if !hasMeta(pattern) {
 		if _, err = os.Lstat(pattern); err != nil {
-			return nil, nil
+			return nil
 		}
-		return []string{pattern}, nil
+		matches <- pattern
+		return nil
 	}
 
 	dir, file := Split(pattern)
@@ -244,45 +259,67 @@ func Glob(pattern string) (matches []string, err error) {
 	case "":
 		dir = "."
 	case string(Separator):
-		// nothing
+	// nothing
 	default:
 		dir = dir[0 : len(dir)-1] // chop off trailing separator
 	}
 
 	if !hasMeta(dir) {
-		return glob(dir, file, nil)
+		return globDir(dir, file, nil, matches)
 	}
 
-	var m []string
-	m, err = Glob(dir)
-	if err != nil {
-		return
-	}
-	for _, d := range m {
-		matches, err = glob(d, file, matches)
-		if err != nil {
-			return
+	var errLock sync.Mutex
+	dirs := make(chan string, 1)
+	go func() {
+		defer close(dirs)
+		dirErr := glob(dir, dirs)
+		if dirErr != nil {
+			errLock.Lock()
+			err = dirErr
+			errLock.Unlock()
 		}
+	}()
+	var (
+		last chan struct{}
+		wg   sync.WaitGroup
+	)
+	for d := range dirs {
+		d := d
+		prev := last
+		cur := make(chan struct{})
+		last = cur
+
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			defer close(cur)
+			if e := globDir(d, file, prev, matches); e != nil {
+				errLock.Lock()
+				err = e
+				errLock.Unlock()
+			}
+		}()
 	}
+	wg.Wait()
 	return
 }
 
-// glob searches for files matching pattern in the directory dir
-// and appends them to matches. If the directory cannot be
-// opened, it returns the existing matches. New matches are
-// added in lexicographical order.
-func glob(dir, pattern string, matches []string) (m []string, e error) {
-	m = matches
+// globDir searches for files matching pattern in the directory dir
+// and sends them to matches. If wait is not nil, receives from wait before
+// sending the very first file. Matches are sent in lexicographical order.
+func globDir(dir, pattern string, wait chan struct{}, matches chan string) error {
 	fi, err := os.Stat(dir)
 	if err != nil {
-		return
+		// ignore file system errors
+		return nil
 	}
 	if !fi.IsDir() {
-		return
+		return nil
 	}
 	d, err := os.Open(dir)
 	if err != nil {
-		return
+		// ignore file system errors
+		return nil
 	}
 	defer d.Close()
 
@@ -292,13 +329,17 @@ func glob(dir, pattern string, matches []string) (m []string, e error) {
 	for _, n := range names {
 		matched, err := Match(pattern, n)
 		if err != nil {
-			return m, err
+			return err
 		}
 		if matched {
-			m = append(m, Join(dir, n))
+			if wait != nil {
+				<-wait
+				wait = nil
+			}
+			matches <- Join(dir, n)
 		}
 	}
-	return
+	return nil
 }
 
 // hasMeta reports whether path contains any of the magic characters
