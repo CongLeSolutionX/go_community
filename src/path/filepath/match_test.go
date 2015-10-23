@@ -9,6 +9,7 @@ import (
 	"os"
 	. "path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -208,4 +209,68 @@ func TestGlobSymlink(t *testing.T) {
 			t.Errorf("Glob(%#q) = %#v want %v", dest, matches, dest)
 		}
 	}
+}
+
+func createFiles(b *testing.B, dir string, prefixes []string, count int) {
+	if err := os.MkdirAll(dir, 0777); err != nil {
+		b.Fatal(err)
+	}
+
+	for _, prefix := range prefixes {
+		for j := 0; j < count; j++ {
+			filename := Join(dir, prefix+strconv.Itoa(j))
+			if err := ioutil.WriteFile(filename, nil, 0666); err != nil {
+				b.Fatal(err)
+			}
+		}
+	}
+}
+
+func benchmarkGlob(b *testing.B, dirs, files int, level2 bool) {
+	root, err := ioutil.TempDir("", "goglob")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer os.RemoveAll(root)
+
+	for i := 0; i < dirs; i++ {
+		dir := Join(root, strconv.Itoa(i))
+		if !level2 {
+			createFiles(b, dir, []string{"x", "y"}, files)
+		} else {
+			for j := 0; j < dirs; j++ {
+				dir := Join(dir, strconv.Itoa(j))
+				createFiles(b, dir, []string{"x", "y"}, files)
+
+			}
+		}
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if level2 {
+			Glob(Join(root, "*/**/x*"))
+		} else {
+			Glob(Join(root, "*/x*"))
+		}
+	}
+}
+
+func BenchmarkGlob_10_10(b *testing.B) {
+	benchmarkGlob(b, 10, 10, false)
+}
+
+func BenchmarkGlob_10_10_level2(b *testing.B) {
+	benchmarkGlob(b, 10, 10, true)
+}
+
+func BenchmarkGlob_50_50(b *testing.B) {
+	benchmarkGlob(b, 50, 50, false)
+}
+
+func BenchmarkGlob_100_50(b *testing.B) {
+	benchmarkGlob(b, 100, 50, false)
+}
+func BenchmarkGlob_100_100(b *testing.B) {
+	benchmarkGlob(b, 100, 100, false)
 }
