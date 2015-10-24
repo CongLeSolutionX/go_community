@@ -51,4 +51,7 @@ var sigtable = [...]sigTabT{
 
 	// Alarms can be handled if desired, otherwise they're ignored.
 	{_SigNotify, "alarm"},
+
+	// Aborts can be handled if desired, otherwise they cause a strack trace.
+	{_SigNotify + _SigThrow, "abort"},
 }
