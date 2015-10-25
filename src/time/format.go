@@ -163,6 +163,10 @@ func nextStdChunk(layout string) (prefix string, std int, suffix string) {
 			return layout[0:i], stdDay, layout[i+1:]
 
 		case '_': // _2
+			//_2006 is really a literal _
+			if len(layout) >= i+5 && layout[i+1:i+5] == "2006" {
+				continue
+			}
 			if len(layout) >= i+2 && layout[i+1] == '2' {
 				return layout[0:i], stdUnderDay, layout[i+2:]
 			}
