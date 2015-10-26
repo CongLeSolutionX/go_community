@@ -16,6 +16,24 @@
       "revId": "d4038476a2f62401a46d7f941abd2da052c03541",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76c3a55a_58a0a19a",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5185
+      },
+      "writtenOn": "2015-10-26T20:04:55Z",
+      "side": 1,
+      "message": "I fixed this up in the following patchset.",
+      "parentUuid": "56fb0186_0cced793",
+      "revId": "d4038476a2f62401a46d7f941abd2da052c03541",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
