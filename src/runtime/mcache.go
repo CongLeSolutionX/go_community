@@ -69,6 +69,11 @@ func allocmcache() *mcache {
 	for i := 0; i < _NumSizeClasses; i++ {
 		c.alloc[i] = &emptymspan
 	}
+	// Plan 9 doesn't support floating point in note handler
+	_g_ := getg()
+	if GOOS == "plan9" && _g_ == _g_.m.gsignal {
+		return c
+	}
 	c.next_sample = nextSample()
 	return c
 }
