@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6ae1193_4ce8df92",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9bdc694_49e981af",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9bdc694_09f3899d",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "d6ae1193_ac9fbb29",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "due to the new HTTP/2 check in here, resp is now a var declared before this function call. Let me know if the new style is ok.",
+      "parentUuid": "f9bdc694_29f8cd76",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9bdc694_69eec5ba",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
@@ -81,6 +117,24 @@
       "writtenOn": "2015-10-15T15:52:44Z",
       "side": 1,
       "message": "Delete this line. We never get here.",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6ae1193_acd6dbd5",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9bdc694_69eec5ba",
       "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "d6ae1193_8ce2f7b0",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9bdc694_c9fc916d",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9bdc694_e9f9557a",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
@@ -115,6 +187,24 @@
       "writtenOn": "2015-10-15T15:52:44Z",
       "side": 1,
       "message": "What\u0027s the return value otherwise? It seems like the unwrapped error?",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6ae1193_ecd0d3da",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "yes, the return value is otherwise err (the input value). I\u0027ve updated the comment to reflect that.",
+      "parentUuid": "f9bdc694_e9f9557a",
       "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "d6ae1193_2c8c8b0b",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9bdc694_89069935",
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "791f1655_d53adc8d",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
@@ -149,6 +257,30 @@
       "writtenOn": "2015-10-15T15:00:30Z",
       "side": 1,
       "message": "Double-word.  \"checking checking\".",
+      "range": {
+        "startLine": 261,
+        "startChar": 50,
+        "endLine": 261,
+        "endChar": 67
+      },
+      "revId": "acb11b1212a029b5ce2fed8ee1a47385efa57565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6ae1193_6cdda3f3",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-26T04:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "791f1655_d53adc8d",
       "range": {
         "startLine": 261,
         "startChar": 50,
