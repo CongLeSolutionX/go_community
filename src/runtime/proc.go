@@ -1057,6 +1057,8 @@ func mstart1() {
 // memory barrier. GC uses this as a "ragged barrier."
 //
 // The caller must hold worldsema.
+//
+//go:systemstack
 func forEachP(fn func(*p)) {
 	mp := acquirem()
 	_p_ := getg().m.p.ptr()
@@ -1115,6 +1117,8 @@ func forEachP(fn func(*p)) {
 		for {
 			// Wait for 100us, then try to re-preempt in
 			// case of any races.
+			//
+			// Requires system stack.
 			if notetsleep(&sched.safePointNote, 100*1000) {
 				noteclear(&sched.safePointNote)
 				break
