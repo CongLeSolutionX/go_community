@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6ae1193_0c38a701",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-10-26T00:31:18Z",
+      "side": 1,
+      "message": "When the str is \"-I${SRCDIR}/bar\" and srcdir point \"c:/program files/foo\", result should be:\n\n  -I\"c:/program files/foo/bar\"\n\nnot\n\n  -I\"c:/program files/foo\"/bar",
+      "revId": "ffcbec24dac4d12b9ad2bdb2f90f29d581e43a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
