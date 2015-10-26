@@ -16,6 +16,24 @@
       "revId": "ffcbec24dac4d12b9ad2bdb2f90f29d581e43a1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56b5c1f6_bc9fc15b",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 7795
+      },
+      "writtenOn": "2015-10-26T11:59:21Z",
+      "side": 1,
+      "message": "It is certainly more pleasing to the eyes, but also more complex, because it makes the substitution dependent on a context which is likely different depending on the platform. My understanding is the second form is well supported by Unix and Windows. Did I miss something?",
+      "parentUuid": "d6ae1193_0c38a701",
+      "revId": "ffcbec24dac4d12b9ad2bdb2f90f29d581e43a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
