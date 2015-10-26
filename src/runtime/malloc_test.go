@@ -82,6 +82,27 @@ func TestStringConcatenationAllocs(t *testing.T) {
 	}
 }
 
+func TestTinyAlloc(t *testing.T) {
+	const N = 1024
+	var v [N]*byte
+
+	var m0, m1 MemStats
+	ReadMemStats(&m0)
+	for i := range v {
+		v[i] = new(byte)
+	}
+	ReadMemStats(&m1)
+
+	if n := m1.Mallocs - m0.Mallocs; n < N {
+		t.Errorf("test broken by escape analysis; only saw %v mallocs", n)
+	}
+
+	// Assume bytes are group into at least 8 to an object.
+	if n := m1.HeapObjects - m0.HeapObjects; n > N/8 {
+		t.Errorf("allocated too many heap objects: %v", n)
+	}
+}
+
 var mallocSink uintptr
 
 func BenchmarkMalloc8(b *testing.B) {
