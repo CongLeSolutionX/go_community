@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6ae1193_df7e4ce1",
+        "filename": "src/runtime/mcache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-27T03:19:55Z",
+      "side": 1,
+      "message": "I would suggest that you move this test to where it matters, namely nextSample.  Perhaps you could write something like\n    if GOOS \u003d\u003d \"plan9\" {\n        if g :\u003d getg(); g \u003d\u003d g.m.gsignal {\n            // Use older, simpler code to avoid FP.\n            next :\u003d int32(fastrand1()) % (2 * int32(rate))\n            next -\u003d (int32(size) - c.next_sample)\n            if next \u003c 0 {\n                next \u003d 0\n            }\n            return next\n        }\n    }",
+      "revId": "5810b8c7cf69d17adda3f3ad0432368751f01af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
