@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76c3a55a_dbbd8bed",
+        "filename": "src/net/http/httptest/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-27T19:02:10Z",
+      "side": 1,
+      "message": "Probably worth a comment. I don\u0027t actually understand why these two states are important, but StateActive isn\u0027t. I thought it was because these were the two non-terminal states where we\u0027re waiting on the other side of the connection, but if I understand the comment on StateActive correctly, the other side of the connection could still wedge s.Close by sending 1 byte of a request and then not sending anything more. Why is it important to distinguish between the other side having sent 0 bytes and having sent 1 byte?",
+      "revId": "414e801fee7147e0c15544b5476839ea21f852db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
