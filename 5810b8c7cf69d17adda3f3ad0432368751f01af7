@@ -16,6 +16,24 @@
       "revId": "5810b8c7cf69d17adda3f3ad0432368751f01af7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1698a98e_e21c860a",
+        "filename": "src/runtime/mcache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2015-10-27T16:06:39Z",
+      "side": 1,
+      "message": "I\u0027ve implemented it as a separate nextSampleNoFP function.\nLet me know what do you think of it.",
+      "parentUuid": "d6ae1193_df7e4ce1",
+      "revId": "5810b8c7cf69d17adda3f3ad0432368751f01af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
