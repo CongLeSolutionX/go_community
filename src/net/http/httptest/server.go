@@ -150,7 +150,7 @@ func (s *Server) Close() {
 		s.Listener.Close()
 		s.Config.SetKeepAlivesEnabled(false)
 		for c, st := range s.conns {
-			if st == http.StateIdle {
+			if st == http.StateIdle || st == http.StateNew {
 				s.closeConn(c)
 			}
 		}
