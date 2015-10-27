@@ -16,6 +16,24 @@
       "revId": "414e801fee7147e0c15544b5476839ea21f852db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6ae1193_98530a50",
+        "filename": "src/net/http/httptest/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-27T19:10:45Z",
+      "side": 1,
+      "message": "StateNew are from socket late binding leftover dials from the http client. The http client started a dial for a request, but while the dial was still happening, another request finished and its conn was used instead. So the http client is sitting on an idle conn before a request was ever sent.\n\nThe reason we don\u0027t shut down StateActive is because the docs say we don\u0027t: \"and blocks until all outstanding requests on this server have completed\".\n\nThis is all discussed in the previous CL review but I thought bcmills was out this week so I sent to you instead. I\u0027ll add a little comment here.",
+      "parentUuid": "76c3a55a_dbbd8bed",
+      "revId": "414e801fee7147e0c15544b5476839ea21f852db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
