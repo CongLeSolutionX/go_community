@@ -1226,6 +1226,10 @@ func gcMarkTermination() {
 	memstats.numgc++
 
 	systemstack(startTheWorldWithSema)
+
+	// Free stack spans. This must be done between GC cycles.
+	systemstack(freeStackSpans)
+
 	semrelease(&worldsema)
 
 	releasem(mp)
@@ -1536,12 +1540,6 @@ func gcMark(start_time int64) {
 	if trace.enabled {
 		traceGCScanDone()
 	}
-
-	// TODO(austin): This doesn't have to be done during STW, as
-	// long as we block the next GC cycle until this is done. Move
-	// it after we start the world, but before dropping worldsema.
-	// (See issue #11465.)
-	freeStackSpans()
 
 	cachestats()
 
