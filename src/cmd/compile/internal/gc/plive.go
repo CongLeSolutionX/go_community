@@ -19,6 +19,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 const (
@@ -1393,8 +1394,12 @@ func livenessepilogue(lv *Liveness) {
 				if msg != nil {
 					fmt_ = ""
 					fmt_ += fmt.Sprintf("%v: live at ", p.Line())
-					if p.As == obj.ACALL && p.To.Node != nil {
-						fmt_ += fmt.Sprintf("call to %s:", ((p.To.Node).(*Node)).Sym.Name)
+					if p.As == obj.ACALL && p.To.Sym != nil {
+						name := p.To.Sym.Name
+						if strings.HasPrefix(name, "\"\".") {
+							name = name[3:]
+						}
+						fmt_ += fmt.Sprintf("call to %s:", name)
 					} else if p.As == obj.ACALL {
 						fmt_ += "indirect call:"
 					} else {
