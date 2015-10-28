@@ -657,3 +657,36 @@ func TestNoRaceChanWaitGroup(t *testing.T) {
 		_ = data[i]
 	}
 }
+
+func TestNoRaceBlockedSendSync(t *testing.T) {
+	c := make(chan *int, 1)
+	c <- nil
+	go func() {
+		i := 42
+		c <- &i
+	}()
+	time.Sleep(10 * time.Millisecond)
+	<-c
+	p := <-c
+	if *p != 42 {
+		t.Fatalf("corrupted")
+	}
+}
+
+func TestNoRaceBlockedSelectSendSync(t *testing.T) {
+	c := make(chan *int, 1)
+	c <- nil
+	go func() {
+		i := 42
+		c <- &i
+	}()
+	time.Sleep(10 * time.Millisecond)
+	<-c
+	select {
+	case p := <-c:
+		if *p != 42 {
+			t.Fatalf("corrupted")
+		}
+	case <-make(chan int):
+	}
+}
