@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c4e1d1_38fc3169",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-28T23:56:43Z",
+      "side": 1,
+      "message": "Don\u0027t forget to make this same change in the pending ppc64 CL.",
+      "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_b8b941b8",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-28T23:56:43Z",
+      "side": 1,
+      "message": "Run-on sentence.  Perhaps\n\nWhen dynamically linking, we want references to functions definedin this module to always be to the function object, not to the PLT.  We force this by writing an additional local symbol for every global function symbol and making all relocations against the global symbol refer to this local symbol instead (see (*LSym).ElfsymForReloc).  This is approximately equivalent to the ELF linker -Bsymbolic-functions option, but that is buggy on several platforms.",
+      "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_78b869ac",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-28T23:56:43Z",
+      "side": 1,
+      "message": "Remind me why this can\u0027t conflict with a symbol defined in a package whose import path is \"local\".",
+      "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
