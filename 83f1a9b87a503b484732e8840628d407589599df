@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "167c2956_02a54aa9",
+        "filename": "src/html/template/clone_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 7020
+      },
+      "writtenOn": "2015-10-28T22:40:59Z",
+      "side": 1,
+      "message": "The Errorf() occurs if err !\u003d nil, but claims \"want non-nil\".  Not introduced by this change, but, if it\u0027s an isolated case, perhaps it can be fixed at the same time.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 2
+      },
+      "revId": "83f1a9b87a503b484732e8840628d407589599df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
