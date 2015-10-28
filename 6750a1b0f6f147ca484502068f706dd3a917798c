@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c4e1d1_240ff275",
+        "filename": "src/runtime/race/testdata/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T15:31:17Z",
+      "side": 1,
+      "message": "tests with sleeps make me nervous. they\u0027re often flaky, or too slow.\n\nadd a comment saying what this sleep is doing?\n\nYou might also want to add a comment before this whole test explaining its purpose, because it doesn\u0027t appear to be showing any actual race, despite the directory this is in. (\"runtime/race/...)",
+      "revId": "6750a1b0f6f147ca484502068f706dd3a917798c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_040c767d",
+        "filename": "src/runtime/race/testdata/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T15:31:17Z",
+      "side": 1,
+      "message": "same comments",
+      "revId": "6750a1b0f6f147ca484502068f706dd3a917798c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
