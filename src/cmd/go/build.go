@@ -387,7 +387,7 @@ func buildModeInit() {
 			codegenArg = "-fPIC"
 		} else {
 			switch platform {
-			case "linux/386", "linux/amd64":
+			case "linux/386", "linux/amd64", "linux/arm":
 				buildAsmflags = append(buildAsmflags, "-D=shared=1")
 			default:
 				fatalf("-buildmode=shared not supported on %s\n", platform)
@@ -406,7 +406,7 @@ func buildModeInit() {
 			codegenArg = "-fPIC"
 		} else {
 			switch platform {
-			case "linux/386", "linux/amd64":
+			case "linux/386", "linux/amd64", "linux/arm":
 				buildAsmflags = append(buildAsmflags, "-D=shared=1")
 			default:
 				fatalf("-buildmode=shared not supported on %s\n", platform)
