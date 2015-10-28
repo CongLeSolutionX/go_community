@@ -1,16 +1,17 @@
-// Copyright 2013 The Go Authors.  All rights reserved.
+// Copyright 2015 The Go Authors.  All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !amd64
+// +build amd64
 
 package strings
 
 // IndexByte returns the index of the first instance of c in s, or -1 if c is not present in s.
 func IndexByte(s string, c byte) int // ../runtime/asm_$GOARCH.s
-
-// TODO: implements short string optimization on non amd64 platforms
-// and get rid of string_decl_amd64.go
+// indexShortStr returns the index of the first instance of c in s, or -1 if c is not present in s.
+// c is a string shorter than shortstriglen.
+func indexShortStr(s, c string) int // ../runtime/asm_$GOARCH.s
+const shortstriglen int = 31
 
 // Index returns the index of the first instance of sep in s, or -1 if sep is not present in s.
 func Index(s, sep string) int {
@@ -20,6 +21,8 @@ func Index(s, sep string) int {
 		return 0
 	case n == 1:
 		return IndexByte(s, sep[0])
+	case n <= shortstriglen:
+		return indexShortStr(s, sep)
 	case n == len(s):
 		if sep == s {
 			return 0
