@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c4e1d1_0470f6c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T16:19:22Z",
+      "side": 1,
+      "message": "os: reduce allocations in Readdir on unix",
+      "revId": "72ccc8c82dfc4ea4c3640c23335eaef6393ab722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_646d6aed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T16:19:22Z",
+      "side": 1,
+      "message": "include some numbers in this commit message?",
+      "revId": "72ccc8c82dfc4ea4c3640c23335eaef6393ab722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_e4783ab2",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T16:19:22Z",
+      "side": 1,
+      "message": "err instead of e",
+      "revId": "72ccc8c82dfc4ea4c3640c23335eaef6393ab722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_84834604",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T16:19:22Z",
+      "side": 1,
+      "message": "move the Close line after 306, before 307",
+      "revId": "72ccc8c82dfc4ea4c3640c23335eaef6393ab722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_c47d3ea0",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T16:19:22Z",
+      "side": 1,
+      "message": "same comments",
+      "revId": "72ccc8c82dfc4ea4c3640c23335eaef6393ab722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_247372d5",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-28T16:19:22Z",
+      "side": 1,
+      "message": "won\u0027t this always just show \".\" for the path? seems kinda useless.",
+      "revId": "72ccc8c82dfc4ea4c3640c23335eaef6393ab722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
