@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56c4e1d1_385271fc",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-29T00:23:50Z",
+      "side": 1,
+      "message": "Yeah, that had occurred to me too.",
+      "parentUuid": "56c4e1d1_38fc3169",
+      "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56c4e1d1_b8b941b8",
         "filename": "src/cmd/link/internal/ld/symtab.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "56c4e1d1_58592d1a",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-29T00:23:50Z",
+      "side": 1,
+      "message": "Yes, that\u0027s better thanks.",
+      "parentUuid": "56c4e1d1_b8b941b8",
+      "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56c4e1d1_78b869ac",
         "filename": "src/cmd/link/internal/ld/symtab.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-10-28T23:56:43Z",
       "side": 1,
       "message": "Remind me why this can\u0027t conflict with a symbol defined in a package whose import path is \"local\".",
+      "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_783509bc",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-10-29T00:23:50Z",
+      "side": 1,
+      "message": "The thought process I went through is that s already has a dot in it so \"local.\" + s has two dots in it and that\u0027s not something you can cause to happen. It does feel a bit fragile though, so I\u0027d be happier to do something better... (it\u0027s not like the name is important except when debugging).",
+      "parentUuid": "56c4e1d1_78b869ac",
       "revId": "320bb9c750d0af1df96370bd91b3db5fabd067eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
