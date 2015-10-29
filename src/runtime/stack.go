@@ -86,7 +86,10 @@ const (
 
 	// The stack guard is a pointer this many bytes above the
 	// bottom of the stack.
-	_StackGuard = 640*stackGuardMultiplier + _StackSystem
+	// The smallest possible stack frame on ppc64x is 32 bytes,
+	// larger than other platforms, so the guard needs to be
+	// larger.
+	_StackGuard = 640*stackGuardMultiplier + _StackSystem + 128*(goarch_ppc64|goarch_ppc64le)
 
 	// After a stack split check the SP is allowed to be this
 	// many bytes below the stack guard.  This saves an instruction
