@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "963d79a1_f1002250",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T14:31:35Z",
+      "side": 1,
+      "message": "Please add a brief explanation of what it means to handle TLS \"like a platform linker\"",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_11e68e0d",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T14:31:35Z",
+      "side": 1,
+      "message": "\"... access. It inserts this value in the low 16 bits of the 4 byte instruction word at the relocation address.\"\n\nDoes the fact that this only touches half of the instruction word cause friction with translating it to an external relocation, which usually point right at the bytes to modify?",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_b1f69abc",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T14:31:35Z",
+      "side": 1,
+      "message": "Please add a comment about where the magic offset comes from. Could just be a comment on the \u0027case\u0027 line giving the definition of this reloc, like some others have.",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_d1fb26a3",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T14:31:35Z",
+      "side": 1,
+      "message": "if int64(int16(v)) !\u003d v\n\nto be consistent with other range checks and to make the relation to the mask on the next line more obvious.",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_91435e85",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T14:31:35Z",
+      "side": 1,
+      "message": "Maybe *val \u003d (*val \u0026^ 0xffff) | (v \u0026 0xffff)",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
