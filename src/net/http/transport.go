@@ -18,6 +18,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"net/http/httptrace"
 	"net/url"
 	"os"
 	"strings"
@@ -172,6 +173,9 @@ type Transport struct {
 
 	// TODO: tunable on global max cached connections
 	// TODO: tunable on timeout on cached connections
+
+	// Trace optionally specifies a set of tracing hooks.
+	Trace *httptrace.ClientTrace
 }
 
 // ProxyFromEnvironment returns the URL of the proxy to use for a
@@ -245,7 +249,18 @@ func (tr *transportRequest) extraHeaders() Header {
 //
 // For higher-level HTTP client support (such as handling of cookies
 // and redirects), see Get, Post, and the Client type.
-func (t *Transport) RoundTrip(req *Request) (*Response, error) {
+func (t *Transport) RoundTrip(req *Request) (resp *Response, err error) {
+	trace := t.Trace
+	var hnd httptrace.Handle
+	if trace != nil {
+		if trace.Start != nil {
+			hnd = trace.Start(req)
+		}
+		if trace.ExitRoundTrip != nil {
+			defer func() { trace.ExitRoundTrip(hnd, resp, err) }()
+		}
+	}
+
 	if req.URL == nil {
 		req.closeBody()
 		return nil, errors.New("http: nil Request.URL")
@@ -291,6 +306,9 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 	if pconn.alt != nil {
 		// HTTP/2 path.
 		return pconn.alt.RoundTrip(req)
+	}
+	if trace != nil && trace.GotConn != nil {
+		trace.GotConn(hnd, pconn.conn, pconn.isReused())
 	}
 	return pconn.roundTrip(treq)
 }
@@ -932,6 +950,12 @@ func (pc *persistConn) cancelRequest() {
 	defer pc.lk.Unlock()
 	pc.canceled = true
 	pc.closeLocked()
+}
+
+func (pc *persistConn) isReused() bool {
+	// Placeholder method; actual implementation is in unrelated CL
+	// https://golang.org/cl/3210
+	return false
 }
 
 func (pc *persistConn) readLoop() {
