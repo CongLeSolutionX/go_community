@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_36459698",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2015-10-29T22:21:42Z",
+      "side": 1,
+      "message": "We\u0027d like a way to compute the DNS Lookup and TCP Connect times. I believe the proposal was:\n\n1. Implement our own dialer that measures these stats (note that we can\u0027t do this without exporting net.resolveAddrList, as none of the exported resolve functions support deadlines).\n\n2. Our dialer returns a wrapped net.Conn that embeds these stats. We can extract the stats via GotConn.\n\nThis should work in most cases. The only case missing is the case where dial fails -- especially if it fails due to a timeout. For this, we\u0027d need DialReturned.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 14
+      },
+      "revId": "36be276c09eac2cd5299dbb44ea3e235d7f3a3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_d6d6621b",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2015-10-29T22:21:42Z",
+      "side": 1,
+      "message": "We\u0027d like this (for computing TTFB)",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 16
+      },
+      "revId": "36be276c09eac2cd5299dbb44ea3e235d7f3a3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_76ed4ee6",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2015-10-29T22:21:42Z",
+      "side": 1,
+      "message": "We\u0027d like this (for computing TTFB)",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "36be276c09eac2cd5299dbb44ea3e235d7f3a3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_96558a47",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2015-10-29T22:21:42Z",
+      "side": 1,
+      "message": "We don\u0027t need tracing on the HTTP/2 path, so adding support here is not urgent (for us), although it would make sense for completeness.",
+      "range": {
+        "startLine": 307,
+        "startChar": 5,
+        "endLine": 307,
+        "endChar": 16
+      },
+      "revId": "36be276c09eac2cd5299dbb44ea3e235d7f3a3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
