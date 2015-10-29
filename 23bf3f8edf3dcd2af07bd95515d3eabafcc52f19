@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_965a2a5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-10-29T22:37:04Z",
+      "side": 1,
+      "message": "\"word\"",
+      "revId": "23bf3f8edf3dcd2af07bd95515d3eabafcc52f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_b65d2659",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-10-29T22:37:04Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "23bf3f8edf3dcd2af07bd95515d3eabafcc52f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_d6e782d0",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2015-10-29T22:37:04Z",
+      "side": 1,
+      "message": "The relevant term from RFC 5322 is `display-name`, which is *part* of `address`, not something that precedes an address. Please rephrase.\n\nBut I\u0027m not sure I\u0027m following how one gets from the RFC 5322 definition of `display-name` to base64 encoding. If I trace it through, we\u0027re looking to use a `quoted-string` here, which holds `qtext` (see isQtext lower down).",
+      "revId": "23bf3f8edf3dcd2af07bd95515d3eabafcc52f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
