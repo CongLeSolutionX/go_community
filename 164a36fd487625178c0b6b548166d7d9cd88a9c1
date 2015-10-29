@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_13274ca5",
+        "filename": "src/os/types_notwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-29T21:01:56Z",
+      "side": 1,
+      "message": "This filename no longer makes sense. Rename it to types_unix.go?",
+      "revId": "164a36fd487625178c0b6b548166d7d9cd88a9c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
