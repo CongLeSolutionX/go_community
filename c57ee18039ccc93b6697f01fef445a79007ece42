@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "963d79a1_11de8e76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T21:39:15Z",
+      "side": 1,
+      "message": "Looks good. Could add \"16-bit signed displacement\" to the new commit message if you make another version.",
+      "parentUuid": "f6195673_33ba4830",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963d79a1_11e68e0d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 11
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I hadn\u0027t had that problem, but maybe that\u0027s because I only support little endian?",
       "parentUuid": "963d79a1_11e68e0d",
+      "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_51e81616",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-10-29T21:39:15Z",
+      "side": 1,
+      "message": "Is it still a problem that these need to be tested on big endian? I think I have access to both big and little endian.",
+      "parentUuid": "f6195673_335ec8f8",
       "revId": "c57ee18039ccc93b6697f01fef445a79007ece42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
