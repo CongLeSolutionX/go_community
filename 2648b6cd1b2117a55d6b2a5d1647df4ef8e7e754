@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c4e1d1_b946633b",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-29T16:52:21Z",
+      "side": 1,
+      "message": "If this CL is enabling PIE, why are you skipping this test?",
+      "revId": "2648b6cd1b2117a55d6b2a5d1647df4ef8e7e754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
