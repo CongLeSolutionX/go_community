@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c4e1d1_79aa2b48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-29T16:44:30Z",
+      "side": 1,
+      "message": "I think you mean \"function symbols\".  Also the topic sentence is too long.  Perhaps:\n\ncmd/link: always resolve functions locally when linking dynamically",
+      "revId": "f296f280d0d558daf8f47628b0a286110fe57167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
