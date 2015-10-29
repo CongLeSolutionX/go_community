@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "963d79a1_b1905a1f",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-29T17:26:59Z",
+      "side": 0,
+      "message": "We can\u0027t delete this text: now then the docs don\u0027t say anything about unmarshaling into maps, implying that JSON can\u0027t unmarshal into a map.\n\n// To unmarshal a JSON object into a map, Unmarshal allocates the map (if nil)\n// and then adds key-value pairs from the object to the map.",
+      "revId": "69a99ccc6215334d3e4bec16c50dd6f19c2a3940",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
