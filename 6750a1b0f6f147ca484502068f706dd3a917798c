@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "56c4e1d1_1e6e7d7b",
+        "filename": "src/runtime/race/testdata/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-10-29T10:10:41Z",
+      "side": 1,
+      "message": "Added comments.\n\nThis is a relatively good sleep, it only ensures that we test what we want to test. It cannot lead to flakiness.",
+      "parentUuid": "56c4e1d1_240ff275",
+      "revId": "6750a1b0f6f147ca484502068f706dd3a917798c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3694cdc0_3b2277b9",
         "filename": "src/runtime/race/testdata/chan_test.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-10-28T22:48:40Z",
       "side": 1,
       "message": "t.Fatal() would do.  Same in next test.",
+      "range": {
+        "startLine": 672,
+        "startChar": 0,
+        "endLine": 672,
+        "endChar": 23
+      },
+      "revId": "6750a1b0f6f147ca484502068f706dd3a917798c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c4e1d1_3e71b95b",
+        "filename": "src/runtime/race/testdata/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-10-29T10:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3694cdc0_3b2277b9",
       "range": {
         "startLine": 672,
         "startChar": 0,
