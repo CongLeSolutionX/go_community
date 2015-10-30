@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "166509c4_1d413771",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "Please write the conditions when this is called.",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3694cdc0_9e5d3910",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "As with this.",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "968f39ad_fef801e9",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "AFAICT this exits the loop. Maybe \"exit_avx2_loop\" would be a better label.",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3694cdc0_be62f5ca",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1702,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "Please write what this does.",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6627eec_096f2906",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "What is this supposed to do? X8, X9 and X10 are not referenced elsewhere.",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3694cdc0_5e83b1cf",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "As it is now, I doubt there is much gained from the 64 byte unroll. \n\nIf it should be 64 bytes/loop, put these loads right after the first loads (line 1705). That will at least break the dependency chain, and the second 32 byte check can be calculated while the branching of the first are being resolved.",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "768ac5a0_ddcfcbe4",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T14:43:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \"JB\". Wouldn\u0027t 64 be ok?",
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
