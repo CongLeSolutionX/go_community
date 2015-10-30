@@ -87,6 +87,24 @@
       "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_592de384",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T03:39:04Z",
+      "side": 1,
+      "message": "\u003e because it appeared to loop forever, right?\n\nNo, wasn\u0027t looping forever. It was retrying a single time (because the existing connection went away when the child server exited) and that retry was never being answered (because the child server was no longer accepting new connections on the socket) even though the listener was still open.\n\nSo the reason the Sendfile test was broken is that it attempted to retry once and waited forever for the server to accept the connection. That\u0027s my understanding of it, anyway.",
+      "parentUuid": "f6195673_f934afd9",
+      "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
