@@ -69,6 +69,24 @@
       "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_f934afd9",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T02:14:50Z",
+      "side": 1,
+      "message": "There might be a bug in the logic, then, because it appeared to loop forever, right? Isn\u0027t that what caused the sendfile failures?\n\nLet\u0027s add an explicit test for that case instead of relying on that sendfile case to catch it on accident.",
+      "parentUuid": "f6195673_39934740",
+      "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
