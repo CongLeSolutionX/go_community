@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_6777da70",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1671,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T20:00:01Z",
+      "side": 1,
+      "message": "Could you write all of these LEAs the other way around?  It makes it easier to see that DI is the pointer and CX is the index.",
+      "range": {
+        "startLine": 1671,
+        "startChar": 9,
+        "endLine": 1671,
+        "endChar": 11
+      },
+      "revId": "04d4c014338a8fcedf59a02e4c6e33107f88c0f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_a77cd24e",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1720,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T20:00:01Z",
+      "side": 1,
+      "message": "I think you can fold this subtract into the MOVL in the next line.",
+      "range": {
+        "startLine": 1720,
+        "startChar": 1,
+        "endLine": 1720,
+        "endChar": 12
+      },
+      "revId": "04d4c014338a8fcedf59a02e4c6e33107f88c0f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_c77fce42",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1721,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T20:00:01Z",
+      "side": 1,
+      "message": "Do these MOVs the other way around also MOV (AX)(BX*1), DX",
+      "range": {
+        "startLine": 1721,
+        "startChar": 6,
+        "endLine": 1721,
+        "endChar": 16
+      },
+      "revId": "04d4c014338a8fcedf59a02e4c6e33107f88c0f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_a78df2e5",
+        "filename": "src/strings/strings_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T20:00:01Z",
+      "side": 1,
+      "message": "indexShortStr requires 2 \u003c\u003d len(c) \u003c\u003d shortStringLen",
+      "range": {
+        "startLine": 8,
+        "startChar": 3,
+        "endLine": 8,
+        "endChar": 45
+      },
+      "revId": "04d4c014338a8fcedf59a02e4c6e33107f88c0f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_47e3be58",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T20:00:01Z",
+      "side": 1,
+      "message": "A few more tests would be good.\n\nHaving the substring occur one past the last possible position would be a good test.  So for example,{\"abcde\"[:4], \"cde\", -1}.\n\nTesting lengths 31 and 32.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 1
+      },
+      "revId": "04d4c014338a8fcedf59a02e4c6e33107f88c0f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
