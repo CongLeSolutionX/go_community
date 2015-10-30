@@ -16,6 +16,24 @@
       "revId": "a0f6e82969e88c4adaec1c56a5c4f98259463b99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_87aaf6ad",
+        "filename": "test/heapsampling.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T20:42:18Z",
+      "side": 1,
+      "message": "We have about a dozen styles in the tree. I\u0027ve been thinking of cleaning them up sometime.",
+      "parentUuid": "963d79a1_d49eb4a7",
+      "revId": "a0f6e82969e88c4adaec1c56a5c4f98259463b99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
