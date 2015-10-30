@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_3c7d7597",
+        "filename": "doc/go1.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:11:03Z",
+      "side": 1,
+      "message": "keep this sorted.\n\nBut as these are all related and should be called out carefully in the release notes, you might want to just add a new section for these like \"Tools\" and \"Ports\" above. Your call.\n\nBut this file doesn\u0027t require code review. It\u0027s like a wiki. Feel free to self-+2 and submit whenever.",
+      "revId": "bfce1cb797e24fc8a47ceeb95cac6d7a964cf68f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
