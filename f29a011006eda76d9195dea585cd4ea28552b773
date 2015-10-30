@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "963d79a1_d444f414",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "963d79a1_344ff854",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963d79a1_7459801a",
         "filename": "src/runtime/extern.go",
         "patchSetId": 1
@@ -76,6 +94,24 @@
       "writtenOn": "2015-10-30T16:27:20Z",
       "side": 1,
       "message": "\"for all user goroutines\"? It omits system goroutines.",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_f449f029",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "963d79a1_7459801a",
       "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -99,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "963d79a1_143f5c7f",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "963d79a1_9446ec3b",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963d79a1_b44be842",
         "filename": "src/runtime/os3_plan9.go",
         "patchSetId": 1
@@ -110,6 +164,24 @@
       "writtenOn": "2015-10-30T16:27:20Z",
       "side": 1,
       "message": "Unused variable?",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_343c5888",
+        "filename": "src/runtime/os3_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "963d79a1_b44be842",
       "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -133,6 +205,24 @@
     },
     {
       "key": {
+        "uuid": "963d79a1_5439e496",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "963d79a1_f445702e",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963d79a1_3438d8b4",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 1
@@ -150,6 +240,24 @@
     },
     {
       "key": {
+        "uuid": "963d79a1_7436e0a9",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "963d79a1_3438d8b4",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963d79a1_543564bb",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 1
@@ -161,6 +269,24 @@
       "writtenOn": "2015-10-30T16:27:20Z",
       "side": 1,
       "message": "Consider adding an explicit \"none\" case. It\u0027s weird, though perhaps harmless, that \"none\" sets the \"all\" flag.",
+      "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_94734c6f",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T17:37:15Z",
+      "side": 1,
+      "message": "Not harmless, that was legitimately missing. Trybots would have caught that (if they ran). Done.",
+      "parentUuid": "963d79a1_543564bb",
       "revId": "f29a011006eda76d9195dea585cd4ea28552b773",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
