@@ -50,6 +50,24 @@
       "revId": "23bf3f8edf3dcd2af07bd95515d3eabafcc52f19",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3694cdc0_7e386d03",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5647
+      },
+      "writtenOn": "2015-10-30T10:11:54Z",
+      "side": 1,
+      "message": "When a display name contains non-ASCII characters AND characters forbidden in a display-name, String() currently return is invalid (issue #11292).\n\nRFC 2047 in section 5.3 forbid the use of characters like double quotes in a display-name.\nAnd our current implementation of Q-encoding does not encode these characters. See the isAllowedInPhrase function for the complete list of additional characters that need to be encoded.\n\nI see 3 ways to fix that issue:\n\n1. Add mime.QPhraseEncoding that is like mime.QEncoding but also encodes the characters forbidden in a display-name and use it in Address.String().\n2. Use base64 encoding (which encodes characters like double quotes): that is what my PR currently does.\n3. Update mime.QEncoding to always encode the additional characters.\n\nI choose 2 because that is what Gmail does.\n3 looks fine too. The only thing is that fields like Subject, will be slightly longer and more unreadable (in the Q-encoded form) since more characters will be encoded.",
+      "parentUuid": "f6195673_d6e782d0",
+      "revId": "23bf3f8edf3dcd2af07bd95515d3eabafcc52f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
