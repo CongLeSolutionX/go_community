@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "963d79a1_34b7f85f",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T18:27:17Z",
+      "side": 1,
+      "message": "I suspect this needs to be more conditional.",
+      "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_14bafc46",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T18:27:17Z",
+      "side": 1,
+      "message": "I can\u0027t figure out what this is doing, but I don\u0027t think it should. :-)\nProbably it would be unnecessary if the import I identified above is not recorded in the first place.",
+      "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_b4ca08d6",
+        "filename": "src/runtime/internal/atomic/atomic_arm64.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T18:27:17Z",
+      "side": 1,
+      "message": "This doesn\u0027t work. go:linkname is about changing the name used by the compiler when compiling this file. It doesn\u0027t propagate into callers (intentionally), so you will end up with unresolved references to Xadduintptr. There need to be two assembly functions. One can JMP to the other.",
+      "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_d4cf94e4",
+        "filename": "src/runtime/internal/atomic/stubs.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-10-30T18:27:17Z",
+      "side": 1,
+      "message": "Use assembly functions with JMPs.",
+      "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
