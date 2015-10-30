@@ -11,7 +11,7 @@ import "unsafe"
 func sighandler(_ureg *ureg, note *byte, gp *g) int {
 	_g_ := getg()
 	var t sigTabT
-	var docrash bool
+	var docrash, all bool
 	var sig int
 	var flags int
 
@@ -97,7 +97,7 @@ Throw:
 	print(notestr, "\n")
 	print("PC=", hex(c.pc()), "\n")
 	print("\n")
-	if gotraceback(&docrash) > 0 {
+	if gotraceback(nil, &docrash) > 0 {
 		goroutineheader(gp)
 		tracebacktrap(c.pc(), c.sp(), 0, gp)
 		tracebackothers(gp)

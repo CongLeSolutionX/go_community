@@ -11,7 +11,13 @@ import "unsafe"
 // The cached value is a uint32 in which the low bit
 // is the "crash" setting and the top 31 bits are the
 // gotraceback value.
-var traceback_cache uint32 = 2 << 1
+const (
+	tracebackCrash = 1 << iota
+	tracebackAll
+	tracebackShift = iota
+)
+
+var traceback_cache uint32 = 2 << tracebackShift
 
 // The GOTRACEBACK environment variable controls the
 // behavior of a Go program that is crashing and exiting.
@@ -20,18 +26,24 @@ var traceback_cache uint32 = 2 << 1
 //	GOTRACEBACK=2   show tracebacks including runtime frames
 //	GOTRACEBACK=crash   show tracebacks including runtime frames, then crash (core dump etc)
 //go:nosplit
-func gotraceback(crash *bool) int32 {
+func gotraceback(all, crash *bool) int32 {
 	_g_ := getg()
 	if crash != nil {
 		*crash = false
+	}
+	if all != nil {
+		*all = _g_.m.throwing > 0
 	}
 	if _g_.m.traceback != 0 {
 		return int32(_g_.m.traceback)
 	}
 	if crash != nil {
-		*crash = traceback_cache&1 != 0
+		*crash = traceback_cache&tracebackCrash != 0
 	}
-	return int32(traceback_cache >> 1)
+	if all != nil {
+		*all = *all || traceback_cache&tracebackAll != 0
+	}
+	return int32(traceback_cache >> tracebackShift)
 }
 
 var (
@@ -365,17 +377,21 @@ func parsedebugvars() {
 	}
 
 	switch p := gogetenv("GOTRACEBACK"); p {
-	case "":
-		traceback_cache = 1 << 1
+	case "single", "":
+		traceback_cache = 1 << tracebackShift
+	case "all":
+		traceback_cache = 1<<tracebackShift | tracebackAll
+	case "system":
+		traceback_cache = 2<<tracebackShift | tracebackAll
 	case "crash":
-		traceback_cache = 2<<1 | 1
+		traceback_cache = 2<<tracebackShift | tracebackAll | tracebackCrash
 	default:
-		traceback_cache = uint32(atoi(p)) << 1
+		traceback_cache = uint32(atoi(p))<<tracebackShift | tracebackAll
 	}
 	// when C owns the process, simply exit'ing the process on fatal errors
 	// and panics is surprising. Be louder and abort instead.
 	if islibrary || isarchive {
-		traceback_cache |= 1
+		traceback_cache |= tracebackCrash
 	}
 
 	if debug.gcstackbarrierall > 0 {
