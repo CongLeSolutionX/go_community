@@ -35,8 +35,10 @@ tail:
 	JBE	_65through128
 	CMPQ	BX, $256
 	JBE	_129through256
+	CMPB	runtime·support_avx2(SB), $1
+	JE loop_preheader_avx2
 	// TODO: use branch table and BSR to make this just a single dispatch
-	// TODO: for really big clears, use MOVNTDQ.
+	// TODO: for really big clears, use MOVNTDQ, even without AVX2.
 
 loop:
 	MOVOU	X0, 0(DI)
@@ -59,6 +61,41 @@ loop:
 	ADDQ	$256, DI
 	CMPQ	BX, $256
 	JAE	loop
+	JMP	tail
+
+loop_preheader_avx2:
+	VPXOR X0, X0, X0
+	CMPQ    BX, $16777216 // TODO calculate actual l3 cache size
+	JAE     loop_preheader_avx2_huge
+loop_avx2:
+	MOVHDU	X0, 0(DI)
+	MOVHDU	X0, 32(DI)
+	MOVHDU	X0, 64(DI)
+	MOVHDU	X0, 96(DI)
+	SUBQ	$128, BX
+	ADDQ	$128, DI
+	CMPQ	BX, $128
+	JAE	loop_avx2
+	VZEROUPPER
+	JMP	tail
+loop_preheader_avx2_huge:
+	// Align to 32 byte boundary,
+	MOVHDU  X0, 0(DI)
+	MOVQ	DI, SI
+	ADDQ	$32, DI
+	ANDQ	$~31, DI
+	SUBQ	DI, SI
+	ADDQ	SI, BX
+loop_avx2_huge:
+	MOVNTHD	X0, 0(DI)
+	MOVNTHD	X0, 32(DI)
+	MOVNTHD	X0, 64(DI)
+	MOVNTHD	X0, 96(DI)
+	SUBQ	$128, BX
+	ADDQ	$128, DI
+	CMPQ	BX, $128
+	JAE	loop_avx2_huge
+	VZEROUPPER
 	JMP	tail
 
 _1or2:
