@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6195673_1c151919",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T15:59:23Z",
+      "side": 1,
+      "message": "Please move this comment down below the first CPUID call.  Having the comment here makes it look like the first CPUID call is just for AVX detection, but it is also used to populate the cpuid_* vars for other parts of the runtime.",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_7c164d2a",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-10-30T15:59:23Z",
+      "side": 1,
+      "message": "Why the 9th zero digit?",
+      "range": {
+        "startLine": 55,
+        "startChar": 12,
+        "endLine": 55,
+        "endChar": 13
+      },
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166509c4_1d413771",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 1
