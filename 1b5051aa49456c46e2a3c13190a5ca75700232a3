@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6195673_7c91ad76",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_3cf9f53a",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6195673_3c221595",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-30T15:49:35Z",
       "side": 1,
       "message": "Unnecessary. t is safe for concurrent calls.\n\nI filed https://github.com/golang/go/issues/13108",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_dc81e121",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_3c221595",
       "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f6195673_9c8b6940",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_fc1b7d5b",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6195673_5c2dd184",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2015-10-30T15:49:35Z",
       "side": 1,
       "message": "You can\u0027t call t.Fatal from a goroutine. Fatal calls t.FailNow, which says:\n\nhttps://golang.org/pkg/testing/#T.FailNow\n\"FailNow must be called from the goroutine running the test or benchmark function, not from other goroutines created during the test. Calling FailNow does not stop those other goroutines.\"",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_5c7dd1fe",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2432,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_5c2dd184",
       "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f6195673_c7a22e68",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2437,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_dc18c161",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6195673_bc150528",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 6
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "f6195673_c767cef7",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2440,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_bc150528",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6195673_9c12493c",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 6
@@ -115,6 +223,24 @@
       "writtenOn": "2015-10-30T15:49:35Z",
       "side": 1,
       "message": "same comment",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_e7952a00",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2447,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_9c12493c",
       "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
