@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_1921abde",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T01:10:22Z",
+      "side": 1,
+      "message": "why is this one Post? This is the one which downloads the file.",
+      "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_f935cf1c",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T01:10:22Z",
+      "side": 1,
+      "message": "perhaps this needs an upper bound on it.\n\nmaybe we try up to 2 cached connections and on the third try, then we force the use of a new connection?\n\nor something like that. but the infinite loop makes me nervous.",
+      "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
