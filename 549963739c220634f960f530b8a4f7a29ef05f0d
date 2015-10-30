@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3694cdc0_7e806dc2",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 5505
+      },
+      "writtenOn": "2015-10-30T14:40:31Z",
+      "side": 1,
+      "message": "Maybe add a small comment to clarify that this check must be first (which is the whole point of this change)?",
+      "revId": "549963739c220634f960f530b8a4f7a29ef05f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
