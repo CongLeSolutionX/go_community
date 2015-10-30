@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_3cf9f53a",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "return value is err or the unwrapped error inside a beforeRespHeaderError.",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_3c221595",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "Unnecessary. t is safe for concurrent calls.\n\nI filed https://github.com/golang/go/issues/13108",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_fc1b7d5b",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "delete this and just use t.Errorf",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_5c2dd184",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2432,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "You can\u0027t call t.Fatal from a goroutine. Fatal calls t.FailNow, which says:\n\nhttps://golang.org/pkg/testing/#T.FailNow\n\"FailNow must be called from the goroutine running the test or benchmark function, not from other goroutines created during the test. Calling FailNow does not stop those other goroutines.\"",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_dc18c161",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2437,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "if you want to fail this goroutine at this point, replace the waitgroup with a chan(err) and then do, like:\n\n   const N \u003d 2\n   errc :\u003d make(chan error, N)\n   for i :\u003d 0; i \u003c N; i++ {\n         // start goroutines, send on errc\n   }\n   for i :\u003d 0; i \u003c N; i++ {\n        if err :\u003d \u003c-errc; err !\u003d nil {\n             t.Fatal(err)\n        }\n   }",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_bc150528",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2440,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "this seems unnecessary.\n\njust call ts.CloseClientConnections first and then launch the two goroutines.\n\nAlso, do we know for sure this hit the good codepath and didn\u0027t just notice the read? This is a super low-latency (localhost) connection.\n\nDo we want to modify the transport.go code with some internal hook to tell us when the new retry code path fired, and then make this run up to, say, 100 times, waiting until it sees the retry happen? Try 100 times and stop once you see a failure or a successful retry. If it gets to 100 with purely old-code-path HTTP connections, then fail?\n\nOr at least a TODO?",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_9c12493c",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2447,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-10-30T15:49:35Z",
+      "side": 1,
+      "message": "same comment",
+      "revId": "1b5051aa49456c46e2a3c13190a5ca75700232a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
