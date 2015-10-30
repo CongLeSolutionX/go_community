@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6195673_b92f57c9",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T01:14:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6195673_1921abde",
+      "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6195673_f935cf1c",
         "filename": "src/net/http/transport.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-30T01:10:22Z",
       "side": 1,
       "message": "perhaps this needs an upper bound on it.\n\nmaybe we try up to 2 cached connections and on the third try, then we force the use of a new connection?\n\nor something like that. but the infinite loop makes me nervous.",
+      "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6195673_39934740",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-10-30T01:14:26Z",
+      "side": 1,
+      "message": "it does make me a bit nervous, though Chromium had a great explanation for this. Because it\u0027s only ever re-running if the idempotent request failed on a previously known-good connection, there is an inherent limit in how many times it can retry (the number of known-healthy connections to this specific host in the pool).",
+      "parentUuid": "f6195673_f935cf1c",
       "revId": "dced4f32e0b4738812bb9c3c6ff732b4d9f19536",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
