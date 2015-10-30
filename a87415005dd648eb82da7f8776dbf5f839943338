@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3694cdc0_ded981e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T15:20:19Z",
+      "side": 1,
+      "message": "Is this happening consistently, or just random variation? I don\u0027t see anything that could cause it, but if it is consistent, it should be investigated.\n\nCould it be jump target alignment?",
+      "revId": "a87415005dd648eb82da7f8776dbf5f839943338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3694cdc0_1e3be9b3",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T15:20:19Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to go all the way to L3. Even if it doesn\u0027t fill up L3, you still trash much in it, as well as L2.\n\nMaybe 1-4MB would be a good switching point. However, measuring the effect of cache trashing is rather difficult.",
+      "revId": "a87415005dd648eb82da7f8776dbf5f839943338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3694cdc0_3e38a5b4",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T15:20:19Z",
+      "side": 1,
+      "message": "Doesn\u0027t \"MOVNTx\" still require an SFENCE afterwards, or is this not required by AVX2?",
+      "revId": "a87415005dd648eb82da7f8776dbf5f839943338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
