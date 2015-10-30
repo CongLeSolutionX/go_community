@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3694cdc0_5e39f196",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2015-10-30T16:26:51Z",
+      "side": 1,
+      "message": "Also, shouldn\u0027t XGETBV (bit 26) also be tested, since it is used below?",
+      "parentUuid": "f6195673_7c164d2a",
+      "range": {
+        "startLine": 55,
+        "startChar": 12,
+        "endLine": 55,
+        "endChar": 13
+      },
+      "revId": "327fb57f834f694bfa72975a000ef74b75d63658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166509c4_1d413771",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 1
