@@ -7,7 +7,7 @@ package flate
 import (
 	"bytes"
 	"fmt"
-	"internal/testenv"
+	//"internal/testenv"
 	"io"
 	"io/ioutil"
 	"reflect"
@@ -344,9 +344,9 @@ var deflateInflateStringTests = []deflateInflateStringTest{
 }
 
 func TestDeflateInflateString(t *testing.T) {
-	if testing.Short() && testenv.Builder() == "" {
-		t.Skip("skipping in short mode")
-	}
+	//if testing.Short() && testenv.Builder() == "" {
+	//	t.Skip("skipping in short mode")
+	//}
 	for _, test := range deflateInflateStringTests {
 		gold, err := ioutil.ReadFile(test.filename)
 		if err != nil {
