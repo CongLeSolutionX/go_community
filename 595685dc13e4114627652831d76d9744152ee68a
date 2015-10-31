@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_0899533c",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-10-31T18:14:09Z",
+      "side": 1,
+      "message": "This needs a comment.",
+      "revId": "595685dc13e4114627652831d76d9744152ee68a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
