@@ -603,30 +603,35 @@ func (f *decompressor) huffmanBlock() {
 // copyHist copies f.copyLen bytes from f.hist (f.copyDist bytes ago) to itself.
 // It reports whether the f.hist buffer is full.
 func (f *decompressor) copyHist() bool {
-	p := f.hp - f.copyDist
-	if p < 0 {
-		p += len(f.hist)
+	wrBase, wrPos := f.hp, f.hp
+	wrEnd := wrPos + f.copyLen
+	if wrEnd > len(f.hist) {
+		wrEnd = len(f.hist)
 	}
-	for f.copyLen > 0 {
-		n := f.copyLen
-		if x := len(f.hist) - f.hp; n > x {
-			n = x
-		}
-		if x := len(f.hist) - p; n > x {
-			n = x
-		}
-		forwardCopy(f.hist[:], f.hp, p, n)
-		p += n
-		f.hp += n
-		f.copyLen -= n
-		if f.hp == len(f.hist) {
-			// After flush continue copying out of history.
-			f.flush((*decompressor).copyHuff)
-			return true
-		}
-		if p == len(f.hist) {
-			p = 0
-		}
+
+	// Copy non-overlapping section after current write position.
+	rdPos := wrPos - f.copyDist
+	if rdPos < 0 {
+		rdPos += len(f.hist)
+		wrPos += copy(f.hist[wrPos:wrEnd], f.hist[rdPos:])
+		rdPos = 0
+	}
+
+	// Copy sections before current write position.
+	// In the trivial case, there is no overlap and this loop iterates once.
+	// In the harder case, each cycle will copy sections only up to the current
+	// write position (we don't want to overwrite the section currently being
+	// written to). Since the read position does not change, each loop will
+	// call copy on chunks 2x the previous chunk size.
+	for wrPos < wrEnd {
+		wrPos += copy(f.hist[wrPos:wrEnd], f.hist[rdPos:wrPos])
+	}
+
+	f.copyLen -= wrPos - wrBase
+	f.hp = wrPos
+	if f.hp == len(f.hist) {
+		f.flush((*decompressor).copyHuff)
+		return true
 	}
 	return false
 }
