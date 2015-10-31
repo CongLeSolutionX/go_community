@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6195673_8daa15ae",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-10-31T02:05:14Z",
+      "side": 1,
+      "message": "This new algorithm looks clever, but can we refactor it out into a fancyCopy* function that we can separately unit test still?  Or would that re-incur the function call overhead you\u0027re trying to avoid?\n\n(* Not a serious name suggestion.)",
+      "revId": "123c8d1100e88d5be3e08edac079e553880f9430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
