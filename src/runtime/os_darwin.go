@@ -548,3 +548,15 @@ func sigaddset(mask *sigset, i int) {
 func sigdelset(mask *sigset, i int) {
 	*mask &^= 1 << (uint32(i) - 1)
 }
+
+//go:linkname executablePath os.executablePath
+var executablePath string
+
+func sysargs(argc int32, argv **byte) {
+	// skip over argv, envv and the first string will be the path
+	n := argc + 1
+	for argv_index(argv, n) != nil {
+		n++
+	}
+	executablePath = gostringnocopy(argv_index(argv, n+1))
+}
