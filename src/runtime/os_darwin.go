@@ -37,3 +37,15 @@ func setitimer(mode int32, new, old *itimerval)
 
 func raise(sig int32)
 func raiseproc(int32)
+
+//go:linkname executablePath os.executablePath
+var executablePath string
+
+func sysargs(argc int32, argv **byte) {
+	// skip over argv, envv to get to auxv
+	n := argc + 1
+	for argv_index(argv, n) != nil {
+		n++
+	}
+	executablePath = gostringnocopy(argv_index(argv, n+1))
+}
