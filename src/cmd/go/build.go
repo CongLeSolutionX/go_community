@@ -1669,7 +1669,7 @@ func (b *builder) copyFile(a *action, dst, src string, perm os.FileMode, force b
 		if fi.IsDir() {
 			return fmt.Errorf("build output %q already exists and is a directory", dst)
 		}
-		if !force && !isObject(dst) {
+		if !force && fi.Mode().IsRegular() && !isObject(dst) {
 			return fmt.Errorf("build output %q already exists and is not an object file", dst)
 		}
 	}
