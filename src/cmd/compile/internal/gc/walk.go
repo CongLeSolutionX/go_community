@@ -1380,7 +1380,7 @@ opswitch:
 		r := nodnil() // bucket buffer
 		if n.Esc == EscNone {
 			// Allocate hmap buffer on stack.
-			var_ := temp(hmap(t))
+			var_ := temp(syslook("hmap", 0).Type)
 
 			a = Nod(OAS, var_, nil) // zero temp
 			typecheck(&a, Etop)
@@ -1398,7 +1398,7 @@ opswitch:
 			r = Nod(OADDR, var_, nil)
 		}
 
-		substArgTypes(fn, hmap(t), mapbucket(t), t.Down, t.Type)
+		substArgTypes(fn, mapbucket(t), t.Down, t.Type)
 		n = mkcall1(fn, n.Type, init, typename(n.Type), conv(n.Left, Types[TINT64]), a, r)
 
 	case OMAKESLICE:

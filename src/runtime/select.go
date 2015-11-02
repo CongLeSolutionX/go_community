@@ -19,7 +19,7 @@ const (
 
 // Select statement header.
 // Known to compiler.
-// Changes here must also be made in src/cmd/internal/gc/select.go's selecttype.
+// Changes here must also be made in src/cmd/compile/internal/gc/select.go's selecttype.
 type hselect struct {
 	tcase     uint16   // total count of scase[]
 	ncase     uint16   // currently filled scase[]
@@ -30,7 +30,7 @@ type hselect struct {
 
 // Select case descriptor.
 // Known to compiler.
-// Changes here must also be made in src/cmd/internal/gc/select.go's selecttype.
+// Changes here must also be made in src/cmd/compile/internal/gc/builtin/runtime.go.
 type scase struct {
 	elem        unsafe.Pointer // data element
 	c           *hchan         // chan

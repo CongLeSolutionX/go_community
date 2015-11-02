@@ -223,24 +223,27 @@ func walkrange(n *Node) {
 	case TMAP:
 		ha := a
 
-		th := hiter(t)
+		th := syslook("hiter", 0).Type
+		keytype := t.Down
+		valtype := t.Type
+
 		hit := prealloc[n]
 		hit.Type = th
 		n.Left = nil
-		keyname := newname(th.Type.Sym)      // depends on layout of iterator struct.  See reflect.go:hiter
-		valname := newname(th.Type.Down.Sym) // ditto
+		keyname := newname(Pkglookup("key", Runtimepkg))   // depends on hiter's field names.  See builtin/runtime.go:hiter
+		valname := newname(Pkglookup("value", Runtimepkg)) // ditto
 
 		fn := syslook("mapiterinit", 1)
-
-		substArgTypes(fn, t.Down, t.Type, th)
+		substArgTypes(fn, keytype, valtype)
 		init = list(init, mkcall1(fn, nil, nil, typename(t), ha, Nod(OADDR, hit, nil)))
 		n.Left = Nod(ONE, Nod(ODOT, hit, keyname), nodnil())
 
-		fn = syslook("mapiternext", 1)
-		substArgTypes(fn, th)
+		fn = syslook("mapiternext", 0)
 		n.Right = mkcall1(fn, nil, nil, Nod(OADDR, hit, nil))
 
 		key := Nod(ODOT, hit, keyname)
+		key = Nod(OCONVNOP, key, nil)
+		key.Type = Ptrto(keytype)
 		key = Nod(OIND, key, nil)
 		if v1 == nil {
 			body = nil
@@ -248,6 +251,8 @@ func walkrange(n *Node) {
 			body = list1(Nod(OAS, v1, key))
 		} else {
 			val := Nod(ODOT, hit, valname)
+			val = Nod(OCONVNOP, val, nil)
+			val.Type = Ptrto(valtype)
 			val = Nod(OIND, val, nil)
 			a := Nod(OAS2, nil, nil)
 			a.List = list(list1(v1), v2)
