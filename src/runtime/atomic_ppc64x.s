@@ -5,6 +5,10 @@
 // +build ppc64 ppc64le
 
 #include "textflag.h"
+<<<<<<< HEAD
+	
+TEXT ·publicationBarrier(SB),NOSPLIT,$-8-0
+=======
 
 // uint32 runtime·atomicload(uint32 volatile* addr)
 TEXT ·atomicload(SB),NOSPLIT|NOFRAME,$0-12
@@ -40,6 +44,7 @@ TEXT ·atomicloadp(SB),NOSPLIT|NOFRAME,$0-16
 	RET
 
 TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
+>>>>>>> a4fb8c13db3f1501f8195306de571b64ed1aeb73
 	// LWSYNC is the "export" barrier recommended by Power ISA
 	// v2.07 book II, appendix B.2.2.2.
 	// LWSYNC is a load/load, load/store, and store/store barrier.
