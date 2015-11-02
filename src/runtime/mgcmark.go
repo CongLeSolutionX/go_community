@@ -6,7 +6,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 const (
 	fixedRootFinalizers = iota
@@ -61,7 +64,7 @@ func gcMarkRootPrepare() {
 	// roots they create during the concurrent phase will be
 	// scanned during mark termination. During mark termination,
 	// allglen isn't changing, so we'll scan all Gs.
-	work.nStackRoots = int(atomicloaduintptr(&allglen))
+	work.nStackRoots = int(atomic.Loaduintptr(&allglen))
 
 	work.markrootNext = 0
 	work.markrootJobs = uint32(fixedRootCount + work.nDataRoots + work.nBSSRoots + work.nSpanRoots + work.nStackRoots)
@@ -332,7 +335,7 @@ retry:
 	// will just cause steals to fail until credit is accumulated
 	// again, so in the long run it doesn't really matter, but we
 	// do have to handle the negative credit case.
-	bgScanCredit := atomicloadint64(&gcController.bgScanCredit)
+	bgScanCredit := atomic.Loadint64(&gcController.bgScanCredit)
 	stolen := int64(0)
 	if bgScanCredit > 0 {
 		if bgScanCredit < scanWork {
@@ -342,7 +345,7 @@ retry:
 			stolen = scanWork
 			gp.gcAssistBytes += debtBytes
 		}
-		xaddint64(&gcController.bgScanCredit, -stolen)
+		atomic.Xaddint64(&gcController.bgScanCredit, -stolen)
 
 		scanWork -= stolen
 
@@ -356,7 +359,7 @@ retry:
 	// Perform assist work
 	completed := false
 	systemstack(func() {
-		if atomicload(&gcBlackenEnabled) == 0 {
+		if atomic.Load(&gcBlackenEnabled) == 0 {
 			// The gcBlackenEnabled check in malloc races with the
 			// store that clears it but an atomic check in every malloc
 			// would be a performance hit.
@@ -372,7 +375,7 @@ retry:
 		// just measure start and end time.
 		startTime := nanotime()
 
-		decnwait := xadd(&work.nwait, -1)
+		decnwait := atomic.Xadd(&work.nwait, -1)
 		if decnwait == work.nproc {
 			println("runtime: work.nwait =", decnwait, "work.nproc=", work.nproc)
 			throw("nwait > work.nprocs")
@@ -398,7 +401,7 @@ retry:
 
 		// If this is the last worker and we ran out of work,
 		// signal a completion point.
-		incnwait := xadd(&work.nwait, +1)
+		incnwait := atomic.Xadd(&work.nwait, +1)
 		if incnwait > work.nproc {
 			println("runtime: work.nwait=", incnwait,
 				"work.nproc=", work.nproc,
@@ -423,7 +426,7 @@ retry:
 		_p_ := gp.m.p.ptr()
 		_p_.gcAssistTime += duration
 		if _p_.gcAssistTime > gcAssistTimeSlack {
-			xaddint64(&gcController.assistTime, _p_.gcAssistTime)
+			atomic.Xaddint64(&gcController.assistTime, _p_.gcAssistTime)
 			_p_.gcAssistTime = 0
 		}
 	})
@@ -462,7 +465,7 @@ retry:
 		// likely path if we called Gosched above. We do this
 		// under the lock to prevent a GC cycle from ending
 		// between this check and queuing the assist.
-		if atomicload(&gcBlackenEnabled) == 0 {
+		if atomic.Load(&gcBlackenEnabled) == 0 {
 			unlock(&work.assistQueue.lock)
 			return
 		}
@@ -479,7 +482,7 @@ retry:
 		// the queue, but can still back out. This avoids a
 		// race in case background marking has flushed more
 		// credit since we checked above.
-		if atomicloadint64(&gcController.bgScanCredit) > 0 {
+		if atomic.Loadint64(&gcController.bgScanCredit) > 0 {
 			work.assistQueue.head = oldHead
 			work.assistQueue.tail = oldTail
 			if oldTail != 0 {
@@ -516,7 +519,7 @@ func gcFlushBgCredit(scanWork int64) {
 		// small window here where an assist may add itself to
 		// the blocked queue and park. If that happens, we'll
 		// just get it on the next flush.
-		xaddint64(&gcController.bgScanCredit, scanWork)
+		atomic.Xaddint64(&gcController.bgScanCredit, scanWork)
 		return
 	}
 
@@ -563,7 +566,7 @@ func gcFlushBgCredit(scanWork int64) {
 	if scanBytes > 0 {
 		// Convert from scan bytes back to work.
 		scanWork = int64(float64(scanBytes) * gcController.assistWorkPerByte)
-		xaddint64(&gcController.bgScanCredit, scanWork)
+		atomic.Xaddint64(&gcController.bgScanCredit, scanWork)
 	}
 	unlock(&work.assistQueue.lock)
 }
@@ -792,7 +795,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 	// Drain root marking jobs.
 	if work.markrootNext < work.markrootJobs {
 		for blocking || !gp.preempt {
-			job := xadd(&work.markrootNext, +1) - 1
+			job := atomic.Xadd(&work.markrootNext, +1) - 1
 			if job >= work.markrootJobs {
 				break
 			}
@@ -832,7 +835,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 		// account if we've accumulated enough locally so
 		// mutator assists can draw on it.
 		if gcw.scanWork >= gcCreditSlack {
-			xaddint64(&gcController.scanWork, gcw.scanWork)
+			atomic.Xaddint64(&gcController.scanWork, gcw.scanWork)
 			if flushBgCredit {
 				gcFlushBgCredit(gcw.scanWork - initScanWork)
 				initScanWork = 0
@@ -843,7 +846,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 
 	// Flush remaining scan work credit.
 	if gcw.scanWork > 0 {
-		xaddint64(&gcController.scanWork, gcw.scanWork)
+		atomic.Xaddint64(&gcController.scanWork, gcw.scanWork)
 		if flushBgCredit {
 			gcFlushBgCredit(gcw.scanWork - initScanWork)
 		}
@@ -881,7 +884,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 
 		// Flush background scan work credit.
 		if gcw.scanWork >= gcCreditSlack {
-			xaddint64(&gcController.scanWork, gcw.scanWork)
+			atomic.Xaddint64(&gcController.scanWork, gcw.scanWork)
 			workFlushed += gcw.scanWork
 			gcw.scanWork = 0
 		}
@@ -1118,7 +1121,7 @@ func gcmarknewobject_m(obj, size uintptr) {
 		throw("gcmarknewobject called while doing checkmark")
 	}
 	heapBitsForAddr(obj).setMarked()
-	xadd64(&work.bytesMarked, int64(size))
+	atomic.Xadd64(&work.bytesMarked, int64(size))
 }
 
 // Checkmarking
