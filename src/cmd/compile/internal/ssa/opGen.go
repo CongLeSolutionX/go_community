@@ -477,6 +477,7 @@ const (
 	OpConstPtr
 	OpConstInterface
 	OpConstSlice
+	OpInitMem
 	OpArg
 	OpAddr
 	OpSP
@@ -3995,6 +3996,10 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "ConstSlice",
+		generic: true,
+	},
+	{
+		name:    "InitMem",
 		generic: true,
 	},
 	{
