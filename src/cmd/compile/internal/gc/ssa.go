@@ -96,7 +96,7 @@ func buildssa(fn *Node) (ssafn *ssa.Func, usessa bool) {
 	// Allocate starting values
 	s.labels = map[string]*ssaLabel{}
 	s.labeledNodes = map[*Node]*ssaLabel{}
-	s.startmem = s.entryNewValue0(ssa.OpArg, ssa.TypeMem)
+	s.startmem = s.entryNewValue0(ssa.OpInitMem, ssa.TypeMem)
 	s.sp = s.entryNewValue0(ssa.OpSP, Types[TUINTPTR]) // TODO: use generic pointer type (unsafe.Pointer?) instead
 	s.sb = s.entryNewValue0(ssa.OpSB, Types[TUINTPTR])
 
@@ -3126,6 +3126,12 @@ func (s *state) lookupVarIncoming(b *ssa.Block, t ssa.Type, name *Node) *ssa.Val
 		if name == &memVar {
 			return s.startmem
 		}
+		if canSSA(name) && name.Type.Etype != TSTRING && name.Type.Etype != TARRAY {
+			// TODO: handle strings slices, eventually structs, arrays of size 1, ?
+			v := s.entryNewValue0A(ssa.OpArg, t, ssa.LocalSlot{N: name, Type: name.Type, Off: 0})
+			s.addNamedValue(name, v)
+			return v
+		}
 		// variable is live at the entry block.  Load it.
 		addr := s.decladdrs[name]
 		if addr == nil {
@@ -3197,18 +3203,20 @@ func (s *state) addNamedValue(n *Node, v *ssa.Value) {
 		// Don't track autotmp_ variables.
 		return
 	}
-	if n.Class == PPARAM || n.Class == PPARAMOUT {
+	if n.Class == PPARAMOUT {
 		// TODO: Remove this
 		return
 	}
 	if n.Class == PAUTO && n.Xoffset != 0 {
 		s.Fatalf("AUTO var with offset %s %d", n, n.Xoffset)
 	}
-	values, ok := s.f.NamedValues[n]
+	// TODO: different offsets for composite n.
+	loc := ssa.LocalSlot{N: n, Type: n.Type, Off: 0}
+	values, ok := s.f.NamedValues[loc]
 	if !ok {
-		s.f.Names = append(s.f.Names, n)
+		s.f.Names = append(s.f.Names, loc)
 	}
-	s.f.NamedValues[n] = append(values, v)
+	s.f.NamedValues[loc] = append(values, v)
 }
 
 // an unresolved branch
@@ -3831,11 +3839,12 @@ func (s *genState) genValue(v *ssa.Value) {
 			return
 		}
 		p := Prog(movSizeByType(v.Type))
-		n := autoVar(v.Args[0])
+		n, off := autoVar(v.Args[0])
 		p.From.Type = obj.TYPE_MEM
 		p.From.Name = obj.NAME_AUTO
 		p.From.Node = n
 		p.From.Sym = Linksym(n.Sym)
+		p.From.Offset = off
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = regnum(v)
 
@@ -3847,11 +3856,12 @@ func (s *genState) genValue(v *ssa.Value) {
 		p := Prog(movSizeByType(v.Type))
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = regnum(v.Args[0])
-		n := autoVar(v)
+		n, off := autoVar(v)
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_AUTO
 		p.To.Node = n
 		p.To.Sym = Linksym(n.Sym)
+		p.To.Offset = off
 	case ssa.OpPhi:
 		// just check to make sure regalloc and stackalloc did it right
 		if v.Type.IsMemory() {
@@ -3870,9 +3880,10 @@ func (s *genState) genValue(v *ssa.Value) {
 			v.Fatalf("const value %v shouldn't have a location", v)
 		}
 
-	case ssa.OpArg:
+	case ssa.OpInitMem:
 		// memory arg needs no code
-		// TODO: check that only mem arg goes here.
+	case ssa.OpArg:
+		// input args need no code
 	case ssa.OpAMD64LoweredGetClosurePtr:
 		// Output is hardwired to DX only,
 		// and DX contains the closure pointer on
@@ -4434,9 +4445,11 @@ func regnum(v *ssa.Value) int16 {
 	return ssaRegToReg[reg.(*ssa.Register).Num]
 }
 
-// autoVar returns a *Node representing the auto variable assigned to v.
-func autoVar(v *ssa.Value) *Node {
-	return v.Block.Func.RegAlloc[v.ID].(*ssa.LocalSlot).N.(*Node)
+// autoVar returns a *Node and int64 representing the auto variable and offset within it
+// where v should be stored.
+func autoVar(v *ssa.Value) (*Node, int64) {
+	loc := v.Block.Func.RegAlloc[v.ID].(ssa.LocalSlot)
+	return loc.N.(*Node), loc.Off
 }
 
 // ssaExport exports a bunch of compiler services for the ssa backend.

@@ -162,16 +162,50 @@ func deadcode(f *Func) {
 	}
 	f.Blocks = f.Blocks[:i]
 
-	// Remove dead entries from namedValues map.
+	// Remove dead & duplicate entries from namedValues map.
+	s := newSparseSet(f.NumValues())
 	for name, values := range f.NamedValues {
 		i := 0
+		s.clear()
 		for _, v := range values {
 			for v.Op == OpCopy {
 				v = v.Args[0]
 			}
-			if live[v.ID] {
+			if !live[v.ID] && v.Op == OpStringMake {
+				// break into parts
+
+				// pointer part
+				p := v.Args[0]
+				for p.Op == OpCopy {
+					p = p.Args[0]
+				}
+				if live[p.ID] {
+					loc := LocalSlot{name.N, p.Type, name.Off}
+					values, ok := f.NamedValues[loc]
+					if !ok {
+						f.Names = append(f.Names, loc)
+					}
+					f.NamedValues[loc] = append(values, p)
+				}
+				// len part
+				l := v.Args[1]
+				for l.Op == OpCopy {
+					l = l.Args[0]
+				}
+				if live[l.ID] {
+					loc := LocalSlot{name.N, l.Type, name.Off + f.Config.PtrSize}
+					values, ok := f.NamedValues[loc]
+					if !ok {
+						f.Names = append(f.Names, loc)
+					}
+					f.NamedValues[loc] = append(values, l)
+				}
+				continue
+			}
+			if live[v.ID] && !s.contains(v.ID) {
 				values[i] = v
 				i++
+				s.add(v.ID)
 			}
 		}
 		f.NamedValues[name] = values[:i]
