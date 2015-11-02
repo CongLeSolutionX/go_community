@@ -219,7 +219,7 @@ loadsys:
 		curio.importsafe = true
 	}
 	import_package
-	import_there
+         import_there
 	{
 		importpkg = nil;
 	}
@@ -2015,7 +2015,9 @@ oliteral:
 hidden_import:
 	LIMPORT LNAME LLITERAL ';'
 	{
-		importimport($2, $3.U.(string));
+		if $3.U.(string) != "runtime" {
+			importimport($2, $3.U.(string));
+		}
 	}
 |	LVAR hidden_pkg_importsym hidden_type ';'
 	{
