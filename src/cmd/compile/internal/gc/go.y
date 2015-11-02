@@ -219,7 +219,6 @@ loadsys:
 		curio.importsafe = true
 	}
 	import_package
-	import_there
 	{
 		importpkg = nil;
 	}

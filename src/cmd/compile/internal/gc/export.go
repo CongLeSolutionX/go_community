@@ -9,6 +9,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"sort"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -485,7 +486,6 @@ func importimport(s *Sym, path string) {
 	} else if p.Name != s.Name {
 		Yyerror("conflicting names %s and %s for package %q", p.Name, s.Name, p.Path)
 	}
-
 	if incannedimport == 0 && myimportpath != "" && path == myimportpath {
 		Yyerror("import %q: package depends on %q (import cycle)", importpkg.Path, path)
 		errorexit()
