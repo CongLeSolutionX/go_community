@@ -197,8 +197,14 @@ func Fconv(fvp *Mpflt, flag int) string {
 
 	// use decimal format for error messages
 
-	// determine sign
 	f := &fvp.Val
+
+	// no need to manually convert infinities
+	if f.IsInf() {
+		return f.String()
+	}
+
+	// determine sign
 	var sign string
 	if f.Sign() < 0 {
 		sign = "-"

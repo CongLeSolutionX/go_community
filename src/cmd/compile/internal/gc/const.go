@@ -441,6 +441,13 @@ func overflow(v Val, t *Type) {
 		return
 	}
 
+	// Don't print overflow errors on Inf floats - it's not an overflow.
+	// Without this, gc prints a spurious "constant +Inf overflows float32"
+	// error message on a constant overflow. (Possibly related to issue #11365).
+	if v.Ctype() == CTFLT && v.U.(*Mpflt).Val.IsInf() {
+		return
+	}
+
 	if doesoverflow(v, t) {
 		Yyerror("constant %s overflows %v", Vconv(v, 0), t)
 	}
