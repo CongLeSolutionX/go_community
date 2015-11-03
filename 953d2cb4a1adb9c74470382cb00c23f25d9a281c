@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "963d79a1_5dbe67e9",
+        "filename": "src/runtime/internal/atomic/atomic_arm64.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-03T17:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "963d79a1_b4ca08d6",
+      "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "963d79a1_d4cf94e4",
         "filename": "src/runtime/internal/atomic/stubs.go",
         "patchSetId": 14
@@ -100,6 +118,24 @@
       "writtenOn": "2015-10-30T18:27:17Z",
       "side": 1,
       "message": "Use assembly functions with JMPs.",
+      "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963d79a1_3db19b1a",
+        "filename": "src/runtime/internal/atomic/stubs.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-03T17:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "963d79a1_d4cf94e4",
       "revId": "953d2cb4a1adb9c74470382cb00c23f25d9a281c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
