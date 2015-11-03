@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fe126f_12a42cc8",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-03T20:26:44Z",
+      "side": 1,
+      "message": "or declaring a global variable",
+      "revId": "b1b95fd1af4b363fadc5e7f6b822e700ffd40dec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe126f_72a938a0",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-03T20:26:44Z",
+      "side": 1,
+      "message": "Can delete this now, right?",
+      "revId": "b1b95fd1af4b363fadc5e7f6b822e700ffd40dec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe126f_92af7ca2",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-03T20:26:44Z",
+      "side": 1,
+      "message": "(The cgo output will also need to be changed to call cgoCheckPointer always, not just for Go pointers to data structures containing pointers.)",
+      "revId": "b1b95fd1af4b363fadc5e7f6b822e700ffd40dec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe126f_f2bc08e1",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-03T20:26:44Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t think this is possible, but I believe that if it did happen the code inside the if is correct.",
+      "revId": "b1b95fd1af4b363fadc5e7f6b822e700ffd40dec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
