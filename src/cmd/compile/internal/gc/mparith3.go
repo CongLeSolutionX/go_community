@@ -207,6 +207,11 @@ func Fconv(fvp *Mpflt, flag int) string {
 		sign = "+"
 	}
 
+	// Handle Inf values by simply returning "Inf".
+	if f.IsInf() {
+		return f.String()
+	}
+
 	// Use fmt formatting if in float64 range (common case).
 	if x, _ := f.Float64(); !math.IsInf(x, 0) {
 		return fmt.Sprintf("%s%.6g", sign, x)
