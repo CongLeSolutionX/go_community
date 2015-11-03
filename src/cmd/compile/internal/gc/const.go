@@ -441,6 +441,11 @@ func overflow(v Val, t *Type) {
 		return
 	}
 
+	// Don't print overflow errors on Inf floats - it's not an overflow
+	if v.Ctype() == CTFLT && v.U.(*Mpflt).Val.IsInf() {
+		return
+	}
+
 	if doesoverflow(v, t) {
 		Yyerror("constant %s overflows %v", Vconv(v, 0), t)
 	}
