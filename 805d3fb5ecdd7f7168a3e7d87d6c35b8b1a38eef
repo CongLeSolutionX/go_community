@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fe126f_95dda632",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-11-04T19:36:53Z",
+      "side": 1,
+      "message": "Given that the only use of p_size is to compute p_end, this is equivalent to the much simpler sequence\n\np0 :\u003d p\np_end :\u003d p + p_size\np \u003d round(p, _PageSize)\n\nbecause (using p_size\u0027 and p\u0027 for the mutated values of p_size and p)\n\np_size \u003d round(n, _PageSize) + _PageSize\np_size\u0027 \u003d round(n, _PageSize) + _PageSize - round(p, _PageSize) + p\np\u0027 \u003d round(p, _PageSize)\np_end \u003d p\u0027 + p_size\u0027\n      \u003d round(p, _PageSize) + round(n, _PageSize) + _PageSize - round(p, _PageSize) + p\n      \u003d round(n, _PageSize) + _PageSize + p\n      \u003d p + p_size",
+      "revId": "805d3fb5ecdd7f7168a3e7d87d6c35b8b1a38eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
