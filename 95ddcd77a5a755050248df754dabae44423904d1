@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76b806a7_a7206a77",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-11-04T17:43:26Z",
+      "side": 1,
+      "message": "Code:\n\npackage main\nfunc main() {\n\t_ \u003d complex64(1e39)\n}\n\nAt tip, it hangs the compiler.\nWith this patch, it prints\n\n# command-line-arguments\n./prova.go:4: constant 1e+39 overflows float32\n\nWith this patch but no change in const.go, it prints\n\n# command-line-arguments\n./prova.go:4: constant 1e+39 overflows float32\n./prova.go:4: constant +Inf overflows float32\n\nI don\u0027t understand why the frontend call truncfltlit two times\n(the second one with an Inf big.Float), but in general the handling\nof complex{64,128}(xxxx) conversions seems to be pretty broken. \nFor example, the following:\n\n_ \u003d complex128(1e400)\n\ngive, as an error message:\n\n# command-line-arguments\n./prova.go:4: mpgetflt ovf\n\nwhich is not really helpful. For another example, see bug #11365.\n\nMy goal with this CL was to fix that nasty infinite loop in the\ncompiler (this is change (1)) while minimizing the risk of\nbreakage. (2) is a more like a \"cosmetic\" change.",
+      "parentUuid": "b65c3e65_cd3a0975",
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b65c3e65_6d365d93",
         "filename": "src/cmd/compile/internal/gc/mparith3.go",
         "patchSetId": 5
