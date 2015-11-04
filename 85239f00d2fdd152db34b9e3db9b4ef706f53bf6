@@ -37,6 +37,40 @@
     },
     {
       "key": {
+        "uuid": "d6fe126f_f5d35228",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-11-04T19:29:47Z",
+      "side": 1,
+      "message": "Can you give an example of how this overflow check fails to catch the issue in the original code? Why doesn\u0027t the extra + _PageSize in p_size give enough slack?\n\nIt seems like we ultimately want p\u0027 + n \u003c arena_start+_MaxArena32. Given that we pass this overflow check:\n\n    p + p_size - arena_start \u003c _MaxArena32\n\u003c\u003d\u003e p + round(n, _PageSize) + _PageSize \u003c arena_start+_MaxArena32\n \u0026\u0026 round(p, _PageSize) + n \u003c p + round(n, _PageSize) + _PageSize\n\u003c\u003d\u003e round(p, _PageSize) + n \u003c arena_start+_MaxArena32\n \u003d\u003e p\u0027 + n \u003c arena_start+_MaxArena32",
+      "revId": "85239f00d2fdd152db34b9e3db9b4ef706f53bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe126f_359f9a77",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-11-04T19:29:47Z",
+      "side": 1,
+      "message": "This needs to be passed the original p (and p_size) passed to sysAlloc.",
+      "revId": "85239f00d2fdd152db34b9e3db9b4ef706f53bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b65c3e65_edb42d0f",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
