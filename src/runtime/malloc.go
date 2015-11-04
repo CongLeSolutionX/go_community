@@ -450,19 +450,22 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 	if p == 0 {
 		return nil
 	}
+	p0 := p
+	p0_size := p_size
+	p_size -= round(p, _PageSize) - p
+	p = round(p, _PageSize)
+	p_end := p + p_size
 
-	if p < h.arena_start || uintptr(p)+p_size-h.arena_start >= _MaxArena32 {
+	if p < h.arena_start || p_end-h.arena_start >= _MaxArena32 {
 		print("runtime: memory allocated by OS (", p, ") not in usable range [", hex(h.arena_start), ",", hex(h.arena_start+_MaxArena32), ")\n")
-		sysFree(unsafe.Pointer(p), p_size, &memstats.heap_sys)
+		sysFree(unsafe.Pointer(p0), p0_size, &memstats.heap_sys)
 		return nil
 	}
 
-	p_end := p + p_size
-	p += -p & (_PageSize - 1)
-	if uintptr(p)+n > h.arena_used {
-		mHeap_MapBits(h, p+n)
-		mHeap_MapSpans(h, p+n)
-		h.arena_used = p + n
+	if p_end > h.arena_used {
+		mHeap_MapBits(h, p_end)
+		mHeap_MapSpans(h, p_end)
+		h.arena_used = p_end
 		if p_end > h.arena_end {
 			h.arena_end = p_end
 		}
@@ -471,7 +474,7 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 		}
 	}
 
-	if uintptr(p)&(_PageSize-1) != 0 {
+	if p&(_PageSize-1) != 0 {
 		throw("misrounded allocation in MHeap_SysAlloc")
 	}
 	return unsafe.Pointer(p)
