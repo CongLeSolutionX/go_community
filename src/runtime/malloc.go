@@ -450,6 +450,7 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 	if p == 0 {
 		return nil
 	}
+	p = round(p, _PageSize)
 
 	if p < h.arena_start || uintptr(p)+p_size-h.arena_start >= _MaxArena32 {
 		print("runtime: memory allocated by OS (", p, ") not in usable range [", hex(h.arena_start), ",", hex(h.arena_start+_MaxArena32), ")\n")
@@ -458,7 +459,6 @@ func mHeap_SysAlloc(h *mheap, n uintptr) unsafe.Pointer {
 	}
 
 	p_end := p + p_size
-	p += -p & (_PageSize - 1)
 	if uintptr(p)+n > h.arena_used {
 		mHeap_MapBits(h, p+n)
 		mHeap_MapSpans(h, p+n)
