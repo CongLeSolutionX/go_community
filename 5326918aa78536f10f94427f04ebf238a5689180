@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6fe126f_75e122bf",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-04T21:50:36Z",
+      "side": 1,
+      "message": "I managed to push the hack into go.y, but I don\u0027t understand what\u0027s going on there well enough for a proper fix.",
+      "parentUuid": "d6fe126f_b54eeab9",
+      "revId": "5326918aa78536f10f94427f04ebf238a5689180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6fe126f_7545a297",
         "filename": "src/crypto/x509/x509_test.go",
         "patchSetId": 42
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-04T20:03:15Z",
       "side": 1,
       "message": "Revert this file.",
+      "revId": "5326918aa78536f10f94427f04ebf238a5689180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe126f_55217edd",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-04T21:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fe126f_7545a297",
       "revId": "5326918aa78536f10f94427f04ebf238a5689180",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
