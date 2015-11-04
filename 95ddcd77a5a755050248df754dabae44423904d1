@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "963adaf4_408b6e97",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-11-04T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b65c3e65_cd84c934",
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b65c3e65_6d365d93",
         "filename": "src/cmd/compile/internal/gc/mparith3.go",
         "patchSetId": 5
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "963adaf4_005206e6",
+        "filename": "src/cmd/compile/internal/gc/mparith3.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-11-04T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b65c3e65_6d365d93",
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b65c3e65_ad54f5d3",
         "filename": "src/cmd/compile/internal/gc/mparith3.go",
         "patchSetId": 5
@@ -83,6 +119,30 @@
       "writtenOn": "2015-11-04T17:17:50Z",
       "side": 1,
       "message": "This looses the sign. Better to do this earlier.\n\nRemove this and make the change suggested above.",
+      "range": {
+        "startLine": 210,
+        "startChar": 15,
+        "endLine": 210,
+        "endChar": 21
+      },
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "963adaf4_e04e0240",
+        "filename": "src/cmd/compile/internal/gc/mparith3.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-11-04T18:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b65c3e65_ad54f5d3",
       "range": {
         "startLine": 210,
         "startChar": 15,
