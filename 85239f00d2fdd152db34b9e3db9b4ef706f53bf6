@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "d6fe126f_954be6a9",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-11-04T20:02:52Z",
+      "side": 1,
+      "message": "Unfortunately, I managed to \"prove\" that the bounds check in the issue can\u0027t fail under your modified code before I\u0027d convinced myself that your modified code didn\u0027t change any of the conditions of the proof. So, uh, no. :) But obviously my reasoning was wrong somewhere.",
+      "parentUuid": "b6befe8e_a93b5dc5",
+      "revId": "85239f00d2fdd152db34b9e3db9b4ef706f53bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6fe126f_359f9a77",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
