@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fe126f_b54eeab9",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-04T20:03:15Z",
+      "side": 1,
+      "message": "Can we fix this in go.y? The implicit loading of runtime definitions needs to process the builtins but it could avoid recording an import of runtime, since there really isn\u0027t one.",
+      "revId": "5326918aa78536f10f94427f04ebf238a5689180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe126f_7545a297",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-04T20:03:15Z",
+      "side": 1,
+      "message": "Revert this file.",
+      "revId": "5326918aa78536f10f94427f04ebf238a5689180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
