@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b65c3e65_cd3a0975",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-11-04T17:17:50Z",
+      "side": 1,
+      "message": "Is still needed? If so, do you have test case/concrete example?",
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b65c3e65_6d365d93",
+        "filename": "src/cmd/compile/internal/gc/mparith3.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-11-04T17:17:50Z",
+      "side": 1,
+      "message": "before this comment:\n\nf :\u003d \u0026fvp.Val\n\n// no need to manually convert infinities\nif f.IsInf() {\n   return f.String()\n}\n\n// determine sign\nvar sign string\n...",
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b65c3e65_ad54f5d3",
+        "filename": "src/cmd/compile/internal/gc/mparith3.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-11-04T17:17:50Z",
+      "side": 1,
+      "message": "This looses the sign. Better to do this earlier.\n\nRemove this and make the change suggested above.",
+      "range": {
+        "startLine": 210,
+        "startChar": 15,
+        "endLine": 210,
+        "endChar": 21
+      },
+      "revId": "95ddcd77a5a755050248df754dabae44423904d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
