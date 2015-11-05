@@ -364,6 +364,10 @@ func buildModeInit() {
 		case "android/arm", "android/amd64":
 			codegenArg = "-shared"
 			ldBuildmode = "pie"
+		case "android/386":
+			codegenArg = "-shared"
+			ldBuildmode = "exe"
+			// TODO: enable pie.
 		default:
 			ldBuildmode = "exe"
 		}
