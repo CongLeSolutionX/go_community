@@ -518,3 +518,31 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVL	$1, DX  // FD_CLOEXEC
 	INVOKE_SYSINFO
 	RET
+
+// int access(const char *name, int mode)
+TEXT runtime·access(SB),NOSPLIT,$0
+	MOVL	$33, AX  // syscall - access
+	MOVL	name+0(FP), BX
+	MOVL	mode+4(FP), CX
+	INVOKE_SYSINFO
+	MOVL	AX, ret+8(FP)
+	RET
+// int connect(int fd, const struct sockaddr *addr, socklen_t addrlen)
+TEXT runtime·connect(SB),NOSPLIT,$0
+	MOVL	$283, AX  // syscall - connect
+	MOVL	fd+0(FP), BX
+	MOVL	addr+4(FP), CX
+	MOVL	addrlen+8(FP), DX
+	INVOKE_SYSINFO
+	MOVL	AX, ret+12(FP)
+	RET
+
+// int socket(int domain, int type, int protocol)
+TEXT runtime·socket(SB),NOSPLIT,$0
+	MOVL	$281, AX  // syscall - socket
+	MOVL	domain+0(FP), BX
+	MOVL	type+4(FP), CX
+	MOVL	protocol+8(FP), DX
+	INVOKE_SYSINFO
+	MOVL	AX, ret+12(FP)
+	RET
