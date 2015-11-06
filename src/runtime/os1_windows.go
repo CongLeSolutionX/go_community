@@ -4,9 +4,7 @@
 
 package runtime
 
-import (
-	"unsafe"
-)
+import "unsafe"
 
 //go:cgo_import_dynamic runtime._AddVectoredExceptionHandler AddVectoredExceptionHandler%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._CloseHandle CloseHandle%1 "kernel32.dll"
@@ -20,6 +18,7 @@ import (
 //go:cgo_import_dynamic runtime._DuplicateHandle DuplicateHandle%7 "kernel32.dll"
 //go:cgo_import_dynamic runtime._ExitProcess ExitProcess%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._FreeEnvironmentStringsW FreeEnvironmentStringsW%1 "kernel32.dll"
+//go:cgo_import_dynamic runtime._GetConsoleMode GetConsoleMode%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetEnvironmentStringsW GetEnvironmentStringsW%0 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetProcAddress GetProcAddress%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetProcessAffinityMask GetProcessAffinityMask%3 "kernel32.dll"
@@ -43,6 +42,7 @@ import (
 //go:cgo_import_dynamic runtime._VirtualFree VirtualFree%3 "kernel32.dll"
 //go:cgo_import_dynamic runtime._WSAGetOverlappedResult WSAGetOverlappedResult%5 "ws2_32.dll"
 //go:cgo_import_dynamic runtime._WaitForSingleObject WaitForSingleObject%2 "kernel32.dll"
+//go:cgo_import_dynamic runtime._WriteConsoleW WriteConsoleW%5 "kernel32.dll"
 //go:cgo_import_dynamic runtime._WriteFile WriteFile%5 "kernel32.dll"
 //go:cgo_import_dynamic runtime._timeBeginPeriod timeBeginPeriod%1 "winmm.dll"
 
@@ -62,6 +62,7 @@ var (
 	_DuplicateHandle,
 	_ExitProcess,
 	_FreeEnvironmentStringsW,
+	_GetConsoleMode,
 	_GetEnvironmentStringsW,
 	_GetProcAddress,
 	_GetProcessAffinityMask,
@@ -85,6 +86,7 @@ var (
 	_VirtualFree,
 	_WSAGetOverlappedResult,
 	_WaitForSingleObject,
+	_WriteConsoleW,
 	_WriteFile,
 	_timeBeginPeriod stdFunction
 
@@ -238,7 +240,7 @@ func exit(code int32) {
 }
 
 //go:nosplit
-func write(fd uintptr, buf unsafe.Pointer, n int32) int32 {
+func writeSimple(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	const (
 		_STD_OUTPUT_HANDLE = ^uintptr(10) // -11
 		_STD_ERROR_HANDLE  = ^uintptr(11) // -12
@@ -256,6 +258,75 @@ func write(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	var written uint32
 	stdcall5(_WriteFile, handle, uintptr(buf), uintptr(n), uintptr(unsafe.Pointer(&written)), 0)
 	return int32(written)
+}
+
+func write(fd uintptr, buf unsafe.Pointer, n int32) int32 {
+	const (
+		_STD_OUTPUT_HANDLE = ^uintptr(10) // -11
+		_STD_ERROR_HANDLE  = ^uintptr(11) // -12
+	)
+	var handle uintptr
+	switch fd {
+	case 1:
+		handle = stdcall1(_GetStdHandle, _STD_OUTPUT_HANDLE)
+	case 2:
+		handle = stdcall1(_GetStdHandle, _STD_ERROR_HANDLE)
+	default:
+		// assume fd is real windows handle.
+		handle = fd
+	}
+
+	// Detect if this is attached to a console or not.
+	var m uint32
+	isConsole := stdcall2(_GetConsoleMode, handle, uintptr(unsafe.Pointer(&m))) != 0
+	// If this is a console output, various non-unicode code pages can be in use.
+	if isConsole {
+		return int32(writeConsole(handle, buf, n))
+	}
+	var written uint32
+	stdcall5(_WriteFile, handle, uintptr(buf), uintptr(n), uintptr(unsafe.Pointer(&written)), 0)
+	return int32(written)
+}
+
+// writeConsole writes len(b) bytes to the console File.
+// It returns the number of bytes written and an error, if any.
+func writeConsole(handle uintptr, buf unsafe.Pointer, bufLen int32) int {
+	b := (*[1 << 30]byte)(buf)[:bufLen]
+	n := len(b)
+	runes := make([]rune, 0, 256)
+	for utf8FullRune(b) {
+		r, l := utf8DecodeRune(b)
+		runes = append(runes, r)
+		b = b[l:]
+	}
+	// syscall.WriteConsole seems to fail, if given large buffer.
+	// So limit the buffer to 16000 characters. This number was
+	// discovered by experimenting with syscall.WriteConsole.
+	const maxWrite = 16000
+	for len(runes) > 0 {
+		m := len(runes)
+		if m > maxWrite {
+			m = maxWrite
+		}
+		chunk := runes[:m]
+		runes = runes[m:]
+		uint16s := utf16Encode(chunk)
+		for len(uint16s) > 0 {
+			var written uint32
+			ret := stdcall5(_WriteConsoleW,
+				handle,
+				uintptr(unsafe.Pointer(&uint16s[0])),
+				uintptr(uint32(len(uint16s))),
+				uintptr(unsafe.Pointer(&written)),
+				0,
+			)
+			if ret == 0 {
+				return 0
+			}
+			uint16s = uint16s[written:]
+		}
+	}
+	return n
 }
 
 //go:nosplit
