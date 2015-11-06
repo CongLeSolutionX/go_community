@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b69b5e8c_a7ad6ead",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-06T17:30:35Z",
+      "side": 1,
+      "message": "If you need more StackGuard on ppc64, fine, make this:\n\n  StackGuard \u003d 640*stackGuardMultiplier + StackSystem + 128*(goarch_ppc64|goarch_ppc64le)",
+      "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69b5e8c_47bd82d9",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1559,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-06T17:30:35Z",
+      "side": 1,
+      "message": "Why is this happening?",
+      "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69b5e8c_c7a8729f",
+        "filename": "src/runtime/arch_ppc64le.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-06T17:30:35Z",
+      "side": 1,
+      "message": "This should not be necessary.\nPlease take it out.\nIt\u0027s bad enough to have stackGuardMultiplier.",
+      "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
