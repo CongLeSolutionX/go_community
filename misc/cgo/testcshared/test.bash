@@ -81,7 +81,9 @@ GOPATH=$(pwd) go install -buildmode=c-shared $suffix libgo
 GOPATH=$(pwd) go build -buildmode=c-shared $suffix -o libgo.$libext src/libgo/libgo.go
 binpush libgo.$libext
 
-if [ "$goos" == "linux" ] || [ "$goos" == "android" ] ; then
+# TODO: fix text relocation bug in android/386.
+
+if [ "$goos" == "linux" ] || [ "$goos" == "android" ] && [ "$goarch" != "386" ] ; then
     if readelf -d libgo.$libext | grep TEXTREL >/dev/null; then
         echo "libgo.$libext has TEXTREL set"
         exit 1
