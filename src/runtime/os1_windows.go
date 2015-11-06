@@ -25,6 +25,9 @@ import (
 //go:cgo_import_dynamic runtime._GetProcessAffinityMask GetProcessAffinityMask%3 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetQueuedCompletionStatus GetQueuedCompletionStatus%5 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetStdHandle GetStdHandle%1 "kernel32.dll"
+//go:cgo_import_dynamic runtime._GetConsoleMode GetConsoleMode%2 "kernel32.dll"
+//go:cgo_import_dynamic runtime._GetConsoleOutputCP GetConsoleOutputCP%0 "kernel32.dll"
+//go:cgo_import_dynamic runtime._SetConsoleOutputCP SetConsoleOutputCP%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetSystemInfo GetSystemInfo%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._GetThreadContext GetThreadContext%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._LoadLibraryW LoadLibraryW%1 "kernel32.dll"
@@ -67,6 +70,9 @@ var (
 	_GetProcessAffinityMask,
 	_GetQueuedCompletionStatus,
 	_GetStdHandle,
+	_GetConsoleMode,
+	_GetConsoleOutputCP,
+	_SetConsoleOutputCP,
 	_GetSystemInfo,
 	_GetThreadContext,
 	_LoadLibraryW,
@@ -238,7 +244,7 @@ func exit(code int32) {
 }
 
 //go:nosplit
-func write(fd uintptr, buf unsafe.Pointer, n int32) int32 {
+func writeSimple(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	const (
 		_STD_OUTPUT_HANDLE = ^uintptr(10) // -11
 		_STD_ERROR_HANDLE  = ^uintptr(11) // -12
@@ -255,6 +261,40 @@ func write(fd uintptr, buf unsafe.Pointer, n int32) int32 {
 	}
 	var written uint32
 	stdcall5(_WriteFile, handle, uintptr(buf), uintptr(n), uintptr(unsafe.Pointer(&written)), 0)
+	return int32(written)
+}
+
+func write(fd uintptr, buf unsafe.Pointer, n int32) int32 {
+	const (
+		_STD_OUTPUT_HANDLE = ^uintptr(10) // -11
+		_STD_ERROR_HANDLE  = ^uintptr(11) // -12
+	)
+	var handle uintptr
+	switch fd {
+	case 1:
+		handle = stdcall1(_GetStdHandle, _STD_OUTPUT_HANDLE)
+	case 2:
+		handle = stdcall1(_GetStdHandle, _STD_ERROR_HANDLE)
+	default:
+		// assume fd is real windows handle.
+		handle = fd
+	}
+
+	// Detect if this is attached to a console or not.
+	var m uint32
+	isConsole := stdcall2(_GetConsoleMode, handle, uintptr(unsafe.Pointer(&m))) != 0
+	// If this is a console output, various non-unicode code pages can be in use.
+	// Rather then try to detect and convert here, let Windows do the work.
+	var origCP uintptr
+	if isConsole {
+		origCP = stdcall(_GetConsoleOutputCP)
+		stdcall1(_SetConsoleOutputCP, 65001) // UTF-8 code page.
+	}
+	var written uint32
+	stdcall5(_WriteFile, handle, uintptr(buf), uintptr(n), uintptr(unsafe.Pointer(&written)), 0)
+	if isConsole {
+		stdcall1(_SetConsoleOutputCP, origCP)
+	}
 	return int32(written)
 }
 
