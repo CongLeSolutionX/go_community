@@ -1252,7 +1252,7 @@ func needm(x byte) {
 	if iscgo && !cgoHasExtraM {
 		// Can happen if C/C++ code calls Go from a global ctor.
 		// Can not throw, because scheduler is not initialized yet.
-		write(2, unsafe.Pointer(&earlycgocallback[0]), int32(len(earlycgocallback)))
+		writeSimple(2, unsafe.Pointer(&earlycgocallback[0]), int32(len(earlycgocallback)))
 		exit(1)
 	}
 
