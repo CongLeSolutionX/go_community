@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b69b5e8c_27595eda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-11-08T02:24:07Z",
+      "side": 1,
+      "message": "please don\u0027t include path in the commit log.",
+      "revId": "fe2d6f226cd2eb730f3e377b47261826211f1a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69b5e8c_07f53aef",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-11-08T02:24:07Z",
+      "side": 1,
+      "message": "remove, we don\u0027t need to add a TODO for 3rdparty\nsoftware.\n\nAnd besides, even after osxcross implements dsymutil,\nthe check here still won\u0027t hurt.",
+      "revId": "fe2d6f226cd2eb730f3e377b47261826211f1a0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
