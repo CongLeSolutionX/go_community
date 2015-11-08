@@ -16,6 +16,24 @@
       "revId": "92e39dbfda222cd50c05e1bbc5835d9b0ed0b6e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69b5e8c_a71a0ef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2015-11-08T02:39:15Z",
+      "side": 1,
+      "message": "Done; I believe \"fixes\" is appropriate.",
+      "parentUuid": "b69b5e8c_071c1af7",
+      "revId": "92e39dbfda222cd50c05e1bbc5835d9b0ed0b6e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
