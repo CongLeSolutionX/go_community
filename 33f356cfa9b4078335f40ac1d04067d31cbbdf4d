@@ -16,6 +16,24 @@
       "revId": "33f356cfa9b4078335f40ac1d04067d31cbbdf4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6829250_32e8b0cf",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-11-08T19:35:39Z",
+      "side": 1,
+      "message": "Done already in PS15",
+      "parentUuid": "963d79a1_d114068b",
+      "revId": "33f356cfa9b4078335f40ac1d04067d31cbbdf4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
