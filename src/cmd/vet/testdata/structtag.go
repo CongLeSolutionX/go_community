@@ -34,3 +34,18 @@ type JSONEmbeddedField struct {
 	UnexportedEncodingTagTest `is:"embedded"`
 	unexp                     `is:"embedded,notexported" json:"unexp"` // OK for now, see issue 7363
 }
+
+type DuplicateJSONFields struct {
+	JSON              int `json:"a"`
+	DuplicateJSON     int `json:"a"` // ERROR "duplicate value for struct tag json"
+	IgnoredJSON       int `json:"-"`
+	OtherIgnoredJSON  int `json:"-"`
+	OmitJSON          int `json:",omitempty"`
+	OtherOmitJSON     int `json:",omitempty"`
+	DuplicateOmitJSON int `json:"a,omitempty"` // ERROR "duplicate value for struct tag json"
+	NonJSON           int `foo:"a"`
+	DuplicateNonJSON  int `foo:"a"`
+	Embedded          struct {
+		DuplicateJSON int `json:"a"` // OK because its not in the same struct type
+	}
+}

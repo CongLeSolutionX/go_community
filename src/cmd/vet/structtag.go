@@ -11,18 +11,28 @@ import (
 	"go/ast"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 func init() {
 	register("structtags",
 		"check that struct field tags have canonical format and apply to exported fields as needed",
-		checkCanonicalFieldTag,
-		field)
+		checkStructFieldTags,
+		structType)
 }
 
-// checkCanonicalFieldTag checks a struct field tag.
-func checkCanonicalFieldTag(f *File, node ast.Node) {
-	field := node.(*ast.Field)
+// checkStructFieldTags checks all the field tags of a struct, including checking for duplicates.
+func checkStructFieldTags(f *File, node ast.Node) {
+	structType := node.(*ast.StructType)
+	seenJSONTags := map[string]struct{}{}
+	for _, field := range structType.Fields.List {
+		checkCanonicalFieldTag(f, field, seenJSONTags)
+	}
+}
+
+// checkCanonicalFieldTag checks a single struct field tag. It adds valid json field tags to the
+// given set (thereby mutating it) in order to check for duplicates.
+func checkCanonicalFieldTag(f *File, field *ast.Field, seenJSONTags map[string]struct{}) {
 	if field.Tag == nil {
 		return
 	}
@@ -37,6 +47,21 @@ func checkCanonicalFieldTag(f *File, node ast.Node) {
 		f.Badf(field.Pos(), "struct field tag %s not compatible with reflect.StructTag.Get: %s", field.Tag.Value, err)
 	}
 
+	// Check for duplicate json tags.
+
+	st := reflect.StructTag(tag)
+	jsonTag := st.Get("json")
+	if jsonTag != "" && jsonTag != "-" {
+		// Only the first part of the struct tag before the "," separator is considered the name.
+		jsonTagName := strings.Split(jsonTag, ",")[0]
+		if jsonTagName != "" {
+			if _, found := seenJSONTags[jsonTagName]; found {
+				f.Badf(field.Pos(), "struct field %s has duplicate value for struct tag json", field.Names[0].Name)
+			}
+			seenJSONTags[jsonTagName] = struct{}{}
+		}
+	}
+
 	// Check for use of json or xml tags with unexported fields.
 
 	// Embedded struct. Nothing to do for now, but that
@@ -49,7 +74,6 @@ func checkCanonicalFieldTag(f *File, node ast.Node) {
 		return
 	}
 
-	st := reflect.StructTag(tag)
 	for _, enc := range [...]string{"json", "xml"} {
 		if st.Get(enc) != "" {
 			f.Badf(field.Pos(), "struct field %s has %s tag but is not exported", field.Names[0].Name, enc)
