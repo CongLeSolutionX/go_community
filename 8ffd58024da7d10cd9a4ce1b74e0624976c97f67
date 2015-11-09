@@ -69,6 +69,24 @@
       "revId": "8ffd58024da7d10cd9a4ce1b74e0624976c97f67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69b5e8c_0a72df80",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-09T21:13:25Z",
+      "side": 0,
+      "message": "OK, then why did this change to not be a constant?",
+      "parentUuid": "d6829250_b2e580cc",
+      "revId": "8ffd58024da7d10cd9a4ce1b74e0624976c97f67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
