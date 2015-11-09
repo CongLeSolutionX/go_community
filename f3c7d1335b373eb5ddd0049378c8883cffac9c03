@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6829250_52ebf49f",
+        "filename": "src/cmd/internal/obj/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-11-09T02:01:31Z",
+      "side": 1,
+      "message": "That works in the runtime (and changed that way there) but not here.",
+      "parentUuid": "b69b5e8c_a7ad6ead",
+      "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69b5e8c_47bd82d9",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d6829250_72bdd882",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1559,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-11-09T02:01:31Z",
+      "side": 1,
+      "message": "Added a comment (I assume that\u0027s what you wanted?)",
+      "parentUuid": "b69b5e8c_47bd82d9",
+      "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69b5e8c_c7a8729f",
         "filename": "src/runtime/arch_ppc64le.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-11-06T17:30:35Z",
       "side": 1,
       "message": "This should not be necessary.\nPlease take it out.\nIt\u0027s bad enough to have stackGuardMultiplier.",
+      "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6829250_32b750a3",
+        "filename": "src/runtime/arch_ppc64le.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2015-11-09T02:01:31Z",
+      "side": 1,
+      "message": "Done. One of the things that gets much nicer when the larger frames are always used, sorry I didn\u0027t spot that before!",
+      "parentUuid": "b69b5e8c_c7a8729f",
       "revId": "f3c7d1335b373eb5ddd0049378c8883cffac9c03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
