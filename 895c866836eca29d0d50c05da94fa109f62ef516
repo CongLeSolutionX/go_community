@@ -227,6 +227,24 @@
       "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_38f8e934",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T20:53:01Z",
+      "side": 1,
+      "message": "The use of go:nosplit on write in this case is because we are running without a g or m, so we cannot do a prologue check. For that matter we can\u0027t do much of anything. Perhaps the Windows write should first scan the byte slice for bytes \u003e\u003d 0x80. If it doesn\u0027t find any, it can use the ASCII write DLL call and no conversions.",
+      "parentUuid": "9b0be317_184f6569",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
