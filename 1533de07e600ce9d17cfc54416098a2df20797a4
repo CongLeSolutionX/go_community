@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6829250_951b86af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-11-10T00:19:44Z",
+      "side": 1,
+      "message": "s/inform windows of encoding before writing to console./use WriteConsole to implement print and panic on windows/\n\nor similar.",
+      "revId": "1533de07e600ce9d17cfc54416098a2df20797a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6829250_55367e29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-11-10T00:19:44Z",
+      "side": 1,
+      "message": "You won\u0027t need these, if you update the subject line.",
+      "revId": "1533de07e600ce9d17cfc54416098a2df20797a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
