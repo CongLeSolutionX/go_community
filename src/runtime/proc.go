@@ -3274,11 +3274,13 @@ func checkdead() {
 		}
 		mp := mget()
 		if mp == nil {
-			newm(nil, _p_)
-		} else {
-			mp.nextp.set(_p_)
-			notewakeup(&mp.park)
+			// Shouldn't happen. There should always be a
+			// free M since nothing is running and we
+			// can't start a new M on the playground anyway.
+			throw("checkdead: no m for timer")
 		}
+		mp.nextp.set(_p_)
+		notewakeup(&mp.park)
 		return
 	}
 
