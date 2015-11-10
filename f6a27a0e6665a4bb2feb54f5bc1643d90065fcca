@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_18fd2525",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T20:53:01Z",
+      "side": 1,
+      "message": "isASCII :\u003d true\nb :\u003d (*[1\u003c\u003c30]byte)(buf)[:n]\nfor _, x :\u003d range b {\n   if x \u003e\u003d 0x80 {\n       isASCII \u003d false\n       break\n   }\n}",
+      "revId": "f6a27a0e6665a4bb2feb54f5bc1643d90065fcca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_f80151e3",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T20:53:01Z",
+      "side": 1,
+      "message": "if isConsole \u0026\u0026 !isASCII",
+      "revId": "f6a27a0e6665a4bb2feb54f5bc1643d90065fcca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
