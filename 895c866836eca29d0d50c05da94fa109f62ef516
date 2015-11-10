@@ -209,6 +209,24 @@
       "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_184f6569",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-11-10T19:54:22Z",
+      "side": 1,
+      "message": "The restriction on //go:nosplit functions is that\nthey can\u0027t call non-go:nosplit functions or use\ntoo much stack space. Other functions are free to\ncall them.\n\nThe linker will check the property for you.",
+      "parentUuid": "16c50ace_cad1c74e",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
