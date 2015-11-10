@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_581a7dbc",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T17:42:26Z",
+      "side": 1,
+      "message": "Can use len here.",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_b802b94b",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T17:42:26Z",
+      "side": 1,
+      "message": "Delete this if statement.\n\nWe can\u0027t just stop printing a string because of one bad rune. The point of the replacement rune is that it\u0027s a sensible thing to print for an encoding error. The loop must continue and process the whole buffer. We know len(s) \u003e 0, so charntorune will return n \u003e\u003d 1.",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_380fc97a",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T17:42:26Z",
+      "side": 1,
+      "message": "The code is reslicing utf16tmp on the arguments to the writeConsoleUTF16 calls anyway, so this reslicing is redundant. (My fault.) Delete.",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_1814058d",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T17:42:26Z",
+      "side": 1,
+      "message": "w++",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_f808316f",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T17:42:26Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_98fff581",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-10T17:42:26Z",
+      "side": 1,
+      "message": "writeSimple is not defined on non-Wndows systems, and I\u0027d rather it wasn\u0027t. This needs to be just \u0027write\u0027. What are the implications of that for Windows? I don\u0027t understand why it\u0027s changing anyway.",
+      "revId": "895c866836eca29d0d50c05da94fa109f62ef516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
