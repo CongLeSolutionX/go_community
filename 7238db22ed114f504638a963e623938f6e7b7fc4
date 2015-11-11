@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "563ea29c_f1ad82ac",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-11-11T05:37:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf54f3c_22ad50ab",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bf54f3c_62a358c3",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-11T04:27:04Z",
       "side": 1,
       "message": "Do not call GetConsoleMode unless isASCII is true.",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "563ea29c_11b3ee11",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-11-11T05:37:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf54f3c_62a358c3",
       "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "563ea29c_d1a8869f",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-11-11T05:37:50Z",
+      "side": 1,
+      "message": "True. I think that behavior is fine.",
+      "parentUuid": "7bf54f3c_c2bb44e5",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bf54f3c_ffbedfef",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2015-11-11T02:54:35Z",
       "side": 1,
       "message": "If WriteConsoleW return an error, write should return the error?",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "563ea29c_b1a3fac0",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2015-11-11T05:37:50Z",
+      "side": 1,
+      "message": "I don\u0027t think it should. This shouldn\u0027t error. If it does during a panic or last ditch print, I\u0027m not sure what this error would help.",
+      "parentUuid": "7bf54f3c_ffbedfef",
       "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
