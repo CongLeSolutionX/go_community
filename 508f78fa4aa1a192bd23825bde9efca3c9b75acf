@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_181c05f4",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-11T01:23:09Z",
+      "side": 1,
+      "message": "Delete. This is not necessary anymore since we handled the ASCII messages without calling writeConsole.",
+      "revId": "508f78fa4aa1a192bd23825bde9efca3c9b75acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_f81031da",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-11T01:23:09Z",
+      "side": 1,
+      "message": "total :\u003d len(s)",
+      "revId": "508f78fa4aa1a192bd23825bde9efca3c9b75acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_d80d6dbe",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-11T01:23:09Z",
+      "side": 1,
+      "message": "Delete.\nNo need for multiple variables doing the same work\n(total is counting up and s is counting down).",
+      "revId": "508f78fa4aa1a192bd23825bde9efca3c9b75acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
