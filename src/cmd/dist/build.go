@@ -461,7 +461,7 @@ var deptab = []struct {
 	{"cmd/go", []string{
 		"zdefaultcc.go",
 	}},
-	{"runtime", []string{
+	{"runtime/internal/sys", []string{
 		"zversion.go",
 	}},
 }
