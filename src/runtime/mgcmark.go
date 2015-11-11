@@ -8,6 +8,7 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -704,11 +705,11 @@ func scanframeworker(frame *stkframe, cache *pcvalueCache, gcw *gcWork) {
 	// Scan local variables if stack frame has been allocated.
 	size := frame.varp - frame.sp
 	var minsize uintptr
-	switch thechar {
+	switch sys.TheChar {
 	case '7':
 		minsize = spAlign
 	default:
-		minsize = minFrameSize
+		minsize = sys.MinFrameSize
 	}
 	if size > minsize {
 		stkmap := (*stackmap)(funcdata(f, _FUNCDATA_LocalsPointerMaps))

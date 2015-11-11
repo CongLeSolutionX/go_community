@@ -8,6 +8,7 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -115,7 +116,7 @@ func GostringW(w []uint16) (s string) {
 var Gostringnocopy = gostringnocopy
 var Maxstring = &maxstring
 
-type Uintreg uintreg
+type Uintreg sys.Uintreg
 
 var Open = open
 var Close = closefd
@@ -125,7 +126,7 @@ var Write = write
 func Envs() []string     { return envs }
 func SetEnvs(e []string) { envs = e }
 
-var BigEndian = _BigEndian
+var BigEndian = sys.BigEndian
 
 // For benchmarking.
 

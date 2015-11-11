@@ -4,13 +4,16 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // Declarations for runtime services implemented in C or assembly.
 
-const ptrSize = 4 << (^uintptr(0) >> 63)             // unsafe.Sizeof(uintptr(0)) but an ideal const
-const regSize = 4 << (^uintreg(0) >> 63)             // unsafe.Sizeof(uintreg(0)) but an ideal const
-const spAlign = 1*(1-goarch_arm64) + 16*goarch_arm64 // SP alignment: 1 normally, 16 for ARM64
+const ptrSize = 4 << (^uintptr(0) >> 63)                   // unsafe.Sizeof(uintptr(0)) but an ideal const
+const regSize = 4 << (^sys.Uintreg(0) >> 63)               // unsafe.Sizeof(uintreg(0)) but an ideal const
+const spAlign = 1*(1-sys.GoarchArm64) + 16*sys.GoarchArm64 // SP alignment: 1 normally, 16 for ARM64
 
 // Should be a built-in for unsafe.Pointer?
 //go:nosplit
