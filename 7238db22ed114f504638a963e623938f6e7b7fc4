@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bf54f3c_ffbedfef",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2015-11-11T02:54:35Z",
+      "side": 1,
+      "message": "If WriteConsoleW return an error, write should return the error?",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
