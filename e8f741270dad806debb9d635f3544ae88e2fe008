@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b67fde4b_01362a91",
+        "filename": "misc/cgo/testsanitizers/msan3.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-11-11T04:26:08Z",
+      "side": 1,
+      "message": "Why do you have g? Can\u0027t you check the value of *p in f?",
+      "revId": "e8f741270dad806debb9d635f3544ae88e2fe008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
