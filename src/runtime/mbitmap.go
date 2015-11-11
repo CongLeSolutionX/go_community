@@ -68,6 +68,7 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -139,7 +140,7 @@ func mHeap_MapBits(h *mheap, arena_used uintptr) {
 
 	n := (arena_used - mheap_.arena_start) / heapBitmapScale
 	n = round(n, bitmapChunk)
-	n = round(n, _PhysPageSize)
+	n = round(n, sys.PhysPageSize)
 	if h.bitmap_mapped >= n {
 		return
 	}

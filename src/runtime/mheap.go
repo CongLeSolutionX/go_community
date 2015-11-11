@@ -10,6 +10,7 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -58,7 +59,7 @@ type mheap struct {
 	// gets its own cache line.
 	central [_NumSizeClasses]struct {
 		mcentral mcentral
-		pad      [_CacheLineSize]byte
+		pad      [sys.CacheLineSize]byte
 	}
 
 	spanalloc             fixalloc // allocator for span*
@@ -322,7 +323,7 @@ func mHeap_MapSpans(h *mheap, arena_used uintptr) {
 	n := arena_used
 	n -= h.arena_start
 	n = n / _PageSize * ptrSize
-	n = round(n, _PhysPageSize)
+	n = round(n, sys.PhysPageSize)
 	if h.spans_mapped >= n {
 		return
 	}
@@ -829,7 +830,7 @@ func mHeap_BusyList(h *mheap, npages uintptr) *mSpanList {
 }
 
 func scavengelist(list *mSpanList, now, limit uint64) uintptr {
-	if _PhysPageSize > _PageSize {
+	if sys.PhysPageSize > _PageSize {
 		// golang.org/issue/9993
 		// If the physical page size of the machine is larger than
 		// our logical heap page size the kernel may round up the

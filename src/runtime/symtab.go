@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // NOTE: Func does not expose the actual unexported fields, because we return *Func
 // values to users, and we want to keep them from being able to overwrite the data
@@ -105,7 +108,7 @@ func moduledataverify1(datap *moduledata) {
 	// and a byte giving the pointer width in bytes.
 	pcln := *(**[8]byte)(unsafe.Pointer(&datap.pclntable))
 	pcln32 := *(**[2]uint32)(unsafe.Pointer(&datap.pclntable))
-	if pcln32[0] != 0xfffffffb || pcln[4] != 0 || pcln[5] != 0 || pcln[6] != _PCQuantum || pcln[7] != ptrSize {
+	if pcln32[0] != 0xfffffffb || pcln[4] != 0 || pcln[5] != 0 || pcln[6] != sys.PCQuantum || pcln[7] != ptrSize {
 		println("runtime: function symbol table header:", hex(pcln32[0]), hex(pcln[4]), hex(pcln[5]), hex(pcln[6]), hex(pcln[7]))
 		throw("invalid function symbol table\n")
 	}
@@ -399,7 +402,7 @@ func step(p []byte, pc *uintptr, val *int32, first bool) (newp []byte, ok bool) 
 	}
 	vdelta := int32(uvdelta)
 	p, pcdelta := readvarint(p)
-	*pc += uintptr(pcdelta * _PCQuantum)
+	*pc += uintptr(pcdelta * sys.PCQuantum)
 	*val += vdelta
 	return p, true
 }

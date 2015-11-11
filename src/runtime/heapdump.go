@@ -11,7 +11,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 //go:linkname runtime_debug_WriteHeapDump runtime/debug.WriteHeapDump
 func runtime_debug_WriteHeapDump(fd uintptr) {
@@ -492,8 +495,8 @@ func dumpparams() {
 	dumpint(ptrSize)
 	dumpint(uint64(mheap_.arena_start))
 	dumpint(uint64(mheap_.arena_used))
-	dumpint(thechar)
-	dumpstr(goexperiment)
+	dumpint(sys.TheChar)
+	dumpstr(sys.Goexperiment)
 	dumpint(uint64(ncpu))
 }
 

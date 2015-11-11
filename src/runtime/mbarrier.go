@@ -13,7 +13,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // markwb is the mark-phase write barrier, the only barrier we have.
 // The rest of this file exists only to make calls to this function.
@@ -128,7 +131,7 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 	if !writeBarrierEnabled {
 		return
 	}
-	if src != 0 && (src < _PhysPageSize || src == poisonStack) {
+	if src != 0 && (src < sys.PhysPageSize || src == poisonStack) {
 		systemstack(func() {
 			print("runtime: writebarrierptr *", dst, " = ", hex(src), "\n")
 			throw("bad pointer in write barrier")
@@ -144,7 +147,7 @@ func writebarrierptr_nostore(dst *uintptr, src uintptr) {
 	if !writeBarrierEnabled {
 		return
 	}
-	if src != 0 && (src < _PhysPageSize || src == poisonStack) {
+	if src != 0 && (src < sys.PhysPageSize || src == poisonStack) {
 		systemstack(func() { throw("bad pointer in write barrier") })
 	}
 	writebarrierptr_nostore1(dst, src)

@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // The code in this file implements stack trace walking for all architectures.
 // The most important fact about a given architecture is whether it uses a link register.
@@ -29,7 +32,7 @@ import "unsafe"
 // usesLR is defined below in terms of minFrameSize, which is defined in
 // arch_$GOARCH.go. ptrSize and regSize are defined in stubs.go.
 
-const usesLR = minFrameSize > 0
+const usesLR = sys.MinFrameSize > 0
 
 var (
 	// initialized in tracebackinit
@@ -181,7 +184,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			frame.pc = *(*uintptr)(unsafe.Pointer(frame.sp))
 			frame.lr = 0
 		} else {
-			frame.pc = uintptr(*(*uintreg)(unsafe.Pointer(frame.sp)))
+			frame.pc = uintptr(*(*sys.Uintreg)(unsafe.Pointer(frame.sp)))
 			frame.sp += regSize
 		}
 	}
@@ -250,7 +253,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			} else {
 				if frame.lr == 0 {
 					lrPtr = frame.fp - regSize
-					frame.lr = uintptr(*(*uintreg)(unsafe.Pointer(lrPtr)))
+					frame.lr = uintptr(*(*sys.Uintreg)(unsafe.Pointer(lrPtr)))
 				}
 			}
 			if frame.lr == stackBarrierPC {
@@ -296,7 +299,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		// in package runtime and reflect, and for those we use call-specific
 		// metadata recorded by f's caller.
 		if callback != nil || printing {
-			frame.argp = frame.fp + minFrameSize
+			frame.argp = frame.fp + sys.MinFrameSize
 			setArgInfo(&frame, f, callback != nil)
 		}
 
@@ -394,7 +397,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		// before faking a call to sigpanic.
 		if usesLR && waspanic {
 			x := *(*uintptr)(unsafe.Pointer(frame.sp))
-			frame.sp += minFrameSize
+			frame.sp += sys.MinFrameSize
 			if GOARCH == "arm64" {
 				// arm64 needs 16-byte aligned SP, always
 				frame.sp += ptrSize
@@ -494,7 +497,7 @@ func setArgInfo(frame *stkframe, f *_func, needArgMap bool) {
 		// Extract argument bitmaps for reflect stubs from the calls they made to reflect.
 		switch funcname(f) {
 		case "reflect.makeFuncStub", "reflect.methodValueCall":
-			arg0 := frame.sp + minFrameSize
+			arg0 := frame.sp + sys.MinFrameSize
 			fn := *(**[2]uintptr)(unsafe.Pointer(arg0))
 			if fn[0] != f.entry {
 				print("runtime: confused by ", funcname(f), "\n")
@@ -515,7 +518,7 @@ func printcreatedby(gp *g) {
 		print("created by ", funcname(f), "\n")
 		tracepc := pc // back up to CALL instruction for funcline.
 		if pc > f.entry {
-			tracepc -= _PCQuantum
+			tracepc -= sys.PCQuantum
 		}
 		file, line := funcline(f, tracepc)
 		print("\t", file, ":", line)

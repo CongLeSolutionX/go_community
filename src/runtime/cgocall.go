@@ -79,7 +79,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // Call from Go to C.
 //go:nosplit
@@ -252,7 +255,7 @@ func cgocallbackg1() {
 		// | cgocallback_gofunc +------------------------------+ <- sp + minFrameSize
 		// |                    | fixed frame area             |
 		// +--------------------+------------------------------+ <- sp
-		cb = (*args)(unsafe.Pointer(sp + 2*minFrameSize + 2*ptrSize))
+		cb = (*args)(unsafe.Pointer(sp + 2*sys.MinFrameSize + 2*ptrSize))
 	}
 
 	// Invoke callback.
@@ -291,7 +294,7 @@ func unwindm(restore *bool) {
 	default:
 		throw("unwindm not implemented")
 	case "386", "amd64", "arm", "ppc64", "ppc64le":
-		sched.sp = *(*uintptr)(unsafe.Pointer(sched.sp + minFrameSize))
+		sched.sp = *(*uintptr)(unsafe.Pointer(sched.sp + sys.MinFrameSize))
 	case "arm64":
 		sched.sp = *(*uintptr)(unsafe.Pointer(sched.sp + 16))
 	}
