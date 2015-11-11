@@ -16,6 +16,24 @@
       "revId": "e8f741270dad806debb9d635f3544ae88e2fe008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16c50ace_fe21e190",
+        "filename": "misc/cgo/testsanitizers/msan3.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-11T05:55:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b67fde4b_01362a91",
+      "revId": "e8f741270dad806debb9d635f3544ae88e2fe008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
