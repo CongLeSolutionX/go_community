@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "7bf54f3c_22ad50ab",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-11-11T04:27:04Z",
+      "side": 1,
+      "message": "I don\u0027t see benefit of having comments here. Your code is clear enough. Up to you to decide either way.",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bf54f3c_62a358c3",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-11-11T04:27:04Z",
+      "side": 1,
+      "message": "Do not call GetConsoleMode unless isASCII is true.",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bf54f3c_c2bb44e5",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-11-11T04:27:04Z",
+      "side": 1,
+      "message": "This new lock means multiple print statements won\u0027t be able to interleave with each other. I am not sure if it is important.",
+      "revId": "7238db22ed114f504638a963e623938f6e7b7fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bf54f3c_ffbedfef",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 8
