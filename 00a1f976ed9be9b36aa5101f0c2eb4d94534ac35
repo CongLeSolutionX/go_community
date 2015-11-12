@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bf54f3c_658da218",
+        "filename": "src/runtime/lfstack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2015-11-12T04:57:10Z",
+      "side": 1,
+      "message": "I think the two newlines are deliberate.\nTo make it more obvious, end the string with \"\\n\\n\"",
+      "revId": "00a1f976ed9be9b36aa5101f0c2eb4d94534ac35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
