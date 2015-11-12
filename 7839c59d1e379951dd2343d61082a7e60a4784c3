@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9b0be317_fe3379ef",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-12T16:24:47Z",
+      "side": 1,
+      "message": "Maybe but given the utility of having GoosLinux etc being integers (namely the use as conditionals in constant expressions) BigEndian should probably stay an integer too.",
+      "parentUuid": "9b0be317_db9a07df",
+      "revId": "7839c59d1e379951dd2343d61082a7e60a4784c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "169a6aee_ff12bba0",
         "filename": "src/runtime/trace.go",
         "patchSetId": 2
