@@ -16,6 +16,24 @@
       "revId": "b66d5c4b12cdbd08a640955490ea38ffa6e9a381",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b67fde4b_a4c2ec80",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-11-12T14:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56278298_e92031dd",
+      "revId": "b66d5c4b12cdbd08a640955490ea38ffa6e9a381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
