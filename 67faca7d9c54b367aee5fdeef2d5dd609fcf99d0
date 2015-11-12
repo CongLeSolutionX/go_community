@@ -39,6 +39,29 @@
       "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_7e9e497a",
+        "filename": "src/runtime/internal/atomic/asm.s",
+        "patchSetId": 54
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2015-11-12T03:27:00Z",
+      "side": 1,
+      "message": "can\u0027t it just be TEXT ·nop(SB),NOSPLIT,$0-0?",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
