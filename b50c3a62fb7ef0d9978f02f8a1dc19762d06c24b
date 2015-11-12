@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_fe1c9955",
+        "filename": "misc/sortac/sortac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-12T16:46:50Z",
+      "side": 1,
+      "message": "Delete blank line. Also document slightly more:\n\n// Sortac sorts the AUTHORS and CONTRIBUTORS files.\n//\n// Usage:\n//\n//    sortac [file...]\n//\n// Sortac sorts the named files in place.\n// If given no arguments, it sorts standard input to standard output.\n\nIt should handle multiple files so you can say \u0027sortac AUTHORS CONTRIBUTORS\u0027 (especially since that\u0027s kind of implied by the overview line). Comment below to do that.",
+      "revId": "b50c3a62fb7ef0d9978f02f8a1dc19762d06c24b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_de19d563",
+        "filename": "misc/sortac/sortac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-12T16:46:50Z",
+      "side": 1,
+      "message": "log.SetFlag(0)\nlog.SetPrefix(\"sortac: \")\nflag.Parse()",
+      "revId": "b50c3a62fb7ef0d9978f02f8a1dc19762d06c24b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_be162132",
+        "filename": "misc/sortac/sortac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-12T16:46:50Z",
+      "side": 1,
+      "message": "args :\u003d flag.Args()\nif len(args) \u003d\u003d 0 {\n    os.Write(sortAC(os.Stdin))\n} else {\n    for _, arg :\u003d range args {\n        f, err :\u003d os.Open(arg)\n        if err !\u003d nil {\n           log.Fatal(err)\n        }\n        sorted :\u003d sortAC(f)\n        f.Close()\n        if err :\u003d ioutil.WriteFile(arg, sorted, 0666); err !\u003d nil {\n           log.Fatal(err)\n        }\n    }\n}\n\nfunc sortAC(r io.Reader) []byte { ... }",
+      "revId": "b50c3a62fb7ef0d9978f02f8a1dc19762d06c24b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
