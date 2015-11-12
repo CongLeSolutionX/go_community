@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9b0be317_7e40893a",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime_internal_atomic.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-12T16:29:00Z",
+      "side": 1,
+      "message": "Sent golang.org/cl/16844 to delete this.",
+      "parentUuid": "16c50ace_2e5fc8c1",
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c50ace_ee03f099",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 54
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-12T01:20:12Z",
       "side": 1,
       "message": "Don\u0027t runtime/debug, runtime/pprof, etc. still depend on package runtime?",
+      "range": {
+        "startLine": 836,
+        "startChar": 83,
+        "endLine": 836,
+        "endChar": 90
+      },
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_de6b15c4",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-12T16:29:00Z",
+      "side": 1,
+      "message": "Yes, this was a bug. It was fixed by iant\u0027s CL golang.org/cl/16837.",
+      "parentUuid": "16c50ace_ee03f099",
       "range": {
         "startLine": 836,
         "startChar": 83,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9b0be317_be6861c8",
+        "filename": "src/runtime/internal/atomic/asm.s",
+        "patchSetId": 54
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-12T16:29:00Z",
+      "side": 1,
+      "message": "Yes, I suppose all of the assembly routines can leave out the package name. I was keeping the style of the original, which left in the package name.\n\nWhy do some runtime definitions assembly definitions have the package name, while others leave it out?",
+      "parentUuid": "9b0be317_7e9e497a",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b0be317_bebbc1e5",
         "filename": "src/runtime/internal/atomic/textflag.h",
         "patchSetId": 54
@@ -76,6 +142,24 @@
       "writtenOn": "2015-11-12T04:23:44Z",
       "side": 1,
       "message": "why make another copy of textflag.h here?",
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_5e45c548",
+        "filename": "src/runtime/internal/atomic/textflag.h",
+        "patchSetId": 54
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-12T16:29:00Z",
+      "side": 1,
+      "message": "It\u0027s a temporary thing until I figure out where textflag belongs.\n\nShould all the .s files in runtime/internal/atomic do an \u0027#include \"../../textflag.h\"\u0027 and depend on a single textflag.h in the runtime directory?",
+      "parentUuid": "9b0be317_bebbc1e5",
       "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
