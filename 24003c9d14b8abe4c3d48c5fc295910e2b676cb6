@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56278298_66638e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-11-12T08:32:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this is saying.\n\nIt\u0027s a server issue, not a client issue?",
+      "revId": "24003c9d14b8abe4c3d48c5fc295910e2b676cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569062ca_41059453",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-11-12T08:32:43Z",
+      "side": 1,
+      "message": "shallow repos? An unshallow repo would just be a deep (normal) repo, right?",
+      "revId": "24003c9d14b8abe4c3d48c5fc295910e2b676cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
