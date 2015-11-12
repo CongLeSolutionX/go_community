@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b67fde4b_845968dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-11-12T13:24:55Z",
+      "side": 1,
+      "message": "this isn\u0027t the normal doc style\n\nstart with a verb, lowercase.\nand drop the trailing period.",
+      "revId": "86287e5347e1b2a70cf6e4aef2de1e48edc16f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569062ca_01e62cd7",
+        "filename": "AUTHORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-11-12T13:24:55Z",
+      "side": 1,
+      "message": "Organizations don\u0027t have emails.\n\nMaybe:\n\n# Items should be of the form:\n#     Organization\n#     Name of Individual Contributor \u003cemail address\u003e\n#     Name of Individual Contributor \u003cemail address\u003e \u003cemail2\u003e \u003cemailN\u003e\n\n(because I\u0027m also not a big fan of the \"...\" at the end)",
+      "revId": "86287e5347e1b2a70cf6e4aef2de1e48edc16f87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
