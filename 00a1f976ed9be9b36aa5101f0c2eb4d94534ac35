@@ -16,6 +16,24 @@
       "revId": "00a1f976ed9be9b36aa5101f0c2eb4d94534ac35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16c50ace_c115251d",
+        "filename": "src/runtime/lfstack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-11-12T05:05:36Z",
+      "side": 1,
+      "message": "What makes you think it\u0027s deliberate?\n\nIt seems more likely to me that it was a typo.  E.g., println also adds spaces between its arguments, so it would print like\n\n    runtime: lfstackpush invalid packing: node\u003d 0x1234  cnt\u003d 0x5678  packed\u003d 0x9abc  -\u003e node\u003d 0xdef0\n\nwhich looks weird compared to other package runtime prints.",
+      "parentUuid": "7bf54f3c_658da218",
+      "revId": "00a1f976ed9be9b36aa5101f0c2eb4d94534ac35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
