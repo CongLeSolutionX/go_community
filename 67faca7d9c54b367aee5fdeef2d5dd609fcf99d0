@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16c50ace_2e5fc8c1",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime_internal_atomic.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-11-12T01:20:12Z",
+      "side": 1,
+      "message": "FYI, adding this file by itself does nothing.  You\u0027d need to add it to the \"go:generate go run mkbuiltin.go runtime unsafe\" invocation in cmd/compile/internal/gc/lex.go, and then also make use of the generated runtime_internal_atomicimport string constant.",
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16c50ace_ee03f099",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-11-12T01:20:12Z",
+      "side": 1,
+      "message": "Don\u0027t runtime/debug, runtime/pprof, etc. still depend on package runtime?",
+      "range": {
+        "startLine": 836,
+        "startChar": 83,
+        "endLine": 836,
+        "endChar": 90
+      },
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
