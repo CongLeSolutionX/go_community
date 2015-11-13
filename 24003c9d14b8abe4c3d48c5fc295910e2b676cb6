@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5b532b27_4c3f7308",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-11-13T18:27:56Z",
+      "side": 1,
+      "message": "I don\u0027t know why you don\u0027t understand what it is saying but it is a server issue. See https://github.com/golang/go/issues/13213.",
+      "parentUuid": "9b0be317_de2c356f",
+      "revId": "24003c9d14b8abe4c3d48c5fc295910e2b676cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "569062ca_41059453",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2015-11-12T08:32:43Z",
       "side": 1,
       "message": "shallow repos? An unshallow repo would just be a deep (normal) repo, right?",
+      "revId": "24003c9d14b8abe4c3d48c5fc295910e2b676cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b532b27_2c44379c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-11-13T18:27:56Z",
+      "side": 1,
+      "message": "Unshallow repos. I have unshallow repos all over my GOPATH and `go get -u` on such repos are failing.",
+      "parentUuid": "569062ca_41059453",
       "revId": "24003c9d14b8abe4c3d48c5fc295910e2b676cb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
