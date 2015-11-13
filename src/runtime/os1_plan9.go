@@ -24,6 +24,9 @@ func mpreinit(mp *m) {
 func msigsave(mp *m) {
 }
 
+func sigblock() {
+}
+
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
 func minit() {
@@ -33,7 +36,7 @@ func minit() {
 }
 
 // Called from dropm to undo the effect of an minit.
-func unminit() {
+func unminit(mp *m) {
 }
 
 var sysstat = []byte("/dev/sysstat\x00")
