@@ -156,6 +156,11 @@ func msigsave(mp *m) {
 	*smask = sigprocmask(_SIG_BLOCK, 0)
 }
 
+//go:nosplit
+func sigblock() {
+	sigprocmask(_SIG_SETMASK, sigset_all)
+}
+
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
 func minit() {
@@ -178,9 +183,9 @@ func minit() {
 }
 
 // Called from dropm to undo the effect of an minit.
-func unminit() {
-	_g_ := getg()
-	smask := *(*uint32)(unsafe.Pointer(&_g_.m.sigmask))
+//go:nosplit
+func unminit(mp *m) {
+	smask := *(*uint32)(unsafe.Pointer(&mp.sigmask))
 	sigprocmask(_SIG_SETMASK, smask)
 	signalstack(nil)
 }
@@ -224,6 +229,7 @@ func getsig(i int32) uintptr {
 	return sa.sa_sigaction
 }
 
+//go:nosplit
 func signalstack(s *stack) {
 	var st stackt
 	if s == nil {
