@@ -450,6 +450,9 @@ func Base(path string) string {
 func Dir(path string) string {
 	vol := VolumeName(path)
 	i := len(path) - 1
+	for i > len(vol) && os.IsPathSeparator(path[i]) {
+		i--
+	}
 	for i >= len(vol) && !os.IsPathSeparator(path[i]) {
 		i--
 	}

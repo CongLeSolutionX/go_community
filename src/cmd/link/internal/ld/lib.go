@@ -1164,6 +1164,7 @@ func hostlink() {
 	}
 
 	if Debug['s'] == 0 && debug_s == 0 && HEADTYPE == obj.Hdarwin {
+		return
 		// Skip combining dwarf on arm.
 		if Thearch.Thechar != '5' && Thearch.Thechar != '7' {
 			dsym := fmt.Sprintf("%s/go.dwarf", tmpdir)
@@ -1175,6 +1176,7 @@ func hostlink() {
 			if _, err := os.Stat(dsym); os.IsNotExist(err) {
 				return
 			}
+			return
 			// For os.Rename to work reliably, must be in same directory as outfile.
 			combinedOutput := outfile + "~"
 			if err := machoCombineDwarf(outfile, dsym, combinedOutput); err != nil {
