@@ -390,7 +390,12 @@ func newosproc(mp *m, stk unsafe.Pointer) {
 func mpreinit(mp *m) {
 }
 
+//go:nosplit
 func msigsave(mp *m) {
+}
+
+//go:nosplit
+func sigblock() {
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -402,8 +407,9 @@ func minit() {
 }
 
 // Called from dropm to undo the effect of an minit.
-func unminit() {
-	tp := &getg().m.thread
+//go:nosplit
+func unminit(mp *m) {
+	tp := &mp.thread
 	stdcall1(_CloseHandle, *tp)
 	*tp = 0
 }
