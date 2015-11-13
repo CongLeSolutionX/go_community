@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_8c7217c8",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-11-13T09:58:25Z",
+      "side": 1,
+      "message": "Is the -shared flag doing anything yet for 386? That is, is this CL enough to get android/386 tests passing?",
+      "revId": "3d5de85cb73e636c877c3e0e5a625ce0b5a2d392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
