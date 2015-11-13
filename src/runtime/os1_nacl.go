@@ -18,6 +18,10 @@ func sigtramp()
 func msigsave(mp *m) {
 }
 
+//go:nosplit
+func sigblock() {
+}
+
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, can not allocate memory.
 func minit() {
@@ -36,7 +40,7 @@ func minit() {
 }
 
 // Called from dropm to undo the effect of an minit.
-func unminit() {
+func unminit(mp *m) {
 }
 
 func osinit() {
