@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b67fde4b_6a87cbf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2015-11-15T16:04:51Z",
+      "side": 1,
+      "message": "also Fixes #11597",
+      "revId": "656a2db5b5451c91bef3377ff4d649d248196719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
