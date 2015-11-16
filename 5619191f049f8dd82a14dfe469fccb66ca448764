@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_12e05ce9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2015-11-16T16:37:55Z",
+      "side": 1,
+      "message": "I think that bug is slightly different. This is an additional case in minimally-encoding the length, but that bug is about minimally-encoded INTEGER contents.",
+      "revId": "5619191f049f8dd82a14dfe469fccb66ca448764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
