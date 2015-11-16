@@ -1,7 +1,12 @@
 // errorcheck -0 -d=nil
 // Fails on ppc64x because of incomplete optimization.
 // See issues 9058.
+<<<<<<< HEAD   (75102a [dev.ssa] cmd/compile: better register allocation)
 // +build !ppc64,!ppc64le,!amd64
+=======
+// Same reason for mips64x.
+// +build !ppc64,!ppc64le,!mips64,!mips64le
+>>>>>>> BRANCH (2c1116 cmd/compile: fix value range check for complex constants)
 
 // Copyright 2013 The Go Authors.  All rights reserved.
 // Use of this source code is governed by a BSD-style
