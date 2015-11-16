@@ -41,7 +41,11 @@ const (
 	STACKSYSTEM = 0
 	StackSystem = STACKSYSTEM
 	StackBig    = 4096
+<<<<<<< HEAD   (75102a [dev.ssa] cmd/compile: better register allocation)
 	StackGuard  = 1024*stackGuardMultiplier + StackSystem
+=======
+	StackGuard  = 720*stackGuardMultiplier + StackSystem
+>>>>>>> BRANCH (2c1116 cmd/compile: fix value range check for complex constants)
 	StackSmall  = 128
 	StackLimit  = StackGuard - StackSystem - StackSmall
 )
