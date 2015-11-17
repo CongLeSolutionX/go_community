@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6aafda_eb12b970",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-17T20:54:05Z",
+      "side": 1,
+      "message": "\"2006\" is spelled stdLongYear.\nalso this test can only be true if the if on line 170 is true, so i\u0027d put it there as a check that we aren\u0027t overzealous",
+      "range": {
+        "startLine": 167,
+        "startChar": 47,
+        "endLine": 167,
+        "endChar": 48
+      },
+      "revId": "d8edf0c89a3ca7420cb6f39bb78560c963a5fdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
