@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6aafda_20a530dd",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-11-17T19:53:09Z",
+      "side": 1,
+      "message": "I think this is why your test is flaky: doesn\u0027t this line also need the \nbeforeRespHeaderError bit?\n\nBut if I do so, then the flaky tests become:\n\n$ go test  -run\u003dTestRetryIdempotentRequestsOnError -count\u003d200\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:33058: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:33845: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:38764: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:42871: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:55047: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:48165: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:54658: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:32851: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:52800: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:54257: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:52785: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:60350: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:53821: net/http: request canceled\nFAIL    \nexit status 1\nFAIL    net/http        5.767s\n\n\nBut that makes no sense, since nothing in the test is canceling requests!?\n\nAh, it\u0027s coming from here:\n\nfunc (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err error) {\n        if hook :\u003d testHookEnterRoundTrip; hook !\u003d nil {\n                hook()\n        }\n        if !pc.t.replaceReqCanceler(req.Request, pc.cancelRequest) {\n                pc.t.putIdleConn(pc)\n                println(\"HERE\")  // \u003c---------------------------- \n                return nil, errRequestCanceled\n        }\n\nBecause the request is being reused without preserving the invariant assumed by replaceReqCanceler, etc.",
+      "revId": "ddd169c9f9c33c6db7b9ec4207d6857e5da71536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
