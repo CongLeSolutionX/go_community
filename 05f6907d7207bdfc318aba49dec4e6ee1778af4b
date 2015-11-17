@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6aafda_d109a43f",
+        "filename": "src/time/format_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-17T23:49:19Z",
+      "side": 1,
+      "message": "sorry, i\u0027m being really picky now, but please add a period. my last reply had the period there.\n\nafter that, we\u0027re good to go",
+      "range": {
+        "startLine": 533,
+        "startChar": 3,
+        "endLine": 533,
+        "endChar": 8
+      },
+      "revId": "05f6907d7207bdfc318aba49dec4e6ee1778af4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
