@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6aafda_46039c9c",
+        "filename": "src/time/format_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-17T23:23:29Z",
+      "side": 1,
+      "message": "// Issue 11334.",
+      "range": {
+        "startLine": 533,
+        "startChar": 3,
+        "endLine": 533,
+        "endChar": 8
+      },
+      "revId": "014aa28e304217402a2df82b59fc99b3b9dbb13a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
