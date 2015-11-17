@@ -1645,16 +1645,19 @@ func TestGetppid(t *testing.T) {
 	cmd := osexec.Command(Args[0], "-test.run=TestGetppid")
 	cmd.Env = append(Environ(), "GO_WANT_HELPER_PROCESS=1")
 
+	var b bytes.Buffer
+	cmd.Stderr = &b
+
 	// verify that Getppid() from the forked process reports our process id
-	output, err := cmd.CombinedOutput()
+	output, err := cmd.Output()
 	if err != nil {
-		t.Fatalf("Failed to spawn child process: %v %q", err, string(output))
+		t.Fatalf("Failed to spawn child process: %v %q %s", err, output, &b)
 	}
 
 	childPpid := string(output)
 	ourPid := fmt.Sprintf("%d", Getpid())
 	if childPpid != ourPid {
-		t.Fatalf("Child process reports parent process id '%v', expected '%v'", childPpid, ourPid)
+		t.Fatalf("Child process reports parent process id %q, expected %q\n%s", childPpid, ourPid, &b)
 	}
 }
 

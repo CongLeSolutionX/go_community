@@ -7,6 +7,7 @@
 package syscall_test
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"internal/testenv"
@@ -59,6 +60,24 @@ func _() {
 	)
 }
 
+// dropAndroidLinkerWarning drops Android's linker warning message.
+// This is a workaround for golang.org/issues/13201.
+func dropAndroidLinkerWarning(b []byte) []byte {
+	if runtime.GOOS != "android" {
+		return b
+	}
+
+	linkerWarning := []byte("WARNING: linker") // usually comes first.
+
+	if !bytes.HasPrefix(b, linkerWarning) {
+		return b
+	}
+	if idx := bytes.Index(b, []byte{'\n'}); idx > 0 {
+		return b[(idx + 1):]
+	}
+	return nil
+}
+
 // TestFcntlFlock tests whether the file locking structure matches
 // the calling convention of each kernel.
 // On some Linux systems, glibc uses another set of values for the
@@ -94,6 +113,8 @@ func TestFcntlFlock(t *testing.T) {
 		cmd.Env = append(os.Environ(), "GO_WANT_HELPER_PROCESS=1")
 		cmd.ExtraFiles = []*os.File{os.NewFile(uintptr(fd), name)}
 		out, err := cmd.CombinedOutput()
+		out = dropAndroidLinkerWarning(out)
+
 		if len(out) > 0 || err != nil {
 			t.Fatalf("child process: %q, %v", out, err)
 		}
@@ -162,6 +183,7 @@ func TestPassFD(t *testing.T) {
 	cmd.ExtraFiles = []*os.File{writeFile}
 
 	out, err := cmd.CombinedOutput()
+	out = dropAndroidLinkerWarning(out)
 	if len(out) > 0 || err != nil {
 		t.Fatalf("child process: %q, %v", out, err)
 	}

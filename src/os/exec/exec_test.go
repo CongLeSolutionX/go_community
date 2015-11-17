@@ -98,6 +98,7 @@ func TestCatGoodAndBadFile(t *testing.T) {
 	if _, ok := err.(*exec.ExitError); !ok {
 		t.Errorf("expected *exec.ExitError from cat combined; got %T: %v", err, err)
 	}
+	bs = dropAndroidLinkerWarning(bs)
 	s := string(bs)
 	sp := strings.SplitN(s, "\n", 2)
 	if len(sp) != 2 {
@@ -156,11 +157,17 @@ func TestPipes(t *testing.T) {
 	outbr := bufio.NewReader(stdout)
 	errbr := bufio.NewReader(stderr)
 	line := func(what string, br *bufio.Reader) string {
-		line, _, err := br.ReadLine()
-		if err != nil {
-			t.Fatalf("%s: %v", what, err)
+		for {
+			line, _, err := br.ReadLine()
+			if err != nil {
+				t.Fatalf("%s: %v", what, err)
+			}
+			line = dropAndroidLinkerWarning(line)
+			if line == nil {
+				continue
+			}
+			return string(line)
 		}
-		return string(line)
 	}
 
 	err = c.Start()
@@ -498,6 +505,24 @@ func TestExtraFiles(t *testing.T) {
 	}
 }
 
+// dropAndroidLinkerWarning drops Android's linker warning message.
+// This is a workaround for golang.org/issues/13201.
+func dropAndroidLinkerWarning(b []byte) []byte {
+	if runtime.GOOS != "android" {
+		return b
+	}
+
+	linkerWarning := []byte("WARNING: linker") // usually comes first.
+
+	if !bytes.HasPrefix(b, linkerWarning) {
+		return b
+	}
+	if idx := bytes.Index(b, []byte{'\n'}); idx > 0 {
+		return b[(idx + 1):]
+	}
+	return nil
+}
+
 func TestExtraFilesRace(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("no operating system support; skipping")
@@ -518,6 +543,8 @@ func TestExtraFilesRace(t *testing.T) {
 	}
 	runCommand := func(c *exec.Cmd, out chan<- string) {
 		bout, err := c.CombinedOutput()
+		bout = dropAndroidLinkerWarning(bout)
+
 		if err != nil {
 			out <- "ERROR:" + err.Error()
 		} else {
@@ -829,6 +856,7 @@ func TestOutputStderrCapture(t *testing.T) {
 	if !ok {
 		t.Fatalf("Output error type = %T; want ExitError", err)
 	}
+	ee.Stderr = dropAndroidLinkerWarning(ee.Stderr)
 	got := string(ee.Stderr)
 	want := "some stderr text\n"
 	if got != want {
