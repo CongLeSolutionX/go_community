@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0be317_1fd62446",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-18T21:20:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t SP be one word above savedLRPtr on x86?\nIt\u0027s true that on LR machines SP will be an arbitrary distance above.",
+      "revId": "58358b4877da323e794181984289e6230f586378",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0be317_5fcc9cb3",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-18T21:20:06Z",
+      "side": 1,
+      "message": "Another similar print block starts with printlock(). I am not sure why, nor am I sure whether it\u0027s safe not to printunlock before calling throw.",
+      "revId": "58358b4877da323e794181984289e6230f586378",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
