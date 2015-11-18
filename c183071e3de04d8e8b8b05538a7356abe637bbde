@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9b0be317_df3d4cbb",
+        "filename": "src/runtime/os1_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-18T15:24:45Z",
+      "side": 1,
+      "message": "It doesn\u0027t actually matter because an empty function will get nosplit added automatically as an optimization, but I\u0027ve tried to be consistent and add them.",
+      "parentUuid": "7b6aafda_b1baf088",
+      "revId": "c183071e3de04d8e8b8b05538a7356abe637bbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b6aafda_717218cb",
         "filename": "src/runtime/os1_plan9.go",
         "patchSetId": 7
