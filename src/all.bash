@@ -9,7 +9,14 @@ if [ ! -f make.bash ]; then
 	exit 1
 fi
 OLDPATH="$PATH"
+
+buildmode=""
+if [[ "$1" = --buildmode=* ]]; then
+	buildmode="$1"
+	shift
+fi
+
 . ./make.bash "$@" --no-banner
-bash run.bash --no-rebuild
+bash run.bash $buildmode --no-rebuild
 PATH="$OLDPATH"
 $GOTOOLDIR/dist banner  # print build info

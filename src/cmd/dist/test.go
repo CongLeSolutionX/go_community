@@ -30,6 +30,7 @@ func cmdtest() {
 	flag.StringVar(&t.runRxStr, "run", os.Getenv("GOTESTONLY"),
 		"run only those tests matching the regular expression; empty means to run all. "+
 			"Special exception: if the string begins with '!', the match is inverted.")
+	flag.StringVar(&t.buildmode, "buildmode", "default", "build mode for test binaries")
 	xflagparse(-1) // any number of args
 	t.run()
 }
@@ -45,6 +46,7 @@ type tester struct {
 	runRxWant bool     // want runRx to match (true) or not match (false)
 	runNames  []string // tests to run, exclusive with runRx; empty means all
 	banner    string   // prefix, or "" for none
+	buildmode string   // build mode for building tests
 
 	goroot     string
 	goarch     string
@@ -99,7 +101,7 @@ func (t *tester) run() {
 
 	if !t.noRebuild {
 		t.out("Building packages and commands.")
-		cmd := exec.Command("go", "install", "-a", "-v", "std", "cmd")
+		cmd := exec.Command("go", "install", "-a", "-v", "-buildmode="+t.buildmode, "std", "cmd")
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
@@ -113,7 +115,7 @@ func (t *tester) run() {
 		// necessary for a Go program running under lldb (the way
 		// we run tests). It is disabled by default because iOS
 		// apps are not allowed to access the exc_server symbol.
-		cmd := exec.Command("go", "install", "-a", "-tags", "lldb", "runtime/cgo")
+		cmd := exec.Command("go", "install", "-a", "-tags", "lldb", "-buildmode="+t.buildmode, "runtime/cgo")
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
@@ -250,7 +252,7 @@ func (t *tester) registerStdTest(pkg string) {
 	}
 	t.tests = append(t.tests, distTest{
 		name:    testName,
-		heading: "Testing packages.",
+		heading: "Testing packages with -buildmode=" + t.buildmode + ".",
 		fn: func() error {
 			if ranGoTest {
 				return nil
@@ -262,6 +264,7 @@ func (t *tester) registerStdTest(pkg string) {
 				t.tags(),
 				t.timeout(180),
 				"-gcflags=" + os.Getenv("GO_GCFLAGS"),
+				"-buildmode=" + t.buildmode,
 			}
 			if t.race {
 				args = append(args, "-race")
