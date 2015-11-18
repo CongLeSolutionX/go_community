@@ -16,6 +16,24 @@
       "revId": "5619191f049f8dd82a14dfe469fccb66ca448764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6aafda_5172747f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-11-18T00:37:30Z",
+      "side": 1,
+      "message": "Sorry, you\u0027re right. I\u0027ve too many ASN.1 bugs on the brain at the moment. This can also go into 1.6.",
+      "parentUuid": "9b0be317_12e05ce9",
+      "revId": "5619191f049f8dd82a14dfe469fccb66ca448764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
