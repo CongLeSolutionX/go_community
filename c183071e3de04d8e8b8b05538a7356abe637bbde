@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6aafda_11be3c80",
+        "filename": "src/runtime/os1_nacl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-18T00:01:06Z",
+      "side": 1,
+      "message": "Should this be nosplit?",
+      "revId": "c183071e3de04d8e8b8b05538a7356abe637bbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6aafda_b1baf088",
+        "filename": "src/runtime/os1_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-18T00:01:06Z",
+      "side": 1,
+      "message": "nosplit?",
+      "revId": "c183071e3de04d8e8b8b05538a7356abe637bbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6aafda_717218cb",
+        "filename": "src/runtime/os1_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-18T00:01:06Z",
+      "side": 1,
+      "message": "nosplit?",
+      "revId": "c183071e3de04d8e8b8b05538a7356abe637bbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6aafda_9177acb8",
+        "filename": "src/runtime/os3_solaris.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-18T00:01:06Z",
+      "side": 1,
+      "message": "nosplit?",
+      "revId": "c183071e3de04d8e8b8b05538a7356abe637bbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6aafda_518114b2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-18T00:01:06Z",
+      "side": 1,
+      "message": "The setg(nil) is not above, it\u0027s below.",
+      "revId": "c183071e3de04d8e8b8b05538a7356abe637bbde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
