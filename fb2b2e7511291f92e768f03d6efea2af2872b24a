@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6aafda_c330f92c",
+        "filename": "src/runtime/os1_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-18T19:20:25Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be using the mp argument rather _g_.m?",
+      "revId": "fb2b2e7511291f92e768f03d6efea2af2872b24a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
