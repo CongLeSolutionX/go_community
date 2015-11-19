@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7b6aafda_a5a94552",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-19T19:31:54Z",
+      "side": 1,
+      "message": "Sent golang.org/cl/17059 to fix this.",
+      "parentUuid": "9b0be317_1f3064c3",
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b0be317_ff2c906e",
         "filename": "src/cmd/compile/internal/gc/reflect.go",
         "patchSetId": 54
@@ -65,6 +83,24 @@
       "writtenOn": "2015-11-18T16:47:40Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b6aafda_05983136",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2015-11-19T19:31:54Z",
+      "side": 1,
+      "message": "Also fixed in golang.org/cl/17059.",
+      "parentUuid": "9b0be317_ff2c906e",
       "revId": "67faca7d9c54b367aee5fdeef2d5dd609fcf99d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
