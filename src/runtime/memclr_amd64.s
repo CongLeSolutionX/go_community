@@ -23,8 +23,7 @@ tail:
 	CMPQ	BX, $4
 	JBE	_3or4
 	CMPQ	BX, $8
-	JB	_5through7
-	JE	_8
+	JBE	_5through8
 	CMPQ	BX, $16
 	JBE	_9through16
 	PXOR	X0, X0
@@ -72,13 +71,9 @@ _3or4:
 	MOVW	AX, (DI)
 	MOVW	AX, -2(DI)(BX*1)
 	RET
-_5through7:
+_5through8:
 	MOVL	AX, (DI)
 	MOVL	AX, -4(DI)(BX*1)
-	RET
-_8:
-	// We need a separate case for 8 to make sure we clear pointers atomically.
-	MOVQ	AX, (DI)
 	RET
 _9through16:
 	MOVQ	AX, (DI)

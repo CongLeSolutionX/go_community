@@ -48,7 +48,7 @@ func getInterfaceInfos() ([]syscall.InterfaceInfo, error) {
 		return nil, os.NewSyscallError("wsaioctl", err)
 	}
 	iilen := ret / uint32(unsafe.Sizeof(iia[0]))
-	return iia[:iilen], nil
+	return iia[:iilen-1], nil
 }
 
 func bytesEqualIP(a []byte, b []int8) bool {

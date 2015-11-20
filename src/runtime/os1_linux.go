@@ -293,8 +293,7 @@ func setsig(i int32, fn uintptr, restart bool) {
 		fn = funcPC(sigtramp)
 	}
 	sa.sa_handler = fn
-	// Qemu rejects rt_sigaction of SIGRTMAX (64).
-	if rt_sigaction(uintptr(i), &sa, nil, unsafe.Sizeof(sa.sa_mask)) != 0 && i != 64 {
+	if rt_sigaction(uintptr(i), &sa, nil, unsafe.Sizeof(sa.sa_mask)) != 0 {
 		throw("rt_sigaction failure")
 	}
 }
