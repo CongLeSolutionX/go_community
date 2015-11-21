@@ -748,14 +748,14 @@ func TestProbablyPrime(t *testing.T) {
 	}
 	for i, s := range primes {
 		p, _ := new(Int).SetString(s, 10)
-		if !p.ProbablyPrime(nreps) {
+		if !p.ProbablyPrime(nreps) || !p.ProbablyPrime(0) {
 			t.Errorf("#%d prime found to be non-prime (%s)", i, s)
 		}
 	}
 
 	for i, s := range composites {
 		c, _ := new(Int).SetString(s, 10)
-		if c.ProbablyPrime(nreps) {
+		if c.ProbablyPrime(nreps) || c.ProbablyPrime(0) {
 			t.Errorf("#%d composite found to be prime (%s)", i, s)
 		}
 		if testing.Short() {
@@ -763,12 +763,12 @@ func TestProbablyPrime(t *testing.T) {
 		}
 	}
 
-	// check that ProbablyPrime panics if n <= 0
+	// check that ProbablyPrime panics if n < 0
 	c := NewInt(11) // a prime
 	for _, n := range []int{-1, 0, 1} {
 		func() {
 			defer func() {
-				if n <= 0 && recover() == nil {
+				if n < 0 && recover() == nil {
 					t.Fatalf("expected panic from ProbablyPrime(%d)", n)
 				}
 			}()

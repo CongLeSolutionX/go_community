@@ -914,7 +914,7 @@ func (z nat) expNN(x, y, m nat) nat {
 	// (x^2...x^15) but then reduces the number of multiply-reduces by a
 	// third. Even for a 32-bit exponent, this reduces the number of
 	// operations. Uses Montgomery method for odd moduli.
-	if len(x) > 1 && len(y) > 1 && len(m) > 0 {
+	if len(y) > 1 && len(m) > 0 {
 		if m[0]&1 == 1 {
 			return z.expNNMontgomery(x, y, m)
 		}
@@ -1121,93 +1121,273 @@ func (z nat) expNNMontgomery(x, y, m nat) nat {
 	return zz.norm()
 }
 
-// probablyPrime performs n Miller-Rabin tests to check whether x is prime.
+// dont mess these lists, see primesA/B. partially sorted
+var smallPrime = [...]byte{3, 5, 7, 11, 13, 17, 19, 23, 37, 29, 31, 41, 43, 47, 53}
+
+// quadratic non-residues mod smallPrime
+var quadNonres = [...][]byte{
+	{2},
+	{2, 3},
+	{3, 5, 6},
+	{2, 6, 7, 8, 10},
+	{2, 5, 6, 7, 8, 11},
+	{3, 5, 6, 7, 10, 11, 12, 14},
+	{2, 3, 8, 10, 12, 13, 14, 15, 18},
+	{5, 7, 10, 11, 14, 15, 17, 19, 20, 21, 22},
+	{2, 5, 6, 8, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24, 29, 31, 32, 35},
+	{2, 3, 8, 10, 11, 12, 14, 15, 17, 18, 19, 21, 26, 27},
+	{3, 6, 11, 12, 13, 15, 17, 21, 22, 23, 24, 26, 27, 29, 30},
+	{3, 6, 7, 11, 12, 13, 14, 15, 17, 19, 22, 24, 26, 27, 28, 29, 30, 34, 35, 38},
+	{2, 3, 5, 7, 8, 12, 18, 19, 20, 22, 26, 27, 28, 29, 30, 32, 33, 34, 37, 39, 42},
+	{5, 10, 11, 13, 15, 19, 20, 22, 23, 26, 29, 30, 31, 33, 35, 38, 39, 40, 41, 43, 44, 45, 46},
+	{2, 3, 5, 8, 12, 14, 18, 19, 20, 21, 22, 23, 26, 27, 30, 31, 32, 33, 34, 35, 39, 41, 45, 48, 50, 51},
+}
+
+//	binary search w in ls, return true only if it is there
+func inList(w Word, ls []byte) bool {
+	j, k := 0, len(ls)
+	for j < k {
+		m := (j + k) / 2
+		y := Word(ls[m])
+
+		if w > y {
+			j = m + 1
+		} else if w == y {
+			return true
+		} else {
+			k = m
+		}
+	}
+	return false
+}
+
+// dv: w is divisible by any of smallPrime[f:l]
+// qr: w is a quadratic residue for 'all' of smallPrime[f:l]
+func divBySmall(w Word, f, l int) (dv, qr bool) {
+	if l <= f {
+		l = len(smallPrime)
+	}
+	qr = true
+
+	for i := f; i < l && (!dv || qr); i++ {
+		r := w % Word(smallPrime[i])
+		if r == 0 {
+			dv = true
+			continue
+		}
+
+		if qr { // binary search among non-residues
+			qr = !inList(r, quadNonres[i])
+		}
+	}
+	return
+}
+
+// performs basic tests & returns:
+// 0: not a prime
+// 1: prime
+// 2: unknown, may be a square
+// 3: unknown, cant be a square
+func (n nat) basicPrime() int {
+	if len(n) == 0 {
+		return 0
+	}
+	r := n[0]
+
+	if r&1 == 0 { // even?
+		if len(n) == 1 && r == 2 { // 2?
+			return 1
+		}
+		return 0
+	}
+
+	if len(n) == 1 {
+		if r < 2 {
+			return 0 // 0,1
+		}
+		if r < 54 && (inList(r, smallPrime[:9]) ||
+			inList(r, smallPrime[9:])) { // smallPrime partially sorted
+			return 1
+		}
+
+		dv, qr := divBySmall(r, 0, 0)
+		if dv {
+			return 0
+		}
+		if qr {
+			return 2
+		}
+		return 3
+	}
+
+	const primesA = 4127218095 // product of 1st 9 small primes.
+	const primesB = 3948078067 // product of the rest. A*B = Π {p ∈ primes, 2 < p <= 53}
+
+	var dv, qr, q1 bool
+	switch _W { // same result for 32/64 bit platforms
+	case 32:
+		r = n.modW(primesA)
+		dv, q1 = divBySmall(r, 0, 9)
+		if dv {
+			return 0
+		}
+
+		r = n.modW(primesB)
+		dv, qr = divBySmall(r, 9, 0)
+		if dv {
+			return 0
+		}
+		qr = qr && q1
+	case 64:
+		r = n.modW(primesA * primesB & _M)
+		dv, qr = divBySmall(r, 0, 0)
+		if dv {
+			return 0
+		}
+	default:
+		panic("Unknown word size")
+	}
+
+	if qr {
+		return 2
+	}
+	return 3
+}
+
+// returns true if odd n>1 is a strong probable prime to base a>1
+// precalculated nm1, k, odd q such that nm1 = n-1 = q << k
+func (n nat) strongPrP(a, nm1, q nat, k uint) bool {
+	var y, quo nat
+	y = y.expNN(a, q, n)
+	if len(y) == 1 && y[0] == 1 || y.cmp(nm1) == 0 { // +/-1?
+		return true
+	}
+
+	for j := uint(1); j < k; j++ {
+		y = y.mul(y, y)
+		quo, y = quo.div(y, y, n)
+		if len(y) == 1 && y[0] == 1 { // 1?
+			return false
+		}
+		if y.cmp(nm1) == 0 { // -1?
+			return true
+		}
+	}
+	return false
+}
+
+// tries to find an odd P with Jacobi(P^2-4,N)=-1
+// sqr is a hint for jacobiP():
+// true : n may be a square
+// false: n cant be a square
+func jacobiP(sqr bool, N *Int) (int, Word) {
+	var P, Pul Word = 3, 65521
+	if sqr {
+		Pul = 251
+	}
+	y := &Int{false, nat{5}}
+
+	// Method B of selecting P, Q(=1), D from "Lucas Pseudoprimes by Baillie & Wagstaff, p.1401"
+	for ; P < Pul; P += 2 {
+		j := Jacobi(y, N)
+		if j < 1 {
+			/* j=0: y = P^2-4 = (P-2)(P+2), N's prime divisors >53. Since we try increasing P's,
+			P+2 catches the least prime divisor of N for this case. P+2=N <=> N is prime
+			On average, we need to try a couple of P's if N is not a square */
+			return j, P
+		}
+		y.abs[0] += (P + 1) << 2 // P^2-4
+	}
+	return 1, 0 // N is very probably a square
+}
+
+// returns true if odd N>1 is an almost (skips U=0 condition) extra strong Lucas probable prime with parameters P,Q=1
+func (N *Int) strongLucasPrP(P Word) bool {
+	q := nat(nil).add(N.abs, natOne)
+	k := q.trailingZeroBits() // determine k, odd q such that N+1 = q << k
+	q = q.shr(q, k)
+	nm2 := nat(nil).sub(N.abs, natTwo)
+
+	// See Theorem 2.3 of "Frobenius Pseudoprimes by Grantham"
+	y := lucasMod(P, q, N)
+	if len(y.abs) == 1 && y.abs[0] == 2 || y.abs.cmp(nm2) == 0 { // +/-2?
+		return true
+	}
+
+	// Same with Pari/GP
+	for j := uint(1); j < k; j++ {
+		if len(y.abs) == 0 {
+			return true
+		}
+		y.Mul(y, y).Sub(y, intTwo).Rem(y, N)
+
+		if !y.neg && len(y.abs) == 1 && y.abs[0] == 2 ||
+			y.neg && y.abs.cmp(nm2) == 0 { // 2?
+			return false
+		}
+	}
+	return false
+}
+
+// most significant bit mask
+func msbMask(w Word) Word {
+	var bm Word = 1 << (_W - 1)
+	for ; bm != 0; bm >>= 1 {
+		if bm&w != 0 {
+			break
+		}
+	}
+	return bm
+}
+
+// Compute q-th term of Lucas sequence mod N, v(0)=2, v(1)=P, v(k+2) = P*v(k+1) - v(k)
+// v(2k+1) = v(k)v(k+1) - P
+// v(2k) = v(k)^2 - 2
+func lucasMod(p Word, q nat, N *Int) *Int {
+	a, b := &Int{false, nat{2}}, &Int{false, nat{p}} // v(k), v(k+1)
+	P := &Int{false, nat{p}}
+	i := len(q) - 1
+	bm := msbMask(q[i]) // k=0, q>0, msb=1
+
+	for ; i >= 0; i-- {
+		for ; bm != 0; bm >>= 1 {
+			if q[i]&bm != 0 {
+				a.Mul(a, b).Sub(a, P).Rem(a, N)      // a = v(2k+1)
+				b.Mul(b, b).Sub(b, intTwo).Rem(b, N) // b = v(2k+2)
+			} else {
+				b.Mul(b, a).Sub(b, P).Rem(b, N)      // b = v(2k+1)
+				a.Mul(a, a).Sub(a, intTwo).Rem(a, N) // a = v(2k)
+			}
+		}
+		bm = 1 << (_W - 1)
+	}
+	return a
+}
+
+// millerRabin performs n Miller-Rabin tests to check whether x is prime.
 // If x is prime, it returns true.
 // If x is not prime, it returns false with probability at least 1 - ¼ⁿ.
 //
 // It is not suitable for judging primes that an adversary may have crafted
 // to fool this test.
-func (n nat) probablyPrime(reps int) bool {
-	if len(n) == 0 {
-		return false
-	}
-
-	if len(n) == 1 {
-		if n[0] < 2 {
-			return false
-		}
-
-		if n[0]%2 == 0 {
-			return n[0] == 2
-		}
-
-		// We have to exclude these cases because we reject all
-		// multiples of these numbers below.
-		switch n[0] {
-		case 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53:
-			return true
-		}
-	}
-
-	if n[0]&1 == 0 {
-		return false // n is even
-	}
-
-	const primesProduct32 = 0xC0CFD797         // Π {p ∈ primes, 2 < p <= 29}
-	const primesProduct64 = 0xE221F97C30E94E1D // Π {p ∈ primes, 2 < p <= 53}
-
-	var r Word
-	switch _W {
-	case 32:
-		r = n.modW(primesProduct32)
-	case 64:
-		r = n.modW(primesProduct64 & _M)
-	default:
-		panic("Unknown word size")
-	}
-
-	if r%3 == 0 || r%5 == 0 || r%7 == 0 || r%11 == 0 ||
-		r%13 == 0 || r%17 == 0 || r%19 == 0 || r%23 == 0 || r%29 == 0 {
-		return false
-	}
-
-	if _W == 64 && (r%31 == 0 || r%37 == 0 || r%41 == 0 ||
-		r%43 == 0 || r%47 == 0 || r%53 == 0) {
-		return false
-	}
-
+func (n nat) millerRabin(reps int) bool {
 	nm1 := nat(nil).sub(n, natOne)
-	// determine q, k such that nm1 = q << k
-	k := nm1.trailingZeroBits()
+	k := nm1.trailingZeroBits() // nm1, k, odd q such that nm1 = n-1 = q << k
 	q := nat(nil).shr(nm1, k)
 
-	nm3 := nat(nil).sub(nm1, natTwo)
-	rand := rand.New(rand.NewSource(int64(n[0])))
+	n52 := nat(nil).sub(n, nat{5})
+	n52 = n52.shr(n52, 1)
+	rand := rand.New(rand.NewSource(int64(n52[0])))
+	n52Len := n52.bitLen()
 
-	var x, y, quotient nat
-	nm3Len := nm3.bitLen()
-
-NextRandom:
+	var x nat
 	for i := 0; i < reps; i++ {
-		x = x.random(rand, nm3, nm3Len)
-		x = x.add(x, natTwo)
-		y = y.expNN(x, q, n)
-		if y.cmp(natOne) == 0 || y.cmp(nm1) == 0 {
-			continue
+		x = x.random(rand, n52, n52Len)
+		x = x.add(x, natTwo)            // [2..(n-3)/2]
+		if !n.strongPrP(x, nm1, q, k) { // base=x
+			return false
 		}
-		for j := uint(1); j < k; j++ {
-			y = y.mul(y, y)
-			quotient, y = quotient.div(y, y, n)
-			if y.cmp(nm1) == 0 {
-				continue NextRandom
-			}
-			if y.cmp(natOne) == 0 {
-				return false
-			}
-		}
-		return false
 	}
-
 	return true
 }
 

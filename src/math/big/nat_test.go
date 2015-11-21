@@ -577,3 +577,44 @@ func TestSticky(t *testing.T) {
 		}
 	}
 }
+
+// 0: not a prime
+// 1: prime
+// 2: unknown, may be a square
+// 3: unknown, cant be a square
+var bpExpRes = []int{ // 0..
+	0, 0, 1, 1, 0, 1, 0, 1, 0, 0,
+	0, 1, 0, 1, 0, 0, 0, 1, 0, 1,
+	0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+	0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
+	0, 1, 0, 1, 0, 0, 0, 1, 0, 0,
+	0, 0, 0, 1, 0, 0, 0, 0, 0, 3,
+	0, 3, 0, 0, 0, 0, 0, 3, 0, 0,
+}
+var bpExpRes2 = []int{ // 59^2..
+	2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	3, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+}
+
+func TestBasicPrime(t *testing.T) {
+	x := nat{0}
+	for i, v := range bpExpRes {
+		if x.basicPrime() != v {
+			t.Fatal("basicPrime() fail 1", i, v)
+		}
+		x[0]++
+	}
+
+	for ; x[0] < 59*59; x[0]++ {
+		if x.basicPrime() == 2 { // 59^2 should be the 1st may-be-square
+			t.Fatal("basicPrime() fail 2:", x[0])
+		}
+	}
+
+	for _, v := range bpExpRes2 {
+		if x.basicPrime() != v {
+			t.Fatal("basicPrime() fail 3")
+		}
+		x[0]++
+	}
+}

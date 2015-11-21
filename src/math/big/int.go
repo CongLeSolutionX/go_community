@@ -21,6 +21,7 @@ type Int struct {
 }
 
 var intOne = &Int{false, natOne}
+var intTwo = &Int{false, natTwo}
 
 // Sign returns:
 //
@@ -550,17 +551,59 @@ func (z *Int) binaryGCD(a, b *Int) *Int {
 	return z.Lsh(u, k)
 }
 
-// ProbablyPrime performs n Miller-Rabin tests to check whether x is prime.
-// If x is prime, it returns true.
-// If x is not prime, it returns false with probability at least 1 - ¼ⁿ.
+// For n=0 ProbablyPrime applies the Baillie-PSW primality test & returns true
+// only if x is a probable prime. No known composite integer fools this test.
+// If x<2^64 the result is certain.
 //
-// It is not suitable for judging primes that an adversary may have crafted
-// to fool this test.
+// For n>0 it performs n Miller-Rabin tests to check whether x is prime.
+// A random composite integer fools this test with probability less than ¼ⁿ.
+// This case is not suitable for judging primes that an adversary may have
+// crafted to fool this test.
+//
+// If x is prime, this function always returns true. This function is also deterministic:
+// it will always return the same result for same inputs.
 func (x *Int) ProbablyPrime(n int) bool {
-	if n <= 0 {
-		panic("non-positive n for ProbablyPrime")
+	if n < 0 {
+		panic("ProbablyPrime: invalid n")
 	}
-	return !x.neg && x.abs.probablyPrime(n)
+	if x.neg {
+		return false
+	}
+
+	// performs basic tests & returns:
+	// 0: not a prime
+	// 1: prime
+	// 2: unknown, may be a square
+	// 3: unknown, cant be a square
+	b := x.abs.basicPrime()
+	if b == 0 {
+		return false
+	}
+	if b == 1 {
+		return true
+	}
+
+	if n > 0 {
+		return x.abs.millerRabin(n)
+	}
+
+	// See https://github.com/golang/go/issues/13229 for detailed info about design
+	nm1 := nat(nil).sub(x.abs, natOne)
+	k := nm1.trailingZeroBits()
+	q := nat(nil).shr(nm1, k)
+	if !x.abs.strongPrP(natTwo, nm1, q, k) { // base=2
+		return false
+	}
+
+	// tries to find an odd P with Jacobi(P^2-4,x)=-1
+	j, P := jacobiP(b == 2, x)
+	if j == 0 {
+		return len(x.abs) == 1 && x.abs[0] == P+2 // P+2=x <=> x is prime for this case
+	}
+	if j == 1 {
+		return false // x is very probably a square. maybe we can check if it really is
+	}
+	return x.strongLucasPrP(P)
 }
 
 // Rand sets z to a pseudo-random number in [0, n) and returns z.
