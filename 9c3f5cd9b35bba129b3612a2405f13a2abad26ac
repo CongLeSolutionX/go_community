@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b167790_f18cf3e8",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-24T23:46:54Z",
+      "side": 1,
+      "message": "this looks like a semantic change, but i believe it is correct and necessary.",
+      "range": {
+        "startLine": 314,
+        "startChar": 7,
+        "endLine": 314,
+        "endChar": 12
+      },
+      "revId": "9c3f5cd9b35bba129b3612a2405f13a2abad26ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_31604be5",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1401,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-24T23:46:54Z",
+      "side": 1,
+      "message": "pseudocall ....",
+      "range": {
+        "startLine": 1401,
+        "startChar": 3,
+        "endLine": 1401,
+        "endChar": 7
+      },
+      "revId": "9c3f5cd9b35bba129b3612a2405f13a2abad26ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
