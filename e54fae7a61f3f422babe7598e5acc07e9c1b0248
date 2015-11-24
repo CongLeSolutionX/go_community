@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b167790_3ad825a3",
+        "filename": "src/encoding/gob/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-24T18:39:21Z",
+      "side": 1,
+      "message": "In the previous sentence you say \"slices and arrays\" so maybe you should keep the same order here.  Just a thought.",
+      "revId": "e54fae7a61f3f422babe7598e5acc07e9c1b0248",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
