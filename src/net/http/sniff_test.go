@@ -40,7 +40,18 @@ var sniffTests = []struct {
 	{"GIF 87a", []byte(`GIF87a`), "image/gif"},
 	{"GIF 89a", []byte(`GIF89a...`), "image/gif"},
 
+	// Audio types.
+	{"MIDI audio", []byte("MThd\x00\x00\x00\x06\x00\x01"), "audio/midi"},
+	{"MP3 audio/MPEG audio", []byte("ID3\x03\x00\x00\x00\x00\x0f"), "audio/mpeg"},
+	{"WAV audio 1", []byte("RIFFb\xb8\x00\x00WAVEfmt \x12\x00\x00\x00\x06"), "audio/wave"},
+	{"WAV audio 2", []byte("RIFF,\x00\x00\x00WAVEfmt \x12\x00\x00\x00\x06"), "audio/wave"},
+	{"AIFF audio", []byte("FORM\x00\x00\x00\x00AIFFCOMM\x00\x00\x00\x12\x00\x01\x00\x00\x57\x55\x00\x10\x40\x0d\xf3\x34"), "audio/aiff"},
+	{"AIFF audio 2", []byte("\x46\x4f\x52\x4d\x00\x00\xaf\x62\x41\x49\x46\x46\x43\x4f\x4d\x4d\x00\x00\x00\x12\x00\x01\x00\x00\x57\x55\x00\x10\x40\x0d\xf3\x34\x00\x00\x00\x00\x00\x00\x4d\x41\x52\x4b\x00\x00\x00\x22\x00\x02"), "audio/aiff"},
+
+	// Video types.
 	{"MP4 video", []byte("\x00\x00\x00\x18ftypmp42\x00\x00\x00\x00mp42isom<\x06t\xbfmdat"), "video/mp4"},
+	{"AVI video 1", []byte("RIFF,O\n\x00AVI LISTÀ"), "video/avi"},
+	{"AVI video 2", []byte("RIFF,\n\x00\x00AVI LISTÀ"), "video/avi"},
 }
 
 func TestDetectContentType(t *testing.T) {
