@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b167790_4779c512",
+        "filename": "doc/go1.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-11-25T23:03:48Z",
+      "side": 1,
+      "message": "Changes to go1.6.txt should go in a separate commit, to make it more likely that we can easily roll back the real CL if necessary.",
+      "revId": "f69f31c20f5cfdb21844ef0c486a471c5e411b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
