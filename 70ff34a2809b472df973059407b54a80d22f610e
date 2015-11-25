@@ -22,6 +22,53 @@
       "revId": "70ff34a2809b472df973059407b54a80d22f610e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_8730dd97",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1802,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-11-25T22:20:25Z",
+      "side": 1,
+      "message": "Done.\n\nWe already have the _ case w/o initializer further down. The point of the issue is that there was no example where the const does have an explicit value but it is not using iota.\n\nAnyway, resurrected old example with modification.",
+      "parentUuid": "3b167790_47d8a5a3",
+      "range": {
+        "startLine": 1802,
+        "startChar": 4,
+        "endLine": 1802,
+        "endChar": 5
+      },
+      "revId": "70ff34a2809b472df973059407b54a80d22f610e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_c7393581",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-11-25T22:20:25Z",
+      "side": 1,
+      "message": "Removed this again. Doesn\u0027t fit into this subsection which is about ConstSpecs containing ExpressionLists.",
+      "range": {
+        "startLine": 1828,
+        "startChar": 0,
+        "endLine": 1828,
+        "endChar": 5
+      },
+      "revId": "70ff34a2809b472df973059407b54a80d22f610e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
