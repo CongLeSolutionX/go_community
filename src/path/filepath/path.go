@@ -200,8 +200,11 @@ func Split(path string) (dir, file string) {
 // Join joins any number of path elements into a single path, adding
 // a Separator if necessary. The result is Cleaned, in particular
 // all empty strings are ignored.
+//
 // On Windows, the result is a UNC path if and only if the first path
-// element is a UNC path.
+// element is a UNC path. Also, if the first path element is a drive letter
+// like "C:", it is interpreted as the root of that drive, so that
+// Join("C:", "A") == `C:\A`, not "C:A".
 func Join(elem ...string) string {
 	return join(elem)
 }
