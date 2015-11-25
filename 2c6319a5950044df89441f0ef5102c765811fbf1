@@ -22,6 +22,213 @@
       "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_247e47fc",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "this is not an alias. go does not have aliases. this is a struct with one field. please rename to something not misleading, even just something clear like IntStruct",
+      "range": {
+        "startLine": 800,
+        "startChar": 5,
+        "endLine": 800,
+        "endChar": 16
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_8473bb32",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "this should be called IntStructPtr",
+      "range": {
+        "startLine": 804,
+        "startChar": 12,
+        "endLine": 804,
+        "endChar": 23
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_a469973e",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "i don\u0027t see what this extra indirection type is for\nand again, it\u0027s not an alias. go does not have aliases.",
+      "range": {
+        "startLine": 805,
+        "startChar": 5,
+        "endLine": 805,
+        "endChar": 16
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_27a3e9c3",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "no need to name the return types here and below.",
+      "range": {
+        "startLine": 807,
+        "startChar": 36,
+        "endLine": 807,
+        "endChar": 38
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_479ee579",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "all you need is\nreturn buf.Bytes(), NewEncoder(buf).Encode(Alias(\u0026f))",
+      "range": {
+        "startLine": 811,
+        "startChar": 8,
+        "endLine": 811,
+        "endChar": 19
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_87a8dd9c",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "ditto. keep it simple",
+      "range": {
+        "startLine": 818,
+        "startChar": 15,
+        "endLine": 818,
+        "endChar": 18
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_67ade1aa",
+        "filename": "src/encoding/gob/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "this is a huge semantic change. i don\u0027t trust this.",
+      "range": {
+        "startLine": 457,
+        "startChar": 5,
+        "endLine": 457,
+        "endChar": 6
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_c7b1350a",
+        "filename": "src/encoding/gob/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "again, too big a change. something is not right here.",
+      "range": {
+        "startLine": 759,
+        "startChar": 2,
+        "endLine": 759,
+        "endChar": 5
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_a7aeb9a3",
+        "filename": "src/encoding/gob/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-11-25T18:52:13Z",
+      "side": 1,
+      "message": "go does not have aliases.",
+      "range": {
+        "startLine": 801,
+        "startChar": 5,
+        "endLine": 801,
+        "endChar": 20
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
