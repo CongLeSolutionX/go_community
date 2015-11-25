@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb0f7f76_a91059d9",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-25T15:06:22Z",
+      "side": 1,
+      "message": "Just \"err\" please. And since you test err immediately and then don\u0027t use it agian, check it like you did on line 63. Also put a prefix on the output so it\u0027s clear that this is an error being printed\n\nif err :\u003d io.ReadAtLeast(r, shortBuf, 4); err !\u003d nil {\n    fmt.Println(\"error:\", err)\n}",
+      "revId": "ded1406f81ef11b3f7bb769f517cc5ccddb96916",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb0f7f76_e90a51a3",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-25T15:06:22Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "ded1406f81ef11b3f7bb769f517cc5ccddb96916",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb0f7f76_c907959b",
+        "filename": "src/io/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-25T15:06:22Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "ded1406f81ef11b3f7bb769f517cc5ccddb96916",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
