@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb0f7f76_2ca4777a",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-25T21:26:22Z",
+      "side": 1,
+      "message": "charset is an explicit thing in mail encodings. It\u0027s not that the address specified an invalid charset. It\u0027s that it specified no charset, which means ASCII, and there were bad bytes in the data. It\u0027s not the charset that\u0027s bad, but the data.\n\nreturn errors.New(\"mail: unencoded non-ASCII text in address\")",
+      "revId": "01c93931eb330918a2b98de96337f3166d727bc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb0f7f76_4cb3b3c2",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-11-25T21:26:22Z",
+      "side": 1,
+      "message": "This is an odd way to spell the new constraint. Better (smaller diff) to leave the loop as it was and add your new test after it.  \n\n// same as before\ni :\u003d 1 \nfor ; i \u003c p.len() \u0026\u0026 isAtext(p.s[i], dot); i++ {\n    ...\n}\n// your new code\nif i \u003c p.len() \u0026\u0026 p.s[i] \u003e 127 {\n    return \"\", errNonASCII\n}",
+      "revId": "01c93931eb330918a2b98de96337f3166d727bc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
