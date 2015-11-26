@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5bc96b78_3c78395e",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-11-26T08:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b167790_247e47fc",
+      "range": {
+        "startLine": 800,
+        "startChar": 5,
+        "endLine": 800,
+        "endChar": 16
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b167790_8473bb32",
         "filename": "src/encoding/gob/gobencdec_test.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-11-25T18:52:13Z",
       "side": 1,
       "message": "this should be called IntStructPtr",
+      "range": {
+        "startLine": 804,
+        "startChar": 12,
+        "endLine": 804,
+        "endChar": 23
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc96b78_5c6df59a",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-11-26T08:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b167790_8473bb32",
       "range": {
         "startLine": 804,
         "startChar": 12,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "fbbdbfca_991cfb55",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-11-26T08:08:01Z",
+      "side": 1,
+      "message": "This is to show, that you actually need \u0027for\u0027, not \u0027if\u0027 on the following lines:\ntype.go:457\ntype.go:759",
+      "parentUuid": "3b167790_a469973e",
+      "range": {
+        "startLine": 805,
+        "startChar": 5,
+        "endLine": 805,
+        "endChar": 16
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b167790_27a3e9c3",
         "filename": "src/encoding/gob/gobencdec_test.go",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2015-11-25T18:52:13Z",
       "side": 1,
       "message": "no need to name the return types here and below.",
+      "range": {
+        "startLine": 807,
+        "startChar": 36,
+        "endLine": 807,
+        "endChar": 38
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc96b78_7c72b17f",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-11-26T08:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b167790_27a3e9c3",
       "range": {
         "startLine": 807,
         "startChar": 36,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "5bc96b78_9c86ad82",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-11-26T08:08:01Z",
+      "side": 1,
+      "message": "If I write it like that, it returns an empty slice, as encoding happens after the first expression is evaluated.",
+      "parentUuid": "3b167790_479ee579",
+      "range": {
+        "startLine": 811,
+        "startChar": 8,
+        "endLine": 811,
+        "endChar": 19
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b167790_87a8dd9c",
         "filename": "src/encoding/gob/gobencdec_test.go",
         "patchSetId": 1
@@ -151,6 +271,30 @@
       "writtenOn": "2015-11-25T18:52:13Z",
       "side": 1,
       "message": "ditto. keep it simple",
+      "range": {
+        "startLine": 818,
+        "startChar": 15,
+        "endLine": 818,
+        "endChar": 18
+      },
+      "revId": "2c6319a5950044df89441f0ef5102c765811fbf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc96b78_bc836971",
+        "filename": "src/encoding/gob/gobencdec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-11-26T08:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b167790_87a8dd9c",
       "range": {
         "startLine": 818,
         "startChar": 15,
