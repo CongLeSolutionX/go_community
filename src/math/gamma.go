@@ -130,7 +130,7 @@ func Gamma(x float64) float64 {
 			return Inf(-1)
 		}
 		return Inf(1)
-	case x < -170.5674972726612 || x > 171.61447887182298:
+	case x > 171.61447887182298:
 		return Inf(1)
 	}
 	q := Abs(x)

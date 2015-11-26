@@ -2161,6 +2161,35 @@ func TestGamma(t *testing.T) {
 	}
 }
 
+func TestGammaIssue11441(t *testing.T) {
+	infinityList := []float64{300, 299.5, 172.5}
+	nanList := []float64{-200, -270, -300}
+	valueResult := map[float64]float64{
+		171.5:  9.483367566824793e+307,
+		-299.5: -0.0,
+		-171.5: -0.0,
+		-170.5: -3.3127395215386025e-308,
+	}
+
+	for _, value := range infinityList {
+		if f := Gamma(value); !IsInf(f, 1) {
+			t.Errorf("Gamma(%g) = %g, want %g", value, f, Inf(1))
+		}
+	}
+
+	for _, value := range nanList {
+		if f := Gamma(value); !IsNaN(f) {
+			t.Errorf("Gamma(%g) = %g, want %g", value, f, NaN())
+		}
+	}
+
+	for value, result := range valueResult {
+		if f := Gamma(value); !close(result, f) {
+			t.Errorf("Gamma(%g) = %g, want %g", value, f, result)
+		}
+	}
+}
+
 func TestHypot(t *testing.T) {
 	for i := 0; i < len(vf); i++ {
 		a := Abs(1e200 * tanh[i] * Sqrt(2))
