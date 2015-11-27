@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bc96b78_9f393f82",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-11-27T18:15:28Z",
+      "side": 1,
+      "message": "I could be wrong, but I\u0027ve been seeing a lot of \"got %d, want %d\" for failed tests.  Perhaps that\u0027s more the normal style in Go\u0027s standard library.",
+      "range": {
+        "startLine": 1458,
+        "startChar": 0,
+        "endLine": 1460,
+        "endChar": 3
+      },
+      "revId": "194a396f3c3d4d7f10acc64f475cfde8130f68e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc96b78_7f354385",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-11-27T18:15:28Z",
+      "side": 1,
+      "message": "Rather than duplicate the \"isdigit\" code, and test s[start] twice, once in the new if-statement, and again on the for-loop\u0027s condition, could not the old code have isnum hoisted to after the loop by\n\n    isnum \u003d newi !\u003d start",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 309,
+        "endChar": 13
+      },
+      "revId": "194a396f3c3d4d7f10acc64f475cfde8130f68e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
