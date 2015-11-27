@@ -294,7 +294,7 @@ func tooLarge(x int) bool {
 
 // parsenum converts ASCII to integer.  num is 0 (and isnum is false) if no number present.
 func parsenum(s string, start, end int) (num int, isnum bool, newi int) {
-	if start >= end {
+	if start >= end || start >= len(s) {
 		return 0, false, end
 	}
 	for newi = start; newi < end && '0' <= s[newi] && s[newi] <= '9'; newi++ {
@@ -302,8 +302,8 @@ func parsenum(s string, start, end int) (num int, isnum bool, newi int) {
 			return 0, false, end // Overflow; crazy long number most likely.
 		}
 		num = num*10 + int(s[newi]-'0')
-		isnum = true
 	}
+	isnum = newi != start
 	return
 }
 
