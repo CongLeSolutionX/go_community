@@ -113,6 +113,9 @@ func TestLookupStaticAddr(t *testing.T) {
 		testHookHostsPath = tt.name
 		for _, ent := range tt.ents {
 			hosts := lookupStaticAddr(ent.in)
+			for i := range ent.out {
+				ent.out[i] = absDomainName([]byte(ent.out[i]))
+			}
 			if !reflect.DeepEqual(hosts, ent.out) {
 				t.Errorf("%s, lookupStaticAddr(%s) = %v; want %v", tt.name, ent.in, hosts, ent.out)
 			}

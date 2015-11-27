@@ -62,7 +62,7 @@ func readHosts() {
 			for i := 1; i < len(f); i++ {
 				h := []byte(f[i])
 				lowerASCIIBytes(h)
-				lh := string(h)
+				lh := absDomainName(h)
 				hs[lh] = append(hs[lh], addr)
 				is[addr] = append(is[addr], lh)
 			}
@@ -86,7 +86,7 @@ func lookupStaticHost(host string) []string {
 		// or linear scan the byName map if it's small enough?
 		lowerHost := []byte(host)
 		lowerASCIIBytes(lowerHost)
-		if ips, ok := hosts.byName[string(lowerHost)]; ok {
+		if ips, ok := hosts.byName[absDomainName(lowerHost)]; ok {
 			return ips
 		}
 	}
