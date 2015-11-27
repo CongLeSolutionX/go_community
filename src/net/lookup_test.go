@@ -7,6 +7,7 @@ package net
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"runtime"
 	"strings"
 	"testing"
@@ -206,6 +207,32 @@ func TestLookupGooglePublicDNSAddr(t *testing.T) {
 				t.Errorf("got %s; want a record containing %s", name, tt.name)
 			}
 		}
+	}
+}
+
+func TestLookupIPv6LinkLocalAddr(t *testing.T) {
+	if !supportsIPv6 {
+		t.Skip("IPv6 is required")
+	}
+
+	b, err := ioutil.ReadFile(testHookHostsPath)
+	if err != nil {
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+	ls := bytes.Split(b, []byte("\n"))
+	found := false
+	for _, l := range ls {
+		if !bytes.HasPrefix(l, []byte("fe80::1%lo0")) {
+			continue
+		}
+		found = true
+		break
+	}
+	if !found {
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+	if _, err := LookupAddr("fe80::1%lo0"); err != nil {
+		t.Error(err)
 	}
 }
 
