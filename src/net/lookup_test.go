@@ -209,6 +209,21 @@ func TestLookupGooglePublicDNSAddr(t *testing.T) {
 	}
 }
 
+func TestLookupIPv6LinkLocalAddr(t *testing.T) {
+	if !supportsIPv6 {
+		t.Skip("IPv6 is required")
+	}
+	if runtime.GOOS != "darwin" || (runtime.GOARCH != "amd64" && runtime.GOARCH != "386") {
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+
+	// We can assume that the entry "fe80::1%lo0 localhost" exists
+	// in /etc/hosts on OS X.
+	if _, err := LookupAddr("fe80::1%lo0"); err != nil {
+		t.Error(err)
+	}
+}
+
 var lookupIANACNAMETests = []struct {
 	name, cname string
 }{
