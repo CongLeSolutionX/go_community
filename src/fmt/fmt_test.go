@@ -1398,3 +1398,71 @@ func TestFormatterFlags(t *testing.T) {
 		}
 	}
 }
+
+type parsenumParams struct {
+	S     string
+	Start int
+	End   int
+}
+
+type parsenumExpect struct {
+	Num   int
+	Isnum bool
+	Newi  int
+}
+
+type parsenumCases struct {
+	Params parsenumParams
+	Expect parsenumExpect
+}
+
+func TestParsenum(t *testing.T) {
+	// This tests the internal parsenum function.
+	// Parsenum = parsenum is defined in export_test.go.
+	testCases := []parsenumCases{
+		parsenumCases{ // 0
+			Params: parsenumParams{S: "a123", Start: 0, End: 4},
+			Expect: parsenumExpect{Num: 0, Isnum: false, Newi: 0},
+		},
+		parsenumCases{ // 1
+			Params: parsenumParams{S: "1234", Start: 1, End: 0},
+			Expect: parsenumExpect{Num: 0, Isnum: false, Newi: 0},
+		},
+		parsenumCases{ // 2
+			Params: parsenumParams{S: "1234", Start: 1, End: 1},
+			Expect: parsenumExpect{Num: 0, Isnum: false, Newi: 1},
+		},
+		parsenumCases{ // 3
+			Params: parsenumParams{S: "123a", Start: 0, End: 4},
+			Expect: parsenumExpect{Num: 123, Isnum: true, Newi: 3},
+		},
+		parsenumCases{ // 4
+			Params: parsenumParams{S: "12a3", Start: 0, End: 4},
+			Expect: parsenumExpect{Num: 12, Isnum: true, Newi: 2},
+		},
+		parsenumCases{ // 5
+			Params: parsenumParams{S: "1234", Start: 0, End: 4},
+			Expect: parsenumExpect{Num: 1234, Isnum: true, Newi: 4},
+		},
+		parsenumCases{ // 6
+			Params: parsenumParams{S: "1a234", Start: 1, End: 3},
+			Expect: parsenumExpect{Num: 0, Isnum: false, Newi: 1},
+		},
+		parsenumCases{ // 7
+			Params: parsenumParams{S: "1a234", Start: 5, End: 6},
+			Expect: parsenumExpect{Num: 0, Isnum: false, Newi: 6},
+		},
+	}
+	for i, params := range testCases {
+		num, isnum, newi := Parsenum(params.Params.S, params.Params.Start, params.Params.End)
+		if num != params.Expect.Num {
+			t.Errorf("%d: num = %d, expected %d", i, num, params.Expect.Num)
+		}
+		if isnum != params.Expect.Isnum {
+			t.Errorf("%d: isnum = %t, expected %t", i, isnum, params.Expect.Isnum)
+		}
+		if newi != params.Expect.Newi {
+			t.Errorf("%d: newi = %d, expected %d", i, newi, params.Expect.Newi)
+		}
+	}
+}
