@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b167790_7dc6126e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-11-28T05:19:19Z",
+      "side": 1,
+      "message": "While trying to debug the reqCanceler issue you highlighted, I discovered another race. On a retry, this call to set the Accept-Encoding header on the request will race with the previous attempt\u0027s pconn writeLoop goroutine, which may still be reading from the request\u0027s headers to write them to the wire.\n\nThat\u0027s my interpretation of the following, anyway.\n\nWARNING: DATA RACE\nWrite by goroutine 34:\n  runtime.mapassign1()\n      /usr/local/go/src/runtime/hashmap.go:419 +0x0\n  net/textproto.MIMEHeader.Set()\n      /usr/local/go/src/net/textproto/header.go:22 +0xe1\n  net/http.Header.Set()\n      /usr/local/go/src/net/http/header.go:31 +0x56\n  net/http.(*persistConn).roundTrip()\n      /usr/local/go/src/net/http/transport.go:1298 +0x12f5\n  net/http.(*Transport).RoundTrip()\n      /usr/local/go/src/net/http/transport.go:271 +0xda3\n  net/http.send()\n      /usr/local/go/src/net/http/client.go:221 +0x73d\n  net/http.(*Client).send()\n      /usr/local/go/src/net/http/client.go:144 +0x1f7\n  net/http.(*Client).doFollowingRedirects()\n      /usr/local/go/src/net/http/client.go:389 +0x1052\n  net/http.(*Client).Get()\n      /usr/local/go/src/net/http/client.go:315 +0xc8\n  net/http_test.TestRetryIdempotentRequestsOnError.func4()\n      /usr/local/go/src/net/http/transport_test.go:2461 +0x58\n\nPrevious read by goroutine 27:\n  net/http.Header.sortedKeyValues()\n      /usr/local/go/src/net/http/header.go:129 +0xdd\n  net/http.Header.WriteSubset()\n      /usr/local/go/src/net/http/header.go:150 +0x188\n  net/http.Header.Write()\n      /usr/local/go/src/net/http/header.go:57 +0x57\n  net/http.(*Request).write()\n      /usr/local/go/src/net/http/request.go:455 +0xd0e\n  net/http.(*persistConn).writeLoop()\n      /usr/local/go/src/net/http/transport.go:1152 +0x382\n\nGoroutine 34 (running) created at:\n  net/http_test.TestRetryIdempotentRequestsOnError()\n      /usr/local/go/src/net/http/transport_test.go:2466 +0x5a7\n  testing.tRunner()\n      /usr/local/go/src/testing/testing.go:458 +0xdc\n\nGoroutine 27 (finished) created at:\n  net/http.(*Transport).dialConn()\n      /usr/local/go/src/net/http/transport.go:780 +0x14e5\n  net/http.(*Transport).getConn.func4()\n      /usr/local/go/src/net/http/transport.go:637 +0x73\n\n\nI saw two possible ways to resolve this one. First, we could move the treq allocation back into the retry loop so that a new one is allocated for each attempt. The downside here is that connectMethodForRequest gets repeated for each attempt through the loop. \n\nAlternatively, we could move the header-changing portions of roundTrip out into another func that gets called inside RoundTrip, but before the retrying for loop. That one\u0027s a little messy because of the requestedGzip local state that\u0027s related to this header, and because there are several headers being tweaked here (calls to extraHeaders).\n\nI went with the first option and left a comment to explain why it\u0027s located inside the loop. That was easier than trying to untangle the extraHeaders stuff, though I understand there\u0027s bound to be some performance impact to this choice. Ideally we\u0027d set all that header stuff once at most. Curious to hear your thoughts.",
+      "revId": "ddd169c9f9c33c6db7b9ec4207d6857e5da71536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b6aafda_20a530dd",
         "filename": "src/net/http/transport.go",
         "patchSetId": 7
@@ -13,6 +30,41 @@
       "writtenOn": "2015-11-17T19:53:09Z",
       "side": 1,
       "message": "I think this is why your test is flaky: doesn\u0027t this line also need the \nbeforeRespHeaderError bit?\n\nBut if I do so, then the flaky tests become:\n\n$ go test  -run\u003dTestRetryIdempotentRequestsOnError -count\u003d200\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:33058: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:33845: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:38764: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:42871: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:55047: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:48165: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:54658: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:32851: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:52800: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:54257: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:52785: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:60350: net/http: request canceled\n--- FAIL: TestRetryIdempotentRequestsOnError (0.00s)\n        transport_test.go:2454: Get http://127.0.0.1:53821: net/http: request canceled\nFAIL    \nexit status 1\nFAIL    net/http        5.767s\n\n\nBut that makes no sense, since nothing in the test is canceling requests!?\n\nAh, it\u0027s coming from here:\n\nfunc (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err error) {\n        if hook :\u003d testHookEnterRoundTrip; hook !\u003d nil {\n                hook()\n        }\n        if !pc.t.replaceReqCanceler(req.Request, pc.cancelRequest) {\n                pc.t.putIdleConn(pc)\n                println(\"HERE\")  // \u003c---------------------------- \n                return nil, errRequestCanceled\n        }\n\nBecause the request is being reused without preserving the invariant assumed by replaceReqCanceler, etc.",
+      "revId": "ddd169c9f9c33c6db7b9ec4207d6857e5da71536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_1dd55e0f",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-11-28T05:19:19Z",
+      "side": 1,
+      "message": "Thanks, that does appear to be the cause. I\u0027ve made a change that avoids clearing the reqCanceler from requests that are about to be retried, which is the only obvious way I could see to avoid this scenario. Lmk what you think about that.",
+      "parentUuid": "7b6aafda_20a530dd",
+      "revId": "ddd169c9f9c33c6db7b9ec4207d6857e5da71536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b167790_bdd7ea17",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 5683
+      },
+      "writtenOn": "2015-11-28T05:19:19Z",
+      "side": 1,
+      "message": "oops, I should have been resetting this hook after the test (following the model of SetPendingDialHooks). Fixed.",
       "revId": "ddd169c9f9c33c6db7b9ec4207d6857e5da71536",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
