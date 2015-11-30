@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb0f7f76_f7a18865",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2015-11-30T20:17:33Z",
+      "side": 1,
+      "message": "This doesn\u0027t specify whether existing map entries are favored over new entries from the JSON object.",
+      "revId": "cd25b574da0245ac124ea2834a2cfd208c4dff62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
