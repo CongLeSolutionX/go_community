@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5bc96b78_1fffef59",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ba54fc6_48bb538f",
+      "range": {
+        "startLine": 506,
+        "startChar": 0,
+        "endLine": 506,
+        "endChar": 45
+      },
+      "revId": "9b4745980149d55e95c5ed72fbbc8347c8282ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ba54fc6_a8809fb0",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-11-25T23:49:16Z",
       "side": 1,
       "message": "I don\u0027t really understand this doc comment, but as I\u0027m going to suggest you get rid of this function below, perhaps that doesn\u0027t matter...",
+      "revId": "9b4745980149d55e95c5ed72fbbc8347c8282ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc96b78_3f04ab2d",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ba54fc6_a8809fb0",
       "revId": "9b4745980149d55e95c5ed72fbbc8347c8282ceb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5bc96b78_5ff96770",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ba54fc6_0872ebc9",
+      "range": {
+        "startLine": 520,
+        "startChar": 0,
+        "endLine": 522,
+        "endChar": 2
+      },
+      "revId": "9b4745980149d55e95c5ed72fbbc8347c8282ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ba54fc6_e876a7bb",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 3
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "5bc96b78_7ffe235b",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ba54fc6_e876a7bb",
+      "revId": "9b4745980149d55e95c5ed72fbbc8347c8282ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ba54fc6_c87be3a1",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 3
@@ -93,6 +177,30 @@
       "writtenOn": "2015-11-25T23:49:16Z",
       "side": 1,
       "message": "This seems strangely factored. For one thing you\u0027ve only changed the name when installed, not that used by go build (not that this is very important, as go build -buildmode\u003dshared just builds the library and throws it away). I think you should change libname is passed both args and pkgs and then change libname to implement the behaviour you want.",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 569,
+        "endChar": 68
+      },
+      "revId": "9b4745980149d55e95c5ed72fbbc8347c8282ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc96b78_bf0fdb44",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ba54fc6_c87be3a1",
       "range": {
         "startLine": 568,
         "startChar": 0,
