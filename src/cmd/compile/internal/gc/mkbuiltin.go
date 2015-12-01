@@ -47,7 +47,7 @@ func main() {
 
 // Compile .go file, import data from .o file, and write Go string version.
 func mkbuiltin(w io.Writer, name string) {
-	args := []string{"tool", "compile", "-A"}
+	args := []string{"tool", "compile", "-A", "-newexport"}
 	if name == "runtime" {
 		args = append(args, "-u")
 	}
@@ -64,30 +64,37 @@ func mkbuiltin(w io.Writer, name string) {
 		log.Fatal(err)
 	}
 
-	// Look for $$ that introduces imports.
-	i := bytes.Index(b, []byte("\n$$\n"))
+	// Look for $$B that introduces export data.
+	i := bytes.Index(b, []byte("\n$$B\n"))
 	if i < 0 {
-		log.Fatal("did not find beginning of imports")
+		log.Fatal("did not find beginning of export data")
 	}
-	i += 4
+	i += 5
 
-	// Look for $$ that closes imports.
+	// Look for $$ that closes export data.
 	j := bytes.Index(b[i:], []byte("\n$$\n"))
 	if j < 0 {
-		log.Fatal("did not find end of imports")
+		log.Fatal("did not find end of export data")
 	}
 	j += i + 4
 
-	// Process and reformat imports.
+	// Process and reformat export data.
 	fmt.Fprintf(w, "\nconst %simport = \"\"", name)
-	for _, p := range bytes.SplitAfter(b[i:j], []byte("\n")) {
-		// Chop leading white space.
-		p = bytes.TrimLeft(p, " \t")
-		if len(p) == 0 {
-			continue
-		}
-
+	for _, p := range chunks(b[i:j]) {
 		fmt.Fprintf(w, " +\n\t%q", p)
 	}
 	fmt.Fprintf(w, "\n")
+}
+
+func chunks(b []byte) [][]byte {
+	var res [][]byte
+	for len(b) > 0 {
+		i := len(b)
+		if i > 40 {
+			i = 40
+		}
+		res = append(res, b[:i])
+		b = b[i:]
+	}
+	return res
 }

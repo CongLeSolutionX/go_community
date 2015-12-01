@@ -661,10 +661,10 @@ func loadsys() {
 	incannedimport = 1
 
 	importpkg = Runtimepkg
-	parse_import(obj.Binitr(strings.NewReader(runtimeimport)), nil)
+	Import(obj.Binitr(strings.NewReader(runtimeimport)))
 
 	importpkg = unsafepkg
-	parse_import(obj.Binitr(strings.NewReader(unsafeimport)), nil)
+	Import(obj.Binitr(strings.NewReader(unsafeimport)))
 
 	importpkg = nil
 	incannedimport = 0
