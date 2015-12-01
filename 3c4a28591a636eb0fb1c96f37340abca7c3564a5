@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0923b2_0e2e8fcb",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-12-01T00:25:10Z",
+      "side": 1,
+      "message": "Unrelated, but since you\u0027re changing this file: Please remove this comment, it\u0027s not relevant anymore.",
+      "revId": "3c4a28591a636eb0fb1c96f37340abca7c3564a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0923b2_6e2bcb5f",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-12-01T00:25:10Z",
+      "side": 1,
+      "message": "Also, make this instead:\n\n// setOffsets sets the offsets of s for the given sizes if necessary.\n// The result is true if the offsets were not set before; otherwise it\n// is false.\nfunc (s *Struct) setOffsets(sizes Sizes) bool {\n   ...\n}",
+      "range": {
+        "startLine": 165,
+        "startChar": 9,
+        "endLine": 165,
+        "endChar": 15
+      },
+      "revId": "3c4a28591a636eb0fb1c96f37340abca7c3564a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0923b2_ae7b03a2",
+        "filename": "src/go/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2015-12-01T00:25:10Z",
+      "side": 1,
+      "message": "Please move this functionality into size.go - there are no other unexported methods in this (type.go) file\n\nAlso, I\u0027d prefer if you\u0027d make it a function rather than a method at that point (maybe it can be inlined - it\u0027s basic enough).",
+      "range": {
+        "startLine": 165,
+        "startChar": 17,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "3c4a28591a636eb0fb1c96f37340abca7c3564a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
