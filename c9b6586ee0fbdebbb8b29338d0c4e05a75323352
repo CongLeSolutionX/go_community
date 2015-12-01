@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0923b2_d127f6f4",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-01T02:08:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the point of the limit.  If we\u0027re going to have a limit, then it seems to me it should be an error if the limit is exceeded.  We shouldn\u0027t just drop everything past a certain point.  I think we want these names to be predictable.",
+      "range": {
+        "startLine": 525,
+        "startChar": 59,
+        "endLine": 525,
+        "endChar": 65
+      },
+      "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0923b2_91217ee2",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-01T02:08:34Z",
+      "side": 1,
+      "message": "This seems to mean that `go install -shared std a/b` is going to produce the same name as `go install -shared std`.  That seems wrong.  Unless I misunderstand, it also seems likely to cause trouble if we do one and then the other.",
+      "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
