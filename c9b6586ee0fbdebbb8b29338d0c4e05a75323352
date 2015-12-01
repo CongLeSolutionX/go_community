@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b5293ad_1c0d754b",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "This is simply not to create too long names, as they can be unreadable. If there is a need to create an app, which uses many packages as shared libs, it it possible to create one file per every package.\nIf long names are not an issue, we can simply omit len check. In the worst case there is a technical limit of 255 symbols(on most filesystems) and we\u0027ll get an error trying to create a file with a longer name.",
+      "parentUuid": "9b0923b2_d127f6f4",
+      "range": {
+        "startLine": 525,
+        "startChar": 59,
+        "endLine": 525,
+        "endChar": 65
+      },
+      "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b0923b2_91217ee2",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2015-12-01T02:08:34Z",
       "side": 1,
       "message": "This seems to mean that `go install -shared std a/b` is going to produce the same name as `go install -shared std`.  That seems wrong.  Unless I misunderstand, it also seems likely to cause trouble if we do one and then the other.",
+      "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b3e8348_4050eedd",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 8245
+      },
+      "writtenOn": "2015-12-01T08:56:11Z",
+      "side": 1,
+      "message": "At the moment you can\u0027t install a lib containing \u0027std\u0027 (or anything from GOROOT) and a library from GOPATH (ex. \u0027github.com/avd/lib\u0027), as you\u0027ll get a\n\u0027multiple roots /home/avd/dev/go/pkg/linux_amd64_dynlink \u0026 /home/avd/dev/godev/pkg/linux_amd64_dynlink\u0027\nerror.\nYou can, however, install \u0027std encoding/json\u0027, but this does not seem to be useful, as \u0027std\u0027 contains \u0027encoding/json\u0027, and the name \u0027std\u0027 seems to be more logical.\nI am not sure what option is correct if you install something like \u0027cmd encoding/json\u0027. Probably, Michael could say something about it.",
+      "parentUuid": "9b0923b2_91217ee2",
       "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
