@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9b0923b2_b1f7e246",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-01T15:16:52Z",
+      "side": 1,
+      "message": "That suggests a need for a way to set the name of the shared library.  It doesn\u0027t suggest that the default should cause unpredictable name collisions.",
+      "parentUuid": "1b5293ad_1c0d754b",
+      "range": {
+        "startLine": 525,
+        "startChar": 59,
+        "endLine": 525,
+        "endChar": 65
+      },
+      "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b0923b2_91217ee2",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 4
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "At the moment you can\u0027t install a lib containing \u0027std\u0027 (or anything from GOROOT) and a library from GOPATH (ex. \u0027github.com/avd/lib\u0027), as you\u0027ll get a\n\u0027multiple roots /home/avd/dev/go/pkg/linux_amd64_dynlink \u0026 /home/avd/dev/godev/pkg/linux_amd64_dynlink\u0027\nerror.\nYou can, however, install \u0027std encoding/json\u0027, but this does not seem to be useful, as \u0027std\u0027 contains \u0027encoding/json\u0027, and the name \u0027std\u0027 seems to be more logical.\nI am not sure what option is correct if you install something like \u0027cmd encoding/json\u0027. Probably, Michael could say something about it.",
       "parentUuid": "9b0923b2_91217ee2",
+      "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b0923b2_91fcde29",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-01T15:16:52Z",
+      "side": 1,
+      "message": "I\u0027m OK with giving an error for the case of combining meta package names with ordinary package names.  I\u0027m not OK with unexpected name collisions.",
+      "parentUuid": "9b3e8348_4050eedd",
       "revId": "c9b6586ee0fbdebbb8b29338d0c4e05a75323352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
