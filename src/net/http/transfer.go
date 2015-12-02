@@ -35,6 +35,7 @@ func (r errorReader) Read(p []byte) (n int, err error) {
 // sanitizes them without changing the user object and provides methods for
 // writing the respective header, body and trailer in wire format.
 type transferWriter struct {
+	ctx              *context
 	Method           string
 	Body             io.Reader
 	BodyCloser       io.Closer
@@ -46,8 +47,8 @@ type transferWriter struct {
 	IsResponse       bool
 }
 
-func newTransferWriter(r interface{}) (t *transferWriter, err error) {
-	t = &transferWriter{}
+func newTransferWriter(r interface{}, ctx *context) (t *transferWriter, err error) {
+	t = &transferWriter{ctx: ctx}
 
 	// Extract relevant fields
 	atLeastHTTP11 := false
@@ -63,6 +64,9 @@ func newTransferWriter(r interface{}) (t *transferWriter, err error) {
 		t.Close = rr.Close
 		t.TransferEncoding = rr.TransferEncoding
 		t.Trailer = rr.Trailer
+		if ctx != nil && t.Body != nil {
+			t.Body = newContextReader(t.ctx, t.Body)
+		}
 		atLeastHTTP11 = rr.ProtoAtLeast(1, 1)
 		if t.Body != nil && len(t.TransferEncoding) == 0 && atLeastHTTP11 {
 			if t.ContentLength == 0 {

@@ -143,3 +143,5 @@ var ExportHttp2ConfigureTransport = http2ConfigureTransport
 var ExportHttp2ConfigureServer = http2ConfigureServer
 
 func SetTestHookServerServe(fn func(*Server, net.Listener)) { testHookServerServe = fn }
+
+func SetTestHookWaitResLoop(fn func()) { testHookWaitResLoop = fn }

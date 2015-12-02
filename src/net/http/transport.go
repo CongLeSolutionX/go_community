@@ -1166,7 +1166,7 @@ func (pc *persistConn) writeLoop() {
 				wr.ch <- errors.New("http: can't write HTTP request on broken connection")
 				continue
 			}
-			err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra, pc.waitForContinue(wr.continueCh))
+			err := wr.req.Request.write(wr.ctx, pc.bw, pc.isProxy, wr.req.extra, pc.waitForContinue(wr.continueCh))
 			if err == nil {
 				err = pc.bw.Flush()
 			}
@@ -1236,6 +1236,7 @@ type requestAndChan struct {
 // concurrently waits on both the write response and the server's
 // reply.
 type writeRequest struct {
+	ctx *context
 	req *transportRequest
 	ch  chan<- error
 
@@ -1264,6 +1265,7 @@ var (
 	testHookEnterRoundTrip          func()
 	testHookMu                      sync.Locker = fakeLocker{} // guards following
 	testHookReadLoopBeforeNextRead  func()
+	testHookWaitResLoop             = func() {}
 )
 
 // beforeRespHeaderError is used to indicate when an IO error has occurred before
@@ -1327,18 +1329,22 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 	// in case the server decides to reply before reading our full
 	// request body.
 	writeErrCh := make(chan error, 1)
-	pc.writech <- writeRequest{req, writeErrCh, continueCh}
+	writeCtx := newContext()
+	pc.writech <- writeRequest{writeCtx, req, writeErrCh, continueCh}
 
 	resc := make(chan responseAndError, 1)
 	pc.reqch <- requestAndChan{req.Request, resc, requestedGzip, continueCh}
 
 	var re responseAndError
 	var respHeaderTimer <-chan time.Time
+	didWrite := false
 	cancelChan := req.Request.Cancel
 WaitResponse:
 	for {
+		testHookWaitResLoop()
 		select {
 		case err := <-writeErrCh:
+			didWrite = true
 			if isNetWriteError(err) {
 				// Issue 11745. If we failed to write the request
 				// body, it's possible the server just heard enough
@@ -1396,11 +1402,56 @@ WaitResponse:
 			cancelChan = nil
 		}
 	}
-
 	if re.err != nil {
 		pc.t.setReqCanceler(req.Request, nil)
+		return nil, re.err
 	}
-	return re.res, re.err
+
+	if !didWrite {
+		// If we're still writing the request body but we
+		// already got a server response, wrap the returned
+		// Response.Body with one which waits on the write to
+		// be completed before it returns itself. See Issue 12796.
+		var waitOnce sync.Once // guards double-receive from writeErrCh
+		re.res.Body = &waitForRequestWrite{
+			rc: re.res.Body,
+			wait: func() {
+				waitOnce.Do(func() {
+					writeCtx.cancel()
+					<-writeErrCh
+				})
+			},
+		}
+		// TODO(bradfitz): add a Transport.AllowResponseBeforeBody like in
+		// http2's https://golang.org/cl/17310?
+	}
+
+	return re.res, nil
+}
+
+// waitForRequestWrite is a Response.Body io.ReadCloser implementation
+// used when we need the RoundTrip caller's final Body.Read or Body.Close
+// call to block on the request writer to finish to prevent a potential
+// race re-using a request body on a subsequent request.
+// It's only used in cases where the server replies before the request
+// has been written.
+// See Issue 12796.
+type waitForRequestWrite struct {
+	rc   io.ReadCloser
+	wait func()
+}
+
+func (rc *waitForRequestWrite) Read(p []byte) (n int, err error) {
+	n, err = rc.rc.Read(p)
+	if err != nil {
+		rc.wait()
+	}
+	return
+}
+
+func (rc *waitForRequestWrite) Close() error {
+	defer rc.wait()
+	return rc.rc.Close()
 }
 
 // markBroken marks a connection as broken (so it's not reused).
