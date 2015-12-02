@@ -2677,10 +2677,9 @@ func TestTransportResponseCloseRace(t *testing.T) {
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
 	}))
 	defer ts.Close()
+
 	sawRace := false
-	SetInstallConnClosedHook(func() {
-		sawRace = true
-	})
+	SetInstallConnClosedHook(func() { sawRace = true })
 	defer SetInstallConnClosedHook(nil)
 
 	SetTestHookWaitResLoop(func() {
@@ -2951,6 +2950,44 @@ func TestTransportAutomaticHTTP2(t *testing.T) {
 	if tr.TLSNextProto["h2"] != nil {
 		t.Errorf("HTTP/2 registered, despite non-nil TLSNextProto field")
 	}
+}
+
+type issue12796Reader struct {
+	n int64 // incremented per read
+	r io.Reader
+}
+
+func (cr *issue12796Reader) Read(p []byte) (n int, err error) {
+	n, err = cr.r.Read(p)
+	cr.n += int64(n)
+	return
+}
+
+// Issue 12796
+func TestTransportRaceOnDuplicateInfiniteReqBody(t *testing.T) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, false /*h1*/, HandlerFunc(func(w ResponseWriter, r *Request) {
+		io.WriteString(w, "hello")
+	}))
+	defer cst.close()
+	body := &issue12796Reader{r: neverEnding('a')} // reusing this
+
+	for i := 1; i <= 2; i++ {
+		resp, err := cst.c.Post(cst.ts.URL, "application/octet-stream", body)
+		if err != nil {
+			t.Errorf("Post #%v: %v", i, err)
+		} else {
+			slurp, err := ioutil.ReadAll(resp.Body)
+			resp.Body.Close()
+			if err != nil {
+				t.Errorf("Slurp #%v: %v", i, err)
+			}
+			if g, w := string(slurp), "hello"; g != w {
+				t.Errorf("Slurp #%v = %q; want %q", i, g, w)
+			}
+		}
+	}
+
 }
 
 func wantBody(res *Response, err error, want string) error {
