@@ -440,19 +440,45 @@ func (*parser) parseString(b []byte) string {
 	return string(b[0:n])
 }
 
+// parseNumeric parses the input as being encoded in either base-256 or octal.
+// This function may return negative numbers.
+// If parsing fails or an integer overflow occurs, err will be set.
 func (p *parser) parseNumeric(b []byte) int64 {
-	// Check for binary format first.
+	// Check for base-256 (binary) format first.
+	// If the first bit is set, then all following bits constitute a two's
+	// complement encoded number in big-endian byte order.
 	if len(b) > 0 && b[0]&0x80 != 0 {
-		var x int64
-		for i, c := range b {
-			if i == 0 {
-				c &= 0x7f // ignore signal bit in first byte
-			}
-			x = x<<8 | int64(c)
+		// Handling negative numbers relies on the following identity:
+		//	-a-1 == ^a
+		//
+		// If the number is negative, we use an inversion mask to invert the
+		// data bytes and treat the value as an unsigned number. We then use
+		// sign and incr to perform the identity above.
+		var inv, sign, incr = byte(0x00), int64(+1), int64(0)
+		if b[0]&0x40 != 0 {
+			inv, sign, incr = 0xff, -1, 1
 		}
-		return x
+
+		var x uint64
+		for i, c := range b {
+			c ^= inv // Inverts c only if inv is 0xff, otherwise does nothing
+			if i == 0 {
+				c &= 0x7f // Ignore signal bit in first byte
+			}
+			if (x >> 56) > 0 {
+				p.err = ErrHeader // Integer overflow
+				return 0
+			}
+			x = x<<8 | uint64(c)
+		}
+		if (x >> 63) > 0 {
+			p.err = ErrHeader // Integer overflow
+			return 0
+		}
+		return sign*int64(x) - incr
 	}
 
+	// Normal case is base-8 (octal) format.
 	return p.parseOctal(b)
 }
 
