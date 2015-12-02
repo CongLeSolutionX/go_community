@@ -2953,6 +2953,56 @@ func TestTransportAutomaticHTTP2(t *testing.T) {
 	}
 }
 
+// issue12796Reader is an infinite reader which mutates its state
+// while it reads.
+type issue12796Reader struct {
+	n int64 // incremented per read
+}
+
+func (cr *issue12796Reader) Read(p []byte) (n int, err error) {
+	for i := range p {
+		p[i] = 'a'
+	}
+	cr.n += int64(len(p))
+	return len(p), nil
+}
+
+// Issue 12796: test that we can re-use a *Request on two back-to-back
+// (but not concurrent) RoundTrip calls, even if the server replied
+// while we were still writing the request body.
+func TestTransportRaceOnDuplicateInfiniteReqBody_h1(t *testing.T) {
+	testTransportRaceOnDuplicateInfiniteReqBody(t, false)
+}
+func TestTransportRaceOnDuplicateInfiniteReqBody_h2(t *testing.T) {
+	t.Skip("known failing test")
+	testTransportRaceOnDuplicateInfiniteReqBody(t, true)
+}
+
+func testTransportRaceOnDuplicateInfiniteReqBody(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
+		io.WriteString(w, "hello")
+	}))
+	defer cst.close()
+	body := new(issue12796Reader) // reusing this
+
+	for i := 1; i <= 20; i++ {
+		resp, err := cst.c.Post(cst.ts.URL, "application/octet-stream", body)
+		if err != nil {
+			t.Errorf("Post #%v: %v", i, err)
+		} else {
+			slurp, err := ioutil.ReadAll(resp.Body)
+			resp.Body.Close()
+			if err != nil {
+				t.Errorf("Slurp #%v: %v", i, err)
+			}
+			if g, w := string(slurp), "hello"; g != w {
+				t.Errorf("Slurp #%v = %q; want %q", i, g, w)
+			}
+		}
+	}
+}
+
 func wantBody(res *Response, err error, want string) error {
 	if err != nil {
 		return err

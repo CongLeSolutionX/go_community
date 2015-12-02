@@ -354,7 +354,7 @@ const defaultUserAgent = "Go-http-client/1.1"
 // hasn't been set to "identity", Write adds "Transfer-Encoding:
 // chunked" to the header. Body is closed after it is sent.
 func (r *Request) Write(w io.Writer) error {
-	return r.write(w, false, nil, nil)
+	return r.write(nil, w, false, nil, nil)
 }
 
 // WriteProxy is like Write but writes the request in the form
@@ -364,7 +364,7 @@ func (r *Request) Write(w io.Writer) error {
 // In either case, WriteProxy also writes a Host header, using
 // either r.Host or r.URL.Host.
 func (r *Request) WriteProxy(w io.Writer) error {
-	return r.write(w, true, nil, nil)
+	return r.write(nil, w, true, nil, nil)
 }
 
 // errMissingHost is returned by Write when there is no Host or URL present in
@@ -373,7 +373,7 @@ var errMissingHost = errors.New("http: Request.Write on Request with no Host or 
 
 // extraHeaders may be nil
 // waitForContinue may be nil
-func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitForContinue func() bool) error {
+func (req *Request) write(ctx *context, w io.Writer, usingProxy bool, extraHeaders Header, waitForContinue func() bool) error {
 	// Find the target host. Prefer the Host: header, but if that
 	// is not given, use the host from the request URL.
 	//
@@ -437,7 +437,7 @@ func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, wai
 	}
 
 	// Process Body,ContentLength,Close,Trailer
-	tw, err := newTransferWriter(req)
+	tw, err := newTransferWriter(req, ctx)
 	if err != nil {
 		return err
 	}

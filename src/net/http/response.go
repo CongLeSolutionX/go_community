@@ -258,7 +258,7 @@ func (r *Response) Write(w io.Writer) error {
 	}
 
 	// Process Body,ContentLength,Close,Trailer
-	tw, err := newTransferWriter(r1)
+	tw, err := newTransferWriter(r1, nil)
 	if err != nil {
 		return err
 	}
