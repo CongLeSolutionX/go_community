@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fba69f26_1483fabb",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-12-02T08:36:47Z",
+      "side": 1,
+      "message": "This feels a little hacky.  E.g., it would fail if fe80::1%lo0 appears in a comment or as substring of a longer IPv6 address.\n\nCan we instead check if \"fe80::1%lo0\" appears in LookupHost(\"localhost\")?",
+      "revId": "961338eb5f5335074c418dde789b7672a264e183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
