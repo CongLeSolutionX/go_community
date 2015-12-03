@@ -31,6 +31,11 @@ func mpmovefixfix(a, b *Mpint) {
 }
 
 func mpmovefltfix(a *Mpint, b *Mpflt) int {
+	// avoid converting huge floating-point numbers to integers
+	if b.Val.MantExp(nil) > Mpprec {
+		return -1
+	}
+
 	if _, acc := b.Val.Int(&a.Val); acc == big.Exact {
 		return 0
 	}
