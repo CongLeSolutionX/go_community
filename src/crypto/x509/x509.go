@@ -19,6 +19,7 @@ import (
 	"encoding/asn1"
 	"encoding/pem"
 	"errors"
+	"fmt"
 	"io"
 	"math/big"
 	"net"
@@ -173,6 +174,28 @@ const (
 	ECDSAWithSHA384
 	ECDSAWithSHA512
 )
+
+var algoName = [...]string{
+	MD2WithRSA:      "MD2WithRSA",
+	MD5WithRSA:      "MD5WithRSA",
+	SHA1WithRSA:     "SHA1WithRSA",
+	SHA256WithRSA:   "SHA256WithRSA",
+	SHA384WithRSA:   "SHA384WithRSA",
+	SHA512WithRSA:   "SHA512WithRSA",
+	DSAWithSHA1:     "DSAWithSHA1",
+	DSAWithSHA256:   "DSAWithSHA256",
+	ECDSAWithSHA1:   "ECDSAWithSHA1",
+	ECDSAWithSHA256: "ECDSAWithSHA256",
+	ECDSAWithSHA384: "ECDSAWithSHA384",
+	ECDSAWithSHA512: "ECDSAWithSHA512",
+}
+
+func (algo SignatureAlgorithm) String() string {
+	if 0 < algo && int(algo) < len(algoName) {
+		return algoName[algo]
+	}
+	return strconv.Itoa(int(algo))
+}
 
 type PublicKeyAlgorithm int
 
@@ -541,9 +564,12 @@ type Certificate struct {
 // involves algorithms that are not currently implemented.
 var ErrUnsupportedAlgorithm = errors.New("x509: cannot verify signature: algorithm unimplemented")
 
-// ErrInsecureAlgorithm results from attempting to perform an operation that
-// involves algorithms that are deemed insecure, notably MD5.
-var ErrInsecureAlgorithm = errors.New("x509: cannot verify signature: insecure algorithm")
+// An InsecureAlgorithmError
+type InsecureAlgorithmError SignatureAlgorithm
+
+func (e InsecureAlgorithmError) Error() string {
+	return fmt.Sprintf("x509: cannot verify signature: insecure algorithm %v", SignatureAlgorithm(e))
+}
 
 // ConstraintViolationError results when a requested usage is not permitted by
 // a certificate. For example: checking a signature when the public key isn't a
@@ -656,7 +682,7 @@ func checkSignature(algo SignatureAlgorithm, signed, signature []byte, publicKey
 	case SHA512WithRSA, ECDSAWithSHA512:
 		hashType = crypto.SHA512
 	case MD2WithRSA, MD5WithRSA:
-		return ErrInsecureAlgorithm
+		return InsecureAlgorithmError(algo)
 	default:
 		return ErrUnsupportedAlgorithm
 	}
