@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06d0cee_4ffe4d92",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T21:44:44Z",
+      "side": 1,
+      "message": "This is creating a new Transport that isn\u0027t wire up for HTTP/2 testing support.\n\nYou didn\u0027t run the test first.\n\nIf you did, you\u0027d see:\n\n\u003d\u003d\u003d RUN   TestTransportConnectionCloseOnRequestDisableKeepAlive_h1\n--- PASS: TestTransportConnectionCloseOnRequestDisableKeepAlive_h1 (0.00s)\n\u003d\u003d\u003d RUN   TestTransportConnectionCloseOnRequestDisableKeepAlive_h2\n2015/12/04 21:42:45 http: TLS handshake error from 127.0.0.1:39988: remote error: bad certificate\n--- FAIL: TestTransportConnectionCloseOnRequestDisableKeepAlive_h2 (0.04s)\n        transport_test.go:282: Get https://127.0.0.1:52066: x509: certificate signed by unknown authority\nFAIL\n\nBut in any case, \"Connection: close\" is an HTTP/1-only concept, so this test isn\u0027t applicable to HTTP/2.\n\nYou can just put a comment above the test:\n\n   // HTTP/1-only (Connection: close doesn\u0027t exist in h2)",
+      "range": {
+        "startLine": 277,
+        "startChar": 13,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "33d4e8dd9bc7b6ff8b323293f5bdc2fe60db727f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
