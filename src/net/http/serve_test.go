@@ -2024,10 +2024,13 @@ func (cr countReader) Read(p []byte) (n int, err error) {
 	return
 }
 
-func TestRequestBodyLimit(t *testing.T) {
+func TestRequestBodyLimit_h1(t *testing.T) { testRequestBodyLimit(t, false) }
+func TestRequestBodyLimit_h2(t *testing.T) { testRequestBodyLimit(t, true) }
+
+func testRequestBodyLimit(t *testing.T, h2 bool) {
 	defer afterTest(t)
 	const limit = 1 << 20
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
 		r.Body = MaxBytesReader(w, r.Body, limit)
 		n, err := io.Copy(ioutil.Discard, r.Body)
 		if err == nil {
@@ -2037,10 +2040,10 @@ func TestRequestBodyLimit(t *testing.T) {
 			t.Errorf("io.Copy = %d, want %d", n, limit)
 		}
 	}))
-	defer ts.Close()
+	defer cst.close()
 
 	nWritten := new(int64)
-	req, _ := NewRequest("POST", ts.URL, io.LimitReader(countReader{neverEnding('a'), nWritten}, limit*200))
+	req, _ := NewRequest("POST", cst.ts.URL, io.LimitReader(countReader{neverEnding('a'), nWritten}, limit*200))
 
 	// Send the POST, but don't care it succeeds or not.  The
 	// remote side is going to reply and then close the TCP
