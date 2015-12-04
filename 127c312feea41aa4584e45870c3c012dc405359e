@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06d0cee_69db11a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T18:24:07Z",
+      "side": 1,
+      "message": "start with \"syscall:\" instead of \"doc:\"\n\nand lowercase \"fix\"\n\nYou can add \"in docs\" at the end of the sentence (but no period at end)",
+      "revId": "127c312feea41aa4584e45870c3c012dc405359e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
