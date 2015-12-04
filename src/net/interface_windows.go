@@ -51,37 +51,12 @@ func getInterfaceInfos() ([]syscall.InterfaceInfo, error) {
 	return iia[:iilen], nil
 }
 
-func bytesEqualIP(a []byte, b []int8) bool {
-	for i := 0; i < len(a); i++ {
-		if a[i] != byte(b[i]) {
-			return false
-		}
-	}
-	return true
-}
-
-func findInterfaceInfo(iis []syscall.InterfaceInfo, paddr *windows.IpAdapterAddresses) *syscall.InterfaceInfo {
-	for _, ii := range iis {
-		iaddr := (*syscall.RawSockaddr)(unsafe.Pointer(&ii.Address))
-		puni := paddr.FirstUnicastAddress
-		for ; puni != nil; puni = puni.Next {
-			if iaddr.Family == puni.Address.Sockaddr.Addr.Family {
-				switch iaddr.Family {
-				case syscall.AF_INET:
-					a := (*syscall.RawSockaddrInet4)(unsafe.Pointer(&ii.Address)).Addr
-					if bytesEqualIP(a[:], puni.Address.Sockaddr.Addr.Data[2:]) {
-						return &ii
-					}
-				case syscall.AF_INET6:
-					a := (*syscall.RawSockaddrInet6)(unsafe.Pointer(&ii.Address)).Addr
-					if bytesEqualIP(a[:], puni.Address.Sockaddr.Addr.Data[2:]) {
-						return &ii
-					}
-				default:
-					continue
-				}
-			}
-		}
+func sockaddrIP(sa *syscall.RawSockaddr) IP {
+	switch sa.Family {
+	case syscall.AF_INET:
+		return IP((*syscall.RawSockaddrInet4)(unsafe.Pointer(sa)).Addr[:])
+	case syscall.AF_INET6:
+		return IP((*syscall.RawSockaddrInet6)(unsafe.Pointer(sa)).Addr[:])
 	}
 	return nil
 }
@@ -100,44 +75,60 @@ func interfaceTable(ifindex int) ([]Interface, error) {
 		return nil, err
 	}
 
+	iiAddrFlags := make(map[string]Flags, len(iis))
+	for _, ii := range iis {
+		ip := sockaddrIP((*syscall.RawSockaddr)(unsafe.Pointer(&ii.Address)))
+		if ip == nil {
+			continue
+		}
+
+		var flags Flags
+		if ii.Flags&syscall.IFF_BROADCAST != 0 {
+			flags |= FlagBroadcast
+		}
+		if ii.Flags&syscall.IFF_POINTTOPOINT != 0 {
+			flags |= FlagPointToPoint
+		}
+		if ii.Flags&syscall.IFF_MULTICAST != 0 {
+			flags |= FlagMulticast
+		}
+
+		iiAddrFlags[string(ip)] = flags
+	}
+
 	var ift []Interface
 	for ; paddr != nil; paddr = paddr.Next {
-		index := paddr.IfIndex
-		if paddr.Ipv6IfIndex != 0 {
-			index = paddr.Ipv6IfIndex
+		index := int(paddr.Ipv6IfIndex)
+		if index == 0 {
+			index = int(paddr.IfIndex)
 		}
-		if ifindex == 0 || ifindex == int(index) {
-			ii := findInterfaceInfo(iis, paddr)
-			if ii == nil {
-				continue
+		if ifindex != 0 && index != ifindex {
+			continue
+		}
+
+		var flags Flags
+		if paddr.Flags&windows.IfOperStatusUp != 0 {
+			flags |= FlagUp
+		}
+		if paddr.IfType&windows.IF_TYPE_SOFTWARE_LOOPBACK != 0 {
+			flags |= FlagLoopback
+		}
+		for puni := paddr.FirstUnicastAddress; puni != nil; puni = puni.Next {
+			if ip := sockaddrIP(&puni.Address.Sockaddr.Addr); ip != nil {
+				flags |= iiAddrFlags[string(ip)]
 			}
-			var flags Flags
-			if paddr.Flags&windows.IfOperStatusUp != 0 {
-				flags |= FlagUp
-			}
-			if paddr.IfType&windows.IF_TYPE_SOFTWARE_LOOPBACK != 0 {
-				flags |= FlagLoopback
-			}
-			if ii.Flags&syscall.IFF_BROADCAST != 0 {
-				flags |= FlagBroadcast
-			}
-			if ii.Flags&syscall.IFF_POINTTOPOINT != 0 {
-				flags |= FlagPointToPoint
-			}
-			if ii.Flags&syscall.IFF_MULTICAST != 0 {
-				flags |= FlagMulticast
-			}
-			ifi := Interface{
-				Index:        int(index),
-				MTU:          int(paddr.Mtu),
-				Name:         syscall.UTF16ToString((*(*[10000]uint16)(unsafe.Pointer(paddr.FriendlyName)))[:]),
-				HardwareAddr: HardwareAddr(paddr.PhysicalAddress[:]),
-				Flags:        flags,
-			}
-			ift = append(ift, ifi)
-			if ifindex == int(ifi.Index) {
-				break
-			}
+		}
+
+		ifi := Interface{
+			Index:        index,
+			MTU:          int(paddr.Mtu),
+			Name:         syscall.UTF16ToString((*(*[10000]uint16)(unsafe.Pointer(paddr.FriendlyName)))[:]),
+			HardwareAddr: HardwareAddr(paddr.PhysicalAddress[:paddr.PhysicalAddressLength]),
+			Flags:        flags,
+		}
+		ift = append(ift, ifi)
+		if index == ifindex {
+			break
 		}
 	}
 	return ift, nil
