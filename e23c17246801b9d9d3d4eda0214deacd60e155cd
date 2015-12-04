@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06d0cee_0e5dbbc5",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T20:53:35Z",
+      "side": 1,
+      "message": "don\u0027t use Head here. Use cst.c.Head (clientServerTest makes a specific *http.Client for this test)",
+      "revId": "e23c17246801b9d9d3d4eda0214deacd60e155cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e06d0cee_ae592fda",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T20:53:35Z",
+      "side": 1,
+      "message": "this was just old style. You can do it all one one line:\n\n  cst :\u003d newClientServerTest(...",
+      "revId": "e23c17246801b9d9d3d4eda0214deacd60e155cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e06d0cee_ce56e3a7",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T20:53:35Z",
+      "side": 1,
+      "message": "don\u0027t make this. use cst.c instead.\n\nOr do:\n\n    c :\u003d cst.c\n\n... if you want to minimize the diff size.",
+      "revId": "e23c17246801b9d9d3d4eda0214deacd60e155cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e06d0cee_6ef797f7",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T20:53:35Z",
+      "side": 1,
+      "message": "cst :\u003d",
+      "revId": "e23c17246801b9d9d3d4eda0214deacd60e155cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e06d0cee_8efc6bdb",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-04T20:53:35Z",
+      "side": 1,
+      "message": "cst.c.Post",
+      "revId": "e23c17246801b9d9d3d4eda0214deacd60e155cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
