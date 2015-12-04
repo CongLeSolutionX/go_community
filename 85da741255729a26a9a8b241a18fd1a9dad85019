@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0dcf4fd_d0867c3c",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-04T21:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e06d0cee_b45980da",
+      "revId": "85da741255729a26a9a8b241a18fd1a9dad85019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e06d0cee_5406e4ae",
         "filename": "src/net/http/client_test.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-04T21:14:17Z",
       "side": 1,
       "message": "this is only testing HTTP/1 again since you\u0027re making your own Transport.\n\nwell, it might work now actually after https://go-review.googlesource.com/17300 but it won\u0027t test the custom Dialer probably.\n\nThis test really looks like an HTTP/1-specific test so I\u0027d probably revert thisone.\n\nYou might want to do these CLs at a finer granularity with only one or a few updated tests per CL, at least if there are many more of these.",
+      "revId": "85da741255729a26a9a8b241a18fd1a9dad85019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0dcf4fd_9090f46c",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-04T21:25:32Z",
+      "side": 1,
+      "message": "Roger that. Yes, I agree, I mostly did this last night and today after going through this I realized smaller tests will be better and easier to review. I saw the review you gave Burcu and will do it that style too.",
+      "parentUuid": "e06d0cee_5406e4ae",
       "revId": "85da741255729a26a9a8b241a18fd1a9dad85019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2015-12-04T21:14:17Z",
       "side": 1,
       "message": "It\u0027s also not using cst.c.Get here. But I think you should just revert this one.\n\nAnd this test would never pass: for http2 the URL would already have \"https\" in it, so this new URL would be \"httpss://....\"\n\nAre you testing these as you go?",
+      "revId": "85da741255729a26a9a8b241a18fd1a9dad85019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0dcf4fd_507a8c08",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-04T21:25:32Z",
+      "side": 1,
+      "message": "Roger that.\nYes I run tests as I go but they are failing because they are massive tests in here :( The next set will be smaller granular tests like Burcu did.",
+      "parentUuid": "e06d0cee_d4f194fb",
       "revId": "85da741255729a26a9a8b241a18fd1a9dad85019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
