@@ -1983,18 +1983,21 @@ func TestStripPrefix(t *testing.T) {
 	res.Body.Close()
 }
 
-func TestRequestLimit(t *testing.T) {
+func TestRequestLimit_h1(t *testing.T) { testRequestLimit(t, false, 413) }
+func TestRequestLimit_h2(t *testing.T) { testRequestLimit(t, true, 431) }
+
+func testRequestLimit(t *testing.T, h2 bool, wantCode int) {
 	defer afterTest(t)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
 		t.Fatalf("didn't expect to get request in Handler")
 	}))
-	defer ts.Close()
-	req, _ := NewRequest("GET", ts.URL, nil)
+	defer cst.close()
+	req, _ := NewRequest("GET", cst.ts.URL, nil)
 	var bytesPerHeader = len("header12345: val12345\r\n")
 	for i := 0; i < ((DefaultMaxHeaderBytes+4096)/bytesPerHeader)+1; i++ {
 		req.Header.Set(fmt.Sprintf("header%05d", i), fmt.Sprintf("val%05d", i))
 	}
-	res, err := DefaultClient.Do(req)
+	res, err := cst.c.Do(req)
 	if err != nil {
 		// Some HTTP clients may fail on this undefined behavior (server replying and
 		// closing the connection while the request is still being written), but
@@ -2002,8 +2005,8 @@ func TestRequestLimit(t *testing.T) {
 		t.Fatalf("Do: %v", err)
 	}
 	defer res.Body.Close()
-	if res.StatusCode != 413 {
-		t.Fatalf("expected 413 response status; got: %d %s", res.StatusCode, res.Status)
+	if res.StatusCode != wantCode {
+		t.Fatalf("expected %d response status; got: %d %s", wantCode, res.StatusCode, res.Status)
 	}
 }
 
