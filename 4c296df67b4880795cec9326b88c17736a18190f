@@ -16,6 +16,24 @@
       "revId": "4c296df67b4880795cec9326b88c17736a18190f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e06d0cee_d43994ac",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2008,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2015-12-04T20:29:08Z",
+      "side": 1,
+      "message": "This never passes. 431 (Request Header Fields Too Large) is the equivalent of the HTTP/1 413. Should we test against 431 for http2 or should I revert this change?",
+      "parentUuid": "e06d0cee_14fe2c1f",
+      "revId": "4c296df67b4880795cec9326b88c17736a18190f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
