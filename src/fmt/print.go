@@ -575,6 +575,8 @@ func (p *pp) fmtBytes(v []byte, verb rune, typ reflect.Type, depth int) {
 		p.fmt.fmt_bx(v, ldigits)
 	case 'X':
 		p.fmt.fmt_bx(v, udigits)
+	case 'b':
+		p.fmt.fmt_bb(v)
 	case 'q':
 		p.fmt.fmt_q(string(v))
 	default:
@@ -950,7 +952,7 @@ BigSwitch:
 		// - Handle []T, where T is a named byte type, with fmtBytes only
 		//   for the s, q, an x verbs. For other verbs, T might be a
 		//   Stringer, so we use printValue to print each element.
-		if typ := f.Type(); typ.Elem().Kind() == reflect.Uint8 && (typ.Elem() == byteType || verb == 's' || verb == 'q' || verb == 'x') {
+		if typ := f.Type(); typ.Elem().Kind() == reflect.Uint8 && (typ.Elem() == byteType || verb == 's' || verb == 'q' || verb == 'x' || verb == 'b') {
 			var bytes []byte
 			if f.Kind() == reflect.Slice {
 				bytes = f.Bytes()

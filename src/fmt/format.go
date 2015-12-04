@@ -73,7 +73,7 @@ func (f *fmt) init(buf *buffer) {
 	f.clearflags()
 }
 
-// computePadding computes left and right padding widths (only one will be non-zero).
+// computePadding computes left and right padding widths (only one may be non-zero).
 func (f *fmt) computePadding(width int) (padding []byte, leftWidth, rightWidth int) {
 	left := !f.minus
 	w := f.wid
@@ -363,6 +363,42 @@ func (f *fmt) fmt_bx(b []byte, digits string) {
 		b = b[:f.prec]
 	}
 	f.fmt_sbx("", b, digits)
+}
+
+var binary = [16]string{
+	"0000", "0001", "0010", "0011",
+	"0100", "0101", "0110", "0111",
+	"1000", "1001", "1010", "1011",
+	"1100", "1101", "1110", "1111",
+}
+
+// fmt_bb formats a byte slice as a binary encoding of its bytes.
+func (f *fmt) fmt_bb(b []byte) {
+	if f.precPresent && f.prec < len(b) {
+		b = b[:f.prec]
+	}
+	// As suggested in fmt_sbx, we can avoid buffering by pre-padding the output.
+	// Since binary notation of large arrays is at least x8 the input size, avoiding
+	// the buffer matters even more. So we do pre-pad here.
+	ln := len(b)
+	count := 8 * ln
+	if f.space && ln > 1 {
+		count += ln - 1
+	}
+	padding, left, right := f.computePadding(count)
+	if left > 0 {
+		f.writePadding(left, padding)
+	}
+	for i, c := range b {
+		if i > 0 && f.space {
+			f.buf.WriteRune(' ')
+		}
+		f.buf.WriteString(binary[c>>4])
+		f.buf.WriteString(binary[c&0xF])
+	}
+	if right > 0 {
+		f.writePadding(right, padding)
+	}
 }
 
 // fmt_q formats a string as a double-quoted, escaped Go string constant.
