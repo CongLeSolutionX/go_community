@@ -103,6 +103,7 @@ func (p *Package) writeDefs() {
 	}
 
 	if *gccgo {
+		fmt.Fprint(fgo2, gccgoGoProlog)
 		fmt.Fprint(fc, p.cPrologGccgo())
 	} else {
 		fmt.Fprint(fgo2, goProlog)
@@ -1285,6 +1286,14 @@ func _cgo_runtime_cgocallback(unsafe.Pointer, unsafe.Pointer, uintptr)
 func _cgoCheckPointer(interface{}, ...interface{}) interface{}
 
 //go:linkname _cgoCheckResult runtime.cgoCheckResult
+func _cgoCheckResult(interface{})
+`
+
+const gccgoGoProlog = `
+//extern runtime.cgoCheckPointer
+func _cgoCheckPointer(interface{}, ...interface{}) interface{}
+
+//extern runtime.cgoCheckResult
 func _cgoCheckResult(interface{})
 `
 
