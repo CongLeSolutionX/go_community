@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb1bff58_66dd505c",
+        "filename": "misc/cgo/testsanitizers/tsan.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-12-04T16:34:13Z",
+      "side": 1,
+      "message": "this is not necessary",
+      "revId": "062c57f6be8f6b23dbf105c5bd213c12ef7e4667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0eba861_643ec40c",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-12-04T16:34:13Z",
+      "side": 1,
+      "message": "why is this !gccgo?\nyou call these functions unconditionally below, won\u0027t it lead to compilation errors?",
+      "revId": "062c57f6be8f6b23dbf105c5bd213c12ef7e4667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "004940a4_9b068b62",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-12-04T16:34:13Z",
+      "side": 1,
+      "message": "Here are 3 issues:\n - the _cgo_sync var should be 8 bytes due to tsan implementation details (shadow granularity)\n - compiler does not need to emit the load with unused result (can be avoided with volatile)\n - instead of store we need to use fetch_add(1) or some other RMW: according to C/C++ memory models if you have the following program:\n\n// thread 1\natomic_store(\u0026x, 1, release);\n\n// thread 2\natomic_store(\u0026x, 2, release);\n\n// thread 3\n... \u003d atomic_load(\u0026x, acquire)\n\nand threads run in this order (1, 2 then 3). Thread 3 will load 2. And in this case thread 3 synchronizes only with thread 2 (thread that did the store, side-effect of which we observed), but not with thread 1.\nFor RMWs synchronization is \"cumulative\". And that\u0027s what we need.\n\n\nWe can also use __tsan_acquire()/__tsan_release() functions that you can declare as:\n\nvoid __tsan_acquire(void *addr);\nvoid __tsan_release(void *addr);\n\nThey will be provided by tsan runtime. This will also ensure that tsan runtime is actually linked in (that\u0027s the intention in this case, right?).\n\n\nYou declare _cgo_sync in several translation units? Will it be merged across files/packages/dynamic libraries? We need only 1 definition of it.",
+      "revId": "062c57f6be8f6b23dbf105c5bd213c12ef7e4667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
