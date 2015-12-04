@@ -22,6 +22,30 @@
       "revId": "33d4e8dd9bc7b6ff8b323293f5bdc2fe60db727f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0dcf4fd_13a72ed0",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-04T21:46:36Z",
+      "side": 1,
+      "message": "I did and I posted a gist to the output but here it is again\n```\n$ go test --cover\n2015/12/04 14:37:37 http: TLS handshake error from 127.0.0.1:63573: remote error: bad certificate\n--- FAIL: TestTransportConnectionCloseOnRequestDisableKeepAlive_h2 (0.00s)\n\ttransport_test.go:282: Get https://127.0.0.1:63572: x509: certificate signed by unknown authority\nFAIL\ncoverage: 77.3% of statements\nexit status 1\nFAIL\tnet/http\t22.478s\n```",
+      "parentUuid": "e06d0cee_4ffe4d92",
+      "range": {
+        "startLine": 277,
+        "startChar": 13,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "33d4e8dd9bc7b6ff8b323293f5bdc2fe60db727f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
