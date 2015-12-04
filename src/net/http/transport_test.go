@@ -2114,20 +2114,25 @@ func TestIdleConnChannelLeak(t *testing.T) {
 // Verify the status quo: that the Client.Post function coerces its
 // body into a ReadCloser if it's a Closer, and that the Transport
 // then closes it.
-func TestTransportClosesRequestBody(t *testing.T) {
+func TestTransportClosesRequestBody_h1(t *testing.T) {
+	testTransportClosesRequestBody(t, false)
+}
+
+func TestTransportClosesRequestBody_h2(t *testing.T) {
+	testTransportClosesRequestBody(t, true)
+}
+
+func testTransportClosesRequestBody(t *testing.T, h2 bool) {
 	defer afterTest(t)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
 		io.Copy(ioutil.Discard, r.Body)
 	}))
-	defer ts.Close()
+	defer cst.close()
 
-	tr := &Transport{}
-	defer tr.CloseIdleConnections()
-	cl := &Client{Transport: tr}
-
+	cl := cst.c
 	closes := 0
 
-	res, err := cl.Post(ts.URL, "text/plain", countCloseReader{&closes, strings.NewReader("hello")})
+	res, err := cl.Post(cst.ts.URL, "text/plain", countCloseReader{&closes, strings.NewReader("hello")})
 	if err != nil {
 		t.Fatal(err)
 	}
