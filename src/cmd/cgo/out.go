@@ -506,6 +506,9 @@ func (p *Package) writeOutput(f *File, srcfile string) {
 	// Gcc output starts with the preamble.
 	fmt.Fprintf(fgcc, "%s\n", f.Preamble)
 	fmt.Fprintf(fgcc, "%s\n", gccProlog)
+	if !*gccgo {
+		fmt.Fprintf(fgcc, "%s\n", tsanProlog)
+	}
 
 	for _, key := range nameKeys(f.Name) {
 		n := f.Name[key]
@@ -572,6 +575,7 @@ func (p *Package) writeOutputFunc(fgcc *os.File, n *Name) {
 		// Save the stack top for use below.
 		fmt.Fprintf(fgcc, "\tchar *stktop = _cgo_topofstack();\n")
 	}
+	fmt.Fprintf(fgcc, "\t_cgo_tsan_acquire();\n")
 	fmt.Fprintf(fgcc, "\t")
 	if t := n.FuncType.Result; t != nil {
 		fmt.Fprintf(fgcc, "__typeof__(a->r) r = ")
@@ -597,6 +601,7 @@ func (p *Package) writeOutputFunc(fgcc *os.File, n *Name) {
 		fmt.Fprintf(fgcc, "a->p%d", i)
 	}
 	fmt.Fprintf(fgcc, ");\n")
+	fmt.Fprintf(fgcc, "\t_cgo_tsan_release();\n")
 	if n.FuncType.Result != nil {
 		// The cgo call may have caused a stack copy (via a callback).
 		// Adjust the return value pointer appropriately.
@@ -682,6 +687,7 @@ func (p *Package) writeExports(fgo2, fm, fgcc, fgcch io.Writer) {
 
 	fmt.Fprintf(fgcc, "extern void crosscall2(void (*fn)(void *, int), void *, int);\n")
 	fmt.Fprintf(fgcc, "extern void _cgo_wait_runtime_init_done();\n\n")
+	fmt.Fprintf(fgcc, "%s\n", tsanProlog)
 
 	for _, exp := range p.ExpFunc {
 		fn := exp.Func
@@ -797,7 +803,9 @@ func (p *Package) writeExports(fgo2, fm, fgcc, fgcch io.Writer) {
 			func(i int, aname string, atype ast.Expr) {
 				fmt.Fprintf(fgcc, "\ta.p%d = p%d;\n", i, i)
 			})
+		fmt.Fprintf(fgcc, "\t_cgo_tsan_release();\n")
 		fmt.Fprintf(fgcc, "\tcrosscall2(_cgoexp%s_%s, &a, %d);\n", cPrefix, exp.ExpName, off)
+		fmt.Fprintf(fgcc, "\t_cgo_tsan_acquire();\n")
 		if gccResult != "void" {
 			if len(fntype.Results.List) == 1 && len(fntype.Results.List[0].Names) <= 1 {
 				fmt.Fprintf(fgcc, "\treturn a.r0;\n")
@@ -1254,6 +1262,30 @@ extern char* _cgo_topofstack(void);
 
 #include <errno.h>
 #include <string.h>
+`
+
+// Prologue defining TSAN functions in C.
+const tsanProlog = `
+#define _cgo_tsan_acquire()
+#define _cgo_tsan_release()
+#if defined(__has_feature)
+#if __has_feature(thread_sanitizer)
+#undef _cgo_tsan_acquire
+#undef _cgo_tsan_release
+
+#include <stdatomic.h>
+
+_Atomic int _cgo_sync;
+
+static void _cgo_tsan_acquire() {
+	atomic_load_explicit(&_cgo_sync, memory_order_acquire);
+}
+
+static void _cgo_tsan_release() {
+	atomic_store_explicit(&_cgo_sync, 0, memory_order_release);
+}
+#endif
+#endif
 `
 
 const builtinProlog = `
