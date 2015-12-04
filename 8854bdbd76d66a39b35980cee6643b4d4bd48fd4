@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06d0cee_ee1167da",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-12-04T07:14:23Z",
+      "side": 0,
+      "message": "Notably, this slice seems particularly wrong.  The relevant types are:\n\n  type RawSockaddr struct {\n          Family uint16\n          Data   [14]int8\n  }\n\n  type RawSockaddrInet4 struct {\n          Family uint16\n          Port   uint16\n          Addr   [4]byte /* in_addr */\n          Zero   [8]uint8\n  }\n\n  type RawSockaddrInet6 struct {\n          Family   uint16\n          Port     uint16\n          Flowinfo uint32\n          Addr     [16]byte /* in6_addr */\n          Scope_id uint32\n  }\n\nSo Data[2:] does point to Addr for Inet4, but it points to Flowinfo for Inet6.  Even if it was Data[6:], it would be a slice of only 8 bytes, so bytesEqualIP would have panicked do to an out of bounds index.",
+      "range": {
+        "startLine": 77,
+        "startChar": 54,
+        "endLine": 77,
+        "endChar": 58
+      },
+      "revId": "8854bdbd76d66a39b35980cee6643b4d4bd48fd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
