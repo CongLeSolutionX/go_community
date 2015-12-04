@@ -260,16 +260,24 @@ func TestTransportConnectionCloseOnRequest(t *testing.T) {
 
 // if the Transport's DisableKeepAlives is set, all requests should
 // send Connection: close.
-func TestTransportConnectionCloseOnRequestDisableKeepAlive(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(hostPortHandler)
-	defer ts.Close()
+func TestTransportConnectionCloseOnRequestDisableKeepAlive_h1(t *testing.T) {
+	testTransportConnectionCloseOnRequestDisableKeepAlive(t, false)
+}
 
-	tr := &Transport{
+func TestTransportConnectionCloseOnRequestDisableKeepAlive_h2(t *testing.T) {
+	testTransportConnectionCloseOnRequestDisableKeepAlive(t, true)
+}
+
+func testTransportConnectionCloseOnRequestDisableKeepAlive(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, hostPortHandler)
+	defer cst.close()
+
+	c := cst.c
+	c.Transport = &Transport{
 		DisableKeepAlives: true,
 	}
-	c := &Client{Transport: tr}
-	res, err := c.Get(ts.URL)
+	res, err := c.Get(cst.ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
