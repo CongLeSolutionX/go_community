@@ -65,12 +65,15 @@ func (w chanWriter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-func TestClient(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(robotsTxtHandler)
-	defer ts.Close()
+func TestClient_h1(t *testing.T) { testClient(t, false) }
+func TestClient_h2(t *testing.T) { testClient(t, true) }
 
-	r, err := Get(ts.URL)
+func testClient(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, robotsTxtHandler)
+	defer cst.close()
+
+	r, err := cst.c.Get(cst.ts.URL)
 	var b []byte
 	if err == nil {
 		b, err = pedanticReadAll(r.Body)
@@ -83,12 +86,15 @@ func TestClient(t *testing.T) {
 	}
 }
 
-func TestClientHead(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(robotsTxtHandler)
-	defer ts.Close()
+func TestClientHead_h1(t *testing.T) { testClientHead(t, false) }
+func TestClientHead_h2(t *testing.T) { testClientHead(t, true) }
 
-	r, err := Head(ts.URL)
+func testClientHead(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, robotsTxtHandler)
+	defer cst.close()
+
+	r, err := Head(cst.ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -192,14 +198,17 @@ func TestPostFormRequestFormat(t *testing.T) {
 	}
 }
 
-func TestClientRedirects(t *testing.T) {
+func TestClientRedirects_h1(t *testing.T) { testClientRedirects(t, false) }
+func TestClientRedirects_h2(t *testing.T) { testClientRedirects(t, true) }
+
+func testClientRedirects(t *testing.T, h2 bool) {
 	defer afterTest(t)
-	var ts *httptest.Server
-	ts = httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	var cst *clientServerTest
+	cst = newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
 		n, _ := strconv.Atoi(r.FormValue("n"))
 		// Test Referer header. (7 is arbitrary position to test at)
 		if n == 7 {
-			if g, e := r.Referer(), ts.URL+"/?n=6"; e != g {
+			if g, e := r.Referer(), cst.ts.URL+"/?n=6"; e != g {
 				t.Errorf("on request ?n=7, expected referer of %q; got %q", e, g)
 			}
 		}
@@ -209,22 +218,22 @@ func TestClientRedirects(t *testing.T) {
 		}
 		fmt.Fprintf(w, "n=%d", n)
 	}))
-	defer ts.Close()
+	defer cst.close()
 
 	c := &Client{}
-	_, err := c.Get(ts.URL)
+	_, err := c.Get(cst.ts.URL)
 	if e, g := "Get /?n=10: stopped after 10 redirects", fmt.Sprintf("%v", err); e != g {
 		t.Errorf("with default client Get, expected error %q, got %q", e, g)
 	}
 
 	// HEAD request should also have the ability to follow redirects.
-	_, err = c.Head(ts.URL)
+	_, err = c.Head(cst.ts.URL)
 	if e, g := "Head /?n=10: stopped after 10 redirects", fmt.Sprintf("%v", err); e != g {
 		t.Errorf("with default client Head, expected error %q, got %q", e, g)
 	}
 
 	// Do should also follow redirects.
-	greq, _ := NewRequest("GET", ts.URL, nil)
+	greq, _ := NewRequest("GET", cst.ts.URL, nil)
 	_, err = c.Do(greq)
 	if e, g := "Get /?n=10: stopped after 10 redirects", fmt.Sprintf("%v", err); e != g {
 		t.Errorf("with default client Do, expected error %q, got %q", e, g)
@@ -243,7 +252,7 @@ func TestClientRedirects(t *testing.T) {
 		lastVia = via
 		return checkErr
 	}}
-	res, err := c.Get(ts.URL)
+	res, err := c.Get(cst.ts.URL)
 	if err != nil {
 		t.Fatalf("Get error: %v", err)
 	}
@@ -260,7 +269,7 @@ func TestClientRedirects(t *testing.T) {
 	}
 
 	checkErr = errors.New("no redirects allowed")
-	res, err = c.Get(ts.URL)
+	res, err = c.Get(cst.ts.URL)
 	if urlError, ok := err.(*url.Error); !ok || urlError.Err != checkErr {
 		t.Errorf("with redirects forbidden, expected a *url.Error with our 'no redirects allowed' error inside; got %#v (%q)", err, err)
 	}
