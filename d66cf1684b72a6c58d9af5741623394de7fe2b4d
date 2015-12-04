@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80b8d0a7_878e86e2",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-04T13:16:14Z",
+      "side": 1,
+      "message": "see the descr of cl 17412. Flags field doesn\u0027t represent operational status.",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 46
+      },
+      "revId": "d66cf1684b72a6c58d9af5741623394de7fe2b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80b8d0a7_a78b8ad1",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-04T13:16:14Z",
+      "side": 1,
+      "message": "see the descr of cl 17412. IfType is not a bit field.",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 58
+      },
+      "revId": "d66cf1684b72a6c58d9af5741623394de7fe2b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80b8d0a7_47588e3a",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-04T13:16:14Z",
+      "side": 1,
+      "message": "no need to allocate a new slice when the len is zero.",
+      "range": {
+        "startLine": 126,
+        "startChar": 17,
+        "endLine": 126,
+        "endChar": 82
+      },
+      "revId": "d66cf1684b72a6c58d9af5741623394de7fe2b4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
