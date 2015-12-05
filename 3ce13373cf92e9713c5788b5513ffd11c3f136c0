@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "a0087464_d0ce1c82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-05T03:34:48Z",
+      "side": 1,
+      "message": "Issue #12301 is already closed.",
+      "revId": "3ce13373cf92e9713c5788b5513ffd11c3f136c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0087464_f0d1a020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-05T03:34:48Z",
+      "side": 1,
+      "message": "Issue #12551 is already closed.",
+      "revId": "3ce13373cf92e9713c5788b5513ffd11c3f136c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0087464_90d49412",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-05T03:34:48Z",
+      "side": 1,
+      "message": "Issue #12551 is already closed.",
+      "revId": "3ce13373cf92e9713c5788b5513ffd11c3f136c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80b8d0a7_6776f2bb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -31,6 +82,24 @@
       "side": 1,
       "message": "i think added tests in this cl is enough. this cl drops the use of uncertain api SIO_INTERFACE_LIST and fixes various blunders which come from misunderstanding. also the tests covers changes of this cl and previous attempts overlooked.",
       "parentUuid": "80b8d0a7_6776f2bb",
+      "revId": "3ce13373cf92e9713c5788b5513ffd11c3f136c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0087464_30efa8e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-05T03:34:48Z",
+      "side": 1,
+      "message": "Which test here verifies that issue #12811 (missing netmask) is fixed?",
+      "parentUuid": "80b8d0a7_07529618",
       "revId": "3ce13373cf92e9713c5788b5513ffd11c3f136c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
