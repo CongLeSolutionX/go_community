@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4025f8a7_5044b22e",
+        "filename": "src/html/template/attr.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-05T03:32:40Z",
+      "side": 1,
+      "message": "I can\u0027t figure out what this means, nor what this function does. A better name (one that doesn\u0027t use get) and a better comment would help.\nSee Effective Go for more about \u0027get\u0027.",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4025f8a7_104e2a4f",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-05T03:32:40Z",
+      "side": 1,
+      "message": "isJSType",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4025f8a7_30492647",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-05T03:32:40Z",
+      "side": 1,
+      "message": "This variable lasts for three lines. It deserves a shorter name, which makes the overall program easier to read. Once the name is short, you can cut the scope to two lines. \n\nAlso don\u0027t use IndexByte unless you have a variable byte. For constants just use strings.Index which is easier to read and think about and just as efficient.\n\nAlso might as well trim the space on both sides, unconditionally:\n\nif i :\u003d strings.Index(mimeType, \";\"); i \u003e\u003d 0 {\n   mimeType \u003d mimeType[:i]\n}\nmimeType \u003d strings.TrimSpace(mimeType)\n\nswitch mimeType {",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4025f8a7_d02f8263",
+        "filename": "src/html/template/js_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-05T03:32:40Z",
+      "side": 1,
+      "message": "For something this simple, name the struct fields in and out. It makes the code using them much easier to read.",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4025f8a7_f0327ec9",
+        "filename": "src/html/template/js_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-05T03:32:40Z",
+      "side": 1,
+      "message": "When this test fails, you get a few lines like (at best):\n\n    want true got \"false\"\n    want false got \"true\"\n\nThat\u0027s really unhelpful. It\u0027s also reversed from the usual Go printing.\n\n    t.Errorf(\"isJSType(%q) \u003d %v, want %v\", test.in, !test.out, test.out)",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
