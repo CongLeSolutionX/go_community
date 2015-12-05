@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06d0cee_c43c7f9f",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-05T20:31:06Z",
+      "side": 1,
+      "message": "I\u0027d still like to see it either give an error when mixing meta package names and non-meta package names, or use them both.  Otherwise we get the same name for \"std\" as we do for \"std fmt\".",
+      "revId": "0e1d3e2e3a5d492b1d9ff14dc2d83a228e408a54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
