@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4025f8a7_f30048e1",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-12-07T19:59:50Z",
+      "side": 1,
+      "message": "Add a hashWriting check to mapdelete?",
+      "revId": "3b43771052921fd52486727fd9ba7ac6c8f7a59e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
