@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e06d0cee_77168798",
+        "filename": "src/net/interface_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2015-12-07T09:13:58Z",
+      "side": 1,
+      "message": "I\u0027m afraid I don\u0027t understand this sorting order, and it seems to have a number of issues (e.g., Less(x, x) will always return true; if x and y are duplicates, then Less(x, y) and Less(y, x) will both be true; I believe there are unequal IPNet values such that Less(x, y) and Less(y, x) would both return false too).\n\nMy suspicion is it\u0027s supposed to be:\n\n    if n :\u003d bytes.Compare(ps[i].IP, ps[j].IP); n !\u003d 0 {\n        return n \u003e 0\n    }\n    if n :\u003d bytes.Compare(ps[i].Mask, ps[j].Mask); n !\u003d 0 {\n        return n \u003e 0\n    }\n    return false\n\nbut I\u0027d suggest just dropping \"Rev\" from the name, changing the \"return n \u003e 0\" statements to \"return n \u003c 0\", and then using it with sort.Reverse.",
+      "revId": "04d05a76b85be077916fb97c779e48c8f67ddf3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
