@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a0087464_73f93aa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-07T10:07:49Z",
+      "side": 1,
+      "message": "s/Updates/Fixes/\n\nif you think this CL fixes it. Feel free to copy TestInterfaceAddressList from CL 16854. We will all know if it is fixed or not.",
+      "revId": "04d05a76b85be077916fb97c779e48c8f67ddf3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e06d0cee_77168798",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 7
