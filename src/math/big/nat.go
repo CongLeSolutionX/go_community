@@ -1043,23 +1043,25 @@ func (z nat) expNNWindowed(x, y, m nat) nat {
 // expNNMontgomery calculates x**y mod m using a fixed, 4-bit window.
 // Uses Montgomery representation.
 func (z nat) expNNMontgomery(x, y, m nat) nat {
-	var zz, one, rr, RR nat
+	var zz, one, RR nat
 
 	numWords := len(m)
 
 	// We want the lengths of x and m to be equal.
 	if len(x) > numWords {
-		_, rr = rr.div(rr, x, m)
-	} else if len(x) < numWords {
-		rr = rr.make(numWords)
-		rr.clear()
-		for i := range x {
-			rr[i] = x[i]
-		}
-	} else {
-		rr = x
+		var r nat
+		_, r = r.div(r, x, m)
+		x = r
 	}
-	x = rr
+	// len(x) <= len(m)
+
+	if len(x) < numWords {
+		var xx nat
+		xx = xx.make(numWords)
+		copy(xx, x)
+		x = xx
+	}
+	// len(x) == len(m)
 
 	// Ideally the precomputations would be performed outside, and reused
 	// k0 = -mˆ-1 mod 2ˆ_W. Algorithm from: Dumas, J.G. "On Newton–Raphson

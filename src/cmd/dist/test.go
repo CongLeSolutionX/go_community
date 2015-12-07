@@ -218,11 +218,11 @@ func (t *tester) shouldRunTest(name string) bool {
 	return false
 }
 
-func (t *tester) tags() string {
+func (t *tester) tags(ts ...string) string {
 	if t.iOS() {
-		return "-tags=lldb"
+		ts = append(ts, "lldb")
 	}
-	return "-tags="
+	return "-tags=" + strings.Join(ts, " ")
 }
 
 func (t *tester) timeout(sec int) string {
@@ -396,6 +396,15 @@ func (t *tester) registerTests() {
 		heading: "sync -cpu=10",
 		fn: func() error {
 			return t.dirCmd("src", "go", "test", "-short", t.timeout(120), t.tags(), "-cpu=10", "sync").Run()
+		},
+	})
+
+	// math/big pure_go tests
+	t.tests = append(t.tests, distTest{
+		name:    "math_big_pure_go",
+		heading: "math/big -tags=math_big_pure_go",
+		fn: func() error {
+			return t.dirCmd("src", "go", "test", "-short", t.timeout(120), t.tags("math_big_pure_go"), "math/big").Run()
 		},
 	})
 
