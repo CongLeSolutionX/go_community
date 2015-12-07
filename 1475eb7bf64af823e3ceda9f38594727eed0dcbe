@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60c91c79_b65628d8",
+        "filename": "src/cmd/go/pkg_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-07T18:25:45Z",
+      "side": 1,
+      "message": "Sorry, very minor, but we usually say something like\n    t.Errorf(\"libname returned %q, expected %q\", computed, expected)",
+      "revId": "1475eb7bf64af823e3ceda9f38594727eed0dcbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
