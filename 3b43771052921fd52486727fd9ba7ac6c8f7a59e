@@ -16,6 +16,24 @@
       "revId": "3b43771052921fd52486727fd9ba7ac6c8f7a59e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4025f8a7_134e344f",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-07T20:19:45Z",
+      "side": 1,
+      "message": "Done. I coarsened the messages to refer to just map reads and map writes now, since delete is not an \u0027assignment\u0027 (at least not anymore).",
+      "parentUuid": "4025f8a7_f30048e1",
+      "revId": "3b43771052921fd52486727fd9ba7ac6c8f7a59e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
