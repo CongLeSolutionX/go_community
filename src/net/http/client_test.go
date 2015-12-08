@@ -65,12 +65,15 @@ func (w chanWriter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-func TestClient(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(robotsTxtHandler)
-	defer ts.Close()
+func TestClient_h1(t *testing.T) { testClient(t, false) }
+func TestClient_h2(t *testing.T) { testClient(t, true) }
 
-	r, err := Get(ts.URL)
+func testClient(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, robotsTxtHandler)
+	defer cst.close()
+
+	r, err := cst.c.Get(cst.ts.URL)
 	var b []byte
 	if err == nil {
 		b, err = pedanticReadAll(r.Body)
