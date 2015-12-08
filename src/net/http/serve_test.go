@@ -588,6 +588,7 @@ func (l trackLastConnListener) Accept() (c net.Conn, err error) {
 }
 
 // TestIdentityResponse verifies that a handler can unset
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestIdentityResponse(t *testing.T) {
 	defer afterTest(t)
 	handler := HandlerFunc(func(rw ResponseWriter, req *Request) {
@@ -664,6 +665,7 @@ func TestIdentityResponse(t *testing.T) {
 	})
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func testTCPConnectionCloses(t *testing.T, req string, h Handler) {
 	defer afterTest(t)
 	s := httptest.NewServer(h)
@@ -859,6 +861,8 @@ func TestServerAllowsBlockingRemoteAddr(t *testing.T) {
 		t.Fatalf("response 1 addr = %q; want %q", g, e)
 	}
 }
+
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestIdentityResponseHeaders(t *testing.T) {
 	defer afterTest(t)
 	log.SetOutput(ioutil.Discard) // is noisy otherwise
@@ -930,6 +934,7 @@ func testHeadResponses(t *testing.T, h2 bool) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestTLSHandshakeTimeout(t *testing.T) {
 	if runtime.GOOS == "plan9" {
 		t.Skip("skipping test; see https://golang.org/issue/7237")
@@ -963,6 +968,7 @@ func TestTLSHandshakeTimeout(t *testing.T) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestTLSServer(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewTLSServer(HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -1710,6 +1716,7 @@ func testTimeoutHandler(t *testing.T, h2 bool) {
 }
 
 // See issues 8209 and 8414.
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestTimeoutHandlerRace(t *testing.T) {
 	defer afterTest(t)
 
@@ -1751,6 +1758,7 @@ func TestTimeoutHandlerRace(t *testing.T) {
 }
 
 // See issues 8209 and 8414.
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestTimeoutHandlerRaceHeader(t *testing.T) {
 	defer afterTest(t)
 
@@ -1942,6 +1950,7 @@ func testHandlerPanic(t *testing.T, withHijack bool, panicValue interface{}) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestServerNoDate(t *testing.T)        { testServerNoHeader(t, "Date") }
 func TestServerNoContentType(t *testing.T) { testServerNoHeader(t, "Content-Type") }
 
@@ -1962,6 +1971,7 @@ func testServerNoHeader(t *testing.T, header string) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestStripPrefix(t *testing.T) {
 	defer afterTest(t)
 	h := HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -2174,6 +2184,7 @@ func TestServerGracefulClose(t *testing.T) {
 	<-writeErr
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestCaseSensitiveMethod(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -2282,6 +2293,7 @@ func TestCloseNotifierChanLeak(t *testing.T) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestOptions(t *testing.T) {
 	uric := make(chan string, 2) // only expect 1, but leave space for 2
 	mux := NewServeMux()
@@ -2681,6 +2693,7 @@ func TestHTTP10ConnectionHeader(t *testing.T) {
 }
 
 // See golang.org/issue/5660
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestServerReaderFromOrder(t *testing.T) {
 	defer afterTest(t)
 	pr, pw := io.Pipe()
@@ -2779,6 +2792,7 @@ func TestContentTypeOkayOn204(t *testing.T) {
 // proxy).  So then two people own that Request.Body (both the server
 // and the http client), and both think they can close it on failure.
 // Therefore, all incoming server requests Bodies need to be thread-safe.
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestTransportAndServerSharedBodyRace(t *testing.T) {
 	defer afterTest(t)
 
@@ -3077,6 +3091,7 @@ func mustGet(t *testing.T, url string, headers ...string) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestServerKeepAlivesEnabled(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewUnstartedServer(HandlerFunc(func(w ResponseWriter, r *Request) {}))
@@ -3094,6 +3109,7 @@ func TestServerKeepAlivesEnabled(t *testing.T) {
 }
 
 // golang.org/issue/7856
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestServerEmptyBodyRace(t *testing.T) {
 	defer afterTest(t)
 	var n int32
@@ -3177,6 +3193,7 @@ func TestCloseWrite(t *testing.T) {
 // fixed.
 //
 // So add an explicit test for this.
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestServerFlushAndHijack(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -3212,6 +3229,7 @@ func TestServerFlushAndHijack(t *testing.T) {
 //
 // To test, verify we don't timeout or see fewer unique client
 // addresses (== unique connections) than requests.
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestServerKeepAliveAfterWriteError(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in -short mode")
@@ -3395,6 +3413,7 @@ func TestHandlerFinishSkipBigContentLengthRead(t *testing.T) {
 	}
 }
 
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func TestHandlerSetsBodyNil(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -3513,6 +3532,7 @@ func benchmarkClientServerParallel(b *testing.B, parallelism int, useTLS bool) {
 //   $ ./http.test -test.run=XX -test.bench=BenchmarkServer -test.benchtime=15s -test.cpuprofile=http.prof
 //   $ go tool pprof http.test http.prof
 //   (pprof) web
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func BenchmarkServer(b *testing.B) {
 	b.ReportAllocs()
 	// Child process mode;
@@ -3572,6 +3592,7 @@ func getNoBody(urlStr string) (*Response, error) {
 
 // A benchmark for profiling the client without the HTTP server code.
 // The server code runs in a subprocess.
+// HTTP/1-only (Connection: close doesn't exist in h2)
 func BenchmarkClient(b *testing.B) {
 	b.ReportAllocs()
 	b.StopTimer()
