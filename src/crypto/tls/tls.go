@@ -5,6 +5,9 @@
 // Package tls partially implements TLS 1.2, as specified in RFC 5246.
 package tls
 
+// BUG(agl): The crypto/tls package does not implement countermeasures
+// against Lucky13 attacks on CBC-mode encryption.
+
 import (
 	"crypto"
 	"crypto/ecdsa"
