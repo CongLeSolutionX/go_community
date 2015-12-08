@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0098cde_fa946925",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-08T21:47:24Z",
+      "side": 1,
+      "message": "This test isn\u0027t about Connection: close.",
+      "revId": "34d9cca5187428d8291a811353e763eb132e36c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0098cde_1a7cbdc4",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-08T21:47:24Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "34d9cca5187428d8291a811353e763eb132e36c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
