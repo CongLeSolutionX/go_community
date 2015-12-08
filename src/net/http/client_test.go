@@ -273,26 +273,29 @@ func TestClientRedirects(t *testing.T) {
 	}
 }
 
-func TestPostRedirects(t *testing.T) {
+func TestPostRedirects_h1(t *testing.T) { testPostRedirects(t, false) }
+func TestPostRedirects_h2(t *testing.T) { testPostRedirects(t, true) }
+
+func testPostRedirects(t *testing.T, h2 bool) {
 	defer afterTest(t)
 	var log struct {
 		sync.Mutex
 		bytes.Buffer
 	}
-	var ts *httptest.Server
-	ts = httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	var cst *clientServerTest
+	cst = newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
 		log.Lock()
 		fmt.Fprintf(&log.Buffer, "%s %s ", r.Method, r.RequestURI)
 		log.Unlock()
 		if v := r.URL.Query().Get("code"); v != "" {
 			code, _ := strconv.Atoi(v)
 			if code/100 == 3 {
-				w.Header().Set("Location", ts.URL)
+				w.Header().Set("Location", cst.ts.URL)
 			}
 			w.WriteHeader(code)
 		}
 	}))
-	defer ts.Close()
+	defer cst.close()
 	tests := []struct {
 		suffix string
 		want   int // response code
@@ -304,7 +307,7 @@ func TestPostRedirects(t *testing.T) {
 		{"/?code=404", 404},
 	}
 	for _, tt := range tests {
-		res, err := Post(ts.URL+tt.suffix, "text/plain", strings.NewReader("Some content"))
+		res, err := cst.c.Post(cst.ts.URL+tt.suffix, "text/plain", strings.NewReader("Some content"))
 		if err != nil {
 			t.Fatal(err)
 		}
