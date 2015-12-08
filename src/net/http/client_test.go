@@ -800,10 +800,13 @@ func TestClientHeadContentLength(t *testing.T) {
 	}
 }
 
-func TestEmptyPasswordAuth(t *testing.T) {
+func TestEmptyPasswordAuth_h1(t *testing.T) { testEmptyPasswordAuth(t, false) }
+func TestEmptyPasswordAuth_h2(t *testing.T) { testEmptyPasswordAuth(t, true) }
+
+func testEmptyPasswordAuth(t *testing.T, h2 bool) {
 	defer afterTest(t)
 	gopher := "gopher"
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
 		auth := r.Header.Get("Authorization")
 		if strings.HasPrefix(auth, "Basic ") {
 			encoded := auth[6:]
@@ -820,9 +823,9 @@ func TestEmptyPasswordAuth(t *testing.T) {
 			t.Errorf("Invalid auth %q", auth)
 		}
 	}))
-	defer ts.Close()
-	c := &Client{}
-	req, err := NewRequest("GET", ts.URL, nil)
+	defer cst.close()
+	c := cst.c
+	req, err := NewRequest("GET", cst.ts.URL, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
