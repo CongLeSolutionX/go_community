@@ -392,17 +392,19 @@ func (j *TestJar) Cookies(u *url.URL) []*Cookie {
 	return j.perURL[u.Host]
 }
 
-func TestRedirectCookiesJar(t *testing.T) {
+func TestRedirectCookiesJar_h1(t *testing.T) { testRedirectCookiesJar(t, false) }
+func TestRedirectCookiesJar_h2(t *testing.T) { testRedirectCookiesJar(t, true) }
+
+func testRedirectCookiesJar(t *testing.T, h2 bool) {
 	defer afterTest(t)
-	var ts *httptest.Server
-	ts = httptest.NewServer(echoCookiesRedirectHandler)
-	defer ts.Close()
-	c := &Client{
-		Jar: new(TestJar),
-	}
-	u, _ := url.Parse(ts.URL)
+	var cst *clientServerTest
+	cst = newClientServerTest(t, h2, echoCookiesRedirectHandler)
+	defer cst.close()
+	c := cst.c
+	c.Jar = new(TestJar)
+	u, _ := url.Parse(cst.ts.URL)
 	c.Jar.SetCookies(u, []*Cookie{expectedCookies[0]})
-	resp, err := c.Get(ts.URL)
+	resp, err := c.Get(cst.ts.URL)
 	if err != nil {
 		t.Fatalf("Get: %v", err)
 	}
