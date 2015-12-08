@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a0087464_d38586ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-08T00:28:54Z",
+      "side": 1,
+      "message": "Fine. I will extract the test into a separate CL and send it for review.",
+      "parentUuid": "a0087464_338b320b",
+      "revId": "04d05a76b85be077916fb97c779e48c8f67ddf3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e06d0cee_77168798",
         "filename": "src/net/interface_windows_test.go",
         "patchSetId": 7
