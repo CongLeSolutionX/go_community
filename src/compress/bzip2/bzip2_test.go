@@ -10,6 +10,7 @@ import (
 	"encoding/hex"
 	"io"
 	"io/ioutil"
+	"runtime"
 	"testing"
 )
 
@@ -188,11 +189,25 @@ var testfiles = []string{
 }
 
 func benchmarkDecode(b *testing.B, testfile int) {
+	b.StopTimer()
+
 	compressed, err := ioutil.ReadFile(testfiles[testfile])
 	if err != nil {
 		b.Fatal(err)
 	}
-	b.SetBytes(int64(len(compressed)))
+
+	// Determine the uncompressed size of testfile.
+	r := bytes.NewReader(compressed)
+	uncompressed, err := ioutil.ReadAll(NewReader(r))
+	if err != nil {
+		b.Fatal(err)
+	}
+	b.SetBytes(int64(len(uncompressed)))
+	uncompressed = nil
+
+	runtime.GC()
+	b.ReportAllocs()
+	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		r := bytes.NewReader(compressed)
 		io.Copy(ioutil.Discard, NewReader(r))
