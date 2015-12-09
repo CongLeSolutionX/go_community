@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "806290be_5741cc38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-09T09:54:55Z",
+      "side": 1,
+      "message": "What about issue #12812?",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806290be_d77a3c9d",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-09T09:54:55Z",
+      "side": 1,
+      "message": "Please revert change in this line. Per Microsoft doc adapterAddresses is *adapterAddresses. You have to use unsafe regardless. We might as well follow documentation.",
+      "range": {
+        "startLine": 107,
+        "startChar": 92,
+        "endLine": 107,
+        "endChar": 96
+      },
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806290be_b775c8ae",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-09T09:54:55Z",
+      "side": 1,
+      "message": "Please revert change in this line. Per Microsoft doc adapterAddresses is *adapterAddresses. You have to use unsafe regardless. We might as well follow documentation.",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806290be_f77f408a",
+        "filename": "src/internal/syscall/windows/zsyscall_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-09T09:54:55Z",
+      "side": 1,
+      "message": "Revert. This file don\u0027t need to change.",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806290be_578f0cdf",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-09T09:54:55Z",
+      "side": 1,
+      "message": "Why stop after 3 iterations? I propose you loop forever, but check that l always grows. If l does not grow, return error.",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806290be_778c10ea",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-09T09:54:55Z",
+      "side": 1,
+      "message": "This error check is confusing. It is too far from the failed function call in distance (code lines) and time (loop iterations). Please rewrite this code.",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
