@@ -192,7 +192,17 @@ func benchmarkDecode(b *testing.B, testfile int) {
 	if err != nil {
 		b.Fatal(err)
 	}
-	b.SetBytes(int64(len(compressed)))
+
+	// Determine the uncompressed size of testfile.
+	uncompressed, err := ioutil.ReadAll(NewReader(bytes.NewReader(compressed)))
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	b.SetBytes(int64(len(uncompressed)))
+	b.ReportAllocs()
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		r := bytes.NewReader(compressed)
 		io.Copy(ioutil.Discard, NewReader(r))
