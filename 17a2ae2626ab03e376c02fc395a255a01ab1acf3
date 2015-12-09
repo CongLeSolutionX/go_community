@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "209ac4ee_7c5dd952",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-09T04:11:28Z",
+      "side": 1,
+      "message": "just \"doc:\" prefix:\n\n    doc: update go1.6.txt\n\nis fine\n\nYou can say more if you really want to, but unnecessary.",
+      "revId": "17a2ae2626ab03e376c02fc395a255a01ab1acf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
