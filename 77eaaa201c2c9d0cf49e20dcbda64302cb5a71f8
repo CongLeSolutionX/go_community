@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8057f0e8_0f4d85c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-10T02:24:04Z",
+      "side": 1,
+      "message": "not related. also that\u0027s an api design issue and requires a consensus to fix.",
+      "parentUuid": "806290be_5741cc38",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "806290be_d77a3c9d",
         "filename": "src/internal/syscall/windows/syscall_windows.go",
         "patchSetId": 12
@@ -59,6 +77,48 @@
     },
     {
       "key": {
+        "uuid": "8057f0e8_4f578d4c",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-10T02:24:04Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "806290be_d77a3c9d",
+      "range": {
+        "startLine": 107,
+        "startChar": 92,
+        "endLine": 107,
+        "endChar": 96
+      },
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8057f0e8_2f4a49a9",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-10T02:24:04Z",
+      "side": 1,
+      "message": "fine except the wrong parameter name \"sizeOfPointer\" as per msdn.",
+      "parentUuid": "806290be_b775c8ae",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "806290be_f77f408a",
         "filename": "src/internal/syscall/windows/zsyscall_windows.go",
         "patchSetId": 12
@@ -70,6 +130,24 @@
       "writtenOn": "2015-12-09T09:54:55Z",
       "side": 1,
       "message": "Revert. This file don\u0027t need to change.",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8057f0e8_6f545147",
+        "filename": "src/internal/syscall/windows/zsyscall_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-10T02:24:04Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "806290be_f77f408a",
       "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "8057f0e8_af8f1913",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-10T02:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "806290be_578f0cdf",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "806290be_778c10ea",
         "filename": "src/net/interface_windows.go",
         "patchSetId": 12
@@ -104,6 +200,24 @@
       "writtenOn": "2015-12-09T09:54:55Z",
       "side": 1,
       "message": "This error check is confusing. It is too far from the failed function call in distance (code lines) and time (loop iterations). Please rewrite this code.",
+      "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8057f0e8_cf945d26",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-10T02:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "806290be_778c10ea",
       "revId": "77eaaa201c2c9d0cf49e20dcbda64302cb5a71f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
