@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05487277_5d303bdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-12-10T20:50:56Z",
+      "side": 1,
+      "message": "1e-32768\n\nnot that it matters much, but these are not the actual limits. maybe say \"covering roughly\"?",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "6c519a1498e79b3684371a4ec240fd857e592474",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
