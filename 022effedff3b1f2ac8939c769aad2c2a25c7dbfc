@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8057f0e8_4f8f8ddf",
+        "filename": "src/net/interface_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2015-12-10T05:11:16Z",
+      "side": 1,
+      "message": "I think this:\n\nfunc adapterAddresses() ([]*windows.IpAdapterAddresses, error) {\n\tvar b []byte\n\tl :\u003d uint32(15000) // recommended initial size\n\tfor {\n\t\tb \u003d make([]byte, l)\n\t\terr :\u003d windows.GetAdaptersAddresses(syscall.AF_UNSPEC, windows.GAA_FLAG_INCLUDE_PREFIX, 0, (*windows.IpAdapterAddresses)(unsafe.Pointer(\u0026b[0])), \u0026l)\n\t\tif err \u003d\u003d nil {\n\t\t\tif l \u003d\u003d 0 {\n\t\t\t\treturn nil, nil\n\t\t\t}\n\t\t\tbreak\n\t\t}\n\t\tif err.(syscall.Errno) !\u003d syscall.ERROR_BUFFER_OVERFLOW {\n\t\t\treturn nil, os.NewSyscallError(\"getadaptersaddresses\", err)\n\t\t}\n\t\tif l \u003c\u003d uint32(len(b)) {\n\t\t\treturn nil, os.NewSyscallError(\"getadaptersaddresses\", err)\n\t\t}\n\t}\n\tvar aas []*windows.IpAdapterAddresses\n\tfor aa :\u003d (*windows.IpAdapterAddresses)(unsafe.Pointer(\u0026b[0])); aa !\u003d nil; aa \u003d aa.Next {\n\t\taas \u003d append(aas, aa)\n\t}\n\treturn aas, nil\n}\n\nlooks simpler.",
+      "revId": "022effedff3b1f2ac8939c769aad2c2a25c7dbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
