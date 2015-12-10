@@ -1407,6 +1407,8 @@ const gccExportHeaderProlog = `
 #ifndef GO_CGO_PROLOGUE_H
 #define GO_CGO_PROLOGUE_H
 
+#include <complex.h>
+
 typedef signed char GoInt8;
 typedef unsigned char GoUint8;
 typedef short GoInt16;
@@ -1420,8 +1422,8 @@ typedef GoUintGOINTBITS GoUint;
 typedef __SIZE_TYPE__ GoUintptr;
 typedef float GoFloat32;
 typedef double GoFloat64;
-typedef __complex float GoComplex64;
-typedef __complex double GoComplex128;
+typedef complex float GoComplex64;
+typedef complex double GoComplex128;
 
 /*
   static assertion to make sure the file is being used on architecture
