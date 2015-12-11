@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05487277_0cd4d639",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-12-11T03:53:45Z",
+      "side": 1,
+      "message": "but you don\u0027t use it that way. see below.",
+      "range": {
+        "startLine": 252,
+        "startChar": 35,
+        "endLine": 252,
+        "endChar": 40
+      },
+      "revId": "dfcb81fd4ca6218bf5c7b8425b4c811b8efcf5ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05487277_2ccf92ab",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-12-11T03:53:45Z",
+      "side": 1,
+      "message": "throughout this text you can drop the \u0027character\u0027 after \u0027newline\u0027 and \u0027space\u0027 for brevity and to avoid saying character so much.",
+      "revId": "dfcb81fd4ca6218bf5c7b8425b4c811b8efcf5ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05487277_4ccace9b",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-12-11T03:53:45Z",
+      "side": 1,
+      "message": "s/in //",
+      "range": {
+        "startLine": 267,
+        "startChar": 41,
+        "endLine": 267,
+        "endChar": 42
+      },
+      "revId": "dfcb81fd4ca6218bf5c7b8425b4c811b8efcf5ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
