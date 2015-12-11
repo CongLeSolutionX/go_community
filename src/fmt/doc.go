@@ -247,31 +247,41 @@
 	Scanln, Fscanln and Sscanln stop scanning at a newline and
 	require that the items be followed by a newline or EOF.
 
-	Scanf, Fscanf and Sscanf require that (after skipping spaces)
-	newlines in the format are matched by newlines in the input
-	and vice versa.  This behavior differs from the corresponding
-	routines in C, which uniformly treat newlines as spaces.
-
-	When scanning with Scanf, Fscanf, and Sscanf, all non-empty
-	runs of space characters (except newline) are equivalent
-	to a single space in both the format and the input.  With
-	that proviso, text in the format string must match the input
-	text; scanning stops if it does not, with the return value
-	of the function indicating the number of arguments scanned.
-
 	Scanf, Fscanf, and Sscanf parse the arguments according to a
-	format string, analogous to that of Printf.  For example, %x
-	will scan an integer as a hexadecimal number, and %v will scan
-	the default representation format for the value.
+	format string, analogous to that of Printf.
+	In the definition that follows, ``space'' means any Unicode white
+	space character except newline.
 
-	The formats behave analogously to those of Printf with the
-	following exceptions:
+	In the format string, a verb introduced by the % character
+	consumes and parses input; these are described in more detail below.
+	A character other than %, space, or newline in the format
+	consumes exactly that input character, which must be present.
+	A newline character with zero or more spaces before or after it
+	in the format string consumes zero or more space characters
+	in the input followed by a single newline character, but not any
+	space characters following the newline in the input.
+	Otherwise, any run of one or more space characters in the format string
+	consumes as many space characters as possible in the input.
+	Unless the run of space characters in the format string appears at the end
+	of the format string or around a newline character, it is an error if
+	no space characters can be consumed from in the input.
 
-		%p is not implemented
-		%T is not implemented
-		%e %E %f %F %g %G are all equivalent and scan any floating point or complex value
-		%s and %v on strings scan a space-delimited token
-		Flags # and + are not implemented.
+	The handling of spaces and newlines differs from that of C's scanf family:
+	in C, newlines are treated as any other space, and it is never an error
+	when a run of spaces in the format string finds no spaces to consume
+	in the input.
+
+	The verbs behave analogously to those of Printf.
+	For example, %x will scan an integer as a hexadecimal number,
+	and %v will scan the default representation format for the value.
+	The Printf verbs %p and %T and the flags # and + are not implemented,
+	and the verbs %e %E %f %F %g and %G are all equivalent and scan any
+	floating-point or complex value.
+
+	Input processed by verbs is implicitly space-delimited:
+	the implementation of every verb except %c starts by discarding leading spaces
+	from the remaining input, and the %s verb (and %v reading into a string)
+	stops consuming input at the first space or newline character.
 
 	The familiar base-setting prefixes 0 (octal) and 0x
 	(hexadecimal) are accepted when scanning integers without
@@ -299,6 +309,9 @@
 
 	All arguments to be scanned must be either pointers to basic
 	types or implementations of the Scanner interface.
+
+	Like Scanf and Fscanf, Sscanf need not consume its entire input.
+	There is no way to recover how much of the input string Sscanf used.
 
 	Note: Fscan etc. can read one character (rune) past the input
 	they return, which means that a loop calling a scan routine
