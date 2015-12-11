@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25a2d663_3f9783ba",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-11T14:41:26Z",
+      "side": 1,
+      "message": "I don\u0027t understand why you are checking for a prefix of \"src/\" here.  I can\u0027t see any other code similar to that.  What are you protecting against?",
+      "range": {
+        "startLine": 576,
+        "startChar": 38,
+        "endLine": 576,
+        "endChar": 39
+      },
+      "revId": "26646b702a9cc11e918916bf4ae5e12a88ac9ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
