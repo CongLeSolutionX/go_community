@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8057f0e8_d2f6c247",
+        "filename": "src/runtime/symtab_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2015-12-11T15:01:38Z",
+      "side": 0,
+      "message": "did you mean to delete this file ?",
+      "revId": "dcc821faf84b147cc8a887cb0e576497cfc6cbfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
