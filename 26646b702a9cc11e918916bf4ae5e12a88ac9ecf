@@ -22,6 +22,30 @@
       "revId": "26646b702a9cc11e918916bf4ae5e12a88ac9ecf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85b8e2a7_a7e86ad1",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-11T17:02:17Z",
+      "side": 1,
+      "message": "If the code itself is not under root/src, then it\u0027s not in the tree under consideration, at least as far as ordinary package rules are concerned. The local code above has the same restrict wrt being under src/, but it uses hasSubdir(root+\"/src\", dir) instead of hasSubdir(\"root\", dir). My loop below is simplified by knowing that sub begins with \"src/\": it means that any code directory name is preceded by a slash.",
+      "parentUuid": "25a2d663_3f9783ba",
+      "range": {
+        "startLine": 576,
+        "startChar": 38,
+        "endLine": 576,
+        "endChar": 39
+      },
+      "revId": "26646b702a9cc11e918916bf4ae5e12a88ac9ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
