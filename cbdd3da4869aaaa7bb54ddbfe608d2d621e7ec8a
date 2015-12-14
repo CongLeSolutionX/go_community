@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5b81ad7_3ffbcfe2",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2015-12-14T17:28:47Z",
+      "side": 1,
+      "message": "(maybe cite http://www.isg.rhul.ac.uk/tls/TLStiming.pdf for Lucky13. Your call.)",
+      "revId": "cbdd3da4869aaaa7bb54ddbfe608d2d621e7ec8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
