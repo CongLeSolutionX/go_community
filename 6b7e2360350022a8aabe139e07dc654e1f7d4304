@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a52166e4_8bb3d155",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-12-14T21:07:10Z",
+      "side": 1,
+      "message": "Stacks are always a power of 2 in size, so you could just have _MHeapMap_TotalBits-_PageShift entries and then no searching required.",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 14
+      },
+      "revId": "6b7e2360350022a8aabe139e07dc654e1f7d4304",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
