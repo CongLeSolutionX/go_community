@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a57de6ee_0b67c1d2",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-14T22:26:45Z",
+      "side": 1,
+      "message": "Shadowing ax and dx here looks tricky.  Can we call these innerAx and innerDx or something?",
+      "revId": "01e22f834d81b25ac597e41dff2a97090bfc63e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
