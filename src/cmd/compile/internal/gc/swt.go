@@ -139,6 +139,16 @@ func typecheckswitch(n *Node) {
 						}
 					case nilonly != "" && !isnil(ll.N):
 						Yyerror("invalid case %v in switch (can only compare %s %v to nil)", ll.N, nilonly, n.Left)
+					case t.Etype == TINTER && ll.N.Type.Etype != TINTER:
+						switch tt := ll.N.Type; {
+						case !okforeq[tt.Etype],
+							tt.Etype == TARRAY && !Isfixedarray(tt),
+							tt.Etype == TARRAY && Isfixedarray(tt) && algtype1(tt, nil) == ANOEQ,
+							tt.Etype == TSTRUCT && algtype1(tt, nil) == ANOEQ,
+							tt.Etype == TFUNC,
+							tt.Etype == TMAP:
+							Yyerror("invalid case %v in switch (incomparable type)", Nconv(ll.N, obj.FmtLong))
+						}
 					}
 
 				// type switch
