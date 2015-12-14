@@ -149,9 +149,12 @@ const (
 var stackpool [_NumStackOrders]mSpanList
 var stackpoolmu mutex
 
-// List of stack spans to be freed at the end of GC. Protected by
-// stackpoolmu.
-var stackFreeQueue mSpanList
+// Global pool of large stack spans.
+var stackLarge struct {
+	lock      mutex
+	free      [_MaxMHeapList]mSpanList // free lists by s.npages
+	freelarge mSpanList                // free list of s.npages >= _MaxMHeapList
+}
 
 // Cached value of haveexperiment("framepointer")
 var framepointer_enabled bool
@@ -163,7 +166,10 @@ func stackinit() {
 	for i := range stackpool {
 		stackpool[i].init()
 	}
-	stackFreeQueue.init()
+	for i := range stackLarge.free {
+		stackLarge.free[i].init()
+	}
+	stackLarge.freelarge.init()
 }
 
 // Allocates a stack from the free pool.  Must be called with
@@ -358,9 +364,33 @@ func stackalloc(n uint32) (stack, []stkbar) {
 		}
 		v = unsafe.Pointer(x)
 	} else {
-		s := mheap_.allocStack(round(uintptr(n), _PageSize) >> _PageShift)
+		var s *mspan
+		npage := round(uintptr(n), _PageSize) >> _PageShift
+
+		// Try to get a stack from the large stack cache.
+		lock(&stackLarge.lock)
+		if npage < _MaxMHeapList {
+			if !stackLarge.free[npage].isEmpty() {
+				s = stackLarge.free[npage].first
+				stackLarge.free[npage].remove(s)
+			}
+		} else {
+			for s1 := stackLarge.freelarge.first; s1 != nil; s1 = s1.next {
+				if s1.npages == npage {
+					s = s1
+					stackLarge.freelarge.remove(s)
+					break
+				}
+			}
+		}
+		unlock(&stackLarge.lock)
+
 		if s == nil {
-			throw("out of memory")
+			// Allocate a new stack from the heap.
+			s = mheap_.allocStack(npage)
+			if s == nil {
+				throw("out of memory")
+			}
 		}
 		v = unsafe.Pointer(s.start << _PageShift)
 	}
@@ -435,15 +465,18 @@ func stackfree(stk stack, n uintptr) {
 			// sweeping.
 			mheap_.freeStack(s)
 		} else {
-			// Otherwise, add it to a list of stack spans
-			// to be freed at the end of GC.
-			//
-			// TODO(austin): Make it possible to re-use
-			// these spans as stacks, like we do for small
-			// stack spans. (See issue #11466.)
-			lock(&stackpoolmu)
-			stackFreeQueue.insert(s)
-			unlock(&stackpoolmu)
+			// If the GC is running, we can't return a
+			// stack span to the heap because it could be
+			// reused as a heap span, and this state
+			// change would race with GC. Add it to the
+			// large stack cache instead.
+			lock(&stackLarge.lock)
+			if s.npages < _MaxMHeapList {
+				stackLarge.free[s.npages].insert(s)
+			} else {
+				stackLarge.freelarge.insert(s)
+			}
+			unlock(&stackLarge.lock)
 		}
 	}
 }
@@ -1016,14 +1049,25 @@ func freeStackSpans() {
 		}
 	}
 
-	// Free queued stack spans.
-	for !stackFreeQueue.isEmpty() {
-		s := stackFreeQueue.first
-		stackFreeQueue.remove(s)
-		mheap_.freeStack(s)
-	}
-
 	unlock(&stackpoolmu)
+
+	// Free large stack spans.
+	lock(&stackLarge.lock)
+	for i := range stackLarge.free {
+		for s := stackLarge.free[i].first; s != nil; {
+			next := s.next
+			stackLarge.free[i].remove(s)
+			mheap_.freeStack(s)
+			s = next
+		}
+	}
+	for s := stackLarge.freelarge.first; s != nil; {
+		next := s.next
+		stackLarge.freelarge.remove(s)
+		mheap_.freeStack(s)
+		s = next
+	}
+	unlock(&stackLarge.lock)
 }
 
 //go:nosplit
