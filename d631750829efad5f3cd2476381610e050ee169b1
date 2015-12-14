@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25fc967c_cfb32123",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2015-12-14T21:30:24Z",
+      "side": 1,
+      "message": "We already check for power of 2 above, so I think the round is unnecessary.",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 53
+      },
+      "revId": "d631750829efad5f3cd2476381610e050ee169b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
