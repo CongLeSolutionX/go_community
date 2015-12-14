@@ -236,8 +236,8 @@ const (
 // In some environments, the slow IPs may be explicitly unreachable, and fail
 // more quickly than expected. This test hook prevents dialTCP from returning
 // before the deadline.
-func slowDialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time) (*TCPConn, error) {
-	c, err := dialTCP(net, laddr, raddr, deadline)
+func slowDialTCP(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
+	c, err := dialTCP(net, laddr, raddr, deadline, cancel)
 	if ParseIP(slowDst4).Equal(raddr.IP) || ParseIP(slowDst6).Equal(raddr.IP) {
 		time.Sleep(deadline.Sub(time.Now()))
 	}
@@ -715,4 +715,68 @@ func TestDialerKeepAlive(t *testing.T) {
 			t.Errorf("Dialer.KeepAlive = %v: SetKeepAlive called = %v, want %v", d.KeepAlive, got, !got)
 		}
 	}
+}
+
+func TestDialCancel(t *testing.T) {
+	if runtime.GOOS == "plan9" || runtime.GOOS == "nacl" {
+		t.Skip("skipping on %s", runtime.GOOS)
+	}
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+
+	ticker := time.NewTicker(10 * time.Millisecond)
+	defer ticker.Stop()
+
+	const cancelTick = 5 // the timer tick we cancel the dial at
+	const timeoutTick = 100
+
+	// Try a bunch, as the TCP listener may have a large backlog queue
+	// where the kernel accepts for us. We need to fill that up first.
+	const MaxTry = 250
+Try:
+	for i := 0; i < MaxTry; i++ {
+		var d Dialer
+		cancel := make(chan struct{})
+		d.Cancel = cancel
+		errc := make(chan error, 1)
+		connc := make(chan Conn, 1)
+		go func() {
+			if c, err := d.Dial("tcp", ln.Addr().String()); err != nil {
+				errc <- err
+			} else {
+				connc <- c
+			}
+		}()
+		ticks := 0
+		for {
+			select {
+			case <-ticker.C:
+				ticks++
+				if ticks == cancelTick {
+					close(cancel)
+				}
+				if ticks == timeoutTick {
+					t.Fatal("timeout waiting for dial to fail")
+				}
+			case c := <-connc:
+				defer c.Close()
+				// Listener backlog.
+				continue Try
+			case err := <-errc:
+				if ticks < cancelTick {
+					t.Fatalf("on try %d, dial error after %d ticks (%d before cancel sent): %v",
+						i, ticks, cancelTick-ticks, err)
+				}
+				if oe, ok := err.(*OpError); !ok || oe.Err != errCanceled {
+					t.Fatalf("dial error = %v (%T); want OpError with Err == errCanceled", err, err)
+				}
+				t.Logf("succeeded after %d dials (%d ticks after cancel)", i, ticks-cancelTick)
+				return
+			}
+		}
+	}
+	t.Fatalf("failed after %d tries", MaxTry)
 }
