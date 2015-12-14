@@ -22,6 +22,30 @@
       "revId": "fc741195d9cac423bcbaf9bf320158b00b5ad359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5b81ad7_821e40ea",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-14T23:26:48Z",
+      "side": 1,
+      "message": "Wow, I guess we did. Okay, \"fixed\".",
+      "parentUuid": "c5b81ad7_e2f37c03",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "fc741195d9cac423bcbaf9bf320158b00b5ad359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
