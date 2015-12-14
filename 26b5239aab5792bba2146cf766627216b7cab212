@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a57de6ee_6bce7d37",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-14T22:00:34Z",
+      "side": 1,
+      "message": "Similar code in typecheck.go simply does\n    Isinter(t) \u0026\u0026 !Isinter(ll.N.Type) \u0026\u0026 algtype1(ll.N.Type, nil) \u003d\u003d ANOEQ\n\nBut I see that this is basically what the code above does.",
+      "revId": "26b5239aab5792bba2146cf766627216b7cab212",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
