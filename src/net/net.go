@@ -427,6 +427,7 @@ func (e *OpError) Error() string {
 }
 
 var noDeadline = time.Time{}
+var noCancel = (chan struct{})(nil)
 
 type timeout interface {
 	Timeout() bool
