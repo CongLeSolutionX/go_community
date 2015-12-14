@@ -426,7 +426,16 @@ func (e *OpError) Error() string {
 	return s
 }
 
-var noDeadline = time.Time{}
+var (
+	// timeFarPast is a non-zero time, far in the past, used for
+	// immediate cancelation of dials.
+	timeFarPast = time.Unix(0, 1)
+
+	// nonDeadline and noCancel are just zero values for
+	// readability with functions taking too many parameters.
+	noDeadline = time.Time{}
+	noCancel   = (chan struct{})(nil)
+)
 
 type timeout interface {
 	Timeout() bool
