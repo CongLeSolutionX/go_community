@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5b81ad7_08d08f1a",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-15T02:17:20Z",
+      "side": 1,
+      "message": "I think this line should be\n    fd.setWriteDeadline(1)",
+      "revId": "77d67da4ab543b017ac83ebd1a8a7e27a2464049",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
