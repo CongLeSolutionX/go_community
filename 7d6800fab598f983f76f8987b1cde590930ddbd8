@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5b81ad7_8e9747b8",
+        "filename": "src/net/dial.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-15T20:55:59Z",
+      "side": 1,
+      "message": "That\u0027s how I had it too, but Rob changed them all in single el in https://github.com/golang/go/commit/67ddae87b97b14e228c09d82c9c21ca0b0eaaae9 as part of https://github.com/golang/go/issues/11626",
+      "parentUuid": "85be22e1_f7a56079",
+      "revId": "7d6800fab598f983f76f8987b1cde590930ddbd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85be22e1_d7aa5c47",
         "filename": "src/net/dial_test.go",
         "patchSetId": 8
