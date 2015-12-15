@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5b81ad7_0ddb4168",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2550,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2015-12-15T01:46:20Z",
+      "side": 1,
+      "message": "This line is a comment in https://golang.org/cl/17823; do some comments get stripped when bundling?",
+      "revId": "04cc5d520e1056c29560e4748a1df86764097cff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
