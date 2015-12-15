@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "85be22e1_f76fa0de",
+        "filename": "src/net/dial.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-15T21:00:38Z",
+      "side": 1,
+      "message": "OK, never mind then. I misread the Google search results for the two.",
+      "parentUuid": "c5b81ad7_8e9747b8",
+      "revId": "7d6800fab598f983f76f8987b1cde590930ddbd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85be22e1_d7aa5c47",
         "filename": "src/net/dial_test.go",
         "patchSetId": 8
