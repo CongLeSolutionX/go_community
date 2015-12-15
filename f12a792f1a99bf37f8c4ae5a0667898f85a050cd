@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85be22e1_f7ce8037",
+        "filename": "src/net/http/clientserver_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2015-12-15T20:48:51Z",
+      "side": 1,
+      "message": "What\u0027s the point of this second \u003c-unblock? The close will let it past the first \u003c-unblock, so this one seems redundant.",
+      "revId": "f12a792f1a99bf37f8c4ae5a0667898f85a050cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
