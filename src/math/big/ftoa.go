@@ -84,7 +84,17 @@ func (x *Float) Append(buf []byte, fmt byte, prec int) []byte {
 	var d decimal // == 0.0
 	if x.form == finite {
 		// x != 0
-		d.init(x.mant, int(x.exp)-x.mant.bitLen())
+		const expThreshold = 5000 // for now - to be determined empirically
+		if -expThreshold < x.exp && x.exp < expThreshold {
+			d.init(x.mant, int(x.exp)-x.mant.bitLen())
+		} else {
+			// split off decimal exponent first before converting
+			var m Float
+			m.SetPrec(100) // TODO(gri) determine correct value
+			dexp := x.mantDecimalExp(&m)
+			d.init(m.mant, int(m.exp)-m.mant.bitLen())
+			d.exp += dexp
+		}
 	}
 
 	// 2) round to desired precision
