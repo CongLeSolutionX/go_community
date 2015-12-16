@@ -476,7 +476,7 @@ func (t *tester) registerTests() {
 		if t.hasBash() && t.goos != "android" && !t.iOS() && t.gohostos != "windows" {
 			t.registerTest("cgo_errors", "../misc/cgo/errors", "./test.bash")
 		}
-		if t.gohostos == "linux" && t.extLink() {
+		if (t.gohostos == "linux" || t.gohostos == "darwin") && t.extLink() {
 			t.registerTest("testsigfwd", "../misc/cgo/testsigfwd", "go", "run", "main.go")
 		}
 	}
