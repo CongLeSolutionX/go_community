@@ -456,7 +456,13 @@ func setsig(i int32, fn uintptr, restart bool) {
 }
 
 func setsigstack(i int32) {
-	throw("setsigstack")
+	var sa sigactiont
+	sigaction(uint32(i), nil, &sa)
+	if sa.sa_handler == 0 || sa.sa_handler == _SIG_DFL || sa.sa_handler == _SIG_IGN || sa.sa_flags&_SA_ONSTACK != 0 {
+		return
+	}
+	sa.sa_flags |= _SA_ONSTACK
+	sigaction(uint32(i), &sa, nil)
 }
 
 func getsig(i int32) uintptr {
