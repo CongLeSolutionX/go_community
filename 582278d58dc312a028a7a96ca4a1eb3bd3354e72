@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5e3ba48_84d34829",
+        "filename": "src/archive/tar/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-16T19:29:58Z",
+      "side": 1,
+      "message": "Changing between British and American English isn\u0027t worth it probably.\n\nIn British English, licence is the noun and license is the verb.",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "582278d58dc312a028a7a96ca4a1eb3bd3354e72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
