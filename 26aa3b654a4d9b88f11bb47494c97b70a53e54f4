@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65904ecb_fecd6139",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-17T01:54:15Z",
+      "side": 1,
+      "message": "Those values are not added to Header.",
+      "revId": "26aa3b654a4d9b88f11bb47494c97b70a53e54f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
