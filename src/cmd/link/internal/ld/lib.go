@@ -251,7 +251,37 @@ var (
 
 var coutbuf struct {
 	*bufio.Writer
-	f *os.File
+	f *MyFile
+}
+
+type MyFile struct {
+	f   *os.File
+	pos int64
+}
+
+func (f *MyFile) Write(p []byte) (int, error) {
+	n, err := f.f.Write(p)
+	f.pos += int64(n)
+	return n, err
+}
+
+func (f *MyFile) Close() error {
+	return f.f.Close()
+}
+
+func (f *MyFile) Name() string {
+	return f.f.Name()
+}
+
+func (f *MyFile) Seek(offset int64, whence int) (ret int64, err error) {
+	if offset == 0 && whence == 1 {
+		return f.pos, nil
+	}
+	ret, err = f.f.Seek(offset, whence)
+	if err == nil {
+		f.pos = ret
+	}
+	return
 }
 
 const (
@@ -398,8 +428,9 @@ func libinit() {
 		Exitf("cannot create %s: %v", outfile, err)
 	}
 
-	coutbuf.Writer = bufio.NewWriter(f)
-	coutbuf.f = f
+	nf := &MyFile{f: f}
+	coutbuf.Writer = bufio.NewWriter(nf)
+	coutbuf.f = nf
 
 	if INITENTRY == "" {
 		switch Buildmode {
@@ -959,8 +990,9 @@ func hostlinksetup() {
 		Exitf("cannot create %s: %v", p, err)
 	}
 
-	coutbuf.Writer = bufio.NewWriter(f)
-	coutbuf.f = f
+	nf := &MyFile{f: f}
+	coutbuf.Writer = bufio.NewWriter(nf)
+	coutbuf.f = nf
 }
 
 // hostobjCopy creates a copy of the object files in hostobj in a
