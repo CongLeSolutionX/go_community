@@ -28,6 +28,8 @@ func flagalloc(f *Func) {
 				// instructions used on incoming merge edges clobber
 				// the flags register.
 				// TODO: only for architectures where this matters?
+				// TODO: remove once we ensure rematerialization insns
+				// can't clobber flags.
 				continue
 			}
 			// Walk values backwards to figure out what flag
