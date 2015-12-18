@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a53bb27_cc6c834c",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-12-18T19:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a4d4387_64236a4f",
+      "revId": "3f8a3f21e33de9882e443e1527a080c6cfa9d5fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a4d4387_84ae66e7",
         "filename": "src/bytes/buffer.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-18T19:15:47Z",
       "side": 1,
       "message": "// Truncate discards all but the first n unread bytes from the buffer,\n// but continues to use the same allocated storage.\n?",
+      "revId": "3f8a3f21e33de9882e443e1527a080c6cfa9d5fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a53bb27_8c668b66",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-12-18T19:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a4d4387_84ae66e7",
       "revId": "3f8a3f21e33de9882e443e1527a080c6cfa9d5fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -65,6 +101,24 @@
       "side": 1,
       "message": "// Reset resets the buffer to be empty,\n// but it retains the underlying storage for use by future writes.\n// Reset is the same as Truncate(0).",
       "parentUuid": "6a53bb27_6c122f3a",
+      "revId": "3f8a3f21e33de9882e443e1527a080c6cfa9d5fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a53bb27_ec6f3f3e",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2015-12-18T19:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a4d4387_c4b45e3d",
       "revId": "3f8a3f21e33de9882e443e1527a080c6cfa9d5fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
