@@ -1478,9 +1478,12 @@ func (s *Stmt) Exec(args ...interface{}) (Result, error) {
 }
 
 func resultFromStatement(ds driverStmt, args ...interface{}) (Result, error) {
-	ds.Lock()
-	want := ds.si.NumInput()
-	ds.Unlock()
+	var want int
+	func() {
+		ds.Lock()
+		defer ds.Unlock() // in case NumInput panics
+		want = ds.si.NumInput()
+	}()
 
 	// -1 means the driver doesn't know how to count the number of
 	// placeholders, so we won't sanity check input here and instead let the
@@ -1495,8 +1498,8 @@ func resultFromStatement(ds driverStmt, args ...interface{}) (Result, error) {
 	}
 
 	ds.Lock()
+	defer ds.Unlock()
 	resi, err := ds.si.Exec(dargs)
-	ds.Unlock()
 	if err != nil {
 		return nil, err
 	}
@@ -1927,6 +1930,6 @@ func stack() string {
 // withLock runs while holding lk.
 func withLock(lk sync.Locker, fn func()) {
 	lk.Lock()
+	defer lk.Unlock() // in case fn panics
 	fn()
-	lk.Unlock()
 }
