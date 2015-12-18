@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a53bb27_cc87e3c8",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2009,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-18T18:11:44Z",
+      "side": 1,
+      "message": "// reserved\n\nafterwards on same line?",
+      "revId": "98210fdbe6ba51d77d3ea2bfce0eba449c29b697",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
