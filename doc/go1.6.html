@@ -60,7 +60,7 @@ On FreeBSD, Go 1.6 defaults to using <code>clang</code>, not <code>gcc</code>, a
 </p>
 
 <p>
-On Linux on little-endian 64-bit PowerPC (<code>linux/ppc64le</code>),
+On Linux, on little-endian 64-bit PowerPC (<code>linux/ppc64le</code>),
 Go 1.6 now supports <code>cgo</code> with external linking and
 is roughly feature complete.
 </p>
@@ -686,7 +686,7 @@ and
 
 <li>
 Also in the <a href="/pkg/net/http/"><code>net/http</code></a> package,
-there are a few change related to the handling of a
+there are a few changes related to the handling of a
 <a href="/pkg/http/#Request"><code>Request</code></a> data structure with its <code>Method</code> field set to the empty string.
 An empty <code>Method</code> field has always been documented as an alias for <code>"GET"</code>
 and it remains so.
