@@ -16,6 +16,24 @@
       "revId": "4cfb187c652e5c149b978808896e727edd9fe66f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa2a363_dcaeada3",
+        "filename": "doc/go1.6.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-18T01:11:44Z",
+      "side": 1,
+      "message": "Aye aye, I\u0027ll revert it.",
+      "parentUuid": "6a53bb27_695ea12f",
+      "revId": "4cfb187c652e5c149b978808896e727edd9fe66f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
