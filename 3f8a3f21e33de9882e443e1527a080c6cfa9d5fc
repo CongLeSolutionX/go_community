@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a53bb27_6c122f3a",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2015-12-18T18:32:05Z",
+      "side": 1,
+      "message": "Seems a little wordy.\n\nI\u0027ll let Russ suggest something shorter.",
+      "revId": "3f8a3f21e33de9882e443e1527a080c6cfa9d5fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
