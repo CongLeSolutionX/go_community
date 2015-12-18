@@ -61,6 +61,7 @@ func (b *Buffer) Len() int { return len(b.buf) - b.off }
 func (b *Buffer) Cap() int { return cap(b.buf) }
 
 // Truncate discards all but the first n unread bytes from the buffer.
+// The existing buffer will be reused to avoid any allocations.
 // It panics if n is negative or greater than the length of the buffer.
 func (b *Buffer) Truncate(n int) {
 	b.lastRead = opInvalid
@@ -74,7 +75,8 @@ func (b *Buffer) Truncate(n int) {
 	b.buf = b.buf[0 : b.off+n]
 }
 
-// Reset resets the buffer so it has no content.
+// Reset resets the buffer so that it has no content.
+// The existing buffer will be reused to avoid any allocations.
 // b.Reset() is the same as b.Truncate(0).
 func (b *Buffer) Reset() { b.Truncate(0) }
 
