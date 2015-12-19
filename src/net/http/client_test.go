@@ -536,6 +536,65 @@ func testStreamingGet(t *testing.T, h2 bool) {
 	}
 }
 
+// Issue 13685
+func TestUserAgentSet_h1(t *testing.T) {
+	testUserAgentSet(t, h1Mode)
+}
+func TestUserAgentSet_h2(t *testing.T) {
+	testUserAgentSet(t, h2Mode)
+}
+
+func testUserAgentSet(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
+		w.Header().Set("User-Agent", r.Header.Get("User-Agent"))
+	}))
+	defer cst.close()
+
+	defaultUserAgentCopied := "Go-http-client/1.1"
+	cases := []struct {
+		want           string
+		preset         string
+		presetExpected bool
+		blank          bool
+	}{
+		{preset: "Chrome/47.0.2526.106", presetExpected: true},
+		{preset: "", want: ""},
+		{preset: "", want: defaultUserAgentCopied, blank: true},
+		{preset: fmt.Sprintf("http2?%v", h2), presetExpected: true},
+		{preset: "http/2.0", presetExpected: true},
+		{preset: defaultUserAgentCopied, presetExpected: true},
+	}
+
+	for _, tc := range cases {
+		for _, method := range []string{"GET", "HEAD", "POST"} {
+			req, err := NewRequest(method, cst.ts.URL, nil)
+			if err != nil {
+				t.Errorf("testUserAgentSet: %q err: %v", tc.preset, err)
+			}
+			if !tc.blank {
+				req.Header.Set("User-Agent", tc.preset)
+			}
+
+			resp, err := cst.c.Do(req)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := resp.Header.Get("User-Agent")
+			resp.Body.Close()
+			want := tc.preset
+			if !tc.presetExpected {
+				want = tc.want
+			}
+
+			if got != want {
+				t.Errorf("method: %s:: User-Agent %q was set, expected %q got %q", method, tc.preset, want, got)
+			}
+		}
+	}
+}
+
 type writeCountingConn struct {
 	net.Conn
 	count *int

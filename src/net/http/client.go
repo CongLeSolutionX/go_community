@@ -341,6 +341,14 @@ func (c *Client) doFollowingRedirects(ireq *Request, shouldRedirect func(int) bo
 	var reqmu sync.Mutex // guards req
 	req := ireq
 
+	reqmu.Lock()
+	if req.Header != nil {
+		if _, wasSet := req.Header["User-Agent"]; !wasSet {
+			req.Header.Set("User-Agent", defaultUserAgent)
+		}
+	}
+	reqmu.Unlock()
+
 	var timer *time.Timer
 	var atomicWasCanceled int32 // atomic bool (1 or 0)
 	var wasCanceled = alwaysFalse
