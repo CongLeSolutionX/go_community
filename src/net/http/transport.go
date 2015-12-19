@@ -234,6 +234,11 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		req.closeBody()
 		return nil, errors.New("http: nil Request.Header")
 	}
+
+	if _, uaSet := req.Header["User-Agent"]; !uaSet {
+		req.Header.Set("User-Agent", defaultUserAgent)
+	}
+
 	// TODO(bradfitz): switch to atomic.Value for this map instead of RWMutex
 	t.altMu.RLock()
 	altRT := t.altProto[req.URL.Scheme]
