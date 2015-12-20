@@ -209,3 +209,39 @@ func TestGlobSymlink(t *testing.T) {
 		}
 	}
 }
+
+func TestGlobEscape(t *testing.T) {
+	cases := []struct {
+		value string
+		want  string
+	}{
+		{"abc           d", "abc           d"},
+		{"*abc           d", "[*]abc           d"},
+		{"*****", "[*][*][*][*][*]"},
+		{"[]*abDEFG?", "[[][]][*]abDEFG[?]"},
+		{"a*", "a[*]"},
+		{"a*b*c*d*e*/f", "a[*]b[*]c[*]d[*]e[*]/f"},
+		{"a*b?c*x", "a[*]b[?]c[*]x"},
+		{"ab[c]", "ab[[]c[]]"},
+		{"ab[b-d]", "ab[[]b-d[]]"},
+		{"ab[^c]", "ab[[]^c[]]"},
+		{"ab[^b-d]", "ab[[]^b-d[]]"},
+		{"a???b", "a[?][?][?]b"},
+		{"(\\*\\?\\[\\])", "(\\*\\?\\[\\])"},
+		{"a\\?\\?\\?b", "a\\?\\?\\?b"},
+		{"a[^a][^a][^a]b☺", "a[[]^a[]][[]^a[]][[]^a[]]b☺"},
+		{"[a-ζ]*", "[[]a-ζ[]][*]"},
+		{"*[a-ζ]*", "[*][[]a-ζ[]][*]"},
+		{"[\\]a]", "[[]\\]a[]]"},
+		{"lmnopqrstuva]", "lmnopqrstuva[]]"},
+		{"こんにちは", "こんにちは"},
+		{"こ[んに]ちは", "こ[[]んに[]]ちは"},
+	}
+
+	for _, tc := range cases {
+		if got := GlobEscape(tc.value); got != tc.want {
+			t.Errorf("GlobEscape: %q expected %q got %q", tc.value, tc.want, got)
+		}
+	}
+
+}

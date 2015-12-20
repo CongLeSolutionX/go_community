@@ -223,6 +223,34 @@ func getEsc(chunk string) (r rune, nchunk string, err error) {
 	return
 }
 
+// GlobEscape escapes characters *?[] so that they are
+// not included in any match expressions during a Glob.
+func GlobEscape(path string) string {
+	magic := map[string]bool{
+		"*": true,
+		"?": true,
+		"[": true,
+		"]": true,
+	}
+
+	sects := []string{}
+	split := strings.Split(path, "")
+	prev := ""
+
+	for _, strCh := range split {
+		if prev != "\\" {
+			if _, isMagic := magic[strCh]; isMagic {
+				strCh = "[" + strCh + "]"
+			}
+		}
+
+		prev = strCh
+		sects = append(sects, strCh)
+	}
+
+	return strings.Join(sects, "")
+}
+
 // Glob returns the names of all files matching pattern or nil
 // if there is no matching file. The syntax of patterns is the same
 // as in Match. The pattern may describe hierarchical names such as
