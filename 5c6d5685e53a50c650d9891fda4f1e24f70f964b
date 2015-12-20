@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a4d4387_a43602b9",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "Just to reduce confusion by future readers, that\u0027s indexed by [block.ID][???] (I assume ??? is some encoding of the register number.)  Same question applies to the [][] on the lines below.",
+      "range": {
+        "startLine": 254,
+        "startChar": 21,
+        "endLine": 254,
+        "endChar": 29
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_e7719cb4",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "Why is SP separately reserved?  Is this just traditional in this compiler?",
+      "range": {
+        "startLine": 539,
+        "startChar": 9,
+        "endLine": 541,
+        "endChar": 17
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_6745ac4d",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "I\u0027m a big fan of deepest nesting level, but if there\u0027s a way to most-favor a deepest-to-deepest (i.e., within-loop) binding, that is most preferred.  That is, I wouldn\u0027t want an early binding from a loop exit edge to muck up allocation with the loop itself.",
+      "range": {
+        "startLine": 662,
+        "startChar": 22,
+        "endLine": 662,
+        "endChar": 44
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_67600cb2",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "Are we done with e.destinations here?  The append might cause a reallocation and thus not put all changes back.",
+      "range": {
+        "startLine": 1115,
+        "startChar": 3,
+        "endLine": 1115,
+        "endChar": 17
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_a79e0426",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "If we had a cheap per-M (is that right?) pointer, like a register, we could also allocate a not-across-safepoints spill area for this purpose.  Has advantage of making stack frames slightly smaller, for one hot cache line.\n\nAnd would we want to keep some accounting for how we are doing in these register allocation decisions?  Maybe my bright idea about a shared spill area is a bad one, but lacking data we\u0027re not sure.",
+      "range": {
+        "startLine": 1367,
+        "startChar": 10,
+        "endLine": 1367,
+        "endChar": 27
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_e7dcfc3a",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1411,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t we add MOVxconst instructions that had a no-clobber variant, so that the rewrites would not need to \"understand\", instead they would just follow directions?",
+      "range": {
+        "startLine": 1411,
+        "startChar": 34,
+        "endLine": 1411,
+        "endChar": 58
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_476510c0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "These ops correspond to always-available registers, right?  I\u0027m trying to decide if we ever want to generalize this, or if we want to make it a property of Op (in case we add more, for example a reserved register for our thread pointer) or just make it clear that this is why we mention these here.",
+      "range": {
+        "startLine": 1420,
+        "startChar": 25,
+        "endLine": 1420,
+        "endChar": 69
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_647c8a01",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "See below where we depend on different types landing in different slots.  Should we make the link between this TODO and were we depend on it not being done a bit more explicit?",
+      "range": {
+        "startLine": 98,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4d4387_047b9607",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2015-12-20T14:55:55Z",
+      "side": 1,
+      "message": "Interference is type-dependent, which makes the graphs smaller, but also this is tied to the decision not to share slots among different types, right?",
+      "range": {
+        "startLine": 283,
+        "startChar": 8,
+        "endLine": 283,
+        "endChar": 49
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
