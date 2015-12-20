@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a6aafd7_f7e14029",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-12-20T11:14:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t backslash be escaped too since it\u0027s a metacharacter?",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 55
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cad587d0_b14ae02e",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-12-20T11:14:50Z",
+      "side": 1,
+      "message": "You could range over the path, getting a rune at a time, build a new slice of rune and then convert that with string() at the end.",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 33
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cabe6790_e9ab9590",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-12-20T11:14:50Z",
+      "side": 1,
+      "message": "What if path is `foo\\\\[bar]xyzzy`?  Just because prev is a backslash doesn\u0027t mean it is escaping the next rune, it may have been the escaped rune.",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 19
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a81fbc7_b6a988f9",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-12-20T11:14:50Z",
+      "side": 1,
+      "message": "magic is a map to bool that are true so the \"ok\" test with isMagic isn\u0027t needed.  map indexes for missing keys return the \"zero\" value, i.e. false here.",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 43
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cad587d0_914d5c4b",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2015-12-20T11:14:50Z",
+      "side": 1,
+      "message": "This isn\u0027t a valid means of escaping every possible strCh, e.g. \u0027]\u0027, as pattern []] is illegal.  Also, character classes tend to take longer to evaluate than escaping the character.",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 29
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
