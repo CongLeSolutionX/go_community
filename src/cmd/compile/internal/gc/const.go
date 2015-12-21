@@ -479,6 +479,30 @@ func consttype(n *Node) Ctype {
 	return n.Val().Ctype()
 }
 
+func isRepresentableAsInt(n *Node) bool {
+	if n == nil || n.Type == nil {
+		return false
+	}
+
+	if n.Type.Etype == TIDEAL { // untyped constant
+		switch consttype(n) {
+		case CTINT, CTRUNE, CTFLT:
+			return true
+		default:
+			return false
+		}
+	} else { // typed constant
+		switch n.Type.Etype {
+		case TUINT8, TUINT16, TUINT32, TUINT64,
+			TINT8, TINT16, TINT32, TINT64,
+			TUINT, TINT, TUINTPTR:
+			return true
+		default:
+			return false
+		}
+	}
+}
+
 func Isconst(n *Node, ct Ctype) bool {
 	t := consttype(n)
 
