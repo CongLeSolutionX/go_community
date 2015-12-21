@@ -344,6 +344,13 @@ OpSwitch:
 			}
 		} else {
 			l := typecheck(&n.Left, Erv)
+
+			if l.Type != nil && l.Type.Etype != TIDEAL && !Isint[l.Type.Etype] {
+				Yyerror("invalid array bound %v", l)
+				n.Type = nil
+				return
+			}
+
 			var v Val
 			switch consttype(l) {
 			case CTINT, CTRUNE:
