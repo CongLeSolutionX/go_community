@@ -370,6 +370,11 @@ func (t *tester) registerTests() {
 			break
 		}
 
+		// Standard packages do not use C compiler on Windows.
+		if t.goos == "windows" {
+			break
+		}
+
 		// ARM libgcc may be Thumb, which internal linking does not support.
 		if t.goarch == "arm" {
 			break
