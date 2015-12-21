@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2aa2a363_5cf13dfe",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-21T02:33:41Z",
+      "side": 1,
+      "message": "Not according to this https://docs.python.org/3/library/glob.html#glob.escape",
+      "parentUuid": "8a6aafd7_f7e14029",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 55
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cad587d0_b14ae02e",
         "filename": "src/path/filepath/match.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-20T11:14:50Z",
       "side": 1,
       "message": "You could range over the path, getting a rune at a time, build a new slice of rune and then convert that with string() at the end.",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 33
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa2a363_7cf679f9",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-21T02:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cad587d0_b14ae02e",
       "range": {
         "startLine": 237,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2aa2a363_1cfbb5e0",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-21T02:33:41Z",
+      "side": 1,
+      "message": "Yeah I just looked through the Python implemented and behavior and noticed they don\u0027t care about quoting whatsoever.",
+      "parentUuid": "cabe6790_e9ab9590",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 19
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a81fbc7_b6a988f9",
         "filename": "src/path/filepath/match.go",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "2aa2a363_3c00f191",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-21T02:33:41Z",
+      "side": 1,
+      "message": "Gonna be gone in the next patchset.",
+      "parentUuid": "6a81fbc7_b6a988f9",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 43
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cad587d0_914d5c4b",
         "filename": "src/path/filepath/match.go",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2015-12-20T11:14:50Z",
       "side": 1,
       "message": "This isn\u0027t a valid means of escaping every possible strCh, e.g. \u0027]\u0027, as pattern []] is illegal.  Also, character classes tend to take longer to evaluate than escaping the character.",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 29
+      },
+      "revId": "f3143a5776fda48ce241a97579b51261b2ccb4db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa2a363_dce46d3c",
+        "filename": "src/path/filepath/match.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2015-12-21T02:33:41Z",
+      "side": 1,
+      "message": "You are right since \u0027*\u0027, \u0027?\u0027, \u0027[\u0027 are the characters of interest.",
+      "parentUuid": "cad587d0_914d5c4b",
       "range": {
         "startLine": 243,
         "startChar": 0,
