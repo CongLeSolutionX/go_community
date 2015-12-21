@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a53bb27_1b0f6f7e",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "endRegs[block.ID] is a set of endReg records.  The index is meaningless.  I\u0027ll add more comment to that effect.",
+      "parentUuid": "2a4d4387_a43602b9",
+      "range": {
+        "startLine": 254,
+        "startChar": 21,
+        "endLine": 254,
+        "endChar": 29
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a4d4387_e7719cb4",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-20T14:55:55Z",
       "side": 1,
       "message": "Why is SP separately reserved?  Is this just traditional in this compiler?",
+      "range": {
+        "startLine": 539,
+        "startChar": 9,
+        "endLine": 541,
+        "endChar": 17
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a53bb27_fb525363",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "Semantics are a little weird.  \"reserved\" in this file means \"can\u0027t be used at all\".  SP can be used, just not modified.\nThis could use some cleanup/clarification.  I\u0027ll leave for a separate CL.  It will need redoing to make it arch-independent anyway.",
+      "parentUuid": "2a4d4387_e7719cb4",
       "range": {
         "startLine": 539,
         "startChar": 9,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "6a53bb27_3b20ebd6",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "Yes, we\u0027re done with it.  The only drawback is that if a reallocation happens here, it won\u0027t grow the backing store used by the next block.  But that\u0027s ok, this should be rare.",
+      "parentUuid": "2a4d4387_67600cb2",
+      "range": {
+        "startLine": 1115,
+        "startChar": 3,
+        "endLine": 1115,
+        "endChar": 17
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a4d4387_a79e0426",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 2
@@ -105,6 +177,30 @@
       "writtenOn": "2015-12-20T14:55:55Z",
       "side": 1,
       "message": "If we had a cheap per-M (is that right?) pointer, like a register, we could also allocate a not-across-safepoints spill area for this purpose.  Has advantage of making stack frames slightly smaller, for one hot cache line.\n\nAnd would we want to keep some accounting for how we are doing in these register allocation decisions?  Maybe my bright idea about a shared spill area is a bad one, but lacking data we\u0027re not sure.",
+      "range": {
+        "startLine": 1367,
+        "startChar": 10,
+        "endLine": 1367,
+        "endChar": 27
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a53bb27_9b30ff25",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "Per-M (or per-G) storage is a possibility, but you\u0027d need to materialize those pointers first (on some archs).\n\nYes, some stats output by the compiler as to how often various supposedly-rare situations happen would be useful.\nIt would be really useful if it could be molded into an automatic test, but that seems hard.",
+      "parentUuid": "2a4d4387_a79e0426",
       "range": {
         "startLine": 1367,
         "startChar": 10,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "6a53bb27_db7d57c1",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1411,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "We could do that also.  Rematerialization would need to convert regular MOVXconst opcodes to the no-clobber version.",
+      "parentUuid": "2a4d4387_e7dcfc3a",
+      "range": {
+        "startLine": 1411,
+        "startChar": 34,
+        "endLine": 1411,
+        "endChar": 58
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a4d4387_476510c0",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 2
@@ -151,6 +271,30 @@
       "writtenOn": "2015-12-20T14:55:55Z",
       "side": 1,
       "message": "These ops correspond to always-available registers, right?  I\u0027m trying to decide if we ever want to generalize this, or if we want to make it a property of Op (in case we add more, for example a reserved register for our thread pointer) or just make it clear that this is why we mention these here.",
+      "range": {
+        "startLine": 1420,
+        "startChar": 25,
+        "endLine": 1420,
+        "endChar": 69
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a53bb27_9b87dff7",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment for now.  It might be worth generalizing at some point, particularly making this code arch-indep.\n\nSome archs also have a zero register which behaves the same way.",
+      "parentUuid": "2a4d4387_476510c0",
       "range": {
         "startLine": 1420,
         "startChar": 25,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "6a53bb27_9b5ebf55",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment",
+      "parentUuid": "2a4d4387_647c8a01",
+      "range": {
+        "startLine": 98,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a4d4387_047b9607",
         "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
         "patchSetId": 2
@@ -197,6 +365,30 @@
       "writtenOn": "2015-12-20T14:55:55Z",
       "side": 1,
       "message": "Interference is type-dependent, which makes the graphs smaller, but also this is tied to the decision not to share slots among different types, right?",
+      "range": {
+        "startLine": 283,
+        "startChar": 8,
+        "endLine": 283,
+        "endChar": 49
+      },
+      "revId": "5c6d5685e53a50c650d9891fda4f1e24f70f964b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a53bb27_bb617b11",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 11515
+      },
+      "writtenOn": "2015-12-21T23:11:46Z",
+      "side": 1,
+      "message": "The main reason we can\u0027t share slots between types is that they may have different GC layouts.  Having smaller interference graphs is a nice side benefit.",
+      "parentUuid": "2a4d4387_047b9607",
       "range": {
         "startLine": 283,
         "startChar": 8,
