@@ -344,6 +344,13 @@ OpSwitch:
 			}
 		} else {
 			l := typecheck(&n.Left, Erv)
+
+			if !isRepresentableAsInt(l) {
+				Yyerror("invalid array bound %v", l)
+				n.Type = nil
+				return
+			}
+
 			var v Val
 			switch consttype(l) {
 			case CTINT, CTRUNE:
