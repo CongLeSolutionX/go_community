@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea596b74_7a0c5919",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-22T21:05:30Z",
+      "side": 1,
+      "message": "s/a/its/",
+      "revId": "4084b63f726c8f5e97dccdc1edadc52749652db6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea596b74_5a11952f",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-22T21:05:30Z",
+      "side": 1,
+      "message": "s/ciphertext/plaintext/\n\nAnd I think I would say \"To reuse plaintext\u0027s storage for the encrypted output, use plaintext[:0] as dst.\" I think that might make it clearer that you still have to use the return value to find out how much encrypted data there is. \"overwrite\" sounds like maybe they are the same size. Same below.",
+      "revId": "4084b63f726c8f5e97dccdc1edadc52749652db6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
