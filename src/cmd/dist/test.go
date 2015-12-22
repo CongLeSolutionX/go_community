@@ -963,18 +963,19 @@ func (t *tester) raceTest(dt *distTest) error {
 
 func (t *tester) testDirTest(dt *distTest, shard, shards int) error {
 	t.runPending(dt)
-	const runExe = "runtest.exe" // named exe for Windows, but harmless elsewhere
+	runExe := fmt.Sprintf("runtest%d.exe", shard) // named exe for Windows, but harmless elsewhere
 	cmd := t.dirCmd("test", "go", "build", "-o", runExe, "run.go")
 	cmd.Env = mergeEnvLists([]string{"GOOS=" + t.gohostos, "GOARCH=" + t.gohostarch, "GOMAXPROCS="}, os.Environ())
 	if err := cmd.Run(); err != nil {
 		return err
 	}
 	absExe := filepath.Join(cmd.Dir, runExe)
-	defer os.Remove(absExe)
-	return t.dirCmd("test", absExe,
+	//TODO defer os.Remove(absExe)
+	t.addCmd(dt, "test", absExe,
 		fmt.Sprintf("--shard=%d", shard),
 		fmt.Sprintf("--shards=%d", shards),
-	).Run()
+	)
+	return nil
 }
 
 func (t *tester) shootoutTests() []string {
