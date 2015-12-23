@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a107f94_631202e8",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2015-12-23T06:39:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this was 0x808e before. It\u0027s possibly a weird copy/pasto when working on https://go-review.googlesource.com/#/c/12220/2/src/image/color/ycbcr.go",
+      "revId": "fbee7ba2918a874904f52b502139e197ead03cee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
