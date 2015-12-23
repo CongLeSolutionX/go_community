@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a1bbbb8_cc4a0330",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-12-23T16:16:53Z",
+      "side": 1,
+      "message": "I think in context this is clear as is.",
+      "parentUuid": "8ab2aff4_17c8b42d",
+      "range": {
+        "startLine": 24,
+        "startChar": 47,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "4e6750af81996424f26115be1b2d13665764db8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaaf738e_b83539d1",
         "filename": "src/crypto/cipher/gcm.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-23T11:32:57Z",
       "side": 1,
       "message": "The language reference talks of slices overlapping;  it doesn\u0027t use alias in this sense.",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "4e6750af81996424f26115be1b2d13665764db8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1bbbb8_2c8f57a9",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2015-12-23T16:16:53Z",
+      "side": 1,
+      "message": "It\u0027s a term of art in computing, and the next sentence clarifies the meaning, but it\u0027s a fair point.",
+      "parentUuid": "aaaf738e_b83539d1",
       "range": {
         "startLine": 29,
         "startChar": 4,
