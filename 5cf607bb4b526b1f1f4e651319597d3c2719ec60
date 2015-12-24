@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a107f94_0644fc9f",
+        "filename": "src/runtime/sys_dragonfly_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2015-12-24T02:54:19Z",
+      "side": 1,
+      "message": "don\u0027t we need sigfwd for dragonfly?\n\ngrep -w sigfwd *.s\nsys_darwin_386.s:TEXT runtime·sigfwd(SB),NOSPLIT,$12-16\nsys_darwin_amd64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0\nsys_darwin_arm.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-16\nsys_darwin_arm64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_freebsd_386.s:TEXT runtime·sigfwd(SB),NOSPLIT,$12-16\nsys_freebsd_amd64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_freebsd_arm.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-16\nsys_linux_386.s:TEXT runtime·sigfwd(SB),NOSPLIT,$12-16\nsys_linux_amd64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_linux_arm.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-16\nsys_linux_arm64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_linux_mips64x.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_linux_ppc64x.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_netbsd_386.s:TEXT runtime·sigfwd(SB),NOSPLIT,$12-16\nsys_netbsd_amd64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_netbsd_arm.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-16\nsys_openbsd_386.s:TEXT runtime·sigfwd(SB),NOSPLIT,$12-16\nsys_openbsd_amd64.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-32\nsys_openbsd_arm.s:TEXT runtime·sigfwd(SB),NOSPLIT,$0-16",
+      "range": {
+        "startLine": 190,
+        "startChar": 1,
+        "endLine": 190,
+        "endChar": 37
+      },
+      "revId": "5cf607bb4b526b1f1f4e651319597d3c2719ec60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
