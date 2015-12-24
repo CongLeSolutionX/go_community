@@ -69,4 +69,12 @@ case "$(go env GOOS)/$(go env GOARCH)" in
     ;;
 esac
 
+GOPATH=$(pwd) go build -buildmode=c-archive -o libgo4.a libgo4
+$(go env CC) $(go env GOGCCFLAGS) $ccargs -o testp main4.c libgo4.a
+if ! $bin; then
+    echo "FAIL test4"
+    status=1
+fi
+rm -rf libgo4.a libgo4.h testp pkg
+
 exit $status
