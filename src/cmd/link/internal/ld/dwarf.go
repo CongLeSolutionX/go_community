@@ -18,6 +18,7 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -1422,13 +1423,11 @@ func finddebugruntimepath(s *LSym) {
 		return
 	}
 
-	for i := 0; i < s.Pcln.Nfile; i++ {
-		f := s.Pcln.File[i]
-		if i := strings.Index(f.Name, "runtime/runtime.go"); i >= 0 {
-			gdbscript = f.Name[:i] + "runtime/runtime-gdb.py"
-			break
-		}
+	root := goroot
+	if final := os.Getenv("GOROOT_FINAL"); final != "" {
+		root = final
 	}
+	gdbscript = filepath.Join(root, "src/runtime/runtime-gdb.py")
 }
 
 /*
