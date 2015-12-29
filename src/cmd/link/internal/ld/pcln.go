@@ -8,6 +8,8 @@ import (
 	"cmd/internal/obj"
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 )
 
 // funcpctab writes to dst a pc-value table mapping the code in func to the values
@@ -366,7 +368,7 @@ func pclntab() {
 	Symgrow(Ctxt, ftab, int64(start)+(int64(Ctxt.Nhistfile)+1)*4)
 	setuint32(Ctxt, ftab, int64(start), uint32(Ctxt.Nhistfile))
 	for s := Ctxt.Filesyms; s != nil; s = s.Next {
-		setuint32(Ctxt, ftab, int64(start)+s.Value*4, uint32(ftabaddstring(ftab, s.Name)))
+		setuint32(Ctxt, ftab, int64(start)+s.Value*4, uint32(ftabaddstring(ftab, expandGoroot(s.Name))))
 	}
 
 	ftab.Size = int64(len(ftab.P))
@@ -374,6 +376,18 @@ func pclntab() {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(&Bso, "%5.2f pclntab=%d bytes, funcdata total %d bytes\n", obj.Cputime(), int64(ftab.Size), int64(funcdata_bytes))
 	}
+}
+
+func expandGoroot(s string) string {
+	const n = len("$GOROOT")
+	if len(s) >= n+1 && s[:n] == "$GOROOT" && (s[n] == '/' || s[n] == '\\') {
+		root := goroot
+		if final := os.Getenv("GOROOT_FINAL"); final != "" {
+			root = final
+		}
+		return filepath.ToSlash(filepath.Join(root, s[n:]))
+	}
+	return s
 }
 
 const (
