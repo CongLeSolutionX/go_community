@@ -129,7 +129,10 @@ func TestGdbPython(t *testing.T) {
 			t.Skipf("skipping because GOROOT=%s does not exist", runtime.GOROOT())
 		}
 
-		t.Fatalf("failed to load Go runtime support: %s", firstLine)
+		_, file, _, _ := runtime.Caller(1)
+
+		t.Logf("package testing source file: %s", file)
+		t.Fatalf("failed to load Go runtime support: %s \n%s", firstLine, file, got)
 	}
 
 	// Extract named BEGIN...END blocks from output
