@@ -397,11 +397,14 @@ func Int64Val(x Value) (int64, bool) {
 		return int64(x), true
 	case intVal:
 		return x.val.Int64(), false // not an int64Val and thus not exact
+	case ratVal:
+		if x.val.IsInt() {
+			return x.val.Num().Int64(), false
+		}
 	case unknownVal:
 		return 0, false
-	default:
-		panic(fmt.Sprintf("%v not an Int", x))
 	}
+	panic(fmt.Sprintf("%v (%T) not an Int", x.ExactString(), x))
 }
 
 // Uint64Val returns the Go uint64 value of x and whether the result is exact;
@@ -413,11 +416,14 @@ func Uint64Val(x Value) (uint64, bool) {
 		return uint64(x), x >= 0
 	case intVal:
 		return x.val.Uint64(), x.val.Sign() >= 0 && x.val.BitLen() <= 64
+	// case ratVal:
+	// 	if x.val.IsInt() {
+	// 		return x.val.Num().Uint64(), false
+	// 	}
 	case unknownVal:
 		return 0, false
-	default:
-		panic(fmt.Sprintf("%v not an Int", x))
 	}
+	panic(fmt.Sprintf("%v not an Int", x))
 }
 
 // Float32Val is like Float64Val but for float32 instead of float64.
