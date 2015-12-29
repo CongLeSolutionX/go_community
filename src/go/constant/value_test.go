@@ -445,3 +445,16 @@ func TestUnknown(t *testing.T) {
 		}
 	}
 }
+
+func TestIssue13771(t *testing.T) {
+	million := MakeFromLiteral("1e6", token.FLOAT, 0)
+	if million.Kind() != Float {
+		t.Errorf("(1e6).Kind() = %v, want %v", million.Kind(), Float)
+	}
+	if i, ok := Int64Val(million); !ok || i != 1000000 {
+		t.Errorf("Int64Val(1e6) = (%v, %v), want (%v, %v)", i, ok, 1000000, true)
+	}
+	if u, ok := Uint64Val(million); !ok || u != 1000000 {
+		t.Errorf("Unt64Val(1e6) = (%v, %v), want (%v, %v)", u, ok, 1000000, true)
+	}
+}
