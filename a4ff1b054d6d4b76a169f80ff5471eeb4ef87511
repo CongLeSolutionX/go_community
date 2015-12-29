@@ -16,6 +16,24 @@
       "revId": "a4ff1b054d6d4b76a169f80ff5471eeb4ef87511",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca86672d_097c2900",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2015-12-29T18:48:30Z",
+      "side": 1,
+      "message": "Thanks. I removed the GOMAXPROCS instead. I think most of these are left from when GOMAXPROCS\u003d1 was the default.",
+      "parentUuid": "ea988b91_a2d55e3e",
+      "revId": "a4ff1b054d6d4b76a169f80ff5471eeb4ef87511",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
