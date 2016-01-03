@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a1bbbb8_dbfab78d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-01-03T02:56:45Z",
+      "side": 1,
+      "message": "crypto/rand: use the getentropy syscall on OpenBSD",
+      "revId": "fb776681d75c605da4178338ad479d6e0ad25fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1bbbb8_3b3f8b07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-01-03T02:56:45Z",
+      "side": 1,
+      "message": "Probably also worth mentioning that getentropy was added in OpenBSD 5.6.",
+      "revId": "fb776681d75c605da4178338ad479d6e0ad25fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1bbbb8_1b444fa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-01-03T02:56:45Z",
+      "side": 1,
+      "message": "This isn\u0027t really relevant to the CL, so I\u0027d move this comment to the issue tracker.",
+      "revId": "fb776681d75c605da4178338ad479d6e0ad25fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1bbbb8_7b4903b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-01-03T02:56:45Z",
+      "side": 1,
+      "message": "nit: \"Fixes #13785.\" is more idiomatic for Go commit messages.",
+      "revId": "fb776681d75c605da4178338ad479d6e0ad25fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1bbbb8_5b4ec7c1",
+        "filename": "src/internal/syscall/unix/getentropy_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-01-03T02:56:45Z",
+      "side": 1,
+      "message": "FYI, the authoritative file is /usr/src/sys/kern/syscalls.master.",
+      "revId": "fb776681d75c605da4178338ad479d6e0ad25fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1bbbb8_bb525b62",
+        "filename": "src/internal/syscall/unix/getentropy_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-01-03T02:56:45Z",
+      "side": 1,
+      "message": "Why would we want to do that?",
+      "revId": "fb776681d75c605da4178338ad479d6e0ad25fb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
