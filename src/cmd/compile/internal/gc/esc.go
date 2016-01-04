@@ -1579,7 +1579,14 @@ func funcOutputAndInput(dst, src *Node) bool {
 		src.Op == ONAME && src.Class == PPARAM && src.Name.Curfn == dst.Name.Curfn
 }
 
+func isheap(n *Node) bool {
+	return n.Esc&EscHeap != 0
+}
+
 func escwalk(e *EscState, level Level, dst *Node, src *Node) {
+	escwalkBody(e, level, dst, src, false)
+}
+func escwalkBody(e *EscState, level Level, dst *Node, src *Node, escaped bool) {
 	if src.Op == OLITERAL {
 		return
 	}
@@ -1598,8 +1605,8 @@ func escwalk(e *EscState, level Level, dst *Node, src *Node) {
 	srcE.Esclevel = level
 
 	if Debug['m'] > 1 {
-		fmt.Printf("escwalk: level:%d depth:%d %.*s op=%v %v(%v) scope:%v[%d]\n",
-			level, e.pdepth, e.pdepth, "\t\t\t\t\t\t\t\t\t\t", Oconv(int(src.Op), 0), Nconv(src, obj.FmtShort), Jconv(src, obj.FmtShort), e.curfnSym(src), srcE.Escloopdepth)
+		fmt.Printf("escwalk: level:%d depth:%d %.*s op=%v %v(%v) scope:%v[%d] escaped=%v\n",
+			level, e.pdepth, e.pdepth, "\t\t\t\t\t\t\t\t\t\t", Oconv(int(src.Op), 0), Nconv(src, obj.FmtShort), Jconv(src, obj.FmtShort), e.curfnSym(src), srcE.Escloopdepth, escaped)
 	}
 
 	e.pdepth++
@@ -1638,7 +1645,7 @@ func escwalk(e *EscState, level Level, dst *Node, src *Node) {
 		}
 	}
 
-	leaks = level.int() <= 0 && level.guaranteedDereference() <= 0 && dstE.Escloopdepth < srcE.Escloopdepth
+	leaks = level.int() <= 0 && level.guaranteedDereference() <= 0 && (dstE.Escloopdepth < srcE.Escloopdepth || escaped)
 
 	switch src.Op {
 	case ONAME:
@@ -1672,7 +1679,7 @@ func escwalk(e *EscState, level Level, dst *Node, src *Node) {
 			if leaks && Debug['m'] != 0 {
 				Warnl(int(src.Lineno), "leaking closure reference %v", Nconv(src, obj.FmtShort))
 			}
-			escwalk(e, level, dst, src.Name.Param.Closure)
+			escwalkBody(e, level, dst, src.Name.Param.Closure, isheap(src))
 		}
 
 	case OPTRLIT, OADDR:
@@ -1776,9 +1783,11 @@ func escwalk(e *EscState, level Level, dst *Node, src *Node) {
 	}
 
 recurse:
-	level = level.copy()
+	if !escaped {
+		level = level.copy()
+	}
 	for ll := srcE.Escflowsrc; ll != nil; ll = ll.Next {
-		escwalk(e, level, dst, ll.N)
+		escwalkBody(e, level, dst, ll.N, escaped || isheap(src))
 	}
 
 	e.pdepth--
