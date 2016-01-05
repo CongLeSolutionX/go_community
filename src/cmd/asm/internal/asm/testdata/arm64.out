@@ -47,9 +47,12 @@
 233 00047 (testdata/arm64.s:233)	DMB	$1
 242 00048 (testdata/arm64.s:242)	LDAXRW	(R0), R2
 243 00049 (testdata/arm64.s:243)	STLXRW	R1, (R0), R3
-251 00050 (testdata/arm64.s:251)	RET
-255 00051 (testdata/arm64.s:255)	JMP	foo(SB)
-256 00052 (testdata/arm64.s:256)	CALL	foo(SB)
+251 00050 (testdata/arm64.s:251)	BEQ	52(PC)
+252 00051 (testdata/arm64.s:252)	RET
+256 00052 (testdata/arm64.s:256)	BEQ	54(PC)
 257 00053 (testdata/arm64.s:257)	JMP	foo(SB)
 258 00054 (testdata/arm64.s:258)	CALL	foo(SB)
-266 00055 (testdata/arm64.s:266)	END
+259 00055 (testdata/arm64.s:259)	BEQ	57(PC)
+260 00056 (testdata/arm64.s:260)	JMP	foo(SB)
+261 00057 (testdata/arm64.s:261)	CALL	foo(SB)
+269 00058 (testdata/arm64.s:269)	END

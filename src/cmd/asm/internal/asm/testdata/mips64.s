@@ -5,7 +5,7 @@
 // This input was created by taking the ppc64 testcase and modified
 // by hand.
 
-TEXT foo(SB),0,$0
+TEXT foo(SB),7,$0
 
 //inst:
 //
@@ -232,19 +232,27 @@ TEXT foo(SB),0,$0
 //	{
 //		outcode(int($1), &nullgen, 0, &$2);
 //	}
+	BEQ	R1, 2(PC)
 label0:
 	JMP	1(PC)
+	BEQ	R1, 2(PC)
 	JMP	label0+0
+	BEQ	R1, 2(PC)
 	JAL	1(PC)
+	BEQ	R1, 2(PC)
 	JAL	label0+0
 
 //	LBRA addr
 //	{
 //		outcode(int($1), &nullgen, 0, &$2);
 //	}
-	JMP	4(R1)
+	BEQ	R1, 2(PC)
+	JMP	0(R1)
+	BEQ	R1, 2(PC)
 	JMP	foo+0(SB)
-	JAL	4(R1)
+	BEQ	R1, 2(PC)
+	JAL	0(R1)
+	BEQ	R1, 2(PC)
 	JAL	foo+0(SB)
 
 //
@@ -364,7 +372,7 @@ label4:
 //
 	SYSCALL
 	BREAK
-	BREAK	$1, (R1) // overloaded CACHE opcode
+	BREAK	R1, (R1) // overloaded CACHE opcode
 
 //
 // RET
@@ -374,12 +382,14 @@ label4:
 //		outcode(int($1), &nullgen, 0, &nullgen);
 //	}
 	SYSCALL
+	BEQ	R1, 2(PC)
 	RET
 
 
 // More JMP/JAL cases, and canonical names JMP, CALL.
 
 	JAL	foo(SB)
+	BEQ	R1, 2(PC)
 	JMP	foo(SB)
 	CALL	foo(SB)
 

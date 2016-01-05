@@ -2,7 +2,7 @@
 // the old assembler's (8a's) grammar and hand-writing complete
 // instructions for each rule, to guarantee we cover the same space.
 
-TEXT foo(SB), 0, $0
+TEXT foo(SB), 7, $0
 
 // LTYPE1 nonrem	{ outcode(int($1), &$2); }
 	SETCC	AX
@@ -33,9 +33,12 @@ label:
 
 // LTYPEC spec3	{ outcode(int($1), &$2); }
 	CALL	AX
+	JC	2(PC)
 	JMP	*AX
 	CALL	*foo(SB)
+	JC	2(PC)
 	JMP	$4
+	JC	2(PC)
 	JMP	label
 	CALL	foo(SB)
 	CALL	(AX*4)
@@ -49,6 +52,7 @@ label:
 	CALL	(AX)
 	CALL	(SP)
 	CALL	(AX*4)
+	JC	2(PC)
 	JMP	(AX)(AX*4)
 
 // LTYPEN spec4	{ outcode(int($1), &$2); }
@@ -72,13 +76,14 @@ label:
 
 // LTYPEXC spec9	{ outcode(int($1), &$2); }
 	CMPPD	X0, X1, 4
-	CMPPD	X0, foo+4(SB), 4
+	CMPPD	foo+4(SB), X1, 4
 
 // LTYPEX spec10	{ outcode(int($1), &$2); }
 	PINSRD	$1, (AX), X0
 	PINSRD	$2, foo+4(FP), X0
 
 // Was bug: LOOP is a branch instruction.
+	JC	2(PC)
 loop:
 	LOOP	loop
 
