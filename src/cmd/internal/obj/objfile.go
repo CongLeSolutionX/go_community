@@ -111,6 +111,11 @@ import (
 // out a Go object file.  The linker does not call this; the linker
 // does not write out object files.
 func Writeobjdirect(ctxt *Link, b *Biobuf) {
+	Flushplist(ctxt)
+	Writeobjfile(ctxt, b)
+}
+
+func Flushplist(ctxt *Link) {
 	var flag int
 	var s *LSym
 	var p *Prog
@@ -119,13 +124,11 @@ func Writeobjdirect(ctxt *Link, b *Biobuf) {
 
 	// Build list of symbols, and assign instructions to lists.
 	// Ignore ctxt->plist boundaries. There are no guarantees there,
-	// and the C compilers and assemblers just use one big list.
-	var text *LSym
-
+	// and the assemblers just use one big list.
 	var curtext *LSym
-	var data *LSym
+	var text *LSym
 	var etext *LSym
-	var edata *LSym
+
 	for pl := ctxt.Plist; pl != nil; pl = pl.Link {
 		for p = pl.Firstpc; p != nil; p = plink {
 			if ctxt.Debugasm != 0 && ctxt.Debugvlog != 0 {
@@ -174,10 +177,10 @@ func Writeobjdirect(ctxt *Link, b *Biobuf) {
 					log.Fatalf("symbol %s listed multiple times", s.Name)
 				}
 				s.Onlist = 1
-				if data == nil {
-					data = s
+				if ctxt.Data == nil {
+					ctxt.Data = s
 				} else {
-					edata.Next = s
+					ctxt.Edata.Next = s
 				}
 				s.Next = nil
 				s.Size = p.To.Offset
@@ -195,7 +198,7 @@ func Writeobjdirect(ctxt *Link, b *Biobuf) {
 				} else if flag&TLSBSS != 0 {
 					s.Type = STLSBSS
 				}
-				edata = s
+				ctxt.Edata = s
 				continue
 			}
 
@@ -297,7 +300,24 @@ func Writeobjdirect(ctxt *Link, b *Biobuf) {
 		ctxt.Arch.Assemble(ctxt, s)
 		linkpcln(ctxt, s)
 	}
+	
+	// Add to list in ctxt.
+	var next *LSym
+	for s := text; s != nil; s = next{
+		next = s.Next
+		s.Next = nil
+		if ctxt.Etext == nil {
+			ctxt.Text = s
+		} else {
+			ctxt.Etext.Next = s
+		}
+		ctxt.Etext = s
+	}
+	
+	ctxt.Plist = nil
+}
 
+func Writeobjfile(ctxt *Link, b *Biobuf) {
 	// Emit header.
 	Bputc(b, 0)
 
@@ -312,10 +332,10 @@ func Writeobjdirect(ctxt *Link, b *Biobuf) {
 	wrstring(b, "")
 
 	// Emit symbols.
-	for s := text; s != nil; s = s.Next {
+	for s := ctxt.Text; s != nil; s = s.Next {
 		writesym(ctxt, b, s)
 	}
-	for s := data; s != nil; s = s.Next {
+	for s := ctxt.Data; s != nil; s = s.Next {
 		writesym(ctxt, b, s)
 	}
 
