@@ -90,6 +90,91 @@ func jumpX86(word string) bool {
 	return word[0] == 'J' || word == "CALL" || strings.HasPrefix(word, "LOOP") || word == "XBEGIN"
 }
 
+var aliasesX86 = map[string]int{
+	// alternate names for condition codes
+	"JA":   x86.AJHI, /* alternate */
+	"JAE":  x86.AJCC, /* alternate */
+	"JB":   x86.AJCS, /* alternate */
+	"JBE":  x86.AJLS, /* alternate */
+	"JC":   x86.AJCS, /* alternate */
+	"JCC":  x86.AJCC, /* carry clear (CF = 0) */
+	"JCS":  x86.AJCS, /* carry set (CF = 1) */
+	"JE":   x86.AJEQ, /* alternate */
+	"JEQ":  x86.AJEQ, /* equal (ZF = 1) */
+	"JG":   x86.AJGT, /* alternate */
+	"JGE":  x86.AJGE, /* greater than or equal (signed) (SF = OF) */
+	"JGT":  x86.AJGT, /* greater than (signed) (ZF = 0 && SF = OF) */
+	"JHI":  x86.AJHI, /* higher (unsigned) (CF = 0 && ZF = 0) */
+	"JHS":  x86.AJCC, /* alternate */
+	"JL":   x86.AJLT, /* alternate */
+	"JLE":  x86.AJLE, /* less than or equal (signed) (ZF = 1 || SF != OF) */
+	"JLO":  x86.AJCS, /* alternate */
+	"JLS":  x86.AJLS, /* lower or same (unsigned) (CF = 1 || ZF = 1) */
+	"JLT":  x86.AJLT, /* less than (signed) (SF != OF) */
+	"JMI":  x86.AJMI, /* negative (minus) (SF = 1) */
+	"JNA":  x86.AJLS, /* alternate */
+	"JNAE": x86.AJCS, /* alternate */
+	"JNB":  x86.AJCC, /* alternate */
+	"JNBE": x86.AJHI, /* alternate */
+	"JNC":  x86.AJCC, /* alternate */
+	"JNE":  x86.AJNE, /* not equal (ZF = 0) */
+	"JNG":  x86.AJLE, /* alternate */
+	"JNGE": x86.AJLT, /* alternate */
+	"JNL":  x86.AJGE, /* alternate */
+	"JNLE": x86.AJGT, /* alternate */
+	"JNO":  x86.AJOC, /* alternate */
+	"JNP":  x86.AJPC, /* alternate */
+	"JNS":  x86.AJPL, /* alternate */
+	"JNZ":  x86.AJNE, /* alternate */
+	"JO":   x86.AJOS, /* alternate */
+	"JOC":  x86.AJOC, /* overflow clear (OF = 0) */
+	"JOS":  x86.AJOS, /* overflow set (OF = 1) */
+	"JP":   x86.AJPS, /* alternate */
+	"JPC":  x86.AJPC, /* parity clear (PF = 0) */
+	"JPE":  x86.AJPS, /* alternate */
+	"JPL":  x86.AJPL, /* non-negative (plus) (SF = 0) */
+	"JPO":  x86.AJPC, /* alternate */
+	"JPS":  x86.AJPS, /* parity set (PF = 1) */
+	"JS":   x86.AJMI, /* alternate */
+	"JZ":   x86.AJEQ, /* alternate */
+
+	// Confusion about the 8-byte suffix.
+	// In general Intel uses DQ, but Go on x86 uses O (octo).
+	// Provide the DQ equivalents where possible.
+	"LDDQU":      x86.ALDOU,
+	"MASKMOVDQU": x86.AMASKMOVOU,
+	"MOVDQ2Q":    x86.AMOVQ,
+	"MOVNTDQ":    x86.AMOVNTO,
+	"MOVDQU":     x86.AMOVOU,
+	"PMULDQ":     x86.APMULO,
+	"PSLLDQ":     x86.APSLLO,
+	"PSRLDQ":     x86.APSRLO,
+	"PUNPCKHQDQ": x86.APUNPCKHQO,
+	"PUNPCKLQDQ": x86.APUNPCKLQO,
+
+	// Other architectures use D for 8-byte.
+	// Provide MOVD, so that there is a common 8-byte MOV across architectures.
+	"MOVD": x86.AMOVQ,
+
+	// MOVO is the aligned form aka MOVOA.
+	// And similarly MOVDQA (see note above about DQ).
+	"MOVOA":  x86.AMOVO,
+	"MOVDQA": x86.AMOVO,
+
+	// Converting a packed 4-byte is PL here,
+	// but in the Intel manuals they write DQ.
+	"CVTPD2DQ":  x86.ACVTPD2PL,
+	"CVTDQ2PD":  x86.ACVTPL2PD,
+	"CVTDQ2PS":  x86.ACVTPL2PS,
+	"CVTPS2DQ":  x86.ACVTPS2PL,
+	"CVTTPD2DQ": x86.ACVTTPD2PL,
+	"CVTTPS2DQ": x86.ACVTTPS2PL,
+
+	// Ancient aliases.
+	"PF2ID": x86.APF2IL,
+	"PI2FD": x86.API2FL,
+}
+
 func archX86(linkArch *obj.LinkArch) *Arch {
 	register := make(map[string]int16)
 	// Create maps for easy lookup of instruction names etc.
@@ -112,61 +197,9 @@ func archX86(linkArch *obj.LinkArch) *Arch {
 		}
 	}
 	// Annoying aliases.
-	instructions["JA"] = x86.AJHI   /* alternate */
-	instructions["JAE"] = x86.AJCC  /* alternate */
-	instructions["JB"] = x86.AJCS   /* alternate */
-	instructions["JBE"] = x86.AJLS  /* alternate */
-	instructions["JC"] = x86.AJCS   /* alternate */
-	instructions["JCC"] = x86.AJCC  /* carry clear (CF = 0) */
-	instructions["JCS"] = x86.AJCS  /* carry set (CF = 1) */
-	instructions["JE"] = x86.AJEQ   /* alternate */
-	instructions["JEQ"] = x86.AJEQ  /* equal (ZF = 1) */
-	instructions["JG"] = x86.AJGT   /* alternate */
-	instructions["JGE"] = x86.AJGE  /* greater than or equal (signed) (SF = OF) */
-	instructions["JGT"] = x86.AJGT  /* greater than (signed) (ZF = 0 && SF = OF) */
-	instructions["JHI"] = x86.AJHI  /* higher (unsigned) (CF = 0 && ZF = 0) */
-	instructions["JHS"] = x86.AJCC  /* alternate */
-	instructions["JL"] = x86.AJLT   /* alternate */
-	instructions["JLE"] = x86.AJLE  /* less than or equal (signed) (ZF = 1 || SF != OF) */
-	instructions["JLO"] = x86.AJCS  /* alternate */
-	instructions["JLS"] = x86.AJLS  /* lower or same (unsigned) (CF = 1 || ZF = 1) */
-	instructions["JLT"] = x86.AJLT  /* less than (signed) (SF != OF) */
-	instructions["JMI"] = x86.AJMI  /* negative (minus) (SF = 1) */
-	instructions["JNA"] = x86.AJLS  /* alternate */
-	instructions["JNAE"] = x86.AJCS /* alternate */
-	instructions["JNB"] = x86.AJCC  /* alternate */
-	instructions["JNBE"] = x86.AJHI /* alternate */
-	instructions["JNC"] = x86.AJCC  /* alternate */
-	instructions["JNE"] = x86.AJNE  /* not equal (ZF = 0) */
-	instructions["JNG"] = x86.AJLE  /* alternate */
-	instructions["JNGE"] = x86.AJLT /* alternate */
-	instructions["JNL"] = x86.AJGE  /* alternate */
-	instructions["JNLE"] = x86.AJGT /* alternate */
-	instructions["JNO"] = x86.AJOC  /* alternate */
-	instructions["JNP"] = x86.AJPC  /* alternate */
-	instructions["JNS"] = x86.AJPL  /* alternate */
-	instructions["JNZ"] = x86.AJNE  /* alternate */
-	instructions["JO"] = x86.AJOS   /* alternate */
-	instructions["JOC"] = x86.AJOC  /* overflow clear (OF = 0) */
-	instructions["JOS"] = x86.AJOS  /* overflow set (OF = 1) */
-	instructions["JP"] = x86.AJPS   /* alternate */
-	instructions["JPC"] = x86.AJPC  /* parity clear (PF = 0) */
-	instructions["JPE"] = x86.AJPS  /* alternate */
-	instructions["JPL"] = x86.AJPL  /* non-negative (plus) (SF = 0) */
-	instructions["JPO"] = x86.AJPC  /* alternate */
-	instructions["JPS"] = x86.AJPS  /* parity set (PF = 1) */
-	instructions["JS"] = x86.AJMI   /* alternate */
-	instructions["JZ"] = x86.AJEQ   /* alternate */
-	instructions["MASKMOVDQU"] = x86.AMASKMOVOU
-	instructions["MOVD"] = x86.AMOVQ
-	instructions["MOVDQ2Q"] = x86.AMOVQ
-	instructions["MOVNTDQ"] = x86.AMOVNTO
-	instructions["MOVOA"] = x86.AMOVO
-	instructions["MOVOA"] = x86.AMOVO
-	instructions["PF2ID"] = x86.APF2IL
-	instructions["PI2FD"] = x86.API2FL
-	instructions["PSLLDQ"] = x86.APSLLO
-	instructions["PSRLDQ"] = x86.APSRLO
+	for name, alt := range aliasesX86 {
+		instructions[name] = alt
+	}
 
 	return &Arch{
 		LinkArch:       linkArch,
