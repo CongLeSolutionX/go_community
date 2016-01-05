@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad0b73b_75d6e821",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-05T01:37:03Z",
+      "side": 0,
+      "message": "This defer makes sure that Stop(c) is called even if waitSig calls t.Fatalf. It should probably be restored.",
+      "revId": "b80ea5320084741510b0890d9df8aee981fba036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
