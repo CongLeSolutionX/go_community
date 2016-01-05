@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eae08b3e_e24de6c4",
+        "filename": "src/encoding/asn1/asn1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-05T11:55:26Z",
+      "side": 1,
+      "message": "It looks like the bug was encouraged by the test of shifted being at the top of the loop body, where it can\u0027t possibly be true the first time.  If shifted++ was inside the body, immediately followed by the test of it at the end of the loop body, then the logic would seem more clear and typical.  Also, the \u003e\u003d test suggests shifted can somehow become 5.  \u003d\u003d4 is sufficient.",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 3
+      },
+      "revId": "a908e1765914fb552c3d390ff7d122cf111742e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
