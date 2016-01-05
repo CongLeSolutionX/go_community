@@ -121,4 +121,12 @@ loop:
 	LOOP	loop
 
 // LTYPE0 nonnon	{ outcode($1, &$2); }
+	JB	2(PC)
 	RET
+
+	MOVOU	(AX), X0
+	LDOU	(AX), X0
+	LDOU	(BX), X1
+
+// END
+	END

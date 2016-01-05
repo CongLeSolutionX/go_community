@@ -496,6 +496,7 @@ var Anames = []string{
 	"FXRSTOR64",
 	"FXSAVE",
 	"FXSAVE64",
+	"LDOU",
 	"LDMXCSR",
 	"MASKMOVOU",
 	"MASKMOVQ",

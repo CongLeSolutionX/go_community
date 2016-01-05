@@ -628,6 +628,10 @@ var yxr_ml = []ytab{
 	{Yxr, Ynone, Yml, Zr_m_xm, 1},
 }
 
+var ym_xr = []ytab{
+	{Ym, Ynone, Yxr, Zm_r_xm, 1},
+}
+
 var yxr_ml_vex = []ytab{
 	{Yxr, Ynone, Yml, Zr_m_xm_vex, 1},
 }
@@ -1041,6 +1045,7 @@ var optab =
 	{ALAHF, ynone, Px, [23]uint8{0x9f}},
 	{ALARL, yml_rl, Pm, [23]uint8{0x02}},
 	{ALARW, yml_rl, Pq, [23]uint8{0x02}},
+	{ALDOU, ym_xr, Pf2, [23]uint8{0xf0}},
 	{ALDMXCSR, ysvrs, Pm, [23]uint8{0xae, 02, 0xae, 02}},
 	{ALEAL, ym_rl, Px, [23]uint8{0x8d}},
 	{ALEAQ, ym_rl, Pw, [23]uint8{0x8d}},
