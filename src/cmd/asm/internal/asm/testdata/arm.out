@@ -1,4 +1,4 @@
-9 00001 (testdata/arm.s:9)	TEXT	foo(SB), 0, $0
+9 00001 (testdata/arm.s:9)	TEXT	foo(SB), 7, $0
 18 00002 (testdata/arm.s:18)	ADD	$1, R2, R3
 19 00003 (testdata/arm.s:19)	ADD	R1<<R2, R3, R4
 20 00004 (testdata/arm.s:20)	ADD	R1>>R2, R3, R4
@@ -16,45 +16,47 @@
 57 00016 (testdata/arm.s:57)	MOVW.S	R1, R2
 58 00017 (testdata/arm.s:58)	MOVW.S	$1, R2
 59 00018 (testdata/arm.s:59)	MOVW.S	R1<<R2, R3
-68 00019 (testdata/arm.s:68)	JMP.S	20(PC)
-74 00020 (testdata/arm.s:74)	JMP.S	(R2)
-75 00021 (testdata/arm.s:75)	JMP.S	foo(SB)
-76 00022 (testdata/arm.s:76)	JMP.S	bar<>(SB)
-85 00023 (testdata/arm.s:85)	BX	(R2)
-94 00024 (testdata/arm.s:94)	BEQ	25(PC)
-103 00025 (testdata/arm.s:103)	SWI.S	R1
-104 00026 (testdata/arm.s:104)	SWI.S	(R1)
-105 00027 (testdata/arm.s:105)	SWI.S	foo(SB)
-114 00028 (testdata/arm.s:114)	CMP.S	$1, R2
-115 00029 (testdata/arm.s:115)	CMP.S	R1<<R2, R3
-116 00030 (testdata/arm.s:116)	CMP.S	R1, R2
-130 00031 (testdata/arm.s:130)	MOVM	(R1), [R2,R5,R8,g]
-131 00032 (testdata/arm.s:131)	MOVM	(R1), [R2,R3,R4,R5]
-132 00033 (testdata/arm.s:132)	MOVM.S	(R1), [R2]
-143 00034 (testdata/arm.s:143)	MOVM	[R2,R5,R8,g], (R1)
-144 00035 (testdata/arm.s:144)	MOVM	[R2,R3,R4,R5], (R1)
-145 00036 (testdata/arm.s:145)	MOVM.S	[R2], (R1)
-154 00037 (testdata/arm.s:154)	STREX.S	(R2), R1, R3
-160 00038 (testdata/arm.s:160)	STREX.S	(R2), R1, R1
-166 00039 (testdata/arm.s:166)	STREX.S	(R2), R3, R3
-175 00040 (testdata/arm.s:175)	WORD	$1234
-184 00041 (testdata/arm.s:184)	ABSF.S	F1, F2
-190 00042 (testdata/arm.s:190)	ADDD.S	F1, F2
-191 00043 (testdata/arm.s:191)	ADDD.S	$(0.5), F2
-197 00044 (testdata/arm.s:197)	ADDD.S	F1, F2, F3
-198 00045 (testdata/arm.s:198)	ADDD.S	$(0.5), F2, F3
-204 00046 (testdata/arm.s:204)	CMPD.S	F1, F2
-228 00047 (testdata/arm.s:228)	MRC	$8301712627
-229 00048 (testdata/arm.s:229)	MRC	$8300664051
-238 00049 (testdata/arm.s:238)	MULL	R1, R2, (R3, R4)
-250 00050 (testdata/arm.s:250)	MULAWT	R1, R2, R3, R4
-258 00051 (testdata/arm.s:258)	PLD	(R1)
-259 00052 (testdata/arm.s:259)	PLD	4(R1)
-268 00053 (testdata/arm.s:268)	RET
-272 00054 (testdata/arm.s:272)	JMP	foo(SB)
-273 00055 (testdata/arm.s:273)	CALL	foo(SB)
-274 00056 (testdata/arm.s:274)	JMP	foo(SB)
-275 00057 (testdata/arm.s:275)	CALL	foo(SB)
-278 00058 (testdata/arm.s:278)	CMPF	F1, F2
-279 00059 (testdata/arm.s:279)	CMPD	F1, F2
-288 00060 (testdata/arm.s:288)	END
+68 00019 (testdata/arm.s:68)	BEQ	20(PC)
+74 00020 (testdata/arm.s:74)	BEQ	22(PC)
+75 00021 (testdata/arm.s:75)	JMP	foo(SB)
+76 00022 (testdata/arm.s:76)	BEQ	24(PC)
+77 00023 (testdata/arm.s:77)	JMP	bar<>(SB)
+86 00024 (testdata/arm.s:86)	BX	(R0)
+95 00025 (testdata/arm.s:95)	BEQ	26(PC)
+104 00026 (testdata/arm.s:104)	SWI.S	$2
+105 00027 (testdata/arm.s:105)	SWI.S	(R1)
+115 00028 (testdata/arm.s:115)	CMP.S	$1, R2
+116 00029 (testdata/arm.s:116)	CMP.S	R1<<R2, R3
+117 00030 (testdata/arm.s:117)	CMP.S	R1, R2
+131 00031 (testdata/arm.s:131)	MOVM	(R1), [R2,R5,R8,g]
+132 00032 (testdata/arm.s:132)	MOVM	(R1), [R2,R3,R4,R5]
+133 00033 (testdata/arm.s:133)	MOVM.S	(R1), [R2]
+144 00034 (testdata/arm.s:144)	MOVM	[R2,R5,R8,g], (R1)
+145 00035 (testdata/arm.s:145)	MOVM	[R2,R3,R4,R5], (R1)
+146 00036 (testdata/arm.s:146)	MOVM.S	[R2], (R1)
+155 00037 (testdata/arm.s:155)	STREX.S	(R2), R1, R3
+161 00038 (testdata/arm.s:161)	STREX.S	(R2), R1, R1
+167 00039 (testdata/arm.s:167)	STREX.S	(R2), R3, R3
+176 00040 (testdata/arm.s:176)	WORD	$1234
+185 00041 (testdata/arm.s:185)	ABSF.S	F1, F2
+191 00042 (testdata/arm.s:191)	ADDD.S	F1, F2
+192 00043 (testdata/arm.s:192)	MOVF.S	$(0.5), F2
+198 00044 (testdata/arm.s:198)	ADDD.S	F1, F2, F3
+204 00045 (testdata/arm.s:204)	CMPD.S	F1, F2
+228 00046 (testdata/arm.s:228)	MRC	$8301712627
+229 00047 (testdata/arm.s:229)	MRC	$8300664051
+238 00048 (testdata/arm.s:238)	MULL	R1, R2, (R3, R4)
+250 00049 (testdata/arm.s:250)	MULAWT	R1, R2, R3, R4
+258 00050 (testdata/arm.s:258)	PLD	(R1)
+259 00051 (testdata/arm.s:259)	PLD	4(R1)
+268 00052 (testdata/arm.s:268)	BEQ	54(PC)
+269 00053 (testdata/arm.s:269)	RET
+273 00054 (testdata/arm.s:273)	BEQ	56(PC)
+274 00055 (testdata/arm.s:274)	JMP	foo(SB)
+275 00056 (testdata/arm.s:275)	CALL	foo(SB)
+276 00057 (testdata/arm.s:276)	BEQ	59(PC)
+277 00058 (testdata/arm.s:277)	JMP	foo(SB)
+278 00059 (testdata/arm.s:278)	CALL	foo(SB)
+281 00060 (testdata/arm.s:281)	CMPF	F1, F2
+282 00061 (testdata/arm.s:282)	CMPD	F1, F2
+291 00062 (testdata/arm.s:291)	END

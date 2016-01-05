@@ -1,0 +1,55 @@
+00000 (testdata/386.s:5)	TEXT	foo(SB), 7, $0
+00000 (testdata/386.s:5)	NOP
+00000 (testdata/386.s:5)	NOP
+00000 (testdata/386.s:8)	SETCC	AX => 0f93c0
+00003 (testdata/386.s:9)	SETCC	foo+4(SB) => 0f930500000000
+00010 (testdata/386.s:12)	DIVB	AX => f6f0
+00012 (testdata/386.s:13)	DIVB	foo+4(SB) => f63500000000
+00018 (testdata/386.s:14)	PUSHL	$foo+4(SB) => 6800000000
+00023 (testdata/386.s:15)	POPL	AX => 58
+00024 (testdata/386.s:18)	SUBB	$1, AX => 80e801
+00027 (testdata/386.s:19)	SUBB	$1, foo+4(SB) => 802d0000000001
+00034 (testdata/386.s:20)	SUBB	BX, AX => 28d8
+00036 (testdata/386.s:21)	SUBB	BX, foo+4(SB) => 281d00000000
+00042 (testdata/386.s:24)	CMPB	AX, $1 => 80f801
+00045 (testdata/386.s:25)	CMPB	foo+4(SB), $4 => 803d0000000004
+00052 (testdata/386.s:26)	CMPB	BX, AX => 38c3
+00054 (testdata/386.s:27)	CMPB	foo+4(SB), BX => 381d00000000
+00060 (testdata/386.s:31)	JCS	60 => 72fe
+00062 (testdata/386.s:32)	JCS	60 => 72fc
+00064 (testdata/386.s:35)	CALL	AX => ffd0
+00066 (testdata/386.s:36)	JCS	70 => 7202
+00068 (testdata/386.s:37)	JMP	AX => ffe0
+00070 (testdata/386.s:38)	CALL	*foo(SB) => ff1500000000
+00076 (testdata/386.s:39)	JCS	83 => 7205
+00078 (testdata/386.s:40)	JMP	$4 => e900000000
+00083 (testdata/386.s:41)	JCC	60 => 73e7
+00085 (testdata/386.s:43)	CALL	foo(SB) => e800000000
+00090 (testdata/386.s:45)	CALL	foo(SB) => e800000000
+00095 (testdata/386.s:46)	CALL	4(SP) => ff542404
+00099 (testdata/386.s:47)	CALL	(AX) => ff10
+00101 (testdata/386.s:48)	CALL	(SP) => ff1424
+00104 (testdata/386.s:50)	CALL	(AX)(AX*4) => ff1480
+00107 (testdata/386.s:51)	CALL	4(SP) => ff542404
+00111 (testdata/386.s:52)	CALL	(AX) => ff10
+00113 (testdata/386.s:53)	CALL	(SP) => ff1424
+00116 (testdata/386.s:55)	JCS	121 => 7203
+00118 (testdata/386.s:56)	JMP	(AX)(AX*4) => ff2480
+00121 (testdata/386.s:59)	NOP
+00121 (testdata/386.s:60)	NOP	AX
+00121 (testdata/386.s:61)	NOP	foo+4(SB)
+00121 (testdata/386.s:64)	SHLL	$4, BX => c1e304
+00124 (testdata/386.s:65)	SHLL	$4, foo+4(SB) => c1250000000004
+00131 (testdata/386.s:66)	SHLL	$4, AX, foo+4(SB) => 0fa4050000000004
+00139 (testdata/386.s:69)	MOVL	AX, BX => 89c3
+00141 (testdata/386.s:70)	MOVL	$4, BX => bb04000000
+00146 (testdata/386.s:73)	IMULL	AX => f7e8
+00148 (testdata/386.s:74)	IMULL	$4, CX => 6bc904
+00151 (testdata/386.s:75)	IMULL	AX, BX => 0fafd8
+00154 (testdata/386.s:78)	CMPPD	X0, X1, $4 => 660fc2c804
+00159 (testdata/386.s:79)	CMPPD	foo+4(SB), X1, $4 => 660fc20d0000000004
+00168 (testdata/386.s:82)	PINSRD	$1, (AX), X0 => 660f3a220001
+00174 (testdata/386.s:83)	PINSRD	$2, foo+8(FP), X0 => 660f3a2244240802
+00182 (testdata/386.s:86)	JCS	186 => 7202
+00184 (testdata/386.s:88)	LOOP	184 => e2fe
+00186 (testdata/386.s:91)	RET => c3

@@ -8,7 +8,6 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -31,32 +30,81 @@ func testEndToEnd(t *testing.T, goarch string) {
 	parser := NewParser(ctxt, architecture, lexer)
 	pList := obj.Linknewplist(ctxt)
 	var ok bool
-	testOut = new(bytes.Buffer) // The assembler writes -S output to this buffer.
+	testOut = new(bytes.Buffer) // The assembler writes test output to this buffer.
 	ctxt.Bso = obj.Binitw(os.Stdout)
 	defer ctxt.Bso.Flush()
-	ctxt.Diag = log.Fatalf
+	ctxt.Diag = t.Errorf
 	obj.Binitw(ioutil.Discard)
 	pList.Firstpc, ok = parser.Parse()
-	if !ok {
+	if !ok || t.Failed() {
 		t.Fatalf("asm: %s assembly failed", goarch)
 	}
-	result := string(testOut.Bytes())
-	expect, err := ioutil.ReadFile(output)
-	// For Windows.
-	result = strings.Replace(result, `testdata\`, `testdata/`, -1)
+	checkOutput(t, testOut.String(), output)
+
+	// Now check machine code layout.
+	codefile := filepath.Join("testdata", goarch+".code")
+	_, err := os.Stat(codefile)
+	if err != nil {
+		t.Logf("skipping code check: %v", err)
+		return
+	}
+
+	top := pList.Firstpc
+	var text *obj.LSym
+	ok = true
+	ctxt.Diag = func(format string, args ...interface{}) {
+		t.Errorf(format, args...)
+		ok = false
+	}
+	obj.Flushplist(ctxt)
+	var buf bytes.Buffer
+	for p := top; p != nil; p = p.Link {
+		if p.As == obj.ATEXT {
+			text = p.From.Sym
+		}
+		if text == nil || p.Link != nil && p.Pc == p.Link.Pc || p.Pc == int64(len(text.P)) || p.As == obj.ADATA || p.As == obj.AGLOBL {
+			fmt.Fprintf(&buf, "%v\n", p)
+			continue
+		}
+		size := int64(len(text.P)) - p.Pc
+		if p.Link != nil {
+			size = p.Link.Pc - p.Pc
+		} else if p.Isize != 0 {
+			size = int64(p.Isize)
+		}
+		var code []byte
+		if p.Pc < int64(len(text.P)) {
+			code = text.P[p.Pc:]
+			if size < int64(len(code)) {
+				code = code[:size]
+			}
+		}
+		extra := ""
+		if int64(len(code)) != size {
+			extra = fmt.Sprintf(" (size %d)", size)
+		}
+		fmt.Fprintf(&buf, "%v => %x%s\n", p, code, extra)
+	}
+	if !ok {
+		t.Fatalf("code layout failed")
+	}
+	checkOutput(t, buf.String(), codefile)
+}
+
+func checkOutput(t *testing.T, result, filename string) {
+	expect, err := ioutil.ReadFile(filename)
 	if err != nil {
 		t.Fatal(err)
 	}
+	// For Windows.
+	result = strings.Replace(result, `testdata\`, `testdata/`, -1)
 	if result != string(expect) {
-		if false { // Enable to capture output.
-			fmt.Printf("%s", result)
-			os.Exit(1)
-		}
-		t.Errorf("%s failed: output differs", goarch)
+		ioutil.WriteFile(filename+".bad", []byte(result), 0666)
+		t.Errorf("%s output differs:", filename)
 		r := strings.Split(result, "\n")
 		e := strings.Split(string(expect), "\n")
 		if len(r) != len(e) {
-			t.Errorf("%s: expected %d lines, got %d", goarch, len(e), len(r))
+			t.Errorf("%s: expected %d lines, got %d", filename, len(e)-1, len(r)-1)
 		}
 		n := len(e)
 		if n > len(r) {
@@ -64,7 +112,7 @@ func testEndToEnd(t *testing.T, goarch string) {
 		}
 		for i := 0; i < n; i++ {
 			if r[i] != e[i] {
-				t.Errorf("%s:%d:\nexpected\n\t%s\ngot\n\t%s", output, i, e[i], r[i])
+				t.Errorf("%s:%d:\nexpected\n\t%s\ngot\n\t%s", filename, i+1, e[i], r[i])
 			}
 		}
 	}

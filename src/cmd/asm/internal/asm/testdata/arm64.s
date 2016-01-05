@@ -248,12 +248,15 @@ again:
 //	{
 //		outcode($1, &nullgen, NREG, &nullgen);
 //	}
+	BEQ	2(PC)
 	RET
 
 // More B/BL cases, and canonical names JMP, CALL.
 
+	BEQ	2(PC)
 	B	foo(SB)
 	BL	foo(SB)
+	BEQ	2(PC)
 	JMP	foo(SB)
 	CALL	foo(SB)
 

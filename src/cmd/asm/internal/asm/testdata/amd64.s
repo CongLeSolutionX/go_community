@@ -6,7 +6,7 @@
 // the old assembler's (6a's) grammar and hand-writing complete
 // instructions for each rule, to guarantee we cover the same space.
 
-TEXT	foo(SB), 0, $0
+TEXT	foo(SB), 7, $0
 
 // LTYPE1 nonrem	{ outcode($1, &$2); }
 	NEGQ	R11
@@ -37,27 +37,49 @@ label:
 	JB	label
 
 // LTYPEC spec3	{ outcode($1, &$2); }
+	JB	2(PC)
 	JMP	-4(PC)
+	JB	2(PC)
 	JMP	label
+	JB	2(PC)
 	JMP	foo+4(SB)
+	JB	2(PC)
 	JMP	bar<>+4(SB)
+	JB	2(PC)
 	JMP	bar<>+4(SB)(R11*4)
+	JB	2(PC)
 	JMP	*4(SP)
+	JB	2(PC)
 	JMP	*(R12)
+	JB	2(PC)
 	JMP	*(R12*4)
+	JB	2(PC)
 	JMP	*(R12)(R13*4)
+	JB	2(PC)
 	JMP	*(AX)
+	JB	2(PC)
 	JMP	*(SP)
+	JB	2(PC)
 	JMP	*(AX*4)
+	JB	2(PC)
 	JMP	*(AX)(AX*4)
+	JB	2(PC)
 	JMP	4(SP)
+	JB	2(PC)
 	JMP	(R12)
+	JB	2(PC)
 	JMP	(R12*4)
+	JB	2(PC)
 	JMP	(R12)(R13*4)
+	JB	2(PC)
 	JMP	(AX)
+	JB	2(PC)
 	JMP	(SP)
+	JB	2(PC)
 	JMP	(AX*4)
+	JB	2(PC)
 	JMP	(AX)(AX*4)
+	JB	2(PC)
 	JMP	R13
 
 // LTYPEN spec4	{ outcode($1, &$2); }
@@ -66,34 +88,35 @@ label:
 	NOP	foo+4(SB)
 
 // LTYPES spec5	{ outcode($1, &$2); }
-	SHLL	R11, R12
-	SHLL	R11, foo+4(SB)
-	SHLL	R11, R11:AX // Old syntax, still accepted.
+	SHLL	CX, R12
+	SHLL	CX, foo+4(SB)
+	SHLL	CX, R11:AX // Old syntax, still accepted.
 
 // LTYPEM spec6	{ outcode($1, &$2); }
 	MOVL	AX, R11
 	MOVL	$4, R11
-	MOVL	AX, AX:CS
+//	MOVL	AX, 0(AX):DS // no longer works - did it ever?
 
 // LTYPEI spec7	{ outcode($1, &$2); }
-	IMULB	$4
-	IMULB	R11
-	IMULB	$4, R11
-	IMULB	R11, R12
-	IMULB	R11, foo+4(SB)
+	IMULB	DX
+	IMULW	DX, BX
+	IMULL	R11, R12
+	IMULQ	foo+4(SB), R11
 
 // LTYPEXC spec8	{ outcode($1, &$2); }
-	CMPPD	R11, R12, 4
-	CMPPD	R11, foo+4(SB), 4
+	CMPPD	X1, X2, 4
+	CMPPD	foo+4(SB), X2, 4
 
 // LTYPEX spec9	{ outcode($1, &$2); }
-	PINSRW	$4, R11, AX
-	PINSRW	$4, foo+4(SB), AX
+	PINSRW	$4, AX, X2
+	PINSRW	$4, foo+4(SB), X2
 
 // LTYPERT spec10	{ outcode($1, &$2); }
+	JB	2(PC)
 	RETFL	$4
 
 // Was bug: LOOP is a branch instruction.
+	JB	2(PC)
 loop:
 	LOOP	loop
 
