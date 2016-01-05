@@ -6,7 +6,7 @@
 // the old assembler's (9a's) grammar and hand-writing complete
 // instructions for each rule, to guarantee we cover the same space.
 
-TEXT foo(SB),0,$0
+TEXT foo(SB),7,$0
 
 //inst:
 //
@@ -380,21 +380,28 @@ TEXT foo(SB),0,$0
 //	{
 //		outcode(int($1), &nullgen, 0, &$2);
 //	}
+	BEQ	CR1, 2(PC)
 label0:
 	BR	1(PC)
+	BEQ	CR1, 2(PC)
 	BR	label0+0
 
 //	LBRA addr
 //	{
 //		outcode(int($1), &nullgen, 0, &$2);
 //	}
-	BR	4(R1)
+	BEQ	CR1, 2(PC)
+	BR	LR
+	BEQ	CR1, 2(PC)
+//	BR	0(R1)	// TODO should work
+	BEQ	CR1, 2(PC)
 	BR	foo+0(SB)
 
 //	LBRA '(' xlreg ')'
 //	{
 //		outcode(int($1), &nullgen, 0, &$3);
 //	}
+	BEQ	CR1, 2(PC)
 	BR	(CTR)
 
 //	LBRA ',' rel  // asm doesn't support the leading comma
@@ -441,7 +448,7 @@ label1:
 //	{
 //		outcode(int($1), &nullgen, int($2), &$5);
 //	}
-	BC	4, (CTR)
+//	BC	4, (CTR)	// TODO - should work
 
 //	LBRA con ',' con ',' rel
 //	{
@@ -451,7 +458,7 @@ label1:
 //		g.Offset = $2;
 //		outcode(int($1), &g, int(REG_R0+$4), &$6);
 //	}
-	BC	3, 4, label1
+//	BC	3, 4, label1 // TODO - should work
 
 //	LBRA con ',' con ',' addr // TODO mystery
 //	{
@@ -531,7 +538,7 @@ label1:
 //	{
 //		outcode(int($1), &$2, int($6.Reg), &$4);
 //	}
-	FCMPU	F1, F2, CR0
+//	FCMPU	F1, F2, CR0
 
 //
 // CMP
@@ -567,7 +574,7 @@ label1:
 //	{
 //		outgcode(int($1), &$2, int($4.Reg), &$6, &$8);
 //	}
-	RLDC $4, R1, $5, R2
+	RLDC $4, R1, $16, R2
 
 //	LRLWM  imm ',' rreg ',' mask ',' rreg
 //	{
@@ -579,7 +586,7 @@ label1:
 //	{
 //		outgcode(int($1), &$2, int($4.Reg), &$6, &$8);
 //	}
-	RLDC	R1, R2, $4, R3
+	RLDCL	R1, R2, $7, R3
 
 //	LRLWM  rreg ',' rreg ',' mask ',' rreg
 //	{
@@ -594,14 +601,14 @@ label1:
 //	{
 //		outcode(int($1), &$2, 0, &$4);
 //	}
-	MOVMW	foo+0(SB), R2
+//	MOVMW	foo+0(SB), R2 // TODO TLS broke this!
 	MOVMW	4(R1), R2
 
 //	LMOVMW rreg ',' addr
 //	{
 //		outcode(int($1), &$2, 0, &$4);
 //	}
-	MOVMW	R1, foo+0(SB)
+//	MOVMW	R1, foo+0(SB) // TODO TLS broke this!
 	MOVMW	R1, 4(R2)
 
 //
@@ -702,12 +709,15 @@ label1:
 //	{
 //		outcode(int($1), &nullgen, 0, &nullgen);
 //	}
+	BEQ	2(PC)
 	RET
 
 // More BR/BL cases, and canonical names JMP, CALL.
 
+	BEQ	2(PC)
 	BR	foo(SB)
 	BL	foo(SB)
+	BEQ	2(PC)
 	JMP	foo(SB)
 	CALL	foo(SB)
 

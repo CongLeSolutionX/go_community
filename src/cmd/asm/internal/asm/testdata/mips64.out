@@ -1,4 +1,4 @@
-8 00001 (testdata/mips64.s:8)	TEXT	foo(SB), 0, $0
+8 00001 (testdata/mips64.s:8)	TEXT	foo(SB), 7, $0
 18 00002 (testdata/mips64.s:18)	MOVW	R1, R2
 19 00003 (testdata/mips64.s:19)	MOVW	LO, R1
 20 00004 (testdata/mips64.s:20)	MOVW	HI, R1
@@ -60,40 +60,50 @@
 223 00060 (testdata/mips64.s:223)	MOVW	$foo(SB), R1
 224 00061 (testdata/mips64.s:224)	MOVV	$1, R1
 225 00062 (testdata/mips64.s:225)	MOVV	$foo(SB), R1
-236 00063 (testdata/mips64.s:236)	JMP	64(PC)
-237 00064 (testdata/mips64.s:237)	JMP	63
-238 00065 (testdata/mips64.s:238)	CALL	66(PC)
-239 00066 (testdata/mips64.s:239)	CALL	63
-245 00067 (testdata/mips64.s:245)	JMP	4(R1)
-246 00068 (testdata/mips64.s:246)	JMP	foo(SB)
-247 00069 (testdata/mips64.s:247)	CALL	4(R1)
-248 00070 (testdata/mips64.s:248)	CALL	foo(SB)
-258 00071 (testdata/mips64.s:258)	BEQ	R1, 72(PC)
-259 00072 (testdata/mips64.s:259)	BEQ	R1, 71
-266 00073 (testdata/mips64.s:266)	BEQ	R1, R2, 74(PC)
-267 00074 (testdata/mips64.s:267)	BEQ	R1, R2, 73
-277 00075 (testdata/mips64.s:277)	BLTZ	R1, 76(PC)
-278 00076 (testdata/mips64.s:278)	BLTZ	R1, 75
-285 00077 (testdata/mips64.s:285)	BFPT	78(PC)
-286 00078 (testdata/mips64.s:286)	BFPT	77
-296 00079 (testdata/mips64.s:296)	ABSD	F1, F2
-302 00080 (testdata/mips64.s:302)	ADDD	F1, F2
-308 00081 (testdata/mips64.s:308)	ADDD	F1, F2, F3
-314 00082 (testdata/mips64.s:314)	CMPEQD	F1, F2
-320 00083 (testdata/mips64.s:320)	WORD	$1
-321 00084 (testdata/mips64.s:321)	WORD	$foo(SB)
-330 00085 (testdata/mips64.s:330)	NOP
-336 00086 (testdata/mips64.s:336)	NOP	R2
-342 00087 (testdata/mips64.s:342)	NOP	F2
-348 00088 (testdata/mips64.s:348)	NOP	R2
-354 00089 (testdata/mips64.s:354)	NOP	F2
-360 00090 (testdata/mips64.s:360)	NOP	$4
-365 00091 (testdata/mips64.s:365)	SYSCALL
-366 00092 (testdata/mips64.s:366)	BREAK
-367 00093 (testdata/mips64.s:367)	BREAK	$1, (R1)
-376 00094 (testdata/mips64.s:376)	SYSCALL
-377 00095 (testdata/mips64.s:377)	RET
-382 00096 (testdata/mips64.s:382)	CALL	foo(SB)
-383 00097 (testdata/mips64.s:383)	JMP	foo(SB)
-384 00098 (testdata/mips64.s:384)	CALL	foo(SB)
-392 00099 (testdata/mips64.s:392)	END
+235 00063 (testdata/mips64.s:235)	BEQ	R1, 65(PC)
+237 00064 (testdata/mips64.s:237)	JMP	65(PC)
+238 00065 (testdata/mips64.s:238)	BEQ	R1, 67(PC)
+239 00066 (testdata/mips64.s:239)	JMP	64
+240 00067 (testdata/mips64.s:240)	BEQ	R1, 69(PC)
+241 00068 (testdata/mips64.s:241)	CALL	69(PC)
+242 00069 (testdata/mips64.s:242)	BEQ	R1, 71(PC)
+243 00070 (testdata/mips64.s:243)	CALL	64
+249 00071 (testdata/mips64.s:249)	BEQ	R1, 73(PC)
+250 00072 (testdata/mips64.s:250)	JMP	(R1)
+251 00073 (testdata/mips64.s:251)	BEQ	R1, 75(PC)
+252 00074 (testdata/mips64.s:252)	JMP	foo(SB)
+253 00075 (testdata/mips64.s:253)	BEQ	R1, 77(PC)
+254 00076 (testdata/mips64.s:254)	CALL	(R1)
+255 00077 (testdata/mips64.s:255)	BEQ	R1, 79(PC)
+256 00078 (testdata/mips64.s:256)	CALL	foo(SB)
+266 00079 (testdata/mips64.s:266)	BEQ	R1, 80(PC)
+267 00080 (testdata/mips64.s:267)	BEQ	R1, 79
+274 00081 (testdata/mips64.s:274)	BEQ	R1, R2, 82(PC)
+275 00082 (testdata/mips64.s:275)	BEQ	R1, R2, 81
+285 00083 (testdata/mips64.s:285)	BLTZ	R1, 84(PC)
+286 00084 (testdata/mips64.s:286)	BLTZ	R1, 83
+293 00085 (testdata/mips64.s:293)	BFPT	86(PC)
+294 00086 (testdata/mips64.s:294)	BFPT	85
+304 00087 (testdata/mips64.s:304)	ABSD	F1, F2
+310 00088 (testdata/mips64.s:310)	ADDD	F1, F2
+316 00089 (testdata/mips64.s:316)	ADDD	F1, F2, F3
+322 00090 (testdata/mips64.s:322)	CMPEQD	F1, F2
+328 00091 (testdata/mips64.s:328)	WORD	$1
+329 00092 (testdata/mips64.s:329)	WORD	$foo(SB)
+338 00093 (testdata/mips64.s:338)	NOP
+344 00094 (testdata/mips64.s:344)	NOP	R2
+350 00095 (testdata/mips64.s:350)	NOP	F2
+356 00096 (testdata/mips64.s:356)	NOP	R2
+362 00097 (testdata/mips64.s:362)	NOP	F2
+368 00098 (testdata/mips64.s:368)	NOP	$4
+373 00099 (testdata/mips64.s:373)	SYSCALL
+374 00100 (testdata/mips64.s:374)	BREAK
+375 00101 (testdata/mips64.s:375)	BREAK	R1, (R1)
+384 00102 (testdata/mips64.s:384)	SYSCALL
+385 00103 (testdata/mips64.s:385)	BEQ	R1, 105(PC)
+386 00104 (testdata/mips64.s:386)	RET
+391 00105 (testdata/mips64.s:391)	CALL	foo(SB)
+392 00106 (testdata/mips64.s:392)	BEQ	R1, 108(PC)
+393 00107 (testdata/mips64.s:393)	JMP	foo(SB)
+394 00108 (testdata/mips64.s:394)	CALL	foo(SB)
+402 00109 (testdata/mips64.s:402)	END

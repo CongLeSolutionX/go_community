@@ -1,4 +1,4 @@
-9 00001 (testdata/ppc64.s:9)	TEXT	foo(SB), 0, $0
+9 00001 (testdata/ppc64.s:9)	TEXT	foo(SB), 7, $0
 19 00002 (testdata/ppc64.s:19)	MOVW	R1, R2
 25 00003 (testdata/ppc64.s:25)	MOVW	foo<>+3(SB), R2
 26 00004 (testdata/ppc64.s:26)	MOVW	16(R1), R2
@@ -58,57 +58,61 @@
 359 00058 (testdata/ppc64.s:359)	MOVW	R1, LR
 360 00059 (testdata/ppc64.s:360)	MOVW	R1, CTR
 372 00060 (testdata/ppc64.s:372)	MOVW	R1, SPR(7)
-384 00061 (testdata/ppc64.s:384)	JMP	62(PC)
-385 00062 (testdata/ppc64.s:385)	JMP	61
-391 00063 (testdata/ppc64.s:391)	JMP	4(R1)
-392 00064 (testdata/ppc64.s:392)	JMP	foo(SB)
-398 00065 (testdata/ppc64.s:398)	JMP	CTR
-417 00066 (testdata/ppc64.s:417)	BEQ	CR1, 67(PC)
-418 00067 (testdata/ppc64.s:418)	BEQ	CR1, 66
-444 00068 (testdata/ppc64.s:444)	BC	4, CTR
-454 00069 (testdata/ppc64.s:454)	BC	$3, R4, 66
-474 00070 (testdata/ppc64.s:474)	BC	$3, R3, LR
-504 00071 (testdata/ppc64.s:504)	FABS	F1, F2
-510 00072 (testdata/ppc64.s:510)	FADD	F1, F2
-516 00073 (testdata/ppc64.s:516)	FADD	F1, F2, F3
-522 00074 (testdata/ppc64.s:522)	FMADD	F1, F2, F3, F4
-528 00075 (testdata/ppc64.s:528)	FCMPU	F1, F2
-534 00076 (testdata/ppc64.s:534)	FCMPU	F1, F2, CR0
-543 00077 (testdata/ppc64.s:543)	CMP	R1, R2
-549 00078 (testdata/ppc64.s:549)	CMP	R1, $4
-555 00079 (testdata/ppc64.s:555)	CMP	R1, CR0, R2
-561 00080 (testdata/ppc64.s:561)	CMP	R1, CR0, $4
-570 00081 (testdata/ppc64.s:570)	RLDC	$4, R1, $5, R2
-576 00082 (testdata/ppc64.s:576)	RLDC	$26, R1, $201326592, R2
-582 00083 (testdata/ppc64.s:582)	RLDC	R1, R2, $4, R3
-588 00084 (testdata/ppc64.s:588)	RLWMI	R1, R2, $201326592, R3
-597 00085 (testdata/ppc64.s:597)	MOVMW	foo(SB), R2
-598 00086 (testdata/ppc64.s:598)	MOVMW	4(R1), R2
-604 00087 (testdata/ppc64.s:604)	MOVMW	R1, foo(SB)
-605 00088 (testdata/ppc64.s:605)	MOVMW	R1, 4(R2)
-615 00089 (testdata/ppc64.s:615)	LSW	(R1), R2
-616 00090 (testdata/ppc64.s:616)	LSW	(R1)(R2*1), R3
-622 00091 (testdata/ppc64.s:622)	LSW	(R1), $1, R2
-623 00092 (testdata/ppc64.s:623)	LSW	(R1)(R2*1), $1, R3
-629 00093 (testdata/ppc64.s:629)	STSW	R1, (R2)
-630 00094 (testdata/ppc64.s:630)	STSW	R1, (R2)(R3*1)
-636 00095 (testdata/ppc64.s:636)	STSW	R1, $1, (R2)
-637 00096 (testdata/ppc64.s:637)	STSW	R1, $1, (R2)(R3*1)
-643 00097 (testdata/ppc64.s:643)	MOVHBR	(R1), R2
-644 00098 (testdata/ppc64.s:644)	MOVHBR	(R1)(R2*1), R3
-650 00099 (testdata/ppc64.s:650)	MOVHBR	R1, (R2)
-651 00100 (testdata/ppc64.s:651)	MOVHBR	R1, (R2)(R3*1)
-657 00101 (testdata/ppc64.s:657)	DCBF	(R1)
-658 00102 (testdata/ppc64.s:658)	DCBF	(R1)(R2*1)
-667 00103 (testdata/ppc64.s:667)	NOP
-673 00104 (testdata/ppc64.s:673)	NOP	R2
-679 00105 (testdata/ppc64.s:679)	NOP	F2
-685 00106 (testdata/ppc64.s:685)	NOP	R2
-691 00107 (testdata/ppc64.s:691)	NOP	F2
-697 00108 (testdata/ppc64.s:697)	NOP	$4
-705 00109 (testdata/ppc64.s:705)	RET
-709 00110 (testdata/ppc64.s:709)	JMP	foo(SB)
-710 00111 (testdata/ppc64.s:710)	CALL	foo(SB)
-711 00112 (testdata/ppc64.s:711)	JMP	foo(SB)
-712 00113 (testdata/ppc64.s:712)	CALL	foo(SB)
-720 00114 (testdata/ppc64.s:720)	END
+383 00061 (testdata/ppc64.s:383)	BEQ	CR1, 63(PC)
+385 00062 (testdata/ppc64.s:385)	JMP	63(PC)
+386 00063 (testdata/ppc64.s:386)	BEQ	CR1, 65(PC)
+387 00064 (testdata/ppc64.s:387)	JMP	62
+393 00065 (testdata/ppc64.s:393)	BEQ	CR1, 67(PC)
+394 00066 (testdata/ppc64.s:394)	JMP	LR
+395 00067 (testdata/ppc64.s:395)	BEQ	CR1, 69(PC)
+397 00068 (testdata/ppc64.s:397)	BEQ	CR1, 70(PC)
+398 00069 (testdata/ppc64.s:398)	JMP	foo(SB)
+404 00070 (testdata/ppc64.s:404)	BEQ	CR1, 72(PC)
+405 00071 (testdata/ppc64.s:405)	JMP	CTR
+424 00072 (testdata/ppc64.s:424)	BEQ	CR1, 73(PC)
+425 00073 (testdata/ppc64.s:425)	BEQ	CR1, 72
+481 00074 (testdata/ppc64.s:481)	BC	$3, R3, LR
+511 00075 (testdata/ppc64.s:511)	FABS	F1, F2
+517 00076 (testdata/ppc64.s:517)	FADD	F1, F2
+523 00077 (testdata/ppc64.s:523)	FADD	F1, F2, F3
+529 00078 (testdata/ppc64.s:529)	FMADD	F1, F2, F3, F4
+535 00079 (testdata/ppc64.s:535)	FCMPU	F1, F2
+550 00080 (testdata/ppc64.s:550)	CMP	R1, R2
+556 00081 (testdata/ppc64.s:556)	CMP	R1, $4
+562 00082 (testdata/ppc64.s:562)	CMP	R1, CR0, R2
+568 00083 (testdata/ppc64.s:568)	CMP	R1, CR0, $4
+577 00084 (testdata/ppc64.s:577)	RLDC	$4, R1, $16, R2
+583 00085 (testdata/ppc64.s:583)	RLDC	$26, R1, $201326592, R2
+589 00086 (testdata/ppc64.s:589)	RLDCL	R1, R2, $7, R3
+595 00087 (testdata/ppc64.s:595)	RLWMI	R1, R2, $201326592, R3
+605 00088 (testdata/ppc64.s:605)	MOVMW	4(R1), R2
+612 00089 (testdata/ppc64.s:612)	MOVMW	R1, 4(R2)
+622 00090 (testdata/ppc64.s:622)	LSW	(R1), R2
+623 00091 (testdata/ppc64.s:623)	LSW	(R1)(R2*1), R3
+629 00092 (testdata/ppc64.s:629)	LSW	(R1), $1, R2
+630 00093 (testdata/ppc64.s:630)	LSW	(R1)(R2*1), $1, R3
+636 00094 (testdata/ppc64.s:636)	STSW	R1, (R2)
+637 00095 (testdata/ppc64.s:637)	STSW	R1, (R2)(R3*1)
+643 00096 (testdata/ppc64.s:643)	STSW	R1, $1, (R2)
+644 00097 (testdata/ppc64.s:644)	STSW	R1, $1, (R2)(R3*1)
+650 00098 (testdata/ppc64.s:650)	MOVHBR	(R1), R2
+651 00099 (testdata/ppc64.s:651)	MOVHBR	(R1)(R2*1), R3
+657 00100 (testdata/ppc64.s:657)	MOVHBR	R1, (R2)
+658 00101 (testdata/ppc64.s:658)	MOVHBR	R1, (R2)(R3*1)
+664 00102 (testdata/ppc64.s:664)	DCBF	(R1)
+665 00103 (testdata/ppc64.s:665)	DCBF	(R1)(R2*1)
+674 00104 (testdata/ppc64.s:674)	NOP
+680 00105 (testdata/ppc64.s:680)	NOP	R2
+686 00106 (testdata/ppc64.s:686)	NOP	F2
+692 00107 (testdata/ppc64.s:692)	NOP	R2
+698 00108 (testdata/ppc64.s:698)	NOP	F2
+704 00109 (testdata/ppc64.s:704)	NOP	$4
+712 00110 (testdata/ppc64.s:712)	BEQ	112(PC)
+713 00111 (testdata/ppc64.s:713)	RET
+717 00112 (testdata/ppc64.s:717)	BEQ	114(PC)
+718 00113 (testdata/ppc64.s:718)	JMP	foo(SB)
+719 00114 (testdata/ppc64.s:719)	CALL	foo(SB)
+720 00115 (testdata/ppc64.s:720)	BEQ	117(PC)
+721 00116 (testdata/ppc64.s:721)	JMP	foo(SB)
+722 00117 (testdata/ppc64.s:722)	CALL	foo(SB)
+730 00118 (testdata/ppc64.s:730)	END

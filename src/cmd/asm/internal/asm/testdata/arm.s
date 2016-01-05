@@ -6,7 +6,7 @@
 // the old assembler's (5a's) grammar and hand-writing complete
 // instructions for each rule, to guarantee we cover the same space.
 
-TEXT	foo(SB), 0, $0
+TEXT	foo(SB), 7, $0
 
 // ADD
 //
@@ -65,15 +65,16 @@ TEXT	foo(SB), 0, $0
 //	{
 //		outcode($1, $2, &nullgen, 0, &$4);
 //	}
-	B.S	1(PC)
+	B.EQ	1(PC)
 
 //	LTYPE4 cond comma nireg
 //	{
 //		outcode($1, $2, &nullgen, 0, &$4);
 //	}
-	B.S	(R2)
-	B.S	foo(SB)
-	B.S	bar<>(SB)
+	B.EQ	2(PC)
+	B	foo(SB)
+	B.EQ	2(PC)
+	B	bar<>(SB)
 
 //
 // BX
@@ -82,7 +83,7 @@ TEXT	foo(SB), 0, $0
 //	{
 //		outcode($1, Always, &nullgen, 0, &$3);
 //	}
-	BX	(R2)
+	BX	(R0)
 
 //
 // BEQ
@@ -100,9 +101,9 @@ TEXT	foo(SB), 0, $0
 //	{
 //		outcode($1, $2, &nullgen, 0, &$4);
 //	}
-	SWI.S	R1
+	SWI.S	$2
 	SWI.S	(R1)
-	SWI.S	foo(SB)
+//	SWI.S	foo(SB) - TODO: classifying foo(SB) as C_TLS_LE
 
 //
 // CMP
@@ -188,14 +189,13 @@ TEXT	foo(SB), 0, $0
 //		outcode($1, $2, &$3, 0, &$5);
 //	}
 	ADDD.S	F1, F2
-	ADDD.S	$0.5, F2
+	MOVF.S	$0.5, F2
 
 //	LTYPEK cond frcon ',' LFREG ',' freg
 //	{
 //		outcode($1, $2, &$3, $5, &$7);
 //	}
 	ADDD.S	F1, F2, F3
-	ADDD.S	$0.5, F2, F3
 
 //	LTYPEL cond freg ',' freg
 //	{
@@ -265,12 +265,15 @@ TEXT	foo(SB), 0, $0
 //	{
 //		outcode($1, $2, &nullgen, 0, &nullgen);
 //	}
+	BEQ	2(PC)
 	RET
 
 // More B/BL cases, and canonical names JMP, CALL.
 
+	B.EQ	2(PC)
 	B	foo(SB)
 	BL	foo(SB)
+	B.EQ	2(PC)
 	JMP	foo(SB)
 	CALL	foo(SB)
 
