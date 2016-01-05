@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad0b73b_55dacc3d",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-05T02:02:49Z",
+      "side": 1,
+      "message": "Why have both of these? Why not name them without underscores, set them here without colons, and delete the new lines at the bottom?",
+      "revId": "1153370353fcb55af009b5e4b09502ffaedb752f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad0b73b_35e750fe",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-05T02:02:49Z",
+      "side": 1,
+      "message": "Drop truly unnecessary parens.",
+      "revId": "1153370353fcb55af009b5e4b09502ffaedb752f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
