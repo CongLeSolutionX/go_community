@@ -105,7 +105,24 @@ func sigdisable(sig uint32) {
 		ensureSigM()
 		disableSigChan <- sig
 		<-maskUpdatedChan
-		if t.flags&_SigHandling != 0 {
+
+		// If initsig does not install a signal handler for a
+		// signal, then to go back to the state before Notify
+		// we should remove the one we installed.
+		remove := false
+		switch sig {
+		case _SIGHUP, _SIGINT:
+			if fwdSig[sig] == _SIG_IGN {
+				remove = true
+			}
+		}
+		if t.flags&_SigSetStack != 0 {
+			remove = true
+		}
+		if (isarchive || islibrary) && t.flags&_SigPanic == 0 {
+			remove = true
+		}
+		if remove {
 			t.flags &^= _SigHandling
 			setsig(int32(sig), fwdSig[sig], true)
 		}
