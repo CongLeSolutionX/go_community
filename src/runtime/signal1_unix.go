@@ -105,10 +105,6 @@ func sigdisable(sig uint32) {
 		ensureSigM()
 		disableSigChan <- sig
 		<-maskUpdatedChan
-		if t.flags&_SigHandling != 0 {
-			t.flags &^= _SigHandling
-			setsig(int32(sig), fwdSig[sig], true)
-		}
 	}
 }
 
