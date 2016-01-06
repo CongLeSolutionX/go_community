@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa1773d7_0cb30729",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-06T17:58:23Z",
+      "side": 1,
+      "message": "The code at the bottom of this loop suggests that in some cases frame.fn \u003d\u003d nil (`if f \u003d\u003d nil { frame.pc \u003d x }`).  But I see that other code here at the start of the loop assumes that frame.fn !\u003d nil.  Odd.",
+      "revId": "5557e009a5a2ed49e0fd36a1e8f83dd51997bc75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
