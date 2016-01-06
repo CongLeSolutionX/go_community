@@ -48,8 +48,8 @@
 00151 (testdata/386.s:75)	IMULL	AX, BX => 0fafd8
 00154 (testdata/386.s:78)	CMPPD	X0, X1, $4 => 660fc2c804
 00159 (testdata/386.s:79)	CMPPD	foo+4(SB), X1, $4 => 660fc20d0000000004
-00168 (testdata/386.s:82)	PINSRD	$1, (AX), X0 => 660f3a220001
-00174 (testdata/386.s:83)	PINSRD	$2, foo+8(FP), X0 => 660f3a2244240802
+00168 (testdata/386.s:82)	PINSRL	$1, (AX), X0 => 660f3a220001
+00174 (testdata/386.s:83)	PINSRL	$2, foo+8(FP), X0 => 660f3a2244240802
 00182 (testdata/386.s:86)	JCS	186 => 7202
 00184 (testdata/386.s:88)	LOOP	184 => e2fe
 00186 (testdata/386.s:91)	RET => c3

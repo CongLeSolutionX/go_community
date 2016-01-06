@@ -47,8 +47,8 @@
 75 00047 (testdata/386.s:75)	IMULL	AX, BX
 78 00048 (testdata/386.s:78)	CMPPD	X0, X1, 4
 79 00049 (testdata/386.s:79)	CMPPD	foo+4(SB), X1, 4
-82 00050 (testdata/386.s:82)	PINSRD	$1, (AX), X0
-83 00051 (testdata/386.s:83)	PINSRD	$2, foo+4(FP), X0
+82 00050 (testdata/386.s:82)	PINSRL	$1, (AX), X0
+83 00051 (testdata/386.s:83)	PINSRL	$2, foo+4(FP), X0
 86 00052 (testdata/386.s:86)	JCS	54(PC)
 88 00053 (testdata/386.s:88)	LOOP
 91 00054 (testdata/386.s:91)	RET
