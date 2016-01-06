@@ -275,3 +275,33 @@ func TestCorrectMethodPackage(t *testing.T) {
 		t.Errorf("got package path %q; want %q", got, want)
 	}
 }
+
+func TestIssue13566(t *testing.T) {
+	skipSpecialPlatforms(t)
+
+	// This package only handles gc export data.
+	if runtime.Compiler != "gc" {
+		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
+		return
+	}
+
+	if f := compile(t, "testdata", "a.go"); f != "" {
+		defer os.Remove(f)
+	}
+	if f := compile(t, "testdata", "b.go"); f != "" {
+		defer os.Remove(f)
+	}
+
+	// import must succeed (test for issue at hand)
+	pkg, err := Import(make(map[string]*types.Package), "./testdata/b")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// make sure all indirectly imported packages have names
+	for _, imp := range pkg.Imports() {
+		if imp.Name() == "" {
+			t.Errorf("no name for %s package", imp.Path())
+		}
+	}
+}
