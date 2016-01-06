@@ -571,7 +571,7 @@ This rule applies even on architectures where the conventional notation uses the
 Here follow some descriptions of key Go-specific details for the supported architectures.
 </p>
 
-<h3 id="x86">32-bit Intel 386</h3>
+<h3 id="x86">32-bit Intel x86</h3>
 
 <p>
 The runtime pointer to the <code>g</code> structure is maintained
@@ -614,7 +614,7 @@ These modes accept only 1, 2, 4, and 8 as scale factors.
 
 </ul>
 
-<h3 id="amd64">64-bit Intel 386 (a.k.a. amd64)</h3>
+<h3 id="amd64">64-bit Intel x86 (a.k.a. amd64)</h3>
 
 <p>
 The two architectures behave largely the same at the assembler level.
@@ -628,6 +628,30 @@ get_tls(CX)
 MOVQ	g(CX), AX     // Move g into AX.
 MOVQ	g_m(AX), BX   // Move g.m into BX.
 </pre>
+
+<p>
+In x86 assembly, the instruction suffix <code>L</code> denotes 32-bit integer,
+<code>Q</code> denotes 64-bit integer,
+<code>O</code> denotes 128-bit integer,
+<code>F</code> or <code>S</code> denotes 32-bit (single) floating-point,
+and
+<code>D</code> denotes 64-bit (double) floating-point.
+Go changes the names of Intel instructions as needed to maintain these conventions.
+For example, Intel's <code>PSUBD</code> operates on 32-bit integers, not 64-bit floats,
+so Go spells it <code>PSUBL</code>.
+Similarly, <code>CVTDQ2PS</code> converts packed 32-bit integers, not a 128-bit integer,
+so Go spells it <code>CVTPL2PS</code>.
+</p>
+
+<p>
+Go's names for instructions operating on 128-bit values replace
+Intel's <code>DQ</code> (double-quad) with <code>O</code> (octo):
+<code>MOVO</code> is the general 128-bit move instruction,
+Intel's <code>PMULDQ</code> is spelled <code>PMULO</code>, and so on.
+Unlike for the spelling changes in the last paragraph,
+the assembler recognizes the Intel <code>DQ</code> forms as aliases for the Go spellings:
+code using <code>PMULDQ</code> will be read as <code>PMULO</code> instead.
+</p>
 
 <h3 id="arm">ARM</h3>
 

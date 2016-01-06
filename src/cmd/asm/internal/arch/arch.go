@@ -138,8 +138,8 @@ var aliasesX86 = map[string]int{
 	"JS":   x86.AJMI, /* alternate */
 	"JZ":   x86.AJEQ, /* alternate */
 
-	// Confusion about the 8-byte suffix.
-	// In general Intel uses DQ, but Go on x86 uses O (octo).
+	// Confusion about the 16-byte suffix.
+	// In general Intel uses DQ (double-quad-word), but Go on x86 uses O (octo-word).
 	// Provide the DQ equivalents where possible.
 	"LDDQU":      x86.ALDOU,
 	"MASKMOVDQU": x86.AMASKMOVOU,
@@ -151,10 +151,6 @@ var aliasesX86 = map[string]int{
 	"PSRLDQ":     x86.APSRLO,
 	"PUNPCKHQDQ": x86.APUNPCKHQO,
 	"PUNPCKLQDQ": x86.APUNPCKLQO,
-
-	// Other architectures use D for 8-byte.
-	// Provide MOVD, so that there is a common 8-byte MOV across architectures.
-	"MOVD": x86.AMOVQ,
 
 	// MOVO is the aligned form aka MOVOA.
 	// And similarly MOVDQA (see note above about DQ).
@@ -169,6 +165,17 @@ var aliasesX86 = map[string]int{
 	"CVTPS2DQ":  x86.ACVTPS2PL,
 	"CVTTPD2DQ": x86.ACVTTPD2PL,
 	"CVTTPS2DQ": x86.ACVTTPS2PL,
+
+	// Other architectures use D for 8-byte.
+	// Provide MOVD, so that there is a common 8-byte MOV across architectures.
+	"MOVD": x86.AMOVQ,
+
+	// Confusion about the 4-byte suffix.
+	// In general Intel uses L for 4-byte int and D for 4-byte float.
+	// Go does too, even correcting mistakes in the Intel names.
+	// These we don't typically provide aliases for, except for
+	// buggy instruction names that made it into old releases.
+	"PINSRD": x86.APINSRL,
 
 	// Ancient aliases.
 	"PF2ID": x86.APF2IL,
