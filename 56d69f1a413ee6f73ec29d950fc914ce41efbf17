@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad0b73b_d8e1714e",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-06T18:46:04Z",
+      "side": 1,
+      "message": "blank line above this one (gofmt should have done this)",
+      "revId": "56d69f1a413ee6f73ec29d950fc914ce41efbf17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
