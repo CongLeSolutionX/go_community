@@ -16,6 +16,24 @@
       "revId": "5557e009a5a2ed49e0fd36a1e8f83dd51997bc75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad0b73b_98741966",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-06T18:06:54Z",
+      "side": 1,
+      "message": "That does look bad, but it would only happen if non-Go code faulted and then sigpanic pushed a panic frame on top of it to start an ordinary panic. That should not happen. I can put an f \u003d\u003d nil check here anyway though.",
+      "parentUuid": "aa1773d7_0cb30729",
+      "revId": "5557e009a5a2ed49e0fd36a1e8f83dd51997bc75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
