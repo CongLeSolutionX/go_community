@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a03bb91_a6756613",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-06T01:51:45Z",
+      "side": 1,
+      "message": "When we get to this for Go 1.7, please try to reuse existing machinery in the compiler instead of introducing new machinery to maintain (isRepresentableAsInt). I think this is:\n\n    if l.Type !\u003d nil \u0026\u0026 l.Type.Etype !\u003d TIDEAL \u0026\u0026 !Isint[l.Type.Etype].",
+      "revId": "46b3debde2e89c8a57879af944c8afc6024719bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
