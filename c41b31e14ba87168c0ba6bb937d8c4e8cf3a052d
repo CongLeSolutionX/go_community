@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa1773d7_4106a8fc",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-06T01:17:26Z",
+      "side": 1,
+      "message": "This special case should be described in the function comment.",
+      "revId": "c41b31e14ba87168c0ba6bb937d8c4e8cf3a052d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa1773d7_21205473",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-06T01:17:26Z",
+      "side": 1,
+      "message": "Why do you need to add the current working directory?  Doesn\u0027t ImportDir effectively do that for you anyhow?",
+      "revId": "c41b31e14ba87168c0ba6bb937d8c4e8cf3a052d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
