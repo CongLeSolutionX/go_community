@@ -326,7 +326,7 @@ func isGitRepo() bool {
 	// suffice here, but that requires deviating from the infrastructure
 	// provided by `run`.
 	gitDir := chomp(run(goroot, 0, "git", "rev-parse", "--git-dir"))
-	fi, err := os.Stat(gitDir)
+	fi, err := os.Stat(filepath.Join(goroot, gitDir))
 	return err == nil && fi.IsDir()
 }
 
