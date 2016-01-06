@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa1773d7_21b2944f",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-06T01:44:01Z",
+      "side": 1,
+      "message": "A single non-meta argument....",
+      "revId": "d731f6e5063059852a9b97f0bb2185d7efc0d7ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
