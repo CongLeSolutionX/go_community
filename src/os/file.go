@@ -256,7 +256,8 @@ func Create(name string) (*File, error) {
 // lstat is overridden in tests.
 var lstat = Lstat
 
-// Rename renames (moves) a file. OS-specific restrictions might apply.
+// Rename renames (moves) oldpath to newpath.
+// If newpath already exists, Rename replaces it.
 // If there is an error, it will be of type *LinkError.
 func Rename(oldpath, newpath string) error {
 	return rename(oldpath, newpath)
