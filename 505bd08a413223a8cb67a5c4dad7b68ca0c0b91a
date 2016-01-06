@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa1773d7_c7c2c8ab",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-06T20:32:23Z",
+      "side": 0,
+      "message": "I think you still need to say that OS-specific restrictions may apply.  In particular, on Unix systems, os.Rename will fail across file systems.",
+      "revId": "505bd08a413223a8cb67a5c4dad7b68ca0c0b91a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
