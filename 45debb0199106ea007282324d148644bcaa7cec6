@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "aa1773d7_5f343cb0",
+        "filename": "src/go/internal/gcimporter/bimport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-01-07T20:52:10Z",
+      "side": 1,
+      "message": "I reverted these gratuitous changes. Leaving old name for now. It\u0027s an internal package.",
+      "parentUuid": "4ad0b73b_dbcbaba1",
+      "revId": "45debb0199106ea007282324d148644bcaa7cec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad0b73b_9bd5333f",
         "filename": "src/go/types/api.go",
         "patchSetId": 3
@@ -76,6 +94,24 @@
       "writtenOn": "2016-01-07T18:45:36Z",
       "side": 1,
       "message": "\"supports vendoring\"\nIt\u0027s no longer an experiment.",
+      "revId": "45debb0199106ea007282324d148644bcaa7cec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa1773d7_5f819c69",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-01-07T20:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad0b73b_9bd5333f",
       "revId": "45debb0199106ea007282324d148644bcaa7cec6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -99,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "aa1773d7_ffdc309e",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-01-07T20:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad0b73b_7bdb7772",
+      "revId": "45debb0199106ea007282324d148644bcaa7cec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad0b73b_5bd8bb73",
         "filename": "src/go/types/api.go",
         "patchSetId": 3
@@ -110,6 +164,24 @@
       "writtenOn": "2016-01-07T18:45:36Z",
       "side": 1,
       "message": "\"Two calls to Import with the same path and srcDir return the same package.\"",
+      "revId": "45debb0199106ea007282324d148644bcaa7cec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa1773d7_bfe6b862",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-01-07T20:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad0b73b_5bd8bb73",
       "revId": "45debb0199106ea007282324d148644bcaa7cec6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
