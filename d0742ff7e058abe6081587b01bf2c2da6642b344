@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad0b73b_9e72c1e8",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-01-07T20:49:43Z",
+      "side": 1,
+      "message": "This API is still problematic.  A package\u0027s path is not a source directory, and the searchVendor logic in go/build.Import will never work with a package path.\n\nI think the type checker should not be in the business of caring about directories.  That may mean that we should pass pkg as the argument here, and the implementation of Import2, which is logically part of the build tool, can map this to a source directory.\n\nSee also https://github.com/golang/go/issues/13858.  If the spec is changed to reflect the current implementation of go/build, then it is doubly clear that a package path is inadequate here.",
+      "range": {
+        "startLine": 181,
+        "startChar": 43,
+        "endLine": 181,
+        "endChar": 52
+      },
+      "revId": "d0742ff7e058abe6081587b01bf2c2da6642b344",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
