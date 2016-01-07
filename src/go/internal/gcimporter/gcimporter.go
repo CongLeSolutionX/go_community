@@ -29,13 +29,13 @@ const debug = false
 
 var pkgExts = [...]string{".a", ".o"}
 
-// FindPkg returns the filename and unique package id for an import
+// findPkg returns the filename and unique package id for an import
 // path based on package information provided by build.Import (using
 // the build.Default build.Context).
 // If no file was found, an empty filename is returned.
 //
-func FindPkg(path, srcDir string) (filename, id string) {
-	if len(path) == 0 {
+func findPkg(path, srcDir string) (filename, id string) {
+	if path == "" {
 		return
 	}
 
@@ -45,7 +45,11 @@ func FindPkg(path, srcDir string) (filename, id string) {
 	default:
 		// "x" -> "$GOPATH/pkg/$GOOS_$GOARCH/x.ext", "x"
 		// Don't require the source files to be present.
-		bp, _ := build.Import(path, srcDir, build.FindOnly|build.AllowBinary)
+		//
+		// TODO(gri): Do we need to check the GO15VENDOREXPERIMENT
+		// environment variable here or is it done by build.Import?
+		// Also, document behavior.
+		bp, _ := build.Import(path, srcDir, build.FindOnly|build.AllowBinary|build.AllowVendor)
 		if bp.PkgObj == "" {
 			return
 		}
@@ -75,7 +79,7 @@ func FindPkg(path, srcDir string) (filename, id string) {
 	return
 }
 
-// ImportData imports a package by reading the gc-generated export data,
+// importData imports a package by reading the gc-generated export data,
 // adds the corresponding package object to the packages map indexed by id,
 // and returns the object.
 //
@@ -87,7 +91,7 @@ func FindPkg(path, srcDir string) (filename, id string) {
 // can be used directly, and there is no need to call this function (but
 // there is also no harm but for extra time used).
 //
-func ImportData(packages map[string]*types.Package, filename, id string, data io.Reader) (pkg *types.Package, err error) {
+func importData(packages map[string]*types.Package, filename, id string, data io.Reader) (pkg *types.Package, err error) {
 	// support for parser error handling
 	defer func() {
 		switch r := recover().(type) {
@@ -107,26 +111,17 @@ func ImportData(packages map[string]*types.Package, filename, id string, data io
 	return
 }
 
-// Import imports a gc-generated package given its import path, adds the
-// corresponding package object to the packages map, and returns the object.
-// Local import paths are interpreted relative to the current working directory.
+// Import imports a gc-generated package given its import path and srcDir, adds
+// the corresponding package object to the packages map, and returns the object.
 // The packages map must contain all packages already imported.
 //
-func Import(packages map[string]*types.Package, path string) (pkg *types.Package, err error) {
+func Import(packages map[string]*types.Package, path, srcDir string) (pkg *types.Package, err error) {
 	// package "unsafe" is handled by the type checker
 	if path == "unsafe" {
 		panic(`gcimporter.Import called for package "unsafe"`)
 	}
 
-	srcDir := "."
-	if build.IsLocalImport(path) {
-		srcDir, err = os.Getwd()
-		if err != nil {
-			return
-		}
-	}
-
-	filename, id := FindPkg(path, srcDir)
+	filename, id := findPkg(path, srcDir)
 	if filename == "" {
 		err = fmt.Errorf("can't find import: %s", id)
 		return
@@ -152,18 +147,18 @@ func Import(packages map[string]*types.Package, path string) (pkg *types.Package
 
 	var hdr string
 	buf := bufio.NewReader(f)
-	if hdr, err = FindExportData(buf); err != nil {
+	if hdr, err = findExportData(buf); err != nil {
 		return
 	}
 
 	switch hdr {
 	case "$$\n":
-		return ImportData(packages, filename, id, buf)
+		return importData(packages, filename, id, buf)
 	case "$$B\n":
 		var data []byte
 		data, err = ioutil.ReadAll(buf)
 		if err == nil {
-			_, pkg, err = BImportData(packages, data, path)
+			_, pkg, err = bImportData(packages, data, path)
 			return
 		}
 	default:
