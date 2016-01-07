@@ -51,14 +51,41 @@ func (err Error) Error() string {
 	return fmt.Sprintf("%s: %s", err.Fset.Position(err.Pos), err.Msg)
 }
 
-// An importer resolves import paths to Packages.
+// An Importer resolves import paths to Packages.
 // See go/importer for existing implementations.
+//
+// CAUTION: This interface does not support the import of locally
+// vendored packages. See also https://golang.org/s/go15vendor.
+// If possible, external implementations should implement Importer2.
 type Importer interface {
 	// Import returns the imported package for the given import
 	// path, or an error if the package couldn't be imported.
 	// Import is responsible for returning the same package for
 	// matching import paths.
 	Import(path string) (*Package, error)
+}
+
+// ImportMode is reserved for future use.
+type ImportMode int
+
+// An Importer2 resolves import paths to Packages.
+// See go/importer for existing implementations.
+// Importer2 supports the 1.5 Vendoring Experiment
+// per https://golang.org/s/go15vendor.
+type Importer2 interface {
+	// Importer is present for backward-compatibility. Calling
+	// Import(path) is the same as calling Import(path, ".", 0).
+	// The types package does not call Import if an Importer2 is
+	// present.
+	Importer
+
+	// Import2 returns the imported package for the given import
+	// path when imported by the package in srcDir, or an error
+	// if the package couldn't be imported. The mode value must
+	// be 0 (it is reserved for future use).
+	// Import is responsible for returning the same package for
+	// matching import paths and srcDir directories.
+	Import2(path, srcDir string, mode ImportMode) (*Package, error)
 }
 
 // A Config specifies the configuration for type checking.
@@ -86,9 +113,11 @@ type Config struct {
 	// error found.
 	Error func(err error)
 
-	// Importer is called for each import declaration except when
-	// importing package "unsafe". An error is reported if an
-	// importer is needed but none was installed.
+	// Importer.Import is called for each import declaration except when
+	// importing package "unsafe". An error is reported if an importer is
+	// needed but none was installed.
+	// If the installed Importer implements Importer2, the Import2 method
+	// is called instead of Import.
 	Importer Importer
 
 	// If Sizes != nil, it provides the sizing functions for package unsafe.

@@ -18,16 +18,20 @@ import (
 )
 
 type resolveTestImporter struct {
-	importer Importer
+	importer Importer2
 	imported map[string]bool
 }
 
-func (imp *resolveTestImporter) Import(path string) (*Package, error) {
+func (imp *resolveTestImporter) Import(string) (*Package, error) {
+	panic("should not be called")
+}
+
+func (imp *resolveTestImporter) Import2(path, srcDir string, mode ImportMode) (*Package, error) {
 	if imp.importer == nil {
-		imp.importer = importer.Default()
+		imp.importer = importer.Default().(Importer2)
 		imp.imported = make(map[string]bool)
 	}
-	pkg, err := imp.importer.Import(path)
+	pkg, err := imp.importer.Import2(path, srcDir, mode)
 	if err != nil {
 		return nil, err
 	}
