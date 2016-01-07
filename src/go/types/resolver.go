@@ -10,6 +10,7 @@ import (
 	"go/constant"
 	"go/token"
 	pathLib "path"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"unicode"
@@ -134,7 +135,21 @@ func (check *Checker) collectObjects() {
 		pkgImports[imp] = true
 	}
 
+	// srdDir is the directory used by the Importer to look up packages.
+	// The typechecker itself doesn't need this information so it is not
+	// explicitly provided. Instead, we extract it from position info of
+	// the source files as needed. It is set lazily.
+	var srcDir string
+
 	for fileNo, file := range check.files {
+		// Determine srcDir if not known yet.
+		if srcDir == "" {
+			// The FileName may be "" (typically for tests) in which
+			// case we get "." as the srcDir which is what we would
+			// want in that case.
+			srcDir = filepath.Dir(check.fset.Position(file.Name.Pos()).Filename)
+		}
+
 		// The package identifier denotes the current package,
 		// but there is no corresponding package object.
 		check.recordDef(file.Name, nil)
@@ -174,13 +189,19 @@ func (check *Checker) collectObjects() {
 							// package "unsafe" is known to the language
 							imp = Unsafe
 						} else {
-							if importer := check.conf.Importer; importer != nil {
+							// ordinary import
+							if importer := check.conf.Importer; importer == nil {
+								err = fmt.Errorf("Config.Importer not installed")
+							} else if importer2, ok := importer.(Importer2); ok {
+								imp, err = importer2.Import2(path, srcDir, 0)
+								if imp == nil && err == nil {
+									err = fmt.Errorf("Config.Importer.Import2(%s, %s, 0) returned nil but no error", path, pkg.path)
+								}
+							} else {
 								imp, err = importer.Import(path)
 								if imp == nil && err == nil {
 									err = fmt.Errorf("Config.Importer.Import(%s) returned nil but no error", path)
 								}
-							} else {
-								err = fmt.Errorf("Config.Importer not installed")
 							}
 							if err != nil {
 								check.errorf(s.Path.Pos(), "could not import %s (%s)", path, err)
