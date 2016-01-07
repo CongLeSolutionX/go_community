@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad0b73b_3ef16d8a",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-01-07T21:24:34Z",
+      "side": 1,
+      "message": "srcDir",
+      "revId": "8d046595f4983399ca17eefb406ef9da0f93c198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad0b73b_fef9b571",
+        "filename": "src/go/types/resolver.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-01-07T21:24:34Z",
+      "side": 1,
+      "message": "I feel like this warrants a TODO to improve things, but it\u0027s the best we can do for now.",
+      "revId": "8d046595f4983399ca17eefb406ef9da0f93c198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
