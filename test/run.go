@@ -37,7 +37,11 @@ var (
 	numParallel    = flag.Int("n", runtime.NumCPU(), "number of parallel tests to run")
 	summary        = flag.Bool("summary", false, "show summary of results")
 	showSkips      = flag.Bool("show_skips", false, "show skipped tests")
+<<<<<<< HEAD   (d7ad7b [dev.ssa] cmd/compile: zero register masks for each edge)
 	runSkips       = flag.Bool("run_skips", false, "run skipped tests (ignore skip and build tags)")
+=======
+	linkshared     = flag.Bool("linkshared", false, "")
+>>>>>>> BRANCH (305b4b net/http: update bundled http2, fixes TestConcurrentReadWrit)
 	updateErrors   = flag.Bool("update_errors", false, "update error messages in test file based on compiler output")
 	runoutputLimit = flag.Int("l", defaultRunOutputLimit(), "number of parallel runoutput tests to run")
 
@@ -133,9 +137,6 @@ func main() {
 			failed = true
 		}
 		resCount[status]++
-		if status == "skip" && !*verbose && !*showSkips {
-			continue
-		}
 		dt := fmt.Sprintf("%.3fs", test.dt.Seconds())
 		if status == "FAIL" {
 			fmt.Printf("# go run run.go -- %s\n%s\nFAIL\t%s\t%s\n",
@@ -195,11 +196,19 @@ func goFiles(dir string) []string {
 type runCmd func(...string) ([]byte, error)
 
 func compileFile(runcmd runCmd, longname string) (out []byte, err error) {
-	return runcmd("go", "tool", "compile", "-e", longname)
+	cmd := []string{"go", "tool", "compile", "-e"}
+	if *linkshared {
+		cmd = append(cmd, "-dynlink", "-installsuffix=dynlink")
+	}
+	cmd = append(cmd, longname)
+	return runcmd(cmd...)
 }
 
 func compileInDir(runcmd runCmd, dir string, names ...string) (out []byte, err error) {
 	cmd := []string{"go", "tool", "compile", "-e", "-D", ".", "-I", "."}
+	if *linkshared {
+		cmd = append(cmd, "-dynlink", "-installsuffix=dynlink")
+	}
 	for _, name := range names {
 		cmd = append(cmd, filepath.Join(dir, name))
 	}
@@ -208,7 +217,12 @@ func compileInDir(runcmd runCmd, dir string, names ...string) (out []byte, err e
 
 func linkFile(runcmd runCmd, goname string) (err error) {
 	pfile := strings.Replace(goname, ".go", ".o", -1)
-	_, err = runcmd("go", "tool", "link", "-w", "-o", "a.exe", "-L", ".", pfile)
+	cmd := []string{"go", "tool", "link", "-w", "-o", "a.exe", "-L", "."}
+	if *linkshared {
+		cmd = append(cmd, "-linkshared", "-installsuffix=dynlink")
+	}
+	cmd = append(cmd, pfile)
+	_, err = runcmd(cmd...)
 	return
 }
 
@@ -393,6 +407,10 @@ func (ctxt *context) match(name string) bool {
 		return true
 	}
 
+	if name == "test_run" {
+		return true
+	}
+
 	return false
 }
 
@@ -529,6 +547,7 @@ func (t *test) run() {
 
 	case "errorcheck":
 		cmdline := []string{"go", "tool", "compile", "-e", "-o", "a.o"}
+		// No need to add -dynlink even if linkshared if we're just checking for errors...
 		cmdline = append(cmdline, flags...)
 		cmdline = append(cmdline, long)
 		out, err := runcmd(cmdline...)
@@ -644,8 +663,17 @@ func (t *test) run() {
 
 	case "run":
 		useTmp = false
+<<<<<<< HEAD   (d7ad7b [dev.ssa] cmd/compile: zero register masks for each edge)
 		ssaMain = true
 		out, err := runcmd(append([]string{"go", "run", t.goFileName()}, args...)...)
+=======
+		cmd := []string{"go", "run"}
+		if *linkshared {
+			cmd = append(cmd, "-linkshared")
+		}
+		cmd = append(cmd, t.goFileName())
+		out, err := runcmd(append(cmd, args...)...)
+>>>>>>> BRANCH (305b4b net/http: update bundled http2, fixes TestConcurrentReadWrit)
 		if err != nil {
 			t.err = err
 			return
@@ -660,7 +688,12 @@ func (t *test) run() {
 			<-rungatec
 		}()
 		useTmp = false
-		out, err := runcmd(append([]string{"go", "run", t.goFileName()}, args...)...)
+		cmd := []string{"go", "run"}
+		if *linkshared {
+			cmd = append(cmd, "-linkshared")
+		}
+		cmd = append(cmd, t.goFileName())
+		out, err := runcmd(append(cmd, args...)...)
 		if err != nil {
 			t.err = err
 			return
@@ -670,8 +703,17 @@ func (t *test) run() {
 			t.err = fmt.Errorf("write tempfile:%s", err)
 			return
 		}
+<<<<<<< HEAD   (d7ad7b [dev.ssa] cmd/compile: zero register masks for each edge)
 		ssaMain = true
 		out, err = runcmd("go", "run", tfile)
+=======
+		cmd = []string{"go", "run"}
+		if *linkshared {
+			cmd = append(cmd, "-linkshared")
+		}
+		cmd = append(cmd, tfile)
+		out, err = runcmd(cmd...)
+>>>>>>> BRANCH (305b4b net/http: update bundled http2, fixes TestConcurrentReadWrit)
 		if err != nil {
 			t.err = err
 			return
@@ -682,7 +724,12 @@ func (t *test) run() {
 
 	case "errorcheckoutput":
 		useTmp = false
-		out, err := runcmd(append([]string{"go", "run", t.goFileName()}, args...)...)
+		cmd := []string{"go", "run"}
+		if *linkshared {
+			cmd = append(cmd, "-linkshared")
+		}
+		cmd = append(cmd, t.goFileName())
+		out, err := runcmd(append(cmd, args...)...)
 		if err != nil {
 			t.err = err
 			return
