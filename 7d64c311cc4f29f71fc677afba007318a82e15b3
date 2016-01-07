@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca6e677a_4c0cafc6",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-07T23:47:24Z",
+      "side": 1,
+      "message": "These lines could be hoisted to before the loop if it wasn\u0027t for the nn they calculate being trampled by the Read().  It would show their result didn\u0027t vary, i.e. it\u0027s how much we want in d.buf by the end of the loop.",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 3
+      },
+      "revId": "7d64c311cc4f29f71fc677afba007318a82e15b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
