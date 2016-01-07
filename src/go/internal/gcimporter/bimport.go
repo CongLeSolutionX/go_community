@@ -15,11 +15,11 @@ import (
 	"unicode/utf8"
 )
 
-// BImportData imports a package from the serialized package data
+// bImportData imports a package from the serialized package data
 // and returns the number of bytes consumed and a reference to the package.
 // If data is obviously malformed, an error is returned but in
 // general it is not recommended to call BImportData on untrusted data.
-func BImportData(imports map[string]*types.Package, data []byte, path string) (int, *types.Package, error) {
+func bImportData(imports map[string]*types.Package, data []byte, path string) (int, *types.Package, error) {
 	p := importer{
 		imports: imports,
 		data:    data,

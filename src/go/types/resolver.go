@@ -174,13 +174,19 @@ func (check *Checker) collectObjects() {
 							// package "unsafe" is known to the language
 							imp = Unsafe
 						} else {
-							if importer := check.conf.Importer; importer != nil {
+							// ordinary import
+							if importer := check.conf.Importer; importer == nil {
+								err = fmt.Errorf("Config.Importer not installed")
+							} else if importer2, ok := importer.(Importer2); ok {
+								imp, err = importer2.Import2(path, pkg.path, 0)
+								if imp == nil && err == nil {
+									err = fmt.Errorf("Config.Importer.Import2(%s, %s, 0) returned nil but no error", path, pkg.path)
+								}
+							} else {
 								imp, err = importer.Import(path)
 								if imp == nil && err == nil {
 									err = fmt.Errorf("Config.Importer.Import(%s) returned nil but no error", path)
 								}
-							} else {
-								err = fmt.Errorf("Config.Importer not installed")
 							}
 							if err != nil {
 								check.errorf(s.Path.Pos(), "could not import %s (%s)", path, err)
