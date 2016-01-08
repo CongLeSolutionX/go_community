@@ -16,6 +16,24 @@
       "revId": "e7e648b55b208b0acdef96ccc16cd5b039845734",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ead7ab7c_6aad3704",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-08T18:53:51Z",
+      "side": 1,
+      "message": "On the first call that is true. However, another point of this function was to be able to incrementally do the code layout, so that Flushplist might be called multiple times. On subsequent calls we need to add it to the running longer list.",
+      "parentUuid": "ca6827a1_1954ebd6",
+      "revId": "e7e648b55b208b0acdef96ccc16cd5b039845734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
