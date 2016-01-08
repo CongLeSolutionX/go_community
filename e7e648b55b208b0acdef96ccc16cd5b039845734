@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca6827a1_1954ebd6",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-08T18:24:08Z",
+      "side": 1,
+      "message": "etext is already in a local variable.  This loop is clearing the Next field and then setting it to what it was anyhow.  I think this can just be\n    ctxt.Text \u003d text\n    ctext.Etext \u003d etext",
+      "revId": "e7e648b55b208b0acdef96ccc16cd5b039845734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
