@@ -34,6 +34,24 @@
       "revId": "e7e648b55b208b0acdef96ccc16cd5b039845734",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca6827a1_7cb6b5fa",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-08T19:09:29Z",
+      "side": 1,
+      "message": "OK, but you still don\u0027t need a loop.\n\nif ctxt.Etext \u003d\u003d nil {\n    ctxt.Text \u003d text\n} else {\n    ctxt.Etext.Next \u003d text\n}\nctxt.Etext \u003d etext",
+      "parentUuid": "ead7ab7c_6aad3704",
+      "revId": "e7e648b55b208b0acdef96ccc16cd5b039845734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
