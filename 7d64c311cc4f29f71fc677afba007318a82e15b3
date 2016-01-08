@@ -22,6 +22,30 @@
       "revId": "7d64c311cc4f29f71fc677afba007318a82e15b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ead7ab7c_aae8cfd3",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-08T15:07:30Z",
+      "side": 1,
+      "message": "It\u0027s the most we are willing to accept into d.buf, but yes. Even so I\u0027m going to leave it as is. This version is tested.",
+      "parentUuid": "ca6e677a_4c0cafc6",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 3
+      },
+      "revId": "7d64c311cc4f29f71fc677afba007318a82e15b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
