@@ -22,6 +22,30 @@
       "revId": "b011c7c72ee1fa55564dbb0e27078039d8ee96ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07623a24_732760a2",
+        "filename": "src/database/sql/driver/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-11T21:45:01Z",
+      "side": 1,
+      "message": "https://golang.org/ref/spec#Types",
+      "parentUuid": "a767ae0d_3810099d",
+      "range": {
+        "startLine": 206,
+        "startChar": 14,
+        "endLine": 206,
+        "endChar": 24
+      },
+      "revId": "b011c7c72ee1fa55564dbb0e27078039d8ee96ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
