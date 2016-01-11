@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c762e2ed_69fb4569",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-01-11T19:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c762e2ed_697585d4",
+      "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c762e2ed_296f8d02",
         "filename": "src/cmd/compile/internal/gc/esc.go",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c762e2ed_4900811d",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-01-11T19:20:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c762e2ed_296f8d02",
+      "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c762e2ed_e96855f7",
         "filename": "src/cmd/compile/internal/gc/esc.go",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-11T18:57:22Z",
       "side": 1,
       "message": "Is it necessary to have both Escloopdepth and Maxloopdepth? One could imagine this code saying\n\nif srcE.Walkgen \u003d\u003d e.walkgen {\n   ...\n   if level \u003d\u003d srcE.Esclevel \u0026\u0026 srcE.Escloopdepth \u003d\u003d maxloopdepth {\n       return\n   }\n}\nif srcE.Escloopdepth \u003c maxloopdepth {\n    srcE.Escloopdepth \u003d maxloopdepth\n} else {\n    maxloopdepth \u003d srcE.Escloopdepth\n}\n\nand then maybe the assignments to extraloopdepth below and the changes from srcE.loopdepth to modSrcLoopdepth are unneeded?\n\nI don\u0027t know if that works but if it did it would make me more confident.",
+      "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c762e2ed_09fa8961",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-01-11T19:20:19Z",
+      "side": 1,
+      "message": "I think it is necessary, or at least \"better\".  Maxloopdepth resets for each new flood, but Escloopdepth does not and so this might cause spurious escaping.  I worry also that it could cause spurious not-escaping, since the loopdepth of dst is used as part of the calculation of the boolean \"leaks\" (line 1661 below) and increasing it might cause some other object to \"not leak\".",
+      "parentUuid": "c762e2ed_e96855f7",
       "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
