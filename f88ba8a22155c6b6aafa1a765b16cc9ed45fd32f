@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c762e2ed_697585d4",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-11T18:57:22Z",
+      "side": 1,
+      "message": "\"extra\" sounds additive to me, and this is not. Can it be just \"Maxloopdepth\"? And a comment would be nice.\n\n    Maxloopdepth int32 // max loop depth of anything pointing at this\n\n?",
+      "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c762e2ed_296f8d02",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-11T18:57:22Z",
+      "side": 1,
+      "message": "So here I think this would be maxloopdepth too.",
+      "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c762e2ed_e96855f7",
+        "filename": "src/cmd/compile/internal/gc/esc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-11T18:57:22Z",
+      "side": 1,
+      "message": "Is it necessary to have both Escloopdepth and Maxloopdepth? One could imagine this code saying\n\nif srcE.Walkgen \u003d\u003d e.walkgen {\n   ...\n   if level \u003d\u003d srcE.Esclevel \u0026\u0026 srcE.Escloopdepth \u003d\u003d maxloopdepth {\n       return\n   }\n}\nif srcE.Escloopdepth \u003c maxloopdepth {\n    srcE.Escloopdepth \u003d maxloopdepth\n} else {\n    maxloopdepth \u003d srcE.Escloopdepth\n}\n\nand then maybe the assignments to extraloopdepth below and the changes from srcE.loopdepth to modSrcLoopdepth are unneeded?\n\nI don\u0027t know if that works but if it did it would make me more confident.",
+      "revId": "f88ba8a22155c6b6aafa1a765b16cc9ed45fd32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
