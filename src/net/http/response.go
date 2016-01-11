@@ -155,7 +155,10 @@ func ReadResponse(r *bufio.Reader, req *Request) (*Response, error) {
 	if err != nil {
 		return nil, &badStringError{"malformed HTTP status code", f[1]}
 	}
-
+	// We only accept 3 digit status codes
+	if resp.StatusCode < 100 || resp.StatusCode > 999 {
+		return nil, &badStringError{"malformed HTTP status code", f[1]}
+	}
 	resp.Proto = f[0]
 	var ok bool
 	if resp.ProtoMajor, resp.ProtoMinor, ok = ParseHTTPVersion(resp.Proto); !ok {
