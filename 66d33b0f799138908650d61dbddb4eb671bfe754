@@ -16,6 +16,24 @@
       "revId": "66d33b0f799138908650d61dbddb4eb671bfe754",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a73a4ef4_c3adc8a7",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-01-13T01:20:25Z",
+      "side": 1,
+      "message": "According to the spec here https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html the first digit defines the class of the response, and they emphasize that the applications must understand atleast the first digit. I then realize that values in ranges \u003e 599 won\u0027t be understood neither will 0XX. However, I\u0027ll just need a nod from you on whether this is alright behavior then I\u0027ll get it in.",
+      "parentUuid": "07015af3_be5bb57d",
+      "revId": "66d33b0f799138908650d61dbddb4eb671bfe754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
