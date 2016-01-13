@@ -199,6 +199,10 @@ func readmemstats_m(stats *MemStats) {
 	stats.StackSys += stats.StackInuse
 	stats.HeapInuse -= stats.StackInuse
 	stats.HeapSys -= stats.StackInuse
+
+	if gcpercent == -1 {
+		stats.EnableGC = false
+	}
 }
 
 //go:linkname readGCStats runtime/debug.readGCStats
