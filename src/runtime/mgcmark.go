@@ -953,12 +953,23 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
 	}
 }
 
+// bool2int returns 0 if x is false or 1 if x is true. This is
+// branch-free and inlinable. It's intended for optimizations that
+// replace unpredictable branches with straight line code (with data
+// dependencies).
+func bool2int(x bool) int {
+	return int(*(*byte)(unsafe.Pointer(&x)))
+}
+
 // scanobject scans the object starting at b, adding pointers to gcw.
 // b must point to the beginning of a heap object; scanobject consults
 // the GC bitmap for the pointer mask and the spans for the size of the
 // object (it ignores n).
 //go:nowritebarrier
 func scanobject(b uintptr, gcw *gcWork) {
+	var gbuf [8]uintptr // TODO: Optimize
+	gbufPos := 0
+
 	// Note that arena_used may change concurrently during
 	// scanobject and hence scanobject may encounter a pointer to
 	// a newly allocated heap object that is *not* in
@@ -970,6 +981,7 @@ func scanobject(b uintptr, gcw *gcWork) {
 	// or synchronization, but the same logic applies.
 	arena_start := mheap_.arena_start
 	arena_used := mheap_.arena_used
+	arena_size := arena_used - arena_start
 
 	// Find bits of the beginning of the object.
 	// b must point to the beginning of a heap object, so
@@ -984,37 +996,246 @@ func scanobject(b uintptr, gcw *gcWork) {
 	var i uintptr
 	for i = 0; i < n; i += sys.PtrSize {
 		// Find bits for this word.
-		if i != 0 {
-			// Avoid needless hbits.next() on last iteration.
-			hbits = hbits.next()
-		}
-		// During checkmarking, 1-word objects store the checkmark
-		// in the type bit for the one word. The only one-word objects
-		// are pointers, or else they'd be merged with other non-pointer
-		// data into larger allocations.
 		bits := hbits.bits()
-		if i >= 2*sys.PtrSize && bits&bitMarked == 0 {
-			break // no more pointers in this object
-		}
-		if bits&bitPointer == 0 {
-			continue // not a pointer
+		hbits = hbits.next()
+
+		// Periodically check if we've reached the end of the
+		// object. This check isn't valid for the first two
+		// words of the object (where bitMarked is used for
+		// other purposes). Doing this periodically takes care
+		// of this and also hides a highly unpredictable
+		// branch behind a fairly predictable one. We may scan
+		// more words than strictly necessary, but that's
+		// okay.
+		if i%8 == 7 && bits&bitMarked == 0 {
+			// No more pointers in this object.
+			break
 		}
 
-		// Work here is duplicated in scanblock and above.
-		// If you make changes here, make changes there too.
+		// Flush the grey buffer if we're about to overflow
+		// it. We do this here so the use of gbufPos is as far
+		// removed as possible from the store.
+		if gbufPos == len(gbuf) {
+			// Flush the grey buffer.
+			for _, obj := range gbuf {
+				if obj, hbits, span := heapBitsForObject(obj, b, i); obj != 0 {
+					greyobject(obj, b, i, hbits, span, gcw)
+				}
+			}
+			gbufPos = 0
+		}
+
+		// Read this slot into the grey buffer, but only
+		// increment the length if it's actually a pointer and
+		// we want to grey it. This replaces otherwise highly
+		// unpredictable branches with a data dependency that
+		// the CPU has most of the loop to work out.
 		obj := *(*uintptr)(unsafe.Pointer(b + i))
+		gbuf[gbufPos] = obj
 
-		// At this point we have extracted the next potential pointer.
-		// Check if it points into heap and not back at the current object.
-		if obj != 0 && arena_start <= obj && obj < arena_used && obj-b >= n {
-			// Mark the object.
-			if obj, hbits, span := heapBitsForObject(obj, b, i); obj != 0 {
-				greyobject(obj, b, i, hbits, span, gcw)
+		// Keep the slot if it's a pointer that lands in the
+		// heap and doesn't point back to the same object.
+		inc := int(bits&bitPointer) & bool2int(obj-arena_start < arena_size) & bool2int(obj-b >= n)
+		gbufPos += inc
+	}
+
+	for _, obj := range gbuf[:gbufPos] {
+		if obj, hbits, span := heapBitsForObject(obj, b, i); obj != 0 {
+			greyobject(obj, b, i, hbits, span, gcw)
+		}
+	}
+
+	gcw.bytesMarked += uint64(n)
+	gcw.scanWork += int64(i)
+}
+
+func scanobjects(b0 uintptr, gcw *gcWork) {
+	// The scan streams should be roughly half the number of
+	// simultaneous prefetch streams supported by the hardware.
+	// Recent x86s have 16 streams.
+	const scanStreams = 16 // TODO: Optimize.
+	type stream struct {
+		base, off, n uintptr
+
+		hbits heapBits
+		bits  uint32
+
+		obj      uintptr
+		objHBits heapBits
+		objSpan  *mspan
+	}
+	var streams [scanStreams]stream
+
+	// Note that arena_used may change concurrently during
+	// scanobject and hence scanobject may encounter a pointer to
+	// a newly allocated heap object that is *not* in
+	// [start,used). It will not mark this object; however, we
+	// know that it was just installed by a mutator, which means
+	// that mutator will execute a write barrier and take care of
+	// marking it. This is even more pronounced on relaxed memory
+	// architectures since we access arena_used without barriers
+	// or synchronization, but the same logic applies.
+	arena_start := mheap_.arena_start
+	arena_used := mheap_.arena_used
+
+	const maxScanWork = 1 << 20 // TODO: Optimize.
+	initScanWork := gcw.scanWork
+	tryGet := true
+
+	// Loop over the slots and scan one word of each object on
+	// each pass.
+	for {
+		// TODO: It might be better to do the stages in
+		// *reverse order*. As it is, the load and the
+		// dependency are separated only by the scanStreams
+		// operations. Optimally, you want to get the next
+		// load going *as soon as you've consumed the result
+		// from the previous load*.
+
+		// TODO: Currently each stage has branches for dealing
+		// with empty slots. This is absolutely killing us in
+		// the branch predictor. We may be able to improve
+		// this by having each stage set up a dense array of
+		// work for the next stage (which have length less
+		// than scanStreams).
+
+		// Fetch heap bits.
+		for si := range streams {
+			s := &streams[si]
+
+			if s.off == s.n {
+				// End of the object. Get the next
+				// stage to deal with this.
+				if s.off < 2*sys.PtrSize {
+					s.off = 2 * sys.PtrSize
+				}
+				s.bits = 0
+				continue
+			}
+
+			s.bits = s.hbits.bits()
+			s.hbits = s.hbits.next()
+		}
+
+		// Check heap bits and fetch object slots.
+		emptySlots := 0
+		for si := range streams {
+			s := &streams[si]
+
+			// During checkmarking, 1-word objects store
+			// the checkmark in the type bit for the one
+			// word. The only one-word objects are
+			// pointers, or else they'd be merged with
+			// other non-pointer data into larger
+			// allocations.
+			if s.off >= 2*sys.PtrSize && s.bits&bitMarked == 0 {
+				// End of the object. Get another
+				// object.
+				gcw.bytesMarked += uint64(s.n)
+				gcw.scanWork += int64(s.off)
+
+				s.off = 0
+				if b0 != 0 {
+					s.base = b0
+					b0 = 0
+				} else if tryGet && gcw.scanWork-initScanWork < maxScanWork {
+					s.base = gcw.tryGet()
+				} else {
+					s.base = 0
+				}
+				if s.base == 0 {
+					// Give up on getting more
+					// pointers for now, since we
+					// may be finishing up a few
+					// large objects.
+					//
+					// TODO: Experiment with this some more.
+					tryGet = false
+					emptySlots++
+					s.n = 0
+					continue
+				}
+
+				// Find bits of the beginning of the
+				// object. b must point to the
+				// beginning of a heap object, so we
+				// can get its bits and span directly.
+				s.hbits = heapBitsForAddr(s.base)
+				span := spanOfUnchecked(s.base)
+				// TODO: Could pipeline this load.
+				s.n = span.elemsize
+				if s.n == 0 {
+					throw("scanobjects n == 0")
+				}
+
+				// Don't process this object until we
+				// get back to stage 1.
+				s.obj = 0
+				continue
+			}
+			if s.bits&bitPointer != 0 {
+				// Fetch the object slot.
+				s.obj = *(*uintptr)(unsafe.Pointer(s.base + s.off))
+			} else {
+				s.obj = 0
+			}
+			s.off += sys.PtrSize
+		}
+		if emptySlots == scanStreams {
+			// All of our scan slots are empty.
+			break
+		}
+
+		// TODO: We could have a stage for fetching obj's span.
+
+		// Fetch heap bits for object slots.
+		for si := range streams {
+			s := &streams[si]
+
+			// Check if it the slot points into heap and
+			// not back at the current object.
+			if s.obj != 0 && arena_start <= s.obj && s.obj < arena_used && s.obj-s.base >= s.n {
+				// Get the beginning of the referent
+				// and its hbits pointer.
+				if obj, hbits, span := heapBitsForObject(s.obj, s.base, s.off-sys.PtrSize); obj != 0 {
+					s.obj = obj
+					s.objHBits = hbits
+					s.objSpan = span
+					// TODO: Would be better to
+					// just do the load, but that
+					// requires changing
+					// greyobject's API and maybe
+					// the hbits API. Or maybe we
+					// should do edge queuing.
+					hbits.prefetch()
+					continue
+				}
+			}
+
+			s.obj = 0
+		}
+
+		// Grey objects.
+		for si := range streams {
+			s := &streams[si]
+
+			// TODO: This will probably have poor
+			// prediction. We could pack non-zero objs
+			// densely and keep track of how many there
+			// are.
+			if s.obj != 0 {
+				greyobject(s.obj, s.base, s.off-sys.PtrSize, s.objHBits, s.objSpan, gcw)
+				// Since we probably just enqueued a
+				// pointer, try getting pointers
+				// again.
+				//
+				// TODO: Maybe greyobject should
+				// return if it actually enqueued
+				// something.
+				tryGet = true
 			}
 		}
 	}
-	gcw.bytesMarked += uint64(n)
-	gcw.scanWork += int64(i)
 }
 
 // Shade the object if it isn't already.
