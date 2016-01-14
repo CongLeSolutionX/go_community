@@ -273,6 +273,10 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 // RegisterCompressor registers or overrides a custom compressor for a specific
 // method ID. If a compressor for a given method is not found, Writer will
 // default to looking up the compressor at the package level.
+//
+// Except for the first file, Close is guaranteed to be called on the previous
+// io.WriteCloser returned by comp before the next call to comp itself. Thus,
+// it is okay to reuse an existing compressor if possible.
 func (w *Writer) RegisterCompressor(method uint16, comp Compressor) {
 	if w.compressors == nil {
 		w.compressors = make(map[uint16]Compressor)
