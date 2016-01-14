@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6777760f_66106e9e",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-01-14T10:05:25Z",
+      "side": 1,
+      "message": "Would it be more appropriate to have this documentation on \"type Decompressor\" definition in register.go?",
+      "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6777760f_a601864f",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-01-14T10:05:25Z",
+      "side": 1,
+      "message": "Maybe rephrase to \"There may be several Decompressors in use concurrently\".",
+      "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "076cfa46_a386dacc",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-01-14T10:05:25Z",
+      "side": 1,
+      "message": "Isn\u0027t this a bit implementation specific?\n\nI think this honestly will lead to more confusion than what it fixes. IMO a \"Compressor\" should not assume any fixed number of concurrent uses. If it needs to reuse compressors, it can use a sync.Pool.\n\nThis function should IMO not make such guarantees.",
+      "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
