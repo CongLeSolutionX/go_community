@@ -322,6 +322,44 @@ func TestPostRedirects(t *testing.T) {
 	}
 }
 
+// Request headers should be copied across redirects (Issue 4800)
+func TestClientRedirectsCopyHeaders(t *testing.T) {
+	defer afterTest(t)
+	var ts *httptest.Server
+	var lastReq *Request
+	ts = httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		if r.URL.Path != "/redirected" {
+			Redirect(w, r, "/redirected", StatusFound)
+		}
+		lastReq = r
+	}))
+	defer ts.Close()
+
+	c := &Client{}
+
+	req, _ := NewRequest("GET", ts.URL, nil)
+	req.Header.Set("Foo", "bar")
+	c.Do(req)
+	if lastReq != nil && lastReq.Header.Get("Foo") != "bar" {
+		t.Errorf("with custom headers on GET, expect headers to be copied across redirects")
+	}
+
+	req, _ = NewRequest("POST", ts.URL, strings.NewReader("Some content"))
+	req.Header.Set("Content-Type", "text/plain")
+	req.Header.Set("Content-Length", "12")
+	req.Header.Set("Foo", "bar")
+	c.Do(req)
+	if lastReq.Header.Get("Foo") != "bar" {
+		t.Errorf("with custom headers on POT, expect headers to be copied across redirects")
+	}
+	if lastReq.Header.Get("Content-Type") == "text/plain" {
+		t.Errorf("with custom headers on POST, expect redirect not to copy Content-Type header")
+	}
+	if lastReq.Header.Get("Content-Length") == "12" {
+		t.Errorf("with custom headers on POST, expect redirect not to copy Content-Length header")
+	}
+}
+
 var expectedCookies = []*Cookie{
 	{Name: "ChocolateChip", Value: "tasty"},
 	{Name: "First", Value: "Hit"},
