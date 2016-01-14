@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a54ac9_42b8d4e5",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "Delete.\nThis doesn\u0027t need to be said. In general the assumption is that all types are safe for use only by one goroutine at a time unless stated otherwise.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_62abd892",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "Delete. This is too tied to a particular implementation. Decompressor should have the same requirements here as it does in the global version. (I suggested some new text for the type Decompressor comment that covers this.)",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_e29ec87a",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "// A Compressor returns a new compressing writer, writing to w.\n// The writer\u0027s Close method must be used to flush pending data to w.\n// The Compressor itself must be safe to invoke from multiple goroutines\n// simultaneously, but each returned writer will be used only by\n// one goroutine at a time.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_c2a3c4bc",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "s/io.Writer/w io.Writer/",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_82aedca0",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "// A Decompressor returns a new decompressing reader, reading from r.\n// The reader\u0027s Close method must be used to release associated resources.\n// The Decompressor itself must be safe to invoke from multiple goroutines\n// simultaneously, but each returned reader will be used only by\n// one goroutine at a time.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_a2a8c097",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "s/io.Reader/r io.Reader/",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_029acc88",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "s/-/ /",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_5f6e6b42",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "Delete. Let\u0027s put this on Decompressor.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_1f68e331",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "I believe it is correct without the -.\nThey are built-in implementations but they are built in.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_3f6ba732",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a54ac9_22b5d0ed",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-14T14:31:35Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
