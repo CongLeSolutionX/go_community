@@ -18,8 +18,8 @@ type Compressor func(io.Writer) (io.WriteCloser, error)
 
 // Decompressor is a function that wraps a Reader with a decompressing Reader.
 // The decompressed ReadCloser is returned to callers who open files from
-// within the archive.  These callers are responsible for closing this reader
-// when they're finished reading.
+// within the archive. These callers are responsible for closing this reader
+// when they are finished reading.
 type Decompressor func(io.Reader) io.ReadCloser
 
 var flateWriterPool sync.Pool
@@ -75,18 +75,21 @@ var (
 )
 
 // RegisterDecompressor allows custom decompressors for a specified method ID.
-func RegisterDecompressor(method uint16, d Decompressor) {
+// The common methods Store and Deflate are built-in.
+// The dcomp provided must be support being called concurrently.
+func RegisterDecompressor(method uint16, dcomp Decompressor) {
 	mu.Lock()
 	defer mu.Unlock()
 
 	if _, ok := decompressors[method]; ok {
 		panic("decompressor already registered")
 	}
-	decompressors[method] = d
+	decompressors[method] = dcomp
 }
 
 // RegisterCompressor registers custom compressors for a specified method ID.
-// The common methods Store and Deflate are built in.
+// The common methods Store and Deflate are built-in.
+// The comp provided must be support being called concurrently.
 func RegisterCompressor(method uint16, comp Compressor) {
 	mu.Lock()
 	defer mu.Unlock()
