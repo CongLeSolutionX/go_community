@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07623a24_525fb528",
+        "filename": "doc/help.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-14T03:13:00Z",
+      "side": 1,
+      "message": "Habit. Fixed",
+      "parentUuid": "87a54ac9_ff12df38",
+      "revId": "99adc1188386948ef107ab32c0b49bb4dc85b666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87a54ac9_3f216779",
         "filename": "doc/help.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-14T03:11:27Z",
       "side": 1,
       "message": "Like here. Isn\u0027t plus.google.com HTTPS-only?",
+      "revId": "99adc1188386948ef107ab32c0b49bb4dc85b666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07623a24_3264b9f5",
+        "filename": "doc/help.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-14T03:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87a54ac9_3f216779",
       "revId": "99adc1188386948ef107ab32c0b49bb4dc85b666",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
