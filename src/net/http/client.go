@@ -446,10 +446,13 @@ func (c *Client) doFollowingRedirects(ireq *Request, shouldRedirect func(int) bo
 		if redirect != 0 {
 			nreq := new(Request)
 			nreq.Method = ireq.Method
+			nreq.Header = cloneHeader(ireq.Header)
+			nreq.Header.Del("Cookie") // do no leak cookies across domains
 			if ireq.Method == "POST" || ireq.Method == "PUT" {
 				nreq.Method = "GET"
+				nreq.Header.Del("Content-Type")
+				nreq.Header.Del("Content-Length")
 			}
-			nreq.Header = make(Header)
 			nreq.URL, err = base.Parse(urlStr)
 			if err != nil {
 				break
