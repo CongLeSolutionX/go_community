@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "07623a24_d5a1ef13",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-01-14T19:27:16Z",
+      "side": 1,
+      "message": "I think it\u0027s good to expand the documentation of Compressor and Decompressor like this. However, I\u0027m not sure that this guarantees that what\u0027s being done in the example (https://tip.golang.org/pkg/archive/zip/#example_Writer_RegisterCompressor) is okay.\n\nThe example relies on the fact that Close is guaranteed to be called before Compressor is called again for the next file. Thus, it would be okay to call Reset, since we know that the compressor is no longer being used. This is always true for Writer because zip files are fundamentally written serially as a stream with no concurrency support.",
+      "parentUuid": "87a54ac9_e29ec87a",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87a54ac9_c2a3c4bc",
         "filename": "src/archive/zip/register.go",
         "patchSetId": 6
@@ -183,6 +201,24 @@
       "writtenOn": "2016-01-14T14:31:35Z",
       "side": 1,
       "message": "Delete.",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07623a24_75ae1bbd",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-01-14T19:27:16Z",
+      "side": 1,
+      "message": "As it is written, the expanded documentation on Compressor, do not guarantee that this okay. I think this comment is still necessary.",
+      "parentUuid": "87a54ac9_22b5d0ed",
       "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
