@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07623a24_72ff51ca",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-01-14T11:57:11Z",
+      "side": 1,
+      "message": "I think it would be appropriate in both places.\n\nThe global Compressor and Decompressor *does* need to be concurrent-safe since there could be any number of Reader and Writer instances.\n\nThe local Compressor *does not* need to be concurrent-safe since Writer operations are always serialized within a given zip file.\n\nThe local Decompressor *may* need to be concurrent-safe only if multiple Files are Opened simultaneously.",
+      "parentUuid": "6777760f_66106e9e",
+      "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6777760f_a601864f",
         "filename": "src/archive/zip/reader.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "07623a24_d2e3c531",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-01-14T11:57:11Z",
+      "side": 1,
+      "message": "I think, rather than saying describing this in terms of Decompressor, I\u0027ll do it in terms of File operations.",
+      "parentUuid": "6777760f_a601864f",
+      "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "076cfa46_a386dacc",
         "filename": "src/archive/zip/writer.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-14T10:05:25Z",
       "side": 1,
       "message": "Isn\u0027t this a bit implementation specific?\n\nI think this honestly will lead to more confusion than what it fixes. IMO a \"Compressor\" should not assume any fixed number of concurrent uses. If it needs to reuse compressors, it can use a sync.Pool.\n\nThis function should IMO not make such guarantees.",
+      "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07623a24_b2e0c926",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-01-14T11:57:11Z",
+      "side": 1,
+      "message": "In a sense yes, but it\u0027s one we can guarantee. After all, it was the whole point of adding the local Compressors.",
+      "parentUuid": "076cfa46_a386dacc",
       "revId": "dcb9605ec99b56333a0c999d3f7d220f8bc7eb1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
