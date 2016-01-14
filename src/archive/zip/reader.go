@@ -118,8 +118,11 @@ func (z *Reader) init(r io.ReaderAt, size int64) error {
 // RegisterDecompressor registers or overrides a custom decompressor for a
 // specific method ID. If a decompressor for a given method is not found,
 // Reader will default to looking up the decompressor at the package level.
+// This method must not be called concurrently with Open on any Files in the Reader.
 //
-// Must not be called concurrently with Open on any Files in the Reader.
+// If the Files on Reader are accessed serially (i.e., only one file is opened at a time),
+// then it is safe to reuse the underlying compressor for each call to dcomp.
+// Otherwise, the dcomp provided must support being called concurrently.
 func (z *Reader) RegisterDecompressor(method uint16, dcomp Decompressor) {
 	if z.decompressors == nil {
 		z.decompressors = make(map[uint16]Decompressor)
