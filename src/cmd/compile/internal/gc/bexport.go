@@ -108,7 +108,7 @@ const exportVersion = "v0"
 
 // Set forceNewExport to force the use of the new export format - for testing on the build dashboard.
 // TODO(gri) remove eventually
-const forceNewExport = false
+const forceNewExport = true
 
 // Export writes the export data for localpkg to out and returns the number of bytes written.
 func Export(out *obj.Biobuf, trace bool) int {
