@@ -615,6 +615,53 @@ func TestIssue10884_MaxBytesEOF(t *testing.T) {
 	}
 }
 
+func TestIssue13985_Proto(t *testing.T) {
+	got := []string{}
+	req, _ := NewRequest("GET", "http://foo.com/", nil)
+	req.Write(logWrites{t, &got})
+	want := []string{
+		"GET / HTTP/1.1\r\n",
+		"Host: foo.com\r\n",
+		"User-Agent: " + DefaultUserAgent + "\r\n",
+		"\r\n",
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("Writes = %q\n  Want = %q", got, want)
+	}
+
+	got = []string{}
+	req, _ = NewRequest("GET", "http://foo.com/", nil)
+	req.Proto = "HTTP/1.0"
+	req.ProtoMajor = 1
+	req.ProtoMinor = 0
+	req.Write(logWrites{t, &got})
+	want = []string{
+		"GET / HTTP/1.0\r\n",
+		"Host: foo.com\r\n",
+		"User-Agent: " + DefaultUserAgent + "\r\n",
+		"\r\n",
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("Writes = %q\n  Want = %q", got, want)
+	}
+
+	got = []string{}
+	req, _ = NewRequest("GET", "http://foo.com/", nil)
+	req.Proto = "HTTP/2.0"
+	req.ProtoMajor = 2
+	req.ProtoMinor = 0
+	req.Write(logWrites{t, &got})
+	want = []string{
+		"GET / HTTP/2.0\r\n",
+		"Host: foo.com\r\n",
+		"User-Agent: " + DefaultUserAgent + "\r\n",
+		"\r\n",
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("Writes = %q\n  Want = %q", got, want)
+	}
+}
+
 func testMissingFile(t *testing.T, req *Request) {
 	f, fh, err := req.FormFile("missing")
 	if f != nil {

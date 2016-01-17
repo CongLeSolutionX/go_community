@@ -413,7 +413,7 @@ func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, wai
 		w = bw
 	}
 
-	_, err := fmt.Fprintf(w, "%s %s HTTP/1.1\r\n", valueOrDefault(req.Method, "GET"), ruri)
+	_, err := fmt.Fprintf(w, "%s %s %s\r\n", valueOrDefault(req.Method, "GET"), ruri, valueOrDefault(req.Proto, "HTTP/1.1"))
 	if err != nil {
 		return err
 	}
