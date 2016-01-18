@@ -1990,6 +1990,39 @@ func TestRedirectURLFormat(t *testing.T) {
 	}
 }
 
+// tests Redirect url with unicode format.
+func TestIssue4385_RedirectURLFormatUnicode(t *testing.T) {
+	req, _ := NewRequest("GET", "http://example.com/qux/", nil)
+	var tests = []struct {
+		in   string
+		want string
+	}{
+		// normal http with unicode.
+		{"http://foobar.com/中文字", "http://foobar.com/中文字"},
+		// normal https with unicode.
+		{"https://foobar.com/中文字", "https://foobar.com/中文字"},
+		// custom scheme with unicode.
+		{"test://foobar.com/中文字", "test://foobar.com/中文字"},
+		// schemeless with unicode.
+		{"//foobar.com/中文字", "//foobar.com/中文字"},
+		// relative to the root with unicode.
+		{"/foobar.com/中文字", "/foobar.com/中文字"},
+		// relative to the current path with unicode.
+		{"foobar.com/中文字", "/qux/foobar.com/中文字"},
+		// relative to the current path (+ going upwards) with unicode.
+		{"../中文字", "/中文字"},
+		// incorrect number of slashes with unicode.
+		{"///中文字", "/中文字"},
+	}
+	for _, tt := range tests {
+		rec := httptest.NewRecorder()
+		Redirect(rec, req, tt.in, 302)
+		if got := rec.Header().Get("Location"); got != tt.want {
+			t.Errorf("Redirect(%q) generated Location header %q; want %q", tt.in, got, tt.want)
+		}
+	}
+}
+
 // TestZeroLengthPostAndResponse exercises an optimization done by the Transport:
 // when there is no body (either because the method doesn't permit a body, or an
 // explicit Content-Length of zero is present), then the transport can re-use the
