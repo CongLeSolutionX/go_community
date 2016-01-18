@@ -12,6 +12,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"regexp"
 	"sort"
 	"strings"
 	"syscall"
@@ -374,6 +375,14 @@ func netshInterfaceIPv6ShowAddress(name string) ([]string, error) {
 		}
 		// remove scope ID if present
 		f = bytes.Split(f[1], []byte{'%'})
+
+		// netsh can create "dotted-quad" trailing IPv6 addresses, like fe80::5efe:192.168.140.1.
+		// Re-parse these to fe80::5efe:c0a8:8c01 for later string comparisons.
+		dottedQuadTail := regexp.MustCompile(`:\d+\.\d+\.\d+\.\d+$`)
+		if dottedQuadTail.Match(f[0]) {
+			f[0] = []byte(ParseIP(string(f[0])).String())
+		}
+
 		addrs = append(addrs, string(bytes.ToLower(bytes.TrimSpace(f[0]))))
 	}
 	return addrs, nil
@@ -393,6 +402,10 @@ func TestInterfaceAddrsWithNetsh(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, ifi := range ift {
+		// Skip the interface if it's down.
+		if (ifi.Flags & FlagUp) == 0 {
+			continue
+		}
 		have := make([]string, 0)
 		addrs, err := ifi.Addrs()
 		if err != nil {
