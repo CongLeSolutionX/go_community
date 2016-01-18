@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07623a24_4ee42929",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-18T23:42:36Z",
+      "side": 1,
+      "message": "fixed \"always always\" stutter",
+      "revId": "264e98ba45a7583083eb99e2c189e981e5d4d644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
