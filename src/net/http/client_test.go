@@ -194,6 +194,41 @@ func TestPostFormRequestFormat(t *testing.T) {
 	}
 }
 
+func TestIssue13994_RedirectDelete(t *testing.T) {
+	defer afterTest(t)
+	var ts *httptest.Server
+	ts = httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		n, _ := strconv.Atoi(r.FormValue("n"))
+		// Test Referer header. (7 is arbitrary position to test at)
+		if n == 7 {
+			if g, e := r.Referer(), ts.URL+"/?n=6"; e != g {
+				t.Errorf("on request ?n=7, expected referer of %q; got %q", e, g)
+			}
+		}
+		if n < 15 {
+			Redirect(w, r, fmt.Sprintf("/?n=%d", n+1), StatusTemporaryRedirect)
+			return
+		}
+		fmt.Fprintf(w, "n=%d", n)
+	}))
+	defer ts.Close()
+
+	c := &Client{}
+	// "DELETE" should follow redirects.
+	req, _ := NewRequest("DELETE", ts.URL, nil)
+	res, err := c.Do(req)
+	if e, g := "Delete /?n=10: stopped after 10 redirects", fmt.Sprintf("%v", err); e != g {
+		t.Errorf("with default client Do, expected error %q, got %q", e, g)
+	}
+	if res == nil {
+		t.Fatalf("Expected a non-nil Response on CheckRedirect failure (https://golang.org/issue/3795)")
+	}
+	res.Body.Close()
+	if res.Header.Get("Location") == "" {
+		t.Errorf("no Location header in Response")
+	}
+}
+
 func TestClientRedirects(t *testing.T) {
 	defer afterTest(t)
 	var ts *httptest.Server

@@ -179,12 +179,12 @@ func (c *Client) send(req *Request, deadline time.Time) (*Response, error) {
 // the returned Response.Body is already closed.
 //
 // Generally Get, Post, or PostForm will be used instead of Do.
-func (c *Client) Do(req *Request) (*Response, error) {
+func (c *Client) Do(req *Request) (resp *Response, err error) {
 	method := valueOrDefault(req.Method, "GET")
-	if method == "GET" || method == "HEAD" {
+	switch method {
+	case "GET", "HEAD", "DELETE":
 		return c.doFollowingRedirects(req, shouldRedirectGet)
-	}
-	if method == "POST" || method == "PUT" {
+	case "POST", "PUT":
 		return c.doFollowingRedirects(req, shouldRedirectPost)
 	}
 	return c.send(req, c.deadline())
