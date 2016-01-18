@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f38ae9_d8ecc1e6",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-01-18T21:15:29Z",
+      "side": 1,
+      "message": "This is getting quite long, could you please refactor it to be\n\nswitch valueOrDefault(req.Method, \"GET\") {\ncase \"GET\", \"HEAD\", \"DELETE\":\n        return c.doFollowingRedirects(req, shouldRedirectGet)\ncase \"POST\", \"PUT\":\n        return c.doFollowingRedirects(req, shouldRedirectPost\ndefault:\n        return c.send(req, c.deadline())\n}",
+      "revId": "fcb82a764264f2478c2e3a6a2a0a51f9d5c7ec61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
