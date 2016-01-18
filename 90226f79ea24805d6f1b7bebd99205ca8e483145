@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07623a24_4eac2908",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-01-18T16:02:22Z",
+      "side": 1,
+      "message": "how about\ntransport code uses either HTTP/1.1 or HTTP/2,\ndetermined automatically by what the server supports.",
+      "revId": "90226f79ea24805d6f1b7bebd99205ca8e483145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
