@@ -183,11 +183,10 @@ func (c *Client) send(req *Request, deadline time.Time) (*Response, error) {
 //
 // Generally Get, Post, or PostForm will be used instead of Do.
 func (c *Client) Do(req *Request) (resp *Response, err error) {
-	method := valueOrDefault(req.Method, "GET")
-	if method == "GET" || method == "HEAD" {
+	switch valueOrDefault(req.Method, "GET") {
+	case "GET", "HEAD", "DELETE":
 		return c.doFollowingRedirects(req, shouldRedirectGet)
-	}
-	if method == "POST" || method == "PUT" {
+	case "POST", "PUT":
 		return c.doFollowingRedirects(req, shouldRedirectPost)
 	}
 	return c.send(req, c.deadline())
