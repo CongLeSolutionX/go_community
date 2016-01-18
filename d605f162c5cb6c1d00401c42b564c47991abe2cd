@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "87f38ae9_18fc8987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-01-18T22:57:56Z",
+      "side": 1,
+      "message": "You should add:\n\nFixes #13981\n\nline, so, once this is submitted, issue 13981 will be automatically closed. See https://golang.org/doc/contribute.html for details.",
+      "revId": "d605f162c5cb6c1d00401c42b564c47991abe2cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f38ae9_f810a5a2",
         "filename": "src/net/net_windows_test.go",
         "patchSetId": 1
