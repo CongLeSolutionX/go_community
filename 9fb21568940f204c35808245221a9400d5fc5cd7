@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87f38ae9_f82c2587",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-01-19T09:23:22Z",
+      "side": 1,
+      "message": "I think you want to remove that Skip. You want this test to run. Don\u0027t you?",
+      "revId": "9fb21568940f204c35808245221a9400d5fc5cd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f38ae9_d83161e1",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-01-19T09:23:22Z",
+      "side": 1,
+      "message": "I think you want to remove that t.Skip. You want this test to run. Don\u0027t you?",
+      "revId": "9fb21568940f204c35808245221a9400d5fc5cd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
