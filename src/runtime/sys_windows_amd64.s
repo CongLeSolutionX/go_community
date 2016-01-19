@@ -243,7 +243,11 @@ TEXT runtime·externalthreadhandler(SB),NOSPLIT,$0
 	LEAQ	g__size(SP), BX
 	MOVQ	BX, g_m(SP)
 
+<<<<<<< HEAD   (90065e [dev.ssa] cmd/compile: use wider move instruction for floats)
 	LEAQ	-32768(SP), CX
+=======
+	LEAQ	-32768(SP), CX		// must be less than SizeOfStackReserve set by linker
+>>>>>>> BRANCH (c7754c net: add timeout to DNS requests sent by TestSpecialDomainNa)
 	MOVQ	CX, (g_stack+stack_lo)(SP)
 	ADDQ	$const__StackGuard, CX
 	MOVQ	CX, g_stackguard0(SP)
