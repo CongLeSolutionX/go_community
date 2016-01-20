@@ -25,10 +25,10 @@ import (
 func drainBody(b io.ReadCloser) (r1, r2 io.ReadCloser, err error) {
 	var buf bytes.Buffer
 	if _, err = buf.ReadFrom(b); err != nil {
-		return nil, nil, err
+		return nil, b, err
 	}
 	if err = b.Close(); err != nil {
-		return nil, nil, err
+		return nil, b, err
 	}
 	return ioutil.NopCloser(&buf), ioutil.NopCloser(bytes.NewReader(buf.Bytes())), nil
 }
@@ -175,15 +175,23 @@ func dumpAsReceived(req *http.Request, w io.Writer) error {
 	return nil
 }
 
-// DumpRequest returns the as-received wire representation of req, optionally
-// including the request body, for debugging. It is for use in servers; use
-// DumpRequestOut for client requests.
+// DumpRequest returns a rough approximation of the HTTP/1.x wire
+// representation of req for debugging, optionally including the
+// request body. It is for use in servers; use DumpRequestOut for
+// client requests. It is an approximation because many details about
+// the request have been lost by the time it is in an http.Request.
+// In particular, the order and case of header names are lost. The
+// order of multi-valued headers is kept intact. For HTTP/2 requests,
+// DumpRequest returns what they'd look like if were encoded as
+// HTTP/1.x-style textual requests.
 //
-// DumpRequest is semantically a no-op, but in order to
-// dump the body, it reads the body data into memory and
-// changes req.Body to refer to the in-memory copy.
+// If body is true, DumpRequest also returns the body. To do so, it
+// consumes req.Body and then replaces it with a new body value
+// that yields the same bytes. If DumpRequest returns an error,
+// the state of req is undefined.
+//
 // The documentation for http.Request.Write details which fields
-// of req are used.
+// of req are included in the dump.
 func DumpRequest(req *http.Request, body bool) (dump []byte, err error) {
 	save := req.Body
 	if !body || req.Body == nil {
@@ -191,7 +199,7 @@ func DumpRequest(req *http.Request, body bool) (dump []byte, err error) {
 	} else {
 		save, req.Body, err = drainBody(req.Body)
 		if err != nil {
-			return
+			return nil, err
 		}
 	}
 
@@ -285,7 +293,7 @@ func DumpResponse(resp *http.Response, body bool) (dump []byte, err error) {
 	} else {
 		save, resp.Body, err = drainBody(resp.Body)
 		if err != nil {
-			return
+			return nil, err
 		}
 	}
 	err = resp.Write(&b)
