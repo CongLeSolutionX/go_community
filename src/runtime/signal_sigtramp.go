@@ -27,7 +27,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	if sp < g.m.gsignal.stack.lo || sp >= g.m.gsignal.stack.hi {
 		var st sigaltstackt
 		sigaltstack(nil, &st)
-		if st.ss_flags&_SS_DISABLE != 0 {
+		if st.ss_flags&_SS_ONSTACK == 0 || st.ss_flags&_SS_DISABLE != 0 {
 			setg(nil)
 			cgocallback(unsafe.Pointer(funcPC(noSignalStack)), noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig))
 		}
