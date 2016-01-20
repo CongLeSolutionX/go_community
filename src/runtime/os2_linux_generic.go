@@ -9,6 +9,7 @@
 package runtime
 
 const (
+	_SS_ONSTACK  = 1
 	_SS_DISABLE  = 2
 	_NSIG        = 65
 	_SI_USER     = 0
