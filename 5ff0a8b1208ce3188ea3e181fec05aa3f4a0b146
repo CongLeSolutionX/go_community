@@ -22,6 +22,47 @@
       "revId": "5ff0a8b1208ce3188ea3e181fec05aa3f4a0b146",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07623a24_ce85d4c5",
+        "filename": "src/runtime/os1_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-20T15:25:21Z",
+      "side": 1,
+      "message": "I think the right way to write this is\n\nif st.ss_flags\u0026_SS_DISABLE !\u003d 0 \u0026\u0026 st.ss_flags\u0026_SS_ONSTACK \u003d\u003d 0 {\n\t\tsignalstack(\u0026_g_.m.gsignal.stack)\n\t\t_g_.m.newSigstack \u003d true\n\t} else {\n\t\t// Use existing signal stack.",
+      "parentUuid": "87f38ae9_03c9be31",
+      "range": {
+        "startLine": 167,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 66
+      },
+      "revId": "5ff0a8b1208ce3188ea3e181fec05aa3f4a0b146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07623a24_2e8a88d2",
+        "filename": "src/runtime/signal_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-20T15:25:21Z",
+      "side": 1,
+      "message": "In these functions we know we are catching a signal, so it is probably OK to write\n    if st.ss_flags\u0026_SS_ONSTACK \u003d\u003d 0 {",
+      "revId": "5ff0a8b1208ce3188ea3e181fec05aa3f4a0b146",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
