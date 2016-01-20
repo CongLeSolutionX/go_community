@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07623a24_4e9b8435",
+        "filename": "src/runtime/os1_darwin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-01-20T14:19:30Z",
+      "side": 1,
+      "message": "You may be on to something here, but this doesn\u0027t look right in general.  minit is called in cases where no signal has been received.  In that case SS_ONSTACK will certainly not be set.  But we do not want to call signalstack if the thread already has a signal stack.",
+      "revId": "b0bd8e5133f978b41aac27ae8d1aa55d18eab74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
