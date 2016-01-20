@@ -176,10 +176,7 @@ func minit() {
 	// Initialize signal handling
 	var st stackt
 	sigaltstack(nil, &st)
-	if st.ss_flags&_SS_DISABLE != 0 {
-		signalstack(&_g_.m.gsignal.stack)
-		_g_.m.newSigstack = true
-	} else {
+	if st.ss_flags&_SS_ONSTACK != 0 {
 		// Use existing signal stack.
 		stsp := uintptr(unsafe.Pointer(st.ss_sp))
 		_g_.m.gsignal.stack.lo = stsp
@@ -188,6 +185,9 @@ func minit() {
 		_g_.m.gsignal.stackguard1 = stsp + _StackGuard
 		_g_.m.gsignal.stackAlloc = st.ss_size
 		_g_.m.newSigstack = false
+	} else {
+		signalstack(&_g_.m.gsignal.stack)
+		_g_.m.newSigstack = true
 	}
 
 	// restore signal mask from m.sigmask and unblock essential signals

@@ -5,6 +5,7 @@
 package runtime
 
 const (
+	_SS_ONSTACK  = 1
 	_SS_DISABLE  = 4
 	_NSIG        = 33
 	_SI_USER     = 0x10001

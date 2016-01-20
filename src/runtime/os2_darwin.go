@@ -10,5 +10,6 @@ const (
 	_SIG_BLOCK   = 1
 	_SIG_UNBLOCK = 2
 	_SIG_SETMASK = 3
+	_SS_ONSTACK  = 1
 	_SS_DISABLE  = 4
 )
