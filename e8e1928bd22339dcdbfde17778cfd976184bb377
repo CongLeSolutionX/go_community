@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "544ea283_a55a7e77",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2101,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-21T11:40:15Z",
+      "side": 1,
+      "message": "The previous function had field-value on the RHS, but that\u0027s not defined here, skipping over it to field-content.  It\u0027s field-value\u0027s definition that allows an empty string.  The code allows an empty string, but the RFC extracts here imply it\u0027s not allowed.",
+      "range": {
+        "startLine": 2101,
+        "startChar": 0,
+        "endLine": 2101,
+        "endChar": 64
+      },
+      "revId": "e8e1928bd22339dcdbfde17778cfd976184bb377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "544ea283_652486f0",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2104,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-21T11:40:15Z",
+      "side": 1,
+      "message": "ASCII DEL isn\u0027t visible and should not be allowed AIUI, and the old code didn\u0027t allow it, but the new code does.",
+      "range": {
+        "startLine": 2104,
+        "startChar": 0,
+        "endLine": 2104,
+        "endChar": 54
+      },
+      "revId": "e8e1928bd22339dcdbfde17778cfd976184bb377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
