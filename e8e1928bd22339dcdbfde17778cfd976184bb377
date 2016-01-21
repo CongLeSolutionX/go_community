@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d439b2d1_f1d84874",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2101,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T16:15:10Z",
+      "side": 1,
+      "message": "Will clarify and add:\n\n//      field-value \u003d *( field-content / obs-fold )\n//      obj-fold     \u003d  N/A to http2, and deprecated",
+      "parentUuid": "544ea283_a55a7e77",
+      "range": {
+        "startLine": 2101,
+        "startChar": 0,
+        "endLine": 2101,
+        "endChar": 64
+      },
+      "revId": "e8e1928bd22339dcdbfde17778cfd976184bb377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "544ea283_652486f0",
         "filename": "src/net/http/h2_bundle.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-21T11:40:15Z",
       "side": 1,
       "message": "ASCII DEL isn\u0027t visible and should not be allowed AIUI, and the old code didn\u0027t allow it, but the new code does.",
+      "range": {
+        "startLine": 2104,
+        "startChar": 0,
+        "endLine": 2104,
+        "endChar": 54
+      },
+      "revId": "e8e1928bd22339dcdbfde17778cfd976184bb377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d439b2d1_11d4ec3d",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2104,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T16:15:10Z",
+      "side": 1,
+      "message": "You\u0027re right; the http1 code in Go 1.6 now rejects DEL, but the http2 code previously accepted everything. Will fix.",
+      "parentUuid": "544ea283_652486f0",
       "range": {
         "startLine": 2104,
         "startChar": 0,
