@@ -16,6 +16,24 @@
       "revId": "438f209c873af8a84e9a062f92f85a421cb50636",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5425c2a7_4d83f92b",
+        "filename": "src/cmd/internal/obj/mips/list0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-01-21T22:12:29Z",
+      "side": 1,
+      "message": "Yeah, we can introduce REG_LAST.\nI was assuming that we always register register\nspace by multiples of 1024. Probably not necessary.\n\nIn Go 1.7, we can add some checking to cmd/internal/obj\nfor overlapping register spaces.",
+      "parentUuid": "d439b2d1_5a9e097c",
+      "revId": "438f209c873af8a84e9a062f92f85a421cb50636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
