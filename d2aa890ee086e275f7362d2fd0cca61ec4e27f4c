@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d439b2d1_71745866",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T07:06:33Z",
+      "side": 1,
+      "message": "net/http: make Client propagate Request.Cancel over redirected requests",
+      "revId": "d2aa890ee086e275f7362d2fd0cca61ec4e27f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d439b2d1_91a7bc25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T07:06:33Z",
+      "side": 1,
+      "message": "remove all this code from the commit message.\n\nWhy is it here? It\u0027s already in the commit.",
+      "revId": "d2aa890ee086e275f7362d2fd0cca61ec4e27f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d439b2d1_f1a04811",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T07:06:33Z",
+      "side": 1,
+      "message": "change this to a HEAD so there\u0027s no body to clean up",
+      "revId": "d2aa890ee086e275f7362d2fd0cca61ec4e27f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d439b2d1_b1aac0ed",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T07:06:33Z",
+      "side": 1,
+      "message": "Before this:\n\n// Test that Request.Cancel is propagated between requests (Issue NNN)\n{\n    lastReq \u003d nil\n    ....\n\n}",
+      "range": {
+        "startLine": 265,
+        "startChar": 9,
+        "endLine": 265,
+        "endChar": 11
+      },
+      "revId": "d2aa890ee086e275f7362d2fd0cca61ec4e27f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d439b2d1_119cecde",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T07:06:33Z",
+      "side": 1,
+      "message": "if _, err :\u003d c.Do(creq); err !\u003d nil {\n   t.Fatal(err)\n}",
+      "revId": "d2aa890ee086e275f7362d2fd0cca61ec4e27f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d439b2d1_d19d44db",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-21T07:06:33Z",
+      "side": 1,
+      "message": "if lastReq \u003d\u003d nil {\n   t.Fatal(\"didn\u0027t see redirect\")\n}\nif lastReq.Cancel !\u003d cancel {\n   ....",
+      "revId": "d2aa890ee086e275f7362d2fd0cca61ec4e27f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
