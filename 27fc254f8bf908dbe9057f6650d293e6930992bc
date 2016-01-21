@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "071cfa50_668710f9",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-21T23:10:49Z",
+      "side": 1,
+      "message": "DumpRequest returns the given request in its HTTP/1.x wire representation. It should be used by servers to dump client requests for debugging purposes. The returned representation is an approximation only; some details of the initial request are lost while parsing it into an http.Request. In particular, ....",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 30
+      },
+      "revId": "27fc254f8bf908dbe9057f6650d293e6930992bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "071cfa50_a67908d1",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-21T23:10:49Z",
+      "side": 1,
+      "message": "Is this necessary? It doesn\u0027t seem to say anything extra.\n\nMaybe just \"HTTP/2 requests can also be dumped in this same form.\"",
+      "range": {
+        "startLine": 184,
+        "startChar": 49,
+        "endLine": 186,
+        "endChar": 35
+      },
+      "revId": "27fc254f8bf908dbe9057f6650d293e6930992bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "071cfa50_c66e0404",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-21T23:10:49Z",
+      "side": 1,
+      "message": "io.ReadCloser ?",
+      "range": {
+        "startLine": 189,
+        "startChar": 58,
+        "endLine": 189,
+        "endChar": 63
+      },
+      "revId": "27fc254f8bf908dbe9057f6650d293e6930992bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
