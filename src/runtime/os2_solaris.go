@@ -5,6 +5,7 @@
 package runtime
 
 const (
+	_SS_ONSTACK  = 1
 	_SS_DISABLE  = 2
 	_SIG_UNBLOCK = 2
 	_SIG_SETMASK = 3
