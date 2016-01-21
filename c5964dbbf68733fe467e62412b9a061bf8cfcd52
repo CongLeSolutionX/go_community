@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "071cfa50_a3481a66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-01-21T08:20:33Z",
+      "side": 1,
+      "message": "sorry, i have never heard such address notation. can you pls use terminology in rfc 6052 for avoiding confusion.",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "c5964dbbf68733fe467e62412b9a061bf8cfcd52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "071cfa50_636aa2bd",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-01-21T08:20:33Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 379,
+        "startChar": 23,
+        "endLine": 379,
+        "endChar": 59
+      },
+      "revId": "c5964dbbf68733fe467e62412b9a061bf8cfcd52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "071cfa50_83431e4b",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-01-21T08:20:33Z",
+      "side": 1,
+      "message": "as mentioned in #13981, this assumption is wrong and makes test flaky. why not just test whether addresses displayed by netsh is a subset of addresses returned from api?",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 32
+      },
+      "revId": "c5964dbbf68733fe467e62412b9a061bf8cfcd52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
