@@ -68,6 +68,30 @@
       "revId": "c5964dbbf68733fe467e62412b9a061bf8cfcd52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "071cfa50_631e223f",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-01-21T10:31:02Z",
+      "side": 1,
+      "message": "What assumption is wrong? And how that assumption makes test flaky?",
+      "parentUuid": "071cfa50_83431e4b",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 32
+      },
+      "revId": "c5964dbbf68733fe467e62412b9a061bf8cfcd52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
