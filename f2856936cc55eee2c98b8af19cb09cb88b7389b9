@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d470d2c5_39024f9e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4206,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-01-22T19:30:14Z",
+      "side": 1,
+      "message": "Would you consider appending a reason to the \u0027removed nil check\u0027?  For example, mine all say \"removed nil check (SCC)\" to indicate that it was the SCC phase that got it.  This might be (FLS) for Following Load/Store, or something like that.\n\nThis might require changing the tests for this slightly (leave the $ off the end of the pattern).",
+      "range": {
+        "startLine": 4206,
+        "startChar": 26,
+        "endLine": 4206,
+        "endChar": 43
+      },
+      "revId": "f2856936cc55eee2c98b8af19cb09cb88b7389b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
