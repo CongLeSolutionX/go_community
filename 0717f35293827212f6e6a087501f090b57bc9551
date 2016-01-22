@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5425c2a7_30cfe6b1",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-22T11:29:51Z",
+      "side": 1,
+      "message": "Minor, but I\u0027m not sure the comma case belongs here.  If it was after the main append(buf,c) then its own append wouldn\u0027t be needed, nor would the continue.  The switch would just do nesting.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "0717f35293827212f6e6a087501f090b57bc9551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5425c2a7_30a6c6e7",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-22T11:29:51Z",
+      "side": 1,
+      "message": "Would be simpler if it didn\u0027t modify output;  we at the end of its use.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 2
+      },
+      "revId": "0717f35293827212f6e6a087501f090b57bc9551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
