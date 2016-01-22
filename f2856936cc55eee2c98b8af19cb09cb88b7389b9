@@ -22,6 +22,30 @@
       "revId": "f2856936cc55eee2c98b8af19cb09cb88b7389b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54aa2254_8b69b1cc",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4206,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-01-22T22:12:10Z",
+      "side": 1,
+      "message": "Sure, that sounds fine.\nAnother option would be to have both controlled by a flag, and add tests that make sure the right things are removed with the given flags.",
+      "parentUuid": "d470d2c5_39024f9e",
+      "range": {
+        "startLine": 4206,
+        "startChar": 26,
+        "endLine": 4206,
+        "endChar": 43
+      },
+      "revId": "f2856936cc55eee2c98b8af19cb09cb88b7389b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
