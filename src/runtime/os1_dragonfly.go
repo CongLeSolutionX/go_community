@@ -143,6 +143,9 @@ func minit() {
 	// Initialize signal handling
 	var st sigaltstackt
 	sigaltstack(nil, &st)
+	if st.ss_flags == 0 {
+		throw("st.ss_flags==0 and using the existing signal stack")
+	}
 	if st.ss_flags&_SS_DISABLE != 0 {
 		signalstack(&_g_.m.gsignal.stack)
 		_g_.m.newSigstack = true
