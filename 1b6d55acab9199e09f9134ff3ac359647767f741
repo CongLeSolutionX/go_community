@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d470d2c5_1c42d9ee",
+        "filename": "src/runtime/signal_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-24T04:20:25Z",
+      "side": 0,
+      "message": "I think the old code is right and the new code is wrong.\n\nYes, it is true that the overall goal of this code is to figure out whether we\u0027re on an unexpected signal stack and should adjust our own idea of where the signal stack is. But this particular line really is checking for whether there\u0027s a signal stack at all. The next thing it is going to do is call noSignalStack:\n\nfunc noSignalStack(sig uint32) {\n\tprintln(\"signal\", sig, \"received on thread with no signal stack\")\n\tthrow(\"non-Go code disabled sigaltstack\")\n}\n\nI guess the new code is also correct because we\u0027re in a signal handler so we should probably be on the signal stack? But then the existing code seems just as correct, so I don\u0027t see why a change would be preferred.\n\nIt might be appropriate to replace the next condition, on line 75, with a check for _SS_ONSTACK, but since we need to use the bounds anyway after the check, it seems safer to continue to check the actual bounds.",
+      "revId": "1b6d55acab9199e09f9134ff3ac359647767f741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
