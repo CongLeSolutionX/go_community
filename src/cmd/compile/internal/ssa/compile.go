@@ -85,6 +85,7 @@ var passes = [...]pass{
 	{"early phielim", phielim},
 	{"early copyelim", copyelim},
 	{"early deadcode", deadcode}, // remove generated dead code to avoid doing pointless work during opt
+	{"short circuit", shortcircuit},
 	{"decompose", decompose},
 	{"opt", opt},
 	{"opt deadcode", deadcode}, // remove any blocks orphaned during opt
