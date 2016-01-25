@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4a43ebb_138d2eb1",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-25T23:03:40Z",
+      "side": 1,
+      "message": "// 16 byte key implies AES-128.\n\n(I think it\u0027s important to note that the key isn\u0027t just a free-form string. It must be exactly 16 or 32 bytes long.)",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_d3aac6ee",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-25T23:03:40Z",
+      "side": 1,
+      "message": "// The (key, nonce) pair must be unique for all time. Never use more than 2^32 random nonces with a given key.",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_3379525e",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-25T23:03:40Z",
+      "side": 1,
+      "message": "%s -\u003e %x?",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_7373da7b",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-25T23:03:40Z",
+      "side": 1,
+      "message": "// 16 byte key implies AES-128.\n\n(Same as above, but the examples should stand in isolation.)",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
