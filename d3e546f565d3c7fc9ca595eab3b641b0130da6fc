@@ -68,6 +68,30 @@
       "revId": "d3e546f565d3c7fc9ca595eab3b641b0130da6fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_30eea871",
+        "filename": "src/cmd/compile/internal/ssa/shortcircuit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-01-25T21:36:30Z",
+      "side": 1,
+      "message": "It hits all the time for code like:\na :\u003d x\u003e0 \u0026\u0026 y\u003e0\nif a { ... }\n\nand inlined calls in \u0026\u0026/|| expressions:\nif inbounds(x, b) \u0026\u0026 fooEnabled() { ... }\n\nYou\u0027re right that it would be nice to have a test to make sure this optimization is (and keeps) firing.  I\u0027m not sure the right test is to log applications of it.  For ccp you can print \"bounds check eliminated here\" and that makes sense given the source code.  I don\u0027t think there is an equivalent here (\"some control flow optimization occurred near this \u0026\u0026\"?).\n\nI\u0027ll think of something.",
+      "parentUuid": "d470d2c5_1ffdebd0",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "d3e546f565d3c7fc9ca595eab3b641b0130da6fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
