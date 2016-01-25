@@ -195,6 +195,13 @@ signal. If, later, Reset is called for that signal, the original
 handling for that signal will be reinstalled, restoring the non-Go
 signal handler if any.
 
+Because Go code built with -buildmode=c-archive or buildmode=c-shared
+does not install other signal handlers by default, the StartCPUProfile
+function in the runtime/pprof package, which is based on the SIGPROF
+signal, will not work as expected.  To make it work, call Notify for
+syscall.SIGPROF, but note that doing so may break any profiling being
+done by the main program.
+
 Go code built without -buildmode=c-archive or -buildmode=c-shared will
 install a signal handler for the asynchronous signals listed above,
 and save any existing signal handler. If a signal is delivered to a
