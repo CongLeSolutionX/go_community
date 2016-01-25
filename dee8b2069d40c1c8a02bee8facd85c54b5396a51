@@ -16,6 +16,24 @@
       "revId": "dee8b2069d40c1c8a02bee8facd85c54b5396a51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_50996c5f",
+        "filename": "src/runtime/heapdump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-01-25T20:45:18Z",
+      "side": 1,
+      "message": "Mostly just to be safe.  If we later have a tool that, for example, understands the layout of a G struct, and that layout changed between 1.5 and 1.6, then we can do the appropriate thing.\n\nIt is also nice to have the first line of the file tell you what it is and be up-to-date.  It would be confusing if a 1.6 program generated a 1.5 dump: \"I thought I built with 1.6, why is it producing a 1.5 dump?\"",
+      "parentUuid": "d42a92be_6cfdd3d0",
+      "revId": "dee8b2069d40c1c8a02bee8facd85c54b5396a51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
