@@ -56,6 +56,9 @@ Flags:
 		Set the external linker (default "clang" or "gcc").
 	-extldflags flags
 		Set space-separated flags to pass to the external linker.
+	-extar ar
+		Set the external archive program (default "ar").
+		Used only for -buildmode=c-archive.
 	-f
 		Ignore version mismatch in the linked archives.
 	-g
