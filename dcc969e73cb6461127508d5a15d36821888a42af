@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d42a92be_0926c95f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-25T00:59:17Z",
+      "side": 1,
+      "message": "start with \"crypto/cipher: \" if that\u0027s the package being modified",
+      "revId": "dcc969e73cb6461127508d5a15d36821888a42af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d42a92be_29210d48",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-25T00:59:17Z",
+      "side": 1,
+      "message": "panic is usually a bad way to handle errors. I don\u0027t think we should encourage it in errors.\n\nbesides, you can just write panic(err) and drop the .Error() part and then at least you\u0027d be consistent with the other examples below.",
+      "revId": "dcc969e73cb6461127508d5a15d36821888a42af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d42a92be_e9b3754e",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-25T00:59:17Z",
+      "side": 1,
+      "message": "I don\u0027t think having two nils makes a great example.",
+      "revId": "dcc969e73cb6461127508d5a15d36821888a42af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d42a92be_c9b03145",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-25T00:59:17Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "dcc969e73cb6461127508d5a15d36821888a42af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
