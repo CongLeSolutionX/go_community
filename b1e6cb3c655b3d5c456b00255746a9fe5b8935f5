@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74d56629_b9b91be7",
+        "filename": "src/cmd/link/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-26T14:45:41Z",
+      "side": 1,
+      "message": "This list is loosely alphabetized. Please move this above -extld.",
+      "revId": "b1e6cb3c655b3d5c456b00255746a9fe5b8935f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
