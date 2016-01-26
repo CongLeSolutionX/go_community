@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4a43ebb_f62ed8c9",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-26T00:10:04Z",
+      "side": 1,
+      "message": "Don\u0027t mention AES-192. It should never have been standardized and people should be guided away from it.\n\nAlso, there\u0027s an extra space at the beginning.",
+      "revId": "0d2657fb7d7166ff4c33228e9135624acc1a2779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_168fdc1a",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-26T00:10:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure that I follow the second sentence. I would say \"Never use more than 2^32 random nonces with a given key because of the risk of a repeat.\"",
+      "revId": "0d2657fb7d7166ff4c33228e9135624acc1a2779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_5699645f",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-26T00:10:04Z",
+      "side": 1,
+      "message": "(ditto about AES-192 and the extra space.)",
+      "revId": "0d2657fb7d7166ff4c33228e9135624acc1a2779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_b67ff0b5",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-01-26T00:10:04Z",
+      "side": 1,
+      "message": "In this case you don\u0027t need to mention the nonce restriction because, when decrypting, you accept the nonce from the remote side. It\u0027s fine to attempt decryption of attacker-controlled data, even if they try many nonces with the same key.",
+      "revId": "0d2657fb7d7166ff4c33228e9135624acc1a2779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
