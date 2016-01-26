@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54722221_25174e97",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 12140
+      },
+      "writtenOn": "2016-01-26T00:02:30Z",
+      "side": 1,
+      "message": "Fixed to be more self explanatory by using  AES-256 key with length and AES strength in the key name. Commented to match AES package.",
+      "parentUuid": "b4a43ebb_138d2eb1",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4a43ebb_d3aac6ee",
         "filename": "src/crypto/cipher/example_test.go",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "54722221_6511469e",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12140
+      },
+      "writtenOn": "2016-01-26T00:02:30Z",
+      "side": 1,
+      "message": "That\u0027s a good point. I have commented to note that as well. Do you want any specific change to the code itself?",
+      "parentUuid": "b4a43ebb_d3aac6ee",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4a43ebb_3379525e",
         "filename": "src/crypto/cipher/example_test.go",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-25T23:03:40Z",
       "side": 1,
       "message": "%s -\u003e %x?",
+      "revId": "045fdddebbeabe40f9aa046618083209389389e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54722221_8505625e",
+        "filename": "src/crypto/cipher/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 12140
+      },
+      "writtenOn": "2016-01-26T00:02:30Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "b4a43ebb_3379525e",
       "revId": "045fdddebbeabe40f9aa046618083209389389e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
