@@ -245,6 +245,33 @@ func TestConversions(t *testing.T) {
 	}
 }
 
+func TestScanErrorMessage(t *testing.T) {
+	var ns NullString
+	err := ns.Scan(complex(1, 2))
+	if err == nil {
+		t.Fatal("expected error")
+	}
+	if g, w := err.Error(), "unsupported Scan pair, storing (1+2i) (type complex128) into type *string"; g != w {
+		t.Errorf("error = %q; want %q", g, w)
+	}
+}
+
+func TestScanTimeToNullString(t *testing.T) {
+	var ns NullString
+	if err := ns.Scan(time.Unix(1, 2)); err != nil {
+		t.Fatal(err)
+	}
+	if g, w := ns.String, "1970-01-01T00:00:01.000000002Z"; g != w {
+		t.Errorf("got %q; want %q", g, w)
+	}
+	if err := ns.Scan(time.Time{}); err != nil {
+		t.Fatal(err)
+	}
+	if g, w := ns.String, "0001-01-01T00:00:00Z"; g != w {
+		t.Errorf("got %q; want %q", g, w)
+	}
+}
+
 func TestNullString(t *testing.T) {
 	var ns NullString
 	convertAssign(&ns, []byte("foo"))

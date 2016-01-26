@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"time"
 )
 
 var errNilPtr = errors.New("destination pointer is nil") // embedded in descriptive error
@@ -125,6 +126,18 @@ func convertAssign(dest, src interface{}) error {
 				return errNilPtr
 			}
 			*d = s
+			return nil
+		}
+	case time.Time:
+		switch d := dest.(type) {
+		case *string:
+			*d = s.Format(time.RFC3339Nano)
+			return nil
+		case *[]byte:
+			if d == nil {
+				return errNilPtr
+			}
+			*d = []byte(s.Format(time.RFC3339Nano))
 			return nil
 		}
 	case nil:
@@ -248,7 +261,7 @@ func convertAssign(dest, src interface{}) error {
 		return nil
 	}
 
-	return fmt.Errorf("unsupported driver -> Scan pair: %T -> %T", src, dest)
+	return fmt.Errorf("unsupported Scan pair, storing %v (type %T) into type %T", src, src, dest)
 }
 
 func cloneBytes(b []byte) []byte {

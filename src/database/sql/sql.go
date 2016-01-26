@@ -1797,6 +1797,10 @@ func (rs *Rows) Columns() ([]string, error) {
 // If an argument has type *interface{}, Scan copies the value
 // provided by the underlying driver without conversion. If the value
 // is of type []byte, a copy is made and the caller owns the result.
+//
+// Column values of type time.Time may be scanned into types
+// *time.Time, *interface{}, *string, or *[]byte. When converting to
+// the latter two, time.Format3339Nano is used.
 func (rs *Rows) Scan(dest ...interface{}) error {
 	if rs.closed {
 		return errors.New("sql: Rows are closed")
@@ -1845,8 +1849,9 @@ type Row struct {
 }
 
 // Scan copies the columns from the matched row into the values
-// pointed at by dest.  If more than one row matches the query,
-// Scan uses the first row and discards the rest.  If no row matches
+// pointed at by dest. See the documentation on Rows.Scan for details.
+// If more than one row matches the query,
+// Scan uses the first row and discards the rest. If no row matches
 // the query, Scan returns ErrNoRows.
 func (r *Row) Scan(dest ...interface{}) error {
 	if r.err != nil {
