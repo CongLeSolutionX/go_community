@@ -1786,17 +1786,48 @@ func (rs *Rows) Columns() ([]string, error) {
 }
 
 // Scan copies the columns in the current row into the values pointed
-// at by dest.
+// at by dest. The number of values in dest must match the column size
+// of Rows.
 //
-// If an argument has type *[]byte, Scan saves in that argument a copy
-// of the corresponding data. The copy is owned by the caller and can
-// be modified and held indefinitely. The copy can be avoided by using
-// an argument of type *RawBytes instead; see the documentation for
-// RawBytes for restrictions on its use.
+// Scan converts from the limited number of driver.Value types to
+// common Go types and special types provided by the sql package:
+//
+//    *string
+//    *[]byte
+//    *int, *int8, *int16, *int32, *int64
+//    *uint, *uint8, *uint16, *uint32, *uint64
+//    *bool
+//    *float32, *float64
+//    *interface{}
+//    *RawBytes
+//    any type implementing Scanner (see Scanner docs)
+//
+// In general, a scan is allowed if no information would be lost,
+// including overflow. That is, it's okay to scan anything into a
+// string, but a source value like 300 can scan into a uint16, but not
+// into a uint8. One exception is that scans from float64 to strings
+// may lose information when stringifying.
+//
+// If a dest argument has type *[]byte, Scan saves in that argument a
+// copy of the corresponding data. The copy is owned by the caller and
+// can be modified and held indefinitely. The copy can be avoided by
+// using an argument of type *RawBytes instead; see the documentation
+// for RawBytes for restrictions on its use.
 //
 // If an argument has type *interface{}, Scan copies the value
-// provided by the underlying driver without conversion. If the value
-// is of type []byte, a copy is made and the caller owns the result.
+// provided by the underlying driver without conversion. When scanning
+// from a source value of type []byte to *interface{}, a copy of the
+// slice is made and the caller owns the result.
+//
+// Source values of type time.Time may be scanned into types
+// *time.Time, *interface{}, *string, or *[]byte. When converting to
+// the latter two, time.Format3339Nano is used.
+//
+// Source values of type bool may be scanned into types *bool, *interface{},
+// *string, *[]byte, or *RawBytes.
+//
+// For scanning into *bool, the source may be true, false, 1, 0, or
+// string inputs parseable by strconv.ParseBool.
 func (rs *Rows) Scan(dest ...interface{}) error {
 	if rs.closed {
 		return errors.New("sql: Rows are closed")
@@ -1845,8 +1876,9 @@ type Row struct {
 }
 
 // Scan copies the columns from the matched row into the values
-// pointed at by dest.  If more than one row matches the query,
-// Scan uses the first row and discards the rest.  If no row matches
+// pointed at by dest. See the documentation on Rows.Scan for details.
+// If more than one row matches the query,
+// Scan uses the first row and discards the rest. If no row matches
 // the query, Scan returns ErrNoRows.
 func (r *Row) Scan(dest ...interface{}) error {
 	if r.err != nil {
