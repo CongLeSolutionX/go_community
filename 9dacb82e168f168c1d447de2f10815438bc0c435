@@ -22,6 +22,29 @@
       "revId": "9dacb82e168f168c1d447de2f10815438bc0c435",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_df6ba731",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-01-26T23:35:51Z",
+      "side": 1,
+      "message": "I wouldn\u0027t add an example. It encourages this document to turn into a howto for all the systems. Also good to say why.How about,\n\nTo build a Go installation with cgo support, which permits Go programs to import C libraries, a C compiler such as gcc or clang must be installed first.\nDo this using whatever installation method is standard on the system.",
+      "range": {
+        "startLine": 179,
+        "startChar": 3,
+        "endLine": 179,
+        "endChar": 8
+      },
+      "revId": "9dacb82e168f168c1d447de2f10815438bc0c435",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
