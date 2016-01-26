@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b4a43ebb_5047aca6",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-01-26T23:32:24Z",
+      "side": 1,
+      "message": "FWIW, I think it is okay to guarantee that this keeps working. The reason is because writing a zip file is fundamentally streamed, while reading a zip file is random-accessible. I believe this is a property that is intrinsic to the format itself and not to the implementation.\n\nOne of the motivating factors to adding this new API was that people wanted finer granularity control over the compression used (for performance reasons). The inability to reset the compressor would depreciate the value of the new API slightly.\n\nbradfitz\u0027s comment a while back provides numbers on the impact of Reset: https://codereview.appspot.com/54300053\n\nI\u0027m making this point on behalf of other\u0027s who have an interest in Reset. Personally, I could go either way.",
+      "parentUuid": "d470d2c5_5cf37106",
+      "revId": "3ac6d7067705ffc6e1634198c7935fc50771c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87a54ac9_c2a3c4bc",
         "filename": "src/archive/zip/register.go",
         "patchSetId": 6
