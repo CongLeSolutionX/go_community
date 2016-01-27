@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4a43ebb_ea1d0b42",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T00:01:57Z",
+      "side": 1,
+      "message": "\"The writer\u0027s\" is confusing, considering that there are two Writers here.\n\nThere is both the argument w and the return value.\n\nHow about:\n\n// The WriteCloser\u0027s Close method must be used to flush pending data to w.",
+      "revId": "22fe1a0385fe04a9e43913bc1aaa5de8d80eb735",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_aa2ea363",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T00:01:57Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "22fe1a0385fe04a9e43913bc1aaa5de8d80eb735",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
