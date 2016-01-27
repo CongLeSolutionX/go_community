@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b4a43ebb_b788c7dd",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1792,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T07:35:35Z",
+      "side": 1,
+      "message": "Removed. Unnecessary detail.",
+      "parentUuid": "54fea2bd_c8f74ff0",
+      "range": {
+        "startLine": 1792,
+        "startChar": 22,
+        "endLine": 1792,
+        "endChar": 43
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54fea2bd_a8fc13d5",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 6
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "b4a43ebb_d7854bc4",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T07:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54fea2bd_c8b06f1b",
+      "range": {
+        "startLine": 1807,
+        "startChar": 15,
+        "endLine": 1807,
+        "endChar": 20
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54fea2bd_a8a533db",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 6
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "b4a43ebb_f7924f07",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T07:35:35Z",
+      "side": 1,
+      "message": "Yes. It\u0027s even documented.",
+      "parentUuid": "54fea2bd_a8a533db",
+      "range": {
+        "startLine": 1814,
+        "startChar": 27,
+        "endLine": 1814,
+        "endChar": 40
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54fea2bd_68c05b74",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 6
@@ -128,6 +200,30 @@
       "writtenOn": "2016-01-27T06:59:49Z",
       "side": 1,
       "message": "values of type",
+      "range": {
+        "startLine": 1830,
+        "startChar": 55,
+        "endLine": 1830,
+        "endChar": 60
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_1790b3fd",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1830,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T07:35:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54fea2bd_68c05b74",
       "range": {
         "startLine": 1830,
         "startChar": 55,
