@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4a43ebb_2de9ea68",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-27T21:24:12Z",
+      "side": 1,
+      "message": "this is now in a different order so failures will be confusing when looking at the bug where some fail by getting larger and some by getting smaller.\n\nI\u0027d flip this back around to how it was to be consistent.",
+      "revId": "3d923d1f0f4842305e91a86864b3c6662f3e75a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
