@@ -345,9 +345,15 @@ func TestNumGoroutine(t *testing.T) {
 	}
 
 	buf := make([]byte, 1<<20)
-	buf = buf[:runtime.Stack(buf, true)]
+
+	// Give goroutines about to exit a chance to exit.
+	// The NumGoroutine and Stack below need to see
+	// the same state of the world, so anything we can do
+	// to keep it quiet is good.
+	runtime.Gosched()
 
 	n := runtime.NumGoroutine()
+	buf = buf[:runtime.Stack(buf, true)]
 
 	if nstk := strings.Count(string(buf), "goroutine "); n != nstk {
 		t.Fatalf("NumGoroutine=%d, but found %d goroutines in stack dump: %s", n, nstk, buf)
