@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54fea2bd_e8f20b02",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1790,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-27T06:59:49Z",
+      "side": 1,
+      "message": "The number of values in dest must be the same as the number of columns in Rows.\n\n?",
+      "range": {
+        "startLine": 1789,
+        "startChar": 15,
+        "endLine": 1790,
+        "endChar": 11
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54fea2bd_c8f74ff0",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1792,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-27T06:59:49Z",
+      "side": 1,
+      "message": "it\u0027s not clear what this means",
+      "range": {
+        "startLine": 1792,
+        "startChar": 22,
+        "endLine": 1792,
+        "endChar": 43
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54fea2bd_a8fc13d5",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1805,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-27T06:59:49Z",
+      "side": 1,
+      "message": "the type of the value from the source column",
+      "range": {
+        "startLine": 1805,
+        "startChar": 28,
+        "endLine": 1805,
+        "endChar": 56
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54fea2bd_c8b06f1b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-27T06:59:49Z",
+      "side": 1,
+      "message": "...through the pointer.\n\n?",
+      "range": {
+        "startLine": 1807,
+        "startChar": 15,
+        "endLine": 1807,
+        "endChar": 20
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54fea2bd_a8a533db",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-27T06:59:49Z",
+      "side": 1,
+      "message": "can a driver.Value be a float64?",
+      "range": {
+        "startLine": 1814,
+        "startChar": 27,
+        "endLine": 1814,
+        "endChar": 40
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54fea2bd_68c05b74",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1830,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-01-27T06:59:49Z",
+      "side": 1,
+      "message": "values of type",
+      "range": {
+        "startLine": 1830,
+        "startChar": 55,
+        "endLine": 1830,
+        "endChar": 60
+      },
+      "revId": "2eb39d464a9774c847868000c8d276e3792e983b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
