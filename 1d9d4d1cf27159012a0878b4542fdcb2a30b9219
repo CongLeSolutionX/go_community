@@ -16,6 +16,24 @@
       "revId": "1d9d4d1cf27159012a0878b4542fdcb2a30b9219",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74d56629_9f7cfffc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-01-27T21:57:21Z",
+      "side": 1,
+      "message": "Done. Waiting for trybots.",
+      "parentUuid": "b4a43ebb_6d9772bd",
+      "revId": "1d9d4d1cf27159012a0878b4542fdcb2a30b9219",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
