@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4651e98_28584b7f",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-01-28T17:22:44Z",
+      "side": 1,
+      "message": "I\u0027d swear I\u0027d seen a 3-input phi, and that would seem to make this not necessarily be correct.",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 202,
+        "endChar": 52
+      },
+      "revId": "3d33ed13ef37e01d60260799cf7316bc96de1033",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4651e98_e828f3c5",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-01-28T17:22:44Z",
+      "side": 1,
+      "message": "Is this an issue with any other registers, for example, the closure/context pointer?",
+      "range": {
+        "startLine": 320,
+        "startChar": 6,
+        "endLine": 320,
+        "endChar": 47
+      },
+      "revId": "3d33ed13ef37e01d60260799cf7316bc96de1033",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
