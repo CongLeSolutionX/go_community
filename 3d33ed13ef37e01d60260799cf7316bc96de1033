@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4a43ebb_0607a3fb",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-01-28T17:32:52Z",
+      "side": 1,
+      "message": "We can have arbitrarily wide phis.  And other ops have \u003e2 ops, like stores.  This is only an initial partition, it will be refined by the main loop which checks all the args.\n\nI suppose we could compare all the args\u0027 ops here, though.  That would be hard in the old system but would work now.  I\u0027ll leave that for another CL though.",
+      "parentUuid": "b4651e98_28584b7f",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 202,
+        "endChar": 52
+      },
+      "revId": "3d33ed13ef37e01d60260799cf7316bc96de1033",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4651e98_e828f3c5",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-28T17:22:44Z",
       "side": 1,
       "message": "Is this an issue with any other registers, for example, the closure/context pointer?",
+      "range": {
+        "startLine": 320,
+        "startChar": 6,
+        "endLine": 320,
+        "endChar": 47
+      },
+      "revId": "3d33ed13ef37e01d60260799cf7316bc96de1033",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4a43ebb_4610cb2d",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-01-28T17:32:52Z",
+      "side": 1,
+      "message": "Not at the moment.  If it ever does the error will be obvious and we can fix it here.",
+      "parentUuid": "b4651e98_e828f3c5",
       "range": {
         "startLine": 320,
         "startChar": 6,
