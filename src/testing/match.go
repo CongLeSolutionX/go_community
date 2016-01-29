@@ -8,12 +8,13 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 )
 
 // matcher sanitizes, uniques, and filters names of subtests and subbenchmarks.
 type matcher struct {
-	filter    string
+	filter    []string
 	matchFunc func(pat, str string) (bool, error)
 
 	mu       sync.Mutex
@@ -23,14 +24,23 @@ type matcher struct {
 // TODO: fix test_main to avoid race and improve caching.
 var matchMutex sync.Mutex
 
-func newMatcher(matchString func(pat, str string) (bool, error), pattern, name string) *matcher {
-	// Verify filters before doing any processing.
-	if _, err := matchString(pattern, "non-empty"); err != nil {
-		fmt.Fprintf(os.Stderr, "testing: invalid regexp for %s: %s\n", name, err)
-		os.Exit(1)
+func newMatcher(matchString func(pat, str string) (bool, error), patterns, name string) *matcher {
+	var filter []string
+	if patterns != "" {
+		filter = strings.Split(patterns, "/")
+		for i, s := range filter {
+			filter[i] = rewrite(s)
+		}
+		// Verify filters before doing any processing.
+		for i, s := range filter {
+			if _, err := matchString(s, "non-empty"); err != nil {
+				fmt.Fprintf(os.Stderr, "testing: invalid regexp for element %d of %s (%q): %s\n", i, name, s, err)
+				os.Exit(1)
+			}
+		}
 	}
 	return &matcher{
-		filter:    pattern,
+		filter:    filter,
 		matchFunc: matchString,
 		subNames:  map[string]int64{},
 	}
@@ -49,8 +59,13 @@ func (m *matcher) fullName(c *common, subname string) (name string, ok bool) {
 	matchMutex.Lock()
 	defer matchMutex.Unlock()
 
-	if c != nil && c.level == 0 {
-		if matched, _ := m.matchFunc(m.filter, subname); !matched {
+	// We check the full array of paths each time to allow for the case that
+	// a pattern contains a '/'.
+	for i, s := range strings.Split(name, "/") {
+		if i >= len(m.filter) {
+			break
+		}
+		if ok, _ := m.matchFunc(m.filter[i], s); !ok {
 			return name, false
 		}
 	}
