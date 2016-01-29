@@ -1,5 +1,6 @@
 Tools:
 
+cmd/go: GO15VENDOREXPERIMENT gone, assumed on (CL XXX)
 cmd/link: "-X name value" form gone (CL XXX)
 
 Ports:
