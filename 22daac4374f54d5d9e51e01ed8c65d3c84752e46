@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f15fa825_ea8167e9",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-01-29T04:46:52Z",
+      "side": 1,
+      "message": "Kind of ugly, but simple as I don\u0027t expect scrSparse to grow much.",
+      "revId": "22daac4374f54d5d9e51e01ed8c65d3c84752e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f15fa825_ca7ea3b9",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-01-29T04:46:52Z",
+      "side": 1,
+      "message": "I tested with creating sparse sets capable of holding the max of n, NumValues, and NumBlocks but the runtime difference on my artificial benchmarks only improved by a few percent.",
+      "revId": "22daac4374f54d5d9e51e01ed8c65d3c84752e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
