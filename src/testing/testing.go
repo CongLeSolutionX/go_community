@@ -715,15 +715,6 @@ func RunTests(matchString func(pat, str string) (bool, error), tests []InternalT
 		}
 		tRunner(t, func(t *T) {
 			for _, test := range tests {
-				// TODO: a version of this will be the Run method.
-				matched, err := matchString(*match, test.Name)
-				if err != nil {
-					fmt.Fprintf(os.Stderr, "testing: invalid regexp for -test.run: %s\n", err)
-					os.Exit(1)
-				}
-				if !matched {
-					continue
-				}
 				t.Run(test.Name, test.F)
 			}
 			// Run catching the signal rather than the tRunner as a separate
