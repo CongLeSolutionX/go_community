@@ -23,6 +23,62 @@ func TestIsSpace(t *T) {
 	}
 }
 
+func TestMatcher(t *T) {
+	testCases := []struct {
+		pattern     string
+		parent, sub string
+		ok          bool
+	}{
+		// Behavior without subtests.
+		{"", "", "TestFoo", true},
+		{"TestFoo", "", "TestFoo", true},
+		{"TestFoo/", "", "TestFoo", true},
+		{"TestFoo/bar/baz", "", "TestFoo", true},
+		{"TestFoo", "", "TestBar", false},
+		{"TestFoo/", "", "TestBar", false},
+		{"TestFoo/bar/baz", "", "TestBar/bar/baz", false},
+
+		// with subtests
+		{"", "TestFoo", "x", true},
+		{"TestFoo", "TestFoo", "x", true},
+		{"TestFoo/", "TestFoo", "x", true},
+		{"TestFoo/bar/baz", "TestFoo", "bar", true},
+		{"TestFoo/bar/baz", "TestFoo", "bar/baz", true},
+		{"TestFoo/bar/baz", "TestFoo/bar", "baz", true},
+		{"TestFoo/bar/baz", "TestFoo", "x", false},
+		{"TestFoo", "TestBar", "x", false},
+		{"TestFoo/", "TestBar", "x", false},
+		{"TestFoo/bar/baz", "TestBar", "x/bar/baz", false},
+
+		// with subtests
+		{"", "TestFoo", "x", true},
+		{"/", "TestFoo", "x", true},
+		{"./", "TestFoo", "x", true},
+		{"./.", "TestFoo", "x", true},
+		{"/bar/baz", "TestFoo", "bar", true},
+		{"/bar/baz", "TestFoo", "bar/baz", true},
+		{"//baz", "TestFoo", "bar/baz", true},
+		{"//", "TestFoo", "bar/baz", true},
+		{"/bar/baz", "TestFoo/bar", "baz", true},
+		{"//foo", "TestFoo", "bar/baz", false},
+		{"/bar/baz", "TestFoo", "x", false},
+		{"/bar/baz", "TestBar", "x/bar/baz", false},
+	}
+
+	for _, tc := range testCases {
+		m := newMatcher(regexp.MatchString, tc.pattern, "-test.run")
+
+		parent := &common{name: tc.parent}
+		if tc.parent != "" {
+			parent.level = 1
+		}
+		if n, ok := m.fullName(parent, tc.sub); ok != tc.ok {
+			t.Errorf("pattern: %q, parent: %q, sub %q: got %v; want %v",
+				tc.pattern, tc.parent, tc.sub, ok, tc.ok, n)
+		}
+	}
+}
+
 func TestNaming(t *T) {
 	m := newMatcher(regexp.MatchString, "", "")
 
