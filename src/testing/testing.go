@@ -541,9 +541,9 @@ func tRunner(t *T, fn func(t *T)) {
 	t.finished = true
 }
 
-// run runs f as a subtest of t called name. It reports whether f succeeded.
+// Run runs f as a subtest of t called name. It reports whether f succeeded.
 // Run will block until all its parallel subtests have completed.
-func (t *T) run(name string, f func(t *T)) bool {
+func (t *T) Run(name string, f func(t *T)) bool {
 	testName, ok := t.context.match.fullName(&t.common, name)
 	if !ok {
 		return true
@@ -724,7 +724,7 @@ func RunTests(matchString func(pat, str string) (bool, error), tests []InternalT
 				if !matched {
 					continue
 				}
-				t.run(test.Name, test.F)
+				t.Run(test.Name, test.F)
 			}
 			// Run catching the signal rather than the tRunner as a separate
 			// goroutine to avoid adding a goroutine during the sequential
