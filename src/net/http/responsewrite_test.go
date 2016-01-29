@@ -222,6 +222,20 @@ func TestResponseWrite(t *testing.T) {
 			},
 			"HTTP/1.1 200 OK\r\nConnection: close\r\n\r\nabcdef",
 		},
+
+		// Status code under 100 should be zero-padded to three digits.
+		{
+			Response{
+				StatusCode: 9,
+				ProtoMajor: 1,
+				ProtoMinor: 0,
+				Request:    dummyReq("GET"),
+				Header:     Header{},
+				Body:       nil,
+			},
+
+			"HTTP/1.0 009 status code 9\r\nContent-Length: 0\r\n\r\n",
+		},
 	}
 
 	for i := range respWriteTests {
