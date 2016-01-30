@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b10b7017_984db54b",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-01-30T11:20:32Z",
+      "side": 1,
+      "message": "Don\u0027t think this should be done.  \"reason-phrase\" should be whatever the caller wants as long as it meets the RFC.  \"200 now but was 404\".  This is the kind of thing that someone will track down as the source of their problem one day.  :-)",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 65
+      },
+      "revId": "2b181c3944f0fabb2e53ea46329f675a948dff31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
