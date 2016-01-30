@@ -22,6 +22,30 @@
       "revId": "2b181c3944f0fabb2e53ea46329f675a948dff31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5422228b_79532fbc",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-01-30T15:44:47Z",
+      "side": 1,
+      "message": "This wasn\u0027t a code change. It was already being done on line 234.\n\nBut I also don\u0027t care about this functionality if you feel strongly about removing it. The reason-phrase doesn\u0027t even exist in HTTP/2.",
+      "parentUuid": "b10b7017_984db54b",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 65
+      },
+      "revId": "2b181c3944f0fabb2e53ea46329f675a948dff31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
