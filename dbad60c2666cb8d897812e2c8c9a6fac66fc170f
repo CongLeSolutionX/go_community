@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31d060e4_ac560353",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1798,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-01T22:26:03Z",
+      "side": 1,
+      "message": "FWIW, they don\u0027t seem to agree. For example if fingwait \u0026\u0026 fingwake is true, it seems like findrunnable will return a gp but handoffp will not bother starting a new m. I don\u0027t think that one matters for Go 1.6 (especially since at this point we want to change as little as possible, and handoffp has never bothered to look at finalizers), but maybe for Go 1.7 we should have an \u0027anyrunnable() bool\u0027 right nere next to findrunnable that is more clearly in sync and is called from handoffp.",
+      "revId": "dbad60c2666cb8d897812e2c8c9a6fac66fc170f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
