@@ -135,6 +135,38 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		return rewriteValuegeneric_OpLess8U(v, config)
 	case OpLoad:
 		return rewriteValuegeneric_OpLoad(v, config)
+	case OpLsh16x16:
+		return rewriteValuegeneric_OpLsh16x16(v, config)
+	case OpLsh16x32:
+		return rewriteValuegeneric_OpLsh16x32(v, config)
+	case OpLsh16x64:
+		return rewriteValuegeneric_OpLsh16x64(v, config)
+	case OpLsh16x8:
+		return rewriteValuegeneric_OpLsh16x8(v, config)
+	case OpLsh32x16:
+		return rewriteValuegeneric_OpLsh32x16(v, config)
+	case OpLsh32x32:
+		return rewriteValuegeneric_OpLsh32x32(v, config)
+	case OpLsh32x64:
+		return rewriteValuegeneric_OpLsh32x64(v, config)
+	case OpLsh32x8:
+		return rewriteValuegeneric_OpLsh32x8(v, config)
+	case OpLsh64x16:
+		return rewriteValuegeneric_OpLsh64x16(v, config)
+	case OpLsh64x32:
+		return rewriteValuegeneric_OpLsh64x32(v, config)
+	case OpLsh64x64:
+		return rewriteValuegeneric_OpLsh64x64(v, config)
+	case OpLsh64x8:
+		return rewriteValuegeneric_OpLsh64x8(v, config)
+	case OpLsh8x16:
+		return rewriteValuegeneric_OpLsh8x16(v, config)
+	case OpLsh8x32:
+		return rewriteValuegeneric_OpLsh8x32(v, config)
+	case OpLsh8x64:
+		return rewriteValuegeneric_OpLsh8x64(v, config)
+	case OpLsh8x8:
+		return rewriteValuegeneric_OpLsh8x8(v, config)
 	case OpMul16:
 		return rewriteValuegeneric_OpMul16(v, config)
 	case OpMul32:
@@ -167,6 +199,70 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		return rewriteValuegeneric_OpOr8(v, config)
 	case OpPtrIndex:
 		return rewriteValuegeneric_OpPtrIndex(v, config)
+	case OpRsh16Ux16:
+		return rewriteValuegeneric_OpRsh16Ux16(v, config)
+	case OpRsh16Ux32:
+		return rewriteValuegeneric_OpRsh16Ux32(v, config)
+	case OpRsh16Ux64:
+		return rewriteValuegeneric_OpRsh16Ux64(v, config)
+	case OpRsh16Ux8:
+		return rewriteValuegeneric_OpRsh16Ux8(v, config)
+	case OpRsh16x16:
+		return rewriteValuegeneric_OpRsh16x16(v, config)
+	case OpRsh16x32:
+		return rewriteValuegeneric_OpRsh16x32(v, config)
+	case OpRsh16x64:
+		return rewriteValuegeneric_OpRsh16x64(v, config)
+	case OpRsh16x8:
+		return rewriteValuegeneric_OpRsh16x8(v, config)
+	case OpRsh32Ux16:
+		return rewriteValuegeneric_OpRsh32Ux16(v, config)
+	case OpRsh32Ux32:
+		return rewriteValuegeneric_OpRsh32Ux32(v, config)
+	case OpRsh32Ux64:
+		return rewriteValuegeneric_OpRsh32Ux64(v, config)
+	case OpRsh32Ux8:
+		return rewriteValuegeneric_OpRsh32Ux8(v, config)
+	case OpRsh32x16:
+		return rewriteValuegeneric_OpRsh32x16(v, config)
+	case OpRsh32x32:
+		return rewriteValuegeneric_OpRsh32x32(v, config)
+	case OpRsh32x64:
+		return rewriteValuegeneric_OpRsh32x64(v, config)
+	case OpRsh32x8:
+		return rewriteValuegeneric_OpRsh32x8(v, config)
+	case OpRsh64Ux16:
+		return rewriteValuegeneric_OpRsh64Ux16(v, config)
+	case OpRsh64Ux32:
+		return rewriteValuegeneric_OpRsh64Ux32(v, config)
+	case OpRsh64Ux64:
+		return rewriteValuegeneric_OpRsh64Ux64(v, config)
+	case OpRsh64Ux8:
+		return rewriteValuegeneric_OpRsh64Ux8(v, config)
+	case OpRsh64x16:
+		return rewriteValuegeneric_OpRsh64x16(v, config)
+	case OpRsh64x32:
+		return rewriteValuegeneric_OpRsh64x32(v, config)
+	case OpRsh64x64:
+		return rewriteValuegeneric_OpRsh64x64(v, config)
+	case OpRsh64x8:
+		return rewriteValuegeneric_OpRsh64x8(v, config)
+	case OpRsh8Ux16:
+		return rewriteValuegeneric_OpRsh8Ux16(v, config)
+	case OpRsh8Ux32:
+		return rewriteValuegeneric_OpRsh8Ux32(v, config)
+	case OpRsh8Ux64:
+		return rewriteValuegeneric_OpRsh8Ux64(v, config)
+	case OpRsh8Ux8:
+		return rewriteValuegeneric_OpRsh8Ux8(v, config)
+	case OpRsh8x16:
+		return rewriteValuegeneric_OpRsh8x16(v, config)
+	case OpRsh8x32:
+		return rewriteValuegeneric_OpRsh8x32(v, config)
+	case OpRsh8x64:
+		return rewriteValuegeneric_OpRsh8x64(v, config)
+	case OpRsh8x8:
+		return rewriteValuegeneric_OpRsh8x8(v, config)
 	case OpSliceCap:
 		return rewriteValuegeneric_OpSliceCap(v, config)
 	case OpSliceLen:
@@ -2760,6 +2856,10318 @@ end12671c83ebe3ccbc8e53383765ee7675:
 	;
 	return false
 }
+func rewriteValuegeneric_OpLsh16x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh16x16 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end6c7ab2430d30e5c7873bc673eefbdb8c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end6c7ab2430d30e5c7873bc673eefbdb8c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end6c7ab2430d30e5c7873bc673eefbdb8c
+end6c7ab2430d30e5c7873bc673eefbdb8c:
+	;
+	// match: (Lsh16x16 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end98c16f475ec5403313848750bbddf13b
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end98c16f475ec5403313848750bbddf13b
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end98c16f475ec5403313848750bbddf13b
+end98c16f475ec5403313848750bbddf13b:
+	;
+	// match: (Lsh16x16 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end44cc9da6b6fc78ce71620d18c6cb984e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end44cc9da6b6fc78ce71620d18c6cb984e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end44cc9da6b6fc78ce71620d18c6cb984e
+end44cc9da6b6fc78ce71620d18c6cb984e:
+	;
+	// match: (Lsh16x16 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end42857d6b8927f3967f6c6d215cfd37e8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end42857d6b8927f3967f6c6d215cfd37e8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end42857d6b8927f3967f6c6d215cfd37e8
+end42857d6b8927f3967f6c6d215cfd37e8:
+	;
+	// match: (Lsh16x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end44d25c760b428625488918c74f8179bd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end44d25c760b428625488918c74f8179bd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end44d25c760b428625488918c74f8179bd
+end44d25c760b428625488918c74f8179bd:
+	;
+	// match: (Lsh16x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endcfc828bc8f8dbc99f3f89bb5d8040b36
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endcfc828bc8f8dbc99f3f89bb5d8040b36
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endcfc828bc8f8dbc99f3f89bb5d8040b36
+endcfc828bc8f8dbc99f3f89bb5d8040b36:
+	;
+	// match: (Lsh16x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end018a9a2a3aeb7436042bc5fe6ebd3e3b
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end018a9a2a3aeb7436042bc5fe6ebd3e3b
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end018a9a2a3aeb7436042bc5fe6ebd3e3b
+end018a9a2a3aeb7436042bc5fe6ebd3e3b:
+	;
+	// match: (Lsh16x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end1a80d7ac8220795e02bf3d54e926804c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1a80d7ac8220795e02bf3d54e926804c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1a80d7ac8220795e02bf3d54e926804c
+end1a80d7ac8220795e02bf3d54e926804c:
+	;
+	// match: (Lsh16x16 <t> (Lsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end80710325a77d3273110b92270d38e71f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end80710325a77d3273110b92270d38e71f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end80710325a77d3273110b92270d38e71f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end80710325a77d3273110b92270d38e71f
+end80710325a77d3273110b92270d38e71f:
+	;
+	// match: (Lsh16x16 <t> (Lsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto endbfa08609659fe0a9fab4e5719a86ccbf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endbfa08609659fe0a9fab4e5719a86ccbf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endbfa08609659fe0a9fab4e5719a86ccbf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbfa08609659fe0a9fab4e5719a86ccbf
+endbfa08609659fe0a9fab4e5719a86ccbf:
+	;
+	// match: (Lsh16x16 <t> (Lsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end7be0688a16b6c4185a8835cb228db07a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7be0688a16b6c4185a8835cb228db07a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end7be0688a16b6c4185a8835cb228db07a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7be0688a16b6c4185a8835cb228db07a
+end7be0688a16b6c4185a8835cb228db07a:
+	;
+	// match: (Lsh16x16 <t> (Lsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end142346577dfdf382939d831f317d7aa5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end142346577dfdf382939d831f317d7aa5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end142346577dfdf382939d831f317d7aa5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end142346577dfdf382939d831f317d7aa5
+end142346577dfdf382939d831f317d7aa5:
+	;
+	// match: (Lsh16x16 <t> (Lsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto endf9381212aaea5477c1b7b4b5361c2168
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endf9381212aaea5477c1b7b4b5361c2168
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf9381212aaea5477c1b7b4b5361c2168
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf9381212aaea5477c1b7b4b5361c2168
+endf9381212aaea5477c1b7b4b5361c2168:
+	;
+	// match: (Lsh16x16 <t> (Lsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto endea367aa47f67f8f9e39f695c92c62202
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endea367aa47f67f8f9e39f695c92c62202
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endea367aa47f67f8f9e39f695c92c62202
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endea367aa47f67f8f9e39f695c92c62202
+endea367aa47f67f8f9e39f695c92c62202:
+	;
+	// match: (Lsh16x16 <t> (Lsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto ende264387349a6aafdd613c00dfc276e5d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende264387349a6aafdd613c00dfc276e5d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende264387349a6aafdd613c00dfc276e5d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende264387349a6aafdd613c00dfc276e5d
+ende264387349a6aafdd613c00dfc276e5d:
+	;
+	// match: (Lsh16x16 <t> (Lsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto endda53fbc07a86cc6a62ca54768ba9e638
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endda53fbc07a86cc6a62ca54768ba9e638
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endda53fbc07a86cc6a62ca54768ba9e638
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endda53fbc07a86cc6a62ca54768ba9e638
+endda53fbc07a86cc6a62ca54768ba9e638:
+	;
+	// match: (Lsh16x16 <t> (Lsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end4308da8aacb5df10a05e914d6ad02953
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4308da8aacb5df10a05e914d6ad02953
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4308da8aacb5df10a05e914d6ad02953
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4308da8aacb5df10a05e914d6ad02953
+end4308da8aacb5df10a05e914d6ad02953:
+	;
+	// match: (Lsh16x16 <t> (Lsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto endca0a100f26fd624b908c35d65737fcce
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endca0a100f26fd624b908c35d65737fcce
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endca0a100f26fd624b908c35d65737fcce
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endca0a100f26fd624b908c35d65737fcce
+endca0a100f26fd624b908c35d65737fcce:
+	;
+	// match: (Lsh16x16 <t> (Lsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end15974c534ee63cf3468eece56c296ff0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end15974c534ee63cf3468eece56c296ff0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end15974c534ee63cf3468eece56c296ff0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end15974c534ee63cf3468eece56c296ff0
+end15974c534ee63cf3468eece56c296ff0:
+	;
+	// match: (Lsh16x16 <t> (Lsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end86b01be106960470f8b6156b84927d10
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end86b01be106960470f8b6156b84927d10
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end86b01be106960470f8b6156b84927d10
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end86b01be106960470f8b6156b84927d10
+end86b01be106960470f8b6156b84927d10:
+	;
+	// match: (Lsh16x16 <t> (Lsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto ende4d75b562bf325aa71cb41d88c832739
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende4d75b562bf325aa71cb41d88c832739
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende4d75b562bf325aa71cb41d88c832739
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende4d75b562bf325aa71cb41d88c832739
+ende4d75b562bf325aa71cb41d88c832739:
+	;
+	// match: (Lsh16x16 <t> (Lsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto endbd2cdf7f942c0546db6a690ed534713d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endbd2cdf7f942c0546db6a690ed534713d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endbd2cdf7f942c0546db6a690ed534713d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbd2cdf7f942c0546db6a690ed534713d
+endbd2cdf7f942c0546db6a690ed534713d:
+	;
+	// match: (Lsh16x16 <t> (Lsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end95580ea23c2c1c0a2dc872fe69c55612
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end95580ea23c2c1c0a2dc872fe69c55612
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end95580ea23c2c1c0a2dc872fe69c55612
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end95580ea23c2c1c0a2dc872fe69c55612
+end95580ea23c2c1c0a2dc872fe69c55612:
+	;
+	// match: (Lsh16x16 <t> (Lsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end6801fb86bd9608bd8dce68d07640c5b8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end6801fb86bd9608bd8dce68d07640c5b8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end6801fb86bd9608bd8dce68d07640c5b8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6801fb86bd9608bd8dce68d07640c5b8
+end6801fb86bd9608bd8dce68d07640c5b8:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh16x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh16x32 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endc509ddc2340ba61fdba39df3e4f0f548
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endc509ddc2340ba61fdba39df3e4f0f548
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endc509ddc2340ba61fdba39df3e4f0f548
+endc509ddc2340ba61fdba39df3e4f0f548:
+	;
+	// match: (Lsh16x32 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end431c23ff31894f53660aeba1469dbe9a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end431c23ff31894f53660aeba1469dbe9a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end431c23ff31894f53660aeba1469dbe9a
+end431c23ff31894f53660aeba1469dbe9a:
+	;
+	// match: (Lsh16x32 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endc5b40ef6db71e6d3b95f306c0cce71ac
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endc5b40ef6db71e6d3b95f306c0cce71ac
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endc5b40ef6db71e6d3b95f306c0cce71ac
+endc5b40ef6db71e6d3b95f306c0cce71ac:
+	;
+	// match: (Lsh16x32 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end83fa13ae009fbb2379b0693b3587313f
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end83fa13ae009fbb2379b0693b3587313f
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end83fa13ae009fbb2379b0693b3587313f
+end83fa13ae009fbb2379b0693b3587313f:
+	;
+	// match: (Lsh16x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end40c656181cb2051c2350dc0622931cdd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end40c656181cb2051c2350dc0622931cdd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end40c656181cb2051c2350dc0622931cdd
+end40c656181cb2051c2350dc0622931cdd:
+	;
+	// match: (Lsh16x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end19cd9bd6ca0f2120515e6d9052139b2a
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end19cd9bd6ca0f2120515e6d9052139b2a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end19cd9bd6ca0f2120515e6d9052139b2a
+end19cd9bd6ca0f2120515e6d9052139b2a:
+	;
+	// match: (Lsh16x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end5a9054d790ebfd81da63f417163e07c9
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5a9054d790ebfd81da63f417163e07c9
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5a9054d790ebfd81da63f417163e07c9
+end5a9054d790ebfd81da63f417163e07c9:
+	;
+	// match: (Lsh16x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end156ab9dbc2ff8cf276fae1866c591bea
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end156ab9dbc2ff8cf276fae1866c591bea
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end156ab9dbc2ff8cf276fae1866c591bea
+end156ab9dbc2ff8cf276fae1866c591bea:
+	;
+	// match: (Lsh16x32 <t> (Lsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end476abab7fdea72685b258740e52e530e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end476abab7fdea72685b258740e52e530e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end476abab7fdea72685b258740e52e530e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end476abab7fdea72685b258740e52e530e
+end476abab7fdea72685b258740e52e530e:
+	;
+	// match: (Lsh16x32 <t> (Lsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end1593b5e5d1c99e874c34947120b700f2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end1593b5e5d1c99e874c34947120b700f2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1593b5e5d1c99e874c34947120b700f2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1593b5e5d1c99e874c34947120b700f2
+end1593b5e5d1c99e874c34947120b700f2:
+	;
+	// match: (Lsh16x32 <t> (Lsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto ende55faefe3c9b6ad1a813838a7742a80d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende55faefe3c9b6ad1a813838a7742a80d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende55faefe3c9b6ad1a813838a7742a80d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende55faefe3c9b6ad1a813838a7742a80d
+ende55faefe3c9b6ad1a813838a7742a80d:
+	;
+	// match: (Lsh16x32 <t> (Lsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end1d28d42392ac14a0f3440760be1eb562
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end1d28d42392ac14a0f3440760be1eb562
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1d28d42392ac14a0f3440760be1eb562
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1d28d42392ac14a0f3440760be1eb562
+end1d28d42392ac14a0f3440760be1eb562:
+	;
+	// match: (Lsh16x32 <t> (Lsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end8056d9c8b43e16070cd8fb5bde8ed3be
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8056d9c8b43e16070cd8fb5bde8ed3be
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8056d9c8b43e16070cd8fb5bde8ed3be
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8056d9c8b43e16070cd8fb5bde8ed3be
+end8056d9c8b43e16070cd8fb5bde8ed3be:
+	;
+	// match: (Lsh16x32 <t> (Lsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end31461e3ac36843949fe3a09e00790686
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end31461e3ac36843949fe3a09e00790686
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end31461e3ac36843949fe3a09e00790686
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end31461e3ac36843949fe3a09e00790686
+end31461e3ac36843949fe3a09e00790686:
+	;
+	// match: (Lsh16x32 <t> (Lsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end9ba5cbd749222b2dd95a7dd4bd5e40bc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end9ba5cbd749222b2dd95a7dd4bd5e40bc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end9ba5cbd749222b2dd95a7dd4bd5e40bc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9ba5cbd749222b2dd95a7dd4bd5e40bc
+end9ba5cbd749222b2dd95a7dd4bd5e40bc:
+	;
+	// match: (Lsh16x32 <t> (Lsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto endd0c7562df4d6805f0e80bd98bab23bce
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endd0c7562df4d6805f0e80bd98bab23bce
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endd0c7562df4d6805f0e80bd98bab23bce
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd0c7562df4d6805f0e80bd98bab23bce
+endd0c7562df4d6805f0e80bd98bab23bce:
+	;
+	// match: (Lsh16x32 <t> (Lsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end7df4f18fe88049ecb54820288e636d31
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7df4f18fe88049ecb54820288e636d31
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7df4f18fe88049ecb54820288e636d31
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7df4f18fe88049ecb54820288e636d31
+end7df4f18fe88049ecb54820288e636d31:
+	;
+	// match: (Lsh16x32 <t> (Lsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end180f79d5de45e428ce36f9182f192201
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end180f79d5de45e428ce36f9182f192201
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end180f79d5de45e428ce36f9182f192201
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end180f79d5de45e428ce36f9182f192201
+end180f79d5de45e428ce36f9182f192201:
+	;
+	// match: (Lsh16x32 <t> (Lsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto endd3fe2858ccfa291924db4bdea4f580ce
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endd3fe2858ccfa291924db4bdea4f580ce
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endd3fe2858ccfa291924db4bdea4f580ce
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd3fe2858ccfa291924db4bdea4f580ce
+endd3fe2858ccfa291924db4bdea4f580ce:
+	;
+	// match: (Lsh16x32 <t> (Lsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto endaba624c104db680fdf8941c139b28391
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endaba624c104db680fdf8941c139b28391
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endaba624c104db680fdf8941c139b28391
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaba624c104db680fdf8941c139b28391
+endaba624c104db680fdf8941c139b28391:
+	;
+	// match: (Lsh16x32 <t> (Lsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end5bb014fa092c58026b2ed9da937faa5c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5bb014fa092c58026b2ed9da937faa5c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5bb014fa092c58026b2ed9da937faa5c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5bb014fa092c58026b2ed9da937faa5c
+end5bb014fa092c58026b2ed9da937faa5c:
+	;
+	// match: (Lsh16x32 <t> (Lsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end33ecf5ce0287774e7103bd79bedbabe4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end33ecf5ce0287774e7103bd79bedbabe4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end33ecf5ce0287774e7103bd79bedbabe4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end33ecf5ce0287774e7103bd79bedbabe4
+end33ecf5ce0287774e7103bd79bedbabe4:
+	;
+	// match: (Lsh16x32 <t> (Lsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto enda99a4d3a84bccdec0f6bf1daeb89bb93
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda99a4d3a84bccdec0f6bf1daeb89bb93
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda99a4d3a84bccdec0f6bf1daeb89bb93
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda99a4d3a84bccdec0f6bf1daeb89bb93
+enda99a4d3a84bccdec0f6bf1daeb89bb93:
+	;
+	// match: (Lsh16x32 <t> (Lsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end5d3153fbb09a5ac375dda6bf0b901e89
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end5d3153fbb09a5ac375dda6bf0b901e89
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5d3153fbb09a5ac375dda6bf0b901e89
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5d3153fbb09a5ac375dda6bf0b901e89
+end5d3153fbb09a5ac375dda6bf0b901e89:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh16x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh16x64 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endb1e683c348892211583957d2bc49eb09
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endb1e683c348892211583957d2bc49eb09
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endb1e683c348892211583957d2bc49eb09
+endb1e683c348892211583957d2bc49eb09:
+	;
+	// match: (Lsh16x64 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end27fa81a7f05af16f7bdae4d057bdef44
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end27fa81a7f05af16f7bdae4d057bdef44
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end27fa81a7f05af16f7bdae4d057bdef44
+end27fa81a7f05af16f7bdae4d057bdef44:
+	;
+	// match: (Lsh16x64 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end7ace4a0034ff6bb19f62ae347f65405f
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end7ace4a0034ff6bb19f62ae347f65405f
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end7ace4a0034ff6bb19f62ae347f65405f
+end7ace4a0034ff6bb19f62ae347f65405f:
+	;
+	// match: (Lsh16x64 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end45cd0abc08b7bb6a727a716f8c700592
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end45cd0abc08b7bb6a727a716f8c700592
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end45cd0abc08b7bb6a727a716f8c700592
+end45cd0abc08b7bb6a727a716f8c700592:
+	;
+	// match: (Lsh16x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endffb8684eaef3f765d6160cee3e1f7691
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endffb8684eaef3f765d6160cee3e1f7691
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endffb8684eaef3f765d6160cee3e1f7691
+endffb8684eaef3f765d6160cee3e1f7691:
+	;
+	// match: (Lsh16x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endd07b377e7903fd66091c6f0f3749418d
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endd07b377e7903fd66091c6f0f3749418d
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endd07b377e7903fd66091c6f0f3749418d
+endd07b377e7903fd66091c6f0f3749418d:
+	;
+	// match: (Lsh16x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endb3f07ec2f6161bfa34a83246ca7d32ce
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endb3f07ec2f6161bfa34a83246ca7d32ce
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb3f07ec2f6161bfa34a83246ca7d32ce
+endb3f07ec2f6161bfa34a83246ca7d32ce:
+	;
+	// match: (Lsh16x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end00405148c10dafd712d2fa664bdb9553
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end00405148c10dafd712d2fa664bdb9553
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end00405148c10dafd712d2fa664bdb9553
+end00405148c10dafd712d2fa664bdb9553:
+	;
+	// match: (Lsh16x64 <t> (Lsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end7c764ae9e1a2403ebbdd8dcfa5afde96
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7c764ae9e1a2403ebbdd8dcfa5afde96
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7c764ae9e1a2403ebbdd8dcfa5afde96
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7c764ae9e1a2403ebbdd8dcfa5afde96
+end7c764ae9e1a2403ebbdd8dcfa5afde96:
+	;
+	// match: (Lsh16x64 <t> (Lsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end1ff1e0046718a944408cfd8ef203f2a1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end1ff1e0046718a944408cfd8ef203f2a1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1ff1e0046718a944408cfd8ef203f2a1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1ff1e0046718a944408cfd8ef203f2a1
+end1ff1e0046718a944408cfd8ef203f2a1:
+	;
+	// match: (Lsh16x64 <t> (Lsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end308faab968c27d03d1b07d6998e2c67f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end308faab968c27d03d1b07d6998e2c67f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end308faab968c27d03d1b07d6998e2c67f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end308faab968c27d03d1b07d6998e2c67f
+end308faab968c27d03d1b07d6998e2c67f:
+	;
+	// match: (Lsh16x64 <t> (Lsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end3347aa1eb096e004a636318a5f8442b5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3347aa1eb096e004a636318a5f8442b5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end3347aa1eb096e004a636318a5f8442b5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3347aa1eb096e004a636318a5f8442b5
+end3347aa1eb096e004a636318a5f8442b5:
+	;
+	// match: (Lsh16x64 <t> (Lsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end7670c5b0ee8b7de99ddc41ee44a14f32
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7670c5b0ee8b7de99ddc41ee44a14f32
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7670c5b0ee8b7de99ddc41ee44a14f32
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7670c5b0ee8b7de99ddc41ee44a14f32
+end7670c5b0ee8b7de99ddc41ee44a14f32:
+	;
+	// match: (Lsh16x64 <t> (Lsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end7220a7c5d12825d93f6930e44ba99d21
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7220a7c5d12825d93f6930e44ba99d21
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7220a7c5d12825d93f6930e44ba99d21
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7220a7c5d12825d93f6930e44ba99d21
+end7220a7c5d12825d93f6930e44ba99d21:
+	;
+	// match: (Lsh16x64 <t> (Lsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end0ad6279fde8f85d63add8c2c091ade07
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0ad6279fde8f85d63add8c2c091ade07
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end0ad6279fde8f85d63add8c2c091ade07
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0ad6279fde8f85d63add8c2c091ade07
+end0ad6279fde8f85d63add8c2c091ade07:
+	;
+	// match: (Lsh16x64 <t> (Lsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto endd485867d2e25dc5c231a85a91cb93240
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endd485867d2e25dc5c231a85a91cb93240
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endd485867d2e25dc5c231a85a91cb93240
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd485867d2e25dc5c231a85a91cb93240
+endd485867d2e25dc5c231a85a91cb93240:
+	;
+	// match: (Lsh16x64 <t> (Lsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto endfeb58e6857ca335f3611291256ccb7e1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endfeb58e6857ca335f3611291256ccb7e1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endfeb58e6857ca335f3611291256ccb7e1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfeb58e6857ca335f3611291256ccb7e1
+endfeb58e6857ca335f3611291256ccb7e1:
+	;
+	// match: (Lsh16x64 <t> (Lsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end40ce68c96f26f43795a9846e079e5dee
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end40ce68c96f26f43795a9846e079e5dee
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end40ce68c96f26f43795a9846e079e5dee
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end40ce68c96f26f43795a9846e079e5dee
+end40ce68c96f26f43795a9846e079e5dee:
+	;
+	// match: (Lsh16x64 <t> (Lsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto ende24b4a020322b587380a0949b3c125e7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende24b4a020322b587380a0949b3c125e7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende24b4a020322b587380a0949b3c125e7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende24b4a020322b587380a0949b3c125e7
+ende24b4a020322b587380a0949b3c125e7:
+	;
+	// match: (Lsh16x64 <t> (Lsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end043e0730e7eb83ee8dcff2dc6d5feda7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end043e0730e7eb83ee8dcff2dc6d5feda7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end043e0730e7eb83ee8dcff2dc6d5feda7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end043e0730e7eb83ee8dcff2dc6d5feda7
+end043e0730e7eb83ee8dcff2dc6d5feda7:
+	;
+	// match: (Lsh16x64 <t> (Lsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end4080917294fbcc83456ef3442a18fff2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4080917294fbcc83456ef3442a18fff2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end4080917294fbcc83456ef3442a18fff2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4080917294fbcc83456ef3442a18fff2
+end4080917294fbcc83456ef3442a18fff2:
+	;
+	// match: (Lsh16x64 <t> (Lsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto endf300d543f392c589af60af93d3454619
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endf300d543f392c589af60af93d3454619
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endf300d543f392c589af60af93d3454619
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf300d543f392c589af60af93d3454619
+endf300d543f392c589af60af93d3454619:
+	;
+	// match: (Lsh16x64 <t> (Lsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end1f2f323110dab68d8d2d5f0d6e81cee1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1f2f323110dab68d8d2d5f0d6e81cee1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1f2f323110dab68d8d2d5f0d6e81cee1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1f2f323110dab68d8d2d5f0d6e81cee1
+end1f2f323110dab68d8d2d5f0d6e81cee1:
+	;
+	// match: (Lsh16x64 <t> (Lsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end61b8a50f25cdaf8ea61977583a850fde
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end61b8a50f25cdaf8ea61977583a850fde
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end61b8a50f25cdaf8ea61977583a850fde
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end61b8a50f25cdaf8ea61977583a850fde
+end61b8a50f25cdaf8ea61977583a850fde:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh16x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh16x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end8440f2d909d8a2e83d55c711c59bc5ce
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end8440f2d909d8a2e83d55c711c59bc5ce
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end8440f2d909d8a2e83d55c711c59bc5ce
+end8440f2d909d8a2e83d55c711c59bc5ce:
+	;
+	// match: (Lsh16x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end9aa0a5e5586fe2cf28153dd829bcbeb0
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end9aa0a5e5586fe2cf28153dd829bcbeb0
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9aa0a5e5586fe2cf28153dd829bcbeb0
+end9aa0a5e5586fe2cf28153dd829bcbeb0:
+	;
+	// match: (Lsh16x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endff5b8533fac3b2e0f532f77f050ef1f4
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endff5b8533fac3b2e0f532f77f050ef1f4
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endff5b8533fac3b2e0f532f77f050ef1f4
+endff5b8533fac3b2e0f532f77f050ef1f4:
+	;
+	// match: (Lsh16x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end43abf65be561311ff2ed12aa347c0058
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end43abf65be561311ff2ed12aa347c0058
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end43abf65be561311ff2ed12aa347c0058
+end43abf65be561311ff2ed12aa347c0058:
+	;
+	// match: (Lsh16x8 <t> (Lsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto endfa2131865b75d4ac0d8d7f0dd3088626
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endfa2131865b75d4ac0d8d7f0dd3088626
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endfa2131865b75d4ac0d8d7f0dd3088626
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfa2131865b75d4ac0d8d7f0dd3088626
+endfa2131865b75d4ac0d8d7f0dd3088626:
+	;
+	// match: (Lsh16x8 <t> (Lsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end786a3094f701308b6c5358944a1f030c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end786a3094f701308b6c5358944a1f030c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end786a3094f701308b6c5358944a1f030c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end786a3094f701308b6c5358944a1f030c
+end786a3094f701308b6c5358944a1f030c:
+	;
+	// match: (Lsh16x8 <t> (Lsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end2ab0b5fd7d54eaeba5355dc4144f8de8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2ab0b5fd7d54eaeba5355dc4144f8de8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2ab0b5fd7d54eaeba5355dc4144f8de8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2ab0b5fd7d54eaeba5355dc4144f8de8
+end2ab0b5fd7d54eaeba5355dc4144f8de8:
+	;
+	// match: (Lsh16x8 <t> (Lsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end195d18db6204d39526341fde9c534894
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end195d18db6204d39526341fde9c534894
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end195d18db6204d39526341fde9c534894
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end195d18db6204d39526341fde9c534894
+end195d18db6204d39526341fde9c534894:
+	;
+	// match: (Lsh16x8 <t> (Lsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end47afbf8545f8519f3ba78368f8753df6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end47afbf8545f8519f3ba78368f8753df6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end47afbf8545f8519f3ba78368f8753df6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end47afbf8545f8519f3ba78368f8753df6
+end47afbf8545f8519f3ba78368f8753df6:
+	;
+	// match: (Lsh16x8 <t> (Lsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto endd8c47f37ed82f74a2a3c0fb03588d241
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endd8c47f37ed82f74a2a3c0fb03588d241
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd8c47f37ed82f74a2a3c0fb03588d241
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd8c47f37ed82f74a2a3c0fb03588d241
+endd8c47f37ed82f74a2a3c0fb03588d241:
+	;
+	// match: (Lsh16x8 <t> (Lsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto ende5d1e86c4613360bd9c4866862dc28af
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende5d1e86c4613360bd9c4866862dc28af
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende5d1e86c4613360bd9c4866862dc28af
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende5d1e86c4613360bd9c4866862dc28af
+ende5d1e86c4613360bd9c4866862dc28af:
+	;
+	// match: (Lsh16x8 <t> (Lsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto ende71c0bbe1ecb74a5cb7b7c09476beb9e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende71c0bbe1ecb74a5cb7b7c09476beb9e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende71c0bbe1ecb74a5cb7b7c09476beb9e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende71c0bbe1ecb74a5cb7b7c09476beb9e
+ende71c0bbe1ecb74a5cb7b7c09476beb9e:
+	;
+	// match: (Lsh16x8 <t> (Lsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end8ce742349802e474363424998e0146cc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8ce742349802e474363424998e0146cc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8ce742349802e474363424998e0146cc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8ce742349802e474363424998e0146cc
+end8ce742349802e474363424998e0146cc:
+	;
+	// match: (Lsh16x8 <t> (Lsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto ende48d6e0522ec9beb1db18ff0be7111cf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende48d6e0522ec9beb1db18ff0be7111cf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende48d6e0522ec9beb1db18ff0be7111cf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende48d6e0522ec9beb1db18ff0be7111cf
+ende48d6e0522ec9beb1db18ff0be7111cf:
+	;
+	// match: (Lsh16x8 <t> (Lsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end18a42646787d807a53556d0f3ea2252f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end18a42646787d807a53556d0f3ea2252f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end18a42646787d807a53556d0f3ea2252f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end18a42646787d807a53556d0f3ea2252f
+end18a42646787d807a53556d0f3ea2252f:
+	;
+	// match: (Lsh16x8 <t> (Lsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end2facbe5ffa04868aa6f5528d9aeb4f0c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2facbe5ffa04868aa6f5528d9aeb4f0c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2facbe5ffa04868aa6f5528d9aeb4f0c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2facbe5ffa04868aa6f5528d9aeb4f0c
+end2facbe5ffa04868aa6f5528d9aeb4f0c:
+	;
+	// match: (Lsh16x8 <t> (Lsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end85bb342e61b4712438546b174671bf16
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end85bb342e61b4712438546b174671bf16
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end85bb342e61b4712438546b174671bf16
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end85bb342e61b4712438546b174671bf16
+end85bb342e61b4712438546b174671bf16:
+	;
+	// match: (Lsh16x8 <t> (Lsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end2c4bd69f7ce63970e562678a513e9fd2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end2c4bd69f7ce63970e562678a513e9fd2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2c4bd69f7ce63970e562678a513e9fd2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2c4bd69f7ce63970e562678a513e9fd2
+end2c4bd69f7ce63970e562678a513e9fd2:
+	;
+	// match: (Lsh16x8 <t> (Lsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end50396fa0eb8c28823a44f0ccc48980ab
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end50396fa0eb8c28823a44f0ccc48980ab
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end50396fa0eb8c28823a44f0ccc48980ab
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end50396fa0eb8c28823a44f0ccc48980ab
+end50396fa0eb8c28823a44f0ccc48980ab:
+	;
+	// match: (Lsh16x8 <t> (Lsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end35aa82716d6f3dd7fba4a039da2ba5c2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end35aa82716d6f3dd7fba4a039da2ba5c2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end35aa82716d6f3dd7fba4a039da2ba5c2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end35aa82716d6f3dd7fba4a039da2ba5c2
+end35aa82716d6f3dd7fba4a039da2ba5c2:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh32x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh32x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endf347f76676c56b802335c8ffe188dcff
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endf347f76676c56b802335c8ffe188dcff
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endf347f76676c56b802335c8ffe188dcff
+endf347f76676c56b802335c8ffe188dcff:
+	;
+	// match: (Lsh32x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end5e05a662b159277e5c423681cfae7713
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5e05a662b159277e5c423681cfae7713
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5e05a662b159277e5c423681cfae7713
+end5e05a662b159277e5c423681cfae7713:
+	;
+	// match: (Lsh32x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end346e92c791eb3173c6ddcf0031489c06
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end346e92c791eb3173c6ddcf0031489c06
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end346e92c791eb3173c6ddcf0031489c06
+end346e92c791eb3173c6ddcf0031489c06:
+	;
+	// match: (Lsh32x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end6bf3c9bc692ba2dd912029d5c90f60a2
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end6bf3c9bc692ba2dd912029d5c90f60a2
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6bf3c9bc692ba2dd912029d5c90f60a2
+end6bf3c9bc692ba2dd912029d5c90f60a2:
+	;
+	// match: (Lsh32x16 <t> (Lsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end5b11dbb527f36d1170a1efd07ef9f7d3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5b11dbb527f36d1170a1efd07ef9f7d3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5b11dbb527f36d1170a1efd07ef9f7d3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5b11dbb527f36d1170a1efd07ef9f7d3
+end5b11dbb527f36d1170a1efd07ef9f7d3:
+	;
+	// match: (Lsh32x16 <t> (Lsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto ende231320b52810ea05aa1b425b800cf73
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende231320b52810ea05aa1b425b800cf73
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende231320b52810ea05aa1b425b800cf73
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende231320b52810ea05aa1b425b800cf73
+ende231320b52810ea05aa1b425b800cf73:
+	;
+	// match: (Lsh32x16 <t> (Lsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto endd80fa029aeb895c1758fa0400aa34a83
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endd80fa029aeb895c1758fa0400aa34a83
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endd80fa029aeb895c1758fa0400aa34a83
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd80fa029aeb895c1758fa0400aa34a83
+endd80fa029aeb895c1758fa0400aa34a83:
+	;
+	// match: (Lsh32x16 <t> (Lsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end19ed71e26e732ea15b051f3644b292c5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end19ed71e26e732ea15b051f3644b292c5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end19ed71e26e732ea15b051f3644b292c5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end19ed71e26e732ea15b051f3644b292c5
+end19ed71e26e732ea15b051f3644b292c5:
+	;
+	// match: (Lsh32x16 <t> (Lsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto endb6d6dfba204551beb6bea32ee7a26ba4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb6d6dfba204551beb6bea32ee7a26ba4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endb6d6dfba204551beb6bea32ee7a26ba4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb6d6dfba204551beb6bea32ee7a26ba4
+endb6d6dfba204551beb6bea32ee7a26ba4:
+	;
+	// match: (Lsh32x16 <t> (Lsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end54801b9ac0b9cc3722c13fe45038d130
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end54801b9ac0b9cc3722c13fe45038d130
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end54801b9ac0b9cc3722c13fe45038d130
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end54801b9ac0b9cc3722c13fe45038d130
+end54801b9ac0b9cc3722c13fe45038d130:
+	;
+	// match: (Lsh32x16 <t> (Lsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto endfb9e14b1dee4adda0f3dab595911b0a3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endfb9e14b1dee4adda0f3dab595911b0a3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endfb9e14b1dee4adda0f3dab595911b0a3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfb9e14b1dee4adda0f3dab595911b0a3
+endfb9e14b1dee4adda0f3dab595911b0a3:
+	;
+	// match: (Lsh32x16 <t> (Lsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end6ed26c41d0745af316bfccfeff88cf6d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end6ed26c41d0745af316bfccfeff88cf6d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end6ed26c41d0745af316bfccfeff88cf6d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6ed26c41d0745af316bfccfeff88cf6d
+end6ed26c41d0745af316bfccfeff88cf6d:
+	;
+	// match: (Lsh32x16 <t> (Lsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end3ec56afcef86abb655db8c44774926b9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end3ec56afcef86abb655db8c44774926b9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end3ec56afcef86abb655db8c44774926b9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3ec56afcef86abb655db8c44774926b9
+end3ec56afcef86abb655db8c44774926b9:
+	;
+	// match: (Lsh32x16 <t> (Lsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end67590528dce703bea339770fbe7fff52
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end67590528dce703bea339770fbe7fff52
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end67590528dce703bea339770fbe7fff52
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end67590528dce703bea339770fbe7fff52
+end67590528dce703bea339770fbe7fff52:
+	;
+	// match: (Lsh32x16 <t> (Lsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end309da274bb72be446b818e81795a6fc3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end309da274bb72be446b818e81795a6fc3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end309da274bb72be446b818e81795a6fc3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end309da274bb72be446b818e81795a6fc3
+end309da274bb72be446b818e81795a6fc3:
+	;
+	// match: (Lsh32x16 <t> (Lsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto endeb5d9c9dda692b7a7bf68b8b02943575
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endeb5d9c9dda692b7a7bf68b8b02943575
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endeb5d9c9dda692b7a7bf68b8b02943575
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endeb5d9c9dda692b7a7bf68b8b02943575
+endeb5d9c9dda692b7a7bf68b8b02943575:
+	;
+	// match: (Lsh32x16 <t> (Lsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto endf3b2d7e676a59c340f78270e4debdb79
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endf3b2d7e676a59c340f78270e4debdb79
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf3b2d7e676a59c340f78270e4debdb79
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf3b2d7e676a59c340f78270e4debdb79
+endf3b2d7e676a59c340f78270e4debdb79:
+	;
+	// match: (Lsh32x16 <t> (Lsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto endcc31f3102e781420725484ccef905ac5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endcc31f3102e781420725484ccef905ac5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcc31f3102e781420725484ccef905ac5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcc31f3102e781420725484ccef905ac5
+endcc31f3102e781420725484ccef905ac5:
+	;
+	// match: (Lsh32x16 <t> (Lsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end3bd3e11012b13d00a34ac0173a37fb86
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end3bd3e11012b13d00a34ac0173a37fb86
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end3bd3e11012b13d00a34ac0173a37fb86
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3bd3e11012b13d00a34ac0173a37fb86
+end3bd3e11012b13d00a34ac0173a37fb86:
+	;
+	// match: (Lsh32x16 <t> (Lsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end2275dc51593fb8c53f51e70a1f19bd5c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2275dc51593fb8c53f51e70a1f19bd5c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end2275dc51593fb8c53f51e70a1f19bd5c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2275dc51593fb8c53f51e70a1f19bd5c
+end2275dc51593fb8c53f51e70a1f19bd5c:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh32x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh32x32 _ (Const64 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end53c4bec1ca4cfc6458b199089e8d3519
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end53c4bec1ca4cfc6458b199089e8d3519
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end53c4bec1ca4cfc6458b199089e8d3519
+end53c4bec1ca4cfc6458b199089e8d3519:
+	;
+	// match: (Lsh32x32 _ (Const32 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end8efaaf8d92a1ac47da14ba76806e819e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end8efaaf8d92a1ac47da14ba76806e819e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end8efaaf8d92a1ac47da14ba76806e819e
+end8efaaf8d92a1ac47da14ba76806e819e:
+	;
+	// match: (Lsh32x32 _ (Const16 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endfe062e60c84e2e9006f3d67947c689f1
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endfe062e60c84e2e9006f3d67947c689f1
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endfe062e60c84e2e9006f3d67947c689f1
+endfe062e60c84e2e9006f3d67947c689f1:
+	;
+	// match: (Lsh32x32 _ (Const8 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endb533f8844d52ea3bd904bd5b93351d21
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endb533f8844d52ea3bd904bd5b93351d21
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endb533f8844d52ea3bd904bd5b93351d21
+endb533f8844d52ea3bd904bd5b93351d21:
+	;
+	// match: (Lsh32x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end633f77c003143f3d967d8757cde93b1a
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end633f77c003143f3d967d8757cde93b1a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end633f77c003143f3d967d8757cde93b1a
+end633f77c003143f3d967d8757cde93b1a:
+	;
+	// match: (Lsh32x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endc989ff2d57fedb8c41e444cfe8b1e615
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endc989ff2d57fedb8c41e444cfe8b1e615
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc989ff2d57fedb8c41e444cfe8b1e615
+endc989ff2d57fedb8c41e444cfe8b1e615:
+	;
+	// match: (Lsh32x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end16e0461dba32e04d8e8d231d70b460de
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end16e0461dba32e04d8e8d231d70b460de
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end16e0461dba32e04d8e8d231d70b460de
+end16e0461dba32e04d8e8d231d70b460de:
+	;
+	// match: (Lsh32x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endebd9caa9806cd3fa43bc1cd897f95a0e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endebd9caa9806cd3fa43bc1cd897f95a0e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endebd9caa9806cd3fa43bc1cd897f95a0e
+endebd9caa9806cd3fa43bc1cd897f95a0e:
+	;
+	// match: (Lsh32x32 <t> (Lsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto endcac2a37525cd3db61e2b69589eea07a7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endcac2a37525cd3db61e2b69589eea07a7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endcac2a37525cd3db61e2b69589eea07a7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcac2a37525cd3db61e2b69589eea07a7
+endcac2a37525cd3db61e2b69589eea07a7:
+	;
+	// match: (Lsh32x32 <t> (Lsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end4cb3b13a7e259d4506771b832905bdb3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4cb3b13a7e259d4506771b832905bdb3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end4cb3b13a7e259d4506771b832905bdb3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4cb3b13a7e259d4506771b832905bdb3
+end4cb3b13a7e259d4506771b832905bdb3:
+	;
+	// match: (Lsh32x32 <t> (Lsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end33c0fa9409b8ebf912169642eaeeb686
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end33c0fa9409b8ebf912169642eaeeb686
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end33c0fa9409b8ebf912169642eaeeb686
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end33c0fa9409b8ebf912169642eaeeb686
+end33c0fa9409b8ebf912169642eaeeb686:
+	;
+	// match: (Lsh32x32 <t> (Lsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end7e44252fed90c9df732e6bac586f39db
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7e44252fed90c9df732e6bac586f39db
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7e44252fed90c9df732e6bac586f39db
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7e44252fed90c9df732e6bac586f39db
+end7e44252fed90c9df732e6bac586f39db:
+	;
+	// match: (Lsh32x32 <t> (Lsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end7917cedd11d6439c08a5c4f936d4821d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7917cedd11d6439c08a5c4f936d4821d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7917cedd11d6439c08a5c4f936d4821d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7917cedd11d6439c08a5c4f936d4821d
+end7917cedd11d6439c08a5c4f936d4821d:
+	;
+	// match: (Lsh32x32 <t> (Lsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end3e1c6119aa4db55f715af8022115a9ae
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end3e1c6119aa4db55f715af8022115a9ae
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end3e1c6119aa4db55f715af8022115a9ae
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3e1c6119aa4db55f715af8022115a9ae
+end3e1c6119aa4db55f715af8022115a9ae:
+	;
+	// match: (Lsh32x32 <t> (Lsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end8e73ee954ace06726f3c0b9b773cf210
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8e73ee954ace06726f3c0b9b773cf210
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8e73ee954ace06726f3c0b9b773cf210
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8e73ee954ace06726f3c0b9b773cf210
+end8e73ee954ace06726f3c0b9b773cf210:
+	;
+	// match: (Lsh32x32 <t> (Lsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end338cc1e619fe870f012369f6806c60c4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end338cc1e619fe870f012369f6806c60c4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end338cc1e619fe870f012369f6806c60c4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end338cc1e619fe870f012369f6806c60c4
+end338cc1e619fe870f012369f6806c60c4:
+	;
+	// match: (Lsh32x32 <t> (Lsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end1d464c1d9f012115ebfe82b6630eaddf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end1d464c1d9f012115ebfe82b6630eaddf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1d464c1d9f012115ebfe82b6630eaddf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1d464c1d9f012115ebfe82b6630eaddf
+end1d464c1d9f012115ebfe82b6630eaddf:
+	;
+	// match: (Lsh32x32 <t> (Lsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end21505878d90c4d9a52ba03f7c8eff8d4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end21505878d90c4d9a52ba03f7c8eff8d4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end21505878d90c4d9a52ba03f7c8eff8d4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end21505878d90c4d9a52ba03f7c8eff8d4
+end21505878d90c4d9a52ba03f7c8eff8d4:
+	;
+	// match: (Lsh32x32 <t> (Lsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto endbc64d7e78ef183f49ed4907e2cee4325
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endbc64d7e78ef183f49ed4907e2cee4325
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endbc64d7e78ef183f49ed4907e2cee4325
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbc64d7e78ef183f49ed4907e2cee4325
+endbc64d7e78ef183f49ed4907e2cee4325:
+	;
+	// match: (Lsh32x32 <t> (Lsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto endb9c94ab020b87994871663b0a3fb6a08
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb9c94ab020b87994871663b0a3fb6a08
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb9c94ab020b87994871663b0a3fb6a08
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb9c94ab020b87994871663b0a3fb6a08
+endb9c94ab020b87994871663b0a3fb6a08:
+	;
+	// match: (Lsh32x32 <t> (Lsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto endfe5d4e6fbf7fd5412f0fcd0c48240331
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endfe5d4e6fbf7fd5412f0fcd0c48240331
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endfe5d4e6fbf7fd5412f0fcd0c48240331
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfe5d4e6fbf7fd5412f0fcd0c48240331
+endfe5d4e6fbf7fd5412f0fcd0c48240331:
+	;
+	// match: (Lsh32x32 <t> (Lsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end22221f0900b7feac586b3db3fb7cea09
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end22221f0900b7feac586b3db3fb7cea09
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end22221f0900b7feac586b3db3fb7cea09
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end22221f0900b7feac586b3db3fb7cea09
+end22221f0900b7feac586b3db3fb7cea09:
+	;
+	// match: (Lsh32x32 <t> (Lsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto enda472140dc583637a3015aa5e52608f04
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda472140dc583637a3015aa5e52608f04
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda472140dc583637a3015aa5e52608f04
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda472140dc583637a3015aa5e52608f04
+enda472140dc583637a3015aa5e52608f04:
+	;
+	// match: (Lsh32x32 <t> (Lsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end03c3b38f28f56757ef4b3de25f698a02
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end03c3b38f28f56757ef4b3de25f698a02
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end03c3b38f28f56757ef4b3de25f698a02
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end03c3b38f28f56757ef4b3de25f698a02
+end03c3b38f28f56757ef4b3de25f698a02:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh32x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh32x64 _ (Const64 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto enddd26f6acd3ae425d739aa4bff26a93a4
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto enddd26f6acd3ae425d739aa4bff26a93a4
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto enddd26f6acd3ae425d739aa4bff26a93a4
+enddd26f6acd3ae425d739aa4bff26a93a4:
+	;
+	// match: (Lsh32x64 _ (Const32 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end84f4c330c4f449a10f885e4dd4a5f998
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end84f4c330c4f449a10f885e4dd4a5f998
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end84f4c330c4f449a10f885e4dd4a5f998
+end84f4c330c4f449a10f885e4dd4a5f998:
+	;
+	// match: (Lsh32x64 _ (Const16 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endbc5cd2a7526c7a28b95a84071bf4f19a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endbc5cd2a7526c7a28b95a84071bf4f19a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endbc5cd2a7526c7a28b95a84071bf4f19a
+endbc5cd2a7526c7a28b95a84071bf4f19a:
+	;
+	// match: (Lsh32x64 _ (Const8 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end1489bb38f3b1446c08737c4baa6d9b8e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end1489bb38f3b1446c08737c4baa6d9b8e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end1489bb38f3b1446c08737c4baa6d9b8e
+end1489bb38f3b1446c08737c4baa6d9b8e:
+	;
+	// match: (Lsh32x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end41ac15cd8bba1ea213fc76368075739e
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end41ac15cd8bba1ea213fc76368075739e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end41ac15cd8bba1ea213fc76368075739e
+end41ac15cd8bba1ea213fc76368075739e:
+	;
+	// match: (Lsh32x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end4a195801b162c916998bd4822dbabbde
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end4a195801b162c916998bd4822dbabbde
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4a195801b162c916998bd4822dbabbde
+end4a195801b162c916998bd4822dbabbde:
+	;
+	// match: (Lsh32x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end0790dd1c00c8e5ad117a42b913103756
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end0790dd1c00c8e5ad117a42b913103756
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end0790dd1c00c8e5ad117a42b913103756
+end0790dd1c00c8e5ad117a42b913103756:
+	;
+	// match: (Lsh32x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end8d963040d6f3256c439782da52727e38
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end8d963040d6f3256c439782da52727e38
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end8d963040d6f3256c439782da52727e38
+end8d963040d6f3256c439782da52727e38:
+	;
+	// match: (Lsh32x64 <t> (Lsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end7429cb4ac958bd9598618841644f994f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7429cb4ac958bd9598618841644f994f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7429cb4ac958bd9598618841644f994f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7429cb4ac958bd9598618841644f994f
+end7429cb4ac958bd9598618841644f994f:
+	;
+	// match: (Lsh32x64 <t> (Lsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end1d35fc3b722bf6b021bcab050dbb6325
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end1d35fc3b722bf6b021bcab050dbb6325
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1d35fc3b722bf6b021bcab050dbb6325
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1d35fc3b722bf6b021bcab050dbb6325
+end1d35fc3b722bf6b021bcab050dbb6325:
+	;
+	// match: (Lsh32x64 <t> (Lsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto ende7bddda156cf9c99f7303a3585fbe90e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende7bddda156cf9c99f7303a3585fbe90e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende7bddda156cf9c99f7303a3585fbe90e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende7bddda156cf9c99f7303a3585fbe90e
+ende7bddda156cf9c99f7303a3585fbe90e:
+	;
+	// match: (Lsh32x64 <t> (Lsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end35e8f61fac5967268f818c44e12a292d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end35e8f61fac5967268f818c44e12a292d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end35e8f61fac5967268f818c44e12a292d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end35e8f61fac5967268f818c44e12a292d
+end35e8f61fac5967268f818c44e12a292d:
+	;
+	// match: (Lsh32x64 <t> (Lsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end928a47694cdba85279de26c31fb8b651
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end928a47694cdba85279de26c31fb8b651
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end928a47694cdba85279de26c31fb8b651
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end928a47694cdba85279de26c31fb8b651
+end928a47694cdba85279de26c31fb8b651:
+	;
+	// match: (Lsh32x64 <t> (Lsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end75baf40f7936657fd642b97dcee64d14
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end75baf40f7936657fd642b97dcee64d14
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end75baf40f7936657fd642b97dcee64d14
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end75baf40f7936657fd642b97dcee64d14
+end75baf40f7936657fd642b97dcee64d14:
+	;
+	// match: (Lsh32x64 <t> (Lsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end7f5e04f950621dae4f1a2d8cf2e678b6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7f5e04f950621dae4f1a2d8cf2e678b6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7f5e04f950621dae4f1a2d8cf2e678b6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7f5e04f950621dae4f1a2d8cf2e678b6
+end7f5e04f950621dae4f1a2d8cf2e678b6:
+	;
+	// match: (Lsh32x64 <t> (Lsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end299e668636f53783e4afc91ab7a49b24
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end299e668636f53783e4afc91ab7a49b24
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end299e668636f53783e4afc91ab7a49b24
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end299e668636f53783e4afc91ab7a49b24
+end299e668636f53783e4afc91ab7a49b24:
+	;
+	// match: (Lsh32x64 <t> (Lsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto ende69b437268e7adc59a1835cbe6d52835
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende69b437268e7adc59a1835cbe6d52835
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende69b437268e7adc59a1835cbe6d52835
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende69b437268e7adc59a1835cbe6d52835
+ende69b437268e7adc59a1835cbe6d52835:
+	;
+	// match: (Lsh32x64 <t> (Lsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end7777b3672d9d5bad2446b948849c0d46
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7777b3672d9d5bad2446b948849c0d46
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7777b3672d9d5bad2446b948849c0d46
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7777b3672d9d5bad2446b948849c0d46
+end7777b3672d9d5bad2446b948849c0d46:
+	;
+	// match: (Lsh32x64 <t> (Lsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end628f27c82cb1ae14e20dff0c7c065007
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end628f27c82cb1ae14e20dff0c7c065007
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end628f27c82cb1ae14e20dff0c7c065007
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end628f27c82cb1ae14e20dff0c7c065007
+end628f27c82cb1ae14e20dff0c7c065007:
+	;
+	// match: (Lsh32x64 <t> (Lsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end098dcf23131abce4dcce14ed61daf981
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end098dcf23131abce4dcce14ed61daf981
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end098dcf23131abce4dcce14ed61daf981
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end098dcf23131abce4dcce14ed61daf981
+end098dcf23131abce4dcce14ed61daf981:
+	;
+	// match: (Lsh32x64 <t> (Lsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end24b174a456e96f7bbaa5e5a88ff2b63b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end24b174a456e96f7bbaa5e5a88ff2b63b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end24b174a456e96f7bbaa5e5a88ff2b63b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end24b174a456e96f7bbaa5e5a88ff2b63b
+end24b174a456e96f7bbaa5e5a88ff2b63b:
+	;
+	// match: (Lsh32x64 <t> (Lsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end769e7e612051dc7dd3395b49a52786ff
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end769e7e612051dc7dd3395b49a52786ff
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end769e7e612051dc7dd3395b49a52786ff
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end769e7e612051dc7dd3395b49a52786ff
+end769e7e612051dc7dd3395b49a52786ff:
+	;
+	// match: (Lsh32x64 <t> (Lsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end2f3ce72f1fa50a009a1cb5789b032582
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2f3ce72f1fa50a009a1cb5789b032582
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2f3ce72f1fa50a009a1cb5789b032582
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2f3ce72f1fa50a009a1cb5789b032582
+end2f3ce72f1fa50a009a1cb5789b032582:
+	;
+	// match: (Lsh32x64 <t> (Lsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end8aec0a4e94050101d58303bf21351dbe
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8aec0a4e94050101d58303bf21351dbe
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8aec0a4e94050101d58303bf21351dbe
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8aec0a4e94050101d58303bf21351dbe
+end8aec0a4e94050101d58303bf21351dbe:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh32x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh32x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endd4b4e58926a98c8e29976563b19c4c98
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endd4b4e58926a98c8e29976563b19c4c98
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endd4b4e58926a98c8e29976563b19c4c98
+endd4b4e58926a98c8e29976563b19c4c98:
+	;
+	// match: (Lsh32x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end777de31dcb45362b0e2a890dc9ee9ce5
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end777de31dcb45362b0e2a890dc9ee9ce5
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end777de31dcb45362b0e2a890dc9ee9ce5
+end777de31dcb45362b0e2a890dc9ee9ce5:
+	;
+	// match: (Lsh32x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endcdf03b630f9989e62aa06b134985c699
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endcdf03b630f9989e62aa06b134985c699
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endcdf03b630f9989e62aa06b134985c699
+endcdf03b630f9989e62aa06b134985c699:
+	;
+	// match: (Lsh32x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end9294bc7d4b77404aaae05f431351c936
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end9294bc7d4b77404aaae05f431351c936
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9294bc7d4b77404aaae05f431351c936
+end9294bc7d4b77404aaae05f431351c936:
+	;
+	// match: (Lsh32x8 <t> (Lsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end4c90afb8f5265815ae67eeadbabf9ec2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4c90afb8f5265815ae67eeadbabf9ec2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4c90afb8f5265815ae67eeadbabf9ec2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4c90afb8f5265815ae67eeadbabf9ec2
+end4c90afb8f5265815ae67eeadbabf9ec2:
+	;
+	// match: (Lsh32x8 <t> (Lsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto ende467ba08c8bfb5d1d668cef22fdb76e9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende467ba08c8bfb5d1d668cef22fdb76e9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende467ba08c8bfb5d1d668cef22fdb76e9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende467ba08c8bfb5d1d668cef22fdb76e9
+ende467ba08c8bfb5d1d668cef22fdb76e9:
+	;
+	// match: (Lsh32x8 <t> (Lsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto endb8ca145b8b8936795c18da9d43cd4746
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endb8ca145b8b8936795c18da9d43cd4746
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endb8ca145b8b8936795c18da9d43cd4746
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb8ca145b8b8936795c18da9d43cd4746
+endb8ca145b8b8936795c18da9d43cd4746:
+	;
+	// match: (Lsh32x8 <t> (Lsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto enddc67c7dfe75e63014ca1f5a4b6e0c07a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enddc67c7dfe75e63014ca1f5a4b6e0c07a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enddc67c7dfe75e63014ca1f5a4b6e0c07a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddc67c7dfe75e63014ca1f5a4b6e0c07a
+enddc67c7dfe75e63014ca1f5a4b6e0c07a:
+	;
+	// match: (Lsh32x8 <t> (Lsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end24a01eb63ea769aa3adcb738325c920a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end24a01eb63ea769aa3adcb738325c920a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end24a01eb63ea769aa3adcb738325c920a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end24a01eb63ea769aa3adcb738325c920a
+end24a01eb63ea769aa3adcb738325c920a:
+	;
+	// match: (Lsh32x8 <t> (Lsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end94b56fca12afbbf8dcf26a30314c1d61
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end94b56fca12afbbf8dcf26a30314c1d61
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end94b56fca12afbbf8dcf26a30314c1d61
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end94b56fca12afbbf8dcf26a30314c1d61
+end94b56fca12afbbf8dcf26a30314c1d61:
+	;
+	// match: (Lsh32x8 <t> (Lsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end50648d05651066f307298bebd88308cf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end50648d05651066f307298bebd88308cf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end50648d05651066f307298bebd88308cf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end50648d05651066f307298bebd88308cf
+end50648d05651066f307298bebd88308cf:
+	;
+	// match: (Lsh32x8 <t> (Lsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end8e895dd2343564d26f0bb2b3d685b984
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8e895dd2343564d26f0bb2b3d685b984
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8e895dd2343564d26f0bb2b3d685b984
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8e895dd2343564d26f0bb2b3d685b984
+end8e895dd2343564d26f0bb2b3d685b984:
+	;
+	// match: (Lsh32x8 <t> (Lsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end41c9d93637099e41278ca330589b2185
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end41c9d93637099e41278ca330589b2185
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end41c9d93637099e41278ca330589b2185
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end41c9d93637099e41278ca330589b2185
+end41c9d93637099e41278ca330589b2185:
+	;
+	// match: (Lsh32x8 <t> (Lsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end7edbab1fc4404182054255b62b58879f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7edbab1fc4404182054255b62b58879f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7edbab1fc4404182054255b62b58879f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7edbab1fc4404182054255b62b58879f
+end7edbab1fc4404182054255b62b58879f:
+	;
+	// match: (Lsh32x8 <t> (Lsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end3e493a1e979acab264fe1b983f01b728
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end3e493a1e979acab264fe1b983f01b728
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3e493a1e979acab264fe1b983f01b728
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3e493a1e979acab264fe1b983f01b728
+end3e493a1e979acab264fe1b983f01b728:
+	;
+	// match: (Lsh32x8 <t> (Lsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto endde54dd3a1c2d14e411cafd034370e6a6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endde54dd3a1c2d14e411cafd034370e6a6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endde54dd3a1c2d14e411cafd034370e6a6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endde54dd3a1c2d14e411cafd034370e6a6
+endde54dd3a1c2d14e411cafd034370e6a6:
+	;
+	// match: (Lsh32x8 <t> (Lsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto endf5d2d13e5d1f7f3b8a92d08b882e1298
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endf5d2d13e5d1f7f3b8a92d08b882e1298
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf5d2d13e5d1f7f3b8a92d08b882e1298
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf5d2d13e5d1f7f3b8a92d08b882e1298
+endf5d2d13e5d1f7f3b8a92d08b882e1298:
+	;
+	// match: (Lsh32x8 <t> (Lsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end64dff2a3b717e283a8b3b646dcb8e818
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end64dff2a3b717e283a8b3b646dcb8e818
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end64dff2a3b717e283a8b3b646dcb8e818
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end64dff2a3b717e283a8b3b646dcb8e818
+end64dff2a3b717e283a8b3b646dcb8e818:
+	;
+	// match: (Lsh32x8 <t> (Lsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end0478e89ea86b3487527fd7503de599ab
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0478e89ea86b3487527fd7503de599ab
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0478e89ea86b3487527fd7503de599ab
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0478e89ea86b3487527fd7503de599ab
+end0478e89ea86b3487527fd7503de599ab:
+	;
+	// match: (Lsh32x8 <t> (Lsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end2142adf8f0e5fa9ac7ace804c4674bd2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2142adf8f0e5fa9ac7ace804c4674bd2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2142adf8f0e5fa9ac7ace804c4674bd2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2142adf8f0e5fa9ac7ace804c4674bd2
+end2142adf8f0e5fa9ac7ace804c4674bd2:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh64x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh64x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end30205d51a85e26c857cf4c8272c168be
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end30205d51a85e26c857cf4c8272c168be
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end30205d51a85e26c857cf4c8272c168be
+end30205d51a85e26c857cf4c8272c168be:
+	;
+	// match: (Lsh64x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end51bbd4bb6eacae41d1a8d4508a39609f
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end51bbd4bb6eacae41d1a8d4508a39609f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end51bbd4bb6eacae41d1a8d4508a39609f
+end51bbd4bb6eacae41d1a8d4508a39609f:
+	;
+	// match: (Lsh64x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end552e38924cde9020d33e0ef4db787456
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end552e38924cde9020d33e0ef4db787456
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end552e38924cde9020d33e0ef4db787456
+end552e38924cde9020d33e0ef4db787456:
+	;
+	// match: (Lsh64x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto ende0b312b842a2bc7755d141e05350d31a
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto ende0b312b842a2bc7755d141e05350d31a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ende0b312b842a2bc7755d141e05350d31a
+ende0b312b842a2bc7755d141e05350d31a:
+	;
+	// match: (Lsh64x16 <t> (Lsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end8400ca64de32eca9aa6b123ba75eaadb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8400ca64de32eca9aa6b123ba75eaadb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8400ca64de32eca9aa6b123ba75eaadb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8400ca64de32eca9aa6b123ba75eaadb
+end8400ca64de32eca9aa6b123ba75eaadb:
+	;
+	// match: (Lsh64x16 <t> (Lsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto endd1707c683707727adf3f5de6e15dd371
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endd1707c683707727adf3f5de6e15dd371
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endd1707c683707727adf3f5de6e15dd371
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd1707c683707727adf3f5de6e15dd371
+endd1707c683707727adf3f5de6e15dd371:
+	;
+	// match: (Lsh64x16 <t> (Lsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end7e585e03850820fe090c705e7cf11ac8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7e585e03850820fe090c705e7cf11ac8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end7e585e03850820fe090c705e7cf11ac8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7e585e03850820fe090c705e7cf11ac8
+end7e585e03850820fe090c705e7cf11ac8:
+	;
+	// match: (Lsh64x16 <t> (Lsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end3da83bf02cefacaa64c0b0fc9228a401
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3da83bf02cefacaa64c0b0fc9228a401
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end3da83bf02cefacaa64c0b0fc9228a401
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3da83bf02cefacaa64c0b0fc9228a401
+end3da83bf02cefacaa64c0b0fc9228a401:
+	;
+	// match: (Lsh64x16 <t> (Lsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto ende6c52f6c3d21bd002991999b15cf5734
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende6c52f6c3d21bd002991999b15cf5734
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende6c52f6c3d21bd002991999b15cf5734
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende6c52f6c3d21bd002991999b15cf5734
+ende6c52f6c3d21bd002991999b15cf5734:
+	;
+	// match: (Lsh64x16 <t> (Lsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto endcbbac0e0fbe3b34a7cdf5b2f92385894
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endcbbac0e0fbe3b34a7cdf5b2f92385894
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcbbac0e0fbe3b34a7cdf5b2f92385894
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcbbac0e0fbe3b34a7cdf5b2f92385894
+endcbbac0e0fbe3b34a7cdf5b2f92385894:
+	;
+	// match: (Lsh64x16 <t> (Lsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto endececd87fe7aeda23850827dba44e4ea8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endececd87fe7aeda23850827dba44e4ea8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endececd87fe7aeda23850827dba44e4ea8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endececd87fe7aeda23850827dba44e4ea8
+endececd87fe7aeda23850827dba44e4ea8:
+	;
+	// match: (Lsh64x16 <t> (Lsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end59e4e014615d060b2c9dd6746bcfb03c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end59e4e014615d060b2c9dd6746bcfb03c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end59e4e014615d060b2c9dd6746bcfb03c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end59e4e014615d060b2c9dd6746bcfb03c
+end59e4e014615d060b2c9dd6746bcfb03c:
+	;
+	// match: (Lsh64x16 <t> (Lsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end9cd1765909ddf4f5562c4c26243065d6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9cd1765909ddf4f5562c4c26243065d6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9cd1765909ddf4f5562c4c26243065d6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9cd1765909ddf4f5562c4c26243065d6
+end9cd1765909ddf4f5562c4c26243065d6:
+	;
+	// match: (Lsh64x16 <t> (Lsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end031ae4530cf83b801789d9f49b871220
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end031ae4530cf83b801789d9f49b871220
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end031ae4530cf83b801789d9f49b871220
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end031ae4530cf83b801789d9f49b871220
+end031ae4530cf83b801789d9f49b871220:
+	;
+	// match: (Lsh64x16 <t> (Lsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end43201e834e2abea824cd9099296f8e65
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end43201e834e2abea824cd9099296f8e65
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end43201e834e2abea824cd9099296f8e65
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end43201e834e2abea824cd9099296f8e65
+end43201e834e2abea824cd9099296f8e65:
+	;
+	// match: (Lsh64x16 <t> (Lsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end4783bb8eb82660d3e9ce387c6377b397
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4783bb8eb82660d3e9ce387c6377b397
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4783bb8eb82660d3e9ce387c6377b397
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4783bb8eb82660d3e9ce387c6377b397
+end4783bb8eb82660d3e9ce387c6377b397:
+	;
+	// match: (Lsh64x16 <t> (Lsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end4b81e7b7ac9b48d719f1d57bf2f2bbc3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4b81e7b7ac9b48d719f1d57bf2f2bbc3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4b81e7b7ac9b48d719f1d57bf2f2bbc3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4b81e7b7ac9b48d719f1d57bf2f2bbc3
+end4b81e7b7ac9b48d719f1d57bf2f2bbc3:
+	;
+	// match: (Lsh64x16 <t> (Lsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end08331fc3b32971659e759ed2a49f8ad5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end08331fc3b32971659e759ed2a49f8ad5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end08331fc3b32971659e759ed2a49f8ad5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end08331fc3b32971659e759ed2a49f8ad5
+end08331fc3b32971659e759ed2a49f8ad5:
+	;
+	// match: (Lsh64x16 <t> (Lsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end4d6d999b8308b9568aa75e0bc7782dc7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end4d6d999b8308b9568aa75e0bc7782dc7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4d6d999b8308b9568aa75e0bc7782dc7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4d6d999b8308b9568aa75e0bc7782dc7
+end4d6d999b8308b9568aa75e0bc7782dc7:
+	;
+	// match: (Lsh64x16 <t> (Lsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end7e5849f10a0b66938b31f12f55a7a9e6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7e5849f10a0b66938b31f12f55a7a9e6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end7e5849f10a0b66938b31f12f55a7a9e6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7e5849f10a0b66938b31f12f55a7a9e6
+end7e5849f10a0b66938b31f12f55a7a9e6:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh64x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh64x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endb9913c23db11b306ece37c2bf7fc5e85
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endb9913c23db11b306ece37c2bf7fc5e85
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb9913c23db11b306ece37c2bf7fc5e85
+endb9913c23db11b306ece37c2bf7fc5e85:
+	;
+	// match: (Lsh64x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end8ba68539859d9cf16ec8a67ac36a9a10
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end8ba68539859d9cf16ec8a67ac36a9a10
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end8ba68539859d9cf16ec8a67ac36a9a10
+end8ba68539859d9cf16ec8a67ac36a9a10:
+	;
+	// match: (Lsh64x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end8686196d73fcaa7b1a0b07f4870740e1
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end8686196d73fcaa7b1a0b07f4870740e1
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end8686196d73fcaa7b1a0b07f4870740e1
+end8686196d73fcaa7b1a0b07f4870740e1:
+	;
+	// match: (Lsh64x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end01c9ea00f19885d1b6dd13f9352eed6d
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end01c9ea00f19885d1b6dd13f9352eed6d
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end01c9ea00f19885d1b6dd13f9352eed6d
+end01c9ea00f19885d1b6dd13f9352eed6d:
+	;
+	// match: (Lsh64x32 <t> (Lsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto endb81f2790e5638d451dee7322b5b13dc0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb81f2790e5638d451dee7322b5b13dc0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb81f2790e5638d451dee7322b5b13dc0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb81f2790e5638d451dee7322b5b13dc0
+endb81f2790e5638d451dee7322b5b13dc0:
+	;
+	// match: (Lsh64x32 <t> (Lsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end3819f6a6c9b4e102d877c44991a8e2c5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end3819f6a6c9b4e102d877c44991a8e2c5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end3819f6a6c9b4e102d877c44991a8e2c5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3819f6a6c9b4e102d877c44991a8e2c5
+end3819f6a6c9b4e102d877c44991a8e2c5:
+	;
+	// match: (Lsh64x32 <t> (Lsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end2ad429fa2a186f94a207b2f06d56c5bd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2ad429fa2a186f94a207b2f06d56c5bd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end2ad429fa2a186f94a207b2f06d56c5bd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2ad429fa2a186f94a207b2f06d56c5bd
+end2ad429fa2a186f94a207b2f06d56c5bd:
+	;
+	// match: (Lsh64x32 <t> (Lsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto endefa5a2fc03da047f72da41148612ac5a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endefa5a2fc03da047f72da41148612ac5a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endefa5a2fc03da047f72da41148612ac5a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endefa5a2fc03da047f72da41148612ac5a
+endefa5a2fc03da047f72da41148612ac5a:
+	;
+	// match: (Lsh64x32 <t> (Lsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end54a2be45624f9a3a003675b6b932a00c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end54a2be45624f9a3a003675b6b932a00c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end54a2be45624f9a3a003675b6b932a00c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end54a2be45624f9a3a003675b6b932a00c
+end54a2be45624f9a3a003675b6b932a00c:
+	;
+	// match: (Lsh64x32 <t> (Lsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto endb63bf956887650ddea2656c0658795c7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endb63bf956887650ddea2656c0658795c7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb63bf956887650ddea2656c0658795c7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb63bf956887650ddea2656c0658795c7
+endb63bf956887650ddea2656c0658795c7:
+	;
+	// match: (Lsh64x32 <t> (Lsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end5f180b438917e930608be7652f96839a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5f180b438917e930608be7652f96839a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5f180b438917e930608be7652f96839a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5f180b438917e930608be7652f96839a
+end5f180b438917e930608be7652f96839a:
+	;
+	// match: (Lsh64x32 <t> (Lsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto enda5bd2e6f61252ce4cc01359d552ffe22
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enda5bd2e6f61252ce4cc01359d552ffe22
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda5bd2e6f61252ce4cc01359d552ffe22
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda5bd2e6f61252ce4cc01359d552ffe22
+enda5bd2e6f61252ce4cc01359d552ffe22:
+	;
+	// match: (Lsh64x32 <t> (Lsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto endcbb779564a5cd3d1c78eddd3199698e0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endcbb779564a5cd3d1c78eddd3199698e0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endcbb779564a5cd3d1c78eddd3199698e0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcbb779564a5cd3d1c78eddd3199698e0
+endcbb779564a5cd3d1c78eddd3199698e0:
+	;
+	// match: (Lsh64x32 <t> (Lsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end5201f402fb348c101a4195b78892c5bb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end5201f402fb348c101a4195b78892c5bb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5201f402fb348c101a4195b78892c5bb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5201f402fb348c101a4195b78892c5bb
+end5201f402fb348c101a4195b78892c5bb:
+	;
+	// match: (Lsh64x32 <t> (Lsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto endefaf2d604ac3dd8e99765b589858894b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endefaf2d604ac3dd8e99765b589858894b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endefaf2d604ac3dd8e99765b589858894b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endefaf2d604ac3dd8e99765b589858894b
+endefaf2d604ac3dd8e99765b589858894b:
+	;
+	// match: (Lsh64x32 <t> (Lsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end3454c6d2f45c46e84ea1a9a1caf68489
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3454c6d2f45c46e84ea1a9a1caf68489
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end3454c6d2f45c46e84ea1a9a1caf68489
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3454c6d2f45c46e84ea1a9a1caf68489
+end3454c6d2f45c46e84ea1a9a1caf68489:
+	;
+	// match: (Lsh64x32 <t> (Lsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end987f7e09a8899eda52f84948f2de67e4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end987f7e09a8899eda52f84948f2de67e4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end987f7e09a8899eda52f84948f2de67e4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end987f7e09a8899eda52f84948f2de67e4
+end987f7e09a8899eda52f84948f2de67e4:
+	;
+	// match: (Lsh64x32 <t> (Lsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto endc05dbc3726dc32f2875f17c998fd6d1f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc05dbc3726dc32f2875f17c998fd6d1f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc05dbc3726dc32f2875f17c998fd6d1f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc05dbc3726dc32f2875f17c998fd6d1f
+endc05dbc3726dc32f2875f17c998fd6d1f:
+	;
+	// match: (Lsh64x32 <t> (Lsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto ende0fa53c67ef5985f724405703e5678d0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende0fa53c67ef5985f724405703e5678d0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende0fa53c67ef5985f724405703e5678d0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende0fa53c67ef5985f724405703e5678d0
+ende0fa53c67ef5985f724405703e5678d0:
+	;
+	// match: (Lsh64x32 <t> (Lsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto endfb3519a13c7919b95b58059608949513
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endfb3519a13c7919b95b58059608949513
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endfb3519a13c7919b95b58059608949513
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfb3519a13c7919b95b58059608949513
+endfb3519a13c7919b95b58059608949513:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh64x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh64x64 _ (Const64 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end66324a83748acd05484762f9e3fbc2ae
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto end66324a83748acd05484762f9e3fbc2ae
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end66324a83748acd05484762f9e3fbc2ae
+end66324a83748acd05484762f9e3fbc2ae:
+	;
+	// match: (Lsh64x64 _ (Const32 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end46c959236089235c510b9f2161c255d2
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto end46c959236089235c510b9f2161c255d2
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end46c959236089235c510b9f2161c255d2
+end46c959236089235c510b9f2161c255d2:
+	;
+	// match: (Lsh64x64 _ (Const16 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end1985d3798d9f7ecf2fcabb07221b984c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto end1985d3798d9f7ecf2fcabb07221b984c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end1985d3798d9f7ecf2fcabb07221b984c
+end1985d3798d9f7ecf2fcabb07221b984c:
+	;
+	// match: (Lsh64x64 _ (Const8 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end5132a2485fcec478d60edb3f6d7860b3
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto end5132a2485fcec478d60edb3f6d7860b3
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end5132a2485fcec478d60edb3f6d7860b3
+end5132a2485fcec478d60edb3f6d7860b3:
+	;
+	// match: (Lsh64x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endc439b72d14756dbe54fe664f42a74091
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endc439b72d14756dbe54fe664f42a74091
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc439b72d14756dbe54fe664f42a74091
+endc439b72d14756dbe54fe664f42a74091:
+	;
+	// match: (Lsh64x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end87c1a977475b5662573760e1ad12ab3e
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end87c1a977475b5662573760e1ad12ab3e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end87c1a977475b5662573760e1ad12ab3e
+end87c1a977475b5662573760e1ad12ab3e:
+	;
+	// match: (Lsh64x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end4345a913b499f3e752864520393ea7a5
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end4345a913b499f3e752864520393ea7a5
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4345a913b499f3e752864520393ea7a5
+end4345a913b499f3e752864520393ea7a5:
+	;
+	// match: (Lsh64x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto enda0f718b21c974761b9b57bcb0a01dfc6
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto enda0f718b21c974761b9b57bcb0a01dfc6
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda0f718b21c974761b9b57bcb0a01dfc6
+enda0f718b21c974761b9b57bcb0a01dfc6:
+	;
+	// match: (Lsh64x64 <t> (Lsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto endd3557def0ed5c35f7fddef823b429563
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endd3557def0ed5c35f7fddef823b429563
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endd3557def0ed5c35f7fddef823b429563
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd3557def0ed5c35f7fddef823b429563
+endd3557def0ed5c35f7fddef823b429563:
+	;
+	// match: (Lsh64x64 <t> (Lsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end7153266d34a0f392acda89af91cdf24d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7153266d34a0f392acda89af91cdf24d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7153266d34a0f392acda89af91cdf24d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7153266d34a0f392acda89af91cdf24d
+end7153266d34a0f392acda89af91cdf24d:
+	;
+	// match: (Lsh64x64 <t> (Lsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto endced3faafec03558d62633e8fcabbe99c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endced3faafec03558d62633e8fcabbe99c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endced3faafec03558d62633e8fcabbe99c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endced3faafec03558d62633e8fcabbe99c
+endced3faafec03558d62633e8fcabbe99c:
+	;
+	// match: (Lsh64x64 <t> (Lsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto endbda2f930b27ac12fcc68aaaf1760315f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endbda2f930b27ac12fcc68aaaf1760315f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endbda2f930b27ac12fcc68aaaf1760315f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbda2f930b27ac12fcc68aaaf1760315f
+endbda2f930b27ac12fcc68aaaf1760315f:
+	;
+	// match: (Lsh64x64 <t> (Lsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end11a787059567ace9d9a0d63298471f4f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end11a787059567ace9d9a0d63298471f4f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end11a787059567ace9d9a0d63298471f4f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end11a787059567ace9d9a0d63298471f4f
+end11a787059567ace9d9a0d63298471f4f:
+	;
+	// match: (Lsh64x64 <t> (Lsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end6a027695a3ed6b03f16fe595fb3d402b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end6a027695a3ed6b03f16fe595fb3d402b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end6a027695a3ed6b03f16fe595fb3d402b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6a027695a3ed6b03f16fe595fb3d402b
+end6a027695a3ed6b03f16fe595fb3d402b:
+	;
+	// match: (Lsh64x64 <t> (Lsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end8640d8f7475ca70ddd4d2b2fcc844b57
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8640d8f7475ca70ddd4d2b2fcc844b57
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8640d8f7475ca70ddd4d2b2fcc844b57
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8640d8f7475ca70ddd4d2b2fcc844b57
+end8640d8f7475ca70ddd4d2b2fcc844b57:
+	;
+	// match: (Lsh64x64 <t> (Lsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end2742b41b0d566dae4855f3c9bb3f689d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2742b41b0d566dae4855f3c9bb3f689d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2742b41b0d566dae4855f3c9bb3f689d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2742b41b0d566dae4855f3c9bb3f689d
+end2742b41b0d566dae4855f3c9bb3f689d:
+	;
+	// match: (Lsh64x64 <t> (Lsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end53054a2195a93f325f164e605bcef11e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end53054a2195a93f325f164e605bcef11e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end53054a2195a93f325f164e605bcef11e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end53054a2195a93f325f164e605bcef11e
+end53054a2195a93f325f164e605bcef11e:
+	;
+	// match: (Lsh64x64 <t> (Lsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end8bb2505f88cd0a51513396ad10eea03e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8bb2505f88cd0a51513396ad10eea03e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8bb2505f88cd0a51513396ad10eea03e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8bb2505f88cd0a51513396ad10eea03e
+end8bb2505f88cd0a51513396ad10eea03e:
+	;
+	// match: (Lsh64x64 <t> (Lsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto endf03f896820ca2ddfe9d0c9ba38978afe
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endf03f896820ca2ddfe9d0c9ba38978afe
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endf03f896820ca2ddfe9d0c9ba38978afe
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf03f896820ca2ddfe9d0c9ba38978afe
+endf03f896820ca2ddfe9d0c9ba38978afe:
+	;
+	// match: (Lsh64x64 <t> (Lsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end3aae4a1b78d1db28dd2603160995e8cf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3aae4a1b78d1db28dd2603160995e8cf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end3aae4a1b78d1db28dd2603160995e8cf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3aae4a1b78d1db28dd2603160995e8cf
+end3aae4a1b78d1db28dd2603160995e8cf:
+	;
+	// match: (Lsh64x64 <t> (Lsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto enda4bf16ae925c1a611636a85f6af9665a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enda4bf16ae925c1a611636a85f6af9665a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda4bf16ae925c1a611636a85f6af9665a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda4bf16ae925c1a611636a85f6af9665a
+enda4bf16ae925c1a611636a85f6af9665a:
+	;
+	// match: (Lsh64x64 <t> (Lsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end4025f66f1eb71aa83c9b075b0acf15ee
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4025f66f1eb71aa83c9b075b0acf15ee
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end4025f66f1eb71aa83c9b075b0acf15ee
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4025f66f1eb71aa83c9b075b0acf15ee
+end4025f66f1eb71aa83c9b075b0acf15ee:
+	;
+	// match: (Lsh64x64 <t> (Lsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end3ae108409bb99bf478b1e2619d20e81e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end3ae108409bb99bf478b1e2619d20e81e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end3ae108409bb99bf478b1e2619d20e81e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3ae108409bb99bf478b1e2619d20e81e
+end3ae108409bb99bf478b1e2619d20e81e:
+	;
+	// match: (Lsh64x64 <t> (Lsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end73ac3bd5fdf7a406d757f153b699c5c0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end73ac3bd5fdf7a406d757f153b699c5c0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end73ac3bd5fdf7a406d757f153b699c5c0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end73ac3bd5fdf7a406d757f153b699c5c0
+end73ac3bd5fdf7a406d757f153b699c5c0:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh64x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh64x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end3a5a3e03097855d3bfe546d6a5c14178
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end3a5a3e03097855d3bfe546d6a5c14178
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end3a5a3e03097855d3bfe546d6a5c14178
+end3a5a3e03097855d3bfe546d6a5c14178:
+	;
+	// match: (Lsh64x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end70288d24c8adb37fbce9dafd673bf91e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end70288d24c8adb37fbce9dafd673bf91e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end70288d24c8adb37fbce9dafd673bf91e
+end70288d24c8adb37fbce9dafd673bf91e:
+	;
+	// match: (Lsh64x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto enda0078e8600ec1c5c3dae036c2b136bd7
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto enda0078e8600ec1c5c3dae036c2b136bd7
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda0078e8600ec1c5c3dae036c2b136bd7
+enda0078e8600ec1c5c3dae036c2b136bd7:
+	;
+	// match: (Lsh64x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end4f593492b213dc298033e2c37d65457c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end4f593492b213dc298033e2c37d65457c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4f593492b213dc298033e2c37d65457c
+end4f593492b213dc298033e2c37d65457c:
+	;
+	// match: (Lsh64x8 <t> (Lsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end7ef4a25ed1da581fdf28248a1a92561a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7ef4a25ed1da581fdf28248a1a92561a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7ef4a25ed1da581fdf28248a1a92561a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7ef4a25ed1da581fdf28248a1a92561a
+end7ef4a25ed1da581fdf28248a1a92561a:
+	;
+	// match: (Lsh64x8 <t> (Lsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto endaa9588cc71f5df3036e14811d92823ac
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endaa9588cc71f5df3036e14811d92823ac
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endaa9588cc71f5df3036e14811d92823ac
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaa9588cc71f5df3036e14811d92823ac
+endaa9588cc71f5df3036e14811d92823ac:
+	;
+	// match: (Lsh64x8 <t> (Lsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end9aea6b9a03f579b6614b20818a16e7d1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end9aea6b9a03f579b6614b20818a16e7d1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9aea6b9a03f579b6614b20818a16e7d1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9aea6b9a03f579b6614b20818a16e7d1
+end9aea6b9a03f579b6614b20818a16e7d1:
+	;
+	// match: (Lsh64x8 <t> (Lsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto endd780c64d60db53358d0e4663fe2b2c0e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endd780c64d60db53358d0e4663fe2b2c0e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd780c64d60db53358d0e4663fe2b2c0e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd780c64d60db53358d0e4663fe2b2c0e
+endd780c64d60db53358d0e4663fe2b2c0e:
+	;
+	// match: (Lsh64x8 <t> (Lsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end9d274d5dd88cb7928566331a4f5ebe3c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9d274d5dd88cb7928566331a4f5ebe3c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9d274d5dd88cb7928566331a4f5ebe3c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9d274d5dd88cb7928566331a4f5ebe3c
+end9d274d5dd88cb7928566331a4f5ebe3c:
+	;
+	// match: (Lsh64x8 <t> (Lsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto enddba4a7b20c789d5af03dac7677fa7fdc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enddba4a7b20c789d5af03dac7677fa7fdc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enddba4a7b20c789d5af03dac7677fa7fdc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddba4a7b20c789d5af03dac7677fa7fdc
+enddba4a7b20c789d5af03dac7677fa7fdc:
+	;
+	// match: (Lsh64x8 <t> (Lsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end7717fe2df7859619ed3f4d560c3eee9a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7717fe2df7859619ed3f4d560c3eee9a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7717fe2df7859619ed3f4d560c3eee9a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7717fe2df7859619ed3f4d560c3eee9a
+end7717fe2df7859619ed3f4d560c3eee9a:
+	;
+	// match: (Lsh64x8 <t> (Lsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end9b2f04cab9739b93a6a7bd217a5ba7d3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end9b2f04cab9739b93a6a7bd217a5ba7d3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9b2f04cab9739b93a6a7bd217a5ba7d3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9b2f04cab9739b93a6a7bd217a5ba7d3
+end9b2f04cab9739b93a6a7bd217a5ba7d3:
+	;
+	// match: (Lsh64x8 <t> (Lsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto endcc9f975969ca13eae7d6c062e20d00ac
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endcc9f975969ca13eae7d6c062e20d00ac
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endcc9f975969ca13eae7d6c062e20d00ac
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcc9f975969ca13eae7d6c062e20d00ac
+endcc9f975969ca13eae7d6c062e20d00ac:
+	;
+	// match: (Lsh64x8 <t> (Lsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto endc1cb429b9c3e736946a10e393c5a23e5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc1cb429b9c3e736946a10e393c5a23e5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endc1cb429b9c3e736946a10e393c5a23e5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc1cb429b9c3e736946a10e393c5a23e5
+endc1cb429b9c3e736946a10e393c5a23e5:
+	;
+	// match: (Lsh64x8 <t> (Lsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto endd38e65aecbec7d0b94bcbe4a50bb85d4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endd38e65aecbec7d0b94bcbe4a50bb85d4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd38e65aecbec7d0b94bcbe4a50bb85d4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd38e65aecbec7d0b94bcbe4a50bb85d4
+endd38e65aecbec7d0b94bcbe4a50bb85d4:
+	;
+	// match: (Lsh64x8 <t> (Lsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end306c0a9d74a3f8090302701cad4f0c78
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end306c0a9d74a3f8090302701cad4f0c78
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end306c0a9d74a3f8090302701cad4f0c78
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end306c0a9d74a3f8090302701cad4f0c78
+end306c0a9d74a3f8090302701cad4f0c78:
+	;
+	// match: (Lsh64x8 <t> (Lsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto enda7db02b7a2cfe130d96da104faba6993
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enda7db02b7a2cfe130d96da104faba6993
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enda7db02b7a2cfe130d96da104faba6993
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda7db02b7a2cfe130d96da104faba6993
+enda7db02b7a2cfe130d96da104faba6993:
+	;
+	// match: (Lsh64x8 <t> (Lsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto endd96feb80b4c7edb5a2eeaaf045967bb3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endd96feb80b4c7edb5a2eeaaf045967bb3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd96feb80b4c7edb5a2eeaaf045967bb3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd96feb80b4c7edb5a2eeaaf045967bb3
+endd96feb80b4c7edb5a2eeaaf045967bb3:
+	;
+	// match: (Lsh64x8 <t> (Lsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end4f45ec30f8c0f4ea6aacdbbdf3e10fd3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end4f45ec30f8c0f4ea6aacdbbdf3e10fd3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4f45ec30f8c0f4ea6aacdbbdf3e10fd3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4f45ec30f8c0f4ea6aacdbbdf3e10fd3
+end4f45ec30f8c0f4ea6aacdbbdf3e10fd3:
+	;
+	// match: (Lsh64x8 <t> (Lsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto endcd44da01781848e9909f20d5b00e1726
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endcd44da01781848e9909f20d5b00e1726
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endcd44da01781848e9909f20d5b00e1726
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcd44da01781848e9909f20d5b00e1726
+endcd44da01781848e9909f20d5b00e1726:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh8x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh8x16 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end23e9f3ce3016d5d534c3d84b76539052
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end23e9f3ce3016d5d534c3d84b76539052
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end23e9f3ce3016d5d534c3d84b76539052
+end23e9f3ce3016d5d534c3d84b76539052:
+	;
+	// match: (Lsh8x16 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto enddb4acd013dc9c2147b73fb99981244ae
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto enddb4acd013dc9c2147b73fb99981244ae
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto enddb4acd013dc9c2147b73fb99981244ae
+enddb4acd013dc9c2147b73fb99981244ae:
+	;
+	// match: (Lsh8x16 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endfbd911c431380918850c381f9d20fb8e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endfbd911c431380918850c381f9d20fb8e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endfbd911c431380918850c381f9d20fb8e
+endfbd911c431380918850c381f9d20fb8e:
+	;
+	// match: (Lsh8x16 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end1280945e9d3ee3de8ca11389a56778f9
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end1280945e9d3ee3de8ca11389a56778f9
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end1280945e9d3ee3de8ca11389a56778f9
+end1280945e9d3ee3de8ca11389a56778f9:
+	;
+	// match: (Lsh8x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end005f171dc68620177e4f0047cc3a7001
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end005f171dc68620177e4f0047cc3a7001
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end005f171dc68620177e4f0047cc3a7001
+end005f171dc68620177e4f0047cc3a7001:
+	;
+	// match: (Lsh8x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end2a034d801160496653c15b5ed52d3e79
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end2a034d801160496653c15b5ed52d3e79
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end2a034d801160496653c15b5ed52d3e79
+end2a034d801160496653c15b5ed52d3e79:
+	;
+	// match: (Lsh8x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end4040bf6e34ca0fb9e7acf05346c7f650
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end4040bf6e34ca0fb9e7acf05346c7f650
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4040bf6e34ca0fb9e7acf05346c7f650
+end4040bf6e34ca0fb9e7acf05346c7f650:
+	;
+	// match: (Lsh8x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endf40912c7370e4ecff971ef33ac4ff6e1
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endf40912c7370e4ecff971ef33ac4ff6e1
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endf40912c7370e4ecff971ef33ac4ff6e1
+endf40912c7370e4ecff971ef33ac4ff6e1:
+	;
+	// match: (Lsh8x16 <t> (Lsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto end4eb9553539fefc7d0723d617d0fc7044
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4eb9553539fefc7d0723d617d0fc7044
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4eb9553539fefc7d0723d617d0fc7044
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4eb9553539fefc7d0723d617d0fc7044
+end4eb9553539fefc7d0723d617d0fc7044:
+	;
+	// match: (Lsh8x16 <t> (Lsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end58ee0fdef87fe8eeeef7604f66564211
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end58ee0fdef87fe8eeeef7604f66564211
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end58ee0fdef87fe8eeeef7604f66564211
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end58ee0fdef87fe8eeeef7604f66564211
+end58ee0fdef87fe8eeeef7604f66564211:
+	;
+	// match: (Lsh8x16 <t> (Lsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto endc7d2b129e0d536ab4c6ac8652e95b0ee
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endc7d2b129e0d536ab4c6ac8652e95b0ee
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc7d2b129e0d536ab4c6ac8652e95b0ee
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc7d2b129e0d536ab4c6ac8652e95b0ee
+endc7d2b129e0d536ab4c6ac8652e95b0ee:
+	;
+	// match: (Lsh8x16 <t> (Lsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end2937446bc0473958bf4d2a05fa6fe75e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2937446bc0473958bf4d2a05fa6fe75e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end2937446bc0473958bf4d2a05fa6fe75e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2937446bc0473958bf4d2a05fa6fe75e
+end2937446bc0473958bf4d2a05fa6fe75e:
+	;
+	// match: (Lsh8x16 <t> (Lsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end5534d50a4a7a0c80084d08fe1dc7fbb4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5534d50a4a7a0c80084d08fe1dc7fbb4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5534d50a4a7a0c80084d08fe1dc7fbb4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5534d50a4a7a0c80084d08fe1dc7fbb4
+end5534d50a4a7a0c80084d08fe1dc7fbb4:
+	;
+	// match: (Lsh8x16 <t> (Lsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end180b99a55d7d93c708ab66de934b0a71
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end180b99a55d7d93c708ab66de934b0a71
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end180b99a55d7d93c708ab66de934b0a71
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end180b99a55d7d93c708ab66de934b0a71
+end180b99a55d7d93c708ab66de934b0a71:
+	;
+	// match: (Lsh8x16 <t> (Lsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end668893fc0e6f178d5233e812bcc17638
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end668893fc0e6f178d5233e812bcc17638
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end668893fc0e6f178d5233e812bcc17638
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end668893fc0e6f178d5233e812bcc17638
+end668893fc0e6f178d5233e812bcc17638:
+	;
+	// match: (Lsh8x16 <t> (Lsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end8f471188c68124aaceda28a3c813c9f2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8f471188c68124aaceda28a3c813c9f2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8f471188c68124aaceda28a3c813c9f2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8f471188c68124aaceda28a3c813c9f2
+end8f471188c68124aaceda28a3c813c9f2:
+	;
+	// match: (Lsh8x16 <t> (Lsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto endd3d6adc6d67678de5208f94a07314fb9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endd3d6adc6d67678de5208f94a07314fb9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endd3d6adc6d67678de5208f94a07314fb9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd3d6adc6d67678de5208f94a07314fb9
+endd3d6adc6d67678de5208f94a07314fb9:
+	;
+	// match: (Lsh8x16 <t> (Lsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto ende0c85533b8073e339fffb5fdb83f1268
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende0c85533b8073e339fffb5fdb83f1268
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende0c85533b8073e339fffb5fdb83f1268
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende0c85533b8073e339fffb5fdb83f1268
+ende0c85533b8073e339fffb5fdb83f1268:
+	;
+	// match: (Lsh8x16 <t> (Lsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto endf2cdae4ac8b2b4c167bcc4c1cc1f85d9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endf2cdae4ac8b2b4c167bcc4c1cc1f85d9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf2cdae4ac8b2b4c167bcc4c1cc1f85d9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf2cdae4ac8b2b4c167bcc4c1cc1f85d9
+endf2cdae4ac8b2b4c167bcc4c1cc1f85d9:
+	;
+	// match: (Lsh8x16 <t> (Lsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto endee88510b0c8a34ff7e9e2a3a9c53898e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endee88510b0c8a34ff7e9e2a3a9c53898e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endee88510b0c8a34ff7e9e2a3a9c53898e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endee88510b0c8a34ff7e9e2a3a9c53898e
+endee88510b0c8a34ff7e9e2a3a9c53898e:
+	;
+	// match: (Lsh8x16 <t> (Lsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto endc2056676dbe364ca3d8aa7d470b1a342
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc2056676dbe364ca3d8aa7d470b1a342
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc2056676dbe364ca3d8aa7d470b1a342
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc2056676dbe364ca3d8aa7d470b1a342
+endc2056676dbe364ca3d8aa7d470b1a342:
+	;
+	// match: (Lsh8x16 <t> (Lsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end4315264b9891e15a433e3d94fe1d9590
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4315264b9891e15a433e3d94fe1d9590
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4315264b9891e15a433e3d94fe1d9590
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4315264b9891e15a433e3d94fe1d9590
+end4315264b9891e15a433e3d94fe1d9590:
+	;
+	// match: (Lsh8x16 <t> (Lsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end5367721b6b79774cd61f2d041e5d62c4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5367721b6b79774cd61f2d041e5d62c4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5367721b6b79774cd61f2d041e5d62c4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5367721b6b79774cd61f2d041e5d62c4
+end5367721b6b79774cd61f2d041e5d62c4:
+	;
+	// match: (Lsh8x16 <t> (Lsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Lsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto endee3c5b0c2214015b70834264fce946ca
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endee3c5b0c2214015b70834264fce946ca
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endee3c5b0c2214015b70834264fce946ca
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endee3c5b0c2214015b70834264fce946ca
+endee3c5b0c2214015b70834264fce946ca:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh8x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh8x32 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto ende8955183c34da1b732ec60cb6f69f139
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto ende8955183c34da1b732ec60cb6f69f139
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto ende8955183c34da1b732ec60cb6f69f139
+ende8955183c34da1b732ec60cb6f69f139:
+	;
+	// match: (Lsh8x32 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end441ac3614c817559612d5c7b8fa8bdfe
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end441ac3614c817559612d5c7b8fa8bdfe
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end441ac3614c817559612d5c7b8fa8bdfe
+end441ac3614c817559612d5c7b8fa8bdfe:
+	;
+	// match: (Lsh8x32 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end3107898d1b680e92a577c27d4ac81993
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end3107898d1b680e92a577c27d4ac81993
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end3107898d1b680e92a577c27d4ac81993
+end3107898d1b680e92a577c27d4ac81993:
+	;
+	// match: (Lsh8x32 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endc65050b56caf69797e2a07a016576ae8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endc65050b56caf69797e2a07a016576ae8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endc65050b56caf69797e2a07a016576ae8
+endc65050b56caf69797e2a07a016576ae8:
+	;
+	// match: (Lsh8x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end0d290c14835be3e1c8a9642ad10d4087
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end0d290c14835be3e1c8a9642ad10d4087
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end0d290c14835be3e1c8a9642ad10d4087
+end0d290c14835be3e1c8a9642ad10d4087:
+	;
+	// match: (Lsh8x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto enda0e20f70338110c5c6d77839ee6cb1e0
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto enda0e20f70338110c5c6d77839ee6cb1e0
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda0e20f70338110c5c6d77839ee6cb1e0
+enda0e20f70338110c5c6d77839ee6cb1e0:
+	;
+	// match: (Lsh8x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end89c86cf0627cd6e3e4a563e552819267
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end89c86cf0627cd6e3e4a563e552819267
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end89c86cf0627cd6e3e4a563e552819267
+end89c86cf0627cd6e3e4a563e552819267:
+	;
+	// match: (Lsh8x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end23619f15b8a63b874a388d699c45970e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end23619f15b8a63b874a388d699c45970e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end23619f15b8a63b874a388d699c45970e
+end23619f15b8a63b874a388d699c45970e:
+	;
+	// match: (Lsh8x32 <t> (Lsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto endb82c66584933bfc3745b4c09dc375e8d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb82c66584933bfc3745b4c09dc375e8d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb82c66584933bfc3745b4c09dc375e8d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb82c66584933bfc3745b4c09dc375e8d
+endb82c66584933bfc3745b4c09dc375e8d:
+	;
+	// match: (Lsh8x32 <t> (Lsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end04145ab53e633123370bc18891f659fd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end04145ab53e633123370bc18891f659fd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end04145ab53e633123370bc18891f659fd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end04145ab53e633123370bc18891f659fd
+end04145ab53e633123370bc18891f659fd:
+	;
+	// match: (Lsh8x32 <t> (Lsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end55800ff14ae8371f12133e688900001f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end55800ff14ae8371f12133e688900001f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end55800ff14ae8371f12133e688900001f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end55800ff14ae8371f12133e688900001f
+end55800ff14ae8371f12133e688900001f:
+	;
+	// match: (Lsh8x32 <t> (Lsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end6063dd0aa29ecdecdfb6bca02908117b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end6063dd0aa29ecdecdfb6bca02908117b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end6063dd0aa29ecdecdfb6bca02908117b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6063dd0aa29ecdecdfb6bca02908117b
+end6063dd0aa29ecdecdfb6bca02908117b:
+	;
+	// match: (Lsh8x32 <t> (Lsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto ende2d696eb28fa8abc31493807a2c3195b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende2d696eb28fa8abc31493807a2c3195b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende2d696eb28fa8abc31493807a2c3195b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende2d696eb28fa8abc31493807a2c3195b
+ende2d696eb28fa8abc31493807a2c3195b:
+	;
+	// match: (Lsh8x32 <t> (Lsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto enddfff93689b24680c61b261dca4c682a0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enddfff93689b24680c61b261dca4c682a0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enddfff93689b24680c61b261dca4c682a0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddfff93689b24680c61b261dca4c682a0
+enddfff93689b24680c61b261dca4c682a0:
+	;
+	// match: (Lsh8x32 <t> (Lsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end86b8340c91f0c6b460b0aefe215a83c2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end86b8340c91f0c6b460b0aefe215a83c2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end86b8340c91f0c6b460b0aefe215a83c2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end86b8340c91f0c6b460b0aefe215a83c2
+end86b8340c91f0c6b460b0aefe215a83c2:
+	;
+	// match: (Lsh8x32 <t> (Lsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end8e37e22072cf8691890efb2037bc3afd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8e37e22072cf8691890efb2037bc3afd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8e37e22072cf8691890efb2037bc3afd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8e37e22072cf8691890efb2037bc3afd
+end8e37e22072cf8691890efb2037bc3afd:
+	;
+	// match: (Lsh8x32 <t> (Lsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end273e6198e8171b8e9ffad4c0030c85f3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end273e6198e8171b8e9ffad4c0030c85f3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end273e6198e8171b8e9ffad4c0030c85f3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end273e6198e8171b8e9ffad4c0030c85f3
+end273e6198e8171b8e9ffad4c0030c85f3:
+	;
+	// match: (Lsh8x32 <t> (Lsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end9b5cd73cbea65f00418eb0253fd7690a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end9b5cd73cbea65f00418eb0253fd7690a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end9b5cd73cbea65f00418eb0253fd7690a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9b5cd73cbea65f00418eb0253fd7690a
+end9b5cd73cbea65f00418eb0253fd7690a:
+	;
+	// match: (Lsh8x32 <t> (Lsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end0c6a90e4b1a2cd0c99c9a79b55113706
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0c6a90e4b1a2cd0c99c9a79b55113706
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end0c6a90e4b1a2cd0c99c9a79b55113706
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0c6a90e4b1a2cd0c99c9a79b55113706
+end0c6a90e4b1a2cd0c99c9a79b55113706:
+	;
+	// match: (Lsh8x32 <t> (Lsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end93f7aecc6c4edb57c277c1189c90d9b6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end93f7aecc6c4edb57c277c1189c90d9b6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end93f7aecc6c4edb57c277c1189c90d9b6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end93f7aecc6c4edb57c277c1189c90d9b6
+end93f7aecc6c4edb57c277c1189c90d9b6:
+	;
+	// match: (Lsh8x32 <t> (Lsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end46cb9289c641ae35587a7d788e2802d2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end46cb9289c641ae35587a7d788e2802d2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end46cb9289c641ae35587a7d788e2802d2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end46cb9289c641ae35587a7d788e2802d2
+end46cb9289c641ae35587a7d788e2802d2:
+	;
+	// match: (Lsh8x32 <t> (Lsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end82ca8abc40d867a00eddeaedba2d93f7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end82ca8abc40d867a00eddeaedba2d93f7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end82ca8abc40d867a00eddeaedba2d93f7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end82ca8abc40d867a00eddeaedba2d93f7
+end82ca8abc40d867a00eddeaedba2d93f7:
+	;
+	// match: (Lsh8x32 <t> (Lsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end1f68ca7f0cc68e0c16ce44e0892ef2b9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1f68ca7f0cc68e0c16ce44e0892ef2b9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1f68ca7f0cc68e0c16ce44e0892ef2b9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1f68ca7f0cc68e0c16ce44e0892ef2b9
+end1f68ca7f0cc68e0c16ce44e0892ef2b9:
+	;
+	// match: (Lsh8x32 <t> (Lsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Lsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto ende71d076e3ae9fdefdc200390a4815f02
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende71d076e3ae9fdefdc200390a4815f02
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende71d076e3ae9fdefdc200390a4815f02
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende71d076e3ae9fdefdc200390a4815f02
+ende71d076e3ae9fdefdc200390a4815f02:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh8x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh8x64 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end7ab29df9d5bc9e0dc4ea20e6208ace01
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end7ab29df9d5bc9e0dc4ea20e6208ace01
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end7ab29df9d5bc9e0dc4ea20e6208ace01
+end7ab29df9d5bc9e0dc4ea20e6208ace01:
+	;
+	// match: (Lsh8x64 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto endff07928e24a66bac13b488956f8c2b34
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endff07928e24a66bac13b488956f8c2b34
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endff07928e24a66bac13b488956f8c2b34
+endff07928e24a66bac13b488956f8c2b34:
+	;
+	// match: (Lsh8x64 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end714ee86e9565218af2ad9150a71bcfea
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end714ee86e9565218af2ad9150a71bcfea
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end714ee86e9565218af2ad9150a71bcfea
+end714ee86e9565218af2ad9150a71bcfea:
+	;
+	// match: (Lsh8x64 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endbbbd4ac23d052522d9d2bcbd1aa264a9
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endbbbd4ac23d052522d9d2bcbd1aa264a9
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endbbbd4ac23d052522d9d2bcbd1aa264a9
+endbbbd4ac23d052522d9d2bcbd1aa264a9:
+	;
+	// match: (Lsh8x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto enddc7613ba1c19780d028ddbda80f907ff
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto enddc7613ba1c19780d028ddbda80f907ff
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enddc7613ba1c19780d028ddbda80f907ff
+enddc7613ba1c19780d028ddbda80f907ff:
+	;
+	// match: (Lsh8x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end12ae8b69a51673cc701402cd065a50ed
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end12ae8b69a51673cc701402cd065a50ed
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end12ae8b69a51673cc701402cd065a50ed
+end12ae8b69a51673cc701402cd065a50ed:
+	;
+	// match: (Lsh8x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end24bbe60a1889b369827b539f21b9af1f
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end24bbe60a1889b369827b539f21b9af1f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end24bbe60a1889b369827b539f21b9af1f
+end24bbe60a1889b369827b539f21b9af1f:
+	;
+	// match: (Lsh8x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end33e80a5f5bae30832147b5d8d9402ec9
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end33e80a5f5bae30832147b5d8d9402ec9
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end33e80a5f5bae30832147b5d8d9402ec9
+end33e80a5f5bae30832147b5d8d9402ec9:
+	;
+	// match: (Lsh8x64 <t> (Lsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto ende9b289d4b624068cbd1c1c4c9d9f2f74
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende9b289d4b624068cbd1c1c4c9d9f2f74
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende9b289d4b624068cbd1c1c4c9d9f2f74
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende9b289d4b624068cbd1c1c4c9d9f2f74
+ende9b289d4b624068cbd1c1c4c9d9f2f74:
+	;
+	// match: (Lsh8x64 <t> (Lsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end25499d2b3ce0027daf22786b28dc8e7f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end25499d2b3ce0027daf22786b28dc8e7f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end25499d2b3ce0027daf22786b28dc8e7f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end25499d2b3ce0027daf22786b28dc8e7f
+end25499d2b3ce0027daf22786b28dc8e7f:
+	;
+	// match: (Lsh8x64 <t> (Lsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end2d04e524f1d4df3c25f3370e7e61ba1d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2d04e524f1d4df3c25f3370e7e61ba1d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2d04e524f1d4df3c25f3370e7e61ba1d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2d04e524f1d4df3c25f3370e7e61ba1d
+end2d04e524f1d4df3c25f3370e7e61ba1d:
+	;
+	// match: (Lsh8x64 <t> (Lsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto end8f877360d9b32008be44dbf72f514a3d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8f877360d9b32008be44dbf72f514a3d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8f877360d9b32008be44dbf72f514a3d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8f877360d9b32008be44dbf72f514a3d
+end8f877360d9b32008be44dbf72f514a3d:
+	;
+	// match: (Lsh8x64 <t> (Lsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto enda8b4e576cf07a27e8f98a8470dddfde7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enda8b4e576cf07a27e8f98a8470dddfde7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda8b4e576cf07a27e8f98a8470dddfde7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda8b4e576cf07a27e8f98a8470dddfde7
+enda8b4e576cf07a27e8f98a8470dddfde7:
+	;
+	// match: (Lsh8x64 <t> (Lsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto end02823db02e7df98cda42ae1cf2a88f64
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end02823db02e7df98cda42ae1cf2a88f64
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end02823db02e7df98cda42ae1cf2a88f64
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end02823db02e7df98cda42ae1cf2a88f64
+end02823db02e7df98cda42ae1cf2a88f64:
+	;
+	// match: (Lsh8x64 <t> (Lsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto endc3297f02c77cee72a4cee97f40132033
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endc3297f02c77cee72a4cee97f40132033
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endc3297f02c77cee72a4cee97f40132033
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc3297f02c77cee72a4cee97f40132033
+endc3297f02c77cee72a4cee97f40132033:
+	;
+	// match: (Lsh8x64 <t> (Lsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto endf7f3c25236a16f72e186fe3a37a8525f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf7f3c25236a16f72e186fe3a37a8525f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endf7f3c25236a16f72e186fe3a37a8525f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf7f3c25236a16f72e186fe3a37a8525f
+endf7f3c25236a16f72e186fe3a37a8525f:
+	;
+	// match: (Lsh8x64 <t> (Lsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto endccbb9614885d8c3b6d76fb4cd5b14f5b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endccbb9614885d8c3b6d76fb4cd5b14f5b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endccbb9614885d8c3b6d76fb4cd5b14f5b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endccbb9614885d8c3b6d76fb4cd5b14f5b
+endccbb9614885d8c3b6d76fb4cd5b14f5b:
+	;
+	// match: (Lsh8x64 <t> (Lsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end8bd10ad3562e13e69f293ab1bf950a05
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8bd10ad3562e13e69f293ab1bf950a05
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8bd10ad3562e13e69f293ab1bf950a05
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8bd10ad3562e13e69f293ab1bf950a05
+end8bd10ad3562e13e69f293ab1bf950a05:
+	;
+	// match: (Lsh8x64 <t> (Lsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto end0c070b10e0517389e723b8b950da068b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0c070b10e0517389e723b8b950da068b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end0c070b10e0517389e723b8b950da068b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0c070b10e0517389e723b8b950da068b
+end0c070b10e0517389e723b8b950da068b:
+	;
+	// match: (Lsh8x64 <t> (Lsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto end516f15a8b086c8719d3096f79e5d8d87
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end516f15a8b086c8719d3096f79e5d8d87
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end516f15a8b086c8719d3096f79e5d8d87
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end516f15a8b086c8719d3096f79e5d8d87
+end516f15a8b086c8719d3096f79e5d8d87:
+	;
+	// match: (Lsh8x64 <t> (Lsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto endec91c3df2438ed898b72ccc706dd1ce5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endec91c3df2438ed898b72ccc706dd1ce5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endec91c3df2438ed898b72ccc706dd1ce5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endec91c3df2438ed898b72ccc706dd1ce5
+endec91c3df2438ed898b72ccc706dd1ce5:
+	;
+	// match: (Lsh8x64 <t> (Lsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end96154d9addd0573e30e752fb2b2d8516
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end96154d9addd0573e30e752fb2b2d8516
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end96154d9addd0573e30e752fb2b2d8516
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end96154d9addd0573e30e752fb2b2d8516
+end96154d9addd0573e30e752fb2b2d8516:
+	;
+	// match: (Lsh8x64 <t> (Lsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end90475c8b8bd7fcbcaee38149352b6d03
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end90475c8b8bd7fcbcaee38149352b6d03
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end90475c8b8bd7fcbcaee38149352b6d03
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end90475c8b8bd7fcbcaee38149352b6d03
+end90475c8b8bd7fcbcaee38149352b6d03:
+	;
+	// match: (Lsh8x64 <t> (Lsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Lsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end4c73361fc74d7f48e1ce07d523cac0be
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4c73361fc74d7f48e1ce07d523cac0be
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end4c73361fc74d7f48e1ce07d523cac0be
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4c73361fc74d7f48e1ce07d523cac0be
+end4c73361fc74d7f48e1ce07d523cac0be:
+	;
+	return false
+}
+func rewriteValuegeneric_OpLsh8x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Lsh8x8 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end21dacb7d9d219a648df3724566030139
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end21dacb7d9d219a648df3724566030139
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end21dacb7d9d219a648df3724566030139
+end21dacb7d9d219a648df3724566030139:
+	;
+	// match: (Lsh8x8 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end2620386ef0a7acc22e94a031e5b67c1e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end2620386ef0a7acc22e94a031e5b67c1e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end2620386ef0a7acc22e94a031e5b67c1e
+end2620386ef0a7acc22e94a031e5b67c1e:
+	;
+	// match: (Lsh8x8 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end22d316f2aa8647f8c8e5b2d5171f8abe
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end22d316f2aa8647f8c8e5b2d5171f8abe
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end22d316f2aa8647f8c8e5b2d5171f8abe
+end22d316f2aa8647f8c8e5b2d5171f8abe:
+	;
+	// match: (Lsh8x8 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end516c37c933608588eb815b87fbad940f
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end516c37c933608588eb815b87fbad940f
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end516c37c933608588eb815b87fbad940f
+end516c37c933608588eb815b87fbad940f:
+	;
+	// match: (Lsh8x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end1f0bb8274c800722e18eb3c880586f8d
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1f0bb8274c800722e18eb3c880586f8d
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1f0bb8274c800722e18eb3c880586f8d
+end1f0bb8274c800722e18eb3c880586f8d:
+	;
+	// match: (Lsh8x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endb9bb29ff927c890a3ad0742246131518
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endb9bb29ff927c890a3ad0742246131518
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb9bb29ff927c890a3ad0742246131518
+endb9bb29ff927c890a3ad0742246131518:
+	;
+	// match: (Lsh8x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end56ee62883959d9191328d445f5ae1339
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end56ee62883959d9191328d445f5ae1339
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end56ee62883959d9191328d445f5ae1339
+end56ee62883959d9191328d445f5ae1339:
+	;
+	// match: (Lsh8x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end1887bc1909de7ca5d7a95df012de4eaf
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1887bc1909de7ca5d7a95df012de4eaf
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1887bc1909de7ca5d7a95df012de4eaf
+end1887bc1909de7ca5d7a95df012de4eaf:
+	;
+	// match: (Lsh8x8 <t> (Lsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x64 {
+			goto endef2fd6126c7861c803f58028ace75e36
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endef2fd6126c7861c803f58028ace75e36
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endef2fd6126c7861c803f58028ace75e36
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endef2fd6126c7861c803f58028ace75e36
+endef2fd6126c7861c803f58028ace75e36:
+	;
+	// match: (Lsh8x8 <t> (Lsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x32 {
+			goto end3cbc2d614ba21d7d496ee8c4a18d15ac
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end3cbc2d614ba21d7d496ee8c4a18d15ac
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3cbc2d614ba21d7d496ee8c4a18d15ac
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3cbc2d614ba21d7d496ee8c4a18d15ac
+end3cbc2d614ba21d7d496ee8c4a18d15ac:
+	;
+	// match: (Lsh8x8 <t> (Lsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x16 {
+			goto end48772f5c053d5e68e11c2e530295712f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end48772f5c053d5e68e11c2e530295712f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end48772f5c053d5e68e11c2e530295712f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end48772f5c053d5e68e11c2e530295712f
+end48772f5c053d5e68e11c2e530295712f:
+	;
+	// match: (Lsh8x8 <t> (Lsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh64x8 {
+			goto endc05cfa45a7aa03b5acbad6bc0c2646aa
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endc05cfa45a7aa03b5acbad6bc0c2646aa
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endc05cfa45a7aa03b5acbad6bc0c2646aa
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc05cfa45a7aa03b5acbad6bc0c2646aa
+endc05cfa45a7aa03b5acbad6bc0c2646aa:
+	;
+	// match: (Lsh8x8 <t> (Lsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x64 {
+			goto end5a516042e3f5dacaed51b6b88a8b63ed
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5a516042e3f5dacaed51b6b88a8b63ed
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end5a516042e3f5dacaed51b6b88a8b63ed
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5a516042e3f5dacaed51b6b88a8b63ed
+end5a516042e3f5dacaed51b6b88a8b63ed:
+	;
+	// match: (Lsh8x8 <t> (Lsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x32 {
+			goto endeb593b4ccf6dfa4495e02500be521ab8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endeb593b4ccf6dfa4495e02500be521ab8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endeb593b4ccf6dfa4495e02500be521ab8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endeb593b4ccf6dfa4495e02500be521ab8
+endeb593b4ccf6dfa4495e02500be521ab8:
+	;
+	// match: (Lsh8x8 <t> (Lsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x16 {
+			goto end7809e665824b67bf8952fddf1cdcfe36
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7809e665824b67bf8952fddf1cdcfe36
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7809e665824b67bf8952fddf1cdcfe36
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7809e665824b67bf8952fddf1cdcfe36
+end7809e665824b67bf8952fddf1cdcfe36:
+	;
+	// match: (Lsh8x8 <t> (Lsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh32x8 {
+			goto end2729b03d52cf360f1903bd1eb04b89ac
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2729b03d52cf360f1903bd1eb04b89ac
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2729b03d52cf360f1903bd1eb04b89ac
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2729b03d52cf360f1903bd1eb04b89ac
+end2729b03d52cf360f1903bd1eb04b89ac:
+	;
+	// match: (Lsh8x8 <t> (Lsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x64 {
+			goto end6fd785c22a487b6188193edde73bc9db
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end6fd785c22a487b6188193edde73bc9db
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end6fd785c22a487b6188193edde73bc9db
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6fd785c22a487b6188193edde73bc9db
+end6fd785c22a487b6188193edde73bc9db:
+	;
+	// match: (Lsh8x8 <t> (Lsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x32 {
+			goto end588a1c1f07b94f205b51da0aa3e51da5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end588a1c1f07b94f205b51da0aa3e51da5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end588a1c1f07b94f205b51da0aa3e51da5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end588a1c1f07b94f205b51da0aa3e51da5
+end588a1c1f07b94f205b51da0aa3e51da5:
+	;
+	// match: (Lsh8x8 <t> (Lsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x16 {
+			goto ende5e91d21c768ce830720e40daa31f559
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende5e91d21c768ce830720e40daa31f559
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende5e91d21c768ce830720e40daa31f559
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende5e91d21c768ce830720e40daa31f559
+ende5e91d21c768ce830720e40daa31f559:
+	;
+	// match: (Lsh8x8 <t> (Lsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh16x8 {
+			goto endf37042aeeb681f066899fabf2284f620
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf37042aeeb681f066899fabf2284f620
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf37042aeeb681f066899fabf2284f620
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf37042aeeb681f066899fabf2284f620
+endf37042aeeb681f066899fabf2284f620:
+	;
+	// match: (Lsh8x8 <t> (Lsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x64 {
+			goto end86ef4c1605a75402bd083506d24c8cc2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end86ef4c1605a75402bd083506d24c8cc2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end86ef4c1605a75402bd083506d24c8cc2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end86ef4c1605a75402bd083506d24c8cc2
+end86ef4c1605a75402bd083506d24c8cc2:
+	;
+	// match: (Lsh8x8 <t> (Lsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x32 {
+			goto end79f28bfb2f7c8aabd8791b0fcdf39e90
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end79f28bfb2f7c8aabd8791b0fcdf39e90
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end79f28bfb2f7c8aabd8791b0fcdf39e90
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end79f28bfb2f7c8aabd8791b0fcdf39e90
+end79f28bfb2f7c8aabd8791b0fcdf39e90:
+	;
+	// match: (Lsh8x8 <t> (Lsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x16 {
+			goto end8a21acfa8d864a56bd249d786213985c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8a21acfa8d864a56bd249d786213985c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8a21acfa8d864a56bd249d786213985c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8a21acfa8d864a56bd249d786213985c
+end8a21acfa8d864a56bd249d786213985c:
+	;
+	// match: (Lsh8x8 <t> (Lsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Lsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpLsh8x8 {
+			goto end142d20db0fd309a886119371d246ee6c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end142d20db0fd309a886119371d246ee6c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end142d20db0fd309a886119371d246ee6c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpLsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end142d20db0fd309a886119371d246ee6c
+end142d20db0fd309a886119371d246ee6c:
+	;
+	return false
+}
 func rewriteValuegeneric_OpMul16(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
@@ -3299,6 +13707,20630 @@ endd902622aaa1e7545b5a2a0c08b47d287:
 	}
 	goto end47a5f1d1b158914fa383de024bbe3b08
 end47a5f1d1b158914fa383de024bbe3b08:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16Ux16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16Ux16 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endf3900532e66f3d7105e28bf28b059bea
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endf3900532e66f3d7105e28bf28b059bea
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endf3900532e66f3d7105e28bf28b059bea
+endf3900532e66f3d7105e28bf28b059bea:
+	;
+	// match: (Rsh16Ux16 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end9586308e64477174df427c5251f8eb7a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end9586308e64477174df427c5251f8eb7a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end9586308e64477174df427c5251f8eb7a
+end9586308e64477174df427c5251f8eb7a:
+	;
+	// match: (Rsh16Ux16 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endc319923f905607959fe277cb3a3942d6
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endc319923f905607959fe277cb3a3942d6
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endc319923f905607959fe277cb3a3942d6
+endc319923f905607959fe277cb3a3942d6:
+	;
+	// match: (Rsh16Ux16 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end69a1b1e1e56c41c5d80f7f0eb8874dae
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end69a1b1e1e56c41c5d80f7f0eb8874dae
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end69a1b1e1e56c41c5d80f7f0eb8874dae
+end69a1b1e1e56c41c5d80f7f0eb8874dae:
+	;
+	// match: (Rsh16Ux16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end71fbd2bd13de63f3dd858a538af9d865
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end71fbd2bd13de63f3dd858a538af9d865
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end71fbd2bd13de63f3dd858a538af9d865
+end71fbd2bd13de63f3dd858a538af9d865:
+	;
+	// match: (Rsh16Ux16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto ended49bd7d87efdbf1fbd32f84ea135684
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto ended49bd7d87efdbf1fbd32f84ea135684
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ended49bd7d87efdbf1fbd32f84ea135684
+ended49bd7d87efdbf1fbd32f84ea135684:
+	;
+	// match: (Rsh16Ux16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end0964cc831586d85d56ef3507bbeb86cf
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end0964cc831586d85d56ef3507bbeb86cf
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end0964cc831586d85d56ef3507bbeb86cf
+end0964cc831586d85d56ef3507bbeb86cf:
+	;
+	// match: (Rsh16Ux16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endf7fd6d976adc6a2e91c267ceda536829
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endf7fd6d976adc6a2e91c267ceda536829
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endf7fd6d976adc6a2e91c267ceda536829
+endf7fd6d976adc6a2e91c267ceda536829:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh64Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto enddd5467fce369f10f006580703cab53e0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enddd5467fce369f10f006580703cab53e0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto enddd5467fce369f10f006580703cab53e0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddd5467fce369f10f006580703cab53e0
+enddd5467fce369f10f006580703cab53e0:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh64Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end64c93dcad8b2242523ec2f3c02494975
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end64c93dcad8b2242523ec2f3c02494975
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end64c93dcad8b2242523ec2f3c02494975
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end64c93dcad8b2242523ec2f3c02494975
+end64c93dcad8b2242523ec2f3c02494975:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh64Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto endcf192b7f401a7add74ea8a58915f30bf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endcf192b7f401a7add74ea8a58915f30bf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcf192b7f401a7add74ea8a58915f30bf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcf192b7f401a7add74ea8a58915f30bf
+endcf192b7f401a7add74ea8a58915f30bf:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh64Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end5a8cde674ef7c818fd6a4ca75099bd9e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end5a8cde674ef7c818fd6a4ca75099bd9e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5a8cde674ef7c818fd6a4ca75099bd9e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5a8cde674ef7c818fd6a4ca75099bd9e
+end5a8cde674ef7c818fd6a4ca75099bd9e:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh32Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endf6c93bdbba282d156f5524065a8f76e2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endf6c93bdbba282d156f5524065a8f76e2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf6c93bdbba282d156f5524065a8f76e2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf6c93bdbba282d156f5524065a8f76e2
+endf6c93bdbba282d156f5524065a8f76e2:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh32Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end5650636358cc69b01524a4cc5cfbd014
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end5650636358cc69b01524a4cc5cfbd014
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5650636358cc69b01524a4cc5cfbd014
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5650636358cc69b01524a4cc5cfbd014
+end5650636358cc69b01524a4cc5cfbd014:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh32Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto endb5f39f7393e8c5d428f60acbc771a263
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endb5f39f7393e8c5d428f60acbc771a263
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endb5f39f7393e8c5d428f60acbc771a263
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb5f39f7393e8c5d428f60acbc771a263
+endb5f39f7393e8c5d428f60acbc771a263:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh32Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end860f2de320fbf8ba15ec2f59dd2b8c1a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end860f2de320fbf8ba15ec2f59dd2b8c1a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end860f2de320fbf8ba15ec2f59dd2b8c1a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end860f2de320fbf8ba15ec2f59dd2b8c1a
+end860f2de320fbf8ba15ec2f59dd2b8c1a:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh16Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto endffb6782e3464b01aac31173834a6ff60
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endffb6782e3464b01aac31173834a6ff60
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endffb6782e3464b01aac31173834a6ff60
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endffb6782e3464b01aac31173834a6ff60
+endffb6782e3464b01aac31173834a6ff60:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh16Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end33fc35382014a0d024b363c6668b88e1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end33fc35382014a0d024b363c6668b88e1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end33fc35382014a0d024b363c6668b88e1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end33fc35382014a0d024b363c6668b88e1
+end33fc35382014a0d024b363c6668b88e1:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh16Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end1b5e7cf4a6ccea372848b613fabc635e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1b5e7cf4a6ccea372848b613fabc635e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end1b5e7cf4a6ccea372848b613fabc635e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1b5e7cf4a6ccea372848b613fabc635e
+end1b5e7cf4a6ccea372848b613fabc635e:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh16Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end4aac1a49348de1895309d935630d2e77
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4aac1a49348de1895309d935630d2e77
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4aac1a49348de1895309d935630d2e77
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4aac1a49348de1895309d935630d2e77
+end4aac1a49348de1895309d935630d2e77:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh8Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endaa301d770aabb62aec35b763e4f95097
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endaa301d770aabb62aec35b763e4f95097
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endaa301d770aabb62aec35b763e4f95097
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaa301d770aabb62aec35b763e4f95097
+endaa301d770aabb62aec35b763e4f95097:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh8Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto ende151f11532bbb21675a032f3dd5638dd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende151f11532bbb21675a032f3dd5638dd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende151f11532bbb21675a032f3dd5638dd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende151f11532bbb21675a032f3dd5638dd
+ende151f11532bbb21675a032f3dd5638dd:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh8Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end5be14442a18957fa3e9ab8fffadd6cb0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5be14442a18957fa3e9ab8fffadd6cb0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5be14442a18957fa3e9ab8fffadd6cb0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5be14442a18957fa3e9ab8fffadd6cb0
+end5be14442a18957fa3e9ab8fffadd6cb0:
+	;
+	// match: (Rsh16Ux16 <t> (Rsh8Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end2d551c3b6ac7e746626909a65ccbe478
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2d551c3b6ac7e746626909a65ccbe478
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end2d551c3b6ac7e746626909a65ccbe478
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2d551c3b6ac7e746626909a65ccbe478
+end2d551c3b6ac7e746626909a65ccbe478:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16Ux32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16Ux32 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end9dca470240e85104da3d56a3d8661813
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end9dca470240e85104da3d56a3d8661813
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end9dca470240e85104da3d56a3d8661813
+end9dca470240e85104da3d56a3d8661813:
+	;
+	// match: (Rsh16Ux32 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end48aee05b87c41289bd387dd2e1b75b33
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end48aee05b87c41289bd387dd2e1b75b33
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end48aee05b87c41289bd387dd2e1b75b33
+end48aee05b87c41289bd387dd2e1b75b33:
+	;
+	// match: (Rsh16Ux32 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endb34b7b825103b4cb409dfd281acfa74d
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endb34b7b825103b4cb409dfd281acfa74d
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endb34b7b825103b4cb409dfd281acfa74d
+endb34b7b825103b4cb409dfd281acfa74d:
+	;
+	// match: (Rsh16Ux32 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end5758933e4b5b738f3c1237ba11b164ec
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end5758933e4b5b738f3c1237ba11b164ec
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end5758933e4b5b738f3c1237ba11b164ec
+end5758933e4b5b738f3c1237ba11b164ec:
+	;
+	// match: (Rsh16Ux32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end7b80f5fdbc059c7f5621d6b7eef601fd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end7b80f5fdbc059c7f5621d6b7eef601fd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end7b80f5fdbc059c7f5621d6b7eef601fd
+end7b80f5fdbc059c7f5621d6b7eef601fd:
+	;
+	// match: (Rsh16Ux32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto enda5a4b1258a6b254a1c84f249be98ff99
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto enda5a4b1258a6b254a1c84f249be98ff99
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda5a4b1258a6b254a1c84f249be98ff99
+enda5a4b1258a6b254a1c84f249be98ff99:
+	;
+	// match: (Rsh16Ux32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end2a3c93b6dae3cece805b284b8693f061
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end2a3c93b6dae3cece805b284b8693f061
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end2a3c93b6dae3cece805b284b8693f061
+end2a3c93b6dae3cece805b284b8693f061:
+	;
+	// match: (Rsh16Ux32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto enda443ce209cdde100d21c0cb2566d7732
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto enda443ce209cdde100d21c0cb2566d7732
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda443ce209cdde100d21c0cb2566d7732
+enda443ce209cdde100d21c0cb2566d7732:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh64Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto endbb54bc39574c5600b67a89a90f629d8f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endbb54bc39574c5600b67a89a90f629d8f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endbb54bc39574c5600b67a89a90f629d8f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbb54bc39574c5600b67a89a90f629d8f
+endbb54bc39574c5600b67a89a90f629d8f:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh64Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto endb528e0a4455ed2716a23c46c8fdaff11
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endb528e0a4455ed2716a23c46c8fdaff11
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb528e0a4455ed2716a23c46c8fdaff11
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb528e0a4455ed2716a23c46c8fdaff11
+endb528e0a4455ed2716a23c46c8fdaff11:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh64Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto endda51d74f87f2300f6947549f8dbc4ada
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endda51d74f87f2300f6947549f8dbc4ada
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endda51d74f87f2300f6947549f8dbc4ada
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endda51d74f87f2300f6947549f8dbc4ada
+endda51d74f87f2300f6947549f8dbc4ada:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh64Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto endad8db4ef8512736321eacaa9f834f5cf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endad8db4ef8512736321eacaa9f834f5cf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endad8db4ef8512736321eacaa9f834f5cf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endad8db4ef8512736321eacaa9f834f5cf
+endad8db4ef8512736321eacaa9f834f5cf:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh32Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endedc7e4fd599a85f959a47e8c323d7728
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endedc7e4fd599a85f959a47e8c323d7728
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endedc7e4fd599a85f959a47e8c323d7728
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endedc7e4fd599a85f959a47e8c323d7728
+endedc7e4fd599a85f959a47e8c323d7728:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh32Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto endc430e55b910dbdf9bb0cf8701c8db086
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc430e55b910dbdf9bb0cf8701c8db086
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc430e55b910dbdf9bb0cf8701c8db086
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc430e55b910dbdf9bb0cf8701c8db086
+endc430e55b910dbdf9bb0cf8701c8db086:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh32Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end5b813f9ed0d9edc86e7b2bcde4d52ff7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5b813f9ed0d9edc86e7b2bcde4d52ff7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5b813f9ed0d9edc86e7b2bcde4d52ff7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5b813f9ed0d9edc86e7b2bcde4d52ff7
+end5b813f9ed0d9edc86e7b2bcde4d52ff7:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh32Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end7850ae798d4c25472f1b2b5a69326b30
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7850ae798d4c25472f1b2b5a69326b30
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7850ae798d4c25472f1b2b5a69326b30
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7850ae798d4c25472f1b2b5a69326b30
+end7850ae798d4c25472f1b2b5a69326b30:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh16Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto endf58ffd94c0b0bb01e7c3095b0b7d0d1e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endf58ffd94c0b0bb01e7c3095b0b7d0d1e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endf58ffd94c0b0bb01e7c3095b0b7d0d1e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf58ffd94c0b0bb01e7c3095b0b7d0d1e
+endf58ffd94c0b0bb01e7c3095b0b7d0d1e:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh16Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end8c3c326afdd6bb266e3165d17893a860
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8c3c326afdd6bb266e3165d17893a860
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8c3c326afdd6bb266e3165d17893a860
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8c3c326afdd6bb266e3165d17893a860
+end8c3c326afdd6bb266e3165d17893a860:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh16Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto endd1ac657ed5a1aabb74508bbd904a22d9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endd1ac657ed5a1aabb74508bbd904a22d9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endd1ac657ed5a1aabb74508bbd904a22d9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd1ac657ed5a1aabb74508bbd904a22d9
+endd1ac657ed5a1aabb74508bbd904a22d9:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh16Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end93d0ec2bbd34dcc1b0a27fc9482ec67b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end93d0ec2bbd34dcc1b0a27fc9482ec67b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end93d0ec2bbd34dcc1b0a27fc9482ec67b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end93d0ec2bbd34dcc1b0a27fc9482ec67b
+end93d0ec2bbd34dcc1b0a27fc9482ec67b:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh8Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endaf16352eca47e4d65644dee66a350f5d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endaf16352eca47e4d65644dee66a350f5d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endaf16352eca47e4d65644dee66a350f5d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaf16352eca47e4d65644dee66a350f5d
+endaf16352eca47e4d65644dee66a350f5d:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh8Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end1d5add01fb5e7bb7ed9a8c112becd7c6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end1d5add01fb5e7bb7ed9a8c112becd7c6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1d5add01fb5e7bb7ed9a8c112becd7c6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1d5add01fb5e7bb7ed9a8c112becd7c6
+end1d5add01fb5e7bb7ed9a8c112becd7c6:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh8Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end9f875413882551d19bbbc56fe1eb0f09
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end9f875413882551d19bbbc56fe1eb0f09
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end9f875413882551d19bbbc56fe1eb0f09
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9f875413882551d19bbbc56fe1eb0f09
+end9f875413882551d19bbbc56fe1eb0f09:
+	;
+	// match: (Rsh16Ux32 <t> (Rsh8Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end5c226b2d4788e5e84076b2135a91d6e7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end5c226b2d4788e5e84076b2135a91d6e7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5c226b2d4788e5e84076b2135a91d6e7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5c226b2d4788e5e84076b2135a91d6e7
+end5c226b2d4788e5e84076b2135a91d6e7:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16Ux64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16Ux64 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto enda662d03ba70df0e54e8af001a657d643
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto enda662d03ba70df0e54e8af001a657d643
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto enda662d03ba70df0e54e8af001a657d643
+enda662d03ba70df0e54e8af001a657d643:
+	;
+	// match: (Rsh16Ux64 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end155a0c8d75ae6a6bde3a54c75f5204c8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end155a0c8d75ae6a6bde3a54c75f5204c8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end155a0c8d75ae6a6bde3a54c75f5204c8
+end155a0c8d75ae6a6bde3a54c75f5204c8:
+	;
+	// match: (Rsh16Ux64 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endc4ed9b8293ae711da7a7453f798af8cb
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endc4ed9b8293ae711da7a7453f798af8cb
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endc4ed9b8293ae711da7a7453f798af8cb
+endc4ed9b8293ae711da7a7453f798af8cb:
+	;
+	// match: (Rsh16Ux64 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end9674bde2b268647cd79bb4aba6f5f67e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end9674bde2b268647cd79bb4aba6f5f67e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end9674bde2b268647cd79bb4aba6f5f67e
+end9674bde2b268647cd79bb4aba6f5f67e:
+	;
+	// match: (Rsh16Ux64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end752d1b5a60f87afa7e40febbf1bce309
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end752d1b5a60f87afa7e40febbf1bce309
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end752d1b5a60f87afa7e40febbf1bce309
+end752d1b5a60f87afa7e40febbf1bce309:
+	;
+	// match: (Rsh16Ux64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endc63c86534d7e58b3be0aa7ba92952964
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endc63c86534d7e58b3be0aa7ba92952964
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc63c86534d7e58b3be0aa7ba92952964
+endc63c86534d7e58b3be0aa7ba92952964:
+	;
+	// match: (Rsh16Ux64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endb4c2807d92092639626b5a6dcd3e69b9
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endb4c2807d92092639626b5a6dcd3e69b9
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb4c2807d92092639626b5a6dcd3e69b9
+endb4c2807d92092639626b5a6dcd3e69b9:
+	;
+	// match: (Rsh16Ux64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end6ccdfb23d53b70bb20309624495917fa
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end6ccdfb23d53b70bb20309624495917fa
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6ccdfb23d53b70bb20309624495917fa
+end6ccdfb23d53b70bb20309624495917fa:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh64Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end671abb850e5d1eb6d09e9df8eb12edd2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end671abb850e5d1eb6d09e9df8eb12edd2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end671abb850e5d1eb6d09e9df8eb12edd2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end671abb850e5d1eb6d09e9df8eb12edd2
+end671abb850e5d1eb6d09e9df8eb12edd2:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh64Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto endb185e34e1c160a49e9bd6eff7eded4e2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endb185e34e1c160a49e9bd6eff7eded4e2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endb185e34e1c160a49e9bd6eff7eded4e2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb185e34e1c160a49e9bd6eff7eded4e2
+endb185e34e1c160a49e9bd6eff7eded4e2:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh64Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end5d56db3868a74178b43a5871ea941eb5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5d56db3868a74178b43a5871ea941eb5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end5d56db3868a74178b43a5871ea941eb5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5d56db3868a74178b43a5871ea941eb5
+end5d56db3868a74178b43a5871ea941eb5:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh64Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end663ecba521694d894acc8522e3261a0d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end663ecba521694d894acc8522e3261a0d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end663ecba521694d894acc8522e3261a0d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end663ecba521694d894acc8522e3261a0d
+end663ecba521694d894acc8522e3261a0d:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh32Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto end50102a2ab7eea05148c37afcb48d3e03
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end50102a2ab7eea05148c37afcb48d3e03
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end50102a2ab7eea05148c37afcb48d3e03
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end50102a2ab7eea05148c37afcb48d3e03
+end50102a2ab7eea05148c37afcb48d3e03:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh32Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end7e0199316ff95ca356202af0cbf5ff79
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7e0199316ff95ca356202af0cbf5ff79
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7e0199316ff95ca356202af0cbf5ff79
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7e0199316ff95ca356202af0cbf5ff79
+end7e0199316ff95ca356202af0cbf5ff79:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh32Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end1dc1ce8f6d62ab56d9b9129075b942e7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1dc1ce8f6d62ab56d9b9129075b942e7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1dc1ce8f6d62ab56d9b9129075b942e7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1dc1ce8f6d62ab56d9b9129075b942e7
+end1dc1ce8f6d62ab56d9b9129075b942e7:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh32Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto endfe63d957d69b55c6c7903634f9edff14
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endfe63d957d69b55c6c7903634f9edff14
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endfe63d957d69b55c6c7903634f9edff14
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfe63d957d69b55c6c7903634f9edff14
+endfe63d957d69b55c6c7903634f9edff14:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh16Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto enda20b7cb52afa499d87e618b455b1cb6b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enda20b7cb52afa499d87e618b455b1cb6b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda20b7cb52afa499d87e618b455b1cb6b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda20b7cb52afa499d87e618b455b1cb6b
+enda20b7cb52afa499d87e618b455b1cb6b:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh16Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto endebe89dd8d8994aee2ba32f7cbce8e702
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endebe89dd8d8994aee2ba32f7cbce8e702
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endebe89dd8d8994aee2ba32f7cbce8e702
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endebe89dd8d8994aee2ba32f7cbce8e702
+endebe89dd8d8994aee2ba32f7cbce8e702:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh16Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end1ac584e5fd7dc7c72267155c08ff75c1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1ac584e5fd7dc7c72267155c08ff75c1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1ac584e5fd7dc7c72267155c08ff75c1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1ac584e5fd7dc7c72267155c08ff75c1
+end1ac584e5fd7dc7c72267155c08ff75c1:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh16Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto endb3f194421844d6f0894c2cabd1963b08
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb3f194421844d6f0894c2cabd1963b08
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endb3f194421844d6f0894c2cabd1963b08
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb3f194421844d6f0894c2cabd1963b08
+endb3f194421844d6f0894c2cabd1963b08:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh8Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endcd2da6a90c489a3f37f5b3d36cbce609
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endcd2da6a90c489a3f37f5b3d36cbce609
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endcd2da6a90c489a3f37f5b3d36cbce609
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcd2da6a90c489a3f37f5b3d36cbce609
+endcd2da6a90c489a3f37f5b3d36cbce609:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh8Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end50149897e10aa2391eb13059a2926eff
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end50149897e10aa2391eb13059a2926eff
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end50149897e10aa2391eb13059a2926eff
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end50149897e10aa2391eb13059a2926eff
+end50149897e10aa2391eb13059a2926eff:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh8Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto endff57eeff33059c93e5612cf0ebc4cfbb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endff57eeff33059c93e5612cf0ebc4cfbb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endff57eeff33059c93e5612cf0ebc4cfbb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endff57eeff33059c93e5612cf0ebc4cfbb
+endff57eeff33059c93e5612cf0ebc4cfbb:
+	;
+	// match: (Rsh16Ux64 <t> (Rsh8Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end1655cf48b17ac0314515fa9a4ede9892
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end1655cf48b17ac0314515fa9a4ede9892
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1655cf48b17ac0314515fa9a4ede9892
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1655cf48b17ac0314515fa9a4ede9892
+end1655cf48b17ac0314515fa9a4ede9892:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16Ux8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16Ux8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end51236fa2a6d7c2890d09d7abae4f2097
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end51236fa2a6d7c2890d09d7abae4f2097
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end51236fa2a6d7c2890d09d7abae4f2097
+end51236fa2a6d7c2890d09d7abae4f2097:
+	;
+	// match: (Rsh16Ux8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end6d319433c5ca21e25898b4028dcfa3ae
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end6d319433c5ca21e25898b4028dcfa3ae
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6d319433c5ca21e25898b4028dcfa3ae
+end6d319433c5ca21e25898b4028dcfa3ae:
+	;
+	// match: (Rsh16Ux8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endd725954be3c6abbba4205d258a0c65d2
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endd725954be3c6abbba4205d258a0c65d2
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endd725954be3c6abbba4205d258a0c65d2
+endd725954be3c6abbba4205d258a0c65d2:
+	;
+	// match: (Rsh16Ux8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end038492720d4979ff501493df6648e6e8
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end038492720d4979ff501493df6648e6e8
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end038492720d4979ff501493df6648e6e8
+end038492720d4979ff501493df6648e6e8:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh64Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end014b2fca8e57074a2ac9e5cb7ade1ac3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end014b2fca8e57074a2ac9e5cb7ade1ac3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end014b2fca8e57074a2ac9e5cb7ade1ac3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end014b2fca8e57074a2ac9e5cb7ade1ac3
+end014b2fca8e57074a2ac9e5cb7ade1ac3:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh64Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end9572e6e1d4e7dd68aed5bc2e47667a97
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end9572e6e1d4e7dd68aed5bc2e47667a97
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9572e6e1d4e7dd68aed5bc2e47667a97
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9572e6e1d4e7dd68aed5bc2e47667a97
+end9572e6e1d4e7dd68aed5bc2e47667a97:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh64Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end63b890bddcac2693d613f4f8217f7004
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end63b890bddcac2693d613f4f8217f7004
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end63b890bddcac2693d613f4f8217f7004
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end63b890bddcac2693d613f4f8217f7004
+end63b890bddcac2693d613f4f8217f7004:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh64Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto endf2a54ed56ea2b30506a3bf7f7d30ef4d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf2a54ed56ea2b30506a3bf7f7d30ef4d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf2a54ed56ea2b30506a3bf7f7d30ef4d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf2a54ed56ea2b30506a3bf7f7d30ef4d
+endf2a54ed56ea2b30506a3bf7f7d30ef4d:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh32Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto end4f500dd8a44cd421f0d526c0ac26acec
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4f500dd8a44cd421f0d526c0ac26acec
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4f500dd8a44cd421f0d526c0ac26acec
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4f500dd8a44cd421f0d526c0ac26acec
+end4f500dd8a44cd421f0d526c0ac26acec:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh32Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto endd80b883c19f4b5f8771001dd20ba75d6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endd80b883c19f4b5f8771001dd20ba75d6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd80b883c19f4b5f8771001dd20ba75d6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd80b883c19f4b5f8771001dd20ba75d6
+endd80b883c19f4b5f8771001dd20ba75d6:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh32Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end092a36e897917b3f98e88ead550cd407
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end092a36e897917b3f98e88ead550cd407
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end092a36e897917b3f98e88ead550cd407
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end092a36e897917b3f98e88ead550cd407
+end092a36e897917b3f98e88ead550cd407:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh32Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto ende7ec0ff6189fb1034032a34c572a7f68
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende7ec0ff6189fb1034032a34c572a7f68
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende7ec0ff6189fb1034032a34c572a7f68
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende7ec0ff6189fb1034032a34c572a7f68
+ende7ec0ff6189fb1034032a34c572a7f68:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh16Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end6eb3e1040dbc9913c54373437a3ebace
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end6eb3e1040dbc9913c54373437a3ebace
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end6eb3e1040dbc9913c54373437a3ebace
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6eb3e1040dbc9913c54373437a3ebace
+end6eb3e1040dbc9913c54373437a3ebace:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh16Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end13f0bb02cd1430b3942f0d05e68e3b82
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end13f0bb02cd1430b3942f0d05e68e3b82
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end13f0bb02cd1430b3942f0d05e68e3b82
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end13f0bb02cd1430b3942f0d05e68e3b82
+end13f0bb02cd1430b3942f0d05e68e3b82:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh16Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end22b240ea9f4aec4c4c8b640692858a0f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end22b240ea9f4aec4c4c8b640692858a0f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end22b240ea9f4aec4c4c8b640692858a0f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end22b240ea9f4aec4c4c8b640692858a0f
+end22b240ea9f4aec4c4c8b640692858a0f:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh16Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto endd0507dfc4b68fc13fe2cfac5ffb0b628
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endd0507dfc4b68fc13fe2cfac5ffb0b628
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd0507dfc4b68fc13fe2cfac5ffb0b628
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd0507dfc4b68fc13fe2cfac5ffb0b628
+endd0507dfc4b68fc13fe2cfac5ffb0b628:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh8Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end63469429efb8bf9e628e5a40ce02cf59
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end63469429efb8bf9e628e5a40ce02cf59
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end63469429efb8bf9e628e5a40ce02cf59
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end63469429efb8bf9e628e5a40ce02cf59
+end63469429efb8bf9e628e5a40ce02cf59:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh8Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end00ef42277da01628bdb98604c282a7ac
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end00ef42277da01628bdb98604c282a7ac
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end00ef42277da01628bdb98604c282a7ac
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end00ef42277da01628bdb98604c282a7ac
+end00ef42277da01628bdb98604c282a7ac:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh8Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end38d33009d32e0337cad8f3318f0f07fa
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end38d33009d32e0337cad8f3318f0f07fa
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end38d33009d32e0337cad8f3318f0f07fa
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end38d33009d32e0337cad8f3318f0f07fa
+end38d33009d32e0337cad8f3318f0f07fa:
+	;
+	// match: (Rsh16Ux8 <t> (Rsh8Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end3cb972f59912aaecf51368ce1c3cdbb8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3cb972f59912aaecf51368ce1c3cdbb8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3cb972f59912aaecf51368ce1c3cdbb8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3cb972f59912aaecf51368ce1c3cdbb8
+end3cb972f59912aaecf51368ce1c3cdbb8:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16x16 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endd2cf63ce477ed4ce80c74a2c20893c51
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endd2cf63ce477ed4ce80c74a2c20893c51
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd2cf63ce477ed4ce80c74a2c20893c51
+endd2cf63ce477ed4ce80c74a2c20893c51:
+	;
+	// match: (Rsh16x16 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto ende76a2b9c1aa96e6d2bcaf9aad3a35ee8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto ende76a2b9c1aa96e6d2bcaf9aad3a35ee8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto ende76a2b9c1aa96e6d2bcaf9aad3a35ee8
+ende76a2b9c1aa96e6d2bcaf9aad3a35ee8:
+	;
+	// match: (Rsh16x16 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end386826fd84deaae9ac23c50272969718
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end386826fd84deaae9ac23c50272969718
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end386826fd84deaae9ac23c50272969718
+end386826fd84deaae9ac23c50272969718:
+	;
+	// match: (Rsh16x16 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto enda0238e3c6b49ed7fff66171d9f0f67a3
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto enda0238e3c6b49ed7fff66171d9f0f67a3
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto enda0238e3c6b49ed7fff66171d9f0f67a3
+enda0238e3c6b49ed7fff66171d9f0f67a3:
+	;
+	// match: (Rsh16x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end1ba70d7cb1da1db52a50e0debb80c7ec
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1ba70d7cb1da1db52a50e0debb80c7ec
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1ba70d7cb1da1db52a50e0debb80c7ec
+end1ba70d7cb1da1db52a50e0debb80c7ec:
+	;
+	// match: (Rsh16x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end82d96f32fb706309181a3dac5114cb60
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end82d96f32fb706309181a3dac5114cb60
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end82d96f32fb706309181a3dac5114cb60
+end82d96f32fb706309181a3dac5114cb60:
+	;
+	// match: (Rsh16x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end162cfa24c77669765b148575f063908f
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end162cfa24c77669765b148575f063908f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end162cfa24c77669765b148575f063908f
+end162cfa24c77669765b148575f063908f:
+	;
+	// match: (Rsh16x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endeebab8f9d75e43657cda371fdf6ef163
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endeebab8f9d75e43657cda371fdf6ef163
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endeebab8f9d75e43657cda371fdf6ef163
+endeebab8f9d75e43657cda371fdf6ef163:
+	;
+	// match: (Rsh16x16 <t> (Rsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end1c76e4367c7c3588436feccb4692c429
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end1c76e4367c7c3588436feccb4692c429
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end1c76e4367c7c3588436feccb4692c429
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1c76e4367c7c3588436feccb4692c429
+end1c76e4367c7c3588436feccb4692c429:
+	;
+	// match: (Rsh16x16 <t> (Rsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto endebdeed53b9c50bfcde367ba407d21e0d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endebdeed53b9c50bfcde367ba407d21e0d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endebdeed53b9c50bfcde367ba407d21e0d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endebdeed53b9c50bfcde367ba407d21e0d
+endebdeed53b9c50bfcde367ba407d21e0d:
+	;
+	// match: (Rsh16x16 <t> (Rsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end544cf8e3f04572c97cb686c0025274f0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end544cf8e3f04572c97cb686c0025274f0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end544cf8e3f04572c97cb686c0025274f0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end544cf8e3f04572c97cb686c0025274f0
+end544cf8e3f04572c97cb686c0025274f0:
+	;
+	// match: (Rsh16x16 <t> (Rsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto ende2fe4c3bf681286192104d7121ccc7fd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende2fe4c3bf681286192104d7121ccc7fd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende2fe4c3bf681286192104d7121ccc7fd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende2fe4c3bf681286192104d7121ccc7fd
+ende2fe4c3bf681286192104d7121ccc7fd:
+	;
+	// match: (Rsh16x16 <t> (Rsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end3b5b195c1a9147d1251d18873b72c5cd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end3b5b195c1a9147d1251d18873b72c5cd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end3b5b195c1a9147d1251d18873b72c5cd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3b5b195c1a9147d1251d18873b72c5cd
+end3b5b195c1a9147d1251d18873b72c5cd:
+	;
+	// match: (Rsh16x16 <t> (Rsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto endf4da22bc75b50483f4b5261ff4f0bad1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endf4da22bc75b50483f4b5261ff4f0bad1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf4da22bc75b50483f4b5261ff4f0bad1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf4da22bc75b50483f4b5261ff4f0bad1
+endf4da22bc75b50483f4b5261ff4f0bad1:
+	;
+	// match: (Rsh16x16 <t> (Rsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto endcd3571b221d71a10fe921118aa62203f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endcd3571b221d71a10fe921118aa62203f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcd3571b221d71a10fe921118aa62203f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcd3571b221d71a10fe921118aa62203f
+endcd3571b221d71a10fe921118aa62203f:
+	;
+	// match: (Rsh16x16 <t> (Rsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end21ff91bb3063625acbc42c1df0e85460
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end21ff91bb3063625acbc42c1df0e85460
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end21ff91bb3063625acbc42c1df0e85460
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end21ff91bb3063625acbc42c1df0e85460
+end21ff91bb3063625acbc42c1df0e85460:
+	;
+	// match: (Rsh16x16 <t> (Rsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end4081957f0b54bfbef220f61595a6bd41
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4081957f0b54bfbef220f61595a6bd41
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4081957f0b54bfbef220f61595a6bd41
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4081957f0b54bfbef220f61595a6bd41
+end4081957f0b54bfbef220f61595a6bd41:
+	;
+	// match: (Rsh16x16 <t> (Rsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto endba327c23e1f09d3a20591c8bb901de61
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endba327c23e1f09d3a20591c8bb901de61
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endba327c23e1f09d3a20591c8bb901de61
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endba327c23e1f09d3a20591c8bb901de61
+endba327c23e1f09d3a20591c8bb901de61:
+	;
+	// match: (Rsh16x16 <t> (Rsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end5455cd713a07277e7dddaefdf29ec7f3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5455cd713a07277e7dddaefdf29ec7f3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5455cd713a07277e7dddaefdf29ec7f3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5455cd713a07277e7dddaefdf29ec7f3
+end5455cd713a07277e7dddaefdf29ec7f3:
+	;
+	// match: (Rsh16x16 <t> (Rsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto enda2a30008764a727747c4424150588886
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enda2a30008764a727747c4424150588886
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto enda2a30008764a727747c4424150588886
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda2a30008764a727747c4424150588886
+enda2a30008764a727747c4424150588886:
+	;
+	// match: (Rsh16x16 <t> (Rsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end9e298efe3608fc46d24cd98042ba405a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9e298efe3608fc46d24cd98042ba405a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9e298efe3608fc46d24cd98042ba405a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9e298efe3608fc46d24cd98042ba405a
+end9e298efe3608fc46d24cd98042ba405a:
+	;
+	// match: (Rsh16x16 <t> (Rsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end4d6c0a4d11c66c56b293721c09a03a28
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4d6c0a4d11c66c56b293721c09a03a28
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4d6c0a4d11c66c56b293721c09a03a28
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4d6c0a4d11c66c56b293721c09a03a28
+end4d6c0a4d11c66c56b293721c09a03a28:
+	;
+	// match: (Rsh16x16 <t> (Rsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto endab9c0e6b5a4b5b58a6f78bfc4ae07fc9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endab9c0e6b5a4b5b58a6f78bfc4ae07fc9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endab9c0e6b5a4b5b58a6f78bfc4ae07fc9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endab9c0e6b5a4b5b58a6f78bfc4ae07fc9
+endab9c0e6b5a4b5b58a6f78bfc4ae07fc9:
+	;
+	// match: (Rsh16x16 <t> (Rsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh16x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto endb3d6b018d0a1dd671ccb3f614c571865
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb3d6b018d0a1dd671ccb3f614c571865
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endb3d6b018d0a1dd671ccb3f614c571865
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb3d6b018d0a1dd671ccb3f614c571865
+endb3d6b018d0a1dd671ccb3f614c571865:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16x32 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end27437b4ee97ed4ffaec9e1390ad5881e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end27437b4ee97ed4ffaec9e1390ad5881e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end27437b4ee97ed4ffaec9e1390ad5881e
+end27437b4ee97ed4ffaec9e1390ad5881e:
+	;
+	// match: (Rsh16x32 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end4e03b7cd0dafe79e9d2e7ef9dc6849ee
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end4e03b7cd0dafe79e9d2e7ef9dc6849ee
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end4e03b7cd0dafe79e9d2e7ef9dc6849ee
+end4e03b7cd0dafe79e9d2e7ef9dc6849ee:
+	;
+	// match: (Rsh16x32 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endcbb3d58bbeabc9f70a03666613f23e75
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endcbb3d58bbeabc9f70a03666613f23e75
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endcbb3d58bbeabc9f70a03666613f23e75
+endcbb3d58bbeabc9f70a03666613f23e75:
+	;
+	// match: (Rsh16x32 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end5dbfed49800509cb3ca9f9ac5d38a691
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end5dbfed49800509cb3ca9f9ac5d38a691
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end5dbfed49800509cb3ca9f9ac5d38a691
+end5dbfed49800509cb3ca9f9ac5d38a691:
+	;
+	// match: (Rsh16x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end2b45a0c9ec2ad6496f738c52e0b52f42
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end2b45a0c9ec2ad6496f738c52e0b52f42
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end2b45a0c9ec2ad6496f738c52e0b52f42
+end2b45a0c9ec2ad6496f738c52e0b52f42:
+	;
+	// match: (Rsh16x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end691c588a134cc152d7a2683ab288d29c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end691c588a134cc152d7a2683ab288d29c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end691c588a134cc152d7a2683ab288d29c
+end691c588a134cc152d7a2683ab288d29c:
+	;
+	// match: (Rsh16x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end53bdd10827b7b7b8fcf38b32c1875fd5
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end53bdd10827b7b7b8fcf38b32c1875fd5
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end53bdd10827b7b7b8fcf38b32c1875fd5
+end53bdd10827b7b7b8fcf38b32c1875fd5:
+	;
+	// match: (Rsh16x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end5e492e08dea8cef159e6c2afda2f6ddd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5e492e08dea8cef159e6c2afda2f6ddd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5e492e08dea8cef159e6c2afda2f6ddd
+end5e492e08dea8cef159e6c2afda2f6ddd:
+	;
+	// match: (Rsh16x32 <t> (Rsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto endc49ffb054d1e78ac365d47243c8a91d0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc49ffb054d1e78ac365d47243c8a91d0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc49ffb054d1e78ac365d47243c8a91d0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc49ffb054d1e78ac365d47243c8a91d0
+endc49ffb054d1e78ac365d47243c8a91d0:
+	;
+	// match: (Rsh16x32 <t> (Rsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto enda558d89bd9d5ea45167f775c77281abe
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda558d89bd9d5ea45167f775c77281abe
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda558d89bd9d5ea45167f775c77281abe
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda558d89bd9d5ea45167f775c77281abe
+enda558d89bd9d5ea45167f775c77281abe:
+	;
+	// match: (Rsh16x32 <t> (Rsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end3ada33855f9e0ba5bc68a959e4b2e9dc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end3ada33855f9e0ba5bc68a959e4b2e9dc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end3ada33855f9e0ba5bc68a959e4b2e9dc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3ada33855f9e0ba5bc68a959e4b2e9dc
+end3ada33855f9e0ba5bc68a959e4b2e9dc:
+	;
+	// match: (Rsh16x32 <t> (Rsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end129648ee798dbaa3098e30e39eebf755
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end129648ee798dbaa3098e30e39eebf755
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end129648ee798dbaa3098e30e39eebf755
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end129648ee798dbaa3098e30e39eebf755
+end129648ee798dbaa3098e30e39eebf755:
+	;
+	// match: (Rsh16x32 <t> (Rsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end99787542c11bc073e32dc4ba14512ede
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end99787542c11bc073e32dc4ba14512ede
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end99787542c11bc073e32dc4ba14512ede
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end99787542c11bc073e32dc4ba14512ede
+end99787542c11bc073e32dc4ba14512ede:
+	;
+	// match: (Rsh16x32 <t> (Rsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end4854b3b19f7f0d4a3ba61371c54d95b4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4854b3b19f7f0d4a3ba61371c54d95b4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end4854b3b19f7f0d4a3ba61371c54d95b4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4854b3b19f7f0d4a3ba61371c54d95b4
+end4854b3b19f7f0d4a3ba61371c54d95b4:
+	;
+	// match: (Rsh16x32 <t> (Rsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end7ea9b6d7d5686f5149e06f3fc63ebd2c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7ea9b6d7d5686f5149e06f3fc63ebd2c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7ea9b6d7d5686f5149e06f3fc63ebd2c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7ea9b6d7d5686f5149e06f3fc63ebd2c
+end7ea9b6d7d5686f5149e06f3fc63ebd2c:
+	;
+	// match: (Rsh16x32 <t> (Rsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end09a6c7d0854f5381909673378c1adf80
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end09a6c7d0854f5381909673378c1adf80
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end09a6c7d0854f5381909673378c1adf80
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end09a6c7d0854f5381909673378c1adf80
+end09a6c7d0854f5381909673378c1adf80:
+	;
+	// match: (Rsh16x32 <t> (Rsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end737171a48af0dc7b3438fb431fcea50a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end737171a48af0dc7b3438fb431fcea50a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end737171a48af0dc7b3438fb431fcea50a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end737171a48af0dc7b3438fb431fcea50a
+end737171a48af0dc7b3438fb431fcea50a:
+	;
+	// match: (Rsh16x32 <t> (Rsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end1ee5946263c853935ffb24cfd2f9dc4c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end1ee5946263c853935ffb24cfd2f9dc4c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1ee5946263c853935ffb24cfd2f9dc4c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1ee5946263c853935ffb24cfd2f9dc4c
+end1ee5946263c853935ffb24cfd2f9dc4c:
+	;
+	// match: (Rsh16x32 <t> (Rsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto enda6b6fe215bd5c059b5d60f30e3455bc6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda6b6fe215bd5c059b5d60f30e3455bc6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda6b6fe215bd5c059b5d60f30e3455bc6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda6b6fe215bd5c059b5d60f30e3455bc6
+enda6b6fe215bd5c059b5d60f30e3455bc6:
+	;
+	// match: (Rsh16x32 <t> (Rsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endbe58f051449069c74dda0690c99dcb23
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endbe58f051449069c74dda0690c99dcb23
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endbe58f051449069c74dda0690c99dcb23
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbe58f051449069c74dda0690c99dcb23
+endbe58f051449069c74dda0690c99dcb23:
+	;
+	// match: (Rsh16x32 <t> (Rsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto enddc6143535893159752cc0ee6cf6358db
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enddc6143535893159752cc0ee6cf6358db
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enddc6143535893159752cc0ee6cf6358db
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddc6143535893159752cc0ee6cf6358db
+enddc6143535893159752cc0ee6cf6358db:
+	;
+	// match: (Rsh16x32 <t> (Rsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto endf36be2bf144a570b6eb1188deac4f8cf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endf36be2bf144a570b6eb1188deac4f8cf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endf36be2bf144a570b6eb1188deac4f8cf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf36be2bf144a570b6eb1188deac4f8cf
+endf36be2bf144a570b6eb1188deac4f8cf:
+	;
+	// match: (Rsh16x32 <t> (Rsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto endec8bd62b3709e5050d9afb92fb527400
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endec8bd62b3709e5050d9afb92fb527400
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endec8bd62b3709e5050d9afb92fb527400
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endec8bd62b3709e5050d9afb92fb527400
+endec8bd62b3709e5050d9afb92fb527400:
+	;
+	// match: (Rsh16x32 <t> (Rsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh16x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto endc9ae04fcfd4051c6116ca3f36c47411d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endc9ae04fcfd4051c6116ca3f36c47411d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc9ae04fcfd4051c6116ca3f36c47411d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc9ae04fcfd4051c6116ca3f36c47411d
+endc9ae04fcfd4051c6116ca3f36c47411d:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16x64 _ (Const64 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end9d7fa5b167c5c5ad7be984f835fb49dd
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end9d7fa5b167c5c5ad7be984f835fb49dd
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end9d7fa5b167c5c5ad7be984f835fb49dd
+end9d7fa5b167c5c5ad7be984f835fb49dd:
+	;
+	// match: (Rsh16x64 _ (Const32 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end8a975a96396a7c89b1977b8df2a05e3a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto end8a975a96396a7c89b1977b8df2a05e3a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end8a975a96396a7c89b1977b8df2a05e3a
+end8a975a96396a7c89b1977b8df2a05e3a:
+	;
+	// match: (Rsh16x64 _ (Const16 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto enddfd54a93cc3681b44a49651b92736ead
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto enddfd54a93cc3681b44a49651b92736ead
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto enddfd54a93cc3681b44a49651b92736ead
+enddfd54a93cc3681b44a49651b92736ead:
+	;
+	// match: (Rsh16x64 _ (Const8 [c]))
+	// cond: c >= 16
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endea30a543808f46e0d006cb5c1a26a58b
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 16) {
+			goto endea30a543808f46e0d006cb5c1a26a58b
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endea30a543808f46e0d006cb5c1a26a58b
+endea30a543808f46e0d006cb5c1a26a58b:
+	;
+	// match: (Rsh16x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end4b0ee43fcf54da5195e05c8cee0bf14e
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end4b0ee43fcf54da5195e05c8cee0bf14e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4b0ee43fcf54da5195e05c8cee0bf14e
+end4b0ee43fcf54da5195e05c8cee0bf14e:
+	;
+	// match: (Rsh16x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endd7d694cedc7b645f27382c6467e15b90
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endd7d694cedc7b645f27382c6467e15b90
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endd7d694cedc7b645f27382c6467e15b90
+endd7d694cedc7b645f27382c6467e15b90:
+	;
+	// match: (Rsh16x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto enda0470a78f51ab4591552d1573cede2ec
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto enda0470a78f51ab4591552d1573cede2ec
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda0470a78f51ab4591552d1573cede2ec
+enda0470a78f51ab4591552d1573cede2ec:
+	;
+	// match: (Rsh16x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end1572e32f1734abed7dc4aa04dac3bb76
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end1572e32f1734abed7dc4aa04dac3bb76
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1572e32f1734abed7dc4aa04dac3bb76
+end1572e32f1734abed7dc4aa04dac3bb76:
+	;
+	// match: (Rsh16x64 <t> (Rsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end3354f1e29083125bdb0c14cf577beaf6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end3354f1e29083125bdb0c14cf577beaf6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end3354f1e29083125bdb0c14cf577beaf6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3354f1e29083125bdb0c14cf577beaf6
+end3354f1e29083125bdb0c14cf577beaf6:
+	;
+	// match: (Rsh16x64 <t> (Rsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end814296e24c8618bf0edf4b3416e7f21f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end814296e24c8618bf0edf4b3416e7f21f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end814296e24c8618bf0edf4b3416e7f21f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end814296e24c8618bf0edf4b3416e7f21f
+end814296e24c8618bf0edf4b3416e7f21f:
+	;
+	// match: (Rsh16x64 <t> (Rsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto enda645e4242cf92f2a140570f5ca83936b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda645e4242cf92f2a140570f5ca83936b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda645e4242cf92f2a140570f5ca83936b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda645e4242cf92f2a140570f5ca83936b
+enda645e4242cf92f2a140570f5ca83936b:
+	;
+	// match: (Rsh16x64 <t> (Rsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end26731b3181fe3b017bb6472eba50acb7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end26731b3181fe3b017bb6472eba50acb7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end26731b3181fe3b017bb6472eba50acb7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end26731b3181fe3b017bb6472eba50acb7
+end26731b3181fe3b017bb6472eba50acb7:
+	;
+	// match: (Rsh16x64 <t> (Rsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end859a59b093a1df9066761482cbdc5648
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end859a59b093a1df9066761482cbdc5648
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end859a59b093a1df9066761482cbdc5648
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end859a59b093a1df9066761482cbdc5648
+end859a59b093a1df9066761482cbdc5648:
+	;
+	// match: (Rsh16x64 <t> (Rsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto ende26948174347c5d3dfe3819e17ae4cd0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende26948174347c5d3dfe3819e17ae4cd0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende26948174347c5d3dfe3819e17ae4cd0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende26948174347c5d3dfe3819e17ae4cd0
+ende26948174347c5d3dfe3819e17ae4cd0:
+	;
+	// match: (Rsh16x64 <t> (Rsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end8bcf92c4ddebf8510262da9bc5752e00
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8bcf92c4ddebf8510262da9bc5752e00
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8bcf92c4ddebf8510262da9bc5752e00
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8bcf92c4ddebf8510262da9bc5752e00
+end8bcf92c4ddebf8510262da9bc5752e00:
+	;
+	// match: (Rsh16x64 <t> (Rsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end852c9f70b029e03171a83059571d5220
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end852c9f70b029e03171a83059571d5220
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end852c9f70b029e03171a83059571d5220
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end852c9f70b029e03171a83059571d5220
+end852c9f70b029e03171a83059571d5220:
+	;
+	// match: (Rsh16x64 <t> (Rsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto enddcbfc0466130ffcb63a97c87f95bb2fa
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enddcbfc0466130ffcb63a97c87f95bb2fa
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enddcbfc0466130ffcb63a97c87f95bb2fa
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddcbfc0466130ffcb63a97c87f95bb2fa
+enddcbfc0466130ffcb63a97c87f95bb2fa:
+	;
+	// match: (Rsh16x64 <t> (Rsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end0df7fe690e73e34ba537225dfa81edc0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end0df7fe690e73e34ba537225dfa81edc0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end0df7fe690e73e34ba537225dfa81edc0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0df7fe690e73e34ba537225dfa81edc0
+end0df7fe690e73e34ba537225dfa81edc0:
+	;
+	// match: (Rsh16x64 <t> (Rsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto enda43345f55e471b477ec083e0710e494b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda43345f55e471b477ec083e0710e494b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda43345f55e471b477ec083e0710e494b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda43345f55e471b477ec083e0710e494b
+enda43345f55e471b477ec083e0710e494b:
+	;
+	// match: (Rsh16x64 <t> (Rsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endacdad696f4a71018b02ae9c7cb56f4c7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endacdad696f4a71018b02ae9c7cb56f4c7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endacdad696f4a71018b02ae9c7cb56f4c7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endacdad696f4a71018b02ae9c7cb56f4c7
+endacdad696f4a71018b02ae9c7cb56f4c7:
+	;
+	// match: (Rsh16x64 <t> (Rsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end44bcaf9608a38d2718818bc1e170939b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end44bcaf9608a38d2718818bc1e170939b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end44bcaf9608a38d2718818bc1e170939b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end44bcaf9608a38d2718818bc1e170939b
+end44bcaf9608a38d2718818bc1e170939b:
+	;
+	// match: (Rsh16x64 <t> (Rsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end7b9032b47b1f1cbeceab9ca457d40f0d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7b9032b47b1f1cbeceab9ca457d40f0d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7b9032b47b1f1cbeceab9ca457d40f0d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7b9032b47b1f1cbeceab9ca457d40f0d
+end7b9032b47b1f1cbeceab9ca457d40f0d:
+	;
+	// match: (Rsh16x64 <t> (Rsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto endad6cdc1c4a92244396c382f305b33f1a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endad6cdc1c4a92244396c382f305b33f1a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endad6cdc1c4a92244396c382f305b33f1a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endad6cdc1c4a92244396c382f305b33f1a
+endad6cdc1c4a92244396c382f305b33f1a:
+	;
+	// match: (Rsh16x64 <t> (Rsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh16x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end949e65240c25a02ecd128dee4b9f5980
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end949e65240c25a02ecd128dee4b9f5980
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end949e65240c25a02ecd128dee4b9f5980
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end949e65240c25a02ecd128dee4b9f5980
+end949e65240c25a02ecd128dee4b9f5980:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh16x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh16x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end32897317181939ce7818ed148ae88d2e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end32897317181939ce7818ed148ae88d2e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end32897317181939ce7818ed148ae88d2e
+end32897317181939ce7818ed148ae88d2e:
+	;
+	// match: (Rsh16x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end4ccb4ba78563d86bdd805d49ec1d0cce
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end4ccb4ba78563d86bdd805d49ec1d0cce
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4ccb4ba78563d86bdd805d49ec1d0cce
+end4ccb4ba78563d86bdd805d49ec1d0cce:
+	;
+	// match: (Rsh16x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end9fac6dfdafcaafd14f5e2bc783344b99
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end9fac6dfdafcaafd14f5e2bc783344b99
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9fac6dfdafcaafd14f5e2bc783344b99
+end9fac6dfdafcaafd14f5e2bc783344b99:
+	;
+	// match: (Rsh16x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endfe0515204d88469d6a3c43cf1a23458c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endfe0515204d88469d6a3c43cf1a23458c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endfe0515204d88469d6a3c43cf1a23458c
+endfe0515204d88469d6a3c43cf1a23458c:
+	;
+	// match: (Rsh16x8 <t> (Rsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end6c2d5d13f73f9d1940abb17f03162ed5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end6c2d5d13f73f9d1940abb17f03162ed5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end6c2d5d13f73f9d1940abb17f03162ed5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6c2d5d13f73f9d1940abb17f03162ed5
+end6c2d5d13f73f9d1940abb17f03162ed5:
+	;
+	// match: (Rsh16x8 <t> (Rsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end4ae8cbaac0e3554505bae7aa733ba286
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4ae8cbaac0e3554505bae7aa733ba286
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4ae8cbaac0e3554505bae7aa733ba286
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4ae8cbaac0e3554505bae7aa733ba286
+end4ae8cbaac0e3554505bae7aa733ba286:
+	;
+	// match: (Rsh16x8 <t> (Rsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto ende15f7e78f49fd01a6cd503a89d49aa46
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende15f7e78f49fd01a6cd503a89d49aa46
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende15f7e78f49fd01a6cd503a89d49aa46
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende15f7e78f49fd01a6cd503a89d49aa46
+ende15f7e78f49fd01a6cd503a89d49aa46:
+	;
+	// match: (Rsh16x8 <t> (Rsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end0e9f5ccd9f0f0b6fa8c6f334363f1ea4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end0e9f5ccd9f0f0b6fa8c6f334363f1ea4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0e9f5ccd9f0f0b6fa8c6f334363f1ea4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0e9f5ccd9f0f0b6fa8c6f334363f1ea4
+end0e9f5ccd9f0f0b6fa8c6f334363f1ea4:
+	;
+	// match: (Rsh16x8 <t> (Rsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end318e9053a84b6c41dc5de20eeedb7714
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end318e9053a84b6c41dc5de20eeedb7714
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end318e9053a84b6c41dc5de20eeedb7714
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end318e9053a84b6c41dc5de20eeedb7714
+end318e9053a84b6c41dc5de20eeedb7714:
+	;
+	// match: (Rsh16x8 <t> (Rsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end1f503c1441e677d2172c99f15d1b01dd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end1f503c1441e677d2172c99f15d1b01dd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end1f503c1441e677d2172c99f15d1b01dd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1f503c1441e677d2172c99f15d1b01dd
+end1f503c1441e677d2172c99f15d1b01dd:
+	;
+	// match: (Rsh16x8 <t> (Rsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto endec6adc341eec90ecf49d2d703a816bda
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endec6adc341eec90ecf49d2d703a816bda
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endec6adc341eec90ecf49d2d703a816bda
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endec6adc341eec90ecf49d2d703a816bda
+endec6adc341eec90ecf49d2d703a816bda:
+	;
+	// match: (Rsh16x8 <t> (Rsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end4e322a5541558291b2d84ea3d4af9820
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4e322a5541558291b2d84ea3d4af9820
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4e322a5541558291b2d84ea3d4af9820
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4e322a5541558291b2d84ea3d4af9820
+end4e322a5541558291b2d84ea3d4af9820:
+	;
+	// match: (Rsh16x8 <t> (Rsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end9ff0818e5dbe6531a6ca81d94f674a4f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9ff0818e5dbe6531a6ca81d94f674a4f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9ff0818e5dbe6531a6ca81d94f674a4f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9ff0818e5dbe6531a6ca81d94f674a4f
+end9ff0818e5dbe6531a6ca81d94f674a4f:
+	;
+	// match: (Rsh16x8 <t> (Rsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto endd781deeead5119ec74f046ebc71f0e6f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endd781deeead5119ec74f046ebc71f0e6f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd781deeead5119ec74f046ebc71f0e6f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd781deeead5119ec74f046ebc71f0e6f
+endd781deeead5119ec74f046ebc71f0e6f:
+	;
+	// match: (Rsh16x8 <t> (Rsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto enddb5553e81bf11b1641b4ba76e7a21122
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enddb5553e81bf11b1641b4ba76e7a21122
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enddb5553e81bf11b1641b4ba76e7a21122
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddb5553e81bf11b1641b4ba76e7a21122
+enddb5553e81bf11b1641b4ba76e7a21122:
+	;
+	// match: (Rsh16x8 <t> (Rsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto end66a880421a437ac833d2037f2f2c7e4a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end66a880421a437ac833d2037f2f2c7e4a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end66a880421a437ac833d2037f2f2c7e4a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end66a880421a437ac833d2037f2f2c7e4a
+end66a880421a437ac833d2037f2f2c7e4a:
+	;
+	// match: (Rsh16x8 <t> (Rsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto endb118485e8b8f95626cf1f4dd5f4b2d6d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb118485e8b8f95626cf1f4dd5f4b2d6d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endb118485e8b8f95626cf1f4dd5f4b2d6d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb118485e8b8f95626cf1f4dd5f4b2d6d
+endb118485e8b8f95626cf1f4dd5f4b2d6d:
+	;
+	// match: (Rsh16x8 <t> (Rsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end09f2abd0f363434d9b84d6fa4929cd22
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end09f2abd0f363434d9b84d6fa4929cd22
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end09f2abd0f363434d9b84d6fa4929cd22
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end09f2abd0f363434d9b84d6fa4929cd22
+end09f2abd0f363434d9b84d6fa4929cd22:
+	;
+	// match: (Rsh16x8 <t> (Rsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end6dd2d945e1813deed8ef0e391bebe707
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end6dd2d945e1813deed8ef0e391bebe707
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end6dd2d945e1813deed8ef0e391bebe707
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6dd2d945e1813deed8ef0e391bebe707
+end6dd2d945e1813deed8ef0e391bebe707:
+	;
+	// match: (Rsh16x8 <t> (Rsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh16x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end7abc0e1e929093e3643724127ba21a7c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7abc0e1e929093e3643724127ba21a7c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7abc0e1e929093e3643724127ba21a7c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh16x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7abc0e1e929093e3643724127ba21a7c
+end7abc0e1e929093e3643724127ba21a7c:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32Ux16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32Ux16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end40bd57cb9fe7eafa5714be9e67c78367
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end40bd57cb9fe7eafa5714be9e67c78367
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end40bd57cb9fe7eafa5714be9e67c78367
+end40bd57cb9fe7eafa5714be9e67c78367:
+	;
+	// match: (Rsh32Ux16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end17764d289415b26409ad1e4fa9200781
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end17764d289415b26409ad1e4fa9200781
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end17764d289415b26409ad1e4fa9200781
+end17764d289415b26409ad1e4fa9200781:
+	;
+	// match: (Rsh32Ux16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end2720a6d49eb6178bc04ce5029ee3ac94
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end2720a6d49eb6178bc04ce5029ee3ac94
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end2720a6d49eb6178bc04ce5029ee3ac94
+end2720a6d49eb6178bc04ce5029ee3ac94:
+	;
+	// match: (Rsh32Ux16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto ende862a7fd5ac88efade9f75d84510c352
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto ende862a7fd5ac88efade9f75d84510c352
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ende862a7fd5ac88efade9f75d84510c352
+ende862a7fd5ac88efade9f75d84510c352:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh64Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto ende67a95981781d7577b288e968d0b1215
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende67a95981781d7577b288e968d0b1215
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende67a95981781d7577b288e968d0b1215
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende67a95981781d7577b288e968d0b1215
+ende67a95981781d7577b288e968d0b1215:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh64Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto endcd7ceb309edce3ee282c4c48ea99aed8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endcd7ceb309edce3ee282c4c48ea99aed8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcd7ceb309edce3ee282c4c48ea99aed8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcd7ceb309edce3ee282c4c48ea99aed8
+endcd7ceb309edce3ee282c4c48ea99aed8:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh64Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto endf9dd695ebb8f4b556ecb0a8beabe722d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endf9dd695ebb8f4b556ecb0a8beabe722d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf9dd695ebb8f4b556ecb0a8beabe722d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf9dd695ebb8f4b556ecb0a8beabe722d
+endf9dd695ebb8f4b556ecb0a8beabe722d:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh64Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto enddf9731db7c6c837b28085a33c5b6d9e4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enddf9731db7c6c837b28085a33c5b6d9e4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto enddf9731db7c6c837b28085a33c5b6d9e4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddf9731db7c6c837b28085a33c5b6d9e4
+enddf9731db7c6c837b28085a33c5b6d9e4:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh32Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endefbf237283d43c8b8520f7495143c521
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endefbf237283d43c8b8520f7495143c521
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endefbf237283d43c8b8520f7495143c521
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endefbf237283d43c8b8520f7495143c521
+endefbf237283d43c8b8520f7495143c521:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh32Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end9dec9654402b47af5ab4b5ef96e272bf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end9dec9654402b47af5ab4b5ef96e272bf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9dec9654402b47af5ab4b5ef96e272bf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9dec9654402b47af5ab4b5ef96e272bf
+end9dec9654402b47af5ab4b5ef96e272bf:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh32Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto endcaf5345d6268de583ca2dd0b495c5910
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endcaf5345d6268de583ca2dd0b495c5910
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcaf5345d6268de583ca2dd0b495c5910
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcaf5345d6268de583ca2dd0b495c5910
+endcaf5345d6268de583ca2dd0b495c5910:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh32Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto ende21fcc3efa5c295a8b9201599f5b1892
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende21fcc3efa5c295a8b9201599f5b1892
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende21fcc3efa5c295a8b9201599f5b1892
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende21fcc3efa5c295a8b9201599f5b1892
+ende21fcc3efa5c295a8b9201599f5b1892:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh16Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end1b7bcf218a05dd687734b5f001c57290
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end1b7bcf218a05dd687734b5f001c57290
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end1b7bcf218a05dd687734b5f001c57290
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1b7bcf218a05dd687734b5f001c57290
+end1b7bcf218a05dd687734b5f001c57290:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh16Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end8ca2e317fc7e5e383c2a6a3738cb9997
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8ca2e317fc7e5e383c2a6a3738cb9997
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8ca2e317fc7e5e383c2a6a3738cb9997
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8ca2e317fc7e5e383c2a6a3738cb9997
+end8ca2e317fc7e5e383c2a6a3738cb9997:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh16Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto endab21ead1a56ccacceb7d6280cf4bd891
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endab21ead1a56ccacceb7d6280cf4bd891
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endab21ead1a56ccacceb7d6280cf4bd891
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endab21ead1a56ccacceb7d6280cf4bd891
+endab21ead1a56ccacceb7d6280cf4bd891:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh16Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto ende7396faef58201ffdc1804f8dab9b2c5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende7396faef58201ffdc1804f8dab9b2c5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende7396faef58201ffdc1804f8dab9b2c5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende7396faef58201ffdc1804f8dab9b2c5
+ende7396faef58201ffdc1804f8dab9b2c5:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh8Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end54c717f699350c8295c8720424d27054
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end54c717f699350c8295c8720424d27054
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end54c717f699350c8295c8720424d27054
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end54c717f699350c8295c8720424d27054
+end54c717f699350c8295c8720424d27054:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh8Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end0d03b1d797b1ca435fdac4b0538eee7a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end0d03b1d797b1ca435fdac4b0538eee7a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end0d03b1d797b1ca435fdac4b0538eee7a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0d03b1d797b1ca435fdac4b0538eee7a
+end0d03b1d797b1ca435fdac4b0538eee7a:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh8Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto endc50b75eec69e079eaf9b5d63c26cb701
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endc50b75eec69e079eaf9b5d63c26cb701
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc50b75eec69e079eaf9b5d63c26cb701
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc50b75eec69e079eaf9b5d63c26cb701
+endc50b75eec69e079eaf9b5d63c26cb701:
+	;
+	// match: (Rsh32Ux16 <t> (Rsh8Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end381872ec0e4d7f0ce75b80799e6bcfae
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end381872ec0e4d7f0ce75b80799e6bcfae
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end381872ec0e4d7f0ce75b80799e6bcfae
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end381872ec0e4d7f0ce75b80799e6bcfae
+end381872ec0e4d7f0ce75b80799e6bcfae:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32Ux32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32Ux32 _ (Const64 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end2aa3b20a61fb1ceee673e9030d3358d8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end2aa3b20a61fb1ceee673e9030d3358d8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end2aa3b20a61fb1ceee673e9030d3358d8
+end2aa3b20a61fb1ceee673e9030d3358d8:
+	;
+	// match: (Rsh32Ux32 _ (Const32 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end70e91e49a7bbf5f1184932f866714ed4
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end70e91e49a7bbf5f1184932f866714ed4
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end70e91e49a7bbf5f1184932f866714ed4
+end70e91e49a7bbf5f1184932f866714ed4:
+	;
+	// match: (Rsh32Ux32 _ (Const16 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto ende56539f86ca40aaf70652e8d96097b40
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto ende56539f86ca40aaf70652e8d96097b40
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto ende56539f86ca40aaf70652e8d96097b40
+ende56539f86ca40aaf70652e8d96097b40:
+	;
+	// match: (Rsh32Ux32 _ (Const8 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endcf884b31490d4f1231f7d697cac3449c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endcf884b31490d4f1231f7d697cac3449c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endcf884b31490d4f1231f7d697cac3449c
+endcf884b31490d4f1231f7d697cac3449c:
+	;
+	// match: (Rsh32Ux32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end510b1ea77df92c9545176d2b2afe634e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end510b1ea77df92c9545176d2b2afe634e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end510b1ea77df92c9545176d2b2afe634e
+end510b1ea77df92c9545176d2b2afe634e:
+	;
+	// match: (Rsh32Ux32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end4d7cbc444bfb9644a524c9d29b5ab85d
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end4d7cbc444bfb9644a524c9d29b5ab85d
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end4d7cbc444bfb9644a524c9d29b5ab85d
+end4d7cbc444bfb9644a524c9d29b5ab85d:
+	;
+	// match: (Rsh32Ux32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end445adfcce0dba485792a4dc780603a2e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end445adfcce0dba485792a4dc780603a2e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end445adfcce0dba485792a4dc780603a2e
+end445adfcce0dba485792a4dc780603a2e:
+	;
+	// match: (Rsh32Ux32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endb495a0f9c0add7c26b349bae9708ffe8
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endb495a0f9c0add7c26b349bae9708ffe8
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb495a0f9c0add7c26b349bae9708ffe8
+endb495a0f9c0add7c26b349bae9708ffe8:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh64Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end83550ef98878ffa1d7168aecf7bb93f9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end83550ef98878ffa1d7168aecf7bb93f9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end83550ef98878ffa1d7168aecf7bb93f9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end83550ef98878ffa1d7168aecf7bb93f9
+end83550ef98878ffa1d7168aecf7bb93f9:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh64Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto enda8acf6c686bfbf281f9a1e8990077b54
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda8acf6c686bfbf281f9a1e8990077b54
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda8acf6c686bfbf281f9a1e8990077b54
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda8acf6c686bfbf281f9a1e8990077b54
+enda8acf6c686bfbf281f9a1e8990077b54:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh64Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end0b7983928eaf00f2ee293195da899009
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0b7983928eaf00f2ee293195da899009
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end0b7983928eaf00f2ee293195da899009
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0b7983928eaf00f2ee293195da899009
+end0b7983928eaf00f2ee293195da899009:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh64Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end0479478bf785a26000dccf5513ecd59d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end0479478bf785a26000dccf5513ecd59d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end0479478bf785a26000dccf5513ecd59d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0479478bf785a26000dccf5513ecd59d
+end0479478bf785a26000dccf5513ecd59d:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh32Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endd8da9bc7061f80f9a3f95489ee825417
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endd8da9bc7061f80f9a3f95489ee825417
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endd8da9bc7061f80f9a3f95489ee825417
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd8da9bc7061f80f9a3f95489ee825417
+endd8da9bc7061f80f9a3f95489ee825417:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh32Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end9c3fb2d2dac9dd4cdde4a39ee7b513bb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end9c3fb2d2dac9dd4cdde4a39ee7b513bb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end9c3fb2d2dac9dd4cdde4a39ee7b513bb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9c3fb2d2dac9dd4cdde4a39ee7b513bb
+end9c3fb2d2dac9dd4cdde4a39ee7b513bb:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh32Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end8673f19b877861306a53dbcbddd3b82e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8673f19b877861306a53dbcbddd3b82e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8673f19b877861306a53dbcbddd3b82e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8673f19b877861306a53dbcbddd3b82e
+end8673f19b877861306a53dbcbddd3b82e:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh32Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end636cf4cede809a9f51dbacf98b463378
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end636cf4cede809a9f51dbacf98b463378
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end636cf4cede809a9f51dbacf98b463378
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end636cf4cede809a9f51dbacf98b463378
+end636cf4cede809a9f51dbacf98b463378:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh16Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end46e5fd64a4b154ca94a34b5f0e9bc64c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end46e5fd64a4b154ca94a34b5f0e9bc64c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end46e5fd64a4b154ca94a34b5f0e9bc64c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end46e5fd64a4b154ca94a34b5f0e9bc64c
+end46e5fd64a4b154ca94a34b5f0e9bc64c:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh16Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end7485f79ec602671d21af20ba4f8c1281
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7485f79ec602671d21af20ba4f8c1281
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7485f79ec602671d21af20ba4f8c1281
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7485f79ec602671d21af20ba4f8c1281
+end7485f79ec602671d21af20ba4f8c1281:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh16Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end2a876c813bccbbe677ba92de7f8b5f3f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2a876c813bccbbe677ba92de7f8b5f3f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end2a876c813bccbbe677ba92de7f8b5f3f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2a876c813bccbbe677ba92de7f8b5f3f
+end2a876c813bccbbe677ba92de7f8b5f3f:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh16Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end9955fe91b0f2c1f90623ae3cc9309bfb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end9955fe91b0f2c1f90623ae3cc9309bfb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end9955fe91b0f2c1f90623ae3cc9309bfb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9955fe91b0f2c1f90623ae3cc9309bfb
+end9955fe91b0f2c1f90623ae3cc9309bfb:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh8Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end45d93eba9f530e5ffddb2453eda9f46d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end45d93eba9f530e5ffddb2453eda9f46d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end45d93eba9f530e5ffddb2453eda9f46d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end45d93eba9f530e5ffddb2453eda9f46d
+end45d93eba9f530e5ffddb2453eda9f46d:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh8Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto enda60e4a22564d92164e0679cc14b3be74
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda60e4a22564d92164e0679cc14b3be74
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda60e4a22564d92164e0679cc14b3be74
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda60e4a22564d92164e0679cc14b3be74
+enda60e4a22564d92164e0679cc14b3be74:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh8Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto endee6272f36518efc5986e99e7955ceb96
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endee6272f36518efc5986e99e7955ceb96
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endee6272f36518efc5986e99e7955ceb96
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endee6272f36518efc5986e99e7955ceb96
+endee6272f36518efc5986e99e7955ceb96:
+	;
+	// match: (Rsh32Ux32 <t> (Rsh8Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end193d3683ab905aa0dbce11722be55fcd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end193d3683ab905aa0dbce11722be55fcd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end193d3683ab905aa0dbce11722be55fcd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end193d3683ab905aa0dbce11722be55fcd
+end193d3683ab905aa0dbce11722be55fcd:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32Ux64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32Ux64 _ (Const64 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end54a298f7e6a63275f8e8e9d677b2de6b
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end54a298f7e6a63275f8e8e9d677b2de6b
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end54a298f7e6a63275f8e8e9d677b2de6b
+end54a298f7e6a63275f8e8e9d677b2de6b:
+	;
+	// match: (Rsh32Ux64 _ (Const32 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto endaf9a8f96e9e72417295db319e827b287
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endaf9a8f96e9e72417295db319e827b287
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endaf9a8f96e9e72417295db319e827b287
+endaf9a8f96e9e72417295db319e827b287:
+	;
+	// match: (Rsh32Ux64 _ (Const16 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end8260add720dfa47f303e7ca2485424ba
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end8260add720dfa47f303e7ca2485424ba
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end8260add720dfa47f303e7ca2485424ba
+end8260add720dfa47f303e7ca2485424ba:
+	;
+	// match: (Rsh32Ux64 _ (Const8 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end2e6678a54f6060b3341851063d99068b
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end2e6678a54f6060b3341851063d99068b
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end2e6678a54f6060b3341851063d99068b
+end2e6678a54f6060b3341851063d99068b:
+	;
+	// match: (Rsh32Ux64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end162e4e182a665d4e6f0d85fe131e7288
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end162e4e182a665d4e6f0d85fe131e7288
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end162e4e182a665d4e6f0d85fe131e7288
+end162e4e182a665d4e6f0d85fe131e7288:
+	;
+	// match: (Rsh32Ux64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto ende65da4bb7c82c2de56a0992e2b70c31a
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto ende65da4bb7c82c2de56a0992e2b70c31a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ende65da4bb7c82c2de56a0992e2b70c31a
+ende65da4bb7c82c2de56a0992e2b70c31a:
+	;
+	// match: (Rsh32Ux64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end979fdd44a6da9b04848ad221871ec8b5
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end979fdd44a6da9b04848ad221871ec8b5
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end979fdd44a6da9b04848ad221871ec8b5
+end979fdd44a6da9b04848ad221871ec8b5:
+	;
+	// match: (Rsh32Ux64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end673157fa940d7a9340720c89bb050287
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end673157fa940d7a9340720c89bb050287
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end673157fa940d7a9340720c89bb050287
+end673157fa940d7a9340720c89bb050287:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh64Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto endaa7740a62f8cd778f59511288ac65bdd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endaa7740a62f8cd778f59511288ac65bdd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endaa7740a62f8cd778f59511288ac65bdd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaa7740a62f8cd778f59511288ac65bdd
+endaa7740a62f8cd778f59511288ac65bdd:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh64Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end77c5d42ca37701e712833dabc177b99a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end77c5d42ca37701e712833dabc177b99a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end77c5d42ca37701e712833dabc177b99a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end77c5d42ca37701e712833dabc177b99a
+end77c5d42ca37701e712833dabc177b99a:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh64Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end87f2f4e020f156a8490f2129f6bcff9f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end87f2f4e020f156a8490f2129f6bcff9f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end87f2f4e020f156a8490f2129f6bcff9f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end87f2f4e020f156a8490f2129f6bcff9f
+end87f2f4e020f156a8490f2129f6bcff9f:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh64Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto endf8693a2ffed19b3e592dcf1a9e1ec637
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf8693a2ffed19b3e592dcf1a9e1ec637
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endf8693a2ffed19b3e592dcf1a9e1ec637
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf8693a2ffed19b3e592dcf1a9e1ec637
+endf8693a2ffed19b3e592dcf1a9e1ec637:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh32Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto enda9ced650ecdcaf629d3d04ef8bf91261
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enda9ced650ecdcaf629d3d04ef8bf91261
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda9ced650ecdcaf629d3d04ef8bf91261
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda9ced650ecdcaf629d3d04ef8bf91261
+enda9ced650ecdcaf629d3d04ef8bf91261:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh32Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end2e19dc114c0a8eedcc323f984fda94cd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end2e19dc114c0a8eedcc323f984fda94cd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2e19dc114c0a8eedcc323f984fda94cd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2e19dc114c0a8eedcc323f984fda94cd
+end2e19dc114c0a8eedcc323f984fda94cd:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh32Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end2cc76f57383b4cce78c6138c67665e2d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2cc76f57383b4cce78c6138c67665e2d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2cc76f57383b4cce78c6138c67665e2d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2cc76f57383b4cce78c6138c67665e2d
+end2cc76f57383b4cce78c6138c67665e2d:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh32Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto enda10c76968ba3ac7cf9fab5375d2170b5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enda10c76968ba3ac7cf9fab5375d2170b5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda10c76968ba3ac7cf9fab5375d2170b5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda10c76968ba3ac7cf9fab5375d2170b5
+enda10c76968ba3ac7cf9fab5375d2170b5:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh16Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end4f97d9b3491350f976dc1883044e6263
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4f97d9b3491350f976dc1883044e6263
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end4f97d9b3491350f976dc1883044e6263
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4f97d9b3491350f976dc1883044e6263
+end4f97d9b3491350f976dc1883044e6263:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh16Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto enda5b7a585f4a6ad052f6ea067624a2fdd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda5b7a585f4a6ad052f6ea067624a2fdd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda5b7a585f4a6ad052f6ea067624a2fdd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda5b7a585f4a6ad052f6ea067624a2fdd
+enda5b7a585f4a6ad052f6ea067624a2fdd:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh16Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto endb57c2fff5d5fddea78aeac7aafbfe4f0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endb57c2fff5d5fddea78aeac7aafbfe4f0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endb57c2fff5d5fddea78aeac7aafbfe4f0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb57c2fff5d5fddea78aeac7aafbfe4f0
+endb57c2fff5d5fddea78aeac7aafbfe4f0:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh16Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end3be5e98eb908e09e266507b86eaeee10
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3be5e98eb908e09e266507b86eaeee10
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end3be5e98eb908e09e266507b86eaeee10
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3be5e98eb908e09e266507b86eaeee10
+end3be5e98eb908e09e266507b86eaeee10:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh8Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end25faca38171e86befbc4e3bce5a8db9e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end25faca38171e86befbc4e3bce5a8db9e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end25faca38171e86befbc4e3bce5a8db9e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end25faca38171e86befbc4e3bce5a8db9e
+end25faca38171e86befbc4e3bce5a8db9e:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh8Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end199cc433d27f87910e6d6d3a89c7baee
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end199cc433d27f87910e6d6d3a89c7baee
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end199cc433d27f87910e6d6d3a89c7baee
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end199cc433d27f87910e6d6d3a89c7baee
+end199cc433d27f87910e6d6d3a89c7baee:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh8Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto enddf787521983c85f07ed2948fdce16507
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enddf787521983c85f07ed2948fdce16507
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enddf787521983c85f07ed2948fdce16507
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddf787521983c85f07ed2948fdce16507
+enddf787521983c85f07ed2948fdce16507:
+	;
+	// match: (Rsh32Ux64 <t> (Rsh8Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end7246b20c5cb1e0fc92f613e0422e3164
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7246b20c5cb1e0fc92f613e0422e3164
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7246b20c5cb1e0fc92f613e0422e3164
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7246b20c5cb1e0fc92f613e0422e3164
+end7246b20c5cb1e0fc92f613e0422e3164:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32Ux8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32Ux8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end1860a40af95523d7b2c5b7ad0923c1ac
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1860a40af95523d7b2c5b7ad0923c1ac
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1860a40af95523d7b2c5b7ad0923c1ac
+end1860a40af95523d7b2c5b7ad0923c1ac:
+	;
+	// match: (Rsh32Ux8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endbe83e56f306a83e5e1bf084040a11ecd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endbe83e56f306a83e5e1bf084040a11ecd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endbe83e56f306a83e5e1bf084040a11ecd
+endbe83e56f306a83e5e1bf084040a11ecd:
+	;
+	// match: (Rsh32Ux8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end7152c680f9a65727b643888dd05d395c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end7152c680f9a65727b643888dd05d395c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end7152c680f9a65727b643888dd05d395c
+end7152c680f9a65727b643888dd05d395c:
+	;
+	// match: (Rsh32Ux8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end60d8f240a69e42ba9f5ad98c1d69d23a
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end60d8f240a69e42ba9f5ad98c1d69d23a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end60d8f240a69e42ba9f5ad98c1d69d23a
+end60d8f240a69e42ba9f5ad98c1d69d23a:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh64Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end3d6b2418a3930c7b45a5d469e729192a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end3d6b2418a3930c7b45a5d469e729192a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3d6b2418a3930c7b45a5d469e729192a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3d6b2418a3930c7b45a5d469e729192a
+end3d6b2418a3930c7b45a5d469e729192a:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh64Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto endd8feb4adcb520a32772b51249d0fed2a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endd8feb4adcb520a32772b51249d0fed2a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd8feb4adcb520a32772b51249d0fed2a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd8feb4adcb520a32772b51249d0fed2a
+endd8feb4adcb520a32772b51249d0fed2a:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh64Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end1fccfda1c492c167ea03fb8a192e92d5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1fccfda1c492c167ea03fb8a192e92d5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end1fccfda1c492c167ea03fb8a192e92d5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1fccfda1c492c167ea03fb8a192e92d5
+end1fccfda1c492c167ea03fb8a192e92d5:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh64Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end29936edfbe520279188a8bcc65b80a84
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end29936edfbe520279188a8bcc65b80a84
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end29936edfbe520279188a8bcc65b80a84
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end29936edfbe520279188a8bcc65b80a84
+end29936edfbe520279188a8bcc65b80a84:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh32Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto end94ecbad5f2a53dcfbefa1f2df5bd3a4a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end94ecbad5f2a53dcfbefa1f2df5bd3a4a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end94ecbad5f2a53dcfbefa1f2df5bd3a4a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end94ecbad5f2a53dcfbefa1f2df5bd3a4a
+end94ecbad5f2a53dcfbefa1f2df5bd3a4a:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh32Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end375f7b606af1982e7efb729e3de2ba04
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end375f7b606af1982e7efb729e3de2ba04
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end375f7b606af1982e7efb729e3de2ba04
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end375f7b606af1982e7efb729e3de2ba04
+end375f7b606af1982e7efb729e3de2ba04:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh32Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto enddb0e790d580a4c631f8186630e71cfce
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enddb0e790d580a4c631f8186630e71cfce
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enddb0e790d580a4c631f8186630e71cfce
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddb0e790d580a4c631f8186630e71cfce
+enddb0e790d580a4c631f8186630e71cfce:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh32Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end71723359f26b8bbddae19ee93fcb00b9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end71723359f26b8bbddae19ee93fcb00b9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end71723359f26b8bbddae19ee93fcb00b9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end71723359f26b8bbddae19ee93fcb00b9
+end71723359f26b8bbddae19ee93fcb00b9:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh16Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto endd928328f0dfb4b679a916093f5ecb5c2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endd928328f0dfb4b679a916093f5ecb5c2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endd928328f0dfb4b679a916093f5ecb5c2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd928328f0dfb4b679a916093f5ecb5c2
+endd928328f0dfb4b679a916093f5ecb5c2:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh16Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end0c3b79b01d108a88da0f81a10e1dfe4e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end0c3b79b01d108a88da0f81a10e1dfe4e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0c3b79b01d108a88da0f81a10e1dfe4e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0c3b79b01d108a88da0f81a10e1dfe4e
+end0c3b79b01d108a88da0f81a10e1dfe4e:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh16Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end500cb891cc3fb8811415834f0a1d596b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end500cb891cc3fb8811415834f0a1d596b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end500cb891cc3fb8811415834f0a1d596b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end500cb891cc3fb8811415834f0a1d596b
+end500cb891cc3fb8811415834f0a1d596b:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh16Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto endfaa1a02ad8340fa904d2978010f1be41
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endfaa1a02ad8340fa904d2978010f1be41
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endfaa1a02ad8340fa904d2978010f1be41
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfaa1a02ad8340fa904d2978010f1be41
+endfaa1a02ad8340fa904d2978010f1be41:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh8Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endbc03b1352daa4e72825265024e9e424d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endbc03b1352daa4e72825265024e9e424d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endbc03b1352daa4e72825265024e9e424d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbc03b1352daa4e72825265024e9e424d
+endbc03b1352daa4e72825265024e9e424d:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh8Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto endf659e1f1ed819d0e2dfc063860f0d707
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endf659e1f1ed819d0e2dfc063860f0d707
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf659e1f1ed819d0e2dfc063860f0d707
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf659e1f1ed819d0e2dfc063860f0d707
+endf659e1f1ed819d0e2dfc063860f0d707:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh8Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto ende54475bb82b49e4a2cdcb764c696ebfc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende54475bb82b49e4a2cdcb764c696ebfc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende54475bb82b49e4a2cdcb764c696ebfc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende54475bb82b49e4a2cdcb764c696ebfc
+ende54475bb82b49e4a2cdcb764c696ebfc:
+	;
+	// match: (Rsh32Ux8 <t> (Rsh8Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end06655ce82182605e5451c3a1d78aac4e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end06655ce82182605e5451c3a1d78aac4e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end06655ce82182605e5451c3a1d78aac4e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end06655ce82182605e5451c3a1d78aac4e
+end06655ce82182605e5451c3a1d78aac4e:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end67e3defd484ddf45f2aa0aa3969a75ae
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end67e3defd484ddf45f2aa0aa3969a75ae
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end67e3defd484ddf45f2aa0aa3969a75ae
+end67e3defd484ddf45f2aa0aa3969a75ae:
+	;
+	// match: (Rsh32x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end3549d60e88aa4790816cc3d09d3a9747
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end3549d60e88aa4790816cc3d09d3a9747
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end3549d60e88aa4790816cc3d09d3a9747
+end3549d60e88aa4790816cc3d09d3a9747:
+	;
+	// match: (Rsh32x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end642b11a481c2cf68c70a3cada99da56f
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end642b11a481c2cf68c70a3cada99da56f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end642b11a481c2cf68c70a3cada99da56f
+end642b11a481c2cf68c70a3cada99da56f:
+	;
+	// match: (Rsh32x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end53efab087944a5cfcf7d100bc2107799
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end53efab087944a5cfcf7d100bc2107799
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end53efab087944a5cfcf7d100bc2107799
+end53efab087944a5cfcf7d100bc2107799:
+	;
+	// match: (Rsh32x16 <t> (Rsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto ende7353423b91d7501eb870d5244c418ee
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende7353423b91d7501eb870d5244c418ee
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende7353423b91d7501eb870d5244c418ee
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende7353423b91d7501eb870d5244c418ee
+ende7353423b91d7501eb870d5244c418ee:
+	;
+	// match: (Rsh32x16 <t> (Rsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end32603b9710de49cc5c5b961a510b0b70
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end32603b9710de49cc5c5b961a510b0b70
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end32603b9710de49cc5c5b961a510b0b70
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end32603b9710de49cc5c5b961a510b0b70
+end32603b9710de49cc5c5b961a510b0b70:
+	;
+	// match: (Rsh32x16 <t> (Rsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end9b59a123414ca2025c47025eff415cbe
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end9b59a123414ca2025c47025eff415cbe
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9b59a123414ca2025c47025eff415cbe
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9b59a123414ca2025c47025eff415cbe
+end9b59a123414ca2025c47025eff415cbe:
+	;
+	// match: (Rsh32x16 <t> (Rsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto endc3a57909c0e691162d5bda0c00edc697
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endc3a57909c0e691162d5bda0c00edc697
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc3a57909c0e691162d5bda0c00edc697
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc3a57909c0e691162d5bda0c00edc697
+endc3a57909c0e691162d5bda0c00edc697:
+	;
+	// match: (Rsh32x16 <t> (Rsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto endce2b3eed5742d74db358a5b38dd1d931
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endce2b3eed5742d74db358a5b38dd1d931
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endce2b3eed5742d74db358a5b38dd1d931
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endce2b3eed5742d74db358a5b38dd1d931
+endce2b3eed5742d74db358a5b38dd1d931:
+	;
+	// match: (Rsh32x16 <t> (Rsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end0d6e96f4bbe9c6a82caf0ea111a85af1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end0d6e96f4bbe9c6a82caf0ea111a85af1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end0d6e96f4bbe9c6a82caf0ea111a85af1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0d6e96f4bbe9c6a82caf0ea111a85af1
+end0d6e96f4bbe9c6a82caf0ea111a85af1:
+	;
+	// match: (Rsh32x16 <t> (Rsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end00c8162f3829fd63f40c1b743c0a06d9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end00c8162f3829fd63f40c1b743c0a06d9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end00c8162f3829fd63f40c1b743c0a06d9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end00c8162f3829fd63f40c1b743c0a06d9
+end00c8162f3829fd63f40c1b743c0a06d9:
+	;
+	// match: (Rsh32x16 <t> (Rsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto endba1293f13cee5b9a38248cc3a3be4735
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endba1293f13cee5b9a38248cc3a3be4735
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endba1293f13cee5b9a38248cc3a3be4735
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endba1293f13cee5b9a38248cc3a3be4735
+endba1293f13cee5b9a38248cc3a3be4735:
+	;
+	// match: (Rsh32x16 <t> (Rsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end48728c9988a3b014b1e2a01c09bb25e9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end48728c9988a3b014b1e2a01c09bb25e9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end48728c9988a3b014b1e2a01c09bb25e9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end48728c9988a3b014b1e2a01c09bb25e9
+end48728c9988a3b014b1e2a01c09bb25e9:
+	;
+	// match: (Rsh32x16 <t> (Rsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto endf9a5222992847ec49b955245f47d6f22
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endf9a5222992847ec49b955245f47d6f22
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endf9a5222992847ec49b955245f47d6f22
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf9a5222992847ec49b955245f47d6f22
+endf9a5222992847ec49b955245f47d6f22:
+	;
+	// match: (Rsh32x16 <t> (Rsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end2dd42429088d099081b80711100ed15e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2dd42429088d099081b80711100ed15e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end2dd42429088d099081b80711100ed15e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2dd42429088d099081b80711100ed15e
+end2dd42429088d099081b80711100ed15e:
+	;
+	// match: (Rsh32x16 <t> (Rsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto ende636c206de84337f984d71b9f42d31ff
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende636c206de84337f984d71b9f42d31ff
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende636c206de84337f984d71b9f42d31ff
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende636c206de84337f984d71b9f42d31ff
+ende636c206de84337f984d71b9f42d31ff:
+	;
+	// match: (Rsh32x16 <t> (Rsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end171e89705aa13cc57a1ff687bac06822
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end171e89705aa13cc57a1ff687bac06822
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end171e89705aa13cc57a1ff687bac06822
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end171e89705aa13cc57a1ff687bac06822
+end171e89705aa13cc57a1ff687bac06822:
+	;
+	// match: (Rsh32x16 <t> (Rsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end577508f6d229dbf10b37a2a1bf9c983c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end577508f6d229dbf10b37a2a1bf9c983c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end577508f6d229dbf10b37a2a1bf9c983c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end577508f6d229dbf10b37a2a1bf9c983c
+end577508f6d229dbf10b37a2a1bf9c983c:
+	;
+	// match: (Rsh32x16 <t> (Rsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end5fd52903cde654a3f53fb823cb4e1302
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5fd52903cde654a3f53fb823cb4e1302
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5fd52903cde654a3f53fb823cb4e1302
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5fd52903cde654a3f53fb823cb4e1302
+end5fd52903cde654a3f53fb823cb4e1302:
+	;
+	// match: (Rsh32x16 <t> (Rsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh32x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto endfb20fa3a81775f906b876dd7a85c922c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endfb20fa3a81775f906b876dd7a85c922c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endfb20fa3a81775f906b876dd7a85c922c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfb20fa3a81775f906b876dd7a85c922c
+endfb20fa3a81775f906b876dd7a85c922c:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32x32 _ (Const64 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end5029809f1de4cc984028087185b4d59c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end5029809f1de4cc984028087185b4d59c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end5029809f1de4cc984028087185b4d59c
+end5029809f1de4cc984028087185b4d59c:
+	;
+	// match: (Rsh32x32 _ (Const32 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end4a2df02837e1be2c12525cd695bbcf50
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end4a2df02837e1be2c12525cd695bbcf50
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end4a2df02837e1be2c12525cd695bbcf50
+end4a2df02837e1be2c12525cd695bbcf50:
+	;
+	// match: (Rsh32x32 _ (Const16 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endb497f760aebeef5b94a6bcd24bf86996
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endb497f760aebeef5b94a6bcd24bf86996
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endb497f760aebeef5b94a6bcd24bf86996
+endb497f760aebeef5b94a6bcd24bf86996:
+	;
+	// match: (Rsh32x32 _ (Const8 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endf88fa6c13cd7d0319b1d9cc36c1149e3
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endf88fa6c13cd7d0319b1d9cc36c1149e3
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endf88fa6c13cd7d0319b1d9cc36c1149e3
+endf88fa6c13cd7d0319b1d9cc36c1149e3:
+	;
+	// match: (Rsh32x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end77b6f37fe5a63cc27eeae236af83f2bd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end77b6f37fe5a63cc27eeae236af83f2bd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end77b6f37fe5a63cc27eeae236af83f2bd
+end77b6f37fe5a63cc27eeae236af83f2bd:
+	;
+	// match: (Rsh32x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endb268432127e673fdcebd87dc16f47a5c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endb268432127e673fdcebd87dc16f47a5c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb268432127e673fdcebd87dc16f47a5c
+endb268432127e673fdcebd87dc16f47a5c:
+	;
+	// match: (Rsh32x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endb850e5af66d302e1bef620873be5800c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endb850e5af66d302e1bef620873be5800c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb850e5af66d302e1bef620873be5800c
+endb850e5af66d302e1bef620873be5800c:
+	;
+	// match: (Rsh32x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endbfdbfc4588e290ac2d447b62df56d8eb
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endbfdbfc4588e290ac2d447b62df56d8eb
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endbfdbfc4588e290ac2d447b62df56d8eb
+endbfdbfc4588e290ac2d447b62df56d8eb:
+	;
+	// match: (Rsh32x32 <t> (Rsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto endff79bc7fbab84aee754d3eb9a956f1d0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endff79bc7fbab84aee754d3eb9a956f1d0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endff79bc7fbab84aee754d3eb9a956f1d0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endff79bc7fbab84aee754d3eb9a956f1d0
+endff79bc7fbab84aee754d3eb9a956f1d0:
+	;
+	// match: (Rsh32x32 <t> (Rsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end951763fadf6b99aa349033f4d1df388c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end951763fadf6b99aa349033f4d1df388c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end951763fadf6b99aa349033f4d1df388c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end951763fadf6b99aa349033f4d1df388c
+end951763fadf6b99aa349033f4d1df388c:
+	;
+	// match: (Rsh32x32 <t> (Rsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end258c8d49203b3c184f3dcd2ccc5790d9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end258c8d49203b3c184f3dcd2ccc5790d9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end258c8d49203b3c184f3dcd2ccc5790d9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end258c8d49203b3c184f3dcd2ccc5790d9
+end258c8d49203b3c184f3dcd2ccc5790d9:
+	;
+	// match: (Rsh32x32 <t> (Rsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end5b56ae173433d0707902793397598041
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end5b56ae173433d0707902793397598041
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5b56ae173433d0707902793397598041
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5b56ae173433d0707902793397598041
+end5b56ae173433d0707902793397598041:
+	;
+	// match: (Rsh32x32 <t> (Rsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end229035615c72944c5dee07b8b348b006
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end229035615c72944c5dee07b8b348b006
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end229035615c72944c5dee07b8b348b006
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end229035615c72944c5dee07b8b348b006
+end229035615c72944c5dee07b8b348b006:
+	;
+	// match: (Rsh32x32 <t> (Rsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end5f3bc0a477988f32106728f80b41cde6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end5f3bc0a477988f32106728f80b41cde6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5f3bc0a477988f32106728f80b41cde6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5f3bc0a477988f32106728f80b41cde6
+end5f3bc0a477988f32106728f80b41cde6:
+	;
+	// match: (Rsh32x32 <t> (Rsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto endaf6c22ad958f268f7ecbc49c3fabc7b5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endaf6c22ad958f268f7ecbc49c3fabc7b5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endaf6c22ad958f268f7ecbc49c3fabc7b5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaf6c22ad958f268f7ecbc49c3fabc7b5
+endaf6c22ad958f268f7ecbc49c3fabc7b5:
+	;
+	// match: (Rsh32x32 <t> (Rsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end2d6d60c333cc23a3fab3f0786d2173f9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2d6d60c333cc23a3fab3f0786d2173f9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end2d6d60c333cc23a3fab3f0786d2173f9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2d6d60c333cc23a3fab3f0786d2173f9
+end2d6d60c333cc23a3fab3f0786d2173f9:
+	;
+	// match: (Rsh32x32 <t> (Rsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto endc8e9332500cf4da55aae952edbd7aefd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc8e9332500cf4da55aae952edbd7aefd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc8e9332500cf4da55aae952edbd7aefd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc8e9332500cf4da55aae952edbd7aefd
+endc8e9332500cf4da55aae952edbd7aefd:
+	;
+	// match: (Rsh32x32 <t> (Rsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end4ca4ac2551da4aa856443cb7f04993f7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4ca4ac2551da4aa856443cb7f04993f7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end4ca4ac2551da4aa856443cb7f04993f7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4ca4ac2551da4aa856443cb7f04993f7
+end4ca4ac2551da4aa856443cb7f04993f7:
+	;
+	// match: (Rsh32x32 <t> (Rsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto enda1cb52d7befc7bd77f4626b27cb32155
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda1cb52d7befc7bd77f4626b27cb32155
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda1cb52d7befc7bd77f4626b27cb32155
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda1cb52d7befc7bd77f4626b27cb32155
+enda1cb52d7befc7bd77f4626b27cb32155:
+	;
+	// match: (Rsh32x32 <t> (Rsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto end1bfc10f7737e6125c509819d543f497d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end1bfc10f7737e6125c509819d543f497d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1bfc10f7737e6125c509819d543f497d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1bfc10f7737e6125c509819d543f497d
+end1bfc10f7737e6125c509819d543f497d:
+	;
+	// match: (Rsh32x32 <t> (Rsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto endf5d6ef0670a5a3fb1687e029f0f7a36b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endf5d6ef0670a5a3fb1687e029f0f7a36b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endf5d6ef0670a5a3fb1687e029f0f7a36b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf5d6ef0670a5a3fb1687e029f0f7a36b
+endf5d6ef0670a5a3fb1687e029f0f7a36b:
+	;
+	// match: (Rsh32x32 <t> (Rsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end8f6a4b3e3611a558f63594dd0db9c72f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8f6a4b3e3611a558f63594dd0db9c72f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8f6a4b3e3611a558f63594dd0db9c72f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8f6a4b3e3611a558f63594dd0db9c72f
+end8f6a4b3e3611a558f63594dd0db9c72f:
+	;
+	// match: (Rsh32x32 <t> (Rsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto endfd4cb120830f262760558a058d71a8d1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endfd4cb120830f262760558a058d71a8d1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endfd4cb120830f262760558a058d71a8d1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfd4cb120830f262760558a058d71a8d1
+endfd4cb120830f262760558a058d71a8d1:
+	;
+	// match: (Rsh32x32 <t> (Rsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh32x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end29ae15f36d8cf620a5f310cb9d4f2ee8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end29ae15f36d8cf620a5f310cb9d4f2ee8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end29ae15f36d8cf620a5f310cb9d4f2ee8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end29ae15f36d8cf620a5f310cb9d4f2ee8
+end29ae15f36d8cf620a5f310cb9d4f2ee8:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32x64 _ (Const64 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end8bf0e30447eed39bb89a23e19ed9b4f1
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end8bf0e30447eed39bb89a23e19ed9b4f1
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end8bf0e30447eed39bb89a23e19ed9b4f1
+end8bf0e30447eed39bb89a23e19ed9b4f1:
+	;
+	// match: (Rsh32x64 _ (Const32 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end88264da1fc2a3c00f2064bc733565279
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end88264da1fc2a3c00f2064bc733565279
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end88264da1fc2a3c00f2064bc733565279
+end88264da1fc2a3c00f2064bc733565279:
+	;
+	// match: (Rsh32x64 _ (Const16 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endcf2fc768990d13e6f9b7845b0212d3d5
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto endcf2fc768990d13e6f9b7845b0212d3d5
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endcf2fc768990d13e6f9b7845b0212d3d5
+endcf2fc768990d13e6f9b7845b0212d3d5:
+	;
+	// match: (Rsh32x64 _ (Const8 [c]))
+	// cond: c >= 32
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end6455fce6303d22b9e07f19b74826e3fb
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 32) {
+			goto end6455fce6303d22b9e07f19b74826e3fb
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end6455fce6303d22b9e07f19b74826e3fb
+end6455fce6303d22b9e07f19b74826e3fb:
+	;
+	// match: (Rsh32x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endae5d1e90966d47f3df4d74c01bb28974
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endae5d1e90966d47f3df4d74c01bb28974
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endae5d1e90966d47f3df4d74c01bb28974
+endae5d1e90966d47f3df4d74c01bb28974:
+	;
+	// match: (Rsh32x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end75e0e23b9558d0061028c8d4b9f671ba
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end75e0e23b9558d0061028c8d4b9f671ba
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end75e0e23b9558d0061028c8d4b9f671ba
+end75e0e23b9558d0061028c8d4b9f671ba:
+	;
+	// match: (Rsh32x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endfe1c6b9c30264284891bf1c3159df7d8
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endfe1c6b9c30264284891bf1c3159df7d8
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endfe1c6b9c30264284891bf1c3159df7d8
+endfe1c6b9c30264284891bf1c3159df7d8:
+	;
+	// match: (Rsh32x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end045416cdc5c0e543c61610d38083e919
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end045416cdc5c0e543c61610d38083e919
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end045416cdc5c0e543c61610d38083e919
+end045416cdc5c0e543c61610d38083e919:
+	;
+	// match: (Rsh32x64 <t> (Rsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end1cffec2bd4afc9df9df48760a6d8da6b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end1cffec2bd4afc9df9df48760a6d8da6b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end1cffec2bd4afc9df9df48760a6d8da6b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1cffec2bd4afc9df9df48760a6d8da6b
+end1cffec2bd4afc9df9df48760a6d8da6b:
+	;
+	// match: (Rsh32x64 <t> (Rsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end8d31f70cd4ab71079d65462d8ba0a742
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8d31f70cd4ab71079d65462d8ba0a742
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8d31f70cd4ab71079d65462d8ba0a742
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8d31f70cd4ab71079d65462d8ba0a742
+end8d31f70cd4ab71079d65462d8ba0a742:
+	;
+	// match: (Rsh32x64 <t> (Rsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end0b9bf3087f7bfddc5bedcf0a9d3fa1c3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0b9bf3087f7bfddc5bedcf0a9d3fa1c3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end0b9bf3087f7bfddc5bedcf0a9d3fa1c3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0b9bf3087f7bfddc5bedcf0a9d3fa1c3
+end0b9bf3087f7bfddc5bedcf0a9d3fa1c3:
+	;
+	// match: (Rsh32x64 <t> (Rsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto endcaabe240fddd4e70724891ea8b7137cb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endcaabe240fddd4e70724891ea8b7137cb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endcaabe240fddd4e70724891ea8b7137cb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcaabe240fddd4e70724891ea8b7137cb
+endcaabe240fddd4e70724891ea8b7137cb:
+	;
+	// match: (Rsh32x64 <t> (Rsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end7b79fc8d7e7b8ae35d8c401d3f25bf2c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7b79fc8d7e7b8ae35d8c401d3f25bf2c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7b79fc8d7e7b8ae35d8c401d3f25bf2c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7b79fc8d7e7b8ae35d8c401d3f25bf2c
+end7b79fc8d7e7b8ae35d8c401d3f25bf2c:
+	;
+	// match: (Rsh32x64 <t> (Rsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto endaad4935ac37da4d6e27d6bed4897b6c4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endaad4935ac37da4d6e27d6bed4897b6c4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endaad4935ac37da4d6e27d6bed4897b6c4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaad4935ac37da4d6e27d6bed4897b6c4
+endaad4935ac37da4d6e27d6bed4897b6c4:
+	;
+	// match: (Rsh32x64 <t> (Rsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end97cfda717496687dcf4f6334915ebb34
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end97cfda717496687dcf4f6334915ebb34
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end97cfda717496687dcf4f6334915ebb34
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end97cfda717496687dcf4f6334915ebb34
+end97cfda717496687dcf4f6334915ebb34:
+	;
+	// match: (Rsh32x64 <t> (Rsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto endf80e16c046eab4a9e7c7659e476b36fa
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf80e16c046eab4a9e7c7659e476b36fa
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endf80e16c046eab4a9e7c7659e476b36fa
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf80e16c046eab4a9e7c7659e476b36fa
+endf80e16c046eab4a9e7c7659e476b36fa:
+	;
+	// match: (Rsh32x64 <t> (Rsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end153945f82048ab2d94dab77df44ac854
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end153945f82048ab2d94dab77df44ac854
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end153945f82048ab2d94dab77df44ac854
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end153945f82048ab2d94dab77df44ac854
+end153945f82048ab2d94dab77df44ac854:
+	;
+	// match: (Rsh32x64 <t> (Rsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto endfe2ecc25e1ade508998822ef55c58db5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endfe2ecc25e1ade508998822ef55c58db5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endfe2ecc25e1ade508998822ef55c58db5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfe2ecc25e1ade508998822ef55c58db5
+endfe2ecc25e1ade508998822ef55c58db5:
+	;
+	// match: (Rsh32x64 <t> (Rsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end76a4026ec89871e5420dc26db5123a66
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end76a4026ec89871e5420dc26db5123a66
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end76a4026ec89871e5420dc26db5123a66
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end76a4026ec89871e5420dc26db5123a66
+end76a4026ec89871e5420dc26db5123a66:
+	;
+	// match: (Rsh32x64 <t> (Rsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endbcb13b9ab52e685bb631a1163ee467d0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endbcb13b9ab52e685bb631a1163ee467d0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endbcb13b9ab52e685bb631a1163ee467d0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbcb13b9ab52e685bb631a1163ee467d0
+endbcb13b9ab52e685bb631a1163ee467d0:
+	;
+	// match: (Rsh32x64 <t> (Rsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto ende7df8112117bc818a56cdd5f120ffeff
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende7df8112117bc818a56cdd5f120ffeff
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende7df8112117bc818a56cdd5f120ffeff
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende7df8112117bc818a56cdd5f120ffeff
+ende7df8112117bc818a56cdd5f120ffeff:
+	;
+	// match: (Rsh32x64 <t> (Rsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto enda7b7a37adecfafd7c3f48bdce80ac901
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda7b7a37adecfafd7c3f48bdce80ac901
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda7b7a37adecfafd7c3f48bdce80ac901
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda7b7a37adecfafd7c3f48bdce80ac901
+enda7b7a37adecfafd7c3f48bdce80ac901:
+	;
+	// match: (Rsh32x64 <t> (Rsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end746289af84e03e94da1fc7f93bd115df
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end746289af84e03e94da1fc7f93bd115df
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end746289af84e03e94da1fc7f93bd115df
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end746289af84e03e94da1fc7f93bd115df
+end746289af84e03e94da1fc7f93bd115df:
+	;
+	// match: (Rsh32x64 <t> (Rsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh32x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto enddb66ceda015b9572e01909ff61c8017a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enddb66ceda015b9572e01909ff61c8017a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enddb66ceda015b9572e01909ff61c8017a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddb66ceda015b9572e01909ff61c8017a
+enddb66ceda015b9572e01909ff61c8017a:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh32x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh32x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end6372d376be61c8b43b37e082d3dff463
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end6372d376be61c8b43b37e082d3dff463
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6372d376be61c8b43b37e082d3dff463
+end6372d376be61c8b43b37e082d3dff463:
+	;
+	// match: (Rsh32x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endaf9bf3a13fb183e2e789211a0c1e4f5d
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endaf9bf3a13fb183e2e789211a0c1e4f5d
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endaf9bf3a13fb183e2e789211a0c1e4f5d
+endaf9bf3a13fb183e2e789211a0c1e4f5d:
+	;
+	// match: (Rsh32x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end33ce55f9c02c6b12a42021901367a512
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end33ce55f9c02c6b12a42021901367a512
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end33ce55f9c02c6b12a42021901367a512
+end33ce55f9c02c6b12a42021901367a512:
+	;
+	// match: (Rsh32x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end005d877a02f1f22eee16d9b3dc427151
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end005d877a02f1f22eee16d9b3dc427151
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end005d877a02f1f22eee16d9b3dc427151
+end005d877a02f1f22eee16d9b3dc427151:
+	;
+	// match: (Rsh32x8 <t> (Rsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end33e39996dd6d9a29496bd069a2f4d03a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end33e39996dd6d9a29496bd069a2f4d03a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end33e39996dd6d9a29496bd069a2f4d03a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end33e39996dd6d9a29496bd069a2f4d03a
+end33e39996dd6d9a29496bd069a2f4d03a:
+	;
+	// match: (Rsh32x8 <t> (Rsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto ende62ba46aa8716140098a66da4445fe0c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende62ba46aa8716140098a66da4445fe0c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende62ba46aa8716140098a66da4445fe0c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende62ba46aa8716140098a66da4445fe0c
+ende62ba46aa8716140098a66da4445fe0c:
+	;
+	// match: (Rsh32x8 <t> (Rsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end12bb2e70955a942bdc08e3e25532c6af
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end12bb2e70955a942bdc08e3e25532c6af
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end12bb2e70955a942bdc08e3e25532c6af
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end12bb2e70955a942bdc08e3e25532c6af
+end12bb2e70955a942bdc08e3e25532c6af:
+	;
+	// match: (Rsh32x8 <t> (Rsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end448af1a17152d24ab2617ce4dd62d1f3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end448af1a17152d24ab2617ce4dd62d1f3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end448af1a17152d24ab2617ce4dd62d1f3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end448af1a17152d24ab2617ce4dd62d1f3
+end448af1a17152d24ab2617ce4dd62d1f3:
+	;
+	// match: (Rsh32x8 <t> (Rsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end8be1fa17a7df16c9921783ed4ab53303
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8be1fa17a7df16c9921783ed4ab53303
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8be1fa17a7df16c9921783ed4ab53303
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8be1fa17a7df16c9921783ed4ab53303
+end8be1fa17a7df16c9921783ed4ab53303:
+	;
+	// match: (Rsh32x8 <t> (Rsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end544b2f84f0510a725afc916d23203da3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end544b2f84f0510a725afc916d23203da3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end544b2f84f0510a725afc916d23203da3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end544b2f84f0510a725afc916d23203da3
+end544b2f84f0510a725afc916d23203da3:
+	;
+	// match: (Rsh32x8 <t> (Rsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end118f461e222bccbf9750cfcd11bdd50f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end118f461e222bccbf9750cfcd11bdd50f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end118f461e222bccbf9750cfcd11bdd50f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end118f461e222bccbf9750cfcd11bdd50f
+end118f461e222bccbf9750cfcd11bdd50f:
+	;
+	// match: (Rsh32x8 <t> (Rsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto ende3616191596dac62440594942bb4947e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende3616191596dac62440594942bb4947e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende3616191596dac62440594942bb4947e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende3616191596dac62440594942bb4947e
+ende3616191596dac62440594942bb4947e:
+	;
+	// match: (Rsh32x8 <t> (Rsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end37ee5b4ad203a1b28ebb413600115890
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end37ee5b4ad203a1b28ebb413600115890
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end37ee5b4ad203a1b28ebb413600115890
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end37ee5b4ad203a1b28ebb413600115890
+end37ee5b4ad203a1b28ebb413600115890:
+	;
+	// match: (Rsh32x8 <t> (Rsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto endba19fa42823b910ce715dc741b7fb70d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endba19fa42823b910ce715dc741b7fb70d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endba19fa42823b910ce715dc741b7fb70d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endba19fa42823b910ce715dc741b7fb70d
+endba19fa42823b910ce715dc741b7fb70d:
+	;
+	// match: (Rsh32x8 <t> (Rsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end47dab1b9d4d176c715ad6f9f496cf5ea
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end47dab1b9d4d176c715ad6f9f496cf5ea
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end47dab1b9d4d176c715ad6f9f496cf5ea
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end47dab1b9d4d176c715ad6f9f496cf5ea
+end47dab1b9d4d176c715ad6f9f496cf5ea:
+	;
+	// match: (Rsh32x8 <t> (Rsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endae77dfe1e6b78a048ec70479078da6b8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endae77dfe1e6b78a048ec70479078da6b8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endae77dfe1e6b78a048ec70479078da6b8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endae77dfe1e6b78a048ec70479078da6b8
+endae77dfe1e6b78a048ec70479078da6b8:
+	;
+	// match: (Rsh32x8 <t> (Rsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end22ef3c256a35504b5c95dae559671799
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end22ef3c256a35504b5c95dae559671799
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end22ef3c256a35504b5c95dae559671799
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end22ef3c256a35504b5c95dae559671799
+end22ef3c256a35504b5c95dae559671799:
+	;
+	// match: (Rsh32x8 <t> (Rsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto endc43b4c0d73ea0850aa4e8c96166d23e8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc43b4c0d73ea0850aa4e8c96166d23e8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endc43b4c0d73ea0850aa4e8c96166d23e8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc43b4c0d73ea0850aa4e8c96166d23e8
+endc43b4c0d73ea0850aa4e8c96166d23e8:
+	;
+	// match: (Rsh32x8 <t> (Rsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end58bb108a5e4a27c6573a41ee0173740a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end58bb108a5e4a27c6573a41ee0173740a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end58bb108a5e4a27c6573a41ee0173740a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end58bb108a5e4a27c6573a41ee0173740a
+end58bb108a5e4a27c6573a41ee0173740a:
+	;
+	// match: (Rsh32x8 <t> (Rsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh32x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end4ef847701d7c5d1b0eab4f297f5f2209
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4ef847701d7c5d1b0eab4f297f5f2209
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4ef847701d7c5d1b0eab4f297f5f2209
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh32x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4ef847701d7c5d1b0eab4f297f5f2209
+end4ef847701d7c5d1b0eab4f297f5f2209:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64Ux16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64Ux16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end3c33724b76d0b8c9ab3fa3b40ef8f7dd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end3c33724b76d0b8c9ab3fa3b40ef8f7dd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end3c33724b76d0b8c9ab3fa3b40ef8f7dd
+end3c33724b76d0b8c9ab3fa3b40ef8f7dd:
+	;
+	// match: (Rsh64Ux16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end7de4cdb405c6934d7c157ff091a41c48
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end7de4cdb405c6934d7c157ff091a41c48
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end7de4cdb405c6934d7c157ff091a41c48
+end7de4cdb405c6934d7c157ff091a41c48:
+	;
+	// match: (Rsh64Ux16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end6554a08521fe874e7b50c41a172f4fb9
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end6554a08521fe874e7b50c41a172f4fb9
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6554a08521fe874e7b50c41a172f4fb9
+end6554a08521fe874e7b50c41a172f4fb9:
+	;
+	// match: (Rsh64Ux16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end07a3e61d178c68aa2860309276fbe6fb
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end07a3e61d178c68aa2860309276fbe6fb
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end07a3e61d178c68aa2860309276fbe6fb
+end07a3e61d178c68aa2860309276fbe6fb:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh64Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto endc2e0a386446e9dd089c3464f243fccef
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc2e0a386446e9dd089c3464f243fccef
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc2e0a386446e9dd089c3464f243fccef
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc2e0a386446e9dd089c3464f243fccef
+endc2e0a386446e9dd089c3464f243fccef:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh64Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto endad622af457c04c6b305b087edbc068df
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endad622af457c04c6b305b087edbc068df
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endad622af457c04c6b305b087edbc068df
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endad622af457c04c6b305b087edbc068df
+endad622af457c04c6b305b087edbc068df:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh64Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end70e5e551b5ba1ac229e050a09ea49143
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end70e5e551b5ba1ac229e050a09ea49143
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end70e5e551b5ba1ac229e050a09ea49143
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end70e5e551b5ba1ac229e050a09ea49143
+end70e5e551b5ba1ac229e050a09ea49143:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh64Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end4c38bbf9dda12120238142f734331974
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4c38bbf9dda12120238142f734331974
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4c38bbf9dda12120238142f734331974
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4c38bbf9dda12120238142f734331974
+end4c38bbf9dda12120238142f734331974:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh32Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto end8ecfb9893e396db7cef3d7e588bfd963
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8ecfb9893e396db7cef3d7e588bfd963
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8ecfb9893e396db7cef3d7e588bfd963
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8ecfb9893e396db7cef3d7e588bfd963
+end8ecfb9893e396db7cef3d7e588bfd963:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh32Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto enddbb3c2c366b56f628dcf4f6ad9568e43
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enddbb3c2c366b56f628dcf4f6ad9568e43
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto enddbb3c2c366b56f628dcf4f6ad9568e43
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddbb3c2c366b56f628dcf4f6ad9568e43
+enddbb3c2c366b56f628dcf4f6ad9568e43:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh32Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end0bfed6fd77d3db744a12ab356d0fc7f0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0bfed6fd77d3db744a12ab356d0fc7f0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end0bfed6fd77d3db744a12ab356d0fc7f0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0bfed6fd77d3db744a12ab356d0fc7f0
+end0bfed6fd77d3db744a12ab356d0fc7f0:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh32Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto endce1b6cc20a3c890431bcf1ffb383a93a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endce1b6cc20a3c890431bcf1ffb383a93a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endce1b6cc20a3c890431bcf1ffb383a93a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endce1b6cc20a3c890431bcf1ffb383a93a
+endce1b6cc20a3c890431bcf1ffb383a93a:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh16Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto endd091aabcf3dede87fb2ebaa90cbefabe
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endd091aabcf3dede87fb2ebaa90cbefabe
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endd091aabcf3dede87fb2ebaa90cbefabe
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd091aabcf3dede87fb2ebaa90cbefabe
+endd091aabcf3dede87fb2ebaa90cbefabe:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh16Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end633b4282febb27434323d4f751de0475
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end633b4282febb27434323d4f751de0475
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end633b4282febb27434323d4f751de0475
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end633b4282febb27434323d4f751de0475
+end633b4282febb27434323d4f751de0475:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh16Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end24b1a8e2df4ffc1a58beba05148e5809
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end24b1a8e2df4ffc1a58beba05148e5809
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end24b1a8e2df4ffc1a58beba05148e5809
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end24b1a8e2df4ffc1a58beba05148e5809
+end24b1a8e2df4ffc1a58beba05148e5809:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh16Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end09e864d4cdc8d53529ac7015931050c7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end09e864d4cdc8d53529ac7015931050c7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end09e864d4cdc8d53529ac7015931050c7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end09e864d4cdc8d53529ac7015931050c7
+end09e864d4cdc8d53529ac7015931050c7:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh8Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endecbe4703e4491612306e8db703a6066c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endecbe4703e4491612306e8db703a6066c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endecbe4703e4491612306e8db703a6066c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endecbe4703e4491612306e8db703a6066c
+endecbe4703e4491612306e8db703a6066c:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh8Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end6002dc6f2b6fea9145978092ae32d066
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end6002dc6f2b6fea9145978092ae32d066
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end6002dc6f2b6fea9145978092ae32d066
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6002dc6f2b6fea9145978092ae32d066
+end6002dc6f2b6fea9145978092ae32d066:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh8Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end19109916826c129bb10a917f4acb26d8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end19109916826c129bb10a917f4acb26d8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end19109916826c129bb10a917f4acb26d8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end19109916826c129bb10a917f4acb26d8
+end19109916826c129bb10a917f4acb26d8:
+	;
+	// match: (Rsh64Ux16 <t> (Rsh8Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end4a056d32dcf8017dffc37f0425bd5d70
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end4a056d32dcf8017dffc37f0425bd5d70
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4a056d32dcf8017dffc37f0425bd5d70
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4a056d32dcf8017dffc37f0425bd5d70
+end4a056d32dcf8017dffc37f0425bd5d70:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64Ux32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64Ux32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end2950aeabf24bebd37e6c49d053bbfbf8
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end2950aeabf24bebd37e6c49d053bbfbf8
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end2950aeabf24bebd37e6c49d053bbfbf8
+end2950aeabf24bebd37e6c49d053bbfbf8:
+	;
+	// match: (Rsh64Ux32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end535378df1ab3f1c185e99fa17bfc1e2a
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end535378df1ab3f1c185e99fa17bfc1e2a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end535378df1ab3f1c185e99fa17bfc1e2a
+end535378df1ab3f1c185e99fa17bfc1e2a:
+	;
+	// match: (Rsh64Ux32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endc02985a263a7aff1fbfd119ef63cca89
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endc02985a263a7aff1fbfd119ef63cca89
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc02985a263a7aff1fbfd119ef63cca89
+endc02985a263a7aff1fbfd119ef63cca89:
+	;
+	// match: (Rsh64Ux32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end9836af63fb46ab70ab2296cafa787374
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end9836af63fb46ab70ab2296cafa787374
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9836af63fb46ab70ab2296cafa787374
+end9836af63fb46ab70ab2296cafa787374:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh64Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end42eeea29ed782eac0d54dbf6cc9d8994
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end42eeea29ed782eac0d54dbf6cc9d8994
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end42eeea29ed782eac0d54dbf6cc9d8994
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end42eeea29ed782eac0d54dbf6cc9d8994
+end42eeea29ed782eac0d54dbf6cc9d8994:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh64Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto enda2f5f5c757637604f3cdece0d0716d05
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda2f5f5c757637604f3cdece0d0716d05
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enda2f5f5c757637604f3cdece0d0716d05
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda2f5f5c757637604f3cdece0d0716d05
+enda2f5f5c757637604f3cdece0d0716d05:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh64Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end765f9b43222865134f5e54e451158426
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end765f9b43222865134f5e54e451158426
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end765f9b43222865134f5e54e451158426
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end765f9b43222865134f5e54e451158426
+end765f9b43222865134f5e54e451158426:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh64Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end633cfdb6338c8652862292afb3fefc46
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end633cfdb6338c8652862292afb3fefc46
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end633cfdb6338c8652862292afb3fefc46
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end633cfdb6338c8652862292afb3fefc46
+end633cfdb6338c8652862292afb3fefc46:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh32Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endde6fc69ab0133634ce91ad1854cb7b83
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endde6fc69ab0133634ce91ad1854cb7b83
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endde6fc69ab0133634ce91ad1854cb7b83
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endde6fc69ab0133634ce91ad1854cb7b83
+endde6fc69ab0133634ce91ad1854cb7b83:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh32Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto enddb439488d34073a9a67626d83110959e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enddb439488d34073a9a67626d83110959e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto enddb439488d34073a9a67626d83110959e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddb439488d34073a9a67626d83110959e
+enddb439488d34073a9a67626d83110959e:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh32Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end22860b173d0967e619c990a830a9e62e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end22860b173d0967e619c990a830a9e62e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end22860b173d0967e619c990a830a9e62e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end22860b173d0967e619c990a830a9e62e
+end22860b173d0967e619c990a830a9e62e:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh32Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end331226e4c42c896f46e3075b7ef15064
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end331226e4c42c896f46e3075b7ef15064
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end331226e4c42c896f46e3075b7ef15064
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end331226e4c42c896f46e3075b7ef15064
+end331226e4c42c896f46e3075b7ef15064:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh16Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end22d84d5d55a05c5552e59ec611f9bc30
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end22d84d5d55a05c5552e59ec611f9bc30
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end22d84d5d55a05c5552e59ec611f9bc30
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end22d84d5d55a05c5552e59ec611f9bc30
+end22d84d5d55a05c5552e59ec611f9bc30:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh16Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end2651b34d362cb6dbe9197b997108fe8a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end2651b34d362cb6dbe9197b997108fe8a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end2651b34d362cb6dbe9197b997108fe8a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2651b34d362cb6dbe9197b997108fe8a
+end2651b34d362cb6dbe9197b997108fe8a:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh16Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto endbb9e3dd16a135d864b82518c7154abe5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endbb9e3dd16a135d864b82518c7154abe5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endbb9e3dd16a135d864b82518c7154abe5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbb9e3dd16a135d864b82518c7154abe5
+endbb9e3dd16a135d864b82518c7154abe5:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh16Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end975edf2ed89cd9d3d2496f72c9e498c2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end975edf2ed89cd9d3d2496f72c9e498c2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end975edf2ed89cd9d3d2496f72c9e498c2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end975edf2ed89cd9d3d2496f72c9e498c2
+end975edf2ed89cd9d3d2496f72c9e498c2:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh8Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endc991b75ae78f009fc4605d34c21e5065
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc991b75ae78f009fc4605d34c21e5065
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc991b75ae78f009fc4605d34c21e5065
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc991b75ae78f009fc4605d34c21e5065
+endc991b75ae78f009fc4605d34c21e5065:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh8Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end854e0fa74638229a904af9ec7c07856e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end854e0fa74638229a904af9ec7c07856e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end854e0fa74638229a904af9ec7c07856e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end854e0fa74638229a904af9ec7c07856e
+end854e0fa74638229a904af9ec7c07856e:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh8Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end7eeba4a252b7b5b60ad77cb1e852ff18
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7eeba4a252b7b5b60ad77cb1e852ff18
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7eeba4a252b7b5b60ad77cb1e852ff18
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7eeba4a252b7b5b60ad77cb1e852ff18
+end7eeba4a252b7b5b60ad77cb1e852ff18:
+	;
+	// match: (Rsh64Ux32 <t> (Rsh8Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto endef0894e35843e2949c4003a51eecc40d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endef0894e35843e2949c4003a51eecc40d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endef0894e35843e2949c4003a51eecc40d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endef0894e35843e2949c4003a51eecc40d
+endef0894e35843e2949c4003a51eecc40d:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64Ux64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64Ux64 _ (Const64 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endd4e333950f7c819e295d78c2924d459f
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto endd4e333950f7c819e295d78c2924d459f
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd4e333950f7c819e295d78c2924d459f
+endd4e333950f7c819e295d78c2924d459f:
+	;
+	// match: (Rsh64Ux64 _ (Const32 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end39eb8caf4bb91786d98b129556fdf84d
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto end39eb8caf4bb91786d98b129556fdf84d
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end39eb8caf4bb91786d98b129556fdf84d
+end39eb8caf4bb91786d98b129556fdf84d:
+	;
+	// match: (Rsh64Ux64 _ (Const16 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endbec9f7e894adcee69861563806e79fd8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto endbec9f7e894adcee69861563806e79fd8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endbec9f7e894adcee69861563806e79fd8
+endbec9f7e894adcee69861563806e79fd8:
+	;
+	// match: (Rsh64Ux64 _ (Const8 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endd184c3db698cf774b8a7f773f8e89df0
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto endd184c3db698cf774b8a7f773f8e89df0
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd184c3db698cf774b8a7f773f8e89df0
+endd184c3db698cf774b8a7f773f8e89df0:
+	;
+	// match: (Rsh64Ux64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end5ad037b910698f2847df90177c23a6ac
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end5ad037b910698f2847df90177c23a6ac
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5ad037b910698f2847df90177c23a6ac
+end5ad037b910698f2847df90177c23a6ac:
+	;
+	// match: (Rsh64Ux64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end9d30e8beafb807f9998d56158dccfe00
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end9d30e8beafb807f9998d56158dccfe00
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9d30e8beafb807f9998d56158dccfe00
+end9d30e8beafb807f9998d56158dccfe00:
+	;
+	// match: (Rsh64Ux64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end689b732d91ff194e2782c6bba3c38226
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end689b732d91ff194e2782c6bba3c38226
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end689b732d91ff194e2782c6bba3c38226
+end689b732d91ff194e2782c6bba3c38226:
+	;
+	// match: (Rsh64Ux64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endcbdb8892486772722e82ce095b40ed0f
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endcbdb8892486772722e82ce095b40ed0f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endcbdb8892486772722e82ce095b40ed0f
+endcbdb8892486772722e82ce095b40ed0f:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh64Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto enda2a046e4d21bc7e79ce52eb2dd7e5f2f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enda2a046e4d21bc7e79ce52eb2dd7e5f2f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda2a046e4d21bc7e79ce52eb2dd7e5f2f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda2a046e4d21bc7e79ce52eb2dd7e5f2f
+enda2a046e4d21bc7e79ce52eb2dd7e5f2f:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh64Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end7262961242445e087e0892f5de3f1991
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7262961242445e087e0892f5de3f1991
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7262961242445e087e0892f5de3f1991
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7262961242445e087e0892f5de3f1991
+end7262961242445e087e0892f5de3f1991:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh64Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end2820c4344bac78dc2c6bc0ccd62b69d4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2820c4344bac78dc2c6bc0ccd62b69d4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2820c4344bac78dc2c6bc0ccd62b69d4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2820c4344bac78dc2c6bc0ccd62b69d4
+end2820c4344bac78dc2c6bc0ccd62b69d4:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh64Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end58a96c8e79c8aa211c225a41cb841d69
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end58a96c8e79c8aa211c225a41cb841d69
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end58a96c8e79c8aa211c225a41cb841d69
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end58a96c8e79c8aa211c225a41cb841d69
+end58a96c8e79c8aa211c225a41cb841d69:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh32Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endb7207489099406940f52ee70a270297b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb7207489099406940f52ee70a270297b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endb7207489099406940f52ee70a270297b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb7207489099406940f52ee70a270297b
+endb7207489099406940f52ee70a270297b:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh32Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end69fb10bedf507232b902d214af3d3993
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end69fb10bedf507232b902d214af3d3993
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end69fb10bedf507232b902d214af3d3993
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end69fb10bedf507232b902d214af3d3993
+end69fb10bedf507232b902d214af3d3993:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh32Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end91524996bfb3112fb8e17888e550fb6f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end91524996bfb3112fb8e17888e550fb6f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end91524996bfb3112fb8e17888e550fb6f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end91524996bfb3112fb8e17888e550fb6f
+end91524996bfb3112fb8e17888e550fb6f:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh32Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end63c000751a440daa603ed8e96df0919c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end63c000751a440daa603ed8e96df0919c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end63c000751a440daa603ed8e96df0919c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end63c000751a440daa603ed8e96df0919c
+end63c000751a440daa603ed8e96df0919c:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh16Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto endc442fc9d05e410f755f00d2d557f4e38
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc442fc9d05e410f755f00d2d557f4e38
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endc442fc9d05e410f755f00d2d557f4e38
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc442fc9d05e410f755f00d2d557f4e38
+endc442fc9d05e410f755f00d2d557f4e38:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh16Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end6549631a921e185f0f6330b76dbbaade
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end6549631a921e185f0f6330b76dbbaade
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end6549631a921e185f0f6330b76dbbaade
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6549631a921e185f0f6330b76dbbaade
+end6549631a921e185f0f6330b76dbbaade:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh16Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end46afebe9d49f48f65c1ef99b74a028c5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end46afebe9d49f48f65c1ef99b74a028c5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end46afebe9d49f48f65c1ef99b74a028c5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end46afebe9d49f48f65c1ef99b74a028c5
+end46afebe9d49f48f65c1ef99b74a028c5:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh16Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end6921e5db4ca0e9c2d0b680c769cf087d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end6921e5db4ca0e9c2d0b680c769cf087d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end6921e5db4ca0e9c2d0b680c769cf087d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6921e5db4ca0e9c2d0b680c769cf087d
+end6921e5db4ca0e9c2d0b680c769cf087d:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh8Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end14f8e374f951311c6a36edb45be1fb73
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end14f8e374f951311c6a36edb45be1fb73
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end14f8e374f951311c6a36edb45be1fb73
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end14f8e374f951311c6a36edb45be1fb73
+end14f8e374f951311c6a36edb45be1fb73:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh8Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end735eaf1d04a1bf0c9cef5f4bb3d96bf2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end735eaf1d04a1bf0c9cef5f4bb3d96bf2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end735eaf1d04a1bf0c9cef5f4bb3d96bf2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end735eaf1d04a1bf0c9cef5f4bb3d96bf2
+end735eaf1d04a1bf0c9cef5f4bb3d96bf2:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh8Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end7f26bbce3bb88b5de8c24f536668fe36
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7f26bbce3bb88b5de8c24f536668fe36
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7f26bbce3bb88b5de8c24f536668fe36
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7f26bbce3bb88b5de8c24f536668fe36
+end7f26bbce3bb88b5de8c24f536668fe36:
+	;
+	// match: (Rsh64Ux64 <t> (Rsh8Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto endbf12ef59dee584007b43e9680249d350
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endbf12ef59dee584007b43e9680249d350
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endbf12ef59dee584007b43e9680249d350
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbf12ef59dee584007b43e9680249d350
+endbf12ef59dee584007b43e9680249d350:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64Ux8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64Ux8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endf760842a9c131e8a34a9a0afab4546e3
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endf760842a9c131e8a34a9a0afab4546e3
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endf760842a9c131e8a34a9a0afab4546e3
+endf760842a9c131e8a34a9a0afab4546e3:
+	;
+	// match: (Rsh64Ux8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endc4dfaf216fdce0e968f127e63f90cfd2
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endc4dfaf216fdce0e968f127e63f90cfd2
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc4dfaf216fdce0e968f127e63f90cfd2
+endc4dfaf216fdce0e968f127e63f90cfd2:
+	;
+	// match: (Rsh64Ux8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end8444c81667d40ba9cb1e279c4c7e0475
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end8444c81667d40ba9cb1e279c4c7e0475
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end8444c81667d40ba9cb1e279c4c7e0475
+end8444c81667d40ba9cb1e279c4c7e0475:
+	;
+	// match: (Rsh64Ux8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto enda1f1e7cbfe5530d0b71ccfc8bdc740e0
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto enda1f1e7cbfe5530d0b71ccfc8bdc740e0
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto enda1f1e7cbfe5530d0b71ccfc8bdc740e0
+enda1f1e7cbfe5530d0b71ccfc8bdc740e0:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh64Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto endc77db6cf3079c4d034b6fdc1864169a2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc77db6cf3079c4d034b6fdc1864169a2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endc77db6cf3079c4d034b6fdc1864169a2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc77db6cf3079c4d034b6fdc1864169a2
+endc77db6cf3079c4d034b6fdc1864169a2:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh64Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end4e1149b4c7e109bd5f49f7767d513fa1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4e1149b4c7e109bd5f49f7767d513fa1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4e1149b4c7e109bd5f49f7767d513fa1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4e1149b4c7e109bd5f49f7767d513fa1
+end4e1149b4c7e109bd5f49f7767d513fa1:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh64Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end7f50d3fe80bf5529467da000e1147bfc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7f50d3fe80bf5529467da000e1147bfc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7f50d3fe80bf5529467da000e1147bfc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7f50d3fe80bf5529467da000e1147bfc
+end7f50d3fe80bf5529467da000e1147bfc:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh64Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto endb7db5b44d1f19037dbcfe1f6764263e3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb7db5b44d1f19037dbcfe1f6764263e3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endb7db5b44d1f19037dbcfe1f6764263e3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb7db5b44d1f19037dbcfe1f6764263e3
+endb7db5b44d1f19037dbcfe1f6764263e3:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh32Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endb77248c1e24259e00604de9219aa4656
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb77248c1e24259e00604de9219aa4656
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endb77248c1e24259e00604de9219aa4656
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb77248c1e24259e00604de9219aa4656
+endb77248c1e24259e00604de9219aa4656:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh32Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end0c40ebfbd92f22df44caf5da4d12ff92
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end0c40ebfbd92f22df44caf5da4d12ff92
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0c40ebfbd92f22df44caf5da4d12ff92
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0c40ebfbd92f22df44caf5da4d12ff92
+end0c40ebfbd92f22df44caf5da4d12ff92:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh32Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end048856d7b4b1478f329f19f70a125010
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end048856d7b4b1478f329f19f70a125010
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end048856d7b4b1478f329f19f70a125010
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end048856d7b4b1478f329f19f70a125010
+end048856d7b4b1478f329f19f70a125010:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh32Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto endecbc6a4b51bb33b5a42036cb2b98a1d0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endecbc6a4b51bb33b5a42036cb2b98a1d0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endecbc6a4b51bb33b5a42036cb2b98a1d0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endecbc6a4b51bb33b5a42036cb2b98a1d0
+endecbc6a4b51bb33b5a42036cb2b98a1d0:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh16Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end0480a6b31c93637f07e38719a9acc713
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end0480a6b31c93637f07e38719a9acc713
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0480a6b31c93637f07e38719a9acc713
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0480a6b31c93637f07e38719a9acc713
+end0480a6b31c93637f07e38719a9acc713:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh16Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end9af4606b76b23a60accc51de9bdb737a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end9af4606b76b23a60accc51de9bdb737a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9af4606b76b23a60accc51de9bdb737a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9af4606b76b23a60accc51de9bdb737a
+end9af4606b76b23a60accc51de9bdb737a:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh16Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto endbf054a87298753be8cd7a6ce326f0ec8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endbf054a87298753be8cd7a6ce326f0ec8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endbf054a87298753be8cd7a6ce326f0ec8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbf054a87298753be8cd7a6ce326f0ec8
+endbf054a87298753be8cd7a6ce326f0ec8:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh16Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end9577d06695e785ff5f601865a3bd877e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end9577d06695e785ff5f601865a3bd877e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9577d06695e785ff5f601865a3bd877e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9577d06695e785ff5f601865a3bd877e
+end9577d06695e785ff5f601865a3bd877e:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh8Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end203d53b3bfeb223efd5602f5078fea62
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end203d53b3bfeb223efd5602f5078fea62
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end203d53b3bfeb223efd5602f5078fea62
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end203d53b3bfeb223efd5602f5078fea62
+end203d53b3bfeb223efd5602f5078fea62:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh8Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end89ab9e4b63322b4b829f1581b4cddc13
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end89ab9e4b63322b4b829f1581b4cddc13
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end89ab9e4b63322b4b829f1581b4cddc13
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end89ab9e4b63322b4b829f1581b4cddc13
+end89ab9e4b63322b4b829f1581b4cddc13:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh8Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto endee658775ba84743dd02c3ba7cfcfe8c5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endee658775ba84743dd02c3ba7cfcfe8c5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endee658775ba84743dd02c3ba7cfcfe8c5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endee658775ba84743dd02c3ba7cfcfe8c5
+endee658775ba84743dd02c3ba7cfcfe8c5:
+	;
+	// match: (Rsh64Ux8 <t> (Rsh8Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto endf01617466985dd565fcb8ee4912332e1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf01617466985dd565fcb8ee4912332e1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf01617466985dd565fcb8ee4912332e1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf01617466985dd565fcb8ee4912332e1
+endf01617466985dd565fcb8ee4912332e1:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end109fe6ee9cc75e6acef4e005d2ee9e0e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end109fe6ee9cc75e6acef4e005d2ee9e0e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end109fe6ee9cc75e6acef4e005d2ee9e0e
+end109fe6ee9cc75e6acef4e005d2ee9e0e:
+	;
+	// match: (Rsh64x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end58f20b46df005ed0eb6c8226fd6be6fd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end58f20b46df005ed0eb6c8226fd6be6fd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end58f20b46df005ed0eb6c8226fd6be6fd
+end58f20b46df005ed0eb6c8226fd6be6fd:
+	;
+	// match: (Rsh64x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end5f666c0bf98638636d716e2762aaf5cf
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5f666c0bf98638636d716e2762aaf5cf
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5f666c0bf98638636d716e2762aaf5cf
+end5f666c0bf98638636d716e2762aaf5cf:
+	;
+	// match: (Rsh64x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto ende06c2db6d70784e2ad9c69aafcd72b13
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto ende06c2db6d70784e2ad9c69aafcd72b13
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ende06c2db6d70784e2ad9c69aafcd72b13
+ende06c2db6d70784e2ad9c69aafcd72b13:
+	;
+	// match: (Rsh64x16 <t> (Rsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end4eee8777cc23b0597c3cc174c13502b9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4eee8777cc23b0597c3cc174c13502b9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4eee8777cc23b0597c3cc174c13502b9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4eee8777cc23b0597c3cc174c13502b9
+end4eee8777cc23b0597c3cc174c13502b9:
+	;
+	// match: (Rsh64x16 <t> (Rsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end07802bfc419783713144b798fe470d36
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end07802bfc419783713144b798fe470d36
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end07802bfc419783713144b798fe470d36
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end07802bfc419783713144b798fe470d36
+end07802bfc419783713144b798fe470d36:
+	;
+	// match: (Rsh64x16 <t> (Rsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end5526928b82c5fa66220bac7b708c9bb7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5526928b82c5fa66220bac7b708c9bb7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5526928b82c5fa66220bac7b708c9bb7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5526928b82c5fa66220bac7b708c9bb7
+end5526928b82c5fa66220bac7b708c9bb7:
+	;
+	// match: (Rsh64x16 <t> (Rsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto endb399281bde3cc496f6e0ab945426df90
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb399281bde3cc496f6e0ab945426df90
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endb399281bde3cc496f6e0ab945426df90
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb399281bde3cc496f6e0ab945426df90
+endb399281bde3cc496f6e0ab945426df90:
+	;
+	// match: (Rsh64x16 <t> (Rsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end66175fe7ef3a2652c9ea7e7e1922eb2e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end66175fe7ef3a2652c9ea7e7e1922eb2e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end66175fe7ef3a2652c9ea7e7e1922eb2e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end66175fe7ef3a2652c9ea7e7e1922eb2e
+end66175fe7ef3a2652c9ea7e7e1922eb2e:
+	;
+	// match: (Rsh64x16 <t> (Rsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end04bf7587fbf0fdd99a1a01d9ccdd1dbb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end04bf7587fbf0fdd99a1a01d9ccdd1dbb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end04bf7587fbf0fdd99a1a01d9ccdd1dbb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end04bf7587fbf0fdd99a1a01d9ccdd1dbb
+end04bf7587fbf0fdd99a1a01d9ccdd1dbb:
+	;
+	// match: (Rsh64x16 <t> (Rsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto ende30e48a15836eabcb5c7822fcdd35b1d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende30e48a15836eabcb5c7822fcdd35b1d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto ende30e48a15836eabcb5c7822fcdd35b1d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende30e48a15836eabcb5c7822fcdd35b1d
+ende30e48a15836eabcb5c7822fcdd35b1d:
+	;
+	// match: (Rsh64x16 <t> (Rsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto endd1a38a5cb1f85b855c084ba92912bd6c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endd1a38a5cb1f85b855c084ba92912bd6c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endd1a38a5cb1f85b855c084ba92912bd6c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd1a38a5cb1f85b855c084ba92912bd6c
+endd1a38a5cb1f85b855c084ba92912bd6c:
+	;
+	// match: (Rsh64x16 <t> (Rsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end52580e8c0cedbf2f67ee066e99b4f4e0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end52580e8c0cedbf2f67ee066e99b4f4e0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end52580e8c0cedbf2f67ee066e99b4f4e0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end52580e8c0cedbf2f67ee066e99b4f4e0
+end52580e8c0cedbf2f67ee066e99b4f4e0:
+	;
+	// match: (Rsh64x16 <t> (Rsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto endae33dcb3f8fea818f1879496e7397a71
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endae33dcb3f8fea818f1879496e7397a71
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endae33dcb3f8fea818f1879496e7397a71
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endae33dcb3f8fea818f1879496e7397a71
+endae33dcb3f8fea818f1879496e7397a71:
+	;
+	// match: (Rsh64x16 <t> (Rsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto endb786cb5d0d2439d7e7414aeb28ae8545
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endb786cb5d0d2439d7e7414aeb28ae8545
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endb786cb5d0d2439d7e7414aeb28ae8545
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb786cb5d0d2439d7e7414aeb28ae8545
+endb786cb5d0d2439d7e7414aeb28ae8545:
+	;
+	// match: (Rsh64x16 <t> (Rsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto end52a004bb84dc677b7c44d4d9ef01a9b0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end52a004bb84dc677b7c44d4d9ef01a9b0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end52a004bb84dc677b7c44d4d9ef01a9b0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end52a004bb84dc677b7c44d4d9ef01a9b0
+end52a004bb84dc677b7c44d4d9ef01a9b0:
+	;
+	// match: (Rsh64x16 <t> (Rsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto endc39f33c4ffe60e24f46ac0c52f23f0d9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endc39f33c4ffe60e24f46ac0c52f23f0d9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc39f33c4ffe60e24f46ac0c52f23f0d9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc39f33c4ffe60e24f46ac0c52f23f0d9
+endc39f33c4ffe60e24f46ac0c52f23f0d9:
+	;
+	// match: (Rsh64x16 <t> (Rsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end6a6435d290b77afdd88ed8c5e87d0769
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end6a6435d290b77afdd88ed8c5e87d0769
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end6a6435d290b77afdd88ed8c5e87d0769
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6a6435d290b77afdd88ed8c5e87d0769
+end6a6435d290b77afdd88ed8c5e87d0769:
+	;
+	// match: (Rsh64x16 <t> (Rsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end19a15d7e7350ca49266cf9c4925676c1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end19a15d7e7350ca49266cf9c4925676c1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end19a15d7e7350ca49266cf9c4925676c1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end19a15d7e7350ca49266cf9c4925676c1
+end19a15d7e7350ca49266cf9c4925676c1:
+	;
+	// match: (Rsh64x16 <t> (Rsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh64x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end01e2d81b43ef4631a27e1298063a53b1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end01e2d81b43ef4631a27e1298063a53b1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end01e2d81b43ef4631a27e1298063a53b1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end01e2d81b43ef4631a27e1298063a53b1
+end01e2d81b43ef4631a27e1298063a53b1:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end587cdd4b51d3cd0945b82d1d542b7137
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end587cdd4b51d3cd0945b82d1d542b7137
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end587cdd4b51d3cd0945b82d1d542b7137
+end587cdd4b51d3cd0945b82d1d542b7137:
+	;
+	// match: (Rsh64x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endb19e5c675969e0b79c5f4e78eb56c140
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endb19e5c675969e0b79c5f4e78eb56c140
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endb19e5c675969e0b79c5f4e78eb56c140
+endb19e5c675969e0b79c5f4e78eb56c140:
+	;
+	// match: (Rsh64x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end130ee070e5bd60a07fd2c540e5e549e9
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end130ee070e5bd60a07fd2c540e5e549e9
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end130ee070e5bd60a07fd2c540e5e549e9
+end130ee070e5bd60a07fd2c540e5e549e9:
+	;
+	// match: (Rsh64x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end022757d25f130fe2ff4b812410a7b48e
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end022757d25f130fe2ff4b812410a7b48e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end022757d25f130fe2ff4b812410a7b48e
+end022757d25f130fe2ff4b812410a7b48e:
+	;
+	// match: (Rsh64x32 <t> (Rsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto ende0d377f73e94d85327397bcb0e4be8c7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende0d377f73e94d85327397bcb0e4be8c7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende0d377f73e94d85327397bcb0e4be8c7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende0d377f73e94d85327397bcb0e4be8c7
+ende0d377f73e94d85327397bcb0e4be8c7:
+	;
+	// match: (Rsh64x32 <t> (Rsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end6e47bad4f755d14c6887312a744a5355
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end6e47bad4f755d14c6887312a744a5355
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end6e47bad4f755d14c6887312a744a5355
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6e47bad4f755d14c6887312a744a5355
+end6e47bad4f755d14c6887312a744a5355:
+	;
+	// match: (Rsh64x32 <t> (Rsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end9515d8604ddb720236314781ff1a6f51
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end9515d8604ddb720236314781ff1a6f51
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end9515d8604ddb720236314781ff1a6f51
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9515d8604ddb720236314781ff1a6f51
+end9515d8604ddb720236314781ff1a6f51:
+	;
+	// match: (Rsh64x32 <t> (Rsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto endaf5f1e04abdbbccef4e9802a562f7354
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endaf5f1e04abdbbccef4e9802a562f7354
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endaf5f1e04abdbbccef4e9802a562f7354
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaf5f1e04abdbbccef4e9802a562f7354
+endaf5f1e04abdbbccef4e9802a562f7354:
+	;
+	// match: (Rsh64x32 <t> (Rsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end509c35991bc445954458719395e01249
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end509c35991bc445954458719395e01249
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end509c35991bc445954458719395e01249
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end509c35991bc445954458719395e01249
+end509c35991bc445954458719395e01249:
+	;
+	// match: (Rsh64x32 <t> (Rsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end11bd91941f851f8c8383710635a11b7a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end11bd91941f851f8c8383710635a11b7a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end11bd91941f851f8c8383710635a11b7a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end11bd91941f851f8c8383710635a11b7a
+end11bd91941f851f8c8383710635a11b7a:
+	;
+	// match: (Rsh64x32 <t> (Rsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end1c5511c85db866cddba0e9f4361fca0d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end1c5511c85db866cddba0e9f4361fca0d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1c5511c85db866cddba0e9f4361fca0d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1c5511c85db866cddba0e9f4361fca0d
+end1c5511c85db866cddba0e9f4361fca0d:
+	;
+	// match: (Rsh64x32 <t> (Rsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end7d603f3ad0a89194db86e22303a8f755
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7d603f3ad0a89194db86e22303a8f755
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end7d603f3ad0a89194db86e22303a8f755
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7d603f3ad0a89194db86e22303a8f755
+end7d603f3ad0a89194db86e22303a8f755:
+	;
+	// match: (Rsh64x32 <t> (Rsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto endcc86c844487c0bb2d5462d0e82e08a2c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endcc86c844487c0bb2d5462d0e82e08a2c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endcc86c844487c0bb2d5462d0e82e08a2c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcc86c844487c0bb2d5462d0e82e08a2c
+endcc86c844487c0bb2d5462d0e82e08a2c:
+	;
+	// match: (Rsh64x32 <t> (Rsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end3b094660adc62b69f81c2193b1095580
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end3b094660adc62b69f81c2193b1095580
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end3b094660adc62b69f81c2193b1095580
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3b094660adc62b69f81c2193b1095580
+end3b094660adc62b69f81c2193b1095580:
+	;
+	// match: (Rsh64x32 <t> (Rsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto endc4d6a542fbd0c4705223f5fa0344256a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endc4d6a542fbd0c4705223f5fa0344256a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc4d6a542fbd0c4705223f5fa0344256a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc4d6a542fbd0c4705223f5fa0344256a
+endc4d6a542fbd0c4705223f5fa0344256a:
+	;
+	// match: (Rsh64x32 <t> (Rsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endc2bc6219760192f620edfe981a36b1f8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endc2bc6219760192f620edfe981a36b1f8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endc2bc6219760192f620edfe981a36b1f8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc2bc6219760192f620edfe981a36b1f8
+endc2bc6219760192f620edfe981a36b1f8:
+	;
+	// match: (Rsh64x32 <t> (Rsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto endcdc1e8f49ec593f0c6a1fbff1c1b053b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endcdc1e8f49ec593f0c6a1fbff1c1b053b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endcdc1e8f49ec593f0c6a1fbff1c1b053b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcdc1e8f49ec593f0c6a1fbff1c1b053b
+endcdc1e8f49ec593f0c6a1fbff1c1b053b:
+	;
+	// match: (Rsh64x32 <t> (Rsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end78edacd32fb58afe18a0fcfc58d847bb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end78edacd32fb58afe18a0fcfc58d847bb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end78edacd32fb58afe18a0fcfc58d847bb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end78edacd32fb58afe18a0fcfc58d847bb
+end78edacd32fb58afe18a0fcfc58d847bb:
+	;
+	// match: (Rsh64x32 <t> (Rsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end8ad6e2a6acc0f7cd0c1512f4f9d9ed18
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8ad6e2a6acc0f7cd0c1512f4f9d9ed18
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end8ad6e2a6acc0f7cd0c1512f4f9d9ed18
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8ad6e2a6acc0f7cd0c1512f4f9d9ed18
+end8ad6e2a6acc0f7cd0c1512f4f9d9ed18:
+	;
+	// match: (Rsh64x32 <t> (Rsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh64x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto endb1e0b53010a7e548580c83a01679474c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb1e0b53010a7e548580c83a01679474c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb1e0b53010a7e548580c83a01679474c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb1e0b53010a7e548580c83a01679474c
+endb1e0b53010a7e548580c83a01679474c:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64x64 _ (Const64 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto enda1d4a9fded24a5c1d6ec2e04f1cf4c33
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto enda1d4a9fded24a5c1d6ec2e04f1cf4c33
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto enda1d4a9fded24a5c1d6ec2e04f1cf4c33
+enda1d4a9fded24a5c1d6ec2e04f1cf4c33:
+	;
+	// match: (Rsh64x64 _ (Const32 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end0840b44363b9220bf5d4bce53fbd0198
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto end0840b44363b9220bf5d4bce53fbd0198
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end0840b44363b9220bf5d4bce53fbd0198
+end0840b44363b9220bf5d4bce53fbd0198:
+	;
+	// match: (Rsh64x64 _ (Const16 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endff44f6a575694e503835c16c5aeb05e3
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto endff44f6a575694e503835c16c5aeb05e3
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endff44f6a575694e503835c16c5aeb05e3
+endff44f6a575694e503835c16c5aeb05e3:
+	;
+	// match: (Rsh64x64 _ (Const8 [c]))
+	// cond: c >= 64
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endd037234ae8af6c3929a334ec7bdc7744
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 64) {
+			goto endd037234ae8af6c3929a334ec7bdc7744
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd037234ae8af6c3929a334ec7bdc7744
+endd037234ae8af6c3929a334ec7bdc7744:
+	;
+	// match: (Rsh64x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end66068d0e267616b1943c03f7230fbedc
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end66068d0e267616b1943c03f7230fbedc
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end66068d0e267616b1943c03f7230fbedc
+end66068d0e267616b1943c03f7230fbedc:
+	;
+	// match: (Rsh64x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end0d298392c0b5fac2dd1b85c793d65c38
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end0d298392c0b5fac2dd1b85c793d65c38
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end0d298392c0b5fac2dd1b85c793d65c38
+end0d298392c0b5fac2dd1b85c793d65c38:
+	;
+	// match: (Rsh64x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end0994f1a2df77219a1f1c791430447019
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end0994f1a2df77219a1f1c791430447019
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end0994f1a2df77219a1f1c791430447019
+end0994f1a2df77219a1f1c791430447019:
+	;
+	// match: (Rsh64x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endf2be965dba6e6058c0b27a2c47439c7e
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endf2be965dba6e6058c0b27a2c47439c7e
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endf2be965dba6e6058c0b27a2c47439c7e
+endf2be965dba6e6058c0b27a2c47439c7e:
+	;
+	// match: (Rsh64x64 <t> (Rsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end13bba976e6f5eecf9e561f6e1ff1ea3d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end13bba976e6f5eecf9e561f6e1ff1ea3d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end13bba976e6f5eecf9e561f6e1ff1ea3d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end13bba976e6f5eecf9e561f6e1ff1ea3d
+end13bba976e6f5eecf9e561f6e1ff1ea3d:
+	;
+	// match: (Rsh64x64 <t> (Rsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto endebbe25307695512ff54a8f6301f49507
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endebbe25307695512ff54a8f6301f49507
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endebbe25307695512ff54a8f6301f49507
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endebbe25307695512ff54a8f6301f49507
+endebbe25307695512ff54a8f6301f49507:
+	;
+	// match: (Rsh64x64 <t> (Rsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto enda0f1c23dc86f5c05e8c55ff26b81aa7f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto enda0f1c23dc86f5c05e8c55ff26b81aa7f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto enda0f1c23dc86f5c05e8c55ff26b81aa7f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda0f1c23dc86f5c05e8c55ff26b81aa7f
+enda0f1c23dc86f5c05e8c55ff26b81aa7f:
+	;
+	// match: (Rsh64x64 <t> (Rsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end72cc92e1a359bdcc1f55a269400b5637
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end72cc92e1a359bdcc1f55a269400b5637
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end72cc92e1a359bdcc1f55a269400b5637
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end72cc92e1a359bdcc1f55a269400b5637
+end72cc92e1a359bdcc1f55a269400b5637:
+	;
+	// match: (Rsh64x64 <t> (Rsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end888168c812ce546fd93cd2ea99d98d34
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end888168c812ce546fd93cd2ea99d98d34
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end888168c812ce546fd93cd2ea99d98d34
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end888168c812ce546fd93cd2ea99d98d34
+end888168c812ce546fd93cd2ea99d98d34:
+	;
+	// match: (Rsh64x64 <t> (Rsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end124902bcd9332a95acd802292f80918c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end124902bcd9332a95acd802292f80918c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end124902bcd9332a95acd802292f80918c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end124902bcd9332a95acd802292f80918c
+end124902bcd9332a95acd802292f80918c:
+	;
+	// match: (Rsh64x64 <t> (Rsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end5ca5f49b9761a91ed76d58147dc2de06
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end5ca5f49b9761a91ed76d58147dc2de06
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end5ca5f49b9761a91ed76d58147dc2de06
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5ca5f49b9761a91ed76d58147dc2de06
+end5ca5f49b9761a91ed76d58147dc2de06:
+	;
+	// match: (Rsh64x64 <t> (Rsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end493c6a0b77ea7a2fc30a1e8bc661c00c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end493c6a0b77ea7a2fc30a1e8bc661c00c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end493c6a0b77ea7a2fc30a1e8bc661c00c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end493c6a0b77ea7a2fc30a1e8bc661c00c
+end493c6a0b77ea7a2fc30a1e8bc661c00c:
+	;
+	// match: (Rsh64x64 <t> (Rsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto endb30ef337222e1638faf8936b6bc94456
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb30ef337222e1638faf8936b6bc94456
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endb30ef337222e1638faf8936b6bc94456
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb30ef337222e1638faf8936b6bc94456
+endb30ef337222e1638faf8936b6bc94456:
+	;
+	// match: (Rsh64x64 <t> (Rsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end9d815548edd8ac95759000c3af70af62
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end9d815548edd8ac95759000c3af70af62
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end9d815548edd8ac95759000c3af70af62
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9d815548edd8ac95759000c3af70af62
+end9d815548edd8ac95759000c3af70af62:
+	;
+	// match: (Rsh64x64 <t> (Rsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end4b073f8d6556dec95ed0332b528f3391
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end4b073f8d6556dec95ed0332b528f3391
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end4b073f8d6556dec95ed0332b528f3391
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4b073f8d6556dec95ed0332b528f3391
+end4b073f8d6556dec95ed0332b528f3391:
+	;
+	// match: (Rsh64x64 <t> (Rsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endf2454b71911a38da56bd422153cc52d5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf2454b71911a38da56bd422153cc52d5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endf2454b71911a38da56bd422153cc52d5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf2454b71911a38da56bd422153cc52d5
+endf2454b71911a38da56bd422153cc52d5:
+	;
+	// match: (Rsh64x64 <t> (Rsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end8bf7b81d7962b5649a13f9a2969af5be
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8bf7b81d7962b5649a13f9a2969af5be
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8bf7b81d7962b5649a13f9a2969af5be
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8bf7b81d7962b5649a13f9a2969af5be
+end8bf7b81d7962b5649a13f9a2969af5be:
+	;
+	// match: (Rsh64x64 <t> (Rsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end02d47ed3b6badf949cd3f6e6d7f0964d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end02d47ed3b6badf949cd3f6e6d7f0964d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end02d47ed3b6badf949cd3f6e6d7f0964d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end02d47ed3b6badf949cd3f6e6d7f0964d
+end02d47ed3b6badf949cd3f6e6d7f0964d:
+	;
+	// match: (Rsh64x64 <t> (Rsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end8fc911cecbedfbaa0c02b3096cc7f8ae
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8fc911cecbedfbaa0c02b3096cc7f8ae
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8fc911cecbedfbaa0c02b3096cc7f8ae
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8fc911cecbedfbaa0c02b3096cc7f8ae
+end8fc911cecbedfbaa0c02b3096cc7f8ae:
+	;
+	// match: (Rsh64x64 <t> (Rsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh64x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto endb52babd6e02ac08c96412e0cf4ac87cb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb52babd6e02ac08c96412e0cf4ac87cb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endb52babd6e02ac08c96412e0cf4ac87cb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb52babd6e02ac08c96412e0cf4ac87cb
+endb52babd6e02ac08c96412e0cf4ac87cb:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh64x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh64x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end1d27e1513aeec0e6c02e2cf935788dec
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1d27e1513aeec0e6c02e2cf935788dec
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1d27e1513aeec0e6c02e2cf935788dec
+end1d27e1513aeec0e6c02e2cf935788dec:
+	;
+	// match: (Rsh64x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end57e11baa487be211ec8ab92c4a635db8
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end57e11baa487be211ec8ab92c4a635db8
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end57e11baa487be211ec8ab92c4a635db8
+end57e11baa487be211ec8ab92c4a635db8:
+	;
+	// match: (Rsh64x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end5b5170a0452b9ac7e8c1cc5562dccdd3
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5b5170a0452b9ac7e8c1cc5562dccdd3
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5b5170a0452b9ac7e8c1cc5562dccdd3
+end5b5170a0452b9ac7e8c1cc5562dccdd3:
+	;
+	// match: (Rsh64x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end6d2649d553d4f4c7424a176e4c068edc
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end6d2649d553d4f4c7424a176e4c068edc
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6d2649d553d4f4c7424a176e4c068edc
+end6d2649d553d4f4c7424a176e4c068edc:
+	;
+	// match: (Rsh64x8 <t> (Rsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end7801209b86d2665435f167eae975684d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end7801209b86d2665435f167eae975684d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end7801209b86d2665435f167eae975684d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7801209b86d2665435f167eae975684d
+end7801209b86d2665435f167eae975684d:
+	;
+	// match: (Rsh64x8 <t> (Rsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end8c290d5d0102f4bb878abbfc8109d806
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8c290d5d0102f4bb878abbfc8109d806
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8c290d5d0102f4bb878abbfc8109d806
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8c290d5d0102f4bb878abbfc8109d806
+end8c290d5d0102f4bb878abbfc8109d806:
+	;
+	// match: (Rsh64x8 <t> (Rsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto endc435820a3199e68f8c56e07d10e35a0b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endc435820a3199e68f8c56e07d10e35a0b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endc435820a3199e68f8c56e07d10e35a0b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc435820a3199e68f8c56e07d10e35a0b
+endc435820a3199e68f8c56e07d10e35a0b:
+	;
+	// match: (Rsh64x8 <t> (Rsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end8c44a435a493f10daaec1b1f38df4b37
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8c44a435a493f10daaec1b1f38df4b37
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8c44a435a493f10daaec1b1f38df4b37
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8c44a435a493f10daaec1b1f38df4b37
+end8c44a435a493f10daaec1b1f38df4b37:
+	;
+	// match: (Rsh64x8 <t> (Rsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto endb04ab21d7370ed55333a70bf359fc891
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb04ab21d7370ed55333a70bf359fc891
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endb04ab21d7370ed55333a70bf359fc891
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb04ab21d7370ed55333a70bf359fc891
+endb04ab21d7370ed55333a70bf359fc891:
+	;
+	// match: (Rsh64x8 <t> (Rsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end54755f29d86018e784511779edc415e0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end54755f29d86018e784511779edc415e0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end54755f29d86018e784511779edc415e0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end54755f29d86018e784511779edc415e0
+end54755f29d86018e784511779edc415e0:
+	;
+	// match: (Rsh64x8 <t> (Rsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end4a2404468c3afa0927e03c1cc40696c2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end4a2404468c3afa0927e03c1cc40696c2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4a2404468c3afa0927e03c1cc40696c2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4a2404468c3afa0927e03c1cc40696c2
+end4a2404468c3afa0927e03c1cc40696c2:
+	;
+	// match: (Rsh64x8 <t> (Rsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end20d2b7b843616e337d8b1943bfc4aa5d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end20d2b7b843616e337d8b1943bfc4aa5d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end20d2b7b843616e337d8b1943bfc4aa5d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end20d2b7b843616e337d8b1943bfc4aa5d
+end20d2b7b843616e337d8b1943bfc4aa5d:
+	;
+	// match: (Rsh64x8 <t> (Rsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end9e352450cede81a37679794fd889d4ff
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9e352450cede81a37679794fd889d4ff
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9e352450cede81a37679794fd889d4ff
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9e352450cede81a37679794fd889d4ff
+end9e352450cede81a37679794fd889d4ff:
+	;
+	// match: (Rsh64x8 <t> (Rsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end44634f50f11c218734eae1baa6324f31
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end44634f50f11c218734eae1baa6324f31
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end44634f50f11c218734eae1baa6324f31
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end44634f50f11c218734eae1baa6324f31
+end44634f50f11c218734eae1baa6324f31:
+	;
+	// match: (Rsh64x8 <t> (Rsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end0ba63f5fe50945c87e053182785da906
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end0ba63f5fe50945c87e053182785da906
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0ba63f5fe50945c87e053182785da906
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0ba63f5fe50945c87e053182785da906
+end0ba63f5fe50945c87e053182785da906:
+	;
+	// match: (Rsh64x8 <t> (Rsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto end088b6d45297695f29c4966598fc7a4a1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end088b6d45297695f29c4966598fc7a4a1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end088b6d45297695f29c4966598fc7a4a1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end088b6d45297695f29c4966598fc7a4a1
+end088b6d45297695f29c4966598fc7a4a1:
+	;
+	// match: (Rsh64x8 <t> (Rsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto enddc0e032cb6d8cf6b740cc0efa4f2505f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto enddc0e032cb6d8cf6b740cc0efa4f2505f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enddc0e032cb6d8cf6b740cc0efa4f2505f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddc0e032cb6d8cf6b740cc0efa4f2505f
+enddc0e032cb6d8cf6b740cc0efa4f2505f:
+	;
+	// match: (Rsh64x8 <t> (Rsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end8865c63c01c50695beccb72c02ef0022
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8865c63c01c50695beccb72c02ef0022
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8865c63c01c50695beccb72c02ef0022
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8865c63c01c50695beccb72c02ef0022
+end8865c63c01c50695beccb72c02ef0022:
+	;
+	// match: (Rsh64x8 <t> (Rsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto endf38fcb9e65f2a7e19d456fdfee9ce848
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endf38fcb9e65f2a7e19d456fdfee9ce848
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf38fcb9e65f2a7e19d456fdfee9ce848
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf38fcb9e65f2a7e19d456fdfee9ce848
+endf38fcb9e65f2a7e19d456fdfee9ce848:
+	;
+	// match: (Rsh64x8 <t> (Rsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh64x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end10823e140bb7b9e48f2f3817c1b78ee1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end10823e140bb7b9e48f2f3817c1b78ee1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end10823e140bb7b9e48f2f3817c1b78ee1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh64x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end10823e140bb7b9e48f2f3817c1b78ee1
+end10823e140bb7b9e48f2f3817c1b78ee1:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8Ux16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8Ux16 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end51fcd24d4174f3cef2649ecd7fcf59ee
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end51fcd24d4174f3cef2649ecd7fcf59ee
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end51fcd24d4174f3cef2649ecd7fcf59ee
+end51fcd24d4174f3cef2649ecd7fcf59ee:
+	;
+	// match: (Rsh8Ux16 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end34a0631c3e30ea96c51021b5ffb7bc0a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end34a0631c3e30ea96c51021b5ffb7bc0a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end34a0631c3e30ea96c51021b5ffb7bc0a
+end34a0631c3e30ea96c51021b5ffb7bc0a:
+	;
+	// match: (Rsh8Ux16 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endfe6cf2a493545fc652cd462d22c2c3c5
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endfe6cf2a493545fc652cd462d22c2c3c5
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endfe6cf2a493545fc652cd462d22c2c3c5
+endfe6cf2a493545fc652cd462d22c2c3c5:
+	;
+	// match: (Rsh8Ux16 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endb2ecb27da841e63d8f48726752742558
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endb2ecb27da841e63d8f48726752742558
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endb2ecb27da841e63d8f48726752742558
+endb2ecb27da841e63d8f48726752742558:
+	;
+	// match: (Rsh8Ux16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endbba298333d2513292765542f33034f0f
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endbba298333d2513292765542f33034f0f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endbba298333d2513292765542f33034f0f
+endbba298333d2513292765542f33034f0f:
+	;
+	// match: (Rsh8Ux16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endce0a9e3063b7ebb2a13f2bcb410a15dd
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endce0a9e3063b7ebb2a13f2bcb410a15dd
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endce0a9e3063b7ebb2a13f2bcb410a15dd
+endce0a9e3063b7ebb2a13f2bcb410a15dd:
+	;
+	// match: (Rsh8Ux16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end5ef5d609125136dd80019b384c232702
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5ef5d609125136dd80019b384c232702
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5ef5d609125136dd80019b384c232702
+end5ef5d609125136dd80019b384c232702:
+	;
+	// match: (Rsh8Ux16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endfe7d870bb40722c02958674cdb62471f
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endfe7d870bb40722c02958674cdb62471f
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endfe7d870bb40722c02958674cdb62471f
+endfe7d870bb40722c02958674cdb62471f:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh64Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end9c562f6bb6cf983049ae5340f8cd0b03
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9c562f6bb6cf983049ae5340f8cd0b03
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9c562f6bb6cf983049ae5340f8cd0b03
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9c562f6bb6cf983049ae5340f8cd0b03
+end9c562f6bb6cf983049ae5340f8cd0b03:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh64Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto enda80ae76806a38d7bad5c74b7de05e76f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto enda80ae76806a38d7bad5c74b7de05e76f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto enda80ae76806a38d7bad5c74b7de05e76f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda80ae76806a38d7bad5c74b7de05e76f
+enda80ae76806a38d7bad5c74b7de05e76f:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh64Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto endcc74eaefdc38ec7d9c30c6f01111ece3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endcc74eaefdc38ec7d9c30c6f01111ece3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcc74eaefdc38ec7d9c30c6f01111ece3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcc74eaefdc38ec7d9c30c6f01111ece3
+endcc74eaefdc38ec7d9c30c6f01111ece3:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh64Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end0867b924cec7e4f575d9a0bd075cbbdf
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end0867b924cec7e4f575d9a0bd075cbbdf
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end0867b924cec7e4f575d9a0bd075cbbdf
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0867b924cec7e4f575d9a0bd075cbbdf
+end0867b924cec7e4f575d9a0bd075cbbdf:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh32Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto end8efe50874fe88ddd1a876c6fb7193b02
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8efe50874fe88ddd1a876c6fb7193b02
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8efe50874fe88ddd1a876c6fb7193b02
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8efe50874fe88ddd1a876c6fb7193b02
+end8efe50874fe88ddd1a876c6fb7193b02:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh32Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end011a702b097173783ddae85896062f5c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end011a702b097173783ddae85896062f5c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end011a702b097173783ddae85896062f5c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end011a702b097173783ddae85896062f5c
+end011a702b097173783ddae85896062f5c:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh32Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end9247261b4c1f4e28d9e5a0f488623410
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end9247261b4c1f4e28d9e5a0f488623410
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9247261b4c1f4e28d9e5a0f488623410
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9247261b4c1f4e28d9e5a0f488623410
+end9247261b4c1f4e28d9e5a0f488623410:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh32Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto endea7f4aca6e0ba1eb6c04000dde9d2ab7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endea7f4aca6e0ba1eb6c04000dde9d2ab7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endea7f4aca6e0ba1eb6c04000dde9d2ab7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endea7f4aca6e0ba1eb6c04000dde9d2ab7
+endea7f4aca6e0ba1eb6c04000dde9d2ab7:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh16Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto endb0348b28731cdbc26fdb05fc668df5e9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb0348b28731cdbc26fdb05fc668df5e9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endb0348b28731cdbc26fdb05fc668df5e9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb0348b28731cdbc26fdb05fc668df5e9
+endb0348b28731cdbc26fdb05fc668df5e9:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh16Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end4ff85b94038fe57ae82e121cf28a1a4a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4ff85b94038fe57ae82e121cf28a1a4a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end4ff85b94038fe57ae82e121cf28a1a4a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4ff85b94038fe57ae82e121cf28a1a4a
+end4ff85b94038fe57ae82e121cf28a1a4a:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh16Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end05621a6b1b22027b05963fe7a6b30796
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end05621a6b1b22027b05963fe7a6b30796
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end05621a6b1b22027b05963fe7a6b30796
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end05621a6b1b22027b05963fe7a6b30796
+end05621a6b1b22027b05963fe7a6b30796:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh16Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto endcdcb3a6cd32185f79e5db81fa85f2165
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endcdcb3a6cd32185f79e5db81fa85f2165
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endcdcb3a6cd32185f79e5db81fa85f2165
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcdcb3a6cd32185f79e5db81fa85f2165
+endcdcb3a6cd32185f79e5db81fa85f2165:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh8Ux64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end5708c002b83a74f9b17b04fa7a8041b2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5708c002b83a74f9b17b04fa7a8041b2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end5708c002b83a74f9b17b04fa7a8041b2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5708c002b83a74f9b17b04fa7a8041b2
+end5708c002b83a74f9b17b04fa7a8041b2:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh8Ux32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto endc85ce963ecb8a9a75b66aa497bcf7ecc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc85ce963ecb8a9a75b66aa497bcf7ecc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc85ce963ecb8a9a75b66aa497bcf7ecc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc85ce963ecb8a9a75b66aa497bcf7ecc
+endc85ce963ecb8a9a75b66aa497bcf7ecc:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh8Ux16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto endaa86bbe24ad74d9d88c856c2c5aeb70e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endaa86bbe24ad74d9d88c856c2c5aeb70e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endaa86bbe24ad74d9d88c856c2c5aeb70e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaa86bbe24ad74d9d88c856c2c5aeb70e
+endaa86bbe24ad74d9d88c856c2c5aeb70e:
+	;
+	// match: (Rsh8Ux16 <t> (Rsh8Ux8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8Ux16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end80201dc3774dbea302b6c47b3c6c9819
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end80201dc3774dbea302b6c47b3c6c9819
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end80201dc3774dbea302b6c47b3c6c9819
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end80201dc3774dbea302b6c47b3c6c9819
+end80201dc3774dbea302b6c47b3c6c9819:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8Ux32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8Ux32 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endbc0db60fe511843b70ca9c853b5283eb
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endbc0db60fe511843b70ca9c853b5283eb
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endbc0db60fe511843b70ca9c853b5283eb
+endbc0db60fe511843b70ca9c853b5283eb:
+	;
+	// match: (Rsh8Ux32 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto endf9c476ce63f89cc923d7f7e0999784c9
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endf9c476ce63f89cc923d7f7e0999784c9
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endf9c476ce63f89cc923d7f7e0999784c9
+endf9c476ce63f89cc923d7f7e0999784c9:
+	;
+	// match: (Rsh8Ux32 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end9bc5b795fbaddd42b2d5964d68ad100d
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end9bc5b795fbaddd42b2d5964d68ad100d
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end9bc5b795fbaddd42b2d5964d68ad100d
+end9bc5b795fbaddd42b2d5964d68ad100d:
+	;
+	// match: (Rsh8Ux32 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end9e21e5610588ebb25074148e1ee342d8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end9e21e5610588ebb25074148e1ee342d8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end9e21e5610588ebb25074148e1ee342d8
+end9e21e5610588ebb25074148e1ee342d8:
+	;
+	// match: (Rsh8Ux32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end693b3311b5b2d7a12f28446efa22d4df
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end693b3311b5b2d7a12f28446efa22d4df
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end693b3311b5b2d7a12f28446efa22d4df
+end693b3311b5b2d7a12f28446efa22d4df:
+	;
+	// match: (Rsh8Ux32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end56331ab61610d98b50b305848d8957a7
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end56331ab61610d98b50b305848d8957a7
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end56331ab61610d98b50b305848d8957a7
+end56331ab61610d98b50b305848d8957a7:
+	;
+	// match: (Rsh8Ux32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto ended007b7179f13c2103183bce56515363
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto ended007b7179f13c2103183bce56515363
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ended007b7179f13c2103183bce56515363
+ended007b7179f13c2103183bce56515363:
+	;
+	// match: (Rsh8Ux32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end62730636e33adf25472997aef0e1b12d
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end62730636e33adf25472997aef0e1b12d
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end62730636e33adf25472997aef0e1b12d
+end62730636e33adf25472997aef0e1b12d:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh64Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end648512773f704093a8c64ea5e0e8f41a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end648512773f704093a8c64ea5e0e8f41a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end648512773f704093a8c64ea5e0e8f41a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end648512773f704093a8c64ea5e0e8f41a
+end648512773f704093a8c64ea5e0e8f41a:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh64Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end044319423c4383292b8e0f34f1e87bb9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end044319423c4383292b8e0f34f1e87bb9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end044319423c4383292b8e0f34f1e87bb9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end044319423c4383292b8e0f34f1e87bb9
+end044319423c4383292b8e0f34f1e87bb9:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh64Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end2e10b1166be32125c7ace47f6209766f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end2e10b1166be32125c7ace47f6209766f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end2e10b1166be32125c7ace47f6209766f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2e10b1166be32125c7ace47f6209766f
+end2e10b1166be32125c7ace47f6209766f:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh64Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end1e63546505896c8116f113c47323b2cc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end1e63546505896c8116f113c47323b2cc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end1e63546505896c8116f113c47323b2cc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1e63546505896c8116f113c47323b2cc
+end1e63546505896c8116f113c47323b2cc:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh32Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endb8e29db400e1dae6a0b0aee383f6848c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endb8e29db400e1dae6a0b0aee383f6848c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb8e29db400e1dae6a0b0aee383f6848c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb8e29db400e1dae6a0b0aee383f6848c
+endb8e29db400e1dae6a0b0aee383f6848c:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh32Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end98444fd8d95c8c8de7b6f11d54efa18f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end98444fd8d95c8c8de7b6f11d54efa18f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end98444fd8d95c8c8de7b6f11d54efa18f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end98444fd8d95c8c8de7b6f11d54efa18f
+end98444fd8d95c8c8de7b6f11d54efa18f:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh32Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end4bc6fa85885ec215f3c1041c4cdcd56b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end4bc6fa85885ec215f3c1041c4cdcd56b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end4bc6fa85885ec215f3c1041c4cdcd56b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4bc6fa85885ec215f3c1041c4cdcd56b
+end4bc6fa85885ec215f3c1041c4cdcd56b:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh32Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end867e7c4fe623b3f54b5f0c04ea9974e9
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end867e7c4fe623b3f54b5f0c04ea9974e9
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end867e7c4fe623b3f54b5f0c04ea9974e9
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end867e7c4fe623b3f54b5f0c04ea9974e9
+end867e7c4fe623b3f54b5f0c04ea9974e9:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh16Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end5efd55eba349e60de1792ec00e375e05
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5efd55eba349e60de1792ec00e375e05
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end5efd55eba349e60de1792ec00e375e05
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5efd55eba349e60de1792ec00e375e05
+end5efd55eba349e60de1792ec00e375e05:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh16Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end27fe329dedbcba318989b41e69de6393
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end27fe329dedbcba318989b41e69de6393
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end27fe329dedbcba318989b41e69de6393
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end27fe329dedbcba318989b41e69de6393
+end27fe329dedbcba318989b41e69de6393:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh16Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end6cd80c145e528d783c423b44f331b0b6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end6cd80c145e528d783c423b44f331b0b6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end6cd80c145e528d783c423b44f331b0b6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6cd80c145e528d783c423b44f331b0b6
+end6cd80c145e528d783c423b44f331b0b6:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh16Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end3d1d86159a0a17a8f71821d9445913a8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end3d1d86159a0a17a8f71821d9445913a8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end3d1d86159a0a17a8f71821d9445913a8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3d1d86159a0a17a8f71821d9445913a8
+end3d1d86159a0a17a8f71821d9445913a8:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh8Ux64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end360dfad12b511b5ab0aed2d064c5107b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end360dfad12b511b5ab0aed2d064c5107b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end360dfad12b511b5ab0aed2d064c5107b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end360dfad12b511b5ab0aed2d064c5107b
+end360dfad12b511b5ab0aed2d064c5107b:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh8Ux32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end469d07b2523bf8832f4e06a8eea0e0e2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end469d07b2523bf8832f4e06a8eea0e0e2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end469d07b2523bf8832f4e06a8eea0e0e2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end469d07b2523bf8832f4e06a8eea0e0e2
+end469d07b2523bf8832f4e06a8eea0e0e2:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh8Ux16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto ended9d958b3026907d4e5f568d906f1133
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ended9d958b3026907d4e5f568d906f1133
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ended9d958b3026907d4e5f568d906f1133
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ended9d958b3026907d4e5f568d906f1133
+ended9d958b3026907d4e5f568d906f1133:
+	;
+	// match: (Rsh8Ux32 <t> (Rsh8Ux8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8Ux32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto endbbc284620256fab025a2abdb8a2c4431
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endbbc284620256fab025a2abdb8a2c4431
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endbbc284620256fab025a2abdb8a2c4431
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbbc284620256fab025a2abdb8a2c4431
+endbbc284620256fab025a2abdb8a2c4431:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8Ux64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8Ux64 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end539bca692433100693345f051780ffb0
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end539bca692433100693345f051780ffb0
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end539bca692433100693345f051780ffb0
+end539bca692433100693345f051780ffb0:
+	;
+	// match: (Rsh8Ux64 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end50107fc7a815397f9fe6f8393ceacfc2
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end50107fc7a815397f9fe6f8393ceacfc2
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end50107fc7a815397f9fe6f8393ceacfc2
+end50107fc7a815397f9fe6f8393ceacfc2:
+	;
+	// match: (Rsh8Ux64 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end80d0121550b7db1f16c4893c9cb488d8
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end80d0121550b7db1f16c4893c9cb488d8
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end80d0121550b7db1f16c4893c9cb488d8
+end80d0121550b7db1f16c4893c9cb488d8:
+	;
+	// match: (Rsh8Ux64 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end33a62a98685cb03aaa826db83d266bb9
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end33a62a98685cb03aaa826db83d266bb9
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end33a62a98685cb03aaa826db83d266bb9
+end33a62a98685cb03aaa826db83d266bb9:
+	;
+	// match: (Rsh8Ux64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endef1a0695dbc4d7d559b3e79b65bf7e25
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endef1a0695dbc4d7d559b3e79b65bf7e25
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endef1a0695dbc4d7d559b3e79b65bf7e25
+endef1a0695dbc4d7d559b3e79b65bf7e25:
+	;
+	// match: (Rsh8Ux64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end446d72b5c8c32c82f8d3c50ec1aba7f1
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end446d72b5c8c32c82f8d3c50ec1aba7f1
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end446d72b5c8c32c82f8d3c50ec1aba7f1
+end446d72b5c8c32c82f8d3c50ec1aba7f1:
+	;
+	// match: (Rsh8Ux64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end687ed9f892ce9e941d6e444577d39f26
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end687ed9f892ce9e941d6e444577d39f26
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end687ed9f892ce9e941d6e444577d39f26
+end687ed9f892ce9e941d6e444577d39f26:
+	;
+	// match: (Rsh8Ux64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end7460b25fc3f833737a89d72536ff9a74
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end7460b25fc3f833737a89d72536ff9a74
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end7460b25fc3f833737a89d72536ff9a74
+end7460b25fc3f833737a89d72536ff9a74:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh64Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end069daddf2261062a3399d5a223bdc1cc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end069daddf2261062a3399d5a223bdc1cc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end069daddf2261062a3399d5a223bdc1cc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end069daddf2261062a3399d5a223bdc1cc
+end069daddf2261062a3399d5a223bdc1cc:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh64Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto end706beeaf542d52f21fd0ba745a62ec24
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end706beeaf542d52f21fd0ba745a62ec24
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end706beeaf542d52f21fd0ba745a62ec24
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end706beeaf542d52f21fd0ba745a62ec24
+end706beeaf542d52f21fd0ba745a62ec24:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh64Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto end35e47a5057986a941cb801e5ec704318
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end35e47a5057986a941cb801e5ec704318
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end35e47a5057986a941cb801e5ec704318
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end35e47a5057986a941cb801e5ec704318
+end35e47a5057986a941cb801e5ec704318:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh64Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto endd0072978daf9e45e0b3e199be06733b6
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endd0072978daf9e45e0b3e199be06733b6
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endd0072978daf9e45e0b3e199be06733b6
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd0072978daf9e45e0b3e199be06733b6
+endd0072978daf9e45e0b3e199be06733b6:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh32Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endd51d11d7903cf829b1c607b4f572fe63
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endd51d11d7903cf829b1c607b4f572fe63
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endd51d11d7903cf829b1c607b4f572fe63
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endd51d11d7903cf829b1c607b4f572fe63
+endd51d11d7903cf829b1c607b4f572fe63:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh32Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto end6ccceb1c3e81f5c23b3f2dacdfa643ba
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end6ccceb1c3e81f5c23b3f2dacdfa643ba
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end6ccceb1c3e81f5c23b3f2dacdfa643ba
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6ccceb1c3e81f5c23b3f2dacdfa643ba
+end6ccceb1c3e81f5c23b3f2dacdfa643ba:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh32Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto end38272466a68bf000ca2fcb6d458ae356
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end38272466a68bf000ca2fcb6d458ae356
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end38272466a68bf000ca2fcb6d458ae356
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end38272466a68bf000ca2fcb6d458ae356
+end38272466a68bf000ca2fcb6d458ae356:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh32Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto end9b8a99b0c7443bda9b4b993d9de7fcb8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end9b8a99b0c7443bda9b4b993d9de7fcb8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end9b8a99b0c7443bda9b4b993d9de7fcb8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9b8a99b0c7443bda9b4b993d9de7fcb8
+end9b8a99b0c7443bda9b4b993d9de7fcb8:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh16Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end09c1ee75fb23e543d695bf9e386a895a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end09c1ee75fb23e543d695bf9e386a895a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end09c1ee75fb23e543d695bf9e386a895a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end09c1ee75fb23e543d695bf9e386a895a
+end09c1ee75fb23e543d695bf9e386a895a:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh16Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end2bff8b8cfa23d73d8ac9016f3fdbe743
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end2bff8b8cfa23d73d8ac9016f3fdbe743
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2bff8b8cfa23d73d8ac9016f3fdbe743
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2bff8b8cfa23d73d8ac9016f3fdbe743
+end2bff8b8cfa23d73d8ac9016f3fdbe743:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh16Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto ende6a3b368ba456dd6e922c3944c583d00
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende6a3b368ba456dd6e922c3944c583d00
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto ende6a3b368ba456dd6e922c3944c583d00
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende6a3b368ba456dd6e922c3944c583d00
+ende6a3b368ba456dd6e922c3944c583d00:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh16Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto end2d7fb8655781817c35ca7ee2b4a07329
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end2d7fb8655781817c35ca7ee2b4a07329
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end2d7fb8655781817c35ca7ee2b4a07329
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2d7fb8655781817c35ca7ee2b4a07329
+end2d7fb8655781817c35ca7ee2b4a07329:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh8Ux64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto endfdd2d3b8dc8665ba3f159b397013d45a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endfdd2d3b8dc8665ba3f159b397013d45a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endfdd2d3b8dc8665ba3f159b397013d45a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfdd2d3b8dc8665ba3f159b397013d45a
+endfdd2d3b8dc8665ba3f159b397013d45a:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh8Ux32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto endbd00a7a9c9c9457f54a6468b3417a168
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endbd00a7a9c9c9457f54a6468b3417a168
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endbd00a7a9c9c9457f54a6468b3417a168
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endbd00a7a9c9c9457f54a6468b3417a168
+endbd00a7a9c9c9457f54a6468b3417a168:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh8Ux16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end8a45e300dfcfd840b5199e8185b21f42
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end8a45e300dfcfd840b5199e8185b21f42
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8a45e300dfcfd840b5199e8185b21f42
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8a45e300dfcfd840b5199e8185b21f42
+end8a45e300dfcfd840b5199e8185b21f42:
+	;
+	// match: (Rsh8Ux64 <t> (Rsh8Ux8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8Ux64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end240959dd2c52d68e993f7792264f04d3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end240959dd2c52d68e993f7792264f04d3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end240959dd2c52d68e993f7792264f04d3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end240959dd2c52d68e993f7792264f04d3
+end240959dd2c52d68e993f7792264f04d3:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8Ux8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8Ux8 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endddef8f79c5d2b7fad3c06e5aed78b40c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endddef8f79c5d2b7fad3c06e5aed78b40c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endddef8f79c5d2b7fad3c06e5aed78b40c
+endddef8f79c5d2b7fad3c06e5aed78b40c:
+	;
+	// match: (Rsh8Ux8 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end870530ada76976dedb7504d7cc73167b
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end870530ada76976dedb7504d7cc73167b
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end870530ada76976dedb7504d7cc73167b
+end870530ada76976dedb7504d7cc73167b:
+	;
+	// match: (Rsh8Ux8 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto endedfb2e9d349fbd0309902c1abf7dc09c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endedfb2e9d349fbd0309902c1abf7dc09c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endedfb2e9d349fbd0309902c1abf7dc09c
+endedfb2e9d349fbd0309902c1abf7dc09c:
+	;
+	// match: (Rsh8Ux8 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end5ecc7fce5d8a48e84735db9ae24ad145
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end5ecc7fce5d8a48e84735db9ae24ad145
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end5ecc7fce5d8a48e84735db9ae24ad145
+end5ecc7fce5d8a48e84735db9ae24ad145:
+	;
+	// match: (Rsh8Ux8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end9f48bda1dbd4dbed79f3fbf2808dc698
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end9f48bda1dbd4dbed79f3fbf2808dc698
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9f48bda1dbd4dbed79f3fbf2808dc698
+end9f48bda1dbd4dbed79f3fbf2808dc698:
+	;
+	// match: (Rsh8Ux8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end38c9439070c405dcf61178f89b64a297
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end38c9439070c405dcf61178f89b64a297
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end38c9439070c405dcf61178f89b64a297
+end38c9439070c405dcf61178f89b64a297:
+	;
+	// match: (Rsh8Ux8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end3ccb22b455a48b405b80d286ede4627a
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end3ccb22b455a48b405b80d286ede4627a
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end3ccb22b455a48b405b80d286ede4627a
+end3ccb22b455a48b405b80d286ede4627a:
+	;
+	// match: (Rsh8Ux8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end6e2f0e7a14dd4efaa38369fa26b5c0b3
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end6e2f0e7a14dd4efaa38369fa26b5c0b3
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end6e2f0e7a14dd4efaa38369fa26b5c0b3
+end6e2f0e7a14dd4efaa38369fa26b5c0b3:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh64Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux64 {
+			goto end14a058c6831d503c74d1c1333f1b96d4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end14a058c6831d503c74d1c1333f1b96d4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end14a058c6831d503c74d1c1333f1b96d4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end14a058c6831d503c74d1c1333f1b96d4
+end14a058c6831d503c74d1c1333f1b96d4:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh64Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux32 {
+			goto ende9d6009b1cbd7b2dd417507579edbb93
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende9d6009b1cbd7b2dd417507579edbb93
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende9d6009b1cbd7b2dd417507579edbb93
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende9d6009b1cbd7b2dd417507579edbb93
+ende9d6009b1cbd7b2dd417507579edbb93:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh64Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux16 {
+			goto endcbf418cc5bbe11d340046b0aabb595bc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endcbf418cc5bbe11d340046b0aabb595bc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endcbf418cc5bbe11d340046b0aabb595bc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcbf418cc5bbe11d340046b0aabb595bc
+endcbf418cc5bbe11d340046b0aabb595bc:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh64Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64Ux8 {
+			goto end8872af969342b8ede96a72cf370eee80
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8872af969342b8ede96a72cf370eee80
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end8872af969342b8ede96a72cf370eee80
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8872af969342b8ede96a72cf370eee80
+end8872af969342b8ede96a72cf370eee80:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh32Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux64 {
+			goto endab30dd2a1cc971a861e92b200721b610
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto endab30dd2a1cc971a861e92b200721b610
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endab30dd2a1cc971a861e92b200721b610
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endab30dd2a1cc971a861e92b200721b610
+endab30dd2a1cc971a861e92b200721b610:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh32Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux32 {
+			goto endfae9da3710e78faac2a6e3dbaefc25f3
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endfae9da3710e78faac2a6e3dbaefc25f3
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endfae9da3710e78faac2a6e3dbaefc25f3
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfae9da3710e78faac2a6e3dbaefc25f3
+endfae9da3710e78faac2a6e3dbaefc25f3:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh32Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux16 {
+			goto endf9dbc909c8a8502949d948ee833997f1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endf9dbc909c8a8502949d948ee833997f1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endf9dbc909c8a8502949d948ee833997f1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf9dbc909c8a8502949d948ee833997f1
+endf9dbc909c8a8502949d948ee833997f1:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh32Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32Ux8 {
+			goto endb6c3aba6427dec05c9a0104565cf2b56
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endb6c3aba6427dec05c9a0104565cf2b56
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endb6c3aba6427dec05c9a0104565cf2b56
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb6c3aba6427dec05c9a0104565cf2b56
+endb6c3aba6427dec05c9a0104565cf2b56:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh16Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux64 {
+			goto end2697e8f547ffc7a7e19046a73798b65a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end2697e8f547ffc7a7e19046a73798b65a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2697e8f547ffc7a7e19046a73798b65a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2697e8f547ffc7a7e19046a73798b65a
+end2697e8f547ffc7a7e19046a73798b65a:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh16Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux32 {
+			goto end2b92bd0611a985517271f0e56b17314e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end2b92bd0611a985517271f0e56b17314e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end2b92bd0611a985517271f0e56b17314e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2b92bd0611a985517271f0e56b17314e
+end2b92bd0611a985517271f0e56b17314e:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh16Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux16 {
+			goto end14b63cb2b6d59a48c8de83748b7d9c56
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end14b63cb2b6d59a48c8de83748b7d9c56
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end14b63cb2b6d59a48c8de83748b7d9c56
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end14b63cb2b6d59a48c8de83748b7d9c56
+end14b63cb2b6d59a48c8de83748b7d9c56:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh16Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16Ux8 {
+			goto enda8e8b693cbde48601a3ec012c8624605
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enda8e8b693cbde48601a3ec012c8624605
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto enda8e8b693cbde48601a3ec012c8624605
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enda8e8b693cbde48601a3ec012c8624605
+enda8e8b693cbde48601a3ec012c8624605:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh8Ux64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux64 {
+			goto end3aa184ed896c8ab6b769ede871fc4ead
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end3aa184ed896c8ab6b769ede871fc4ead
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3aa184ed896c8ab6b769ede871fc4ead
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3aa184ed896c8ab6b769ede871fc4ead
+end3aa184ed896c8ab6b769ede871fc4ead:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh8Ux32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux32 {
+			goto end4ca21da3e5a9b914849574384e44fa75
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end4ca21da3e5a9b914849574384e44fa75
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end4ca21da3e5a9b914849574384e44fa75
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4ca21da3e5a9b914849574384e44fa75
+end4ca21da3e5a9b914849574384e44fa75:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh8Ux16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux16 {
+			goto end413eaed9edd071ea8eae156821b63ca0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end413eaed9edd071ea8eae156821b63ca0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end413eaed9edd071ea8eae156821b63ca0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end413eaed9edd071ea8eae156821b63ca0
+end413eaed9edd071ea8eae156821b63ca0:
+	;
+	// match: (Rsh8Ux8 <t> (Rsh8Ux8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8Ux8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8Ux8 {
+			goto end1a172b0970b259b8d3667c69b3c7b9e2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end1a172b0970b259b8d3667c69b3c7b9e2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end1a172b0970b259b8d3667c69b3c7b9e2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8Ux8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1a172b0970b259b8d3667c69b3c7b9e2
+end1a172b0970b259b8d3667c69b3c7b9e2:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8x16(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8x16 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end7e75155d183470b5ea23c055bf0bf818
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end7e75155d183470b5ea23c055bf0bf818
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end7e75155d183470b5ea23c055bf0bf818
+end7e75155d183470b5ea23c055bf0bf818:
+	;
+	// match: (Rsh8x16 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end5e11e42c258dca7c867498a19db0870c
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end5e11e42c258dca7c867498a19db0870c
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end5e11e42c258dca7c867498a19db0870c
+end5e11e42c258dca7c867498a19db0870c:
+	;
+	// match: (Rsh8x16 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end13cc236266a36c0eeb2b197a695a7565
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end13cc236266a36c0eeb2b197a695a7565
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end13cc236266a36c0eeb2b197a695a7565
+end13cc236266a36c0eeb2b197a695a7565:
+	;
+	// match: (Rsh8x16 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endd217783ff573a0fbc53fe64ee9bc1d21
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endd217783ff573a0fbc53fe64ee9bc1d21
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd217783ff573a0fbc53fe64ee9bc1d21
+endd217783ff573a0fbc53fe64ee9bc1d21:
+	;
+	// match: (Rsh8x16 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endd9fad591b963dca76af062a6aec99086
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endd9fad591b963dca76af062a6aec99086
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endd9fad591b963dca76af062a6aec99086
+endd9fad591b963dca76af062a6aec99086:
+	;
+	// match: (Rsh8x16 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto end7b7139f9a6df12908ba093320ec74eda
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end7b7139f9a6df12908ba093320ec74eda
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end7b7139f9a6df12908ba093320ec74eda
+end7b7139f9a6df12908ba093320ec74eda:
+	;
+	// match: (Rsh8x16 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end1967b0732301307f762ab3f27bd4d217
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end1967b0732301307f762ab3f27bd4d217
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end1967b0732301307f762ab3f27bd4d217
+end1967b0732301307f762ab3f27bd4d217:
+	;
+	// match: (Rsh8x16 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto endc2f5d1bfde37d2290af0a3568c1387b3
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endc2f5d1bfde37d2290af0a3568c1387b3
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc2f5d1bfde37d2290af0a3568c1387b3
+endc2f5d1bfde37d2290af0a3568c1387b3:
+	;
+	// match: (Rsh8x16 <t> (Rsh64x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end9d9f61ca6949e0be9ccbaf79f1b4b4ad
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9d9f61ca6949e0be9ccbaf79f1b4b4ad
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end9d9f61ca6949e0be9ccbaf79f1b4b4ad
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9d9f61ca6949e0be9ccbaf79f1b4b4ad
+end9d9f61ca6949e0be9ccbaf79f1b4b4ad:
+	;
+	// match: (Rsh8x16 <t> (Rsh64x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto endc4ec3c302395ed349f93c1cdb7b1349a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc4ec3c302395ed349f93c1cdb7b1349a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc4ec3c302395ed349f93c1cdb7b1349a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc4ec3c302395ed349f93c1cdb7b1349a
+endc4ec3c302395ed349f93c1cdb7b1349a:
+	;
+	// match: (Rsh8x16 <t> (Rsh64x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end08764d9771ccce1df961d4b42774412b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end08764d9771ccce1df961d4b42774412b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end08764d9771ccce1df961d4b42774412b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end08764d9771ccce1df961d4b42774412b
+end08764d9771ccce1df961d4b42774412b:
+	;
+	// match: (Rsh8x16 <t> (Rsh64x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end8dbe696da45a702a15983770870095eb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end8dbe696da45a702a15983770870095eb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8dbe696da45a702a15983770870095eb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8dbe696da45a702a15983770870095eb
+end8dbe696da45a702a15983770870095eb:
+	;
+	// match: (Rsh8x16 <t> (Rsh32x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end32da407d5972c5f459c41f74294ad5f1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end32da407d5972c5f459c41f74294ad5f1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end32da407d5972c5f459c41f74294ad5f1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end32da407d5972c5f459c41f74294ad5f1
+end32da407d5972c5f459c41f74294ad5f1:
+	;
+	// match: (Rsh8x16 <t> (Rsh32x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto endc1cccc3f1ae9485c792794b92332af88
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endc1cccc3f1ae9485c792794b92332af88
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endc1cccc3f1ae9485c792794b92332af88
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endc1cccc3f1ae9485c792794b92332af88
+endc1cccc3f1ae9485c792794b92332af88:
+	;
+	// match: (Rsh8x16 <t> (Rsh32x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end494c3cf9bda3c138a054da02a4d7f268
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end494c3cf9bda3c138a054da02a4d7f268
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end494c3cf9bda3c138a054da02a4d7f268
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end494c3cf9bda3c138a054da02a4d7f268
+end494c3cf9bda3c138a054da02a4d7f268:
+	;
+	// match: (Rsh8x16 <t> (Rsh32x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto enddf46072a28cb32134c19a8946b4bf7f5
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto enddf46072a28cb32134c19a8946b4bf7f5
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto enddf46072a28cb32134c19a8946b4bf7f5
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto enddf46072a28cb32134c19a8946b4bf7f5
+enddf46072a28cb32134c19a8946b4bf7f5:
+	;
+	// match: (Rsh8x16 <t> (Rsh16x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end56649606d87c6725127819a82339f0de
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end56649606d87c6725127819a82339f0de
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end56649606d87c6725127819a82339f0de
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end56649606d87c6725127819a82339f0de
+end56649606d87c6725127819a82339f0de:
+	;
+	// match: (Rsh8x16 <t> (Rsh16x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end8949a4b567c5212353b2ab2307cff357
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end8949a4b567c5212353b2ab2307cff357
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end8949a4b567c5212353b2ab2307cff357
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8949a4b567c5212353b2ab2307cff357
+end8949a4b567c5212353b2ab2307cff357:
+	;
+	// match: (Rsh8x16 <t> (Rsh16x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto endaa467da99e1853bbd44064b83f304398
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endaa467da99e1853bbd44064b83f304398
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endaa467da99e1853bbd44064b83f304398
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endaa467da99e1853bbd44064b83f304398
+endaa467da99e1853bbd44064b83f304398:
+	;
+	// match: (Rsh8x16 <t> (Rsh16x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endab748cc089f3fb8c896b1a139bcc36c0
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endab748cc089f3fb8c896b1a139bcc36c0
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto endab748cc089f3fb8c896b1a139bcc36c0
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endab748cc089f3fb8c896b1a139bcc36c0
+endab748cc089f3fb8c896b1a139bcc36c0:
+	;
+	// match: (Rsh8x16 <t> (Rsh8x64 x (Const64 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end687bb2396b1b6328ade87d93178cf811
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end687bb2396b1b6328ade87d93178cf811
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end687bb2396b1b6328ade87d93178cf811
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end687bb2396b1b6328ade87d93178cf811
+end687bb2396b1b6328ade87d93178cf811:
+	;
+	// match: (Rsh8x16 <t> (Rsh8x32 x (Const32 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end7ae35c2db7897edc212e3244bb626123
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7ae35c2db7897edc212e3244bb626123
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end7ae35c2db7897edc212e3244bb626123
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7ae35c2db7897edc212e3244bb626123
+end7ae35c2db7897edc212e3244bb626123:
+	;
+	// match: (Rsh8x16 <t> (Rsh8x16 x (Const16 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end6b3326bda5a209ea877cbdd7e5db891f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end6b3326bda5a209ea877cbdd7e5db891f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end6b3326bda5a209ea877cbdd7e5db891f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6b3326bda5a209ea877cbdd7e5db891f
+end6b3326bda5a209ea877cbdd7e5db891f:
+	;
+	// match: (Rsh8x16 <t> (Rsh8x8 x (Const8 [c])) (Const16 [d]))
+	// cond:
+	// result: (Rsh8x16 x  (Const16 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end632a9b11274611a67b29c373ffa53c0c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end632a9b11274611a67b29c373ffa53c0c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst16 {
+			goto end632a9b11274611a67b29c373ffa53c0c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x16
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst16, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end632a9b11274611a67b29c373ffa53c0c
+end632a9b11274611a67b29c373ffa53c0c:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8x32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8x32 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endd273eae2626b8145c780ec5fcf4e8921
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endd273eae2626b8145c780ec5fcf4e8921
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd273eae2626b8145c780ec5fcf4e8921
+endd273eae2626b8145c780ec5fcf4e8921:
+	;
+	// match: (Rsh8x32 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end0804c13a728cb5fcf4f46511629c5610
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end0804c13a728cb5fcf4f46511629c5610
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end0804c13a728cb5fcf4f46511629c5610
+end0804c13a728cb5fcf4f46511629c5610:
+	;
+	// match: (Rsh8x32 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end1f129a0332510951bf5925b00ae8f377
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end1f129a0332510951bf5925b00ae8f377
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end1f129a0332510951bf5925b00ae8f377
+end1f129a0332510951bf5925b00ae8f377:
+	;
+	// match: (Rsh8x32 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endcd8deaa776949ea59fdabd316b84a183
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endcd8deaa776949ea59fdabd316b84a183
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endcd8deaa776949ea59fdabd316b84a183
+endcd8deaa776949ea59fdabd316b84a183:
+	;
+	// match: (Rsh8x32 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto end5c3753a4bc7e29ed668ee1eea55730f5
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end5c3753a4bc7e29ed668ee1eea55730f5
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end5c3753a4bc7e29ed668ee1eea55730f5
+end5c3753a4bc7e29ed668ee1eea55730f5:
+	;
+	// match: (Rsh8x32 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endbfbb63207a3bfd5ca85ae995ecd2bea0
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endbfbb63207a3bfd5ca85ae995ecd2bea0
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endbfbb63207a3bfd5ca85ae995ecd2bea0
+endbfbb63207a3bfd5ca85ae995ecd2bea0:
+	;
+	// match: (Rsh8x32 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto end9c4749ff530bef6c4a8a6d8efb6e404b
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end9c4749ff530bef6c4a8a6d8efb6e404b
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end9c4749ff530bef6c4a8a6d8efb6e404b
+end9c4749ff530bef6c4a8a6d8efb6e404b:
+	;
+	// match: (Rsh8x32 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end239daed77917914111372729b8d3b09c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end239daed77917914111372729b8d3b09c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end239daed77917914111372729b8d3b09c
+end239daed77917914111372729b8d3b09c:
+	;
+	// match: (Rsh8x32 <t> (Rsh64x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end4119cb164593a6a401ff91b4e34ee82e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end4119cb164593a6a401ff91b4e34ee82e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end4119cb164593a6a401ff91b4e34ee82e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end4119cb164593a6a401ff91b4e34ee82e
+end4119cb164593a6a401ff91b4e34ee82e:
+	;
+	// match: (Rsh8x32 <t> (Rsh64x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto endb86df5d69a5e1ffab7525267ca6b137a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endb86df5d69a5e1ffab7525267ca6b137a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endb86df5d69a5e1ffab7525267ca6b137a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endb86df5d69a5e1ffab7525267ca6b137a
+endb86df5d69a5e1ffab7525267ca6b137a:
+	;
+	// match: (Rsh8x32 <t> (Rsh64x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end346cfe6d599b853c561ad65296944d9e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end346cfe6d599b853c561ad65296944d9e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end346cfe6d599b853c561ad65296944d9e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end346cfe6d599b853c561ad65296944d9e
+end346cfe6d599b853c561ad65296944d9e:
+	;
+	// match: (Rsh8x32 <t> (Rsh64x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto endf7312375fc3869406d164506c9353068
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endf7312375fc3869406d164506c9353068
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endf7312375fc3869406d164506c9353068
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endf7312375fc3869406d164506c9353068
+endf7312375fc3869406d164506c9353068:
+	;
+	// match: (Rsh8x32 <t> (Rsh32x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto ende2d2e7f8276ce5d81d87ef483e4d0477
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto ende2d2e7f8276ce5d81d87ef483e4d0477
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende2d2e7f8276ce5d81d87ef483e4d0477
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende2d2e7f8276ce5d81d87ef483e4d0477
+ende2d2e7f8276ce5d81d87ef483e4d0477:
+	;
+	// match: (Rsh8x32 <t> (Rsh32x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end2f7c9dbdd85141a2596dd740dceef82f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end2f7c9dbdd85141a2596dd740dceef82f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end2f7c9dbdd85141a2596dd740dceef82f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end2f7c9dbdd85141a2596dd740dceef82f
+end2f7c9dbdd85141a2596dd740dceef82f:
+	;
+	// match: (Rsh8x32 <t> (Rsh32x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end83649841b2313e79493d5de7438017c7
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end83649841b2313e79493d5de7438017c7
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end83649841b2313e79493d5de7438017c7
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end83649841b2313e79493d5de7438017c7
+end83649841b2313e79493d5de7438017c7:
+	;
+	// match: (Rsh8x32 <t> (Rsh32x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end72ab7dbb74ddaa75041346e9bfd57c57
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end72ab7dbb74ddaa75041346e9bfd57c57
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end72ab7dbb74ddaa75041346e9bfd57c57
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end72ab7dbb74ddaa75041346e9bfd57c57
+end72ab7dbb74ddaa75041346e9bfd57c57:
+	;
+	// match: (Rsh8x32 <t> (Rsh16x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end32d1659e80289c3b999e5fa48868ffc8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end32d1659e80289c3b999e5fa48868ffc8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end32d1659e80289c3b999e5fa48868ffc8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end32d1659e80289c3b999e5fa48868ffc8
+end32d1659e80289c3b999e5fa48868ffc8:
+	;
+	// match: (Rsh8x32 <t> (Rsh16x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end65428e37c2f15d50baad92f0c0891f3a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end65428e37c2f15d50baad92f0c0891f3a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end65428e37c2f15d50baad92f0c0891f3a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end65428e37c2f15d50baad92f0c0891f3a
+end65428e37c2f15d50baad92f0c0891f3a:
+	;
+	// match: (Rsh8x32 <t> (Rsh16x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto endfc49912fd9dac030b7f34107800d772b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endfc49912fd9dac030b7f34107800d772b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endfc49912fd9dac030b7f34107800d772b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endfc49912fd9dac030b7f34107800d772b
+endfc49912fd9dac030b7f34107800d772b:
+	;
+	// match: (Rsh8x32 <t> (Rsh16x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto endcfb174f6455e84c469a77707eb5fb00d
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto endcfb174f6455e84c469a77707eb5fb00d
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endcfb174f6455e84c469a77707eb5fb00d
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcfb174f6455e84c469a77707eb5fb00d
+endcfb174f6455e84c469a77707eb5fb00d:
+	;
+	// match: (Rsh8x32 <t> (Rsh8x64 x (Const64 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end76372105f10c50921a4ea2a16302a878
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end76372105f10c50921a4ea2a16302a878
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end76372105f10c50921a4ea2a16302a878
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end76372105f10c50921a4ea2a16302a878
+end76372105f10c50921a4ea2a16302a878:
+	;
+	// match: (Rsh8x32 <t> (Rsh8x32 x (Const32 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto endebb6686109e786f37ac3268fac799ec2
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto endebb6686109e786f37ac3268fac799ec2
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto endebb6686109e786f37ac3268fac799ec2
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endebb6686109e786f37ac3268fac799ec2
+endebb6686109e786f37ac3268fac799ec2:
+	;
+	// match: (Rsh8x32 <t> (Rsh8x16 x (Const16 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end12258ab0973b0760c29b6c8d5e7f0df4
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end12258ab0973b0760c29b6c8d5e7f0df4
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto end12258ab0973b0760c29b6c8d5e7f0df4
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end12258ab0973b0760c29b6c8d5e7f0df4
+end12258ab0973b0760c29b6c8d5e7f0df4:
+	;
+	// match: (Rsh8x32 <t> (Rsh8x8 x (Const8 [c])) (Const32 [d]))
+	// cond:
+	// result: (Rsh8x32 x  (Const32 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto ende01b0ccd43b94879038a7124a6f92026
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto ende01b0ccd43b94879038a7124a6f92026
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst32 {
+			goto ende01b0ccd43b94879038a7124a6f92026
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x32
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst32, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende01b0ccd43b94879038a7124a6f92026
+ende01b0ccd43b94879038a7124a6f92026:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8x64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8x64 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto endbbfe62e0eb0e69a1970baf8ad2e4078a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endbbfe62e0eb0e69a1970baf8ad2e4078a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endbbfe62e0eb0e69a1970baf8ad2e4078a
+endbbfe62e0eb0e69a1970baf8ad2e4078a:
+	;
+	// match: (Rsh8x64 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end212f8d94b3a58e22e3764cbe14406b61
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end212f8d94b3a58e22e3764cbe14406b61
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end212f8d94b3a58e22e3764cbe14406b61
+end212f8d94b3a58e22e3764cbe14406b61:
+	;
+	// match: (Rsh8x64 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end4699ee5964a2a4994f36a8d2a4eccf55
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end4699ee5964a2a4994f36a8d2a4eccf55
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end4699ee5964a2a4994f36a8d2a4eccf55
+end4699ee5964a2a4994f36a8d2a4eccf55:
+	;
+	// match: (Rsh8x64 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto endd803a42bd8cf1e62ee21de40902167ab
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto endd803a42bd8cf1e62ee21de40902167ab
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto endd803a42bd8cf1e62ee21de40902167ab
+endd803a42bd8cf1e62ee21de40902167ab:
+	;
+	// match: (Rsh8x64 x (Const64 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto endbdbaae4c9630a3dacf78152e67914907
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endbdbaae4c9630a3dacf78152e67914907
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endbdbaae4c9630a3dacf78152e67914907
+endbdbaae4c9630a3dacf78152e67914907:
+	;
+	// match: (Rsh8x64 x (Const32 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endc89bc2bb79fe7d53cf1d1af2da69ebe9
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endc89bc2bb79fe7d53cf1d1af2da69ebe9
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endc89bc2bb79fe7d53cf1d1af2da69ebe9
+endc89bc2bb79fe7d53cf1d1af2da69ebe9:
+	;
+	// match: (Rsh8x64 x (Const16 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endd1ea20c35d6cc36c032cc809cafe64c8
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto endd1ea20c35d6cc36c032cc809cafe64c8
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endd1ea20c35d6cc36c032cc809cafe64c8
+endd1ea20c35d6cc36c032cc809cafe64c8:
+	;
+	// match: (Rsh8x64 x (Const8 [0]))
+	// cond:
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end569b46052253875711a97be776443022
+		}
+		if v.Args[1].AuxInt != 0 {
+			goto end569b46052253875711a97be776443022
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end569b46052253875711a97be776443022
+end569b46052253875711a97be776443022:
+	;
+	// match: (Rsh8x64 <t> (Rsh64x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end6d04601b288db0430496b7962c73226e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end6d04601b288db0430496b7962c73226e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end6d04601b288db0430496b7962c73226e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end6d04601b288db0430496b7962c73226e
+end6d04601b288db0430496b7962c73226e:
+	;
+	// match: (Rsh8x64 <t> (Rsh64x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto end7cd25c0700f09159a837c2fcc1e6dc5f
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end7cd25c0700f09159a837c2fcc1e6dc5f
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7cd25c0700f09159a837c2fcc1e6dc5f
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7cd25c0700f09159a837c2fcc1e6dc5f
+end7cd25c0700f09159a837c2fcc1e6dc5f:
+	;
+	// match: (Rsh8x64 <t> (Rsh64x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto end73a87ff49a5656ae70184011feb1b9bd
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end73a87ff49a5656ae70184011feb1b9bd
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end73a87ff49a5656ae70184011feb1b9bd
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end73a87ff49a5656ae70184011feb1b9bd
+end73a87ff49a5656ae70184011feb1b9bd:
+	;
+	// match: (Rsh8x64 <t> (Rsh64x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end0e2177529707218d6c03007dc18ad381
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end0e2177529707218d6c03007dc18ad381
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end0e2177529707218d6c03007dc18ad381
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0e2177529707218d6c03007dc18ad381
+end0e2177529707218d6c03007dc18ad381:
+	;
+	// match: (Rsh8x64 <t> (Rsh32x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end5cd165f985d162bf32b2b7459b1c0c53
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end5cd165f985d162bf32b2b7459b1c0c53
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end5cd165f985d162bf32b2b7459b1c0c53
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end5cd165f985d162bf32b2b7459b1c0c53
+end5cd165f985d162bf32b2b7459b1c0c53:
+	;
+	// match: (Rsh8x64 <t> (Rsh32x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end41d4cf4effc2c317f35397c48469d4cc
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end41d4cf4effc2c317f35397c48469d4cc
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end41d4cf4effc2c317f35397c48469d4cc
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end41d4cf4effc2c317f35397c48469d4cc
+end41d4cf4effc2c317f35397c48469d4cc:
+	;
+	// match: (Rsh8x64 <t> (Rsh32x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end7509931a57f6237f377a8b3254f76f2b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end7509931a57f6237f377a8b3254f76f2b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7509931a57f6237f377a8b3254f76f2b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7509931a57f6237f377a8b3254f76f2b
+end7509931a57f6237f377a8b3254f76f2b:
+	;
+	// match: (Rsh8x64 <t> (Rsh32x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end70ce27b26b1d17908aa69eaa79d3591b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end70ce27b26b1d17908aa69eaa79d3591b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end70ce27b26b1d17908aa69eaa79d3591b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end70ce27b26b1d17908aa69eaa79d3591b
+end70ce27b26b1d17908aa69eaa79d3591b:
+	;
+	// match: (Rsh8x64 <t> (Rsh16x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end8a56e34e096bc0867fdf907958348091
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end8a56e34e096bc0867fdf907958348091
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end8a56e34e096bc0867fdf907958348091
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end8a56e34e096bc0867fdf907958348091
+end8a56e34e096bc0867fdf907958348091:
+	;
+	// match: (Rsh8x64 <t> (Rsh16x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end02c0339b6a9f8a62c4f84505d5aaaa5e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end02c0339b6a9f8a62c4f84505d5aaaa5e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end02c0339b6a9f8a62c4f84505d5aaaa5e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end02c0339b6a9f8a62c4f84505d5aaaa5e
+end02c0339b6a9f8a62c4f84505d5aaaa5e:
+	;
+	// match: (Rsh8x64 <t> (Rsh16x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto end85b4db4c4133d0ef016ac60e10429cb8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end85b4db4c4133d0ef016ac60e10429cb8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end85b4db4c4133d0ef016ac60e10429cb8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end85b4db4c4133d0ef016ac60e10429cb8
+end85b4db4c4133d0ef016ac60e10429cb8:
+	;
+	// match: (Rsh8x64 <t> (Rsh16x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto end7319a90f477c934609730ba786d44a14
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end7319a90f477c934609730ba786d44a14
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end7319a90f477c934609730ba786d44a14
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end7319a90f477c934609730ba786d44a14
+end7319a90f477c934609730ba786d44a14:
+	;
+	// match: (Rsh8x64 <t> (Rsh8x64 x (Const64 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end913f013689c34f79d7732b75506ecf6c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end913f013689c34f79d7732b75506ecf6c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end913f013689c34f79d7732b75506ecf6c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end913f013689c34f79d7732b75506ecf6c
+end913f013689c34f79d7732b75506ecf6c:
+	;
+	// match: (Rsh8x64 <t> (Rsh8x32 x (Const32 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto end79cbe5fb36c72bb1f8a2a1ce25ebe93c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end79cbe5fb36c72bb1f8a2a1ce25ebe93c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end79cbe5fb36c72bb1f8a2a1ce25ebe93c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end79cbe5fb36c72bb1f8a2a1ce25ebe93c
+end79cbe5fb36c72bb1f8a2a1ce25ebe93c:
+	;
+	// match: (Rsh8x64 <t> (Rsh8x16 x (Const16 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto endeaafc39ab7cc2bde933118eec532cba1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endeaafc39ab7cc2bde933118eec532cba1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto endeaafc39ab7cc2bde933118eec532cba1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endeaafc39ab7cc2bde933118eec532cba1
+endeaafc39ab7cc2bde933118eec532cba1:
+	;
+	// match: (Rsh8x64 <t> (Rsh8x8 x (Const8 [c])) (Const64 [d]))
+	// cond:
+	// result: (Rsh8x64 x  (Const64 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end44ad8c2463f388e8e53cc0f4e7748e7b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end44ad8c2463f388e8e53cc0f4e7748e7b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst64 {
+			goto end44ad8c2463f388e8e53cc0f4e7748e7b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst64, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end44ad8c2463f388e8e53cc0f4e7748e7b
+end44ad8c2463f388e8e53cc0f4e7748e7b:
+	;
+	return false
+}
+func rewriteValuegeneric_OpRsh8x8(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Rsh8x8 _ (Const64 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst64 {
+			goto end671a7856fddecf2eb00547dbcd6ddb6a
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end671a7856fddecf2eb00547dbcd6ddb6a
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end671a7856fddecf2eb00547dbcd6ddb6a
+end671a7856fddecf2eb00547dbcd6ddb6a:
+	;
+	// match: (Rsh8x8 _ (Const32 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst32 {
+			goto end94fd89799adc3cf1576e9f5d895761bf
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end94fd89799adc3cf1576e9f5d895761bf
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end94fd89799adc3cf1576e9f5d895761bf
+end94fd89799adc3cf1576e9f5d895761bf:
+	;
+	// match: (Rsh8x8 _ (Const16 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst16 {
+			goto end4b0a0ae3b1581e80955449b31c88d00e
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end4b0a0ae3b1581e80955449b31c88d00e
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end4b0a0ae3b1581e80955449b31c88d00e
+end4b0a0ae3b1581e80955449b31c88d00e:
+	;
+	// match: (Rsh8x8 _ (Const8 [c]))
+	// cond: c >= 8
+	// result: (Const64 [0])
+	{
+		if v.Args[1].Op != OpConst8 {
+			goto end171a866c55caad677d62d47fa33cb212
+		}
+		c := v.Args[1].AuxInt
+		if !(c >= 8) {
+			goto end171a866c55caad677d62d47fa33cb212
+		}
+		v.Op = OpConst64
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AuxInt = 0
+		return true
+	}
+	goto end171a866c55caad677d62d47fa33cb212
+end171a866c55caad677d62d47fa33cb212:
+	;
+	// match: (Rsh8x8 x (Const64 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			goto ende09fff21508bf045266c7f2641add20c
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto ende09fff21508bf045266c7f2641add20c
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto ende09fff21508bf045266c7f2641add20c
+ende09fff21508bf045266c7f2641add20c:
+	;
+	// match: (Rsh8x8 x (Const32 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst32 {
+			goto endca4319555969612abc844e2cbfaf6c14
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endca4319555969612abc844e2cbfaf6c14
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endca4319555969612abc844e2cbfaf6c14
+endca4319555969612abc844e2cbfaf6c14:
+	;
+	// match: (Rsh8x8 x (Const16 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst16 {
+			goto endeece85f3546281c9630017985993bec3
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto endeece85f3546281c9630017985993bec3
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto endeece85f3546281c9630017985993bec3
+endeece85f3546281c9630017985993bec3:
+	;
+	// match: (Rsh8x8 x (Const8 [c]))
+	// cond: c == 0
+	// result: x
+	{
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst8 {
+			goto end2b6779eda96c58ca42e46d70c4d96f06
+		}
+		c := v.Args[1].AuxInt
+		if !(c == 0) {
+			goto end2b6779eda96c58ca42e46d70c4d96f06
+		}
+		v.Op = OpCopy
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	goto end2b6779eda96c58ca42e46d70c4d96f06
+end2b6779eda96c58ca42e46d70c4d96f06:
+	;
+	// match: (Rsh8x8 <t> (Rsh64x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x64 {
+			goto end9c8e4c1addb4827cad7edc4e029b461a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end9c8e4c1addb4827cad7edc4e029b461a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9c8e4c1addb4827cad7edc4e029b461a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9c8e4c1addb4827cad7edc4e029b461a
+end9c8e4c1addb4827cad7edc4e029b461a:
+	;
+	// match: (Rsh8x8 <t> (Rsh64x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x32 {
+			goto ende99eef060f8a0eb18a5b6c9749026a5a
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ende99eef060f8a0eb18a5b6c9749026a5a
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende99eef060f8a0eb18a5b6c9749026a5a
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende99eef060f8a0eb18a5b6c9749026a5a
+ende99eef060f8a0eb18a5b6c9749026a5a:
+	;
+	// match: (Rsh8x8 <t> (Rsh64x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x16 {
+			goto endcd6d49c82499e4965b4deef93cb10d40
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto endcd6d49c82499e4965b4deef93cb10d40
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto endcd6d49c82499e4965b4deef93cb10d40
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto endcd6d49c82499e4965b4deef93cb10d40
+endcd6d49c82499e4965b4deef93cb10d40:
+	;
+	// match: (Rsh8x8 <t> (Rsh64x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh64x8 {
+			goto end9f4675a22759272ec1a764abf65e8de8
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end9f4675a22759272ec1a764abf65e8de8
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end9f4675a22759272ec1a764abf65e8de8
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end9f4675a22759272ec1a764abf65e8de8
+end9f4675a22759272ec1a764abf65e8de8:
+	;
+	// match: (Rsh8x8 <t> (Rsh32x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x64 {
+			goto end1c6940adea4a47f6ed7f11351b432d9e
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end1c6940adea4a47f6ed7f11351b432d9e
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end1c6940adea4a47f6ed7f11351b432d9e
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end1c6940adea4a47f6ed7f11351b432d9e
+end1c6940adea4a47f6ed7f11351b432d9e:
+	;
+	// match: (Rsh8x8 <t> (Rsh32x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x32 {
+			goto end75682ac197a949d5ec5208443f04b485
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end75682ac197a949d5ec5208443f04b485
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end75682ac197a949d5ec5208443f04b485
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end75682ac197a949d5ec5208443f04b485
+end75682ac197a949d5ec5208443f04b485:
+	;
+	// match: (Rsh8x8 <t> (Rsh32x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x16 {
+			goto end07a5aeb7066dbc648b64834fe4b0b292
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end07a5aeb7066dbc648b64834fe4b0b292
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end07a5aeb7066dbc648b64834fe4b0b292
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end07a5aeb7066dbc648b64834fe4b0b292
+end07a5aeb7066dbc648b64834fe4b0b292:
+	;
+	// match: (Rsh8x8 <t> (Rsh32x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh32x8 {
+			goto end0fdb0c03c5cf4c8ab0c836e0ec229bd1
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end0fdb0c03c5cf4c8ab0c836e0ec229bd1
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end0fdb0c03c5cf4c8ab0c836e0ec229bd1
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end0fdb0c03c5cf4c8ab0c836e0ec229bd1
+end0fdb0c03c5cf4c8ab0c836e0ec229bd1:
+	;
+	// match: (Rsh8x8 <t> (Rsh16x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x64 {
+			goto end845681099bc97fac1fe1d1d1d5fc782b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end845681099bc97fac1fe1d1d1d5fc782b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end845681099bc97fac1fe1d1d1d5fc782b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end845681099bc97fac1fe1d1d1d5fc782b
+end845681099bc97fac1fe1d1d1d5fc782b:
+	;
+	// match: (Rsh8x8 <t> (Rsh16x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x32 {
+			goto end3c4f3120df8fc4bc2110ce5709dc7e52
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto end3c4f3120df8fc4bc2110ce5709dc7e52
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3c4f3120df8fc4bc2110ce5709dc7e52
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3c4f3120df8fc4bc2110ce5709dc7e52
+end3c4f3120df8fc4bc2110ce5709dc7e52:
+	;
+	// match: (Rsh8x8 <t> (Rsh16x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x16 {
+			goto ende6c86cf64e08f45267ece04e38dae427
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto ende6c86cf64e08f45267ece04e38dae427
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ende6c86cf64e08f45267ece04e38dae427
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ende6c86cf64e08f45267ece04e38dae427
+ende6c86cf64e08f45267ece04e38dae427:
+	;
+	// match: (Rsh8x8 <t> (Rsh16x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh16x8 {
+			goto end813f2961c55b7970e6198106a8049afb
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end813f2961c55b7970e6198106a8049afb
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end813f2961c55b7970e6198106a8049afb
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end813f2961c55b7970e6198106a8049afb
+end813f2961c55b7970e6198106a8049afb:
+	;
+	// match: (Rsh8x8 <t> (Rsh8x64 x (Const64 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x64 {
+			goto end160a6084656e664bf511a20102d09e33
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst64 {
+			goto end160a6084656e664bf511a20102d09e33
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end160a6084656e664bf511a20102d09e33
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end160a6084656e664bf511a20102d09e33
+end160a6084656e664bf511a20102d09e33:
+	;
+	// match: (Rsh8x8 <t> (Rsh8x32 x (Const32 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x32 {
+			goto ended95b1c64fbe6d22bcb74f6445bda89b
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst32 {
+			goto ended95b1c64fbe6d22bcb74f6445bda89b
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto ended95b1c64fbe6d22bcb74f6445bda89b
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto ended95b1c64fbe6d22bcb74f6445bda89b
+ended95b1c64fbe6d22bcb74f6445bda89b:
+	;
+	// match: (Rsh8x8 <t> (Rsh8x16 x (Const16 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x16 {
+			goto end3406a54345dcb4d964be9fa1e26d113c
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst16 {
+			goto end3406a54345dcb4d964be9fa1e26d113c
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end3406a54345dcb4d964be9fa1e26d113c
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end3406a54345dcb4d964be9fa1e26d113c
+end3406a54345dcb4d964be9fa1e26d113c:
+	;
+	// match: (Rsh8x8 <t> (Rsh8x8 x (Const8 [c])) (Const8 [d]))
+	// cond:
+	// result: (Rsh8x8 x  (Const8 <t> [c+d]))
+	{
+		t := v.Type
+		if v.Args[0].Op != OpRsh8x8 {
+			goto end71c06ff3ce3cf91c0d1bb510edac8673
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[0].Args[1].Op != OpConst8 {
+			goto end71c06ff3ce3cf91c0d1bb510edac8673
+		}
+		c := v.Args[0].Args[1].AuxInt
+		if v.Args[1].Op != OpConst8 {
+			goto end71c06ff3ce3cf91c0d1bb510edac8673
+		}
+		d := v.Args[1].AuxInt
+		v.Op = OpRsh8x8
+		v.AuxInt = 0
+		v.Aux = nil
+		v.resetArgs()
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Line, OpConst8, TypeInvalid)
+		v0.Type = t
+		v0.AuxInt = c + d
+		v.AddArg(v0)
+		return true
+	}
+	goto end71c06ff3ce3cf91c0d1bb510edac8673
+end71c06ff3ce3cf91c0d1bb510edac8673:
 	;
 	return false
 }
