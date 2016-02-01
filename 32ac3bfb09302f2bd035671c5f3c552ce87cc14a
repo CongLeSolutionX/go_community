@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f15fa825_d0a89498",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-01T15:42:01Z",
+      "side": 1,
+      "message": "I\u0027ll work it.",
+      "parentUuid": "5422228b_942352e8",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "32ac3bfb09302f2bd035671c5f3c552ce87cc14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5422228b_545b9a7d",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f15fa825_90b21c03",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-01T15:42:01Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "5422228b_545b9a7d",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "32ac3bfb09302f2bd035671c5f3c552ce87cc14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "712ad87b_eed17f7f",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2016-02-01T09:41:13Z",
       "side": 1,
       "message": "There are a few more\n\n(Rsh64x64 x (Const64 [c])) \u0026\u0026 c \u003e\u003d 64 -\u003e 0\n(Lsh32x64 x (Const64 [c])) \u0026\u0026 c \u003e\u003d 32 -\u003e 0\n\netc.\n\nGiven the sheer number of combinations (32 for rule), how about having a generator that generates all these combinations?",
+      "revId": "32ac3bfb09302f2bd035671c5f3c552ce87cc14a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f15fa825_30bb70de",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-01T15:42:01Z",
+      "side": 1,
+      "message": "\u003e There are a few more\n \u003e \n \u003e (Rsh64x64 x (Const64 [c])) \u0026\u0026 c \u003e\u003d 64 -\u003e 0\n \u003e (Lsh32x64 x (Const64 [c])) \u0026\u0026 c \u003e\u003d 32 -\u003e 0\n \u003e \n\nFor AMD64 this is already done (though it takes a few rule evaluations) in the arch specific lowering. see rule for Lsh64x64. It might be better to have it in generic to save useless lowering.\n\n \u003e Given the sheer number of combinations (32 for rule), how about\n \u003e having a generator that generates all these combinations?\n\nI\u0027ll look into this.",
+      "parentUuid": "712ad87b_eed17f7f",
       "revId": "32ac3bfb09302f2bd035671c5f3c552ce87cc14a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
