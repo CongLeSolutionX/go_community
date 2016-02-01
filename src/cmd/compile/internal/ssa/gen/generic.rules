@@ -35,6 +35,36 @@
 (Mul32 (Const32 [c]) (Const32 [d])) -> (Const32 [c*d])
 (Mul64 (Const64 [c]) (Const64 [d])) -> (Const64 [c*d])
 
+
+// TODO: support the x32, x16, x8 variants as well?
+(Lsh64x64 x (Const64 [c])) && c == 0 -> x
+(Lsh32x64 x (Const64 [c])) && c == 0 -> x
+(Lsh16x64 x (Const64 [c])) && c == 0 -> x
+(Lsh8x64  x (Const64 [c])) && c == 0 -> x
+(Lsh64x64 <t> (Lsh64x64 x (Const64 [c])) (Const64 [d])) -> (Lsh64x64 x (Const64 <t> [c+d]))
+(Lsh32x64 <t> (Lsh32x64 x (Const64 [c])) (Const64 [d])) -> (Lsh32x64 x (Const64 <t> [c+d]))
+(Lsh16x64 <t> (Lsh16x64 x (Const64 [c])) (Const64 [d])) -> (Lsh16x64 x (Const64 <t> [c+d]))
+(Lsh8x64  <t> (Lsh8x64  x (Const64 [c])) (Const64 [d])) -> (Lsh8x64  x (Const64 <t> [c+d]))
+
+(Rsh64x64  x (Const64 [c])) && c == 0 -> x
+(Rsh64Ux64 x (Const64 [c])) && c == 0 -> x
+(Rsh32x64  x (Const64 [c])) && c == 0 -> x
+(Rsh32Ux64 x (Const64 [c])) && c == 0 -> x
+(Rsh16x64  x (Const64 [c])) && c == 0 -> x
+(Rsh16Ux64 x (Const64 [c])) && c == 0 -> x
+(Rsh8x64   x (Const64 [c])) && c == 0 -> x
+(Rsh8Ux64  x (Const64 [c])) && c == 0 -> x
+(Rsh64x64  <t> (Rsh64x64  x (Const64 [c])) (Const64 [d])) -> (Rsh64x64  x (Const64 <t> [c+d]))
+(Rsh64Ux64 <t> (Rsh64Ux64 x (Const64 [c])) (Const64 [d])) -> (Rsh64Ux64 x (Const64 <t> [c+d]))
+(Rsh32x64  <t> (Rsh32x64  x (Const64 [c])) (Const64 [d])) -> (Rsh32x64  x (Const64 <t> [c+d]))
+(Rsh32Ux64 <t> (Rsh32Ux64 x (Const64 [c])) (Const64 [d])) -> (Rsh32Ux64 x (Const64 <t> [c+d]))
+(Rsh16x64  <t> (Rsh16x64  x (Const64 [c])) (Const64 [d])) -> (Rsh16x64  x (Const64 <t> [c+d]))
+(Rsh16Ux64 <t> (Rsh16Ux64 x (Const64 [c])) (Const64 [d])) -> (Rsh16Ux64 x (Const64 <t> [c+d]))
+(Rsh8x64   <t> (Rsh8x64   x (Const64 [c])) (Const64 [d])) -> (Rsh8x64   x (Const64 <t> [c+d]))
+(Rsh8Ux64  <t> (Rsh8Ux64  x (Const64 [c])) (Const64 [d])) -> (Rsh8Ux64  x (Const64 <t> [c+d]))
+
+
+
 (IsInBounds (Const32 [c]) (Const32 [d])) -> (ConstBool [b2i(inBounds32(c,d))])
 (IsInBounds (Const64 [c]) (Const64 [d])) -> (ConstBool [b2i(inBounds64(c,d))])
 (IsSliceInBounds (Const32 [c]) (Const32 [d])) -> (ConstBool [b2i(sliceInBounds32(c,d))])
