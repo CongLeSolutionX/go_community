@@ -61,6 +61,19 @@ func (a arch) regMaskComment(r regMask) string {
 
 var archs []arch
 
+var genInputRules []genInputRule
+
+type ShouldGenFunc func(arch arch) bool
+type GenFunc func(arch arch)
+type genInputRule struct {
+	// shouldGen is called to determine if the generator should
+	// be called for a particular architecture
+	shouldGen ShouldGenFunc
+	// gen is called to generate rules files which must be name in
+	// the form {arch.name}_gen{XYZ}.rules
+	gen GenFunc
+}
+
 func main() {
 	flag.Parse()
 	genOp()
@@ -215,6 +228,11 @@ func (a arch) Name() string {
 
 func genLower() {
 	for _, a := range archs {
+		for _, fn := range genInputRules {
+			if fn.shouldGen(a) {
+				fn.gen(a)
+			}
+		}
 		genRules(a)
 	}
 }

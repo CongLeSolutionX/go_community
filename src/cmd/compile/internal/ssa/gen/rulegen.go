@@ -80,18 +80,39 @@ func (r Rule) parse() (match, cond, result string) {
 }
 
 func genRules(arch arch) {
-	// Open input file.
+	rdrs := make([]io.Reader, 0, 1)
 	text, err := os.Open(arch.name + ".rules")
 	if err != nil {
 		log.Fatalf("can't read rule file: %v", err)
 	}
 
+	rdrs = append(rdrs, text)
+	files, err := ioutil.ReadDir(".")
+	if err != nil {
+		log.Fatalf("can't read directory: %v", err)
+	}
+	for _, file := range files {
+		fn := file.Name()
+		if strings.HasSuffix(fn, ".rules") &&
+			strings.HasPrefix(fn, arch.name+"_gen") {
+			text, err = os.Open(fn)
+			if err != nil {
+				log.Fatalf("can't read rule file: %v", err)
+			}
+			rdrs = append(rdrs, text)
+
+		}
+	}
+	genRulesFor(arch, io.MultiReader(rdrs...))
+}
+
+func genRulesFor(arch arch, rdr io.Reader) {
 	// oprules contains a list of rules for each block and opcode
 	blockrules := map[string][]Rule{}
 	oprules := map[string][]Rule{}
 
 	// read rule file
-	scanner := bufio.NewScanner(text)
+	scanner := bufio.NewScanner(rdr)
 	rule := ""
 	var lineno int
 	for scanner.Scan() {
