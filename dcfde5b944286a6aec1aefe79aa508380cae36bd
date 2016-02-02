@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b121b0e4_c8b5cf95",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic_genShift.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-02T17:22:30Z",
+      "side": 1,
+      "message": "these should be int32(c) \u003d\u003d 0",
+      "range": {
+        "startLine": 40,
+        "startChar": 30,
+        "endLine": 40,
+        "endChar": 36
+      },
+      "revId": "dcfde5b944286a6aec1aefe79aa508380cae36bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b121b0e4_a8397bcb",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic_genShift.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-02T17:22:30Z",
+      "side": 1,
+      "message": "Ones like this are tricky.  I think you need to shift by c + int64(uint16(d)), as the upper bits of d are junk.\n\nYou also need Rsh8x64 and Const64 on the RHS, otherwise you\u0027ll lose shifts by, e.g., 2^20.",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 89
+      },
+      "revId": "dcfde5b944286a6aec1aefe79aa508380cae36bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
