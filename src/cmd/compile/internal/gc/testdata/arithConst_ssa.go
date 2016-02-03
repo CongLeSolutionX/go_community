@@ -2,1811 +2,1903 @@ package main
 
 import "fmt"
 
+//go:noinline
 func add_uint64_0_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_uint64_1_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_uint64_4294967296_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a + 4294967296
 }
+
+//go:noinline
 func add_4294967296_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 4294967296 + a
 }
 
+//go:noinline
 func add_uint64_18446744073709551615_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a + 18446744073709551615
 }
+
+//go:noinline
 func add_18446744073709551615_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 18446744073709551615 + a
 }
 
+//go:noinline
 func sub_uint64_0_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_uint64_1_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_uint64_4294967296_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a - 4294967296
 }
+
+//go:noinline
 func sub_4294967296_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 4294967296 - a
 }
 
+//go:noinline
 func sub_uint64_18446744073709551615_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a - 18446744073709551615
 }
+
+//go:noinline
 func sub_18446744073709551615_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 18446744073709551615 - a
 }
 
+//go:noinline
 func div_0_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_uint64_1_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_uint64_4294967296_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a / 4294967296
 }
+
+//go:noinline
 func div_4294967296_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 4294967296 / a
 }
 
+//go:noinline
 func div_uint64_18446744073709551615_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a / 18446744073709551615
 }
+
+//go:noinline
 func div_18446744073709551615_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 18446744073709551615 / a
 }
 
+//go:noinline
 func mul_uint64_0_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_uint64_1_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_uint64_4294967296_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a * 4294967296
 }
+
+//go:noinline
 func mul_4294967296_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 4294967296 * a
 }
 
+//go:noinline
 func mul_uint64_18446744073709551615_ssa(a uint64) uint64 {
-	switch {
-	}
 	return a * 18446744073709551615
 }
+
+//go:noinline
 func mul_18446744073709551615_uint64_ssa(a uint64) uint64 {
-	switch {
-	}
 	return 18446744073709551615 * a
 }
 
+//go:noinline
+func lsh_uint64_0_ssa(a uint64) uint64 {
+	return a << 0
+}
+
+//go:noinline
+func lsh_0_uint64_ssa(a uint64) uint64 {
+	return 0 << a
+}
+
+//go:noinline
+func lsh_uint64_1_ssa(a uint64) uint64 {
+	return a << 1
+}
+
+//go:noinline
+func lsh_1_uint64_ssa(a uint64) uint64 {
+	return 1 << a
+}
+
+//go:noinline
+func lsh_uint64_4294967296_ssa(a uint64) uint64 {
+	return a << 4294967296
+}
+
+//go:noinline
+func lsh_4294967296_uint64_ssa(a uint64) uint64 {
+	return 4294967296 << a
+}
+
+//go:noinline
+func lsh_uint64_18446744073709551615_ssa(a uint64) uint64 {
+	return a << 18446744073709551615
+}
+
+//go:noinline
+func lsh_18446744073709551615_uint64_ssa(a uint64) uint64 {
+	return 18446744073709551615 << a
+}
+
+//go:noinline
+func rsh_uint64_0_ssa(a uint64) uint64 {
+	return a >> 0
+}
+
+//go:noinline
+func rsh_0_uint64_ssa(a uint64) uint64 {
+	return 0 >> a
+}
+
+//go:noinline
+func rsh_uint64_1_ssa(a uint64) uint64 {
+	return a >> 1
+}
+
+//go:noinline
+func rsh_1_uint64_ssa(a uint64) uint64 {
+	return 1 >> a
+}
+
+//go:noinline
+func rsh_uint64_4294967296_ssa(a uint64) uint64 {
+	return a >> 4294967296
+}
+
+//go:noinline
+func rsh_4294967296_uint64_ssa(a uint64) uint64 {
+	return 4294967296 >> a
+}
+
+//go:noinline
+func rsh_uint64_18446744073709551615_ssa(a uint64) uint64 {
+	return a >> 18446744073709551615
+}
+
+//go:noinline
+func rsh_18446744073709551615_uint64_ssa(a uint64) uint64 {
+	return 18446744073709551615 >> a
+}
+
+//go:noinline
 func add_int64_Neg9223372036854775808_ssa(a int64) int64 {
-	switch {
-	}
 	return a + -9223372036854775808
 }
+
+//go:noinline
 func add_Neg9223372036854775808_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775808 + a
 }
 
+//go:noinline
 func add_int64_Neg9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a + -9223372036854775807
 }
+
+//go:noinline
 func add_Neg9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775807 + a
 }
 
+//go:noinline
 func add_int64_Neg4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a + -4294967296
 }
+
+//go:noinline
 func add_Neg4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -4294967296 + a
 }
 
+//go:noinline
 func add_int64_Neg1_ssa(a int64) int64 {
-	switch {
-	}
 	return a + -1
 }
+
+//go:noinline
 func add_Neg1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -1 + a
 }
 
+//go:noinline
 func add_int64_0_ssa(a int64) int64 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_int64_1_ssa(a int64) int64 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_int64_4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a + 4294967296
 }
+
+//go:noinline
 func add_4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 4294967296 + a
 }
 
+//go:noinline
 func add_int64_9223372036854775806_ssa(a int64) int64 {
-	switch {
-	}
 	return a + 9223372036854775806
 }
+
+//go:noinline
 func add_9223372036854775806_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775806 + a
 }
 
+//go:noinline
 func add_int64_9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a + 9223372036854775807
 }
+
+//go:noinline
 func add_9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775807 + a
 }
 
+//go:noinline
 func sub_int64_Neg9223372036854775808_ssa(a int64) int64 {
-	switch {
-	}
 	return a - -9223372036854775808
 }
+
+//go:noinline
 func sub_Neg9223372036854775808_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775808 - a
 }
 
+//go:noinline
 func sub_int64_Neg9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a - -9223372036854775807
 }
+
+//go:noinline
 func sub_Neg9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775807 - a
 }
 
+//go:noinline
 func sub_int64_Neg4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a - -4294967296
 }
+
+//go:noinline
 func sub_Neg4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -4294967296 - a
 }
 
+//go:noinline
 func sub_int64_Neg1_ssa(a int64) int64 {
-	switch {
-	}
 	return a - -1
 }
+
+//go:noinline
 func sub_Neg1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -1 - a
 }
 
+//go:noinline
 func sub_int64_0_ssa(a int64) int64 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_int64_1_ssa(a int64) int64 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_int64_4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a - 4294967296
 }
+
+//go:noinline
 func sub_4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 4294967296 - a
 }
 
+//go:noinline
 func sub_int64_9223372036854775806_ssa(a int64) int64 {
-	switch {
-	}
 	return a - 9223372036854775806
 }
+
+//go:noinline
 func sub_9223372036854775806_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775806 - a
 }
 
+//go:noinline
 func sub_int64_9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a - 9223372036854775807
 }
+
+//go:noinline
 func sub_9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775807 - a
 }
 
+//go:noinline
 func div_int64_Neg9223372036854775808_ssa(a int64) int64 {
-	switch {
-	}
 	return a / -9223372036854775808
 }
+
+//go:noinline
 func div_Neg9223372036854775808_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775808 / a
 }
 
+//go:noinline
 func div_int64_Neg9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a / -9223372036854775807
 }
+
+//go:noinline
 func div_Neg9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775807 / a
 }
 
+//go:noinline
 func div_int64_Neg4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a / -4294967296
 }
+
+//go:noinline
 func div_Neg4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -4294967296 / a
 }
 
+//go:noinline
 func div_int64_Neg1_ssa(a int64) int64 {
-	switch {
-	}
 	return a / -1
 }
+
+//go:noinline
 func div_Neg1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -1 / a
 }
 
+//go:noinline
 func div_0_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_int64_1_ssa(a int64) int64 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_int64_4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a / 4294967296
 }
+
+//go:noinline
 func div_4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 4294967296 / a
 }
 
+//go:noinline
 func div_int64_9223372036854775806_ssa(a int64) int64 {
-	switch {
-	}
 	return a / 9223372036854775806
 }
+
+//go:noinline
 func div_9223372036854775806_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775806 / a
 }
 
+//go:noinline
 func div_int64_9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a / 9223372036854775807
 }
+
+//go:noinline
 func div_9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775807 / a
 }
 
+//go:noinline
 func mul_int64_Neg9223372036854775808_ssa(a int64) int64 {
-	switch {
-	}
 	return a * -9223372036854775808
 }
+
+//go:noinline
 func mul_Neg9223372036854775808_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775808 * a
 }
 
+//go:noinline
 func mul_int64_Neg9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a * -9223372036854775807
 }
+
+//go:noinline
 func mul_Neg9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -9223372036854775807 * a
 }
 
+//go:noinline
 func mul_int64_Neg4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a * -4294967296
 }
+
+//go:noinline
 func mul_Neg4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -4294967296 * a
 }
 
+//go:noinline
 func mul_int64_Neg1_ssa(a int64) int64 {
-	switch {
-	}
 	return a * -1
 }
+
+//go:noinline
 func mul_Neg1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return -1 * a
 }
 
+//go:noinline
 func mul_int64_0_ssa(a int64) int64 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_int64_1_ssa(a int64) int64 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_int64_4294967296_ssa(a int64) int64 {
-	switch {
-	}
 	return a * 4294967296
 }
+
+//go:noinline
 func mul_4294967296_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 4294967296 * a
 }
 
+//go:noinline
 func mul_int64_9223372036854775806_ssa(a int64) int64 {
-	switch {
-	}
 	return a * 9223372036854775806
 }
+
+//go:noinline
 func mul_9223372036854775806_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775806 * a
 }
 
+//go:noinline
 func mul_int64_9223372036854775807_ssa(a int64) int64 {
-	switch {
-	}
 	return a * 9223372036854775807
 }
+
+//go:noinline
 func mul_9223372036854775807_int64_ssa(a int64) int64 {
-	switch {
-	}
 	return 9223372036854775807 * a
 }
 
+//go:noinline
 func add_uint32_0_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_uint32_1_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_uint32_4294967295_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a + 4294967295
 }
+
+//go:noinline
 func add_4294967295_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 4294967295 + a
 }
 
+//go:noinline
 func sub_uint32_0_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_uint32_1_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_uint32_4294967295_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a - 4294967295
 }
+
+//go:noinline
 func sub_4294967295_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 4294967295 - a
 }
 
+//go:noinline
 func div_0_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_uint32_1_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_uint32_4294967295_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a / 4294967295
 }
+
+//go:noinline
 func div_4294967295_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 4294967295 / a
 }
 
+//go:noinline
 func mul_uint32_0_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_uint32_1_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_uint32_4294967295_ssa(a uint32) uint32 {
-	switch {
-	}
 	return a * 4294967295
 }
+
+//go:noinline
 func mul_4294967295_uint32_ssa(a uint32) uint32 {
-	switch {
-	}
 	return 4294967295 * a
 }
 
+//go:noinline
+func lsh_uint32_0_ssa(a uint32) uint32 {
+	return a << 0
+}
+
+//go:noinline
+func lsh_0_uint32_ssa(a uint32) uint32 {
+	return 0 << a
+}
+
+//go:noinline
+func lsh_uint32_1_ssa(a uint32) uint32 {
+	return a << 1
+}
+
+//go:noinline
+func lsh_1_uint32_ssa(a uint32) uint32 {
+	return 1 << a
+}
+
+//go:noinline
+func lsh_uint32_4294967295_ssa(a uint32) uint32 {
+	return a << 4294967295
+}
+
+//go:noinline
+func lsh_4294967295_uint32_ssa(a uint32) uint32 {
+	return 4294967295 << a
+}
+
+//go:noinline
+func rsh_uint32_0_ssa(a uint32) uint32 {
+	return a >> 0
+}
+
+//go:noinline
+func rsh_0_uint32_ssa(a uint32) uint32 {
+	return 0 >> a
+}
+
+//go:noinline
+func rsh_uint32_1_ssa(a uint32) uint32 {
+	return a >> 1
+}
+
+//go:noinline
+func rsh_1_uint32_ssa(a uint32) uint32 {
+	return 1 >> a
+}
+
+//go:noinline
+func rsh_uint32_4294967295_ssa(a uint32) uint32 {
+	return a >> 4294967295
+}
+
+//go:noinline
+func rsh_4294967295_uint32_ssa(a uint32) uint32 {
+	return 4294967295 >> a
+}
+
+//go:noinline
 func add_int32_Neg2147483648_ssa(a int32) int32 {
-	switch {
-	}
 	return a + -2147483648
 }
+
+//go:noinline
 func add_Neg2147483648_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483648 + a
 }
 
+//go:noinline
 func add_int32_Neg2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a + -2147483647
 }
+
+//go:noinline
 func add_Neg2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483647 + a
 }
 
+//go:noinline
 func add_int32_Neg1_ssa(a int32) int32 {
-	switch {
-	}
 	return a + -1
 }
+
+//go:noinline
 func add_Neg1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -1 + a
 }
 
+//go:noinline
 func add_int32_0_ssa(a int32) int32 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_int32_1_ssa(a int32) int32 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_int32_2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a + 2147483647
 }
+
+//go:noinline
 func add_2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 2147483647 + a
 }
 
+//go:noinline
 func sub_int32_Neg2147483648_ssa(a int32) int32 {
-	switch {
-	}
 	return a - -2147483648
 }
+
+//go:noinline
 func sub_Neg2147483648_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483648 - a
 }
 
+//go:noinline
 func sub_int32_Neg2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a - -2147483647
 }
+
+//go:noinline
 func sub_Neg2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483647 - a
 }
 
+//go:noinline
 func sub_int32_Neg1_ssa(a int32) int32 {
-	switch {
-	}
 	return a - -1
 }
+
+//go:noinline
 func sub_Neg1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -1 - a
 }
 
+//go:noinline
 func sub_int32_0_ssa(a int32) int32 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_int32_1_ssa(a int32) int32 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_int32_2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a - 2147483647
 }
+
+//go:noinline
 func sub_2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 2147483647 - a
 }
 
+//go:noinline
 func div_int32_Neg2147483648_ssa(a int32) int32 {
-	switch {
-	}
 	return a / -2147483648
 }
+
+//go:noinline
 func div_Neg2147483648_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483648 / a
 }
 
+//go:noinline
 func div_int32_Neg2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a / -2147483647
 }
+
+//go:noinline
 func div_Neg2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483647 / a
 }
 
+//go:noinline
 func div_int32_Neg1_ssa(a int32) int32 {
-	switch {
-	}
 	return a / -1
 }
+
+//go:noinline
 func div_Neg1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -1 / a
 }
 
+//go:noinline
 func div_0_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_int32_1_ssa(a int32) int32 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_int32_2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a / 2147483647
 }
+
+//go:noinline
 func div_2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 2147483647 / a
 }
 
+//go:noinline
 func mul_int32_Neg2147483648_ssa(a int32) int32 {
-	switch {
-	}
 	return a * -2147483648
 }
+
+//go:noinline
 func mul_Neg2147483648_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483648 * a
 }
 
+//go:noinline
 func mul_int32_Neg2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a * -2147483647
 }
+
+//go:noinline
 func mul_Neg2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -2147483647 * a
 }
 
+//go:noinline
 func mul_int32_Neg1_ssa(a int32) int32 {
-	switch {
-	}
 	return a * -1
 }
+
+//go:noinline
 func mul_Neg1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return -1 * a
 }
 
+//go:noinline
 func mul_int32_0_ssa(a int32) int32 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_int32_1_ssa(a int32) int32 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_int32_2147483647_ssa(a int32) int32 {
-	switch {
-	}
 	return a * 2147483647
 }
+
+//go:noinline
 func mul_2147483647_int32_ssa(a int32) int32 {
-	switch {
-	}
 	return 2147483647 * a
 }
 
+//go:noinline
 func add_uint16_0_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_uint16_1_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_uint16_65535_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a + 65535
 }
+
+//go:noinline
 func add_65535_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 65535 + a
 }
 
+//go:noinline
 func sub_uint16_0_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_uint16_1_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_uint16_65535_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a - 65535
 }
+
+//go:noinline
 func sub_65535_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 65535 - a
 }
 
+//go:noinline
 func div_0_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_uint16_1_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_uint16_65535_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a / 65535
 }
+
+//go:noinline
 func div_65535_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 65535 / a
 }
 
+//go:noinline
 func mul_uint16_0_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_uint16_1_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_uint16_65535_ssa(a uint16) uint16 {
-	switch {
-	}
 	return a * 65535
 }
+
+//go:noinline
 func mul_65535_uint16_ssa(a uint16) uint16 {
-	switch {
-	}
 	return 65535 * a
 }
 
+//go:noinline
+func lsh_uint16_0_ssa(a uint16) uint16 {
+	return a << 0
+}
+
+//go:noinline
+func lsh_0_uint16_ssa(a uint16) uint16 {
+	return 0 << a
+}
+
+//go:noinline
+func lsh_uint16_1_ssa(a uint16) uint16 {
+	return a << 1
+}
+
+//go:noinline
+func lsh_1_uint16_ssa(a uint16) uint16 {
+	return 1 << a
+}
+
+//go:noinline
+func lsh_uint16_65535_ssa(a uint16) uint16 {
+	return a << 65535
+}
+
+//go:noinline
+func lsh_65535_uint16_ssa(a uint16) uint16 {
+	return 65535 << a
+}
+
+//go:noinline
+func rsh_uint16_0_ssa(a uint16) uint16 {
+	return a >> 0
+}
+
+//go:noinline
+func rsh_0_uint16_ssa(a uint16) uint16 {
+	return 0 >> a
+}
+
+//go:noinline
+func rsh_uint16_1_ssa(a uint16) uint16 {
+	return a >> 1
+}
+
+//go:noinline
+func rsh_1_uint16_ssa(a uint16) uint16 {
+	return 1 >> a
+}
+
+//go:noinline
+func rsh_uint16_65535_ssa(a uint16) uint16 {
+	return a >> 65535
+}
+
+//go:noinline
+func rsh_65535_uint16_ssa(a uint16) uint16 {
+	return 65535 >> a
+}
+
+//go:noinline
 func add_int16_Neg32768_ssa(a int16) int16 {
-	switch {
-	}
 	return a + -32768
 }
+
+//go:noinline
 func add_Neg32768_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32768 + a
 }
 
+//go:noinline
 func add_int16_Neg32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a + -32767
 }
+
+//go:noinline
 func add_Neg32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32767 + a
 }
 
+//go:noinline
 func add_int16_Neg1_ssa(a int16) int16 {
-	switch {
-	}
 	return a + -1
 }
+
+//go:noinline
 func add_Neg1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -1 + a
 }
 
+//go:noinline
 func add_int16_0_ssa(a int16) int16 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_int16_1_ssa(a int16) int16 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_int16_32766_ssa(a int16) int16 {
-	switch {
-	}
 	return a + 32766
 }
+
+//go:noinline
 func add_32766_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32766 + a
 }
 
+//go:noinline
 func add_int16_32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a + 32767
 }
+
+//go:noinline
 func add_32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32767 + a
 }
 
+//go:noinline
 func sub_int16_Neg32768_ssa(a int16) int16 {
-	switch {
-	}
 	return a - -32768
 }
+
+//go:noinline
 func sub_Neg32768_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32768 - a
 }
 
+//go:noinline
 func sub_int16_Neg32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a - -32767
 }
+
+//go:noinline
 func sub_Neg32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32767 - a
 }
 
+//go:noinline
 func sub_int16_Neg1_ssa(a int16) int16 {
-	switch {
-	}
 	return a - -1
 }
+
+//go:noinline
 func sub_Neg1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -1 - a
 }
 
+//go:noinline
 func sub_int16_0_ssa(a int16) int16 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_int16_1_ssa(a int16) int16 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_int16_32766_ssa(a int16) int16 {
-	switch {
-	}
 	return a - 32766
 }
+
+//go:noinline
 func sub_32766_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32766 - a
 }
 
+//go:noinline
 func sub_int16_32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a - 32767
 }
+
+//go:noinline
 func sub_32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32767 - a
 }
 
+//go:noinline
 func div_int16_Neg32768_ssa(a int16) int16 {
-	switch {
-	}
 	return a / -32768
 }
+
+//go:noinline
 func div_Neg32768_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32768 / a
 }
 
+//go:noinline
 func div_int16_Neg32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a / -32767
 }
+
+//go:noinline
 func div_Neg32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32767 / a
 }
 
+//go:noinline
 func div_int16_Neg1_ssa(a int16) int16 {
-	switch {
-	}
 	return a / -1
 }
+
+//go:noinline
 func div_Neg1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -1 / a
 }
 
+//go:noinline
 func div_0_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_int16_1_ssa(a int16) int16 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_int16_32766_ssa(a int16) int16 {
-	switch {
-	}
 	return a / 32766
 }
+
+//go:noinline
 func div_32766_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32766 / a
 }
 
+//go:noinline
 func div_int16_32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a / 32767
 }
+
+//go:noinline
 func div_32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32767 / a
 }
 
+//go:noinline
 func mul_int16_Neg32768_ssa(a int16) int16 {
-	switch {
-	}
 	return a * -32768
 }
+
+//go:noinline
 func mul_Neg32768_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32768 * a
 }
 
+//go:noinline
 func mul_int16_Neg32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a * -32767
 }
+
+//go:noinline
 func mul_Neg32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -32767 * a
 }
 
+//go:noinline
 func mul_int16_Neg1_ssa(a int16) int16 {
-	switch {
-	}
 	return a * -1
 }
+
+//go:noinline
 func mul_Neg1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return -1 * a
 }
 
+//go:noinline
 func mul_int16_0_ssa(a int16) int16 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_int16_1_ssa(a int16) int16 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_int16_32766_ssa(a int16) int16 {
-	switch {
-	}
 	return a * 32766
 }
+
+//go:noinline
 func mul_32766_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32766 * a
 }
 
+//go:noinline
 func mul_int16_32767_ssa(a int16) int16 {
-	switch {
-	}
 	return a * 32767
 }
+
+//go:noinline
 func mul_32767_int16_ssa(a int16) int16 {
-	switch {
-	}
 	return 32767 * a
 }
 
+//go:noinline
 func add_uint8_0_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_uint8_1_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_uint8_255_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a + 255
 }
+
+//go:noinline
 func add_255_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 255 + a
 }
 
+//go:noinline
 func sub_uint8_0_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_uint8_1_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_uint8_255_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a - 255
 }
+
+//go:noinline
 func sub_255_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 255 - a
 }
 
+//go:noinline
 func div_0_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_uint8_1_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_uint8_255_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a / 255
 }
+
+//go:noinline
 func div_255_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 255 / a
 }
 
+//go:noinline
 func mul_uint8_0_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_uint8_1_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_uint8_255_ssa(a uint8) uint8 {
-	switch {
-	}
 	return a * 255
 }
+
+//go:noinline
 func mul_255_uint8_ssa(a uint8) uint8 {
-	switch {
-	}
 	return 255 * a
 }
 
+//go:noinline
+func lsh_uint8_0_ssa(a uint8) uint8 {
+	return a << 0
+}
+
+//go:noinline
+func lsh_0_uint8_ssa(a uint8) uint8 {
+	return 0 << a
+}
+
+//go:noinline
+func lsh_uint8_1_ssa(a uint8) uint8 {
+	return a << 1
+}
+
+//go:noinline
+func lsh_1_uint8_ssa(a uint8) uint8 {
+	return 1 << a
+}
+
+//go:noinline
+func lsh_uint8_255_ssa(a uint8) uint8 {
+	return a << 255
+}
+
+//go:noinline
+func lsh_255_uint8_ssa(a uint8) uint8 {
+	return 255 << a
+}
+
+//go:noinline
+func rsh_uint8_0_ssa(a uint8) uint8 {
+	return a >> 0
+}
+
+//go:noinline
+func rsh_0_uint8_ssa(a uint8) uint8 {
+	return 0 >> a
+}
+
+//go:noinline
+func rsh_uint8_1_ssa(a uint8) uint8 {
+	return a >> 1
+}
+
+//go:noinline
+func rsh_1_uint8_ssa(a uint8) uint8 {
+	return 1 >> a
+}
+
+//go:noinline
+func rsh_uint8_255_ssa(a uint8) uint8 {
+	return a >> 255
+}
+
+//go:noinline
+func rsh_255_uint8_ssa(a uint8) uint8 {
+	return 255 >> a
+}
+
+//go:noinline
 func add_int8_Neg128_ssa(a int8) int8 {
-	switch {
-	}
 	return a + -128
 }
+
+//go:noinline
 func add_Neg128_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -128 + a
 }
 
+//go:noinline
 func add_int8_Neg127_ssa(a int8) int8 {
-	switch {
-	}
 	return a + -127
 }
+
+//go:noinline
 func add_Neg127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -127 + a
 }
 
+//go:noinline
 func add_int8_Neg1_ssa(a int8) int8 {
-	switch {
-	}
 	return a + -1
 }
+
+//go:noinline
 func add_Neg1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -1 + a
 }
 
+//go:noinline
 func add_int8_0_ssa(a int8) int8 {
-	switch {
-	}
 	return a + 0
 }
+
+//go:noinline
 func add_0_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 0 + a
 }
 
+//go:noinline
 func add_int8_1_ssa(a int8) int8 {
-	switch {
-	}
 	return a + 1
 }
+
+//go:noinline
 func add_1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 1 + a
 }
 
+//go:noinline
 func add_int8_126_ssa(a int8) int8 {
-	switch {
-	}
 	return a + 126
 }
+
+//go:noinline
 func add_126_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 126 + a
 }
 
+//go:noinline
 func add_int8_127_ssa(a int8) int8 {
-	switch {
-	}
 	return a + 127
 }
+
+//go:noinline
 func add_127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 127 + a
 }
 
+//go:noinline
 func sub_int8_Neg128_ssa(a int8) int8 {
-	switch {
-	}
 	return a - -128
 }
+
+//go:noinline
 func sub_Neg128_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -128 - a
 }
 
+//go:noinline
 func sub_int8_Neg127_ssa(a int8) int8 {
-	switch {
-	}
 	return a - -127
 }
+
+//go:noinline
 func sub_Neg127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -127 - a
 }
 
+//go:noinline
 func sub_int8_Neg1_ssa(a int8) int8 {
-	switch {
-	}
 	return a - -1
 }
+
+//go:noinline
 func sub_Neg1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -1 - a
 }
 
+//go:noinline
 func sub_int8_0_ssa(a int8) int8 {
-	switch {
-	}
 	return a - 0
 }
+
+//go:noinline
 func sub_0_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 0 - a
 }
 
+//go:noinline
 func sub_int8_1_ssa(a int8) int8 {
-	switch {
-	}
 	return a - 1
 }
+
+//go:noinline
 func sub_1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 1 - a
 }
 
+//go:noinline
 func sub_int8_126_ssa(a int8) int8 {
-	switch {
-	}
 	return a - 126
 }
+
+//go:noinline
 func sub_126_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 126 - a
 }
 
+//go:noinline
 func sub_int8_127_ssa(a int8) int8 {
-	switch {
-	}
 	return a - 127
 }
+
+//go:noinline
 func sub_127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 127 - a
 }
 
+//go:noinline
 func div_int8_Neg128_ssa(a int8) int8 {
-	switch {
-	}
 	return a / -128
 }
+
+//go:noinline
 func div_Neg128_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -128 / a
 }
 
+//go:noinline
 func div_int8_Neg127_ssa(a int8) int8 {
-	switch {
-	}
 	return a / -127
 }
+
+//go:noinline
 func div_Neg127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -127 / a
 }
 
+//go:noinline
 func div_int8_Neg1_ssa(a int8) int8 {
-	switch {
-	}
 	return a / -1
 }
+
+//go:noinline
 func div_Neg1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -1 / a
 }
 
+//go:noinline
 func div_0_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 0 / a
 }
 
+//go:noinline
 func div_int8_1_ssa(a int8) int8 {
-	switch {
-	}
 	return a / 1
 }
+
+//go:noinline
 func div_1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 1 / a
 }
 
+//go:noinline
 func div_int8_126_ssa(a int8) int8 {
-	switch {
-	}
 	return a / 126
 }
+
+//go:noinline
 func div_126_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 126 / a
 }
 
+//go:noinline
 func div_int8_127_ssa(a int8) int8 {
-	switch {
-	}
 	return a / 127
 }
+
+//go:noinline
 func div_127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 127 / a
 }
 
+//go:noinline
 func mul_int8_Neg128_ssa(a int8) int8 {
-	switch {
-	}
 	return a * -128
 }
+
+//go:noinline
 func mul_Neg128_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -128 * a
 }
 
+//go:noinline
 func mul_int8_Neg127_ssa(a int8) int8 {
-	switch {
-	}
 	return a * -127
 }
+
+//go:noinline
 func mul_Neg127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -127 * a
 }
 
+//go:noinline
 func mul_int8_Neg1_ssa(a int8) int8 {
-	switch {
-	}
 	return a * -1
 }
+
+//go:noinline
 func mul_Neg1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return -1 * a
 }
 
+//go:noinline
 func mul_int8_0_ssa(a int8) int8 {
-	switch {
-	}
 	return a * 0
 }
+
+//go:noinline
 func mul_0_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 0 * a
 }
 
+//go:noinline
 func mul_int8_1_ssa(a int8) int8 {
-	switch {
-	}
 	return a * 1
 }
+
+//go:noinline
 func mul_1_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 1 * a
 }
 
+//go:noinline
 func mul_int8_126_ssa(a int8) int8 {
-	switch {
-	}
 	return a * 126
 }
+
+//go:noinline
 func mul_126_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 126 * a
 }
 
+//go:noinline
 func mul_int8_127_ssa(a int8) int8 {
-	switch {
-	}
 	return a * 127
 }
+
+//go:noinline
 func mul_127_int8_ssa(a int8) int8 {
-	switch {
-	}
 	return 127 * a
 }
 
@@ -3520,7 +3612,7 @@ func main() {
 	}
 
 	if got := div_1_uint8_ssa(255); got != 0 {
-		fmt.Printf("adiv_uint8 1/255 = %d, wanted 0\n", got)
+		fmt.Printf("div_uint8 1/255 = %d, wanted 0\n", got)
 		failed = true
 	}
 
@@ -3540,7 +3632,7 @@ func main() {
 	}
 
 	if got := div_uint8_255_ssa(1); got != 0 {
-		fmt.Printf("bdiv_uint8 1/255 = %d, wanted 0\n", got)
+		fmt.Printf("div_uint8 1/255 = %d, wanted 0\n", got)
 		failed = true
 	}
 
