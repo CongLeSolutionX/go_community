@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1cc087f_2898ef8c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3710,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-04T23:26:18Z",
+      "side": 1,
+      "message": "optional: s/op/asm/ to be consistent with the other change.",
+      "range": {
+        "startLine": 3710,
+        "startChar": 7,
+        "endLine": 3710,
+        "endChar": 9
+      },
+      "revId": "83796a8d56143863c49fd97044a07d5c1eb35277",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
