@@ -117,9 +117,30 @@ type mspan struct {
 	prev **mspan    // previous span's next field, or list head's first field if none
 	list *mSpanList // For debugging. TODO: Remove.
 
-	start    pageID    // starting page number
-	npages   uintptr   // number of pages in span
-	freelist gclinkptr // list of free objects
+	start         pageID    // starting page number
+	npages        uintptr   // number of pages in span
+	freelist      gclinkptr // list of free objects
+	stackfreelist gclinkptr // list of free stacks, avoids overloading freelist
+
+	// freeindex is an index between 0 and nelems into allocBits
+	// freeindex == nelems indicates this span has no free objects
+	// A bit indexed by freeindex corresponds to the object
+	// located at freeindex*elemsize + (start << pageSize)
+	// allocBits[n/8] & (1<<(n%8)) is 0 then object n is free.
+	// Otherwise, object n is allocated.
+	freeindex  uintptr
+	allocBits  *[maxObjsPerPage / 8]uint8
+	gcmarkBits *[maxObjsPerPage / 8]uint8
+	nelems     uintptr // number of object in the span.
+
+	// allocBits and gcmarkbits currently point to either markbits1
+	// or markbits2. At the end of a GC cycle allocBits and
+	// gcmarkBits swap roles simply by swapping pointers.
+	// This level of indirection also facilitates an implementation
+	// where markbits1 and markbits2 are not inlined in mspan.
+	markbits1 [maxObjsPerPage / 8]uint8 // A bit for each obj.
+	markbits2 [maxObjsPerPage / 8]uint8 // A bit for each obj.
+
 	// sweep generation:
 	// if sweepgen == h->sweepgen - 2, the span needs sweeping
 	// if sweepgen == h->sweepgen - 1, the span is currently being swept
