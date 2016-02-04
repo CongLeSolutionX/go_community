@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31d060e4_3b76c3dd",
+        "filename": "src/cmd/compile/internal/gc/testdata/arithConst_ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-04T13:32:53Z",
+      "side": 1,
+      "message": "Good catch, it was actually only calling the div test cases due to incorrect logic to avoid generating divide by zero cases.  Once I fixed that, the generated test took nearly 2 mins to compile, leading to the sparse tree change in checkFunc.",
+      "parentUuid": "b121b0e4_dd02a7e9",
+      "revId": "9c895396352f42beb1edc0c5ca92a7b33c468b9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b121b0e4_fda96bfa",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "31d060e4_a05042e1",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-04T13:32:53Z",
+      "side": 1,
+      "message": "I had convinced myself they weren\u0027t needed, but they are. Done.",
+      "parentUuid": "b121b0e4_fda96bfa",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "9c895396352f42beb1edc0c5ca92a7b33c468b9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b121b0e4_3d75c363",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2016-02-04T00:41:29Z",
       "side": 1,
       "message": "Smaller shifts here as well.",
+      "range": {
+        "startLine": 101,
+        "startChar": 1,
+        "endLine": 101,
+        "endChar": 10
+      },
+      "revId": "9c895396352f42beb1edc0c5ca92a7b33c468b9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d060e4_db6a1ff0",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-04T13:32:53Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b121b0e4_3d75c363",
       "range": {
         "startLine": 101,
         "startChar": 1,
