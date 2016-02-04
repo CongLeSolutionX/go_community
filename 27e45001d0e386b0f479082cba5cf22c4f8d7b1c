@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31d060e4_661352ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-02-04T22:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d060e4_7b20cb2b",
+      "revId": "27e45001d0e386b0f479082cba5cf22c4f8d7b1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d060e4_1bce67b3",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-04T20:22:13Z",
       "side": 1,
       "message": "I\u0027m not sure I know what this comment means. What\u0027s the sense of the bits (based on the -1 I assume 1 means allocated?)? What\u0027s the order of the bits? What about bits that don\u0027t correspond to objects? -1 isn\u0027t a valid uint8, so I assume you mean 0xff. Perhaps,\n\n// allocBits[n/8] \u0026 (1\u003c\u003c(n%8)) is 0 if object n is free.\n// Otherwise, object n is either allocated or past nelems.\n\nAlso, by convention it should go on the line before allocBits (nelems probably make sense to put in the group with start, etc. anyway).",
+      "revId": "27e45001d0e386b0f479082cba5cf22c4f8d7b1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d060e4_8618bec5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-02-04T22:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d060e4_1bce67b3",
       "revId": "27e45001d0e386b0f479082cba5cf22c4f8d7b1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "31d060e4_260d4a86",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-02-04T22:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d060e4_dbd77f42",
+      "revId": "27e45001d0e386b0f479082cba5cf22c4f8d7b1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d060e4_fbd4bb3f",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-04T20:22:13Z",
       "side": 1,
       "message": "Why are there two markbits?",
+      "revId": "27e45001d0e386b0f479082cba5cf22c4f8d7b1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d060e4_4612d6a5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-02-04T22:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d060e4_fbd4bb3f",
       "revId": "27e45001d0e386b0f479082cba5cf22c4f8d7b1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
