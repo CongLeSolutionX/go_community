@@ -170,20 +170,14 @@ func genRules(arch arch) {
 		fmt.Fprintln(w, "b := v.Block")
 		fmt.Fprintln(w, "_ = b")
 		for _, rule := range oprules[op] {
-			// Note: we use a hash to identify the rule so that its
-			// identity is invariant to adding/removing rules elsewhere
-			// in the rules file.  This is useful to squash spurious
-			// diffs that would occur if we used rule index.
-			rulehash := rule.hash()
-
 			match, cond, result := rule.parse()
 			fmt.Fprintf(w, "// match: %s\n", match)
 			fmt.Fprintf(w, "// cond: %s\n", cond)
 			fmt.Fprintf(w, "// result: %s\n", result)
 
-			fail := fmt.Sprintf("{\ngoto end%s\n}\n", rulehash)
+			fail := fmt.Sprintf("{\nbreak\n}\n")
 
-			fmt.Fprintf(w, "{\n")
+			fmt.Fprintf(w, "for {\n")
 			genMatch(w, arch, match, fail)
 
 			if cond != "" {
@@ -197,8 +191,6 @@ func genRules(arch arch) {
 			fmt.Fprintf(w, "return true\n")
 
 			fmt.Fprintf(w, "}\n")
-			fmt.Fprintf(w, "goto end%s\n", rulehash) // use label
-			fmt.Fprintf(w, "end%s:;\n", rulehash)
 		}
 		fmt.Fprintf(w, "return false\n")
 		fmt.Fprintf(w, "}\n")
