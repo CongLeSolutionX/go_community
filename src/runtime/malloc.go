@@ -97,6 +97,10 @@ const (
 	pageShift = _PageShift
 	pageSize  = _PageSize
 	pageMask  = _PageMask
+	// Spans using more than one page hold only a single object
+	// so maxObjsPerSpan is limited to the number that can
+	// fit into a single page.
+	maxObjsPerSpan = pageSize / 8
 
 	mSpanInUse = _MSpanInUse
 
