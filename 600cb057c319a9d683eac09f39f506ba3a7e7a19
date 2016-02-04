@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b121b0e4_32c68d75",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-04T16:09:52Z",
+      "side": 1,
+      "message": "Could you write these in hex?  It would be easier to see that it is the correct answer.",
+      "range": {
+        "startLine": 16,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "600cb057c319a9d683eac09f39f506ba3a7e7a19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
