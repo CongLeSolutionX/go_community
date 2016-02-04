@@ -98,6 +98,8 @@ const (
 	pageSize  = _PageSize
 	pageMask  = _PageMask
 
+	maxObjsPerPage = pageSize / 8
+
 	mSpanInUse = _MSpanInUse
 
 	concurrentSweep = _ConcurrentSweep
