@@ -12,17 +12,34 @@ import (
 )
 
 func init() {
-	implemented = false
+	userImplemented = false
+	groupImplemented = false
 }
 
 func current() (*User, error) {
 	return nil, fmt.Errorf("user: Current not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
 }
 
-func lookup(username string) (*User, error) {
+func lookupUser(username string) (*User, error) {
 	return nil, fmt.Errorf("user: Lookup not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
 }
 
-func lookupId(uid string) (*User, error) {
+func lookupUserId(uid string) (*User, error) {
 	return nil, fmt.Errorf("user: LookupId not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
+}
+
+func currentGroup() (*Group, error) {
+	return nil, fmt.Errorf("user: CurrentGroup not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
+}
+
+func lookupGroup(groupname string) (*Group, error) {
+	return nil, fmt.Errorf("user: LookupGroup not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
+}
+
+func lookupGroupId(string) (*Group, error) {
+	return nil, fmt.Errorf("user: LookupGroupId not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
+}
+
+func userInGroup(u *User, g *Group) (bool, error) {
+	return false, fmt.Errorf("user: User.In not implemented on %s/%s", runtime.GOOS, runtime.GOARCH)
 }

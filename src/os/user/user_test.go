@@ -9,14 +9,14 @@ import (
 	"testing"
 )
 
-func check(t *testing.T) {
-	if !implemented {
+func checkUser(t *testing.T) {
+	if !userImplemented {
 		t.Skip("user: not implemented; skipping tests")
 	}
 }
 
 func TestCurrent(t *testing.T) {
-	check(t)
+	checkUser(t)
 
 	u, err := Current()
 	if err != nil {
@@ -53,7 +53,7 @@ func compare(t *testing.T, want, got *User) {
 }
 
 func TestLookup(t *testing.T) {
-	check(t)
+	checkUser(t)
 
 	if runtime.GOOS == "plan9" {
 		t.Skipf("Lookup not implemented on %q", runtime.GOOS)
@@ -71,7 +71,7 @@ func TestLookup(t *testing.T) {
 }
 
 func TestLookupId(t *testing.T) {
-	check(t)
+	checkUser(t)
 
 	if runtime.GOOS == "plan9" {
 		t.Skipf("LookupId not implemented on %q", runtime.GOOS)
@@ -86,4 +86,37 @@ func TestLookupId(t *testing.T) {
 		t.Fatalf("LookupId: %v", err)
 	}
 	compare(t, want, got)
+}
+
+func compareGroup(t *testing.T, want, got *Group) {
+	if want.Gid != got.Gid {
+		t.Errorf("got Gid=%q; want %q", got.Gid, want.Gid)
+	}
+	if want.Name != got.Name {
+		t.Errorf("got Name=%q; want %q", got.Name, want.Name)
+	}
+}
+
+func TestLookupGroup(t *testing.T) {
+	if !groupImplemented {
+		t.Skip("user: group not implemented; skipping test")
+	}
+
+	// Test LookupGroupId on the current user
+	want, err := CurrentGroup()
+	if err != nil {
+		t.Fatalf("CurrentGroup: %v", err)
+	}
+	got, err := LookupGroupId(want.Gid)
+	if err != nil {
+		t.Fatalf("LookupGroupId: %v", err)
+	}
+	compareGroup(t, want, got)
+
+	// Test Lookup by groupname, using the groupname from LookupId
+	g, err := LookupGroup(got.Name)
+	if err != nil {
+		t.Fatalf("Lookup: %v", err)
+	}
+	compareGroup(t, got, g)
 }
