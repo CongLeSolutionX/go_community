@@ -109,7 +109,15 @@ func initSizes() {
 		print("sizeclass=", sizeclass, " NumSizeClasses=", _NumSizeClasses, "\n")
 		throw("InitSizes - bad NumSizeClasses")
 	}
-
+	// Check maxObjsPerSpan > number of objects invariant.
+	for i, size := range class_to_size {
+		if size != 0 && class_to_allocnpages[i]*pageSize/size > maxObjsPerSpan {
+			throw("InitSizes - span contains too many objects")
+		}
+		if size == 0 && i != 0 {
+			throw("InitSizes - size is 0 but class is not 0")
+		}
+	}
 	// Initialize the size_to_class tables.
 	nextsize := 0
 	for sizeclass = 1; sizeclass < _NumSizeClasses; sizeclass++ {
