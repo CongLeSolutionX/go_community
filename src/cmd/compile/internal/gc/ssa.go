@@ -2445,7 +2445,7 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 			// TODO: I'm not sure if this really works or we're just
 			// getting lucky.  We might need a real dependency edge
 			// between vardef and addr ops.
-			aux := &ssa.AutoSymbol{Typ: n.Type, Node: n}
+			aux := s.lookupSymbol(n, &ssa.AutoSymbol{Typ: n.Type, Node: n})
 			return s.newValue1A(ssa.OpAddr, t, aux, s.sp)
 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
 			// ensure that we reuse symbols for out parameters so
