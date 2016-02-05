@@ -29,8 +29,35 @@ type Func struct {
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
 
-	freeValues *Value // free Values linked by argstorage[0].  All other fields except ID are 0/nil.
-	freeBlocks *Block // free Blocks linked by succstorage[0].  All other fields except ID are 0/nil.
+	freeValues *Value     // free Values linked by argstorage[0].  All other fields except ID are 0/nil.
+	freeBlocks *Block     // free Blocks linked by succstorage[0].  All other fields except ID are 0/nil.
+	cidom      []*Block   // cached immediate dominators
+	csdom      sparseTree // cached sparseTree of dominators
+}
+
+// clearDom clears the cached immediate and sparse tree dominators
+// and should be called whenver the cfg changes.
+func (f *Func) clearDom() {
+	f.cidom = nil
+	f.csdom = nil
+}
+
+// idom returns a mapping of block ID to the immediate dominator
+// of that block.
+func (f *Func) idom() []*Block {
+	if f.cidom == nil {
+		f.cidom = dominators(f)
+	}
+	return f.cidom
+}
+
+// sdom returns a sparseTree of block dominators allowing quick
+// domination determination.
+func (f *Func) sdom() sparseTree {
+	if f.csdom == nil {
+		f.csdom = newSparseTree(f, f.idom())
+	}
+	return f.csdom
 }
 
 // NumBlocks returns an integer larger than the id of any Block in the Func.
@@ -123,6 +150,7 @@ func (f *Func) NewBlock(kind BlockKind) *Block {
 	b.Succs = b.succstorage[:0]
 	b.Values = b.valstorage[:0]
 	f.Blocks = append(f.Blocks, b)
+	f.clearDom()
 	return b
 }
 
@@ -136,6 +164,7 @@ func (f *Func) freeBlock(b *Block) {
 	b.ID = id
 	b.succstorage[0] = f.freeBlocks
 	f.freeBlocks = b
+	f.clearDom()
 }
 
 // NewValue0 returns a new value in the block with no arguments and zero aux values.

@@ -140,8 +140,7 @@ func cse(f *Func) {
 	}
 
 	// Compute dominator tree
-	idom := dominators(f)
-	sdom := newSparseTree(f, idom)
+	sdom := f.sdom()
 
 	// Compute substitutions we would like to do.  We substitute v for w
 	// if v and w are in the same equivalence class and v dominates w.
