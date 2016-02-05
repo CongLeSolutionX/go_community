@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1340868_e23b4615",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-05T10:20:46Z",
+      "side": 1,
+      "message": "s/The/For/?",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "107a6ef41f3518aba8d791cdb11bb5e63a2e16b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
