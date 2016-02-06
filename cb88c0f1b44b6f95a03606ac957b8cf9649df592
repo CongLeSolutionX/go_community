@@ -22,6 +22,30 @@
       "revId": "cb88c0f1b44b6f95a03606ac957b8cf9649df592",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5174f47a_585101e4",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2444,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-06T03:55:59Z",
+      "side": 1,
+      "message": "I don\u0027t remember ever dealing with it.  It\u0027s entirely possible that it fixed itself due to some other change (LEA folding into stores?) but it looks ominous to me also.\nIf the change passes all.bash it\u0027s probably ok to keep it, but I\u0027d like to understand why it now works.",
+      "parentUuid": "31214087_2436f222",
+      "range": {
+        "startLine": 2440,
+        "startChar": 6,
+        "endLine": 2444,
+        "endChar": 45
+      },
+      "revId": "cb88c0f1b44b6f95a03606ac957b8cf9649df592",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
