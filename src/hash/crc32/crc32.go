@@ -45,10 +45,12 @@ type Table [256]uint32
 // Castagnoli table so we can compare against it to find when the caller is
 // using this polynomial.
 var castagnoliTable *Table
+var castagnoliTable8 *slicing8Table
 var castagnoliOnce sync.Once
 
 func castagnoliInit() {
 	castagnoliTable = makeTable(Castagnoli)
+	castagnoliTable8 = makeTable8(Castagnoli)
 }
 
 // IEEETable is the table for the IEEE polynomial.
@@ -146,6 +148,9 @@ func updateSlicingBy8(crc uint32, tab *slicing8Table, p []byte) uint32 {
 		p = p[8:]
 	}
 	crc = ^crc
+	if len(p) == 0 {
+		return crc
+	}
 	return update(crc, &tab[0], p)
 }
 
@@ -178,4 +183,4 @@ func Checksum(data []byte, tab *Table) uint32 { return Update(0, tab, data) }
 
 // ChecksumIEEE returns the CRC-32 checksum of data
 // using the IEEE polynomial.
-func ChecksumIEEE(data []byte) uint32 { return Update(0, IEEETable, data) }
+func ChecksumIEEE(data []byte) uint32 { return updateIEEE(0, data) }
