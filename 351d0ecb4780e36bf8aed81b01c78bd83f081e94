@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3148604f_ac7803a2",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-08T22:57:59Z",
+      "side": 1,
+      "message": "It\u0027s not just \"0.0\", but zero values?",
+      "range": {
+        "startLine": 1174,
+        "startChar": 36,
+        "endLine": 1174,
+        "endChar": 41
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d2af47a_ce580362",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-08T22:57:59Z",
+      "side": 1,
+      "message": "This doesn\u0027t mention unitless.  Also, it has only one of the two micro runes, and that may confuse if trying to understand why the other is accepted.",
+      "range": {
+        "startLine": 1189,
+        "startChar": 0,
+        "endLine": 1189,
+        "endChar": 66
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d2af47a_ae55b727",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-08T22:57:59Z",
+      "side": 1,
+      "message": "Comment\u0027s regexp is out of date.",
+      "range": {
+        "startLine": 1191,
+        "startChar": 0,
+        "endLine": 1191,
+        "endChar": 35
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d2af47a_8e52fb3b",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-08T22:57:59Z",
+      "side": 1,
+      "message": "Undocumented special case.",
+      "range": {
+        "startLine": 1204,
+        "startChar": 0,
+        "endLine": 1204,
+        "endChar": 59
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d0ec829_d7589c61",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-08T22:57:59Z",
+      "side": 1,
+      "message": "// Consume optional unit.",
+      "range": {
+        "startLine": 1250,
+        "startChar": 0,
+        "endLine": 1250,
+        "endChar": 18
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
