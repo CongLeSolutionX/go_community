@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5174f47a_7b4eb746",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-08T18:30:27Z",
+      "side": 1,
+      "message": "I think long-term we want debug flags per pass.  We can keep them all in a Config and parse the a flag \"-ssadebug cse,regalloc\" when the Config is built.  For another CL.",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 10
+      },
+      "revId": "5b7494eca6de7dd9ad71b95859a39b657ebd0221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5174f47a_db5c2b02",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-08T18:30:27Z",
+      "side": 1,
+      "message": "Partitioning on Aux is ok, we just need to sort by it if we partition by it.",
+      "range": {
+        "startLine": 210,
+        "startChar": 6,
+        "endLine": 210,
+        "endChar": 50
+      },
+      "revId": "5b7494eca6de7dd9ad71b95859a39b657ebd0221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5174f47a_1b5783dc",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-08T18:30:27Z",
+      "side": 1,
+      "message": "We could sort by the Aux fields as we do below (using IDs from the auxIDs map).",
+      "revId": "5b7494eca6de7dd9ad71b95859a39b657ebd0221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
