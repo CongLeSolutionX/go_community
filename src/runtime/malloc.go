@@ -496,6 +496,49 @@ const (
 	_FlagNoZero = 1 << 1 // don't zero memory
 )
 
+// nextFree returns the next free object from the cached span if one is available.
+// Otherwise it refills the cache with a span with an available object and
+// returns that object along with a flag indicating that this was a heavy
+// weight allocation. If it is a heavy weight allocation the caller must
+// determine whether a new GC cycle needs to be started or if the GC is active
+// whether this goroutine needs to assist the GC.
+// https://golang.org/cl/5350 motivates why this routine should preform a
+// prefetch.
+func (c *mcache) nextFree(sizeclass int8) (v gclinkptr, shouldhelpgc bool) {
+	s := c.alloc[sizeclass]
+	shouldhelpgc = false
+	freeIndex := s.nextFreeIndex(s.freeindex)
+
+	if freeIndex == s.nelems {
+		// The span is full.
+		if uintptr(s.ref) != s.nelems {
+			throw("s.ref != s.nelems && freeIndex == s.nelems")
+		}
+		systemstack(func() {
+			c.refill(int32(sizeclass))
+		})
+		shouldhelpgc = true
+		s = c.alloc[sizeclass]
+		freeIndex = s.nextFreeIndex(s.freeindex)
+	}
+	if freeIndex >= s.nelems {
+		throw("freeIndex is not valid")
+	}
+
+	v = gclinkptr(freeIndex*s.elemsize + s.base())
+	// eagerly advance the freeIndex
+	s.freeindex = s.nextFreeIndex(freeIndex + 1)
+	// Doing a prefetch of the next object here buys us nothing.
+	// malloc will clear the next object without having to read it
+	// and any latency should be hidden by the store buffers.
+
+	s.ref++
+	if uintptr(s.ref) > s.nelems {
+		throw("s.ref > s.nelems")
+	}
+	return
+}
+
 // Allocate an object of size bytes.
 // Small objects are allocated from the per-P cache's free lists.
 // Large objects (> 32 kB) are allocated straight from the heap.
@@ -554,7 +597,6 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 	shouldhelpgc := false
 	dataSize := size
 	c := gomcache()
-	var s *mspan
 	var x unsafe.Pointer
 	if size <= maxSmallSize {
 		if flags&flagNoScan != 0 && size < maxTinySize {
@@ -606,20 +648,8 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 				return x
 			}
 			// Allocate a new maxTinySize block.
-			s = c.alloc[tinySizeClass]
-			v := s.freelist
-			if v.ptr() == nil {
-				systemstack(func() {
-					c.refill(tinySizeClass)
-				})
-				shouldhelpgc = true
-				s = c.alloc[tinySizeClass]
-				v = s.freelist
-			}
-			s.freelist = v.ptr().next
-			s.ref++
-			// prefetchnta offers best performance, see change list message.
-			prefetchnta(uintptr(v.ptr().next))
+			var v gclinkptr
+			v, shouldhelpgc = c.nextFree(tinySizeClass)
 			x = unsafe.Pointer(v)
 			(*[2]uint64)(x)[0] = 0
 			(*[2]uint64)(x)[1] = 0
@@ -638,26 +668,12 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 				sizeclass = size_to_class128[(size-1024+127)>>7]
 			}
 			size = uintptr(class_to_size[sizeclass])
-			s = c.alloc[sizeclass]
-			v := s.freelist
-			if v.ptr() == nil {
-				systemstack(func() {
-					c.refill(int32(sizeclass))
-				})
-				shouldhelpgc = true
-				s = c.alloc[sizeclass]
-				v = s.freelist
-			}
-			s.freelist = v.ptr().next
-			s.ref++
-			// prefetchnta offers best performance, see change list message.
-			prefetchnta(uintptr(v.ptr().next))
+			var v gclinkptr
+			v, shouldhelpgc = c.nextFree(sizeclass)
 			x = unsafe.Pointer(v)
 			if flags&flagNoZero == 0 {
-				v.ptr().next = 0
-				if size > 2*sys.PtrSize && ((*[2]uintptr)(x))[1] != 0 {
-					memclr(unsafe.Pointer(v), size)
-				}
+				//RLHXXX				v.ptr().next = 0
+				memclr(unsafe.Pointer(v), size)
 			}
 		}
 	} else {
@@ -666,12 +682,13 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		systemstack(func() {
 			s = largeAlloc(size, flags)
 		})
+		s.freeindex = 1
 		x = unsafe.Pointer(uintptr(s.start << pageShift))
 		size = s.elemsize
 	}
 
 	if flags&flagNoScan != 0 {
-		// All objects are pre-marked as noscan. Nothing to do.
+		heapBitsSetTypeNoScan(uintptr(x), size)
 	} else {
 		// If allocating a defer+arg block, now that we've picked a malloc size
 		// large enough to hold everything, cut the "asked for" size down to
@@ -771,7 +788,7 @@ func largeAlloc(size uintptr, flag uint32) *mspan {
 		throw("out of memory")
 	}
 	s.limit = uintptr(s.start)<<_PageShift + size
-	heapBitsForSpan(s.base()).initSpan(s.layout())
+	heapBitsForSpan(s.base()).initSpan(s)
 	return s
 }
 
