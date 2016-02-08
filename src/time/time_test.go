@@ -822,6 +822,10 @@ var parseDurationTests = []struct {
 	{"14s", true, 14 * Second},
 	{"15m", true, 15 * Minute},
 	{"16h", true, 16 * Hour},
+	// other zeros
+	{"0.0", true, 0},
+	{"00", true, 0},
+	{"1ns0.0", true, 1},
 	// composite durations
 	{"3h30m", true, 3*Hour + 30*Minute},
 	{"10.5s4m", true, 4*Minute + 10*Second + 500*Millisecond},

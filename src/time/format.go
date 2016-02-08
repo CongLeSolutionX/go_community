@@ -1171,6 +1171,7 @@ func leadingInt(s string) (x int64, rem string, err error) {
 }
 
 var unitMap = map[string]int64{
+	"":   int64(1), // Lack of suffix allowed for numeric values of zero
 	"ns": int64(Nanosecond),
 	"us": int64(Microsecond),
 	"µs": int64(Microsecond), // U+00B5 = micro symbol
@@ -1187,7 +1188,7 @@ var unitMap = map[string]int64{
 // such as "300ms", "-1.5h" or "2h45m".
 // Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
 func ParseDuration(s string) (Duration, error) {
-	// [-+]?([0-9]*(\.[0-9]*)?[a-z]+)+
+	// [-+]?([0-9]*(\.[0-9]*)?[a-z]+)+0*(0\.|\.0)?0*
 	orig := s
 	var d int64
 	neg := false
@@ -1200,7 +1201,7 @@ func ParseDuration(s string) (Duration, error) {
 			s = s[1:]
 		}
 	}
-	// Special case: if all that is left is "0", this is zero.
+	// Short circuit common case: if all that is left is "0", this is zero.
 	if s == "0" {
 		return 0, nil
 	}
@@ -1254,7 +1255,7 @@ func ParseDuration(s string) (Duration, error) {
 				break
 			}
 		}
-		if i == 0 {
+		if i == 0 && (v != 0 || f != 0) {
 			return 0, errors.New("time: missing unit in duration " + orig)
 		}
 		u := s[:i]
