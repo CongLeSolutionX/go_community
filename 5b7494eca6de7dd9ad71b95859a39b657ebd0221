@@ -62,6 +62,24 @@
       "revId": "5b7494eca6de7dd9ad71b95859a39b657ebd0221",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31214087_0750185a",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-02-08T18:33:33Z",
+      "side": 1,
+      "message": "You want that done now, or should I just submit and we\u0027ll go around again?",
+      "parentUuid": "5174f47a_1b5783dc",
+      "revId": "5b7494eca6de7dd9ad71b95859a39b657ebd0221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
