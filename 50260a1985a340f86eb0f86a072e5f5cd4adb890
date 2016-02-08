@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d44b487_7ee9f19f",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-08T21:56:45Z",
+      "side": 1,
+      "message": "It\u0027s not really \"now\".  Actually I think it\u0027s always zero; at least, I don\u0027t see any code that either sets the seq field or uses the seq argument.  But this change is clearly an improvement so lets go with it for now.",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "50260a1985a340f86eb0f86a072e5f5cd4adb890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
