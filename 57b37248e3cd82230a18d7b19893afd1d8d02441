@@ -19,6 +19,91 @@
     },
     {
       "key": {
+        "uuid": "fd977c52_2c3ad3b0",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2016-02-09T15:12:02Z",
+      "side": 1,
+      "message": "Why BYTE?\nI see in e. g. hash/crc32/crc32_amd64.s that we support CRC32 instruction in asm.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd977c52_ac4c0343",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2016-02-09T15:12:02Z",
+      "side": 1,
+      "message": "Add comment about meaning of 0x18?\nPCMPESTRI flags are somewhat difficult to understand.\nAlso have you tested PCMPESTRI vs PCMPEQB + PTEST?\nPCMPESTRI itself is slower than PCMPEQ",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd977c52_cc494f32",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2016-02-09T15:12:02Z",
+      "side": 1,
+      "message": "Intel optimization manual suggests TEST R12,R12",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd977c52_8c4f4737",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2016-02-09T15:12:02Z",
+      "side": 1,
+      "message": "MOVL will avoid partial register update",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd977c52_6c5bfbfe",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2016-02-09T15:12:02Z",
+      "side": 1,
+      "message": "When flags are used SUBQ $1 is better according to optimization manual:\nUse CMP/ADD/SUB instructions to \ncompute branch conditions instead of INC/DEC instructions whenever possible",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_a1a7d8d0",
         "filename": "src/compress/flate/asm_noasm.go",
         "patchSetId": 2
