@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_58db3d97",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "It depends on the match lengths. PCMPESTRI is fastest on longer matches, and it gives the first mismatch position, without having to BSR a mask and do additional transfer.\n\nI will leave it to a future optimization to see if there alternatives.\n\nThat said, I changed the \"end-of-buffer\" matching to be a simpler \"REP; CMPSB\".",
+      "parentUuid": "fd977c52_ac4c0343",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd977c52_cc494f32",
         "filename": "src/compress/flate/asm_amd64.s",
         "patchSetId": 2
@@ -82,6 +100,24 @@
       "writtenOn": "2016-02-09T15:12:02Z",
       "side": 1,
       "message": "Intel optimization manual suggests TEST R12,R12",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_7892c1d2",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd977c52_cc494f32",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_b89379d2",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "We tried various combinations, and to our surprise this was the fastest combination. Variations were very small though.",
+      "parentUuid": "fd977c52_8c4f4737",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd977c52_6c5bfbfe",
         "filename": "src/compress/flate/asm_amd64.s",
         "patchSetId": 2
@@ -116,6 +170,24 @@
       "writtenOn": "2016-02-09T15:12:02Z",
       "side": 1,
       "message": "When flags are used SUBQ $1 is better according to optimization manual:\nUse CMP/ADD/SUB instructions to \ncompute branch conditions instead of INC/DEC instructions whenever possible",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_f89df1de",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd977c52_6c5bfbfe",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -139,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "3de034e0_fef9616e",
+        "filename": "src/compress/flate/asm_noasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_a1a7d8d0",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_41e534f5",
         "filename": "src/compress/flate/asm_noasm.go",
         "patchSetId": 2
@@ -156,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_d8ce6dd1",
+        "filename": "src/compress/flate/asm_noasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "I will give it a try, and update if it helps.",
+      "parentUuid": "3d44b487_41e534f5",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_61ee70aa",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 2
@@ -167,6 +275,24 @@
       "writtenOn": "2016-02-09T01:00:41Z",
       "side": 1,
       "message": "Is this method only for the \"linear time compression\" support? Or is this also used in other general compression optimizations you have planned?\n\nIf it\u0027s for \"linear time compression\", I think there should be some discussion if that should be in the standard library.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_98fa3524",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "It will also used for lower compression levels, when only a few bytes have been matched.",
+      "parentUuid": "3d44b487_61ee70aa",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -207,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_f80171e7",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Doesn\u0027t that also affect the existing code? I see line 435 above has similar code, which I would prefer we fix separately.",
+      "parentUuid": "3d44b487_81b73cb6",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_a116b869",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 2
@@ -218,6 +362,24 @@
       "writtenOn": "2016-02-09T01:00:41Z",
       "side": 1,
       "message": "Maybe fold this variable in the logic below? It doesn\u0027t seem to be ever mutated.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_d81bcd51",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "It is used later. I have moved it closer to where it is used.",
+      "parentUuid": "3d44b487_a116b869",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -241,6 +403,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_183545c0",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Great - hadn\u0027t seen that one!",
+      "parentUuid": "3d44b487_01fa0c8b",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_612f9085",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 2
@@ -252,6 +432,24 @@
       "writtenOn": "2016-02-09T01:00:41Z",
       "side": 1,
       "message": "s/dynamicHeader/headerSize/",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_18838587",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_612f9085",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -275,6 +473,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_f846d11e",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_81f1fc4b",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_610dd017",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 2
@@ -286,6 +502,24 @@
       "writtenOn": "2016-02-09T01:00:41Z",
       "side": 1,
       "message": "Maybe add a comment that this includes the EOB marker.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_388849a1",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_610dd017",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -309,6 +543,24 @@
     },
     {
       "key": {
+        "uuid": "7daf0c90_984f9537",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_8108dc09",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_c1214487",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 2
@@ -326,6 +578,24 @@
     },
     {
       "key": {
+        "uuid": "9d9da072_117b6c9e",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_c1214487",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d44b487_011ccc49",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 2
@@ -337,6 +607,24 @@
       "writtenOn": "2016-02-09T01:00:41Z",
       "side": 1,
       "message": "This is obvious by the endBlockMarker constant :)",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_588dfdaf",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-09T16:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d44b487_011ccc49",
       "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
