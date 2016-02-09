@@ -195,7 +195,7 @@ func (c *mcentral) freeSpan(s *mspan, n int32, start gclinkptr, end gclinkptr, p
 	s.needzero = 1
 	s.freelist = 0
 	unlock(&c.lock)
-	heapBitsForSpan(s.base()).initSpan(s.layout())
+	heapBitsForSpan(s.base()).initSpan(s)
 	mheap_.freeSpan(s, 0)
 	return true
 }
@@ -226,6 +226,6 @@ func (c *mcentral) grow() *mspan {
 	}
 	tail.ptr().next = 0
 	s.freelist = head
-	heapBitsForSpan(s.base()).initSpan(s.layout())
+	heapBitsForSpan(s.base()).initSpan(s)
 	return s
 }
