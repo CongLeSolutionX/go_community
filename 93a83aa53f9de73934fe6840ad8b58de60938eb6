@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da7f0d2_5dee7b17",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-02-09T19:55:37Z",
+      "side": 1,
+      "message": "Should this be maxObjsPerSpan? The current name implies that a span with N pages could hold up to N*maxObjsPerPage objects, but in reality this is the maximum objects for a span, regardless of how big the span is.",
+      "revId": "93a83aa53f9de73934fe6840ad8b58de60938eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_fd230741",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-02-09T19:55:37Z",
+      "side": 1,
+      "message": "s/pageSize/pageShift/\n\nIn what sense is it an index into allocBits? It seems rather like freeindex and allocBits both refer to object indexes. Also, you never actually said what freeindex is. Is it the index of the first free object in this span? Perhaps,\n\n// freeindex is the index between 0 and nelems of\n// the first free object in this span.\n// If freeindex \u003d\u003d nelem, this span has no free objects.\n//\n// allocBits is a bitmap of free objects in this span.\n// If allocBits[n/8] \u0026 (1\u003c\u003c(n%8)) is 0 then object n is free;\n// otherwise, object n is allocated. Bits beyond nelem are XXX.\n// freeindex refers to the index of the first 0 bit in allocBits.\n//\n// Object n starts at n*elemsize + (start \u003c\u003c pageShift).",
+      "revId": "93a83aa53f9de73934fe6840ad8b58de60938eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_3dfbafd9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-02-09T19:55:37Z",
+      "side": 1,
+      "message": "Is there supposed to be an \"If\" at the beginning of this comment line?",
+      "revId": "93a83aa53f9de73934fe6840ad8b58de60938eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_1d0fd3bd",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-02-09T19:55:37Z",
+      "side": 1,
+      "message": "s/gcmarkbits/gcmarkBits/",
+      "revId": "93a83aa53f9de73934fe6840ad8b58de60938eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
