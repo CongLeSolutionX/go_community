@@ -276,7 +276,7 @@ func (s *mspan) sweep(preserve bool) bool {
 			if preserve {
 				throw("can't preserve large span")
 			}
-			heapBitsForSpan(p).initSpan(s.layout())
+			heapBitsForSpan(p).initSpan(s)
 			s.needzero = 1
 
 			// Free the span after heapBitsSweepSpan

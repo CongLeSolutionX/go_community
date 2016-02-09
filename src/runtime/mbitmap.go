@@ -94,6 +94,8 @@ func addb(p *byte, n uintptr) *byte {
 }
 
 // subtractb returns the byte pointer p-n.
+// subtractb is typically used when traversing the pointer tables referred to by hbits
+// which are arranged in reverse order.
 //go:nowritebarrier
 func subtractb(p *byte, n uintptr) *byte {
 	// Note: wrote out full expression instead of calling add(p, -n)
@@ -112,6 +114,8 @@ func add1(p *byte) *byte {
 }
 
 // subtract1 returns the byte pointer p-1.
+// subtract1 is typically used when traversing the pointer tables referred to by hbits
+// which are arranged in reverse order.
 //go:nowritebarrier
 //
 // nosplit because it is used during write barriers and must not be preempted.
@@ -158,6 +162,237 @@ type heapBits struct {
 	shift uint32
 }
 
+// markBits provide access to the mark bit for an object in the heap.
+// bytep pointers to the byte holding the mark bit
+// mask is a byte with a single bit set that can be &ed with *bytep
+// to see if the bit has been set.
+// *m.byte&m.mask != 0 indicates the mark bit is set.
+// index can be used along with span information to generate
+// the address of the object in the heap.
+// We maintain one set of mark bits for allocation and one for
+// marking purposes.
+type markBits struct {
+	bytep *uint8
+	mask  uint8
+	index uintptr
+}
+
+//go:nosplit
+func spanForAddr(p uintptr) *mspan {
+	arenaStart := mheap_.arena_start
+	if p < arenaStart || p >= mheap_.arena_used {
+		throw("pointer not into heap")
+	}
+	off := p - arenaStart
+	idx := off >> _PageShift
+	// p points into the heap, but possibly to the middle of an object.
+	// Consult the span table to find the object's beginning.
+	return h_spans[idx]
+}
+
+//go:nosplit
+func allocBitsForAddr(p uintptr) markBits {
+	s := spanForAddr(p)
+	return s.allocBitsForAddrInSpan(p)
+}
+
+//go:nosplit
+func (s *mspan) allocBitsForAddrInSpan(p uintptr) markBits {
+	const bitsPerByte = 8
+	byteOffset := p - s.base()
+	allocBitIndex := byteOffset / s.elemsize
+	whichByte := allocBitIndex / bitsPerByte
+	whichBit := allocBitIndex % bitsPerByte
+	return markBits{&s.allocBits[whichByte], uint8(1 << whichBit), allocBitIndex}
+}
+
+//go:nosplit
+func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
+	const bitsPerByte = 8
+	whichByte := allocBitIndex / bitsPerByte
+	whichBit := allocBitIndex % bitsPerByte
+	return markBits{&s.allocBits[whichByte], uint8(1 << whichBit), allocBitIndex}
+}
+
+// Returns the index of the next unset mark bit or s.nelems if
+// there are none. Does not update the span s in any way.
+// There are hardware instructions that can be used to make this
+// faster if profiling warrants it.
+func (s *mspan) nextFreeIndex(index uintptr) (freeIndex uintptr) {
+	const bitsPerByte = 8
+	var mask uint8
+	if index >= s.nelems {
+		freeIndex = s.nelems
+		return
+	}
+
+	whichByte := index / bitsPerByte
+	theByte := s.allocBits[whichByte]
+	// Optimize for the first byte holding a free object.
+	if theByte != 0xff {
+		mask = 1 << (index & (bitsPerByte - 1)) // 1 << (index % 8)
+		freeIndex = index
+		for freeIndex < s.nelems {
+			if mask&theByte == 0 {
+				return
+			}
+			if mask == 1<<7 {
+				break
+			}
+			mask = mask << 1
+			freeIndex++
+		}
+	}
+	maxByteIndex := (s.nelems - 1) / bitsPerByte
+	theByte = 0xff // Free bit not found in this byte above so set to 0xff.
+	// If there was a 0 bit before incoming index then the byte would not be 0xff.
+	for theByte == 0xff {
+		whichByte++
+		if whichByte > maxByteIndex {
+			freeIndex = s.nelems
+			//			println ("215 did not find freeIndex")
+			return
+		}
+		if uintptr(len(s.allocBits)) <= whichByte {
+			throw("whichByte > len(s.allocBits")
+		}
+		theByte = s.allocBits[whichByte]
+	}
+	freeIndex = whichByte * bitsPerByte
+	mask = uint8(1)
+
+	for freeIndex < s.nelems {
+		if mask&theByte == 0 {
+			return
+		}
+		if mask == 1<<7 {
+			break
+		}
+		mask = mask << 1
+		freeIndex++
+	}
+	freeIndex = s.nelems
+	return
+}
+
+func (s *mspan) isFree(index uintptr) bool {
+	const bitsPerByte = 8
+	whichByte := index / bitsPerByte
+	whichBit := index % bitsPerByte
+	return s.allocBits[whichByte]&uint8(1<<whichBit) == 0
+}
+
+func markBitsForAddr(p uintptr) markBits {
+	const bitsPerByte = 8
+	arenaStart := mheap_.arena_start
+	if p < arenaStart || p >= mheap_.arena_used {
+		throw("pointer not in heap")
+	}
+	off := p - arenaStart
+	idx := off >> _PageShift
+	// p points into the heap, but possibly to the middle of an object.
+	// Consult the span table to find the block beginning.
+	s := h_spans[idx]
+	return s.markBitsForAddrInSpan(p)
+}
+
+func (s *mspan) markBitsForAddrInSpan(p uintptr) markBits {
+	byteOffset := p - s.base()
+	markBitIndex := byteOffset / s.elemsize // TODO if hot spot use fancy divide....
+	return s.markBitsForIndexInSpan(markBitIndex)
+}
+
+func (s *mspan) markBitsForIndexInSpan(markBitIndex uintptr) markBits {
+	const bitsPerByte = 8
+	whichByte := markBitIndex / bitsPerByte
+	whichBit := markBitIndex % bitsPerByte
+	return markBits{&s.gcmarkBits[whichByte], uint8(1 << whichBit), markBitIndex}
+}
+
+// isMarked reports whether the heap bits have the marked bit set.
+func (m markBits) isMarked() bool {
+	return *m.bytep&m.mask != 0
+}
+
+// setMarked sets the marked bit in the markbits, atomically.
+func (m markBits) setMarked() {
+	// Each byte of GC bitmap holds info for four words.
+	// Might be racing with other updates, so use atomic update always.
+	// We used to be clever here and use a non-atomic update in certain
+	// cases, but it's not worth the risk.
+	atomic.Or8(m.bytep, m.mask)
+	if !m.isMarked() {
+		throw("mbitmap:243: Should be marked")
+	}
+}
+
+// setMarkedNonAtomic sets the marked bit in the heap bits, non-atomically.
+// h must describe the initial word of the object.
+func (m markBits) setMarkedNonAtomic() {
+	*m.bytep |= m.mask
+}
+
+// clearMarked clears the marked bit in the markbits, atomically.
+func (m markBits) clearMarked() {
+	// Each byte of GC bitmap holds info for four words.
+	// Might be racing with other updates, so use atomic update always.
+	// We used to be clever here and use a non-atomic update in certain
+	// cases, but it's not worth the risk.
+	atomic.And8(m.bytep, ^m.mask)
+}
+
+// clearMarkedNonAtomic clears the marked bit non-atomically.
+func (m markBits) clearMarkedNonAtomic() {
+	*m.bytep ^= m.mask
+}
+
+// allocBitsForSpan returns the allocBits for the span base address base.
+func allocBitsForSpan(base uintptr) (abits markBits) {
+	if base < mheap_.arena_start || base >= mheap_.arena_used {
+		throw("heapBitsForSpan: base out of range")
+	}
+	abits = allocBitsForAddr(base)
+	if abits.mask != 1 {
+		throw("allocBitsForSpan: unaligned start")
+	}
+	return abits
+}
+
+// markBitsForSpan returns the markBits for the span base address base.
+func markBitsForSpan(base uintptr) (mbits markBits) {
+	if base < mheap_.arena_start || base >= mheap_.arena_used {
+		throw("heapBitsForSpan: base out of range")
+	}
+	mbits = markBitsForAddr(base)
+	if mbits.mask != 1 {
+		throw("markBitsForSpan: unaligned start")
+	}
+	return mbits
+}
+
+// next returns the markBits describing the next object in the span.
+// nosplit because it is used during write barriers and must not be preempted.
+//go:nosplit
+func (m *markBits) nextBitUpdate() {
+	if m.mask == 1<<7 {
+		m.bytep = (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(m.bytep)) + 1))
+		m.mask = 1
+	} else {
+		m.mask = m.mask << 1
+	}
+	m.index++
+}
+
+// next returns the markBits describing the next object in the span.
+// nosplit because it is used during write barriers and must not be preempted.
+//go:nosplit
+func (m markBits) nextBit() markBits {
+	if m.mask == 1<<7 {
+		return markBits{(*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(m.bytep)) + 1)), 1, m.index + 1}
+	}
+	return markBits{m.bytep, m.mask << 1, m.index + 1}
+}
+
 // heapBitsForAddr returns the heapBits for the address addr.
 // The caller must have already checked that addr is in the range [mheap_.arena_start, mheap_.arena_used).
 //
@@ -170,15 +405,12 @@ func heapBitsForAddr(addr uintptr) heapBits {
 }
 
 // heapBitsForSpan returns the heapBits for the span base address base.
+//go:nosplit
 func heapBitsForSpan(base uintptr) (hbits heapBits) {
 	if base < mheap_.arena_start || base >= mheap_.arena_used {
 		throw("heapBitsForSpan: base out of range")
 	}
-	hbits = heapBitsForAddr(base)
-	if hbits.shift != 0 {
-		throw("heapBitsForSpan: unaligned start")
-	}
-	return hbits
+	return heapBitsForAddr(base)
 }
 
 // heapBitsForObject returns the base address for the heap object
@@ -485,6 +717,26 @@ func typeBitsBulkBarrier(typ *_type, p, size uintptr) {
 	}
 }
 
+func (s *mspan) clearGCMarkBits() {
+	bytesInMarkBits := int((s.nelems + 7) / 8)
+	if bytesInMarkBits > len(s.markbits1) {
+		throw("s.markbits1 not correctly sized")
+	}
+	for i := 0; i < bytesInMarkBits; i++ {
+		s.gcmarkBits[i] = 0
+	}
+}
+
+func (s *mspan) clearAllocBits() {
+	bytesInMarkBits := int((s.nelems + 7) / 8)
+	if bytesInMarkBits > len(s.markbits1) {
+		throw("s.markbits1 not correctly sized")
+	}
+	for i := 0; i < bytesInMarkBits; i++ {
+		s.allocBits[i] = 0
+	}
+}
+
 // The methods operating on spans all require that h has been returned
 // by heapBitsForSpan and that size, n, total are the span layout description
 // returned by the mspan's layout method.
@@ -494,7 +746,18 @@ func typeBitsBulkBarrier(typ *_type, p, size uintptr) {
 // TODO(rsc): Perhaps introduce a different heapBitsSpan type.
 
 // initSpan initializes the heap bitmap for a span.
-func (h heapBits) initSpan(size, n, total uintptr) {
+func (h heapBits) initSpan(s *mspan) {
+	size, n, total := s.layout()
+
+	// Init the markbit structures
+	s.allocBits = &s.markbits1
+	s.gcmarkBits = &s.markbits2
+	s.freeindex = 0
+	s.nelems = n
+	s.clearAllocBits()
+	s.clearGCMarkBits()
+
+	// Clear bits corresponding to objects.
 	if total%heapBitmapScale != 0 {
 		throw("initSpan: unaligned length")
 	}
