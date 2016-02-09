@@ -16,6 +16,24 @@
       "revId": "b2c95e859dee6841006186ac0efe03dbe2535be7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_802498a6",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 8481
+      },
+      "writtenOn": "2016-02-09T23:40:09Z",
+      "side": 1,
+      "message": "Done. I meant control flow graph, it wasn\u0027t very clear in that context.",
+      "parentUuid": "fd977c52_5200941f",
+      "revId": "b2c95e859dee6841006186ac0efe03dbe2535be7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
