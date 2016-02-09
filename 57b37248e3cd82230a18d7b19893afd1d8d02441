@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d44b487_4197f464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Updates #14258",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_a1a7d8d0",
+        "filename": "src/compress/flate/asm_noasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "return not necessary with panic.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_41e534f5",
+        "filename": "src/compress/flate/asm_noasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Maybe have histogram just return [256]int32. This has the following benefits:\n* No documented rules about len(h) \u003e\u003d 256\n* Stack allocated (no heap)\n* Zeros it for you\n\nI don\u0027t know what changes would be have to be made to the assembly version. How much performance difference did the assembly version make?",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_61ee70aa",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Is this method only for the \"linear time compression\" support? Or is this also used in other general compression optimizations you have planned?\n\nIf it\u0027s for \"linear time compression\", I think there should be some discussion if that should be in the standard library.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_21b2a8c7",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Remove this if you take the histogram suggestion.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_81b73cb6",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Do you use 1 instead of 0 to be compliant with Go1.4 and below (issue #11030)?\n\nMay I suggest 2? Since some buggy decoders do not properly handle degenerate trees (numOffsets \u003d\u003d 1). Also, Go1.4 and below could not decode blocks with (numOffsets \u003d\u003d 0). However, numOffsets \u003d\u003d 2 ensures a complete huffman tree.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_a116b869",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Maybe fold this variable in the logic below? It doesn\u0027t seem to be ever mutated.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_01fa0c8b",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "This loop never executes.\n\nnumLiterals is always 257 since there are no match length symbols.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_612f9085",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "s/dynamicHeader/headerSize/",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_81f1fc4b",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "extraBits is always zero.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_610dd017",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Maybe add a comment that this includes the EOB marker.",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_8108dc09",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this value be 0?\n\nIn a pure huffman block, there are no backward matches, so no backward match symbols are ever used, right?",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_c1214487",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "s/input[0:storedBytes]/input/",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d44b487_011ccc49",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-09T01:00:41Z",
+      "side": 1,
+      "message": "This is obvious by the endBlockMarker constant :)",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
