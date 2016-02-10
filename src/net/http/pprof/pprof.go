@@ -215,6 +215,8 @@ func (name handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // For example, "/debug/pprof/heap" serves the "heap" profile.
 // Index responds to a request for "/debug/pprof/" with an HTML page
 // listing the available profiles.
+// Note that this handler must be registered under the path /debug/pprof
+// and that it will otherwise silently fail to provide profiles.
 func Index(w http.ResponseWriter, r *http.Request) {
 	if strings.HasPrefix(r.URL.Path, "/debug/pprof/") {
 		name := strings.TrimPrefix(r.URL.Path, "/debug/pprof/")
