@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da7f0d2_b1a7e8e2",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-10T21:03:04Z",
+      "side": 1,
+      "message": "It is Go style to return immediately when you have a result:\n\n\n fr, ok :\u003d flateReaderPool.Get().(io.ReadCloser)\n if ok {\n \tfr.(flate.Resetter).Reset(r, nil)\n\treturn fr\n }\n return \u0026pooledFlateReader{fr: flate.NewReader(r)}",
+      "revId": "10dfdea1d16d478c99f5b9d290274640b4a1f368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_2cb25b12",
+        "filename": "src/archive/zip/register.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-10T21:03:04Z",
+      "side": 1,
+      "message": "It\u0027s okay to have this here, but I believe it is unnecessary. The semantics of sync.Pool is that the contents get cleared upon every GC cycle, so any flateReaderPool in the Pool will be collected along with the underlying Reader (assuming it was the only reference).\n\n\nhttps://github.com/golang/go/blob/7b767f4e521c2481e08051c843badd0382fde3b0/src/sync/pool.go#L187",
+      "revId": "10dfdea1d16d478c99f5b9d290274640b4a1f368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
