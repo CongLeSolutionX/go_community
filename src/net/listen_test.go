@@ -218,7 +218,7 @@ var dualStackTCPListenerTests = []struct {
 // listening address and same port.
 func TestDualStackTCPListener(t *testing.T) {
 	switch runtime.GOOS {
-	case "dragonfly", "nacl", "plan9": // re-enable on dragonfly once the new IP control block management has landed
+	case "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 	if !supportsIPv4 || !supportsIPv6 {
@@ -305,7 +305,7 @@ var dualStackUDPListenerTests = []struct {
 // listening address and same port.
 func TestDualStackUDPListener(t *testing.T) {
 	switch runtime.GOOS {
-	case "dragonfly", "nacl", "plan9": // re-enable on dragonfly once the new IP control block management has landed
+	case "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 	if !supportsIPv4 || !supportsIPv6 {
