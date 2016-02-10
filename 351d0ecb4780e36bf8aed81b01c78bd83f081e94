@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1da7f0d2_23f70ea3",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2016-02-10T03:39:10Z",
+      "side": 1,
+      "message": "It handles things like 00, 0.0, and 123s0.0, but \"0\" itself is special cased. Not sure how best to describe it.",
+      "parentUuid": "3148604f_ac7803a2",
+      "range": {
+        "startLine": 1174,
+        "startChar": 36,
+        "endLine": 1174,
+        "endChar": 41
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d2af47a_ce580362",
         "filename": "src/time/format.go",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1da7f0d2_83470296",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2016-02-10T03:39:10Z",
+      "side": 1,
+      "message": "Would this be correct? \n\n// [-+]?([0-9]*(\\.[0-9]*)?[a-z]*)+",
+      "parentUuid": "3d2af47a_ae55b727",
+      "range": {
+        "startLine": 1191,
+        "startChar": 0,
+        "endLine": 1191,
+        "endChar": 35
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d2af47a_8e52fb3b",
         "filename": "src/time/format.go",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2016-02-08T22:57:59Z",
       "side": 1,
       "message": "Undocumented special case.",
+      "range": {
+        "startLine": 1204,
+        "startChar": 0,
+        "endLine": 1204,
+        "endChar": 59
+      },
+      "revId": "351d0ecb4780e36bf8aed81b01c78bd83f081e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_e337e635",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2016-02-10T03:39:10Z",
+      "side": 1,
+      "message": "Essentially, this patch makes the special case not special anymore. We could remove this line, but I left it since it (probably) optimizes the most common form of zero.",
+      "parentUuid": "3d2af47a_8e52fb3b",
       "range": {
         "startLine": 1204,
         "startChar": 0,
