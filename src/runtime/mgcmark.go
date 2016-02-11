@@ -1037,9 +1037,9 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 	if obj&(sys.PtrSize-1) != 0 {
 		throw("greyobject: obj not pointer-aligned")
 	}
-
+	mbits := span.markBitsForAddrInSpan(obj)
 	if useCheckmark {
-		if !hbits.isMarked() {
+		if !mbits.isMarked() {
 			printlock()
 			print("runtime:greyobject: checkmarks finds unexpected unmarked object obj=", hex(obj), "\n")
 			print("runtime: found obj at *(", hex(base), "+", hex(off), ")\n")
@@ -1061,10 +1061,10 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 		}
 	} else {
 		// If marked we have nothing to do.
-		if hbits.isMarked() {
+		if mbits.isMarked() {
 			return
 		}
-		hbits.setMarked()
+		mbits.setMarked()
 
 		// If this is a noscan object, fast-track it to black
 		// instead of greying it.
@@ -1131,7 +1131,7 @@ func gcmarknewobject_m(obj, size uintptr) {
 	if useCheckmark && !gcBlackenPromptly { // The world should be stopped so this should not happen.
 		throw("gcmarknewobject called while doing checkmark")
 	}
-	heapBitsForAddr(obj).setMarked()
+	markBitsForAddr(obj).setMarked()
 	atomic.Xadd64(&work.bytesMarked, int64(size))
 }
 
