@@ -506,19 +506,38 @@ const (
 // https://golang.org/cl/5350 motivates why this routine should preform a
 // prefetch.
 func nextFree(s *mspan, sizeclass int8, c *mcache) (v gclinkptr, shouldhelpgc bool) {
-	v = s.freelist
-	if v.ptr() == nil {
+	var freeIndex uintptr
+
+	shouldhelpgc = false
+	freeIndex = s.nextFreeIndex(s.freeindex)
+
+	if freeIndex == s.nelems {
+		// The span is full.
+		if uintptr(s.ref) != s.nelems {
+			throw("s.ref != s.nelems && freeIndex == s.nelems")
+		}
 		systemstack(func() {
 			c.refill(int32(sizeclass))
 		})
 		shouldhelpgc = true
 		s = c.alloc[sizeclass]
-		v = s.freelist
+		freeIndex = s.nextFreeIndex(s.freeindex)
 	}
-	s.freelist = v.ptr().next
+	if freeIndex >= s.nelems {
+		throw("freeIndex is not valid")
+	}
+
+	v = gclinkptr(freeIndex*s.elemsize + s.base())
+	// eagerly advance the freeIndex
+	s.freeindex = s.nextFreeIndex(freeIndex + 1)
+	// Doing a prefetch of the next object here buys us nothing.
+	// malloc will clear the next object without having to read it
+	// and any latency should be hidden by the store buffers.
+
 	s.ref++
-	// prefetchnta offers best performance, see change list message.
-	prefetchnta(uintptr(v.ptr().next))
+	if uintptr(s.ref) > s.nelems {
+		throw("s.ref > s.nelems")
+	}
 	return
 }
 
@@ -658,10 +677,8 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			v, shouldhelpgc = nextFree(s, sizeclass, c)
 			x = unsafe.Pointer(v)
 			if flags&flagNoZero == 0 {
-				v.ptr().next = 0
-				if size > 2*sys.PtrSize && ((*[2]uintptr)(x))[1] != 0 {
-					memclr(unsafe.Pointer(v), size)
-				}
+				//RLHXXX				v.ptr().next = 0
+				memclr(unsafe.Pointer(v), size)
 			}
 		}
 	} else {
@@ -670,12 +687,13 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		systemstack(func() {
 			s = largeAlloc(size, flags)
 		})
+		s.freeindex = 1
 		x = unsafe.Pointer(uintptr(s.start << pageShift))
 		size = s.elemsize
 	}
 
 	if flags&flagNoScan != 0 {
-		// All objects are pre-marked as noscan. Nothing to do.
+		heapBitsSetTypeNoScan(uintptr(x), size)
 	} else {
 		// If allocating a defer+arg block, now that we've picked a malloc size
 		// large enough to hold everything, cut the "asked for" size down to
