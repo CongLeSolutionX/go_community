@@ -39,6 +39,24 @@
       "revId": "b9593ebfa1575e1c931ead4762a399370b038f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7daf0c90_c1667895",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-13T09:40:04Z",
+      "side": 1,
+      "message": "\u003e You need to set the AX and DX registers when using PCMPESTRI.\n\nThanks. I am aware. This function isn\u0027t used by this patch, so I didn\u0027t feel a huge need to instantly update it.\n\n\u003e existing tests passed even with this subtle bug,\n\nI would love to add it, if you have a testing method that could test behavior that depends on the register assignment of the compiler.\n\n\u003e if we could somehow test that the output is \u0027well compressed\u0027\n\nThat test already exists: https://github.com/golang/go/blob/master/src/compress/flate/deflate_test.go#L346",
+      "parentUuid": "5d808813_10b28a30",
+      "revId": "b9593ebfa1575e1c931ead4762a399370b038f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
