@@ -36,7 +36,7 @@ IntoC(void)
 long long
 mysleep(int seconds) {
 	long long st = GetTickCount();
-	sleep(seconds);
+	Sleep(seconds*1000);
 	return st;
 }
 #else
