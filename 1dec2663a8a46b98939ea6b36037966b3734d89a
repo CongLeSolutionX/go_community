@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da7f0d2_a9f3f88f",
+        "filename": "doc/go1.6.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-15T05:02:12Z",
+      "side": 0,
+      "message": "I think the reason for \u0027s is to make the link text\nmatch the actual name in godoc.",
+      "range": {
+        "startLine": 572,
+        "startChar": 58,
+        "endLine": 572,
+        "endChar": 60
+      },
+      "revId": "1dec2663a8a46b98939ea6b36037966b3734d89a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
