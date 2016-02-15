@@ -337,6 +337,7 @@ func selecttype(size int32) *Type {
 	appendNodeSeqNode(&sudog.List, Nod(ODCLFIELD, newname(Lookup("releasetime")), typenod(Types[TUINT64])))
 	appendNodeSeqNode(&sudog.List, Nod(ODCLFIELD, newname(Lookup("nrelease")), typenod(Types[TINT32])))
 	appendNodeSeqNode(&sudog.List, Nod(ODCLFIELD, newname(Lookup("waitlink")), typenod(Ptrto(Types[TUINT8]))))
+	appendNodeSeqNode(&sudog.List, Nod(ODCLFIELD, newname(Lookup("c")), typenod(Ptrto(Types[TUINT8]))))
 	typecheck(&sudog, Etype)
 	sudog.Type.Noalg = true
 	sudog.Type.Local = true
