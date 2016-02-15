@@ -214,7 +214,8 @@ type gobuf struct {
 // Changes here must also be made in src/cmd/compile/internal/gc/select.go's selecttype.
 type sudog struct {
 	// The following fields are protected by the hchan.lock of the
-	// channel this sudog is blocking on.
+	// channel this sudog is blocking on. shrinkstack depends on
+	// this.
 
 	g          *g
 	selectdone *uint32 // CAS to 1 to win select race (may point to stack)
