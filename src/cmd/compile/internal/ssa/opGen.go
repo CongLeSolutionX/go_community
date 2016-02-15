@@ -844,7 +844,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ADDW",
-		asm:  x86.AADDW,
+		asm:  x86.AADDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -858,7 +858,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ADDB",
-		asm:  x86.AADDB,
+		asm:  x86.AADDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -901,7 +901,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ADDWconst",
 		auxType: auxInt16,
-		asm:     x86.AADDW,
+		asm:     x86.AADDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -915,7 +915,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ADDBconst",
 		auxType: auxInt8,
-		asm:     x86.AADDB,
+		asm:     x86.AADDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -956,7 +956,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "SUBW",
-		asm:  x86.ASUBW,
+		asm:  x86.ASUBL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -970,7 +970,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "SUBB",
-		asm:  x86.ASUBB,
+		asm:  x86.ASUBL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1013,7 +1013,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "SUBWconst",
 		auxType: auxInt16,
-		asm:     x86.ASUBW,
+		asm:     x86.ASUBL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1027,7 +1027,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "SUBBconst",
 		auxType: auxInt8,
-		asm:     x86.ASUBB,
+		asm:     x86.ASUBL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1473,7 +1473,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ANDW",
-		asm:  x86.AANDW,
+		asm:  x86.AANDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1487,7 +1487,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ANDB",
-		asm:  x86.AANDB,
+		asm:  x86.AANDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1530,7 +1530,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ANDWconst",
 		auxType: auxInt16,
-		asm:     x86.AANDW,
+		asm:     x86.AANDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1544,7 +1544,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ANDBconst",
 		auxType: auxInt8,
-		asm:     x86.AANDB,
+		asm:     x86.AANDL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1585,7 +1585,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ORW",
-		asm:  x86.AORW,
+		asm:  x86.AORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1599,7 +1599,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "ORB",
-		asm:  x86.AORB,
+		asm:  x86.AORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1642,7 +1642,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ORWconst",
 		auxType: auxInt16,
-		asm:     x86.AORW,
+		asm:     x86.AORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1656,7 +1656,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "ORBconst",
 		auxType: auxInt8,
-		asm:     x86.AORB,
+		asm:     x86.AORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1697,7 +1697,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "XORW",
-		asm:  x86.AXORW,
+		asm:  x86.AXORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1711,7 +1711,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "XORB",
-		asm:  x86.AXORB,
+		asm:  x86.AXORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1754,7 +1754,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "XORWconst",
 		auxType: auxInt16,
-		asm:     x86.AXORW,
+		asm:     x86.AXORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -1768,7 +1768,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "XORBconst",
 		auxType: auxInt8,
-		asm:     x86.AXORB,
+		asm:     x86.AXORL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -2043,7 +2043,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "SHLW",
-		asm:  x86.ASHLW,
+		asm:  x86.ASHLL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 2},     // .CX
@@ -2057,7 +2057,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "SHLB",
-		asm:  x86.ASHLB,
+		asm:  x86.ASHLL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 2},     // .CX
@@ -2100,7 +2100,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "SHLWconst",
 		auxType: auxInt16,
-		asm:     x86.ASHLW,
+		asm:     x86.ASHLL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -2114,7 +2114,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "SHLBconst",
 		auxType: auxInt8,
-		asm:     x86.ASHLB,
+		asm:     x86.ASHLL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -2433,7 +2433,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "NEGW",
-		asm:  x86.ANEGW,
+		asm:  x86.ANEGL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -2446,7 +2446,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "NEGB",
-		asm:  x86.ANEGB,
+		asm:  x86.ANEGL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -2485,7 +2485,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "NOTW",
-		asm:  x86.ANOTW,
+		asm:  x86.ANOTL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -2498,7 +2498,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name: "NOTB",
-		asm:  x86.ANOTB,
+		asm:  x86.ANOTL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -3056,7 +3056,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "MOVBload",
 		auxType: auxSymOff,
-		asm:     x86.AMOVB,
+		asm:     x86.AMOVBLZX,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4295032831}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
@@ -3095,7 +3095,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "MOVWload",
 		auxType: auxSymOff,
-		asm:     x86.AMOVW,
+		asm:     x86.AMOVWLZX,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4295032831}, // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15 .SB
@@ -3254,7 +3254,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "MOVBloadidx1",
 		auxType: auxSymOff,
-		asm:     x86.AMOVB,
+		asm:     x86.AMOVBLZX,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15
@@ -3268,7 +3268,7 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "MOVWloadidx2",
 		auxType: auxSymOff,
-		asm:     x86.AMOVW,
+		asm:     x86.AMOVWLZX,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{1, 65535},      // .AX .CX .DX .BX .SP .BP .SI .DI .R8 .R9 .R10 .R11 .R12 .R13 .R14 .R15

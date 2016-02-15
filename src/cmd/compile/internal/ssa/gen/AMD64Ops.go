@@ -168,21 +168,21 @@ func init() {
 		// binary ops
 		{name: "ADDQ", reg: gp21, asm: "ADDQ"},                                   // arg0 + arg1
 		{name: "ADDL", reg: gp21, asm: "ADDL"},                                   // arg0 + arg1
-		{name: "ADDW", reg: gp21, asm: "ADDW"},                                   // arg0 + arg1
-		{name: "ADDB", reg: gp21, asm: "ADDB"},                                   // arg0 + arg1
+		{name: "ADDW", reg: gp21, asm: "ADDL"},                                   // arg0 + arg1
+		{name: "ADDB", reg: gp21, asm: "ADDL"},                                   // arg0 + arg1
 		{name: "ADDQconst", reg: gp11, asm: "ADDQ", aux: "Int64", typ: "UInt64"}, // arg0 + auxint
 		{name: "ADDLconst", reg: gp11, asm: "ADDL", aux: "Int32"},                // arg0 + auxint
-		{name: "ADDWconst", reg: gp11, asm: "ADDW", aux: "Int16"},                // arg0 + auxint
-		{name: "ADDBconst", reg: gp11, asm: "ADDB", aux: "Int8"},                 // arg0 + auxint
+		{name: "ADDWconst", reg: gp11, asm: "ADDL", aux: "Int16"},                // arg0 + auxint
+		{name: "ADDBconst", reg: gp11, asm: "ADDL", aux: "Int8"},                 // arg0 + auxint
 
 		{name: "SUBQ", reg: gp21, asm: "SUBQ"},                    // arg0 - arg1
 		{name: "SUBL", reg: gp21, asm: "SUBL"},                    // arg0 - arg1
-		{name: "SUBW", reg: gp21, asm: "SUBW"},                    // arg0 - arg1
-		{name: "SUBB", reg: gp21, asm: "SUBB"},                    // arg0 - arg1
+		{name: "SUBW", reg: gp21, asm: "SUBL"},                    // arg0 - arg1
+		{name: "SUBB", reg: gp21, asm: "SUBL"},                    // arg0 - arg1
 		{name: "SUBQconst", reg: gp11, asm: "SUBQ", aux: "Int64"}, // arg0 - auxint
 		{name: "SUBLconst", reg: gp11, asm: "SUBL", aux: "Int32"}, // arg0 - auxint
-		{name: "SUBWconst", reg: gp11, asm: "SUBW", aux: "Int16"}, // arg0 - auxint
-		{name: "SUBBconst", reg: gp11, asm: "SUBB", aux: "Int8"},  // arg0 - auxint
+		{name: "SUBWconst", reg: gp11, asm: "SUBL", aux: "Int16"}, // arg0 - auxint
+		{name: "SUBBconst", reg: gp11, asm: "SUBL", aux: "Int8"},  // arg0 - auxint
 
 		{name: "MULQ", reg: gp21, asm: "IMULQ"},                    // arg0 * arg1
 		{name: "MULL", reg: gp21, asm: "IMULL"},                    // arg0 * arg1
@@ -220,30 +220,30 @@ func init() {
 
 		{name: "ANDQ", reg: gp21, asm: "ANDQ"},                    // arg0 & arg1
 		{name: "ANDL", reg: gp21, asm: "ANDL"},                    // arg0 & arg1
-		{name: "ANDW", reg: gp21, asm: "ANDW"},                    // arg0 & arg1
-		{name: "ANDB", reg: gp21, asm: "ANDB"},                    // arg0 & arg1
+		{name: "ANDW", reg: gp21, asm: "ANDL"},                    // arg0 & arg1
+		{name: "ANDB", reg: gp21, asm: "ANDL"},                    // arg0 & arg1
 		{name: "ANDQconst", reg: gp11, asm: "ANDQ", aux: "Int64"}, // arg0 & auxint
 		{name: "ANDLconst", reg: gp11, asm: "ANDL", aux: "Int32"}, // arg0 & auxint
-		{name: "ANDWconst", reg: gp11, asm: "ANDW", aux: "Int16"}, // arg0 & auxint
-		{name: "ANDBconst", reg: gp11, asm: "ANDB", aux: "Int8"},  // arg0 & auxint
+		{name: "ANDWconst", reg: gp11, asm: "ANDL", aux: "Int16"}, // arg0 & auxint
+		{name: "ANDBconst", reg: gp11, asm: "ANDL", aux: "Int8"},  // arg0 & auxint
 
 		{name: "ORQ", reg: gp21, asm: "ORQ"},                    // arg0 | arg1
 		{name: "ORL", reg: gp21, asm: "ORL"},                    // arg0 | arg1
-		{name: "ORW", reg: gp21, asm: "ORW"},                    // arg0 | arg1
-		{name: "ORB", reg: gp21, asm: "ORB"},                    // arg0 | arg1
+		{name: "ORW", reg: gp21, asm: "ORL"},                    // arg0 | arg1
+		{name: "ORB", reg: gp21, asm: "ORL"},                    // arg0 | arg1
 		{name: "ORQconst", reg: gp11, asm: "ORQ", aux: "Int64"}, // arg0 | auxint
 		{name: "ORLconst", reg: gp11, asm: "ORL", aux: "Int32"}, // arg0 | auxint
-		{name: "ORWconst", reg: gp11, asm: "ORW", aux: "Int16"}, // arg0 | auxint
-		{name: "ORBconst", reg: gp11, asm: "ORB", aux: "Int8"},  // arg0 | auxint
+		{name: "ORWconst", reg: gp11, asm: "ORL", aux: "Int16"}, // arg0 | auxint
+		{name: "ORBconst", reg: gp11, asm: "ORL", aux: "Int8"},  // arg0 | auxint
 
 		{name: "XORQ", reg: gp21, asm: "XORQ"},                    // arg0 ^ arg1
 		{name: "XORL", reg: gp21, asm: "XORL"},                    // arg0 ^ arg1
-		{name: "XORW", reg: gp21, asm: "XORW"},                    // arg0 ^ arg1
-		{name: "XORB", reg: gp21, asm: "XORB"},                    // arg0 ^ arg1
+		{name: "XORW", reg: gp21, asm: "XORL"},                    // arg0 ^ arg1
+		{name: "XORB", reg: gp21, asm: "XORL"},                    // arg0 ^ arg1
 		{name: "XORQconst", reg: gp11, asm: "XORQ", aux: "Int64"}, // arg0 ^ auxint
 		{name: "XORLconst", reg: gp11, asm: "XORL", aux: "Int32"}, // arg0 ^ auxint
-		{name: "XORWconst", reg: gp11, asm: "XORW", aux: "Int16"}, // arg0 ^ auxint
-		{name: "XORBconst", reg: gp11, asm: "XORB", aux: "Int8"},  // arg0 ^ auxint
+		{name: "XORWconst", reg: gp11, asm: "XORL", aux: "Int16"}, // arg0 ^ auxint
+		{name: "XORBconst", reg: gp11, asm: "XORL", aux: "Int8"},  // arg0 ^ auxint
 
 		{name: "CMPQ", reg: gp2flags, asm: "CMPQ", typ: "Flags"},                    // arg0 compare to arg1
 		{name: "CMPL", reg: gp2flags, asm: "CMPL", typ: "Flags"},                    // arg0 compare to arg1
@@ -268,12 +268,12 @@ func init() {
 
 		{name: "SHLQ", reg: gp21shift, asm: "SHLQ"},               // arg0 << arg1, shift amount is mod 64
 		{name: "SHLL", reg: gp21shift, asm: "SHLL"},               // arg0 << arg1, shift amount is mod 32
-		{name: "SHLW", reg: gp21shift, asm: "SHLW"},               // arg0 << arg1, shift amount is mod 32
-		{name: "SHLB", reg: gp21shift, asm: "SHLB"},               // arg0 << arg1, shift amount is mod 32
+		{name: "SHLW", reg: gp21shift, asm: "SHLL"},               // arg0 << arg1, shift amount is mod 32
+		{name: "SHLB", reg: gp21shift, asm: "SHLL"},               // arg0 << arg1, shift amount is mod 32
 		{name: "SHLQconst", reg: gp11, asm: "SHLQ", aux: "Int64"}, // arg0 << auxint, shift amount 0-63
 		{name: "SHLLconst", reg: gp11, asm: "SHLL", aux: "Int32"}, // arg0 << auxint, shift amount 0-31
-		{name: "SHLWconst", reg: gp11, asm: "SHLW", aux: "Int16"}, // arg0 << auxint, shift amount 0-31
-		{name: "SHLBconst", reg: gp11, asm: "SHLB", aux: "Int8"},  // arg0 << auxint, shift amount 0-31
+		{name: "SHLWconst", reg: gp11, asm: "SHLL", aux: "Int16"}, // arg0 << auxint, shift amount 0-31
+		{name: "SHLBconst", reg: gp11, asm: "SHLL", aux: "Int8"},  // arg0 << auxint, shift amount 0-31
 		// Note: x86 is weird, the 16 and 8 byte shifts still use all 5 bits of shift amount!
 
 		{name: "SHRQ", reg: gp21shift, asm: "SHRQ"},               // unsigned arg0 >> arg1, shift amount is mod 64
@@ -302,13 +302,13 @@ func init() {
 		// unary ops
 		{name: "NEGQ", reg: gp11, asm: "NEGQ"}, // -arg0
 		{name: "NEGL", reg: gp11, asm: "NEGL"}, // -arg0
-		{name: "NEGW", reg: gp11, asm: "NEGW"}, // -arg0
-		{name: "NEGB", reg: gp11, asm: "NEGB"}, // -arg0
+		{name: "NEGW", reg: gp11, asm: "NEGL"}, // -arg0
+		{name: "NEGB", reg: gp11, asm: "NEGL"}, // -arg0
 
 		{name: "NOTQ", reg: gp11, asm: "NOTQ"}, // ^arg0
 		{name: "NOTL", reg: gp11, asm: "NOTL"}, // ^arg0
-		{name: "NOTW", reg: gp11, asm: "NOTW"}, // ^arg0
-		{name: "NOTB", reg: gp11, asm: "NOTB"}, // ^arg0
+		{name: "NOTW", reg: gp11, asm: "NOTL"}, // ^arg0
+		{name: "NOTB", reg: gp11, asm: "NOTL"}, // ^arg0
 
 		{name: "SQRTSD", reg: fp11, asm: "SQRTSD"}, // sqrt(arg0)
 
@@ -370,28 +370,28 @@ func init() {
 		// Note: LEAQ{1,2,4,8} must not have OpSB as either argument.
 
 		// auxint+aux == add auxint and the offset of the symbol in aux (if any) to the effective address
-		{name: "MOVBload", reg: gpload, asm: "MOVB", aux: "SymOff", typ: "UInt8"},    // load byte from arg0+auxint+aux. arg1=mem
-		{name: "MOVBQSXload", reg: gpload, asm: "MOVBQSX", aux: "SymOff"},            // ditto, extend to int64
-		{name: "MOVBQZXload", reg: gpload, asm: "MOVBQZX", aux: "SymOff"},            // ditto, extend to uint64
-		{name: "MOVWload", reg: gpload, asm: "MOVW", aux: "SymOff", typ: "UInt16"},   // load 2 bytes from arg0+auxint+aux. arg1=mem
-		{name: "MOVWQSXload", reg: gpload, asm: "MOVWQSX", aux: "SymOff"},            // ditto, extend to int64
-		{name: "MOVWQZXload", reg: gpload, asm: "MOVWQZX", aux: "SymOff"},            // ditto, extend to uint64
-		{name: "MOVLload", reg: gpload, asm: "MOVL", aux: "SymOff", typ: "UInt32"},   // load 4 bytes from arg0+auxint+aux. arg1=mem
-		{name: "MOVLQSXload", reg: gpload, asm: "MOVLQSX", aux: "SymOff"},            // ditto, extend to int64
-		{name: "MOVLQZXload", reg: gpload, asm: "MOVLQZX", aux: "SymOff"},            // ditto, extend to uint64
-		{name: "MOVQload", reg: gpload, asm: "MOVQ", aux: "SymOff", typ: "UInt64"},   // load 8 bytes from arg0+auxint+aux. arg1=mem
-		{name: "MOVBstore", reg: gpstore, asm: "MOVB", aux: "SymOff", typ: "Mem"},    // store byte in arg1 to arg0+auxint+aux. arg2=mem
-		{name: "MOVWstore", reg: gpstore, asm: "MOVW", aux: "SymOff", typ: "Mem"},    // store 2 bytes in arg1 to arg0+auxint+aux. arg2=mem
-		{name: "MOVLstore", reg: gpstore, asm: "MOVL", aux: "SymOff", typ: "Mem"},    // store 4 bytes in arg1 to arg0+auxint+aux. arg2=mem
-		{name: "MOVQstore", reg: gpstore, asm: "MOVQ", aux: "SymOff", typ: "Mem"},    // store 8 bytes in arg1 to arg0+auxint+aux. arg2=mem
-		{name: "MOVOload", reg: fpload, asm: "MOVUPS", aux: "SymOff", typ: "Int128"}, // load 16 bytes from arg0+auxint+aux. arg1=mem
-		{name: "MOVOstore", reg: fpstore, asm: "MOVUPS", aux: "SymOff", typ: "Mem"},  // store 16 bytes in arg1 to arg0+auxint+aux. arg2=mem
+		{name: "MOVBload", reg: gpload, asm: "MOVBLZX", aux: "SymOff", typ: "UInt8"},  // load byte from arg0+auxint+aux. arg1=mem
+		{name: "MOVBQSXload", reg: gpload, asm: "MOVBQSX", aux: "SymOff"},             // ditto, extend to int64
+		{name: "MOVBQZXload", reg: gpload, asm: "MOVBQZX", aux: "SymOff"},             // ditto, extend to uint64
+		{name: "MOVWload", reg: gpload, asm: "MOVWLZX", aux: "SymOff", typ: "UInt16"}, // load 2 bytes from arg0+auxint+aux. arg1=mem
+		{name: "MOVWQSXload", reg: gpload, asm: "MOVWQSX", aux: "SymOff"},             // ditto, extend to int64
+		{name: "MOVWQZXload", reg: gpload, asm: "MOVWQZX", aux: "SymOff"},             // ditto, extend to uint64
+		{name: "MOVLload", reg: gpload, asm: "MOVL", aux: "SymOff", typ: "UInt32"},    // load 4 bytes from arg0+auxint+aux. arg1=mem
+		{name: "MOVLQSXload", reg: gpload, asm: "MOVLQSX", aux: "SymOff"},             // ditto, extend to int64
+		{name: "MOVLQZXload", reg: gpload, asm: "MOVLQZX", aux: "SymOff"},             // ditto, extend to uint64
+		{name: "MOVQload", reg: gpload, asm: "MOVQ", aux: "SymOff", typ: "UInt64"},    // load 8 bytes from arg0+auxint+aux. arg1=mem
+		{name: "MOVBstore", reg: gpstore, asm: "MOVB", aux: "SymOff", typ: "Mem"},     // store byte in arg1 to arg0+auxint+aux. arg2=mem
+		{name: "MOVWstore", reg: gpstore, asm: "MOVW", aux: "SymOff", typ: "Mem"},     // store 2 bytes in arg1 to arg0+auxint+aux. arg2=mem
+		{name: "MOVLstore", reg: gpstore, asm: "MOVL", aux: "SymOff", typ: "Mem"},     // store 4 bytes in arg1 to arg0+auxint+aux. arg2=mem
+		{name: "MOVQstore", reg: gpstore, asm: "MOVQ", aux: "SymOff", typ: "Mem"},     // store 8 bytes in arg1 to arg0+auxint+aux. arg2=mem
+		{name: "MOVOload", reg: fpload, asm: "MOVUPS", aux: "SymOff", typ: "Int128"},  // load 16 bytes from arg0+auxint+aux. arg1=mem
+		{name: "MOVOstore", reg: fpstore, asm: "MOVUPS", aux: "SymOff", typ: "Mem"},   // store 16 bytes in arg1 to arg0+auxint+aux. arg2=mem
 
 		// indexed loads/stores
-		{name: "MOVBloadidx1", reg: gploadidx, asm: "MOVB", aux: "SymOff"}, // load a byte from arg0+arg1+auxint+aux. arg2=mem
-		{name: "MOVWloadidx2", reg: gploadidx, asm: "MOVW", aux: "SymOff"}, // load 2 bytes from arg0+2*arg1+auxint+aux. arg2=mem
-		{name: "MOVLloadidx4", reg: gploadidx, asm: "MOVL", aux: "SymOff"}, // load 4 bytes from arg0+4*arg1+auxint+aux. arg2=mem
-		{name: "MOVQloadidx8", reg: gploadidx, asm: "MOVQ", aux: "SymOff"}, // load 8 bytes from arg0+8*arg1+auxint+aux. arg2=mem
+		{name: "MOVBloadidx1", reg: gploadidx, asm: "MOVBLZX", aux: "SymOff"}, // load a byte from arg0+arg1+auxint+aux. arg2=mem
+		{name: "MOVWloadidx2", reg: gploadidx, asm: "MOVWLZX", aux: "SymOff"}, // load 2 bytes from arg0+2*arg1+auxint+aux. arg2=mem
+		{name: "MOVLloadidx4", reg: gploadidx, asm: "MOVL", aux: "SymOff"},    // load 4 bytes from arg0+4*arg1+auxint+aux. arg2=mem
+		{name: "MOVQloadidx8", reg: gploadidx, asm: "MOVQ", aux: "SymOff"},    // load 8 bytes from arg0+8*arg1+auxint+aux. arg2=mem
 		// TODO: sign-extending indexed loads
 		{name: "MOVBstoreidx1", reg: gpstoreidx, asm: "MOVB", aux: "SymOff"}, // store byte in arg2 to arg0+arg1+auxint+aux. arg3=mem
 		{name: "MOVWstoreidx2", reg: gpstoreidx, asm: "MOVW", aux: "SymOff"}, // store 2 bytes in arg2 to arg0+2*arg1+auxint+aux. arg3=mem
