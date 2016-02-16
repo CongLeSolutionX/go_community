@@ -947,6 +947,7 @@ func (t *tester) raceTest(dt *distTest) error {
 	t.addCmd(dt, "src", "go", "test", "-race", "-i", "runtime/race", "flag", "os/exec")
 	t.addCmd(dt, "src", "go", "test", "-race", "-run=Output", "runtime/race")
 	t.addCmd(dt, "src", "go", "test", "-race", "-short", "-run=TestParse|TestEcho", "flag", "os/exec")
+	t.addCmd(dt, "src", "go", "test", "-race", "-run=TestParallelTest", "cmd/go")
 	if t.cgoEnabled {
 		env := mergeEnvLists([]string{"GOTRACEBACK=2"}, os.Environ())
 		cmd := t.addCmd(dt, "misc/cgo/test", "go", "test", "-race", "-short")
