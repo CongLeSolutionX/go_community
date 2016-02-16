@@ -511,8 +511,8 @@ func (c *mcache) nextFree(sizeclass int8) (v gclinkptr, shouldhelpgc bool) {
 
 	if freeIndex == s.nelems {
 		// The span is full.
-		if uintptr(s.ref) != s.nelems {
-			throw("s.ref != s.nelems && freeIndex == s.nelems")
+		if uintptr(s.allocCount) != s.nelems {
+			throw("s.allocCount != s.nelems && freeIndex == s.nelems")
 		}
 		systemstack(func() {
 			c.refill(int32(sizeclass))
@@ -532,9 +532,9 @@ func (c *mcache) nextFree(sizeclass int8) (v gclinkptr, shouldhelpgc bool) {
 	// malloc will clear the next object without having to read it
 	// and any latency should be hidden by the store buffers.
 
-	s.ref++
-	if uintptr(s.ref) > s.nelems {
-		throw("s.ref > s.nelems")
+	s.allocCount++
+	if uintptr(s.allocCount) > s.nelems {
+		throw("s.allocCount > s.nelems")
 	}
 	return
 }
