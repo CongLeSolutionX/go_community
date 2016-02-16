@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da7f0d2_fc6660f8",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-16T16:17:42Z",
+      "side": 1,
+      "message": "Is this necessary? Does the race builder pick up the failure if you just add the test without the new execution here? The executions here are meant to just be a smoke test for the race detector.\n\nFailing that, maybe only do this on the builders? 10 seconds on everyone\u0027s machines is a lot.",
+      "revId": "039a70f7bcd8c51071f6a124d3d8f8d0197c073d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
