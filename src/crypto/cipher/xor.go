@@ -9,8 +9,11 @@ import (
 	"unsafe"
 )
 
-const wordSize = int(unsafe.Sizeof(uintptr(0)))
+const ptrSize = int(unsafe.Sizeof(uintptr(0)))
 const supportsUnaligned = runtime.GOARCH == "386" || runtime.GOARCH == "amd64"
+
+// Like aligned buffers can be done efficiently on ppc64le/ppc64
+const checkAlignment = runtime.GOARCH == "ppc64le" || runtime.GOARCH == "ppc64"
 
 // fastXORBytes xors in bulk. It only works on architectures that
 // support unaligned read/writes.
@@ -20,7 +23,7 @@ func fastXORBytes(dst, a, b []byte) int {
 		n = len(b)
 	}
 
-	w := n / wordSize
+	w := n / ptrSize
 	if w > 0 {
 		dw := *(*[]uintptr)(unsafe.Pointer(&dst))
 		aw := *(*[]uintptr)(unsafe.Pointer(&a))
@@ -30,11 +33,25 @@ func fastXORBytes(dst, a, b []byte) int {
 		}
 	}
 
-	for i := (n - n%wordSize); i < n; i++ {
+	for i := (n - n%ptrSize); i < n; i++ {
 		dst[i] = a[i] ^ b[i]
 	}
 
 	return n
+}
+
+// Determine efficient alignment.
+func efficientAlignment(dst, a, b []byte) bool {
+	// find alignment with respect to ptrSize
+	da := int(uintptr(unsafe.Pointer(&dst[0]))) & (ptrSize - 1)
+	aa := int(uintptr(unsafe.Pointer(&a[0]))) & (ptrSize - 1)
+	ba := int(uintptr(unsafe.Pointer(&b[0]))) & (ptrSize - 1)
+
+	// If any are not aligned to 0, don't try
+	if da|ba|aa != 0 {
+		return false
+	}
+	return true
 }
 
 func safeXORBytes(dst, a, b []byte) int {
@@ -59,6 +76,13 @@ func xorBytes(dst, a, b []byte) int {
 		// how often this happens, and it's only worth it if
 		// the block encryption itself is hardware
 		// accelerated.
+
+		// LAB:  This has been done for Power, not sure
+		// how this applies to other GOARCHes, so I didn't
+		// remove the TODO
+		if checkAlignment && efficientAlignment(dst, a, b) {
+			return fastXORBytes(dst, a, b)
+		}
 		return safeXORBytes(dst, a, b)
 	}
 }
@@ -69,7 +93,7 @@ func fastXORWords(dst, a, b []byte) {
 	dw := *(*[]uintptr)(unsafe.Pointer(&dst))
 	aw := *(*[]uintptr)(unsafe.Pointer(&a))
 	bw := *(*[]uintptr)(unsafe.Pointer(&b))
-	n := len(b) / wordSize
+	n := len(b) / ptrSize
 	for i := 0; i < n; i++ {
 		dw[i] = aw[i] ^ bw[i]
 	}
@@ -79,6 +103,10 @@ func xorWords(dst, a, b []byte) {
 	if supportsUnaligned {
 		fastXORWords(dst, a, b)
 	} else {
-		safeXORBytes(dst, a, b)
+		if checkAlignment && efficientAlignment(dst, a, b) {
+			fastXORBytes(dst, a, b)
+		} else {
+			safeXORBytes(dst, a, b)
+		}
 	}
 }
