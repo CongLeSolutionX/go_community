@@ -363,7 +363,7 @@ func selecttype(size int32) *Type {
 	sel.List = list(sel.List, Nod(ODCLFIELD, newname(Lookup("lockorder")), typenod(Ptrto(Types[TUINT8]))))
 	arr := Nod(OTARRAY, Nodintconst(int64(size)), scase)
 	sel.List = list(sel.List, Nod(ODCLFIELD, newname(Lookup("scase")), arr))
-	arr = Nod(OTARRAY, Nodintconst(int64(size)), typenod(Ptrto(Types[TUINT8])))
+	arr = Nod(OTARRAY, Nodintconst(int64(size)), typenod(Types[TUINT16]))
 	sel.List = list(sel.List, Nod(ODCLFIELD, newname(Lookup("lockorderarr")), arr))
 	arr = Nod(OTARRAY, Nodintconst(int64(size)), typenod(Types[TUINT16]))
 	sel.List = list(sel.List, Nod(ODCLFIELD, newname(Lookup("pollorderarr")), arr))
