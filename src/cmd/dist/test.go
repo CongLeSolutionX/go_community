@@ -340,10 +340,7 @@ func (t *tester) registerTests() {
 		if t.race {
 			cmd.Args = append(cmd.Args, "-tags", "race")
 		}
-		cmd.Args = append(cmd.Args, "std")
-		if !t.race {
-			cmd.Args = append(cmd.Args, "cmd")
-		}
+		cmd.Args = append(cmd.Args, "std", "cmd")
 		all, err := cmd.CombinedOutput()
 		if err != nil {
 			log.Fatalf("Error running go list std cmd: %v, %s", err, all)
