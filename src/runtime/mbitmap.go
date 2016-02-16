@@ -836,7 +836,6 @@ func heapBitsSweepSpan(s *mspan, f func(uintptr)) (nfree int) {
 }
 
 func heapBitsSweep8BitPtrs(h heapBits, s *mspan, base, n uintptr, cl uint8, doCall bool, f func(uintptr)) (nfree int) {
-	const bitsPerByte = 8
 	markIndex := uintptr(0)
 	mbits := s.markBitsForIndexInSpan(markIndex)
 	// Consider mark bits in all four 2-bit entries of each bitmap byte.
@@ -896,7 +895,6 @@ func heapBitsSweep8BitPtrs(h heapBits, s *mspan, base, n uintptr, cl uint8, doCa
 }
 
 func (m *markBits) nextFreed(maxIndex uintptr, s *mspan, trace bool) bool {
-	const bitsPerByte = 8
 	mByte := *m.bytep
 	for {
 		for mByte == 0xff {
