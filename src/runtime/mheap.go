@@ -138,8 +138,15 @@ type mspan struct {
 	//
 	// Object n starts at address n*elemsize + (start << pageShift).
 	freeindex  uintptr
+
+	// Cache of the allocBits at freeindex. allocCache is shifted
+	// such that the lowest bit corresponds to the bit freeindex.
+	// allocCache hold the complement of allocBits, thus allowing
+	// ctz64 (count trailing zero) to use it directly.
+	allocCache uint64
 	allocBits  *[maxObjsPerSpan / 8]uint8
 	gcmarkBits *[maxObjsPerSpan / 8]uint8
+	
 	nelems     uintptr // number of object in the span.
 	// TODO(rlh) consider moving some of these fields into seperate arrays.
 	// Put another way is an array of structs a better idea than a struct of arrays.
@@ -160,7 +167,7 @@ type mspan struct {
 
 	sweepgen    uint32
 	divMul      uint32   // for divide by elemsize - divMagic.mul
-	ref         uint16   // capacity - number of objects in freelist
+	allocCount  uint16   // capacity - number of objects in freelist
 	sizeclass   uint8    // size class
 	incache     bool     // being used by an mcache
 	state       uint8    // mspaninuse etc
@@ -472,7 +479,7 @@ func (h *mheap) alloc_m(npage uintptr, sizeclass int32, large bool) *mspan {
 		// able to map interior pointer to containing span.
 		atomic.Store(&s.sweepgen, h.sweepgen)
 		s.state = _MSpanInUse
-		s.ref = 0
+		s.allocCount = 0
 		s.sizeclass = uint8(sizeclass)
 		if sizeclass == 0 {
 			s.elemsize = s.npages << _PageShift
@@ -552,7 +559,7 @@ func (h *mheap) allocStack(npage uintptr) *mspan {
 	if s != nil {
 		s.state = _MSpanStack
 		s.stackfreelist = 0
-		s.ref = 0
+		s.allocCount = 0
 		memstats.stacks_inuse += uint64(s.npages << _PageShift)
 	}
 
@@ -774,12 +781,12 @@ func (h *mheap) freeStack(s *mspan) {
 func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince int64) {
 	switch s.state {
 	case _MSpanStack:
-		if s.ref != 0 {
+		if s.allocCount != 0 {
 			throw("MHeap_FreeSpanLocked - invalid stack free")
 		}
 	case _MSpanInUse:
-		if s.ref != 0 || s.sweepgen != h.sweepgen {
-			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.start<<_PageShift), " ref ", s.ref, " sweepgen ", s.sweepgen, "/", h.sweepgen, "\n")
+		if s.allocCount != 0 || s.sweepgen != h.sweepgen {
+			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.start<<_PageShift), " allocCount ", s.allocCount, " sweepgen ", s.sweepgen, "/", h.sweepgen, "\n")
 			throw("MHeap_FreeSpanLocked - invalid free")
 		}
 		h.pagesInUse -= uint64(s.npages)
@@ -913,7 +920,7 @@ func (span *mspan) init(start pageID, npages uintptr) {
 	span.list = nil
 	span.start = start
 	span.npages = npages
-	span.ref = 0
+	span.allocCount = 0
 	span.sizeclass = 0
 	span.incache = false
 	span.elemsize = 0
@@ -948,7 +955,6 @@ func (list *mSpanList) init() {
 
 func (list *mSpanList) remove(span *mspan) {
 	if span.prev == nil || span.list != list {
-		println("failed MSpanList_Remove", span, span.prev, span.list, list)
 		throw("MSpanList_Remove")
 	}
 	if span.next != nil {
