@@ -119,13 +119,18 @@ func (c *conf) canUseCgo() bool {
 
 // hostLookupOrder determines which strategy to use to resolve hostname.
 func (c *conf) hostLookupOrder(hostname string) (ret hostLookupOrder) {
+	lookupOrder := c._hostLookupOrder(hostname)
+	if c.netGo && lookupOrder == hostLookupCgo {
+		lookupOrder = hostLookupFilesDNS
+	}
+	return lookupOrder
+}
+
+func (c *conf) _hostLookupOrder(hostname string) (ret hostLookupOrder) {
 	if c.dnsDebugLevel > 1 {
 		defer func() {
 			print("go package net: hostLookupOrder(", hostname, ") = ", ret.String(), "\n")
 		}()
-	}
-	if c.netGo {
-		return hostLookupFilesDNS
 	}
 	if c.forceCgoLookupHost || c.resolv.unknownOpt || c.goos == "android" {
 		return hostLookupCgo
