@@ -65,6 +65,7 @@ func fuseBlockIf(b *Block) bool {
 		b.Fatalf("invalid predecessors")
 	}
 	for _, v := range ss.Values {
+		phielimValue(v)
 		if v.Op == OpPhi && v.Args[i0] != v.Args[i1] {
 			return false
 		}
