@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3de034e0_f21b5051",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-17T10:55:31Z",
+      "side": 1,
+      "message": "I\u0027d expect this to short circuit and avoid the effort of calculating if we fall at the first hurdle.  So\n\n    return int(uintptr(unsafe.Pointer(\u0026dst[0]))) \u0026 mask \u003d\u003d 0 \u0026\u0026\n        ...\u0026a... \u0026\u0026\n        ...\u0026b...\n\nAlso, if dst is often a new slice, then it\u0027s likely to be aligned?  Check last?\n\nAn alternative is the unusual condition is the then-block style of Go.\n\n    if int(uintptr(unsafe.Pointer(\u0026a[0]))) \u0026 mask !\u003d 0 {\n        return false\n    }\n    ...\n    return true\n\nBut we\u0027re returning a bool, and return a \u0026\u0026 b \u0026\u0026 dst seems easy enough for the reader to parse.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "db33b6c10afdd1c6189cac2cf65689807ea95bbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
