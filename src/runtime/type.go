@@ -29,6 +29,32 @@ type _type struct {
 	ptrto   *_type
 }
 
+func (t *_type) name() string {
+	hasPrefix := func(s, prefix string) bool {
+		return len(s) >= len(prefix) && s[0:len(prefix)] == prefix
+	}
+	if hasPrefix(t._string, "map[") {
+		return ""
+	}
+	if hasPrefix(t._string, "struct {") {
+		return ""
+	}
+	if hasPrefix(t._string, "chan ") {
+		return ""
+	}
+	if t._string[0] == '[' || t._string[0] == '*' {
+		return ""
+	}
+	i := len(t._string) - 1
+	for i >= 0 {
+		if t._string[i] == '.' {
+			break
+		}
+		i--
+	}
+	return t._string[i+1:]
+}
+
 type method struct {
 	name    *string
 	pkgpath *string
@@ -39,7 +65,6 @@ type method struct {
 }
 
 type uncommontype struct {
-	name    *string
 	pkgpath *string
 	mhdr    []method
 }

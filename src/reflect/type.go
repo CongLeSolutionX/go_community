@@ -284,7 +284,6 @@ type method struct {
 // Using a pointer to this struct reduces the overall size required
 // to describe an unnamed type with no methods.
 type uncommonType struct {
-	name    *string  // name of type
 	pkgPath *string  // import path; nil for built-in types like int, string
 	methods []method // methods associated with type
 }
@@ -453,13 +452,6 @@ func (t *uncommonType) PkgPath() string {
 	return *t.pkgPath
 }
 
-func (t *uncommonType) Name() string {
-	if t == nil || t.name == nil {
-		return ""
-	}
-	return *t.name
-}
-
 func (t *rtype) String() string { return t.string }
 
 func (t *rtype) Size() uintptr { return t.size }
@@ -559,7 +551,29 @@ func (t *rtype) PkgPath() string {
 }
 
 func (t *rtype) Name() string {
-	return t.uncommonType.Name()
+	hasPrefix := func(s, prefix string) bool {
+		return len(s) >= len(prefix) && s[0:len(prefix)] == prefix
+	}
+	if hasPrefix(t.string, "map[") {
+		return ""
+	}
+	if hasPrefix(t.string, "struct {") {
+		return ""
+	}
+	if hasPrefix(t.string, "chan ") {
+		return ""
+	}
+	if t.string[0] == '[' || t.string[0] == '*' {
+		return ""
+	}
+	i := len(t.string) - 1
+	for i >= 0 {
+		if t.string[i] == '.' {
+			break
+		}
+		i--
+	}
+	return t.string[i+1:]
 }
 
 func (t *rtype) ChanDir() ChanDir {
