@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d85a05b_65766eaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-17T06:41:10Z",
+      "side": 1,
+      "message": "nit: Lower case \"allow\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "65d8c97a967d7995ed98df071eea70dfd1fdedc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d85a05b_857352b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-17T06:41:10Z",
+      "side": 1,
+      "message": "Refer to the commit as golang.org/cl/8945.  Also, it\u0027s just \"Go\", not \"golang\".\n\nAnd super nitty, but I\u0027m already commenting here: it\u0027s \"DNS\", not \"dns\".",
+      "revId": "65d8c97a967d7995ed98df071eea70dfd1fdedc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d85a05b_456d6ace",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-17T06:41:10Z",
+      "side": 1,
+      "message": "I\u0027d probably do this as\n\n    fallbackOrder :\u003d hostLookupCgo\n    if c.netGo {\n        fallbackOrder \u003d hostLookupFilesDNS\n    }\n\nand then change all the \"return hostLookupCgo\" to \"return fallbackOrder\".",
+      "revId": "65d8c97a967d7995ed98df071eea70dfd1fdedc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
