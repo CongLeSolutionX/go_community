@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3d4834fd_d8a5d5cb",
+        "filename": "src/crypto/cipher/xor.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-17T15:37:42Z",
+      "side": 1,
+      "message": "Now that we have made formal specification on\nwhat\u0027s correct usage of unsafe.Pointer, I\u0027m\nwondering if this is correct (I know we have\nprecedence in this issue, but if I\u0027m asking\nmore about the unsafe.Pointer usage specification\nthan this specific case.)\n(see https://http://tip.golang.org/pkg/unsafe/#Pointer)\nand a slightly related issue #12445.)\n\nTo put another way, what if the []byte is\nmoved right after this check and before\ninvoking the fast word based XOR loop? In\ntheory, the alignment property could be\ndifferent.\n\nRuss?",
+      "revId": "db33b6c10afdd1c6189cac2cf65689807ea95bbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3de034e0_f21b5051",
         "filename": "src/crypto/cipher/xor.go",
         "patchSetId": 2
