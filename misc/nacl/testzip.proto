@@ -27,11 +27,24 @@ go	src=..
 			internal
 				objfile
 					objfile.go
+				unvendor
+					golang.org
+							x
+								arch
+									arm
+										armasm
+											testdata
+													+
+									x86
+										x86asm
+											testdata
+													+
 			gofmt
 				gofmt.go
 				gofmt_test.go
 				testdata
 					+
+<<<<<<< HEAD   (5d343b [release-branch.go1.6] go1.6rc2)
 			vendor
 				golang.org
 						x
@@ -44,6 +57,11 @@ go	src=..
 									x86asm
 										testdata
 												+
+=======
+			newlink
+				testdata
+					+
+>>>>>>> BRANCH (939a94 doc: remove DRAFT tags from go1.6.html)
 		archive
 			tar
 				testdata
