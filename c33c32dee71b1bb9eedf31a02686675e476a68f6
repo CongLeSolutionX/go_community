@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d4834fd_4df825da",
+        "filename": "src/math/sqrt_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-17T02:17:30Z",
+      "side": 1,
+      "message": "I think you need build tags.\n\n// +build ppc64 ppc64le\n\nThe go tool won\u0027t recognize the _ppc64x filename suffix.",
+      "revId": "c33c32dee71b1bb9eedf31a02686675e476a68f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1da7f0d2_5f1c264a",
+        "filename": "src/math/sqrt_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-17T02:17:30Z",
+      "side": 1,
+      "message": "does ppc970fx support this instruction?\n(the isa manual seems to indicate that\nit\u0027s optional in powerpc.)",
+      "revId": "c33c32dee71b1bb9eedf31a02686675e476a68f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
