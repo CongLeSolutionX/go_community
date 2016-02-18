@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c23655de_75ca0294",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-18T20:56:24Z",
+      "side": 1,
+      "message": "I expect this is causing the error on plan9-386.  This change means that any compiler with CGO_ENABLED\u003d0 will fail TestDisallowedCSourceFiles in go_test.go: the go tool won\u0027t report any error in that case.",
+      "revId": "58a4070fcdfaf8292e26e0ad9d49cacbbb67f700",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
