@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c23655de_b87d01bc",
+        "filename": "src/net/dnsmsg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-18T21:47:28Z",
+      "side": 1,
+      "message": "nit: Not sure it matters, but I\u0027d return len(msg) instead of off to be consistent with the other failure returns.",
+      "range": {
+        "startLine": 432,
+        "startChar": 11,
+        "endLine": 432,
+        "endChar": 14
+      },
+      "revId": "bfff8e4e5d74568047cbe8adf2de668c369cc74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c23655de_3863511b",
+        "filename": "src/net/dnsmsg_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-18T21:47:28Z",
+      "side": 1,
+      "message": "It should be possible to limit this to buf[:n], where n is the length returned by packStruct above.",
+      "range": {
+        "startLine": 24,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "bfff8e4e5d74568047cbe8adf2de668c369cc74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c23655de_d859e563",
+        "filename": "src/net/dnsmsg_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-18T21:47:28Z",
+      "side": 1,
+      "message": "Again, should be buf[:n] and/or we should verify that the returned offset should equal n.",
+      "range": {
+        "startLine": 58,
+        "startChar": 33,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "bfff8e4e5d74568047cbe8adf2de668c369cc74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
