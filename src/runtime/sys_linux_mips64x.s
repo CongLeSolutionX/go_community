@@ -233,6 +233,11 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 TEXT runtime·sigtramp(SB),NOSPLIT,$64
+	// initialize REGSB = PC&0xffffffff00000000
+	BGEZAL	R0, 1(PC)
+	SRLV	$32, R31, R23
+	SLLV	$32, R23
+
 	// initialize essential registers (just in case)
 	JAL	runtime·reginit(SB)
 

@@ -414,8 +414,8 @@ const (
 	// R_ADDRARM64 relocates an adrp, add pair to compute the address of the
 	// referenced symbol.
 	R_ADDRARM64
-	// R_ADDRMIPS (only used on mips64) resolves to a 32-bit external address,
-	// by loading the address into a register with two instructions (lui, ori).
+	// R_ADDRMIPS (only used on mips64) resolves to the low 16 bits of an external
+	// address, by encoding it into the instruction.
 	R_ADDRMIPS
 	R_SIZE
 	R_CALL
@@ -521,6 +521,10 @@ const (
 	// R_ADDRPOWER_DS but inserts the offset from the TOC to the address of the the
 	// relocated symbol rather than the symbol's address.
 	R_ADDRPOWER_TOCREL_DS
+
+	// R_ADDRMIPSU (only used on mips64) resolves to the sign-adjusted "upper" 16
+	// bits (bit 16-31) of an external address, by encoding it into the instruction.
+	R_ADDRMIPSU
 )
 
 type Auto struct {
