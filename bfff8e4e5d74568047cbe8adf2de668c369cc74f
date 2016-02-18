@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c23655de_98a6bd83",
+        "filename": "src/net/dnsmsg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 12625
+      },
+      "writtenOn": "2016-02-18T23:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23655de_b87d01bc",
+      "range": {
+        "startLine": 432,
+        "startChar": 11,
+        "endLine": 432,
+        "endChar": 14
+      },
+      "revId": "bfff8e4e5d74568047cbe8adf2de668c369cc74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c23655de_3863511b",
         "filename": "src/net/dnsmsg_test.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c23655de_388471cc",
+        "filename": "src/net/dnsmsg_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 12625
+      },
+      "writtenOn": "2016-02-18T23:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23655de_3863511b",
+      "range": {
+        "startLine": 24,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "bfff8e4e5d74568047cbe8adf2de668c369cc74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c23655de_d859e563",
         "filename": "src/net/dnsmsg_test.go",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-02-18T21:47:28Z",
       "side": 1,
       "message": "Again, should be buf[:n] and/or we should verify that the returned offset should equal n.",
+      "range": {
+        "startLine": 58,
+        "startChar": 33,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "bfff8e4e5d74568047cbe8adf2de668c369cc74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c23655de_1889ade2",
+        "filename": "src/net/dnsmsg_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 12625
+      },
+      "writtenOn": "2016-02-18T23:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23655de_d859e563",
       "range": {
         "startLine": 58,
         "startChar": 33,
