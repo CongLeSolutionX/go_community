@@ -1249,6 +1249,8 @@ func hostlinkArchArgs() []string {
 		return []string{"-marm"}
 	case '7':
 		// nothing needed
+	case '0':
+		return []string{"-mabi=64"}
 	}
 	return nil
 }
