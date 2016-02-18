@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c23655de_9575665c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-18T20:26:40Z",
+      "side": 1,
+      "message": "This is kind of a vague description.  Also, lower case and no trailing period.  I\u0027d suggest something like:\n\n  net: fix packDomainName encoding of root and invalid names",
+      "revId": "4a6ab4f31f1c99ec4bd295ae66413483ce56a9be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c23655de_b5786a52",
+        "filename": "src/net/dnsmsg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-18T20:26:40Z",
+      "side": 1,
+      "message": "If i-begin \u003d\u003d 0, then there\u0027s an empty internal label and we should return ok\u003d\u003dfalse.",
+      "revId": "4a6ab4f31f1c99ec4bd295ae66413483ce56a9be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c23655de_35da3a93",
+        "filename": "src/net/dnsmsg_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-18T20:26:40Z",
+      "side": 1,
+      "message": "\"google..com\", \"google..com.\", \".google.com.\", and \"www..google.com.\" are all invalid domain names, and  packDomainName should reject them.",
+      "revId": "4a6ab4f31f1c99ec4bd295ae66413483ce56a9be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
