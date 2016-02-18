@@ -213,11 +213,18 @@ type gobuf struct {
 // Known to compiler.
 // Changes here must also be made in src/cmd/compile/internal/gc/select.go's selecttype.
 type sudog struct {
-	g           *g
-	selectdone  *uint32 // CAS to 1 to win select race (may point to stack)
-	next        *sudog
-	prev        *sudog
-	elem        unsafe.Pointer // data element (may point to stack)
+	// The following fields are protected by the hchan.lock of the
+	// channel this sudog is blocking on.
+
+	g          *g
+	selectdone *uint32 // CAS to 1 to win select race (may point to stack)
+	next       *sudog
+	prev       *sudog
+	elem       unsafe.Pointer // data element (may point to stack)
+
+	// The following fields are never accessed concurrently.
+	// waitlink is only accessed by g.
+
 	releasetime int64
 	nrelease    int32  // -1 for acquire
 	waitlink    *sudog // g.waiting list
