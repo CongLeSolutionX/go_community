@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d2d4c76_a8b1dbc4",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 7146
+      },
+      "writtenOn": "2016-02-18T19:19:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad0b73b_75af08a0",
+      "revId": "7d4975031e8e4c909116f732df4f600f45063c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad0b73b_95a9849e",
         "filename": "src/os/file_windows.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-01-05T00:47:35Z",
       "side": 1,
       "message": "Should there be an unchecked syscall.SetFileAttributes(p, a) here, best-effort put the attributes back?",
+      "revId": "7d4975031e8e4c909116f732df4f600f45063c29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82f29d53_e042c285",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 7146
+      },
+      "writtenOn": "2016-02-18T19:19:49Z",
+      "side": 1,
+      "message": "Good question, what I did instead is to only clear the RO bit, this way if the RO bit is stripped but if the file could still not be deleted, the only remaining effect is that the RO bit is removed.\n\nOn Windows, the capacity of changing metadata (like the RO bit) but not the capacity to delete a file is usually due to 3 causes:\n- A DACL (security attributes) inhibiting deletion BUT the file metadata can still be modified by the current effective user token.\n- The file is opened without a FILE_SHARE_DELETE share mode.\n- A race condition is happening due to two processes concurrently deleting a tree of files.\n\nI don\u0027t think it\u0027s worth trying to put the bit back on, since the goal was still to delete it and the fact that the file lost its RO bit is not that material; RO bit is more of an legacy annoyance that MS can\u0027t get rid of anymore than anything used seriously. And this function already has a wort case of 5 I/O syscalls.\n\nThe third point made me think of a potential optimization. Since lines 460-472 still run in the case of e \u003d\u003d syscall.ERROR_FILE_NOT_FOUND (2), it would make sense to early return in that case. That would make the \"file not present\" code path much faster since it could be detect right at line 461.\n\nI confirmed that syscall.DeleteFile(\u003cdirectory\u003e) returns syscall.ERROR_ACCESS_DENIED so it is easy\u0026safe to differentiate between the file not being present or another error condition.\n\nThat said, this optimization is likely worth making a separate CL; it\u0027s as you prefre.",
+      "parentUuid": "4ad0b73b_b5a480c4",
       "revId": "7d4975031e8e4c909116f732df4f600f45063c29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
