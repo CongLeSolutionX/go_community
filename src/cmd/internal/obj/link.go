@@ -444,6 +444,7 @@ const (
 	R_PLT1
 	R_PLT2
 	R_USEFIELD
+	R_USETYPE
 	R_POWER_TOC
 	R_GOTPCREL
 	// R_JMPMIPS (only used on mips64) resolves to non-PC-relative target address
