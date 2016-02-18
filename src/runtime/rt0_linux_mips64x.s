@@ -19,14 +19,22 @@ TEXT _main<>(SB),NOSPLIT,$-8
 	// sequence of string pointers followed by a NULL, and auxv.
 	// There is no TLS base pointer.
 #ifdef GOARCH_mips64
-	MOVW 4(R29), R1 // argc, big-endian ABI places int32 at offset 4
+	MOVW	4(R29), R1 // argc, big-endian ABI places int32 at offset 4
 #else
-	MOVW 0(R29), R1 // argc
+	MOVW	0(R29), R1 // argc
 #endif
-	ADDV $8, R29, R2 // argv
-	JMP main(SB)
+	ADDV	$8, R29, R2 // argv
+	MOVV	R0, R4 // clear R4, so we know we are not from external linking
+	JMP	main(SB)
 
 TEXT main(SB),NOSPLIT,$-8
+	// in external linking, glibc jumps to main with argc in R4
+	// and argv in R5
+	BEQ	R4, intlink
+	MOVV	R4, R1
+	MOVV	R5, R2
+
+intlink:
 	// initalize REGSB = PC&0xffffffff00000000
 	BGEZAL	R0, 1(PC)
 	SRLV	$32, R31, R23
