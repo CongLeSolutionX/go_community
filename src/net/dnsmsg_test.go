@@ -10,6 +10,83 @@ import (
 	"testing"
 )
 
+func TestStructPackUnpack(t *testing.T) {
+	want := dnsQuestion{
+		Name:   ".",
+		Qtype:  dnsTypeA,
+		Qclass: dnsClassINET,
+	}
+	buf := make([]byte, 50)
+	if _, ok := packStruct(&want, buf, 0); !ok {
+		t.Error("Packing failed")
+	}
+	got := dnsQuestion{}
+	if _, ok := unpackStruct(&got, buf, 0); !ok {
+		t.Error("Unpacking failed")
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got = %+v, want = %+v", got, want)
+	}
+}
+
+func TestDomainNamePackUnpack(t *testing.T) {
+	tests := []struct {
+		in   string
+		want string
+	}{
+		{"", "."},
+		{".", "."},
+		{"google..com", "google.com."},
+		{"google.com", "google.com."},
+		{"google..com.", "google.com."},
+		{"google.com.", "google.com."},
+		{".google.com.", "google.com."},
+		{"www..google.com.", "www.google.com."},
+		{"www.google.com.", "www.google.com."},
+	}
+
+	for _, test := range tests {
+		buf := make([]byte, 30)
+		if _, ok := packDomainName(test.in, buf, 0); !ok {
+			t.Errorf("Packing of %s failed", test.in)
+			continue
+		}
+		got, _, ok := unpackDomainName(buf, 0)
+		if !ok {
+			t.Errorf("Unpacking for %s failed", test.in)
+			continue
+		}
+		if got != test.want {
+			t.Errorf("unpacking packing of %s: got = %s, want = %s", test.in, got, test.want)
+		}
+	}
+}
+
+func TestDNSPackUnpack(t *testing.T) {
+	want := dnsMsg{
+		question: []dnsQuestion{{
+			Name:   ".",
+			Qtype:  dnsTypeAAAA,
+			Qclass: dnsClassINET,
+		}},
+		answer: []dnsRR{},
+		ns:     []dnsRR{},
+		extra:  []dnsRR{},
+	}
+	b, ok := want.Pack()
+	if !ok {
+		t.Error("Packing failed")
+	}
+	var got dnsMsg
+	ok = got.Unpack(b)
+	if !ok {
+		t.Error("Unpacking failed")
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got = %+v, want = %+v", got, want)
+	}
+}
+
 func TestDNSParseSRVReply(t *testing.T) {
 	data, err := hex.DecodeString(dnsSRVReply)
 	if err != nil {

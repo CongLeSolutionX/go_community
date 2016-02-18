@@ -422,8 +422,10 @@ func packDomainName(s string, msg []byte, off int) (off1 int, ok bool) {
 			if i-begin >= 1<<6 { // top two bits of length must be clear
 				return len(msg), false
 			}
-			msg[off] = byte(i - begin)
-			off++
+			if i-begin > 0 {
+				msg[off] = byte(i - begin)
+				off++
+			}
 			for j := begin; j < i; j++ {
 				msg[off] = s[j]
 				off++
@@ -493,6 +495,9 @@ Loop:
 			// 0x80 and 0x40 are reserved
 			return "", len(msg), false
 		}
+	}
+	if len(s) == 0 {
+		s = "."
 	}
 	if ptr == 0 {
 		off1 = off
@@ -803,20 +808,32 @@ func (dns *dnsMsg) Pack() (msg []byte, ok bool) {
 	// Pack it in: header and then the pieces.
 	off := 0
 	off, ok = packStruct(&dh, msg, off)
+	if !ok {
+		return nil, false
+	}
 	for i := 0; i < len(question); i++ {
 		off, ok = packStruct(&question[i], msg, off)
+		if !ok {
+			return nil, false
+		}
 	}
 	for i := 0; i < len(answer); i++ {
 		off, ok = packRR(answer[i], msg, off)
+		if !ok {
+			return nil, false
+		}
 	}
 	for i := 0; i < len(ns); i++ {
 		off, ok = packRR(ns[i], msg, off)
+		if !ok {
+			return nil, false
+		}
 	}
 	for i := 0; i < len(extra); i++ {
 		off, ok = packRR(extra[i], msg, off)
-	}
-	if !ok {
-		return nil, false
+		if !ok {
+			return nil, false
+		}
 	}
 	return msg[0:off], true
 }
@@ -848,6 +865,9 @@ func (dns *dnsMsg) Unpack(msg []byte) bool {
 
 	for i := 0; i < len(dns.question); i++ {
 		off, ok = unpackStruct(&dns.question[i], msg, off)
+		if !ok {
+			return false
+		}
 	}
 	for i := 0; i < int(dh.Ancount); i++ {
 		rec, off, ok = unpackRR(msg, off)
