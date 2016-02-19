@@ -166,6 +166,7 @@ var passes = [...]pass{
 	{name: "generic cse", fn: cse},
 	{name: "nilcheckelim", fn: nilcheckelim},
 	{name: "generic deadcode", fn: deadcode},
+	{name: "prove", fn: prove},
 	{name: "fuse", fn: fuse},
 	{name: "dse", fn: dse},
 	{name: "tighten", fn: tighten}, // move values closer to their uses
@@ -193,6 +194,8 @@ type constraint struct {
 }
 
 var passOrder = [...]constraint{
+	// common-subexpression before prove, so that we recognize identical variables.
+	{"generic cse", "dse"},
 	// common-subexpression before dead-store elim, so that we recognize
 	// when two address expressions are the same.
 	{"generic cse", "dse"},
