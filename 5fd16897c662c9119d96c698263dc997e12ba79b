@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a94d5f_e7217c96",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T05:17:18Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to make things simpler. After all, when importing unsafe, we still do a canned import of an \"empty\" unsafe package with all the machinery behind it (code below in importfile).\n\nWhy not leave unsafe imports as is?\n\n(The only time this might be faster than the status quo is if unsafe is imported by multiple files of a package.)",
+      "range": {
+        "startLine": 677,
+        "startChar": 10,
+        "endLine": 677,
+        "endChar": 11
+      },
+      "revId": "5fd16897c662c9119d96c698263dc997e12ba79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
