@@ -56,6 +56,7 @@ var debugtab = []struct {
 	{"wb", &Debug_wb},                 // print information about write barriers
 	{"export", &Debug_export},         // print export data
 	{"ssa", &ssa.Debug},               // ssa debugging flag
+	{"ssaprove", &ssa.Debug_prove},    // ssa prove debugging flag
 }
 
 const (
