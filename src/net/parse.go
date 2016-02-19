@@ -376,6 +376,35 @@ func readFull(r io.Reader) (all []byte, err error) {
 	}
 }
 
+// parsePort returns service as integer if it's numerical.
+func parsePort(service string) (port int, needsLookup bool) {
+	if service == "" {
+		// Lock in the legacy behavior that an empty string
+		// means port 0. See Issue 13610.
+		return 0, false
+	}
+
+	// Scan & bail if we find any non-numbers in the service string
+	for _, c := range service {
+		if (c < '0' || '9' < c) && c != '-' {
+			return 0, true
+		}
+	}
+
+	port, consumed, ok := dtoi(service, 0)
+	if !ok {
+		// if dtoi() encounters numbers outside ±0xFFFFFF, it returns !ok and ±0xFFFFFF
+		if port == big || port == -big {
+			return port, false
+		}
+		return port, true
+	}
+	if len(service) == consumed {
+		return port, false
+	}
+	return 0, true
+}
+
 // goDebugString returns the value of the named GODEBUG key.
 // GODEBUG is of the form "key=val,key2=val2"
 func goDebugString(key string) string {
