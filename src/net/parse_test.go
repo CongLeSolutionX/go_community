@@ -99,3 +99,27 @@ func TestDtoi(t *testing.T) {
 		}
 	}
 }
+
+var parsePortTests = []struct {
+	service     string
+	port        int
+	isNumerical bool
+}{
+	{"", 0, true},
+	{"42", 42, true},
+
+	// Too big to be useful
+	{"123456789", 0, false},
+
+	{"9pfs", 0, false},
+	{"abc", 0, false},
+	{"1234badport", 0, false},
+}
+
+func TestParsePort(t *testing.T) {
+	for _, tt := range parsePortTests {
+		if port, isNumerical := parsePort(tt.service); port != tt.port || isNumerical != tt.isNumerical {
+			t.Errorf("parsePort(%q) = %d, %t; want %d, %t", tt.service, port, isNumerical, tt.port, tt.isNumerical)
+		}
+	}
+}

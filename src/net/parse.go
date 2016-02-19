@@ -376,6 +376,23 @@ func readFull(r io.Reader) (all []byte, err error) {
 	}
 }
 
+// parsePort returns service as integer if it's numerical.
+func parsePort(service string) (port int, isNumerical bool) {
+	if service == "" {
+		// Lock in the legacy behavior that an empty string
+		// means port 0. See Issue 13610.
+		return 0, true
+	}
+
+	// Note that dtoi returns 0 if port > 0xFFFFFF
+	port, consumed, ok := dtoi(service, 0)
+	if len(service) != consumed || !ok {
+		return 0, false
+	}
+
+	return port, true
+}
+
 // goDebugString returns the value of the named GODEBUG key.
 // GODEBUG is of the form "key=val,key2=val2"
 func goDebugString(key string) string {
