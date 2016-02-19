@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "620be961_cf479d1b",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-19T08:16:18Z",
+      "side": 1,
+      "message": "bet you $1 this ends up being flaky down the road. doesn\u0027t seem like the test would be too fast and thus too noisy here.\n\nbut LGTM and we\u0027ll see.",
+      "revId": "b2e0f92373e10fc3e906f5bbab96ddfc5c1088e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
