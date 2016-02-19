@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "823a9df4_838aa006",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "// CRC32L AX, BX\n\nsimilarly below. that will match the eventual real spelling.",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_c37308f0",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "s/,//",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_037e90b6",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "copyright notice",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_4369b8f8",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "s/switch/flag/",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_236e3402",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "// set sets the code and length of an hcode.",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_8363c018",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "s/will update/updates/\ns/retain/retains/",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_63683cf3",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "s/the code/the hcode/",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_c35ca856",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "s/toCode/makeHcode/",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_a359a464",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T17:40:12Z",
+      "side": 1,
+      "message": "Why is this uint but codeBits, set, and setBits use uint8? They should be consistent (and I\u0027d imagine uint might be slightly faster).",
+      "revId": "663c1ed2e88172d318c48ab27a86c3e490be2998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
