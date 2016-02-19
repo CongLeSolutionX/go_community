@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a94d5f_2743141e",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T05:56:12Z",
+      "side": 1,
+      "message": "just: names ? (that would be my inclination)",
+      "range": {
+        "startLine": 490,
+        "startChar": 2,
+        "endLine": 490,
+        "endChar": 12
+      },
+      "revId": "0870dcb8acd5619597767dd7cf24f20867453dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02a94d5f_c727a092",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T05:56:12Z",
+      "side": 1,
+      "message": "Well, it might, if an incorrect AST is provided.\n\n// Can only happen if AST is incorrect. Ok to continue with a nil list.",
+      "range": {
+        "startLine": 504,
+        "startChar": 7,
+        "endLine": 504,
+        "endChar": 13
+      },
+      "revId": "0870dcb8acd5619597767dd7cf24f20867453dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02a94d5f_e7241c90",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T05:56:12Z",
+      "side": 1,
+      "message": "If this is printed, it did happen.\n\n\"Invalid AST: Incorrect type for anonymous field\"",
+      "range": {
+        "startLine": 505,
+        "startChar": 16,
+        "endLine": 505,
+        "endChar": 22
+      },
+      "revId": "0870dcb8acd5619597767dd7cf24f20867453dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02a94d5f_475df0f2",
+        "filename": "src/cmd/doc/testdata/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T05:56:12Z",
+      "side": 1,
+      "message": "There are more combinations - let\u0027s test them all:\n\nExportedField int\nunexportedField int\n\nExportedEmbeddedType\n*ExportedEmbeddedType\nunexportedEmbeddedType\n*unexportedEmbeddedType",
+      "revId": "0870dcb8acd5619597767dd7cf24f20867453dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
