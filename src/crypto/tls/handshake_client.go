@@ -16,6 +16,7 @@ import (
 	"io"
 	"net"
 	"strconv"
+	"strings"
 )
 
 type clientHandshakeState struct {
@@ -49,20 +50,13 @@ func (c *Conn) clientHandshake() error {
 		return errors.New("tls: NextProtos values too large")
 	}
 
-	sni := c.config.ServerName
-	// IP address literals are not permitted as SNI values. See
-	// https://tools.ietf.org/html/rfc6066#section-3.
-	if net.ParseIP(sni) != nil {
-		sni = ""
-	}
-
 	hello := &clientHelloMsg{
 		vers:                c.config.maxVersion(),
 		compressionMethods:  []uint8{compressionNone},
 		random:              make([]byte, 32),
 		ocspStapling:        true,
 		scts:                true,
-		serverName:          sni,
+		serverName:          canonServerName(c.config.ServerName),
 		supportedCurves:     c.config.curvePreferences(),
 		supportedPoints:     []uint8{pointFormatUncompressed},
 		nextProtoNeg:        len(c.config.NextProtos) > 0,
@@ -664,4 +658,28 @@ func mutualProtocol(protos, preferenceProtos []string) (string, bool) {
 	}
 
 	return protos[0], true
+}
+
+// canonServerName converts sni into an approriate hostname for SNI.
+// Literal IP addresses and absolute FQDNs are not permitted as SNI values.
+// See https://tools.ietf.org/html/rfc6066#section-3 for futher information.
+func canonServerName(sni string) string {
+	if host, _, err := net.SplitHostPort(sni); err == nil {
+		sni = host
+	}
+	if strings.HasPrefix(sni, "[") {
+		if i := strings.LastIndex(sni, "]"); i > 0 {
+			sni = sni[:i]
+		}
+	}
+	if i := strings.LastIndex(sni, "%"); i > 0 {
+		sni = sni[:i]
+	}
+	if net.ParseIP(sni) != nil {
+		sni = ""
+	}
+	if strings.HasSuffix(sni, ".") {
+		sni = sni[:len(sni)-1]
+	}
+	return sni
 }

@@ -618,14 +618,30 @@ func TestHandshakClientSCTs(t *testing.T) {
 	runClientTestTLS12(t, test)
 }
 
-func TestNoIPAddressesInSNI(t *testing.T) {
-	for _, ipLiteral := range []string{"1.2.3.4", "::1"} {
+var hostnameInSNITests = []struct {
+	in, out string
+}{
+	{"golang.org", "golang.org"},
+	{"golang.org.", "golang.org"},
+
+	{"1.2.3.4", ""},
+	{"1.2.3.4:443", ""},
+	{"::1", ""},
+	{"::1%lo0", ""},
+	{"[::1]", ""},
+	{"[::1]:443", ""},
+	{"[::1%lo0]", ""},
+	{"[::1%lo0]:443", ""},
+}
+
+func TestHostnameInSNI(t *testing.T) {
+	for _, tt := range hostnameInSNITests {
 		c, s := net.Pipe()
 
-		go func() {
-			client := Client(c, &Config{ServerName: ipLiteral})
+		go func(sni string) {
+			client := Client(c, &Config{ServerName: sni})
 			client.Handshake()
-		}()
+		}(tt.in)
 
 		var header [5]byte
 		if _, err := io.ReadFull(s, header[:]); err != nil {
@@ -639,8 +655,11 @@ func TestNoIPAddressesInSNI(t *testing.T) {
 		}
 		s.Close()
 
-		if bytes.Index(record, []byte(ipLiteral)) != -1 {
-			t.Errorf("IP literal %q found in ClientHello: %x", ipLiteral, record)
+		if tt.in != tt.out && bytes.Contains(record, []byte(tt.in)) {
+			t.Errorf("prohibited hostname %q found in ClientHello: %x", tt.in, record)
+		}
+		if tt.out != "" && !bytes.Contains(record, []byte(tt.out)) {
+			t.Errorf("expected hostname %q not found in ClientHello: %x", tt.out, record)
 		}
 	}
 }
