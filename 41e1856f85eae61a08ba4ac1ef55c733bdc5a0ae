@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a94d5f_6a01d39c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-19T19:05:25Z",
+      "side": 1,
+      "message": "s/socket/socktest/",
+      "revId": "41e1856f85eae61a08ba4ac1ef55c733bdc5a0ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
