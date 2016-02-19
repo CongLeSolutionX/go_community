@@ -111,6 +111,7 @@ var passes = [...]pass{
 	{"tighten", tighten, false}, // move values closer to their uses
 	{"lower", lower, true},
 	{"lowered cse", cse, false},
+	{"lowered prove", prove, false},
 	{"lowered deadcode", deadcode, true},
 	{"checkLower", checkLower, true},
 	{"late phielim", phielim, false},
@@ -159,6 +160,8 @@ var passOrder = [...]constraint{
 	{"schedule", "regalloc"},
 	// checkLower must run after lowering & subsequent dead code elim
 	{"lower", "checkLower"},
+	// lowered prove compares value
+	{"lowered cse", "lowered prove"},
 	{"lowered deadcode", "checkLower"},
 	// flagalloc needs instructions to be scheduled.
 	{"schedule", "flagalloc"},
