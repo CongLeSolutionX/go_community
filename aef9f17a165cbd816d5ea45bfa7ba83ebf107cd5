@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2c4017e_d97e138b",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T21:34:37Z",
+      "side": 1,
+      "message": "s/import_spec/importdcl/\n\nimport_spec would be the matching name per spec, but the parser (and the old code in go.y) uses typedcl, constdcl, vardcl for what would be type_spec, const_spec, var_spec per the spec. Let\u0027s stick to the xxxdcl format.",
+      "revId": "aef9f17a165cbd816d5ea45bfa7ba83ebf107cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
