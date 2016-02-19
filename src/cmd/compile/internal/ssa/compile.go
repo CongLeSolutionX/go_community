@@ -107,6 +107,7 @@ var passes = [...]pass{
 	{"generic cse", cse, false},
 	{"nilcheckelim", nilcheckelim, false},
 	{"generic deadcode", deadcode, false},
+	{"generic prove", prove, false},
 	{"fuse", fuse, false},
 	{"dse", dse, false},
 	{"tighten", tighten, false}, // move values closer to their uses
