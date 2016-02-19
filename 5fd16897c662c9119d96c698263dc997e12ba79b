@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02a94d5f_ad25a5f1",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-19T19:56:15Z",
+      "side": 1,
+      "message": "I think so.  I\u0027m pretty sure this iota_ assignment isn\u0027t actually necessary for loading Runtimepkg and unsafepkg.\n\nIt\u0027s only the \"block \u003d 1\" assignment that\u0027s really necessary because of how cmd/compile implements scopes.  I just kept the \"iota_ \u003d -1000000\" assignment to be consistent with lex.go:342,343.",
+      "parentUuid": "02a94d5f_0db959f1",
+      "range": {
+        "startLine": 670,
+        "startChar": 1,
+        "endLine": 670,
+        "endChar": 6
+      },
+      "revId": "5fd16897c662c9119d96c698263dc997e12ba79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02a94d5f_e7217c96",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
