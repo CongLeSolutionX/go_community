@@ -594,6 +594,7 @@ var lookupPortTests = []struct {
 	{"tcp", "domain", 53, true},
 	{"tcp", "finger", 79, true},
 	{"tcp", "42", 42, true},
+	{"tcp", "9pfs", 564, true},
 
 	{"udp", "0", 0, true},
 	{"udp", "echo", 7, true},
@@ -612,6 +613,7 @@ var lookupPortTests = []struct {
 	{"tcp", "65536", 0, false},
 	{"udp", "-1", 0, false},
 	{"udp", "65536", 0, false},
+	{"tcp", "123badport", 0, false},
 
 	// Issue 13610: LookupPort("tcp", "")
 	{"tcp", "", 0, true},
