@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02d06de3_ecd40b06",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-19T10:39:16Z",
+      "side": 1,
+      "message": "This discards whatever is after the ] even if that\u0027s not the last character, e.g. [foo]bar -\u003e foo.  Is that the intent given the :port has already been stripped?  I was expecting [] to only be special if they\u0027re the first and last characters, but I\u0027m probably not fully understanding the range of possible sni.  If [foo]bar:443 should return [foo]bar then perhaps that\u0027s a needed test case.",
+      "range": {
+        "startLine": 670,
+        "startChar": 0,
+        "endLine": 674,
+        "endChar": 2
+      },
+      "revId": "1c571507e32161d83fab5dad267c847a6f5e0376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
