@@ -487,9 +487,27 @@ func trimUnexportedFields(fields *ast.FieldList, what string) *ast.FieldList {
 	trimmed := false
 	list := make([]*ast.Field, 0, len(fields.List))
 	for _, field := range fields.List {
+		fieldNames := field.Names
+		if len(fieldNames) == 0 {
+			// Embedded type. Use the name of the type. It must be of type ident or *ident.
+			//  Nothing else is allowed.
+			switch ident := field.Type.(type) {
+			case *ast.Ident:
+				fieldNames = []*ast.Ident{ident}
+			case *ast.StarExpr:
+				// Must be an *identifier.
+				if ident, ok := ident.X.(*ast.Ident); ok {
+					fieldNames = []*ast.Ident{ident}
+				}
+			}
+			if fieldNames == nil {
+				// Cannot happen. A nil list will do.
+				log.Printf("Cannot happen: unexpected type for embedded field")
+			}
+		}
 		// Trims if any is unexported. Good enough in practice.
 		ok := true
-		for _, name := range field.Names {
+		for _, name := range fieldNames {
 			if !isExported(name.Name) {
 				trimmed = true
 				ok = false

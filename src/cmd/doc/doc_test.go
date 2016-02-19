@@ -221,6 +221,7 @@ var tests = []test{
 			`type ExportedType struct`,    // Type definition.
 			`Comment before exported field.*\n.*ExportedField +int` +
 				`.*Comment on line with exported field.`,
+			`ExportedInterface.*Comment on line with exported embedded field.`,
 			`Has unexported fields`,
 			`func \(ExportedType\) ExportedMethod\(a int\) bool`,
 			`const ExportedTypedConstant ExportedType = iota`, // Must include associated constant.
@@ -228,6 +229,7 @@ var tests = []test{
 		},
 		[]string{
 			`unexportedField`,                // No unexported field.
+			`int.*embedded`,                  // No unexported embedded field.
 			`Comment about exported method.`, // No comment about exported method.
 			`unexportedMethod`,               // No unexported method.
 			`unexportedTypedConstant`,        // No unexported constant.
@@ -241,7 +243,9 @@ var tests = []test{
 			`Comment about exported type`, // Include comment.
 			`type ExportedType struct`,    // Type definition.
 			`Comment before exported field.*\n.*ExportedField +int`,
-			`unexportedField int.*Comment on line with unexported field.`,
+			`unexportedField.*int.*Comment on line with unexported field.`,
+			`ExportedInterface.*Comment on line with exported embedded field.`,
+			`\*int.*Comment on line with unexported embedded field.`,
 			`func \(ExportedType\) unexportedMethod\(a int\) bool`,
 			`unexportedTypedConstant`,
 		},
