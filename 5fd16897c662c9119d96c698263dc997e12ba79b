@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "02a94d5f_0db959f1",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-19T19:38:10Z",
+      "side": 1,
+      "message": "For a future CL: Can we count iota_ in the parser and pass the value when declaring constant? This global variable iota_ really needs to go.",
+      "range": {
+        "startLine": 670,
+        "startChar": 1,
+        "endLine": 670,
+        "endChar": 6
+      },
+      "revId": "5fd16897c662c9119d96c698263dc997e12ba79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02a94d5f_e7217c96",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
