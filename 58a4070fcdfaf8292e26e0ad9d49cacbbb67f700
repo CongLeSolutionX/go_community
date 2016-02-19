@@ -16,6 +16,24 @@
       "revId": "58a4070fcdfaf8292e26e0ad9d49cacbbb67f700",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "823a9df4_c09f7e27",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-02-19T01:47:54Z",
+      "side": 1,
+      "message": "Thanks. Deleted TestDisallowedCSourceFiles. :-)",
+      "parentUuid": "c23655de_75ca0294",
+      "revId": "58a4070fcdfaf8292e26e0ad9d49cacbbb67f700",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
