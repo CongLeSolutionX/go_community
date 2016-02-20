@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_cc5befce",
+        "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-20T06:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_8c696789",
+      "range": {
+        "startLine": 67,
+        "startChar": 32,
+        "endLine": 67,
+        "endChar": 39
+      },
+      "revId": "d6c7d2be4836266b711c2992d2e5fa1f6ac1ec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_ac50a3ab",
+        "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-20T06:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_cc6f6f8c",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "d6c7d2be4836266b711c2992d2e5fa1f6ac1ec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_6c7f5b3d",
         "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2016-02-20T05:09:18Z",
       "side": 1,
       "message": "s/imports/export data/",
+      "range": {
+        "startLine": 70,
+        "startChar": 39,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "d6c7d2be4836266b711c2992d2e5fa1f6ac1ec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_8c55e79b",
+        "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-20T06:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_6c7f5b3d",
       "range": {
         "startLine": 70,
         "startChar": 39,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_6c6bdb5f",
+        "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-20T06:14:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_4c7c9f46",
+      "range": {
+        "startLine": 74,
+        "startChar": 28,
+        "endLine": 74,
+        "endChar": 35
+      },
+      "revId": "d6c7d2be4836266b711c2992d2e5fa1f6ac1ec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_ccd40f6a",
         "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2016-02-20T05:09:18Z",
       "side": 1,
       "message": "Since this is binary data there\u0027s no reason to split at any specific byte. 0 only works because there\u0027s frequently 0 entries, but that might change.\n\nI would just split it up into slices of n bytes, with n a reasonable number (40, 50, 60 or so). E.g., something like:\n\nb \u003d b[i:j]\nconst n \u003d 40 // good value tbd\nfor len(b) \u003e\u003d n {\n   fmt.Fprintf(w, \" +\\n\\t%q\", b[:n])\n   b \u003d b[n:]\n}\nif len(b) \u003e 0 {\n   fmt.Fprintf(w, \" +\\n\\t%q\", b)\n}\n\nshould be good enough. Or maybe:\n\nfor n :\u003d 40; i \u003c j; i +\u003d n {\n   if i+n \u003e j {\n      n \u003d j - i\n   }\n   // i+n \u003c\u003d j\n   fmt.Fprintf(w, \" +\\n\\t%q\", b[i : i+n])\n}",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 25
+      },
+      "revId": "d6c7d2be4836266b711c2992d2e5fa1f6ac1ec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_4c681f61",
+        "filename": "src/cmd/compile/internal/gc/mkbuiltin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-20T06:14:43Z",
+      "side": 1,
+      "message": "Done.  Split into 40 byte chunks.",
+      "parentUuid": "02e4ed24_ccd40f6a",
       "range": {
         "startLine": 83,
         "startChar": 24,
