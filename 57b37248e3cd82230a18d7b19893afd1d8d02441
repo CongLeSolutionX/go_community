@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "42c98578_761ad0b2",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-20T13:38:32Z",
+      "side": 1,
+      "message": "I put up some timings of different variations:\n\nhttps://github.com/klauspost/compress/pull/42\n\nI cannot explain it, but even using only 32 bit values, and calculating two values at the same time yields slower results. I would of course be happy for something faster, but this is the fastest I have found.",
+      "parentUuid": "823a9df4_83e8e09c",
+      "revId": "57b37248e3cd82230a18d7b19893afd1d8d02441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd977c52_6c5bfbfe",
         "filename": "src/compress/flate/asm_amd64.s",
         "patchSetId": 2
