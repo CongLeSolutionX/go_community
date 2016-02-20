@@ -6,6 +6,7 @@ package ssa
 
 import (
 	"fmt"
+	"reflect"
 	"sort"
 )
 
@@ -203,8 +204,7 @@ type eqclass []*Value
 // backed by the same storage as the input slice.
 // Equivalence classes of size 1 are ignored.
 func partitionValues(a []*Value) []eqclass {
-	auxIDs := map[interface{}]int32{}
-	sort.Sort(sortvalues{a, auxIDs})
+	sort.Sort(sortvalues{a})
 
 	var partition []eqclass
 	for len(a) > 0 {
@@ -219,8 +219,10 @@ func partitionValues(a []*Value) []eqclass {
 				v.Aux != w.Aux
 			if rootsDiffer ||
 				len(v.Args) >= 1 && (v.Args[0].Op != w.Args[0].Op ||
+					v.Args[0].Aux != w.Args[0].Aux ||
 					v.Args[0].AuxInt != w.Args[0].AuxInt) ||
 				len(v.Args) >= 2 && (v.Args[1].Op != w.Args[1].Op ||
+					v.Args[1].Aux != w.Args[1].Aux ||
 					v.Args[1].AuxInt != w.Args[1].AuxInt) ||
 				v.Type.Compare(w.Type) != CMPeq {
 				if Debug > 3 {
@@ -250,8 +252,7 @@ func partitionValues(a []*Value) []eqclass {
 
 // Sort values to make the initial partition.
 type sortvalues struct {
-	a      []*Value              // array of values
-	auxIDs map[interface{}]int32 // aux -> aux ID map
+	a []*Value // array of values
 }
 
 func (sv sortvalues) Len() int      { return len(sv.a) }
@@ -290,6 +291,12 @@ func (sv sortvalues) Less(i, j int) bool {
 			return vAuxInt < wAuxInt
 		}
 
+		vAux := v.Args[0].Aux
+		wAux := w.Args[0].Aux
+		if vAux != wAux {
+			return aux2i(vAux) < aux2i(wAux)
+		}
+
 		if len(v.Args) >= 2 {
 			vOp = v.Args[1].Op
 			wOp = w.Args[1].Op
@@ -301,6 +308,12 @@ func (sv sortvalues) Less(i, j int) bool {
 			wAuxInt = w.Args[1].AuxInt
 			if vAuxInt != wAuxInt {
 				return vAuxInt < wAuxInt
+			}
+
+			vAux = v.Args[1].Aux
+			wAux = w.Args[1].Aux
+			if vAux != wAux {
+				return aux2i(vAux) < aux2i(wAux)
 			}
 		}
 	}
@@ -317,31 +330,21 @@ func (sv sortvalues) Less(i, j int) bool {
 	// method.  Use a map to number distinct ones,
 	// and use those numbers for comparison.
 	if v.Aux != w.Aux {
-		x := sv.auxIDs[v.Aux]
-		if x == 0 {
-			x = int32(len(sv.auxIDs)) + 1
-			sv.auxIDs[v.Aux] = x
-		}
-		y := sv.auxIDs[w.Aux]
-		if y == 0 {
-			y = int32(len(sv.auxIDs)) + 1
-			sv.auxIDs[w.Aux] = y
-		}
-		if x != y {
-			return x < y
-		}
+		return aux2i(v.Aux) < aux2i(w.Aux)
 	}
 
-	// TODO(khr): is the above really ok to do?  We're building
-	// the aux->auxID map online as sort is asking about it.  If
-	// sort has some internal randomness, then the numbering might
-	// change from run to run.  That will make the ordering of
-	// partitions random.  It won't break the compiler but may
-	// make it nondeterministic.  We could fix this by computing
-	// the aux->auxID map ahead of time, but the hope is here that
-	// we won't need to compute the mapping for many aux fields
-	// because the values they are in are otherwise unique.
+	// TODO(khr): is the above really ok to do?  We're sorting by
+	// the address of the aux value, so the numbering will change from run
+	// to run.  That will make the ordering of partitions random.  It won't
+	// break the compiler but may make it nondeterministic.
 
 	// Sort by value ID last to keep the sort result deterministic.
 	return v.ID < w.ID
+}
+
+func aux2i(aux interface{}) uintptr {
+	if aux == nil {
+		return 0
+	}
+	return reflect.ValueOf(aux).Pointer()
 }
