@@ -14,6 +14,8 @@ package io
 
 import (
 	"errors"
+	"reflect"
+	"unsafe"
 )
 
 // ErrShortWrite means that a write accepted fewer bytes than requested
@@ -278,7 +280,9 @@ func WriteString(w Writer, s string) (n int, err error) {
 	if sw, ok := w.(stringWriter); ok {
 		return sw.WriteString(s)
 	}
-	return w.Write([]byte(s))
+	ss := (*reflect.SliceHeader)(unsafe.Pointer(&s))
+	ss.Cap = ss.Len
+	return w.Write(*(*[]byte)(unsafe.Pointer(ss)))
 }
 
 // ReadAtLeast reads from r into buf until it has read at least min bytes.

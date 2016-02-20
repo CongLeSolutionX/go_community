@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	. "io"
+	"io/ioutil"
 	"strings"
 	"testing"
 )
@@ -385,5 +386,21 @@ func TestSectionReader_Size(t *testing.T) {
 		if got := sr.Size(); got != tt.want {
 			t.Errorf("Size = %v; want %v", got, tt.want)
 		}
+	}
+}
+
+var damnFox = strings.Repeat(`The quick brown fox jumps over the lazy dog.`, 1024*1024)
+
+func BenchmarkWriteStringLong(b *testing.B) {
+	w := struct{ Writer }{ioutil.Discard}
+	for i := 0; i < b.N; i++ {
+		WriteString(w, damnFox)
+	}
+}
+
+func BenchmarkWriteStringShort(b *testing.B) {
+	w := struct{ Writer }{ioutil.Discard}
+	for i := 0; i < b.N; i++ {
+		WriteString(w, damnFox[:44])
 	}
 }
