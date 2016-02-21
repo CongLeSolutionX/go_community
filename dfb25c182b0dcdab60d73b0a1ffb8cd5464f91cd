@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_72d3b026",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-21T23:05:39Z",
+      "side": 1,
+      "message": "I think a regexp is overkill here.  Look at the code in cmd/go/test.go.  Pass the prefix to isTestSuffix, and call it twice.\n\nIf you really want to stick with a regexp, put it in a global variable, don\u0027t recompiled it each time this function is called.",
+      "revId": "dfb25c182b0dcdab60d73b0a1ffb8cd5464f91cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
