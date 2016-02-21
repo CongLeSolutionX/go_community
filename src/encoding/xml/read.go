@@ -45,7 +45,8 @@ import (
 //   * If the XMLName field has an associated tag of the form
 //      "name" or "namespace-URL name", the XML element must have
 //      the given name (and, optionally, name space) or else Unmarshal
-//      returns an error.
+//      returns an error. When a namespace and local name are specified,
+//      name may optionally be a wildcard "*".
 //
 //   * If the XML element has an attribute whose name matches a
 //      struct field name with an associated tag containing ",attr" or
@@ -396,7 +397,7 @@ func (p *Decoder) unmarshal(val reflect.Value, start *StartElement) error {
 		// Validate and assign element name.
 		if tinfo.xmlname != nil {
 			finfo := tinfo.xmlname
-			if finfo.name != "" && finfo.name != start.Name.Local {
+			if finfo.name != "" && finfo.name != start.Name.Local && finfo.name != "*" {
 				return UnmarshalError("expected element type <" + finfo.name + "> but have <" + start.Name.Local + ">")
 			}
 			if finfo.xmlns != "" && finfo.xmlns != start.Name.Space {
