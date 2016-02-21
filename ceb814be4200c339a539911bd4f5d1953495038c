@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a29de171_1448ba58",
+        "filename": "src/runtime/rt0_linux_mips64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-21T19:33:57Z",
+      "side": 1,
+      "message": "why not just use gcc ABI here so that in main(SB) below,\nwe don\u0027t need to differentiate between the two cases?",
+      "revId": "ceb814be4200c339a539911bd4f5d1953495038c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
