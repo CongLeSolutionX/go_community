@@ -358,6 +358,35 @@ func TestUnmarshalWithoutNameType(t *testing.T) {
 	}
 }
 
+const (
+	GlobTest = "GlobTest"
+	TestNS   = "urn:example:test"
+)
+const globNameTypeData = `
+<?xml version="1.0" charset="utf-8"?>
+<GlobTest Attr="OK" xmlns="urn:example:test" />`
+
+type TestGlob struct {
+	XMLName Name   `xml:"urn:example:test *"`
+	Attr    string `xml:",attr"`
+}
+
+func TestUnmarshalGlobNameType(t *testing.T) {
+	var x TestGlob
+	if err := Unmarshal([]byte(globNameTypeData), &x); err != nil {
+		t.Fatalf("Unmarshal: %s", err)
+	}
+	if x.XMLName.Local != GlobTest {
+		t.Fatalf("have %v\nwant %v", x.XMLName.Local, GlobTest)
+	}
+	if x.XMLName.Space != TestNS {
+		t.Fatalf("have %v\nwant %v", x.XMLName.Space, TestNS)
+	}
+	if x.Attr != OK {
+		t.Fatalf("have %v\nwant %v", x.Attr, OK)
+	}
+}
+
 func TestUnmarshalAttr(t *testing.T) {
 	type ParamVal struct {
 		Int int `xml:"int,attr"`
