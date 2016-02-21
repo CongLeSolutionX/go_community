@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_141c5457",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-02-21T23:59:27Z",
+      "side": 1,
+      "message": "I don\u0027t like how this is structured. There\u0027s so much repetition. Surely it can be done better.",
+      "revId": "c6fe759deef63532b5316a9bb8c2c06dd06b9a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
