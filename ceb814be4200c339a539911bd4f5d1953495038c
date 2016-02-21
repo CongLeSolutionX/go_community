@@ -16,6 +16,24 @@
       "revId": "ceb814be4200c339a539911bd4f5d1953495038c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_8fd8396a",
+        "filename": "src/runtime/rt0_linux_mips64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 9670
+      },
+      "writtenOn": "2016-02-21T20:21:54Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "a29de171_1448ba58",
+      "revId": "ceb814be4200c339a539911bd4f5d1953495038c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
