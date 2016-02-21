@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_af1e55f4",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-21T19:50:20Z",
+      "side": 1,
+      "message": "As long as we are doing this, we may as well check for valid Benchmarks as well.",
+      "revId": "d160c2c0ca361cb9a182376c17beb68982d78ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_8f239940",
+        "filename": "src/cmd/vet/testdata/malformed_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-21T19:50:20Z",
+      "side": 1,
+      "message": "This example is also OK because Test is followed by an uppercase letter.  Perhaps change the name to TesthasReceiver.",
+      "revId": "d160c2c0ca361cb9a182376c17beb68982d78ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
