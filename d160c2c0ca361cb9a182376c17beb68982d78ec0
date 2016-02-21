@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "22dbb13a_ddfaeb89",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 12526
+      },
+      "writtenOn": "2016-02-21T22:00:22Z",
+      "side": 1,
+      "message": "Done, but I had to bring in regexes.",
+      "parentUuid": "02e4ed24_af1e55f4",
+      "revId": "d160c2c0ca361cb9a182376c17beb68982d78ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_8f239940",
         "filename": "src/cmd/vet/testdata/malformed_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-21T19:50:20Z",
       "side": 1,
       "message": "This example is also OK because Test is followed by an uppercase letter.  Perhaps change the name to TesthasReceiver.",
+      "revId": "d160c2c0ca361cb9a182376c17beb68982d78ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_b69c6834",
+        "filename": "src/cmd/vet/testdata/malformed_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 12526
+      },
+      "writtenOn": "2016-02-21T22:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_8f239940",
       "revId": "d160c2c0ca361cb9a182376c17beb68982d78ec0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
