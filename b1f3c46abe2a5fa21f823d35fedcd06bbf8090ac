@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_52a794d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-21T22:53:44Z",
+      "side": 1,
+      "message": "s/compiler/compile/",
+      "revId": "b1f3c46abe2a5fa21f823d35fedcd06bbf8090ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_32b408fe",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-21T22:53:44Z",
+      "side": 1,
+      "message": "I\u0027m really unsure of this change.  Right now there is a simple rule: the alignment of a basic type is the size of the type, up to the width of a register.  I\u0027m not sure that C compatibility is a good enough reason to break that rule.",
+      "revId": "b1f3c46abe2a5fa21f823d35fedcd06bbf8090ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
