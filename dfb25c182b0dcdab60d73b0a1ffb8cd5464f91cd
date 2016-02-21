@@ -16,6 +16,24 @@
       "revId": "dfb25c182b0dcdab60d73b0a1ffb8cd5464f91cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_36da18ec",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 12526
+      },
+      "writtenOn": "2016-02-21T23:34:30Z",
+      "side": 1,
+      "message": "I had looked at that code but was not entirely convinced, thus the regex. Since you also feel this way, I changed it.",
+      "parentUuid": "02e4ed24_72d3b026",
+      "revId": "dfb25c182b0dcdab60d73b0a1ffb8cd5464f91cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
