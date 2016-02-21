@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_f479d8a4",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "I think that s/RSI/SI/ is Go asm style.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_d47edc8a",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Also, I think \u0026b should, strictly speaking, be \u0026b[0], although I\u0027m not sure if you\u0027re just copy/pasting some other asm.\n\nDitto below.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_14c0d4f2",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "s/MOVSB/CMPSB/ although https://golang.org/src/runtime/memmove_amd64.s says that \"REP instructions have a high startup cost\", so maybe a simple loop is better.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_34c3d003",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "s/remanding/remaining/",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_54c64c13",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Not \"DECQ R9\"?",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_14121477",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "While you\u0027re here, you can drop the \"0\". The previous code probably dates from pre-Go-1, before you could say s[:x].",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_748ee8eb",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "I\u0027d add a continue above this line, delete the else, and so the rest of the block is outdented one level.\n\nhttps://github.com/golang/go/wiki/CodeReviewComments#indent-error-flow isn\u0027t exactly about this, but it has a similar sentiment.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_548becd9",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Similarly, I\u0027d say\nif w.nbits \u003c 48 {\n  continue\n}\nand outdent the rest.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_54188c96",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "I don\u0027t think that this is necessary.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_d4b01cc2",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "The usual Go name is want, not expected.\n\n(Yes, some existing stdlib code was written before the convention was established).",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_94baa49c",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Matching the what?",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_3415105f",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "You can drop the \"hufftest\" here, so that the line is just \"{\".",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_b4b5a0b0",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Can you line break these? See https://github.com/golang/go/wiki/CodeReviewComments#line-length",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_f4ab1851",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "TestWriteBlockDynamic.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_f4d438c2",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Some comment would be nice that these two fields are to avoid the allocation (I\u0027m guessing) of converting the []literalNode to a sort.Interface, during huffmanEncoder.generate.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_14a7b481",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Is this method used anywhere? If not, delete?",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_74c94821",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "Maybe s/bits/length/ or s/bits/count/, and similarly elsewhere, might be more consistent.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_549d2c2d",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "I\u0027d change\n(code uint16)\nto just\nuint16\nand ditto below.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_b4cec02a",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "The \"freqcache: nil\" is redundant.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_94d3c4d6",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "A comment about the magic 300 number might be nice. For example, how do we know that the [:len(freq)+1] slicing on the next line won\u0027t panic? If 300 is always good enough, should we use an array instead of a slice?",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_d4d93cf8",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "The modern name for these two types is probably byLiteral and byFreq.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_34aab049",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-02-21T12:25:38Z",
+      "side": 1,
+      "message": "We usually don\u0027t export names unless we have to, so I\u0027d s/Sort/sort/",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
