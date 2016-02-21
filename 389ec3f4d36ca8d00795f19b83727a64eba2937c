@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a29de171_5452420c",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-21T19:35:59Z",
+      "side": 1,
+      "message": "do we need to support load/store floating point from TLS slots?",
+      "revId": "389ec3f4d36ca8d00795f19b83727a64eba2937c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
