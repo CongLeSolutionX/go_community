@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_52d554fe",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-21T23:27:35Z",
+      "side": 0,
+      "message": "So these will just print as generic hmap and hiter types, then?",
+      "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_d2e824cf",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-21T23:27:35Z",
+      "side": 0,
+      "message": "Leave the \"must be in second position\" comment.",
+      "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_32cd287c",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-21T23:27:35Z",
+      "side": 0,
+      "message": "Could you leave the \u003e48 part?  It\u0027s intended to make sure we don\u0027t inadvertently make an hmap bigger.",
+      "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
