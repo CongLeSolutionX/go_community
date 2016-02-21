@@ -300,7 +300,6 @@ var fmtTests = []struct {
 	{"%+.3g", complex128(1 + 2i), "(+1+2i)"},
 	{"%b", complex64(1 + 2i), "(8388608p-23+8388608p-22i)"},
 	{"%b", 1 + 2i, "(4503599627370496p-52+4503599627370496p-51i)"},
-
 	// erroneous formats
 	{"", 2, "%!(EXTRA int=2)"},
 	{"%d", "hello", "%!d(string=hello)"},
@@ -386,6 +385,9 @@ var fmtTests = []struct {
 	{"%20e", math.Inf(1), "                +Inf"},
 	{"%-20f", math.Inf(-1), "-Inf                "},
 	{"%20g", math.NaN(), "                 NaN"},
+	{"%+20f", math.NaN(), "                +NaN"},
+	{"% -20f", math.NaN(), " NaN                "},
+	{"%+-20f", math.NaN(), "+NaN                "},
 
 	// arrays
 	{"%v", array, "[1 2 3 4 5]"},
@@ -654,13 +656,19 @@ var fmtTests = []struct {
 	// Complex numbers: exhaustively tested in TestComplexFormatting.
 	{"%7.2f", 1 + 2i, "(   1.00  +2.00i)"},
 	{"%+07.2f", -1 - 2i, "(-001.00-002.00i)"},
-	// Zero padding does not apply to infinities.
+	// Zero padding does not apply to infinities and NaN.
 	{"%020f", math.Inf(-1), "                -Inf"},
 	{"%020f", math.Inf(+1), "                +Inf"},
+	{"%020f", math.NaN(), "                 NaN"},
 	{"% 020f", math.Inf(-1), "                -Inf"},
 	{"% 020f", math.Inf(+1), "                 Inf"},
+	{"% 020f", math.NaN(), "                 NaN"},
 	{"%+020f", math.Inf(-1), "                -Inf"},
 	{"%+020f", math.Inf(+1), "                +Inf"},
+	{"%+020f", math.NaN(), "                +NaN"},
+	{"%-020f", math.Inf(-1), "-Inf                "},
+	{"%-020f", math.Inf(+1), "+Inf                "},
+	{"%-020f", math.NaN(), "NaN                 "},
 	{"%20f", -1.0, "           -1.000000"},
 	// Make sure we can handle very large widths.
 	{"%0100f", -1.0, zeroFill("-", 99, "1.000000")},
