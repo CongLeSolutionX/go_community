@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42c98578_36b8580e",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-22T16:20:52Z",
+      "side": 1,
+      "message": "s/ Noth/Noth",
+      "range": {
+        "startLine": 493,
+        "startChar": 6,
+        "endLine": 493,
+        "endChar": 7
+      },
+      "revId": "b22f5b7577c65b7e53cbf409b5a72aea7e871030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_96c68c82",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-22T16:20:52Z",
+      "side": 1,
+      "message": "Does * start with a vowel sound?  I\u0027ve really no idea, but it may be the \"an\" is wrong here.",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 498,
+        "endChar": 30
+      },
+      "revId": "b22f5b7577c65b7e53cbf409b5a72aea7e871030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_16b35c36",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-22T16:20:52Z",
+      "side": 1,
+      "message": "%s but not Printf.",
+      "range": {
+        "startLine": 505,
+        "startChar": 0,
+        "endLine": 505,
+        "endChar": 71
+      },
+      "revId": "b22f5b7577c65b7e53cbf409b5a72aea7e871030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
