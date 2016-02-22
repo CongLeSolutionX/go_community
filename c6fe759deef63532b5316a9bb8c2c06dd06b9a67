@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "42c98578_598a6709",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 12526
+      },
+      "writtenOn": "2016-02-22T21:01:52Z",
+      "side": 1,
+      "message": "Yes, !unicode.IsLower will match those (and more) since they are not Uppercase. Let me know if you want me to add a test case specifically for this.",
+      "parentUuid": "02cf8da0_b405a0aa",
+      "revId": "c6fe759deef63532b5316a9bb8c2c06dd06b9a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_141c5457",
         "filename": "src/cmd/vet/malformedtest.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-21T23:59:27Z",
       "side": 1,
       "message": "I don\u0027t like how this is structured. There\u0027s so much repetition. Surely it can be done better.",
+      "revId": "c6fe759deef63532b5316a9bb8c2c06dd06b9a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_798f2318",
+        "filename": "src/cmd/vet/malformedtest.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12526
+      },
+      "writtenOn": "2016-02-22T21:01:52Z",
+      "side": 1,
+      "message": "I proposed another option (still steering clear of the regexes).",
+      "parentUuid": "02cf8da0_141c5457",
       "revId": "c6fe759deef63532b5316a9bb8c2c06dd06b9a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
