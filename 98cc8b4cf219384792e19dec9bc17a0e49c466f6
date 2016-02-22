@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_7274d0d8",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-22T00:17:17Z",
+      "side": 0,
+      "message": "I believe so.  (Sorry, I\u0027m not very familiar with the compiler\u0027s built-in debugging/tracing capabilities.  I tend to just add my own printfs when I\u0027m confused.)",
+      "parentUuid": "02e4ed24_52d554fe",
+      "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_d2e824cf",
         "filename": "src/runtime/hashmap.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_f268c0f7",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-22T00:17:17Z",
+      "side": 0,
+      "message": "I don\u0027t think it\u0027s true though?  The compiler now selects \"key\" and \"value\" by name, and gc/builtin/runtime.go documents that.",
+      "parentUuid": "02e4ed24_d2e824cf",
+      "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_32cd287c",
         "filename": "src/runtime/hashmap.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-02-21T23:27:35Z",
       "side": 0,
       "message": "Could you leave the \u003e48 part?  It\u0027s intended to make sure we don\u0027t inadvertently make an hmap bigger.",
+      "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_32576831",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-22T00:17:17Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "02e4ed24_32cd287c",
       "revId": "98cc8b4cf219384792e19dec9bc17a0e49c466f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

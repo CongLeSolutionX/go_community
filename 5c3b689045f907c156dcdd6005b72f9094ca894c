@@ -16,6 +16,24 @@
       "revId": "5c3b689045f907c156dcdd6005b72f9094ca894c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_127b4cc7",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-22T00:17:17Z",
+      "side": 1,
+      "message": "The -A flag is used for compiling gc/builtin/runtime.go and gc/builtin/unsafe.go to produce export data to create gc/builtin.go.  Previously, those files never defined any types, so it never tried to generate hash or equality functions for them.  Also, it only defined function signatures, never function bodies.\n\nAdding the hiter and hmap types to gc/builtin/runtime.go caused both of those to change, and there are problems compiling function bodies under -A.  However, since we don\u0027t actually need those function bodies anyway (we only want the export data), the easiest fix is to just skip generating those functions.",
+      "parentUuid": "02e4ed24_920bbc73",
+      "revId": "5c3b689045f907c156dcdd6005b72f9094ca894c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
