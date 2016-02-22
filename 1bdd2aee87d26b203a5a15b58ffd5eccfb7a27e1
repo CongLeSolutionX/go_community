@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_d4613cb3",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-22T02:03:28Z",
+      "side": 1,
+      "message": "We need a test case that guarantees the following syntax in ABNF:\n\nport \u003d *( ALPHA / DIGIT )\n\nI don\u0027t see any reason to hesitate to have a new function called parsePort in port.go and a new test function called TestParsePort in port_test.go,\n\nfunc parsePort(service string) (int, error) {\n       // test whether the service is an empty string\n       // test whether [a-zA-Z] in the service\n       // test whether the service consists of decimal digits only\n}\n\nvar parsePortTests \u003d []struct{\n        service string\n        port int\n        error\n}{\n        {\"9pfs\", 564, true, nil},\n\n        {\"1234badport\", 0, true, \u0026AddrError{Err: \"invalid port\", Addr: \"1234badport\"},\n}\n\nfunc TestParsePort(t *testing.T) { ... }\n\nand to modify LookupPort in lookup.go like the following:\n\nfunc LookupPort(network, service string) (port int, err error) {\n        switch port, err \u003d parsePort(service); err {\n        case nil:\n                return port, nil\n        case err !\u003d nil \u0026\u0026 err !\u003d errNonDigitPort:\n                return 0, \u0026AddrError{Err: \"invalid port\", Addr: service}\n        }\n        if port, err \u003d lookupPort(network, service); err !\u003d nil {\n                return 0, err\n        }\n        if 0 \u003e port || port \u003e 65535 {\n                return 0, \u0026AddrError{Err: \"invalid port\", Addr: service}\n        }\n        return port, nil\n}",
+      "range": {
+        "startLine": 131,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 39
+      },
+      "revId": "1bdd2aee87d26b203a5a15b58ffd5eccfb7a27e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
