@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_b2e7d8cc",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-22T00:28:47Z",
+      "side": 1,
+      "message": "Can\u0027t we do this before lowering?  Then we don\u0027t need to include every architecture in this map.",
+      "revId": "314abf100320a416144d0b8a1793a3fcaf8065f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_f2dd60fc",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-22T00:28:47Z",
+      "side": 1,
+      "message": "This algorithm seems like it might be quadratic in the number of blocks.\nCan we avoid that somehow?  Or am I missing how this loop always stops in O(1)?",
+      "revId": "314abf100320a416144d0b8a1793a3fcaf8065f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_d2e264be",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-22T00:28:47Z",
+      "side": 1,
+      "message": "Factor out the common code in the then and else branches.",
+      "revId": "314abf100320a416144d0b8a1793a3fcaf8065f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
