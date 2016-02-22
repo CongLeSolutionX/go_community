@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_32aac849",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-02-22T04:23:54Z",
+      "side": 1,
+      "message": "A few more words of comment here will help future readers. Maybe some pseudocode drawn from the old {i,e}facethash?",
+      "revId": "92f04f45cfc2df51abc67723cc7e0e11f29ad689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_b2ceb82a",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-02-22T04:23:54Z",
+      "side": 1,
+      "message": "Either remove this switch (since there must be no nil or default cases remaining) or add a default case that calls Fatalf.",
+      "revId": "92f04f45cfc2df51abc67723cc7e0e11f29ad689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
