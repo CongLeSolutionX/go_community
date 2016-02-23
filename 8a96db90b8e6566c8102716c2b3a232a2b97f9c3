@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_93a05b6c",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:03:18Z",
+      "side": 1,
+      "message": "you can remove this and just use ResetTimer below, no?",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_739def2d",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:03:18Z",
+      "side": 1,
+      "message": "you can just inline this variable into the next line",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_53aaf349",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:03:18Z",
+      "side": 1,
+      "message": "this is unnecessary for GC. If a GC happens when the PC is past this point, this variable is already treated as not live. so this is just distracting the reader into thinking this is important.",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_33a76782",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:03:18Z",
+      "side": 1,
+      "message": "I\u0027d remove. Shouldn\u0027t matter. There will be GCs later anyway, and it\u0027s the testing framework\u0027s job to make sure b.N is appropriate to get sane benchmark numbers.",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
