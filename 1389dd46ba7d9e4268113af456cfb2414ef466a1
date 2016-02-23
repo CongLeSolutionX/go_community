@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_167a1999",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-23T19:30:53Z",
+      "side": 1,
+      "message": "This needs a comment--it should probably refer to the issue, and explain that the test is that sort.Sort should not panic even when using a bogus interface.",
+      "revId": "1389dd46ba7d9e4268113af456cfb2414ef466a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
