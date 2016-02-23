@@ -6,7 +6,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // tflag is documented in ../reflect/type.go.
 type tflag uint8
@@ -120,6 +123,34 @@ func (t *_type) name() string {
 	return t._string[i+1:]
 }
 
+func (t *functype) in(i int) *_type {
+	// See funcType in reflect/type.go for details on data layout.
+	if i < 0 || i >= int(t.inCount) {
+		println("runtime: type inCount ", t.inCount, " i ", i)
+		throw("runtime: invalid in index")
+	}
+	uadd := uintptr(unsafe.Sizeof(functype{}))
+	if t.typ.tflag&tflagUncommon != 0 {
+		uadd += unsafe.Sizeof(uncommontype{})
+	}
+	uadd += uintptr(i) * sys.PtrSize
+	return *(**_type)(unsafe.Pointer(uintptr(unsafe.Pointer(t)) + uadd))
+}
+
+func (t *functype) out(i int) *_type {
+	// See funcType in reflect/type.go for details on data layout.
+	if i < 0 || i >= int(t.outCount) {
+		println("runtime: type outCount ", t.outCount, " i ", i)
+		throw("runtime: invalid out index")
+	}
+	uadd := uintptr(unsafe.Sizeof(functype{}))
+	if t.typ.tflag&tflagUncommon != 0 {
+		uadd += unsafe.Sizeof(uncommontype{})
+	}
+	uadd += uintptr(int(t.inCount)+i) * sys.PtrSize
+	return *(**_type)(unsafe.Pointer(uintptr(unsafe.Pointer(t)) + uadd))
+}
+
 type method struct {
 	name    *string
 	pkgpath *string
@@ -180,9 +211,9 @@ type slicetype struct {
 
 type functype struct {
 	typ       _type
+	inCount   uint16
+	outCount  uint8
 	dotdotdot bool
-	in        []*_type
-	out       []*_type
 }
 
 type ptrtype struct {
