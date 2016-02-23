@@ -8,7 +8,7 @@
 
 // +build ignore
 
-package PACKAGE
+package runtime
 
 // emitted by compiler, not referred to by go programs
 
@@ -83,8 +83,6 @@ func panicdottype(have, want, iface *byte)
 
 func ifaceeq(i1 any, i2 any) (ret bool)
 func efaceeq(i1 any, i2 any) (ret bool)
-func ifacethash(i1 any) (ret uint32)
-func efacethash(i1 any) (ret uint32)
 
 // *byte is really *runtime.Type
 func makemap(mapType *byte, hint int64, mapbuf *any, bucketbuf *any) (hmap map[any]any)
