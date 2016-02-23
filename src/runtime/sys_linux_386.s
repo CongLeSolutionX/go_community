@@ -12,16 +12,17 @@
 
 // Most linux systems use glibc's dynamic linker, which puts the
 // __kernel_vsyscall vdso helper at 0x10(GS) for easy access from position
-// independent code and setldt in this file does the same in the statically
-// linked case. Android, however, uses bionic's dynamic linker, which does not
-// save the helper anywhere, and so the only way to invoke a syscall from
-// position independent code is boring old int $0x80 (which is also what
-// bionic's syscall wrappers use).
-#ifdef GOOS_android
+// independent code and setldt in runtime does the same in the statically
+// linked case. However, systems that use alternative libc such as Android's
+// bionic and musl, do not save the helper anywhere, and so the only way to
+// invoke a syscall from position independent code is boring old int $0x80
+// (which is also what syscall wrappers in bionic/musl use).
+//
+// The benchmarks also showed that using int $0x80 is as fast as calling
+// *%gs:0x10 even on CPUs more than 6 years old. See https://golang.org/cl/16996
+// for the benchmark program and raw data.
+//#define INVOKE_SYSCALL	CALL	0x10(GS) // non-portable
 #define INVOKE_SYSCALL	INT	$0x80
-#else
-#define INVOKE_SYSCALL	CALL	0x10(GS)
-#endif
 
 TEXT runtime·exit(SB),NOSPLIT,$0
 	MOVL	$252, AX	// syscall number
