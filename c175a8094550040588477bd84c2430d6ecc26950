@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_fa06613e",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "this doesn\u0027t look correct because the new LookupPort makes some tests in error_test.go fail.\n--- FAIL: TestDialError (0.00s)\n\terror_test.go:163: #8: should fail without operation not supported; tcp:127.0.0.1:123456789-\u003e\n\terror_test.go:163: #10: should fail without operation not supported; udp:127.0.0.1:123456789-\u003e\n--- FAIL: TestListenError (0.00s)\n\terror_test.go:255: #7: should fail without operation not supported; tcp:127.0.0.1:123456789-\u003e\n--- FAIL: TestListenPacketError (0.00s)\n\terror_test.go:298: #7: should fail; udp:127.0.0.1:52501-\u003e\n--- FAIL: TestLookupIANACNAME (0.14s)\n\tlookup_test.go:259: got www.iana.org.; want a record containing icann.org.\n--- FAIL: TestLookupPort (0.01s)\n\tlookup_test.go:635: LookupPort(\"tcp\", \"123456789\") \u003d 52501, \u003cnil\u003e; want 0\n\tlookup_test.go:635: LookupPort(\"udp\", \"123456789\") \u003d 52501, \u003cnil\u003e; want 0\nFAIL",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 126,
+        "endChar": 37
+      },
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_ba00e921",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "drop unnecessary blank line",
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_7a1b7195",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "how about this?\n\nfunc LookupPort(network, service string) (port int, err error) {\n        port, needsLookup :\u003d parsePort(service)\n        if needsLookup {\n                port, err \u003d lookupPort(network, service)\n                if err !\u003d nil {\n                        return 0, err\n                }\n        }\n        if 0 \u003e port || port \u003e 65535 {\n                return 0, \u0026AddrError{Err: \"invalid port\", Addr: service}\n        }\n        return port, nil\n}",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 1
+      },
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_1a123d77",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "pls drop. no need to add redundant test cases.",
+      "range": {
+        "startLine": 615,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 33
+      },
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_dab045c2",
+        "filename": "src/net/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "drop unnecessary blank line",
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_9abacd9c",
+        "filename": "src/net/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "drop unnecessary comment, dtoi describes it.",
+      "range": {
+        "startLine": 387,
+        "startChar": 1,
+        "endLine": 387,
+        "endChar": 47
+      },
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_bab589b0",
+        "filename": "src/net/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "drop unnecessary blank line",
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_7aa0116b",
+        "filename": "src/net/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "looks like what we need to determine here is whether a lookup using system service is necessary when working with optimistic dtoi.\n\nhow about the this?\n\nfunc parsePort(service string) (port int, needsLookup bool) {\n        if service \u003d\u003d \"\" {\n                // Lock in the legacy behavior that an empty string\n                // means port 0. See Issue 13610.\n                return 0, false\n        }\n        port, consumed, ok :\u003d dtoi(service, 0)\n        if !ok {\n                if port \u003d\u003d big || port \u003d\u003d -big {\n                        return port, false\n                }\n                return port, true\n        }\n        if len(service) !\u003d consumed {\n                return port, true\n        }\n        return port, false\n}",
+      "range": {
+        "startLine": 379,
+        "startChar": 0,
+        "endLine": 394,
+        "endChar": 1
+      },
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_3aaa9949",
+        "filename": "src/net/parse_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-23T07:10:23Z",
+      "side": 1,
+      "message": "and this:\n\nfunc TestParsePort(t *testing.T) {\n        for _, tt :\u003d range []struct {\n                service     string\n                port        int\n                needsLookup bool\n        }{\n                {\"\", 0, false},\n\n                {\"-123456789\", -big, false},\n                {\"-1\", -1, false},\n                {\"0\", 0, false},\n                {\"65536\", 65536, false},\n                {\"123456789\", big, false},\n\n                {\"abc\", 0, true},\n                {\"9pfs\", 9, true},\n                {\"123badport\", 123, true},\n                {\"bad123port\", 0, true},\n                {\"badport123\", 0, true},\n        } {\n                if port, needsLookup :\u003d parsePort(tt.service); port !\u003d tt.port || needsLookup !\u003d tt.needsLookup {\n                        t.Errorf(\"parsePort(%q) \u003d %d, %t; want %d, %t\", tt.service, port, needsLookup, tt.port, tt.needsLookup)\n                }\n        }\n}",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 1
+      },
+      "revId": "c175a8094550040588477bd84c2430d6ecc26950",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
