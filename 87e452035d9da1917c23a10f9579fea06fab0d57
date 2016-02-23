@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_53b433fe",
+        "filename": "src/net/parse.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T13:07:43Z",
+      "side": 1,
+      "message": "this warrants a comment.",
+      "revId": "87e452035d9da1917c23a10f9579fea06fab0d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
