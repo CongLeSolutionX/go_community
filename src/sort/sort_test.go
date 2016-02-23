@@ -109,6 +109,38 @@ func TestReverseSortIntSlice(t *testing.T) {
 	}
 }
 
+type nonDeterministicTestingData struct {
+	r *rand.Rand
+}
+
+func (t *nonDeterministicTestingData) Len() int {
+	return 100
+}
+func (t *nonDeterministicTestingData) Less(i, j int) bool {
+	if i < 0 || j < 0 || i >= t.Len() || j >= t.Len() {
+		panic("nondeterministic comparison out of bounds")
+	}
+	return t.r.Float32() < 0.5
+}
+func (t *nonDeterministicTestingData) Swap(i, j int) {
+	if i < 0 || j < 0 || i >= t.Len() || j >= t.Len() {
+		panic("nondeterministic comparison out of bounds")
+	}
+}
+
+func TestNonDeterministicComparison(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			t.Error(r)
+		}
+	}()
+
+	td := &nonDeterministicTestingData{
+		r: rand.New(rand.NewSource(0)),
+	}
+	Sort(td)
+}
+
 func BenchmarkSortString1K(b *testing.B) {
 	b.StopTimer()
 	for i := 0; i < b.N; i++ {
