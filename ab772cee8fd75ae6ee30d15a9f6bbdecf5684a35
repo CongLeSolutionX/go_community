@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_1380ebe9",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 5185
+      },
+      "writtenOn": "2016-02-23T15:54:07Z",
+      "side": 1,
+      "message": "there aren\u0027t many uses of goto in the standard library, and it doesn\u0027t seem necessary here.  You could just implement this if block inside the one below to avoid it.",
+      "revId": "ab772cee8fd75ae6ee30d15a9f6bbdecf5684a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
