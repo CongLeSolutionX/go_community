@@ -16,6 +16,40 @@
       "revId": "87e452035d9da1917c23a10f9579fea06fab0d57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2bd19cb_56f07246",
+        "filename": "src/net/parse.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 12682
+      },
+      "writtenOn": "2016-02-23T15:46:49Z",
+      "side": 1,
+      "message": "This means that \"1234567890service\" (still) isn\u0027t a supported service name, as dtoi terminates once the number is too big with (big, n, false) or (-big, n, false). \n\nSupporting it without breaking the compatibility guarantee would require scanning the service string at this point for invalid port characters.\n\nIf one does not particularly care about the error LookupPort returns on \"1234567890\", one could also adjust the unittests to accept that lookupPort is called regardless of why the port couldn\u0027t be parsed.\n\nIf chosen not to be supported, it should be documented that LookupPort does not support such a service name.",
+      "revId": "87e452035d9da1917c23a10f9579fea06fab0d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2b881d5_9c278993",
+        "filename": "src/net/parse_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 12682
+      },
+      "writtenOn": "2016-02-23T15:46:49Z",
+      "side": 1,
+      "message": "1234567890service might also be interesting, although currently unsupported as per my comment in parse.go.",
+      "revId": "87e452035d9da1917c23a10f9579fea06fab0d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
