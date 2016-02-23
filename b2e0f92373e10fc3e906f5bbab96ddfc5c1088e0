@@ -16,6 +16,24 @@
       "revId": "b2e0f92373e10fc3e906f5bbab96ddfc5c1088e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a29de171_2082d483",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-23T23:40:09Z",
+      "side": 1,
+      "message": "It seems you win.\n\nhttps://storage.googleapis.com/go-build-log/4af8bcf6/linux-386_1c367a63.log",
+      "parentUuid": "620be961_cf479d1b",
+      "revId": "b2e0f92373e10fc3e906f5bbab96ddfc5c1088e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
