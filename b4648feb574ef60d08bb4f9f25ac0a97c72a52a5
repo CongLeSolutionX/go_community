@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_73c60f14",
+        "filename": "src/crypto/rand/rand_openbsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:05:52Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "b4648feb574ef60d08bb4f9f25ac0a97c72a52a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_33c087f3",
+        "filename": "src/internal/syscall/unix/getentropy_openbsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:05:52Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "b4648feb574ef60d08bb4f9f25ac0a97c72a52a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_53c31302",
+        "filename": "src/internal/syscall/unix/getentropy_openbsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-23T17:05:52Z",
+      "side": 1,
+      "message": "remove name of named return parameter",
+      "revId": "b4648feb574ef60d08bb4f9f25ac0a97c72a52a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
