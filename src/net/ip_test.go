@@ -378,7 +378,7 @@ var splitJoinTests = []struct {
 	{"localhost%lo0", "80", "[localhost%lo0]:80"},
 	{"", "0", ":0"},
 
-	{"google.com", "https%foo", "google.com:https%foo"}, // Go 1.0 behavior
+	{"google.com", "https%foo", "google.com:https%foo"}, // Go 1.0 behaviour
 	{"127.0.0.1", "", "127.0.0.1:"},                     // Go 1.0 behaviour
 	{"www.google.com", "", "www.google.com:"},           // Go 1.0 behaviour
 }
