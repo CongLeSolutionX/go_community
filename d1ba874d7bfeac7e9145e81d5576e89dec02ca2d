@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_dd8b8c9b",
+        "filename": "src/os/user/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-02-24T19:08:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_f3867f95",
+      "revId": "d1ba874d7bfeac7e9145e81d5576e89dec02ca2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_73dbaf64",
         "filename": "src/os/user/lookup_stubs.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-23T18:32:06Z",
       "side": 1,
       "message": "I think all of these messages could be more descriptive when cgo is disabled. People are regularly confused by \"not implemented on darwin/amd64\" when really they\u0027ve just cross-compiled from Linux, etc.",
+      "revId": "d1ba874d7bfeac7e9145e81d5576e89dec02ca2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_dd502cad",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-02-24T19:08:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_73dbaf64",
       "revId": "d1ba874d7bfeac7e9145e81d5576e89dec02ca2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
