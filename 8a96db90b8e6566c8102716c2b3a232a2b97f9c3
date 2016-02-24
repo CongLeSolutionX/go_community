@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_42dfbb1d",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-24T08:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_93a05b6c",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_739def2d",
         "filename": "src/compress/bzip2/bzip2_test.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-02-23T17:03:18Z",
       "side": 1,
       "message": "you can just inline this variable into the next line",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_62e2b7eb",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-24T08:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_739def2d",
       "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_a2d89f38",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-24T08:32:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "02e4ed24_53aaf349",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_33a76782",
         "filename": "src/compress/bzip2/bzip2_test.go",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2016-02-23T17:03:18Z",
       "side": 1,
       "message": "I\u0027d remove. Shouldn\u0027t matter. There will be GCs later anyway, and it\u0027s the testing framework\u0027s job to make sure b.N is appropriate to get sane benchmark numbers.",
+      "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_82d5a301",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-24T08:32:14Z",
+      "side": 1,
+      "message": "Done. Glad I can write less code in my benchmarks now :)\n\nI think I picked up the habit from other benchmarks:\nhttps://github.com/golang/go/blob/c007ce824d9a4fccb148f9204e04c23ed2984b71/src/compress/flate/writer_test.go#L30-L31",
+      "parentUuid": "02e4ed24_33a76782",
       "revId": "8a96db90b8e6566c8102716c2b3a232a2b97f9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
