@@ -2763,6 +2763,10 @@ func TestCgoConsistentResults(t *testing.T) {
 	if !canCgo {
 		t.Skip("skipping because cgo not enabled")
 	}
+	if runtime.GOOS == "solaris" {
+		// See https://go-review.googlesource.com/#/c/19363
+		t.Skip("skipping because Solaris builds are known to be inconsistent")
+	}
 
 	tg := testgo(t)
 	defer tg.cleanup()
