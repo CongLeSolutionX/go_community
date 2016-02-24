@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_f83896b8",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T20:54:15Z",
+      "side": 1,
+      "message": "probably cheaper to go the other way and Atoi Gid first and compare ints instead of making and comparing strings",
+      "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_9823d28f",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T20:54:15Z",
+      "side": 1,
+      "message": "don\u0027t you mean 1\u003c\u003c20 bytes?",
+      "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
