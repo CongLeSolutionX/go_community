@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_027f7388",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T15:19:27Z",
+      "side": 1,
+      "message": "why ioutil.ReadAll here if we just want to count? why not io.Copy like below and then you don\u0027t even need the int64 conversion, since io.Copy returns an io.Copy int64 count anyway",
+      "revId": "e957b448c66ce58138d8151afea59246d5b3699c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
