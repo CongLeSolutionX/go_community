@@ -357,7 +357,7 @@ func Naddr(a *obj.Addr, n *Node) {
 		a.Node = n.Left.Orig
 
 	case OCLOSUREVAR:
-		if !Curfn.Func.Needctxt {
+		if Curfn.Func.Pragma&Needctxt == 0 {
 			Fatalf("closurevar without needctxt")
 		}
 		a.Type = obj.TYPE_MEM

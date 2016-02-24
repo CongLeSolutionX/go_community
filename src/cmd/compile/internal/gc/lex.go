@@ -870,6 +870,9 @@ type lexer struct {
 	sym_ *Sym // valid if tok == LNAME
 	val  Val  // valid if tok == LLITERAL
 	op   Op   // valid if tok == LASOP
+
+	// pragmas - reset by parser
+	pragma Pragma
 }
 
 const (
@@ -1615,27 +1618,27 @@ func (l *lexer) getlinepragma() rune {
 		}
 
 		if verb == "go:nointerface" && obj.Fieldtrack_enabled != 0 {
-			nointerface = true
+			l.pragma |= Nointerface
 			return c
 		}
 
 		if verb == "go:noescape" {
-			noescape = true
+			l.pragma |= Noescape
 			return c
 		}
 
 		if verb == "go:norace" {
-			norace = true
+			l.pragma |= Norace
 			return c
 		}
 
 		if verb == "go:nosplit" {
-			nosplit = true
+			l.pragma |= Nosplit
 			return c
 		}
 
 		if verb == "go:noinline" {
-			noinline = true
+			l.pragma |= Noinline
 			return c
 		}
 
@@ -1643,7 +1646,7 @@ func (l *lexer) getlinepragma() rune {
 			if compiling_runtime == 0 {
 				Yyerror("//go:systemstack only allowed in runtime")
 			}
-			systemstack = true
+			l.pragma |= Systemstack
 			return c
 		}
 
@@ -1651,7 +1654,7 @@ func (l *lexer) getlinepragma() rune {
 			if compiling_runtime == 0 {
 				Yyerror("//go:nowritebarrier only allowed in runtime")
 			}
-			nowritebarrier = true
+			l.pragma |= Nowritebarrier
 			return c
 		}
 
@@ -1659,8 +1662,7 @@ func (l *lexer) getlinepragma() rune {
 			if compiling_runtime == 0 {
 				Yyerror("//go:nowritebarrierrec only allowed in runtime")
 			}
-			nowritebarrierrec = true
-			nowritebarrier = true // Implies nowritebarrier
+			l.pragma |= Nowritebarrierrec | Nowritebarrier // Implies nowritebarrier
 			return c
 		}
 		return c

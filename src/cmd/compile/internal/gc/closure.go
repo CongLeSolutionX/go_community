@@ -408,7 +408,9 @@ func transformclosure(xfunc *Node) {
 		typechecklist(body, Etop)
 		walkstmtlist(body)
 		xfunc.Func.Enter = body
-		xfunc.Func.Needctxt = nvar > 0
+		if nvar > 0 {
+			xfunc.Func.Pragma |= Needctxt
+		}
 	}
 
 	lineno = int32(lno)
@@ -577,7 +579,7 @@ func makepartialcall(fn *Node, t0 *Type, meth *Node) *Node {
 
 	xtype.Rlist = l
 
-	xfunc.Func.Dupok = true
+	xfunc.Func.Pragma |= Dupok
 	xfunc.Func.Nname = newfuncname(sym)
 	xfunc.Func.Nname.Sym.Flags |= SymExported // disable export
 	xfunc.Func.Nname.Name.Param.Ntype = xtype
@@ -586,7 +588,7 @@ func makepartialcall(fn *Node, t0 *Type, meth *Node) *Node {
 
 	// Declare and initialize variable holding receiver.
 
-	xfunc.Func.Needctxt = true
+	xfunc.Func.Pragma |= Needctxt
 	cv := Nod(OCLOSUREVAR, nil, nil)
 	cv.Xoffset = int64(Widthptr)
 	cv.Type = rcvrtype

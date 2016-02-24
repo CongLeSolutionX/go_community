@@ -1898,19 +1898,15 @@ func (p *parser) xfndcl() *Node {
 	if f == nil {
 		return nil
 	}
-	if noescape && body != nil {
+	if p.pragma&Noescape != 0 && body != nil {
 		Yyerror("can only use //go:noescape with external func implementations")
 	}
 
 	f.Nbody = body
 	f.Func.Endlineno = lineno
-	f.Noescape = noescape
-	f.Func.Norace = norace
-	f.Func.Nosplit = nosplit
-	f.Func.Noinline = noinline
-	f.Func.Nowritebarrier = nowritebarrier
-	f.Func.Nowritebarrierrec = nowritebarrierrec
-	f.Func.Systemstack = systemstack
+	f.Noescape = p.pragma&Noescape != 0
+	const mask = Norace | Nosplit | Noinline | Nowritebarrier | Nowritebarrierrec | Systemstack
+	f.Func.Pragma = f.Func.Pragma&^mask | p.pragma&mask
 	funcbody(f)
 
 	return f
@@ -1996,7 +1992,7 @@ func (p *parser) fndcl() *Node {
 		f.Func.Nname = methodname1(f.Func.Shortname, rcvr.Right)
 		f.Func.Nname.Name.Defn = f
 		f.Func.Nname.Name.Param.Ntype = t
-		f.Func.Nname.Nointerface = nointerface
+		f.Func.Nname.Nointerface = p.pragma&Nointerface != 0
 		declare(f.Func.Nname, PFUNC)
 
 		funchdr(f)
@@ -2057,8 +2053,8 @@ func (p *parser) hidden_fndcl() *Node {
 		ss.Type = functype(s2.N, s6, s8)
 
 		checkwidth(ss.Type)
-		addmethod(s4, ss.Type, false, nointerface)
-		nointerface = false
+		addmethod(s4, ss.Type, false, p.pragma&Nointerface != 0)
+		p.pragma &^= Nointerface
 		funchdr(ss)
 
 		// inl.C's inlnode in on a dotmeth node expects to find the inlineable body as
@@ -2139,14 +2135,7 @@ loop:
 			testdclstack()
 		}
 
-		noescape = false
-		noinline = false
-		nointerface = false
-		norace = false
-		nosplit = false
-		nowritebarrier = false
-		nowritebarrierrec = false
-		systemstack = false
+		p.pragma &^= Noescape | Noinline | Nointerface | Norace | Nosplit | Nowritebarrier | Nowritebarrierrec | Systemstack
 
 		// Consume ';' AFTER resetting the above flags since
 		// it may read the subsequent comment line which may

@@ -421,20 +421,25 @@ func compile(fn *Node) {
 	ptxt = Thearch.Gins(obj.ATEXT, nam, &nod1)
 	Afunclit(&ptxt.From, Curfn.Func.Nname)
 	ptxt.From3 = new(obj.Addr)
-	if fn.Func.Dupok {
-		ptxt.From3.Offset |= obj.DUPOK
-	}
-	if fn.Func.Wrapper {
-		ptxt.From3.Offset |= obj.WRAPPER
-	}
-	if fn.Func.Needctxt {
-		ptxt.From3.Offset |= obj.NEEDCTXT
-	}
-	if fn.Func.Nosplit {
-		ptxt.From3.Offset |= obj.NOSPLIT
-	}
-	if fn.Func.Systemstack {
-		ptxt.From.Sym.Cfunc = 1
+
+	// dedicated block so goto can jump across variable declaration
+	{
+		pragma := fn.Func.Pragma
+		if pragma&Dupok != 0 {
+			ptxt.From3.Offset |= obj.DUPOK
+		}
+		if pragma&Wrapper != 0 {
+			ptxt.From3.Offset |= obj.WRAPPER
+		}
+		if pragma&Needctxt != 0 {
+			ptxt.From3.Offset |= obj.NEEDCTXT
+		}
+		if pragma&Nosplit != 0 {
+			ptxt.From3.Offset |= obj.NOSPLIT
+		}
+		if pragma&Systemstack != 0 {
+			ptxt.From.Sym.Cfunc = 1
+		}
 	}
 
 	// Clumsy but important.

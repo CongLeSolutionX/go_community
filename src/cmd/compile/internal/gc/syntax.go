@@ -146,6 +146,22 @@ type Param struct {
 	Closure *Node // ONAME/PHEAP <-> ONAME/PPARAMREF
 }
 
+type Pragma uint16
+
+const (
+	Norace            Pragma = 1 << iota // func must not have race detector annotations
+	Nosplit                              // func should not execute on separate stack
+	Noinline                             // func should not be inlined
+	Noescape                             // parameters passed to func don't escape
+	Nowritebarrier                       // emit compiler error instead of write barrier
+	Nowritebarrierrec                    // error on write barrier in this or recursive callees
+	Dupok                                // duplicate definitions ok
+	Wrapper                              // is method wrapper
+	Needctxt                             // function uses context register (has closure variables)
+	Systemstack                          // must run on system stack
+	Nointerface
+)
+
 // Func holds Node fields used only with function-like nodes.
 type Func struct {
 	Shortname  *Node
@@ -169,18 +185,9 @@ type Func struct {
 	Depth   int32
 
 	Endlineno int32
+	WBLineno  int32 // line number of first write barrier
 
-	Norace            bool // func must not have race detector annotations
-	Nosplit           bool // func should not execute on separate stack
-	Noinline          bool // func should not be inlined
-	Nowritebarrier    bool // emit compiler error instead of write barrier
-	Nowritebarrierrec bool // error on write barrier in this or recursive callees
-	Dupok             bool // duplicate definitions ok
-	Wrapper           bool // is method wrapper
-	Needctxt          bool // function uses context register (has closure variables)
-	Systemstack       bool // must run on system stack
-
-	WBLineno int32 // line number of first write barrier
+	Pragma Pragma
 }
 
 type Op uint8
