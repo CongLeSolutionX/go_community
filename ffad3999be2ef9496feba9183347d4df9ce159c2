@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_f85bf6cd",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1932,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-24T21:29:26Z",
+      "side": 1,
+      "message": "Ack.  My reasoning for returning as x - 256 actually isn\u0027t so much for performance, but that it simplified the return parameters somewhat.  The alternative is something like:\n\n    escchar(quote rune) (r rune, isByte bool, ok bool)\n\nwhich just felt a little clunky, because the caller needs to distinguish between the two bool results.  Maybe I\u0027m overthinking it though.",
+      "parentUuid": "02e4ed24_d864bab2",
+      "range": {
+        "startLine": 1932,
+        "startChar": 19,
+        "endLine": 1932,
+        "endChar": 27
+      },
+      "revId": "ffad3999be2ef9496feba9183347d4df9ce159c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_b8de8e83",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_9819920e",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2014,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-24T21:29:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_b8de8e83",
+      "range": {
+        "startLine": 2014,
+        "startChar": 7,
+        "endLine": 2014,
+        "endChar": 11
+      },
+      "revId": "ffad3999be2ef9496feba9183347d4df9ce159c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_d8371a96",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-02-24T21:12:05Z",
       "side": 1,
       "message": "factor?\n\nvar d uint32\nswitch c :\u003d l.getr(); {\ncase isDigit(c):\n   d \u003d c - \u00270\u0027\ncase \u0027a\u0027 \u003c\u003d c \u0026\u0026 c \u003c\u003d \u0027f\u0027:\n   d \u003d ...\ncase \u0027A\u0027 ...\n   d \u003d ...\ndefault:\n   Yyerror\n   l.ungetr(c)\n   break loop\n}\nx \u003d x*16 + d",
+      "range": {
+        "startLine": 2017,
+        "startChar": 2,
+        "endLine": 2017,
+        "endChar": 4
+      },
+      "revId": "ffad3999be2ef9496feba9183347d4df9ce159c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_7816e6dd",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2017,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-24T21:29:26Z",
+      "side": 1,
+      "message": "Nice, done.",
+      "parentUuid": "02e4ed24_d8371a96",
       "range": {
         "startLine": 2017,
         "startChar": 2,
