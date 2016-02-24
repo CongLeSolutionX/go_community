@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a220812e_79db6764",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 7215
+      },
+      "writtenOn": "2016-02-24T11:23:23Z",
+      "side": 1,
+      "message": "This is no need in changing this line.",
+      "revId": "666cfad02f45c5233f08c68ec7b5a8813cd0294d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2b881d5_bc71ad21",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 7215
+      },
+      "writtenOn": "2016-02-24T11:23:23Z",
+      "side": 1,
+      "message": "I think `Sort(td)` should be called several times for more insurance.",
+      "revId": "666cfad02f45c5233f08c68ec7b5a8813cd0294d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
