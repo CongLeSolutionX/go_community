@@ -67,7 +67,7 @@ retry:
 			c.empty.insertBack(s)
 			unlock(&c.lock)
 			s.sweep(true)
-			freeIndex := s.nextFreeIndex(0)
+			freeIndex := s.nextFreeIndex()
 			if freeIndex != s.nelems {
 				s.freeindex = freeIndex
 				goto havespan
@@ -101,7 +101,7 @@ retry:
 havespan:
 	cap := int32((s.npages << _PageShift) / s.elemsize)
 	n := cap - int32(s.allocCount)
-	if n == 0 {
+	if n == 0 || s.freeindex == s.nelems || uintptr(s.allocCount) == s.nelems {
 		throw("span has no free objects")
 	}
 	usedBytes := uintptr(s.allocCount) * s.elemsize
@@ -118,6 +118,15 @@ havespan:
 		gcController.revise()
 	}
 	s.incache = true
+	freeByteBase := s.freeindex &^ (64 - 1)
+	whichByte := freeByteBase / 8
+	// Init alloc bits cache.
+	s.refillAllocCache(whichByte)
+
+	// Adjust the allocCache so that s.freeindex corresponds to the low bit in
+	// s.allocCache.
+	s.allocCache >>= s.freeindex % 64
+
 	return s
 }
 
@@ -154,7 +163,7 @@ func (c *mcentral) freeSpan(s *mspan, n int32, start gclinkptr, end gclinkptr, p
 		throw("freeSpan given cached span")
 	}
 
-	s.allocCount -= uint16(n)
+	s.allocCount = uint16(s.nelems) - uint16(n)
 
 	if preserve {
 		// preserve is set only when called from MCentral_CacheSpan above,
