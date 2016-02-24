@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "a29de171_4b5c59c7",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-24T14:17:18Z",
+      "side": 1,
+      "message": "Sorry, please write the issue reference as https://golang.org/issue/14377 (that way we won\u0027t have to change it if we ever have to move off github for some now-unknown reason).",
+      "revId": "666cfad02f45c5233f08c68ec7b5a8813cd0294d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2b881d5_bc71ad21",
         "filename": "src/sort/sort_test.go",
         "patchSetId": 2
