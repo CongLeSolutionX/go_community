@@ -1469,13 +1469,16 @@ func (l *lexer) stdString() {
 	cp := &strbuf
 	cp.Reset()
 
-	var escflag int
-	var v int64
-	for !l.escchar('"', &escflag, &v) {
-		if v < utf8.RuneSelf || escflag != 0 {
+	for {
+		v, ok := l.escchar('"')
+		if !ok {
+			break
+		}
+		// This comparison also handles byte values.
+		if v < utf8.RuneSelf {
 			cp.WriteByte(byte(v))
 		} else {
-			cp.WriteRune(rune(v))
+			cp.WriteRune(v)
 		}
 	}
 
@@ -1520,21 +1523,24 @@ func (l *lexer) rawString() {
 }
 
 func (l *lexer) rune() {
-	var escflag int
-	var v int64
-	if l.escchar('\'', &escflag, &v) {
+	v, ok := l.escchar('\'')
+	if !ok {
 		Yyerror("empty character literal or unescaped ' in character literal")
 		v = '\''
 	}
 
-	if !l.escchar('\'', &escflag, &v) {
+	_, ok = l.escchar('\'')
+	if ok {
 		Yyerror("missing '")
-		l.ungetr(rune(v))
+	}
+
+	if v < 0 {
+		v = rune(byte(v))
 	}
 
 	x := new(Mpint)
 	l.val.U = x
-	Mpmovecfix(x, v)
+	Mpmovecfix(x, int64(v))
 	x.Rune = true
 	if Debug['x'] != 0 {
 		fmt.Printf("lex: codepoint literal\n")
@@ -1922,63 +1928,48 @@ func (l *lexer) ungetr(r rune) {
 	}
 }
 
-func (l *lexer) escchar(e rune, escflg *int, val *int64) bool {
-	*escflg = 0
-
+// escchar lexes a character escape sequence.
+// Byte values are returned as x - 256.
+func (l *lexer) escchar(quote rune) (r rune, ok bool) {
 	c := l.getr()
 	switch c {
 	case EOF:
 		Yyerror("eof in string")
-		return true
+		l.ungetr(EOF)
+		return 0, false
 
 	case '\n':
 		Yyerror("newline in string")
-		return true
+		l.ungetr('\n')
+		return 0, false
 
 	case '\\':
 		break
 
+	case quote:
+		return 0, false
+
 	default:
-		if c == e {
-			return true
-		}
-		*val = int64(c)
-		return false
+		return c, true
 	}
 
-	u := 0
 	c = l.getr()
-	var i int
 	switch c {
 	case 'x':
-		*escflg = 1 // it's a byte
-		i = 2
-		goto hex
+		return l.hexchar(2, true), true
 
 	case 'u':
-		i = 4
-		u = 1
-		goto hex
+		return l.hexchar(4, false), true
 
 	case 'U':
-		i = 8
-		u = 1
-		goto hex
+		return l.hexchar(8, false), true
 
-	case '0',
-		'1',
-		'2',
-		'3',
-		'4',
-		'5',
-		'6',
-		'7':
-		*escflg = 1 // it's a byte
-		x := int64(c) - '0'
+	case '0', '1', '2', '3', '4', '5', '6', '7':
+		x := c - '0'
 		for i := 2; i > 0; i-- {
 			c = l.getr()
 			if c >= '0' && c <= '7' {
-				x = x*8 + int64(c) - '0'
+				x = x*8 + c - '0'
 				continue
 			}
 
@@ -1988,10 +1979,10 @@ func (l *lexer) escchar(e rune, escflg *int, val *int64) bool {
 
 		if x > 255 {
 			Yyerror("octal escape value > 255: %d", x)
+			x &= 255
 		}
 
-		*val = x
-		return false
+		return x - 256, true
 
 	case 'a':
 		c = '\a'
@@ -2011,30 +2002,30 @@ func (l *lexer) escchar(e rune, escflg *int, val *int64) bool {
 		c = '\\'
 
 	default:
-		if c != e {
+		if c != quote {
 			Yyerror("unknown escape sequence: %c", c)
 		}
 	}
 
-	*val = int64(c)
-	return false
+	return c, true
+}
 
-hex:
-	x := int64(0)
-	for ; i > 0; i-- {
-		c = l.getr()
+func (l *lexer) hexchar(n int, isByte bool) rune {
+	var x rune
+	for ; n > 0; n-- {
+		c := l.getr()
 		if c >= '0' && c <= '9' {
-			x = x*16 + int64(c) - '0'
+			x = x*16 + c - '0'
 			continue
 		}
 
 		if c >= 'a' && c <= 'f' {
-			x = x*16 + int64(c) - 'a' + 10
+			x = x*16 + c - 'a' + 10
 			continue
 		}
 
 		if c >= 'A' && c <= 'F' {
-			x = x*16 + int64(c) - 'A' + 10
+			x = x*16 + c - 'A' + 10
 			continue
 		}
 
@@ -2043,13 +2034,14 @@ hex:
 		break
 	}
 
-	if u != 0 && (x > utf8.MaxRune || (0xd800 <= x && x < 0xe000)) {
-		Yyerror("invalid Unicode code point in escape sequence: %#x", x)
+	if isByte {
+		x -= 256
+	} else if uint32(x) > utf8.MaxRune || (0xd800 <= x && x < 0xe000) {
+		Yyerror("invalid Unicode code point in escape sequence: %#x", uint32(x))
 		x = utf8.RuneError
 	}
 
-	*val = x
-	return false
+	return x
 }
 
 var syms = []struct {
