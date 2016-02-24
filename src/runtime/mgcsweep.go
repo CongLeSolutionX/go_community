@@ -257,7 +257,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	// the block bitmap without atomic operations.
 
 	nfree = heapBitsSweepSpan(s, func(p uintptr) {
-		// At this point we know that we are looking at garbage object
+		// At this point we know that we are looking at a garbage object
 		// that needs to be collected.
 		if debug.allocfreetrace != 0 {
 			tracefree(unsafe.Pointer(p), size)
@@ -287,6 +287,7 @@ func (s *mspan) sweep(preserve bool) bool {
 		}
 	})
 
+	s.allocCount = uint16(s.nelems) - uint16(nfree)
 	wasempty := true
 	for freeIndex := s.freeindex; freeIndex < s.nelems; freeIndex++ {
 		if s.isFree(freeIndex) {
@@ -294,9 +295,6 @@ func (s *mspan) sweep(preserve bool) bool {
 			break
 		}
 	}
-
-	s.freeindex = 0 // reset allocation index to start of span.
-
 	temp := s.allocBits
 	// Swap roll of allocBits with gcmarkBits
 	// Clear gcmarkBits in preparation for next GC
@@ -304,6 +302,9 @@ func (s *mspan) sweep(preserve bool) bool {
 	s.gcmarkBits = temp
 	s.clearGCMarkBits() // prepare for next GC
 	s.freeindex = 0
+	// Compliment and stuff the first 8 bytes into s.allocCache
+	// Unlike in allocBits a 1in s.allocCache means the object is not marked.
+	s.refillAllocCache(0)
 
 	// We need to set s.sweepgen = h.sweepgen only when all blocks are swept,
 	// because of the potential for a concurrent free/SetFinalizer.
@@ -322,7 +323,9 @@ func (s *mspan) sweep(preserve bool) bool {
 		// to go so release the span.
 		atomic.Store(&s.sweepgen, sweepgen)
 	}
-	if nfree > 0 {
+
+	//	if nfree > 0 {
+	if nfree > 0 && cl != 0 {
 		c.local_nsmallfree[cl] += uintptr(nfree)
 		res = mheap_.central[cl].mcentral.freeSpan(s, int32(nfree), head, end, preserve, wasempty)
 		// MCentral_FreeSpan updates sweepgen
