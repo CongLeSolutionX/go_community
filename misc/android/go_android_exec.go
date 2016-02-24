@@ -35,8 +35,8 @@ func run(args ...string) string {
 
 const (
 	// Directory structure on the target device androidtest.bash assumes.
-	deviceGoroot = "/data/local/tmp/goroot"
-	deviceGopath = "/data/local/tmp/gopath"
+	deviceGoroot = "/mnt/media_rw/goroot/"
+	deviceGopath = "/mnt/media_rw/gopath/"
 )
 
 func main() {
@@ -44,7 +44,7 @@ func main() {
 	log.SetPrefix("go_android_exec: ")
 
 	// Prepare a temporary directory that will be cleaned up at the end.
-	deviceGotmp := fmt.Sprintf("/data/local/tmp/%s-%d",
+	deviceGotmp := fmt.Sprintf("/mnt/media_rw/tmp/%s-%d",
 		filepath.Base(os.Args[1]), os.Getpid())
 	run("shell", "mkdir", "-p", deviceGotmp)
 

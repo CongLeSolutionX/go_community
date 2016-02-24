@@ -34,6 +34,19 @@ fi
 export CGO_ENABLED=1
 unset GOBIN
 
+export NDK=/Users/jbd/pkg/gomobile/android-ndk-r10e
+export SYSROOT=$NDK/arm/sysroot
+export CC_FOR_TARGET="/Users/jbd/pkg/gomobile/android-ndk-r10e/arm/bin/arm-linux-androideabi-gcc --sysroot=$SYSROOT"
+export CXX_FOR_TARGET=/Users/jbd/pkg/gomobile/android-ndk-r10e/arm/bin/arm-linux-androideabi-g++
+export GOOS=android
+export GOARM=7
+export GOARCH=arm
+
+
+adb shell rm -rf /mnt/media_rw/goroot
+adb shell rm -rf /data/media/tmp
+
+
 # Do the build first, so we can build go_android_exec and cleaner.
 # Also lets us fail early before the (slow) adb push if the build is broken.
 . ./make.bash --no-banner
@@ -48,6 +61,7 @@ export ANDROID_TEST_DIR=/tmp/androidtest-$$
 function cleanup() {
 	rm -rf ${ANDROID_TEST_DIR}
 }
+
 trap cleanup EXIT
 
 # Push GOROOT to target device.
@@ -58,12 +72,14 @@ trap cleanup EXIT
 # /data/local/tmp/goroot. The adb sync command does not follow
 # symlinks so we have to copy.
 export ANDROID_PRODUCT_OUT="${ANDROID_TEST_DIR}/out"
-FAKE_GOROOT=$ANDROID_PRODUCT_OUT/data/local/tmp/goroot
-mkdir -p $FAKE_GOROOT
+FAKE_GOROOT=$ANDROID_PRODUCT_OUT/mnt/media_rw/goroot
+mkdir -p $FAKE_GOROOT/src
 mkdir -p $FAKE_GOROOT/pkg
-cp -a "${GOROOT}/src" "${FAKE_GOROOT}/"
+cp -a "${GOROOT}/src" "${FAKE_GOROOT}"
 cp -a "${GOROOT}/test" "${FAKE_GOROOT}/"
 cp -a "${GOROOT}/lib" "${FAKE_GOROOT}/"
+
+echo $FAKE_GOROOT
 
 # For android, the go tool will install the compiled package in
 # pkg/android_${GOARCH}_shared directory by default, not in
@@ -75,19 +91,17 @@ cp -a "${GOROOT}/pkg/android_${GOARCH}_shared" "${FAKE_GOROOT}/pkg/"
 mv "${FAKE_GOROOT}/pkg/android_${GOARCH}_shared" "${FAKE_GOROOT}/pkg/android_${GOARCH}"
 
 echo '# Syncing test files to android device'
-adb shell mkdir -p /data/local/tmp/goroot
-time adb sync data &> /dev/null
+adb shell mkdir -p /mnt/media_rw/goroot
+time adb push ${FAKE_GOROOT} /mnt/media_rw/goroot
 
-export CLEANER=${ANDROID_TEST_DIR}/androidcleaner-$$
-cp ../misc/android/cleaner.go $CLEANER.go
-echo 'var files = `' >> $CLEANER.go
-(cd $ANDROID_PRODUCT_OUT/data/local/tmp/goroot; find . >> $CLEANER.go)
-echo '`' >> $CLEANER.go
-go build -o $CLEANER $CLEANER.go
-adb push $CLEANER /data/local/tmp/cleaner
-adb shell /data/local/tmp/cleaner
-
-echo ''
+# export CLEANER=${ANDROID_TEST_DIR}/androidcleaner-$$
+# cp ../misc/android/cleaner.go $CLEANER.go
+# echo 'var files = `' >> $CLEANER.go
+# (cd $ANDROID_PRODUCT_OUT/data/local/tmp/goroot; find . >> $CLEANER.go)
+# echo '`' >> $CLEANER.go
+# go build -o $CLEANER $CLEANER.go
+# adb push $CLEANER /data/local/tmp/cleaner
+# adb shell /data/local/tmp/cleaner
 
 # Run standard tests.
 bash run.bash --no-rebuild
