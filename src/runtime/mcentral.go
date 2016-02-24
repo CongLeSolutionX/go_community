@@ -106,7 +106,18 @@ retry:
 havespan:
 	cap := int32((s.npages << _PageShift) / s.elemsize)
 	n := cap - int32(s.allocCount)
-	if n == 0 {
+	if n == 0 || s.freeindex == s.nelems || uintptr(s.allocCount) == s.nelems {
+		println("runtime: cacheSpan havespan:110  --- s=", s, " cap", cap, "s.nelems=", s.nelems, "thumbprint= 110", "n=", n, "s.sizeclass=", s.sizeclass,
+			"s.allocCount=", s.allocCount, "s.freeindex=", s.freeindex, "s.allocCache=", hex(s.allocCache), "s.elemsize=", s.elemsize,
+			"\ns.allobBits[0-7]=",
+			hex(s.allocBits[0]),
+			hex(s.allocBits[1]),
+			hex(s.allocBits[2]),
+			hex(s.allocBits[3]),
+			hex(s.allocBits[4]),
+			hex(s.allocBits[5]),
+			hex(s.allocBits[6]),
+			hex(s.allocBits[7]))
 		throw("span has no free objects")
 	}
 	usedBytes := uintptr(s.allocCount) * s.elemsize
@@ -123,6 +134,17 @@ havespan:
 		gcController.revise()
 	}
 	s.incache = true
+	freeByteBase := (s.freeindex / 64) * 64
+	whichByte := freeByteBase / 8
+	// Compliment the first 8 bytes and place in s.allocCache.
+	// Unlike in allocBits a 1 in s.allocCache means the object is not marked.
+
+	s.refillAllocCache(whichByte)
+
+	// adjust the allocCache so that s.freeindex corresponds to the low bit in
+	// s.allocCache
+	s.allocCache >>= s.freeindex % 64
+
 	return s
 }
 
@@ -159,8 +181,6 @@ func (c *mcentral) freeSpan(s *mspan, n int32, start gclinkptr, end gclinkptr, p
 		throw("freeSpan given cached span")
 	}
 
-	s.allocCount -= uint16(n)
-
 	if preserve {
 		// preserve is set only when called from MCentral_CacheSpan above,
 		// the span must be in the empty list.
@@ -192,8 +212,7 @@ func (c *mcentral) freeSpan(s *mspan, n int32, start gclinkptr, end gclinkptr, p
 
 	// s is completely freed, return it to the heap.
 	if s.prev == nil || s.list != &c.nonempty {
-		println("failed mCentral_FreeSpan s=", s, "s.prev=", s.prev, "s.list=", s.list, "list=", &c.nonempty)
-		//		throw("mCentral_FreeSpan")
+		throw("mCentral_FreeSpan")
 	}
 	c.nonempty.remove(s)
 	s.needzero = 1
