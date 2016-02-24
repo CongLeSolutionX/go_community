@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_5e9553f4",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T22:36:44Z",
+      "side": 1,
+      "message": "conversion is unnecessary.\n\nI\u0027d rename \"cnt\" to either just n or if that\u0027s confusing with b.N, maybe uncompressedSize",
+      "revId": "534161af5d2c0279466d83fd07ac8c6924046faa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
