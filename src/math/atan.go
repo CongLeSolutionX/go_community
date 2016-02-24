@@ -24,7 +24,7 @@ package math
 // Returns radian angle between -pi/2 and +pi/2 whose tangent is x.
 //
 // Range reduction is from three intervals into the interval from zero to 0.66.
-// The approximant uses a rational function of degree 4/5 of the form
+// The approximation uses a rational function of degree 4/5 of the form
 // x + x**3 P(x)/Q(x).
 //
 // ACCURACY:
