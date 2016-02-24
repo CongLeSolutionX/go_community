@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_e2d9079f",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T17:25:37Z",
+      "side": 1,
+      "message": "This could go either way (http://www.oxforddictionaries.com/definition/english/pre-emptive) but sure.",
+      "revId": "61aac39385343813f5053f1396e8fc5d0afec43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_02d53363",
+        "filename": "src/bufio/scan_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T17:25:37Z",
+      "side": 1,
+      "message": "splitter",
+      "revId": "61aac39385343813f5053f1396e8fc5d0afec43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_82c123a4",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T17:25:37Z",
+      "side": 1,
+      "message": "all three should be the US English spelling for consistency (it\u0027s US English elsewhere). behavior.",
+      "revId": "61aac39385343813f5053f1396e8fc5d0afec43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_62ce37d2",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T17:25:37Z",
+      "side": 1,
+      "message": "Space after //",
+      "revId": "61aac39385343813f5053f1396e8fc5d0afec43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_02be532b",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T17:25:37Z",
+      "side": 1,
+      "message": "(don\u0027t change these; these are literal output, so it makes sense it\u0027s formatted as-is)",
+      "revId": "61aac39385343813f5053f1396e8fc5d0afec43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_42cb3bc0",
+        "filename": "src/net/net_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T17:25:37Z",
+      "side": 1,
+      "message": "space after //",
+      "revId": "61aac39385343813f5053f1396e8fc5d0afec43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
