@@ -134,7 +134,13 @@ type mspan struct {
 	// first 0 bit in allocBits.
 	//
 	// Object n starts at n*elemsize + (start << pageShift).
-	freeindex  uintptr
+	freeindex uintptr
+
+	// Cache of the allocBits at freeindex. allocCache is shifted
+	// such that the lowest bit corresponds to the bit freeindex.
+	// allocCache hold the complement of allocBits, thus allowing
+	// ctz64 (count trailing zero) to use it directly.
+	allocCache uint64
 	allocBits  *[maxObjsPerSpan / 8]uint8
 	gcmarkBits *[maxObjsPerSpan / 8]uint8
 	nelems     uintptr // number of object in the span.
@@ -943,7 +949,6 @@ func (list *mSpanList) init() {
 
 func (list *mSpanList) remove(span *mspan) {
 	if span.prev == nil || span.list != list {
-		println("failed MSpanList_Remove", span, span.prev, span.list, list)
 		throw("MSpanList_Remove")
 	}
 	if span.next != nil {
