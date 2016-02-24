@@ -22,6 +22,30 @@
       "revId": "1c571507e32161d83fab5dad267c847a6f5e0376",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_1e5c6bc5",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 12689
+      },
+      "writtenOn": "2016-02-24T23:04:30Z",
+      "side": 1,
+      "message": "It also fails to strip the [, if I\u0027m not mistaken.",
+      "parentUuid": "02d06de3_ecd40b06",
+      "range": {
+        "startLine": 670,
+        "startChar": 0,
+        "endLine": 674,
+        "endChar": 2
+      },
+      "revId": "1c571507e32161d83fab5dad267c847a6f5e0376",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
