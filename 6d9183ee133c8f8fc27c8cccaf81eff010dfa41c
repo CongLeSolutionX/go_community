@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_1e4d8b68",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T22:41:49Z",
+      "side": 1,
+      "message": "again, why the conversion? io.Copy returns an int64 already.\n\nto be very clear, this line can be:\n\n    b.SetBytes(uncompressedSize)",
+      "revId": "6d9183ee133c8f8fc27c8cccaf81eff010dfa41c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
