@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_e71eb9f5",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T04:42:14Z",
+      "side": 1,
+      "message": "produce JSON (it\u0027s an acronym)\n\nBut I don\u0027t think map[platform]supportsCGO is incredibly future-proof. I know it\u0027s not part of the Go 1 API contract, but saying it supports JSON is kind of a sign that it\u0027s an API, so it should be stable.\n\nI think you should probably map it to a struct type instead, with a \"cgo\" JSON field, so it\u0027s obvious what it is, and gives room to grow. (but mostly so it\u0027s self-describing).",
+      "revId": "b4d75a10c3be3b345f7b1f7fd451825459f52a65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
