@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_c17726a4",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2768,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-24T23:47:25Z",
+      "side": 1,
+      "message": "that\u0027s not a bug number. that\u0027s the CL number.\n\nbugs are the source of truth for the status of things and where discussion happens. CLs come and go.\n\nYou can link to  golang.org/issue/NNN to make it more clear it\u0027s an issue too",
+      "revId": "2be7e7e85d0489fd6d1b2983dfe5fcf48a120716",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
