@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_7857ff2f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4624,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-02-25T22:06:50Z",
+      "side": 1,
+      "message": "There are others too, no? OpAMD64MOVOload, the idx* versions, etc. Separate CL would be fine, or just add them all here and submit.\n\nAlternatively, and possibly better, add something to the generated op and check it here, rather than having to maintain this list.",
+      "revId": "6b59a8eb89c36d4ab195020169d32a9243dc9b29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
