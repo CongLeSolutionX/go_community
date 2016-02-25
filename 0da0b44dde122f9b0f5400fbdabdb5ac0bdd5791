@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a29de171_fa3158cf",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-02-25T04:16:49Z",
+      "side": 1,
+      "message": "Are there limits on the magnitude of c beyond which this no longer makes sense (for example, if it cannot be encoded)?  It looks to me like it has to fit in an int32 (signed 32-bit).",
+      "range": {
+        "startLine": 562,
+        "startChar": 12,
+        "endLine": 562,
+        "endChar": 13
+      },
+      "revId": "0da0b44dde122f9b0f5400fbdabdb5ac0bdd5791",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
