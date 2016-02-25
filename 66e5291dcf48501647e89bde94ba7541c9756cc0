@@ -16,6 +16,24 @@
       "revId": "66e5291dcf48501647e89bde94ba7541c9756cc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_f28b0e9b",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-25T18:58:33Z",
+      "side": 1,
+      "message": "listsort is a kind of merge sort, but not a stable one: it flips the lists around in the loop.  This sort does not have to be sort.Stable for correctness, and making it sort.Stable does not help with toolstash -cmp.",
+      "parentUuid": "02e4ed24_f2566ed6",
+      "revId": "66e5291dcf48501647e89bde94ba7541c9756cc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
