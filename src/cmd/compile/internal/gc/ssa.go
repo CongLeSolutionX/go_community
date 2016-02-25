@@ -4619,7 +4619,9 @@ func (s *genState) genValue(v *ssa.Value) {
 			case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload,
 				ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore,
 				ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVBQZXload, ssa.OpAMD64MOVWQSXload,
-				ssa.OpAMD64MOVWQZXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVLQZXload:
+				ssa.OpAMD64MOVWQZXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVLQZXload,
+				ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload,
+				ssa.OpAMD64MOVSSstore, ssa.OpAMD64MOVSDstore:
 				if w.Args[0] == v.Args[0] && w.Aux == nil && w.AuxInt >= 0 && w.AuxInt < minZeroPage {
 					if Debug_checknil != 0 && int(v.Line) > 1 {
 						Warnl(int(v.Line), "removed nil check")

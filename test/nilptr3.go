@@ -193,3 +193,11 @@ func f4(x *[10]int) {
 	x = y
 	_ = &x[9] // ERROR "removed repeated nil check"
 }
+
+func f5(p *float32, q *float64, r *float32, s *float64) float64 {
+	x := float64(*p) // ERROR "removed nil check"
+	y := *q          // ERROR "removed nil check"
+	*r = 7           // ERROR "removed nil check"
+	*s = 9           // ERROR "removed nil check"
+	return x + y
+}
