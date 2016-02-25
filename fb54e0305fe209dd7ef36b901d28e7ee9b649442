@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42c98578_7f0e2315",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-25T10:41:41Z",
+      "side": 1,
+      "message": "The first one is fine, but I\u0027d like to have the other two in generic.rules\n\n(Add64 (Add64 (Const64 [c]) x) y) \u0026\u0026 !isConst(x) -\u003e (Add64 (Const64 [c]) (Add64 x y)).\n\nThis is a simple normalization which should enable other constant foldings.",
+      "revId": "fb54e0305fe209dd7ef36b901d28e7ee9b649442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
