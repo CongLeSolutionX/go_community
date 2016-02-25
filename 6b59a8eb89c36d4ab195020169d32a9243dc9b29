@@ -16,6 +16,24 @@
       "revId": "6b59a8eb89c36d4ab195020169d32a9243dc9b29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_b81b2794",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4624,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-25T22:10:54Z",
+      "side": 1,
+      "message": "I\u0027ll add MOVO.  We can\u0027t put the indexed ones here, as they don\u0027t load provably close to the base pointer.\nYes, generating this list would be good.  Have to think about that one.",
+      "parentUuid": "02e4ed24_7857ff2f",
+      "revId": "6b59a8eb89c36d4ab195020169d32a9243dc9b29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
