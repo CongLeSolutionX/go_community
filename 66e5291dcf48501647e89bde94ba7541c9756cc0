@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_f2566ed6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-25T18:56:45Z",
+      "side": 1,
+      "message": "listsort is a merge sort which is a stable sort. Does this need to be sort.Stable?",
+      "revId": "66e5291dcf48501647e89bde94ba7541c9756cc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
