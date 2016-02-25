@@ -22,6 +22,24 @@
       "revId": "0da0b44dde122f9b0f5400fbdabdb5ac0bdd5791",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_67a76281",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-25T07:10:01Z",
+      "side": 1,
+      "message": "These rules should always be ok, leaq and addq have the same allowed constant range (int32).  I do think there might still be issues with other rules generating ADDQconst will an out-of-range constant.  In general the rewrite rules need an audit of overflow handling.",
+      "parentUuid": "a29de171_fa3158cf",
+      "revId": "0da0b44dde122f9b0f5400fbdabdb5ac0bdd5791",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
