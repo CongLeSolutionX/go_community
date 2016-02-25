@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_b296a6c3",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-25T18:59:14Z",
+      "side": 1,
+      "message": "It seems that a more reliable way to test this would be on failure to ramp up the iteration count a few tries. I think at the speed this runs, the OS timer/scheduling latency is the source of noise.\n\nBut this works for now.",
+      "revId": "5c096cc092013331022c33c5e3d31228edd17dab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
