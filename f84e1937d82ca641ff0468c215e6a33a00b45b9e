@@ -22,6 +22,30 @@
       "revId": "f84e1937d82ca641ff0468c215e6a33a00b45b9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_646c0043",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 9670
+      },
+      "writtenOn": "2016-02-25T05:16:18Z",
+      "side": 1,
+      "message": "60KB actually, TLS starts at offset -0x7000. We don\u0027t use TLS very much. Can we assume that?",
+      "parentUuid": "a29de171_ebc26dfc",
+      "range": {
+        "startLine": 88,
+        "startChar": 13,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "f84e1937d82ca641ff0468c215e6a33a00b45b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
