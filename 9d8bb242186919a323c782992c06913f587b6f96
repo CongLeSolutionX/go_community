@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_1957dad4",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T22:38:48Z",
+      "side": 1,
+      "message": "FWIW, the incop label seems overkill - it\u0027s only used twice",
+      "revId": "9d8bb242186919a323c782992c06913f587b6f96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_b99326d4",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T22:38:48Z",
+      "side": 1,
+      "message": "perhaps add a comment:\n\n// prec is the precedence of the outer operation\n\n(or something along those lines)",
+      "revId": "9d8bb242186919a323c782992c06913f587b6f96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
