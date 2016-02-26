@@ -122,7 +122,6 @@ type Pkg struct {
 }
 
 type Sym struct {
-	Lexical   uint16
 	Flags     uint8
 	Link      *Sym
 	Uniqgen   uint32
