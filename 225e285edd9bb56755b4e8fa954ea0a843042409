@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_a56f7f37",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T06:47:42Z",
+      "side": 1,
+      "message": "just make it an int - there\u0027s really no reason to be specific here",
+      "range": {
+        "startLine": 870,
+        "startChar": 6,
+        "endLine": 870,
+        "endChar": 11
+      },
+      "revId": "225e285edd9bb56755b4e8fa954ea0a843042409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_e575870d",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T06:47:42Z",
+      "side": 1,
+      "message": "I might be nice to set up a little enum with precedence levels and use them here:\n\n// operator precedences\nconst (\n   _ \u003d iota\n   PCOMM\n   POROR\n   PANDAND\n   PCMP\n   PADD\n   PMUL\n)",
+      "range": {
+        "startLine": 1064,
+        "startChar": 11,
+        "endLine": 1064,
+        "endChar": 12
+      },
+      "revId": "225e285edd9bb56755b4e8fa954ea0a843042409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
