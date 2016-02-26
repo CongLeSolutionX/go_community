@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "42c98578_aac6b781",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Well, RSI is the physical register used, but I will change it, if it is too unclear.",
+      "parentUuid": "02cf8da0_f479d8a4",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_d47edc8a",
         "filename": "src/compress/flate/asm_amd64.s",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "Also, I think \u0026b should, strictly speaking, be \u0026b[0], although I\u0027m not sure if you\u0027re just copy/pasting some other asm.\n\nDitto below.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22dbb13a_5736b4e5",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "\u003e although I\u0027m not sure if you\u0027re just copy/pasting some other asm.\n\nI am not quite sure what you are implying?",
+      "parentUuid": "02cf8da0_d47edc8a",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "42c98578_eac0af66",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "I agree it is questionable. However, this will only be used when there is less than 16 bytes left of a buffer left, which only occurs at flushes, or at the very end of full-length match.\n\nI did have a loop earlier:\n\nhttps://github.com/klauspost/compress/blob/8e31b1a37e68113571cde492ba5dd40653bca863/flate/crc32_amd64.s#L131\n\nChanging it either way didn\u0027t make any measurable difference, so I just stuck with this.",
+      "parentUuid": "02cf8da0_14c0d4f2",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_34c3d003",
         "filename": "src/compress/flate/asm_amd64.s",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "s/remanding/remaining/",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22c49160_fe2eb56a",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_34c3d003",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "c283b51b_93d76609",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_54c64c13",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_14121477",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 9
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "22c49160_3e62edb6",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done. I found a few more, which I also removed.",
+      "parentUuid": "02cf8da0_14121477",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_748ee8eb",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 9
@@ -115,6 +223,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "I\u0027d add a continue above this line, delete the else, and so the rest of the block is outdented one level.\n\nhttps://github.com/golang/go/wiki/CodeReviewComments#indent-error-flow isn\u0027t exactly about this, but it has a similar sentiment.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82affd8e_a1f98431",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done. Here, and a few other places.",
+      "parentUuid": "02cf8da0_748ee8eb",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "22c49160_be927dce",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Confirmed.",
+      "parentUuid": "02cf8da0_54188c96",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_d4b01cc2",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 9
@@ -166,6 +310,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "The usual Go name is want, not expected.\n\n(Yes, some existing stdlib code was written before the convention was established).",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_2a81c726",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_d4b01cc2",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "82affd8e_a1226489",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_94baa49c",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_3415105f",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 9
@@ -200,6 +380,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "You can drop the \"hufftest\" here, so that the line is just \"{\".",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_6a7bbf02",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_3415105f",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "42c98578_4a860340",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "They don\u0027t provide any meaning, so I think the \"don\u0027t add line breaks to keep lines short when they are more readable long\" makes sense here.\n\nBy line breaking them, they will just contribute with visual clutter.",
+      "parentUuid": "02cf8da0_b4b5a0b0",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_f4ab1851",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 9
@@ -234,6 +450,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "TestWriteBlockDynamic.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82affd8e_213494c4",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_f4ab1851",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -274,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "c283b51b_738f5218",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_14a7b481",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_74c94821",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 9
@@ -308,6 +560,24 @@
     },
     {
       "key": {
+        "uuid": "62b209f8_a0f1808a",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_549d2c2d",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_b4cec02a",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 9
@@ -319,6 +589,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "The \"freqcache: nil\" is redundant.",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a220812e_9fb2db5e",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_b4cec02a",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -342,6 +630,24 @@
     },
     {
       "key": {
+        "uuid": "02c30d5c_48b1afc2",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_94d3c4d6",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_d4d93cf8",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 9
@@ -359,6 +665,24 @@
     },
     {
       "key": {
+        "uuid": "02c30d5c_480c4f5d",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_d4d93cf8",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_34aab049",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 9
@@ -370,6 +694,24 @@
       "writtenOn": "2016-02-21T12:25:38Z",
       "side": 1,
       "message": "We usually don\u0027t export names unless we have to, so I\u0027d s/Sort/sort/",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22c49160_de781954",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-02-26T16:37:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_34aab049",
       "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
