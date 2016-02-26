@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_0982f983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-26T22:19:50Z",
+      "side": 1,
+      "message": "pls add more detailed description here, like other CLs.",
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_2948152a",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-26T22:19:50Z",
+      "side": 1,
+      "message": "pls drop unnecessary blank line.",
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_494b5129",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-26T22:19:50Z",
+      "side": 1,
+      "message": "pls drop. i think those added cases are redundant and unnecessary.",
+      "range": {
+        "startLine": 615,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 39
+      },
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_895169df",
+        "filename": "src/net/parse.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-26T22:19:50Z",
+      "side": 1,
+      "message": "pls make port.go and move this function to port.go.\nservice names and port numbers would be used not only for connection setup but for more complicated service discovery in near future.",
+      "range": {
+        "startLine": 379,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 1
+      },
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_694e0d3b",
+        "filename": "src/net/parse_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-26T22:19:50Z",
+      "side": 1,
+      "message": "pls make port_test.go and move this function to port_test.go.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 34
+      },
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
