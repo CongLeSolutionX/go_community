@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_19a0fabb",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_a84cf617",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_68d04e75",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-26T16:58:32Z",
       "side": 1,
       "message": "please add a comment\n\n// precedences of binary operators (must be \u003e 0)",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_f9a40ed1",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_68d04e75",
       "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_99b4eaff",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_a8ce36ce",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_88cb7abf",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-26T16:58:32Z",
       "side": 1,
       "message": "op \u003d OMOD and remove it below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_79b13e0d",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_88cb7abf",
       "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_59bfa2d8",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_68b96e43",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_48beb22c",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2016-02-26T16:58:32Z",
       "side": 1,
       "message": "op \u003d OSUB and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_19b91af2",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_48beb22c",
       "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_d9d39224",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_28b36665",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_08b8aa3b",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2016-02-26T16:58:32Z",
       "side": 1,
       "message": "l.prec \u003d PCMP and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_796edecc",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_08b8aa3b",
       "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_99cd0a7e",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_e8ad5efa",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_682e0e44",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2016-02-26T16:58:32Z",
       "side": 1,
       "message": "s/anymore, //\n\nThe \"anymore\" is hard to understand for a reader unfamiliar with the pre-history of Go.",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_79ca5e65",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_682e0e44",
       "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_b98b26d9",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_a8a75618",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_db46ea9a",
         "filename": "src/cmd/compile/internal/gc/parser.go",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2016-02-26T18:13:11Z",
       "side": 1,
       "message": "PS: Maybe\n\nfor p.prec \u003e\u003d prec {\n   op, prec1 :\u003d p.op, p.prec+1\n   p.next()\n   x \u003d Nod(op, x, p.bexpr(prec1))\n}\nreturn x",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_99986a2f",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_db46ea9a",
       "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
