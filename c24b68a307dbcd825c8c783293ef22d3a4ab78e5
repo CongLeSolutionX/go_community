@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_f9bd2edd",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T21:54:18Z",
+      "side": 1,
+      "message": "p.prec \u003e\u003d prec",
+      "range": {
+        "startLine": 1110,
+        "startChar": 11,
+        "endLine": 1110,
+        "endChar": 12
+      },
+      "revId": "c24b68a307dbcd825c8c783293ef22d3a4ab78e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
