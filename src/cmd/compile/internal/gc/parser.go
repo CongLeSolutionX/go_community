@@ -333,10 +333,8 @@ func (p *parser) importdcl() {
 	}
 
 	line := int32(parserline())
-	path := p.val
+	importfile(&p.val, p.indent)
 	p.next()
-
-	importfile(&path, p.indent)
 	if importpkg == nil {
 		if nerrors == 0 {
 			Fatalf("phase error in import")
