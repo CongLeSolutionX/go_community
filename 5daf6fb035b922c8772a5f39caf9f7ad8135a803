@@ -16,6 +16,24 @@
       "revId": "5daf6fb035b922c8772a5f39caf9f7ad8135a803",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_a5653f8a",
+        "filename": "test/fixedbugs/issue14515.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T05:14:14Z",
+      "side": 1,
+      "message": "We could add it as a unit test in cmd/compile/internal/gc, like global_test.go.",
+      "parentUuid": "a29de171_d3c55f07",
+      "revId": "5daf6fb035b922c8772a5f39caf9f7ad8135a803",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
