@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_25adcfcb",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-26T06:18:35Z",
+      "side": 1,
+      "message": "I was thinking you\u0027d pass the try number to the child process and use it to vary the iteration (memory size) count to get larger times.\n\nit will usually be tens of milliseconds (assuming unloaded machine and granular timers), but could go up to some bounded second or two, perhaps (before failing)",
+      "revId": "f313c42d058c520973773a8324788cfbc805635c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
