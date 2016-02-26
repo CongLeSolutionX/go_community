@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_1e5d8021",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T20:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_fb052630",
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_db1b8a93",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-02-26T18:44:39Z",
       "side": 1,
       "message": "no need for this if",
+      "range": {
+        "startLine": 1020,
+        "startChar": 9,
+        "endLine": 1020,
+        "endChar": 11
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_fe6194e0",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T20:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_db1b8a93",
       "range": {
         "startLine": 1020,
         "startChar": 9,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_5e31c8eb",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T20:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_fbd3e6d4",
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_bb18be97",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 2
@@ -70,6 +130,30 @@
       "writtenOn": "2016-02-26T18:44:39Z",
       "side": 1,
       "message": "no need for this if",
+      "range": {
+        "startLine": 1029,
+        "startChar": 8,
+        "endLine": 1029,
+        "endChar": 9
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_de77f8a3",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T20:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_bb18be97",
       "range": {
         "startLine": 1029,
         "startChar": 8,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_3e36fce4",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T20:43:17Z",
+      "side": 1,
+      "message": "Nice, done",
+      "parentUuid": "02e4ed24_5bac3a69",
+      "range": {
+        "startLine": 1041,
+        "startChar": 6,
+        "endLine": 1041,
+        "endChar": 8
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_bbc67e10",
         "filename": "src/cmd/compile/internal/gc/parser.go",
         "patchSetId": 2
@@ -116,6 +224,30 @@
       "writtenOn": "2016-02-26T18:44:39Z",
       "side": 1,
       "message": "add: (see issue \u003cissue number\u003e).",
+      "range": {
+        "startLine": 338,
+        "startChar": 38,
+        "endLine": 338,
+        "endChar": 39
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_bef78c3b",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T20:43:17Z",
+      "side": 1,
+      "message": "Issue 14520 is just due to calling p.next before importfile.\n\nThis comment is instead to explain why the ipkg and importpkg assignments had to also be moved to stay adjacent to the importfile call.  (See PS1 and how it blew up the trybots.)",
+      "parentUuid": "02e4ed24_bbc67e10",
       "range": {
         "startLine": 338,
         "startChar": 38,
