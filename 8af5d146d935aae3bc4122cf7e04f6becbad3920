@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_05be53d9",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T01:32:09Z",
+      "side": 1,
+      "message": "maybe emphasize: s/after/_after_/\n\n(i assume it\u0027s becuase \u0027\\n\u0027 which updates lexlineno - it\u0027s the only case)",
+      "range": {
+        "startLine": 428,
+        "startChar": 32,
+        "endLine": 428,
+        "endChar": 37
+      },
+      "revId": "8af5d146d935aae3bc4122cf7e04f6becbad3920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_c5d04b1a",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T01:32:09Z",
+      "side": 1,
+      "message": "s/Add/Insert/",
+      "range": {
+        "startLine": 937,
+        "startChar": 6,
+        "endLine": 937,
+        "endChar": 10
+      },
+      "revId": "8af5d146d935aae3bc4122cf7e04f6becbad3920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
