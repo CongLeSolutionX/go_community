@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_fb052630",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T18:44:39Z",
+      "side": 1,
+      "message": "no need for this - we know the lineno",
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_db1b8a93",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T18:44:39Z",
+      "side": 1,
+      "message": "no need for this if",
+      "range": {
+        "startLine": 1020,
+        "startChar": 9,
+        "endLine": 1020,
+        "endChar": 11
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_fbd3e6d4",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T18:44:39Z",
+      "side": 1,
+      "message": "This for loop optimizes for comments with long sequences of \u0027*\u0027s. You could make it an \u0027if\u0027 and then you don\u0027t need the label. I think it\u0027s fine to not optimize that case and make the code more straight-forward here.",
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_bb18be97",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T18:44:39Z",
+      "side": 1,
+      "message": "no need for this if",
+      "range": {
+        "startLine": 1029,
+        "startChar": 8,
+        "endLine": 1029,
+        "endChar": 9
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_5bac3a69",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T18:44:39Z",
+      "side": 1,
+      "message": "if lexlineno \u003e lineno \u0026\u0026 nlsemi ...",
+      "range": {
+        "startLine": 1041,
+        "startChar": 6,
+        "endLine": 1041,
+        "endChar": 8
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_bbc67e10",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T18:44:39Z",
+      "side": 1,
+      "message": "add: (see issue \u003cissue number\u003e).",
+      "range": {
+        "startLine": 338,
+        "startChar": 38,
+        "endLine": 338,
+        "endChar": 39
+      },
+      "revId": "dc8fbdd85a50de951092adaaefbed481312f8053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
