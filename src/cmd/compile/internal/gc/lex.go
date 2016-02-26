@@ -867,9 +867,10 @@ type lexer struct {
 
 	// current token
 	tok  int32
-	sym_ *Sym // valid if tok == LNAME
-	val  Val  // valid if tok == LLITERAL
-	op   Op   // valid if tok == LASOP
+	prec int32 // binary operator precedence
+	sym_ *Sym  // valid if tok == LNAME
+	val  Val   // valid if tok == LLITERAL
+	op   Op    // valid if tok == LASOP or prec > 0
 }
 
 const (
@@ -927,6 +928,7 @@ func (l *lexer) next() {
 
 	nlsemi := l.nlsemi
 	l.nlsemi = false
+	l.prec = 0
 
 l0:
 	// skip white space
@@ -1059,6 +1061,9 @@ l0:
 			goto asop
 		}
 
+		l.prec = 6
+		l.op = ODIV
+
 	case ':':
 		c1 = l.getr()
 		if c1 == '=' {
@@ -1073,12 +1078,18 @@ l0:
 			goto asop
 		}
 
+		l.prec = 6
+		l.op = OMUL
+
 	case '%':
 		c1 = l.getr()
 		if c1 == '=' {
 			op = OMOD
 			goto asop
 		}
+
+		l.prec = 6
+		l.op = OMOD
 
 	case '+':
 		c1 = l.getr()
@@ -1093,6 +1104,9 @@ l0:
 			goto asop
 		}
 
+		l.prec = 5
+		l.op = OADD
+
 	case '-':
 		c1 = l.getr()
 		if c1 == '-' {
@@ -1106,55 +1120,77 @@ l0:
 			goto asop
 		}
 
+		l.prec = 5
+		l.op = OSUB
+
 	case '>':
 		c1 = l.getr()
 		if c1 == '>' {
-			c = LRSH
 			c1 = l.getr()
 			if c1 == '=' {
 				op = ORSH
 				goto asop
 			}
 
+			c = LRSH
+			l.prec = 6
+			l.op = ORSH
 			break
 		}
 
 		if c1 == '=' {
 			c = LGE
+			l.prec = 4
+			l.op = OGE
 			goto lx
 		}
 
 		c = LGT
+		l.prec = 4
+		l.op = OGT
 
 	case '<':
 		c1 = l.getr()
 		if c1 == '<' {
-			c = LLSH
 			c1 = l.getr()
 			if c1 == '=' {
 				op = OLSH
 				goto asop
 			}
 
+			c = LLSH
+			l.prec = 6
+			l.op = OLSH
 			break
 		}
 
 		if c1 == '=' {
 			c = LLE
+			l.prec = 4
+			l.op = OLE
 			goto lx
 		}
 
 		if c1 == '-' {
 			c = LCOMM
+			// Not a binary operator anymore, but left in
+			// so we can give a good error message when used
+			// in an expression context.
+			l.prec = 1
+			l.op = OSEND
 			goto lx
 		}
 
 		c = LLT
+		l.prec = 4
+		l.op = OLT
 
 	case '=':
 		c1 = l.getr()
 		if c1 == '=' {
 			c = LEQ
+			l.prec = 4
+			l.op = OEQ
 			goto lx
 		}
 
@@ -1162,6 +1198,8 @@ l0:
 		c1 = l.getr()
 		if c1 == '=' {
 			c = LNE
+			l.prec = 4
+			l.op = ONE
 			goto lx
 		}
 
@@ -1169,17 +1207,21 @@ l0:
 		c1 = l.getr()
 		if c1 == '&' {
 			c = LANDAND
+			l.prec = 3
+			l.op = OANDAND
 			goto lx
 		}
 
 		if c1 == '^' {
-			c = LANDNOT
 			c1 = l.getr()
 			if c1 == '=' {
 				op = OANDNOT
 				goto asop
 			}
 
+			c = LANDNOT
+			l.prec = 6
+			l.op = OANDNOT
 			break
 		}
 
@@ -1188,10 +1230,15 @@ l0:
 			goto asop
 		}
 
+		l.prec = 6
+		l.op = OAND
+
 	case '|':
 		c1 = l.getr()
 		if c1 == '|' {
 			c = LOROR
+			l.prec = 2
+			l.op = OOROR
 			goto lx
 		}
 
@@ -1200,12 +1247,18 @@ l0:
 			goto asop
 		}
 
+		l.prec = 5
+		l.op = OOR
+
 	case '^':
 		c1 = l.getr()
 		if c1 == '=' {
 			op = OXOR
 			goto asop
 		}
+
+		l.prec = 5
+		l.op = OXOR
 
 	case '(', '[', '{', ',', ';':
 		goto lx
