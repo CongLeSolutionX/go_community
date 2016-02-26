@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a29de171_13f9a76c",
+        "filename": "test/fixedbugs/issue14515.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-02-26T03:43:53Z",
+      "side": 1,
+      "message": "I think this file is not needed.\nWe can reuse helloworld.go, or other\nexisting files in /test.",
+      "revId": "a6176682a9013f6b23b377dce3ad3ff658ca0846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
