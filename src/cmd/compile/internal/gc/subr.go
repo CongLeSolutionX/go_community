@@ -1902,10 +1902,15 @@ func Setmaxarg(t *Type, extra int32) {
 	}
 }
 
-// unicode-aware case-insensitive strcmp
+// Code to resolve elided DOTs in embedded types.
 
-// code to resolve elided DOTs
-// in embedded types
+// A Dlist stores a pointer to a TFIELD Type embedded within
+// a TSTRUCT or TINTER Type.
+type Dlist struct {
+	field *Type
+}
+
+var dotlist = make([]Dlist, 10)
 
 // search depth 0 --
 // return count of fields+methods
@@ -1948,21 +1953,22 @@ func lookdot0(s *Sym, t *Type, save **Type, ignorecase int) int {
 // found at search depth.
 // answer is in dotlist array and
 // count of number of ways is returned.
-func adddot1(s *Sym, t *Type, d int, save **Type, ignorecase int) int {
+// more reports whether t may contain embedded fields deeper than d.
+func adddot1(s *Sym, t *Type, d int, save **Type, ignorecase int) (c int, more bool) {
 	if t.Trecur != 0 {
-		return 0
+		return
 	}
 	t.Trecur = 1
 
-	var c int
 	var u *Type
-	var a int
-	if d == 0 {
+	d--
+	if d < 0 {
 		c = lookdot0(s, t, save, ignorecase)
-		goto out
+		if c != 0 {
+			goto out
+		}
 	}
 
-	c = 0
 	u = t
 	if Isptr[u.Etype] {
 		u = u.Type
@@ -1971,24 +1977,46 @@ func adddot1(s *Sym, t *Type, d int, save **Type, ignorecase int) int {
 		goto out
 	}
 
-	d--
 	for f := u.Type; f != nil; f = f.Down {
-		if f.Embedded == 0 {
+		if f.Embedded == 0 || f.Sym == nil {
 			continue
 		}
-		if f.Sym == nil {
-			continue
+		if d < 0 {
+			more = true
+			goto out
 		}
-		a = adddot1(s, f.Type, d, save, ignorecase)
+		a, more1 := adddot1(s, f.Type, d, save, ignorecase)
 		if a != 0 && c == 0 {
 			dotlist[d].field = f
 		}
 		c += a
+		if more1 {
+			more = true
+		}
 	}
 
 out:
 	t.Trecur = 0
-	return c
+	return
+}
+
+// dotpath computes the unique shortest explicit selector path to resolve x.f,
+// where x is of type t and f is the symbol s.
+// If no such path exists, dotpath returns nil.
+// If there are multiple shortest paths at the same embedding depth, ambig is true.
+func dotpath(s *Sym, t *Type, save **Type, ignorecase int) (path []Dlist, ambig bool) {
+	for d := 0; ; d++ {
+		if d > len(dotlist) {
+			dotlist = append(dotlist, Dlist{})
+		}
+		if c, more := adddot1(s, t, d, save, ignorecase); c == 1 {
+			return dotlist[:d], false
+		} else if c > 1 {
+			return nil, true
+		} else if !more {
+			return nil, false
+		}
+	}
 }
 
 // in T.field
@@ -2015,24 +2043,16 @@ func adddot(n *Node) *Node {
 		return n
 	}
 
-	var c int
-	for d := 0; d < len(dotlist); d++ {
-		c = adddot1(s, t, d, nil, 0)
-		if c > 0 {
-			if c > 1 {
-				Yyerror("ambiguous selector %v", n)
-				n.Left = nil
-				return n
-			}
-
-			// rebuild elided dots
-			for c := d - 1; c >= 0; c-- {
-				n.Left = Nod(ODOT, n.Left, newname(dotlist[c].field.Sym))
-				n.Left.Implicit = true
-			}
-
-			return n
+	switch path, ambig := dotpath(s, t, nil, 0); {
+	case path != nil:
+		// rebuild elided dots
+		for c := len(path) - 1; c >= 0; c-- {
+			n.Left = Nod(ODOT, n.Left, newname(path[c].field.Sym))
+			n.Left.Implicit = true
 		}
+	case ambig:
+		Yyerror("ambiguous selector %v", n)
+		n.Left = nil
 	}
 
 	return n
@@ -2096,16 +2116,13 @@ func expand0(t *Type, followptr bool) {
 	}
 }
 
-func expand1(t *Type, d int, followptr bool) {
+func expand1(t *Type, top, followptr bool) {
 	if t.Trecur != 0 {
-		return
-	}
-	if d == 0 {
 		return
 	}
 	t.Trecur = 1
 
-	if d != len(dotlist)-1 {
+	if !top {
 		expand0(t, followptr)
 	}
 
@@ -2126,7 +2143,7 @@ func expand1(t *Type, d int, followptr bool) {
 		if f.Sym == nil {
 			continue
 		}
-		expand1(f.Type, d-1, followptr)
+		expand1(f.Type, false, followptr)
 	}
 
 out:
@@ -2148,27 +2165,18 @@ func expandmeth(t *Type) {
 	// generate all reachable methods
 	slist = nil
 
-	expand1(t, len(dotlist)-1, false)
+	expand1(t, true, false)
 
 	// check each method to be uniquely reachable
-	var c int
-	var d int
 	for sl := slist; sl != nil; sl = sl.link {
 		sl.field.Sym.Flags &^= SymUniq
-		for d = 0; d < len(dotlist); d++ {
-			c = adddot1(sl.field.Sym, t, d, &f, 0)
-			if c == 0 {
-				continue
-			}
-			if c == 1 {
-				// addot1 may have dug out arbitrary fields, we only want methods.
-				if f.Type.Etype == TFUNC && f.Type.Thistuple > 0 {
-					sl.good = true
-					sl.field = f
-				}
-			}
-
-			break
+		if path, _ := dotpath(sl.field.Sym, t, &f, 0); path == nil {
+			continue
+		}
+		// dotpath may have dug out arbitrary fields, we only want methods.
+		if f.Type.Etype == TFUNC && f.Type.Thistuple > 0 {
+			sl.good = true
+			sl.field = f
 		}
 	}
 
@@ -2337,6 +2345,7 @@ func genwrapper(rcvr *Type, method *Type, newnam *Sym, iface int) {
 	if !instrumenting && Isptr[rcvr.Etype] && Isptr[methodrcvr.Etype] && method.Embedded != 0 && !isifacemethod(method.Type) {
 		// generate tail call: adjust pointer receiver and jump to embedded method.
 		dot = dot.Left // skip final .M
+		// TODO(mdempsky): Remove dependency on dotlist.
 		if !Isptr[dotlist[0].field.Type.Etype] {
 			dot = Nod(OADDR, dot, nil)
 		}
@@ -2855,33 +2864,27 @@ func ifacelookdot(s *Sym, t *Type, followptr *bool, ignorecase int) *Type {
 	}
 
 	var m *Type
-	var i int
-	var c int
-	for d := 0; d < len(dotlist); d++ {
-		c = adddot1(s, t, d, &m, ignorecase)
-		if c > 1 {
+	path, ambig := dotpath(s, t, &m, ignorecase)
+	if path == nil {
+		if ambig {
 			Yyerror("%v.%v is ambiguous", t, s)
-			return nil
 		}
+		return nil
+	}
 
-		if c == 1 {
-			for i = 0; i < d; i++ {
-				if Isptr[dotlist[i].field.Type.Etype] {
-					*followptr = true
-					break
-				}
-			}
-
-			if m.Type.Etype != TFUNC || m.Type.Thistuple == 0 {
-				Yyerror("%v.%v is a field, not a method", t, s)
-				return nil
-			}
-
-			return m
+	for _, d := range path {
+		if Isptr[d.field.Type.Etype] {
+			*followptr = true
+			break
 		}
 	}
 
-	return nil
+	if m.Type.Etype != TFUNC || m.Type.Thistuple == 0 {
+		Yyerror("%v.%v is a field, not a method", t, s)
+		return nil
+	}
+
+	return m
 }
 
 func implements(t *Type, iface *Type, m **Type, samename **Type, ptr *int) bool {
