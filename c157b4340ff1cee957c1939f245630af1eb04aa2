@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42c98578_0a016be7",
+        "filename": "test/prove.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-26T12:06:49Z",
+      "side": 1,
+      "message": "This is dead code. I updated the test.",
+      "revId": "c157b4340ff1cee957c1939f245630af1eb04aa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
