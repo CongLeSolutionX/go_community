@@ -867,10 +867,20 @@ type lexer struct {
 
 	// current token
 	tok  int32
+	prec int  // binary operator precedence
 	sym_ *Sym // valid if tok == LNAME
 	val  Val  // valid if tok == LLITERAL
-	op   Op   // valid if tok == LASOP
+	op   Op   // valid if tok == LASOP or prec > 0
 }
+
+const (
+	PCOMM = 1 + iota
+	POROR
+	PANDAND
+	PCMP
+	PADD
+	PMUL
+)
 
 const (
 	// The value of single-char tokens is just their character's Unicode value.
@@ -925,6 +935,7 @@ const (
 func (l *lexer) next() {
 	nlsemi := l.nlsemi
 	l.nlsemi = false
+	l.prec = 0
 
 l0:
 	// skip white space
@@ -1057,6 +1068,9 @@ l0:
 			goto asop
 		}
 
+		l.prec = PMUL
+		l.op = ODIV
+
 	case ':':
 		c1 = l.getr()
 		if c1 == '=' {
@@ -1071,12 +1085,18 @@ l0:
 			goto asop
 		}
 
+		l.prec = PMUL
+		l.op = OMUL
+
 	case '%':
 		c1 = l.getr()
 		if c1 == '=' {
 			op = OMOD
 			goto asop
 		}
+
+		l.prec = PMUL
+		l.op = OMOD
 
 	case '+':
 		c1 = l.getr()
@@ -1091,6 +1111,9 @@ l0:
 			goto asop
 		}
 
+		l.prec = PADD
+		l.op = OADD
+
 	case '-':
 		c1 = l.getr()
 		if c1 == '-' {
@@ -1104,55 +1127,77 @@ l0:
 			goto asop
 		}
 
+		l.prec = PADD
+		l.op = OSUB
+
 	case '>':
 		c1 = l.getr()
 		if c1 == '>' {
-			c = LRSH
 			c1 = l.getr()
 			if c1 == '=' {
 				op = ORSH
 				goto asop
 			}
 
+			c = LRSH
+			l.prec = PMUL
+			l.op = ORSH
 			break
 		}
 
 		if c1 == '=' {
 			c = LGE
+			l.prec = PCMP
+			l.op = OGE
 			goto lx
 		}
 
 		c = LGT
+		l.prec = PCMP
+		l.op = OGT
 
 	case '<':
 		c1 = l.getr()
 		if c1 == '<' {
-			c = LLSH
 			c1 = l.getr()
 			if c1 == '=' {
 				op = OLSH
 				goto asop
 			}
 
+			c = LLSH
+			l.prec = PMUL
+			l.op = OLSH
 			break
 		}
 
 		if c1 == '=' {
 			c = LLE
+			l.prec = PCMP
+			l.op = OLE
 			goto lx
 		}
 
 		if c1 == '-' {
 			c = LCOMM
+			// Not a binary operator anymore, but left in
+			// so we can give a good error message when used
+			// in an expression context.
+			l.prec = PCOMM
+			l.op = OSEND
 			goto lx
 		}
 
 		c = LLT
+		l.prec = PCMP
+		l.op = OLT
 
 	case '=':
 		c1 = l.getr()
 		if c1 == '=' {
 			c = LEQ
+			l.prec = PCMP
+			l.op = OEQ
 			goto lx
 		}
 
@@ -1160,6 +1205,8 @@ l0:
 		c1 = l.getr()
 		if c1 == '=' {
 			c = LNE
+			l.prec = PCMP
+			l.op = ONE
 			goto lx
 		}
 
@@ -1167,17 +1214,21 @@ l0:
 		c1 = l.getr()
 		if c1 == '&' {
 			c = LANDAND
+			l.prec = PANDAND
+			l.op = OANDAND
 			goto lx
 		}
 
 		if c1 == '^' {
-			c = LANDNOT
 			c1 = l.getr()
 			if c1 == '=' {
 				op = OANDNOT
 				goto asop
 			}
 
+			c = LANDNOT
+			l.prec = PMUL
+			l.op = OANDNOT
 			break
 		}
 
@@ -1186,10 +1237,15 @@ l0:
 			goto asop
 		}
 
+		l.prec = PMUL
+		l.op = OAND
+
 	case '|':
 		c1 = l.getr()
 		if c1 == '|' {
 			c = LOROR
+			l.prec = POROR
+			l.op = OOROR
 			goto lx
 		}
 
@@ -1198,12 +1254,18 @@ l0:
 			goto asop
 		}
 
+		l.prec = PADD
+		l.op = OOR
+
 	case '^':
 		c1 = l.getr()
 		if c1 == '=' {
 			op = OXOR
 			goto asop
 		}
+
+		l.prec = PADD
+		l.op = OXOR
 
 	case '(', '[', '{', ',', ';':
 		goto lx

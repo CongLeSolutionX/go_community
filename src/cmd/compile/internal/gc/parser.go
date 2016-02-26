@@ -1102,53 +1102,18 @@ func (p *parser) select_stmt() *Node {
 	return hdr
 }
 
-// TODO(gri) should have lexer return this info - no need for separate lookup
-// (issue 13244)
-var prectab = map[int32]struct {
-	prec int // > 0 (0 indicates not found)
-	op   Op
-}{
-	// not an expression anymore, but left in so we can give a good error
-	// message when used in expression context
-	LCOMM: {1, OSEND},
-
-	LOROR: {2, OOROR},
-
-	LANDAND: {3, OANDAND},
-
-	LEQ: {4, OEQ},
-	LNE: {4, ONE},
-	LLE: {4, OLE},
-	LGE: {4, OGE},
-	LLT: {4, OLT},
-	LGT: {4, OGT},
-
-	'+': {5, OADD},
-	'-': {5, OSUB},
-	'|': {5, OOR},
-	'^': {5, OXOR},
-
-	'*':     {6, OMUL},
-	'/':     {6, ODIV},
-	'%':     {6, OMOD},
-	'&':     {6, OAND},
-	LLSH:    {6, OLSH},
-	LRSH:    {6, ORSH},
-	LANDNOT: {6, OANDNOT},
-}
-
 // Expression = UnaryExpr | Expression binary_op Expression .
 func (p *parser) bexpr(prec int) *Node {
 	// don't trace bexpr - only leads to overly nested trace output
 
 	x := p.uexpr()
 	for {
-		t := prectab[p.tok]
-		if t.prec < prec {
+		tprec, op := p.prec, p.op
+		if tprec < prec {
 			return x
 		}
 		p.next()
-		x = Nod(t.op, x, p.bexpr(t.prec+1))
+		x = Nod(op, x, p.bexpr(tprec+1))
 	}
 }
 
