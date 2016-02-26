@@ -22,6 +22,30 @@
       "revId": "c24b68a307dbcd825c8c783293ef22d3a4ab78e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_99e2aae8",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T22:19:15Z",
+      "side": 1,
+      "message": "Using \u003e means we don\u0027t need the +1, and p.expr gets to start from 0 instead of 1.  Admittedly not huge wins though.\n\nDo you prefer we still use \u003e\u003d?",
+      "parentUuid": "02e4ed24_f9bd2edd",
+      "range": {
+        "startLine": 1110,
+        "startChar": 11,
+        "endLine": 1110,
+        "endChar": 12
+      },
+      "revId": "c24b68a307dbcd825c8c783293ef22d3a4ab78e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
