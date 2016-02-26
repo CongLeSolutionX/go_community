@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_050c1389",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T01:33:06Z",
+      "side": 1,
+      "message": "PS: Perhaps add an additional comment to that effect.",
+      "parentUuid": "02e4ed24_05be53d9",
+      "range": {
+        "startLine": 428,
+        "startChar": 32,
+        "endLine": 428,
+        "endChar": 37
+      },
+      "revId": "8af5d146d935aae3bc4122cf7e04f6becbad3920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_c5d04b1a",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
