@@ -1014,6 +1014,7 @@ l0:
 		c1 = l.getr()
 		if c1 == '*' {
 			nl := false
+		Outer:
 			for {
 				c = l.getr()
 				if c == '\n' {
@@ -1022,10 +1023,7 @@ l0:
 				for c == '*' {
 					c = l.getr()
 					if c == '/' {
-						if nl {
-							l.ungetr('\n')
-						}
-						goto l0
+						break Outer
 					}
 
 					if c == '\n' {
@@ -1038,6 +1036,16 @@ l0:
 					errorexit()
 				}
 			}
+
+			// A comment containing newlines acts like a newline.
+			if nl && nlsemi {
+				if Debug['x'] != 0 {
+					fmt.Printf("lex: implicit semi\n")
+				}
+				l.tok = ';'
+				return
+			}
+			goto l0
 		}
 
 		if c1 == '/' {
