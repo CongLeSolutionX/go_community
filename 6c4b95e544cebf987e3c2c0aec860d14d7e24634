@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_a84cf617",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "// operator precedence; 0 if not a binary operator\n\nAlso, nitpick: can we move this one below op? I think of them as a pair op, prec.",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_68d04e75",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "please add a comment\n\n// precedences of binary operators (must be \u003e 0)",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_a8ce36ce",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "op \u003d OMUL\n\nand remove it below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_88cb7abf",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "op \u003d OMOD and remove it below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_68b96e43",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "op \u003d OADD and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_48beb22c",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "op \u003d OSUB and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_28b36665",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "op \u003d ORSH and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_08b8aa3b",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "l.prec \u003d PCMP and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_e8ad5efa",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "op \u003d OLSH and remove below",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_682e0e44",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "s/anymore, //\n\nThe \"anymore\" is hard to understand for a reader unfamiliar with the pre-history of Go.",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_a8a75618",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T16:58:32Z",
+      "side": 1,
+      "message": "replace LINC, LDEC with LINCOP (new) that also sets the op field,\nthen combine LINC and LDEC into one case",
+      "revId": "6c4b95e544cebf987e3c2c0aec860d14d7e24634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
