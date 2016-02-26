@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_489d9291",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-26T17:42:49Z",
+      "side": 1,
+      "message": "further\n\nOr just drop those last three words. Just \"See $URL\" is fine",
+      "revId": "f0ca2e317358a8220d49e0014d5b4c3de5341964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_c8898252",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-26T17:42:49Z",
+      "side": 1,
+      "message": "What about IPv6+port? worth adding {\"[::1]:1234\", \"\"} to this list?\n\nOr IPv4+port.\n\nThe net/http/transport.go doesn\u0027t do this because of hasPort, and I guess x/net/http2 is fine too it looks like, but other people might be setting this incorrectly?",
+      "revId": "f0ca2e317358a8220d49e0014d5b4c3de5341964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
