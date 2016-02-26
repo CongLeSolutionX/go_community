@@ -33,6 +33,24 @@
       "revId": "f0ca2e317358a8220d49e0014d5b4c3de5341964",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_c98be19b",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-26T22:42:42Z",
+      "side": 1,
+      "message": "i\u0027m still not sure whether combination of IP literal and port number separated by some delimiter such as \u0027:\u0027 or \u0027#\u0027 or \u0027.\u0027 is an ip literal for sni. therefore, this change still treats them as opaque strings.",
+      "parentUuid": "02e4ed24_c8898252",
+      "revId": "f0ca2e317358a8220d49e0014d5b4c3de5341964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
