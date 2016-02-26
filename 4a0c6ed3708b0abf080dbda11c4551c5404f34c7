@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_a865168a",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T17:20:40Z",
+      "side": 1,
+      "message": "move up Uniqqen below Flags for better alignment\n\nOn a 64bit platform that should save 8 bytes (going from 120bytes/Sym to 112).\n\nNo difference on a 32bit platform.",
+      "revId": "4a0c6ed3708b0abf080dbda11c4551c5404f34c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_281fe6f3",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-02-26T17:20:40Z",
+      "side": 1,
+      "message": "only do this if len(name) \u003e\u003d 2 ?\n\n(one-letter idents are reasonably common, and keywords have at least 2 letters)\n\nAs an aside: I have a fast perfect hash function for keywords, but maybe that\u0027s overkill. Let me know if interested.",
+      "revId": "4a0c6ed3708b0abf080dbda11c4551c5404f34c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
