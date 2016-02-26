@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_79a49e13",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T23:12:00Z",
+      "side": 1,
+      "message": "Ack.  I feel like it\u0027s a minor win, but I\u0027m not really crazy about it.\n\n(I only added it because I originally goofed and mixed up OADD and OSUB for the LINCOPs, and \"go run test/run.go\" fork bombed my workstation, requiring a hard reboot...)",
+      "parentUuid": "02e4ed24_1957dad4",
+      "revId": "9d8bb242186919a323c782992c06913f587b6f96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_b99326d4",
         "filename": "src/cmd/compile/internal/gc/parser.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-26T22:38:48Z",
       "side": 1,
       "message": "perhaps add a comment:\n\n// prec is the precedence of the outer operation\n\n(or something along those lines)",
+      "revId": "9d8bb242186919a323c782992c06913f587b6f96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_197b5a04",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-26T23:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_b99326d4",
       "revId": "9d8bb242186919a323c782992c06913f587b6f96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
