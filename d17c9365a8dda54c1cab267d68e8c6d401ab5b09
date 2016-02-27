@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_49fa31d4",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-27T23:09:56Z",
+      "side": 1,
+      "message": "this is a third time.\npls drop the unnecessary blank line btw parsePort and if-statement.",
+      "revId": "d17c9365a8dda54c1cab267d68e8c6d401ab5b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_29f7f5eb",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-27T23:09:56Z",
+      "side": 1,
+      "message": "i don\u0027t understand what you are doing here.\n\nare you sure we need to drop existing udp test cases and to add the redundant test cases of parsePort? lookupPort calls platform-dependent stuff such as c-resolver via cgo, windows native services via syscall if necessary. therefore, test cases here must test such codepath for all supported platforms.\n\nalso when we have an entry \"123badport 60001/tcp\" in /etc/services your test case fails. i don\u0027t want to add such flakey test case here.",
+      "range": {
+        "startLine": 613,
+        "startChar": 0,
+        "endLine": 614,
+        "endChar": 33
+      },
+      "revId": "d17c9365a8dda54c1cab267d68e8c6d401ab5b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_a90ae5b5",
+        "filename": "src/net/port.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-27T23:09:56Z",
+      "side": 1,
+      "message": "s/2009/2016/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "d17c9365a8dda54c1cab267d68e8c6d401ab5b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_89f049f6",
+        "filename": "src/net/port_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-27T23:09:56Z",
+      "side": 1,
+      "message": "s/2009/2016/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "d17c9365a8dda54c1cab267d68e8c6d401ab5b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_69eded17",
+        "filename": "src/net/port_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-27T23:09:56Z",
+      "side": 1,
+      "message": "i don\u0027t understand why you are changing test cases.\n\nno boundary test cases for new introduced integer parser? although it depends on integer size at run time? instead having useless and redundant service name tests?\n\npls restore the test cases in  cl19871.",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "d17c9365a8dda54c1cab267d68e8c6d401ab5b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
