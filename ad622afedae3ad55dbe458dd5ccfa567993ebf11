@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_f455339a",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-27T01:40:44Z",
+      "side": 1,
+      "message": "I\u0027m not too fond of \"dictionary\" either since the compressor also has a dictionary. dictDecoder may not be the best, but at least it differentiates the decompress dictionary from the compress dictionary. Got a better name suggestion?",
+      "parentUuid": "3694cdc0_c19a866d",
+      "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3694cdc0_c131a627",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-11-02T11:44:25Z",
       "side": 1,
       "message": "Document",
+      "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_d46b575d",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-27T01:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3694cdc0_c131a627",
       "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_b468cb61",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-27T01:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3694cdc0_a12c9ad0",
+      "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "968f39ad_c1f604be",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2015-11-02T11:44:25Z",
       "side": 1,
       "message": "This and the 3 functions all have pointer receivers, when they only do reads of data. Is it because of speed?\n\nI would expect all these to be inlined anyway.",
+      "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_94fa6fd1",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-27T01:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "968f39ad_c1f604be",
       "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_54252745",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-27T01:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3694cdc0_e19f825a",
+      "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3694cdc0_01a54ea9",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 1
@@ -115,6 +205,24 @@
       "writtenOn": "2015-11-02T11:44:25Z",
       "side": 1,
       "message": "Maybe \"AvailWrite\" would be a better name?",
+      "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_342a9b16",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-02-27T01:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3694cdc0_01a54ea9",
       "revId": "ad622afedae3ad55dbe458dd5ccfa567993ebf11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
