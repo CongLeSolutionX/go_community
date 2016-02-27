@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_2f87e893",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-27T03:51:08Z",
+      "side": 1,
+      "message": "I feel like these two fields aren\u0027t independent.  How do you encode both x \u003c y and x \u003eU y?\nCan we just do a straight 5 bits?  \u003d\u003d,\u003c,\u003e,\u003cU,\u003eU",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_8fa01c1a",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-27T03:51:08Z",
+      "side": 1,
+      "message": "Then I don\u0027t think we would need tm here.",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_6f761068",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-27T03:51:08Z",
+      "side": 1,
+      "message": "pointer is never used, right?",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_8f793c58",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-27T03:51:08Z",
+      "side": 1,
+      "message": "s/DSF/DFS/",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_2fd5a863",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-27T03:51:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we keep track that if i was not in the map, we should delete it from the map to restore the old state?  It may not make a difference semantically, but it might keep the map smaller.",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_efde8084",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-02-27T03:51:08Z",
+      "side": 1,
+      "message": "I think I understand how your masks work here, but it is very subtle.  This needs more comments.  Basically if you have one signed fact and one unsigned fact, you end up with no fact as a result.  So the \u0026 gives you more information if you have two of the same type fact, but gives you less information if the type facts are different.",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
