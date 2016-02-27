@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02cf8da0_69aa8de3",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-02-27T10:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_489d9291",
+      "revId": "f0ca2e317358a8220d49e0014d5b4c3de5341964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_c8898252",
         "filename": "src/crypto/tls/handshake_client_test.go",
         "patchSetId": 5
