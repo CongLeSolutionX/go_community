@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_aad06618",
+        "filename": "misc/cgo/testsanitizers/tsan.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-27T22:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c98578_653e90a4",
+      "revId": "2dd8fe12b7103d679deaf67c3ee2d9f9b714519f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42c98578_a527c892",
         "filename": "misc/cgo/testsanitizers/tsan2.go",
         "patchSetId": 5
@@ -47,6 +65,42 @@
       "writtenOn": "2016-02-27T15:46:00Z",
       "side": 1,
       "message": "same here",
+      "revId": "2dd8fe12b7103d679deaf67c3ee2d9f9b714519f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_6aca7e65",
+        "filename": "misc/cgo/testsanitizers/tsan2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-27T22:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c98578_a527c892",
+      "revId": "2dd8fe12b7103d679deaf67c3ee2d9f9b714519f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_8acdaa7d",
+        "filename": "misc/cgo/testsanitizers/tsan2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-27T22:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c98578_8543ac1b",
       "revId": "2dd8fe12b7103d679deaf67c3ee2d9f9b714519f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
