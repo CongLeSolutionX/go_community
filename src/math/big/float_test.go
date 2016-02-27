@@ -842,6 +842,10 @@ func TestFloatFloat32(t *testing.T) {
 		{"0x.8p-148", math.SmallestNonzeroFloat32, Exact},
 		{"1p-149", math.SmallestNonzeroFloat32, Exact},
 		{"0x.fffffep-126", math.Float32frombits(0x7fffff), Exact}, // largest denormal
+		{"0x8.0p-149", math.Float32frombits(0x000000008), Exact},
+		{"0x7.9p-149", math.Float32frombits(0x000000008), Above}, // Check rounding of small Floats
+		{"0x7.7p-149", math.Float32frombits(0x000000007), Below},
+		{"0x7.0p-149", math.Float32frombits(0x000000007), Exact},
 
 		// normals
 		{"0x.ffffffp-126", math.Float32frombits(0x00800000), Above}, // rounded up to smallest normal
@@ -914,6 +918,10 @@ func TestFloatFloat64(t *testing.T) {
 		{"0x.8p-1073", math.SmallestNonzeroFloat64, Exact},
 		{"1p-1074", math.SmallestNonzeroFloat64, Exact},
 		{"0x.fffffffffffffp-1022", math.Float64frombits(0x000fffffffffffff), Exact}, // largest denormal
+		{"0x8.0p-1074", math.Float64frombits(0x00000000000000008), Exact},
+		{"0x7.9p-1074", math.Float64frombits(0x00000000000000008), Above}, // Check rounding of small Floats
+		{"0x7.7p-1074", math.Float64frombits(0x00000000000000007), Below},
+		{"0x7.0p-1074", math.Float64frombits(0x00000000000000007), Exact},
 
 		// normals
 		{"0x.fffffffffffff8p-1022", math.Float64frombits(0x0010000000000000), Above}, // rounded up to smallest normal

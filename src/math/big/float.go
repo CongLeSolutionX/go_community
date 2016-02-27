@@ -932,6 +932,13 @@ func (x *Float) Float32() (float32, Accuracy) {
 			}
 			// bexp = 0
 			mant = msb32(r.mant) >> (fbits - r.prec)
+
+			// If we "rounded up" to 1.0 then the Float would be renormalized to 0.5 with a different exponent
+			roundUp := (r.acc == Above && !r.neg) || (r.acc == Below && r.neg)
+			isHalf := r.mant.bit(_W-1) == 1
+			if isHalf && roundUp && r.prec > 1 {
+				mant <<= 1
+			}
 		} else {
 			// normal number: emin <= e <= emax
 			bexp = uint32(e+bias) << mbits
@@ -1039,6 +1046,13 @@ func (x *Float) Float64() (float64, Accuracy) {
 			}
 			// bexp = 0
 			mant = msb64(r.mant) >> (fbits - r.prec)
+
+			// If we "rounded up" to 1.0 then the Float would be renormalized to 0.5 with a different exponent
+			roundUp := (r.acc == Above && !r.neg) || (r.acc == Below && r.neg)
+			isHalf := r.mant.bit(_W-1) == 1
+			if isHalf && roundUp && r.prec > 1 {
+				mant <<= 1
+			}
 		} else {
 			// normal number: emin <= e <= emax
 			bexp = uint64(e+bias) << mbits
