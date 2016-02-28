@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02e4ed24_8ae24ae8",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "Comment describing dictDecoder?  Something mentioning LZ77?",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_6adf1e1e",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "Unless any of these methods need to be exported (e.g., to satisfy an interface), you should name them lower-case so the compiler can skip producing reflect information about them.  (I think; at least that\u0027s what I\u0027ve been told before. :))",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_4a0d8288",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "Hrm, I see you previously changed these from *dictDecoder methods to dictDecoder methods in response to feedback.  I would actually leave them as *dictDecoder for consistency.\n\nFor example, a lot of bytes.Buffer\u0027s methods (Bytes, String, Len, Cap) are still on *bytes.Buffer even though they don\u0027t modify the bytes.Buffer variable.",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_0a3c1a18",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "I\u0027d suggest moving this below WriteCopy, since WriteCopy is the more general case.  Then it\u0027s a bit easier to understand that it\u0027s a specialized version.",
+      "range": {
+        "startLine": 84,
+        "startChar": 23,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_4a32224b",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "This seems like a slightly misleading name, since it actually has nothing to do with dd.rdPos.  What do you about maybe \"src\", \"dst\", \"dst0\", and \"end\" instead of \"rdPos\", \"wrPos\", \"wrBase\", and \"wrEnd\"?",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 111,
+        "endChar": 6
+      },
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_ca017254",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s guaranteed to be non-overlapping?   E.g., assuming prior conditions of:\n\n    len(dd.hist) \u003d\u003d 100\n    rdPos, wrPos \u003d\u003d 0, 0\n    full \u003d true\n\nthen I think a call to WriteCopy(70, 70) will do an overlapping copy of\n\n    copy(dd.hist[0:70], dd.hist[30:])\n\nright?\n\n(I.e., I think the code\u0027s correct, but I think the comment is misleading.)",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_2a37d639",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "Maybe clarify that we want forward copy semantics, so we\u0027re using multiple non-overlapping copies to prevent Go switching to backwards copying?",
+      "range": {
+        "startLine": 124,
+        "startChar": 9,
+        "endLine": 124,
+        "endChar": 20
+      },
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_0a077a6a",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "This comment (\"A call to ...\") seems a little difficult to understand, IMO.  Can it be worded as something like \"The data returned by ReadFlush() must be consumed before calling any other dictDecoder methods.\"?",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_aa43c689",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-28T00:54:20Z",
+      "side": 1,
+      "message": "Hm, is it possible to give dictDecoder a single \"public\" WriteCopy method like\n\n    func (d *dictDecoder) WriteCopy(dist, len int) int {\n        cnt :\u003d d.FastWriteCopy(dist, len)\n        if cnt \u003d\u003d 0 {\n            cnt \u003d d.SlowWriteCopy(dist, len)\n        }\n        return cnt\n    }\n\nand still have both WriteCopy and FastWriteCopy (nee TryWriteCopy) inlined here?",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
