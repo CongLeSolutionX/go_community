@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "02c30d5c_68b3cb63",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T18:42:44Z",
+      "side": 1,
+      "message": "s/more tr.r/more than tr.r/",
+      "revId": "f47f6d5e6950ce4cd75d26e52c4ec96125544b95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_4ae6a294",
         "filename": "test/prove.go",
         "patchSetId": 14
@@ -19,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "42c98578_a56a6858",
+        "filename": "test/prove.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T18:42:44Z",
+      "side": 1,
+      "message": "It\u0027s dead code. I removed the dead code from the test.",
+      "parentUuid": "02e4ed24_4ae6a294",
+      "revId": "f47f6d5e6950ce4cd75d26e52c4ec96125544b95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_8a048af9",
         "filename": "test/prove.go",
         "patchSetId": 14
@@ -30,6 +65,24 @@
       "writtenOn": "2016-02-28T17:37:34Z",
       "side": 1,
       "message": "Why nothing here?",
+      "revId": "f47f6d5e6950ce4cd75d26e52c4ec96125544b95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42f42502_9ec39d56",
+        "filename": "test/prove.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T18:42:44Z",
+      "side": 1,
+      "message": "Dead code again.",
+      "parentUuid": "02e4ed24_8a048af9",
       "revId": "f47f6d5e6950ce4cd75d26e52c4ec96125544b95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
