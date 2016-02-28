@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_8a15aa60",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_8ae24ae8",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_6adf1e1e",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-28T00:54:20Z",
       "side": 1,
       "message": "Unless any of these methods need to be exported (e.g., to satisfy an interface), you should name them lower-case so the compiler can skip producing reflect information about them.  (I think; at least that\u0027s what I\u0027ve been told before. :))",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_ca1bb293",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done. Interesting, didn\u0027t know that.\n\nI thought I\u0027ve read somewhere that it\u0027s okay to export some names on private structs as a form of documentation. That is, private methods are specific to the implementation of the object, while \"public\" ones are meant for use outside the object. I guess it doesn\u0027t matter in this situation since all methods are \"public\", so there\u0027s no distinction to be made.",
+      "parentUuid": "02e4ed24_6adf1e1e",
       "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_ea054e30",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "02e4ed24_4a0d8288",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_0a3c1a18",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 7
@@ -64,6 +118,30 @@
       "writtenOn": "2016-02-28T00:54:20Z",
       "side": 1,
       "message": "I\u0027d suggest moving this below WriteCopy, since WriteCopy is the more general case.  Then it\u0027s a bit easier to understand that it\u0027s a specialized version.",
+      "range": {
+        "startLine": 84,
+        "startChar": 23,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_0a01ba24",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_0a3c1a18",
       "range": {
         "startLine": 84,
         "startChar": 23,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_eabaee9c",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done. I\u0027m not too fond of dst0.\n\n\nI did the following rename:\n\n rdPos  -\u003e srcPos\n wrPos  -\u003e dstPos\n wrBase -\u003e dstBase\n wrEnd  -\u003e endPos\n\nI added the Pos suffix, otherwise \"dst\" and \"dest\" becomes too similar.",
+      "parentUuid": "02e4ed24_4a32224b",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 111,
+        "endChar": 6
+      },
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_ca017254",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 7
@@ -110,6 +212,24 @@
       "writtenOn": "2016-02-28T00:54:20Z",
       "side": 1,
       "message": "I don\u0027t think it\u0027s guaranteed to be non-overlapping?   E.g., assuming prior conditions of:\n\n    len(dd.hist) \u003d\u003d 100\n    rdPos, wrPos \u003d\u003d 0, 0\n    full \u003d true\n\nthen I think a call to WriteCopy(70, 70) will do an overlapping copy of\n\n    copy(dd.hist[0:70], dd.hist[30:])\n\nright?\n\n(I.e., I think the code\u0027s correct, but I think the comment is misleading.)",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_caa0526d",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Interesting. I define overlapping as (dist \u003c length), in which case WriteCopy(70, 70) is not \"overlapping\" to me. But the fact that you bring this up means \"overlapping\" is ambiguous. You are correct that they are overlapping in terms of their source and destination sections (i.e., hist[:70] overlaps with hist[30:]).\n\n\nThe best approach is probably to document what \"overlapping\" even means. I think it\u0027s useful to use my definition since that\u0027s determines the forward copy or backward copy becomes important.\n\n\nHowever, the comment below on L124 is misleading, since that copy is not always overlapping. The common case is that the loop terminates in 1 iteration.",
+      "parentUuid": "02e4ed24_ca017254",
       "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_8aaa4a47",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_2a37d639",
+      "range": {
+        "startLine": 124,
+        "startChar": 9,
+        "endLine": 124,
+        "endChar": 20
+      },
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_0a077a6a",
         "filename": "src/compress/flate/dict_decoder.go",
         "patchSetId": 7
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_aa186697",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_0a077a6a",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_aa43c689",
         "filename": "src/compress/flate/inflate.go",
         "patchSetId": 7
@@ -167,6 +329,24 @@
       "writtenOn": "2016-02-28T00:54:20Z",
       "side": 1,
       "message": "Hm, is it possible to give dictDecoder a single \"public\" WriteCopy method like\n\n    func (d *dictDecoder) WriteCopy(dist, len int) int {\n        cnt :\u003d d.FastWriteCopy(dist, len)\n        if cnt \u003d\u003d 0 {\n            cnt \u003d d.SlowWriteCopy(dist, len)\n        }\n        return cnt\n    }\n\nand still have both WriteCopy and FastWriteCopy (nee TryWriteCopy) inlined here?",
+      "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e4ed24_4a80e2ea",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-02-28T09:07:01Z",
+      "side": 1,
+      "message": "I would love to be able to present a single \"public\" WriteCopy that just happens to perform well. Unless we can think of a better way to simplify the logic here further or we increase the inline budget, I don\u0027t think a fully inlined version is possible.\n\n\nAlso, a single WriteCopy that inlines the fast path, but allows a function call to the slow path still doesn\u0027t work. Unfortunately, the current compiler cannot inline a small function S that wraps huge function H (see #11432).\n\n\nIt is possible to split WriteCopy into two phases WriteCopy1 and WriteCopy2 that both inlineable and have the code here call them both, but I feel like that\u0027s a dirty abstraction to present. I\u0027m against that design even if it improves performance.\n\n\nFor now, I feel like a little kid eagerly waiting for upcoming compiler optimizations that can make this all faster! (looking at you #11432, #14267, #11819, #11813)",
+      "parentUuid": "02e4ed24_aa43c689",
       "revId": "e47143a895af77f3bdf47a5ae2bc7a82bbd61512",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
