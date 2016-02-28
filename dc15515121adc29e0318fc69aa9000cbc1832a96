@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a2b881d5_22257447",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T09:37:58Z",
+      "side": 1,
+      "message": "In the mask map I keep two entries: (signed, x, y): lt and (unsigned, x, y): gt.\n\nI could merge them but iterating over the bits of t would be a bit harder.",
+      "parentUuid": "02e4ed24_2f87e893",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_8fa01c1a",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-27T03:51:08Z",
       "side": 1,
       "message": "Then I don\u0027t think we would need tm here.",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22dbb13a_d7dac45e",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T09:37:58Z",
+      "side": 1,
+      "message": "I do. I added some comments in the prove to explain why.\n\ntl;dr: map[control]rangeMask stores the possible relation between pair a0, a1 for type tm. The uglier alternative is map[struct{a0, a1 ID}][]typeRange",
+      "parentUuid": "02e4ed24_8fa01c1a",
       "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a220812e_e2e33cf2",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T09:37:58Z",
+      "side": 1,
+      "message": "Done. Got lost during refactoring.",
+      "parentUuid": "02e4ed24_6f761068",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_8f793c58",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 13
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "22c49160_def9f9de",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T09:37:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_8f793c58",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_2fd5a863",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 13
@@ -81,6 +153,24 @@
       "writtenOn": "2016-02-27T03:51:08Z",
       "side": 1,
       "message": "Shouldn\u0027t we keep track that if i was not in the map, we should delete it from the map to restore the old state?  It may not make a difference semantically, but it might keep the map smaller.",
+      "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_05015ce7",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-02-28T09:37:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_2fd5a863",
       "revId": "dc15515121adc29e0318fc69aa9000cbc1832a96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
