@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"net/http"
 	"net/http/httptest"
 	"runtime"
 	"strings"
@@ -20,14 +21,16 @@ import (
 )
 
 var (
-	newServer                 *Server
-	serverAddr, newServerAddr string
-	httpServerAddr            string
-	once, newOnce, httpOnce   sync.Once
+	newServer, muxServer                          *Server
+	serverAddr, newServerAddr, muxServerAddr      string
+	httpServerAddr, httpServerMuxAddr             string
+	once, newOnce, httpOnce, muxOnce, muxHttpOnce sync.Once
+	mux                                           *http.ServeMux
 )
 
 const (
 	newHttpPath = "/foo"
+	muxHttpPath = "/mux"
 )
 
 type Args struct {
@@ -123,10 +126,33 @@ func startNewServer() {
 	httpOnce.Do(startHttpServer)
 }
 
+func startMuxServer() {
+	muxServer = NewServer()
+	muxServer.Register(new(Arith))
+	muxServer.Register(new(Embed))
+	muxServer.RegisterName("net.rpc.Arith", new(Arith))
+	muxServer.RegisterName("muxServer.Arith", new(Arith))
+
+	var l net.Listener
+	l, muxServerAddr = listenTCP()
+	log.Println("MuxServer test RPC server listening on", muxServerAddr)
+	go muxServer.Accept(l)
+
+	mux = http.NewServeMux()
+	muxServer.HandleHTTPMux(muxHttpPath, "/bar", mux)
+	muxHttpOnce.Do(startHttpServerMux)
+}
+
 func startHttpServer() {
 	server := httptest.NewServer(nil)
 	httpServerAddr = server.Listener.Addr().String()
 	log.Println("Test HTTP RPC server listening on", httpServerAddr)
+}
+
+func startHttpServerMux() {
+	muxServer := httptest.NewServer(mux)
+	httpServerMuxAddr = muxServer.Listener.Addr().String()
+	log.Println("Test HTTP RPC server w/mux listening on", httpServerMuxAddr)
 }
 
 func TestRPC(t *testing.T) {
@@ -296,18 +322,20 @@ func testNewServerRPC(t *testing.T, addr string) {
 
 func TestHTTP(t *testing.T) {
 	once.Do(startServer)
-	testHTTPRPC(t, "")
+	testHTTPRPC(t, httpServerAddr, "")
 	newOnce.Do(startNewServer)
-	testHTTPRPC(t, newHttpPath)
+	testHTTPRPC(t, httpServerAddr, newHttpPath)
+	muxOnce.Do(startMuxServer)
+	testHTTPRPC(t, httpServerMuxAddr, muxHttpPath)
 }
 
-func testHTTPRPC(t *testing.T, path string) {
+func testHTTPRPC(t *testing.T, addr, path string) {
 	var client *Client
 	var err error
 	if path == "" {
-		client, err = DialHTTP("tcp", httpServerAddr)
+		client, err = DialHTTP("tcp", addr)
 	} else {
-		client, err = DialHTTPPath("tcp", httpServerAddr, path)
+		client, err = DialHTTPPath("tcp", addr, path)
 	}
 	if err != nil {
 		t.Fatal("dialing", err)

@@ -704,6 +704,15 @@ func (server *Server) HandleHTTP(rpcPath, debugPath string) {
 	http.Handle(debugPath, debugHTTP{server})
 }
 
+// HandleHTTPMux registers an HTTP handler for RPC messages on rpcPath,
+// and a debugging handler on debugPath using the provided mux.
+// It is still necessary to invoke Serve() on an http.Server using mux,
+// typically in a go statement.
+func (server *Server) HandleHTTPMux(rpcPath, debugPath string, mux *http.ServeMux) {
+	mux.Handle(rpcPath, server)
+	mux.Handle(debugPath, debugHTTP{server})
+}
+
 // HandleHTTP registers an HTTP handler for RPC messages to DefaultServer
 // on DefaultRPCPath and a debugging handler on DefaultDebugPath.
 // It is still necessary to invoke http.Serve(), typically in a go statement.
