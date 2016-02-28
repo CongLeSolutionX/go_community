@@ -16,7 +16,7 @@ import (
 )
 
 // To test this we want to communicate between the main program and
-// the shared library without using any exported symbols.  The init
+// the shared library without using any exported symbols. The init
 // function creates a pipe and Dups the read end to a known number
 // that the C code can also use.
 

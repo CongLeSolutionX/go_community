@@ -6,7 +6,7 @@
 
 // Internally a map holds elements in up to 255 bytes of key+value.
 // When key or value or both are too large, it uses pointers to key+value
-// instead.  Test all the combinations.
+// instead. Test all the combinations.
 
 package main
 

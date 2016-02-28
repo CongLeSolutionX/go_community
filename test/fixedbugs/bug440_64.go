@@ -1,6 +1,6 @@
 // run
 
-// Test for 6g register move bug.  The optimizer gets confused
+// Test for 6g register move bug. The optimizer gets confused
 // about 32- vs 64-bit moves during splitContractIndex.
 
 // Issue 3918.

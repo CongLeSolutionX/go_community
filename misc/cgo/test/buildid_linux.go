@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors.  All rights reserved.
+// Copyright 2014 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -6,7 +6,7 @@ package cgotest
 
 // Test that we have no more than one build ID.  In the past we used
 // to generate a separate build ID for each package using cgo, and the
-// linker concatenated them all.  We don't want that--we only want
+// linker concatenated them all. We don't want that--we only want
 // one.
 
 import (

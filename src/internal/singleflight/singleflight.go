@@ -1,4 +1,4 @@
-// Copyright 2013 The Go Authors.  All rights reserved.
+// Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -101,7 +101,7 @@ func (g *Group) doCall(c *call, key string, fn func() (interface{}, error)) {
 	g.mu.Unlock()
 }
 
-// Forget tells the singleflight to forget about a key.  Future calls
+// Forget tells the singleflight to forget about a key. Future calls
 // to Do for this key will call the function rather than waiting for
 // an earlier call to complete.
 func (g *Group) Forget(key string) {

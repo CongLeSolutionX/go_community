@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors.  All rights reserved.
+// Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -134,9 +134,9 @@ type Int struct {
 func NewInt(x int64) *Int { return new(Int).SetInt64(x) }
 
 // Int promises that the zero value is a 0, but in gmp
-// the zero value is a crash.  To bridge the gap, the
+// the zero value is a crash. To bridge the gap, the
 // init bool says whether this is a valid gmp value.
-// doinit initializes z.i if it needs it.  This is not inherent
+// doinit initializes z.i if it needs it. This is not inherent
 // to FFI, just a mismatch between Go's convention of
 // making zero values useful and gmp's decision not to.
 func (z *Int) doinit() {
@@ -189,7 +189,7 @@ func (z *Int) SetInt64(x int64) *Int {
 }
 
 // SetString interprets s as a number in the given base
-// and sets z to that value.  The base must be in the range [2,36].
+// and sets z to that value. The base must be in the range [2,36].
 // SetString returns an error if s cannot be parsed or the base is invalid.
 func (z *Int) SetString(s string, base int) error {
 	z.doinit()

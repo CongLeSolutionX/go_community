@@ -1,6 +1,6 @@
 // runoutput
 
-// Copyright 2011 The Go Authors.  All rights reserved.
+// Copyright 2011 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -417,7 +417,7 @@ var nonblock = parse("nonblock", `
 `)
 
 // Code for enumerating all possible paths through
-// some logic.  The logic should call choose(n) when
+// some logic. The logic should call choose(n) when
 // it wants to choose between n possibilities.
 // On successive runs through the logic, choose(n)
 // will return 0, 1, ..., n-1.  The helper maybe() is

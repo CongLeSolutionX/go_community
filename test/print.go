@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file.
 
 // Test internal print routines that are generated
-// by the print builtin.  This test is not exhaustive,
+// by the print builtin. This test is not exhaustive,
 // we're just checking that the formatting is correct.
 
 package main

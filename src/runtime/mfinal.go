@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors.  All rights reserved.
+// Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -219,8 +219,8 @@ func runfinq() {
 // SetFinalizer sets the finalizer associated with x to f.
 // When the garbage collector finds an unreachable block
 // with an associated finalizer, it clears the association and runs
-// f(x) in a separate goroutine.  This makes x reachable again, but
-// now without an associated finalizer.  Assuming that SetFinalizer
+// f(x) in a separate goroutine. This makes x reachable again, but
+// now without an associated finalizer. Assuming that SetFinalizer
 // is not called again, the next time the garbage collector sees
 // that x is unreachable, it will free x.
 //
@@ -374,8 +374,8 @@ okarg:
 	})
 }
 
-// Look up pointer v in heap.  Return the span containing the object,
-// the start of the object, and the size of the object.  If the object
+// Look up pointer v in heap. Return the span containing the object,
+// the start of the object, and the size of the object. If the object
 // does not exist, return nil, nil, 0.
 func findObject(v unsafe.Pointer) (s *mspan, x unsafe.Pointer, n uintptr) {
 	c := gomcache()

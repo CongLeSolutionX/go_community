@@ -1,4 +1,4 @@
-// Copyright 2011 The Go Authors.  All rights reserved.
+// Copyright 2011 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ import (
 )
 
 // loopbackInterface returns an available logical network interface
-// for loopback tests.  It returns nil if no suitable interface is
+// for loopback tests. It returns nil if no suitable interface is
 // found.
 func loopbackInterface() *Interface {
 	ift, err := Interfaces()

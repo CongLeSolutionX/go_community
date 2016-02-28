@@ -1,6 +1,6 @@
 // skip
 
-// Copyright 2010 The Go Authors.  All rights reserved.
+// Copyright 2010 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -211,7 +211,7 @@ var pt1a = &T{3, 4}
 
 // The checks similar to
 // var copy_bx = bx
-// are commented out.  The  compiler no longer statically initializes them.
+// are commented out. The  compiler no longer statically initializes them.
 // See issue 7665 and https://codereview.appspot.com/93200044.
 // If https://codereview.appspot.com/169040043 is submitted, and this
 // test is changed to pass -complete to the compiler, then we can

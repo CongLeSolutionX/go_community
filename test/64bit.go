@@ -404,7 +404,7 @@ var shiftValues = []Uint64{
 var ntest = 0
 
 // Part 1 is tests of variable operations; generic functions
-// called by repetitive code.  Could make a table but not worth it.
+// called by repetitive code. Could make a table but not worth it.
 
 const prolog = "\n" +
 	"package main\n" +

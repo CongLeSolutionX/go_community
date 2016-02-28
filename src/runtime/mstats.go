@@ -1,4 +1,4 @@
-// Copyright 2009 The Go Authors.  All rights reserved.
+// Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -371,7 +371,7 @@ func purgecachedstats(c *mcache) {
 	}
 }
 
-// Atomically increases a given *system* memory stat.  We are counting on this
+// Atomically increases a given *system* memory stat. We are counting on this
 // stat never overflowing a uintptr, so this function must only be used for
 // system memory stats.
 //
@@ -395,7 +395,7 @@ func mSysStatInc(sysStat *uint64, n uintptr) {
 	}
 }
 
-// Atomically decreases a given *system* memory stat.  Same comments as
+// Atomically decreases a given *system* memory stat. Same comments as
 // mSysStatInc apply.
 //go:nosplit
 func mSysStatDec(sysStat *uint64, n uintptr) {

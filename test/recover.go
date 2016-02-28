@@ -1,6 +1,6 @@
 // run
 
-// Copyright 2010 The Go Authors.  All rights reserved.
+// Copyright 2010 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -246,7 +246,7 @@ func test5() {
 
 // When a deferred big call starts, it must first
 // create yet another stack segment to hold the
-// giant frame for x.  Make sure that doesn't
+// giant frame for x. Make sure that doesn't
 // confuse recover.
 func big(mustRecover bool) {
 	var x [100000]int

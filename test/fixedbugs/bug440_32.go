@@ -1,6 +1,6 @@
 // run
 
-// Test for 8g register move bug.  The optimizer gets confused
+// Test for 8g register move bug. The optimizer gets confused
 // about 16- vs 32-bit moves during splitContractIndex.
 
 // Issue 3910.

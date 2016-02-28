@@ -1,4 +1,4 @@
-// Copyright 2012 The Go Authors.  All rights reserved.
+// Copyright 2012 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -10,7 +10,7 @@ import (
 )
 
 // Rewrite tree to use separate statements to enforce
-// order of evaluation.  Makes walk easier, because it
+// order of evaluation. Makes walk easier, because it
 // can (after this runs) reorder at will within an expression.
 //
 // Rewrite x op= y into x = x op y.

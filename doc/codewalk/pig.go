@@ -25,7 +25,7 @@ type action func(current score) (result score, turnIsOver bool)
 
 // roll returns the (result, turnIsOver) outcome of simulating a die roll.
 // If the roll value is 1, then thisTurn score is abandoned, and the players'
-// roles swap.  Otherwise, the roll value is added to thisTurn.
+// roles swap. Otherwise, the roll value is added to thisTurn.
 func roll(s score) (score, bool) {
 	outcome := rand.Intn(6) + 1 // A random int in [1, 6]
 	if outcome == 1 {

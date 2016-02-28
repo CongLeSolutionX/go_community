@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file.
 
 // Test that initializing struct fields out of order still runs
-// functions in the right order.  This failed with gccgo.
+// functions in the right order. This failed with gccgo.
 
 package main
 

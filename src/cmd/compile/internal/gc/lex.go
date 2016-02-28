@@ -1448,7 +1448,7 @@ caseep:
 	// exponent
 	if importpkg == nil && (c == 'p' || c == 'P') {
 		// <mantissa>p<base-2-exponent> is allowed in .a/.o imports,
-		// but not in .go sources.  See #9036.
+		// but not in .go sources. See #9036.
 		Yyerror("malformed floating point constant")
 	}
 	cp.WriteByte(byte(c))

@@ -1,9 +1,9 @@
-// Copyright 2015 The Go Authors.  All rights reserved.
+// Copyright 2015 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 // cgo rewrote C.var to *_Cvar_var, but left
-// C.var.field as _Cvar.var.field.  It now rewrites
+// C.var.field as _Cvar.var.field. It now rewrites
 // the latter as (*_Cvar_var).field.
 // See https://golang.org/issue/9557.
 

@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors.  All rights reserved.
+// Copyright 2010 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -30,7 +30,7 @@ Step(int x, int y, int *a, int *n)
 	GoWait(3);
 }
 
-// The actual computation.  This is called in parallel.
+// The actual computation. This is called in parallel.
 void
 DoStep(int xdim, int ydim, int xstart, int xend, int ystart, int yend, int *a, int *n)
 {

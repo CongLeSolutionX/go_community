@@ -12,7 +12,7 @@
 
 // Power series package
 // A power series is a channel, along which flow rational
-// coefficients.  A denominator of zero signifies the end.
+// coefficients. A denominator of zero signifies the end.
 // Original code in Newsqueak by Doug McIlroy.
 // See Squinting at Power Series by Doug McIlroy,
 //   http://www.cs.bell-labs.com/who/rsc/thread/squint.pdf
@@ -320,7 +320,7 @@ func eval(c *rat, U PS, n int) *rat{
 }
 
 // Power-series constructors return channels on which power
-// series flow.  They start an encapsulated generator that
+// series flow. They start an encapsulated generator that
 // puts the terms of the series on the channel.
 
 // Make a pair of power series identical to a given power series

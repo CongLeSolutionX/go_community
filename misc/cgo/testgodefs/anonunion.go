@@ -1,4 +1,4 @@
-// Copyright 2014 The Go Authors.  All rights reserved.
+// Copyright 2014 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 //
@@ -8,7 +8,7 @@ package main
 
 // This file tests that when cgo -godefs sees a struct with a field
 // that is an anonymous union, the first field in the union is
-// promoted to become a field of the struct.  See issue 6677 for
+// promoted to become a field of the struct. See issue 6677 for
 // background.
 
 /*

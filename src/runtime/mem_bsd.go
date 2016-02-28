@@ -1,4 +1,4 @@
-// Copyright 2010 The Go Authors.  All rights reserved.
+// Copyright 2010 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -44,7 +44,7 @@ func sysFault(v unsafe.Pointer, n uintptr) {
 
 func sysReserve(v unsafe.Pointer, n uintptr, reserved *bool) unsafe.Pointer {
 	// On 64-bit, people with ulimit -v set complain if we reserve too
-	// much address space.  Instead, assume that the reservation is okay
+	// much address space. Instead, assume that the reservation is okay
 	// and check the assumption in SysMap.
 	if sys.PtrSize == 8 && uint64(n) > 1<<32 || sys.GoosNacl != 0 {
 		*reserved = false
