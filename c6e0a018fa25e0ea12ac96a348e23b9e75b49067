@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_9c11e5aa",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-28T20:40:04Z",
+      "side": 1,
+      "message": "\"to finalizer\" sounds weird if you don\u0027t know that finalizer is the name of the variable yet (which is even more plausible, considering this mountain of text before the reader sees the signature).\n\nOn line 231 you said \"The argument finalizer\" which sounds nicer. Maybe this can be \"to the provided finalizer\", which works both as a standalone sentence, and is accurate wrt the argument name.",
+      "revId": "c6e0a018fa25e0ea12ac96a348e23b9e75b49067",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_fc06296c",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-02-28T20:40:04Z",
+      "side": 1,
+      "message": "single space after periods while you\u0027re at it? (we\u0027ve been slowly migrating in this direction; maybe it\u0027s time for a tree-wide cleanup)",
+      "revId": "c6e0a018fa25e0ea12ac96a348e23b9e75b49067",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
