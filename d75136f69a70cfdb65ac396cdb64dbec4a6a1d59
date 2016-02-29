@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_dc61ade1",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1913,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-29T23:25:28Z",
+      "side": 1,
+      "message": "It needs to at least be non-nil for dotpaths\u0027s \"return dotlist[:i]\" case, even when i\u003d\u003d0, because callers distinguish a nil result (error) from a 0-length non-nil result (path is already fully-qualified).\n\nInitializing to 10 elements is just to match it\u0027s previous size.",
+      "parentUuid": "02feade5_7c7e99b7",
+      "revId": "d75136f69a70cfdb65ac396cdb64dbec4a6a1d59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02feade5_5c7bddc5",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_f0bac89c",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1967,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-29T23:25:28Z",
+      "side": 1,
+      "message": "The embedding of types into structs imposes a tree structure on types.  dotpaths wants to search the tree rooted at t for the shallowest path to a type that contains a field or method named s.\n\nThis is implemented by iterating bounded depth-first searches.  First it searches only to depth 0, then to depth 1, depth 2, etc. until it finds a node with the name.\n\nIf the input is erroneous, there might not be a type that contains a field/method named s.  Previously the compiler handled this by simply giving up after reaching depth 10 if it hadn\u0027t found one.\n\nSince the purpose of this CL is to search as deeply as necessary, we need an alternative termination condition.  Specifically, we need to know once we\u0027ve searched deeply enough that there are no more embedded types that a deeper search would traverse.\n\nAt this point, if lookdot0 returns 0, that means t doesn\u0027t directly have a field/method named s.  But it might still contain embedded types that we need to search into, so we need to still run the rest of this subroutine to report \"more\" correct.  (See lines 1984--1987.)",
+      "parentUuid": "02feade5_bc6821f7",
+      "revId": "d75136f69a70cfdb65ac396cdb64dbec4a6a1d59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02feade5_dc8ecd1a",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 5
@@ -64,6 +100,24 @@
       "writtenOn": "2016-02-28T22:26:31Z",
       "side": 1,
       "message": "We should probably clear the rest of dotlist, so it can be GC\u0027d.\n\nclear :\u003d dotlist[d:]\nfor i :\u003d range clear {\n  dotlist[i] \u003d Dlist{}\n}\n\nshould do it with a memclr, not that it matters.",
+      "revId": "d75136f69a70cfdb65ac396cdb64dbec4a6a1d59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_90aa6447",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2013,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-29T23:25:28Z",
+      "side": 1,
+      "message": "dotlist is just pointing to existing Type nodes.  I don\u0027t think those ever get GC\u0027d?",
+      "parentUuid": "02feade5_dc8ecd1a",
       "revId": "d75136f69a70cfdb65ac396cdb64dbec4a6a1d59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
