@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "a220812e_e297bc73",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 10928
+      },
+      "writtenOn": "2016-02-29T21:35:19Z",
+      "side": 1,
+      "message": "`net.LookupPort(\"tcp\", \"123456789\")`, returns `0`, `invalid port 123456789` on both play.golang.org and the Windows machine I\u0027ve set up for testing. But then I\u0027m still rather puzzled about why things failed so horribly with my initial patches.",
+      "parentUuid": "42c98578_0576bc66",
+      "range": {
+        "startLine": 615,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 39
+      },
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_895169df",
         "filename": "src/net/parse.go",
         "patchSetId": 10
