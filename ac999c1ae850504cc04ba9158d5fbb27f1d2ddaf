@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_5c9d9ddb",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-02-29T05:57:25Z",
+      "side": 1,
+      "message": "Would it be profitable to assign adjName back to rdBuf, in case we were forced to allocate a new, larger, underlying array?",
+      "revId": "ac999c1ae850504cc04ba9158d5fbb27f1d2ddaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
