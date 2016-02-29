@@ -173,6 +173,18 @@ func dumpdata() {
 	Clearp(Pc)
 }
 
+func flushdata() {
+	if dfirst == nil {
+		return
+	}
+	newplist()
+	*Pc = *dfirst
+	Pc = dpc
+	Clearp(Pc)
+	dfirst = nil
+	dpc = nil
+}
+
 // Fixup instructions after allocauto (formerly compactframe) has moved all autos around.
 func fixautoused(p *obj.Prog) {
 	for lp := &p; ; {
@@ -553,10 +565,15 @@ func nodarg(t *Type, fp int) *Node {
 		Fatalf("nodarg: not field %v", t)
 	}
 
+<<<<<<< HEAD   (4e95df [dev.ssa] cmd/compile: add max arg length to opcodes)
 	if fp == 1 || fp == -1 {
 		var n *Node
 		for l := Curfn.Func.Dcl; l != nil; l = l.Next {
 			n = l.N
+=======
+	if fp == 1 {
+		for _, n := range Curfn.Func.Dcl {
+>>>>>>> BRANCH (71cc44 cmd/cgo: recognize known C typedefs as types)
 			if (n.Class == PPARAM || n.Class == PPARAMOUT) && !isblanksym(t.Sym) && n.Sym == t.Sym {
 				return n
 			}
