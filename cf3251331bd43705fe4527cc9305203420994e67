@@ -22,6 +22,29 @@
       "revId": "cf3251331bd43705fe4527cc9305203420994e67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02c30d5c_031cf857",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-29T10:42:27Z",
+      "side": 1,
+      "message": "This only does one per line.  Something like\n\n    perl -pe \u0027m,^\\s*//, and\n        s,([a-z][.:;?!])  +([A-Z]),$1 $2,g\u0027\n\nwould catch any others.  It also checks for more end of \"sentence\", e.g. \"foo:  bar\", though that will only be thorough if the git grep adapts, or is dropped and it\u0027s run on text files?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 97
+      },
+      "revId": "cf3251331bd43705fe4527cc9305203420994e67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
