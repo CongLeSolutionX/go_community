@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "42c98578_0576bc66",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 10928
+      },
+      "writtenOn": "2016-02-29T21:31:55Z",
+      "side": 1,
+      "message": "\"123456789\" not returning 123456789 is, I believe, what caused the other tests to fail weirdly. Probably good to keep it working.\n\n\"123badport\" is the original bug-report. Particularly relevant as 9pfs didn\u0027t work as positive test.",
+      "parentUuid": "02cf8da0_494b5129",
+      "range": {
+        "startLine": 615,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 39
+      },
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_895169df",
         "filename": "src/net/parse.go",
         "patchSetId": 10
@@ -70,6 +94,30 @@
       "writtenOn": "2016-02-26T22:19:50Z",
       "side": 1,
       "message": "pls make port.go and move this function to port.go.\nservice names and port numbers would be used not only for connection setup but for more complicated service discovery in near future.",
+      "range": {
+        "startLine": 379,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 1
+      },
+      "revId": "743a1a51c5bac1c662cdaca209b3a42e930b02fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42c98578_45d51463",
+        "filename": "src/net/parse.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 10928
+      },
+      "writtenOn": "2016-02-29T21:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_895169df",
       "range": {
         "startLine": 379,
         "startChar": 0,
