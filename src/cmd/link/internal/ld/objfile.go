@@ -438,8 +438,11 @@ func rddata(f *obj.Biobuf) []byte {
 	return p
 }
 
-var symbuf []byte
+// rdsymBuf is used by rdsym as scratch space for reading the symbol name.
+var rdsymBuf []byte
+var emptyPkg = []byte(`"".`)
 
+// rdsym reads a symbol from f .
 func rdsym(ctxt *Link, f *obj.Biobuf, pkg string) *LSym {
 	n := rdint(f)
 	if n == 0 {
@@ -447,16 +450,31 @@ func rdsym(ctxt *Link, f *obj.Biobuf, pkg string) *LSym {
 		return nil
 	}
 
-	if len(symbuf) < n {
-		symbuf = make([]byte, n)
+	// Read symbol name, replacing all "". with pkg.
+	if len(rdsymBuf) < n {
+		rdsymBuf = make([]byte, n, 2*n)
 	}
-	obj.Bread(f, symbuf[:n])
-	p := string(symbuf[:n])
+	origName := rdsymBuf[:n]
+	obj.Bread(f, origName)
+	adjName := rdsymBuf[n:n]
+	for {
+		i := bytes.Index(origName, emptyPkg)
+		if i == -1 {
+			adjName = append(adjName, origName...)
+			break
+		}
+		adjName = append(adjName, origName[:i]...)
+		adjName = append(adjName, pkg...)
+		adjName = append(adjName, '.')
+		origName = origName[i+len(emptyPkg):]
+	}
+	name := string(adjName)
+
 	v := rdint(f)
 	if v != 0 {
 		v = ctxt.Version
 	}
-	s := Linklookup(ctxt, expandpkg(p, pkg), v)
+	s := Linklookup(ctxt, name, v)
 
 	if v == 0 && s.Name[0] == '$' && s.Type == 0 {
 		if strings.HasPrefix(s.Name, "$f32.") {
