@@ -22,6 +22,24 @@
       "revId": "b124318ebc17748fd674b6cb96c718320cb9f041",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_bf977374",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-02-29T18:42:17Z",
+      "side": 1,
+      "message": "I believe the guarantee you\u0027re looking for is on L448.",
+      "parentUuid": "02feade5_df0a3fb7",
+      "revId": "b124318ebc17748fd674b6cb96c718320cb9f041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
