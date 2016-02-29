@@ -34,6 +34,58 @@
       "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_bb234840",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2016-02-29T22:51:26Z",
+      "side": 1,
+      "message": "Ah, that wasn\u0027t clear to me. I saw this change was changing some encoding code, but I now see it\u0027s also changing decoding code.\n\nOkay, seems reasonable enough to me.",
+      "parentUuid": "a29de171_a40b2fba",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_9b19ac0e",
+        "filename": "src/cmd/pprof/internal/profile/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2016-02-29T22:51:26Z",
+      "side": 1,
+      "message": "how important is efficiency here? one way to make this a bit more efficient would be to reserve enough space for the length varint in b.data first, then encode the entries, and then go back to write the varint (and shrink the reserved space as needed). is that worth doing?",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_7b16d0dd",
+        "filename": "src/cmd/pprof/internal/profile/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2016-02-29T22:51:26Z",
+      "side": 1,
+      "message": "this doesn\u0027t seem right. for packed encoding, there should be a single varint (indicating the length in bytes of the whole repeated field), followed by some set of elements. I\u0027d expect this code to extract the varint, and then loop over that many bytes, pulling off varints as it goes.\n\nIn comparison, look at decode.go:dec_slice_packed_int64 in goprotobuf.",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
