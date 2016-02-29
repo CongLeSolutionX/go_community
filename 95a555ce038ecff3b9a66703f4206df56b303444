@@ -16,6 +16,24 @@
       "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a29de171_a40b2fba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10031
+      },
+      "writtenOn": "2016-02-29T17:14:29Z",
+      "side": 1,
+      "message": "That is what this patch is addressing. The proto decoder in the pprof from the Go distribution does not recognize packet repeated fields. It doesn\u0027t generate them either, but it breaks compatibility with other profile generators.",
+      "parentUuid": "02cf8da0_e961fdb2",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
