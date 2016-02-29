@@ -22,6 +22,24 @@
       "revId": "36f25a7e7ba3d5527cee8f4ef645827085243e59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_023c4e18",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-02-29T19:04:18Z",
+      "side": 1,
+      "message": "You\u0027re right, let me send you another CL...",
+      "parentUuid": "02feade5_42d3f625",
+      "revId": "36f25a7e7ba3d5527cee8f4ef645827085243e59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
