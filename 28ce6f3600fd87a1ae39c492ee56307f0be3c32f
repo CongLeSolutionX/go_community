@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02c30d5c_c3f68040",
+        "filename": "src/time/tick.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-02-29T10:45:25Z",
+      "side": 1,
+      "message": "Other commentary in the file uses words not symbols, e.g. \"d must be greater than zero\", so \"if d is not positive\"?",
+      "range": {
+        "startLine": 53,
+        "startChar": 45,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "28ce6f3600fd87a1ae39c492ee56307f0be3c32f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
