@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_df0a3fb7",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-02-29T18:28:58Z",
+      "side": 1,
+      "message": "Is there a guarantee that n \u003c\u003d rddataBufMax?  E.g., couldn\u0027t an extremely long machine generated function exceed that length, and then the slice below will panic?",
+      "range": {
+        "startLine": 452,
+        "startChar": 28,
+        "endLine": 452,
+        "endChar": 40
+      },
+      "revId": "b124318ebc17748fd674b6cb96c718320cb9f041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
