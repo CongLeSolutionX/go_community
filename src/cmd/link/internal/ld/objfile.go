@@ -118,22 +118,17 @@ const (
 	endmagic   = "\xff\xffgo13ld"
 )
 
-func ldobjfile(ctxt *Link, f *obj.Biobuf, pkg string, length int64, pn string) {
-	start := obj.Boffset(f)
+func ldobjfile(ctxt *Link, f *Input, pkg string, pn string) {
 	ctxt.Version++
-	var buf [8]uint8
-	obj.Bread(f, buf[:])
-	if string(buf[:]) != startmagic {
-		log.Fatalf("%s: invalid file start %x %x %x %x %x %x %x %x", pn, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7])
+	if magic, err := f.readBytes(8); err != nil || string(magic) != startmagic {
+		log.Fatalf("%s: invalid object file start magic %q", pn, string(magic))
 	}
-	c := obj.Bgetc(f)
-	if c != 1 {
-		log.Fatalf("%s: invalid file version number %d", pn, c)
+	if version := f.readByte(); version != 1 {
+		log.Fatalf("%s: invalid file version number %d", pn, version)
 	}
 
-	var lib string
 	for {
-		lib = rdstring(f)
+		lib := f.readString()
 		if lib == "" {
 			break
 		}
@@ -142,54 +137,40 @@ func ldobjfile(ctxt *Link, f *obj.Biobuf, pkg string, length int64, pn string) {
 
 	ctxt.CurRefs = []*LSym{nil} // zeroth ref is nil
 	for {
-		c, err := f.Peek(1)
-		if err != nil {
-			log.Fatalf("%s: peeking: %v", pn, err)
-		}
-		if c[0] == 0xff {
-			obj.Bgetc(f)
+		if f.data[f.off] == 0xff {
+			f.readByte()
 			break
 		}
 		readref(ctxt, f, pkg, pn)
 	}
 
 	for {
-		c, err := f.Peek(1)
-		if err != nil {
-			log.Fatalf("%s: peeking: %v", pn, err)
-		}
-		if c[0] == 0xff {
+		if f.data[f.off] == 0xff {
 			break
 		}
 		readsym(ctxt, f, pkg, pn)
 	}
 
-	buf = [8]uint8{}
-	obj.Bread(f, buf[:])
-	if string(buf[:]) != endmagic {
-		log.Fatalf("%s: invalid file end", pn)
-	}
-
-	if obj.Boffset(f) != start+length {
-		log.Fatalf("%s: unexpected end at %d, want %d", pn, int64(obj.Boffset(f)), int64(start+length))
+	if magic, err := f.readBytes(8); err != nil || string(magic) != endmagic {
+		log.Fatalf("%s: invalid object file end magic %q", pn, string(magic))
 	}
 }
 
 var readsym_ndup int
 
-func readsym(ctxt *Link, f *obj.Biobuf, pkg string, pn string) {
-	if obj.Bgetc(f) != 0xfe {
+func readsym(ctxt *Link, f *Input, pkg string, pn string) {
+	if f.readByte() != 0xfe {
 		log.Fatalf("readsym out of sync")
 	}
-	t := rdint(f)
+	t := f.readInt()
 	s := rdsym(ctxt, f, pkg)
-	flags := rdint(f)
+	flags := f.readInt()
 	dupok := flags&1 != 0
 	local := flags&2 != 0
-	size := rdint(f)
+	size := f.readInt()
 	typ := rdsym(ctxt, f, pkg)
-	data := rddata(f)
-	nreloc := rdint(f)
+	data := f.readData()
+	nreloc := f.readInt()
 
 	var dup *LSym
 	if s.Type != 0 && s.Type != obj.SXREF {
@@ -249,11 +230,11 @@ overwrite:
 		var r *Reloc
 		for i := 0; i < nreloc; i++ {
 			r = &s.R[i]
-			r.Off = rdint32(f)
-			r.Siz = rduint8(f)
-			r.Type = rdint32(f)
-			r.Add = rdint64(f)
-			rdint64(f) // Xadd, ignored
+			r.Off = f.readInt32()
+			r.Siz = f.readUint8()
+			r.Type = f.readInt32()
+			r.Add = f.readInt64()
+			f.readInt64() // Xadd, ignored
 			r.Sym = rdsym(ctxt, f, pkg)
 			rdsym(ctxt, f, pkg) // Xsym, ignored
 		}
@@ -268,38 +249,38 @@ overwrite:
 	}
 
 	if s.Type == obj.STEXT {
-		s.Args = rdint32(f)
-		s.Locals = rdint32(f)
-		if rduint8(f) != 0 {
+		s.Args = f.readInt32()
+		s.Locals = f.readInt32()
+		if f.readUint8() != 0 {
 			s.Attr |= AttrNoSplit
 		}
-		flags := rdint(f)
+		flags := f.readInt()
 		if flags&(1<<2) != 0 {
 			s.Attr |= AttrReflectMethod
 		}
-		n := rdint(f)
+		n := f.readInt()
 		s.Autom = make([]Auto, n)
 		for i := 0; i < n; i++ {
 			s.Autom[i] = Auto{
 				Asym:    rdsym(ctxt, f, pkg),
-				Aoffset: rdint32(f),
-				Name:    rdint16(f),
+				Aoffset: f.readInt32(),
+				Name:    f.readInt16(),
 				Gotype:  rdsym(ctxt, f, pkg),
 			}
 		}
 
 		s.Pcln = new(Pcln)
 		pc := s.Pcln
-		pc.Pcsp.P = rddata(f)
-		pc.Pcfile.P = rddata(f)
-		pc.Pcline.P = rddata(f)
-		n = rdint(f)
+		pc.Pcsp.P = f.readData()
+		pc.Pcfile.P = f.readData()
+		pc.Pcline.P = f.readData()
+		n = f.readInt()
 		pc.Pcdata = make([]Pcdata, n)
 		pc.Npcdata = n
 		for i := 0; i < n; i++ {
-			pc.Pcdata[i].P = rddata(f)
+			pc.Pcdata[i].P = f.readData()
 		}
-		n = rdint(f)
+		n = f.readInt()
 		pc.Funcdata = make([]*LSym, n)
 		pc.Funcdataoff = make([]int64, n)
 		pc.Nfuncdata = n
@@ -307,9 +288,9 @@ overwrite:
 			pc.Funcdata[i] = rdsym(ctxt, f, pkg)
 		}
 		for i := 0; i < n; i++ {
-			pc.Funcdataoff[i] = rdint64(f)
+			pc.Funcdataoff[i] = f.readInt64()
 		}
-		n = rdint(f)
+		n = f.readInt()
 		pc.File = make([]*LSym, n)
 		pc.Nfile = n
 		for i := 0; i < n; i++ {
@@ -381,12 +362,12 @@ overwrite:
 	}
 }
 
-func readref(ctxt *Link, f *obj.Biobuf, pkg string, pn string) {
-	if obj.Bgetc(f) != 0xfe {
-		log.Fatalf("readsym out of sync")
+func readref(ctxt *Link, f *Input, pkg string, pn string) {
+	if f.readByte() != 0xfe {
+		log.Fatalf("readref out of sync")
 	}
-	name := rdsymName(f, pkg)
-	v := rdint(f)
+	name := f.readSymName(pkg)
+	v := f.readInt()
 	if v != 0 && v != 1 {
 		log.Fatalf("invalid symbol version %d", v)
 	}
@@ -397,123 +378,8 @@ func readref(ctxt *Link, f *obj.Biobuf, pkg string, pn string) {
 	ctxt.CurRefs = append(ctxt.CurRefs, lsym)
 }
 
-func rdint64(f *obj.Biobuf) int64 {
-	var c int
-
-	uv := uint64(0)
-	for shift := 0; ; shift += 7 {
-		if shift >= 64 {
-			log.Fatalf("corrupt input")
-		}
-		c = obj.Bgetc(f)
-		uv |= uint64(c&0x7F) << uint(shift)
-		if c&0x80 == 0 {
-			break
-		}
-	}
-
-	return int64(uv>>1) ^ (int64(uint64(uv)<<63) >> 63)
-}
-
-func rdint(f *obj.Biobuf) int {
-	n := rdint64(f)
-	if int64(int(n)) != n {
-		log.Panicf("%v out of range for int", n)
-	}
-	return int(n)
-}
-
-func rdint32(f *obj.Biobuf) int32 {
-	n := rdint64(f)
-	if int64(int32(n)) != n {
-		log.Panicf("%v out of range for int32", n)
-	}
-	return int32(n)
-}
-
-func rdint16(f *obj.Biobuf) int16 {
-	n := rdint64(f)
-	if int64(int16(n)) != n {
-		log.Panicf("%v out of range for int16", n)
-	}
-	return int16(n)
-}
-
-func rduint8(f *obj.Biobuf) uint8 {
-	n := rdint64(f)
-	if int64(uint8(n)) != n {
-		log.Panicf("%v out of range for uint8", n)
-	}
-	return uint8(n)
-}
-
-// rdBuf is used by rdstring and rdsymName as scratch for reading strings.
-var rdBuf []byte
-var emptyPkg = []byte(`"".`)
-
-func rdstring(f *obj.Biobuf) string {
-	n := rdint(f)
-	if len(rdBuf) < n {
-		rdBuf = make([]byte, n)
-	}
-	obj.Bread(f, rdBuf[:n])
-	return string(rdBuf[:n])
-}
-
-const rddataBufMax = 1 << 14
-
-var rddataBuf = make([]byte, rddataBufMax)
-
-func rddata(f *obj.Biobuf) []byte {
-	var p []byte
-	n := rdint(f)
-	if n > rddataBufMax {
-		p = make([]byte, n)
-	} else {
-		if len(rddataBuf) < n {
-			rddataBuf = make([]byte, rddataBufMax)
-		}
-		p = rddataBuf[:n:n]
-		rddataBuf = rddataBuf[n:]
-	}
-	obj.Bread(f, p)
-	return p
-}
-
-// rdsymName reads a symbol name, replacing all "". with pkg.
-func rdsymName(f *obj.Biobuf, pkg string) string {
-	n := rdint(f)
-	if n == 0 {
-		rdint64(f)
-		return ""
-	}
-
-	if len(rdBuf) < n {
-		rdBuf = make([]byte, n, 2*n)
-	}
-	origName := rdBuf[:n]
-	obj.Bread(f, origName)
-	adjName := rdBuf[n:n]
-	for {
-		i := bytes.Index(origName, emptyPkg)
-		if i == -1 {
-			adjName = append(adjName, origName...)
-			break
-		}
-		adjName = append(adjName, origName[:i]...)
-		adjName = append(adjName, pkg...)
-		adjName = append(adjName, '.')
-		origName = origName[i+len(emptyPkg):]
-	}
-	name := string(adjName)
-	if len(adjName) > len(rdBuf) {
-		rdBuf = adjName // save the larger buffer for reuse
-	}
-	return name
-}
-
-func rdsym(ctxt *Link, f *obj.Biobuf, pkg string) *LSym {
-	i := rdint(f)
+func rdsym(ctxt *Link, f *Input, pkg string) *LSym {
+	i := f.readInt()
 	if i == 0 {
 		return nil
 	}

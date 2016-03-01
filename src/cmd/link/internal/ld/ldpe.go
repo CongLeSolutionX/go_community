@@ -116,7 +116,7 @@ type PeSect struct {
 }
 
 type PeObj struct {
-	f      *obj.Biobuf
+	f      *Input
 	name   string
 	base   uint32
 	sect   []PeSect
@@ -127,14 +127,14 @@ type PeObj struct {
 	snames []byte
 }
 
-func ldpe(f *obj.Biobuf, pkg string, length int64, pn string) {
+func ldpe(f *Input, pkg string, length int64, pn string) {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(&Bso, "%5.2f ldpe %s\n", obj.Cputime(), pn)
 	}
 
 	var sect *PeSect
 	Ctxt.Version++
-	base := int32(obj.Boffset(f))
+	base := f.off
 
 	peobj := new(PeObj)
 	peobj.f = f
@@ -152,7 +152,7 @@ func ldpe(f *obj.Biobuf, pkg string, length int64, pn string) {
 	var rsect *PeSect
 	var s *LSym
 	var sym *PeSym
-	var symbuf [18]uint8
+	var symbuf []uint8
 	if err = binary.Read(f, binary.LittleEndian, &peobj.fh); err != nil {
 		goto bad
 	}
@@ -172,15 +172,16 @@ func ldpe(f *obj.Biobuf, pkg string, length int64, pn string) {
 	// TODO return error if found .cormeta
 
 	// load string table
-	obj.Bseek(f, int64(base)+int64(peobj.fh.PointerToSymbolTable)+int64(len(symbuf))*int64(peobj.fh.NumberOfSymbols), 0)
+	f.seek(base + int(peobj.fh.PointerToSymbolTable) + int(len(symbuf))*int(peobj.fh.NumberOfSymbols))
 
-	if obj.Bread(f, symbuf[:4]) != 4 {
+	symbuf, err = f.readBytes(4)
+	if err != nil {
 		goto bad
 	}
-	l = Le32(symbuf[:])
-	peobj.snames = make([]byte, l)
-	obj.Bseek(f, int64(base)+int64(peobj.fh.PointerToSymbolTable)+int64(len(symbuf))*int64(peobj.fh.NumberOfSymbols), 0)
-	if obj.Bread(f, peobj.snames) != len(peobj.snames) {
+	l = Le32(symbuf)
+	f.seek(base + int(peobj.fh.PointerToSymbolTable) + int(len(symbuf))*int(peobj.fh.NumberOfSymbols))
+	peobj.snames, err = f.readBytes(int(l))
+	if err != nil {
 		goto bad
 	}
 
@@ -200,10 +201,11 @@ func ldpe(f *obj.Biobuf, pkg string, length int64, pn string) {
 	peobj.pesym = make([]PeSym, peobj.fh.NumberOfSymbols)
 
 	peobj.npesym = uint(peobj.fh.NumberOfSymbols)
-	obj.Bseek(f, int64(base)+int64(peobj.fh.PointerToSymbolTable), 0)
+	f.seek(base + int(peobj.fh.PointerToSymbolTable))
 	for i := 0; uint32(i) < peobj.fh.NumberOfSymbols; i += numaux + 1 {
-		obj.Bseek(f, int64(base)+int64(peobj.fh.PointerToSymbolTable)+int64(len(symbuf))*int64(i), 0)
-		if obj.Bread(f, symbuf[:]) != len(symbuf) {
+		f.seek(base + int(peobj.fh.PointerToSymbolTable) + int(len(symbuf))*int(i))
+		symbuf, err := f.readBytes(16)
+		if err != nil {
 			goto bad
 		}
 
@@ -288,10 +290,11 @@ func ldpe(f *obj.Biobuf, pkg string, length int64, pn string) {
 		}
 
 		r = make([]Reloc, rsect.sh.NumberOfRelocations)
-		obj.Bseek(f, int64(peobj.base)+int64(rsect.sh.PointerToRelocations), 0)
+		f.seek(int(peobj.base) + int(rsect.sh.PointerToRelocations))
 		for j = 0; j < int(rsect.sh.NumberOfRelocations); j++ {
 			rp = &r[j]
-			if obj.Bread(f, symbuf[:10]) != 10 {
+			symbuf, err := f.readBytes(10)
+			if err != nil {
 				goto bad
 			}
 			rva := Le32(symbuf[0:])
@@ -459,15 +462,17 @@ func pemap(peobj *PeObj, sect *PeSect) int {
 	if sect.base != nil {
 		return 0
 	}
-
-	sect.base = make([]byte, sect.sh.SizeOfRawData)
 	if sect.sh.PointerToRawData == 0 { // .bss doesn't have data in object file
 		return 0
 	}
-	if obj.Bseek(peobj.f, int64(peobj.base)+int64(sect.sh.PointerToRawData), 0) < 0 || obj.Bread(peobj.f, sect.base) != len(sect.base) {
+	if !peobj.f.seek(int(peobj.base) + int(sect.sh.PointerToRawData)) {
 		return -1
 	}
-
+	var err error
+	sect.base, err = peobj.f.readBytes(int(sect.sh.SizeOfRawData))
+	if err != nil {
+		return -1
+	}
 	return 0
 }
 
