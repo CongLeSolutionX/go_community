@@ -107,9 +107,12 @@ var asmstdcallAddr unsafe.Pointer
 
 func loadOptionalSyscalls() {
 	var buf [50]byte // large enough for longest string
+	noebuf := noescape(unsafe.Pointer(&buf[0]))
+	pbuf := (*[50]byte)(noebuf) // otherwise closure call will leak it
+
 	strtoptr := func(s string) uintptr {
-		buf[copy(buf[:], s)] = 0 // nil-terminated for OS
-		return uintptr(noescape(unsafe.Pointer(&buf[0])))
+		pbuf[copy(pbuf[:], s)] = 0 // nil-terminated for OS
+		return uintptr(noebuf)
 	}
 	l := stdcall1(_LoadLibraryA, strtoptr("kernel32.dll"))
 	findfunc := func(name string) stdFunction {
