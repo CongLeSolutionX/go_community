@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "02cf8da0_3e9de6dc",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-01T15:04:17Z",
+      "side": 1,
+      "message": "why? i\u0027m not in favor of changing dial/listen behavior. as reported in #11715, some resolvers and system services can parse and return big/negative integers as numbers of range [0, 65535]. for consistent behavior we need to parse any decimal integer here and avoid forwarding such literal to lookupPort.",
+      "parentUuid": "02feade5_ab4c556d",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02feade5_2b3965d7",
         "filename": "src/net/port.go",
         "patchSetId": 12
