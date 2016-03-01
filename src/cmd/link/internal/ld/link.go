@@ -84,6 +84,19 @@ type LSym struct {
 	P           []byte
 	R           []Reloc
 	Local       bool
+	Copied      bool
+}
+
+// CopyP makes a copy of the P field.
+//
+// As P is mmap'ed as read-only memory, any attempt to modify it first
+// requires calling CopyP.
+func (s *LSym) CopyP() {
+	if s.Copied {
+		return
+	}
+	s.P = append(make([]byte, 0, len(s.P)), s.P...)
+	s.Copied = true
 }
 
 func (s *LSym) String() string {

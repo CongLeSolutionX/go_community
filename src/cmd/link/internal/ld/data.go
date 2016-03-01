@@ -48,6 +48,13 @@ func Symgrow(ctxt *Link, s *LSym, siz int64) {
 	if int64(len(s.P)) >= siz {
 		return
 	}
+	if !s.Copied {
+		newP := make([]byte, siz, 2*siz)
+		copy(newP, s.P)
+		s.P = newP
+		s.Copied = true
+		return
+	}
 	for cap(s.P) < int(siz) {
 		s.P = append(s.P[:len(s.P)], 0)
 	}
@@ -68,6 +75,7 @@ func setuintxx(ctxt *Link, s *LSym, off int64, v uint64, wid int64) int64 {
 		s.Size = off + wid
 		Symgrow(ctxt, s, s.Size)
 	}
+	s.CopyP()
 
 	switch wid {
 	case 1:
@@ -568,6 +576,7 @@ func relocsym(s *LSym) {
 			}
 			fmt.Printf("relocate %s %#x (%#x+%#x, size %d) => %s %#x +%#x [type %d/%d, %x]\n", s.Name, s.Value+int64(off), s.Value, r.Off, r.Siz, nam, Symaddr(r.Sym), r.Add, r.Type, r.Variant, o)
 		}
+		s.CopyP()
 		switch siz {
 		default:
 			Ctxt.Cursym = s
