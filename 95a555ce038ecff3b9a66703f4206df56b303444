@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_d097cc73",
+        "filename": "src/cmd/pprof/internal/profile/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 10031
+      },
+      "writtenOn": "2016-03-01T18:49:55Z",
+      "side": 1,
+      "message": "This isn\u0027t particularly performance sensitive.\n\nAlso, we do not know how much space we will need for the length varint ahead of time, so it seems to me a copy is inevitable. Or am I missing something?",
+      "parentUuid": "02cf8da0_9b19ac0e",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_7b16d0dd",
         "filename": "src/cmd/pprof/internal/profile/proto.go",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "writtenOn": "2016-02-29T22:51:26Z",
       "side": 1,
       "message": "this doesn\u0027t seem right. for packed encoding, there should be a single varint (indicating the length in bytes of the whole repeated field), followed by some set of elements. I\u0027d expect this code to extract the varint, and then loop over that many bytes, pulling off varints as it goes.\n\nIn comparison, look at decode.go:dec_slice_packed_int64 in goprotobuf.",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_cb1a81b4",
+        "filename": "src/cmd/pprof/internal/profile/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 10031
+      },
+      "writtenOn": "2016-03-01T18:49:55Z",
+      "side": 1,
+      "message": "Yes, the length varint is decoded in decodeField, which creates a slice with the data in this field and puts it on b.data, which then is dispatched to this function from decodeMessage by a call through dec[b.field](...)",
+      "parentUuid": "02cf8da0_7b16d0dd",
       "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
