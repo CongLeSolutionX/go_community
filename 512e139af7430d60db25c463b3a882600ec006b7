@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "42f42502_c1ab8451",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10928
+      },
+      "writtenOn": "2016-03-01T19:24:30Z",
+      "side": 1,
+      "message": "So, we actually have three cases to handle:\n\n 1. It\u0027s a numeric within [0 ... 0xFFFF], which we should pass straight through\n 2. It\u0027s a numeric outside [0 ... 0xFFFF], which we should err on, as falling back to system services/resolver may behave weirdly\n 3. It\u0027s not numeric, in which case we hand it to system resolver.\n\nSo I\u0027m guessing that when the tests failed previously, I\u0027d run into case #2.\n\nI\u0027m getting more and more in favour of just looping through the string and skip directly to the system resolver if anything non-numeric is found...",
+      "parentUuid": "02cf8da0_3e9de6dc",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02feade5_2b3965d7",
         "filename": "src/net/port.go",
         "patchSetId": 12
