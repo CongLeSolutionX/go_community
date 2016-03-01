@@ -732,18 +732,15 @@ func loadlib() {
 	importcycles()
 }
 
-/*
- * look for the next file in an archive.
- * adapted from libmach.
- */
-func nextar(bp *obj.Biobuf, off int64, a *ArHdr) int64 {
-	if off&1 != 0 {
-		off++
+// nextar looks for the next file in an archive.
+// Adapted from libmach.
+func nextar(f *Input, a *ArHdr) int64 {
+	if f.off&1 != 0 {
+		f.off++
 	}
-	obj.Bseek(bp, off, 0)
-	buf := make([]byte, SAR_HDR)
-	if n := obj.Bread(bp, buf); n < len(buf) {
-		if n >= 0 {
+	buf, err := f.ReadBytes(SAR_HDR)
+	if err != nil {
+		if len(buf) == 0 {
 			return 0
 		}
 		return -1
@@ -769,88 +766,77 @@ func objfile(lib *Library) {
 
 	if Debug['v'] > 1 {
 		fmt.Fprintf(&Bso, "%5.2f ldobj: %s (%s)\n", obj.Cputime(), lib.File, pkg)
+		Bso.Flush()
 	}
-	Bso.Flush()
-	f, err := obj.Bopenr(lib.File)
+
+	f, err := LoadInput(lib.File)
 	if err != nil {
 		Exitf("cannot open file %s: %v", lib.File, err)
 	}
 
-	magbuf := make([]byte, len(ARMAG))
-	if obj.Bread(f, magbuf) != len(magbuf) || !strings.HasPrefix(string(magbuf), ARMAG) {
-		/* load it as a regular file */
-		l := obj.Bseek(f, 0, 2)
-
-		obj.Bseek(f, 0, 0)
-		ldobj(f, pkg, l, lib.File, lib.File, FileObj)
-		obj.Bterm(f)
-
+	if magic, err := f.ReadBytes(len(ARMAG)); err != nil || !bytes.Equal(magic, []byte(ARMAG)) {
+		f.off = 0
+		ldobj(f, pkg, len(f.data), lib.File, FileObj)
 		return
 	}
 
 	/* process __.PKGDEF */
-	off := obj.Boffset(f)
+	off := f.off
 
 	var arhdr ArHdr
-	l := nextar(f, off, &arhdr)
+	l := nextar(f, &arhdr)
 	var pname string
 	if l <= 0 {
 		Diag("%s: short read on archive file symbol header", lib.File)
-		goto out
+		return
 	}
 
 	if !strings.HasPrefix(arhdr.name, pkgname) {
-		Diag("%s: cannot find package header", lib.File)
-		goto out
+		Diag("%s: cannot find package header (name=%q)", lib.File, arhdr.name)
+		return
 	}
 
 	if Buildmode == BuildmodeShared {
-		before := obj.Boffset(f)
-		pkgdefBytes := make([]byte, atolwhex(arhdr.size))
-		obj.Bread(f, pkgdefBytes)
+		before := f.off
+		pkgdefBytes := f.data[f.off : f.off+int(atolwhex(arhdr.size))]
+		f.off += len(pkgdefBytes)
 		hash := sha1.Sum(pkgdefBytes)
 		lib.hash = hash[:]
-		obj.Bseek(f, before, 0)
+		f.off = before
 	}
 
-	off += l
+	off += int(l)
 
-	ldpkg(f, pkg, atolwhex(arhdr.size), lib.File, Pkgdef)
+	ldpkg(f, pkg, int(atolwhex(arhdr.size)), lib.File, Pkgdef)
 
-	/*
-	 * load all the object files from the archive now.
-	 * this gives us sequential file access and keeps us
-	 * from needing to come back later to pick up more
-	 * objects.  it breaks the usual C archive model, but
-	 * this is Go, not C.  the common case in Go is that
-	 * we need to load all the objects, and then we throw away
-	 * the individual symbols that are unused.
-	 *
-	 * loading every object will also make it possible to
-	 * load foreign objects not referenced by __.PKGDEF.
-	 */
+	// Load all the object files from the archive now.
+	// This gives us sequential file access and keeps us
+	// from needing to come back later to pick up more
+	// objects.  it breaks the usual C archive model, but
+	// this is Go, not C.  the common case in Go is that
+	// we need to load all the objects, and then we throw away
+	// the individual symbols that are unused.
+	//
+	// Loading every object will also make it possible to
+	// load foreign objects not referenced by __.PKGDEF.
 	for {
-		l = nextar(f, off, &arhdr)
+		f.off = off
+		l := nextar(f, &arhdr)
 		if l == 0 {
 			break
 		}
 		if l < 0 {
 			Exitf("%s: malformed archive", lib.File)
 		}
-
-		off += l
+		off += int(l)
 
 		pname = fmt.Sprintf("%s(%s)", lib.File, arhdr.name)
-		l = atolwhex(arhdr.size)
-		ldobj(f, pkg, l, pname, lib.File, ArchiveObj)
+		ldobj(f, pkg, int(l), pname, ArchiveObj)
 	}
-
-out:
-	obj.Bterm(f)
 }
 
 type Hostobj struct {
-	ld     func(*obj.Biobuf, string, int64, string)
+	ld     func(*Input, string, int64, string)
 	pkg    string
 	pn     string
 	file   string
@@ -871,7 +857,7 @@ var internalpkg = []string{
 	"runtime/msan",
 }
 
-func ldhostobj(ld func(*obj.Biobuf, string, int64, string), f *obj.Biobuf, pkg string, length int64, pn string, file string) *Hostobj {
+func ldhostobj(ld func(*Input, string, int64, string), f *Input, pkg string, length int64, pn string, file string) *Hostobj {
 	isinternal := false
 	for i := 0; i < len(internalpkg); i++ {
 		if pkg == internalpkg[i] {
@@ -902,26 +888,20 @@ func ldhostobj(ld func(*obj.Biobuf, string, int64, string), f *obj.Biobuf, pkg s
 	h.pkg = pkg
 	h.pn = pn
 	h.file = file
-	h.off = obj.Boffset(f)
+	h.off = int64(f.off)
 	h.length = length
 	return h
 }
 
 func hostobjs() {
-	var f *obj.Biobuf
-	var h *Hostobj
-
 	for i := 0; i < len(hostobj); i++ {
-		h = &hostobj[i]
-		var err error
-		f, err = obj.Bopenr(h.file)
+		h := &hostobj[i]
+		f, err := LoadInput(h.file)
 		if f == nil {
 			Exitf("cannot reopen %s: %v", h.pn, err)
 		}
-
-		obj.Bseek(f, h.off, 0)
+		f.off = int(h.off)
 		h.ld(f, h.pkg, h.length, h.pn)
-		obj.Bterm(f)
 	}
 }
 
@@ -1254,36 +1234,34 @@ func hostlinkArchArgs() []string {
 // ldobj loads an input object. If it is a host object (an object
 // compiled by a non-Go compiler) it returns the Hostobj pointer. If
 // it is a Go object, it returns nil.
-func ldobj(f *obj.Biobuf, pkg string, length int64, pn string, file string, whence int) *Hostobj {
-	eof := obj.Boffset(f) + length
-
-	start := obj.Boffset(f)
-	c1 := obj.Bgetc(f)
-	c2 := obj.Bgetc(f)
-	c3 := obj.Bgetc(f)
-	c4 := obj.Bgetc(f)
-	obj.Bseek(f, start, 0)
+func ldobj(f *Input, pkg string, length int, pn string, whence int) *Hostobj {
+	// Peek at header.
+	c1 := f.data[f.off+0]
+	c2 := f.data[f.off+1]
+	c3 := f.data[f.off+2]
+	c4 := f.data[f.off+3]
 
 	magic := uint32(c1)<<24 | uint32(c2)<<16 | uint32(c3)<<8 | uint32(c4)
 	if magic == 0x7f454c46 { // \x7F E L F
-		return ldhostobj(ldelf, f, pkg, length, pn, file)
+		panic("ldelf") // TODO ldelf
+		//return ldhostobj(ldelf, f, pkg, int64(length), pn, f.file)
 	}
 
 	if magic&^1 == 0xfeedface || magic&^0x01000000 == 0xcefaedfe {
-		return ldhostobj(ldmacho, f, pkg, length, pn, file)
+		return ldhostobj(ldmacho, f, pkg, int64(length), pn, f.file)
 	}
-
 	if c1 == 0x4c && c2 == 0x01 || c1 == 0x64 && c2 == 0x86 {
-		return ldhostobj(ldpe, f, pkg, length, pn, file)
+		panic("ldpe")
+		// TODO return ldhostobj(ldpe, f, pkg, int64(length), pn, f.file)
 	}
 
-	/* check the header */
-	line := obj.Brdline(f, '\n')
+	// Now those are out of the way, make sure header matches Go object.
+	line, err := f.ReadLine()
+	if err != nil {
+		Diag("%s: bad header: %v", pn, err)
+		return nil
+	}
 	if line == "" {
-		if obj.Blinelen(f) > 0 {
-			Diag("%s: not an object file", pn)
-			return nil
-		}
 		Diag("truncated object file: %s", pn)
 		return nil
 	}
@@ -1299,7 +1277,7 @@ func ldobj(f *obj.Biobuf, pkg string, length int64, pn string, file string, when
 			return nil
 		}
 
-		Diag("%s: not an object file", pn)
+		Diag("%s: not an object file (%q)", pn, line)
 		return nil
 	}
 
@@ -1325,28 +1303,28 @@ func ldobj(f *obj.Biobuf, pkg string, length int64, pn string, file string, when
 	}
 
 	/* skip over exports and other info -- ends with \n!\n */
-	import0 := obj.Boffset(f)
+	import0 := f.off
 
 	c1 = '\n' // the last line ended in \n
-	c2 = obj.Bgetc(f)
-	c3 = obj.Bgetc(f)
+	c2 = f.ReadByte()
+	c3 = f.ReadByte()
 	for c1 != '\n' || c2 != '!' || c3 != '\n' {
 		c1 = c2
 		c2 = c3
-		c3 = obj.Bgetc(f)
-		if c3 == obj.Beof {
+		if f.off == len(f.data) {
 			Diag("truncated object file: %s", pn)
 			return nil
 		}
+		c3 = f.ReadByte()
 	}
 
-	import1 := obj.Boffset(f)
+	import1 := f.off
 
-	obj.Bseek(f, import0, 0)
+	f.off = import0
 	ldpkg(f, pkg, import1-import0-2, pn, whence) // -2 for !\n
-	obj.Bseek(f, import1, 0)
+	f.off = import1
 
-	ldobjfile(Ctxt, f, pkg, eof-obj.Boffset(f), pn)
+	ldobjfile(Ctxt, f, pkg, pn)
 	return nil
 }
 

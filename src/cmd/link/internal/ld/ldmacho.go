@@ -41,7 +41,7 @@ const (
 )
 
 type LdMachoObj struct {
-	f          *obj.Biobuf
+	f          *Input
 	base       int64 // off in f where Mach-O begins
 	length     int64 // length of Mach-O
 	is64       bool
@@ -296,16 +296,18 @@ func macholoadrel(m *LdMachoObj, sect *LdMachoSect) int {
 	}
 	rel := make([]LdMachoRel, sect.nreloc)
 	n := int(sect.nreloc * 8)
-	buf := make([]byte, n)
-	if obj.Bseek(m.f, m.base+int64(sect.reloff), 0) < 0 || obj.Bread(m.f, buf) != n {
+
+	if !m.f.Seek(int(m.base) + int(sect.reloff)) {
 		return -1
 	}
-	var p []byte
-	var r *LdMachoRel
-	var v uint32
+	buf, err := m.f.ReadBytes(n)
+	if err != nil {
+		return -1
+	}
+
 	for i := 0; uint32(i) < sect.nreloc; i++ {
-		r = &rel[i]
-		p = buf[i*8:]
+		r := &rel[i]
+		p := buf[i*8:]
 		r.addr = m.e.Uint32(p)
 
 		// TODO(rsc): Wrong interpretation for big-endian bitfields?
@@ -313,7 +315,7 @@ func macholoadrel(m *LdMachoObj, sect *LdMachoSect) int {
 			// scatterbrained relocation
 			r.scattered = 1
 
-			v = r.addr >> 24
+			v := r.addr >> 24
 			r.addr &= 0xFFFFFF
 			r.type_ = uint8(v & 0xF)
 			v >>= 4
@@ -322,7 +324,7 @@ func macholoadrel(m *LdMachoObj, sect *LdMachoSect) int {
 			r.pcrel = uint8(v & 1)
 			r.value = m.e.Uint32(p[4:])
 		} else {
-			v = m.e.Uint32(p[4:])
+			v := m.e.Uint32(p[4:])
 			r.symnum = v & 0xFFFFFF
 			v >>= 24
 			r.pcrel = uint8(v & 1)
@@ -342,8 +344,11 @@ func macholoadrel(m *LdMachoObj, sect *LdMachoSect) int {
 func macholoaddsym(m *LdMachoObj, d *LdMachoDysymtab) int {
 	n := int(d.nindirectsyms)
 
-	p := make([]byte, n*4)
-	if obj.Bseek(m.f, m.base+int64(d.indirectsymoff), 0) < 0 || obj.Bread(m.f, p) != len(p) {
+	if !m.f.Seek(int(m.base + int64(d.indirectsymoff))) {
+		return -1
+	}
+	p, err := m.f.ReadBytes(n * 4)
+	if err != nil {
 		return -1
 	}
 
@@ -359,8 +364,11 @@ func macholoadsym(m *LdMachoObj, symtab *LdMachoSymtab) int {
 		return 0
 	}
 
-	strbuf := make([]byte, symtab.strsize)
-	if obj.Bseek(m.f, m.base+int64(symtab.stroff), 0) < 0 || obj.Bread(m.f, strbuf) != len(strbuf) {
+	if !m.f.Seek(int(m.base + int64(symtab.stroff))) {
+		return -1
+	}
+	strbuf, err := m.f.ReadBytes(int(symtab.strsize))
+	if err != nil {
 		return -1
 	}
 
@@ -369,8 +377,11 @@ func macholoadsym(m *LdMachoObj, symtab *LdMachoSymtab) int {
 		symsize = 16
 	}
 	n := int(symtab.nsym * uint32(symsize))
-	symbuf := make([]byte, n)
-	if obj.Bseek(m.f, m.base+int64(symtab.symoff), 0) < 0 || obj.Bread(m.f, symbuf) != len(symbuf) {
+	if !m.f.Seek(int(m.base + int64(symtab.symoff))) {
+		return -1
+	}
+	symbuf, err := m.f.ReadBytes(n)
+	if err != nil {
 		return -1
 	}
 	sym := make([]LdMachoSym, symtab.nsym)
@@ -400,13 +411,17 @@ func macholoadsym(m *LdMachoObj, symtab *LdMachoSymtab) int {
 	return 0
 }
 
-func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
+func ldmacho(f *Input, pkg string, length int64, pn string) {
+	diagError := func(err error) {
+		Diag("%s: malformed mach-o file: %v", pn, err)
+	}
+	errorf := func(format string, args ...interface{}) {
+		diagError(fmt.Errorf(format, args...))
+	}
 	var err error
 	var j int
 	var is64 bool
 	var secaddr uint64
-	var hdr [7 * 4]uint8
-	var cmdp []byte
 	var dat []byte
 	var ncmd uint32
 	var cmdsz uint32
@@ -430,31 +445,32 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 	var name string
 
 	Ctxt.Version++
-	base := obj.Boffset(f)
-	if obj.Bread(f, hdr[:]) != len(hdr) {
-		goto bad
+	base := f.off
+	hdr, err := f.ReadBytes(7 * 4)
+	if err != nil {
+		diagError(err)
+		return
 	}
 
-	if binary.BigEndian.Uint32(hdr[:])&^1 == 0xFEEDFACE {
+	if binary.BigEndian.Uint32(hdr)&^1 == 0xFEEDFACE {
 		e = binary.BigEndian
-	} else if binary.LittleEndian.Uint32(hdr[:])&^1 == 0xFEEDFACE {
+	} else if binary.LittleEndian.Uint32(hdr)&^1 == 0xFEEDFACE {
 		e = binary.LittleEndian
 	} else {
-		err = fmt.Errorf("bad magic - not mach-o file")
-		goto bad
+		errorf("bad magic %q", hdr)
+		return
 	}
 
 	is64 = e.Uint32(hdr[:]) == 0xFEEDFACF
 	ncmd = e.Uint32([]byte(hdr[4*4:]))
 	cmdsz = e.Uint32([]byte(hdr[5*4:]))
 	if ncmd > 0x10000 || cmdsz >= 0x01000000 {
-		err = fmt.Errorf("implausible mach-o header ncmd=%d cmdsz=%d", ncmd, cmdsz)
-		goto bad
+		errorf("implausible mach-o header ncmd=%d cmdsz=%d", ncmd, cmdsz)
+		return
 	}
 
 	if is64 {
-		var tmp [4]uint8
-		obj.Bread(f, tmp[:4]) // skip reserved word in header
+		f.ReadBytes(4) // skip reserved word in header
 	}
 
 	m = new(LdMachoObj)
@@ -467,34 +483,34 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 	m.ncmd = uint(ncmd)
 	m.flags = e.Uint32([]byte(hdr[6*4:]))
 	m.is64 = is64
-	m.base = base
+	m.base = int64(base)
 	m.length = length
 	m.name = pn
 
 	switch Thearch.Thechar {
 	default:
-		Diag("%s: mach-o %s unimplemented", pn, Thestring)
+		errorf("unimplemented %q", Thestring)
 		return
 
 	case '6':
 		if e != binary.LittleEndian || m.cputype != LdMachoCpuAmd64 {
-			Diag("%s: mach-o object but not amd64", pn)
+			errorf("mach-o object but not amd64")
 			return
 		}
 
 	case '8':
 		if e != binary.LittleEndian || m.cputype != LdMachoCpu386 {
-			Diag("%s: mach-o object but not 386", pn)
+			errorf("mach-o object but not 386")
 			return
 		}
 	}
 
 	m.cmd = make([]LdMachoCmd, ncmd)
 	off = uint32(len(hdr))
-	cmdp = make([]byte, cmdsz)
-	if obj.Bread(f, cmdp) != len(cmdp) {
-		err = fmt.Errorf("reading cmds: %v", err)
-		goto bad
+	cmdp, err := f.ReadBytes(int(cmdsz))
+	if err != nil {
+		errorf("reading cmds: %v", err)
+		return
 	}
 
 	// read and parse load commands
@@ -512,8 +528,8 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 		off += sz
 		if ty == LdMachoCmdSymtab {
 			if symtab != nil {
-				err = fmt.Errorf("multiple symbol tables")
-				goto bad
+				errorf("multiple symbol tables")
+				return
 			}
 
 			symtab = &m.cmd[i].sym
@@ -527,8 +543,8 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 
 		if (is64 && ty == LdMachoCmdSegment64) || (!is64 && ty == LdMachoCmdSegment) {
 			if c != nil {
-				err = fmt.Errorf("multiple load commands")
-				goto bad
+				errorf("multiple load commands")
+				return
 			}
 
 			c = &m.cmd[i]
@@ -540,8 +556,8 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 	// the memory anyway for the symbol images, so we might
 	// as well use one large chunk.
 	if c == nil {
-		err = fmt.Errorf("no load command")
-		goto bad
+		errorf("no load command")
+		return
 	}
 
 	if symtab == nil {
@@ -550,14 +566,18 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 	}
 
 	if int64(c.seg.fileoff+c.seg.filesz) >= length {
-		err = fmt.Errorf("load segment out of range")
-		goto bad
+		errorf("load segment out of range")
+		return
 	}
 
-	dat = make([]byte, c.seg.filesz)
-	if obj.Bseek(f, m.base+int64(c.seg.fileoff), 0) < 0 || obj.Bread(f, dat) != len(dat) {
-		err = fmt.Errorf("cannot load object data: %v", err)
-		goto bad
+	if !f.Seek(int(m.base + int64(c.seg.fileoff))) {
+		errorf("bad seek: m.base=%d, c.seg.fileoff=%d len(f.data)=%d", m.base, c.seg.fileoff, len(f.data))
+		return
+	}
+	dat, err = f.ReadBytes(int(c.seg.filesz))
+	if err != nil {
+		errorf("cannot load object data: %v", err)
+		return
 	}
 
 	for i := 0; uint32(i) < c.seg.nsect; i++ {
@@ -571,8 +591,8 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 		name = fmt.Sprintf("%s(%s/%s)", pkg, sect.segname, sect.name)
 		s = Linklookup(Ctxt, name, Ctxt.Version)
 		if s.Type != 0 {
-			err = fmt.Errorf("duplicate %s/%s", sect.segname, sect.name)
-			goto bad
+			errorf("duplicate %s/%s", sect.segname, sect.name)
+			return
 		}
 
 		if sect.flags&0xff == 1 { // S_ZEROFILL
@@ -889,5 +909,5 @@ func ldmacho(f *obj.Biobuf, pkg string, length int64, pn string) {
 	return
 
 bad:
-	Diag("%s: malformed mach-o file: %v", pn, err)
+	diagError(err)
 }

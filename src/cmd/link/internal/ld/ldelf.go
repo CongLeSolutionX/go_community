@@ -266,7 +266,7 @@ type ElfSect struct {
 }
 
 type ElfObj struct {
-	f         *obj.Biobuf
+	f         *Input
 	base      int64 // offset in f where ELF begins
 	length    int64 // length of ELF
 	is64      int
@@ -445,13 +445,13 @@ func parseArmAttributes(e binary.ByteOrder, data []byte) {
 	}
 }
 
-func ldelf(f *obj.Biobuf, pkg string, length int64, pn string) {
+func ldelf(f *Input, pkg string, length int64, pn string) {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(&Bso, "%5.2f ldelf %s\n", obj.Cputime(), pn)
 	}
 
 	Ctxt.Version++
-	base := int32(obj.Boffset(f))
+	base := int32(f.off)
 
 	var add uint64
 	var e binary.ByteOrder
@@ -459,7 +459,6 @@ func ldelf(f *obj.Biobuf, pkg string, length int64, pn string) {
 	var err error
 	var flag int
 	var hdr *ElfHdrBytes
-	var hdrbuf [64]uint8
 	var info uint64
 	var is64 int
 	var j int
@@ -474,9 +473,12 @@ func ldelf(f *obj.Biobuf, pkg string, length int64, pn string) {
 	var sect *ElfSect
 	var sym ElfSym
 	var symbols []*LSym
-	if obj.Bread(f, hdrbuf[:]) != len(hdrbuf) {
+	var hdrbuf []byte
+	if len(f.data)-f.off < 64 {
 		goto bad
 	}
+	hdrbuf = f.data[f.off : f.off+64]
+	f.off += 64
 	hdr = new(ElfHdrBytes)
 	binary.Read(bytes.NewReader(hdrbuf[:]), binary.BigEndian, hdr) // only byte arrays; byte order doesn't matter
 	if string(hdr.Ident[:4]) != "\x7FELF" {
@@ -593,7 +595,7 @@ func ldelf(f *obj.Biobuf, pkg string, length int64, pn string) {
 
 	elfobj.nsect = uint(elfobj.shnum)
 	for i := 0; uint(i) < elfobj.nsect; i++ {
-		if obj.Bseek(f, int64(uint64(base)+elfobj.shoff+uint64(int64(i)*int64(elfobj.shentsize))), 0) < 0 {
+		if !f.Seek(int(uint64(base) + elfobj.shoff + uint64(int64(i)*int64(elfobj.shentsize)))) {
 			goto bad
 		}
 		sect = &elfobj.sect[i]
@@ -973,13 +975,11 @@ func elfmap(elfobj *ElfObj, sect *ElfSect) (err error) {
 		return err
 	}
 
-	sect.base = make([]byte, sect.size)
-	err = fmt.Errorf("short read")
-	if obj.Bseek(elfobj.f, int64(uint64(elfobj.base)+sect.off), 0) < 0 || obj.Bread(elfobj.f, sect.base) != len(sect.base) {
-		return err
+	if !elfobj.f.Seek(int(uint64(elfobj.base) + sect.off)) {
+		return fmt.Errorf("elfmap: short read")
 	}
-
-	return nil
+	sect.base, err = elfobj.f.ReadBytes(int(sect.size))
+	return err
 }
 
 func readelfsym(elfobj *ElfObj, i int, sym *ElfSym, needSym int) (err error) {

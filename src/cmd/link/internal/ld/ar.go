@@ -62,7 +62,7 @@ type ArHdr struct {
 // define them. This is used for the compiler support library
 // libgcc.a.
 func hostArchive(name string) {
-	f, err := obj.Bopenr(name)
+	f, err := LoadInput(name)
 	if err != nil {
 		if os.IsNotExist(err) {
 			// It's OK if we don't have a libgcc file at all.
@@ -73,15 +73,13 @@ func hostArchive(name string) {
 		}
 		Exitf("cannot open file %s: %v", name, err)
 	}
-	defer obj.Bterm(f)
 
-	magbuf := make([]byte, len(ARMAG))
-	if obj.Bread(f, magbuf) != len(magbuf) {
-		Exitf("file %s too short", name)
+	if _, err := f.ReadBytes(len(ARMAG)); err != nil {
+		Exitf("archive %s too short: %v", name, err)
 	}
 
 	var arhdr ArHdr
-	l := nextar(f, obj.Boffset(f), &arhdr)
+	l := nextar(f, &arhdr)
 	if l <= 0 {
 		Exitf("%s missing armap", name)
 	}
@@ -109,15 +107,18 @@ func hostArchive(name string) {
 		}
 
 		for _, off := range load {
-			l := nextar(f, int64(off), &arhdr)
+			f.off = int(off)
+			l := nextar(f, &arhdr)
 			if l <= 0 {
 				Exitf("%s missing archive entry at offset %d", name, off)
 			}
 			pname := fmt.Sprintf("%s(%s)", name, arhdr.name)
 			l = atolwhex(arhdr.size)
 
-			h := ldobj(f, "libgcc", l, pname, name, ArchiveObj)
-			obj.Bseek(f, h.off, 0)
+			h := ldobj(f, "libgcc", int(l), pname, ArchiveObj)
+			if !f.Seek(int(h.off)) {
+				Exitf("%s bad seek to h.off=%d", name, h.off)
+			}
 			h.ld(f, h.pkg, h.length, h.pn)
 		}
 
@@ -130,17 +131,16 @@ func hostArchive(name string) {
 type archiveMap map[string]uint64
 
 // readArmap reads the archive symbol map.
-func readArmap(filename string, f *obj.Biobuf, arhdr ArHdr) archiveMap {
+func readArmap(filename string, f *Input, arhdr ArHdr) archiveMap {
 	is64 := arhdr.name == "/SYM64/"
 	wordSize := 4
 	if is64 {
 		wordSize = 8
 	}
 
-	l := atolwhex(arhdr.size)
-	contents := make([]byte, l)
-	if obj.Bread(f, contents) != int(l) {
-		Exitf("short read from %s", filename)
+	contents, err := f.ReadBytes(int(atolwhex(arhdr.size)))
+	if err != nil {
+		Exitf("short read from %s: %v", filename, err)
 	}
 
 	var c uint64

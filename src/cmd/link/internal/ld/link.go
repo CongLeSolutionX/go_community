@@ -74,6 +74,18 @@ type LSym struct {
 	R           []Reloc
 }
 
+// CopyP makes a copy of the P field.
+//
+// As P is mmap'ed as read-only memory, any attempt to modify it first
+// requires calling CopyP.
+func (s *LSym) CopyP() {
+	if s.Attr.Copied() {
+		return
+	}
+	s.P = append(make([]byte, 0, len(s.P)), s.P...)
+	s.Attr |= AttrCopied
+}
+
 func (s *LSym) String() string {
 	if s.Version == 0 {
 		return s.Name
@@ -106,6 +118,7 @@ const (
 	AttrHidden
 	AttrOnList
 	AttrLocal
+	AttrCopied
 )
 
 func (a Attribute) DuplicateOK() bool      { return a&AttrDuplicateOK != 0 }
@@ -119,6 +132,7 @@ func (a Attribute) StackCheck() bool       { return a&AttrStackCheck != 0 }
 func (a Attribute) Hidden() bool           { return a&AttrHidden != 0 }
 func (a Attribute) OnList() bool           { return a&AttrOnList != 0 }
 func (a Attribute) Local() bool            { return a&AttrLocal != 0 }
+func (a Attribute) Copied() bool           { return a&AttrCopied != 0 }
 
 func (a Attribute) CgoExport() bool {
 	return a.CgoExportDynamic() || a.CgoExportStatic()

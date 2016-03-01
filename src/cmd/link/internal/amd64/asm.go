@@ -143,6 +143,7 @@ func adddynrel(s *ld.LSym, r *ld.Reloc) {
 		if targ.Type != obj.SDYNIMPORT {
 			// have symbol
 			if r.Off >= 2 && s.P[r.Off-2] == 0x8b {
+				s.CopyP()
 				// turn MOVQ of GOT entry into LEAQ of symbol itself
 				s.P[r.Off-2] = 0x8d
 
@@ -213,6 +214,7 @@ func adddynrel(s *ld.LSym, r *ld.Reloc) {
 				return
 			}
 
+			s.CopyP()
 			s.P[r.Off-2] = 0x8d
 			r.Type = obj.R_PCREL
 			return
