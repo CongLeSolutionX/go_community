@@ -215,7 +215,7 @@ func mustParseURL(s string) *url.URL {
 func mustNewRequest(method, url string, body io.Reader) *http.Request {
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
-		panic(fmt.Sprintf("NewRequest(%q, %q, %p) err = %v", method, url, body, err))
+		panic(fmt.Sprintf("NewRequest(%q, %q, %T) err = %v", method, url, body, err))
 	}
 	return req
 }
