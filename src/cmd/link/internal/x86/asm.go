@@ -182,6 +182,7 @@ func adddynrel(s *ld.LSym, r *ld.Reloc) {
 			// have symbol
 			if r.Off >= 2 && s.P[r.Off-2] == 0x8b {
 				// turn MOVL of GOT entry into LEAL of symbol address, relative to GOT.
+				s.CopyP()
 				s.P[r.Off-2] = 0x8d
 
 				r.Type = obj.R_GOTOFF
@@ -191,6 +192,7 @@ func adddynrel(s *ld.LSym, r *ld.Reloc) {
 			if r.Off >= 2 && s.P[r.Off-2] == 0xff && s.P[r.Off-1] == 0xb3 {
 				// turn PUSHL of GOT entry into PUSHL of symbol itself.
 				// use unnecessary SS prefix to keep instruction same length.
+				s.CopyP()
 				s.P[r.Off-2] = 0x36
 
 				s.P[r.Off-1] = 0x68
@@ -253,6 +255,7 @@ func adddynrel(s *ld.LSym, r *ld.Reloc) {
 				return
 			}
 
+			s.CopyP()
 			s.P[r.Off-2] = 0x8d
 			r.Type = obj.R_PCREL
 			return
