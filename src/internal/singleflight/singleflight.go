@@ -101,7 +101,7 @@ func (g *Group) doCall(c *call, key string, fn func() (interface{}, error)) {
 	g.mu.Unlock()
 }
 
-// Forget tells the singleflight to forget about a key.  Future calls
+// Forget tells the singleflight to forget about a key. Future calls
 // to Do for this key will call the function rather than waiting for
 // an earlier call to complete.
 func (g *Group) Forget(key string) {
