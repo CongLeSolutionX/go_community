@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_512f3ed2",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T17:25:39Z",
+      "side": 1,
+      "message": "What\u0027s wrong with the %p here and in the previous file? %p lets me line up these error messages with leaked goroutine stack traces.",
+      "revId": "0205b1d67ac0aff662abaef34afb2220d0a515a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
