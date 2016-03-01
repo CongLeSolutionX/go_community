@@ -8,8 +8,8 @@
 package syscall
 
 const (
-	_SYS_dup      = SYS_DUP2
-	_SYS_getdents = SYS_GETDENTS64
+	_SYS_DUP      = SYS_DUP2
+	_SYS_GETDENTS = SYS_GETDENTS64
 )
 
 //sys	Dup2(oldfd int, newfd int) (err error)
@@ -68,6 +68,8 @@ func Getpagesize() int { return 65536 }
 
 //sysnb	Gettimeofday(tv *Timeval) (err error)
 //sysnb	Time(t *Time_t) (tt Time_t, err error)
+
+//sys	Utime(path string, buf *Utimbuf) (err error)
 
 func TimespecToNsec(ts Timespec) int64 { return int64(ts.Sec)*1e9 + int64(ts.Nsec) }
 

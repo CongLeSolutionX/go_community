@@ -10,8 +10,8 @@ package syscall
 import "unsafe"
 
 const (
-	_SYS_dup      = SYS_DUP2
-	_SYS_getdents = SYS_GETDENTS64
+	_SYS_DUP      = SYS_DUP2
+	_SYS_GETDENTS = SYS_GETDENTS64
 )
 
 func Getpagesize() int { return 4096 }
@@ -179,6 +179,8 @@ func Seek(fd int, offset int64, whence int) (newoffset int64, err error) {
 // Vsyscalls on amd64.
 //sysnb	Gettimeofday(tv *Timeval) (err error)
 //sysnb	Time(t *Time_t) (tt Time_t, err error)
+
+//sys	Utime(path string, buf *Utimbuf) (err error)
 
 // On x86 Linux, all the socket calls go through an extra indirection,
 // I think because the 5-register system call interface can't handle
