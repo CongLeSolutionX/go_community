@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_8b7199b1",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T01:26:08Z",
+      "side": 1,
+      "message": "it\u0027s I/O, not i/o, but there is no file I/O in this file. I think you can just delete this whole comment. The parsePort func can explain itself.",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_cb47214a",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T01:26:08Z",
+      "side": 1,
+      "message": "delete this. Parsing a uint16 doesn\u0027t require knowing the int size.",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_0b52a90b",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T01:26:08Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_ab4c556d",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T01:26:08Z",
+      "side": 1,
+      "message": "delete support for \u0027+\u0027 and \u0027-\u0027 minus signs",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_2b3965d7",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T01:26:08Z",
+      "side": 1,
+      "message": "uint32 is fine.\n\nAnd at every step after the *\u003d 10 and addition, you can check for overflow:\n\n    if n !\u003d uint16(n) {\n         // overflow.\n         return 0, true\n    }",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_eb2f7d81",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-01T01:26:08Z",
+      "side": 1,
+      "message": "why do we need support for negative port numbers?",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
