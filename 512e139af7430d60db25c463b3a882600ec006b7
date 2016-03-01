@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "82037dbe_b80cb98e",
+        "filename": "src/net/port.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 10928
+      },
+      "writtenOn": "2016-03-01T08:24:14Z",
+      "side": 1,
+      "message": "You\u0027d need to do `n !\u003d uint32(uint16(n))` to make types match up. It seemed simpler to go for `n \u003e 0xFFFF`.",
+      "parentUuid": "02feade5_2b3965d7",
+      "revId": "512e139af7430d60db25c463b3a882600ec006b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02feade5_eb2f7d81",
         "filename": "src/net/port.go",
         "patchSetId": 12
