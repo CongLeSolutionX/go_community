@@ -100,6 +100,7 @@ func Ldmain() {
 	obj.Flagstr("libgcc", "compiler support lib for internal linking; use \"none\" to disable", &libgccfile)
 	obj.Flagfn1("linkmode", "set link `mode` (internal, external, auto)", setlinkmode)
 	flag.BoolVar(&Linkshared, "linkshared", false, "link against installed Go shared libraries")
+	obj.Flagcount("m", "disable mmap", &Debug['m'])
 	obj.Flagcount("msan", "enable MSan interface", &flag_msan)
 	obj.Flagcount("n", "dump symbol table", &Debug['n'])
 	obj.Flagstr("o", "write output to `file`", &outfile)

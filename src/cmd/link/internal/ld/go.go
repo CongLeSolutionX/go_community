@@ -26,39 +26,30 @@ func expandpkg(t0 string, pkg string) string {
 //	once the dust settles, try to move some code to
 //		libmach, so that other linkers and ar can share.
 
-func ldpkg(f *obj.Biobuf, pkg string, length int64, filename string, whence int) {
-	var p0, p1 int
-
+func ldpkg(f *objReader, pkg string, length int64, filename string, whence int) {
 	if Debug['g'] != 0 {
-		return
-	}
-
-	if int64(int(length)) != length {
-		fmt.Fprintf(os.Stderr, "%s: too much pkg data in %s\n", os.Args[0], filename)
-		if Debug['u'] != 0 {
-			errorexit()
-		}
 		return
 	}
 
 	// In a __.PKGDEF, we only care about the package name.
 	// Don't read all the export data.
-	if length > 1000 && whence == Pkgdef {
-		length = 1000
+	l := int(length)
+	if l > 1000 && whence == Pkgdef {
+		l = 1000
 	}
 
-	bdata := make([]byte, length)
-	if int64(obj.Bread(f, bdata)) != length {
-		fmt.Fprintf(os.Stderr, "%s: short pkg read %s\n", os.Args[0], filename)
+	b, err := f.readBytes(l)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s: %s: %v\n", os.Args[0], filename, err)
 		if Debug['u'] != 0 {
 			errorexit()
 		}
 		return
 	}
-	data := string(bdata)
+	data := string(b)
 
 	// first \n$$ marks beginning of exports - skip rest of line
-	p0 = strings.Index(data, "\n$$")
+	p0 := strings.Index(data, "\n$$")
 	if p0 < 0 {
 		if Debug['u'] != 0 && whence != ArchiveObj {
 			Exitf("cannot find export data in %s", filename)
@@ -73,7 +64,7 @@ func ldpkg(f *obj.Biobuf, pkg string, length int64, filename string, whence int)
 	}
 
 	// second marks end of exports / beginning of local data
-	p1 = strings.Index(data[p0:], "\n$$\n")
+	p1 := strings.Index(data[p0:], "\n$$\n")
 	if p1 < 0 && whence == Pkgdef {
 		p1 = len(data) - p0
 	}
