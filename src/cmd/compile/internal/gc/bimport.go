@@ -692,9 +692,6 @@ func (p *importer) node() *Node {
 		n.Left = p.node() // TODO(gri) compare with fmt code
 		n.Left.Type = p.typ()
 
-	case OEMPTY:
-		// nothing to do
-
 	case OAS:
 		n.Left, n.Right = p.nodesOrNil()
 		n.Colas = p.bool() // TODO(gri) what about complexinit?
@@ -715,16 +712,43 @@ func (p *importer) node() *Node {
 	case ORETURN:
 		n.List = p.nodeList()
 
+	case OPROC, ODEFER:
+		n.Left = p.node()
+
 	case OIF:
 		n.Ninit = p.nodeList()
 		n.Left = p.node()
 		n.Nbody.Set(p.nodeSlice())
 		n.Rlist = p.nodeList()
 
+	case OFOR:
+		n.Ninit = p.nodeList()
+		n.Left, n.Right = p.nodesOrNil()
+		n.Nbody.Set(p.nodeSlice())
+
+	case ORANGE:
+		if p.bool() {
+			n.List = p.nodeList()
+		}
+		n.Right = p.node()
+		n.Nbody.Set(p.nodeSlice())
+
+	case OSELECT, OSWITCH:
+		n.Ninit = p.nodeList()
+		n.Left, _ = p.nodesOrNil()
+		n.List = p.nodeList()
+
+	case OCASE, OXCASE:
+		if p.bool() {
+			n.List = p.nodeList()
+		}
+		n.Nbody.Set(p.nodeSlice())
+
 	case OBREAK, OCONTINUE, OGOTO, OFALL, OXFALL:
 		n.Left, _ = p.nodesOrNil()
 
-	// TODO(gri) add missing statements that can be exported
+	case OEMPTY:
+		// nothing to do
 
 	case OLABEL:
 		n.Left = p.node()

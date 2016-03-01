@@ -958,9 +958,6 @@ func (p *exporter) node(n *Node) {
 		p.node(n.Left) // TODO(gri) compare with fmt code
 		p.typ(n.Left.Type)
 
-	case OEMPTY:
-		// nothing to do
-
 	case OAS, OASWB:
 		p.nodesOrNil(n.Left, n.Right) // n.Right might be nil
 		p.bool(n.Colas)               // && !complexinit)
@@ -982,19 +979,46 @@ func (p *exporter) node(n *Node) {
 	case ORETURN:
 		p.nodeList(n.List)
 
+	case OPROC, ODEFER:
+		p.node(n.Left)
+
 	case OIF:
 		p.nodeList(n.Ninit)
 		p.node(n.Left)
 		p.nodeSlice(n.Nbody.Slice())
 		p.nodeList(n.Rlist)
 
+	case OFOR:
+		p.nodeList(n.Ninit)
+		p.nodesOrNil(n.Left, n.Right)
+		p.nodeSlice(n.Nbody.Slice())
+
+	case ORANGE:
+		if p.bool(n.List != nil) {
+			p.nodeList(n.List)
+		}
+		p.node(n.Right)
+		p.nodeSlice(n.Nbody.Slice())
+
+	case OSELECT, OSWITCH:
+		p.nodeList(n.Ninit)
+		p.nodesOrNil(n.Left, nil)
+		p.nodeList(n.List)
+
+	case OCASE, OXCASE:
+		if p.bool(n.List != nil) {
+			p.nodeList(n.List)
+		}
+		p.nodeSlice(n.Nbody.Slice())
+
 	case OBREAK, OCONTINUE, OGOTO, OFALL, OXFALL:
 		p.nodesOrNil(n.Left, nil)
 
+	case OEMPTY:
+		// nothing to do
+
 	case OLABEL:
 		p.node(n.Left)
-
-	// TODO(gri) add missing statements that can be exported
 
 	default:
 		Fatalf("exporter: CANNOT EXPORT: %s\nPlease notify gri@\n", opnames[n.Op])
