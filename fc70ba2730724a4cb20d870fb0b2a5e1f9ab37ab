@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_11ca1b93",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-02T22:59:54Z",
+      "side": 1,
+      "message": "move g into the loop ?",
+      "revId": "fc70ba2730724a4cb20d870fb0b2a5e1f9ab37ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_f1ce7fa4",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-02T22:59:54Z",
+      "side": 1,
+      "message": "is this faster than\n\nfor i :\u003d range name {\n   h \u003d (h \u003c\u003c 4) + uint32(name[i])\n   ...\n}",
+      "revId": "fc70ba2730724a4cb20d870fb0b2a5e1f9ab37ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
