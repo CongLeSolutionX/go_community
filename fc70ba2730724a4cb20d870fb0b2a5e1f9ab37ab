@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_4e3e75a3",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-02T23:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cf8da0_11ca1b93",
+      "revId": "fc70ba2730724a4cb20d870fb0b2a5e1f9ab37ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_f1ce7fa4",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 1
