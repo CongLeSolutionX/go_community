@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_a8c3b000",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-02T21:26:43Z",
+      "side": 1,
+      "message": "local :\u003d flags\u00262 !\u003d 0\n\nfor consistency?",
+      "range": {
+        "startLine": 175,
+        "startChar": 1,
+        "endLine": 175,
+        "endChar": 6
+      },
+      "revId": "e5d2e46ee633a2237fc7186754ca9a6f542387cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_488b0cda",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-02T21:26:43Z",
+      "side": 1,
+      "message": "I think this would be easier to understand as:\n\n    if s.Attr.Reachable() {\n        stub.Attr |\u003d AttrReachable\n    }",
+      "revId": "e5d2e46ee633a2237fc7186754ca9a6f542387cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
