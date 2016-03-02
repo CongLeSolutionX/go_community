@@ -137,6 +137,7 @@ type mspan struct {
 	//
 	// Object n starts at address n*elemsize + (start << pageShift).
 	freeindex uintptr
+	nelems    uintptr // number of object in the span.
 
 	// Cache of the allocBits at freeindex. allocCache is shifted
 	// such that the lowest bit corresponds to the bit freeindex.
@@ -145,9 +146,6 @@ type mspan struct {
 	allocCache uint64
 	allocBits  *[maxObjsPerSpan / 8]uint8
 	gcmarkBits *[maxObjsPerSpan / 8]uint8
-	nelems     uintptr // number of object in the span.
-	// TODO(rlh) consider moving some of these fields into seperate arrays.
-	// Put another way is an array of structs a better idea than a struct of arrays.
 
 	// allocBits and gcmarkBits currently point to either markbits1
 	// or markbits2. At the end of a GC cycle allocBits and
