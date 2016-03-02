@@ -16,6 +16,24 @@
       "revId": "679be8df5716fdbf9ff28c0504e6135855b4d38b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_11fc5bd2",
+        "filename": "src/internal/syscall/windows/zsyscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-03-02T15:59:18Z",
+      "side": 1,
+      "message": "Yes, it\u0027s not ideal. But I have no idea to do this.\nI also want someone find more nice way.\n\nOne justification for this is: it\u0027s used for only backward compatibility. Ideally this is only used by windows XP. \nSo we can guarantee some sort of stability. (I\u0027m not so sure)",
+      "parentUuid": "a29de171_0868895f",
+      "revId": "679be8df5716fdbf9ff28c0504e6135855b4d38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
