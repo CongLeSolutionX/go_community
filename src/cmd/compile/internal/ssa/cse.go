@@ -43,7 +43,9 @@ func cse(f *Func) {
 			if v.Type.IsMemory() {
 				continue // memory values can never cse
 			}
-			if opcodeTable[v.Op].commutative && len(v.Args) == 2 && v.Args[1].ID < v.Args[0].ID {
+			if opcodeTable[v.Op].commutative && len(v.Args) == 2 &&
+				(len(v.Args[1].Args) < len(v.Args[0].Args) ||
+					len(v.Args[1].Args) == len(v.Args[0].Args) && v.Args[1].ID < v.Args[0].ID) {
 				// Order the arguments of binary commutative operations.
 				v.Args[0], v.Args[1] = v.Args[1], v.Args[0]
 			}

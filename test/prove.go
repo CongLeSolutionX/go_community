@@ -28,8 +28,8 @@ func f1(a []int) int {
 
 func f2(a []int) int {
 	for i := range a {
-		a[i] = i
-		a[i] = i // ERROR "Proved IsInBounds$"
+		a[i+1] = i
+		a[i+1] = i // ERROR "Proved IsInBounds$"
 	}
 	return 34
 }

@@ -47,7 +47,7 @@ func phiopt(f *Func) {
 		} else if b0.Succs[0] == pb1 && b0.Succs[1] == pb0 {
 			reverse = true
 		} else {
-			b.Fatalf("invalid predecessors\n")
+			continue
 		}
 
 		for _, v := range b.Values {

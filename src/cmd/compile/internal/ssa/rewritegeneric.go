@@ -2644,6 +2644,24 @@ func rewriteValuegeneric_OpIsSliceInBounds(v *Value, config *Config) bool {
 		v.AuxInt = b2i(sliceInBounds64(c, d))
 		return true
 	}
+	// match: (IsSliceInBounds (SliceLen x) (SliceCap x))
+	// cond:
+	// result: (ConstBool [1])
+	for {
+		if v.Args[0].Op != OpSliceLen {
+			break
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[1].Op != OpSliceCap {
+			break
+		}
+		if v.Args[1].Args[0] != x {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = 1
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpLeq16(v *Value, config *Config) bool {

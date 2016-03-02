@@ -179,6 +179,7 @@ var passes = [...]pass{
 	{name: "zero arg cse", fn: zcse, required: true}, // required to merge OpSB values
 	{name: "opt deadcode", fn: deadcode},             // remove any blocks orphaned during opt
 	{name: "generic cse", fn: cse},
+	{name: "strength", fn: strength},
 	{name: "phiopt", fn: phiopt},
 	{name: "nilcheckelim", fn: nilcheckelim},
 	{name: "prove", fn: prove},
