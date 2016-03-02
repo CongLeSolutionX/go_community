@@ -1346,7 +1346,7 @@ func elfdynhash() {
 	nsym := Nelfsym
 	s := Linklookup(Ctxt, ".hash", 0)
 	s.Type = obj.SELFROSECT
-	s.Reachable = true
+	s.Attr |= AttrReachable
 
 	i := nsym
 	nbucket := 1
@@ -1628,7 +1628,7 @@ func elfrelocsect(sect *Section, first *LSym) {
 	sect.Reloff = uint64(Cpos())
 	var sym *LSym
 	for sym = first; sym != nil; sym = sym.Next {
-		if !sym.Reachable {
+		if !sym.Attr.Reachable() {
 			continue
 		}
 		if uint64(sym.Value) >= sect.Vaddr {
@@ -1640,7 +1640,7 @@ func elfrelocsect(sect *Section, first *LSym) {
 	var r *Reloc
 	var ri int
 	for ; sym != nil; sym = sym.Next {
-		if !sym.Reachable {
+		if !sym.Attr.Reachable() {
 			continue
 		}
 		if sym.Value >= int64(eaddr) {
@@ -1689,7 +1689,7 @@ func Elfemitreloc() {
 
 func addgonote(sectionName string, tag uint32, desc []byte) {
 	s := Linklookup(Ctxt, sectionName, 0)
-	s.Reachable = true
+	s.Attr |= AttrReachable
 	s.Type = obj.SELFROSECT
 	// namesz
 	Adduint32(Ctxt, s, uint32(len(ELF_NOTE_GO_NAME)))
@@ -1719,7 +1719,7 @@ func doelf() {
 	shstrtab := Linklookup(Ctxt, ".shstrtab", 0)
 
 	shstrtab.Type = obj.SELFROSECT
-	shstrtab.Reachable = true
+	shstrtab.Attr |= AttrReachable
 
 	Addstring(shstrtab, "")
 	Addstring(shstrtab, ".text")
@@ -1854,7 +1854,7 @@ func doelf() {
 		s := Linklookup(Ctxt, ".dynsym", 0)
 
 		s.Type = obj.SELFROSECT
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		switch Thearch.Thechar {
 		case '0', '6', '7', '9':
 			s.Size += ELF64SYMSIZE
@@ -1866,7 +1866,7 @@ func doelf() {
 		s = Linklookup(Ctxt, ".dynstr", 0)
 
 		s.Type = obj.SELFROSECT
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		if s.Size == 0 {
 			Addstring(s, "")
 		}
@@ -1879,35 +1879,35 @@ func doelf() {
 		default:
 			s = Linklookup(Ctxt, ".rel", 0)
 		}
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFROSECT
 
 		/* global offset table */
 		s = Linklookup(Ctxt, ".got", 0)
 
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFGOT // writable
 
 		/* ppc64 glink resolver */
 		if Thearch.Thechar == '9' {
 			s := Linklookup(Ctxt, ".glink", 0)
-			s.Reachable = true
+			s.Attr |= AttrReachable
 			s.Type = obj.SELFRXSECT
 		}
 
 		/* hash */
 		s = Linklookup(Ctxt, ".hash", 0)
 
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFROSECT
 
 		s = Linklookup(Ctxt, ".got.plt", 0)
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFSECT // writable
 
 		s = Linklookup(Ctxt, ".plt", 0)
 
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		if Thearch.Thechar == '9' {
 			// In the ppc64 ABI, .plt is a data section
 			// written by the dynamic linker.
@@ -1924,21 +1924,21 @@ func doelf() {
 		default:
 			s = Linklookup(Ctxt, ".rel.plt", 0)
 		}
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFROSECT
 
 		s = Linklookup(Ctxt, ".gnu.version", 0)
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFROSECT
 
 		s = Linklookup(Ctxt, ".gnu.version_r", 0)
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFROSECT
 
 		/* define dynamic elf table */
 		s = Linklookup(Ctxt, ".dynamic", 0)
 
-		s.Reachable = true
+		s.Attr |= AttrReachable
 		s.Type = obj.SELFSECT // writable
 
 		/*
@@ -1991,10 +1991,10 @@ func doelf() {
 		// The go.link.abihashbytes symbol will be pointed at the appropriate
 		// part of the .note.go.abihash section in data.go:func address().
 		s := Linklookup(Ctxt, "go.link.abihashbytes", 0)
-		s.Local = true
+		s.Attr |= AttrLocal
 		s.Type = obj.SRODATA
-		s.Special = 1
-		s.Reachable = true
+		s.Attr |= AttrSpecial
+		s.Attr |= AttrReachable
 		s.Size = int64(sha1.Size)
 
 		sort.Sort(byPkg(Ctxt.Library))
@@ -2535,7 +2535,7 @@ func Elfadddynsym(ctxt *Link, s *LSym) {
 		/* type */
 		t := STB_GLOBAL << 4
 
-		if s.Cgoexport != 0 && s.Type&obj.SMASK == obj.STEXT {
+		if s.Attr.CgoExport() && s.Type&obj.SMASK == obj.STEXT {
 			t |= STT_FUNC
 		} else {
 			t |= STT_OBJECT
@@ -2562,7 +2562,7 @@ func Elfadddynsym(ctxt *Link, s *LSym) {
 		/* size of object */
 		Adduint64(ctxt, d, uint64(s.Size))
 
-		if Thearch.Thechar == '6' && s.Cgoexport&CgoExportDynamic == 0 && s.Dynimplib != "" && !seenlib[s.Dynimplib] {
+		if Thearch.Thechar == '6' && !s.Attr.CgoExportDynamic() && s.Dynimplib != "" && !seenlib[s.Dynimplib] {
 			Elfwritedynent(Linklookup(ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(Linklookup(ctxt, ".dynstr", 0), s.Dynimplib)))
 		}
 	} else {
@@ -2590,9 +2590,9 @@ func Elfadddynsym(ctxt *Link, s *LSym) {
 		t := STB_GLOBAL << 4
 
 		// TODO(mwhudson): presumably the behaviour should actually be the same on both arm and 386.
-		if Thearch.Thechar == '8' && s.Cgoexport != 0 && s.Type&obj.SMASK == obj.STEXT {
+		if Thearch.Thechar == '8' && s.Attr.CgoExport() && s.Type&obj.SMASK == obj.STEXT {
 			t |= STT_FUNC
-		} else if Thearch.Thechar == '5' && s.Cgoexport&CgoExportDynamic != 0 && s.Type&obj.SMASK == obj.STEXT {
+		} else if Thearch.Thechar == '5' && s.Attr.CgoExportDynamic() && s.Type&obj.SMASK == obj.STEXT {
 			t |= STT_FUNC
 		} else {
 			t |= STT_OBJECT
