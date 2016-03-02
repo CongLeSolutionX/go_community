@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_6dc41ab3",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-02T20:00:18Z",
+      "side": 1,
+      "message": "\u0026(name[0]) -\u003e \u0026name[0]",
+      "revId": "b8bfaccfe3603a3a3fb1a20916de99fce34655bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
