@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_f1d43f69",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-02T12:29:05Z",
+      "side": 0,
+      "message": "What about renaming Hide to Hidden like its sibling reachable above?",
+      "revId": "62ac107a34823a692957c53662650a208cbe3151",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

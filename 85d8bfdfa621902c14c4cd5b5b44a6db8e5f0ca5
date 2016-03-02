@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_31763767",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-02T12:29:05Z",
+      "side": 1,
+      "message": "are you going to address this one next ?",
+      "revId": "85d8bfdfa621902c14c4cd5b5b44a6db8e5f0ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_11d0db73",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-02T12:29:05Z",
+      "side": 1,
+      "message": "is this one on your list ?",
+      "revId": "85d8bfdfa621902c14c4cd5b5b44a6db8e5f0ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_d1d9439f",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-02T12:29:05Z",
+      "side": 1,
+      "message": "There are so many bit flags in here, what is your interest level in rolling all of these up into a single flag field ?",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 15
+      },
+      "revId": "85d8bfdfa621902c14c4cd5b5b44a6db8e5f0ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
