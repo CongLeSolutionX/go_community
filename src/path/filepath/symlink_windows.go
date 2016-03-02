@@ -5,66 +5,58 @@
 package filepath
 
 import (
+	"os"
 	"syscall"
+
+	"internal/syscall/windows"
 )
 
-func toShort(path string) (string, error) {
-	p, err := syscall.UTF16FromString(path)
+func open(path string) (fd syscall.Handle, err error) {
+	if len(path) == 0 {
+		return syscall.InvalidHandle, syscall.ERROR_FILE_NOT_FOUND
+	}
+	pathp, err := syscall.UTF16PtrFromString(path)
 	if err != nil {
-		return "", err
+		return syscall.InvalidHandle, err
 	}
-	b := p // GetShortPathName says we can reuse buffer
-	n := uint32(len(b))
-	for {
-		n, err = syscall.GetShortPathName(&p[0], &b[0], uint32(len(b)))
-		if err != nil {
-			return "", err
-		}
-		if n <= uint32(len(b)) {
-			return syscall.UTF16ToString(b[:n]), nil
-		}
-		b = make([]uint16, n)
-	}
-}
 
-func toLong(path string) (string, error) {
-	p, err := syscall.UTF16FromString(path)
-	if err != nil {
-		return "", err
-	}
-	b := p // GetLongPathName says we can reuse buffer
-	n := uint32(len(b))
-	for {
-		n, err = syscall.GetLongPathName(&p[0], &b[0], uint32(len(b)))
-		if err != nil {
-			return "", err
-		}
-		if n <= uint32(len(b)) {
-			return syscall.UTF16ToString(b[:n]), nil
-		}
-		b = make([]uint16, n)
-	}
+	return syscall.CreateFile(pathp, syscall.GENERIC_READ, syscall.FILE_SHARE_READ, nil, syscall.OPEN_EXISTING, syscall.FILE_FLAG_BACKUP_SEMANTICS, 0)
 }
 
 func evalSymlinks(path string) (string, error) {
-	path, err := walkSymlinks(path)
+	fd, err := open(path)
 	if err != nil {
 		return "", err
 	}
-	p, err := toShort(path)
+
+	abs, err := windows.FinalPathByHandle(fd)
 	if err != nil {
 		return "", err
 	}
-	p, err = toLong(p)
+
+	if IsAbs(path) {
+		return abs, nil
+	}
+
+	if isUNC(path) {
+		return abs, nil
+	}
+
+	wd, err := os.Getwd()
 	if err != nil {
 		return "", err
 	}
-	// syscall.GetLongPathName does not change the case of the drive letter,
-	// but the result of EvalSymlinks must be unique, so we have
-	// EvalSymlinks(`c:\a`) == EvalSymlinks(`C:\a`).
-	// Make drive letter upper case.
-	if len(p) >= 2 && p[1] == ':' && 'a' <= p[0] && p[0] <= 'z' {
-		p = string(p[0]+'A'-'a') + p[1:]
+
+	if volume := VolumeName(path); volume != "" {
+		if volume == VolumeName(wd) {
+			rel, err := Rel(wd, abs)
+			return volume + rel, err
+		}
+
+		volume = VolumeName(abs)
+
+		return volume + abs[len(volume)+1:], nil // trim beginning \
 	}
-	return Clean(p), nil
+
+	return Rel(wd, abs)
 }
