@@ -138,7 +138,7 @@ var pkgDeps = map[string][]string{
 	"internal/syscall/windows/registry": {"L0", "syscall", "unicode/utf16"},
 	"time":          {"L0", "syscall", "internal/syscall/windows/registry"},
 	"os":            {"L1", "os", "syscall", "time", "internal/syscall/windows"},
-	"path/filepath": {"L2", "os", "syscall"},
+	"path/filepath": {"L2", "os", "syscall", "internal/syscall/windows"},
 	"io/ioutil":     {"L2", "os", "path/filepath", "time"},
 	"os/exec":       {"L2", "os", "path/filepath", "syscall"},
 	"os/signal":     {"L2", "os", "syscall"},

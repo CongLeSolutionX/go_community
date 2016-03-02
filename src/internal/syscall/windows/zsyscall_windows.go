@@ -10,12 +10,17 @@ var _ unsafe.Pointer
 var (
 	modiphlpapi = syscall.NewLazyDLL("iphlpapi.dll")
 	modkernel32 = syscall.NewLazyDLL("kernel32.dll")
+	modntdll    = syscall.NewLazyDLL("ntdll.dll")
 
-	procGetAdaptersAddresses = modiphlpapi.NewProc("GetAdaptersAddresses")
-	procGetComputerNameExW   = modkernel32.NewProc("GetComputerNameExW")
-	procMoveFileExW          = modkernel32.NewProc("MoveFileExW")
-	procGetACP               = modkernel32.NewProc("GetACP")
-	procMultiByteToWideChar  = modkernel32.NewProc("MultiByteToWideChar")
+	procGetAdaptersAddresses      = modiphlpapi.NewProc("GetAdaptersAddresses")
+	procGetComputerNameExW        = modkernel32.NewProc("GetComputerNameExW")
+	procMoveFileExW               = modkernel32.NewProc("MoveFileExW")
+	procGetACP                    = modkernel32.NewProc("GetACP")
+	procMultiByteToWideChar       = modkernel32.NewProc("MultiByteToWideChar")
+	procNtQueryObject             = modntdll.NewProc("NtQueryObject")
+	procGetFinalPathNameByHandleW = modkernel32.NewProc("GetFinalPathNameByHandleW")
+	procGetLogicalDriveStringsW   = modkernel32.NewProc("GetLogicalDriveStringsW")
+	procQueryDosDeviceW           = modkernel32.NewProc("QueryDosDeviceW")
 )
 
 func GetAdaptersAddresses(family uint32, flags uint32, reserved uintptr, adapterAddresses *IpAdapterAddresses, sizePointer *uint32) (errcode error) {
@@ -60,6 +65,53 @@ func MultiByteToWideChar(codePage uint32, dwFlags uint32, str *byte, nstr int32,
 	r0, _, e1 := syscall.Syscall6(procMultiByteToWideChar.Addr(), 6, uintptr(codePage), uintptr(dwFlags), uintptr(unsafe.Pointer(str)), uintptr(nstr), uintptr(unsafe.Pointer(wchar)), uintptr(nwchar))
 	nwrite = int32(r0)
 	if nwrite == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func ntQueryObject(handle syscall.Handle, infoClass uint32, info *byte, infoLen uint32, retLen *uint32) (lasterr error) {
+	r0, _, _ := syscall.Syscall6(procNtQueryObject.Addr(), 5, uintptr(handle), uintptr(infoClass), uintptr(unsafe.Pointer(info)), uintptr(infoLen), uintptr(unsafe.Pointer(retLen)), 0)
+	if r0 != 0 {
+		lasterr = syscall.Errno(r0)
+	}
+	return
+}
+
+func getFinalPathNameByHandle(handle syscall.Handle, path *uint16, pathLen uint32, flag uint32) (n uint32, err error) {
+	r0, _, e1 := syscall.Syscall6(procGetFinalPathNameByHandleW.Addr(), 4, uintptr(handle), uintptr(unsafe.Pointer(path)), uintptr(pathLen), uintptr(flag), 0, 0)
+	n = uint32(r0)
+	if n == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func getLogicalDriveStrings(bufLen uint32, buffer *uint16) (n uint32, err error) {
+	r0, _, e1 := syscall.Syscall(procGetLogicalDriveStringsW.Addr(), 2, uintptr(bufLen), uintptr(unsafe.Pointer(buffer)), 0)
+	n = uint32(r0)
+	if n == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func queryDosDevice(drive *uint16, volume *uint16, volumeLen uint32) (n uint32, err error) {
+	r0, _, e1 := syscall.Syscall(procQueryDosDeviceW.Addr(), 3, uintptr(unsafe.Pointer(drive)), uintptr(unsafe.Pointer(volume)), uintptr(volumeLen))
+	n = uint32(r0)
+	if n == 0 {
 		if e1 != 0 {
 			err = error(e1)
 		} else {
