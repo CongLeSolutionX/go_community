@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a29de171_937bce01",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-02T22:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02feade5_a8c3b000",
+      "revId": "e5d2e46ee633a2237fc7186754ca9a6f542387cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02feade5_488b0cda",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-03-02T21:26:43Z",
       "side": 1,
       "message": "I think this would be easier to understand as:\n\n    if s.Attr.Reachable() {\n        stub.Attr |\u003d AttrReachable\n    }",
+      "revId": "e5d2e46ee633a2237fc7186754ca9a6f542387cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a29de171_b380d220",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-02T22:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02feade5_488b0cda",
       "revId": "e5d2e46ee633a2237fc7186754ca9a6f542387cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
