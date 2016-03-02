@@ -497,6 +497,31 @@ const (
 	_FlagNoZero = 1 << 1 // don't zero memory
 )
 
+// nextFreeFast returns the next free object if one is quickly available.
+// Otherwise it returns 0.
+func (s *mspan) nextFreeFast() gclinkptr {
+	ctzIndex := uint8(s.allocCache & 0xff)
+	if ctzIndex != 0 {
+		theBit := uint64(ctzVals[ctzIndex])
+		freeidx := s.freeindex // help the pre ssa compiler out here with cse.
+		result := freeidx + uintptr(theBit)
+		if result < s.nelems {
+			s.allocCache >>= (theBit + 1)
+			freeidx = result + 1
+			if freeidx%64 == 0 && freeidx != s.nelems {
+				// We just incremented s.freeindex so it isn't 0 so we are moving to the next aCache
+				whichByte := freeidx / 8
+				s.refillAllocCache(whichByte)
+			}
+			s.freeindex = freeidx
+			v := gclinkptr(result*s.elemsize + s.base())
+			s.allocCount++
+			return v
+		}
+	}
+	return 0
+}
+
 // nextFree returns the next free object from the cached span if one is available.
 // Otherwise it refills the cache with a span with an available object and
 // returns that object along with a flag indicating that this was a heavy
@@ -506,10 +531,9 @@ const (
 // https://golang.org/cl/5350 motivates why this routine should preform a
 // prefetch.
 func nextFree(s *mspan, sizeclass int8, c *mcache) (v gclinkptr, shouldhelpgc bool) {
-	var freeIndex uintptr
+	// Slow path that might require replacing the span.
 
-	shouldhelpgc = false
-	freeIndex = s.nextFreeIndex()
+	freeIndex := s.nextFreeIndex()
 	if freeIndex == s.nelems {
 		if uintptr(s.allocCount) > s.nelems {
 			throw("s.allocCount > s.nelems && freeIndex == s.nelems")
@@ -652,7 +676,10 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			// Allocate a new maxTinySize block.
 			s = c.alloc[tinySizeClass]
 			var v gclinkptr
-			v, shouldhelpgc = nextFree(s, tinySizeClass, c)
+			v = s.nextFreeFast()
+			if v == 0 {
+				v, shouldhelpgc = nextFree(s, tinySizeClass, c)
+			}
 			x = unsafe.Pointer(v)
 			(*[2]uint64)(x)[0] = 0
 			(*[2]uint64)(x)[1] = 0
@@ -673,7 +700,10 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			size = uintptr(class_to_size[sizeclass])
 			s = c.alloc[sizeclass]
 			var v gclinkptr
-			v, shouldhelpgc = nextFree(s, sizeclass, c)
+			v = s.nextFreeFast()
+			if v == 0 {
+				v, shouldhelpgc = nextFree(s, sizeclass, c)
+			}
 			x = unsafe.Pointer(v)
 			if flags&flagNoZero == 0 {
 				//RLHXXX				v.ptr().next = 0
@@ -732,6 +762,20 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		systemstack(func() {
 			gcmarknewobject_m(uintptr(x), size)
 		})
+	}
+
+	// The object x is about to be reused but tracefree and msanfree
+	// need to be informed that the previous
+	// It is quite possible that this object is being allocated out of a
+	// fresh span and that there is no preceeding call to racemalloc with
+	// this object. If this is an issue then initialization of the
+	// fresh span needs to leave some crumbs around that can be used to
+	// avoid these calls.
+	if debug.allocfreetrace != 0 {
+		tracefree(unsafe.Pointer(x), size)
+	}
+	if msanenabled {
+		msanfree(unsafe.Pointer(x), size)
 	}
 
 	if raceenabled {

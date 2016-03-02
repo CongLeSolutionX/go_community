@@ -8,7 +8,6 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
-	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -252,40 +251,12 @@ func (s *mspan) sweep(preserve bool) bool {
 		}
 	}
 
-	// Sweep through n objects of given size starting at p.
-	// This thread owns the span now, so it can manipulate
-	// the block bitmap without atomic operations.
-
-	nfree = heapBitsSweepSpan(s, func(p uintptr) {
-		// At this point we know that we are looking at a garbage object
-		// that needs to be collected.
-		if debug.allocfreetrace != 0 {
-			tracefree(unsafe.Pointer(p), size)
-		}
-		if msanenabled {
-			msanfree(unsafe.Pointer(p), size)
-		}
-
-		// Reset to allocated+noscan.
-		if cl == 0 {
-			// Free large span.
-			if preserve {
-				throw("can't preserve large span")
-			}
-			s.needzero = 1
-
-			// Free the span after heapBitsSweepSpan
-			// returns, since it's not done with the span.
-			freeToHeap = true
-		} else {
-			// Free small object.
-			if size > 2*sys.PtrSize {
-				*(*uintptr)(unsafe.Pointer(p + sys.PtrSize)) = uintptrMask & 0xdeaddeaddeaddead // mark as "needs to be zeroed"
-			} else if size > sys.PtrSize {
-				*(*uintptr)(unsafe.Pointer(p + sys.PtrSize)) = 0
-			}
-		}
-	})
+	// Count the number of free objects in this span.
+	nfree = s.countFree()
+	if cl == 0 && nfree != 0 {
+		s.needzero = 1
+		freeToHeap = true
+	}
 
 	s.allocCount = uint16(s.nelems) - uint16(nfree)
 	wasempty := true
@@ -327,7 +298,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	//	if nfree > 0 {
 	if nfree > 0 && cl != 0 {
 		c.local_nsmallfree[cl] += uintptr(nfree)
-		res = mheap_.central[cl].mcentral.freeSpan(s, int32(nfree), head, end, preserve, wasempty)
+		res = mheap_.central[cl].mcentral.freeSpan(s, head, end, preserve, wasempty)
 		// MCentral_FreeSpan updates sweepgen
 	} else if freeToHeap {
 		// Free large span to heap
