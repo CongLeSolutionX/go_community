@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_adaaa246",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-02T19:28:29Z",
+      "side": 1,
+      "message": "As long as you\u0027re here, there\u0027s really no need for the stk local variable.",
+      "revId": "84315195201055de5e0ba3490576007013a55fde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
