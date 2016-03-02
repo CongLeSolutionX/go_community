@@ -158,12 +158,12 @@ func (c *mcentral) uncacheSpan(s *mspan) {
 // the latest generation.
 // If preserve=true, don't return the span to heap nor relink in MCentral lists;
 // caller takes care of it.
-func (c *mcentral) freeSpan(s *mspan, n int32, start gclinkptr, end gclinkptr, preserve bool, wasempty bool) bool {
+func (c *mcentral) freeSpan(s *mspan, start gclinkptr, end gclinkptr, preserve bool, wasempty bool) bool {
 	if s.incache {
 		throw("freeSpan given cached span")
 	}
 
-	s.allocCount = uint16(s.nelems) - uint16(n)
+	//	s.allocCount = uint16(s.nelems) - uint16(n)
 
 	if preserve {
 		// preserve is set only when called from MCentral_CacheSpan above,
