@@ -1,0 +1,231 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02cf8da0_5415215d",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "I find it confusing that \"backward copies\" and \"forward copies\" aren\u0027t actually opposites of each other, IIUC. Specifically, \"backwards\" means that the src data is conceptually \"before\" the dst data in the stream - it\u0027s a backreference. OTOH, \"forwards\" means that, in the naive implementation, the pointers always increment from the start, and never decrement from the end, even if the src and dst slices overlap. This is in contrast to the built-in copy, aka memmove.\n\nIs it possible to find a form of words that don\u0027t sound like they should be opposites of each other?",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_b41915bf",
+        "filename": "src/compress/flate/dict_decoder.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "What is s?",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_54fc015d",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "It\u0027d be nice if you could repeat this test with a number of window sizes.",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_74713de7",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "FWIW, I\u0027d use :\u003d instead of var.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_347bc5c7",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "FWIW, I\u0027d have used s and n instead of str and cnt, but it\u0027s not a big deal.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_d4893115",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "FWIW this could be a WriteString instead of a WriteByte.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_742c9ddc",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "What\u0027s magic about 33? Are you really testing that the history hasn\u0027t wrapped around? Perhaps a comment could help.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_9474d9d9",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "FWIW, I would have said:\nif g, w :\u003d got.String(), want.String(); g !\u003d w\nand then re-use g and w on the next line.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_b48eb519",
+        "filename": "src/compress/flate/dict_decoder_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "FWIW the String calls are unnecessary, but I\u0027d use g and w as per my comment immediately above.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_74181d97",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "Is the woffset field actually used anywhere? Can we just delete it?",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_b467d523",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "Again, I find \"backwards\" possibly confusing here.",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_745a5d59",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "FWIW, the rest of the flate code usually uses \"n\" instead of \"cnt\".",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_b4059531",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-03T03:57:20Z",
+      "side": 1,
+      "message": "Again, FWIW, I\u0027d s/cnt/n/",
+      "revId": "5fc4decd10aa5583f4485164e572720d0d564cac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
