@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_7d3cc1c7",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-03T21:21:04Z",
+      "side": 1,
+      "message": "I wonder if we can make this message less cryptic if received by somebody who isn\u0027t actively working on the program.  I don\u0027t have any suggestions, though.",
+      "revId": "12363dde1e9841690e41ff02d6004361763432be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
