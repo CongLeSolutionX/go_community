@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_4252c40c",
+        "filename": "src/os/user/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-03-03T19:11:59Z",
+      "side": 1,
+      "message": "Agreed.  It\u0027s more clear for the caller to use LookupGroupId on either the process GID or the user\u0027s GID.\n\nI\u0027ve added a *User.GroupIds method to access the supplementary group IDs.",
+      "parentUuid": "a29de171_1ac0dcf2",
+      "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_f83896b8",
         "filename": "src/os/user/lookup_unix.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-24T20:54:15Z",
       "side": 1,
       "message": "probably cheaper to go the other way and Atoi Gid first and compare ints instead of making and comparing strings",
+      "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_422be478",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-03-03T19:11:59Z",
+      "side": 1,
+      "message": "No longer relevant since I changed this to listGroups. PTAL.",
+      "parentUuid": "02e4ed24_f83896b8",
       "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_973c0cc9",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-03-03T19:11:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a29de171_9a620ce3",
+      "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02e4ed24_9823d28f",
         "filename": "src/os/user/lookup_unix.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-24T20:54:15Z",
       "side": 1,
       "message": "don\u0027t you mean 1\u003c\u003c20 bytes?",
+      "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_f77e308a",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-03-03T19:11:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e4ed24_9823d28f",
       "revId": "5201bbc4cbd8bdce2b4d8b765be441fd41d49314",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
