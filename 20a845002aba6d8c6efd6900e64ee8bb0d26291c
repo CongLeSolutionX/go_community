@@ -16,6 +16,24 @@
       "revId": "20a845002aba6d8c6efd6900e64ee8bb0d26291c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_58d9106c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-04T18:50:39Z",
+      "side": 1,
+      "message": "Either will work.",
+      "parentUuid": "02feade5_380fe413",
+      "revId": "20a845002aba6d8c6efd6900e64ee8bb0d26291c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
