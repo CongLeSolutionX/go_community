@@ -65,6 +65,11 @@ func (s *Scope) NumChildren() int { return len(s.children) }
 // Child returns the i'th child scope for 0 <= i < NumChildren().
 func (s *Scope) Child(i int) *Scope { return s.children[i] }
 
+// RemoveChildren removes all child scopes of s.
+// Removing the child scopes of a package scope saves memory
+// without losing the information necessary to satisfy imports.
+func (s *Scope) RemoveChildren() { s.children = nil }
+
 // Lookup returns the object in scope s with the given name if such an
 // object exists; otherwise the result is nil.
 func (s *Scope) Lookup(name string) Object {
