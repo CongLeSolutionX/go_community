@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22c651da_a8abb351",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-03-04T17:42:46Z",
+      "side": 1,
+      "message": "src/cmd/compile/internal/gc/select.go\n\nUpdate to new path including /compile/",
+      "revId": "807f5d3e14a81deb4935f558b85662cc474f341e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
