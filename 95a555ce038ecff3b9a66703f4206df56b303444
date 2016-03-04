@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "02cf8da0_af7422d9",
+        "filename": "src/cmd/pprof/internal/profile/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2016-03-04T00:08:56Z",
+      "side": 1,
+      "message": "I meant the allocation. If you go pessimistic, the longest varint is 10 bytes, so allow that much, and copy afterwards. Copying bytes is cheap on modern machines, but doing the extra allocations is expensive.\n\nAnyway, you can revisit.",
+      "parentUuid": "02feade5_d097cc73",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_7b16d0dd",
         "filename": "src/cmd/pprof/internal/profile/proto.go",
         "patchSetId": 2
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Yes, the length varint is decoded in decodeField, which creates a slice with the data in this field and puts it on b.data, which then is dispatched to this function from decodeMessage by a call through dec[b.field](...)",
       "parentUuid": "02cf8da0_7b16d0dd",
+      "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf8da0_8f7166ea",
+        "filename": "src/cmd/pprof/internal/profile/proto.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2016-03-04T00:08:56Z",
+      "side": 1,
+      "message": "oh, right. this function is meant to consume all of b.data.",
+      "parentUuid": "02feade5_cb1a81b4",
       "revId": "95a555ce038ecff3b9a66703f4206df56b303444",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
