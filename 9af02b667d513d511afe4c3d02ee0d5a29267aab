@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_1562b1b6",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-04T14:41:37Z",
+      "side": 1,
+      "message": "Seems to me that we should exit even if we don\u0027t recognize the error.",
+      "revId": "9af02b667d513d511afe4c3d02ee0d5a29267aab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
