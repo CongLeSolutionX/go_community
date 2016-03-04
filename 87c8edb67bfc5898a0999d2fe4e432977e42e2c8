@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_23dfba82",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-04T01:54:31Z",
+      "side": 1,
+      "message": "This is more complicated than necessary. The bug is simply that r.prec used in the shift above is incorrect if rounding rounded up. Recomputing the precision (as we do on line 885) is all that\u0027s needed (before we do the shift).\n\nIt also turns out to be incorrect. For the following test cases it produces failures (these additional test cases added by me):\n\n\tfloat_test.go:910: 0x1.8p-149: got 1e-45 (0x1, Above); want 3e-45 (0x2, Above)\n\tfloat_test.go:910: -0x1.8p-149: got -1e-45 (0x80000001, Below); want 3e-45 (0x2, Below)\n\tfloat_test.go:910: 0x1.9p-149: got 1e-45 (0x1, Above); want 3e-45 (0x2, Above)\n\tfloat_test.go:910: -0x1.9p-149: got -1e-45 (0x80000001, Below); want 3e-45 (0x2, Below)\n\tfloat_test.go:910: 0x2.9p-149: got 8e-45 (0x6, Above); want 4e-45 (0x3, Above)\n\tfloat_test.go:910: -0x2.9p-149: got -8e-45 (0x80000006, Below); want 4e-45 (0x3, Below)\n\tfloat_test.go:910: 0x4.9p-149: got 1.4e-44 (0xa, Above); want 7e-45 (0x5, Above)\n\tfloat_test.go:910: -0x4.9p-149: got -1.4e-44 (0x8000000a, Below); want 7e-45 (0x5, Below)",
+      "revId": "87c8edb67bfc5898a0999d2fe4e432977e42e2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
