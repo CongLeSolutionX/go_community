@@ -17,6 +17,10 @@ func mergestrings() {
 	if Buildmode == BuildmodeShared {
 		return
 	}
+	if Thearch.Minalign > 1 {
+		// can't relocate at single byte granularity
+		return
+	}
 
 	strs := make([]*LSym, 0, 256)
 	seenStr := make(map[string]bool, 256)         // symbol name -> in strs slice
