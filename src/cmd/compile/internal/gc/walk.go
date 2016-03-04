@@ -956,11 +956,6 @@ opswitch:
 			break
 		}
 
-		// Build name of function: convI2E etc.
-		// Not all names are possible
-		// (e.g., we'll never generate convE2E or convE2I).
-		buf := "conv" + type2IET(n.Left.Type) + "2" + type2IET(n.Type)
-		fn := syslook(buf, 1)
 		var ll *NodeList
 		if !Isinter(n.Left.Type) {
 			ll = list(ll, typename(n.Left.Type))
@@ -1001,7 +996,7 @@ opswitch:
 				typecheck(&n1, Etop)
 				*init = list(*init, n1)
 
-				fn := syslook("typ2Itab", 1)
+				fn := syslook("typ2Itab", 0)
 				n1 = Nod(OCALL, fn, nil)
 				n1.List = ll
 				typecheck(&n1, Erv)
@@ -1050,6 +1045,11 @@ opswitch:
 			ll = list(ll, r)
 		}
 
+		// Build name of function: convI2E etc.
+		// Not all names are possible
+		// (e.g., we'll never generate convE2E or convE2I).
+		buf := "conv" + type2IET(n.Left.Type) + "2" + type2IET(n.Type)
+		fn := syslook(buf, 1)
 		if !Isinter(n.Left.Type) {
 			substArgTypes(fn, n.Left.Type, n.Left.Type, n.Type)
 		} else {
@@ -1376,8 +1376,6 @@ opswitch:
 	case OMAKEMAP:
 		t := n.Type
 
-		fn := syslook("makemap", 1)
-
 		a := nodnil() // hmap buffer
 		r := nodnil() // bucket buffer
 		if n.Esc == EscNone {
@@ -1400,6 +1398,7 @@ opswitch:
 			r = Nod(OADDR, var_, nil)
 		}
 
+		fn := syslook("makemap", 1)
 		substArgTypes(fn, hmap(t), mapbucket(t), t.Down, t.Type)
 		n = mkcall1(fn, n.Type, init, typename(n.Type), conv(n.Left, Types[TINT64]), a, r)
 
@@ -2763,7 +2762,7 @@ func addstr(n *Node, init **NodeList) *Node {
 		slice.Esc = EscNone
 	}
 
-	cat := syslook(fn, 1)
+	cat := syslook(fn, 0)
 	r := Nod(OCALL, cat, nil)
 	r.List = args
 	typecheck(&r, Erv)
