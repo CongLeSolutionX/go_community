@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_0e6e2201",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-04T21:31:15Z",
+      "side": 1,
+      "message": "re-slicing instead of just subtracting ni.i? either way I guess.",
+      "revId": "68325af94d158a340cf230069e01054ce818eaff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
