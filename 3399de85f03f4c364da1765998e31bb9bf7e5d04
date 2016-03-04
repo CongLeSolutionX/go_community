@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22c651da_68aa5b4a",
+        "filename": "src/cmd/link/internal/ld/mergestrings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-04T17:53:16Z",
+      "side": 1,
+      "message": "If you were feeling adventurous, you could move your change to here and append zeros to alldata.P:\n\n// Architectures wtih Minalign \u003e 1 cannot have relocations pointing\n// to arbitrary locations, so make sure each string is appropriately\n// aligned.\nfor  r :\u003d len(alldata.P)%Thearch.Minalign; r \u003e 0; r-- {\n    alldata.P \u003d append(alldata.P, 0)\n}",
+      "revId": "3399de85f03f4c364da1765998e31bb9bf7e5d04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
