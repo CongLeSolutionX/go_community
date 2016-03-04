@@ -402,6 +402,16 @@ func allgadd(gp *g) {
 	lock(&allglock)
 	allgs = append(allgs, gp)
 	allglen = uintptr(len(allgs))
+
+	// Grow GC rescan list if necessary.
+	if len(allgs) > cap(work.rescan.list) {
+		lock(&work.rescan.lock)
+		l := work.rescan.list
+		// Let append do the heavy lifting, but keep the
+		// length the same.
+		work.rescan.list = append(l[:cap(l)], 0)[:len(l)]
+		unlock(&work.rescan.lock)
+	}
 	unlock(&allglock)
 }
 
@@ -754,8 +764,9 @@ func casgstatus(gp *g, oldval, newval uint32) {
 			nextYield = nanotime() + yieldDelay/2
 		}
 	}
-	if newval == _Grunning {
-		gp.gcscanvalid = false
+	if newval == _Grunning && gp.gcscanvalid {
+		// Run queueRescan on the system stack so it has more space.
+		systemstack(func() { queueRescan(gp) })
 	}
 }
 
@@ -1405,6 +1416,8 @@ func newextram() {
 	gp.syscallpc = gp.sched.pc
 	gp.syscallsp = gp.sched.sp
 	gp.stktopsp = gp.sched.sp
+	gp.gcscanvalid = true // fresh G, so no dequeueRescan necessary
+	gp.gcRescan = -1
 	// malg returns status as Gidle, change to Gsyscall before adding to allg
 	// where GC will see it.
 	casgstatus(gp, _Gidle, _Gsyscall)
@@ -2226,6 +2239,7 @@ func goexit0(gp *g) {
 	gp.waitreason = ""
 	gp.param = nil
 
+	dequeueRescan(gp)
 	dropg()
 
 	if _g_.m.locked&^_LockExternal != 0 {
@@ -2717,6 +2731,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	if newg == nil {
 		newg = malg(_StackMin)
 		casgstatus(newg, _Gidle, _Gdead)
+		newg.gcRescan = -1
 		allgadd(newg) // publishes with a g->status of Gdead so GC scanner doesn't look at uninitialized stack.
 	}
 	if newg.stack.hi == 0 {
@@ -2750,6 +2765,10 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	if isSystemGoroutine(newg) {
 		atomic.Xadd(&sched.ngsys, +1)
 	}
+	// The stack is dirty from the argument frame, so queue it for
+	// scanning. Do this before setting it to runnable so we still
+	// own the G.
+	queueRescan(newg)
 	casgstatus(newg, _Gdead, _Grunnable)
 
 	if _p_.goidcache == _p_.goidcacheend {
