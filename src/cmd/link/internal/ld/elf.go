@@ -1198,7 +1198,7 @@ func elfwriteopenbsdsig() int {
 func addbuildinfo(val string) {
 	var j int
 
-	if val[0] != '0' || val[1] != 'x' {
+	if !strings.HasPrefix(val, "0x") {
 		Exitf("-B argument must start with 0x: %s", val)
 	}
 
