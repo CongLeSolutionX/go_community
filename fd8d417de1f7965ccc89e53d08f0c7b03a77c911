@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_6b387886",
+        "filename": "src/go/types/scope.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-04T20:47:46Z",
+      "side": 1,
+      "message": "Please add:\n\n// Since scopes potentially hold many objects, removing child scopes\n// can be an effective way to free up large amounts of memory.\n//\n// WARNING: RemoveChildren() invalidates types-internal invariants.\n// Specifically, subsequent calls to the type-checker may not work as\n// expected. Use at your own risk.",
+      "revId": "fd8d417de1f7965ccc89e53d08f0c7b03a77c911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
