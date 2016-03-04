@@ -22,6 +22,24 @@
       "revId": "42bfb7c2ad9268679aba95bc084c0e257ef0464c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22c651da_e8000b23",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-04T17:31:31Z",
+      "side": 1,
+      "message": "Hmm. What I really mean is that it may still have a stack allocation, but you\u0027re right that there\u0027s nothing in the stack and we certainly don\u0027t scan it. If a G has a tiny stack allocation, we keep it around when the goroutine exits rather than freeing it back to the stack pool and just reuse it when we reuse the G.\n\nMaybe \"It may still have an (empty) stack allocated.\"?",
+      "parentUuid": "22c651da_a8dd73fd",
+      "revId": "42bfb7c2ad9268679aba95bc084c0e257ef0464c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
