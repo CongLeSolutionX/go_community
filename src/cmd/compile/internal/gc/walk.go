@@ -397,6 +397,31 @@ func walkexprlistcheap(l nodesOrNodeList, init nodesOrNodeListPtr) {
 	}
 }
 
+// Build name of function: convI2E etc.
+// Not all names are possible
+// (e.g., we'll never generate convE2E or convE2I).
+func (n *Node) convFuncName() string {
+	from := type2IET(n.Left.Type) // "I" or "T"
+	to := type2IET(n.Type)        // "E" or "I"
+	switch from {
+	case "I":
+		switch to {
+		case "E":
+			return "convI2E"
+		case "I":
+			return "convI2I"
+		}
+	case "T":
+		switch to {
+		case "E":
+			return "convT2E"
+		case "I":
+			return "convT2I"
+		}
+	}
+	panic("unknown conv func " + from + " to " + to)
+}
+
 func walkexpr(np **Node, init nodesOrNodeListPtr) {
 	n := *np
 
@@ -1046,11 +1071,7 @@ opswitch:
 			ll = list(ll, r)
 		}
 
-		// Build name of function: convI2E etc.
-		// Not all names are possible
-		// (e.g., we'll never generate convE2E or convE2I).
-		buf := "conv" + type2IET(n.Left.Type) + "2" + type2IET(n.Type)
-		fn := syslook(buf, 1)
+		fn := syslook(n.convFuncName(), 1)
 		if !Isinter(n.Left.Type) {
 			substArgTypes(fn, n.Left.Type, n.Left.Type, n.Type)
 		} else {
