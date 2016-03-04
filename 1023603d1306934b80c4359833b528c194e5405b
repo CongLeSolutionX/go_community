@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_b5c93d24",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2016-03-04T07:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02feade5_15b111c4",
+      "revId": "1023603d1306934b80c4359833b528c194e5405b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22c651da_e58b169b",
         "filename": "test/fixedbugs/issue14636.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-04T06:46:42Z",
       "side": 1,
       "message": "also need to exclude darwin,arm and android.",
+      "revId": "1023603d1306934b80c4359833b528c194e5405b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_55d439bd",
+        "filename": "test/fixedbugs/issue14636.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2016-03-04T07:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22c651da_e58b169b",
       "revId": "1023603d1306934b80c4359833b528c194e5405b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
