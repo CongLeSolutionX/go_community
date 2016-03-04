@@ -54,6 +54,7 @@ func qsufsort(data []byte) []int {
 				}
 				pk := inv[s] + 1 // pk-1 is last position of unsorted group
 				sufSortable.sa = sa[pi:pk]
+				sufSortable.precompute()
 				sort.Sort(sufSortable)
 				sufSortable.updateGroups(pi)
 				pi = pk // next group
@@ -135,12 +136,27 @@ type suffixSortable struct {
 	sa  []int
 	inv []int
 	h   int
+	pre []int // precomputed values for x.inv[x.sa[i]+x.h] for 0 <= i < len(sa)
 	buf []int // common scratch space
 }
 
+func (x *suffixSortable) precompute() {
+	if len(x.sa) > len(x.pre) {
+		x.pre = make([]int, len(x.sa))
+	}
+	for i := range x.sa {
+		if x.sa[i]+x.h < len(x.inv) {
+			x.pre[i] = x.inv[x.sa[i]+x.h]
+		}
+	}
+}
+
 func (x *suffixSortable) Len() int           { return len(x.sa) }
-func (x *suffixSortable) Less(i, j int) bool { return x.inv[x.sa[i]+x.h] < x.inv[x.sa[j]+x.h] }
-func (x *suffixSortable) Swap(i, j int)      { x.sa[i], x.sa[j] = x.sa[j], x.sa[i] }
+func (x *suffixSortable) Less(i, j int) bool { return x.pre[i] < x.pre[j] }
+func (x *suffixSortable) Swap(i, j int) {
+	x.sa[i], x.sa[j] = x.sa[j], x.sa[i]
+	x.pre[i], x.pre[j] = x.pre[j], x.pre[i]
+}
 
 func (x *suffixSortable) updateGroups(offset int) {
 	bounds := x.buf[0:0]
