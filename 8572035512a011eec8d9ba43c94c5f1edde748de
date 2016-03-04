@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02feade5_2e315eed",
+        "filename": "src/index/suffixarray/qsufsort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-04T22:00:02Z",
+      "side": 1,
+      "message": "rather than calling make for this, can you keep the \"pre\" field but alias it with the backing array for \"buf\" (the \"common scratch space\"), which isn\u0027t needed during the sort.Sort?\n\nHow big is x.buf at that point? It might be the right size.",
+      "revId": "8572035512a011eec8d9ba43c94c5f1edde748de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
