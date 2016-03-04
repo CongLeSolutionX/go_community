@@ -16,6 +16,23 @@
       "revId": "b7c3a55acec0d54cc8311abf3c08e13d1954dc4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22c651da_25dece54",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-04T13:39:49Z",
+      "side": 1,
+      "message": "Eqtype now allocates even when comparing trivially identical types. How about deferring the allocation of assumed_equal (and removing the underscore) until L742?",
+      "revId": "b7c3a55acec0d54cc8311abf3c08e13d1954dc4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
