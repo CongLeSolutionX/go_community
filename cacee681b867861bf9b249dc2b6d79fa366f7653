@@ -140,6 +140,30 @@
     },
     {
       "key": {
+        "uuid": "17f7d148_6350f600",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:40:28Z",
+      "side": 1,
+      "message": "sorry I meant s/:/;/ -- semi-colon instead of colon inside the helper func.",
+      "parentUuid": "17f7d148_a36a7eb8",
+      "range": {
+        "startLine": 937,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 73
+      },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4227c598_a6d4a668",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
