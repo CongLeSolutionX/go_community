@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a24de15b_3139d0d7",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-03-06T20:40:34Z",
+      "side": 1,
+      "message": "No reason other than being able to use .Write(), .String() and .Reset() buffer APIs. Do you think that\u0027s not a good idea ?",
+      "parentUuid": "e29439c3_1bd85b37",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 21
+      },
+      "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f7d148_c348ea58",
         "filename": "src/net/http/request.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-03-06T20:21:52Z",
       "side": 1,
       "message": "Btw you are using a buffer of  just one byte. Couldn\u0027t we use a bigger one of certain fixed size e.g like 512 bytes(I\u0027ve chosen an arbitrary value but it could be more or less) and then perform the proceeding loop for the data in that?",
+      "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a24de15b_5146544a",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-03-06T20:40:34Z",
+      "side": 1,
+      "message": "I do agree with you and Ralph who has suggested the very same thing, a bigger fixed size should be used to avoid too many reads",
+      "parentUuid": "17f7d148_c348ea58",
       "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "a24de15b_113cccc6",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-03-06T20:40:34Z",
+      "side": 1,
+      "message": "I tried getting used to the Gerrit web interface but reverted back to my regular IDE. All fixed in Patch Set #4",
+      "parentUuid": "c26575c5_fa0ba971",
+      "range": {
+        "startLine": 935,
+        "startChar": 0,
+        "endLine": 935,
+        "endChar": 36
+      },
+      "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f7d148_235aee20",
         "filename": "src/net/http/request.go",
         "patchSetId": 3
@@ -93,6 +159,24 @@
       "writtenOn": "2016-03-06T20:21:52Z",
       "side": 1,
       "message": "Please go fmt your code.",
+      "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a24de15b_f15668fd",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-03-06T20:40:34Z",
+      "side": 1,
+      "message": "I tried getting used to the Gerrit web interface but reverted back to my regular IDE. All fixed in Patch Set #4",
+      "parentUuid": "17f7d148_235aee20",
       "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
