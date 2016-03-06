@@ -895,18 +895,8 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 			maxFormSize = int64(10 << 20) // 10 MB is a lot of text.
 			reader = io.LimitReader(r.Body, maxFormSize+1)
 		}
-		b, e := ioutil.ReadAll(reader)
-		if e != nil {
-			if err == nil {
-				err = e
-			}
-			break
-		}
-		if int64(len(b)) > maxFormSize {
-			err = errors.New("http: POST too large")
-			return
-		}
-		vs, e = url.ParseQuery(string(b))
+		vs = make(url.Values)
+		e := parsePostFormURLEncoded(reader, vs, maxFormSize)
 		if err == nil {
 			err = e
 		}
@@ -917,6 +907,54 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 		// Clean this up and write more tests.
 		// request_test.go contains the start of this,
 		// in TestParseMultipartFormOrder and others.
+	}
+	return
+}
+
+var (
+	byteAmp       = []byte("&")
+	byteEqual     = []byte("=")
+	byteSemiColon = []byte(";")
+)
+
+func parsePostFormURLEncoded(reader io.Reader, vs url.Values, maxFormSize int64) (err error) {
+	var buf bytes.Buffer
+	var key string
+	var value string
+	var i int64
+	b := make([]byte, 1)
+	for {
+		if i >= maxFormSize {
+			err = errors.New("http: POST too large")
+			return
+		}
+		n, e := reader.Read(b)
+		if e != nil && e.Error() != io.EOF.Error() {
+			err = e
+			return
+		}
+		i += int64(n)
+		if bytes.Equal(b, byteAmp) || bytes.Equal(b, byteSemiColon) || n == 0 {
+			value, e = url.QueryUnescape(buf.String())
+			if e != nil {
+				err = e
+				return
+			}
+			vs[key] = append(vs[key], value)
+			buf.Reset()
+		} else if bytes.Equal(b, byteEqual) {
+			key, e = url.QueryUnescape(buf.String())
+			if e != nil {
+				err = e
+				return
+			}
+			buf.Reset()
+		} else {
+			buf.Write(b)
+		}
+		if n == 0 {
+			return
+		}
 	}
 	return
 }
