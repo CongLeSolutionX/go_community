@@ -1015,18 +1015,8 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 			maxFormSize = int64(10 << 20) // 10 MB is a lot of text.
 			reader = io.LimitReader(r.Body, maxFormSize+1)
 		}
-		b, e := ioutil.ReadAll(reader)
-		if e != nil {
-			if err == nil {
-				err = e
-			}
-			break
-		}
-		if int64(len(b)) > maxFormSize {
-			err = errors.New("http: POST too large")
-			return
-		}
-		vs, e = url.ParseQuery(string(b))
+		vs = make(url.Values)
+		e := parsePostFormURLEncoded(reader, vs, maxFormSize)
 		if err == nil {
 			err = e
 		}
@@ -1039,6 +1029,65 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 		// in TestParseMultipartFormOrder and others.
 	}
 	return
+}
+
+var (
+	byteEqual = byte('=')
+	byteAmp   = byte('&')
+)
+
+// parsePostFormURLEncoded reads from r, the reader of a POST form to populate vs which is a url-type values.
+// maxFormSize indicates the maximum number of bytes that will be read from r.
+func parsePostFormURLEncoded(r io.Reader, vs url.Values, maxFormSize int64) error {
+	// Create a bufio.Reader from net/http bufioReaderPool sync.Pool
+	br := newBufioReader(r)
+	defer putBufioReader(br)
+	var delim byte
+	var key string
+	var readSize int64
+	for {
+		// Set delimiter
+		if delim != byteEqual {
+			delim = byteEqual
+		} else {
+			delim = byteAmp
+		}
+
+		// Read until next delimiter
+		b, err := br.ReadBytes(delim)
+		if err != nil && err != io.EOF && err != bufio.ErrBufferFull {
+			return err
+		}
+		readSize += int64(len(b))
+		if readSize >= maxFormSize {
+			return errors.New("http: POST too large")
+		}
+
+		// Remove delimiter
+		if len(b) > 0 && b[len(b)-1] == delim {
+			b = b[:len(b)-1]
+		}
+
+		// Query unescape read value
+		s, err2 := url.QueryUnescape(string(b))
+		if err2 != nil {
+			return err
+		}
+
+		// Store key or populate vs
+		if delim == byteEqual {
+			key = s
+		} else {
+			vs[key] = append(vs[key], s)
+			key = ""
+		}
+
+		// Check for end of reader
+		if err == io.EOF {
+			break
+		}
+	}
+	return nil
 }
 
 // ParseForm parses the raw query from the URL and updates r.Form.

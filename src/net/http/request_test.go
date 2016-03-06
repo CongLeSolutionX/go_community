@@ -60,6 +60,18 @@ func TestPostQuery(t *testing.T) {
 	}
 }
 
+func BenchmarkPostQuery(b *testing.B) {
+	req, _ := NewRequest("POST", "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&empty=not",
+		strings.NewReader("z=post&both=y&prio=2&empty="))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		req.PostForm = nil
+		req.ParseForm()
+	}
+}
+
 func TestPatchQuery(t *testing.T) {
 	req, _ := NewRequest("PATCH", "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&empty=not",
 		strings.NewReader("z=post&both=y&prio=2&empty="))
