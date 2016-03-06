@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "17f7d148_c36d8ad4",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "Please change from a named return value to just `) error {`",
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e26d19b5_33d54800",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -25,6 +42,57 @@
     },
     {
       "key": {
+        "uuid": "17f7d148_e37086aa",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "return errors.New(\"http: POST too large\")",
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f7d148_636596ee",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "if e !\u003d nil \u0026\u0026 e !\u003d io.EOF {\n}",
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f7d148_0374929c",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "return e",
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57430950_8fc67560",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -36,6 +104,30 @@
       "writtenOn": "2016-03-06T17:18:58Z",
       "side": 1,
       "message": "Given len(b)\u003d\u003d1 and never changes, why use bytes.Equal and not b[0]\u003d\u003d\u0027\u0026\u0027, having moved the n\u003d\u003d0 to the front of the tests?",
+      "range": {
+        "startLine": 937,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 73
+      },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f7d148_a36a7eb8",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "Like Ralph mentioned we can just do a plain \u003d\u003d comparison. We could even break this out to a small helper function e.g func isQueryFieldSep(b byte) { return b \u003d\u003d \u0027\u0026\u0027 || b \u003d\u003d \u0027:\u0027 }\nthen we can add to it as needed.\n\nSo\n`\nif isQueryFieldSep(b) || n \u003c\u003d 0 {\n`",
+      "parentUuid": "57430950_8fc67560",
       "range": {
         "startLine": 937,
         "startChar": 0,
@@ -71,6 +163,23 @@
     },
     {
       "key": {
+        "uuid": "17f7d148_235f8e1a",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "return e instead of\n`\nerr \u003d e\nreturn\n`\nonce you get rid of the named return value.",
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57430950_afc93974",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -88,6 +197,23 @@
         "endLine": 957,
         "endChar": 3
       },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f7d148_435a9a2a",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T19:38:18Z",
+      "side": 1,
+      "message": "naked return. Please instead do `return nil` once you get rid of the named return value.",
       "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
