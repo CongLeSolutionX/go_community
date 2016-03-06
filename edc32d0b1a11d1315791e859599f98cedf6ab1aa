@@ -69,6 +69,24 @@
       "revId": "edc32d0b1a11d1315791e859599f98cedf6ab1aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f7d148_e322c69a",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-06T21:21:55Z",
+      "side": 1,
+      "message": "Sure, we could save on some letters with `isURLEncodedValueEnd` :) But I think since the n \u003d\u003d 0 check is used again right after invoking the helper function, that this helper func should be one just to check for the end of a value. If this is getting too hairy, you can just revert to what it was with the plain byte comparisons in the condition checks, my apologies.",
+      "parentUuid": "a24de15b_b135c0d9",
+      "revId": "edc32d0b1a11d1315791e859599f98cedf6ab1aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
