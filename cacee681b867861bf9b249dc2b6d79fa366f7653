@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e26d19b5_33d54800",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-06T17:18:58Z",
+      "side": 1,
+      "message": "Is a slice of length 1 too short, giving lots of reader.Read()-calling overhead?",
+      "range": {
+        "startLine": 925,
+        "startChar": 0,
+        "endLine": 925,
+        "endChar": 21
+      },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57430950_8fc67560",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-06T17:18:58Z",
+      "side": 1,
+      "message": "Given len(b)\u003d\u003d1 and never changes, why use bytes.Equal and not b[0]\u003d\u003d\u0027\u0026\u0027, having moved the n\u003d\u003d0 to the front of the tests?",
+      "range": {
+        "startLine": 937,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 73
+      },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4227c598_a6d4a668",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-06T17:18:58Z",
+      "side": 1,
+      "message": "If the Reset moves up a line, before the append(), then these six lines are the same as for key, e \u003d ..., so perhaps the code can exist once and having done it, either key is saved, or key:value stored, depending on b[0]\u003d\u003d\u0027\u003d\u0027, etc?",
+      "range": {
+        "startLine": 944,
+        "startChar": 0,
+        "endLine": 944,
+        "endChar": 14
+      },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57430950_afc93974",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-06T17:18:58Z",
+      "side": 1,
+      "message": "This could be in the first branch of the if statement, before the Reset, as we know if n\u003d\u003d0 then we\u0027ll be there.",
+      "range": {
+        "startLine": 955,
+        "startChar": 0,
+        "endLine": 957,
+        "endChar": 3
+      },
+      "revId": "cacee681b867861bf9b249dc2b6d79fa366f7653",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
