@@ -1015,18 +1015,8 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 			maxFormSize = int64(10 << 20) // 10 MB is a lot of text.
 			reader = io.LimitReader(r.Body, maxFormSize+1)
 		}
-		b, e := ioutil.ReadAll(reader)
-		if e != nil {
-			if err == nil {
-				err = e
-			}
-			break
-		}
-		if int64(len(b)) > maxFormSize {
-			err = errors.New("http: POST too large")
-			return
-		}
-		vs, e = url.ParseQuery(string(b))
+		vs = make(url.Values)
+		e := parsePostFormURLEncoded(vs, reader, maxFormSize)
 		if err == nil {
 			err = e
 		}
@@ -1039,6 +1029,56 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 		// in TestParseMultipartFormOrder and others.
 	}
 	return
+}
+
+// parsePostFormURLEncoded reads from r, the reader of a POST form to populate vs which is a url-type values.
+// maxFormSize indicates the maximum number of bytes that will be read from r.
+func parsePostFormURLEncoded(vs url.Values, r io.Reader, maxFormSize int64) error {
+	br := newBufioReader(r)
+	defer putBufioReader(br)
+
+	var readSize int64
+	for {
+		// Read next "key=value&" or "justkey&".
+		// If this is the last pair, b will contain just "key=value" or "justkey".
+		b, err := br.ReadBytes('&')
+		if err != nil && err != io.EOF && err != bufio.ErrBufferFull {
+			return err
+		}
+		readSize += int64(len(b))
+		if readSize >= maxFormSize {
+			return errors.New("http: POST too large")
+		}
+
+		// Remove last delimiter
+		if len(b) > 0 && b[len(b)-1] == '&' {
+			b = b[:len(b)-1]
+		}
+
+		// Parse key and value
+		var bk, bv []byte
+		if i := bytes.IndexByte(b, '='); i > -1 {
+			bk = b[:i]
+			bv = b[i+1:]
+		} else {
+			bk = b
+		}
+		var k, v string
+		var err2 error
+		if k, err2 = url.QueryUnescape(string(bk)); err2 != nil {
+			return err2
+		}
+		if v, err2 = url.QueryUnescape(string(bv)); err2 != nil {
+			return err2
+		}
+
+		// Populate vs
+		vs[k] = append(vs[k], v)
+		if err == io.EOF {
+			break
+		}
+	}
+	return nil
 }
 
 // ParseForm parses the raw query from the URL and updates r.Form.
