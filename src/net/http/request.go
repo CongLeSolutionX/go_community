@@ -895,18 +895,8 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 			maxFormSize = int64(10 << 20) // 10 MB is a lot of text.
 			reader = io.LimitReader(r.Body, maxFormSize+1)
 		}
-		b, e := ioutil.ReadAll(reader)
-		if e != nil {
-			if err == nil {
-				err = e
-			}
-			break
-		}
-		if int64(len(b)) > maxFormSize {
-			err = errors.New("http: POST too large")
-			return
-		}
-		vs, e = url.ParseQuery(string(b))
+		vs = make(url.Values)
+		e := parsePostFormURLEncoded(reader, vs, maxFormSize)
 		if err == nil {
 			err = e
 		}
@@ -919,6 +909,82 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 		// in TestParseMultipartFormOrder and others.
 	}
 	return
+}
+
+func parsePostFormURLEncoded(reader io.Reader, vs url.Values, maxFormSize int64) error {
+	// Initialize
+	var bufReader []byte
+	var bufKeeper []byte
+	var key string
+	var value string
+	var c int64
+	var p *string
+	var nt int
+	l := 100
+
+	// Loop
+	for {
+		// Reset the buffer, read part of the reader and check for max form size based on read size.
+		bufReader = make([]byte, l)
+		n, err := io.ReadFull(reader, bufReader)
+		if err != nil && err != io.EOF && err != io.ErrUnexpectedEOF {
+			return err
+		}
+		c += int64(n)
+		nt = n
+		if c >= maxFormSize {
+			return errors.New("http: POST too large")
+		}
+
+		// Check for key/value separators, or end of reader
+		for {
+			i := -1
+			ik := bytes.IndexAny(bufReader, "=")
+			iv := bytes.IndexAny(bufReader, "&;")
+			if n < l && iv == -1 {
+				iv = nt - 1
+			}
+			if ik >= 0 && (ik <= iv || iv == -1) {
+				i = ik
+				p = &key
+			} else if iv >= 0 && (iv < ik || ik == -1) {
+				i = iv
+				p = &value
+			}
+
+			// Index is valid and either a key or a value can be parsed
+			if i >= 0 {
+				*p, err = url.QueryUnescape(string(append(bufKeeper, bufReader[:i]...)))
+				if err != nil {
+					return err
+				}
+
+				// Update buffers
+				bufKeeper = []byte{}
+				bufReader = bufReader[i+1:]
+				nt -= i + 1
+
+				// Append value and key
+				if p == &value {
+					// Append
+					vs[key] = append(vs[key], value)
+
+					// Reset value and key
+					key = ""
+					value = ""
+				}
+			} else if n < l {
+				// End of reader has been reached, last key/value must be appended
+				vs[key] = append(vs[key], value)
+				return nil
+			} else {
+				// Append reader buffer to keeper buffer
+				bufKeeper = append(bufKeeper, bufReader...)
+				break
+			}
+		}
+	}
+	return nil
 }
 
 // ParseForm parses the raw query from the URL and updates r.Form.
