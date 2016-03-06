@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29439c3_1bd85b37",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-06T20:19:49Z",
+      "side": 1,
+      "message": "Is there a reason for using bytes.Buffer and not just a []byte with append() and string()?",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 21
+      },
+      "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c26575c5_fa0ba971",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-06T20:19:49Z",
+      "side": 1,
+      "message": "key and value aren\u0027t getting set.",
+      "range": {
+        "startLine": 935,
+        "startChar": 0,
+        "endLine": 935,
+        "endChar": 36
+      },
+      "revId": "65f1d2ef8109472cc1789a76821a49a9c275e980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
