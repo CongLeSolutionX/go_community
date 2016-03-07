@@ -34,6 +34,24 @@
       "revId": "12363dde1e9841690e41ff02d6004361763432be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d79c592c_9bfcabce",
+        "filename": "src/os/user/lookup_stubs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-07T20:11:11Z",
+      "side": 1,
+      "message": "I want to land my change to make Current always work, so let\u0027s address wording in its own CL after this and mine land.",
+      "parentUuid": "17f7d148_c6a7d819",
+      "revId": "12363dde1e9841690e41ff02d6004361763432be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
