@@ -24,6 +24,7 @@ const (
 	signed typeMask = 1 << iota
 	unsigned
 	pointer
+	boolean
 )
 
 type typeRange struct {
@@ -34,6 +35,43 @@ type typeRange struct {
 type control struct {
 	tm     typeMask
 	a0, a1 ID
+}
+
+// factsTable keeps track of restrictions for each pair of values in
+// the dominators for the current node.
+// Invariant: a0.ID <= a1.ID
+// For example {unsigned, a0, a1} -> eq|gt means that from
+// predecessors we know that a0 must be greater or equal to a1.
+// Special case {boolean, -1, a0} means any boolean.
+type factsTable map[control][]rangeMask
+
+func (ft factsTable) get(i control) rangeMask {
+	arr, ok := ft[i]
+	if !ok {
+		if i.a0 == i.a1 {
+			return eq
+		}
+		return lt | eq | gt
+	}
+	return arr[len(arr)-1]
+}
+
+func (ft factsTable) push(i control, r rangeMask) {
+	// ft[i] contains the possible relations between a0 and a1.
+	// When we branched from parent we learned that the possible
+	// relations cannot be more than tr.r. We compute the new set of
+	// relations as the intersection between the old and the new set.
+	ft[i] = append(ft[i], ft.get(i)&r)
+}
+
+func (ft factsTable) pop(i control) {
+	arr := ft[i]
+	arr = arr[:len(arr)-1]
+	if len(arr) == 0 {
+		delete(ft, i)
+	} else {
+		ft[i] = arr
+	}
 }
 
 var (
@@ -136,9 +174,8 @@ func prove(f *Func) {
 	)
 	// work maintains the DFS stack.
 	type bp struct {
-		block *Block      // current handled block
-		state walkState   // what's to do
-		saved []typeRange // save previous map entries modified by node
+		block *Block    // current handled block
+		state walkState // what's to do
 	}
 	work := make([]bp, 0, 256)
 	work = append(work, bp{
@@ -146,31 +183,30 @@ func prove(f *Func) {
 		state: descend,
 	})
 
-	// mask keep tracks of restrictions for each pair of values in
-	// the dominators for the current node.
-	// Invariant: a0.ID <= a1.ID
-	// For example {unsigned, a0, a1} -> eq|gt means that from
-	// predecessors we know that a0 must be greater or equal to
-	// a1.
-	mask := make(map[control]rangeMask)
+	ft := make(factsTable)
 
 	// DFS on the dominator tree.
 	for len(work) > 0 {
 		node := work[len(work)-1]
 		work = work[:len(work)-1]
+		parent := idom[node.block.ID]
+		branch := getBranch(sdom, parent, node.block)
 
 		switch node.state {
 		case descend:
-			parent := idom[node.block.ID]
-			tr := getRestrict(sdom, parent, node.block)
-			saved := updateRestrictions(mask, parent, tr)
+			if branch != -1 {
+				c := parent.Control
+				updateRestrictions(ft, -1, c.ID, typeRange{boolean, eq}, branch)
+				tr, has := typeRangeTable[parent.Control.Op]
+				if has {
+					updateRestrictions(ft, c.Args[0].ID, c.Args[1].ID, tr, branch)
+				}
+			}
 
 			work = append(work, bp{
 				block: node.block,
 				state: simplify,
-				saved: saved,
 			})
-
 			for s := sdom.Child(node.block); s != nil; s = sdom.Sibling(s) {
 				work = append(work, bp{
 					block: s,
@@ -179,21 +215,31 @@ func prove(f *Func) {
 			}
 
 		case simplify:
-			simplifyBlock(mask, node.block)
-			restoreRestrictions(mask, idom[node.block.ID], node.saved)
+			succ := simplifyBlock(ft, node.block)
+			if succ != -1 {
+				b := node.block
+				b.Kind = BlockFirst
+				b.Control = nil
+				b.Succs[0], b.Succs[1] = b.Succs[succ], b.Succs[1-succ]
+			}
+
+			if branch != -1 {
+				c := parent.Control
+				restoreRestrictions(ft, -1, c.ID, typeRange{boolean, eq})
+				tr, has := typeRangeTable[parent.Control.Op]
+				if has {
+					restoreRestrictions(ft, c.Args[0].ID, c.Args[1].ID, tr)
+				}
+			}
 		}
 	}
 }
 
-// getRestrict returns the range restrictions added by p
+// getBranch returns the range restrictions added by p
 // when reaching b. p is the immediate dominator or b.
-func getRestrict(sdom sparseTree, p *Block, b *Block) typeRange {
+func getBranch(sdom sparseTree, p *Block, b *Block) int {
 	if p == nil || p.Kind != BlockIf {
-		return typeRange{}
-	}
-	tr, has := typeRangeTable[p.Control.Op]
-	if !has {
-		return typeRange{}
+		return -1
 	}
 	// If p and p.Succs[0] are dominators it means that every path
 	// from entry to b passes through p and p.Succs[0]. We care that
@@ -202,90 +248,83 @@ func getRestrict(sdom sparseTree, p *Block, b *Block) typeRange {
 	// there is no path from entry that can reach b through p.Succs[1].
 	// TODO: how about p->yes->b->yes, i.e. a loop in yes.
 	if sdom.isAncestorEq(p.Succs[0], b) && len(p.Succs[0].Preds) == 1 {
-		return tr
-	} else if sdom.isAncestorEq(p.Succs[1], b) && len(p.Succs[1].Preds) == 1 {
-		tr.r = (lt | eq | gt) ^ tr.r
-		return tr
+		return 0
 	}
-	return typeRange{}
+	if sdom.isAncestorEq(p.Succs[1], b) && len(p.Succs[1].Preds) == 1 {
+		return 1
+	}
+	return -1
 }
 
 // updateRestrictions updates restrictions from the previous block (p) based on tr.
-// normally tr was calculated with getRestrict.
-func updateRestrictions(mask map[control]rangeMask, p *Block, tr typeRange) []typeRange {
+func updateRestrictions(ft factsTable, a0, a1 ID, tr typeRange, branch int) {
 	if tr.t == 0 {
-		return nil
+		return
+	}
+	if branch == -1 {
+		return
+	}
+	if branch == 1 {
+		tr.r = (lt | eq | gt) ^ tr.r
 	}
 
 	// p modifies the restrictions for (a0, a1).
 	// save and return the previous state.
-	a0 := p.Control.Args[0]
-	a1 := p.Control.Args[1]
-	if a0.ID > a1.ID {
+	if a0 > a1 {
 		tr.r = reverseBits[tr.r]
 		a0, a1 = a1, a0
 	}
-
-	saved := make([]typeRange, 0, 2)
 	for t := typeMask(1); t <= tr.t; t <<= 1 {
-		if t&tr.t == 0 {
-			continue
+		if t&tr.t != 0 {
+			ft.push(control{t, a0, a1}, tr.r)
 		}
-
-		i := control{t, a0.ID, a1.ID}
-		oldRange, ok := mask[i]
-		if !ok {
-			if a1 != a0 {
-				oldRange = lt | eq | gt
-			} else { // sometimes happens after cse
-				oldRange = eq
-			}
-		}
-		// if i was not already in the map we save the full range
-		// so that when we restore it we properly keep track of it.
-		saved = append(saved, typeRange{t, oldRange})
-		// mask[i] contains the possible relations between a0 and a1.
-		// When we branched from parent we learned that the possible
-		// relations cannot be more than tr.r. We compute the new set of
-		// relations as the intersection betwee the old and the new set.
-		mask[i] = oldRange & tr.r
 	}
-	return saved
+	return
 }
 
-func restoreRestrictions(mask map[control]rangeMask, p *Block, saved []typeRange) {
-	if p == nil || p.Kind != BlockIf || len(saved) == 0 {
+func restoreRestrictions(ft factsTable, a0, a1 ID, tr typeRange) {
+	if tr.r == 0 {
 		return
 	}
-
-	a0 := p.Control.Args[0].ID
-	a1 := p.Control.Args[1].ID
 	if a0 > a1 {
 		a0, a1 = a1, a0
 	}
-
-	for _, tr := range saved {
-		i := control{tr.t, a0, a1}
-		if tr.r != lt|eq|gt {
-			mask[i] = tr.r
-		} else {
-			delete(mask, i)
+	for t := typeMask(1); t <= tr.t; t <<= 1 {
+		if t&tr.t != 0 {
+			ft.pop(control{t, a0, a1})
 		}
 	}
 }
 
-// simplifyBlock simplifies block known the restrictions in mask.
-func simplifyBlock(mask map[control]rangeMask, b *Block) {
+// simplifyBlock simplifies block known the restrictions in ft.
+// Returns which branch is always taken, or -1 if both braches are possible.
+func simplifyBlock(ft factsTable, b *Block) int {
 	if b.Kind != BlockIf {
-		return
+		return -1
 	}
 
+	// First, checks if the condition itself is redundant.
+	i := control{boolean, -1, b.Control.ID}
+	m := ft.get(i)
+	if m == eq {
+		if b.Func.pass.debug > 0 {
+			b.Func.Config.Warnl(int(b.Line), "Proved boolean %s", b.Control.Op)
+		}
+		return 0
+	}
+	if m == lt|gt {
+		if b.Func.pass.debug > 0 {
+			b.Func.Config.Warnl(int(b.Line), "Disproved boolean %s", b.Control.Op)
+		}
+		return 1
+	}
+
+	// Next look check equalities.
 	tr, has := typeRangeTable[b.Control.Op]
 	if !has {
-		return
+		return -1
 	}
 
-	succ := -1
 	a0 := b.Control.Args[0].ID
 	a1 := b.Control.Args[1].ID
 	if a0 > a1 {
@@ -304,48 +343,39 @@ func simplifyBlock(mask map[control]rangeMask, b *Block) {
 		// need to take the positive branch (or negative) then that branch will
 		// always be taken.
 		// For shortcut, if m.r == 0 then this block is dead code.
-		i := control{t, a0, a1}
-		m := mask[i]
+		m := ft.get(control{t, a0, a1})
 		if m != 0 && tr.r&m == m {
 			if b.Func.pass.debug > 0 {
 				b.Func.Config.Warnl(int(b.Line), "Proved %s", b.Control.Op)
 			}
 			b.Logf("proved positive branch of %s, block %s in %s\n", b.Control, b, b.Func.Name)
-			succ = 0
-			break
+			return 0
 		}
 		if m != 0 && ((lt|eq|gt)^tr.r)&m == m {
 			if b.Func.pass.debug > 0 {
 				b.Func.Config.Warnl(int(b.Line), "Disproved %s", b.Control.Op)
 			}
 			b.Logf("proved negative branch of %s, block %s in %s\n", b.Control, b, b.Func.Name)
-			succ = 1
-			break
+			return -1
 		}
 	}
 
-	if succ == -1 {
-		// HACK: If the first argument of IsInBounds or IsSliceInBounds
-		// is a constant and we already know that constant is smaller (or equal)
-		// to the upper bound than this is proven. Most useful in cases such as:
-		// if len(a) <= 1 { return }
-		// do something with a[1]
-		c := b.Control
-		if (c.Op == OpIsInBounds || c.Op == OpIsSliceInBounds) &&
-			c.Args[0].Op == OpConst64 && c.Args[0].AuxInt >= 0 {
-			m := mask[control{signed, a0, a1}]
-			if m != 0 && tr.r&m == m {
-				if b.Func.pass.debug > 0 {
-					b.Func.Config.Warnl(int(b.Line), "Proved constant %s", c.Op)
-				}
-				succ = 0
+	// HACK: If the first argument of IsInBounds or IsSliceInBounds
+	// is a constant and we already know that constant is smaller (or equal)
+	// to the upper bound than this is proven. Most useful in cases such as:
+	// if len(a) <= 1 { return }
+	// do something with a[1]
+	c := b.Control
+	if (c.Op == OpIsInBounds || c.Op == OpIsSliceInBounds) &&
+		c.Args[0].Op == OpConst64 && c.Args[0].AuxInt >= 0 {
+		m := ft.get(control{signed, a0, a1})
+		if m != 0 && tr.r&m == m {
+			if b.Func.pass.debug > 0 {
+				b.Func.Config.Warnl(int(b.Line), "Proved constant %s", c.Op)
 			}
+			return 0
 		}
 	}
 
-	if succ != -1 {
-		b.Kind = BlockFirst
-		b.Control = nil
-		b.Succs[0], b.Succs[1] = b.Succs[succ], b.Succs[1-succ]
-	}
+	return -1
 }
