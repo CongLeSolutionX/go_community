@@ -2644,6 +2644,24 @@ func rewriteValuegeneric_OpIsSliceInBounds(v *Value, config *Config) bool {
 		v.AuxInt = b2i(sliceInBounds64(c, d))
 		return true
 	}
+	// match: (IsSliceInBounds (SliceLen x) (SliceCap x))
+	// cond:
+	// result: (ConstBool [1])
+	for {
+		if v.Args[0].Op != OpSliceLen {
+			break
+		}
+		x := v.Args[0].Args[0]
+		if v.Args[1].Op != OpSliceCap {
+			break
+		}
+		if v.Args[1].Args[0] != x {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = 1
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpLeq16(v *Value, config *Config) bool {
@@ -6709,6 +6727,21 @@ func rewriteValuegeneric_OpSliceCap(v *Value, config *Config) bool {
 		v.AuxInt = c
 		return true
 	}
+	// match: (SliceCap (SliceMake _ _ (SliceCap x)))
+	// cond:
+	// result: (SliceCap x)
+	for {
+		if v.Args[0].Op != OpSliceMake {
+			break
+		}
+		if v.Args[0].Args[2].Op != OpSliceCap {
+			break
+		}
+		x := v.Args[0].Args[2].Args[0]
+		v.reset(OpSliceCap)
+		v.AddArg(x)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpSliceLen(v *Value, config *Config) bool {
@@ -6731,6 +6764,21 @@ func rewriteValuegeneric_OpSliceLen(v *Value, config *Config) bool {
 		v.AuxInt = c
 		return true
 	}
+	// match: (SliceLen (SliceMake _ (SliceLen x) _))
+	// cond:
+	// result: (SliceLen x)
+	for {
+		if v.Args[0].Op != OpSliceMake {
+			break
+		}
+		if v.Args[0].Args[1].Op != OpSliceLen {
+			break
+		}
+		x := v.Args[0].Args[1].Args[0]
+		v.reset(OpSliceLen)
+		v.AddArg(x)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpSlicePtr(v *Value, config *Config) bool {
@@ -6751,6 +6799,21 @@ func rewriteValuegeneric_OpSlicePtr(v *Value, config *Config) bool {
 		v.reset(OpConst64)
 		v.Type = t
 		v.AuxInt = c
+		return true
+	}
+	// match: (SlicePtr (SliceMake (SlicePtr x) _ _))
+	// cond:
+	// result: (SlicePtr x)
+	for {
+		if v.Args[0].Op != OpSliceMake {
+			break
+		}
+		if v.Args[0].Args[0].Op != OpSlicePtr {
+			break
+		}
+		x := v.Args[0].Args[0].Args[0]
+		v.reset(OpSlicePtr)
+		v.AddArg(x)
 		return true
 	}
 	return false
