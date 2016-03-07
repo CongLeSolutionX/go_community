@@ -462,10 +462,15 @@ func symtab() {
 	// just defined above will be first.
 	// hide the specific symbols.
 	for _, s := range Ctxt.Allsym {
-		if !s.Attr.Reachable() || s.Attr.Special() || s.Type != obj.SRODATA {
+		if !s.Attr.Reachable() || s.Attr.Special() {
 			continue
 		}
-
+		if s.Type == obj.SNOPTRBSS && strings.HasPrefix(s.Name, "go.itab.") && Linkmode != LinkExternal {
+			s.Attr |= AttrHidden
+		}
+		if s.Type != obj.SRODATA {
+			continue
+		}
 		if strings.HasPrefix(s.Name, "type.") && !DynlinkingGo() {
 			s.Attr |= AttrHidden
 			if UseRelro() && len(s.R) > 0 {
