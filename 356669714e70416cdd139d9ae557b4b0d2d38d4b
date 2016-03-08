@@ -51,6 +51,24 @@
       "revId": "356669714e70416cdd139d9ae557b4b0d2d38d4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_61ddb688",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-03-08T19:37:34Z",
+      "side": 1,
+      "message": "It\u0027s an s390x specific thing. Relative addressing requires 2-byte alignment. We handle odd offsets from symbols in the codegen (we either insert an extra instruction to add 1 or adjust the next instruction to increment the offset by 1). Unfortunately this means that we cannot insert relocations to odd addresses in the linker.\n\nReturning Thearch.Minalign here would fix it, as minux suggests. It won\u0027t affect any existing ports because they all have a Minalign of 1.",
+      "parentUuid": "97cf4172_e180e6e7",
+      "revId": "356669714e70416cdd139d9ae557b4b0d2d38d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
