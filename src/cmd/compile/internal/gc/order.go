@@ -339,7 +339,7 @@ func copyret(n *Node, order *Order) Nodes {
 	var l1 []*Node
 	var l2 []*Node
 	var tl Iter
-	for t := Structfirst(&tl, &n.Type); t != nil; t = structnext(&tl) {
+	for t := tl.IterFields(n.Type); t != nil; t = tl.Next() {
 		tmp := temp(t.Type)
 		l1 = append(l1, tmp)
 		l2 = append(l2, tmp)

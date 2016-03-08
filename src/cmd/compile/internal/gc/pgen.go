@@ -378,7 +378,7 @@ func compile(fn *Node) {
 	if Curfn.Type.Outnamed {
 		// add clearing of the output parameters
 		var save Iter
-		for t := Structfirst(&save, Getoutarg(Curfn.Type)); t != nil; t = structnext(&save) {
+		for t := save.IterFields(getoutargx(Curfn.Type)); t != nil; t = save.Next() {
 			if t.Nname != nil {
 				n := Nod(OAS, t.Nname, nil)
 				typecheck(&n, Etop)
