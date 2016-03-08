@@ -33,6 +33,24 @@
       "revId": "356669714e70416cdd139d9ae557b4b0d2d38d4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_e180e6e7",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:58:01Z",
+      "side": 1,
+      "message": "This was trying to do the string data, not the string headers. I added an exclusion for the string headers. I hope that fixes the ppc64 build failure. Maybe that addresses your comment?\n\nIf it doesn\u0027t address your comment, then I don\u0027t understand. Are you saying that s390x cannot address byte-aligned data in its linker? If not, how does:\n\n    var x [10]byte\n    var y \u003d \u0026x[1]\n\ncompile? Does it require run-time initialization of y? That would be awful.",
+      "parentUuid": "626209c2_4b204582",
+      "revId": "356669714e70416cdd139d9ae557b4b0d2d38d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
