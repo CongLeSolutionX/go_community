@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97cf4172_8140fa81",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "If eliminating the pointer is so important, then I think we need to avoid the space wastage here too.\n\ntype funcTypeFixed4 struct { funcType; args [4]*rtype }\ntype funcTypeFixed8 struct { funcType; args [8]*rtype }\ntype funcTypeFixed16 struct { funcType; args [16]*rtype }\ntype funcTypeFixed32 struct { funcType; args [32]*rtype }\ntype funcTypeFixed64 struct { funcType; args [64]*rtype }\ntype funcTypeFixed128 struct { funcType; args [128]*rtype }\n\nand then use the smallest one possible below. This structure also makes it clear what to do when someone needs more arguments, and the answer won\u0027t require hurting all other callers of FuncOf.",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_21180eba",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1670,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "Not much point to building up this slice only to copy into the funcType. Set it up to begin with: \u0027args :\u003d ft.args[:n]\u0027.\nThe final length of args is known: len(in)+len(out).",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_e14e26b3",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "in :\u003d ft.in()\nfor i, t :\u003d range in {",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_014ceab8",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1753,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "out :\u003d ft.out()",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_a1441e95",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "This should be for _, arg :\u003d range tt.in() {",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_c1412284",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2232,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "for _, res :\u003d range tt.out() {",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_411d12a9",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "for _, typ :\u003d range ftyp.in() {",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_6112169a",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "for i, typ :\u003d range ftyp.out() {",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97cf4172_81171a87",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T14:35:32Z",
+      "side": 1,
+      "message": "return (*[1\u003c\u003c20]*_type)(add(unsafe.Pointer(t), uadd))[t.inCount:outCount:outCount]\n\n(avoid the uadd+\u003d, then the code here looks identical to the code above except for the slice bounds)",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
