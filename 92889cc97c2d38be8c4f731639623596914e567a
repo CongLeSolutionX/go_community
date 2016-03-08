@@ -33,6 +33,24 @@
       "revId": "92889cc97c2d38be8c4f731639623596914e567a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "626209c2_0b300de5",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-08T03:48:41Z",
+      "side": 1,
+      "message": "That is what I was originally going for, but I could not devise a way to construct a slice header under the runtime escape analysis limits. Do you have a trick for it I can use?",
+      "parentUuid": "626209c2_ab3001ea",
+      "revId": "92889cc97c2d38be8c4f731639623596914e567a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
