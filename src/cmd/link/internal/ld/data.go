@@ -1034,6 +1034,11 @@ func symalign(s *LSym) int32 {
 	} else if s.Align != 0 {
 		return min
 	}
+	if strings.HasPrefix(s.Name, "go.string.") && !strings.HasPrefix(s.Name, "go.string.hdr.") {
+		// String data is just bytes.
+		// If we align it, we waste a lot of space to padding.
+		return 1
+	}
 	align := int32(Thearch.Maxalign)
 	for int64(align) > s.Size && align > min {
 		align >>= 1
