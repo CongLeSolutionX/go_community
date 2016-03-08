@@ -483,8 +483,8 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer) {
 	// Copy argument frame into Values.
 	ptr := frame
 	off := uintptr(0)
-	in := make([]Value, 0, len(ftyp.in))
-	for _, arg := range ftyp.in {
+	in := make([]Value, 0, len(ftyp.in()))
+	for _, arg := range ftyp.in() {
 		typ := arg
 		off += -off & uintptr(typ.align-1)
 		addr := unsafe.Pointer(uintptr(ptr) + off)
@@ -506,17 +506,17 @@ func callReflect(ctxt *makeFuncImpl, frame unsafe.Pointer) {
 
 	// Call underlying function.
 	out := f(in)
-	if len(out) != len(ftyp.out) {
+	if len(out) != len(ftyp.out()) {
 		panic("reflect: wrong return count from function created by MakeFunc")
 	}
 
 	// Copy results back into argument frame.
-	if len(ftyp.out) > 0 {
+	if len(ftyp.out()) > 0 {
 		off += -off & (ptrSize - 1)
 		if runtime.GOARCH == "amd64p32" {
 			off = align(off, 8)
 		}
-		for i, arg := range ftyp.out {
+		for i, arg := range ftyp.out() {
 			typ := arg
 			v := out[i]
 			if v.typ != typ {

@@ -315,9 +315,11 @@ type chanType struct {
 type funcType struct {
 	rtype     `reflect:"func"`
 	dotdotdot bool     // last input parameter is ...
-	in        []*rtype // input parameter types
-	out       []*rtype // output parameter types
+	inout        []*rtype // input/output parameter types
 }
+
+func (t *funcType) in() []*rtype { return t.inout[:len(t.inout):len(t.inout)] }
+func (t *funcType) out() []*rtype { return t.inout[len(t.inout):cap(t.inout)] }
 
 // imethod represents a method on an interface type
 type imethod struct {
@@ -657,7 +659,7 @@ func (t *rtype) In(i int) Type {
 		panic("reflect: In of non-func type")
 	}
 	tt := (*funcType)(unsafe.Pointer(t))
-	return toType(tt.in[i])
+	return toType(tt.in()[i])
 }
 
 func (t *rtype) Key() Type {
@@ -689,7 +691,7 @@ func (t *rtype) NumIn() int {
 		panic("reflect: NumIn of non-func type")
 	}
 	tt := (*funcType)(unsafe.Pointer(t))
-	return len(tt.in)
+	return len(tt.in())
 }
 
 func (t *rtype) NumOut() int {
@@ -697,7 +699,7 @@ func (t *rtype) NumOut() int {
 		panic("reflect: NumOut of non-func type")
 	}
 	tt := (*funcType)(unsafe.Pointer(t))
-	return len(tt.out)
+	return len(tt.out())
 }
 
 func (t *rtype) Out(i int) Type {
@@ -705,7 +707,7 @@ func (t *rtype) Out(i int) Type {
 		panic("reflect: Out of non-func type")
 	}
 	tt := (*funcType)(unsafe.Pointer(t))
-	return toType(tt.out[i])
+	return toType(tt.out()[i])
 }
 
 func (d ChanDir) String() string {
@@ -1255,16 +1257,11 @@ func haveIdenticalUnderlyingType(T, V *rtype) bool {
 	case Func:
 		t := (*funcType)(unsafe.Pointer(T))
 		v := (*funcType)(unsafe.Pointer(V))
-		if t.dotdotdot != v.dotdotdot || len(t.in) != len(v.in) || len(t.out) != len(v.out) {
+		if t.dotdotdot != v.dotdotdot || len(t.inout) != len(v.inout) || cap(t.inout) != cap(v.inout) {
 			return false
 		}
-		for i, typ := range t.in {
-			if typ != v.in[i] {
-				return false
-			}
-		}
-		for i, typ := range t.out {
-			if typ != v.out[i] {
+		for i, typ := range t.inout {
+			if typ != v.inout[i] {
 				return false
 			}
 		}
@@ -1564,10 +1561,10 @@ func FuncOf(in, out []Type, variadic bool) Type {
 
 	// Build a hash and minimally populate ft.
 	var hash uint32
-	var fin, fout []*rtype
+	var finout []*rtype
 	for _, in := range in {
 		t := in.(*rtype)
-		fin = append(fin, t)
+		finout = append(finout, t)
 		hash = fnv1(hash, byte(t.hash>>24), byte(t.hash>>16), byte(t.hash>>8), byte(t.hash))
 	}
 	if variadic {
@@ -1576,12 +1573,11 @@ func FuncOf(in, out []Type, variadic bool) Type {
 	hash = fnv1(hash, '.')
 	for _, out := range out {
 		t := out.(*rtype)
-		fout = append(fout, t)
+		finout = append(finout, t)
 		hash = fnv1(hash, byte(t.hash>>24), byte(t.hash>>16), byte(t.hash>>8), byte(t.hash))
 	}
 	ft.hash = hash
-	ft.in = fin
-	ft.out = fout
+	ft.inout = finout[:len(in):len(in)+len(out)]
 	ft.dotdotdot = variadic
 
 	// Look in cache.
@@ -1627,11 +1623,11 @@ func FuncOf(in, out []Type, variadic bool) Type {
 func funcStr(ft *funcType) string {
 	repr := make([]byte, 0, 64)
 	repr = append(repr, "func("...)
-	for i, t := range ft.in {
+	for i, t := range ft.in() {
 		if i > 0 {
 			repr = append(repr, ", "...)
 		}
-		if ft.dotdotdot && i == len(ft.in)-1 {
+		if ft.dotdotdot && i == len(ft.in())-1 {
 			repr = append(repr, "..."...)
 			repr = append(repr, (*sliceType)(unsafe.Pointer(t)).elem.string...)
 		} else {
@@ -1639,18 +1635,18 @@ func funcStr(ft *funcType) string {
 		}
 	}
 	repr = append(repr, ')')
-	if l := len(ft.out); l == 1 {
+	if l := len(ft.out()); l == 1 {
 		repr = append(repr, ' ')
 	} else if l > 1 {
 		repr = append(repr, " ("...)
 	}
-	for i, t := range ft.out {
+	for i, t := range ft.out() {
 		if i > 0 {
 			repr = append(repr, ", "...)
 		}
 		repr = append(repr, t.string...)
 	}
-	if len(ft.out) > 1 {
+	if len(ft.out()) > 1 {
 		repr = append(repr, ')')
 	}
 	return string(repr)
@@ -2105,7 +2101,7 @@ func funcLayout(t *rtype, rcvr *rtype) (frametype *rtype, argSize, retOffset uin
 		}
 		offset += ptrSize
 	}
-	for _, arg := range tt.in {
+	for _, arg := range tt.in() {
 		offset += -offset & uintptr(arg.align-1)
 		addTypeBits(ptrmap, offset, arg)
 		offset += arg.size
@@ -2117,7 +2113,7 @@ func funcLayout(t *rtype, rcvr *rtype) (frametype *rtype, argSize, retOffset uin
 	}
 	offset += -offset & (ptrSize - 1)
 	retOffset = offset
-	for _, res := range tt.out {
+	for _, res := range tt.out() {
 		offset += -offset & uintptr(res.align-1)
 		addTypeBits(ptrmap, offset, res)
 		offset += res.size

@@ -123,9 +123,11 @@ type slicetype struct {
 type functype struct {
 	typ       _type
 	dotdotdot bool
-	in        []*_type
-	out       []*_type
+	inout        []*_type
 }
+
+func (t *functype) in() []*_type { return t.inout[:len(t.inout):len(t.inout)] }
+func (t *functype) out() []*_type { return t.inout[len(t.inout):cap(t.inout)] }
 
 type ptrtype struct {
 	typ  _type

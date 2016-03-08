@@ -177,7 +177,7 @@ func decodetype_funcincount(s *LSym) int {
 }
 
 func decodetype_funcoutcount(s *LSym) int {
-	return int(decode_inuxi(s.P[commonsize()+3*Thearch.Ptrsize+2*Thearch.Intsize:], Thearch.Intsize))
+	return int(decode_inuxi(s.P[commonsize()+2*Thearch.Ptrsize+1*Thearch.Intsize:], Thearch.Intsize)) - decodetype_funcincount(s)
 }
 
 func decodetype_funcintype(s *LSym, i int) *LSym {
@@ -189,11 +189,7 @@ func decodetype_funcintype(s *LSym, i int) *LSym {
 }
 
 func decodetype_funcouttype(s *LSym, i int) *LSym {
-	r := decode_reloc(s, int32(commonsize())+2*int32(Thearch.Ptrsize)+2*int32(Thearch.Intsize))
-	if r == nil {
-		return nil
-	}
-	return decode_reloc_sym(r.Sym, int32(r.Add+int64(int32(i)*int32(Thearch.Ptrsize))))
+	return decodetype_funcintype(s, decodetype_funcincount(s)+i)
 }
 
 // Type.StructType.fields.Slice::length

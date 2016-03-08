@@ -1056,16 +1056,13 @@ ok:
 		xt = ot - 1*Widthptr
 		ot = duint8(s, ot, uint8(obj.Bool2int(isddd)))
 
-		// two slice headers: in and out.
+		// one slice header: in/out. out is in[len(in):cap(in)].
 		ot = int(Rnd(int64(ot), int64(Widthptr)))
 
-		ot = dsymptr(s, ot, s, ot+2*(Widthptr+2*Widthint))
+		ot = dsymptr(s, ot, s, ot+1*(Widthptr+2*Widthint))
 		n := t.Thistuple + t.Intuple
 		ot = duintxx(s, ot, uint64(n), Widthint)
-		ot = duintxx(s, ot, uint64(n), Widthint)
-		ot = dsymptr(s, ot, s, ot+1*(Widthptr+2*Widthint)+n*Widthptr)
-		ot = duintxx(s, ot, uint64(t.Outtuple), Widthint)
-		ot = duintxx(s, ot, uint64(t.Outtuple), Widthint)
+		ot = duintxx(s, ot, uint64(n+t.Outtuple), Widthint)
 
 		// slice data
 		for t1 := getthisx(t).Type; t1 != nil; t1 = t1.Down {
