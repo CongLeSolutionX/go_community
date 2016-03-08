@@ -692,7 +692,7 @@ func rewriteValuegeneric_OpAnd32(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (And32 <t> (Const32 [y]) x)
-	// cond: nlz(int64(int32(y))) + nto(int64(int32(y))) == 64
+	// cond: nlz(int64(int32(y))) + nto(int64(int32(y))) == 64 && nto(int64(int32(y))) >= 8
 	// result: (Rsh32Ux32 (Lsh32x32 <t> x (Const32 <t> [nlz(int64(int32(y)))-32])) (Const32 <t> [nlz(int64(int32(y)))-32]))
 	for {
 		t := v.Type
@@ -701,7 +701,7 @@ func rewriteValuegeneric_OpAnd32(v *Value, config *Config) bool {
 		}
 		y := v.Args[0].AuxInt
 		x := v.Args[1]
-		if !(nlz(int64(int32(y)))+nto(int64(int32(y))) == 64) {
+		if !(nlz(int64(int32(y)))+nto(int64(int32(y))) == 64 && nto(int64(int32(y))) >= 8) {
 			break
 		}
 		v.reset(OpRsh32Ux32)
@@ -717,7 +717,7 @@ func rewriteValuegeneric_OpAnd32(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (And32 <t> (Const32 [y]) x)
-	// cond: nlo(int64(int32(y))) + ntz(int64(int32(y))) == 64
+	// cond: nlo(int64(int32(y))) + ntz(int64(int32(y))) == 64 && ntz(int64(int32(y))) >= 8
 	// result: (Lsh32x32 (Rsh32Ux32 <t> x (Const32 <t> [ntz(int64(int32(y)))])) (Const32 <t> [ntz(int64(int32(y)))]))
 	for {
 		t := v.Type
@@ -726,7 +726,7 @@ func rewriteValuegeneric_OpAnd32(v *Value, config *Config) bool {
 		}
 		y := v.Args[0].AuxInt
 		x := v.Args[1]
-		if !(nlo(int64(int32(y)))+ntz(int64(int32(y))) == 64) {
+		if !(nlo(int64(int32(y)))+ntz(int64(int32(y))) == 64 && ntz(int64(int32(y))) >= 8) {
 			break
 		}
 		v.reset(OpLsh32x32)
@@ -810,7 +810,7 @@ func rewriteValuegeneric_OpAnd64(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (And64 <t> (Const64 [y]) x)
-	// cond: nlz(y) + nto(y) == 64
+	// cond: nlz(y) + nto(y) == 64 && nto(y) >= 8
 	// result: (Rsh64Ux64 (Lsh64x64 <t> x (Const64 <t> [nlz(y)])) (Const64 <t> [nlz(y)]))
 	for {
 		t := v.Type
@@ -819,7 +819,7 @@ func rewriteValuegeneric_OpAnd64(v *Value, config *Config) bool {
 		}
 		y := v.Args[0].AuxInt
 		x := v.Args[1]
-		if !(nlz(y)+nto(y) == 64) {
+		if !(nlz(y)+nto(y) == 64 && nto(y) >= 8) {
 			break
 		}
 		v.reset(OpRsh64Ux64)
@@ -835,7 +835,7 @@ func rewriteValuegeneric_OpAnd64(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (And64 <t> (Const64 [y]) x)
-	// cond: nlo(y) + ntz(y) == 64
+	// cond: nlo(y) + ntz(y) == 64 && ntz(y) >= 8
 	// result: (Lsh64x64 (Rsh64Ux64 <t> x (Const64 <t> [ntz(y)])) (Const64 <t> [ntz(y)]))
 	for {
 		t := v.Type
@@ -844,7 +844,7 @@ func rewriteValuegeneric_OpAnd64(v *Value, config *Config) bool {
 		}
 		y := v.Args[0].AuxInt
 		x := v.Args[1]
-		if !(nlo(y)+ntz(y) == 64) {
+		if !(nlo(y)+ntz(y) == 64 && ntz(y) >= 8) {
 			break
 		}
 		v.reset(OpLsh64x64)
