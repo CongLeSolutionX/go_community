@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17aa7153_2b88bde0",
+        "filename": "src/cmd/compile/internal/gc/testdata/arith_ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-08T02:13:55Z",
+      "side": 1,
+      "message": "Mention the issue # here.",
+      "revId": "fd19d01248a8763a0229b54fd020d26168017ce4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
