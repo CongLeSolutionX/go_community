@@ -1899,7 +1899,7 @@ func structargs(tl **Type, mustname int) []*Node {
 
 	var args []*Node
 	gen := 0
-	for t := Structfirst(&savet, tl); t != nil; t = structnext(&savet) {
+	for t := savet.WalkFields(*tl); t != nil; t = savet.Next() {
 		n = nil
 		if mustname != 0 && (t.Sym == nil || t.Sym.Name == "_") {
 			// invent a name so that we can refer to it in the trampoline
@@ -2253,7 +2253,7 @@ func structcount(t *Type) int {
 	var s Iter
 
 	v := 0
-	for t = Structfirst(&s, &t); t != nil; t = structnext(&s) {
+	for t = s.WalkFields(t); t != nil; t = s.Next() {
 		v++
 	}
 	return v

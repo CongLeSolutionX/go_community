@@ -1711,7 +1711,7 @@ func ascompatet(op Op, nl Nodes, nr **Type, fp int, init *Nodes) []*Node {
 	// check assign type list to
 	// a expression list. called in
 	//	expr-list = func()
-	r := Structfirst(&saver, nr)
+	r := saver.WalkFields(*nr)
 
 	var nn []*Node
 	var mm []*Node
@@ -1723,7 +1723,7 @@ func ascompatet(op Op, nl Nodes, nr **Type, fp int, init *Nodes) []*Node {
 		}
 		l = it.N()
 		if isblank(l) {
-			r = structnext(&saver)
+			r = saver.Next()
 			continue
 		}
 
@@ -1748,7 +1748,7 @@ func ascompatet(op Op, nl Nodes, nr **Type, fp int, init *Nodes) []*Node {
 		}
 
 		nn = append(nn, a)
-		r = structnext(&saver)
+		r = saver.Next()
 	}
 
 	if !it.Done() || r != nil {
@@ -1802,7 +1802,7 @@ func dumptypes(nl **Type, what string) string {
 	fmt_ := ""
 	fmt_ += "\t"
 	first := 1
-	for l := Structfirst(&savel, nl); l != nil; l = structnext(&savel) {
+	for l := savel.WalkFields(*nl); l != nil; l = savel.Next() {
 		if first != 0 {
 			first = 0
 		} else {
@@ -1847,7 +1847,7 @@ func ascompatte(op Op, call *Node, isddd bool, nl **Type, lr []*Node, fp int, in
 	var savel Iter
 
 	lr0 := lr
-	l := Structfirst(&savel, nl)
+	l := savel.WalkFields(*nl)
 	var r *Node
 	if nodeSeqLen(lr) > 0 {
 		r = nodeSeqFirst(lr)
@@ -1873,7 +1873,7 @@ func ascompatte(op Op, call *Node, isddd bool, nl **Type, lr []*Node, fp int, in
 		// copy into temporaries.
 		var alist []*Node
 
-		for l := Structfirst(&savel, &r.Type); l != nil; l = structnext(&savel) {
+		for l := savel.WalkFields(r.Type); l != nil; l = savel.Next() {
 			a = temp(l.Type)
 			alist = append(alist, a)
 		}
@@ -1886,13 +1886,13 @@ func ascompatte(op Op, call *Node, isddd bool, nl **Type, lr []*Node, fp int, in
 		init.Append(a)
 		lr = alist
 		r = nodeSeqFirst(lr)
-		l = Structfirst(&savel, nl)
+		l = savel.WalkFields(*nl)
 	}
 
 loop:
 	if l != nil && l.Isddd {
 		// the ddd parameter must be last
-		ll = structnext(&savel)
+		ll = savel.Next()
 
 		if ll != nil {
 			Yyerror("... must be last argument")
@@ -1935,7 +1935,7 @@ loop:
 	a = convas(a, init)
 	nn = append(nn, a)
 
-	l = structnext(&savel)
+	l = savel.Next()
 	r = nil
 	lr = lr[1:]
 	if len(lr) > 0 {
@@ -2036,7 +2036,7 @@ func walkprint(nn *Node, init *Nodes) *Node {
 			continue
 		}
 
-		t = *getinarg(on.Type)
+		t = getinargx(on.Type)
 		if t != nil {
 			t = t.Type
 		}
@@ -2595,7 +2595,7 @@ func paramstoheap(argin **Type, out int) []*Node {
 	var as *Node
 
 	var nn []*Node
-	for t := Structfirst(&savet, argin); t != nil; t = structnext(&savet) {
+	for t := savet.WalkFields(*argin); t != nil; t = savet.Next() {
 		v = t.Nname
 		if v != nil && v.Sym != nil && v.Sym.Name[0] == '~' && v.Sym.Name[1] == 'r' { // unnamed result
 			v = nil
@@ -2640,7 +2640,7 @@ func returnsfromheap(argin **Type) []*Node {
 	var v *Node
 
 	var nn []*Node
-	for t := Structfirst(&savet, argin); t != nil; t = structnext(&savet) {
+	for t := savet.WalkFields(*argin); t != nil; t = savet.Next() {
 		v = t.Nname
 		if v == nil || v.Class != PHEAP|PPARAMOUT {
 			continue
