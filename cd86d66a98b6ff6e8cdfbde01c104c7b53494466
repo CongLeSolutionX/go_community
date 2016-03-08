@@ -16,6 +16,24 @@
       "revId": "cd86d66a98b6ff6e8cdfbde01c104c7b53494466",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7709edae_682ce3e0",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-08T23:34:11Z",
+      "side": 1,
+      "message": "Oh, I misread at first.  You\u0027re expecting it to return the *Iter.\n\nThat could work, but I think is a bit clumsier with typical usage.  I suppose I could provide:\n\n    func IterFields(t *Type) (*Iter, *Type)\n\nand loops could be written like:\n\n    for i, f :\u003d IterFields(t); f !\u003d nil; f \u003d i.Next() {\n        ...\n    }\n\nwhich isn\u0027t too bad.  Let me try that out.",
+      "parentUuid": "9786612c_695f6519",
+      "revId": "cd86d66a98b6ff6e8cdfbde01c104c7b53494466",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
