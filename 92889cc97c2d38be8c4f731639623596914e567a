@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "626209c2_2b3cf1c6",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T03:38:10Z",
+      "side": 1,
+      "message": "Please make this uint16 with isddd in the high bit. Then there\u0027s clearly no problem with the limit. 256 is maybe something you might hit. 32768 is not.",
+      "revId": "92889cc97c2d38be8c4f731639623596914e567a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "626209c2_ab3001ea",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-08T03:38:10Z",
+      "side": 1,
+      "message": "I think this is not quite the right API. I think you want\n\nfunc (t *functype) in() []*_type { ... }\nfunc (t *functype) out() []*_type { ... }\n\nThen the loops over in and out can just fetch the actual slice once and then behave as before. No need for all this magic on every index operation.",
+      "revId": "92889cc97c2d38be8c4f731639623596914e567a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
