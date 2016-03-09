@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9720212f_d97873a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "It seems intuitive that this can improve performance on 64-bit systems, but conversely, will it make things worse on 32-bit systems? GOARCH\u003damd64 is not the only value that matters. GOARCH\u003d386 is arguably not that important these days, but GOARCH\u003darm still is.\n\nHow hard is it to factor this change out as a separate CL, so we can base a decision around some actual numbers instead of guessing?",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_792367a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "This was trivial to spin out as https://go-review.googlesource.com/20467 which should mean that this footnote is no longer necessary.\n\nI know that I bang on about factoring monolithic optimization CLs out into smaller CLs, but I think this just illustrates my point. If I didn\u0027t mention GOARCH\u003darm above, this CL might have gone in based purely on the (significant) gains in GOARCH\u003damd64 performance. Much later in the Go 1.7 cycle, somebody might have noticed that, for argument\u0027s sake, compress/flate performance on GOARCH\u003darm had regressed, and tried to do a \"git bisect\" to find out where it had gone wrong. \"git bisect\" can\u0027t understand this footnote in the CL description though, so the software engineer in the future trying to (automatically) reproduce the benchmarks before and after this change would be committed would be mis-measuring the impact of this change, and the numbers might actually be reporting a net win even when the underlying impact of is a loss.\n\nInstead, smaller yet still self-contained optimization CLs are easier to review, easier to roll back if necessary, easier to have \"git bisect\" apportion blame, etc.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_798a87da",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "a[0:j] is just a[:j].",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_d95f131a",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "Invert the condition and outdent the rest of the loop.\n\nif len(y) \u003c minMatchLength {\n  continue\n}\nfor etc {\n  etc\n}",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_1997cbfd",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "The usual Go name is want, not expect.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_598d43ef",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "rng :\u003d rand.New(rand.NewSource(1))\n\ngodoc math/rand says that \"The default Source is safe for concurrent use by multiple goroutines\", but that\u0027s unnecessary locking here, and unnecessary modification of global state.",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 10
+      },
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_9982fbc1",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-09T03:53:02Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t add anything.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
