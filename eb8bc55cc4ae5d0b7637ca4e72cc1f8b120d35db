@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9720212f_19c4ab08",
+        "filename": "src/cmd/vet/structtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-03-09T03:20:53Z",
+      "side": 1,
+      "message": "This variable is unnecessary. Just inline it in the range",
+      "revId": "eb8bc55cc4ae5d0b7637ca4e72cc1f8b120d35db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_39c16ff9",
+        "filename": "src/cmd/vet/structtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-03-09T03:20:53Z",
+      "side": 1,
+      "message": "map[string]bool is more readable",
+      "revId": "eb8bc55cc4ae5d0b7637ca4e72cc1f8b120d35db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_39940ff6",
+        "filename": "src/cmd/vet/structtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-03-09T03:20:53Z",
+      "side": 1,
+      "message": "if t :\u003d st.Get(\"json\"); t !\u003d \"\" \u0026\u0026 t !\u003d \"-\" {\n  if name :\u003d strings.SplitN(t, \",\", 2)[0]; name !\u003d \"\" {\n    if seenJSONTags[name] {\n      t.Badf(...)\n    }\n    seenJSONTags[name] \u003d true\n  }\n}",
+      "revId": "eb8bc55cc4ae5d0b7637ca4e72cc1f8b120d35db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
