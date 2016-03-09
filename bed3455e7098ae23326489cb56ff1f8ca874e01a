@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7709edae_dc86ed3e",
+        "filename": "src/cmd/compile/internal/ppc64/prog.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-09T22:12:02Z",
+      "side": 1,
+      "message": "sorry, you\u0027ll have to rebased and update this line to include the \u0026 obj.AMask bit",
+      "revId": "bed3455e7098ae23326489cb56ff1f8ca874e01a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
