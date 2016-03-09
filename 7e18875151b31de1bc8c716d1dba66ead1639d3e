@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17719153_ed4fa562",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "Yes, it is a definite trade-off between 64/32 bit systems. I do not have an ARM system for testing, so it would still be guessing on my part. My *guess* is that this specific part gives a small slowdown on ARM-32, but the other changes should more than make up for the drop.\n\nI am fully aware that Go is for many different platforms. However, I am sure you\u0027ll agree that for the wast majority they are 64 bit systems, and the trend is going in that direction.\n\nI would be uncomfortable separating out this well tested code, it has implications all over the code, and I will not be sure that I can create a bullet-proof intermediary.\n\nI will keep your comments in mind for subsequent CLs.",
+      "parentUuid": "9720212f_d97873a1",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9720212f_792367a0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-09T03:53:02Z",
       "side": 1,
       "message": "This was trivial to spin out as https://go-review.googlesource.com/20467 which should mean that this footnote is no longer necessary.\n\nI know that I bang on about factoring monolithic optimization CLs out into smaller CLs, but I think this just illustrates my point. If I didn\u0027t mention GOARCH\u003darm above, this CL might have gone in based purely on the (significant) gains in GOARCH\u003damd64 performance. Much later in the Go 1.7 cycle, somebody might have noticed that, for argument\u0027s sake, compress/flate performance on GOARCH\u003darm had regressed, and tried to do a \"git bisect\" to find out where it had gone wrong. \"git bisect\" can\u0027t understand this footnote in the CL description though, so the software engineer in the future trying to (automatically) reproduce the benchmarks before and after this change would be committed would be mis-measuring the impact of this change, and the numbers might actually be reporting a net win even when the underlying impact of is a loss.\n\nInstead, smaller yet still self-contained optimization CLs are easier to review, easier to roll back if necessary, easier to have \"git bisect\" apportion blame, etc.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57686970_0781b6e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9720212f_792367a0",
       "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "17719153_4d8d99ef",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9720212f_798a87da",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9720212f_d95f131a",
         "filename": "src/compress/flate/asm_amd64_test.go",
         "patchSetId": 14
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "17719153_6d8ad5da",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9720212f_d95f131a",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9720212f_1997cbfd",
         "filename": "src/compress/flate/asm_amd64_test.go",
         "patchSetId": 14
@@ -87,6 +165,24 @@
       "writtenOn": "2016-03-09T03:53:02Z",
       "side": 1,
       "message": "The usual Go name is want, not expect.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17719153_0d9791fd",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9720212f_1997cbfd",
       "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "17719153_ed6485f4",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "I want the tests to be deterministic, so we if we get failures we can always recreate them, and it doesn\u0027t depend on a random global state.",
+      "parentUuid": "9720212f_598d43ef",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 10
+      },
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9720212f_9982fbc1",
         "filename": "src/compress/flate/asm_amd64_test.go",
         "patchSetId": 14
@@ -127,6 +247,24 @@
       "writtenOn": "2016-03-09T03:53:02Z",
       "side": 1,
       "message": "This comment doesn\u0027t add anything.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17719153_8d594137",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-09T14:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9720212f_9982fbc1",
       "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
