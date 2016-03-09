@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b7344567_a29e9e7b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_8140fa81",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97cf4172_21180eba",
         "filename": "src/reflect/type.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-08T14:35:32Z",
       "side": 1,
       "message": "Not much point to building up this slice only to copy into the funcType. Set it up to begin with: \u0027args :\u003d ft.args[:n]\u0027.\nThe final length of args is known: len(in)+len(out).",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344567_029aea8a",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1670,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_21180eba",
       "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b7344567_e2bb46ea",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_e14e26b3",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97cf4172_014ceab8",
         "filename": "src/reflect/type.go",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-08T14:35:32Z",
       "side": 1,
       "message": "out :\u003d ft.out()",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344567_02c18a4e",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1753,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_014ceab8",
       "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b7344567_a2b53ef5",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_a1441e95",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97cf4172_c1412284",
         "filename": "src/reflect/type.go",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-08T14:35:32Z",
       "side": 1,
       "message": "for _, res :\u003d range tt.out() {",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344567_c2bac2e4",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2232,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_c1412284",
       "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b7344567_62d09616",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_411d12a9",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97cf4172_6112169a",
         "filename": "src/reflect/value.go",
         "patchSetId": 5
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "b7344567_82cd9a81",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_6112169a",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97cf4172_81171a87",
         "filename": "src/runtime/type.go",
         "patchSetId": 5
@@ -149,6 +293,24 @@
       "writtenOn": "2016-03-08T14:35:32Z",
       "side": 1,
       "message": "return (*[1\u003c\u003c20]*_type)(add(unsafe.Pointer(t), uadd))[t.inCount:outCount:outCount]\n\n(avoid the uadd+\u003d, then the code here looks identical to the code above except for the slice bounds)",
+      "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344567_e2e6e603",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-09T01:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97cf4172_81171a87",
       "revId": "d593fd0231b5e2b6652aca8b81456cbeed6d0f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
