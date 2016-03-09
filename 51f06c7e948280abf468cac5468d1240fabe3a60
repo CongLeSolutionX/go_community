@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97e901fd_d135c42d",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1680,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-09T00:21:01Z",
+      "side": 1,
+      "message": "this pattern of getting the first of something and discarding the iter afterwards seems common. Is it worth adding a function like IterFirst ?",
+      "revId": "51f06c7e948280abf468cac5468d1240fabe3a60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e901fd_7145f88e",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-09T00:21:01Z",
+      "side": 1,
+      "message": "t1 is **Type, but the only called dereferences it immediately, can the signature be changed to avoid this double handling ?",
+      "revId": "51f06c7e948280abf468cac5468d1240fabe3a60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e901fd_913f3c0c",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1896,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-09T00:21:01Z",
+      "side": 1,
+      "message": "please move a and n inside the for loop",
+      "range": {
+        "startLine": 1895,
+        "startChar": 1,
+        "endLine": 1896,
+        "endChar": 12
+      },
+      "revId": "51f06c7e948280abf468cac5468d1240fabe3a60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
