@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"crypto/sha256"
 	"fmt"
 	"strconv"
 )
@@ -181,27 +182,21 @@ func duintptr(s *Sym, off int, v uint64) int {
 	return duintxx(s, off, v, Widthptr)
 }
 
-var stringsym_gen int
-
 func stringsym(s string) (hdr, data *Sym) {
 	var symname string
-	var pkg *Pkg
 	if len(s) > 100 {
-		// huge strings are made static to avoid long names
-		stringsym_gen++
-		symname = fmt.Sprintf(".gostring.%d", stringsym_gen)
-
-		pkg = localpkg
+		// Huge strings are hashed to avoid long names in object files.
+		// Indulge in some paranoia by writing the length of s, too,
+		// as protection against length extension attacks.
+		// TODO: avoid the []byte conversion by using WriteString; see issue 14757
+		symname = fmt.Sprintf(".gostring.%d.%x", len(s), sha256.Sum256([]byte(s)))
 	} else {
-		// small strings get named by their contents,
-		// so that multiple modules using the same string
-		// can share it.
+		// Small strings get named directly by their contents.
 		symname = strconv.Quote(s)
-		pkg = gostringpkg
 	}
 
-	symhdr := Pkglookup("hdr."+symname, pkg)
-	symdata := Pkglookup(symname, pkg)
+	symhdr := Pkglookup("hdr."+symname, gostringpkg)
+	symdata := Pkglookup(symname, gostringpkg)
 
 	// SymUniq flag indicates that data is generated already
 	if symhdr.Flags&SymUniq != 0 {
