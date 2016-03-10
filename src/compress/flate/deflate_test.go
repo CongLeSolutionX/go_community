@@ -541,7 +541,7 @@ func testResetOutput(t *testing.T, newWriter func(w io.Writer) (*Writer, error))
 		mm := 0
 		for i, b := range out1[:len(out2)] {
 			if b != out2[i] {
-				t.Errorf("mismatch index %d: %#02x, expected %#02x", i, out2[i], b)
+				t.Errorf("mismatch index %d: %#.2x, expected %#.2x", i, out2[i], b)
 			}
 			mm++
 			if mm == 10 {

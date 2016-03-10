@@ -921,7 +921,7 @@ func TestFloatFloat32(t *testing.T) {
 			x := makeFloat(tx)
 			out, acc := x.Float32()
 			if !alike32(out, tout) || acc != tacc {
-				t.Errorf("%s: got %g (%#08x, %s); want %g (%#08x, %s)", tx, out, math.Float32bits(out), acc, test.out, math.Float32bits(test.out), tacc)
+				t.Errorf("%s: got %g (%#.8x, %s); want %g (%#.8x, %s)", tx, out, math.Float32bits(out), acc, test.out, math.Float32bits(test.out), tacc)
 			}
 
 			// test that x.SetFloat64(float64(f)).Float32() == f
@@ -1028,7 +1028,7 @@ func TestFloatFloat64(t *testing.T) {
 			x := makeFloat(tx)
 			out, acc := x.Float64()
 			if !alike64(out, tout) || acc != tacc {
-				t.Errorf("%s: got %g (%#016x, %s); want %g (%#016x, %s)", tx, out, math.Float64bits(out), acc, test.out, math.Float64bits(test.out), tacc)
+				t.Errorf("%s: got %g (%#.16x, %s); want %g (%#.16x, %s)", tx, out, math.Float64bits(out), acc, test.out, math.Float64bits(test.out), tacc)
 			}
 
 			// test that x.SetFloat64(f).Float64() == f

@@ -151,19 +151,19 @@ func main() {
 
 	fmt.Fprintf(&buf, "var isPrint16 = []uint16{\n")
 	for i := 0; i < len(range16); i += 2 {
-		fmt.Fprintf(&buf, "\t%#04x, %#04x,\n", range16[i], range16[i+1])
+		fmt.Fprintf(&buf, "\t%#.4x, %#.4x,\n", range16[i], range16[i+1])
 	}
 	fmt.Fprintf(&buf, "}\n\n")
 
 	fmt.Fprintf(&buf, "var isNotPrint16 = []uint16{\n")
 	for _, r := range except16 {
-		fmt.Fprintf(&buf, "\t%#04x,\n", r)
+		fmt.Fprintf(&buf, "\t%#.4x,\n", r)
 	}
 	fmt.Fprintf(&buf, "}\n\n")
 
 	fmt.Fprintf(&buf, "var isPrint32 = []uint32{\n")
 	for i := 0; i < len(range32); i += 2 {
-		fmt.Fprintf(&buf, "\t%#06x, %#06x,\n", range32[i], range32[i+1])
+		fmt.Fprintf(&buf, "\t%#.6x, %#.6x,\n", range32[i], range32[i+1])
 	}
 	fmt.Fprintf(&buf, "}\n\n")
 
@@ -172,7 +172,7 @@ func main() {
 		if r >= 0x20000 {
 			log.Fatalf("%U too big for isNotPrint32\n", r)
 		}
-		fmt.Fprintf(&buf, "\t%#04x,\n", r-0x10000)
+		fmt.Fprintf(&buf, "\t%#.4x,\n", r-0x10000)
 	}
 	fmt.Fprintf(&buf, "}\n\n")
 
@@ -188,7 +188,7 @@ func main() {
 			if r > 0xFFFF { // We expect only 16-bit values.
 				log.Fatalf("%U too big for isGraphic\n", r)
 			}
-			fmt.Fprintf(&buf, "\t%#04x,\n", r)
+			fmt.Fprintf(&buf, "\t%#.4x,\n", r)
 		}
 	}
 	fmt.Fprintf(&buf, "}\n")

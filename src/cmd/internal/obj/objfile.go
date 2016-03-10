@@ -336,12 +336,12 @@ func (w *objWriter) writeSymDebug(s *LSym) {
 
 	fmt.Fprintf(ctxt.Bso, "\n")
 	for p := s.Text; p != nil; p = p.Link {
-		fmt.Fprintf(ctxt.Bso, "\t%#04x %v\n", uint(int(p.Pc)), p)
+		fmt.Fprintf(ctxt.Bso, "\t%#.4x %v\n", uint(int(p.Pc)), p)
 	}
 	var c int
 	var j int
 	for i := 0; i < len(s.P); {
-		fmt.Fprintf(ctxt.Bso, "\t%#04x", uint(i))
+		fmt.Fprintf(ctxt.Bso, "\t%#.4x", uint(i))
 		for j = i; j < i+16 && j < len(s.P); j++ {
 			fmt.Fprintf(ctxt.Bso, " %02x", s.P[j])
 		}
