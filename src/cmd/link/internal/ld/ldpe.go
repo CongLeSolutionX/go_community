@@ -262,7 +262,7 @@ func ldpe(f *bio.Reader, pkg string, length int64, pn string) {
 			s.Type = obj.STEXT
 
 		default:
-			err = fmt.Errorf("unexpected flags %#06x for PE section %s", sect.sh.Characteristics, sect.name)
+			err = fmt.Errorf("unexpected flags %#.6x for PE section %s", sect.sh.Characteristics, sect.name)
 			goto bad
 		}
 
