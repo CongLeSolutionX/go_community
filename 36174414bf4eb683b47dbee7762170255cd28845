@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7344567_6574209e",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-10T19:46:23Z",
+      "side": 1,
+      "message": "hash.Hash implements io.Writer, so you can use io.WriteString.\n\n(If you added another method, you wouldn\u0027t be able to use it here anyway as the compiler has to build with Go 1.4 for bootstrapping.)\n\nAlso while this function isn\u0027t called much, if you build symname into a buffer that starts with \"hdr.\" (using %q instead of strconv.Quote) then you can save a string creation below with symname :\u003d symhdr[3:].",
+      "revId": "36174414bf4eb683b47dbee7762170255cd28845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
