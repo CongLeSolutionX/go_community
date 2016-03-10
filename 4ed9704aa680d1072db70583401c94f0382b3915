@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "57686970_27fabad1",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-10T16:12:42Z",
+      "side": 1,
+      "message": "It is hard to give an exact count. There is likely some bytes still buffered, so even if use \"n - len(b)\", it is not an accurate count on how many bytes has been compressed an written to output.\n\nMy personal preference is to return \"0\" rather than a value that isn\u0027t useful, since some may assume it is an exact value. However, if you would prefer \"n -len(b)\" that is ok by me.",
+      "parentUuid": "7709edae_8f95d6b7",
+      "revId": "4ed9704aa680d1072db70583401c94f0382b3915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_6f92a2cf",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-10T15:56:24Z",
       "side": 1,
       "message": "return n, nil ?",
+      "revId": "4ed9704aa680d1072db70583401c94f0382b3915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "375f75cd_c9bbb5ea",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-10T16:12:42Z",
+      "side": 1,
+      "message": "Ah - good point. Yes. That should be safe.",
+      "parentUuid": "7709edae_6f92a2cf",
       "revId": "4ed9704aa680d1072db70583401c94f0382b3915",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
