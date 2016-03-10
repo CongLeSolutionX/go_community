@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7709edae_cf074e69",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-10T06:33:25Z",
+      "side": 1,
+      "message": "I change \"If one\" to \"If exactly one\", \"returned in save\" to \"returned in *save\", and \"if not nil\" to \"if save is not nil\".\n\nI kept the other sentence structure though, to parallel adddot1.  (See below.)",
+      "parentUuid": "7709edae_9d806f22",
+      "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_7d76db17",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7709edae_8f027657",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1637,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-10T06:33:25Z",
+      "side": 1,
+      "message": "FWIW, I originally put \"(if not nil)\" parenthetically rather than at the beginning of the sentence because I wanted: 1) for it to be clear that dotlist is still assigned even if save is nil (which is a meaningful use case), and 2) I wanted the documentation to be similarly structured between the two functions.\n\nI omitted the description of what happens if more than one exists, because I think it\u0027s okay to leave those unspecified.  None of the callers care what happens in that case.",
+      "parentUuid": "7709edae_7d76db17",
+      "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_1d6d9f41",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-10T05:42:54Z",
       "side": 1,
       "message": "This function is long enough that I, at least, would rather see `return c, more`",
+      "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7709edae_4ffc7e84",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1688,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-10T06:33:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_1d6d9f41",
       "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
