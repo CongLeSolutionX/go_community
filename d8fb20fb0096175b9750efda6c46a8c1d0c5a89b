@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9720212f_1c6ed9cf",
+        "filename": "src/compress/flate/asm_amd64.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/east/at least/ or using \u003e\u003d would be consistent with the above.\n\nBut that\u0027s not correct, is it? if len(a) is 4, then len(dst) must be \u003e 0, not \u003e\u003d 0, so you actually want \"greater than\" instead of \"at least\", right?",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_3c6b9dc0",
+        "filename": "src/compress/flate/asm_amd64.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "Drop the single quotes.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_9cee696a",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "sse should probably be SSE. Ditto for crc32SSEAll.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_5c3f71bb",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "FWIW, \"MOVQ $0, BX\" is probably clearer, and generates equivalent (or better) code. The Plan 9 assembler is slightly higher level than a literal assembler, and a \"MOVQ\" in the .s doesn\u0027t necessarily generate a mov in the object code. On x86 or amd64, it has a special case for moving $0.\n\n$ cat foo_amd64.s \nTEXT ·foo(SB),0,$0\n\tMOVQ $0x1234, AX\n\tMOVQ $0, BX\n\tMOVQ $1, BX\n\tXORQ CX, CX\n\tMOVL $0x5678, AX\n\tRET\n$ go build -o x . \u0026\u0026 objdump -d x |sed -n \u0027/main.foo.:/,/ret/p\u0027\n0000000000401060 \u003cmain.foo\u003e:\n  401060:\t48 c7 c0 34 12 00 00 \tmov    $0x1234,%rax\n  401067:\t31 db                \txor    %ebx,%ebx\n  401069:\t48 c7 c3 01 00 00 00 \tmov    $0x1,%rbx\n  401070:\t48 31 c9             \txor    %rcx,%rcx\n  401073:\tb8 78 56 00 00       \tmov    $0x5678,%eax\n  401078:\tc3                   \tretq",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_fc10c532",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/7/NOSPLIT/",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_5c20d183",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "\"len\" is a little ambiguous here; is it before or after the \"minus 4\"?",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_bc59ed2d",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/32/32L/",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_dc0b8108",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/the/a/",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_1c0339f4",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/MOVSB/CMPSB/",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_7c3cb5c5",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 15
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "FWIW, I don\u0027t think that this is necessary; runtime/asm_amd64.s says that \"convention is D is always left cleared\". For example, the amd64 asm code under x/crypto says \"REP; MOVSB\" without a preceding \"CLD\".",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_dc80617e",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "For the CRC-related tests, should this file import the hash/crc32 package and check that the asm version matches the std library version?",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_1c4c9941",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "The crc32sse comment in asm_amd64.go says that \"len(a) must be \u003e\u003d 4\", but minMatchLength is only 3, so the y[:minMatchLength] argument to crc32sse on the next line violates that assumption.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_9c5749d0",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/Bulk/All/ would be consistent with the function name.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_3c495d32",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "You can delete this check now. If it fails, the \"for j etc\" loop immediately afterwards would be a no-op anyway.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_dc5f011a",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/of-of/out-of/\n\nAlso, do you mean s/reads/writes/? Where do you detect OOB reads??",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_fc6205b7",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/%08x/0x%08x/ would be consistent with what\u0027s below.\n\nAlso, the uint32 is unnecessary. Ditto below.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_7c4fd538",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "It\u0027d be nice to be able to distinguish this error message from the one immediately above.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_fc3be5b0",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/var/const/",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_7c283564",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "I like to keep the inequalities pointing the same way, from lowest to highest, so that it\u0027s more obvious that you\u0027re checking if got is outside a range:\n\nif got \u003c 0 || maxTest \u003c got {\n\nOr I\u0027d just delete the test. It\u0027s more or less covered by the \"got !\u003d want\" you do next.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_bc456d22",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "It\u0027d be nice to know what i is.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_5c2bf161",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "It\u0027d be nice to know what i, j and k are.\n\nAlso, the usual order is got then want.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_3cc15df9",
+        "filename": "src/compress/flate/writer_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "d8fb20fb0096175b9750efda6c46a8c1d0c5a89b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
