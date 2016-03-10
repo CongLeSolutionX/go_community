@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7709edae_8f95d6b7",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-10T15:56:24Z",
+      "side": 1,
+      "message": "None of n has been written yet? Does return \"n, d.err\" work?",
+      "revId": "4ed9704aa680d1072db70583401c94f0382b3915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7709edae_6f92a2cf",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-10T15:56:24Z",
+      "side": 1,
+      "message": "return n, nil ?",
+      "revId": "4ed9704aa680d1072db70583401c94f0382b3915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
