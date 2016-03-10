@@ -34,6 +34,24 @@
       "revId": "36174414bf4eb683b47dbee7762170255cd28845",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344567_456b1cbf",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-10T20:03:53Z",
+      "side": 1,
+      "message": "Ah, I misunderstood which WriteString you wanted to add. SGTM.\n\nIf you change this if to generate symhdr, then this codepath can use a buffer and the other can stay with strconv.Quote.",
+      "parentUuid": "7709edae_45121d76",
+      "revId": "36174414bf4eb683b47dbee7762170255cd28845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
