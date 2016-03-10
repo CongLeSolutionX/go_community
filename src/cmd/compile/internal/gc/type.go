@@ -180,13 +180,12 @@ func (t *Type) Copy() *Type {
 	if t == nil {
 		return nil
 	}
-	nt := new(Type)
-	*nt = *t
+	nt := *t
 	// TODO(mdempsky): Find out why this is necessary and explain.
 	if t.Orig == t {
-		nt.Orig = nt
+		nt.Orig = &nt
 	}
-	return nt
+	return &nt
 }
 
 // Iter provides an abstraction for iterating across struct fields and
@@ -267,10 +266,7 @@ func (t *Type) SimpleString() string {
 
 func (t *Type) Equal(u ssa.Type) bool {
 	x, ok := u.(*Type)
-	if !ok {
-		return false
-	}
-	return Eqtype(t, x)
+	return ok && Eqtype(t, x)
 }
 
 // Compare compares types for purposes of the SSA back
@@ -368,8 +364,7 @@ func (t *Type) cmp(x *Type) ssa.Cmp {
 		}
 	}
 
-	csym := t.Sym.cmpsym(x.Sym)
-	if csym != ssa.CMPeq {
+	if csym := t.Sym.cmpsym(x.Sym); csym != ssa.CMPeq {
 		return csym
 	}
 
