@@ -840,7 +840,7 @@ func tostruct0(t *Type, l []*Node) {
 		tp = &f.Down
 	}
 
-	for f := t.Type; f != nil && !t.Broke; f = f.Down {
+	for f, it := IterFields(t); f != nil && !t.Broke; f = it.Next() {
 		if f.Broke {
 			t.Broke = true
 		}
@@ -874,7 +874,7 @@ func tofunargs(l []*Node) *Type {
 		tp = &f.Down
 	}
 
-	for f := t.Type; f != nil && !t.Broke; f = f.Down {
+	for f, it := IterFields(t); f != nil && !t.Broke; f = it.Next() {
 		if f.Broke {
 			t.Broke = true
 		}
@@ -967,7 +967,7 @@ func tointerface0(t *Type, l []*Node) *Type {
 
 		if n.Left == nil && f.Type.Etype == TINTER {
 			// embedded interface, inline methods
-			for t1 := f.Type.Type; t1 != nil; t1 = t1.Down {
+			for t1, it := IterFields(f.Type); t1 != nil; t1 = it.Next() {
 				f = typ(TFIELD)
 				f.Type = t1.Type
 				f.Broke = t1.Broke
@@ -984,7 +984,7 @@ func tointerface0(t *Type, l []*Node) *Type {
 		}
 	}
 
-	for f := t.Type; f != nil && !t.Broke; f = f.Down {
+	for f, it := IterFields(t); f != nil && !t.Broke; f = it.Next() {
 		if f.Broke {
 			t.Broke = true
 		}
@@ -1366,7 +1366,7 @@ func addmethod(sf *Sym, t *Type, local bool, nointerface bool) {
 	}
 
 	if pa.Etype == TSTRUCT {
-		for f := pa.Type; f != nil; f = f.Down {
+		for f, it := IterFields(pa); f != nil; f = it.Next() {
 			if f.Sym == sf {
 				Yyerror("type %v has both field and method named %v", pa, sf)
 				return
@@ -1378,7 +1378,7 @@ func addmethod(sf *Sym, t *Type, local bool, nointerface bool) {
 	n.Type = t
 
 	var d *Type // last found
-	for f := pa.Method; f != nil; f = f.Down {
+	for f, it := IterMethods(pa); f != nil; f = it.Next() {
 		d = f
 		if f.Etype != TFIELD {
 			Fatalf("addmethod: not TFIELD: %v", Tconv(f, obj.FmtLong))
