@@ -492,6 +492,23 @@
     },
     {
       "key": {
+        "uuid": "02e4ed24_defa5824",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-10T07:23:32Z",
+      "side": 1,
+      "message": "What is the purpose of toTokens?",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_f4d438c2",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 9
