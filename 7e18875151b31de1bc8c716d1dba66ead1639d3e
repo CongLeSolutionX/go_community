@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "7709edae_6ed06b16",
+        "filename": "src/compress/flate/asm_amd64.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-10T07:23:32Z",
+      "side": 1,
+      "message": "s/returns true if/reports whether/",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9720212f_798a87da",
         "filename": "src/compress/flate/asm_amd64_test.go",
         "patchSetId": 14
