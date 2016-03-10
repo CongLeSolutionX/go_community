@@ -154,6 +154,23 @@
     },
     {
       "key": {
+        "uuid": "9720212f_dc5dc1f3",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "s/test/test1/ would align this line and the next one vertically, and ditto below.",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9720212f_1997cbfd",
         "filename": "src/compress/flate/asm_amd64_test.go",
         "patchSetId": 14
@@ -183,6 +200,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "9720212f_1997cbfd",
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_7c7115ac",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "Doesn\u0027t look done to me.",
+      "parentUuid": "17719153_0d9791fd",
       "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -224,6 +259,30 @@
       "side": 1,
       "message": "I want the tests to be deterministic, so we if we get failures we can always recreate them, and it doesn\u0027t depend on a random global state.",
       "parentUuid": "9720212f_598d43ef",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 10
+      },
+      "revId": "7e18875151b31de1bc8c716d1dba66ead1639d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9720212f_9c598937",
+        "filename": "src/compress/flate/asm_amd64_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "My suggested replacement, \"rng :\u003d rand.New(rand.NewSource(1))\", is deterministic.",
+      "parentUuid": "17719153_ed6485f4",
       "range": {
         "startLine": 164,
         "startChar": 6,
