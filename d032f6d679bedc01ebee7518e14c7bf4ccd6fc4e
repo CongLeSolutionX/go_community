@@ -223,6 +223,23 @@
     },
     {
       "key": {
+        "uuid": "f7ab1dee_cfbd6195",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-10T23:02:55Z",
+      "side": 1,
+      "message": "Is there a huge gain using a uint32 as opposed to:\n\n type hcode struct { code, len uint16 }\n\nhttps://play.golang.org/p/u9p7A0lb_Y\n\nI see no performance difference between these, yet the struct is much more readable.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_b2591d2e",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 16
