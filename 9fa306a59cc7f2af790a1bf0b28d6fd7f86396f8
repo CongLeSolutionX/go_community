@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7709edae_9d806f22",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-10T05:42:54Z",
+      "side": 1,
+      "message": "How about: If exactly one exists, and save is not nil, it will be returned in *save (*save may be set in other cases as well).",
+      "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7709edae_7d76db17",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1637,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-10T05:42:54Z",
+      "side": 1,
+      "message": "Similar change as above for the docs for save.",
+      "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7709edae_1d6d9f41",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1688,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-10T05:42:54Z",
+      "side": 1,
+      "message": "This function is long enough that I, at least, would rather see `return c, more`",
+      "revId": "9fa306a59cc7f2af790a1bf0b28d6fd7f86396f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
