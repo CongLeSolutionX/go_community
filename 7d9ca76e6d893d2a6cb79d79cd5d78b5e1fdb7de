@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9720212f_dc4aa155",
+        "filename": "src/compress/flate/asm_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-10T06:35:41Z",
+      "side": 1,
+      "message": "Well \u0026b is the address of a (3-word) slice variable, not the address of its first element. That would be \u0026b[0] in Go syntax.\n\nI was implying that you might have made that mistake by copy/pasting some other asm code.",
+      "parentUuid": "22dbb13a_5736b4e5",
+      "revId": "7d9ca76e6d893d2a6cb79d79cd5d78b5e1fdb7de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02cf8da0_14c0d4f2",
         "filename": "src/compress/flate/asm_amd64.s",
         "patchSetId": 9
