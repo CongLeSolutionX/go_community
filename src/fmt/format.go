@@ -141,6 +141,8 @@ func (f *fmt) integer(a int64, base uint64, signedness bool, digits string) {
 		return
 	}
 
+	oldZero := f.zero
+
 	negative := signedness == signed && a < 0
 	if negative {
 		a = -a
@@ -279,6 +281,7 @@ func (f *fmt) integer(a int64, base uint64, signedness bool, digits string) {
 	}
 
 	f.pad(buf[i:])
+	f.zero = oldZero
 }
 
 // truncate truncates the string to the specified precision, if present.
