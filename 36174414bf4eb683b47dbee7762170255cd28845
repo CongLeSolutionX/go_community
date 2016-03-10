@@ -16,6 +16,24 @@
       "revId": "36174414bf4eb683b47dbee7762170255cd28845",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7709edae_45121d76",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-10T20:00:48Z",
+      "side": 1,
+      "message": "\u003e hash.Hash implements io.Writer, so you can use io.WriteString.\n\nBut unless the underlying Writer implements WriteString, io.WriteString will just do the []byte conversion, so there\u0027s no point.\n\n\u003e If you added another method, you wouldn\u0027t be able to use it here anyway as the compiler has to build with Go 1.4 for bootstrapping.\n\nActually, I think it\u0027d be ok. I\u0027d call io.WriteString here and it\u0027d check at runtime whether the hash implements WriteString. When bootstrapping, it\u0027d do the expensive conversion, and when compiling later, it wouldn\u0027t.\n\n\u003e Also while this function isn\u0027t called much, if you build symname into a buffer that starts with \"hdr.\" (using %q instead of strconv.Quote) then you can save a string creation below with symname :\u003d symhdr[3:].\n\nGood idea. Should I do that for both code paths, or just the long string case?",
+      "parentUuid": "b7344567_6574209e",
+      "revId": "36174414bf4eb683b47dbee7762170255cd28845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
