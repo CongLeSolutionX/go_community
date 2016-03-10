@@ -340,7 +340,7 @@ overwrite:
 		var c int
 		var j int
 		for i := 0; i < len(s.P); {
-			fmt.Fprintf(ctxt.Bso, "\t%#04x", uint(i))
+			fmt.Fprintf(ctxt.Bso, "\t%#.4x", uint(i))
 			for j = i; j < i+16 && j < len(s.P); j++ {
 				fmt.Fprintf(ctxt.Bso, " %02x", s.P[j])
 			}

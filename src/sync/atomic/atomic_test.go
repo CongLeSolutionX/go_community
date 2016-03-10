@@ -811,7 +811,7 @@ func hammerSwapUintptr32(uaddr *uint32, count int) {
 		new := uintptr(seed+i)<<16 | uintptr(seed+i)<<16>>16
 		old := SwapUintptr(addr, new)
 		if old>>16 != old<<16>>16 {
-			panic(fmt.Sprintf("SwapUintptr is not atomic: %#08x", old))
+			panic(fmt.Sprintf("SwapUintptr is not atomic: %#.8x", old))
 		}
 	}
 }

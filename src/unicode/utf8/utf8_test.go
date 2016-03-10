@@ -118,7 +118,7 @@ func TestEncodeRune(t *testing.T) {
 		n := EncodeRune(buf[0:], m.r)
 		b1 := buf[0:n]
 		if !bytes.Equal(b, b1) {
-			t.Errorf("EncodeRune(%#04x) = %q want %q", m.r, b1, b)
+			t.Errorf("EncodeRune(%#.4x) = %q want %q", m.r, b1, b)
 		}
 	}
 }
@@ -128,23 +128,23 @@ func TestDecodeRune(t *testing.T) {
 		b := []byte(m.str)
 		r, size := DecodeRune(b)
 		if r != m.r || size != len(b) {
-			t.Errorf("DecodeRune(%q) = %#04x, %d want %#04x, %d", b, r, size, m.r, len(b))
+			t.Errorf("DecodeRune(%q) = %#.4x, %d want %#.4x, %d", b, r, size, m.r, len(b))
 		}
 		s := m.str
 		r, size = DecodeRuneInString(s)
 		if r != m.r || size != len(b) {
-			t.Errorf("DecodeRuneInString(%q) = %#04x, %d want %#04x, %d", s, r, size, m.r, len(b))
+			t.Errorf("DecodeRuneInString(%q) = %#.4x, %d want %#.4x, %d", s, r, size, m.r, len(b))
 		}
 
 		// there's an extra byte that bytes left behind - make sure trailing byte works
 		r, size = DecodeRune(b[0:cap(b)])
 		if r != m.r || size != len(b) {
-			t.Errorf("DecodeRune(%q) = %#04x, %d want %#04x, %d", b, r, size, m.r, len(b))
+			t.Errorf("DecodeRune(%q) = %#.4x, %d want %#.4x, %d", b, r, size, m.r, len(b))
 		}
 		s = m.str + "\x00"
 		r, size = DecodeRuneInString(s)
 		if r != m.r || size != len(b) {
-			t.Errorf("DecodeRuneInString(%q) = %#04x, %d want %#04x, %d", s, r, size, m.r, len(b))
+			t.Errorf("DecodeRuneInString(%q) = %#.4x, %d want %#.4x, %d", s, r, size, m.r, len(b))
 		}
 
 		// make sure missing bytes fail
@@ -154,12 +154,12 @@ func TestDecodeRune(t *testing.T) {
 		}
 		r, size = DecodeRune(b[0 : len(b)-1])
 		if r != RuneError || size != wantsize {
-			t.Errorf("DecodeRune(%q) = %#04x, %d want %#04x, %d", b[0:len(b)-1], r, size, RuneError, wantsize)
+			t.Errorf("DecodeRune(%q) = %#.4x, %d want %#.4x, %d", b[0:len(b)-1], r, size, RuneError, wantsize)
 		}
 		s = m.str[0 : len(m.str)-1]
 		r, size = DecodeRuneInString(s)
 		if r != RuneError || size != wantsize {
-			t.Errorf("DecodeRuneInString(%q) = %#04x, %d want %#04x, %d", s, r, size, RuneError, wantsize)
+			t.Errorf("DecodeRuneInString(%q) = %#.4x, %d want %#.4x, %d", s, r, size, RuneError, wantsize)
 		}
 
 		// make sure bad sequences fail
@@ -170,12 +170,12 @@ func TestDecodeRune(t *testing.T) {
 		}
 		r, size = DecodeRune(b)
 		if r != RuneError || size != 1 {
-			t.Errorf("DecodeRune(%q) = %#04x, %d want %#04x, %d", b, r, size, RuneError, 1)
+			t.Errorf("DecodeRune(%q) = %#.4x, %d want %#.4x, %d", b, r, size, RuneError, 1)
 		}
 		s = string(b)
 		r, size = DecodeRuneInString(s)
 		if r != RuneError || size != 1 {
-			t.Errorf("DecodeRuneInString(%q) = %#04x, %d want %#04x, %d", s, r, size, RuneError, 1)
+			t.Errorf("DecodeRuneInString(%q) = %#.4x, %d want %#.4x, %d", s, r, size, RuneError, 1)
 		}
 
 	}
@@ -246,12 +246,12 @@ func testSequence(t *testing.T, s string) {
 		j++
 		r1, size1 := DecodeRune(b[i:])
 		if r != r1 {
-			t.Errorf("DecodeRune(%q) = %#04x, want %#04x", s[i:], r1, r)
+			t.Errorf("DecodeRune(%q) = %#.4x, want %#.4x", s[i:], r1, r)
 			return
 		}
 		r2, size2 := DecodeRuneInString(s[i:])
 		if r != r2 {
-			t.Errorf("DecodeRuneInString(%q) = %#04x, want %#04x", s[i:], r2, r)
+			t.Errorf("DecodeRuneInString(%q) = %#.4x, want %#.4x", s[i:], r2, r)
 			return
 		}
 		if size1 != size2 {
@@ -269,11 +269,11 @@ func testSequence(t *testing.T, s string) {
 			return
 		}
 		if r1 != index[j].r {
-			t.Errorf("DecodeLastRune(%q, %d) = %#04x, want %#04x", s, si, r1, index[j].r)
+			t.Errorf("DecodeLastRune(%q, %d) = %#.4x, want %#.4x", s, si, r1, index[j].r)
 			return
 		}
 		if r2 != index[j].r {
-			t.Errorf("DecodeLastRuneInString(%q, %d) = %#04x, want %#04x", s, si, r2, index[j].r)
+			t.Errorf("DecodeLastRuneInString(%q, %d) = %#.4x, want %#.4x", s, si, r2, index[j].r)
 			return
 		}
 		si -= size1

@@ -412,7 +412,7 @@ func fromHex(b byte) (byte, error) {
 	case b >= 'a' && b <= 'f':
 		return b - 'a' + 10, nil
 	}
-	return 0, fmt.Errorf("mime: invalid hex byte %#02x", b)
+	return 0, fmt.Errorf("mime: invalid hex byte %#.2x", b)
 }
 
 var bufPool = sync.Pool{
