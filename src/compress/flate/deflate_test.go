@@ -11,6 +11,7 @@ import (
 	"io"
 	"io/ioutil"
 	"reflect"
+	"strings"
 	"sync"
 	"testing"
 )
@@ -80,6 +81,34 @@ func largeDataChunk() []byte {
 	return result
 }
 
+func TestBulkHash4(t *testing.T) {
+	for _, x := range deflateTests {
+		y := x.out
+		if len(y) >= minMatchLength {
+			y = append(y, y...)
+			for j := 4; j < len(y); j++ {
+				y := y[:j]
+				dst := make([]uint32, len(y)-minMatchLength+1)
+				for i := range dst {
+					dst[i] = uint32(i + 100)
+				}
+				bulkHash4(y, dst)
+				for i, val := range dst {
+					got := val & hashMask
+					expect := hash4(y[i:]) & hashMask
+					if got != expect && got == uint32(i)+100 {
+						t.Errorf("Len:%d Index:%d, expected 0x%08x but not modified", len(y), i, expect)
+					} else if got != expect {
+						t.Errorf("Len:%d Index:%d, got 0x%08x expected:0x%08x", len(y), i, got, expect)
+					} else {
+						//t.Logf("Len:%d Index:%d OK (0x%08x)", len(y), i, got)
+					}
+				}
+			}
+		}
+	}
+}
+
 func TestDeflate(t *testing.T) {
 	for _, h := range deflateTests {
 		var buf bytes.Buffer
@@ -91,7 +120,7 @@ func TestDeflate(t *testing.T) {
 		w.Write(h.in)
 		w.Close()
 		if !bytes.Equal(buf.Bytes(), h.out) {
-			t.Errorf("Deflate(%d, %x) = %x, want %x", h.level, h.in, buf.Bytes(), h.out)
+			t.Errorf("Deflate(%d, %x) = \n%#v, want \n%#v", h.level, h.in, buf.Bytes(), h.out)
 		}
 	}
 }
@@ -289,6 +318,9 @@ func testToFromWithLevelAndLimit(t *testing.T, level int, input []byte, name str
 		t.Errorf("level: %d, len(compress(data)) = %d > limit = %d", level, buffer.Len(), limit)
 		return
 	}
+	if limit > 0 {
+		t.Logf("level: %d - Size:%.2f%%, %d b\n", level, float64(buffer.Len()*100)/float64(limit), buffer.Len())
+	}
 	r := NewReader(&buffer)
 	out, err := ioutil.ReadAll(r)
 	if err != nil {
@@ -352,7 +384,16 @@ func TestDeflateInflateString(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		testToFromWithLimit(t, gold, test.label, test.limit)
+		// Remove returns that may be present on Windows
+		neutral := strings.Map(func(r rune) rune {
+			if r != '\r' {
+				return r
+			}
+			return -1
+		}, string(gold))
+
+		testToFromWithLimit(t, []byte(neutral), test.label, test.limit)
+
 		if testing.Short() {
 			break
 		}
@@ -457,6 +498,17 @@ func TestWriterReset(t *testing.T) {
 		// DeepEqual doesn't compare functions.
 		w.d.fill, wref.d.fill = nil, nil
 		w.d.step, wref.d.step = nil, nil
+		w.d.bulkHasher, wref.d.bulkHasher = nil, nil
+		// hashMatch is always overwritten when used.
+		copy(w.d.hashMatch[:], wref.d.hashMatch[:])
+		if w.d.tokens.n != 0 {
+			t.Errorf("level %d Writer not reset after Reset. %d tokens were present", level, w.d.tokens.n)
+		}
+		// As long as the length is 0, we don't care about the content.
+		w.d.tokens = wref.d.tokens
+
+		// We don't care if there are values in the window, as long as it is at d.index is 0
+		w.d.window = wref.d.window
 		if !reflect.DeepEqual(w, wref) {
 			t.Errorf("level %d Writer not reset after Reset", level)
 		}
@@ -481,7 +533,7 @@ func testResetOutput(t *testing.T, newWriter func(w io.Writer) (*Writer, error))
 		w.Write(b)
 	}
 	w.Close()
-	out1 := buf.String()
+	out1 := buf.Bytes()
 
 	buf2 := new(bytes.Buffer)
 	w.Reset(buf2)
@@ -489,10 +541,22 @@ func testResetOutput(t *testing.T, newWriter func(w io.Writer) (*Writer, error))
 		w.Write(b)
 	}
 	w.Close()
-	out2 := buf2.String()
+	out2 := buf2.Bytes()
 
-	if out1 != out2 {
-		t.Errorf("got %q, expected %q", out2, out1)
+	if len(out1) != len(out2) {
+		t.Errorf("got %d, expected %d bytes", len(out2), len(out1))
+	}
+	if bytes.Compare(out1, out2) != 0 {
+		mm := 0
+		for i, b := range out1[:len(out2)] {
+			if b != out2[i] {
+				t.Errorf("mismatch index %d: %02x, expected %02x", i, out2[i], b)
+			}
+			mm++
+			if mm == 10 {
+				t.Fatal("Stopping")
+			}
+		}
 	}
 	t.Logf("got %d bytes", len(out1))
 }
