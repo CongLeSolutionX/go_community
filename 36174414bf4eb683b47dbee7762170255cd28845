@@ -70,6 +70,24 @@
       "revId": "36174414bf4eb683b47dbee7762170255cd28845",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_d2d7c435",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-11T20:27:43Z",
+      "side": 1,
+      "message": "Brad: fmt.Fprintf(theHash, \"%s\", s) also does a []byte conversion, or at least generates an equivalent amount of garbage. Not a big deal, I just want to be a bit careful here since s is known to be large.\n\nDavid: I put in the \"hdr.\" code and it was ugly. Given that the strings (after hashing, anyway) are all small here, and that this isn\u0027t on a hot path, I\u0027d like to leave it as the simpler version.\n\nAlso, I went ahead and put in a call to io.WriteString, so that future improvements to sha256 get pulled in.",
+      "parentUuid": "f7ab1dee_8c1c07af",
+      "revId": "36174414bf4eb683b47dbee7762170255cd28845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
