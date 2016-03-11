@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f7723d90_14f11486",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "I have tried rewording it as simple and explaining as I could.",
+      "parentUuid": "576229c1_3729b8d0",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_d7079c68",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_4dc4f909",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_d7079c68",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_b7878802",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "Instead of the magic (and uncommented) \"-8\" here and below, I\u0027d use a named bufferFlushSize constant (see above). Naming a constant gives a canonical place where we can write a comment to explain the magic \"-8\".",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "976821a0_b91cdfae",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_b7878802",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "f7995dfa_fc3ba97e",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_970d248f",
+      "range": {
+        "startLine": 147,
+        "startChar": 24,
+        "endLine": 147,
+        "endChar": 46
+      },
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_52d1c16e",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -87,6 +165,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "The main difference between writeBytes and flush is that flush auto aligns to the nearest byte edge, while this one assumes that the input is byte-aligned, otherwise the for loop below can infinite loop.\n\nCan we just nuke this whole function and just use flush()+Write() in its stead?",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_4d9799fc",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "I am not comfortable making that change. I would prefer a separate CL.\n\nI have changed the bit count check to check if there is any mod 8 remainder before entering.",
+      "parentUuid": "7709edae_52d1c16e",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "d79459c3_fb300fe5",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7709edae_1254699c",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_d236d197",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -121,6 +235,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "No action needed now. But writeBits() and writeCode() more or less accomplish the same thing. Only difference is that hcode is optimized for writing 16-bits or less.\n\nI looked at all uses of writeBits() and they never write more than 16-bits at a time. In a future CL, I would recommend nuking one of these functions and use the same one everywhere.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_ad647df3",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "7709edae_d236d197",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_6d9455f7",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_d78cfc28",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_f70ca08f",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_8d5fc11a",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_f70ca08f",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_b71228a8",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -172,6 +340,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "Delete the blank line.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_cd59c936",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_b71228a8",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -212,6 +398,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_ed5e851b",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_b735c82e",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_721725d6",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -223,6 +427,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "// writeBlockDynamic encodes a block using a dynamic Huffman table.\n// This should be used if the symbols used have a disproportionate\n// histogram distribution.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_4d6eb9d0",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_721725d6",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -246,6 +468,24 @@
     },
     {
       "key": {
+        "uuid": "b74a8540_720fd84e",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "I very much see your point, but I like not having too much branching when developing. That makes it easier to track used/initialized variables, since you partially have the help of the compiler.\n\nIn the future I would like to look into the possibility of re-using dynamic tables between a number of blocks. With a very fast LZ77 matcher, most of the time is used generating the dynamic tables. For this, I would like to investigate if it is possible to re-use a huffman table between calls.\n\nI *feel* like this would be easier if the code is separate functions, since there will need to be different table generation code (the table would need to contain encoding values for all tokens).",
+      "parentUuid": "576229c1_f791003c",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_b2aebdc8",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -257,6 +497,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "Use :\u003d notation here instead of var.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76525c6_7a0f994e",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_b2aebdc8",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -280,6 +538,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_0d3f51bc",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Much better solution. Consider it done :)",
+      "parentUuid": "576229c1_1745948f",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_9717e489",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -291,6 +567,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences says that \"Comments should begin with the name of the thing being described\". Thus:\n\n// huffOffset is a static offset encoder used etc.\n\nSure, some existing comments don\u0027t follow that style, as they were written many years ago, but new comments should follow that style.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b74a8540_d2b884a7",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_9717e489",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -314,6 +608,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_2d3c0dc5",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_b71ce8ae",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_d2d25148",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -325,6 +637,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "s/will write/encodes/",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_4d49595a",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_d2d25148",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -348,6 +678,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_6d46154b",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_377458d4",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_d7115c95",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -359,6 +707,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "Ditto re :n.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_8d3181ec",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_d7115c95",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -382,6 +748,24 @@
     },
     {
       "key": {
+        "uuid": "d79459c3_fbd48fbc",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_1282292d",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_5781cce8",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -393,6 +777,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "s/switch/flag/",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "373e959c_2e2967d0",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_5781cce8",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -416,6 +818,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_4d123976",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_97fe04ca",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_97d28479",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -427,6 +847,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "t.Error(err) is probably sufficient.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76525c6_1af13d86",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "I want to be sure we get the file name.",
+      "parentUuid": "576229c1_97d28479",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -450,6 +888,24 @@
     },
     {
       "key": {
+        "uuid": "973661c6_a9355d2e",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Why? It is not meant to be read.\nIt is much better to have this on one line, and just be able to scroll past it in your editor, instead of having to go through multiple pages.",
+      "parentUuid": "7709edae_92761915",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_c59e0d7d",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -461,6 +917,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "// TestWriteBlock tests if the writeBlock encoding has changed.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_8dd501bc",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_c59e0d7d",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -484,6 +958,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_6d0ff54e",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_777ed0b5",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_05954559",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -495,6 +987,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "// TestWriteBlockDynamic tests if the writeBlockDynamic encoding has changed.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_adb39dc8",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_05954559",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -518,6 +1028,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_8daee163",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_85a935ab",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_da118195",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -529,6 +1057,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "s/Fatal/Error/ and return like the other error cases here.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_cdb8e9a7",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_da118195",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -552,6 +1098,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_edbda594",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_fa16458a",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_970b6409",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -563,6 +1127,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "Delete this in this CL, and add it in the CL that needs it (cl/20513). We might not need cl/20513\u0027s custom \"type tokens\" and therefore this shim function in the end, if the underlying performance difference is just a compiler bug, as per golang.org/issue/14758. While the compiler folk discuss this, there\u0027s no need to either hold up this CL, or to submit it with weird no-op (for now) functions.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_0da3d179",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_970b6409",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -586,6 +1168,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_4dadd961",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_65a641d9",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_b76ea802",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -597,6 +1197,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "s/Fatal/Error/ and return like the other error cases here.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_6daa954c",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_b76ea802",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -620,6 +1238,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_cde629d2",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Are uint16 packed in the struct? I would expect a slice of structs to be larger due to padding.\n\nFor a single value, the difference is 1 memory lookup+ processing, or 2 lookups and no processing. I tend to prefer less memory stress.\n\nAs for readability, I see no difference in accessing a field or calling a function.",
+      "parentUuid": "f7ab1dee_cfbd6195",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_5afbb165",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 16
@@ -631,6 +1267,24 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "To repeat an earlier comment of mine:\n\nSome comment would be nice that these two fields are to avoid the allocation (I\u0027m guessing) of converting the []literalNode to a sort.Interface, during huffmanEncoder.generate.\n\nOn a related note, do you want to add a b.ReportAllocs call to benchmarkEncoder in writer_test.go, a la reader_test.go?",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173991b4_4dfb1966",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_5afbb165",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -654,6 +1308,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_6df8d568",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_b2591d2e",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_723cc5c5",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 16
@@ -665,6 +1337,24 @@
       "writtenOn": "2016-03-10T19:29:01Z",
       "side": 1,
       "message": "s/setBits/setLen/\n\nBits is ambiguous as to whether it is the length or the bit values themselves.",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "973661c6_e90cb58f",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_723cc5c5",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -688,6 +1378,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_8d034130",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "It has already been renamed once. It returns an \"hcode\", so I think the naming is ok.",
+      "parentUuid": "7709edae_d22b717a",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_5220a191",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 16
@@ -705,6 +1413,24 @@
     },
     {
       "key": {
+        "uuid": "b74a8540_72551822",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7709edae_5220a191",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_ba7dad8f",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 16
@@ -716,6 +1442,30 @@
       "writtenOn": "2016-03-11T04:27:13Z",
       "side": 1,
       "message": "I\u0027d drop the \u0027quotes\u0027.",
+      "range": {
+        "startLine": 295,
+        "startChar": 32,
+        "endLine": 295,
+        "endChar": 33
+      },
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "976821a0_59fca384",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T13:53:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_ba7dad8f",
       "range": {
         "startLine": 295,
         "startChar": 32,
