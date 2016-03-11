@@ -732,9 +732,11 @@ func eqtype1(t1, t2 *Type, assumedEqual map[typePair]struct{}) bool {
 		}
 		return false
 
-		// Loop over structs: receiver, in, out.
 	case TFUNC:
-		for _, f := range recvsParamsResults {
+		// Check parameters and result parameters for type equality.
+		// We intentionally ignore receiver parameters for type
+		// equality, because they're never relevant.
+		for _, f := range paramsResults {
 			// Loop over fields in structs, ignoring argument names.
 			ta, ia := IterFields(f(t1))
 			tb, ib := IterFields(f(t2))
@@ -2124,17 +2126,13 @@ func implements(t *Type, iface *Type, m **Type, samename **Type, ptr *int) bool 
 	if t != nil {
 		expandmeth(t)
 	}
-	var tm *Type
-	var imtype *Type
-	var followptr bool
-	var rcvr *Type
 	for im, it := IterFields(iface); im != nil; im = it.Next() {
 		if im.Broke {
 			continue
 		}
-		imtype = methodfunc(im.Type, nil)
-		tm = ifacelookdot(im.Sym, t, &followptr, false)
-		if tm == nil || tm.Nointerface || !Eqtype(methodfunc(tm.Type, nil), imtype) {
+		var followptr bool
+		tm := ifacelookdot(im.Sym, t, &followptr, false)
+		if tm == nil || tm.Nointerface || !Eqtype(tm.Type, im.Type) {
 			if tm == nil {
 				tm = ifacelookdot(im.Sym, t, &followptr, true)
 			}
@@ -2146,7 +2144,7 @@ func implements(t *Type, iface *Type, m **Type, samename **Type, ptr *int) bool 
 
 		// if pointer receiver in method,
 		// the method does not exist for value types.
-		rcvr = tm.Type.Recv().Type
+		rcvr := tm.Type.Recv().Type
 
 		if Isptr[rcvr.Etype] && !Isptr[t0.Etype] && !followptr && !isifacemethod(tm.Type) {
 			if false && Debug['r'] != 0 {
