@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "f7ab1dee_005a9629",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-11T14:19:04Z",
+      "side": 1,
+      "message": "SGTM (sounds good to me).",
+      "parentUuid": "173991b4_4d9799fc",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_1254699c",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 16
@@ -871,6 +889,24 @@
     },
     {
       "key": {
+        "uuid": "f7ab1dee_806e86cd",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-11T14:19:04Z",
+      "side": 1,
+      "message": "The error contains the filename :)",
+      "parentUuid": "b76525c6_1af13d86",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_92761915",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -1250,6 +1286,24 @@
       "side": 1,
       "message": "Are uint16 packed in the struct? I would expect a slice of structs to be larger due to padding.\n\nFor a single value, the difference is 1 memory lookup+ processing, or 2 lookups and no processing. I tend to prefer less memory stress.\n\nAs for readability, I see no difference in accessing a field or calling a function.",
       "parentUuid": "f7ab1dee_cfbd6195",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_40749e9d",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-11T14:19:04Z",
+      "side": 1,
+      "message": "In terms of readability, you still have to define the 4 methods below.\n\nOn Go1.6 it is slightly faster to use uint32, but on the current tip +def9c0b, they perform the same.\n\nAlso, padding isn\u0027t an issue:\nhttps://play.golang.org/p/1UsgxprmXW\nThat prints 4 for both types.",
+      "parentUuid": "173991b4_cde629d2",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
