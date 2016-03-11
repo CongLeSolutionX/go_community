@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_05f6323d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-03-11T14:21:59Z",
+      "side": 1,
+      "message": "s/Opt/opt/",
+      "revId": "b22cf2fc1df4d76a1beedc5972f210c40e0e9ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_005576ef",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 17
