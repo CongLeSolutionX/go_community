@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f7ab1dee_d35343b5",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-11T23:54:48Z",
+      "side": 1,
+      "message": "Not really part of the universe, IMO, but might as well keep it next to the code that initializes it for now.",
+      "parentUuid": "f7ab1dee_132cab91",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_532633b1",
         "filename": "src/cmd/compile/internal/gc/lex.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-11T23:35:32Z",
       "side": 1,
       "message": "not needed anymore",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_b35837d3",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-11T23:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ab1dee_532633b1",
       "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "f7ab1dee_735fefb4",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-11T23:54:48Z",
+      "side": 1,
+      "message": "Pun fail. :\u003c\n\nhttps://www.youtube.com/watch?v\u003d7s664NsLeFM",
+      "parentUuid": "f7ab1dee_93209b93",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_53f9132e",
         "filename": "src/cmd/compile/internal/gc/universe.go",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2016-03-11T23:35:32Z",
       "side": 1,
       "message": "importUniverse seems misleading - the universe block is always outside the package block - maybe finishUniverse?",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_d3fea3ca",
+        "filename": "src/cmd/compile/internal/gc/universe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-11T23:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ab1dee_53f9132e",
       "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
