@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "576229c1_fd871fcf",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T20:34:03Z",
+      "side": 1,
+      "message": "I am not saying that we can\u0027t ever have the copy/paste split. I\u0027m saying to please take it out of this CL, and propose it in a follow-up CL. To repeat myself, having it in this CL makes it much harder to review all the other things that are happening in this CL.\n\nIf github.com/klauspost/compress wants to emphasize MB/s throughput performance, then that\u0027s a perfectly reasonable decision to make, but it\u0027s not the only reasonable decision to make, and code that\u0027s good under that repo\u0027s criteria might not necessarily be good under the stdlib\u0027s criteria.\n\nPeople often study standard library code as an example of good, idiomatic Go code to learn from, to mimic in their own code, and to refer to as precedents, which is also why I tend to be pickier when reviewing stdlib patches than off-stdlib. Thus, ease of understanding the code is also important. Maintainability is also important; I\u0027ve already mentioned bug fixes being harder to apply consistently when code is copy/pasted.\n\nYou estimate that it accounts for ~5% of the speedup. https://groups.google.com/forum/#!msg/golang-codereviews/sw606QNIZWU/vXX3jXwteUsJ describes a similarly sized speedup, to the standard library\u0027s image/jpeg code, that was rejected. As I have said before, raw MB/s throughput is not the only criteria in which the Go standard library code is judged. A 5% improvement is not a \"no-brainer\" trade-off to make for the stdlib, even if it might be under other (perfectly reasonable) criteria.\n\nAgain, I am not saying that we can\u0027t ever have the copy/paste split. I\u0027m saying to please take it out of this CL, and propose it in a follow-up CL, where we can discuss its costs as well as its specific benefits.",
+      "parentUuid": "973661c6_a908fd4c",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_1a2bf962",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -294,6 +312,24 @@
       "side": 1,
       "message": "See compression numbers if the CL description.",
       "parentUuid": "576229c1_da6181a3",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_dd825bc2",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T20:34:03Z",
+      "side": 1,
+      "message": "If I\u0027m reading the spreadsheet linked to from CL description right, there are only three test files used to compare the before and after size. I don\u0027t see links to the actual test files, but all three of them (\"very compressible\", \"random data\", \"xml\") sound like they\u0027re either all compressible or all incompressible.\n\nThree isn\u0027t a large sample size, and it doesn\u0027t cover things like PDF files which, IIUC, is like a textual format (i.e. compressible) that can embed binary resources such as JPEG images (i.e. incompressible) all in the one file. Similarly, an RPC stream can contain incompressible binary payloads framed by compressible headers and footers.\n\nI\u0027m not saying that this CL has to include many new testdata files. I\u0027m saying that there\u0027s a possibility that this skipping algorithm is actually harmful for some class of input that we don\u0027t know about yet. The snappy commit I linked to partially rolls back a previous commit that looked good at the time, but was later discovered to have this property.\n\nIt may be that, later in the Go 1.7 release cycle, after all of us have forgotten the details of this particular CL, we get a bug report that the standard library\u0027s gzip compression size has regressed for a particular user\u0027s inputs. Debugging that, and ruling out whether or not this particular skipping algorithm is the culprit, will be so much easier if it is done in its own, separate CL: it plays nicer with tools like \"git bisect\", smaller commits are easier to automatically roll back without merge conflicts, etc.",
+      "parentUuid": "973661c6_295b2d5c",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -504,6 +540,41 @@
       "side": 1,
       "message": "I was getting random reports on test failures.\n\nOn Windows you can set a global GIT property that does automatic \"\\n -\u003e \\r\\n\" conversion when checking out a repo. \n\nI think the limits right now are conservative enough that it will just sneak below the threshold. It does however make the test rather fragile, so therefore this fix to ensure that the input is always the same.",
       "parentUuid": "576229c1_9a4aa954",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_9d78e3a0",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T20:34:03Z",
+      "side": 1,
+      "message": "OK, well, if it\u0027s an unrelated change, this seems easy enough to split off as a separate, tiny CL. I\u0027m happy to do so (with Author attribution) if you like.",
+      "parentUuid": "f7995dfa_7cbb1905",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_bd7da78f",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T20:34:03Z",
+      "side": 1,
+      "message": "s/strings/bytes/",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
