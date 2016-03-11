@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7ab1dee_93037bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-11T23:35:32Z",
+      "side": 1,
+      "message": "lexn and lexname have already moved",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_132cab91",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-11T23:35:32Z",
+      "side": 1,
+      "message": "should this move as well?",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_532633b1",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-11T23:35:32Z",
+      "side": 1,
+      "message": "not needed anymore",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_93209b93",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-11T23:35:32Z",
+      "side": 1,
+      "message": "initUniverse seems telling enough - I\u0027m all for comments in general, but this one seems at a \"lower level\" than the others",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_53f9132e",
+        "filename": "src/cmd/compile/internal/gc/universe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-11T23:35:32Z",
+      "side": 1,
+      "message": "importUniverse seems misleading - the universe block is always outside the package block - maybe finishUniverse?",
+      "revId": "8221e00578df945d8b84c98e21d29af98af41b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
