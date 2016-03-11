@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "973661c6_09182996",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "I think you are right, if we add 1 (which is also what the test does).",
+      "parentUuid": "576229c1_7a495531",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_fa5c85f5",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "s/index// since on the next line, you say end and not endindex.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7995dfa_1cf3f5ff",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_fa5c85f5",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "973661c6_a96e3d02",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_1a5219df",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_fa6645b8",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "// hash4 is the default hash function.\n\nIf a follow-up CL introduces a CRC32 asm implementation (and we reach consensus that the asm benefits outweigh the asm costs), then we can update this comment at the same time. Until then, I think that mentioning CRC32 here is a little presumptive.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7995dfa_3cf0b1f0",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_fa6645b8",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "373e959c_8e033b30",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_ba85ad8c",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_da8a619b",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "I very much dislike how much copy/paste there is between the deflate and deflateLazy methods. It is simply more code, and it makes it far more likely that a future maintainer will make a bug fix in one location but forget to do so in the mirrored location.\n\nThis CL does many things. It\u0027s hard to have an informed discussion about the trade-off between the performance benefits of the dedicated deflateLazy method and the maintenance costs of copy/paste, when we don\u0027t have the performance numbers for the copy/paste. AFAICT the CL description only gives before/afters for the CL as a whole.\n\nFurthermore, it makes code review harder, since it\u0027s not obvious what part of the diff is copy/paste-and-then-optimize-for-lazy and what part of the diff is actual code changes for the other things in this CL (match lengths, hash changes, maybe others).\n\nPlease revert the deflateLazy specialization in this CL, and if you still believe that it\u0027s worth doing, introduce it in a follow-up CL.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "973661c6_a908fd4c",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "I am sorry, I don\u0027t have intermediate code without the split, but it is a the bigger part of speedup. I only have some noisy benchmark results, but I would estimate it is accounting for ~5% of the speedup.\n\nThere are a lot of branch checks that are eliminated by separating the code, and it simplifies the code a lot. The old (mega)function was difficult to follow - at least for me.\n\nThere are other good things that can come from this split. For instance we can use \"simpler\" bit encodings  on the faster encoding levels.\n\nSee https://github.com/klauspost/compress/blob/master/flate/deflate.go#L165 which compares the number of tokens to the uncompressed size, and uses store/huffman only/dynamic based on the match reductions. This matches very well with the non-lazy modes, but shouldn\u0027t be used when lazy matching is enabled. Again, we avoid branching by already having separate functions.",
+      "parentUuid": "576229c1_da8a619b",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "f7723d90_d4b87ca7",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_1a2bf962",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_da6181a3",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "I think that this should really be called out in the CL description, if not deserve its own, separate CL (since, as always, smaller CLs are easier to review, roll back if necessary, etc). If there\u0027s a bug in the implementation, skipping bytes can artificially improve your throughput numbers by simply not compressing as much as you should. See e.g. https://github.com/golang/snappy/commit/d1d908a252c22fd7afd36190d5cffb144aa8f777 which also includes a new test.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "973661c6_295b2d5c",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "See compression numbers if the CL description.",
+      "parentUuid": "576229c1_da6181a3",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_ed45a521",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_9a6709b8",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_7a3235d1",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "// hzeroes is used for etc.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b74a8540_529734fc",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_7a3235d1",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "d79459c3_db0513f3",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_3a1d1d46",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_7a179523",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "for i, got :\u003d range dst {\n  want :\u003d etc\n  etc\n}",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "373e959c_2ea0876a",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_7a179523",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_8dd26179",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "D*mn, missed that one :)",
+      "parentUuid": "576229c1_9a3629c9",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_9a4aa954",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 4
@@ -234,6 +468,24 @@
       "writtenOn": "2016-03-11T06:18:25Z",
       "side": 1,
       "message": "Huh, why wasn\u0027t this necessary before?",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7995dfa_7cbb1905",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "I was getting random reports on test failures.\n\nOn Windows you can set a global GIT property that does automatic \"\\n -\u003e \\r\\n\" conversion when checking out a repo. \n\nI think the limits right now are conservative enough that it will just sneak below the threshold. It does however make the test rather fragile, so therefore this fix to ensure that the input is always the same.",
+      "parentUuid": "576229c1_9a4aa954",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -287,6 +539,24 @@
       "side": 1,
       "message": "I agree with Joe that \"For the pervasiveness of the change and the non-idiomatic-ness of it, I don\u0027t think it\u0027s worth it.\"",
       "parentUuid": "5706a9d0_b780487d",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "974d815c_d1b884a7",
+        "filename": "src/compress/flate/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T15:43:00Z",
+      "side": 1,
+      "message": "While I don\u0027t agree that append is more \"idiomatic\", I have changed it back to move things along.\n\nFor the record, the speed impact:\n\nname                       old speed      new speed      delta\nEncodeDigitsSpeed1e4-4     27.7MB/s ± 2%  27.4MB/s ± 1%  -1.07%\nEncodeDigitsSpeed1e5-4     22.9MB/s ± 1%  21.8MB/s ± 5%  -4.55%\nEncodeDigitsSpeed1e6-4     21.7MB/s ± 1%  21.6MB/s ± 4%  -0.23%\nEncodeDigitsDefault1e4-4   23.8MB/s ± 0%  23.4MB/s ± 1%  -1.53%\nEncodeDigitsDefault1e5-4   16.7MB/s ± 3%  16.3MB/s ± 4%  -2.34%\nEncodeDigitsDefault1e6-4   15.7MB/s ± 3%  15.9MB/s ± 2%  +1.19%\nEncodeDigitsCompress1e4-4  23.8MB/s ± 1%  23.0MB/s ± 4%  -3.44%\nEncodeDigitsCompress1e5-4  16.4MB/s ± 1%  16.0MB/s ± 4%  -2.66%\nEncodeDigitsCompress1e6-4  15.6MB/s ± 1%  15.8MB/s ± 1%  +1.33%\nEncodeTwainSpeed1e4-4      26.7MB/s ± 3%  26.1MB/s ± 2%  -2.00%\nEncodeTwainSpeed1e5-4      31.4MB/s ± 1%  30.2MB/s ± 3%  -3.84%\nEncodeTwainSpeed1e6-4      32.0MB/s ± 1%  32.2MB/s ± 0%  +0.69%\nEncodeTwainDefault1e4-4    20.2MB/s ± 2%  19.6MB/s ± 3%  -2.88%\nEncodeTwainDefault1e5-4    14.6MB/s ± 1%  13.9MB/s ± 5%  -5.11%\nEncodeTwainDefault1e6-4    13.4MB/s ± 1%  13.5MB/s ± 1%  +0.02%\nEncodeTwainCompress1e4-4   19.8MB/s ± 3%  19.6MB/s ± 2%  -1.14%\nEncodeTwainCompress1e5-4   13.3MB/s ± 0%  12.7MB/s ± 3%  -4.40%\nEncodeTwainCompress1e6-4   12.1MB/s ± 0%  12.1MB/s ± 1%  -0.25%",
+      "parentUuid": "576229c1_da40a114",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
