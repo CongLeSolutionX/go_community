@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "973661c6_098d89f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T16:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17c6f1d9_05f6323d",
+      "revId": "b22cf2fc1df4d76a1beedc5972f210c40e0e9ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_005576ef",
         "filename": "src/compress/flate/huffman_bit_writer.go",
         "patchSetId": 17
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-11T14:19:04Z",
       "side": 1,
       "message": "Can the clearing of the frequencies be merged here as well?",
+      "revId": "b22cf2fc1df4d76a1beedc5972f210c40e0e9ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "973661c6_298a4dd9",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T16:36:26Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "f7ab1dee_005576ef",
       "revId": "b22cf2fc1df4d76a1beedc5972f210c40e0e9ecb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
