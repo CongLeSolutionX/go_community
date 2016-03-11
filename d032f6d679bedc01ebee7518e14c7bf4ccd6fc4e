@@ -925,6 +925,24 @@
     },
     {
       "key": {
+        "uuid": "173991b4_cd4d4914",
+        "filename": "src/compress/flate/huffman_bit_writer_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T16:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17c6f1d9_a50bde08",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_92761915",
         "filename": "src/compress/flate/huffman_bit_writer_test.go",
         "patchSetId": 16
@@ -1346,6 +1364,24 @@
     },
     {
       "key": {
+        "uuid": "373e959c_ce59c336",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T16:36:26Z",
+      "side": 1,
+      "message": "Ah - just what i wanted to know. I have split it up.\n\nIt *is* better/cleaner code.",
+      "parentUuid": "17c6f1d9_85106232",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_5afbb165",
         "filename": "src/compress/flate/huffman_code.go",
         "patchSetId": 16
@@ -1480,6 +1516,24 @@
       "side": 1,
       "message": "It has already been renamed once. It returns an \"hcode\", so I think the naming is ok.",
       "parentUuid": "7709edae_d22b717a",
+      "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "973661c6_499781fc",
+        "filename": "src/compress/flate/huffman_code.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-11T16:36:26Z",
+      "side": 1,
+      "message": "It has been removed completely now.",
+      "parentUuid": "173991b4_8d034130",
       "revId": "d032f6d679bedc01ebee7518e14c7bf4ccd6fc4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
