@@ -105,6 +105,24 @@
       "revId": "1b673a210e6cef2a3a2ad5213fa58716a46215a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_93fb7b65",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-11T23:13:05Z",
+      "side": 1,
+      "message": "No, though I\u0027m aware of this function well enough to know it\u0027ll need updating, so I\u0027m not too worried about that. (And failing to fix it will very visibly blow up anyway.)\n\nIf you wanted to write it future-proofly, it could be something like:\n\n    if nf !\u003d f {\n      if !changed {\n        fields \u003d append([]*Type(nil), fields...)\n        changed \u003d true\n      }\n      fields[i] \u003d nf\n    }\n\nat the cost of an extra temporary slice allocation.\n\nA simple TODO(mdempsky) noting that it\u0027s mutating FieldSlice is fine by me too.",
+      "parentUuid": "f7ab1dee_535e334c",
+      "revId": "1b673a210e6cef2a3a2ad5213fa58716a46215a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
