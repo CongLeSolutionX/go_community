@@ -87,6 +87,24 @@
       "revId": "1b673a210e6cef2a3a2ad5213fa58716a46215a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_535e334c",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-11T23:07:47Z",
+      "side": 1,
+      "message": "But when that is fixed, will it be safe to change the slice as you are suggesting?",
+      "parentUuid": "f7ab1dee_13f14bb8",
+      "revId": "1b673a210e6cef2a3a2ad5213fa58716a46215a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
