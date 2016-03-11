@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "576229c1_5a1ad14e",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "wrong and unnecessary comment, pls drop",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 46
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_ba3bedb1",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "unnecessary, drop",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_da57c1ce",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "let\u0027s parse pos/neg signs and introduce 32-bit cutoff here for not worrying lookupPort.\n\nconst (\n       max    \u003d uint32(1\u003c\u003c32 - 1)\n       cutoff \u003d uint32(1 \u003c\u003c 31)\n)\nneg :\u003d false\nif service[0] \u003d\u003d \u0027+\u0027 {\n        service \u003d service[1:]\n} else if service[0] \u003d\u003d \u0027-\u0027 {\n        neg \u003d true\n        service \u003d service[1:]\n}\nvar n uint32",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_3a28bd63",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "needsLookup \u003d true\nbreak",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_9a5d49f5",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "we need to check cutoff before the multiplying.\n\nif n \u003e\u003d cutoff {\n        n \u003d max\n        break\n}\nn *\u003d 10",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_ba620db6",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "if nn \u003c n || nn \u003e max {\n        n \u003d max\n        break\n}",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_3a4fdd39",
+        "filename": "src/net/port.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "if !neg \u0026\u0026 n \u003e\u003d cutoff {\n        port \u003d int(cutoff - 1)\n} else if neg \u0026\u0026 n \u003e cutoff {\n        port \u003d int(cutoff)\n} else {\n        port \u003d int(n)\n}\nif neg {\n        port \u003d -port\n}\nreturn",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_5a4c9142",
+        "filename": "src/net/port_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "drop unnecessary parens",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_9a80e97d",
+        "filename": "src/net/port_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-11T05:40:42Z",
+      "side": 1,
+      "message": "these test cases don\u0027t do boundary testing. pls replace with:\n\n}{\n        {\"\", 0, false}, // see golang.org/isse/13610\n\n        // Decimal number literals\n        {\"-2147483649\", -1 \u003c\u003c 31, false},\n        {\"-2147483648\", -1 \u003c\u003c 31, false},\n        {\"-2147483647\", -(1\u003c\u003c31 - 1), false},\n        {\"-123456789\", -123456789, false},\n        {\"-1\", -1, false},\n        {\"-0\", 0, false},\n        {\"0\", 0, false},\n        {\"+0\", 0, false},\n        {\"+1\", 1, false},\n        {\"123456789\", 123456789, false},\n        {\"2147483646\", 1\u003c\u003c31 - 2, false},\n        {\"2147483647\", 1\u003c\u003c31 - 1, false},\n        {\"2147483648\", 1\u003c\u003c31 - 1, false},\n        {\"2147483649\", 1\u003c\u003c31 - 1, false},\n\n        // Others\n        {\"abc\", 0, true},\n        {\"9pfs\", 9, true},\n        {\"-123badport\", -123, true},\n        {\"123badport\", 123, true},\n        {\"+123badport\", 123, true},\n        {\"bad123port\", 0, true},\n        {\"badport123\", 0, true},\n        {\"-2147483649badport\", -1 \u003c\u003c 31, true},\n        {\"2147483649badport\", 1\u003c\u003c31 - 1, true},\n}",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "04df4adcd7f13c49185a97d1aa017cbc6eda2116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
