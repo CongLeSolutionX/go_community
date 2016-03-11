@@ -2,6 +2,244 @@
   "comments": [
     {
       "key": {
+        "uuid": "576229c1_7a495531",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "It looks weird that this is + instead of -.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_fa5c85f5",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "s/index// since on the next line, you say end and not endindex.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_1a5219df",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "Go capitalization style is probably s/tocheck/toCheck/\n\nDitto with other toCheck instances below.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_fa6645b8",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "// hash4 is the default hash function.\n\nIf a follow-up CL introduces a CRC32 asm implementation (and we reach consensus that the asm benefits outweigh the asm costs), then we can update this comment at the same time. Until then, I think that mentioning CRC32 here is a little presumptive.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_ba85ad8c",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "Delete this line and use :\u003d on the next.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_da8a619b",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "I very much dislike how much copy/paste there is between the deflate and deflateLazy methods. It is simply more code, and it makes it far more likely that a future maintainer will make a bug fix in one location but forget to do so in the mirrored location.\n\nThis CL does many things. It\u0027s hard to have an informed discussion about the trade-off between the performance benefits of the dedicated deflateLazy method and the maintenance costs of copy/paste, when we don\u0027t have the performance numbers for the copy/paste. AFAICT the CL description only gives before/afters for the CL as a whole.\n\nFurthermore, it makes code review harder, since it\u0027s not obvious what part of the diff is copy/paste-and-then-optimize-for-lazy and what part of the diff is actual code changes for the other things in this CL (match lengths, hash changes, maybe others).\n\nPlease revert the deflateLazy specialization in this CL, and if you still believe that it\u0027s worth doing, introduce it in a follow-up CL.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_1a2bf962",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "Delete this line and use :\u003d on the next.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_da6181a3",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "I think that this should really be called out in the CL description, if not deserve its own, separate CL (since, as always, smaller CLs are easier to review, roll back if necessary, etc). If there\u0027s a bug in the implementation, skipping bytes can artificially improve your throughput numbers by simply not compressing as much as you should. See e.g. https://github.com/golang/snappy/commit/d1d908a252c22fd7afd36190d5cffb144aa8f777 which also includes a new test.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_9a6709b8",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "Should 31 be 63? On the next line, you shift by 6, not 5.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_7a3235d1",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "// hzeroes is used for etc.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_3a1d1d46",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "if len(y) \u003c etc {\n  continue\n}\nand out-dent the rest.",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_7a179523",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "for i, got :\u003d range dst {\n  want :\u003d etc\n  etc\n}",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_9a3629c9",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "s/expected/want/",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_9a4aa954",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "Huh, why wasn\u0027t this necessary before?",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7709edae_25c7295f",
         "filename": "src/compress/flate/token.go",
         "patchSetId": 4
@@ -31,6 +269,24 @@
       "side": 1,
       "message": "It seems like the \"cap\" check is more expensive than a bounds check.\n\nMy benchmarks when I made the change separately was 1 to 2% speed increase.\n\nIf you would like to test a before/after, you can see it in this commit: \nhttps://github.com/klauspost/compress/commit/eda62270033ec5035edb7fa91c28bd63e60bf69c\n\nI haven\u0027t studied the assembler for the exact reason.",
       "parentUuid": "7709edae_25c7295f",
+      "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_da40a114",
+        "filename": "src/compress/flate/token.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-11T06:18:25Z",
+      "side": 1,
+      "message": "I agree with Joe that \"For the pervasiveness of the change and the non-idiomatic-ness of it, I don\u0027t think it\u0027s worth it.\"",
+      "parentUuid": "5706a9d0_b780487d",
       "revId": "0a7242eb70c66c27506d3a988e414ee02805fa0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
