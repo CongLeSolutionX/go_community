@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7ab1dee_403f7ebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-11T14:19:04Z",
+      "side": 1,
+      "message": "s/Optimize/optimize\n\nremove period at the end",
+      "revId": "b22cf2fc1df4d76a1beedc5972f210c40e0e9ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_005576ef",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-11T14:19:04Z",
+      "side": 1,
+      "message": "Can the clearing of the frequencies be merged here as well?",
+      "revId": "b22cf2fc1df4d76a1beedc5972f210c40e0e9ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
