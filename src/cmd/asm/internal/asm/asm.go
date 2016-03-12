@@ -191,10 +191,10 @@ func (p *Parser) asmData(word string, operands [][]lex.Token) {
 	op := operands[0]
 	n := len(op)
 	if n < 3 || op[n-2].ScanToken != '/' || op[n-1].ScanToken != scanner.Int {
-		p.errorf("expect /size for DATA argument")
+		p.errorf("expect /size for DATA argument; got %v", op[n-1].ScanToken)
 		return
 	}
-	scale := p.parseScale(op[n-1].String())
+	size := p.evalInteger("DATA", op[n-1:])
 	op = op[:n-2]
 	nameAddr := p.address(op)
 	if !p.validSymbol("DATA", &nameAddr, true) {
@@ -217,7 +217,7 @@ func (p *Parser) asmData(word string, operands [][]lex.Token) {
 		p.errorf("overlapping DATA entry for %s", name)
 		return
 	}
-	p.dataAddr[name] = nameAddr.Offset + int64(scale)
+	p.dataAddr[name] = nameAddr.Offset + size
 
 	prog := &obj.Prog{
 		Ctxt:   p.ctxt,
@@ -225,7 +225,7 @@ func (p *Parser) asmData(word string, operands [][]lex.Token) {
 		Lineno: p.histLineNum,
 		From:   nameAddr,
 		From3: &obj.Addr{
-			Offset: int64(scale),
+			Offset: size,
 		},
 		To: valueAddr,
 	}
