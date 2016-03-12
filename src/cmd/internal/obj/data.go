@@ -55,7 +55,7 @@ func Symgrow(ctxt *Link, s *LSym, lsiz int64) {
 func savedata(ctxt *Link, s *LSym, p *Prog, file string) {
 	off := int32(p.From.Offset)
 	siz := int32(p.From3.Offset)
-	if off < 0 || siz < 0 || off >= 1<<30 || siz >= 100 {
+	if off < 0 || siz < 0 || off >= 1<<30 || (siz >= 100 && p.To.Type != TYPE_SCONST) {
 		log.Fatalf("%s: mangled input file", file)
 	}
 	if ctxt.Enforce_data_order != 0 && off < int32(len(s.P)) {
@@ -85,7 +85,9 @@ func savedata(ctxt *Link, s *LSym, p *Prog, file string) {
 		}
 
 	case TYPE_SCONST:
-		copy(s.P[off:off+siz], p.To.Val.(string))
+		if n := copy(s.P[off:off+siz], p.To.Val.(string)); n < int(siz) {
+			ctxt.Diag("truncated string constant")
+		}
 
 	case TYPE_CONST, TYPE_ADDR:
 		if p.To.Sym != nil || p.To.Type == TYPE_ADDR {

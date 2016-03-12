@@ -160,15 +160,15 @@ ok:
 	INT $3
 	RET
 
-DATA	bad_proc_msg<>+0x00(SB)/8, $"This pro"
-DATA	bad_proc_msg<>+0x08(SB)/8, $"gram can"
-DATA	bad_proc_msg<>+0x10(SB)/8, $" only be"
-DATA	bad_proc_msg<>+0x18(SB)/8, $" run on "
-DATA	bad_proc_msg<>+0x20(SB)/8, $"processe"
-DATA	bad_proc_msg<>+0x28(SB)/8, $"rs with "
-DATA	bad_proc_msg<>+0x30(SB)/8, $"MMX supp"
-DATA	bad_proc_msg<>+0x38(SB)/4, $"ort."
-DATA	bad_proc_msg<>+0x3c(SB)/1, $0xa
+DATA	bad_proc_msg<>+0x00(SB)/0x3d, $"This program can only be run on processers with MMX support.\n"
+
+
+
+
+
+
+
+
 GLOBL	bad_proc_msg<>(SB), RODATA, $0x3d
 
 DATA	runtime·mainPC+0(SB)/4,$runtime·main(SB)
