@@ -16,6 +16,24 @@
       "revId": "955d6c2cb30b4166c5297c87e6374852513f277c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "974d815c_9136fcc8",
+        "filename": "src/runtime/rt0_darwin_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2016-03-12T16:33:45Z",
+      "side": 1,
+      "message": "Good catch. That might mean that Go 1.5 might work. I\u0027ll test that.",
+      "parentUuid": "17c6f1d9_28ca231a",
+      "revId": "955d6c2cb30b4166c5297c87e6374852513f277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
