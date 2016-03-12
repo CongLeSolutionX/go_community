@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "576229c1_7d94eff6",
+        "filename": "src/net/port.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-12T01:46:30Z",
+      "side": 1,
+      "message": "drop unnecessary blank line",
+      "revId": "d2f02968b19f6cf7353e6b172d7a60da8f5859ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_fd5e3f1b",
+        "filename": "src/net/port.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-12T01:46:30Z",
+      "side": 1,
+      "message": "this is confusing. it should be \"return port, false\" or naked return",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 25
+      },
+      "revId": "d2f02968b19f6cf7353e6b172d7a60da8f5859ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_dd597b36",
+        "filename": "src/net/port_test.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-03-12T01:46:30Z",
+      "side": 1,
+      "message": "drop these two lines. no need to have a duplicate of \"0\" and meaningless \"42\".\nalso they are decimal numbers. why here? \"\" is a special case.\nin general unsorted test tables make code maintenance difficult.",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "d2f02968b19f6cf7353e6b172d7a60da8f5859ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
