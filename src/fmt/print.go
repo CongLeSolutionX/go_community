@@ -705,10 +705,10 @@ func (p *pp) printArg(arg interface{}, verb rune, depth int) {
 	// %T (the value's type) and %p (its address) are special; we always do them first.
 	switch verb {
 	case 'T':
-		p.printArg(reflect.TypeOf(arg).String(), 's', 0)
+		p.fmt.fmt_s(reflect.TypeOf(arg).String())
 		return
 	case 'p':
-		p.fmtPointer(reflect.ValueOf(arg), verb)
+		p.fmtPointer(reflect.ValueOf(arg), 'p')
 		return
 	}
 
@@ -769,22 +769,11 @@ func (p *pp) printArg(arg interface{}, verb rune, depth int) {
 func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 	if !value.IsValid() {
 		switch verb {
-		case 'T', 'v':
+		case 'v':
 			p.buf.WriteString(nilAngleString)
 		default:
 			p.badVerb(verb)
 		}
-		return
-	}
-
-	// Special processing considerations.
-	// %T (the value's type) and %p (its address) are special; we always do them first.
-	switch verb {
-	case 'T':
-		p.printArg(value.Type().String(), 's', 0)
-		return
-	case 'p':
-		p.fmtPointer(value, verb)
 		return
 	}
 
