@@ -123,6 +123,24 @@
       "revId": "1b673a210e6cef2a3a2ad5213fa58716a46215a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_5368f364",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-12T00:07:33Z",
+      "side": 1,
+      "message": "I think it\u0027s a little more complicated, but, done.",
+      "parentUuid": "f7ab1dee_93fb7b65",
+      "revId": "1b673a210e6cef2a3a2ad5213fa58716a46215a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
