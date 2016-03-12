@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7344567_a55788cf",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-12T05:36:09Z",
+      "side": 1,
+      "message": "I don\u0027t understand this line.  What do these {boolean, -1, a0} values map to?  does {boolean, -1, a0} -\u003e gt mean true?",
+      "revId": "87981d7835833d896b0357ca930f7f51ba2f6184",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
