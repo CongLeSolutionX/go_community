@@ -16,6 +16,24 @@
       "revId": "0ed1bb9ea618961f59b8189be8f74d992f25e605",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1ea258_14f5f4a3",
+        "filename": "src/runtime/rt0_darwin_arm.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2016-03-13T14:33:48Z",
+      "side": 1,
+      "message": "Probably not, but what else to set it to? the other _rt0_* functions set the stack value to something meaningful.",
+      "parentUuid": "17c6f1d9_e8548bf5",
+      "revId": "0ed1bb9ea618961f59b8189be8f74d992f25e605",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
