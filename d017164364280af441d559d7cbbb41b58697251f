@@ -104,6 +104,24 @@
       "revId": "d017164364280af441d559d7cbbb41b58697251f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1ea258_74bd48dd",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-13T10:08:44Z",
+      "side": 1,
+      "message": "To answer your question:\n\na[:b] generates:\n(IsSliceInBounds 0 b)\n(IsSliceInBoudns b cap(a))\n\nb can be negative, but will fail the second check.",
+      "parentUuid": "17c6f1d9_c85eef1b",
+      "revId": "d017164364280af441d559d7cbbb41b58697251f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
