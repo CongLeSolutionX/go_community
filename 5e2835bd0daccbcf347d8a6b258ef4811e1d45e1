@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_088ac7d8",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-13T00:29:43Z",
+      "side": 1,
+      "message": "Mention that GenBlock should come after GenValue for the values of that block (i.e. GenBlock generates end-of-block Progs).",
+      "revId": "5e2835bd0daccbcf347d8a6b258ef4811e1d45e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_49c4c67b",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -47,6 +64,23 @@
       "writtenOn": "2016-03-12T22:21:40Z",
       "side": 1,
       "message": "doc",
+      "revId": "5e2835bd0daccbcf347d8a6b258ef4811e1d45e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_4894bff6",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3769,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-13T00:29:43Z",
+      "side": 1,
+      "message": "You might want to move this to amd64 also.  It assumes we have a 2-operand instruction set, which is not true for most other ports.",
       "revId": "5e2835bd0daccbcf347d8a6b258ef4811e1d45e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
