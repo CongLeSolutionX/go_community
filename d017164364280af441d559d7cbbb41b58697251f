@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc1ea258_349eb07d",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 8
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-13T09:54:42Z",
+      "side": 1,
+      "message": "Those were moved in a separate later so SliceLen/SliceCap/StringLen are available to intermediate steps.",
+      "parentUuid": "17c6f1d9_e8592b36",
+      "revId": "d017164364280af441d559d7cbbb41b58697251f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0ece29_d7ff7c78",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fc1ea258_14a3b4cb",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-13T09:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0ece29_d7ff7c78",
+      "revId": "d017164364280af441d559d7cbbb41b58697251f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17c6f1d9_c85eef1b",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-13T01:34:12Z",
       "side": 1,
       "message": "Isn\u0027t arg1 of IsInBounds (and IsSliceInBounds) always \u003e\u003d 0?\nFor IsSliceInBounds, if arg0 is 0 it should always rewrite to true.",
+      "revId": "d017164364280af441d559d7cbbb41b58697251f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1ea258_f4a718d4",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-13T09:54:42Z",
+      "side": 1,
+      "message": "Done. Moved to generic.rules.",
+      "parentUuid": "17c6f1d9_c85eef1b",
       "revId": "d017164364280af441d559d7cbbb41b58697251f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
