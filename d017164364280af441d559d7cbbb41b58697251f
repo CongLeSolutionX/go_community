@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_e805abf2",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 8
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-13T23:10:37Z",
+      "side": 1,
+      "message": "Then please add a comment here about why we\u0027re only doing a partial rewrite now, and refer to where they will be done later.",
+      "parentUuid": "fc1ea258_349eb07d",
+      "revId": "d017164364280af441d559d7cbbb41b58697251f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0ece29_d7ff7c78",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 8
