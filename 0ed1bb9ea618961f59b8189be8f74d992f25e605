@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17c6f1d9_e8548bf5",
+        "filename": "src/runtime/rt0_darwin_arm.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-13T14:00:53Z",
+      "side": 1,
+      "message": "I don\u0027t think the stack value is going to do anything here, as this symbol is being used as an entrypoint, not called from code that understands it.",
+      "revId": "0ed1bb9ea618961f59b8189be8f74d992f25e605",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
