@@ -390,9 +390,6 @@ func (m markBits) setMarked() {
 	// We used to be clever here and use a non-atomic update in certain
 	// cases, but it's not worth the risk.
 	atomic.Or8(m.bytep, m.mask)
-	if !m.isMarked() {
-		throw("mbitmap:243: Should be marked")
-	}
 }
 
 // setMarkedNonAtomic sets the marked bit in the heap bits, non-atomically.
