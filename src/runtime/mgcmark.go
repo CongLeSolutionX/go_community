@@ -287,7 +287,7 @@ func markrootSpans(gcw *gcWork, shard int) {
 			// retain everything it points to.
 			spf := (*specialfinalizer)(unsafe.Pointer(sp))
 			// A finalizer can be set for an inner byte of an object, find object beginning.
-			p := uintptr(s.start<<_PageShift) + uintptr(spf.special.offset)/s.elemsize*s.elemsize
+			p := s.base() + uintptr(spf.special.offset)/s.elemsize*s.elemsize
 
 			// Mark everything that can be reached from
 			// the object (but *not* the object itself or
@@ -831,7 +831,10 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 		if blocking {
 			b = gcw.get()
 		} else {
-			b = gcw.tryGet()
+			b = gcw.tryGetFast()
+			if b == 0 {
+				b = gcw.tryGet()
+			}
 		}
 		if b == 0 {
 			// work barrier reached or tryGet failed.
@@ -894,7 +897,11 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 		//         PREFETCH(wbuf->obj[wbuf.nobj - 3];
 		//  }
 		//
-		b := gcw.tryGet()
+		b := gcw.tryGetFast()
+		if b == 0 {
+			b = gcw.tryGet()
+		}
+
 		if b == 0 {
 			break
 		}
@@ -944,8 +951,8 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
 				// Same work as in scanobject; see comments there.
 				obj := *(*uintptr)(unsafe.Pointer(b + i))
 				if obj != 0 && arena_start <= obj && obj < arena_used {
-					if obj, hbits, span := heapBitsForObject(obj, b, i); obj != 0 {
-						greyobject(obj, b, i, hbits, span, gcw)
+					if obj, hbits, span, objIndex := heapBitsForObject(obj, b, i); obj != 0 {
+						greyobject(obj, b, i, hbits, span, gcw, objIndex)
 					}
 				}
 			}
@@ -1010,8 +1017,8 @@ func scanobject(b uintptr, gcw *gcWork) {
 		// Check if it points into heap and not back at the current object.
 		if obj != 0 && arena_start <= obj && obj < arena_used && obj-b >= n {
 			// Mark the object.
-			if obj, hbits, span := heapBitsForObject(obj, b, i); obj != 0 {
-				greyobject(obj, b, i, hbits, span, gcw)
+			if obj, hbits, span, objIndex := heapBitsForObject(obj, b, i); obj != 0 {
+				greyobject(obj, b, i, hbits, span, gcw, objIndex)
 			}
 		}
 	}
@@ -1024,9 +1031,9 @@ func scanobject(b uintptr, gcw *gcWork) {
 // Preemption must be disabled.
 //go:nowritebarrier
 func shade(b uintptr) {
-	if obj, hbits, span := heapBitsForObject(b, 0, 0); obj != 0 {
+	if obj, hbits, span, objIndex := heapBitsForObject(b, 0, 0); obj != 0 {
 		gcw := &getg().m.p.ptr().gcw
-		greyobject(obj, 0, 0, hbits, span, gcw)
+		greyobject(obj, 0, 0, hbits, span, gcw, objIndex)
 		if gcphase == _GCmarktermination || gcBlackenPromptly {
 			// Ps aren't allowed to cache work during mark
 			// termination.
@@ -1039,12 +1046,12 @@ func shade(b uintptr) {
 // If it isn't already marked, mark it and enqueue into gcw.
 // base and off are for debugging only and could be removed.
 //go:nowritebarrierrec
-func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork) {
+func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork, objIndex uintptr) {
 	// obj should be start of allocation, and so must be at least pointer-aligned.
 	if obj&(sys.PtrSize-1) != 0 {
 		throw("greyobject: obj not pointer-aligned")
 	}
-	mbits := span.markBitsForAddr(obj)
+	mbits := span.markBitsForAddr(obj, objIndex)
 	if useCheckmark {
 		if !mbits.isMarked() {
 			printlock()
@@ -1071,7 +1078,8 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 		if mbits.isMarked() {
 			return
 		}
-		mbits.setMarked()
+		// mbits.setMarked() // Avoid call overhead since this isn't inlined due to intrinsic
+		atomic.Or8(mbits.bytep, mbits.mask)
 
 		// If this is a noscan object, fast-track it to black
 		// instead of greying it.
@@ -1087,8 +1095,9 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 	// Previously we put the obj in an 8 element buffer that is drained at a rate
 	// to give the PREFETCH time to do its work.
 	// Use of PREFETCHNTA might be more appropriate than PREFETCH
-
-	gcw.put(obj)
+	if !gcw.putFast(obj) {
+		gcw.put(obj)
+	}
 }
 
 // gcDumpObject dumps the contents of obj for debugging and marks the

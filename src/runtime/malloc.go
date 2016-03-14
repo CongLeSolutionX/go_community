@@ -500,14 +500,12 @@ const (
 // Otherwise it returns 0.
 func (c *mcache) nextFreeFast(sizeclass int8) gclinkptr {
 	s := c.alloc[sizeclass]
-	ctzIndex := uint8(s.allocCache & 0xff)
-	if ctzIndex != 0 {
-		theBit := uint64(ctzVals[ctzIndex])
-		freeidx := s.freeindex // help the pre ssa compiler out here with cse.
-		result := freeidx + uintptr(theBit)
+	theBit := sys.Ctz64(s.allocCache) // Is there a free object in the allocCache?
+	if theBit < 64 {
+		result := s.freeindex + uintptr(theBit)
 		if result < s.nelems {
 			s.allocCache >>= (theBit + 1)
-			freeidx = result + 1
+			freeidx := result + 1
 			if freeidx%64 == 0 && freeidx != s.nelems {
 				// We just incremented s.freeindex so it isn't 0 so we are moving to the next aCache
 				whichByte := freeidx / 8
@@ -696,7 +694,23 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			}
 			size = uintptr(class_to_size[sizeclass])
 			var v gclinkptr
-			v = c.nextFreeFast(sizeclass)
+			s := c.alloc[sizeclass]
+			theBit := sys.Ctz64(s.allocCache) // Is there a free object in the allocCache?
+			if theBit < 64 {
+				result := s.freeindex + uintptr(theBit)
+				if result < s.nelems {
+					s.allocCache >>= (theBit + 1)
+					freeidx := result + 1
+					if freeidx%64 == 0 && freeidx != s.nelems {
+						// We just incremented s.freeindex so it isn't 0 so we are moving to the next aCache
+						whichByte := freeidx / 8
+						s.refillAllocCache(whichByte)
+					}
+					s.freeindex = freeidx
+					v = gclinkptr(result*s.elemsize + s.base())
+					s.allocCount++
+				}
+			}
 			if v == 0 {
 				v, shouldhelpgc = c.nextFree(sizeclass)
 			}
@@ -713,7 +727,7 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			s = largeAlloc(size, flags)
 		})
 		s.freeindex = 1
-		x = unsafe.Pointer(uintptr(s.start << pageShift))
+		x = unsafe.Pointer(s.base())
 		size = s.elemsize
 	}
 
@@ -831,7 +845,7 @@ func largeAlloc(size uintptr, flag uint32) *mspan {
 	if s == nil {
 		throw("out of memory")
 	}
-	s.limit = uintptr(s.start)<<_PageShift + size
+	s.limit = s.base() + size
 	heapBitsForSpan(s.base()).initSpan(s)
 	return s
 }

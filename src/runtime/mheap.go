@@ -117,6 +117,7 @@ type mspan struct {
 	prev **mspan    // previous span's next field, or list head's first field if none
 	list *mSpanList // For debugging. TODO: Remove.
 
+	startAddr     uintptr   // uintptr(s.start << _PageShift) aka s.base()
 	start         pageID    // starting page number
 	npages        uintptr   // number of pages in span
 	freelist      gclinkptr // list of free objects for _MSpanInUse
@@ -144,20 +145,38 @@ type mspan struct {
 	// allocCache hold the complement of allocBits, thus allowing
 	// ctz64 (count trailing zero) to use it directly.
 	allocCache uint64
-	allocBits  *[maxObjsPerSpan / 8]uint8
-	gcmarkBits *[maxObjsPerSpan / 8]uint8
-	
 	nelems     uintptr // number of object in the span.
 	// TODO(rlh) consider moving some of these fields into seperate arrays.
 	// Put another way is an array of structs a better idea than a struct of arrays.
 
+	// allocBits and gcmarkBits hold pointers to span's mark and
+	// allocation bits. The pointers are 64 bit word aligned.
+	// There are three arenas where this data is held.
+	// freeArena: Dirty areas that are no longer accessed
+	//            and can be reused.
+	// nextArena: Holds information to be used in the next GC cycle
+	// currentArena: Information being used during this GC cycle
+	// previousArena: Information being used during the last GC cycle
+	// A GC cycle starts and ends with the call to finishSweep.
+	// finishSweep moves the previousArena to the freeArena,
+	// the currentArena to the previousArena and
+	// the nextArena to the currentArena
+	// the nextArena is populated as the spans request
+	// memory to hold gcmarkBits for the next GC cycle as well
+	// as allocBits for newly allocated spans.
+	//
+	// The pointer arithmetic is done "by hand" instead of using
+	// arrays to avoid bounds checks along critical performance
+	// paths.
+	// The sweep will free the old allocBits and set allocBits to the
+	// gcmarkBits. The gcmarkBits are replaced with a fresh zeroed
+	// out memory.
+	allocBits  *uint8
+	gcmarkBits *uint8
+
 	// allocBits and gcmarkBits currently point to either markbits1
 	// or markbits2. At the end of a GC cycle allocBits and
 	// gcmarkBits swap roles simply by swapping pointers.
-	// This level of indirection also facilitates an implementation
-	// where markbits1 and markbits2 are not inlined in mspan.
-	markbits1 [maxObjsPerSpan / 8]uint8 // A bit for each obj.
-	markbits2 [maxObjsPerSpan / 8]uint8 // A bit for each obj.
 
 	// sweep generation:
 	// if sweepgen == h->sweepgen - 2, the span needs sweeping
@@ -181,9 +200,15 @@ type mspan struct {
 	speciallock mutex    // guards specials list
 	specials    *special // linked list of special records sorted by offset.
 	baseMask    uintptr  // if non-0, elemsize is a power of 2, & this will get object allocation base
+	power2shift uint8    // if non-0 then elemsize is a power of 2, >> will produce a divide by elemsize
 }
 
 func (s *mspan) base() uintptr {
+	// return uintptr(s.start << _PageShift)
+	return s.startAddr
+}
+
+func (s *mspan) baseOffStart() uintptr {
 	return uintptr(s.start << _PageShift)
 }
 
@@ -300,7 +325,7 @@ func mlookup(v uintptr, base *uintptr, size *uintptr, sp **mspan) int32 {
 		return 0
 	}
 
-	p := uintptr(s.start) << _PageShift
+	p := s.base()
 	if s.sizeclass == 0 {
 		// Large object.
 		if base != nil {
@@ -542,7 +567,7 @@ func (h *mheap) alloc(npage uintptr, sizeclass int32, large bool, needzero bool)
 
 	if s != nil {
 		if needzero && s.needzero != 0 {
-			memclr(unsafe.Pointer(s.start<<_PageShift), s.npages<<_PageShift)
+			memclr(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		}
 		s.needzero = 0
 	}
@@ -610,7 +635,7 @@ HaveSpan:
 		throw("still in list")
 	}
 	if s.npreleased > 0 {
-		sysUsed(unsafe.Pointer(s.start<<_PageShift), s.npages<<_PageShift)
+		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		memstats.heap_released -= uint64(s.npreleased << _PageShift)
 		s.npreleased = 0
 	}
@@ -820,6 +845,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		t := h_spans[p-1]
 		if t != nil && t.state == _MSpanFree {
 			s.start = t.start
+			s.startAddr = s.baseOffStart()
 			s.npages += t.npages
 			s.npreleased = t.npreleased // absorb released pages
 			s.needzero |= t.needzero
@@ -919,6 +945,7 @@ func (span *mspan) init(start pageID, npages uintptr) {
 	span.prev = nil
 	span.list = nil
 	span.start = start
+	span.startAddr = span.baseOffStart()
 	span.npages = npages
 	span.allocCount = 0
 	span.sizeclass = 0
@@ -931,16 +958,6 @@ func (span *mspan) init(start pageID, npages uintptr) {
 	span.specials = nil
 	span.needzero = 0
 	span.freeindex = 0
-	span.allocBits = &span.markbits1
-	span.gcmarkBits = &span.markbits2
-	// determine if this is actually needed. It is once / span so it
-	// isn't expensive. This is to be replaced by an arena
-	// based system where things can be cleared all at once so
-	// don't worry about optimizing this.
-	for i := 0; i < len(span.markbits1); i++ {
-		span.allocBits[i] = 0
-		span.gcmarkBits[i] = 0
-	}
 }
 
 func (span *mspan) inList() bool {
@@ -1205,4 +1222,157 @@ func freespecial(s *special, p unsafe.Pointer, size uintptr) {
 		throw("bad special kind")
 		panic("not reached")
 	}
+}
+
+//
+const gcBitsChunkSize = uintptr(1 << 16)
+const gcBitsHeaderSize = unsafe.Sizeof(gcBitsHeader{})
+
+type gcBitsHeader struct {
+	free uintptr
+	size uintptr
+	next *uint // *gcBitsMap is better but triggers recursive type bug.
+}
+
+type gcBits struct {
+	//	markBitsHeader // side steps recursive type bug.
+	free uintptr
+	size uintptr
+	next *gcBits
+	bits [gcBitsChunkSize - gcBitsHeaderSize]uint8
+	//	gcBits [markArenaSize - uintptr(unsafe.Sizeof(markBitsHeader{}))]uint8
+}
+
+var gcBitsLock mutex
+
+var gcFreeArena *gcBits
+var gcNextArena *gcBits
+var gcCurrentArena *gcBits
+var gcPreviousArena *gcBits
+
+// (s *mspan)allocMarkBits() returns a pointer into mark bit space of
+// 8 byte aligned words to be used for this spans mark bits.
+// We maintain the invariant that we only allocate a word boundaries
+// and that we only allocate word sized areas.
+// These structures are accessed only through allocMarkBits and
+// freeMarkBits and these need to hold the gcBitsLock
+func (s *mspan) getMarkBits() *uint8 {
+	lock(&gcBitsLock)
+	wordsNeeded := uintptr((s.nelems + 63) / 64)
+	bytesNeeded := wordsNeeded * 8
+	if gcNextArena == nil {
+		initNextArena()
+		//		println("initMarkArena done gcNextArena.free=", gcNextArena.free, &(gcnextArena.bits[gcNextArena.free]), gcNextArena.size, gcBitsChunkSize)
+	}
+	if gcNextArena.free+bytesNeeded > gcNextArena.size {
+		growNextArena(bytesNeeded)
+		//		println("growMarkArena done gcNextArena.free=", gcNextArena.free, &(gcNextArena.bits[gcnextArena.free]), bytesNeeded)
+	}
+
+	if gcNextArena.free >= gcBitsChunkSize {
+		println("gcNextArena.free=", gcNextArena.free, gcBitsChunkSize)
+	}
+	result := &gcNextArena.bits[gcNextArena.free]
+	gcNextArena.free += bytesNeeded
+	unlock(&gcBitsLock)
+	return result
+}
+
+// Newly initialized spans need a fresh set of allocation bits.
+func (s *mspan) getAllocBits() *uint8 {
+	lock(&gcBitsLock)
+	wordsNeeded := uintptr((s.nelems + 63) / 64)
+	bytesNeeded := wordsNeeded * 8
+	if gcNextArena == nil {
+		initNextArena()
+	}
+	if gcNextArena.free+bytesNeeded > gcNextArena.size {
+		growNextArena(bytesNeeded)
+	}
+	result := &gcNextArena.bits[gcNextArena.free]
+	gcNextArena.free += bytesNeeded
+	unlock(&gcBitsLock)
+	return result
+}
+
+// Establish a new epoch for the arenas holding the mark bits.
+// The arenas are named relative to the active GC cycle which
+// are demarcated by the call to finalizeSweep.
+//
+// All current spans have been swept.
+// During that sweep each span allocated room for its gcmarkBits in
+// gcNextArena block. gcNextArena becomes the gcCurrentArena where
+// the GC will mark objects and after each span is swept these bits
+// will be used to allocate objects.
+// gcCurrentArena become gcPreviousArena where the span's gcAllocBits
+// live until all the spans have been swept during this GC cycle.
+// The span's sweep extinguishes all the references to gcPreviousArena
+// by pointing gcAllocBits into the gcCurrentArena.
+// The gcPreviousArena is released to the gcFreeArena list.
+func nextMarkBitArenaEpoch() {
+	//	return
+	lock(&gcBitsLock)
+	//	var mySysStat uint64
+	if gcPreviousArena != nil {
+		if gcFreeArena == nil {
+			gcFreeArena = gcPreviousArena
+			gcPreviousArena = nil
+		} else {
+			// Find end of gcPreviousArenas
+			last := gcPreviousArena
+			for last = gcPreviousArena; last.next != nil; last = last.next {
+			}
+			last.next = gcFreeArena
+			gcFreeArena = gcPreviousArena
+		}
+	}
+	gcPreviousArena = gcCurrentArena
+	gcCurrentArena = gcNextArena
+	initNextArena()
+	unlock(&gcBitsLock)
+}
+
+func getFreshArena() *gcBits {
+	var myStat uint64
+	var result *gcBits
+	if gcFreeArena == nil {
+		result = (*gcBits)(sysAlloc(gcBitsChunkSize, &myStat))
+		result.next = nil
+		result.size = gcBitsChunkSize - unsafe.Sizeof(gcBitsHeader{})
+		result.free = 0
+	} else {
+		result = gcFreeArena
+		gcFreeArena = gcFreeArena.next
+		memclr(unsafe.Pointer(result), gcBitsChunkSize)
+		result.free = 0
+		result.next = nil
+		result.size = gcBitsChunkSize - unsafe.Sizeof(gcBitsHeader{})
+	}
+	return result
+}
+
+func initNextArena() {
+	gcNextArena = getFreshArena()
+}
+
+func initCurrentArena() {
+	gcCurrentArena = getFreshArena()
+}
+
+func growNextArena(minimum uintptr) {
+	if minimum > gcBitsChunkSize {
+		throw("minumum greater that gcBitsChunkSize")
+	}
+	fresh := getFreshArena()
+	fresh.next = gcNextArena
+	gcNextArena = fresh
+}
+
+func growCurrentArena(minimum uintptr) {
+	if minimum > gcBitsChunkSize {
+		throw("minumum greater that gcBitsChunkSize")
+	}
+	fresh := getFreshArena()
+	fresh.next = gcCurrentArena
+	gcCurrentArena = fresh
 }
