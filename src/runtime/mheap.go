@@ -117,6 +117,7 @@ type mspan struct {
 	prev **mspan    // previous span's next field, or list head's first field if none
 	list *mSpanList // For debugging. TODO: Remove.
 
+	startAddr     uintptr   // uintptr(s.start << _PageShift) aka s.base()
 	start         pageID    // starting page number
 	npages        uintptr   // number of pages in span
 	stackfreelist gclinkptr // list of free stacks, avoids overloading freelist
@@ -175,9 +176,15 @@ type mspan struct {
 	speciallock mutex    // guards specials list
 	specials    *special // linked list of special records sorted by offset.
 	baseMask    uintptr  // if non-0, elemsize is a power of 2, & this will get object allocation base
+	power2shift uint8    // if non-0 then elemsize is a power of 2, >> will produce a divide by elemsize
 }
 
 func (s *mspan) base() uintptr {
+	// return uintptr(s.start << _PageShift)
+	return s.startAddr
+}
+
+func (s *mspan) baseOffStart() uintptr {
 	return uintptr(s.start << _PageShift)
 }
 
@@ -294,7 +301,7 @@ func mlookup(v uintptr, base *uintptr, size *uintptr, sp **mspan) int32 {
 		return 0
 	}
 
-	p := uintptr(s.start) << _PageShift
+	p := s.base()
 	if s.sizeclass == 0 {
 		// Large object.
 		if base != nil {
@@ -536,7 +543,7 @@ func (h *mheap) alloc(npage uintptr, sizeclass int32, large bool, needzero bool)
 
 	if s != nil {
 		if needzero && s.needzero != 0 {
-			memclr(unsafe.Pointer(s.start<<_PageShift), s.npages<<_PageShift)
+			memclr(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		}
 		s.needzero = 0
 	}
@@ -604,7 +611,7 @@ HaveSpan:
 		throw("still in list")
 	}
 	if s.npreleased > 0 {
-		sysUsed(unsafe.Pointer(s.start<<_PageShift), s.npages<<_PageShift)
+		sysUsed(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		memstats.heap_released -= uint64(s.npreleased << _PageShift)
 		s.npreleased = 0
 	}
@@ -814,6 +821,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		t := h_spans[p-1]
 		if t != nil && t.state == _MSpanFree {
 			s.start = t.start
+			s.startAddr = s.baseOffStart()
 			s.npages += t.npages
 			s.npreleased = t.npreleased // absorb released pages
 			s.needzero |= t.needzero
@@ -913,6 +921,7 @@ func (span *mspan) init(start pageID, npages uintptr) {
 	span.prev = nil
 	span.list = nil
 	span.start = start
+	span.startAddr = span.baseOffStart()
 	span.npages = npages
 	span.allocCount = 0
 	span.sizeclass = 0
