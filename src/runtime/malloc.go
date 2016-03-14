@@ -500,7 +500,7 @@ const (
 // nextFreeFast returns the next free object if one is quickly available.
 // Otherwise it returns 0.
 func (s *mspan) nextFreeFast() gclinkptr {
-	ctzIndex := uint8(s.allocCache & 0xff)
+	ctzIndex := uint8(s.allocCache) // Pick up the low byte, uint8 avoid bounds check
 	if ctzIndex != 0 {
 		theBit := uint64(ctzVals[ctzIndex])
 		freeidx := s.freeindex // help the pre ssa compiler out here with cse.
