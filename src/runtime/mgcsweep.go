@@ -37,6 +37,8 @@ func finishsweep_m(stw bool) {
 		sweep.npausesweep++
 	}
 
+	// All the spans have freshly cleared gcmarkBits
+
 	// There may be some other spans being swept concurrently that
 	// we need to wait for. If finishsweep_m is done with the world stopped
 	// this is not required because the STW must have waited for sweeps.
@@ -51,6 +53,7 @@ func finishsweep_m(stw bool) {
 			}
 		}
 	}
+	nextMarkBitArenaEpoch()
 }
 
 func bgsweep(c chan int) {
@@ -211,13 +214,13 @@ func (s *mspan) sweep(preserve bool) bool {
 	special := *specialp
 	for special != nil {
 		// A finalizer can be set for an inner byte of an object, find object beginning.
-		p := uintptr(s.start<<_PageShift) + uintptr(special.offset)/size*size
+		p := s.base() + uintptr(special.offset)/size*size
 		mbits := markBitsForAddr(p)
 		if !mbits.isMarked() {
 			// This object is not marked and has at least one special record.
 			// Pass 1: see if it has at least one finalizer.
 			hasFin := false
-			endOffset := p - uintptr(s.start<<_PageShift) + size
+			endOffset := p - s.base() + size
 			for tmp := special; tmp != nil && uintptr(tmp.offset) < endOffset; tmp = tmp.next {
 				if tmp.kind == _KindSpecialFinalizer {
 					// Stop freeing of object if it has a finalizer.
@@ -230,7 +233,7 @@ func (s *mspan) sweep(preserve bool) bool {
 			for special != nil && uintptr(special.offset) < endOffset {
 				// Find the exact byte for which the special was setup
 				// (as opposed to object beginning).
-				p := uintptr(s.start<<_PageShift) + uintptr(special.offset)
+				p := s.base() + uintptr(special.offset)
 				if special.kind == _KindSpecialFinalizer || !hasFin {
 					// Splice out special record.
 					y := special
@@ -266,12 +269,11 @@ func (s *mspan) sweep(preserve bool) bool {
 			break
 		}
 	}
-	temp := s.allocBits
-	// Swap roll of allocBits with gcmarkBits
-	// Clear gcmarkBits in preparation for next GC
+	// gcmarkBits becomes the allocBits
+	// get a fresh cleared gcmarkBits in preparation for next GC
 	s.allocBits = s.gcmarkBits
-	s.gcmarkBits = temp
-	s.clearGCMarkBits() // prepare for next GC
+	s.gcmarkBits = s.getMarkBits()
+
 	s.freeindex = 0
 	// Compliment and stuff the first 8 bytes into s.allocCache
 	// Unlike in allocBits a 1in s.allocCache means the object is not marked.
@@ -319,7 +321,7 @@ func (s *mspan) sweep(preserve bool) bool {
 		// implement and then call some kind of MHeap_DeleteSpan.
 		if debug.efence > 0 {
 			s.limit = 0 // prevent mlookup from finding this span
-			sysFault(unsafe.Pointer(uintptr(s.start<<_PageShift)), size)
+			sysFault(unsafe.Pointer(s.base()), size)
 		} else {
 			mheap_.freeSpan(s, 1)
 		}
