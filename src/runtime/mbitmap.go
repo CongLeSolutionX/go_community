@@ -203,14 +203,16 @@ func (s *mspan) allocBitsForAddrInSpan(p uintptr) markBits {
 	allocBitIndex := byteOffset / s.elemsize
 	whichByte := allocBitIndex / bitsPerByte
 	whichBit := allocBitIndex % bitsPerByte
-	return markBits{&s.allocBits[whichByte], uint8(1 << whichBit), allocBitIndex}
+	bytePtr := (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
+	return markBits{bytePtr, uint8(1 << whichBit), allocBitIndex}
 }
 
 //go:nosplit
 func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 	whichByte := allocBitIndex / bitsPerByte
 	whichBit := allocBitIndex % bitsPerByte
-	return markBits{&s.allocBits[whichByte], uint8(1 << whichBit), allocBitIndex}
+	bytePtr := (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
+	return markBits{bytePtr, uint8(1 << whichBit), allocBitIndex}
 }
 
 // ctzVals contains the count of trailing zeros for the
@@ -285,14 +287,8 @@ func (s *mspan) refillAllocCache(whichByte uintptr) {
 		aCache |= uint64(s.allocBits[whichByte+7]) << (7 * 8)
 		s.allocCache = ^aCache
 	*/
-	tmp := *(*uint64)(unsafe.Pointer(&(s.allocBits[whichByte])))
-	s.allocCache = ^tmp
-	/*
-		if tmp != aCache {
-			println("tmp=", tmp, "aCache=", aCache)
-			throw("refill broke")
-		}
-	*/
+	aCache := *(*uint64)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
+	s.allocCache = ^aCache
 }
 
 func (s *mspan) nextFreeIndex() uintptr {
@@ -344,35 +340,42 @@ func (s *mspan) nextFreeIndex() uintptr {
 func (s *mspan) isFree(index uintptr) bool {
 	whichByte := index / bitsPerByte
 	whichBit := index % bitsPerByte
-	return s.allocBits[whichByte]&uint8(1<<whichBit) == 0
+	bytePtr := *(*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
+	return bytePtr&uint8(1<<whichBit) == 0
+}
+
+func (s *mspan) getObjIndex(p uintptr) uintptr {
+	byteOffset := p - s.base()
+	if byteOffset == 0 {
+		return 0
+	}
+	if s.baseMask != 0 {
+		return byteOffset >> s.divShift
+	}
+	// Parens are not actually needed but Go operator precedence is different than C
+	return uintptr(((uint64(byteOffset) >> s.divShift) * uint64(s.divMul)) >> s.divShift2)
 }
 
 func markBitsForAddr(p uintptr) markBits {
 	s := spanForAddr(p)
-	return s.markBitsForAddrInSpan(p)
+	objIndex := s.getObjIndex(p)
+	return s.markBitsForAddrInSpan(p, objIndex)
 }
 
-func (s *mspan) markBitsForAddrInSpan(p uintptr) markBits {
-	const bitsPerByte = 8
-	byteOffset := p - s.base()
-	markBitIndex := uintptr(0)
-	if byteOffset != 0 {
-		// markBitIndex := (p - s.base()) / s.elemsize, using division by multiplication
-		markBitIndex = uintptr(uint64(byteOffset) >> s.divShift * uint64(s.divMul) >> s.divShift2)
-	}
-	whichByte := markBitIndex / bitsPerByte
-	whichBit := markBitIndex % bitsPerByte
-	return markBits{&s.gcmarkBits[whichByte], uint8(1 << whichBit), markBitIndex}
-	// Alternatively one could have done the following but it would have cost more.
-	// byteOffset := p - s.base()
-	// markBitIndex = byteOffset / s.elemsize
-	// return s.markBitsForIndexInSpan(markBitIndex)
+// var indexToBitMasks = [8]uint8{1, 2, 4, 8, 16, 32, 64, 128}
+
+func (s *mspan) markBitsForAddrInSpan(p, objIndex uintptr) markBits {
+	whichByte := objIndex / bitsPerByte
+	bitMask := uint8(1 << (objIndex & (bitsPerByte - 1))) // low 3 bits hold the bit index into the byte
+	bytePtr := (*uint8)(unsafe.Pointer((uintptr(unsafe.Pointer(s.gcmarkBits)) + uintptr(whichByte))))
+	return markBits{bytePtr, bitMask, objIndex}
 }
 
 func (s *mspan) markBitsForIndexInSpan(markBitIndex uintptr) markBits {
 	whichByte := markBitIndex / bitsPerByte
 	whichBit := markBitIndex % bitsPerByte
-	return markBits{&s.gcmarkBits[whichByte], uint8(1 << whichBit), markBitIndex}
+	bytePtr := (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.gcmarkBits)) + whichByte))
+	return markBits{bytePtr, uint8(1 << whichBit), markBitIndex}
 }
 
 // isMarked reports whether the heap bits have the marked bit set.
@@ -488,7 +491,7 @@ func heapBitsForSpan(base uintptr) (hbits heapBits) {
 // refBase and refOff optionally give the base address of the object
 // in which the pointer p was found and the byte offset at which it
 // was found. These are used for error reporting.
-func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits, s *mspan) {
+func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits, s *mspan, objIndex uintptr) {
 	arenaStart := mheap_.arena_start
 	if p < arenaStart || p >= mheap_.arena_used {
 		return
@@ -540,6 +543,7 @@ func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits
 		// optimize for power of 2 sized objects.
 		base = s.base()
 		base = base + (p-base)&s.baseMask
+		objIndex = (base - s.base()) >> s.divShift
 		// base = p & s.baseMask is faster for small spans,
 		// but doesn't work for large spans.
 		// Overall, it's faster to use the more general computation above.
@@ -547,8 +551,8 @@ func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits
 		base = s.base()
 		if p-base >= s.elemsize {
 			// n := (p - base) / s.elemsize, using division by multiplication
-			n := uintptr(uint64(p-base) >> s.divShift * uint64(s.divMul) >> s.divShift2)
-			base += n * s.elemsize
+			objIndex = uintptr(uint64(p-base) >> s.divShift * uint64(s.divMul) >> s.divShift2)
+			base += objIndex * s.elemsize
 		}
 	}
 	// Now that we know the actual base, compute heapBits to return to caller.
@@ -771,26 +775,6 @@ func typeBitsBulkBarrier(typ *_type, p, size uintptr) {
 	}
 }
 
-func (s *mspan) clearGCMarkBits() {
-	bytesInMarkBits := int((s.nelems + 7) / 8)
-	if bytesInMarkBits > len(s.markbits1) {
-		throw("s.markbits1 not correctly sized")
-	}
-	for i := 0; i < bytesInMarkBits; i++ {
-		s.gcmarkBits[i] = 0
-	}
-}
-
-func (s *mspan) clearAllocBits() {
-	bytesInMarkBits := int((s.nelems + 7) / 8)
-	if bytesInMarkBits > len(s.markbits1) {
-		throw("s.markbits1 not correctly sized")
-	}
-	for i := 0; i < bytesInMarkBits; i++ {
-		s.allocBits[i] = 0
-	}
-}
-
 // The methods operating on spans all require that h has been returned
 // by heapBitsForSpan and that size, n, total are the span layout description
 // returned by the mspan's layout method.
@@ -808,13 +792,11 @@ func (h heapBits) initSpan(s *mspan) {
 	size, n, total := s.layout()
 
 	// Init the markbit structures
-	s.allocBits = &s.markbits1
-	s.gcmarkBits = &s.markbits2
 	s.freeindex = 0
 	s.allocCache = ^uint64(0) // all 1s indicating all free.
 	s.nelems = n
-	s.clearAllocBits()
-	s.clearGCMarkBits()
+	s.gcmarkBits = s.getMarkBits()
+	s.allocBits = s.getAllocBits()
 
 	// Clear bits corresponding to objects.
 	if total%heapBitmapScale != 0 {
@@ -921,10 +903,11 @@ func (s *mspan) countFree() int {
 	count := 0
 	maxIndex := s.nelems / 8
 	for i := uintptr(0); i < maxIndex; i++ {
-		count += int(oneBitCount[s.gcmarkBits[i]])
+		theByte := *(*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.gcmarkBits)) + i))
+		count += int(oneBitCount[theByte])
 	}
 	if s.nelems%8 != 0 {
-		markBits := uint8(s.gcmarkBits[maxIndex])
+		markBits := *(*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.gcmarkBits)) + maxIndex))
 		mask := uint8((1 << s.nelems % 8) - 1)
 		bits := markBits & mask
 		count += int(oneBitCount[bits])
