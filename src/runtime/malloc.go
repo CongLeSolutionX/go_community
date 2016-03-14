@@ -500,7 +500,7 @@ const (
 // Otherwise it returns 0.
 func (c *mcache) nextFreeFast(sizeclass int8) gclinkptr {
 	s := c.alloc[sizeclass]
-	ctzIndex := uint8(s.allocCache & 0xff)
+	ctzIndex := uint8(s.allocCache)
 	if ctzIndex != 0 {
 		theBit := uint64(ctzVals[ctzIndex])
 		freeidx := s.freeindex // help the pre ssa compiler out here with cse.
