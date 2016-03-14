@@ -504,29 +504,23 @@ func dextratypeData(s *Sym, ot int, t *Type) int {
 		ot = dgostringptr(s, ot, a.name)
 
 		ot = dgopkgpath(s, ot, a.pkg)
-		ot = dsymptr(s, ot, dtypesym(a.mtype), 0)
-		ot = dsymptr(s, ot, dtypesym(a.type_), 0)
-		if a.isym != nil {
-			ot = dmethodptr(s, ot, a.isym)
-		} else {
-			ot = duintptr(s, ot, 0)
-		}
-		if a.tsym != nil {
-			ot = dmethodptr(s, ot, a.tsym)
-		} else {
-			ot = duintptr(s, ot, 0)
-		}
+		ot = dmethodptr(s, ot, dtypesym(a.mtype))
+		ot = dmethodptr(s, ot, dtypesym(a.type_))
+		ot = dmethodptr(s, ot, a.isym)
+		ot = dmethodptr(s, ot, a.tsym)
 	}
 	return ot
 }
 
 func dmethodptr(s *Sym, off int, x *Sym) int {
 	duintptr(s, off, 0)
-	r := obj.Addrel(Linksym(s))
-	r.Off = int32(off)
-	r.Siz = uint8(Widthptr)
-	r.Sym = Linksym(x)
-	r.Type = obj.R_METHOD
+	if x != nil {
+		r := obj.Addrel(Linksym(s))
+		r.Off = int32(off)
+		r.Siz = uint8(Widthptr)
+		r.Sym = Linksym(x)
+		r.Type = obj.R_METHOD
+	}
 	return off + Widthptr
 }
 
