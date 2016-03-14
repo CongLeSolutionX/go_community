@@ -37,6 +37,8 @@ func finishsweep_m(stw bool) {
 		sweep.npausesweep++
 	}
 
+	// All the spans have freshly cleared gcmarkBits
+
 	// There may be some other spans being swept concurrently that
 	// we need to wait for. If finishsweep_m is done with the world stopped
 	// this is not required because the STW must have waited for sweeps.
@@ -51,6 +53,7 @@ func finishsweep_m(stw bool) {
 			}
 		}
 	}
+	nextMarkBitArenaEpoch()
 }
 
 func bgsweep(c chan int) {
@@ -266,12 +269,11 @@ func (s *mspan) sweep(preserve bool) bool {
 			break
 		}
 	}
-	temp := s.allocBits
-	// Swap roll of allocBits with gcmarkBits
-	// Clear gcmarkBits in preparation for next GC
+	// gcmarkBits becomes the allocBits
+	// get a fresh cleared gcmarkBits in preparation for next GC
 	s.allocBits = s.gcmarkBits
-	s.gcmarkBits = temp
-	s.clearGCMarkBits() // prepare for next GC
+	s.gcmarkBits = s.getMarkBits()
+
 	s.freeindex = 0
 	// Compliment and stuff the first 8 bytes into s.allocCache
 	// Unlike in allocBits a 1in s.allocCache means the object is not marked.
