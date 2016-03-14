@@ -62,6 +62,12 @@ func deadcode(ctxt *Link) {
 	methSym := Linkrlookup(ctxt, "reflect.Value.Method", 0)
 	reflectSeen := false
 
+	if DynlinkingGo() {
+		// Exported methods may satisfy interfaces we don't know
+		// about yet when dynamically linking.
+		reflectSeen = true
+	}
+
 	for {
 		if !reflectSeen {
 			if d.reflectMethod || (callSym != nil && callSym.Attr.Reachable()) || (methSym != nil && methSym.Attr.Reachable()) {
@@ -95,8 +101,9 @@ func deadcode(ctxt *Link) {
 
 	// Remove all remaining unreached R_METHOD relocations.
 	for _, m := range d.markableMethods {
-		d.cleanupReloc(m.r0)
-		d.cleanupReloc(m.r1)
+		for _, r := range m.r {
+			d.cleanupReloc(r)
+		}
 	}
 
 	if Buildmode != BuildmodeShared {
@@ -157,9 +164,8 @@ var markextra = []string{
 // receiver, one with receiver
 type methodref struct {
 	m   methodsig
-	src *LSym // receiver type symbol
-	r0  *Reloc
-	r1  *Reloc
+	src *LSym     // receiver type symbol
+	r   [4]*Reloc // mtyp, typ, ifn, tfn
 }
 
 func (m methodref) isExported() bool {
@@ -180,6 +186,9 @@ type deadcodepass struct {
 
 func (d *deadcodepass) cleanupReloc(r *Reloc) {
 	if r.Sym.Attr.Reachable() {
+		if Debug['v'] != 0 {
+			fmt.Printf("cleanupReloc reachable: %s\n", r.Sym.Name)
+		}
 		r.Type = obj.R_ADDR
 	} else {
 		if Debug['v'] > 1 {
@@ -205,10 +214,10 @@ func (d *deadcodepass) mark(s, parent *LSym) {
 
 // markMethod marks a method as reachable and preps its R_METHOD relocations.
 func (d *deadcodepass) markMethod(m methodref) {
-	d.mark(m.r0.Sym, m.src)
-	d.mark(m.r1.Sym, m.src)
-	m.r0.Type = obj.R_ADDR
-	m.r1.Type = obj.R_ADDR
+	for _, r := range m.r {
+		d.mark(r.Sym, m.src)
+		r.Type = obj.R_ADDR
+	}
 }
 
 // init marks all initial symbols as reachable.
@@ -278,6 +287,7 @@ func (d *deadcodepass) flood() {
 			}
 		}
 
+		mpos := 0 // 0-3, the R_METHOD relocs of runtime.uncommontype
 		var methods []methodref
 		for i := 0; i < len(s.R); i++ {
 			r := &s.R[i]
@@ -290,14 +300,17 @@ func (d *deadcodepass) flood() {
 			}
 			// Collect rtype pointers to methods for
 			// later processing in deadcode.
-			if len(methods) > 0 {
-				mref := &methods[len(methods)-1]
-				if mref.r1 == nil {
-					mref.r1 = r
-					continue
-				}
+			if mpos == 0 {
+				m := methodref{src: s}
+				m.r[0] = r
+				methods = append(methods, m)
+			} else {
+				methods[len(methods)-1].r[mpos] = r
 			}
-			methods = append(methods, methodref{src: s, r0: r})
+			mpos++
+			if mpos == 4 {
+				mpos = 0
+			}
 		}
 		if len(methods) > 0 {
 			// Decode runtime type information for type methods
@@ -310,8 +323,8 @@ func (d *deadcodepass) flood() {
 			for i, m := range methodsigs {
 				name := string(m)
 				name = name[:strings.Index(name, "(")]
-				if !strings.HasSuffix(methods[i].r0.Sym.Name, name) {
-					panic(fmt.Sprintf("%q relocation for %q does not match method %q", s.Name, methods[i].r0.Sym.Name, name))
+				if !strings.HasSuffix(methods[i].r[2].Sym.Name, name) {
+					panic(fmt.Sprintf("%q relocation for %q does not match method %q", s.Name, methods[i].r[2].Sym.Name, name))
 				}
 				methods[i].m = m
 			}
