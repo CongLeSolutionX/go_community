@@ -13,6 +13,7 @@
 package runtime
 
 import "runtime/internal/atomic"
+import "unsafe"
 
 // Central list of free objects of a given size.
 type mcentral struct {
@@ -105,14 +106,14 @@ havespan:
 		println("runtime: cacheSpan havespan:110  --- s=", s, " cap", cap, "s.nelems=", s.nelems, "thumbprint= 110", "n=", n, "s.sizeclass=", s.sizeclass,
 			"s.allocCount=", s.allocCount, "s.freeindex=", s.freeindex, "s.allocCache=", hex(s.allocCache), "s.elemsize=", s.elemsize,
 			"\ns.allobBits[0-7]=",
-			hex(s.allocBits[0]),
-			hex(s.allocBits[1]),
-			hex(s.allocBits[2]),
-			hex(s.allocBits[3]),
-			hex(s.allocBits[4]),
-			hex(s.allocBits[5]),
-			hex(s.allocBits[6]),
-			hex(s.allocBits[7]))
+			hex(uintptr(unsafe.Pointer(s.allocBits))+0),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+1),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+2),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+3),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+4),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+5),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+6),
+			hex(uintptr(unsafe.Pointer(s.allocBits))+7))
 		throw("span has no free objects")
 	}
 	usedBytes := uintptr(s.allocCount) * s.elemsize
