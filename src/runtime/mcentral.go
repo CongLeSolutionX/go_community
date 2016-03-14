@@ -225,7 +225,7 @@ func (c *mcentral) grow() *mspan {
 		return nil
 	}
 
-	p := uintptr(s.start << _PageShift)
+	p := s.base()
 	s.limit = p + size*n
 
 	heapBitsForSpan(s.base()).initSpan(s)
