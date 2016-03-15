@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7ab1dee_848fac58",
+        "filename": "src/cmd/compile/internal/gc/bv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-15T06:17:37Z",
+      "side": 1,
+      "message": "(bv1, bv2 Bvec)\n\nBut things named \"cmp\" generally return {-1, 0, 1}. If this returns a boolean, I\u0027d expect \"bveq\". But then the negation of this boolean is backwards, since it returns true when they\u0027re different.\n\nSo I\u0027d either stick with int for now or negate the bool.\n\nI think I\u0027d make it method on Bvec named \"Equal\" (similar to the name of 5-6 other things in the Go API) returning true if they\u0027re equal, and flip the sense of the bool at the call sites.",
+      "revId": "2eb87890c6cff8af2654374e013c8c2636f91320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
