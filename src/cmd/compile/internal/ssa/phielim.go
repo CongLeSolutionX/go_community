@@ -12,6 +12,10 @@ package ssa
 //   v = phi(x,v,x,v)
 // We repeat this process to also catch situations like:
 //   v = phi(x, phi(x, x), phi(x, v))
+// For phis with duplicate args:
+//   v = phi(x,x,w)
+//  the duplicate arguments are removed, and a new predecessor
+//  block is inserted.
 // TODO: Can we also simplify cases like:
 //   v = phi(v, w, x)
 //   w = phi(v, w, x)
@@ -20,9 +24,19 @@ func phielim(f *Func) {
 	for {
 		change := false
 		for _, b := range f.Blocks {
+			phiCnt := 0
 			for _, v := range b.Values {
 				copyelimValue(v)
 				change = phielimValue(v) || change
+				if v.Op == OpPhi {
+					phiCnt++
+				}
+			}
+			if !change && phiCnt == 1 {
+				for _, v := range b.Values {
+					copyelimValue(v)
+					change = phielimSplit(f, v) || change
+				}
 			}
 		}
 		if !change {
@@ -69,4 +83,73 @@ func phielimValue(v *Value) bool {
 		f.Config.Warnl(v.Line, "eliminated phi")
 	}
 	return true
+}
+
+// phielimSplit splits phis that contain multiple arguments of the same
+// value.
+func phielimSplit(f *Func, phi *Value) bool {
+	if phi.Op != OpPhi {
+		return false
+	}
+
+	// map of phi value to the indices in the phi where it is found
+	phiArgs := map[*Value][]int{}
+	for i, x := range phi.Args {
+		phiArgs[x] = append(phiArgs[x], i)
+	}
+
+	for w, idxs := range phiArgs {
+		// check if we have more then a single copy of this
+		// argument value
+		if len(idxs) < 2 {
+			continue
+		}
+
+		// construct a new block with a copy of the phi arg
+		nb := f.NewBlock(BlockPlain)
+		if f.pass.debug > 0 {
+			f.Config.Warnl(phi.Line, "split phi")
+		}
+		nb.Succs = append(nb.Succs, phi.Block)
+		nv := nb.NewValue1(phi.Line, OpCopy, phi.Type, w)
+
+		for _, bidx := range idxs {
+			// copy predecessor from phi block to the new block
+			nb.Preds = append(nb.Preds, phi.Block.Preds[bidx])
+			// set those successors to the new block
+			for pidx, bv := range phi.Block.Preds[bidx].Succs {
+				if bv == phi.Block {
+					phi.Block.Preds[bidx].Succs[pidx] = nb
+					// set the predecessor and phi argument to nil so
+					// they can be cleared later
+					phi.Block.Preds[bidx] = nil
+					phi.Args[bidx] = nil
+				}
+			}
+		}
+
+		// fix up the phi Preds/Args by filtering out the nil values
+		prevPreds := phi.Block.Preds
+		phi.Block.Preds = prevPreds[:0]
+		prevArgs := phi.Args
+		phi.Args = prevArgs[:0]
+		if len(phi.Args) != len(phi.Block.Preds) {
+			f.Fatalf("expected preds length == phi arg count")
+		}
+
+		for i := range prevPreds {
+			if prevPreds[i] != nil {
+				phi.Block.Preds = append(phi.Block.Preds, prevPreds[i])
+			}
+			if prevArgs[i] != nil {
+				phi.Args = append(phi.Args, prevArgs[i])
+			}
+		}
+
+		// add our new value to the phi, and a predecessor of our new block
+		phi.Args = append(phi.Args, nv)
+		phi.Block.Preds = append(phi.Block.Preds, nb)
+		return true
+	}
+	return false
 }
