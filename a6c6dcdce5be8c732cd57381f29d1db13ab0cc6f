@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "576229c1_00d8ec66",
+        "filename": "src/cmd/compile/internal/amd64/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T06:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ab1dee_a448e806",
+      "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_e45830d4",
         "filename": "src/cmd/compile/internal/amd64/galign.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-15T05:18:12Z",
       "side": 1,
       "message": "drop the type here too?  I\u0027d even drop the \u0026 here and move it to cmd/internal/obj/x86/obj6.go (probably in a separate change)",
+      "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_20ddf056",
+        "filename": "src/cmd/compile/internal/amd64/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T06:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ab1dee_e45830d4",
       "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "576229c1_40dae45f",
+        "filename": "src/cmd/compile/internal/arm/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T06:27:53Z",
+      "side": 1,
+      "message": "i deleted all these constants",
+      "parentUuid": "f7ab1dee_444e6410",
+      "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_245358b5",
         "filename": "src/cmd/compile/internal/arm/galign.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-15T05:18:12Z",
       "side": 1,
       "message": "drop type?",
+      "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_60e7e82a",
+        "filename": "src/cmd/compile/internal/arm/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T06:27:53Z",
+      "side": 1,
+      "message": "deleted",
+      "parentUuid": "f7ab1dee_245358b5",
       "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "576229c1_80e4fc25",
+        "filename": "src/cmd/compile/internal/arm64/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T06:27:53Z",
+      "side": 1,
+      "message": "\u003e drop string\n\ndone",
+      "parentUuid": "f7ab1dee_84684c66",
+      "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_6465608a",
         "filename": "src/cmd/compile/internal/arm64/galign.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-15T05:18:12Z",
       "side": 1,
       "message": "drop type",
+      "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_a0af40c8",
+        "filename": "src/cmd/compile/internal/arm64/galign.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T06:27:53Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "f7ab1dee_6465608a",
       "revId": "a6c6dcdce5be8c732cd57381f29d1db13ab0cc6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
