@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "576229c1_6bfb4966",
+        "filename": "src/net/ipsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-03-15T23:27:30Z",
+      "side": 1,
+      "message": "I only used consts for the error messages that are used multiple times. This still felt a bit ick to me. Happy to not use consts at all, or to use them for all 6 error messages.",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 43
+      },
+      "revId": "6448944fb027e7950dbba5990c4bd685c8d7ef8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
