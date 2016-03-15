@@ -16,6 +16,24 @@
       "revId": "2eb87890c6cff8af2654374e013c8c2636f91320",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_2076d016",
+        "filename": "src/cmd/compile/internal/gc/bv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-15T07:28:12Z",
+      "side": 1,
+      "message": "I\u0027ve renamed it to bveq that returns true if bv1 \u003d\u003d bv2, as its name impllies",
+      "parentUuid": "f7ab1dee_848fac58",
+      "revId": "2eb87890c6cff8af2654374e013c8c2636f91320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
