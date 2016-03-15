@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_2b685d64",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T18:17:24Z",
+      "side": 1,
+      "message": "Removed. (Debugging cruft.)",
+      "parentUuid": "f7ab1dee_92c1aafb",
+      "revId": "5efe74d418da0ec01802aa51c5bf6394b7e4841c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_926b6abe",
         "filename": "src/cmd/link/internal/ld/deadcode.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-15T18:07:50Z",
       "side": 1,
       "message": "This code suggests that there are always either exactly 0 or exactly 4 R_METHOD relocations per symbol.  But the code you are touching in cmd/compile allows for the possibility of a nil symbol, implying a number of relocations other than 0 or 4.",
+      "revId": "5efe74d418da0ec01802aa51c5bf6394b7e4841c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_0b65a18a",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T18:17:24Z",
+      "side": 1,
+      "message": "Good point. I believe nil symbols here are not possible. I\u0027ve removed the check for cmd/compile, and I\u0027m going to see if the TryBot overloads agree with me.",
+      "parentUuid": "f7ab1dee_926b6abe",
       "revId": "5efe74d418da0ec01802aa51c5bf6394b7e4841c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
