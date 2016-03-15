@@ -39,6 +39,24 @@
       "revId": "6448944fb027e7950dbba5990c4bd685c8d7ef8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576229c1_cb08d54e",
+        "filename": "src/net/ipsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-03-15T23:42:53Z",
+      "side": 1,
+      "message": "Done (without closing over hostport)",
+      "parentUuid": "17c6f1d9_d4bdea94",
+      "revId": "6448944fb027e7950dbba5990c4bd685c8d7ef8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
