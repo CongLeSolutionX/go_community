@@ -16,6 +16,24 @@
       "revId": "37e491295bda32dae769328ea2272153d9d1c73b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_1915fb5c",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-15T21:50:08Z",
+      "side": 1,
+      "message": "Added a FmtFlag type with documentation.  PTAL",
+      "parentUuid": "17c6f1d9_6e76e365",
+      "revId": "37e491295bda32dae769328ea2272153d9d1c73b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
