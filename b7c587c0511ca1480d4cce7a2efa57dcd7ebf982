@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "576229c1_202b3063",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-15T03:11:46Z",
+      "side": 1,
+      "message": "this isn\u0027t needed until around line 175. better to move it there.\n\nyou could even do a defer function to restore it at line 180, the only place\nthat it\u0027s modified.\ndefer func(z int) { f.zero \u003d z } (f.zero) // Restore value on return.\nf.zero \u003d false\n\nthat is arguably the correct solution but it does add overhead, but only in rare cases.\nmaybe measure it?",
+      "revId": "b7c587c0511ca1480d4cce7a2efa57dcd7ebf982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
