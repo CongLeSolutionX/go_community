@@ -10,16 +10,16 @@ import (
 	"cmd/internal/obj/arm"
 )
 
-var thechar int = '5'
-
-var thestring string = "arm"
+const (
+	thechar          = '5'
+	MAXWIDTH         = (1 << 32) - 1
+	thestring string = "arm"
+)
 
 var thelinkarch *obj.LinkArch = &arm.Linkarm
 
 func linkarchinit() {
 }
-
-var MAXWIDTH int64 = (1 << 32) - 1
 
 func betypeinit() {
 	gc.Widthptr = 4

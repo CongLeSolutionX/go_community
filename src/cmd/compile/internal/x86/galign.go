@@ -12,16 +12,16 @@ import (
 	"os"
 )
 
-var thechar int = '8'
-
-var thestring string = "386"
+const (
+	thechar   = '8'
+	thestring = "386"
+	MAXWIDTH  = (1 << 32) - 1
+)
 
 var thelinkarch *obj.LinkArch = &x86.Link386
 
 func linkarchinit() {
 }
-
-var MAXWIDTH int64 = (1 << 32) - 1
 
 func betypeinit() {
 	gc.Widthptr = 4

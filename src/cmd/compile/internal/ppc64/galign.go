@@ -10,11 +10,15 @@ import (
 	"cmd/internal/obj/ppc64"
 )
 
-var thechar int = '9'
+const (
+	thechar  = '9'
+	MAXWIDTH = 1 << 50
+)
 
-var thestring string = "ppc64"
-
-var thelinkarch *obj.LinkArch
+var (
+	thestring   string = "ppc64"
+	thelinkarch *obj.LinkArch
+)
 
 func linkarchinit() {
 	thestring = obj.Getgoarch()
@@ -26,8 +30,6 @@ func linkarchinit() {
 	}
 	gc.Thearch.Thelinkarch = thelinkarch
 }
-
-var MAXWIDTH int64 = 1 << 50
 
 func betypeinit() {
 	gc.Widthptr = 8

@@ -10,16 +10,16 @@ import (
 	"cmd/internal/obj/arm64"
 )
 
-var thechar int = '7'
-
-var thestring string = "arm64"
+const (
+	thechar          = '7'
+	thestring string = "arm64"
+	MAXWIDTH         = 1 << 50
+)
 
 var thelinkarch *obj.LinkArch = &arm64.Linkarm64
 
 func linkarchinit() {
 }
-
-var MAXWIDTH int64 = 1 << 50
 
 func betypeinit() {
 	gc.Widthptr = 8

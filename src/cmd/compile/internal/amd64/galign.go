@@ -10,10 +10,18 @@ import (
 	"cmd/internal/obj/x86"
 )
 
+const (
+	thechar  = '6'
+	MAXWIDTH = 1 << 50
+)
+
 var (
-	thechar     int           = '6'
 	thestring   string        = "amd64"
 	thelinkarch *obj.LinkArch = &x86.Linkamd64
+	addptr                    = x86.AADDQ
+	movptr                    = x86.AMOVQ
+	leaptr                    = x86.ALEAQ
+	cmpptr                    = x86.ACMPQ
 )
 
 func linkarchinit() {
@@ -24,15 +32,6 @@ func linkarchinit() {
 		gc.Thearch.Thestring = "amd64p32"
 	}
 }
-
-var MAXWIDTH int64 = 1 << 50
-
-var (
-	addptr = x86.AADDQ
-	movptr = x86.AMOVQ
-	leaptr = x86.ALEAQ
-	cmpptr = x86.ACMPQ
-)
 
 func betypeinit() {
 	gc.Widthptr = 8
