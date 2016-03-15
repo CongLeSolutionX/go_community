@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_2b7cdd45",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T17:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ab1dee_e4daf0e9",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_005aac20",
         "filename": "src/cmd/link/internal/ld/deadcode.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-15T02:21:44Z",
       "side": 1,
       "message": "is this 3 the same constant as line 168 ? Could it be made into a real constant so they move in sync with each other.",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_0b792156",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T17:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576229c1_005aac20",
       "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_6b76d565",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T17:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ab1dee_24d518b7",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576229c1_403ca4c5",
         "filename": "src/cmd/link/internal/ld/decodesym.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-15T02:21:44Z",
       "side": 1,
       "message": "could you please add a constant or a comment for this magic number.",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_abd28d78",
+        "filename": "src/cmd/link/internal/ld/decodesym.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T17:25:17Z",
+      "side": 1,
+      "message": "odd that you call out this line, which I consider one of the most readable in what is otherwise a very confusing file.\n\nthis value is the equivalent of unsafe.Sizeof(reflect.method{}) inside the program. It\u0027s not a constant because we are in the linker, which means the value depends on the pointer size of the program being linked.\n\nI think splitting out the 5 as a constant would make this harder to read, because it would be numOfPtrFieldsInMethod.\n\nI added a comment.",
+      "parentUuid": "576229c1_403ca4c5",
       "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "17c6f1d9_2bc7bdb9",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T17:25:17Z",
+      "side": 1,
+      "message": "I think this function was always allocating (ignoring escape analysis), because the returned reflect.Method struct is several words.\n\nI\u0027ve turned this into a make.",
+      "parentUuid": "f7ab1dee_c4c4140c",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_a4c108fb",
         "filename": "src/runtime/type.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-15T02:13:55Z",
       "side": 1,
       "message": "clarify which type this means? // type without receiver",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_ebb3e55e",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-15T17:25:17Z",
+      "side": 1,
+      "message": "In general all of these types are documented in reflect/type.go. I\u0027m reluctant to duplicate the comments, given what little was in this file had already rotted when I got to it a few weeks ago.\n\n(Though I dream of generating one of these files from the other, and a good chunk of decodesym.go too.)",
+      "parentUuid": "f7ab1dee_a4c108fb",
       "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
