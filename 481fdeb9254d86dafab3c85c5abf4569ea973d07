@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17c6f1d9_ae0d7b8e",
+        "filename": "src/cmd/compile/internal/ssa/phielim.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-15T19:56:21Z",
+      "side": 1,
+      "message": "phiCnt\u003d\u003d1 is sufficient here, but maybe we want to check if all phis have duplicate inputs in the same locations somehow.  I\u0027m not entirely sure how you would do that.  In any case, add a comment here that we only handle one phi because that\u0027s easier than the general case.",
+      "revId": "481fdeb9254d86dafab3c85c5abf4569ea973d07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_2edb4b35",
+        "filename": "src/cmd/compile/internal/ssa/phielim.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-15T19:56:21Z",
+      "side": 1,
+      "message": "We just did a copyelimvalue above - why do we need to do it again here?",
+      "revId": "481fdeb9254d86dafab3c85c5abf4569ea973d07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_ce0c3790",
+        "filename": "src/cmd/compile/internal/ssa/phielim.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-15T19:56:21Z",
+      "side": 1,
+      "message": "This is dependent on map iteration order.  We should avoid this if possible.\nMaybe use a sparseMap?  You\u0027d need to allocate one at the start of phielim and pass it in.",
+      "revId": "481fdeb9254d86dafab3c85c5abf4569ea973d07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
