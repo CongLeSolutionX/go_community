@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c5c0e36_47ebcecb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-15T18:21:17Z",
+      "side": 1,
+      "message": "This line should describe the change, not the problem, so:\n    cmd/go: fix TestShadowingLogic when GOROOT path has spaces",
+      "revId": "5091d56e787e10e6a4c4edb979792d089c9f48bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7d7e57d_40792755",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-15T18:21:17Z",
+      "side": 1,
+      "message": "Sorry: remove the leading spaces on these lines.  Put a blank line between the two lines.  Thanks.",
+      "revId": "5091d56e787e10e6a4c4edb979792d089c9f48bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
