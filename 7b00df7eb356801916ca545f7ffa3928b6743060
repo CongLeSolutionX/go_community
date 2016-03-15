@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7ab1dee_e4daf0e9",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-15T02:13:55Z",
+      "side": 1,
+      "message": "update the comment and end in a period while you\u0027re at it.\n\nthere are three (not two, not four) relocations now. explain each. or do it in a comment above the \u0027r\u0027 field.",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_24d518b7",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-15T02:13:55Z",
+      "side": 1,
+      "message": "maybe instead of r[1] or r[someConstant] you can just add a new methods on methodref which returns r[0], r[1], r[2].",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_c4c4140c",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-15T02:13:55Z",
+      "side": 1,
+      "message": "if it\u0027s now allocating, at least size these slices appropriately at allocation to the size of ft.in() and ft.out()? admittedly they\u0027re probably both small and won\u0027t need to grow, but maybe we\u0027d waste space by telling make we only need something very small. (e.g 0, avoiding the make)",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ab1dee_a4c108fb",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-15T02:13:55Z",
+      "side": 1,
+      "message": "clarify which type this means? // type without receiver",
+      "revId": "7b00df7eb356801916ca545f7ffa3928b6743060",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
