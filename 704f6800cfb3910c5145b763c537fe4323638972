@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17c6f1d9_f4e626d1",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-15T23:25:26Z",
+      "side": 1,
+      "message": "This seems to change the behavior of default cases.  What used to happen here?  Your new code looks ok to me but I\u0027m not sure how the old code ever worked.  Did we just allocate a sudog and add it to the waiting list for no reason?",
+      "revId": "704f6800cfb3910c5145b763c537fe4323638972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
