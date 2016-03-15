@@ -110,12 +110,16 @@ func ipv6only(addr IPAddr) bool {
 // must be enclosed in square brackets, as in "[::1]:80",
 // "[ipv6-host]:http" or "[ipv6-host%zone]:80".
 func SplitHostPort(hostport string) (host, port string, err error) {
+	const (
+		missingPort   = "missing port in address"
+		tooManyColons = "too many colons in address"
+	)
 	j, k := 0, 0
 
 	// The port starts after the last colon.
 	i := last(hostport, ':')
 	if i < 0 {
-		goto missingPort
+		return "", "", &AddrError{Err: missingPort, Addr: hostport}
 	}
 
 	if hostport[0] == '[' {
@@ -128,51 +132,37 @@ func SplitHostPort(hostport string) (host, port string, err error) {
 		switch end + 1 {
 		case len(hostport):
 			// There can't be a ':' behind the ']' now.
-			goto missingPort
+			return "", "", &AddrError{Err: missingPort, Addr: hostport}
 		case i:
 			// The expected result.
 		default:
 			// Either ']' isn't followed by a colon, or it is
 			// followed by a colon that is not the last one.
 			if hostport[end+1] == ':' {
-				goto tooManyColons
+				return "", "", &AddrError{Err: tooManyColons, Addr: hostport}
 			}
-			goto missingPort
+			return "", "", &AddrError{Err: missingPort, Addr: hostport}
 		}
 		host = hostport[1:end]
 		j, k = 1, end+1 // there can't be a '[' resp. ']' before these positions
 	} else {
 		host = hostport[:i]
 		if byteIndex(host, ':') >= 0 {
-			goto tooManyColons
+			return "", "", &AddrError{Err: tooManyColons, Addr: hostport}
 		}
 		if byteIndex(host, '%') >= 0 {
-			goto missingBrackets
+			return "", "", &AddrError{Err: "missing brackets in address", Addr: hostport}
 		}
 	}
 	if byteIndex(hostport[j:], '[') >= 0 {
-		err = &AddrError{Err: "unexpected '[' in address", Addr: hostport}
-		return
+		return "", "", &AddrError{Err: "unexpected '[' in address", Addr: hostport}
 	}
 	if byteIndex(hostport[k:], ']') >= 0 {
-		err = &AddrError{Err: "unexpected ']' in address", Addr: hostport}
-		return
+		return "", "", &AddrError{Err: "unexpected ']' in address", Addr: hostport}
 	}
 
 	port = hostport[i+1:]
-	return
-
-missingPort:
-	err = &AddrError{Err: "missing port in address", Addr: hostport}
-	return
-
-tooManyColons:
-	err = &AddrError{Err: "too many colons in address", Addr: hostport}
-	return
-
-missingBrackets:
-	err = &AddrError{Err: "missing brackets in address", Addr: hostport}
-	return
+	return host, port, nil
 }
 
 func splitHostZone(s string) (host, zone string) {
