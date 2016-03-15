@@ -22,6 +22,23 @@
       "revId": "6448944fb027e7950dbba5990c4bd685c8d7ef8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_d4bdea94",
+        "filename": "src/net/ipsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-15T23:32:50Z",
+      "side": 1,
+      "message": "these could look less noisy if you defined a func at top, like:\n\n    addrErr :\u003d func(why string) (host, port string, err error) {\n          return \"\", \"\", \u0026AddrError{Addr: hostport, Err: why}\n    }\n\n...\n\n     return addrErr(tooManyColons)\n\nBut then it might allocate on that closure, even if unused. But you could also pass a second string parameter to addrErr and then it wouldn\u0027t allocate and it could still look like this at call sites:\n\n     return addrErr(hostport, tooManyColons)",
+      "revId": "6448944fb027e7950dbba5990c4bd685c8d7ef8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
