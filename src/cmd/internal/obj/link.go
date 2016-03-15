@@ -336,7 +336,6 @@ type LSym struct {
 	Gotype *LSym
 	Autom  *Auto
 	Text   *Prog
-	Etext  *Prog
 	Pcln   *Pcln
 	P      []byte
 	R      []Reloc
