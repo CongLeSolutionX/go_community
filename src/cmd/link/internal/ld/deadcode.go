@@ -165,7 +165,7 @@ var markextra = []string{
 type methodref struct {
 	m   methodsig
 	src *LSym     // receiver type symbol
-	r   [4]*Reloc // mtyp, typ, ifn, tfn
+	r   [3]*Reloc // mtyp, ifn, tfn
 }
 
 func (m methodref) isExported() bool {
@@ -308,7 +308,7 @@ func (d *deadcodepass) flood() {
 				methods[len(methods)-1].r[mpos] = r
 			}
 			mpos++
-			if mpos == 4 {
+			if mpos == 3 {
 				mpos = 0
 			}
 		}
@@ -323,8 +323,8 @@ func (d *deadcodepass) flood() {
 			for i, m := range methodsigs {
 				name := string(m)
 				name = name[:strings.Index(name, "(")]
-				if !strings.HasSuffix(methods[i].r[2].Sym.Name, name) {
-					panic(fmt.Sprintf("%q relocation for %q does not match method %q", s.Name, methods[i].r[2].Sym.Name, name))
+				if !strings.HasSuffix(methods[i].r[1].Sym.Name, name) {
+					panic(fmt.Sprintf("%q relocation for %q does not match method %q", s.Name, methods[i].r[1].Sym.Name, name))
 				}
 				methods[i].m = m
 			}
