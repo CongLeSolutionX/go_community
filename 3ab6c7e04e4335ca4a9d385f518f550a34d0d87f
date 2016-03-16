@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c6a4eda_e6d9903a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-16T22:18:12Z",
+      "side": 1,
+      "message": "s/add/adding/",
+      "range": {
+        "startLine": 23,
+        "startChar": 38,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "3ab6c7e04e4335ca4a9d385f518f550a34d0d87f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_c6e00ce4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-16T22:18:12Z",
+      "side": 1,
+      "message": "s/add/added/ ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 29,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "3ab6c7e04e4335ca4a9d385f518f550a34d0d87f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_460e3c87",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-16T22:18:12Z",
+      "side": 1,
+      "message": "check recvs first?",
+      "revId": "3ab6c7e04e4335ca4a9d385f518f550a34d0d87f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
