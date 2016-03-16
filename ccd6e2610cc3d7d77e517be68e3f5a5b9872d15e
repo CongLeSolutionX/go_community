@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_cbf815d9",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T22:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_60d7a8c4",
+      "revId": "ccd6e2610cc3d7d77e517be68e3f5a5b9872d15e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_a095c0f6",
         "filename": "src/cmd/link/internal/ld/ldelf.go",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_2b21913a",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T22:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_a095c0f6",
+      "revId": "ccd6e2610cc3d7d77e517be68e3f5a5b9872d15e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_e03df8c2",
         "filename": "src/cmd/link/internal/ld/read.go",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-16T20:12:20Z",
       "side": 1,
       "message": "Not for this CL, but is it practical/reasonable to change objReader into an interface with separate concrete objMmapReader and objStreamReader implementation types?",
+      "revId": "ccd6e2610cc3d7d77e517be68e3f5a5b9872d15e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_0b184d03",
+        "filename": "src/cmd/link/internal/ld/read.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T22:01:04Z",
+      "side": 1,
+      "message": "Done. (It helped me fix a bug.)",
+      "parentUuid": "5c6a4eda_e03df8c2",
       "revId": "ccd6e2610cc3d7d77e517be68e3f5a5b9872d15e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
