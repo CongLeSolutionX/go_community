@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17c6f1d9_1fc15b6b",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-16T04:55:08Z",
+      "side": 1,
+      "message": "add a little comment or so while you\u0027re here about what stuff is, at least this line.",
+      "revId": "57bc84f571e5ab4bde194410e75ed0a1e4c03a62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
