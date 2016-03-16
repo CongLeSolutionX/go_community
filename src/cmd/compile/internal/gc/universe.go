@@ -387,7 +387,7 @@ func lexinit1() {
 	*f.RecvsP() = rcvr
 	*f.ResultsP() = out
 	*f.ParamsP() = in
-	f.Thistuple = 1
+	f.Thistuple = true
 	f.Intuple = 0
 	f.Outnamed = false
 	f.Outtuple = 1

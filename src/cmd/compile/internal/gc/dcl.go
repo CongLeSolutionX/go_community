@@ -655,7 +655,7 @@ func funcargs2(t *Type) {
 		Fatalf("funcargs2 %v", t)
 	}
 
-	if t.Thistuple != 0 {
+	if t.Thistuple {
 		for ft, it := IterFields(t.Recvs()); ft != nil; ft = it.Next() {
 			if ft.Nname == nil || ft.Nname.Sym == nil {
 				continue
@@ -1166,7 +1166,7 @@ func functype0(t *Type, this *Node, in, out []*Node) {
 	}
 
 	if this != nil {
-		t.Thistuple = 1
+		t.Thistuple = true
 	}
 	t.Outtuple = len(out)
 	t.Intuple = len(in)

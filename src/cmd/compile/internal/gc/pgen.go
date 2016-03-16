@@ -153,7 +153,7 @@ func emitptrargsmap() {
 	off := duint32(sym, 0, uint32(nbitmap))
 	off = duint32(sym, off, uint32(bv.n))
 	var xoffset int64
-	if Curfn.Type.Thistuple > 0 {
+	if Curfn.Type.Thistuple {
 		xoffset = 0
 		onebitwalktype1(Curfn.Type.Recvs(), &xoffset, bv)
 	}
