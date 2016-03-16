@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7723d90_faf561a3",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-03-16T14:28:32Z",
+      "side": 1,
+      "message": "Maybe its not applicable here since i have yet to understand the full patch. But would it be possible to mmap as MAP_PRIVATE and just write to the mmap discarding or save the contents when the mmap is closed as necessary?",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
