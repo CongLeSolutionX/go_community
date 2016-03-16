@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_a0b1400e",
+        "filename": "src/cmd/link/internal/ld/ar.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_77b69024",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_37b01823",
         "filename": "src/cmd/link/internal/ld/ar.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-16T17:11:10Z",
       "side": 1,
       "message": "Another silent truncation, albeit less serious.",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_00ceec7b",
+        "filename": "src/cmd/link/internal/ld/ar.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "I believe this one already existed, because the value was passed as l to make([]byte, l), which is limited to machine word size.",
+      "parentUuid": "5c6a4eda_37b01823",
       "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_20f0d0b3",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_779f708a",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_d78d1c61",
         "filename": "src/cmd/link/internal/ld/ldelf.go",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-16T17:11:10Z",
       "side": 1,
       "message": "This truncation should be checked.",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_e0d9783a",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_d78d1c61",
       "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_a0e380ee",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_57834c31",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_7788d04a",
         "filename": "src/cmd/link/internal/ld/ldelf.go",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-16T17:11:10Z",
       "side": 1,
       "message": "Check truncation.",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_400e2487",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_7788d04a",
       "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_c0f9d493",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_1a09797d",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_9ab1090f",
         "filename": "src/cmd/link/internal/ld/read_unix.go",
         "patchSetId": 5
@@ -174,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "5c6a4eda_c04a349d",
+        "filename": "src/cmd/link/internal/ld/read_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_9ab1090f",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c6a4eda_5abdb1dc",
         "filename": "src/cmd/link/internal/ld/read_unix.go",
         "patchSetId": 5
@@ -185,6 +329,24 @@
       "writtenOn": "2016-03-16T17:11:10Z",
       "side": 1,
       "message": "s/earlier to/earlier/",
+      "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6a4eda_801e7ca4",
+        "filename": "src/cmd/link/internal/ld/read_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-16T19:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c6a4eda_5abdb1dc",
       "revId": "4f84607015b9c39807ff78ef8c78df00588bd32b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
