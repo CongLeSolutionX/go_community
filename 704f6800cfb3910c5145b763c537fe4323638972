@@ -16,6 +16,24 @@
       "revId": "704f6800cfb3910c5145b763c537fe4323638972",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_5f559321",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-16T01:30:59Z",
+      "side": 1,
+      "message": "That\u0027s an excellent question... I think the old code works because the end of pass 1 will fall out to retc if there is a default case. But that would suggest that this check if unnecessary and I remember having to put it in to fix something. Maybe I was confused by something else when I put it in? I\u0027ll look into this tomorrow.",
+      "parentUuid": "17c6f1d9_f4e626d1",
+      "revId": "704f6800cfb3910c5145b763c537fe4323638972",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
