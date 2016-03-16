@@ -1230,12 +1230,12 @@ func syslook(name string) *Node {
 func typehash(t *Type) uint32 {
 	var p string
 
-	if t.Thistuple != 0 {
+	if t.Thistuple {
 		// hide method receiver from Tpretty
-		t.Thistuple = 0
+		t.Thistuple = false
 
 		p = Tconv(t, FmtLeft|FmtUnsigned)
-		t.Thistuple = 1
+		t.Thistuple = true
 	} else {
 		p = Tconv(t, FmtLeft|FmtUnsigned)
 	}
@@ -1569,7 +1569,7 @@ func lookdot0(s *Sym, t *Type, save **Field, ignorecase bool) int {
 	c := 0
 	if u.Etype == TSTRUCT || u.Etype == TINTER {
 		for f, it := IterFields(u); f != nil; f = it.Next() {
-			if f.Sym == s || (ignorecase && f.Type.Etype == TFUNC && f.Type.Thistuple > 0 && strings.EqualFold(f.Sym.Name, s.Name)) {
+			if f.Sym == s || (ignorecase && f.Type.Etype == TFUNC && f.Type.Thistuple && strings.EqualFold(f.Sym.Name, s.Name)) {
 				if save != nil {
 					*save = f
 				}
@@ -1829,7 +1829,7 @@ func expandmeth(t *Type) {
 			continue
 		}
 		// dotpath may have dug out arbitrary fields, we only want methods.
-		if f.Type.Etype == TFUNC && f.Type.Thistuple > 0 {
+		if f.Type.Etype == TFUNC && f.Type.Thistuple {
 			sl.good = true
 			sl.field = f
 		}
@@ -2077,7 +2077,7 @@ func ifacelookdot(s *Sym, t *Type, followptr *bool, ignorecase bool) *Field {
 		}
 	}
 
-	if m.Type.Etype != TFUNC || m.Type.Thistuple == 0 {
+	if m.Type.Etype != TFUNC || !m.Type.Thistuple {
 		Yyerror("%v.%v is a field, not a method", t, s)
 		return nil
 	}

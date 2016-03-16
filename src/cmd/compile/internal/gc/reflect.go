@@ -286,7 +286,7 @@ func methods(t *Type) []*Sig {
 	// generating code if necessary.
 	var ms []*Sig
 	for f, it2 := IterAllMethods(mt); f != nil; f = it2.Next() {
-		if f.Type.Etype != TFUNC || f.Type.Thistuple == 0 {
+		if f.Type.Etype != TFUNC || !f.Type.Thistuple {
 			Fatalf("non-method on %v method %v %v\n", mt, f.Sym, f)
 		}
 		if f.Type.Recv() == nil {
@@ -1041,7 +1041,10 @@ ok:
 		}
 
 		ot = dcommontype(s, ot, t)
-		inCount := t.Thistuple + t.Intuple
+		inCount := t.Intuple
+		if t.Thistuple {
+			inCount++
+		}
 		outCount := t.Outtuple
 		if isddd {
 			outCount |= 1 << 15

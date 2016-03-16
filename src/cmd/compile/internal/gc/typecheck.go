@@ -845,7 +845,7 @@ OpSwitch:
 				return
 			}
 
-			if n.Type.Etype != TFUNC || n.Type.Thistuple != 1 {
+			if n.Type.Etype != TFUNC || !n.Type.Thistuple {
 				Yyerror("type %v has no method %v", n.Left.Type, Sconv(n.Right.Sym, FmtShort))
 				n.Type = nil
 				n.Type = nil

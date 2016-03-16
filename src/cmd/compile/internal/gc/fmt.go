@@ -630,7 +630,7 @@ func typefmt(t *Type, flag FmtFlag) string {
 		if flag&FmtShort != 0 {
 			// no leading func
 		} else {
-			if t.Thistuple != 0 {
+			if t.Thistuple {
 				buf.WriteString("method")
 				buf.WriteString(Tconv(t.Recvs(), 0))
 				buf.WriteString(" ")
