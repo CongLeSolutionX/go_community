@@ -12,8 +12,14 @@ import (
 	"sort"
 )
 
+type itabEntry struct {
+	t, itype *Type
+	sym      *Sym
+}
+
 // runtime interface and reflection data structures
 var signatlist *NodeList
+var itabs []itabEntry
 
 // byMethodNameAndPackagePath sorts method signatures by name, then package path.
 type byMethodNameAndPackagePath []*Sig
@@ -844,6 +850,27 @@ func typename(t *Type) *Node {
 	return n
 }
 
+func itabnamesym(t, itype *Type) *Sym {
+	if t == nil || (Isptr[t.Etype] && t.Type == nil) || isideal(t) {
+		Fatalf("itabname %v", t)
+	}
+	s := Pkglookup(Tconv(t, obj.FmtLeft)+"."+Tconv(itype, obj.FmtLeft), itab2pkg)
+	if s.Def == nil {
+		n := Nod(ONAME, nil, nil)
+		n.Sym = s
+		n.Type = Types[TUINT8]
+		n.Addable = true
+		n.Ullman = 1
+		n.Class = PEXTERN
+		n.Xoffset = 0
+		n.Typecheck = 1
+		s.Def = n
+
+		itabs = append(itabs, itabEntry{t: t, itype: itype, sym: s})
+	}
+	return s.Def.Sym
+}
+
 // isreflexive reports whether t has a reflexive equality operator.
 // That is, if x==x for all x of type t.
 func isreflexive(t *Type) bool {
@@ -1223,6 +1250,29 @@ func dumptypestructs() {
 		if t.Sym != nil {
 			dtypesym(Ptrto(t))
 		}
+	}
+
+	// process itabs
+	for _, i := range itabs {
+		// dump empty itab symbol into i.sym
+		// type itab struct {
+		//   inter  *interfacetype
+		//	 _type  *_type
+		//	 link   *itab
+		//	 bad    int32
+		//	 unused int32
+		//	 fun    [1]uintptr // variable sized
+		// }
+		o := dsymptr(i.sym, 0, dtypesym(i.itype), 0)
+		o = dsymptr(i.sym, o, dtypesym(i.t), 0)
+		o += Widthptr + 8                      // skip link/bad/unused fields
+		o += len(imethods(i.itype)) * Widthptr // skip fun method pointers
+		// TODO verify that name is unambiguous (important because of DUPOK)
+		ggloblsym(i.sym, int32(o), int16(obj.DUPOK))
+
+		ilink := Pkglookup(Tconv(i.t, obj.FmtLeft)+"."+Tconv(i.itype, obj.FmtLeft), itablinkpkg)
+		dsymptr(ilink, 0, i.sym, 0)
+		ggloblsym(ilink, int32(Widthptr), int16(obj.DUPOK|obj.RODATA))
 	}
 
 	// generate import strings for imported packages
