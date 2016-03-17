@@ -468,6 +468,13 @@ func deadcode() {
 			}
 		}
 
+		// keep each beginning with 'itablink.' if the symbol it points at is being kept.
+		for _, s := range Ctxt.Allsym {
+			if strings.HasPrefix(s.Name, "go.itablink.") {
+				s.Attr.Set(AttrReachable, len(s.R) == 1 && s.R[0].Sym.Attr.Reachable())
+			}
+		}
+
 		// remove dead text but keep file information (z symbols).
 		var last *LSym
 

@@ -28,6 +28,7 @@ var layout = []layoutSection{
 	{Segment: "rodata", Section: "rodata", Kind: goobj.SRODATA},
 	{Segment: "rodata", Section: "functab", Kind: goobj.SPCLNTAB},
 	{Segment: "rodata", Section: "typelink", Kind: goobj.STYPELINK},
+	{Segment: "rodata", Section: "itablink", Kind: goobj.SITABLINK},
 	{Segment: "data", Section: "noptrdata", Kind: goobj.SNOPTRDATA},
 	{Segment: "data", Section: "data", Kind: goobj.SDATA},
 	{Segment: "data", Section: "bss", Kind: goobj.SBSS},
