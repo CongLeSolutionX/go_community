@@ -31,3 +31,12 @@ func g(x int) int {
 func h(x int) int { // ERROR "can inline h"
 	return x + 2
 }
+
+func j(x int) int { // ERROR "can inline j"
+	switch {
+	case x > 0:
+		return x + 2
+	default:
+		return x + 1
+	}
+}
