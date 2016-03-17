@@ -1717,7 +1717,7 @@ OpSwitch:
 		ok |= Erv
 		saveorignode(n)
 		typecheck(&n.Left, Erv|top&(Eindir|Eiota))
-		convlit1(&n.Left, n.Type, true)
+		convlit1(&n.Left, n.Type, true, false)
 		t := n.Left.Type
 		if t == nil || n.Type == nil {
 			n.Type = nil

@@ -91,13 +91,14 @@ func truncfltlit(oldv *Mpflt, t *Type) *Mpflt {
 // convert n, if literal, to type t.
 // implicit conversion.
 func Convlit(np **Node, t *Type) {
-	convlit1(np, t, false)
+	convlit1(np, t, false, false)
 }
 
 // convert n, if literal, to type t.
 // return a new node if necessary
-//(if n is a named constant, can't edit n->type directly).
-func convlit1(np **Node, t *Type, explicit bool) {
+// (if n is a named constant, can't edit n->type directly).
+// if reuse is true, it is guaranteed ok to overwrite np.
+func convlit1(np **Node, t *Type, explicit bool, reuse bool) {
 	n := *np
 	if n == nil || t == nil || n.Type == nil || isideal(t) || n.Type == t {
 		return
@@ -106,11 +107,12 @@ func convlit1(np **Node, t *Type, explicit bool) {
 		return
 	}
 
-	if n.Op == OLITERAL {
+	if n.Op == OLITERAL && !reuse {
 		nn := Nod(OXXX, nil, nil)
 		*nn = *n
 		n = nn
 		*np = n
+		reuse = true
 	}
 
 	switch n.Op {
@@ -134,13 +136,13 @@ func convlit1(np **Node, t *Type, explicit bool) {
 		// target is invalid type for a constant?  leave alone.
 	case OLITERAL:
 		if !okforconst[t.Etype] && n.Type.Etype != TNIL {
-			defaultlit(&n, nil)
+			defaultlitreuse(&n, nil, reuse)
 			*np = n
 			return
 		}
 
 	case OLSH, ORSH:
-		convlit1(&n.Left, t, explicit && isideal(n.Left.Type))
+		convlit1(&n.Left, t, explicit && isideal(n.Left.Type), false)
 		t = n.Left.Type
 		if t != nil && t.Etype == TIDEAL && n.Val().Ctype() != CTINT {
 			n.SetVal(toint(n.Val()))
@@ -197,7 +199,7 @@ func convlit1(np **Node, t *Type, explicit bool) {
 			return
 		}
 
-		defaultlit(np, nil)
+		defaultlitreuse(np, nil, reuse)
 		return
 	}
 
@@ -305,7 +307,7 @@ bad:
 	}
 
 	if isideal(n.Type) {
-		defaultlit(&n, nil)
+		defaultlitreuse(&n, nil, reuse)
 		*np = n
 	}
 }
@@ -660,7 +662,7 @@ func evconst(n *Node) {
 			OCONV_ | CTFLT_,
 			OCONV_ | CTSTR_,
 			OCONV_ | CTBOOL_:
-			convlit1(&nl, n.Type, true)
+			convlit1(&nl, n.Type, true, false)
 
 			v = nl.Val()
 
@@ -1238,16 +1240,21 @@ func idealkind(n *Node) Ctype {
 }
 
 func defaultlit(np **Node, t *Type) {
+	defaultlitreuse(np, t, false)
+}
+
+func defaultlitreuse(np **Node, t *Type, reuse bool) {
 	n := *np
 	if n == nil || !isideal(n.Type) {
 		return
 	}
 
-	if n.Op == OLITERAL {
+	if n.Op == OLITERAL && !reuse {
 		nn := Nod(OXXX, nil, nil)
 		*nn = *n
 		n = nn
 		*np = n
+		reuse = true
 	}
 
 	lno := setlineno(n)
@@ -1273,7 +1280,7 @@ func defaultlit(np **Node, t *Type) {
 
 		if n.Val().Ctype() == CTSTR {
 			t1 := Types[TSTRING]
-			Convlit(np, t1)
+			convlit1(np, t1, false, reuse)
 			break
 		}
 
@@ -1287,7 +1294,7 @@ func defaultlit(np **Node, t *Type) {
 		if t != nil && t.Etype == TBOOL {
 			t1 = t
 		}
-		Convlit(np, t1)
+		convlit1(np, t1, false, reuse)
 
 	case CTINT:
 		t1 = Types[TINT]
@@ -1332,7 +1339,7 @@ num:
 	if n.Val().Ctype() != CTxxx {
 		overflow(n.Val(), t1)
 	}
-	Convlit(np, t1)
+	convlit1(np, t1, false, reuse)
 	lineno = lno
 	return
 }
