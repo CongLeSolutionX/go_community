@@ -91,13 +91,14 @@ func truncfltlit(oldv *Mpflt, t *Type) *Mpflt {
 // convert n, if literal, to type t.
 // implicit conversion.
 func Convlit(np **Node, t *Type) {
-	convlit1(np, t, false)
+	convlit1(np, t, false, false)
 }
 
 // convert n, if literal, to type t.
 // return a new node if necessary
-//(if n is a named constant, can't edit n->type directly).
-func convlit1(np **Node, t *Type, explicit bool) {
+// (if n is a named constant, can't edit n->type directly).
+// if reuse is true, it is guaranteed ok to overwrite np.
+func convlit1(np **Node, t *Type, explicit bool, reuse bool) {
 	n := *np
 	if n == nil || t == nil || n.Type == nil || isideal(t) || n.Type == t {
 		return
@@ -106,7 +107,7 @@ func convlit1(np **Node, t *Type, explicit bool) {
 		return
 	}
 
-	if n.Op == OLITERAL {
+	if n.Op == OLITERAL && !reuse {
 		nn := Nod(OXXX, nil, nil)
 		*nn = *n
 		n = nn
@@ -140,7 +141,7 @@ func convlit1(np **Node, t *Type, explicit bool) {
 		}
 
 	case OLSH, ORSH:
-		convlit1(&n.Left, t, explicit && isideal(n.Left.Type))
+		convlit1(&n.Left, t, explicit && isideal(n.Left.Type), false)
 		t = n.Left.Type
 		if t != nil && t.Etype == TIDEAL && n.Val().Ctype() != CTINT {
 			n.SetVal(toint(n.Val()))
@@ -660,7 +661,7 @@ func evconst(n *Node) {
 			OCONV_ | CTFLT_,
 			OCONV_ | CTSTR_,
 			OCONV_ | CTBOOL_:
-			convlit1(&nl, n.Type, true)
+			convlit1(&nl, n.Type, true, false)
 
 			v = nl.Val()
 
@@ -1332,7 +1333,7 @@ num:
 	if n.Val().Ctype() != CTxxx {
 		overflow(n.Val(), t1)
 	}
-	Convlit(np, t1)
+	convlit1(np, t1, false, n.Op == OLITERAL)
 	lineno = lno
 	return
 }
