@@ -997,6 +997,10 @@ opswitch:
 			break
 		}
 
+		if isdirectiface(n.Left.Type) {
+			itabnamesym(n.Left.Type, n.Type)
+		}
+
 		var ll []*Node
 		if !Isinter(n.Left.Type) {
 			ll = append(ll, typename(n.Left.Type))
