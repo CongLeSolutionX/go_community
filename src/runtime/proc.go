@@ -1787,11 +1787,12 @@ func findrunnable() (gp *g, inheritTime bool) {
 	// an M.
 
 top:
+	_p_ := _g_.m.p.ptr()
 	if sched.gcwaiting != 0 {
 		gcstopm()
 		goto top
 	}
-	if _g_.m.p.ptr().runSafePointFn != 0 {
+	if _p_.runSafePointFn != 0 {
 		runSafePointFn()
 	}
 	if fingwait && fingwake {
@@ -1801,14 +1802,14 @@ top:
 	}
 
 	// local runq
-	if gp, inheritTime := runqget(_g_.m.p.ptr()); gp != nil {
+	if gp, inheritTime := runqget(_p_); gp != nil {
 		return gp, inheritTime
 	}
 
 	// global runq
 	if sched.runqsize != 0 {
 		lock(&sched.lock)
-		gp := globrunqget(_g_.m.p.ptr(), 0)
+		gp := globrunqget(_p_, 0)
 		unlock(&sched.lock)
 		if gp != nil {
 			return gp, false
@@ -1833,31 +1834,56 @@ top:
 		}
 	}
 
+	// Steal work from other P's.
+	procs := uint32(gomaxprocs)
+	// No point in stealing.
+	if procs == 1 {
+		goto stop
+	}
 	// If number of spinning M's >= number of busy P's, block.
 	// This is necessary to prevent excessive CPU consumption
 	// when GOMAXPROCS>>1 but the program parallelism is low.
-	if !_g_.m.spinning && 2*atomic.Load(&sched.nmspinning) >= uint32(gomaxprocs)-atomic.Load(&sched.npidle) { // TODO: fast atomic
+	if !_g_.m.spinning && 2*atomic.Load(&sched.nmspinning) >= procs-atomic.Load(&sched.npidle) { // TODO: fast atomic
 		goto stop
 	}
 	if !_g_.m.spinning {
 		_g_.m.spinning = true
 		atomic.Xadd(&sched.nmspinning, 1)
 	}
-	// random steal from other P's
-	for i := 0; i < int(4*gomaxprocs); i++ {
-		if sched.gcwaiting != 0 {
-			goto top
+	{
+		// First try random stealing from queues with more than 1 g.
+		mypi := uint32(_p_.id)
+		lastpi := mypi
+		for i := 0; i < int(3*procs); i++ {
+			if sched.gcwaiting != 0 {
+				goto top
+			}
+			pi := fastrand1() % (procs - 1)
+			if pi >= mypi {
+				pi++
+			}
+			if pi == lastpi && procs > 2 {
+				i--
+				continue
+			}
+			lastpi = pi
+			if gp := runqsteal(_p_, allp[pi], false); gp != nil {
+				return gp, false
+			}
 		}
-		_p_ := allp[fastrand1()%uint32(gomaxprocs)]
-		var gp *g
-		if _p_ == _g_.m.p.ptr() {
-			gp, _ = runqget(_p_)
-		} else {
-			stealRunNextG := i > 2*int(gomaxprocs) // first look for ready queues with more than 1 g
-			gp = runqsteal(_g_.m.p.ptr(), _p_, stealRunNextG)
-		}
-		if gp != nil {
-			return gp, false
+		// Now that work queues are presumably empty (possibly except for runnext),
+		// do a sequential sweep. This serves two purposes: ensures that we don't
+		// miss any queues during random stealing and retakes runnext.
+		for i := 0; i < int(procs); i++ {
+			if i == int(mypi) {
+				if gp, _ := runqget(_p_); gp != nil {
+					throw("findrunnable: wrong thread accessed work queue")
+				}
+				continue
+			}
+			if gp := runqsteal(_p_, allp[i], true); gp != nil {
+				return gp, false
+			}
 		}
 	}
 
@@ -1866,7 +1892,7 @@ stop:
 	// We have nothing to do. If we're in the GC mark phase, can
 	// safely scan and blacken objects, and have work to do, run
 	// idle-time marking rather than give up the P.
-	if _p_ := _g_.m.p.ptr(); gcBlackenEnabled != 0 && _p_.gcBgMarkWorker != 0 && gcMarkWorkAvailable(_p_) {
+	if gcBlackenEnabled != 0 && _p_.gcBgMarkWorker != 0 && gcMarkWorkAvailable(_p_) {
 		_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
 		gp := _p_.gcBgMarkWorker.ptr()
 		casgstatus(gp, _Gwaiting, _Grunnable)
@@ -1878,16 +1904,18 @@ stop:
 
 	// return P and block
 	lock(&sched.lock)
-	if sched.gcwaiting != 0 || _g_.m.p.ptr().runSafePointFn != 0 {
+	if sched.gcwaiting != 0 || _p_.runSafePointFn != 0 {
 		unlock(&sched.lock)
 		goto top
 	}
 	if sched.runqsize != 0 {
-		gp := globrunqget(_g_.m.p.ptr(), 0)
+		gp := globrunqget(_p_, 0)
 		unlock(&sched.lock)
 		return gp, false
 	}
-	_p_ := releasep()
+	if releasep() != _p_ {
+		throw("findrunnable: wrong p")
+	}
 	pidleput(_p_)
 	unlock(&sched.lock)
 
