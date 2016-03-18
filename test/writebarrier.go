@@ -182,3 +182,18 @@ func f18(p *T18, x *[]int) {
 	p.s = p.s[8:9]   // ERROR "write barrier"
 	*x = (*x)[3:5]   // ERROR "write barrier"
 }
+
+var x19 *int
+var y19 struct {
+	x *int
+}
+var z19 int
+
+func f19(x *int) {
+	// Global -> heap pointer updates must have write barriers.
+	x19 = x                   // ERROR "write barrier"
+	y19.x = x                 // ERROR "write barrier"
+	x19 = &z19                // no barrier
+	y19.x = &z19              // no barrier
+	y19 = struct{ x *int }{x} // ERROR "write barrier"
+}
