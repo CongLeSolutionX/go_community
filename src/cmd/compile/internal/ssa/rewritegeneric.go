@@ -20,6 +20,8 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		return rewriteValuegeneric_OpAdd64F(v, config)
 	case OpAdd8:
 		return rewriteValuegeneric_OpAdd8(v, config)
+	case OpAddPtr:
+		return rewriteValuegeneric_OpAddPtr(v, config)
 	case OpAnd16:
 		return rewriteValuegeneric_OpAnd16(v, config)
 	case OpAnd32:
@@ -612,6 +614,47 @@ func rewriteValuegeneric_OpAdd8(v *Value, config *Config) bool {
 		x := v.Args[1]
 		v.reset(OpCopy)
 		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpAddPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (AddPtr (Const64 [0]) x)
+	// cond:
+	// result: x
+	for {
+		if v.Args[0].Op != OpConst64 {
+			break
+		}
+		if v.Args[0].AuxInt != 0 {
+			break
+		}
+		x := v.Args[1]
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (AddPtr x (Const64 <t> [c]))
+	// cond: x.Op != OpConst64
+	// result: (AddPtr (Const64 <t> [c]) x)
+	for {
+		x := v.Args[0]
+		if v.Args[1].Op != OpConst64 {
+			break
+		}
+		t := v.Args[1].Type
+		c := v.Args[1].AuxInt
+		if !(x.Op != OpConst64) {
+			break
+		}
+		v.reset(OpAddPtr)
+		v0 := b.NewValue0(v.Line, OpConst64, t)
+		v0.AuxInt = c
+		v.AddArg(v0)
 		v.AddArg(x)
 		return true
 	}
