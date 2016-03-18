@@ -101,6 +101,11 @@ func critical(f *Func) {
 		if phi != nil {
 			phi.Args = filterNilValues(phi.Args)
 			b.Preds = filterNilBlocks(b.Preds)
+			// splitting occasionally leads to a phi having
+			// a single argument (occurs with -N)
+			if len(phi.Args) == 1 {
+				phi.Op = OpCopy
+			}
 		}
 	}
 }
