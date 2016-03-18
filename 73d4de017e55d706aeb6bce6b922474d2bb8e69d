@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_7bd2a34a",
+        "filename": "src/runtime/hash_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-18T17:45:42Z",
+      "side": 1,
+      "message": "blank line before. I thought gofmt did this actually when the func was more than a single line.",
+      "revId": "73d4de017e55d706aeb6bce6b922474d2bb8e69d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
