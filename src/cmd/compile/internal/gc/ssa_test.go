@@ -12,6 +12,7 @@ import (
 	"runtime"
 	"strings"
 	"testing"
+	"unsafe"
 )
 
 // TODO: move all these tests elsewhere?
@@ -97,3 +98,15 @@ func TestCopy(t *testing.T) { runTest(t, "copy_ssa.go") }
 func TestUnsafe(t *testing.T) { runTest(t, "unsafe_ssa.go") }
 
 func TestPhi(t *testing.T) { runTest(t, "phi_ssa.go") }
+
+func TestLargeOffset(t *testing.T) {
+	// Don't run test for 32 bit archs.
+	if unsafe.Sizeof((*byte)(nil)) == 4 {
+		t.Skipf("skipping large offset tests on 32-bit arch")
+	}
+	buildTest(t, "largeOffset.go")
+}
+
+func TestLargeConst(t *testing.T) {
+	runTest(t, "largeConst.go")
+}
