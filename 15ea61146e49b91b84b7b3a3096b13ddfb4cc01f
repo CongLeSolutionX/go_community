@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_d068d165",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-18T20:31:00Z",
+      "side": 0,
+      "message": "What if overflow occurs when calculating the value to be passed to is32bit?",
+      "revId": "15ea61146e49b91b84b7b3a3096b13ddfb4cc01f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
