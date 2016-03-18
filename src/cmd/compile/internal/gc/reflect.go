@@ -669,23 +669,32 @@ const tflagUncommon = 1
 // commonType
 // ../../../../runtime/type.go:/commonType
 
-var dcommontype_algarray *Sym
+var dalgsymptr_algarray *Sym
+
+func dalgsymptr(s *Sym, ot int, t *Type) int {
+	sizeofAlg := 2 * Widthptr
+	if dalgsymptr_algarray == nil {
+		dalgsymptr_algarray = Pkglookup("algarray", Runtimepkg)
+	}
+	alg := algtype(t)
+	var algsym *Sym
+	if alg < 0 || alg == AMEM {
+		algsym = dalgsym(t)
+	}
+	if algsym == nil {
+		ot = dsymptr(s, ot, dalgsymptr_algarray, alg*sizeofAlg)
+	} else {
+		ot = dsymptr(s, ot, algsym, 0)
+	}
+	return ot
+}
 
 func dcommontype(s *Sym, ot int, t *Type) int {
 	if ot != 0 {
 		Fatalf("dcommontype %d", ot)
 	}
 
-	sizeofAlg := 2 * Widthptr
-	if dcommontype_algarray == nil {
-		dcommontype_algarray = Pkglookup("algarray", Runtimepkg)
-	}
 	dowidth(t)
-	alg := algtype(t)
-	var algsym *Sym
-	if alg < 0 || alg == AMEM {
-		algsym = dalgsym(t)
-	}
 
 	tptr := Ptrto(t)
 	if !Isptr[t.Etype] && (t.Sym != nil || methods(tptr) != nil) {
@@ -709,7 +718,6 @@ func dcommontype(s *Sym, ot int, t *Type) int {
 	//		align         uint8
 	//		fieldAlign    uint8
 	//		kind          uint8
-	//		alg           *typeAlg
 	//		gcdata        *byte
 	//		string        *string
 	//	}
@@ -749,12 +757,7 @@ func dcommontype(s *Sym, ot int, t *Type) int {
 	if useGCProg {
 		i |= obj.KindGCProg
 	}
-	ot = duint8(s, ot, uint8(i)) // kind
-	if algsym == nil {
-		ot = dsymptr(s, ot, dcommontype_algarray, alg*sizeofAlg)
-	} else {
-		ot = dsymptr(s, ot, algsym, 0)
-	}
+	ot = duint8(s, ot, uint8(i))  // kind
 	ot = dsymptr(s, ot, gcsym, 0) // gcdata
 
 	p := Tconv(t, FmtLeft|FmtUnsigned)
@@ -994,6 +997,7 @@ ok:
 	switch t.Etype {
 	default:
 		ot = dcommontype(s, ot, t)
+		ot = dalgsymptr(s, ot, t)
 		ot = dextratype(s, ot, t, 0)
 
 	case TARRAY:
@@ -1006,6 +1010,7 @@ ok:
 			t2.Bound = -1 // slice
 			s2 := dtypesym(t2)
 			ot = dcommontype(s, ot, t)
+			ot = dalgsymptr(s, ot, t)
 			ot = dsymptr(s, ot, s1, 0)
 			ot = dsymptr(s, ot, s2, 0)
 			ot = duintptr(s, ot, uint64(t.Bound))
@@ -1014,6 +1019,7 @@ ok:
 			s1 := dtypesym(t.Type)
 
 			ot = dcommontype(s, ot, t)
+			ot = dalgsymptr(s, ot, t)
 			ot = dsymptr(s, ot, s1, 0)
 		}
 		ot = dextratype(s, ot, t, 0)
@@ -1023,6 +1029,7 @@ ok:
 		s1 := dtypesym(t.Type)
 
 		ot = dcommontype(s, ot, t)
+		ot = dalgsymptr(s, ot, t)
 		ot = dsymptr(s, ot, s1, 0)
 		ot = duintptr(s, ot, uint64(t.Chan))
 		ot = dextratype(s, ot, t, 0)
@@ -1041,6 +1048,7 @@ ok:
 		}
 
 		ot = dcommontype(s, ot, t)
+		ot = dalgsymptr(s, ot, t)
 		inCount := t.Recvs().NumFields() + t.Params().NumFields()
 		outCount := t.Results().NumFields()
 		if isddd {
@@ -1075,6 +1083,7 @@ ok:
 
 		// ../../../../runtime/type.go:/interfaceType
 		ot = dcommontype(s, ot, t)
+		ot = dalgsymptr(s, ot, t)
 
 		ot = dsymptr(s, ot, s, ot+Widthptr+2*Widthint+uncommonSize(t))
 		ot = duintxx(s, ot, uint64(n), Widthint)
@@ -1096,8 +1105,10 @@ ok:
 		s3 := dtypesym(mapbucket(t))
 		s4 := dtypesym(hmap(t))
 		ot = dcommontype(s, ot, t)
+		ot = dalgsymptr(s, ot, t)
 		ot = dsymptr(s, ot, s1, 0)
 		ot = dsymptr(s, ot, s2, 0)
+		ot = dalgsymptr(s, ot, t.Key())
 		ot = dsymptr(s, ot, s3, 0)
 		ot = dsymptr(s, ot, s4, 0)
 		if t.Key().Width > MAXKEYSIZE {
@@ -1125,6 +1136,7 @@ ok:
 		if t.Type.Etype == TANY {
 			// ../../../../runtime/type.go:/UnsafePointerType
 			ot = dcommontype(s, ot, t)
+			ot = dalgsymptr(s, ot, t)
 			ot = dextratype(s, ot, t, 0)
 
 			break
@@ -1148,6 +1160,7 @@ ok:
 		}
 
 		ot = dcommontype(s, ot, t)
+		ot = dalgsymptr(s, ot, t)
 		ot = dsymptr(s, ot, s, ot+Widthptr+2*Widthint+uncommonSize(t))
 		ot = duintxx(s, ot, uint64(n), Widthint)
 		ot = duintxx(s, ot, uint64(n), Widthint)
@@ -1303,6 +1316,10 @@ func dalgsym(t *Type) *Sym {
 	} else {
 		// generate an alg table specific to this type
 		s = typesymprefix(".alg", t)
+		if s.Flags&SymAlgGen != 0 {
+			return s
+		}
+		s.Flags |= SymAlgGen
 
 		hash := typesymprefix(".hash", t)
 		eq := typesymprefix(".eq", t)

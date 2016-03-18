@@ -260,20 +260,27 @@ const (
 )
 
 // rtype is the common implementation of most values.
-// It is embedded in other, public struct types, but always
+// It is embedded in other struct types, but always
 // with a unique tag like `reflect:"array"` or `reflect:"ptr"`
 // so that code cannot convert from, say, *arrayType to *ptrType.
+//
+// The memory layout following an rtype written by the compile is
+// packed to reduce binary size and is not easily expressed as in
+// a type structure.
+//
+// If the type is common and has no extended structure, the word
+// immediately following the rtype is a *typeAlg. This is true for
+// all types except ptrType.
 type rtype struct {
 	size       uintptr
 	ptrdata    uintptr
-	hash       uint32   // hash of type; avoids computation in hash tables
-	tflag      tflag    // extra type information flags
-	align      uint8    // alignment of variable with this type
-	fieldAlign uint8    // alignment of struct field with this type
-	kind       uint8    // enumeration for C
-	alg        *typeAlg // algorithm table
-	gcdata     *byte    // garbage collection data
-	string     string   // string form; unnecessary but undeniably useful
+	hash       uint32 // hash of type; avoids computation in hash tables
+	tflag      tflag  // extra type information flags
+	align      uint8  // alignment of variable with this type
+	fieldAlign uint8  // alignment of struct field with this type
+	kind       uint8  // enumeration for C
+	gcdata     *byte  // garbage collection data
+	string     string // string form; unnecessary but undeniably useful
 }
 
 // a copy of runtime.typeAlg
@@ -316,16 +323,18 @@ const (
 // arrayType represents a fixed array type.
 type arrayType struct {
 	rtype `reflect:"array"`
-	elem  *rtype // array element type
-	slice *rtype // slice type
+	alg   *typeAlg // algorithm table
+	elem  *rtype   // array element type
+	slice *rtype   // slice type
 	len   uintptr
 }
 
 // chanType represents a channel type.
 type chanType struct {
 	rtype `reflect:"chan"`
-	elem  *rtype  // channel element type
-	dir   uintptr // channel direction (ChanDir)
+	alg   *typeAlg // algorithm table
+	elem  *rtype   // channel element type
+	dir   uintptr  // channel direction (ChanDir)
 }
 
 // funcType represents a function type.
@@ -341,6 +350,7 @@ type chanType struct {
 //	}
 type funcType struct {
 	rtype    `reflect:"func"`
+	alg      *typeAlg // algorithm table
 	inCount  uint16
 	outCount uint16 // top bit is set if last input parameter is ...
 }
@@ -355,23 +365,26 @@ type imethod struct {
 // interfaceType represents an interface type.
 type interfaceType struct {
 	rtype   `reflect:"interface"`
+	alg     *typeAlg  // algorithm table
 	methods []imethod // sorted by hash
 }
 
 // mapType represents a map type.
 type mapType struct {
 	rtype         `reflect:"map"`
-	key           *rtype // map key type
-	elem          *rtype // map element (value) type
-	bucket        *rtype // internal bucket structure
-	hmap          *rtype // internal map header
-	keysize       uint8  // size of key slot
-	indirectkey   uint8  // store ptr to key instead of key itself
-	valuesize     uint8  // size of value slot
-	indirectvalue uint8  // store ptr to value instead of value itself
-	bucketsize    uint16 // size of bucket
-	reflexivekey  bool   // true if k==k for all keys
-	needkeyupdate bool   // true if we need to update key on an overwrite
+	alg           *typeAlg // algorithm table
+	key           *rtype   // map key type
+	elem          *rtype   // map element (value) type
+	keyalg        *typeAlg // algorithm table for key type
+	bucket        *rtype   // internal bucket structure
+	hmap          *rtype   // internal map header
+	keysize       uint8    // size of key slot
+	indirectkey   uint8    // store ptr to key instead of key itself
+	valuesize     uint8    // size of value slot
+	indirectvalue uint8    // store ptr to value instead of value itself
+	bucketsize    uint16   // size of bucket
+	reflexivekey  bool     // true if k==k for all keys
+	needkeyupdate bool     // true if we need to update key on an overwrite
 }
 
 // ptrType represents a pointer type.
@@ -383,7 +396,8 @@ type ptrType struct {
 // sliceType represents a slice type.
 type sliceType struct {
 	rtype `reflect:"slice"`
-	elem  *rtype // slice element type
+	alg   *typeAlg // algorithm table
+	elem  *rtype   // slice element type
 }
 
 // Struct field
@@ -398,6 +412,7 @@ type structField struct {
 // structType represents a struct type.
 type structType struct {
 	rtype  `reflect:"struct"`
+	alg    *typeAlg      // algorithm table
 	fields []structField // sorted by offset
 }
 
@@ -473,6 +488,21 @@ func (t *uncommonType) PkgPath() string {
 	return *t.pkgPath
 }
 
+// rtypeAlg extracts the alg field from any rtype except for a ptrType.
+type rtypeAlg struct {
+	rtype
+	alg *typeAlg
+}
+
+var ptrAlg = (*rtypeAlg)(unsafe.Pointer(TypeOf(uintptr(0)).(*rtype))).alg
+
+func (t *rtype) alg() *typeAlg {
+	if t.kind&kindMask == uint8(Ptr) {
+		return ptrAlg
+	}
+	return (*rtypeAlg)(unsafe.Pointer(t)).alg
+}
+
 func (t *rtype) uncommon() *uncommonType {
 	if t.tflag&tflagUncommon == 0 {
 		return nil
@@ -529,6 +559,7 @@ func (t *rtype) uncommon() *uncommonType {
 	default:
 		type u struct {
 			rtype
+			*typeAlg
 			u uncommonType
 		}
 		return &(*u)(unsafe.Pointer(t)).u
@@ -1245,7 +1276,7 @@ func (t *rtype) ConvertibleTo(u Type) bool {
 }
 
 func (t *rtype) Comparable() bool {
-	return t.alg != nil && t.alg.equal != nil
+	return t.alg() != nil && t.alg().equal != nil
 }
 
 // implements reports whether the type V implements the interface type T.
@@ -1623,6 +1654,7 @@ func MapOf(key, elem Type) Type {
 	mt.hash = fnv1(etyp.hash, 'm', byte(ktyp.hash>>24), byte(ktyp.hash>>16), byte(ktyp.hash>>8), byte(ktyp.hash))
 	mt.key = ktyp
 	mt.elem = etyp
+	mt.keyalg = ktyp.alg()
 	mt.bucket = bucketOf(ktyp, etyp)
 	if ktyp.size > maxKeySize {
 		mt.keysize = uint8(ptrSize)
@@ -2147,7 +2179,7 @@ func ArrayOf(count int, elem Type) Type {
 
 	etyp := typ.common()
 	esize := etyp.Size()
-	ealg := etyp.alg
+	ealg := etyp.alg()
 
 	array.alg = new(typeAlg)
 	if ealg.equal != nil {

@@ -6,7 +6,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/sys"
+	"unsafe"
+)
 
 // tflag is documented in ../reflect/type.go.
 type tflag uint8
@@ -24,12 +27,32 @@ type _type struct {
 	align      uint8
 	fieldalign uint8
 	kind       uint8
-	alg        *typeAlg
 	// gcdata stores the GC type data for the garbage collector.
 	// If the KindGCProg bit is set in kind, gcdata is a GC program.
 	// Otherwise it is a ptrmask bitmap. See mbitmap.go for details.
 	gcdata  *byte
 	_string string
+}
+
+var ptralg *typeAlg
+
+func init() {
+	if sys.PtrSize == 8 {
+		ptralg = &algarray[alg_MEM64]
+	} else {
+		ptralg = &algarray[alg_MEM32]
+	}
+}
+
+func (t *_type) alg() *typeAlg {
+	if t.kind&kindMask == kindPtr {
+		return ptralg
+	}
+	type u struct {
+		_type
+		alg *typeAlg
+	}
+	return (*u)(unsafe.Pointer(t)).alg
 }
 
 func (t *_type) uncommon() *uncommontype {
@@ -88,6 +111,7 @@ func (t *_type) uncommon() *uncommontype {
 	default:
 		type u struct {
 			_type
+			*typeAlg
 			u uncommontype
 		}
 		return &(*u)(unsafe.Pointer(t)).u
@@ -172,13 +196,16 @@ type imethod struct {
 
 type interfacetype struct {
 	typ  _type
+	alg  *typeAlg
 	mhdr []imethod
 }
 
 type maptype struct {
 	typ           _type
+	alg           *typeAlg
 	key           *_type
 	elem          *_type
+	keyalg        *typeAlg
 	bucket        *_type // internal type representing a hash bucket
 	hmap          *_type // internal type representing a hmap
 	keysize       uint8  // size of key slot
@@ -192,6 +219,7 @@ type maptype struct {
 
 type arraytype struct {
 	typ   _type
+	alg   *typeAlg
 	elem  *_type
 	slice *_type
 	len   uintptr
@@ -199,17 +227,20 @@ type arraytype struct {
 
 type chantype struct {
 	typ  _type
+	alg  *typeAlg
 	elem *_type
 	dir  uintptr
 }
 
 type slicetype struct {
 	typ  _type
+	alg  *typeAlg
 	elem *_type
 }
 
 type functype struct {
 	typ      _type
+	alg      *typeAlg
 	inCount  uint16
 	outCount uint16
 }
@@ -229,5 +260,6 @@ type structfield struct {
 
 type structtype struct {
 	typ    _type
+	alg    *typeAlg
 	fields []structfield
 }

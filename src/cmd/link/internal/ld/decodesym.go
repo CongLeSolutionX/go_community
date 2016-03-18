@@ -46,7 +46,14 @@ func decode_inuxi(p []byte, sz int) uint64 {
 	}
 }
 
-func commonsize() int      { return 6*Thearch.Ptrsize + 8 }                 // runtime._type
+// commonsize is the sizeof(runtime._type) + sizeof(*typeAlg)
+//
+// All _type/rtype structures are followed by a *typeAlg,
+// except for ptrType.
+func commonsize() int {
+	return 5*Thearch.Ptrsize + 8 + Thearch.Ptrsize
+}
+
 func structfieldSize() int { return 5 * Thearch.Ptrsize }                   // runtime.structfield
 func uncommonSize() int    { return 2*Thearch.Ptrsize + 2*Thearch.Intsize } // runtime.uncommontype
 
@@ -112,7 +119,7 @@ func decodetype_gcprog(s *LSym) []byte {
 		Exitf("cannot find gcprog for %s", s.Name)
 		return nil
 	}
-	return decode_reloc_sym(s, 2*int32(Thearch.Ptrsize)+8+1*int32(Thearch.Ptrsize)).P
+	return decode_reloc_sym(s, 2*int32(Thearch.Ptrsize)+8).P
 }
 
 func decodetype_gcprog_shlib(s *LSym) uint64 {
@@ -124,7 +131,7 @@ func decodetype_gcprog_shlib(s *LSym) uint64 {
 		}
 		return 0
 	}
-	return decode_inuxi(s.P[2*int32(Thearch.Ptrsize)+8+1*int32(Thearch.Ptrsize):], Thearch.Ptrsize)
+	return decode_inuxi(s.P[2*int32(Thearch.Ptrsize)+8:], Thearch.Ptrsize)
 }
 
 func decodetype_gcmask(s *LSym) []byte {
@@ -140,36 +147,36 @@ func decodetype_gcmask(s *LSym) []byte {
 		Exitf("cannot find gcmask for %s", s.Name)
 		return nil
 	}
-	mask := decode_reloc_sym(s, 2*int32(Thearch.Ptrsize)+8+1*int32(Thearch.Ptrsize))
+	mask := decode_reloc_sym(s, 2*int32(Thearch.Ptrsize)+8)
 	return mask.P
 }
 
 // Type.ArrayType.elem and Type.SliceType.Elem
 func decodetype_arrayelem(s *LSym) *LSym {
-	return decode_reloc_sym(s, int32(commonsize())) // 0x1c / 0x30
+	return decode_reloc_sym(s, int32(commonsize()))
 }
 
 func decodetype_arraylen(s *LSym) int64 {
-	return int64(decode_inuxi(s.P[commonsize()+2*Thearch.Ptrsize:], Thearch.Ptrsize))
+	return int64(decode_inuxi(s.P[commonsize()+Thearch.Ptrsize:], Thearch.Ptrsize))
 }
 
 // Type.PtrType.elem
 func decodetype_ptrelem(s *LSym) *LSym {
-	return decode_reloc_sym(s, int32(commonsize())) // 0x1c / 0x30
+	return decode_reloc_sym(s, int32(commonsize()))
 }
 
 // Type.MapType.key, elem
 func decodetype_mapkey(s *LSym) *LSym {
-	return decode_reloc_sym(s, int32(commonsize())) // 0x1c / 0x30
+	return decode_reloc_sym(s, int32(commonsize()))
 }
 
 func decodetype_mapvalue(s *LSym) *LSym {
-	return decode_reloc_sym(s, int32(commonsize())+int32(Thearch.Ptrsize)) // 0x20 / 0x38
+	return decode_reloc_sym(s, int32(commonsize()+Thearch.Ptrsize))
 }
 
 // Type.ChanType.elem
 func decodetype_chanelem(s *LSym) *LSym {
-	return decode_reloc_sym(s, int32(commonsize())) // 0x1c / 0x30
+	return decode_reloc_sym(s, int32(commonsize()))
 }
 
 // Type.FuncType.dotdotdot
@@ -328,7 +335,9 @@ func decodetype_methods(s *LSym) []methodsig {
 	case kindStruct: // reflect.structType
 		off += Thearch.Ptrsize + 2*Thearch.Intsize
 	case kindPtr: // reflect.ptrType
-		off += Thearch.Ptrsize
+		// Add one Ptrsize for ptrType the elem field, then
+		// subtract one for *typeAlg, which is included as
+		// an extra word in commonsize()
 	case kindFunc: // reflect.funcType
 		off += Thearch.Ptrsize // 4 bytes, pointer aligned
 	case kindSlice: // reflect.sliceType
@@ -338,7 +347,7 @@ func decodetype_methods(s *LSym) []methodsig {
 	case kindChan: // reflect.chanType
 		off += 2 * Thearch.Ptrsize
 	case kindMap: // reflect.mapType
-		off += 4*Thearch.Ptrsize + 8
+		off += 5*Thearch.Ptrsize + 8
 	case kindInterface: // reflect.interfaceType
 		off += Thearch.Ptrsize + 2*Thearch.Intsize
 	default:

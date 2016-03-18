@@ -198,7 +198,7 @@ func makemap(t *maptype, hint int64, h *hmap, bucket unsafe.Pointer) *hmap {
 		// TODO: make hint an int, then none of this nonsense
 	}
 
-	if !ismapkey(t.key) {
+	if !ismapkey(t.keyalg) {
 		throw("runtime.makemap: unsupported map key type")
 	}
 
@@ -288,7 +288,7 @@ func mapaccess1(t *maptype, h *hmap, key unsafe.Pointer) unsafe.Pointer {
 	if h.flags&hashWriting != 0 {
 		throw("concurrent map read and map write")
 	}
-	alg := t.key.alg
+	alg := t.keyalg
 	hash := alg.hash(key, uintptr(h.hash0))
 	m := uintptr(1)<<h.B - 1
 	b := (*bmap)(add(h.buckets, (hash&m)*uintptr(t.bucketsize)))
@@ -342,7 +342,7 @@ func mapaccess2(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, bool) 
 	if h.flags&hashWriting != 0 {
 		throw("concurrent map read and map write")
 	}
-	alg := t.key.alg
+	alg := t.keyalg
 	hash := alg.hash(key, uintptr(h.hash0))
 	m := uintptr(1)<<h.B - 1
 	b := (*bmap)(unsafe.Pointer(uintptr(h.buckets) + (hash&m)*uintptr(t.bucketsize)))
@@ -388,7 +388,7 @@ func mapaccessK(t *maptype, h *hmap, key unsafe.Pointer) (unsafe.Pointer, unsafe
 	if h.flags&hashWriting != 0 {
 		throw("concurrent map read and map write")
 	}
-	alg := t.key.alg
+	alg := t.keyalg
 	hash := alg.hash(key, uintptr(h.hash0))
 	m := uintptr(1)<<h.B - 1
 	b := (*bmap)(unsafe.Pointer(uintptr(h.buckets) + (hash&m)*uintptr(t.bucketsize)))
@@ -446,7 +446,7 @@ func mapassign1(t *maptype, h *hmap, key unsafe.Pointer, val unsafe.Pointer) {
 	}
 	h.flags |= hashWriting
 
-	alg := t.key.alg
+	alg := t.keyalg
 	hash := alg.hash(key, uintptr(h.hash0))
 
 	if h.buckets == nil {
@@ -560,7 +560,7 @@ func mapdelete(t *maptype, h *hmap, key unsafe.Pointer) {
 	}
 	h.flags |= hashWriting
 
-	alg := t.key.alg
+	alg := t.keyalg
 	hash := alg.hash(key, uintptr(h.hash0))
 	bucket := hash & (uintptr(1)<<h.B - 1)
 	if h.oldbuckets != nil {
@@ -677,7 +677,7 @@ func mapiternext(it *hiter) {
 	b := it.bptr
 	i := it.i
 	checkBucket := it.checkBucket
-	alg := t.key.alg
+	alg := t.keyalg
 
 next:
 	if b == nil {
@@ -847,7 +847,7 @@ func growWork(t *maptype, h *hmap, bucket uintptr) {
 func evacuate(t *maptype, h *hmap, oldbucket uintptr) {
 	b := (*bmap)(add(h.oldbuckets, oldbucket*uintptr(t.bucketsize)))
 	newbit := uintptr(1) << (h.B - 1)
-	alg := t.key.alg
+	alg := t.keyalg
 	if !evacuated(b) {
 		// TODO: reuse overflow buckets instead of using new ones, if there
 		// is no iterator using the old buckets.  (If !oldIterator.)
@@ -977,8 +977,8 @@ func evacuate(t *maptype, h *hmap, oldbucket uintptr) {
 	}
 }
 
-func ismapkey(t *_type) bool {
-	return t.alg.hash != nil
+func ismapkey(alg *typeAlg) bool {
+	return alg.hash != nil
 }
 
 // Reflect stubs. Called from ../reflect/asm_*.s
@@ -1039,7 +1039,7 @@ func reflect_maplen(h *hmap) int {
 
 //go:linkname reflect_ismapkey reflect.ismapkey
 func reflect_ismapkey(t *_type) bool {
-	return ismapkey(t)
+	return ismapkey(t.alg())
 }
 
 var zerolock mutex

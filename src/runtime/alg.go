@@ -144,7 +144,7 @@ func interhash(p unsafe.Pointer, h uintptr) uintptr {
 		return h
 	}
 	t := tab._type
-	fn := t.alg.hash
+	fn := t.alg().hash
 	if fn == nil {
 		panic(errorString("hash of unhashable type " + t._string))
 	}
@@ -161,7 +161,7 @@ func nilinterhash(p unsafe.Pointer, h uintptr) uintptr {
 	if t == nil {
 		return h
 	}
-	fn := t.alg.hash
+	fn := t.alg().hash
 	if fn == nil {
 		panic(errorString("hash of unhashable type " + t._string))
 	}
@@ -219,7 +219,7 @@ func efaceeq(x, y eface) bool {
 	if t == nil {
 		return true
 	}
-	eq := t.alg.equal
+	eq := t.alg().equal
 	if eq == nil {
 		panic(errorString("comparing uncomparable type " + t._string))
 	}
@@ -237,7 +237,7 @@ func ifaceeq(x, y iface) bool {
 		return true
 	}
 	t := xtab._type
-	eq := t.alg.equal
+	eq := t.alg().equal
 	if eq == nil {
 		panic(errorString("comparing uncomparable type " + t._string))
 	}
