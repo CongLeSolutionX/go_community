@@ -829,7 +829,7 @@ func TestFloatFloat32(t *testing.T) {
 	}{
 		{"0", 0, Exact},
 
-		// underflow
+		// underflow to zero
 		{"1e-1000", 0, Below},
 		{"0x0.000002p-127", 0, Below},
 		{"0x.0000010p-126", 0, Below},
@@ -844,7 +844,22 @@ func TestFloatFloat32(t *testing.T) {
 		{"0x.fffffep-126", math.Float32frombits(0x7fffff), Exact}, // largest denormal
 
 		// special cases (see issue 14553)
-		{"0x0.bp-149", math.Float32frombits(0x000000000), Below}, // ToNearestEven rounds down (to even)
+
+		{"0x0.0000001p-126", math.Float32frombits(0x00000000), Below}, // underflow to zero
+		{"0x0.0000008p-126", math.Float32frombits(0x00000000), Below}, // underflow to zero
+		{"0x0.0000010p-126", math.Float32frombits(0x00000000), Below}, // rounded down to even
+		{"0x0.0000011p-126", math.Float32frombits(0x00000001), Above}, // rounded up to smallest denormal
+		{"0x0.0000018p-126", math.Float32frombits(0x00000001), Above}, // rounded up to smallest denormal
+
+		{"0x1.000000p-149", math.Float32frombits(0x00000001), Exact}, // smallest denormal
+		{"0x0.000002p-126", math.Float32frombits(0x00000001), Exact}, // smallest denormal
+		{"0x0.fffffep-126", math.Float32frombits(0x007fffff), Exact}, // largest denormal
+		{"0x1.000000p-126", math.Float32frombits(0x00800000), Exact}, // smallest normal
+
+		{"0x0.8p-149", math.Float32frombits(0x000000000), Below}, // rounded down to even
+		{"0x0.9p-149", math.Float32frombits(0x000000001), Above},
+		{"0x0.ap-149", math.Float32frombits(0x000000001), Above},
+		{"0x0.bp-149", math.Float32frombits(0x000000001), Above},
 		{"0x0.cp-149", math.Float32frombits(0x000000001), Above},
 
 		{"0x1.0p-149", math.Float32frombits(0x000000001), Exact},
@@ -853,15 +868,15 @@ func TestFloatFloat32(t *testing.T) {
 		{"0x1.9p-149", math.Float32frombits(0x000000002), Above},
 
 		{"0x2.0p-149", math.Float32frombits(0x000000002), Exact},
-		{"0x2.8p-149", math.Float32frombits(0x000000002), Below}, // ToNearestEven rounds down (to even)
+		{"0x2.8p-149", math.Float32frombits(0x000000002), Below}, // rounded down to even
 		{"0x2.9p-149", math.Float32frombits(0x000000003), Above},
 
 		{"0x3.0p-149", math.Float32frombits(0x000000003), Exact},
 		{"0x3.7p-149", math.Float32frombits(0x000000003), Below},
-		{"0x3.8p-149", math.Float32frombits(0x000000004), Above}, // ToNearestEven rounds up (to even)
+		{"0x3.8p-149", math.Float32frombits(0x000000004), Above}, // rounded up to even
 
 		{"0x4.0p-149", math.Float32frombits(0x000000004), Exact},
-		{"0x4.8p-149", math.Float32frombits(0x000000004), Below}, // ToNearestEven rounds down (to even)
+		{"0x4.8p-149", math.Float32frombits(0x000000004), Below}, // rounded down to even
 		{"0x4.9p-149", math.Float32frombits(0x000000005), Above},
 
 		// specific case from issue 14553
@@ -907,7 +922,7 @@ func TestFloatFloat32(t *testing.T) {
 			x := makeFloat(tx)
 			out, acc := x.Float32()
 			if !alike32(out, tout) || acc != tacc {
-				t.Errorf("%s: got %g (%#x, %s); want %g (%#x, %s)", tx, out, math.Float32bits(out), acc, test.out, math.Float32bits(test.out), tacc)
+				t.Errorf("%s: got %g (%#08x, %s); want %g (%#08x, %s)", tx, out, math.Float32bits(out), acc, test.out, math.Float32bits(test.out), tacc)
 			}
 
 			// test that x.SetFloat64(float64(f)).Float32() == f
@@ -1005,7 +1020,7 @@ func TestFloatFloat64(t *testing.T) {
 			x := makeFloat(tx)
 			out, acc := x.Float64()
 			if !alike64(out, tout) || acc != tacc {
-				t.Errorf("%s: got %g (%#x, %s); want %g (%#x, %s)", tx, out, math.Float64bits(out), acc, test.out, math.Float64bits(test.out), tacc)
+				t.Errorf("%s: got %g (%#016x, %s); want %g (%#016x, %s)", tx, out, math.Float64bits(out), acc, test.out, math.Float64bits(test.out), tacc)
 			}
 
 			// test that x.SetFloat64(f).Float64() == f

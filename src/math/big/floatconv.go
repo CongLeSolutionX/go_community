@@ -126,7 +126,7 @@ func (z *Float) scan(r io.ByteScanner, base int) (f *Float, b int, err error) {
 
 	if exp5 == 0 {
 		// no decimal exponent contribution
-		z.round(0)
+		z.round(z.prec, z.mode, 0)
 		return
 	}
 	// exp5 != 0

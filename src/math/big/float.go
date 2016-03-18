@@ -16,7 +16,7 @@ import (
 	"math"
 )
 
-const debugFloat = false // enable for debugging
+const debugFloat = true // enable for debugging
 
 // A nonzero finite Float represents a multi-precision floating point number
 //
@@ -172,11 +172,7 @@ func (z *Float) SetPrec(prec uint) *Float {
 	if prec > MaxPrec {
 		prec = MaxPrec
 	}
-	old := z.prec
-	z.prec = uint32(prec)
-	if z.prec < old {
-		z.round(0)
-	}
+	z.round(uint32(prec), z.mode, 0)
 	return z
 }
 
@@ -289,7 +285,7 @@ func (z *Float) setExpAndRound(exp int64, sbit uint) {
 
 	z.form = finite
 	z.exp = int32(exp)
-	z.round(sbit)
+	z.round(z.prec, z.mode, sbit)
 }
 
 // SetMantExp sets z to mant × 2**exp and and returns z.
@@ -378,32 +374,32 @@ func (x *Float) validate() {
 // CAUTION: The rounding modes ToNegativeInf, ToPositiveInf are affected by the
 // sign of z. For correct rounding, the sign of z must be set correctly before
 // calling round.
-func (z *Float) round(sbit uint) {
+func (z *Float) round(prec uint32, mode RoundingMode, sbit uint) {
 	if debugFloat {
 		z.validate()
 	}
 
+	z.prec = prec // possibly prec == 0
+	z.mode = mode
 	z.acc = Exact
 	if z.form != finite {
 		// ±0 or ±Inf => nothing left to do
 		return
 	}
-	// z.form == finite && len(z.mant) > 0
-	// m > 0 implies z.prec > 0 (checked by validate)
+	// z != ±0 and z != ±Inf => len(z.mant) > 0
 
 	m := uint32(len(z.mant)) // present mantissa length in words
-	bits := m * _W           // present mantissa bits
-	if bits <= z.prec {
+	bits := m * _W           // present mantissa bits; bits > 0
+	if bits <= prec {
 		// mantissa fits => nothing to do
+		// 0 < bits && bits <= prec => prec > 0
 		return
 	}
-	// bits > z.prec
-
-	n := (z.prec + (_W - 1)) / _W // mantissa length in words for desired precision
+	// bits > prec >= 0
 
 	// Rounding is based on two bits: the rounding bit (rbit) and the
 	// sticky bit (sbit). The rbit is the bit immediately before the
-	// z.prec leading mantissa bits (the "0.5"). The sbit is set if any
+	// prec leading mantissa bits (the "0.5"). The sbit is set if any
 	// of the bits before the rbit are set (the "0.25", "0.125", etc.):
 	//
 	//   rbit  sbit  => "fractional part"
@@ -413,9 +409,9 @@ func (z *Float) round(sbit uint) {
 	//   1     0        == 0.5
 	//   1     1        >  0.5, < 1.0
 
-	// bits > z.prec: mantissa too large => round
-	r := uint(bits - z.prec - 1) // rounding bit position; r >= 0
-	rbit := z.mant.bit(r)        // rounding bit
+	// bits > prec: mantissa too large => round
+	r := uint(bits - prec - 1) // rounding bit position; r >= 0
+	rbit := z.mant.bit(r)      // rounding bit
 	if sbit == 0 {
 		sbit = z.mant.sticky(r)
 	}
@@ -423,8 +419,7 @@ func (z *Float) round(sbit uint) {
 		panic(fmt.Sprintf("invalid sbit %#x", sbit))
 	}
 
-	// convert ToXInf rounding modes
-	mode := z.mode
+	// convert ToXInf rounding modes to actually used modes
 	switch mode {
 	case ToNegativeInf:
 		mode = ToZero
@@ -439,13 +434,14 @@ func (z *Float) round(sbit uint) {
 	}
 
 	// cut off extra words
+	n := (prec + (_W - 1)) / _W // mantissa length in words for desired precision; n == 0 if prec == 0
 	if m > n {
 		copy(z.mant, z.mant[m-n:]) // move n last words to front
-		z.mant = z.mant[:n]
+		z.mant = z.mant[:n]        // len(z.mant) == 0 if prec == 0
 	}
 
 	// determine number of trailing zero bits t
-	t := n*_W - z.prec // 0 <= t < _W
+	t := n*_W - prec // 0 <= t < _W
 	lsb := Word(1) << t
 
 	// make rounding decision
@@ -473,45 +469,62 @@ func (z *Float) round(sbit uint) {
 	// round and determine accuracy
 	switch mode {
 	case ToZero:
+		// rounding down
 		if rbit|sbit != 0 {
 			z.acc = Below
 		}
 
 	case ToNearestEven, ToNearestAway:
-		if debugFloat && rbit != 1 {
+		// rounding down or up
+		if debugFloat && rbit == 0 {
 			panic("internal error in rounding")
 		}
-		if mode == ToNearestEven && sbit == 0 && z.mant[0]&lsb == 0 {
-			z.acc = Below
+		if mode == ToNearestEven && sbit == 0 && (n == 0 || z.mant[0]&lsb == 0) {
+			z.acc = Below // rounding down to even number
 			break
 		}
-		// mode == ToNearestAway || sbit == 1 || z.mant[0]&lsb != 0
+		// mode == ToNearestAway || sbit == 1 || (n != 0 && z.mant[0]&lsb != 0)
+		// rounding up
 		fallthrough
 
 	case AwayFromZero:
-		// add 1 to mantissa
+		// rounding up: add 1 to mantissa
 		if addVW(z.mant, z.mant, lsb) != 0 {
-			// overflow => shift mantissa right by 1 and add msb
-			shrVU(z.mant, z.mant, 1)
-			z.mant[n-1] |= 1 << (_W - 1)
-			// adjust exponent
-			if z.exp < MaxExp {
-				z.exp++
-			} else {
+			// overflow => increment exponent and adjust mantissa
+			if z.exp >= MaxExp {
 				// exponent overflow
 				z.acc = makeAcc(!z.neg)
 				z.form = inf
 				return
+			}
+			z.exp++
+			// adjust mantissa
+			const msb = 1 << (_W - 1)
+			if n > 0 {
+				shrVU(z.mant, z.mant, 1)
+				z.mant[n-1] |= msb
+			} else {
+				z.mant = z.mant[:1]
+				z.mant[0] = msb
+				n = 1
+				z.prec = 1
 			}
 		}
 		z.acc = Above
 	}
 
 	// zero out trailing bits in least-significant word
-	z.mant[0] &^= lsb - 1
+	if n > 0 {
+		z.mant[0] &^= lsb - 1
+	} else {
+		z.form = zero
+	}
 
 	// update accuracy
-	if z.acc != Exact && z.neg {
+	if debugFloat && Exact != 0 {
+		panic("invalid handling of Exact accuracy")
+	}
+	if z.neg {
 		z.acc = -z.acc
 	}
 
@@ -538,7 +551,7 @@ func (z *Float) setBits64(neg bool, x uint64) *Float {
 	z.mant = z.mant.setUint64(x << s)
 	z.exp = int32(64 - s) // always fits
 	if z.prec < 64 {
-		z.round(0)
+		z.round(z.prec, z.mode, 0)
 	}
 	return z
 }
@@ -589,7 +602,7 @@ func (z *Float) SetFloat64(x float64) *Float {
 	z.mant = z.mant.setUint64(1<<63 | math.Float64bits(fmant)<<11)
 	z.exp = int32(exp) // always fits
 	if z.prec < 53 {
-		z.round(0)
+		z.round(z.prec, z.mode, 0)
 	}
 	return z
 }
@@ -683,7 +696,7 @@ func (z *Float) Set(x *Float) *Float {
 		if z.prec == 0 {
 			z.prec = x.prec
 		} else if z.prec < x.prec {
-			z.round(0)
+			z.round(z.prec, z.mode, 0)
 		}
 	}
 	return z
@@ -875,35 +888,53 @@ func (x *Float) Float32() (float32, Accuracy) {
 		)
 
 		// Float mantissa m is 0.5 <= m < 1.0; compute exponent for float32 mantissa.
-		e := x.exp - 1 // exponent for mantissa m with 1.0 <= m < 2.0
+		e := x.exp - 1 // exponent for normal mantissa m with 1.0 <= m < 2.0
 		p := mbits + 1 // precision of normal float
 
-		// If the exponent is too small, we may have a denormal number
-		// in which case we have fewer mantissa bits available: recompute
-		// precision.
+		// If the exponent is too small, we have a denormal number before
+		// rounding and fewer than p mantissa bits of precision.
 		if e < emin {
+			// recompute precision
 			p = mbits + 1 - emin + int(e)
-			// Make sure we have at least 1 bit so that we don't
-			// lose numbers rounded up to the smallest denormal.
-			if p < 1 {
-				p = 1
+			// If p == 0, x's mantissa m starts immediately "to the right" of
+			// the available float32 mantissa space. In other words, if the
+			// smallest denormal is considered "1.0", for p == 0, the mantissa
+			// value m is >= 0.5. If m > 0.5, it is rounded up to 1.0; i.e.,
+			// the smallest denormal. If m == 0.5, it is rounded down to even,
+			// i.e., 0.0.
+			// For p < 0, the mantissa value m is <= "0.25" which is never
+			// rounded up.
+			if p < 0 /* m <= 0.25 */ || p == 0 && x.mant.sticky(uint(len(x.mant))*_W-1) == 0 /* m == 0.5 */ {
+				// underflow to ±0
+				if x.neg {
+					var z float32
+					return -z, Above
+				}
+				return 0.0, Below
 			}
+			// otherwise, round up
+			// We handle p == 0 explicitly because round doesn't support
+			// rounding to 0 bits of precision.
+			if p == 0 {
+				if x.neg {
+					return -math.SmallestNonzeroFloat32, Below
+				}
+				return math.SmallestNonzeroFloat32, Above
+			}
+			// p > 0
 		}
 
 		// round
 		var r Float
-		r.prec = uint32(p)
 		r.Set(x)
+		r.SetPrec(uint(p))
+		// r.round(uint32(p), ToNearestEven, 0)
 		e = r.exp - 1
 
 		// Rounding may have caused r to overflow to ±Inf
 		// (rounding never causes underflows to 0).
-		if r.form == inf {
-			e = emax + 1 // cause overflow below
-		}
-
-		// If the exponent is too large, overflow to ±Inf.
-		if e > emax {
+		// If the exponent is too large, also overflow to ±Inf.
+		if r.form == inf || e > emax {
 			// overflow
 			if x.neg {
 				return float32(math.Inf(-1)), Below
@@ -921,17 +952,10 @@ func (x *Float) Float32() (float32, Accuracy) {
 		// Rounding may have caused a denormal number to
 		// become normal. Check again.
 		if e < emin {
-			// denormal number
-			if e < dmin {
-				// underflow to ±0
-				if x.neg {
-					var z float32
-					return -z, Above
-				}
-				return 0.0, Below
-			}
-			// bexp = 0
-			// recompute precision
+			// denormal number: recompute precision
+			// Since rounding may have at best increased precision
+			// and we have eliminated p < 0 early, we know p >= 0.
+			// bexp == 0 for denormals
 			p = mbits + 1 - emin + int(e)
 			mant = msb32(r.mant) >> uint(fbits-p)
 		} else {
