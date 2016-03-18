@@ -622,6 +622,13 @@ uintptr_t cfunc(callback f, uintptr_t n) {
 	}
 }
 
+func TestTimeBeginPeriod(t *testing.T) {
+	const TIMERR_NOERROR = 0
+	if *runtime.TimeBeginPeriodRetValue != TIMERR_NOERROR {
+		t.Fatalf("timeBeginPeriod failed: it returned %d", *runtime.TimeBeginPeriodRetValue)
+	}
+}
+
 // removeOneCPU removes one (any) cpu from affinity mask.
 // It returns new affinity mask.
 func removeOneCPU(mask uintptr) (uintptr, error) {
