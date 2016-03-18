@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_2c0adb43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-18T19:14:11Z",
+      "side": 1,
+      "message": "Mind giving benchstat results? (go get rsc.io/benchstat)",
+      "revId": "7daddf7081c073943c62718bc9b584e6c47fa9ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_4cff0f4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-18T19:14:11Z",
+      "side": 1,
+      "message": "Is this with or without timeBeginPeriod?",
+      "revId": "7daddf7081c073943c62718bc9b584e6c47fa9ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_6c04d336",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-18T19:14:11Z",
+      "side": 1,
+      "message": "Since this sleep was originally motivated by the benchmarks from Russ\u0027 GOMAXPROCS proposal (https://golang.org/s/go15gomaxprocs), it would be good to include the results for those here, too.",
+      "revId": "7daddf7081c073943c62718bc9b584e6c47fa9ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
