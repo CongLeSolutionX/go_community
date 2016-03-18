@@ -93,3 +93,29 @@ func (LocalOnce) Bad() {} // ERROR "Bad passes lock by value: testdata.LocalOnce
 type LocalMutex sync.Mutex
 
 func (LocalMutex) Bad() {} // WANTED: An error here :(
+
+// Passing lock values into interface function arguments
+func FuncCallInterfaceArg(f func(a int, b interface{})) {
+	var m sync.Mutex
+	var t struct{ lock sync.Mutex }
+
+	f(1, "foo")
+	f(2, &t)
+	f(3, m) // ERROR "function call copies lock value: sync.Mutex"
+	f(s, t) // ERROR "function call copies lock value: struct{lock sync.Mutex} contains sync.Mutex"
+}
+
+// Returning lock via interface value
+func ReturnViaInterface(x int) (int, interface{}) {
+	var m sync.Mutex
+	var t struct{ lock sync.Mutex }
+
+	switch x % 3 {
+	case 0:
+		return 123, "qwe"
+	case 1:
+		return 1, m // ERROR "return copies lock value: sync.Mutex"
+	default:
+		return 3, t // ERROR "return copies lock value: struct{lock sync.Mutex} contains sync.Mutex"
+	}
+}
