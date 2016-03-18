@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_2c4f3b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-18T20:39:48Z",
+      "side": 1,
+      "message": "Sorry, I meant to replace the benchcmp output with benchstat output for ChanSync*, DefaultResolution, and 1ms, if you have the data.",
+      "revId": "0f77ecb36923ec82b3f9fe50930898a1b8d5aecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_0c4a7754",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-03-18T20:39:48Z",
+      "side": 1,
+      "message": "Thanks for adding these. Mention something like \"The following benchmarks are from the change that originally added this sleep (see https://golang.org/s/go15gomaxprocs)\"",
+      "revId": "0f77ecb36923ec82b3f9fe50930898a1b8d5aecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
