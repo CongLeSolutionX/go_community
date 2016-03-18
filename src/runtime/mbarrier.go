@@ -87,6 +87,17 @@ import (
 // frames that have potentially been active since the concurrent scan,
 // so it depends on write barriers to track changes to pointers in
 // stack frames that have not been active.
+//
+//
+// Global writes:
+//
+// The Go garbage collector requires write barriers when heap pointers
+// are stored in globals. Many garbage collectors ignore writes to
+// globals and instead pick up global -> heap pointers during
+// termination. This increases pause time, so we instead rely on write
+// barriers for writes to globals so that we don't have to rescan
+// global during mark termination.
+//
 //go:nowritebarrierrec
 func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 	if writeBarrier.needed {
@@ -185,7 +196,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, off, size)
 	}
-	if !writeBarrier.needed || typ.kind&kindNoPointers != 0 || size < sys.PtrSize || !inheap(uintptr(dst)) {
+	if !writeBarrier.needed || typ.kind&kindNoPointers != 0 || size < sys.PtrSize {
 		return
 	}
 
@@ -205,7 +216,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 // not to be preempted before the write barriers have been run.
 //go:nosplit
 func callwritebarrier(typ *_type, frame unsafe.Pointer, framesize, retoffset uintptr) {
-	if !writeBarrier.needed || typ == nil || typ.kind&kindNoPointers != 0 || framesize-retoffset < sys.PtrSize || !inheap(uintptr(frame)) {
+	if !writeBarrier.needed || typ == nil || typ.kind&kindNoPointers != 0 || framesize-retoffset < sys.PtrSize {
 		return
 	}
 	heapBitsBulkBarrier(uintptr(add(frame, retoffset)), framesize-retoffset)
