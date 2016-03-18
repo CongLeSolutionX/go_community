@@ -850,7 +850,7 @@ func typename(t *Type) *Node {
 	return n
 }
 
-func itabnamesym(t, itype *Type) *Sym {
+func itabname(t, itype *Type) *Node {
 	if t == nil || (Isptr[t.Etype] && t.Type == nil) || isideal(t) {
 		Fatalf("itabname %v", t)
 	}
@@ -868,7 +868,13 @@ func itabnamesym(t, itype *Type) *Sym {
 
 		itabs = append(itabs, itabEntry{t: t, itype: itype, sym: s})
 	}
-	return s.Def.Sym
+
+	n := Nod(OADDR, s.Def, nil)
+	n.Type = Ptrto(s.Def.Type)
+	n.Addable = true
+	n.Ullman = 2
+	n.Typecheck = 1
+	return n
 }
 
 // isreflexive reports whether t has a reflexive equality operator.
@@ -1268,7 +1274,7 @@ func dumptypestructs() {
 		o += Widthptr + 8                      // skip link/bad/unused fields
 		o += len(imethods(i.itype)) * Widthptr // skip fun method pointers
 		// TODO verify that name is unambiguous (important because of DUPOK)
-		ggloblsym(i.sym, int32(o), int16(obj.DUPOK))
+		ggloblsym(i.sym, int32(o), int16(obj.DUPOK|obj.NOPTR))
 
 		ilink := Pkglookup(Tconv(i.t, obj.FmtLeft)+"."+Tconv(i.itype, obj.FmtLeft), itablinkpkg)
 		dsymptr(ilink, 0, i.sym, 0)
