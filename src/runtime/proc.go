@@ -3980,14 +3980,6 @@ func runqgrab(_p_ *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool
 			if stealRunNextG {
 				// Try to steal from _p_.runnext.
 				if next := _p_.runnext; next != 0 {
-					// Sleep to ensure that _p_ isn't about to run the g we
-					// are about to steal.
-					// The important use case here is when the g running on _p_
-					// ready()s another g and then almost immediately blocks.
-					// Instead of stealing runnext in this window, back off
-					// to give _p_ a chance to schedule runnext. This will avoid
-					// thrashing gs between different Ps.
-					usleep(100)
 					if !_p_.runnext.cas(next, 0) {
 						continue
 					}
