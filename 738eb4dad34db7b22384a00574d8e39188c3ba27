@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dce47ef9_5b36e39a",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-19T12:05:42Z",
+      "side": 1,
+      "message": "I realise this changeset is only moving these, not adding them, but I\u0027d expect to see an int8 for \"-128\", up to int64, given the asymmetry between the range of negatives and positives.  (Negating a negative and proceeding to format the assumed positive is a common bug in number formatting.)",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 44
+      },
+      "revId": "738eb4dad34db7b22384a00574d8e39188c3ba27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
