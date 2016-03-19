@@ -22,6 +22,30 @@
       "revId": "738eb4dad34db7b22384a00574d8e39188c3ba27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_7d047336",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-03-19T12:58:32Z",
+      "side": 1,
+      "message": "Good point. Thank you. I have actually corrected these in the past in other places in go :). I change the int tests to test the lowest values.",
+      "parentUuid": "dce47ef9_5b36e39a",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 44
+      },
+      "revId": "738eb4dad34db7b22384a00574d8e39188c3ba27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
