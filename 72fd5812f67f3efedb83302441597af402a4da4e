@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_21fab560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-19T00:49:27Z",
+      "side": 1,
+      "message": "cmd/compile:",
+      "revId": "72fd5812f67f3efedb83302441597af402a4da4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_410a5144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-19T00:49:27Z",
+      "side": 1,
+      "message": "Fixes #nnnn ?\nUpdates #nnnn ?",
+      "revId": "72fd5812f67f3efedb83302441597af402a4da4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
