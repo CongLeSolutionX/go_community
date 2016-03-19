@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_dc8bcada",
+        "filename": "src/cmd/compile/internal/gc/ssa_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-19T15:14:26Z",
+      "side": 1,
+      "message": "At some point (separate CL ok) it might be worth adding Is32BitArch/Is64BitArch or PtrWidth/IntWidth or some such to internal/testenv, and implementing it there using const tricks instead of unsafe. There are a bunch of places in the tree we make testing decisions based on it, e.g. the sizeof_tests.",
+      "revId": "4335db62ef6592a89a5a70e5958ea8dcc73ac8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
