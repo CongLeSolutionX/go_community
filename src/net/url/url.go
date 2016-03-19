@@ -536,6 +536,58 @@ func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 	return user, host, nil
 }
 
+func normalizeColonPortByIndex(host string, colonIndex int) (string, error) {
+	colonPort := host[colonIndex:]
+	if strings.TrimSpace(colonPort) == ":" {
+		return host[:colonIndex], nil
+	}
+	if !validOptionalPort(colonPort) {
+		return "", fmt.Errorf("invalid port %q after host", colonPort)
+	}
+	return host, nil
+}
+
+// normalizeHostColonPort normalizes the colonPort
+// according to RFC 3986 Section-6.2.3
+// host:     -> host
+// host:port -> host:port
+func normalizeHostColonPort(host string) (string, error) {
+	// RFC 3986
+	colonCount := strings.Count(host, ":")
+	dotCount := strings.Count(host, ".")
+
+	// IPV4 case
+	if dotCount >= 1 {
+		if colonCount < 1 {
+			return host, nil
+		}
+		i := strings.Index(host, ":")
+		return normalizeColonPortByIndex(host, i)
+	}
+
+	// IPV6 case without [...]
+
+	// Either the host is a valid IPV6 host or not
+	// all the IPV6 octets have been passed i.e :::
+	ipv6MaxColonCount := 7
+	if colonCount <= ipv6MaxColonCount {
+		return host, nil
+	}
+
+	// We want to find the index of the 8th colon ie
+	// the first colon that denotes the start of the port.
+	lastColonIndex := len(host)
+	indices := make([]int, 0, ipv6MaxColonCount)
+	for i := 0; i < colonCount; i++ {
+		lastColonIndex = strings.LastIndex(host[:lastColonIndex], ":")
+		indices = append(indices, lastColonIndex)
+	}
+
+	indexOf8thColon := len(indices) - (1 + ipv6MaxColonCount)
+	colonPortIndex := indices[indexOf8thColon]
+	return normalizeColonPortByIndex(host, colonPortIndex)
+}
+
 // parseHost parses host as an authority without user
 // information. That is, as host[:port].
 func parseHost(host string) (string, error) {
@@ -579,7 +631,8 @@ func parseHost(host string) (string, error) {
 	if host, err = unescape(host, encodeHost); err != nil {
 		return "", err
 	}
-	return host, nil
+
+	return normalizeHostColonPort(host)
 }
 
 // EscapedPath returns the escaped form of u.Path.
