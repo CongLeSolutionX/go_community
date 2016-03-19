@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bcb50adc_9d8b07dc",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4134,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-19T20:13:02Z",
+      "side": 1,
+      "message": "s/enumarate/enumerate/",
+      "revId": "0a48fa357f5ae9190e8e728a15cb7bc46ac9ab26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb50adc_bdc7eb0f",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
@@ -119,6 +136,30 @@
       "side": 1,
       "message": "nvm, just s/fastrand1()/i/",
       "parentUuid": "bcb50adc_9dca2717",
+      "range": {
+        "startLine": 4162,
+        "startChar": 2,
+        "endLine": 4162,
+        "endChar": 33
+      },
+      "revId": "0a48fa357f5ae9190e8e728a15cb7bc46ac9ab26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_bd88cbdf",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4162,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-19T20:13:02Z",
+      "side": 1,
+      "message": "It would be even nicer to have i locally defined before the return:\ni :\u003d fastrand1()\nand don\u0027t take any arguments.",
+      "parentUuid": "bcb50adc_5d824fc4",
       "range": {
         "startLine": 4162,
         "startChar": 2,
