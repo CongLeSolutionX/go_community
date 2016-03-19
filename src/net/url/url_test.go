@@ -459,10 +459,10 @@ var urltests = []URLTest{
 		"",
 	},
 	{
-		"http://192.168.0.2:/foo",
+		"http://192.168.0.2/foo",
 		&URL{
 			Scheme: "http",
-			Host:   "192.168.0.2:",
+			Host:   "192.168.0.2",
 			Path:   "/foo",
 		},
 		"",
@@ -479,10 +479,10 @@ var urltests = []URLTest{
 	},
 	{
 		// Malformed IPv6 but still accepted.
-		"http://2b01:e34:ef40:7730:8e70:5aff:fefe:edac:/foo",
+		"http://2b01:e34:ef40:7730:8e70:5aff:fefe:edac/foo",
 		&URL{
 			Scheme: "http",
-			Host:   "2b01:e34:ef40:7730:8e70:5aff:fefe:edac:",
+			Host:   "2b01:e34:ef40:7730:8e70:5aff:fefe:edac",
 			Path:   "/foo",
 		},
 		"",
@@ -497,10 +497,10 @@ var urltests = []URLTest{
 		"",
 	},
 	{
-		"http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]:/foo",
+		"http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]/foo",
 		&URL{
 			Scheme: "http",
-			Host:   "[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]:",
+			Host:   "[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]",
 			Path:   "/foo",
 		},
 		"",
@@ -1386,6 +1386,63 @@ func TestShouldEscape(t *testing.T) {
 	for _, tt := range shouldEscapeTests {
 		if shouldEscape(tt.in, tt.mode) != tt.escape {
 			t.Errorf("shouldEscape(%q, %v) returned %v; expected %v", tt.in, tt.mode, !tt.escape, tt.escape)
+		}
+	}
+}
+
+// Issue #14836
+// Issue #14860
+var colonPortTests = [...]struct {
+	in       string
+	mustErr  bool
+	expected string
+}{
+	1:  {"http://[fe80::1]:foo/", true, ""},
+	2:  {"http://[fe80::1]:8080/", false, "http://[fe80::1]:8080/"},
+	3:  {"http://192.168.0.1:/", false, "http://192.168.0.1/"},
+	4:  {"http://example.org:", false, "http://example.org"},
+	5:  {"http://example.org:80", false, "http://example.org:80"},
+	6:  {"http://example.org:foo", true, ""},
+	7:  {"https://golang.org:443/pkg/net/url/", false, "https://golang.org:443/pkg/net/url/"},
+	8:  {"http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]:8888/foo", false, "http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]:8888/foo"},
+	9:  {"http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]:/foo", false, "http://[2b01:e34:ef40:7730:8e70:5aff:fefe:edac]/foo"},
+	10: {"http://[::192.9.5.5]/ipng", false, "http://[::192.9.5.5]/ipng"},
+	11: {"http://[::192.9.5.5]:/ipng", false, "http://[::192.9.5.5]/ipng"},
+	12: {"http://[::192.9.5.5]::/ipng", true, ""},
+	13: {"http://[::192.9.5.5]:80/ipng", false, "http://[::192.9.5.5]:80/ipng"},
+	14: {"https://[::192.9.5.5]:443/ipng", false, "https://[::192.9.5.5]:443/ipng"},
+	15: {"http://[::FFFF:129.144.52.38]:80/index.html", false, "http://[::FFFF:129.144.52.38]:80/index.html"},
+	16: {"http://2b01:e34:ef40:7730:8e70:5aff:fefe:edac:/golang", false, "http://2b01:e34:ef40:7730:8e70:5aff:fefe:edac:/golang"},
+	17: {"http://::FFFF:129.144.52.38:80/index.html", false, "http://::FFFF:129.144.52.38:80/index.html"},
+	18: {"http://:80/golang", false, "http://:80/golang"},
+	19: {"http://localhost:/golang", false, "http://localhost/golang"},
+	20: {"file:///home:/adg/rabbits", false, "file:///home:/adg/rabbits"},
+	21: {"file:///home:", false, "file:///home:"},
+	22: {"file:///home:80", false, "file:///home:80"},
+	23: {"file:///home.org:foo", false, "file:///home.org:foo"},
+	// TODO: Figure out how to determine a valid host for https?
+	24: {"http://example/golang", false, "http://example/golang"},
+	25: {"http://example:/golang", false, "http://example:/golang"},
+	26: {"http://example:80/golang", false, "http://example:80/golang"},
+	27: {"http://user:password@example.org:80/golang", false, "http://user:password@example.org:80/golang"},
+	28: {"http://user:password@example.com:/golang", false, "http://user:password@example.com/golang"},
+}
+
+func TestColonPortParsing(t *testing.T) {
+	for i, tt := range colonPortTests {
+		u, err := Parse(tt.in)
+		if tt.mustErr {
+			if err == nil {
+				t.Errorf("#%d %q was expected to err yet was parsed as %q", i, tt.in, u.String())
+			}
+		} else {
+			if u == nil {
+				t.Fatalf("#%d %q expected a non-nil URL", i, tt.in)
+			}
+			want, got := tt.expected, u.String()
+			if want != got {
+				t.Errorf("#%d got %q; want %q", i, got, want)
+			}
 		}
 	}
 }
