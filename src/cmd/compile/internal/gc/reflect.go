@@ -856,7 +856,7 @@ func itabname(t, itype *Type) *Node {
 	if t == nil || (Isptr[t.Etype] && t.Type == nil) || isideal(t) {
 		Fatalf("itabname %v", t)
 	}
-	s := Pkglookup(Tconv(t, FmtLeft)+"."+Tconv(itype, FmtLeft), itab2pkg)
+	s := Pkglookup(Tconv(t, FmtLeft)+"."+Tconv(itype, FmtLeft), itabpkg)
 	if s.Def == nil {
 		n := Nod(ONAME, nil, nil)
 		n.Sym = s
