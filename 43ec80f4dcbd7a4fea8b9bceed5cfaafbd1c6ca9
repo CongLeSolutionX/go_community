@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_9c8e45ac",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-19T23:56:01Z",
+      "side": 1,
+      "message": "\"signedness\" makes sense but it\u0027s not really a word. call this  \u0027isSigned\u0027. a boolean is a conditional, not a property.\n\nthink of it this way: what does \"signedness \u003d true\" say? it\u0027s not clear.",
+      "revId": "43ec80f4dcbd7a4fea8b9bceed5cfaafbd1c6ca9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
