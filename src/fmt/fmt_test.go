@@ -977,6 +977,8 @@ var fmtTests = []struct {
 
 	// invalid reflect.Value doesn't crash.
 	{"%v", reflect.Value{}, "<invalid reflect.Value>"},
+	{"%v", &reflect.Value{}, "<invalid Value>"},
+	{"%v", SI{reflect.Value{}}, "{<invalid Value>}"},
 
 	// Tests to check that not supported verbs generate an error string.
 	{"%☠", nil, "%!☠(<nil>)"},
@@ -995,6 +997,13 @@ var fmtTests = []struct {
 	{"%☠", &intVar, "%!☠(*int=0xPTR)"},
 	{"%☠", make(chan int), "%!☠(chan int=0xPTR)"},
 	{"%☠", func() {}, "%!☠(func()=0xPTR)"},
+	{"%☠", reflect.ValueOf(renamedInt(0)), "%!☠(fmt_test.renamedInt=0)"},
+	{"%☠", SI{renamedInt(0)}, "{%!☠(fmt_test.renamedInt=0)}"},
+	{"%☠", &[]interface{}{I(1), G(2)}, "&[%!☠(fmt_test.I=1) %!☠(fmt_test.G=2)]"},
+	{"%☠", SI{&[]interface{}{I(1), G(2)}}, "{%!☠(*[]interface {}=&[1 2])}"},
+	{"%☠", reflect.Value{}, "<invalid reflect.Value>"},
+	{"%☠", map[float64]int{NaN: 1}, "map[%!☠(float64=NaN):%!☠(<invalid reflect.Value>)]"},
+	{"%☠", F(3), "<☠=F(3)>"}, // F is special and works for any verb.
 }
 
 // zeroFill generates zero-filled strings of the specified width. The length
@@ -1258,6 +1267,15 @@ func BenchmarkSprintfBytes(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
 			Sprintf("%v", data)
+		}
+	})
+}
+
+func BenchmarkSprintfStringer(b *testing.B) {
+	stringer := I(12345)
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			Sprintf("%v", stringer)
 		}
 	})
 }
