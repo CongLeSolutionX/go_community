@@ -395,14 +395,18 @@ func readref(ctxt *Link, f *obj.Biobuf, pkg string, pn string) {
 }
 
 func rdint64(f *obj.Biobuf) int64 {
-	var c int
+	var c byte
+	var err error
 
 	uv := uint64(0)
 	for shift := 0; ; shift += 7 {
 		if shift >= 64 {
 			log.Fatalf("corrupt input")
 		}
-		c = obj.Bgetc(f)
+		c, err = f.Reader().ReadByte()
+		if err != nil {
+			log.Fatalln("error reading input: ", err)
+		}
 		uv |= uint64(c&0x7F) << uint(shift)
 		if c&0x80 == 0 {
 			break
