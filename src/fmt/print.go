@@ -108,9 +108,6 @@ type pp struct {
 	buf       buffer
 	// arg holds the current item, as an interface{}.
 	arg interface{}
-	// value holds the current item, as a reflect.Value, and will be
-	// the zero Value if the item has not been reflected.
-	value reflect.Value
 	// reordered records whether the format string used argument reordering.
 	reordered bool
 	// goodArgNum records whether the most recent reordering directive was valid.
@@ -139,7 +136,6 @@ func (p *pp) free() {
 	}
 	p.buf = p.buf[:0]
 	p.arg = nil
-	p.value = reflect.Value{}
 	ppFree.Put(p)
 }
 
@@ -265,17 +261,6 @@ func Sprintln(a ...interface{}) string {
 	return s
 }
 
-// getField gets the i'th field of the struct value.
-// If the field is itself is an interface, return a value for
-// the thing inside the interface, not the interface itself.
-func getField(v reflect.Value, i int) reflect.Value {
-	val := v.Field(i)
-	if val.Kind() == reflect.Interface && !val.IsNil() {
-		val = val.Elem()
-	}
-	return val
-}
-
 // tooLarge reports whether the magnitude of the integer is
 // too large to be used as a formatting width or precision.
 func tooLarge(x int) bool {
@@ -313,17 +298,21 @@ func (p *pp) badVerb(verb rune) {
 	p.buf.WriteString(percentBangString)
 	p.buf.WriteRune(verb)
 	p.buf.WriteByte('(')
-	switch {
-	case p.arg != nil:
-		p.buf.WriteString(reflect.TypeOf(p.arg).String())
-		p.buf.WriteByte('=')
-		p.printArg(p.arg, 'v')
-	case p.value.IsValid():
-		p.buf.WriteString(p.value.Type().String())
-		p.buf.WriteByte('=')
-		p.printValue(p.value, 'v', 0)
-	default:
+	if p.arg == nil {
 		p.buf.WriteString(nilAngleString)
+	} else {
+		switch value := p.arg.(type) {
+		case reflect.Value:
+			if value.IsValid() {
+				p.buf.WriteString(value.Type().String())
+				p.buf.WriteByte('=')
+			}
+			p.printValue(value, 'v', 0)
+		default:
+			p.buf.WriteString(reflect.TypeOf(value).String())
+			p.buf.WriteByte('=')
+			p.printArg(value, 'v')
+		}
 	}
 	p.buf.WriteByte(')')
 	p.erroring = false
@@ -595,7 +584,6 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 
 func (p *pp) printArg(arg interface{}, verb rune) {
 	p.arg = arg
-	p.value = reflect.Value{}
 
 	if arg == nil {
 		switch verb {
@@ -657,57 +645,44 @@ func (p *pp) printArg(arg interface{}, verb rune) {
 	case []byte:
 		p.fmtBytes(f, verb, bytesString)
 	case reflect.Value:
-		p.printReflectValue(f, verb, 0)
-		return
+		p.printValue(f, verb, 0)
 	default:
 		// If the type is not simple, it might have methods.
-		if p.handleMethods(verb) {
-			return
+		if !p.handleMethods(verb) {
+			// Need to use reflection, since the type had no
+			// interface methods that could be used for formatting.
+			p.printValue(reflect.ValueOf(f), verb, 0)
 		}
-		// Need to use reflection
-		p.printReflectValue(reflect.ValueOf(arg), verb, 0)
-		return
 	}
-	p.arg = nil
-}
-
-// printValue is similar to printArg but starts with a reflect value, not an interface{} value.
-// It does not handle 'p' and 'T' verbs because these should have been already handled by printArg.
-func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
-	if !value.IsValid() {
-		switch verb {
-		case 'v':
-			p.buf.WriteString(nilAngleString)
-		default:
-			p.badVerb(verb)
-		}
-		return
-	}
-
-	// Handle values with special methods.
-	// Call always, even when arg == nil, because handleMethods clears p.fmt.plus for us.
-	p.arg = nil // Make sure it's cleared, for safety.
-	if value.CanInterface() {
-		p.arg = value.Interface()
-	}
-	if p.handleMethods(verb) {
-		return
-	}
-
-	p.printReflectValue(value, verb, depth)
 }
 
 var byteType = reflect.TypeOf(byte(0))
 
-// printReflectValue is the fallback for both printArg and printValue.
-// It uses reflect to print the value.
-func (p *pp) printReflectValue(value reflect.Value, verb rune, depth int) {
-	oldValue := p.value
-	p.value = value
-BigSwitch:
+// printValue is similar to printArg but starts with a reflect value, not an interface{} value.
+// It does not handle 'p' and 'T' verbs because these should have been already handled by printArg.
+func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
+	p.arg = value
+
+	// Handle values with special methods if not already handled by printArg (depth == 0).
+	if depth > 0 && value.IsValid() && value.CanInterface() {
+		p.arg = value.Interface()
+		if p.handleMethods(verb) {
+			return
+		}
+	}
+
 	switch f := value; f.Kind() {
 	case reflect.Invalid:
-		p.buf.WriteString(invReflectString)
+		if depth == 0 {
+			p.buf.WriteString(invReflectString)
+		} else {
+			switch verb {
+			case 'v':
+				p.buf.WriteString(nilAngleString)
+			default:
+				p.badVerb(verb)
+			}
+		}
 	case reflect.Bool:
 		p.fmtBool(f.Bool(), verb)
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -774,7 +749,7 @@ BigSwitch:
 					p.buf.WriteByte(':')
 				}
 			}
-			p.printValue(getField(v, i), verb, depth+1)
+			p.printValue(f.Field(i), verb, depth+1)
 		}
 		p.buf.WriteByte('}')
 	case reflect.Interface:
@@ -846,27 +821,20 @@ BigSwitch:
 		// but not embedded (avoid loops)
 		if v != 0 && depth == 0 {
 			switch a := f.Elem(); a.Kind() {
-			case reflect.Array, reflect.Slice:
+			case reflect.Array, reflect.Slice, reflect.Struct, reflect.Map:
 				p.buf.WriteByte('&')
 				p.printValue(a, verb, depth+1)
-				break BigSwitch
-			case reflect.Struct:
-				p.buf.WriteByte('&')
-				p.printValue(a, verb, depth+1)
-				break BigSwitch
-			case reflect.Map:
-				p.buf.WriteByte('&')
-				p.printValue(a, verb, depth+1)
-				break BigSwitch
+			default:
+				p.fmtPointer(value, verb)
 			}
+		} else {
+			p.fmtPointer(value, verb)
 		}
-		fallthrough
 	case reflect.Chan, reflect.Func, reflect.UnsafePointer:
 		p.fmtPointer(value, verb)
 	default:
 		p.unknownType(f)
 	}
-	p.value = oldValue
 }
 
 // intFromArg gets the argNumth element of a. On return, isInt reports whether the argument has integer type.
