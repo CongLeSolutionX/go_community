@@ -483,7 +483,7 @@ func parse(rawurl string, viaRequest bool) (url *URL, err error) {
 	if (url.Scheme != "" || !viaRequest && !strings.HasPrefix(rest, "///")) && strings.HasPrefix(rest, "//") {
 		var authority string
 		authority, rest = split(rest[2:], "/", false)
-		url.User, url.Host, err = parseAuthority(authority)
+		url.User, url.Host, err = parseAuthority(authority, url.Scheme)
 		if err != nil {
 			goto Error
 		}
@@ -504,12 +504,12 @@ Error:
 	return nil, &Error{"parse", rawurl, err}
 }
 
-func parseAuthority(authority string) (user *Userinfo, host string, err error) {
+func parseAuthority(authority, scheme string) (user *Userinfo, host string, err error) {
 	i := strings.LastIndex(authority, "@")
 	if i < 0 {
-		host, err = parseHost(authority)
+		host, err = parseHost(authority, scheme)
 	} else {
-		host, err = parseHost(authority[i+1:])
+		host, err = parseHost(authority[i+1:], scheme)
 	}
 	if err != nil {
 		return nil, "", err
@@ -536,43 +536,106 @@ func parseAuthority(authority string) (user *Userinfo, host string, err error) {
 	return user, host, nil
 }
 
+// normalize "" or the default port to ""
+// according to RFC 3986 Section 6.2.3,
+func colonPortNormalizer(colonPort, scheme string) string {
+	if colonPort == ":" {
+		return ""
+	}
+
+	switch scheme {
+	case "http":
+		if colonPort == ":80" {
+			return ""
+		}
+	case "https":
+		if colonPort == ":443" {
+			return ""
+		}
+	}
+	return colonPort
+}
+
+func normalizeColonPortByIndex(host, scheme string, colonIndex int) (string, error) {
+	colonPort := host[colonIndex:]
+	colonPort = colonPortNormalizer(colonPort, scheme)
+	if !validOptionalPort(colonPort) {
+		return "", fmt.Errorf("invalid port %q after host", colonPort)
+	}
+	return host[:colonIndex] + colonPort, nil
+}
+
+// normalizes the colonPort for hosts in ipv4 format:
+// Normalizing is performed according to RFC 3986 Section-6.2.3
+// host:     -> host
+// host:port -> host:port
+func normalizeHostColonPort(host, scheme string) (string, error) {
+	colonIndex := strings.Index(host, ":")
+	if colonIndex < 0 {
+		return host, nil
+	}
+
+	if strings.HasPrefix(host, "localhost") {
+		return normalizeColonPortByIndex(host, scheme, colonIndex)
+	}
+
+	dotIndex := strings.Index(host, ".")
+	ipv4Like := dotIndex >= 0 && dotIndex < colonIndex
+	if !ipv4Like {
+		return host, nil
+	}
+	return normalizeColonPortByIndex(host, scheme, colonIndex)
+}
+
 // parseHost parses host as an authority without user
 // information. That is, as host[:port].
-func parseHost(host string) (string, error) {
-	if strings.HasPrefix(host, "[") {
-		// Parse an IP-Literal in RFC 3986 and RFC 6874.
-		// E.g., "[fe80::1]", "[fe80::1%25en0]", "[fe80::1]:80".
-		i := strings.LastIndex(host, "]")
-		if i < 0 {
-			return "", errors.New("missing ']' in host")
+func parseHost(host, scheme string) (string, error) {
+	if !strings.HasPrefix(host, "[") {
+		unescapedHost, err := unescape(host, encodeHost)
+		if err != nil {
+			return "", err
 		}
-		colonPort := host[i+1:]
-		if !validOptionalPort(colonPort) {
-			return "", fmt.Errorf("invalid port %q after host", colonPort)
+		return normalizeHostColonPort(unescapedHost, scheme)
+	}
+
+	// Parse an IP-Literal in RFC 3986 and RFC 6874.
+	// E.g., "[fe80::1]", "[fe80::1%25en0]", "[fe80::1]:80".
+	i := strings.LastIndex(host, "]")
+	if i < 0 {
+		return "", errors.New("missing ']' in host")
+	}
+
+	if i < len(host) {
+		first, colonPort := host[:i+1], host[i+1:]
+		normalizedColonPort, err := normalizeColonPortByIndex(colonPort, scheme, 0)
+		if err != nil {
+			return "", err
 		}
 
-		// RFC 6874 defines that %25 (%-encoded percent) introduces
-		// the zone identifier, and the zone identifier can use basically
-		// any %-encoding it likes. That's different from the host, which
-		// can only %-encode non-ASCII bytes.
-		// We do impose some restrictions on the zone, to avoid stupidity
-		// like newlines.
-		zone := strings.Index(host[:i], "%25")
-		if zone >= 0 {
-			host1, err := unescape(host[:zone], encodeHost)
-			if err != nil {
-				return "", err
-			}
-			host2, err := unescape(host[zone:i], encodeZone)
-			if err != nil {
-				return "", err
-			}
-			host3, err := unescape(host[i:], encodeHost)
-			if err != nil {
-				return "", err
-			}
-			return host1 + host2 + host3, nil
+		host = first + normalizedColonPort
+	}
+
+	// RFC 6874 defines that %25 (%-encoded percent) introduces
+	// the zone identifier, and the zone identifier can use basically
+	// any %-encoding it likes. That's different from the host, which
+	// can only %-encode non-ASCII bytes.
+	// We do impose some restrictions on the zone, to avoid stupidity
+	// like newlines.
+	zone := strings.Index(host[:i], "%25")
+	if zone >= 0 {
+		host1, err := unescape(host[:zone], encodeHost)
+		if err != nil {
+			return "", err
 		}
+		host2, err := unescape(host[zone:i], encodeZone)
+		if err != nil {
+			return "", err
+		}
+		host3, err := unescape(host[i:], encodeHost)
+		if err != nil {
+			return "", err
+		}
+		return host1 + host2 + host3, nil
 	}
 
 	var err error
