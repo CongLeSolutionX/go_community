@@ -16,6 +16,24 @@
       "revId": "ea07b045bb5885cc09a98dfb520312b44a03c52f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccc2a7e_e5f9d06c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 12700
+      },
+      "writtenOn": "2016-03-20T13:38:34Z",
+      "side": 1,
+      "message": "A large portion of the time spent sorting is cache misses, and inlining the fields gives better cache behaviour.\nNow that i think about it maybe there is something that can be done to stdlib sort that would make this better?\nIn the meantime i\u0027ll leave this if that is ok?",
+      "parentUuid": "9c86862c_cc977f6c",
+      "revId": "ea07b045bb5885cc09a98dfb520312b44a03c52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
