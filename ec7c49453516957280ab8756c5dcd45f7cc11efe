@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_3c98519b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-20T23:24:58Z",
+      "side": 0,
+      "message": "I\u0027d keep this one.",
+      "revId": "ec7c49453516957280ab8756c5dcd45f7cc11efe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_5c8b1d4c",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-20T23:24:58Z",
+      "side": 0,
+      "message": "I\u0027d keep this one.",
+      "revId": "ec7c49453516957280ab8756c5dcd45f7cc11efe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_1c959563",
+        "filename": "src/math/cmplx/cmath_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-20T23:24:58Z",
+      "side": 0,
+      "message": "We can delete this, but can you file a bug first with this block of code and and have gri@ decide whether these tests should be resurrected somehow?",
+      "revId": "ec7c49453516957280ab8756c5dcd45f7cc11efe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
