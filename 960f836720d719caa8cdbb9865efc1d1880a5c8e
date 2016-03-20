@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_bcd10147",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-20T23:31:43Z",
+      "side": 1,
+      "message": "no commented-out code. delete or uncomment. \n\nor leave a comment explaining why it\u0027s commented out, ideally with a bug reference.",
+      "revId": "960f836720d719caa8cdbb9865efc1d1880a5c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
