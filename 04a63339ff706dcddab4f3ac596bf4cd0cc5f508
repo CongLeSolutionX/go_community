@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb50adc_7d0c731d",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-03-20T21:06:22Z",
+      "side": 1,
+      "message": "before this would print as: \"%!☠(reflect.Value\u003d0)\"",
+      "revId": "04a63339ff706dcddab4f3ac596bf4cd0cc5f508",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_9d206786",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-03-20T21:06:22Z",
+      "side": 1,
+      "message": "before this would print as: \"map[%!☠(float64\u003dNaN):%!☠(map[float64]int\u003dmap[NaN:\u003cnil\u003e])]\"",
+      "revId": "04a63339ff706dcddab4f3ac596bf4cd0cc5f508",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
