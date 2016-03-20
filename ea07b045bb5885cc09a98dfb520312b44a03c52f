@@ -34,6 +34,24 @@
       "revId": "ea07b045bb5885cc09a98dfb520312b44a03c52f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_8fa739d5",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-20T13:50:53Z",
+      "side": 1,
+      "message": "Ah, then long term there\u0027s a tradeoff here. If cmd/link moves to using slices for everything, then list2Slice below would be a no-op if dataSlice is a []*LSym.\n\nWith a large enough number of elements, I suspect an optimization like this would still win, but you may not be able to measure it in cmd/go any more.\n\nOverall I\u0027m fine with this, but let\u0027s give it until monday morning on the west coast and see if there are any other opinions.",
+      "parentUuid": "bccc2a7e_e5f9d06c",
+      "revId": "ea07b045bb5885cc09a98dfb520312b44a03c52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
