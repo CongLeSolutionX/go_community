@@ -402,14 +402,6 @@ func Println(args ...interface{}) {
 	fmt.Println(args...)
 }
 
-// Printf is fmt.Printf guarded by -v.
-func Printf(format string, args ...interface{}) {
-	if !*verbose {
-		return
-	}
-	fmt.Printf(format+"\n", args...)
-}
-
 // Bad reports an error and sets the exit code..
 func (f *File) Bad(pos token.Pos, args ...interface{}) {
 	f.Warn(pos, args...)

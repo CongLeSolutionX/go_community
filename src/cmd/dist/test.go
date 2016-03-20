@@ -589,10 +589,6 @@ func (t *tester) registerTest(name, dirBanner, bin string, args ...string) {
 	t.registerTest1(false, name, dirBanner, bin, args...)
 }
 
-func (t *tester) registerSeqTest(name, dirBanner, bin string, args ...string) {
-	t.registerTest1(true, name, dirBanner, bin, args...)
-}
-
 func (t *tester) bgDirCmd(dir, bin string, args ...string) *exec.Cmd {
 	cmd := exec.Command(bin, args...)
 	if filepath.IsAbs(dir) {
