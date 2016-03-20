@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_7cdc9959",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-20T21:50:50Z",
+      "side": 1,
+      "message": "This commit message subject format isn\u0027t quite right.\n\nJust:\n\n    net: add multicast addresses from RFC 3315\n\n    From RFC 3315 section 5.1.",
+      "revId": "646945a542bc4dfd00b67848be1099b2fcdaad9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_5cd9dd67",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-20T21:50:50Z",
+      "side": 1,
+      "message": "I suppose these could be added for completeness, but where does the madness end? There will always be more RFCs with magic numbers defined.\n\nThis should probably live in the x/net repo somewhere instead.",
+      "revId": "646945a542bc4dfd00b67848be1099b2fcdaad9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
