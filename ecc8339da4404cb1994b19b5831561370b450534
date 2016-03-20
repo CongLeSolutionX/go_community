@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_0c835732",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-20T12:39:06Z",
+      "side": 1,
+      "message": "Please update the documentation.",
+      "revId": "ecc8339da4404cb1994b19b5831561370b450534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
