@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_ac8a4b45",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-20T12:37:16Z",
+      "side": 0,
+      "message": "I believe you can now delete stringsCompare.",
+      "revId": "248c3a3c7b376e128c14fcb13eebf28733553d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

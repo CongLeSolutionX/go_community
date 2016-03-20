@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_cc977f6c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-20T12:37:16Z",
+      "side": 1,
+      "message": "These three are fields from the LSym. Why not sort on:\n\ntype dataSlice []*LSym\n\n?",
+      "revId": "ea07b045bb5885cc09a98dfb520312b44a03c52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
