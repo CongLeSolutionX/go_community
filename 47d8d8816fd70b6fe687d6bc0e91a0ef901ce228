@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_fc2b0933",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-20T11:43:33Z",
+      "side": 1,
+      "message": "Instead, why not just make Biobuf.r public ?",
+      "revId": "47d8d8816fd70b6fe687d6bc0e91a0ef901ce228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_dc304da0",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-20T11:43:33Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 398,
+        "startChar": 0,
+        "endLine": 399,
+        "endChar": 14
+      },
+      "revId": "47d8d8816fd70b6fe687d6bc0e91a0ef901ce228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_9c3ac57a",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-20T11:43:33Z",
+      "side": 1,
+      "message": "shift :\u003d uint(0)",
+      "revId": "47d8d8816fd70b6fe687d6bc0e91a0ef901ce228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_bc35818e",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-20T11:43:33Z",
+      "side": 1,
+      "message": "c, err :\u003d\n\nwhy not pull \n\nr :\u003d f.Reader() out of the loop, then this can become\n\nc, err :\u003d r.ReadByte()",
+      "revId": "47d8d8816fd70b6fe687d6bc0e91a0ef901ce228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_7c4019e1",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-20T11:43:33Z",
+      "side": 1,
+      "message": "drop uint(shift) cast here",
+      "revId": "47d8d8816fd70b6fe687d6bc0e91a0ef901ce228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
