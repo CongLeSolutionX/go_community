@@ -677,6 +677,7 @@ func (w *huffmanBitWriter) writeBlockHuff(eof bool, input []byte) {
 //
 // len(h) must be >= 256, and h's elements must be all zeroes.
 func histogram(b []byte, h []int32) {
+	h = h[:256] // early bounds checks
 	for _, t := range b {
 		h[t]++
 	}
