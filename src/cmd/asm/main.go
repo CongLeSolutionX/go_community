@@ -32,10 +32,11 @@ func main() {
 	flags.Parse()
 
 	// Create object file, write header.
-	fd, err := os.Create(*flags.OutputFile)
+	output, err := obj.Bopenw(*flags.OutputFile)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	ctxt := obj.Linknew(architecture.LinkArch)
 	if *flags.PrintOut {
 		ctxt.Debugasm = 1
@@ -47,7 +48,6 @@ func main() {
 	}
 	ctxt.Bso = obj.Binitw(os.Stdout)
 	defer ctxt.Bso.Flush()
-	output := obj.Binitw(fd)
 	fmt.Fprintf(output, "go object %s %s %s\n", obj.Getgoos(), obj.Getgoarch(), obj.Getgoversion())
 	fmt.Fprintf(output, "!\n")
 
