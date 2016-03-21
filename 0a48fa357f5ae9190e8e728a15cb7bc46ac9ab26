@@ -352,6 +352,30 @@
       "revId": "0a48fa357f5ae9190e8e728a15cb7bc46ac9ab26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cd6320e_2378149d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4188,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-21T10:31:56Z",
+      "side": 1,
+      "message": "Code was still correct, but probably slower than it is now.",
+      "parentUuid": "9ccf6672_244adc54",
+      "range": {
+        "startLine": 4181,
+        "startChar": 1,
+        "endLine": 4188,
+        "endChar": 2
+      },
+      "revId": "0a48fa357f5ae9190e8e728a15cb7bc46ac9ab26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
