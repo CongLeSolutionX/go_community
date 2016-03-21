@@ -11,11 +11,24 @@ import (
 type loop struct {
 	header *Block // The header node of this (reducible) loop
 	outer  *loop  // loop containing this loop
-	// Next two fields not currently used, but cheap to maintain,
-	// and aid in computation of inner-ness and list of blocks.
-	nBlocks      int32 // Number of blocks in this loop but not within inner loops
-	isInner      bool  // True if never discovered to contain a loop
-	containsCall bool  // if any block in this loop or any loop it contains is a BlockCall or BlockDefer
+
+	// By default, children exits, and depth are not initialized.
+	children []*loop  // loops nested directly within this loop. Initialized by assembleChildren().
+	exits    []*Block // exits records blocks reached by exits from this loop. Initialized by findExits().
+
+	// Loops aren't that common, so rather than force regalloc to keep
+	// a map or slice for its data, just put it here.
+	spills  []*Value
+	scratch int32
+
+	// Next three fields used by regalloc and/or
+	// aid in computation of inner-ness and list of blocks.
+	nBlocks int32 // Number of blocks in this loop but not within inner loops
+	depth   int16 // Nesting depth of the loop; 1 is outermost. Initialized by calculateDepths().
+	isInner bool  // True if never discovered to contain a loop
+
+	// register allocation uses this.
+	containsCall bool // if any block in this loop or any loop it contains is a BlockCall or BlockDefer
 }
 
 // outerinner records that outer contains inner
@@ -48,6 +61,8 @@ type loopnest struct {
 	po    []*Block
 	sdom  sparseTree
 	loops []*loop
+
+	hasChildren, hasDepth, hasExits bool // prevent double init which corrupts data
 }
 
 func min8(a, b int8) int8 {
@@ -295,6 +310,58 @@ func loopnestfor(f *Func) *loopnest {
 			innermost.nBlocks++
 		}
 	}
+
+	ln := &loopnest{f: f, b2l: b2l, po: po, sdom: sdom, loops: loops}
+
+	// Curious about the loopiness? "-d=ssa/likelyadjust/stats"
+	if f.pass.stats > 0 && len(loops) > 0 {
+		ln.assembleChildren()
+		ln.calculateDepths()
+		ln.findExits()
+
+		maxdepth := int16(0) // maximum loop nest depth (outer = 1)
+		maxexits := 0        // maximum number of exits from any loop
+		maxinnerexits := 0   // maximum number of exits from any innermost loop
+		total := 0           // total # of loops
+		totalcf := 0         // total # of call-free loops
+		totalexits := 0      // total exits from loops
+		inner := 0           // number of innermost loops
+		innercf := 0         // number of call-free innermost loops
+		innerexits := 0      // number of exits from innermost loops
+
+		// Note stats for non-innermost loops are slightly flawed because
+		// they don't account for inner loop exits that span multiple levels.
+
+		for _, l := range loops {
+			x := len(l.exits)
+			cf := !l.containsCall
+
+			total++
+			if cf {
+				totalcf++
+			}
+			if l.isInner {
+				inner++
+				if cf {
+					innercf++
+				}
+				if x > maxinnerexits {
+					maxinnerexits = x
+				}
+				innerexits += x
+			}
+			if l.depth > maxdepth {
+				maxdepth = l.depth
+			}
+			if x > maxexits {
+				maxexits = x
+			}
+			totalexits += x
+		}
+
+		f.logStat("Md_Mx_MIx_T_Tx_Tcf_I_Ix_Icf", maxdepth, maxexits, maxinnerexits, total, totalexits, totalcf, inner, innerexits, innercf)
+	}
+
 	if f.pass.debug > 1 && len(loops) > 0 {
 		fmt.Printf("Loops in %s:\n", f.Name)
 		for _, l := range loops {
@@ -314,5 +381,67 @@ func loopnestfor(f *Func) *loopnest {
 		}
 		fmt.Print("\n")
 	}
-	return &loopnest{f, b2l, po, sdom, loops}
+	return ln
+}
+
+// assembleChildren initializes the children field of each
+// loop in the nest.  Loop A is a child of loop B if A is
+// directly nested within B (based on the reducible-loops
+// detection above)
+func (ln *loopnest) assembleChildren() {
+	if ln.hasChildren {
+		return
+	}
+	for _, l := range ln.loops {
+		if l.outer != nil {
+			l.outer.children = append(l.outer.children, l)
+		}
+	}
+	ln.hasChildren = true
+}
+
+// calculateDepths uses the children field of loops
+// to determine the nesting depth (outer=1) of each
+// loop.  This is helpful for finding exit edges.
+func (ln *loopnest) calculateDepths() {
+	if ln.hasDepth {
+		return
+	}
+	for _, l := range ln.loops {
+		if l.outer == nil {
+			l.setDepth(1)
+		}
+	}
+	ln.hasDepth = true
+}
+
+// findExits uses loop depth information to find the
+// exits from a loop.
+func (ln *loopnest) findExits() {
+	if ln.hasExits {
+		return
+	}
+	b2l := ln.b2l
+	for _, b := range ln.po {
+		l := b2l[b.ID]
+		if l != nil && len(b.Succs) == 2 {
+			sl := b2l[b.Succs[0].ID]
+			if sl != l && (sl == nil || sl.depth <= l.depth) {
+				l.exits = append(l.exits, b.Succs[0])
+				continue
+			}
+			sl = b2l[b.Succs[1].ID]
+			if sl != l && (sl == nil || sl.depth <= l.depth) {
+				l.exits = append(l.exits, b.Succs[1])
+			}
+		}
+	}
+	ln.hasExits = true
+}
+
+func (l *loop) setDepth(d int16) {
+	l.depth = d
+	for _, c := range l.children {
+		c.setDepth(d + 1)
+	}
 }
