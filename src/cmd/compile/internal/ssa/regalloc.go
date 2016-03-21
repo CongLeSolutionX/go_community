@@ -100,7 +100,8 @@ import (
 )
 
 const (
-	logSpills = iota
+	moveSpills = iota
+	logSpills
 	regDebug
 	stackDebug
 )
@@ -583,8 +584,33 @@ func (s *regAllocState) regalloc(f *Func) {
 		f.Fatalf("entry block must be first")
 	}
 
+	// Keep track of which loops are currently being processed
+	// If all the blocks in a loop have been processed, and any
+	// spills in the loop have not yet been used, and if there is
+	// only one exit edge, then move the spill to the (single)
+	// exit edge for the loop.
+	s.loopnest.assembleChildren()
+	s.loopnest.calculateDepths()
+	s.loopnest.findExits()
+
+	// Discover dead spills incrementally,
+	// cannot "free" them without modifying blocks,
+	// postpone till end.
+	var toBeFreed []*Value
+	// save moved spills till after blocks have been processed.
+	var toBeAdded []*Value
+
 	for _, b := range f.Blocks {
 		s.curBlock = b
+		loop := s.loopnest.b2l[b.ID]
+
+		// Minor for-the-time-being optimization: nothing happens
+		// unless a loop is both inner and call-free, therefore
+		// don't bother with other loops.
+		// For benchmarking, disable if regalloc/test > 0
+		if loop != nil && (loop.containsCall || !loop.isInner || f.pass.test > 0) {
+			loop = nil
+		}
 
 		// Initialize liveSet and uses fields for this block.
 		// Walk backwards through the block doing liveness analysis.
@@ -765,6 +791,9 @@ func (s *regAllocState) regalloc(f *Func) {
 				s.setOrig(spill, v)
 				s.values[v.ID].spill = spill
 				s.values[v.ID].spillUsed = false
+				if loop != nil {
+					loop.spills = append(loop.spills, v)
+				}
 			}
 
 			// Save the starting state for use by merge edges.
@@ -973,6 +1002,9 @@ func (s *regAllocState) regalloc(f *Func) {
 				s.setOrig(spill, v)
 				s.values[v.ID].spill = spill
 				s.values[v.ID].spillUsed = false
+				if loop != nil {
+					loop.spills = append(loop.spills, v)
+				}
 			}
 		}
 
@@ -1082,6 +1114,93 @@ func (s *regAllocState) regalloc(f *Func) {
 			s.values[e.ID].spillUsed = true
 		}
 
+		if loop != nil {
+			loop.scratch++                    // increment count of blocks in this loop that have been processed
+			if loop.scratch == loop.nBlocks { // just processed last block of loop
+				// This check is redundant with code at the top of the loop.
+				// This is definitive; the one at the top of the loop is an optimization.
+				if loop.isInner && !loop.containsCall { // easy case, innermost with no calls
+					// Calls are excluded because the resulting spill information does
+					// not conform to expectations.
+
+					// TODO: single-exit calculation is messed up for non-inner loops
+					// because of multilevel exits that are not part of the "exit"
+					// count.
+
+					// Compute the set of values live at entry to exit blocks.
+					// value for key is index of single block in which it is live,
+					// or -2 if it is live in more than one block.
+					// sparsemap.get(key) returns -1 if key is missing.
+
+					// TODO: deal with live down more than one exit case.
+					entryLive := newSparseMap(f.NumValues())
+					exitBlocks := make([]*Block, 0)
+					whichExit := int32(0)
+
+					for _, ss := range loop.exits {
+						exitBlocks = append(exitBlocks, ss)
+						// Start with live at end.
+						for _, li := range s.live[ss.ID] {
+							if s.values[li.ID].needReg {
+								entryLive.setOrIfPresent(li.ID, whichExit, -2)
+							}
+						}
+						// Control can also be live.
+						if ss.Control != nil && s.values[ss.Control.ID].needReg {
+							entryLive.setOrIfPresent(ss.Control.ID, whichExit, -2)
+						}
+						// Walk backwards, filling in locally live values, removing those defined.
+						for i := len(ss.Values) - 1; i >= 0; i-- {
+							v := ss.Values[i]
+							entryLive.remove(v.ID) // Cannot be an issue, only keeps the sets smaller.
+							for _, a := range v.Args {
+								if s.values[a.ID].needReg {
+									entryLive.setOrIfPresent(a.ID, whichExit, -2)
+								}
+							}
+						}
+						whichExit++
+					}
+
+					for _, e := range loop.spills {
+						if !s.values[e.ID].spillUsed && // e is not used yet and also is in register at end of all blocks where live.
+							entryLive.get(e.ID) >= 0 { // and e is live down exactly one exit.
+							ss := exitBlocks[entryLive.get(e.ID)] // Block in which e is live.
+							if len(ss.Preds) > 1 {                // There cannot be another predecessor
+								continue
+							}
+							// Destroy old spill in place
+							oldSpill := s.values[e.ID].spill
+							s.orig[oldSpill.ID] = nil
+							toBeFreed = append(toBeFreed, oldSpill)
+
+							// Make new spill in successor block,
+							// but undo insertion into block since presence of spill will mess up its regalloc.
+							// TODO: what is best Line for moved spill?
+							spill := ss.NewValue1(e.Line, OpStoreReg, e.Type, e)
+							ssvLen := len(ss.Values)
+							toBeAdded = append(toBeAdded, spill)
+							ss.Values = ss.Values[0 : ssvLen-1]
+							s.setOrig(spill, e)
+							s.values[e.ID].spill = spill
+
+							// This is potentially now a spill in an outer loop.
+							// If outer loops are handled, it might be advantageous
+							// to note the spill here, but if it is not, then it
+							// is merely not a candidate for further hoisting.
+
+							if s.f.pass.debug > moveSpills {
+								s.f.Config.Warnl(e.Line, "moved spill %v in %v for %v to %v in %v, #exits=%v",
+									oldSpill, b, e, spill, ss, len(loop.exits))
+							}
+						}
+					} // for spill
+				} // loop is inner
+				loop.scratch = 0 // Don't leave a mess, just in case.
+				loop.spills = nil
+			} // if scratch == nBlocks
+		} // if loop is not nil
+
 		// Clear any final uses.
 		// All that is left should be the pseudo-uses added for values which
 		// are live at the end of b.
@@ -1097,6 +1216,13 @@ func (s *regAllocState) regalloc(f *Func) {
 			u.next = s.freeUseRecords
 			s.freeUseRecords = u
 		}
+	}
+
+	// Cannot free these earlier;
+	// these are not included in the "never used" set below.
+	for _, spill := range toBeFreed {
+		spill.Args[0].Uses--
+		f.freeValue(spill)
 	}
 
 	// Erase any spills we never used
@@ -1128,6 +1254,19 @@ func (s *regAllocState) regalloc(f *Func) {
 		b.Values = b.Values[:i]
 		// TODO: zero b.Values[i:], recycle Values
 		// Not important now because this is the last phase that manipulates Values
+	}
+	// Insert moved spills (that have not been marked invalid above)
+	// at start of appropriate block.  Recall that successor has single
+	// predecessor, so there are no phi nodes to worry about.
+	for _, v := range toBeAdded {
+		if v.Op == OpInvalid {
+			continue // TODO: If keeping stats, could note ineffectiveness of spill-sink here.
+		}
+		b := v.Block
+		// This would be costly if it occurred very often, but it doesn't.
+		b.Values = append(b.Values, nil) // ensure space
+		copy(b.Values[1:], b.Values[0:len(b.Values)-1])
+		b.Values[0] = v
 	}
 
 	// Anything that didn't get a register gets a stack location here.
@@ -1617,6 +1756,7 @@ func (s *regAllocState) computeLive() {
 			// Add len(b.Values) to adjust from end-of-block distance
 			// to beginning-of-block distance.
 			live.clear()
+
 			d := int32(len(b.Values))
 			if b.Kind == BlockCall || b.Kind == BlockDefer {
 				// Because we keep no values in registers across a call,
@@ -1714,6 +1854,7 @@ func (s *regAllocState) computeLive() {
 			break
 		}
 	}
+
 	if f.pass.debug > regDebug {
 		fmt.Println("live values at end of each block")
 		for _, b := range f.Blocks {
