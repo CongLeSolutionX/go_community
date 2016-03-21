@@ -32,6 +32,8 @@ func (s *sparseMap) contains(k ID) bool {
 	return i < len(s.dense) && s.dense[i].key == k
 }
 
+// get returns the value for key k, or -1 if k does
+// not appear in the map.
 func (s *sparseMap) get(k ID) int32 {
 	i := s.sparse[k]
 	if i < len(s.dense) && s.dense[i].key == k {
@@ -47,6 +49,20 @@ func (s *sparseMap) set(k ID, v int32) {
 		return
 	}
 	s.dense = append(s.dense, sparseEntry{k, v})
+	s.sparse[k] = len(s.dense) - 1
+}
+
+// setOrIfDifferent sets value v0 for key k, unless there is
+// already a *different* value present in which case it sets v.
+func (s *sparseMap) setOrIfDifferent(k ID, v0, v int32) {
+	i := s.sparse[k]
+	if i < len(s.dense) && s.dense[i].key == k {
+		if s.dense[i].val != v0 {
+			s.dense[i].val = v
+		}
+		return
+	}
+	s.dense = append(s.dense, sparseEntry{k, v0})
 	s.sparse[k] = len(s.dense) - 1
 }
 
