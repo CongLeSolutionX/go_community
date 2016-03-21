@@ -223,6 +223,27 @@ func LookupBytes(name []byte) *Sym {
 	return localpkg.LookupBytes(name)
 }
 
+// LookupN looks up the symbol starting with prefix and ending with
+// the decimal n, padding to up to wantDigits of zeroes. If wantDigits
+// <= 0, no padding is done.
+func LookupN(prefix string, wantDigits, n int) *Sym {
+	var buf [20]byte
+	pos := len(buf)
+	for n > 0 {
+		pos--
+		buf[pos] = '0' + byte(n%10)
+		n /= 10
+		wantDigits--
+	}
+	for i := 0; i < wantDigits; i++ {
+		pos--
+		buf[pos] = '0'
+	}
+	pos -= len(prefix)
+	copy(buf[pos:], prefix)
+	return LookupBytes(buf[pos:])
+}
+
 var initSyms []*Sym
 
 var nopkg = &Pkg{
