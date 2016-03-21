@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_7d3b937f",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-21T10:53:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce942d0_bf7193af",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 7
+      },
+      "revId": "59b08b750545673d06c0471b480278161f4f46ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb50adc_3d311ba2",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-21T10:36:30Z",
       "side": 1,
       "message": "Earlier there was 0x%08x, but here there\u0027s no 0x prefix to make clear in the output they\u0027re hex.  Also, the # flag outputs the 0x for you, e.g. 0x%08x can be %#08x.",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 541,
+        "endChar": 69
+      },
+      "revId": "59b08b750545673d06c0471b480278161f4f46ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cd6320e_a37424a0",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-21T10:53:24Z",
+      "side": 1,
+      "message": "I assume you mean %#02x since we are printing bytes.\n\nChanged in both CLs.",
+      "parentUuid": "bcb50adc_3d311ba2",
       "range": {
         "startLine": 541,
         "startChar": 0,
