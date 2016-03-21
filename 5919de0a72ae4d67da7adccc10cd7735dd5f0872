@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_4f82a1c4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1840,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-03-21T14:51:12Z",
+      "side": 1,
+      "message": "everybody, except for us, is idle already.",
+      "range": {
+        "startLine": 1840,
+        "startChar": 28,
+        "endLine": 1840,
+        "endChar": 63
+      },
+      "revId": "5919de0a72ae4d67da7adccc10cd7735dd5f0872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_6fd685c6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-03-21T14:51:12Z",
+      "side": 1,
+      "message": "Why 4 times? Isn\u0027t once enough? There could be useful GC work to do and this not only delays that work but it takes time and energy.",
+      "range": {
+        "startLine": 1855,
+        "startChar": 0,
+        "endLine": 1855,
+        "endChar": 25
+      },
+      "revId": "5919de0a72ae4d67da7adccc10cd7735dd5f0872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
