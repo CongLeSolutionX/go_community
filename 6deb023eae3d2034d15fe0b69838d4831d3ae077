@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_5ad7d76a",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T21:51:50Z",
+      "side": 1,
+      "message": "This is internal - not in the API. \"rounding up\" has been used elsewhere internally with the same meaning (see e.g. decimal.go).\n\nThe only thing that\u0027s decided here is if we add 1 to the absolute value of the mantissa; which is colloquially called \"rounding up\". It is _deliberately_ not the excruciatingly precise term exactly to give a more intuitive picture of what\u0027s going on here.\n\nUsing \"inc\" for \"increment\" now because that\u0027s the operation that\u0027s selected.",
+      "parentUuid": "9c86862c_0fb1892a",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c86862c_2f2c8d32",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
