@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fcb5c2f8_3f13a37b",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-21T06:49:40Z",
+      "side": 1,
+      "message": "Changed to int. I\u0027ll let others decide the name.",
+      "parentUuid": "3c1bdab9_776aafee",
+      "revId": "b173746e94741f00136c19c015eb151f69a1394b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c1bdab9_f77cdfbc",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-21T03:04:19Z",
       "side": 1,
       "message": "Seems like this could/should be three lines:\n\nn :\u003d copy(buf[:], prefix)\nb :\u003d strconv.AppendInt(buf[n:], i, 10)\nreturn LookupBytes(b)\n\nAppendInt shouldn\u0027t allocate (I think), shouldn\u0027t be much slower, and will be nicer to read/maintain. It doesn\u0027t play with wantDigits, but I don\u0027t think anyone in the compiler actually needs the zero padding. It\u0027ll even shrink binaries a tiny bit. :)",
+      "revId": "b173746e94741f00136c19c015eb151f69a1394b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_ffad3b68",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-21T06:49:40Z",
+      "side": 1,
+      "message": "It doesn\u0027t escape, but it\u0027s twice as slow:\n\n        var buf [20]byte\n        copy(buf[:], prefix)\n        b :\u003d strconv.AppendInt(buf[:len(prefix)], int64(n), 10)\n        return LookupBytes(b)\n\nBut it\u0027s shorter so it wins. It\u0027s now only 4x faster, instead of 8x faster. But still in the noise CPU-wise.",
+      "parentUuid": "3c1bdab9_f77cdfbc",
       "revId": "b173746e94741f00136c19c015eb151f69a1394b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
