@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_f744df43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-21T06:45:07Z",
+      "side": 1,
+      "message": "Thanks. Am gonna fix that.",
+      "parentUuid": "fcb5c2f8_9c0c05d6",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "d2d58f4e56825f3022f0415b6f41e3dac84ec4f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_5cef9d13",
         "filename": "src/net/url/url_test.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-20T14:00:05Z",
       "side": 1,
       "message": "Per section 6.2.3: `Likewise, an explicit \":port\", for which the port is empty or the default for the scheme, is equivalent to one where the port and its \":\" delimiter are elided and thus should be removed by scheme-based normalization.`  As such this should be:\n\n    5:  {\"http://example.org:80\", false, \"http://example.org\"},\n\nNeedless to say that would also warrant a change in the code.  I\u0027m not sure, though, if it would be possible to change that for reasons of backward compatibility.",
+      "range": {
+        "startLine": 1404,
+        "startChar": 0,
+        "endLine": 1404,
+        "endChar": 63
+      },
+      "revId": "d2d58f4e56825f3022f0415b6f41e3dac84ec4f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_7732afed",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-21T06:45:07Z",
+      "side": 1,
+      "message": "Yes in deed, I should have put a comment there. I was thinking too about backwards compatibility. For sure I can change that to properly normalize \":80\" to \"/\".",
+      "parentUuid": "fcb5c2f8_5cef9d13",
       "range": {
         "startLine": 1404,
         "startChar": 0,
