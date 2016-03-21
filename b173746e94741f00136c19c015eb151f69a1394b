@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_377037dd",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-21T03:04:19Z",
+      "side": 1,
+      "message": "Remove %d?",
+      "revId": "b173746e94741f00136c19c015eb151f69a1394b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_776aafee",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-21T03:04:19Z",
+      "side": 1,
+      "message": "I\u0027d rather just change the type of makefuncdatasym_nsym above. (And maybe give it a less ridiculous name?)",
+      "revId": "b173746e94741f00136c19c015eb151f69a1394b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_f77cdfbc",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-21T03:04:19Z",
+      "side": 1,
+      "message": "Seems like this could/should be three lines:\n\nn :\u003d copy(buf[:], prefix)\nb :\u003d strconv.AppendInt(buf[n:], i, 10)\nreturn LookupBytes(b)\n\nAppendInt shouldn\u0027t allocate (I think), shouldn\u0027t be much slower, and will be nicer to read/maintain. It doesn\u0027t play with wantDigits, but I don\u0027t think anyone in the compiler actually needs the zero padding. It\u0027ll even shrink binaries a tiny bit. :)",
+      "revId": "b173746e94741f00136c19c015eb151f69a1394b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
