@@ -33,6 +33,7 @@ type Biobuf struct {
 	linelen int
 }
 
+func (b *Biobuf) File() *os.File        { return b.f }
 func (b *Biobuf) Reader() *bufio.Reader { return b.r }
 
 func Bopenw(name string) (*Biobuf, error) {

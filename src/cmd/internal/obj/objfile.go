@@ -5,93 +5,86 @@
 // Writing of Go object files.
 //
 // Originally, Go object files were Plan 9 object files, but no longer.
-// Now they are more like standard object files, in that each symbol is defined
-// by an associated memory image (bytes) and a list of relocations to apply
-// during linking. We do not (yet?) use a standard file format, however.
-// For now, the format is chosen to be as simple as possible to read and write.
-// It may change for reasons of efficiency, or we may even switch to a
-// standard file format if there are compelling benefits to doing so.
+// Now they are more like standard object files, in that each symbol
+// is defined by an associated memory image (bytes) and a list of
+// relocations to apply during linking.
 // See golang.org/s/go13linker for more background.
 //
-// The file format is:
+// An object file is layed out as a zip archive containing the
+// following files:
 //
-//	- magic header: "\x00\x00go13ld"
-//	- byte 1 - version number
-//	- sequence of strings giving dependencies (imported packages)
-//	- empty string (marks end of sequence)
-//	- sequence of symbol references used by the defined symbols
-//	- byte 0xff (marks end of sequence)
-//	- integer (length of following data)
-//	- data, the content of the defined symbols
-//	- sequence of defined symbols
-//	- byte 0xff (marks end of sequence)
-//	- magic footer: "\xff\xffgo13ld"
+//	- imports: sequence of strings giving dependencies
+//	- symrefs: sequence of sybols referenced by the defined symbols
+//	- data:    the content of the defined symbols
+//	- symbols: sequence of defined symbols
 //
 // All integers are stored in a zigzag varint format.
 // See golang.org/s/go12symtab for a definition.
 //
-// Data blocks and strings are both stored as an integer
-// followed by that many bytes.
+// Strings are stored as an integer followed by that many bytes.
 //
-// A symbol reference is a string name followed by a version.
+// A symbol reference is a name (string) followed by a version (int).
 //
-// A symbol points to other symbols using an index into the symbol
-// reference sequence. Index 0 corresponds to a nil LSym* pointer.
-// In the symbol layout described below "symref index" stands for this
-// index.
+// Symbols point at each other using an index into the symbol
+// reference sequence. In the symbol layout described below
+// "symref index" stands for this index. Index 0 corresponds
+// to a nil LSym pointer.
 //
-// Each symbol is laid out as the following fields (taken from LSym*):
+// Symbol defenitions consume data from the data file by specifing
+// length consumed. Data is consumed by symbols in order.
 //
-//	- byte 0xfe (sanity check for synchronization)
-//	- type [int]
+// Each symbol is laid out as a sequence of ints
+// holding the following fields (taken from LSym):
+//
+//	- type
 //	- name & version [symref index]
-//	- flags [int]
+//	- flags
 //		1 dupok
-//	- size [int]
+//	- size
 //	- gotype [symref index]
-//	- p [data block]
-//	- nr [int]
+//	- p [data length]
+//	- nr
 //	- r [nr relocations, sorted by off]
 //
 // If type == STEXT, there are a few more fields:
 //
-//	- args [int]
-//	- locals [int]
-//	- nosplit [int]
-//	- flags [int]
+//	- args
+//	- locals
+//	- nosplit
+//	- flags
 //		1<<0 leaf
 //		1<<1 C function
 //		1<<2 function may call reflect.Type.Method
-//	- nlocal [int]
+//	- nlocal
 //	- local [nlocal automatics]
 //	- pcln [pcln table]
 //
 // Each relocation has the encoding:
 //
-//	- off [int]
-//	- siz [int]
-//	- type [int]
-//	- add [int]
+//	- off
+//	- siz
+//	- type
+//	- add
 //	- sym [symref index]
 //
 // Each local has the encoding:
 //
 //	- asym [symref index]
-//	- offset [int]
-//	- type [int]
+//	- offset
+//	- type
 //	- gotype [symref index]
 //
 // The pcln table has the encoding:
 //
-//	- pcsp [data block]
-//	- pcfile [data block]
-//	- pcline [data block]
-//	- npcdata [int]
+//	- pcsp [data length]
+//	- pcfile [data length]
+//	- pcline [data length]
+//	- npcdata
 //	- pcdata [npcdata data blocks]
-//	- nfuncdata [int]
-//	- funcdata [nfuncdata symref index]
+//	- nfuncdata
+//	- funcdata [nfuncdata symref indexes]
 //	- funcdatasym [nfuncdata ints]
-//	- nfile [int]
+//	- nfile
 //	- file [nfile symref index]
 //
 // The file layout and meaning of type integers are architecture-independent.
@@ -102,6 +95,8 @@
 package obj
 
 import (
+	"archive/zip"
+	"bufio"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -303,69 +298,62 @@ func flushplist(ctxt *Link, freeProgs bool) {
 	}
 }
 
-func Writeobjfile(ctxt *Link, b *Biobuf) {
-	// Emit header.
-	Bputc(b, 0)
+func createFile(name string, w *zip.Writer, b *bufio.Writer) {
+	b.Flush()
+	f, err := w.CreateHeader(&zip.FileHeader{Name: name, Method: zip.Store})
+	if err != nil {
+		log.Fatalf("error creating %s in zip archive: %s", name, err)
+	}
+	b.Reset(f)
+}
 
-	Bputc(b, 0)
-	fmt.Fprintf(b, "go13ld")
-	Bputc(b, 1) // version
+func Writeobjfile(ctxt *Link, b *Biobuf) {
+	b.Flush()
+	zfile := zip.NewWriter(b.f)
+	writer := bufio.NewWriter(nil)
 
 	// Emit autolib.
+	createFile("imports", zfile, writer)
 	for _, pkg := range ctxt.Imports {
-		wrstring(b, pkg)
+		wrstring(writer, pkg)
 	}
-	wrstring(b, "")
 
-	var dataLength int64
 	// Emit symbol references.
+	createFile("symrefs", zfile, writer)
 	for _, s := range ctxt.Text {
-		writerefs(ctxt, b, s)
-		dataLength += int64(len(s.P))
-
-		pc := s.Pcln
-		dataLength += int64(len(pc.Pcsp.P))
-		dataLength += int64(len(pc.Pcfile.P))
-		dataLength += int64(len(pc.Pcline.P))
-		for i := 0; i < len(pc.Pcdata); i++ {
-			dataLength += int64(len(pc.Pcdata[i].P))
-		}
+		writerefs(ctxt, writer, s)
 	}
 	for _, s := range ctxt.Data {
-		writerefs(ctxt, b, s)
-		dataLength += int64(len(s.P))
+		writerefs(ctxt, writer, s)
 	}
-	Bputc(b, 0xff)
 
 	// Write data block
-	wrint(b, dataLength)
+	createFile("data", zfile, writer)
 	for _, s := range ctxt.Text {
-		b.w.Write(s.P)
+		writer.Write(s.P)
 		pc := s.Pcln
-		b.w.Write(pc.Pcsp.P)
-		b.w.Write(pc.Pcfile.P)
-		b.w.Write(pc.Pcline.P)
+		writer.Write(pc.Pcsp.P)
+		writer.Write(pc.Pcfile.P)
+		writer.Write(pc.Pcline.P)
 		for i := 0; i < len(pc.Pcdata); i++ {
-			b.w.Write(pc.Pcdata[i].P)
+			writer.Write(pc.Pcdata[i].P)
 		}
 	}
 	for _, s := range ctxt.Data {
-		b.w.Write(s.P)
+		writer.Write(s.P)
 	}
 
 	// Emit symbols.
+	createFile("symbols", zfile, writer)
 	for _, s := range ctxt.Text {
-		writesym(ctxt, b, s)
+		writesym(ctxt, writer, s)
 	}
 	for _, s := range ctxt.Data {
-		writesym(ctxt, b, s)
+		writesym(ctxt, writer, s)
 	}
 
-	// Emit footer.
-	Bputc(b, 0xff)
-
-	Bputc(b, 0xff)
-	fmt.Fprintf(b, "go13ld")
+	writer.Flush()
+	zfile.Close()
 }
 
 // Provide the the index of a symbol reference by symbol name.
@@ -374,7 +362,7 @@ func Writeobjfile(ctxt *Link, b *Biobuf) {
 var refIdx = make(map[string]int)
 var vrefIdx = make(map[string]int)
 
-func wrref(ctxt *Link, b *Biobuf, s *LSym, isPath bool) {
+func wrref(ctxt *Link, b *bufio.Writer, s *LSym, isPath bool) {
 	if s == nil || s.RefIdx != 0 {
 		return
 	}
@@ -393,7 +381,6 @@ func wrref(ctxt *Link, b *Biobuf, s *LSym, isPath bool) {
 		s.RefIdx = idx
 		return
 	}
-	Bputc(b, 0xfe)
 	if isPath {
 		wrstring(b, filepath.ToSlash(s.Name))
 	} else {
@@ -405,7 +392,7 @@ func wrref(ctxt *Link, b *Biobuf, s *LSym, isPath bool) {
 	m[s.Name] = ctxt.RefsWritten
 }
 
-func writerefs(ctxt *Link, b *Biobuf, s *LSym) {
+func writerefs(ctxt *Link, b *bufio.Writer, s *LSym) {
 	wrref(ctxt, b, s, false)
 	wrref(ctxt, b, s.Gotype, false)
 	for i := range s.R {
@@ -427,7 +414,7 @@ func writerefs(ctxt *Link, b *Biobuf, s *LSym) {
 	}
 }
 
-func writesym(ctxt *Link, b *Biobuf, s *LSym) {
+func writesym(ctxt *Link, b *bufio.Writer, s *LSym) {
 	if ctxt.Debugasm != 0 {
 		fmt.Fprintf(ctxt.Bso, "%s ", s.Name)
 		if s.Version != 0 {
@@ -495,7 +482,6 @@ func writesym(ctxt *Link, b *Biobuf, s *LSym) {
 		}
 	}
 
-	Bputc(b, 0xfe)
 	wrint(b, int64(s.Type))
 	wrsym(b, s)
 	flags := int64(0)
@@ -584,7 +570,7 @@ func writesym(ctxt *Link, b *Biobuf, s *LSym) {
 // This buffer was responsible for 15% of gc's allocations.
 var varintbuf [10]uint8
 
-func wrint(b *Biobuf, sval int64) {
+func wrint(b *bufio.Writer, sval int64) {
 	var v uint64
 	uv := (uint64(sval) << 1) ^ uint64(int64(sval>>63))
 	p := varintbuf[:]
@@ -597,12 +583,12 @@ func wrint(b *Biobuf, sval int64) {
 	b.Write(varintbuf[:len(varintbuf)-len(p)])
 }
 
-func wrstring(b *Biobuf, s string) {
+func wrstring(b *bufio.Writer, s string) {
 	wrint(b, int64(len(s)))
-	b.w.WriteString(s)
+	b.WriteString(s)
 }
 
-func wrsym(b *Biobuf, s *LSym) {
+func wrsym(b *bufio.Writer, s *LSym) {
 	if s == nil {
 		wrint(b, 0)
 		return
