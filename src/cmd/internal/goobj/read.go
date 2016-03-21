@@ -10,12 +10,14 @@
 package goobj
 
 import (
+	"archive/zip"
 	"bufio"
 	"bytes"
 	"cmd/internal/obj"
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -238,7 +240,9 @@ var (
 type objReader struct {
 	p          *Package
 	b          *bufio.Reader
-	f          io.ReadSeeker
+	f          *os.File
+	zreader    *zip.Reader
+	curFile    int
 	err        error
 	offset     int64
 	dataOffset int64
@@ -288,7 +292,7 @@ func importPathToPrefix(s string) string {
 }
 
 // init initializes r to read package p from f.
-func (r *objReader) init(f io.ReadSeeker, p *Package) {
+func (r *objReader) init(f *os.File, p *Package) {
 	r.f = f
 	r.p = p
 	r.offset, _ = f.Seek(0, 1)
@@ -452,7 +456,7 @@ func (r *objReader) skip(n int64) {
 
 // Parse parses an object file or archive from r,
 // assuming that its import path is pkgpath.
-func Parse(r io.ReadSeeker, pkgpath string) (*Package, error) {
+func Parse(f *os.File, pkgpath string) (*Package, error) {
 	if pkgpath == "" {
 		pkgpath = `""`
 	}
@@ -460,7 +464,7 @@ func Parse(r io.ReadSeeker, pkgpath string) (*Package, error) {
 	p.ImportPath = pkgpath
 
 	var rd objReader
-	rd.init(r, p)
+	rd.init(f, p)
 	err := rd.readFull(rd.tmp[:8])
 	if err != nil {
 		if err == io.EOF {
@@ -554,6 +558,17 @@ func (r *objReader) parseArchive() error {
 	return nil
 }
 
+func (r *objReader) nextFile() error {
+	cur := r.zreader.File[r.curFile]
+	f, err := cur.Open()
+	if err != nil {
+		return fmt.Errorf("%s: error reading object file contents %s", r.f.Name(), err)
+	}
+	r.b.Reset(f)
+	r.curFile++
+	return nil
+}
+
 // parseObject parses a single Go object file.
 // The prefix is the bytes already read from the file,
 // typically in order to detect that this is an object file.
@@ -580,48 +595,64 @@ func (r *objReader) parseObject(prefix []byte) error {
 		}
 	}
 
-	r.readFull(r.tmp[:8])
-	if !bytes.Equal(r.tmp[:8], []byte("\x00\x00go13ld")) {
-		return r.error(errCorruptObject)
-	}
-
-	b := r.readByte()
-	if b != 1 {
-		return r.error(errCorruptObject)
+	var err error
+	start := r.offset
+	size := r.limit - start
+	sec := io.NewSectionReader(r.f, start, size)
+	r.zreader, err = zip.NewReader(sec, size)
+	if err != nil {
+		return fmt.Errorf("%s: error reading object file", r.f.Name(), err)
 	}
 
 	// Direct package dependencies.
+	if err := r.nextFile(); err != nil {
+		return err
+	}
 	for {
-		s := r.readString()
-		if s == "" {
-			break
+		_, err := r.b.Peek(1)
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			return fmt.Errorf("peeking: %v", err)
 		}
+
+		s := r.readString()
 		r.p.Imports = append(r.p.Imports, s)
 	}
 
+	if err := r.nextFile(); err != nil {
+		return err
+	}
 	r.p.SymRefs = []SymID{{"", 0}}
 	for {
-		if b := r.readByte(); b != 0xfe {
-			if b != 0xff {
-				return r.error(errCorruptObject)
+		_, err := r.b.Peek(1)
+		if err != nil {
+			if err == io.EOF {
+				break
 			}
-			break
+			return fmt.Errorf("peeking: %v", err)
 		}
 
 		r.readRef()
 	}
 
-	dataLength := r.readInt()
-	r.dataOffset = r.offset
-	r.skip(int64(dataLength))
+	// skip data
+	if err := r.nextFile(); err != nil {
+		return err
+	}
 
 	// Symbols.
+	if err := r.nextFile(); err != nil {
+		return err
+	}
 	for {
-		if b := r.readByte(); b != 0xfe {
-			if b != 0xff {
-				return r.error(errCorruptObject)
+		_, err := r.b.Peek(1)
+		if err != nil {
+			if err == io.EOF {
+				break
 			}
-			break
+			return fmt.Errorf("peeking: %v", err)
 		}
 
 		typ := r.readInt()
@@ -681,10 +712,7 @@ func (r *objReader) parseObject(prefix []byte) error {
 		}
 	}
 
-	r.readFull(r.tmp[:7])
-	if !bytes.Equal(r.tmp[:7], []byte("\xffgo13ld")) {
-		return r.error(errCorruptObject)
-	}
+	r.b.Reset(r.f)
 
 	return nil
 }

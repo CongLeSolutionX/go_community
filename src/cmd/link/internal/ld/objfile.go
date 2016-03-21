@@ -7,93 +7,86 @@ package ld
 // Reading of Go object files.
 //
 // Originally, Go object files were Plan 9 object files, but no longer.
-// Now they are more like standard object files, in that each symbol is defined
-// by an associated memory image (bytes) and a list of relocations to apply
-// during linking. We do not (yet?) use a standard file format, however.
-// For now, the format is chosen to be as simple as possible to read and write.
-// It may change for reasons of efficiency, or we may even switch to a
-// standard file format if there are compelling benefits to doing so.
+// Now they are more like standard object files, in that each symbol
+// is defined by an associated memory image (bytes) and a list of
+// relocations to apply during linking.
 // See golang.org/s/go13linker for more background.
 //
-// The file format is:
+// An object file is layed out as a zip archive containing the
+// following files:
 //
-//	- magic header: "\x00\x00go13ld"
-//	- byte 1 - version number
-//	- sequence of strings giving dependencies (imported packages)
-//	- empty string (marks end of sequence)
-//	- sequence of sybol references used by the defined symbols
-//	- byte 0xff (marks end of sequence)
-//	- integer (length of following data)
-//	- data, the content of the defined symbols
-//	- sequence of defined symbols
-//	- byte 0xff (marks end of sequence)
-//	- magic footer: "\xff\xffgo13ld"
+//	- imports: sequence of strings giving dependencies
+//	- symrefs: sequence of sybols referenced by the defined symbols
+//	- data:    the content of the defined symbols
+//	- symbols: sequence of defined symbols
 //
 // All integers are stored in a zigzag varint format.
 // See golang.org/s/go12symtab for a definition.
 //
-// Data blocks and strings are both stored as an integer
-// followed by that many bytes.
+// Strings are stored as an integer followed by that many bytes.
 //
-// A symbol reference is a string name followed by a version.
+// A symbol reference is a name (string) followed by a version (int).
 //
-// A symbol points to other symbols using an index into the symbol
-// reference sequence. Index 0 corresponds to a nil LSym* pointer.
-// In the symbol layout described below "symref index" stands for this
-// index.
+// Symbols point at each other using an index into the symbol
+// reference sequence. In the symbol layout described below
+// "symref index" stands for this index. Index 0 corresponds
+// to a nil LSym pointer.
 //
-// Each symbol is laid out as the following fields (taken from LSym*):
+// Symbol defenitions consume data from the data file by specifing
+// length consumed. Data is consumed by symbols in order.
 //
-//	- byte 0xfe (sanity check for synchronization)
-//	- type [int]
+// Each symbol is laid out as a sequence of ints
+// holding the following fields (taken from LSym):
+//
+//	- type
 //	- name & version [symref index]
-//	- flags [int]
+//	- flags
 //		1 dupok
-//	- size [int]
+//	- size
 //	- gotype [symref index]
-//	- p [data block]
-//	- nr [int]
+//	- p [data length]
+//	- nr
 //	- r [nr relocations, sorted by off]
 //
 // If type == STEXT, there are a few more fields:
 //
-//	- args [int]
-//	- locals [int]
-//	- nosplit [int]
-//	- flags [int]
+//	- args
+//	- locals
+//	- nosplit
+//	- flags
 //		1<<0 leaf
 //		1<<1 C function
 //		1<<2 function may call reflect.Type.Method
-//	- nlocal [int]
+//	- nlocal
 //	- local [nlocal automatics]
 //	- pcln [pcln table]
 //
 // Each relocation has the encoding:
 //
-//	- off [int]
-//	- siz [int]
-//	- type [int]
-//	- add [int]
+//	- off
+//	- siz
+//	- type
+//	- add
 //	- sym [symref index]
 //
 // Each local has the encoding:
 //
 //	- asym [symref index]
-//	- offset [int]
-//	- type [int]
+//	- offset
+//	- type
 //	- gotype [symref index]
 //
 // The pcln table has the encoding:
 //
-//	- pcsp [data block]
-//	- pcfile [data block]
-//	- pcline [data block]
-//	- npcdata [int]
+//	- pcsp [data length]
+//	- pcfile [data length]
+//	- pcline [data length]
+//	- npcdata
 //	- pcdata [npcdata data blocks]
-//	- nfuncdata [int]
-//	- funcdata [nfuncdata symref index]
+//	- nfuncdata
+//	- funcdata [nfuncdata symref indexes]
 //	- funcdatasym [nfuncdata ints]
-//	- nfile [int]
+//	- nfile
 //	- file [nfile symref index]
 //
 // The file layout and meaning of type integers are architecture-independent.
@@ -102,85 +95,102 @@ package ld
 //	- There are SymID in the object file that should really just be strings.
 
 import (
+	"archive/zip"
+	"bufio"
 	"bytes"
 	"cmd/internal/obj"
+	"io"
 	"log"
 	"strconv"
 	"strings"
 )
 
-const (
-	startmagic = "\x00\x00go13ld"
-	endmagic   = "\xff\xffgo13ld"
-)
+var sections = []string{
+	"imports",
+	"symrefs",
+	"data",
+	"symbols",
+}
 
-func ldobjfile(ctxt *Link, f *obj.Biobuf, pkg string, length int64, pn string) {
-	start := obj.Boffset(f)
+func nextFile(reader *bufio.Reader, files []*zip.File, pn string) []*zip.File {
+	file := files[0]
+	zreader, err := file.Open()
+	if err != nil {
+		log.Fatalf("%s: error reading object file contents %s", pn, err)
+	}
+	reader.Reset(zreader)
+	return files[1:]
+}
+
+func ldobjfile(ctxt *Link, f *io.SectionReader, pkg string, length int64, pn string) {
 	ctxt.Version++
-	var buf [8]uint8
-	obj.Bread(f, buf[:])
-	if string(buf[:]) != startmagic {
-		log.Fatalf("%s: invalid file start %x %x %x %x %x %x %x %x", pn, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7])
+
+	zfile, err := zip.NewReader(f, length)
+	if err != nil {
+		log.Fatalf("%s: error reading object file %s", pn, err)
 	}
-	c := obj.Bgetc(f)
-	if c != 1 {
-		log.Fatalf("%s: invalid file version number %d", pn, c)
+	if len(zfile.File) != len(sections) {
+		log.Fatalf("%s: unrecognized object file layout, number of sections is %d instead of %d", pn, len(zfile.File), len(sections))
+	}
+	for i := range sections {
+		if sections[i] != zfile.File[i].Name {
+			log.Fatalf("%s: unrecognized object file layout, expected %s found %s", pn, sections[i], zfile.File[i].Name)
+		}
 	}
 
+	files := zfile.File
+	reader := bufio.NewReader(nil)
+
+	files = nextFile(reader, files, pn)
 	var lib string
 	for {
-		lib = rdstring(f)
-		if lib == "" {
-			break
+		_, err := reader.Peek(1)
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			log.Fatalf("%s: peeking: %v", pn, err)
 		}
+
+		lib = rdstring(reader)
 		addlib(ctxt, pkg, pn, lib)
 	}
 
+	files = nextFile(reader, files, pn)
 	ctxt.CurRefs = []*LSym{nil} // zeroth ref is nil
 	for {
-		c, err := f.Peek(1)
+		_, err := reader.Peek(1)
 		if err != nil {
+			if err == io.EOF {
+				break
+			}
 			log.Fatalf("%s: peeking: %v", pn, err)
 		}
-		if c[0] == 0xff {
-			obj.Bgetc(f)
-			break
-		}
-		readref(ctxt, f, pkg, pn)
+		readref(ctxt, reader, pkg, pn)
 	}
 
-	dataLength := rdint64(f)
+	dataLength := files[0].UncompressedSize64
 	data := make([]byte, dataLength)
-	obj.Bread(f, data)
 
+	files = nextFile(reader, files, pn)
+	io.ReadFull(reader, data)
+
+	files = nextFile(reader, files, pn)
 	for {
-		c, err := f.Peek(1)
+		_, err := reader.Peek(1)
 		if err != nil {
+			if err == io.EOF {
+				break
+			}
 			log.Fatalf("%s: peeking: %v", pn, err)
 		}
-		if c[0] == 0xff {
-			break
-		}
-		readsym(ctxt, f, &data, pkg, pn)
-	}
-
-	buf = [8]uint8{}
-	obj.Bread(f, buf[:])
-	if string(buf[:]) != endmagic {
-		log.Fatalf("%s: invalid file end", pn)
-	}
-
-	if obj.Boffset(f) != start+length {
-		log.Fatalf("%s: unexpected end at %d, want %d", pn, int64(obj.Boffset(f)), int64(start+length))
+		readsym(ctxt, reader, &data, pkg, pn)
 	}
 }
 
 var dupSym = &LSym{Name: ".dup"}
 
-func readsym(ctxt *Link, f *obj.Biobuf, buf *[]byte, pkg string, pn string) {
-	if obj.Bgetc(f) != 0xfe {
-		log.Fatalf("readsym out of sync")
-	}
+func readsym(ctxt *Link, f *bufio.Reader, buf *[]byte, pkg string, pn string) {
 	t := rdint(f)
 	s := rdsym(ctxt, f, pkg)
 	flags := rdint(f)
@@ -318,10 +328,7 @@ overwrite:
 	}
 }
 
-func readref(ctxt *Link, f *obj.Biobuf, pkg string, pn string) {
-	if obj.Bgetc(f) != 0xfe {
-		log.Fatalf("readsym out of sync")
-	}
+func readref(ctxt *Link, f *bufio.Reader, pkg string, pn string) {
 	name := rdsymName(f, pkg)
 	v := rdint(f)
 	if v != 0 && v != 1 {
@@ -361,14 +368,13 @@ func readref(ctxt *Link, f *obj.Biobuf, pkg string, pn string) {
 	}
 }
 
-func rdint64(f *obj.Biobuf) int64 {
-	r := f.Reader()
+func rdint64(f *bufio.Reader) int64 {
 	uv := uint64(0)
 	for shift := uint(0); ; shift += 7 {
 		if shift >= 64 {
 			log.Fatalf("corrupt input")
 		}
-		c, err := r.ReadByte()
+		c, err := f.ReadByte()
 		if err != nil {
 			log.Fatalln("error reading input: ", err)
 		}
@@ -381,7 +387,7 @@ func rdint64(f *obj.Biobuf) int64 {
 	return int64(uv>>1) ^ (int64(uint64(uv)<<63) >> 63)
 }
 
-func rdint(f *obj.Biobuf) int {
+func rdint(f *bufio.Reader) int {
 	n := rdint64(f)
 	if int64(int(n)) != n {
 		log.Panicf("%v out of range for int", n)
@@ -389,7 +395,7 @@ func rdint(f *obj.Biobuf) int {
 	return int(n)
 }
 
-func rdint32(f *obj.Biobuf) int32 {
+func rdint32(f *bufio.Reader) int32 {
 	n := rdint64(f)
 	if int64(int32(n)) != n {
 		log.Panicf("%v out of range for int32", n)
@@ -397,7 +403,7 @@ func rdint32(f *obj.Biobuf) int32 {
 	return int32(n)
 }
 
-func rdint16(f *obj.Biobuf) int16 {
+func rdint16(f *bufio.Reader) int16 {
 	n := rdint64(f)
 	if int64(int16(n)) != n {
 		log.Panicf("%v out of range for int16", n)
@@ -405,7 +411,7 @@ func rdint16(f *obj.Biobuf) int16 {
 	return int16(n)
 }
 
-func rduint8(f *obj.Biobuf) uint8 {
+func rduint8(f *bufio.Reader) uint8 {
 	n := rdint64(f)
 	if int64(uint8(n)) != n {
 		log.Panicf("%v out of range for uint8", n)
@@ -417,16 +423,16 @@ func rduint8(f *obj.Biobuf) uint8 {
 var rdBuf []byte
 var emptyPkg = []byte(`"".`)
 
-func rdstring(f *obj.Biobuf) string {
+func rdstring(f *bufio.Reader) string {
 	n := rdint(f)
 	if len(rdBuf) < n {
 		rdBuf = make([]byte, n)
 	}
-	obj.Bread(f, rdBuf[:n])
+	io.ReadFull(f, rdBuf[:n])
 	return string(rdBuf[:n])
 }
 
-func rddata(f *obj.Biobuf, buf *[]byte) []byte {
+func rddata(f *bufio.Reader, buf *[]byte) []byte {
 	n := rdint(f)
 	p := (*buf)[:n:n]
 	*buf = (*buf)[n:]
@@ -434,7 +440,7 @@ func rddata(f *obj.Biobuf, buf *[]byte) []byte {
 }
 
 // rdsymName reads a symbol name, replacing all "". with pkg.
-func rdsymName(f *obj.Biobuf, pkg string) string {
+func rdsymName(f *bufio.Reader, pkg string) string {
 	n := rdint(f)
 	if n == 0 {
 		rdint64(f)
@@ -445,7 +451,7 @@ func rdsymName(f *obj.Biobuf, pkg string) string {
 		rdBuf = make([]byte, n, 2*n)
 	}
 	origName := rdBuf[:n]
-	obj.Bread(f, origName)
+	io.ReadFull(f, origName)
 	adjName := rdBuf[n:n]
 	for {
 		i := bytes.Index(origName, emptyPkg)
@@ -465,7 +471,7 @@ func rdsymName(f *obj.Biobuf, pkg string) string {
 	return name
 }
 
-func rdsym(ctxt *Link, f *obj.Biobuf, pkg string) *LSym {
+func rdsym(ctxt *Link, f *bufio.Reader, pkg string) *LSym {
 	i := rdint(f)
 	return ctxt.CurRefs[i]
 }
