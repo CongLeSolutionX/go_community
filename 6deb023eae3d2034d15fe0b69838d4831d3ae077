@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_2f03ada9",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "\"it\u0027s\" (ditto below)",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_0ffee9ca",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "\"it\u0027s\" (ditto below)",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_6f0da5d0",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "and ...?",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_afeebd15",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "roundaway0 :\u003d false // true \u003d\u003e round away from zero",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_2f2c8d32",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "This could use some explanation.",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_4f21c139",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "Move this down a line.",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_6f268554",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-21T20:24:11Z",
+      "side": 1,
+      "message": "Is it possible that this causes z to become zero?",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
