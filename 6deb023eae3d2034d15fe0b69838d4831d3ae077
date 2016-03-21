@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_3798349b",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c86862c_2f03ada9",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_d78a8046",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c86862c_0ffee9ca",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c86862c_6f0da5d0",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-21T20:24:11Z",
       "side": 1,
       "message": "and ...?",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_d773a024",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c86862c_6f0da5d0",
       "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_9aa30fca",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "prefer to leave name as is: rounding up/down is common terminology\nadded comment",
+      "parentUuid": "9c86862c_afeebd15",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c86862c_2f2c8d32",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2016-03-21T20:24:11Z",
       "side": 1,
       "message": "This could use some explanation.",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_7abd73dd",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c86862c_2f2c8d32",
       "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_1a243ff5",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c86862c_4f21c139",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c86862c_6f268554",
         "filename": "src/math/big/float.go",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2016-03-21T20:24:11Z",
       "side": 1,
       "message": "Is it possible that this causes z to become zero?",
+      "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_9a0e6f84",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T20:51:23Z",
+      "side": 1,
+      "message": "No.\n1) zero and infinity are excluded right away (line 387) \u003d\u003e the value to be rounded is not zero to start with\n\n2) we know that the z.prec \u003e 0 (see comment on line 392)\n\n3) hence, rounding of a non-zero value to at least 1 bit of precision leaves at least the msb standing. Here we first shift right the mantissa, i.e., we\u0027re losing the lsb and shift in a 0 as the msb. If that lost bit was the only 1, we would have a zero now. But in the next step we set a new msb with the |\u003d operation, so the msb is 1 for sure. Hence the mantissa is normalized and not 0.\n\nAdded comments. Note also that we validate the Float result below (line 479).",
+      "parentUuid": "9c86862c_6f268554",
       "revId": "6deb023eae3d2034d15fe0b69838d4831d3ae077",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
