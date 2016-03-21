@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_b23a75c7",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-21T16:47:03Z",
+      "side": 1,
+      "message": "use CmpInt64(0) and delete mpzero",
+      "revId": "5de059bbd96272b8ac432a419b0c337984c1373c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
