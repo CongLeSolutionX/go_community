@@ -86,6 +86,7 @@ type compressor struct {
 
 	// queued output tokens
 	tokens []token
+	enc    fastEnc
 
 	// deflate state
 	length         int
@@ -209,6 +210,49 @@ func (d *compressor) writeStoredBlock(buf []byte) error {
 	}
 	d.w.writeBytes(buf)
 	return d.w.err
+}
+
+// encFast will compress and store the currently added data,
+// if enough has been accumulated or we at the end of the stream.
+// Any error that occurred will be in d.err
+func (d *compressor) encFast() {
+	// We only compress if we have maxStoreBlockSize.
+	if d.windowEnd < maxStoreBlockSize {
+		if !d.sync {
+			return
+		}
+
+		// Handle small sizes
+		if d.windowEnd < 128 {
+			switch {
+			case d.windowEnd == 0:
+				return
+			case d.windowEnd <= 32:
+				d.err = d.writeStoredBlock(d.window[:d.windowEnd])
+			default:
+				d.w.writeBlockHuff(false, d.window[:d.windowEnd])
+				d.err = d.w.err
+			}
+			d.windowEnd = 0
+			return
+		}
+
+	}
+	// Encode the block
+	d.tokens = d.enc.Encode(d.tokens[:0], d.window[:d.windowEnd])
+
+	// If we made zero matches, store the block as is.
+	if len(d.tokens) == d.windowEnd {
+		d.err = d.writeStoredBlock(d.window[:d.windowEnd])
+		// If we removed less than 1/16th, huffman compress the block.
+	} else if len(d.tokens) > d.windowEnd-(d.windowEnd>>4) {
+		d.w.writeBlockHuff(false, d.window[:d.windowEnd])
+		d.err = d.w.err
+	} else {
+		d.w.writeBlockDynamic(d.tokens, false, d.window[:d.windowEnd])
+		d.err = d.w.err
+	}
+	d.windowEnd = 0
 }
 
 func (d *compressor) initDeflate() {
@@ -372,6 +416,14 @@ func (d *compressor) store() {
 	d.windowEnd = 0
 }
 
+// fillWindow will fill the buffer with data for per buffer compression.
+// The number of bytes copied is returned.
+func (d *compressor) fillWindow(b []byte) int {
+	n := copy(d.window[d.windowEnd:], b)
+	d.windowEnd += n
+	return n
+}
+
 func (d *compressor) write(b []byte) (n int, err error) {
 	if d.err != nil {
 		return 0, d.err
@@ -411,10 +463,17 @@ func (d *compressor) init(w io.Writer, level int) (err error) {
 		d.window = make([]byte, maxStoreBlockSize)
 		d.fill = (*compressor).fillStore
 		d.step = (*compressor).store
+	case 1 <= level && level <= 3:
+		d.compressionLevel = levels[level]
+		d.enc = newFastEnc(level)
+		d.window = make([]byte, maxStoreBlockSize)
+		d.fill = (*compressor).fillWindow
+		d.step = (*compressor).encFast
+		d.tokens = make([]token, maxStoreBlockSize+1)
 	case level == DefaultCompression:
 		level = 6
 		fallthrough
-	case 1 <= level && level <= 9:
+	case 4 <= level && level <= 9:
 		d.compressionLevel = levels[level]
 		d.initDeflate()
 		d.fill = (*compressor).fillDeflate
@@ -432,6 +491,11 @@ func (d *compressor) reset(w io.Writer) {
 	d.w.reset(w)
 	d.sync = false
 	d.err = nil
+	if d.enc != nil {
+		d.enc.Reset()
+		d.windowEnd = 0
+		return
+	}
 	switch d.compressionLevel.chain {
 	case 0:
 		// level was NoCompression.
