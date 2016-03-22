@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ca7aebf_f2c7c65c",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-22T23:51:08Z",
+      "side": 1,
+      "message": "You write out autom but you don\u0027t read it in here.  Why do your tests pass?",
+      "revId": "7ce05ebae6ae29c0e0ccd18df539c400e44e72d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca7aebf_d2cac265",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-22T23:51:08Z",
+      "side": 1,
+      "message": "Missing autom.",
+      "revId": "7ce05ebae6ae29c0e0ccd18df539c400e44e72d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca7aebf_b2cd3e81",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-22T23:51:08Z",
+      "side": 1,
+      "message": "var lengths sectionLengths",
+      "revId": "7ce05ebae6ae29c0e0ccd18df539c400e44e72d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca7aebf_12e60a06",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-22T23:51:08Z",
+      "side": 1,
+      "message": "Missing autom.",
+      "revId": "7ce05ebae6ae29c0e0ccd18df539c400e44e72d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca7aebf_32eb0ecd",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-22T23:51:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure this change is helpful to users as is.",
+      "revId": "7ce05ebae6ae29c0e0ccd18df539c400e44e72d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
