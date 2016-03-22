@@ -11,6 +11,9 @@ import (
 	"math"
 	"os"
 	"unsafe" // just for test case printing unsafe.Pointer
+
+	// For testing printf-like functions from external package.
+	"github.com/fooobar/externalprintf"
 )
 
 func UnsafePointerPrintfTest() {
@@ -215,6 +218,14 @@ func PrintfTests() {
 
 	Errorf(1, "%d", 3)    // OK
 	Errorf(1, "%d", "hi") // ERROR "arg .hi. for printf verb %d of wrong type: string"
+
+	// Printf from external package
+	externalprintf.Printf("%d", 42) // OK
+	externalprintf.Printf("foobar") // OK
+	level := 123
+	externalprintf.Printf(level, "%d", 42)                      // OK
+	externalprintf.Printf(level, level, "foo %q bar", "foobar") // OK
+	externalprintf.Printf(level, "%d")                          // ERROR "format reads arg 1, have only 0 args"
 }
 
 // A function we use as a function value; it has no other purpose.
