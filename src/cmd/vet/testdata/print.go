@@ -130,7 +130,7 @@ func PrintfTests() {
 	fmt.Println()                              // not an error
 	fmt.Println("%s", "hi")                    // ERROR "possible formatting directive in Println call"
 	fmt.Printf("%s", "hi", 3)                  // ERROR "wrong number of args for format in Printf call"
-	_ = fmt.Sprintf("%"+("s"), "hi", 3)        // ERROR "wrong number of args for format in Sprintf call"
+	_ = fmt.Sprintf("%s", "hi", 3)             // ERROR "wrong number of args for format in Sprintf call"
 	fmt.Printf("%s%%%d", "hi", 3)              // correct
 	fmt.Printf("%08s", "woo")                  // correct
 	fmt.Printf("% 8s", "woo")                  // correct
