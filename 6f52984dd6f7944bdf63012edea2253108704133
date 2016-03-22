@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_12fe12cb",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-22T18:49:13Z",
+      "side": 1,
+      "message": "How does this relate to auxSymInt32? ought this be auxSymInt64?",
+      "range": {
+        "startLine": 56,
+        "startChar": 58,
+        "endLine": 56,
+        "endChar": 64
+      },
+      "revId": "6f52984dd6f7944bdf63012edea2253108704133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c86862c_320316aa",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-22T18:49:13Z",
+      "side": 1,
+      "message": "I always hated those magic numbers.",
+      "range": {
+        "startLine": 345,
+        "startChar": 13,
+        "endLine": 345,
+        "endChar": 33
+      },
+      "revId": "6f52984dd6f7944bdf63012edea2253108704133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
