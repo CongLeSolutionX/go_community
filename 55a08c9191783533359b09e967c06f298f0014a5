@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_0effdd10",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-22T16:48:15Z",
+      "side": 1,
+      "message": "I sent a separate CL (a \"prequel\") to remove the dots.  I\u0027ll rebase this CL when that one (21001) goes in.",
+      "parentUuid": "9c86862c_120d321c",
+      "revId": "55a08c9191783533359b09e967c06f298f0014a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
