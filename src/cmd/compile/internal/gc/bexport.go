@@ -55,8 +55,8 @@ After this header, the lists of objects follow. After the objects, platform-
 specific data may be found which is not used strictly for type checking.
 
 The encoding of objects is straight-forward: Constants, variables, and
-functions start with their name, type, and possibly a value. Named types
-record their name and package so that they can be canonicalized: If the
+functions start with their name, position, type, and possibly a value. Named types
+record their name, position, and package so that they can be canonicalized: If the
 same type was imported before via another import, the importer must use
 the previously imported type pointer so that we have exactly one version
 (i.e., one pointer) for each named type (and read but discard the current
@@ -109,11 +109,13 @@ const exportVersion = "v0"
 // Export writes the export data for localpkg to out and returns the number of bytes written.
 func Export(out *obj.Biobuf, trace bool) int {
 	p := exporter{
-		out:      out,
-		pkgIndex: make(map[*Pkg]int),
-		typIndex: make(map[*Type]int),
-		trace:    trace,
+		out:           out,
+		pkgIndex:      make(map[*Pkg]int),
+		filenameIndex: make(map[string]int),
+		typIndex:      make(map[*Type]int),
+		trace:         trace,
 	}
+	p.filenameIndex[""] = 0
 
 	// write low-level encoding format
 	var format byte = 'c' // compact
@@ -242,6 +244,7 @@ func Export(out *obj.Biobuf, trace bool) int {
 	}
 	for _, sym := range consts {
 		p.string(sym.Name)
+		p.position(sym.Def.Lineno)
 		n := sym.Def
 		p.typ(unidealType(n.Type, n.Val()))
 		p.value(n.Val())
@@ -260,6 +263,7 @@ func Export(out *obj.Biobuf, trace bool) int {
 	}
 	for _, sym := range vars {
 		p.string(sym.Name)
+		p.position(sym.Def.Lineno)
 		p.typ(sym.Def.Type)
 		if p.trace {
 			p.tracef("\n")
@@ -276,6 +280,7 @@ func Export(out *obj.Biobuf, trace bool) int {
 	}
 	for _, sym := range funcs {
 		p.string(sym.Name)
+		p.position(sym.Def.Lineno)
 		sig := sym.Def.Type
 		inlineable := p.isInlineable(sym.Def)
 		p.paramList(sig.Params(), inlineable)
@@ -375,10 +380,11 @@ func (a typByName) Less(i, j int) bool { return a[i].Sym.Name < a[j].Sym.Name }
 func (a typByName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 type exporter struct {
-	out      *obj.Biobuf
-	pkgIndex map[*Pkg]int
-	typIndex map[*Type]int
-	inlined  []*Func
+	out           *obj.Biobuf
+	pkgIndex      map[*Pkg]int
+	filenameIndex map[string]int
+	typIndex      map[*Type]int
+	inlined       []*Func
 
 	written int // bytes written
 	indent  int // for p.trace
@@ -406,6 +412,38 @@ func (p *exporter) pkg(pkg *Pkg) {
 	p.tag(packageTag)
 	p.string(pkg.Name)
 	p.string(pkg.Path)
+}
+
+func (p *exporter) position(lineno int32) {
+	filename, line := "", 0
+	// TODO(adonovan): record position information.  For
+	// determinism, we may need to sanitize filenames to avoid
+	// including the $WORK directory in the output.
+	// if lineno != 0 {
+	// 	filename, line = Ctxt.LineHist.FileLine(int(lineno))
+	// }
+	p.filename(filename)
+	p.int(line)
+	p.int(0) // column information not available from gc
+}
+
+func (p *exporter) filename(filename string) {
+	// If we saw the filename before, write its index (>= 0).
+	if i, ok := p.filenameIndex[filename]; ok {
+		p.index('F', i)
+		return
+	}
+
+	// Otherwise, remember the filename,
+	// write the filename tag (< 0) and filename string.
+	if p.trace {
+		p.tracef("F%d = { ", len(p.filenameIndex))
+		defer p.tracef("} ")
+	}
+	p.filenameIndex[filename] = len(p.filenameIndex)
+
+	p.tag(filenameTag)
+	p.string(filename)
 }
 
 func (p *exporter) typ(t *Type) {
@@ -480,6 +518,11 @@ func (p *exporter) typ(t *Type) {
 				p.tracef("\n")
 			}
 			p.string(m.Sym.Name)
+			if def := m.Sym.Def; def != nil {
+				p.position(def.Lineno)
+			} else {
+				p.position(0)
+			}
 			sig := m.Type
 			inlineable := p.isInlineable(sig.Nname)
 			p.paramList(sig.Recvs(), inlineable)
@@ -555,6 +598,7 @@ func (p *exporter) typ(t *Type) {
 
 func (p *exporter) qualifiedName(sym *Sym) {
 	p.string(sym.Name)
+	p.position(sym.Def.Lineno)
 	p.pkg(sym.Pkg)
 }
 
@@ -626,6 +670,7 @@ func (p *exporter) fieldName(t *Field) {
 	}
 
 	p.string(name)
+	p.position(t.Nname.Lineno) // SHOULD THIS BE t.Sym.Lineno?
 	if name == "?" || name != "_" && name != "" && !exportname(name) {
 		p.pkg(sym.Pkg)
 	}
@@ -1169,6 +1214,8 @@ const (
 	// Packages
 	packageTag = -(iota + 1)
 
+	filenameTag
+
 	// Types
 	namedTag
 	arrayTag
@@ -1198,6 +1245,8 @@ const (
 var tagString = [...]string{
 	// Packages:
 	-packageTag: "package",
+
+	-filenameTag: "filename",
 
 	// Types:
 	-namedTag:     "named type",

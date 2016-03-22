@@ -43,6 +43,9 @@ func Import(in *bufio.Reader) {
 	// populate typList with predeclared "known" types
 	p.typList = append(p.typList, predeclared()...)
 
+	// populate filename list with "unknown" filename at index 0.
+	p.filenameList = []string{""}
+
 	// read package data
 	p.pkg()
 	if p.pkgList[0] != importpkg {
@@ -61,6 +64,7 @@ func Import(in *bufio.Reader) {
 	// read consts
 	for i := p.int(); i > 0; i-- {
 		sym := p.localname()
+		p.position() // unused
 		typ := p.typ()
 		val := p.value(typ)
 		importconst(sym, idealType(typ), nodlit(val))
@@ -69,6 +73,7 @@ func Import(in *bufio.Reader) {
 	// read vars
 	for i := p.int(); i > 0; i-- {
 		sym := p.localname()
+		p.position() // unused
 		typ := p.typ()
 		importvar(sym, typ)
 	}
@@ -77,6 +82,7 @@ func Import(in *bufio.Reader) {
 	for i := p.int(); i > 0; i-- {
 		// parser.go:hidden_fndcl
 		sym := p.localname()
+		p.position() // unused
 		params := p.paramList()
 		result := p.paramList()
 		inl := p.int()
@@ -139,12 +145,13 @@ func idealType(typ *Type) *Type {
 }
 
 type importer struct {
-	in       *bufio.Reader
-	buf      []byte   // for reading strings
-	bufarray [64]byte // initial underlying array for buf, large enough to avoid allocation when compiling std lib
-	pkgList  []*Pkg
-	typList  []*Type
-	inlined  []*Func
+	in           *bufio.Reader
+	buf          []byte   // for reading strings
+	bufarray     [64]byte // initial underlying array for buf, large enough to avoid allocation when compiling std lib
+	pkgList      []*Pkg
+	filenameList []string
+	typList      []*Type
+	inlined      []*Func
 
 	debugFormat bool
 	read        int // bytes read
@@ -189,6 +196,37 @@ func (p *importer) pkg() *Pkg {
 	p.pkgList = append(p.pkgList, pkg)
 
 	return pkg
+}
+
+func (p *importer) position() (filename string, line, col int) {
+	filename = p.filename()
+	line = p.int()
+	col = p.int()
+	return
+}
+
+func (p *importer) filename() string {
+	// If the filename was seen before, i is its index (>= 0).
+	i := p.tagOrIndex()
+	if i >= 0 {
+		return p.filenameList[i]
+	}
+
+	// Otherwise, i is the filename tag (< 0).
+	if i != filenameTag {
+		Fatalf("importer: expected filename tag, found tag = %d", i)
+	}
+
+	filename := p.string()
+
+	// we should never see an empty filename (except at index zero)
+	if filename == "" {
+		Fatalf("importer: empty file name in import")
+	}
+
+	p.filenameList = append(p.filenameList, filename)
+
+	return filename
 }
 
 func (p *importer) localname() *Sym {
@@ -239,6 +277,7 @@ func (p *importer) typ() *Type {
 		for i := p.int(); i > 0; i-- {
 			// parser.go:hidden_fndcl
 			name := p.string()
+			p.position()          // unused
 			recv := p.paramList() // TODO(gri) do we need a full param list for the receiver?
 			params := p.paramList()
 			result := p.paramList()
@@ -332,6 +371,7 @@ func (p *importer) typ() *Type {
 
 func (p *importer) qualifiedName() *Sym {
 	name := p.string()
+	p.position() // unused
 	pkg := p.pkg()
 	return pkg.Lookup(name)
 }
@@ -351,7 +391,7 @@ func (p *importer) fieldList() []*Node {
 
 // parser.go:hidden_structdcl
 func (p *importer) field() *Node {
-	sym := p.fieldName()
+	sym := p.fieldName(true)
 	typ := p.typ()
 	note := p.note()
 
@@ -398,15 +438,18 @@ func (p *importer) methodList() []*Node {
 
 // parser.go:hidden_interfacedcl
 func (p *importer) method() *Node {
-	sym := p.fieldName()
+	sym := p.fieldName(true)
 	params := p.paramList()
 	result := p.paramList()
 	return Nod(ODCLFIELD, newname(sym), typenod(functype(fakethis(), params, result)))
 }
 
 // parser.go:sym,hidden_importsym
-func (p *importer) fieldName() *Sym {
+func (p *importer) fieldName(emitpos bool) *Sym {
 	name := p.string()
+	if emitpos {
+		p.position() // unused
+	}
 	pkg := localpkg
 	if name == "_" {
 		// During imports, unqualified non-exported identifiers are from builtinpkg
@@ -776,7 +819,7 @@ func (p *importer) nodesOrNil() (a, b *Node) {
 }
 
 func (p *importer) sym() *Sym {
-	return p.fieldName()
+	return p.fieldName(false)
 }
 
 func (p *importer) bool() bool {
