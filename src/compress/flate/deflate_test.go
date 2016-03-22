@@ -42,10 +42,10 @@ var deflateTests = []*deflateTest{
 	{[]byte{0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11}, 0,
 		[]byte{0, 8, 0, 247, 255, 17, 17, 17, 17, 17, 17, 17, 17, 1, 0, 0, 255, 255},
 	},
-	{[]byte{}, 1, []byte{1, 0, 0, 255, 255}},
-	{[]byte{0x11}, 1, []byte{18, 4, 4, 0, 0, 255, 255}},
-	{[]byte{0x11, 0x12}, 1, []byte{18, 20, 2, 4, 0, 0, 255, 255}},
-	{[]byte{0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11}, 1, []byte{18, 132, 2, 64, 0, 0, 0, 255, 255}},
+	{[]byte{}, 4, []byte{1, 0, 0, 255, 255}},
+	{[]byte{0x11}, 4, []byte{18, 4, 4, 0, 0, 255, 255}},
+	{[]byte{0x11, 0x12}, 4, []byte{18, 20, 2, 4, 0, 0, 255, 255}},
+	{[]byte{0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11}, 4, []byte{18, 132, 2, 64, 0, 0, 0, 255, 255}},
 	{[]byte{}, 9, []byte{1, 0, 0, 255, 255}},
 	{[]byte{0x11}, 9, []byte{18, 4, 4, 0, 0, 255, 255}},
 	{[]byte{0x11, 0x12}, 9, []byte{18, 20, 2, 4, 0, 0, 255, 255}},
@@ -363,12 +363,12 @@ var deflateInflateStringTests = []deflateInflateStringTest{
 	{
 		"../testdata/e.txt",
 		"2.718281828...",
-		[...]int{100018, 50650, 50960, 51150, 50930, 50790, 50790, 50790, 50790, 50790},
+		[...]int{100018, 68000, 50960, 51150, 50930, 50790, 50790, 50790, 50790, 50790},
 	},
 	{
 		"../testdata/Mark.Twain-Tom.Sawyer.txt",
 		"Mark.Twain-Tom.Sawyer",
-		[...]int{407330, 187598, 180361, 172974, 169160, 163476, 160936, 160506, 160295, 160295},
+		[...]int{407330, 187000, 185361, 180974, 169160, 163476, 160936, 160506, 160295, 160295},
 	},
 }
 
@@ -486,6 +486,13 @@ func TestWriterReset(t *testing.T) {
 		// DeepEqual doesn't compare functions.
 		w.d.fill, wref.d.fill = nil, nil
 		w.d.step, wref.d.step = nil, nil
+		if w.d.enc != nil {
+			w.d.enc, wref.d.enc = nil, nil
+			// tokens is always overwritten.
+			w.d.tokens, wref.d.tokens = nil, nil
+			// window is always overwritten.
+			w.d.window, wref.d.window = nil, nil
+		}
 		w.d.bulkHasher, wref.d.bulkHasher = nil, nil
 		// hashMatch is always overwritten when used.
 		copy(w.d.hashMatch[:], wref.d.hashMatch[:])
