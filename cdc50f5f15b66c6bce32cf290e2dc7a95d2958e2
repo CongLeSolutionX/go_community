@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_e29ec28c",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "I think the \"var levels \u003d etc\" data below would read better if level was the first field instead of the last.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_62c2b272",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Delete this field in this CL. Add it in the follow-up CL that uses it.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_a2a8bab5",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Add a full stop.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_828ede5a",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_c27ce6f9",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Isn\u0027t d.windowEnd always going to be zero?? It looks weird how you offset for d.windowEnd here, but inside the for loop below, you don\u0027t adjust index or end by d.index or d.windowEnd (since they\u0027re both always zero, right)?\n\nIf so, I\u0027d replace\nd.window[d.windowEnd:]\nby\nd.window\nand add a comment that the precondition is that d has just been initialized or reset, so that d.index \u003d\u003d 0 \u0026\u0026 d.windowSize \u003d\u003d 0. If you wanted to, it should be cheap to actually check that (after the d.compressionLevel.level \u003d\u003d 0 check) and panic if that\u0027s not true.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_a281da27",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "You could then drop the + here.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_82c5be7a",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "The outer parens are unnecessary.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_628bd24c",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Can you remind me why the magic 3 is a 3?",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_4298d69b",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Add a full stop.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_2295ca63",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Doc comments start with the method name, so the style is actually to say \"reset\" twice:\n\n// reset resets the state of the compressor.\n\nThe first instance is a noun. The second instance is what that noun does.\n\nBut I\u0027d just delete this comment. It doesn\u0027t really add anything (the method is already called compressor.reset) and it\u0027s not exported.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_22bcaaf9",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "Is this just for debugging?\n\nIf you do want to keep it, I was initially confused that the \"-\" was a minus sign.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_a2af9ac4",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "I\u0027d s/Errorf/Fatalf/. Otherwise, the \"out1[:len(out2)]\" below can panic depending on which one is longer.\n\nThe \"out1[:len(out2)]\" below then becomes \"out1\".",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_c2aaa6b6",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-22T12:19:03Z",
+      "side": 1,
+      "message": "if !bytes.Equal(out1, out2) {",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
