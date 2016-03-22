@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_63f050b5",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "fcb5c2f8_e29ec28c",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_62c2b272",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-22T12:19:03Z",
       "side": 1,
       "message": "Delete this field in this CL. Add it in the follow-up CL that uses it.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_a3d9883b",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_62c2b272",
       "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_c3d67c0a",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_a2a8bab5",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_828ede5a",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-22T12:19:03Z",
       "side": 1,
       "message": "I don\u0027t understand this sentence.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_e3e380ed",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "It doesn\u0027t really add anything that the sentence above doesn\u0027t state. Removed.",
+      "parentUuid": "fcb5c2f8_828ede5a",
       "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9ccf6672_6a590b03",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Makes sense. I will add the check. I assume you mean \"d.windowEnd \u003d\u003d 0\". We already state in the function comment that we only want to be called after a reset.",
+      "parentUuid": "fcb5c2f8_c27ce6f9",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_a281da27",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-22T12:19:03Z",
       "side": 1,
       "message": "You could then drop the + here.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_03e154e5",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_a281da27",
       "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_43142c96",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_82c5be7a",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_628bd24c",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2016-03-22T12:19:03Z",
       "side": 1,
       "message": "Can you remind me why the magic 3 is a 3?",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_6309307d",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "In the deflate binary format, lengths are stored as \"length-3\". No matter what we otherwise change, it should remain 3 for the offset to be encoded correctly.",
+      "parentUuid": "fcb5c2f8_628bd24c",
       "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_a3026857",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_4298d69b",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_2295ca63",
         "filename": "src/compress/flate/deflate.go",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2016-03-22T12:19:03Z",
       "side": 1,
       "message": "Doc comments start with the method name, so the style is actually to say \"reset\" twice:\n\n// reset resets the state of the compressor.\n\nThe first instance is a noun. The second instance is what that noun does.\n\nBut I\u0027d just delete this comment. It doesn\u0027t really add anything (the method is already called compressor.reset) and it\u0027s not exported.",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ce03ae0_2155689b",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_2295ca63",
       "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_03c8746b",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "I replaced it with a \",\" and changed capitalization.",
+      "parentUuid": "fcb5c2f8_22bcaaf9",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_a2af9ac4",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 4
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "bcb50adc_23e65806",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_a2af9ac4",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_c2aaa6b6",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 4
@@ -217,6 +433,24 @@
       "writtenOn": "2016-03-22T12:19:03Z",
       "side": 1,
       "message": "if !bytes.Equal(out1, out2) {",
+      "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_43eb4ccb",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-03-22T12:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb5c2f8_c2aaa6b6",
       "revId": "cdc50f5f15b66c6bce32cf290e2dc7a95d2958e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
