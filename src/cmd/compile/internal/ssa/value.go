@@ -87,7 +87,7 @@ func (v *Value) AuxInt2Int64() int64 {
 	switch opcodeTable[v.Op].auxType {
 	case auxInt64:
 		return v.AuxInt
-	case auxInt32:
+	case auxInt32, auxSymInt32:
 		return int64(int32(v.AuxInt))
 	case auxInt16:
 		return int64(int16(v.AuxInt))
@@ -149,6 +149,11 @@ func (v *Value) LongString() string {
 			s += fmt.Sprintf(" {%s}", v.Aux)
 		}
 		s += fmt.Sprintf(" [%s]", v.AuxValAndOff())
+	case auxSymInt32:
+		if v.Aux != nil {
+			s += fmt.Sprintf(" {%s}", v.Aux)
+		}
+		s += fmt.Sprintf(" [%d]", int32(v.AuxInt))
 	}
 	for _, a := range v.Args {
 		s += fmt.Sprintf(" %v", a)
