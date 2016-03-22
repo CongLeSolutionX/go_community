@@ -2727,13 +2727,15 @@ func rewriteValuegeneric_OpIsInBounds(v *Value, config *Config) bool {
 	// cond: (1 << 8) <= int32(c)
 	// result: (ConstBool [1])
 	for {
-		if v.Args[0].Op != OpZeroExt8to32 {
+		v_0 := v.Args[0]
+		if v_0.Op != OpZeroExt8to32 {
 			break
 		}
-		if v.Args[1].Op != OpConst32 {
+		v_1 := v.Args[1]
+		if v_1.Op != OpConst32 {
 			break
 		}
-		c := v.Args[1].AuxInt
+		c := v_1.AuxInt
 		if !((1 << 8) <= int32(c)) {
 			break
 		}
@@ -2745,13 +2747,15 @@ func rewriteValuegeneric_OpIsInBounds(v *Value, config *Config) bool {
 	// cond: (1 << 8) <= c
 	// result: (ConstBool [1])
 	for {
-		if v.Args[0].Op != OpZeroExt8to64 {
+		v_0 := v.Args[0]
+		if v_0.Op != OpZeroExt8to64 {
 			break
 		}
-		if v.Args[1].Op != OpConst64 {
+		v_1 := v.Args[1]
+		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v.Args[1].AuxInt
+		c := v_1.AuxInt
 		if !((1 << 8) <= c) {
 			break
 		}
@@ -2763,13 +2767,15 @@ func rewriteValuegeneric_OpIsInBounds(v *Value, config *Config) bool {
 	// cond: (1 << 16) <= int32(c)
 	// result: (ConstBool [1])
 	for {
-		if v.Args[0].Op != OpZeroExt16to32 {
+		v_0 := v.Args[0]
+		if v_0.Op != OpZeroExt16to32 {
 			break
 		}
-		if v.Args[1].Op != OpConst32 {
+		v_1 := v.Args[1]
+		if v_1.Op != OpConst32 {
 			break
 		}
-		c := v.Args[1].AuxInt
+		c := v_1.AuxInt
 		if !((1 << 16) <= int32(c)) {
 			break
 		}
@@ -2781,13 +2787,15 @@ func rewriteValuegeneric_OpIsInBounds(v *Value, config *Config) bool {
 	// cond: (1 << 16) <= c
 	// result: (ConstBool [1])
 	for {
-		if v.Args[0].Op != OpZeroExt16to64 {
+		v_0 := v.Args[0]
+		if v_0.Op != OpZeroExt16to64 {
 			break
 		}
-		if v.Args[1].Op != OpConst64 {
+		v_1 := v.Args[1]
+		if v_1.Op != OpConst64 {
 			break
 		}
-		c := v.Args[1].AuxInt
+		c := v_1.AuxInt
 		if !((1 << 16) <= c) {
 			break
 		}
