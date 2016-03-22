@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c86862c_32d7966c",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-03-22T16:53:08Z",
+      "side": 1,
+      "message": "Avoid the ambiguity:\n\n// Decide whether to increment the (unsigned) mantissa.",
+      "range": {
+        "startLine": 437,
+        "startChar": 47,
+        "endLine": 437,
+        "endChar": 60
+      },
+      "revId": "0350f8f12a49629eb501d89c444c8735aa81b0a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
