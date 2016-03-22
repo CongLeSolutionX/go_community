@@ -42,6 +42,9 @@ func BImportData(imports map[string]*types.Package, data []byte, path string) (i
 		return p.read, nil, fmt.Errorf("unknown version: %s", v)
 	}
 
+	// Populate filenameList with the "unknown" filename at index zero.
+	p.filenameList = []string{""}
+
 	// populate typList with predeclared "known" types
 	p.typList = append(p.typList, predeclared...)
 
@@ -72,6 +75,7 @@ func BImportData(imports map[string]*types.Package, data []byte, path string) (i
 	// read consts
 	for i := p.int(); i > 0; i-- {
 		name := p.string()
+		p.position() // unused
 		typ := p.typ(nil)
 		val := p.value()
 		p.declare(types.NewConst(token.NoPos, pkg, name, typ, val))
@@ -80,6 +84,7 @@ func BImportData(imports map[string]*types.Package, data []byte, path string) (i
 	// read vars
 	for i := p.int(); i > 0; i-- {
 		name := p.string()
+		p.position() // unused
 		typ := p.typ(nil)
 		p.declare(types.NewVar(token.NoPos, pkg, name, typ))
 	}
@@ -87,6 +92,7 @@ func BImportData(imports map[string]*types.Package, data []byte, path string) (i
 	// read funcs
 	for i := p.int(); i > 0; i-- {
 		name := p.string()
+		p.position() // unused
 		params, isddd := p.paramList()
 		result, _ := p.paramList()
 		sig := types.NewSignature(nil, params, result, isddd)
@@ -123,12 +129,13 @@ func BImportData(imports map[string]*types.Package, data []byte, path string) (i
 }
 
 type importer struct {
-	imports  map[string]*types.Package
-	data     []byte
-	buf      []byte   // for reading strings
-	bufarray [64]byte // initial underlying array for buf, large enough to avoid allocation when compiling std lib
-	pkgList  []*types.Package
-	typList  []types.Type
+	imports      map[string]*types.Package
+	data         []byte
+	buf          []byte   // for reading strings
+	bufarray     [64]byte // initial underlying array for buf, large enough to avoid allocation when compiling std lib
+	pkgList      []*types.Package
+	filenameList []string
+	typList      []types.Type
 
 	debugFormat bool
 	read        int // bytes read
@@ -178,6 +185,37 @@ func (p *importer) pkg() *types.Package {
 	return pkg
 }
 
+func (p *importer) position() (filename string, line, col int) {
+	filename = p.filename()
+	line = p.int()
+	col = p.int()
+	return
+}
+
+func (p *importer) filename() string {
+	// If the filename was seen before, i is its index (>= 0).
+	i := p.tagOrIndex()
+	if i >= 0 {
+		return p.filenameList[i]
+	}
+
+	// Otherwise, i is the filename tag (< 0).
+	if i != filenameTag {
+		panic(fmt.Sprintf("unexpected filename tag %d", i))
+	}
+
+	filename := p.string()
+
+	// We should never see an empty file name (except at index 0).
+	if filename == "" {
+		panic("empty file name")
+	}
+
+	p.filenameList = append(p.filenameList, filename)
+
+	return filename
+}
+
 func (p *importer) record(t types.Type) {
 	p.typList = append(p.typList, t)
 }
@@ -208,6 +246,7 @@ func (p *importer) typ(parent *types.Package) types.Type {
 	case namedTag:
 		// read type object
 		name := p.string()
+		p.position() // unused
 		parent = p.pkg()
 		scope := parent.Scope()
 		obj := scope.Lookup(name)
@@ -240,6 +279,7 @@ func (p *importer) typ(parent *types.Package) types.Type {
 		// read associated methods
 		for i := p.int(); i > 0; i-- {
 			name := p.string()
+			p.position()             // unused
 			recv, _ := p.paramList() // TODO(gri) do we need a full param list for the receiver?
 			params, isddd := p.paramList()
 			result, _ := p.paramList()
@@ -392,6 +432,7 @@ func (p *importer) fieldName(parent *types.Package) (*types.Package, string) {
 		pkg = p.pkgList[0]
 	}
 	name := p.string()
+	p.position() // unused
 	if name == "" {
 		return pkg, "" // anonymous
 	}
@@ -620,6 +661,8 @@ const (
 	// Packages
 	packageTag = -(iota + 1)
 
+	filenameTag
+
 	// Types
 	namedTag
 	arrayTag
@@ -640,6 +683,8 @@ const (
 	fractionTag // not used by gc
 	complexTag
 	stringTag
+	nilTag
+	unknownTag // not used by gc (only appears in packages with errors)
 )
 
 var predeclared = []types.Type{
