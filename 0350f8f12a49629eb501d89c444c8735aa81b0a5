@@ -22,6 +22,30 @@
       "revId": "0350f8f12a49629eb501d89c444c8735aa81b0a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_aeb5e946",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-03-22T17:08:38Z",
+      "side": 1,
+      "message": "A mantissa is always unsigned in floating-point land (we have sign, mantissa, exponent). Added (unsigned) in parentheses.",
+      "parentUuid": "9c86862c_32d7966c",
+      "range": {
+        "startLine": 437,
+        "startChar": 47,
+        "endLine": 437,
+        "endChar": 60
+      },
+      "revId": "0350f8f12a49629eb501d89c444c8735aa81b0a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
