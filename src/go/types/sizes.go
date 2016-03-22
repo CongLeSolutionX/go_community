@@ -133,7 +133,9 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 			return 0
 		}
 		setOffsets(t, s)
-		return t.offsets[n-1] + s.Sizeof(t.fields[n-1].typ)
+		a := s.Alignof(T)
+		z := t.offsets[n-1] + s.Sizeof(t.fields[n-1].typ)
+		return align(z, a)
 	case *Interface:
 		return s.WordSize * 2
 	}
