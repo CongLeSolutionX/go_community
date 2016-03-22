@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_ae13299c",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 10000
+      },
+      "writtenOn": "2016-03-22T15:13:29Z",
+      "side": 1,
+      "message": "should be \"its index\" (no apostrophe)",
+      "revId": "c7718cef0b505c8ab1ae4ea6070ea73a0ba9ac0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_8e18edb7",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 10000
+      },
+      "writtenOn": "2016-03-22T15:13:29Z",
+      "side": 1,
+      "message": "should be \"is assumed to be a format string\"",
+      "revId": "c7718cef0b505c8ab1ae4ea6070ea73a0ba9ac0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_0e7d1db7",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 10000
+      },
+      "writtenOn": "2016-03-22T15:13:29Z",
+      "side": 1,
+      "message": "I think you can use `f.pkg.types[arg].Value` even if it\u0027s a BasicLit, right? Was the existing code broken in some way?",
+      "revId": "c7718cef0b505c8ab1ae4ea6070ea73a0ba9ac0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_6e6bf1f4",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 10000
+      },
+      "writtenOn": "2016-03-22T15:13:29Z",
+      "side": 1,
+      "message": "This looks like a regression caused by not using `f.pkg.types`?",
+      "revId": "c7718cef0b505c8ab1ae4ea6070ea73a0ba9ac0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
