@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9cb846d6_dc766165",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1840,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-03-22T12:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c86862c_4f82a1c4",
+      "range": {
+        "startLine": 1840,
+        "startChar": 28,
+        "endLine": 1840,
+        "endChar": 63
+      },
+      "revId": "5919de0a72ae4d67da7adccc10cd7735dd5f0872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c86862c_6fd685c6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-21T14:51:12Z",
       "side": 1,
       "message": "Why 4 times? Isn\u0027t once enough? There could be useful GC work to do and this not only delays that work but it takes time and energy.",
+      "range": {
+        "startLine": 1855,
+        "startChar": 0,
+        "endLine": 1855,
+        "endChar": 25
+      },
+      "revId": "5919de0a72ae4d67da7adccc10cd7735dd5f0872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb50adc_c3ff5c78",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-03-22T12:43:37Z",
+      "side": 1,
+      "message": "Good question.\n\nI\u0027ve used several iterations initially not only to check all queues, but also to prevent thread blocking/unblocking thrashing. That\u0027s that nmspinning thing. While nmspinning\u003e0 other threads won\u0027t unblock other threads in ready. If we reduce number of iterations, that effect will be reduced as well.\n\nTo increase the nmspinning effect we could increase number of iterations but do usleep(3) in between.\n\nBut now another question is whether thread blocking/unblocking on hrtimer is faster (or better for locality) than blocking/unblocking on a futex. I don\u0027t see any fundamental reasons why futex should be slower than hrtimer.\n\nAnd in a latency sensitive environment or in HPC environment (when you usually have all CPU power at your disposal) one would spin more without usleep/yield just to pick up new work faster.\n\nThis all requires more laborious benchmarking of various types of workloads. I just did the most conservative thing which is to leave number of iterations as is.\n\nRegardless of sleeping/active spinning, I would try what I described previously to Austin: check all sources of work while we are sleeping/spinning. For example, that usleep(3) before retaking runnext puts the thread to sleep when there can also be GC work, or simply work on other queues.",
+      "parentUuid": "9c86862c_6fd685c6",
       "range": {
         "startLine": 1855,
         "startChar": 0,
