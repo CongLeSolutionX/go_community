@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_7b0a9244",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-22T19:30:26Z",
+      "side": 1,
+      "message": "I guess we could just reuse auxSymOff here and declare that AuxInt will be properly sign-extended beyond the word width.",
+      "parentUuid": "9c86862c_322cf632",
+      "revId": "6f52984dd6f7944bdf63012edea2253108704133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c86862c_320316aa",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 2
