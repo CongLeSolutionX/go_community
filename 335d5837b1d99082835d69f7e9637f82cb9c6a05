@@ -88,6 +88,23 @@
       "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_aa6aeeea",
+        "filename": "src/runtime/signal1_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 11851
+      },
+      "writtenOn": "2016-03-23T15:26:52Z",
+      "side": 1,
+      "message": "So based on your previous comment, should this check be changed to the following?:\n\nif (isarchive || islibrary) \u0026\u0026 if handler \u003d\u003d _SIG_DFL \u0026\u0026 t.flags\u0026_SigPanic !\u003d 0",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
