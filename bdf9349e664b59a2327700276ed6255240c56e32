@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb5c2f8_a5d564b9",
+        "filename": "src/net/port.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-23T01:46:46Z",
+      "side": 1,
+      "message": "typo: decimal",
+      "revId": "bdf9349e664b59a2327700276ed6255240c56e32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb5c2f8_45c58005",
+        "filename": "src/net/port.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-23T01:46:46Z",
+      "side": 1,
+      "message": "I think you can delete these two sentences.\n\nI would rather see a huge explanation here of what service may be and why certain things are legal or illegal.\n\nI don\u0027t want to read the million comments on this code review or bug. It simply can\u0027t be that complicated.\n\nOne question of many: why does this accept a plus or minus sign?",
+      "revId": "bdf9349e664b59a2327700276ed6255240c56e32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
