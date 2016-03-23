@@ -214,7 +214,7 @@ func TestStop(t *testing.T) {
 		// Send the signal.
 		// If it's SIGWINCH, we should not see it.
 		// If it's SIGHUP, maybe we'll die. Let the flag tell us what to do.
-		if sig != syscall.SIGHUP || *sendUncaughtSighup == 2 {
+		if sig == syscall.SIGWINCH || (sig == syscall.SIGHUP && *sendUncaughtSighup == 2) {
 			syscall.Kill(syscall.Getpid(), sig)
 		}
 
