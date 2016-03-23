@@ -220,6 +220,18 @@ func raisebadsignal(sig int32) {
 	// again.
 	unblocksig(sig)
 	setsig(sig, handler, false)
+
+	// If we're linked into a non-Go program we want to try to
+	// avoid modifying the original context in which the signal
+	// was raised.  If the handler is the default, we know it
+	// is non-recoverable, so we don't have to worry about
+	// re-installing sighandler.  At this point we can just
+	// return and the signal will be re-raised and caught by
+	// the default handler with the correct context.
+	if (isarchive || islibrary) && handler == _SIG_DFL {
+		return
+	}
+
 	raise(sig)
 
 	// If the signal didn't cause the program to exit, restore the
