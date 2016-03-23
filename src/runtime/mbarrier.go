@@ -127,6 +127,9 @@ func writebarrierptr_nostore1(dst *uintptr, src uintptr) {
 // but if we do that, Go inserts a write barrier on *dst = src.
 //go:nosplit
 func writebarrierptr(dst *uintptr, src uintptr) {
+	if *dst == src {
+		return
+	}
 	*dst = src
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
