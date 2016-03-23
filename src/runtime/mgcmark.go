@@ -801,8 +801,16 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 	blocking := flags&(gcDrainUntilPreempt|gcDrainNoBlock) == 0
 	flushBgCredit := flags&gcDrainFlushBgCredit != 0
 
+	var end int64
+	if preemptible {
+		// Yield CPU after 1ms.
+		end = nanotime() + 1e6
+	}
+
 	// Drain root marking jobs.
 	if work.markrootNext < work.markrootJobs {
+		// TODO: If markroot kept track of work, we could
+		// check the time less often.
 		for blocking || !gp.preempt {
 			job := atomic.Xadd(&work.markrootNext, +1) - 1
 			if job >= work.markrootJobs {
@@ -810,6 +818,9 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 			}
 			// TODO: Pass in gcw.
 			markroot(job)
+			if preemptible && nanotime() >= end {
+				gp.preempt = true
+			}
 		}
 	}
 
@@ -848,6 +859,10 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 				initScanWork = 0
 			}
 			gcw.scanWork = 0
+			// Periodically check the time if we're preemptible.
+			if preemptible && nanotime() >= end {
+				break
+			}
 		}
 	}
 
@@ -877,11 +892,25 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 		throw("gcDrainN phase incorrect")
 	}
 
+	gp := getg().m.curg
+
+	// // Drain root marking jobs.
+	// //
+	// // TODO: Assists don't get any credit for this.
+	// if work.markrootNext < work.markrootJobs {
+	// 	for !gp.preempt {
+	// 		job := atomic.Xadd(&work.markrootNext, +1) - 1
+	// 		if job >= work.markrootJobs {
+	// 			break
+	// 		}
+	// 		markroot(job)
+	// 	}
+	// }
+
 	// There may already be scan work on the gcw, which we don't
 	// want to claim was done by this call.
 	workFlushed := -gcw.scanWork
 
-	gp := getg().m.curg
 	for !gp.preempt && workFlushed+gcw.scanWork < scanWork {
 		// See gcDrain comment.
 		if work.full == 0 {
