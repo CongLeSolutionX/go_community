@@ -34,6 +34,24 @@
       "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_cf081cc4",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 11851
+      },
+      "writtenOn": "2016-03-23T05:57:31Z",
+      "side": 1,
+      "message": "Also are we sure that there will never be a case where a signal is both synchronous and has a recoverable default signal handler?",
+      "parentUuid": "3c1bdab9_0f7d1442",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
