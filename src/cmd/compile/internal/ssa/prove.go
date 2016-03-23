@@ -66,20 +66,38 @@ type fact struct {
 	r relation
 }
 
+type bound struct {
+	v *Value
+	d domain   // must be signed or unsigned
+	r relation // must be lt|eq or gt|eq
+}
+type bfact struct {
+	key    bound
+	val    int64
+	exists bool
+}
+
 // factsTable keeps track of relations between pairs of values.
 type factsTable struct {
 	facts map[pair]relation // current known set of relation
 	stack []fact            // previous sets of relations
+
+	// relations between a single value and constants.
+	bounds map[bound]int64
+	bstack []bfact // previous entries
 }
 
 // checkpointFact is an invalid value used for checkpointing
 // and restoring factsTable.
 var checkpointFact = fact{}
+var checkpointBound = bfact{}
 
 func newFactsTable() *factsTable {
 	ft := &factsTable{}
 	ft.facts = make(map[pair]relation)
 	ft.stack = make([]fact, 4)
+	ft.bounds = make(map[bound]int64)
+	ft.bstack = make([]bfact, 4)
 	return ft
 }
 
@@ -120,12 +138,38 @@ func (ft *factsTable) update(v, w *Value, d domain, r relation) {
 	oldR := ft.get(v, w, d)
 	ft.stack = append(ft.stack, fact{p, oldR})
 	ft.facts[p] = oldR & r
+
+	// Extract bounds when comparing against constants
+	if v != nil && v.Op == OpConst64 { // TODO: 32,16,8
+		v, w = w, v
+		r = reverseBits[r]
+	}
+	if v != nil && w != nil && w.Op == OpConst64 {
+		if d == unsigned {
+			if r&lt == 0 { // > or >=
+				umin := uint64(w.AuxInt)
+				if r&eq == 0 {
+					umin++ // Note: overflow is harmless here
+				}
+				k := bound{v, unsigned, gt | eq}
+				old, ok := ft.bounds[k]
+				if !ok {
+					old = 0 // just to be clear
+				}
+				if umin > uint64(old) {
+					ft.bstack = append(ft.bstack, bfact{k, old, ok})
+					ft.bounds[k] = int64(umin)
+				}
+			}
+		}
+	}
 }
 
 // checkpoint saves the current state of known relations.
 // Called when descending on a branch.
 func (ft *factsTable) checkpoint() {
 	ft.stack = append(ft.stack, checkpointFact)
+	ft.bstack = append(ft.bstack, checkpointBound)
 }
 
 // restore restores known relation to the state just
@@ -142,6 +186,18 @@ func (ft *factsTable) restore() {
 			delete(ft.facts, old.p)
 		} else {
 			ft.facts[old.p] = old.r
+		}
+	}
+	for {
+		old := ft.bstack[len(ft.bstack)-1]
+		ft.bstack = ft.bstack[:len(ft.bstack)-1]
+		if old == checkpointBound {
+			break
+		}
+		if !old.exists {
+			delete(ft.bounds, old.key)
+		} else {
+			ft.bounds[old.key] = old.val
 		}
 	}
 }
@@ -413,6 +469,22 @@ func simplifyBlock(ft *factsTable, b *Block) branch {
 				b.Func.Config.Warnl(b.Line, "Disproved %s", c.Op)
 			}
 			return negative
+		}
+
+		if a0.Op == OpConst64 && d == unsigned && tr.r == lt {
+			c := uint64(a0.AuxInt)
+			// a1 > c ?
+			k := bound{a1, unsigned, gt | eq}
+			d, ok := ft.bounds[k]
+			if !ok {
+				d = 0
+			}
+			if uint64(d) >= c+1 && c+1 != 0 {
+				// If we're wondering whether a1 > c and we find a fact
+				// that a1 >= d, then the branch must happen if d >= c+1.
+				// Note the check for overflow on c+1!
+				return positive
+			}
 		}
 	}
 
