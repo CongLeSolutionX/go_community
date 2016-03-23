@@ -181,14 +181,15 @@ func signal_ignored(s uint32) bool {
 //go:nosplit
 //go:norace
 //go:nowritebarrierrec
-func badsignal(sig uintptr) {
-	cgocallback(unsafe.Pointer(funcPC(badsignalgo)), noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig))
+func badsignal(sig uintptr, c *sigctxt) {
+	cgocallback(unsafe.Pointer(funcPC(badsignalgo)), noescape(unsafe.Pointer(&sig)), unsafe.Sizeof(sig)+unsafe.Sizeof(c))
 }
 
-func badsignalgo(sig uintptr) {
+func badsignalgo(sig uintptr, c *sigctxt) {
 	if !sigsend(uint32(sig)) {
 		// A foreign thread received the signal sig, and the
 		// Go code does not want to handle it.
-		raisebadsignal(int32(sig))
+
+		raisebadsignal(int32(sig), c)
 	}
 }
