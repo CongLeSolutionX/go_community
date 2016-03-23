@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fcb5c2f8_65c3dcad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-23T11:33:19Z",
+      "side": 1,
+      "message": "For the record, s/20021/21021/ but again, it\u0027s not a big deal.",
+      "revId": "c788568b2a4e840481f51e0cc8dfa89e4e675c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb5c2f8_a5e0c446",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 6
