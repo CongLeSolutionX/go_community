@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1bdab9_0f7d1442",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-23T04:40:15Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this flag.  I think this problem is only interesting for Go code linked into non-Go programs.  In that case, the Go runtime only installs signal handlers for signals with the _SigPanic flag (see sigInstallGoHandler in signal1_unix.go).  So I think we can change any uses of _SigFatalDFL in this CL to check _SigPanic instead.",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
