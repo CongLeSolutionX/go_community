@@ -16,6 +16,24 @@
       "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_8ffe24c9",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 11851
+      },
+      "writtenOn": "2016-03-23T05:54:28Z",
+      "side": 1,
+      "message": "That check is only valid when what we\u0027re compiling is an archive or a shared library.  What about the case where our application is Go, but using cgo to call a c library and we get a fault in the C code?",
+      "parentUuid": "3c1bdab9_0f7d1442",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
