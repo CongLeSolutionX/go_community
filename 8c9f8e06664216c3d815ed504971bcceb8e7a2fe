@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cdb763a_46144896",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-23T18:23:38Z",
+      "side": 1,
+      "message": "Maybe instead of keeping r\u0026val it\u0027s easier to keep min/max. Then it\u0027s easier to reason about the range.\n\nFor example there are cases where we know that the value is a const so we can replace it by that const (trivial: if a \u003d\u003d 3 { s[a]++ }). We can also track other variables that are offseted (not sure how much it helps).",
+      "revId": "8c9f8e06664216c3d815ed504971bcceb8e7a2fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
