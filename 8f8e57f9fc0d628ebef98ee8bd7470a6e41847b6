@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_0fdcf458",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-03-23T07:33:49Z",
+      "side": 1,
+      "message": "Gotcha. Thought that we had to fully implement section 6.2.3 that\u0027s why I added this logic but I\u0027ll take this out. Thanks.",
+      "parentUuid": "fcb5c2f8_424e96b3",
+      "revId": "8f8e57f9fc0d628ebef98ee8bd7470a6e41847b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c1bdab9_320a0544",
         "filename": "src/net/url/url_test.go",
         "patchSetId": 5
