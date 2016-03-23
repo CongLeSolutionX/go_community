@@ -16,6 +16,24 @@
       "revId": "bd54b513675f733864cafe3b2c572f050c908d2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_8fb1042d",
+        "filename": "src/net/http/httptest/httptest_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-23T08:10:31Z",
+      "side": 1,
+      "message": "I was separating inputs vs outputs",
+      "parentUuid": "3c1bdab9_cf213c3c",
+      "revId": "bd54b513675f733864cafe3b2c572f050c908d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
