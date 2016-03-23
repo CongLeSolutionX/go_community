@@ -878,11 +878,25 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 		throw("gcDrainN phase incorrect")
 	}
 
+	gp := getg().m.curg
+
+	// Drain root marking jobs.
+	//
+	// TODO: Assists don't get any credit for this.
+	if work.markrootNext < work.markrootJobs {
+		for !gp.preempt {
+			job := atomic.Xadd(&work.markrootNext, +1) - 1
+			if job >= work.markrootJobs {
+				break
+			}
+			markroot(gcw, job)
+		}
+	}
+
 	// There may already be scan work on the gcw, which we don't
 	// want to claim was done by this call.
 	workFlushed := -gcw.scanWork
 
-	gp := getg().m.curg
 	for !gp.preempt && workFlushed+gcw.scanWork < scanWork {
 		// See gcDrain comment.
 		if work.full == 0 {

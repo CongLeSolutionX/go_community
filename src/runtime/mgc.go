@@ -659,6 +659,27 @@ func (c *gcControllerState) findRunnableGCWorker(_p_ *p) *g {
 		// TODO(austin): This P isn't going to run anything
 		// else for a while, so kick everything out of its run
 		// queue.
+		var ghead, gtail *g
+		var n int32
+		for {
+			// TODO: Grab the whole batch.
+			gp, _ := runqget(_p_)
+			if gp == nil {
+				break
+			}
+			if gtail == nil {
+				ghead, gtail = gp, gp
+			} else {
+				gtail.schedlink.set(gp)
+			}
+			gtail = gp
+			n++
+		}
+		if ghead != nil {
+			lock(&sched.lock)
+			globrunqputbatch(ghead, gtail, n)
+			unlock(&sched.lock)
+		}
 	} else {
 		if !decIfPositive(&c.fractionalMarkWorkersNeeded) {
 			// No more workers are need right now.
@@ -1433,7 +1454,15 @@ func gcBgMarkWorker(_p_ *p) {
 		case gcMarkWorkerDedicatedMode:
 			gcDrain(&_p_.gcw, gcDrainNoBlock|gcDrainFlushBgCredit)
 		case gcMarkWorkerFractionalMode, gcMarkWorkerIdleMode:
-			gcDrain(&_p_.gcw, gcDrainUntilPreempt|gcDrainFlushBgCredit)
+			// Voluntarily preempt after 1ms.
+			end := nanotime() + 1e6
+			for nanotime() < end && !gp.preempt {
+				work := gcDrainN(&_p_.gcw, 1<<20)
+				// TODO: We should flush background
+				// credit more often than this, but
+				// gcDrainN doesn't know how.
+				gcFlushBgCredit(work)
+			}
 		}
 
 		// If we are nearing the end of mark, dispose
