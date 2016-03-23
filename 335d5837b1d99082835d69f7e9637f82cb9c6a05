@@ -91,6 +91,23 @@
     },
     {
       "key": {
+        "uuid": "3c1bdab9_2a10be6a",
+        "filename": "src/runtime/signal1_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-23T15:39:48Z",
+      "side": 1,
+      "message": "s/defaut/default/",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c1bdab9_aa6aeeea",
         "filename": "src/runtime/signal1_unix.go",
         "patchSetId": 1
@@ -120,6 +137,24 @@
       "side": 1,
       "message": "Actually, since the handler isn\u0027t installed in any other case, what about this check instead:\n\nif (isarchive || islibrary) \u0026\u0026 handler \u003d\u003d _SIG_DFL",
       "parentUuid": "3c1bdab9_aa6aeeea",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_4a137a79",
+        "filename": "src/runtime/signal1_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-23T15:39:48Z",
+      "side": 1,
+      "message": "Sounds right.  Thanks.",
+      "parentUuid": "3c1bdab9_aaeb0e98",
       "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
