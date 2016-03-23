@@ -203,11 +203,15 @@ func raisebadsignal(sig int32) {
 		return
 	}
 
-	var handler uintptr
+	var (
+		handler uintptr
+		flags   int32
+	)
 	if sig >= _NSIG {
 		handler = _SIG_DFL
 	} else {
 		handler = fwdSig[sig]
+		flags = sigtable[sig].flags
 	}
 
 	// Reset the signal handler and raise the signal.
@@ -220,6 +224,16 @@ func raisebadsignal(sig int32) {
 	// again.
 	unblocksig(sig)
 	setsig(sig, handler, false)
+
+	// If the original signal handler is the defaut handler and
+	// the default handler is non-recoverable, we don't have to
+	// worry about restoring sighandler.  In this case we can just
+	// return, which will retrigger the fault, and call the original
+	// handler without messing with the context.
+	if handler == _SIG_DFL && flags&_SigFatalDFL != 0 {
+		return
+	}
+
 	raise(sig)
 
 	// If the signal didn't cause the program to exit, restore the
