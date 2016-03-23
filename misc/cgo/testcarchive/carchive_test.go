@@ -5,11 +5,13 @@
 package carchive_test
 
 import (
+	"bufio"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"strings"
 	"testing"
@@ -218,6 +220,118 @@ func TestEarlySignalHandler(t *testing.T) {
 	if out, err := exec.Command(bin[0], bin[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
 		t.Fatal(err)
+	}
+}
+
+func TestSignalForwarding(t *testing.T) {
+	switch runtime.GOOS {
+	case "darwin":
+		switch runtime.GOARCH {
+		case "arm", "arm64":
+			t.Skipf("skipping on %s/%s; see https://golang.org/issue/13701", runtime.GOOS, runtime.GOARCH)
+		}
+	case "windows":
+		t.Skip("skipping signal test on Windows")
+	}
+
+	defer func() {
+		os.Remove("libgo2.a")
+		os.Remove("libgo2.h")
+		os.Remove("testp")
+		os.RemoveAll("pkg")
+	}()
+
+	cmd := exec.Command("go", "build", "-buildmode=c-archive", "-o", "libgo2.a", "libgo2")
+	cmd.Env = gopathEnv
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Logf("%s", out)
+		t.Fatal(err)
+	}
+
+	ccArgs := append(cc, "-o", "testp"+exeSuffix, "main5.c", "libgo2.a")
+	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
+		t.Logf("%s", out)
+		t.Fatal(err)
+	}
+
+	cmd = exec.Command(bin[0], append(bin[1:], "1")...)
+
+	if out, err := cmd.CombinedOutput(); err == nil || err.Error() != "signal: segmentation fault" {
+		t.Logf("%s", out)
+		if err != nil {
+			t.Fatalf("Test did not trigger a segfault: %v", err)
+		} else {
+			t.Fatal("Test did not trigger a segfault")
+		}
+	}
+}
+
+func TestSignalForwardingExternal(t *testing.T) {
+	switch runtime.GOOS {
+	case "darwin":
+		switch runtime.GOARCH {
+		case "arm", "arm64":
+			t.Skipf("skipping on %s/%s; see https://golang.org/issue/13701", runtime.GOOS, runtime.GOARCH)
+		}
+	case "windows":
+		t.Skip("skipping signal test on Windows")
+	}
+
+	defer func() {
+		os.Remove("libgo2.a")
+		os.Remove("libgo2.h")
+		os.Remove("testp")
+		os.RemoveAll("pkg")
+	}()
+
+	cmd := exec.Command("go", "build", "-buildmode=c-archive", "-o", "libgo2.a", "libgo2")
+	cmd.Env = gopathEnv
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Logf("%s", out)
+		t.Fatal(err)
+	}
+
+	ccArgs := append(cc, "-o", "testp"+exeSuffix, "main5.c", "libgo2.a")
+	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
+		t.Logf("%s", out)
+		t.Fatal(err)
+	}
+
+	cmd = exec.Command(bin[0], append(bin[1:], "2")...)
+
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer stderr.Close()
+
+	r := bufio.NewReader(stderr)
+
+	err = cmd.Start()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Wait for trigger to ensure that the process is started
+	ok, _, _ := r.ReadLine()
+
+	// Verify trigger
+	if !reflect.DeepEqual(ok, []byte{'O', 'K'}) {
+		t.Fatalf("Did not recieve OK signal")
+	}
+
+	// Trigger an interrupt external to the process
+	cmd.Process.Signal(os.Interrupt)
+
+	err = cmd.Wait()
+
+	if err == nil || err.Error() != "signal: interrupt" {
+		if err != nil {
+			t.Fatalf("Test did not trigger an interrupt: %v", err)
+		} else {
+			t.Fatal("Test did not trigger an interrupt")
+		}
 	}
 }
 
