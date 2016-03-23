@@ -52,6 +52,42 @@
       "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_8a8292f3",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-23T14:57:13Z",
+      "side": 1,
+      "message": "\u003e That check is only valid when what we\u0027re compiling is an archive or\n \u003e a shared library.  What about the case where our application is Go,\n \u003e but using cgo to call a c library and we get a fault in the C code?\n\nIn a Go program, when cgo code crashes, I would expect to see a Go stack trace.  It may be that that does not work today (in order to see it you\u0027ll need to use cgo to start a C thread that then crashes), but at least at first glance that is how I think it ought to work (https://golang.org/cl/17761 is relevant here).",
+      "parentUuid": "3c1bdab9_8ffe24c9",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1bdab9_ca8c8a28",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-03-23T14:57:13Z",
+      "side": 1,
+      "message": "\u003e Also are we sure that there will never be a case where a signal is\n \u003e both synchronous and has a recoverable default signal handler?\n\nYes.  By definition a synchronous signal will recur if execution continues at the same place.  The default behavior for such a signal can never be to simply continue executing.",
+      "parentUuid": "3c1bdab9_cf081cc4",
+      "revId": "335d5837b1d99082835d69f7e9637f82cb9c6a05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
