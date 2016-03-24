@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcab02ee_159f7626",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "I worry that this matching algorithm is a bit on the fragile side.  It handles the normal cases, but not something like:\n\nfor i :\u003d 0; len(x) \u003e i; i++ {\n}\n\nProbably not worth worrying about now, but some phase before this one is going to reorder b.Succs[0] and b.Succs[1] and flip the condition and this pass will break badly.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_75599a5f",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "TODO: Less32 for 32-bit archs?",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_75fa3a62",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure how this prevents b.Succs[1] from re-entering the loop.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_f5fe2a4f",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "Why is b.Preds[0] the out-of-loop predecessor and b.Preds[1] the in-loop predecessor?\nHistorical accident, probably, and not promised by any preceding pass.  Another source of fragility.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_f5810ac0",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this condition is doing either.  It seems related somehow to knowing that b.Succs[1] exits the loop, but I don\u0027t see the logic.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_55457e3c",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "Reusing iv is confusing.  Name the slice ivList?",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_751b5a51",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T21:43:20Z",
+      "side": 1,
+      "message": "How does this fail if the Fatal is left in here?  It seems impossible to me.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
