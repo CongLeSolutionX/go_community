@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb50adc_294ab954",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4173,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-24T14:41:37Z",
+      "side": 1,
+      "message": "Could it be faster to replace this line with following?\nenum.pos +\u003d enum.inc\nif enum.pos \u003e\u003d enum.count {\n    enum.pos -\u003d enum.count\n}",
+      "range": {
+        "startLine": 4173,
+        "startChar": 1,
+        "endLine": 4173,
+        "endChar": 46
+      },
+      "revId": "c981a3755872061bf8d7c6a66c9bb4ec70d6f5d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
