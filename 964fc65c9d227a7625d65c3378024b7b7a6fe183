@@ -16,6 +16,24 @@
       "revId": "964fc65c9d227a7625d65c3378024b7b7a6fe183",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc650ac6_daefc5d4",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-24T20:39:30Z",
+      "side": 1,
+      "message": "You\u0027re right. I\u0027ll fix.",
+      "parentUuid": "fc5862e7_c432beef",
+      "revId": "964fc65c9d227a7625d65c3378024b7b7a6fe183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
