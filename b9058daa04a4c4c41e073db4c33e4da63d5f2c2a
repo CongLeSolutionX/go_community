@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcab02ee_f28920a7",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T20:33:58Z",
+      "side": 1,
+      "message": "I see what you\u0027re doing now.\nitabpkg is no longer used, drop it.\nitab2pkg -\u003e itabpkg\nI guess that answers my question from 3 reviews ago.",
+      "revId": "b9058daa04a4c4c41e073db4c33e4da63d5f2c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_926d3c99",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T20:33:58Z",
+      "side": 1,
+      "message": "We don\u0027t need the t argument, do we?  We can read it out of the itab if we need it.\n(Can be a separate CL.)",
+      "revId": "b9058daa04a4c4c41e073db4c33e4da63d5f2c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcab02ee_d267c4b4",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-24T20:33:58Z",
+      "side": 1,
+      "message": "Does this branch ever happen now?  Same question in convT2E, I guess.",
+      "revId": "b9058daa04a4c4c41e073db4c33e4da63d5f2c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
