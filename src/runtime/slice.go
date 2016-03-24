@@ -56,11 +56,6 @@ func growslice(t *slicetype, old slice, cap int) slice {
 		return slice{unsafe.Pointer(&zerobase), old.len, cap}
 	}
 
-	maxcap := _MaxMem / et.size
-	if cap < old.cap || uintptr(cap) > maxcap {
-		panic(errorString("growslice: cap out of range"))
-	}
-
 	newcap := old.cap
 	doublecap := newcap + newcap
 	if cap > doublecap {
@@ -73,17 +68,34 @@ func growslice(t *slicetype, old slice, cap int) slice {
 				newcap += newcap / 4
 			}
 		}
-		if uintptr(newcap) > maxcap {
-			panic(errorString("growslice: cap out of range"))
-		}
 	}
 
-	lenmem := uintptr(old.len) * et.size
-	capmem := roundupsize(uintptr(newcap) * et.size)
-	if et.size == 1 {
+	var lenmem, capmem, maxcap uintptr
+	switch et.size {
+	case 1:
+		lenmem = uintptr(old.len)
+		capmem = roundupsize(uintptr(newcap))
 		newcap = int(capmem)
-	} else {
+		maxcap = _MaxMem
+	case 8:
+		lenmem = uintptr(old.len) << 3
+		capmem = roundupsize(uintptr(newcap) << 3)
+		newcap = int(capmem >> 3)
+		maxcap = _MaxMem >> 3
+	case 4:
+		lenmem = uintptr(old.len) << 2
+		capmem = roundupsize(uintptr(newcap) << 2)
+		newcap = int(capmem >> 2)
+		maxcap = _MaxMem >> 2
+	default:
+		lenmem = uintptr(old.len) * et.size
+		capmem = roundupsize(uintptr(newcap) * et.size)
 		newcap = int(capmem / et.size)
+		maxcap = _MaxMem / et.size
+	}
+
+	if cap < old.cap || uintptr(newcap) > maxcap {
+		panic(errorString("growslice: cap out of range"))
 	}
 
 	var p unsafe.Pointer

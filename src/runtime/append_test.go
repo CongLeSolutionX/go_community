@@ -25,6 +25,16 @@ func BenchmarkGrowSliceInts(b *testing.B) {
 	}
 }
 
+func BenchmarkGrowSliceStruct24Bytes(b *testing.B) {
+	type struct24 struct{ a, b, c int64 }
+	b.StopTimer()
+	var x = make([]struct24, 8)
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		_ = append([]struct24(nil), x...)
+	}
+}
+
 func BenchmarkAppend(b *testing.B) {
 	b.StopTimer()
 	x := make([]int, 0, N)
