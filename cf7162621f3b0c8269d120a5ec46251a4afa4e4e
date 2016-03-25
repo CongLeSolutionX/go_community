@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5125d99e_16017c26",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-25T16:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1145534_f9eef7a2",
+      "revId": "cf7162621f3b0c8269d120a5ec46251a4afa4e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1145534_d9eb3391",
         "filename": "src/cmd/compile/internal/gc/reflect.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-25T03:35:10Z",
       "side": 1,
       "message": "because it has two dots, it\u0027s not decoded as a type?",
+      "revId": "cf7162621f3b0c8269d120a5ec46251a4afa4e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5125d99e_56aed45f",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-25T16:38:40Z",
+      "side": 1,
+      "message": "Yes, the relevant code is cmd/link/internal/ld/deadcode.go:280. I\u0027m not sure if I wrote that or moved it around, but I know types of that form existed when I was working on it and were undecodable.\n\nThis should probably be cleaned up some time and documented. Maybe this sort of non-type should be in type.data.*. But there\u0027s lots of cleanup to do around this (like decodesym.go) and I\u0027m not sure where to start.",
+      "parentUuid": "b1145534_d9eb3391",
       "revId": "cf7162621f3b0c8269d120a5ec46251a4afa4e4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
