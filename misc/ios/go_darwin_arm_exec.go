@@ -88,6 +88,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer lock.Close()
 	if err := syscall.Flock(int(lock.Fd()), syscall.LOCK_EX); err != nil {
 		log.Fatal(err)
 	}
