@@ -16,6 +16,24 @@
       "revId": "1c86979a5b57e7ec52b40affebf3d06ed2443a48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b16295ec_29b30dc8",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-25T14:18:44Z",
+      "side": 1,
+      "message": "Done\nI didn\u0027t know that it is possible to assign it to a const, since after all it looks like a function call.\nLearned something new, thanks.",
+      "parentUuid": "1c22968a_e5f4d6a9",
+      "revId": "1c86979a5b57e7ec52b40affebf3d06ed2443a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
