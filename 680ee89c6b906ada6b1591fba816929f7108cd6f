@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "912111e5_a8a69bd0",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-25T21:57:07Z",
+      "side": 1,
+      "message": "We don\u0027t bother with \u0027get\u0027 in Go code. Call this formatArg or, better, formatString. That\u0027s what the comment calls it and what most people would say.\n\nIn the comment, point out that this is only called when we think it\u0027s a Printf-like function.",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912111e5_88a3d7c0",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-25T21:57:07Z",
+      "side": 1,
+      "message": "Invert this test for consistency and the usual Go style. If !ok, return error",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912111e5_e8b09307",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-25T21:57:07Z",
+      "side": 1,
+      "message": "Again, poor name.\n\nCall this stringLiteralArg or stringConstantArg",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912111e5_c8adcfad",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-25T21:57:07Z",
+      "side": 1,
+      "message": "s/string/string constant/",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912111e5_48a27fc0",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-25T21:57:07Z",
+      "side": 1,
+      "message": "did these fail with the old code?",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912111e5_689dc386",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-03-25T21:57:07Z",
+      "side": 1,
+      "message": "It\u0027s confusing that this function has effectively two signatures. please name the two differently. Maybe Printf and Logf.",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
