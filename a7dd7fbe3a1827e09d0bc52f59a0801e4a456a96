@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1145534_79a9c755",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-25T03:50:19Z",
+      "side": 1,
+      "message": "don\u0027t change test inputs.",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1145534_39b34fc8",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-25T03:50:19Z",
+      "side": 1,
+      "message": "don\u0027t change test inputs. This is no longer what the line immediately before this says it is!",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1145534_19b88ba0",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-25T03:50:19Z",
+      "side": 1,
+      "message": "revert",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
