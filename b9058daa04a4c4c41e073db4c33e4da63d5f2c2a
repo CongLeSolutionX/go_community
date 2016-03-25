@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5c57aee9_9277daae",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 12938
+      },
+      "writtenOn": "2016-03-25T07:55:40Z",
+      "side": 1,
+      "message": "Good point.\n\nI think I may as well do it here, we don\u0027t have to change the interface twice.\n\nI\u0027ll measure the space saving again in the issue tracker, I think they should improve a bit.",
+      "parentUuid": "fcab02ee_926d3c99",
+      "revId": "b9058daa04a4c4c41e073db4c33e4da63d5f2c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_d267c4b4",
         "filename": "src/runtime/iface.go",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-24T20:33:58Z",
       "side": 1,
       "message": "Does this branch ever happen now?  Same question in convT2E, I guess.",
+      "revId": "b9058daa04a4c4c41e073db4c33e4da63d5f2c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c57aee9_b27cde91",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 12938
+      },
+      "writtenOn": "2016-03-25T07:55:40Z",
+      "side": 1,
+      "message": "They don\u0027t. I actually have a local change adding panics here and in convT2E. I\u0027m not sure if I should assert/panic here, or just remove the dead code.",
+      "parentUuid": "fcab02ee_d267c4b4",
       "revId": "b9058daa04a4c4c41e073db4c33e4da63d5f2c2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
