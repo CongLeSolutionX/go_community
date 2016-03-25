@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5125d99e_9656ac34",
+        "filename": "misc/ios/go_darwin_arm_exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-03-25T15:33:31Z",
+      "side": 1,
+      "message": "Ouch.\n\nInstead of defer lock.Close(), could you make this something more descriptive? If I read this without your CL description I would think this is redundant, and in a refactoring I could easily delete it by accident.\n\nInstead, how about making var lock *os.File a global variable? (And put a note on it that it\u0027s a global so the reference lives for the duration of the program.)",
+      "revId": "7f7152ee12ad3ee7e1d9b9f73f8c25c1115fe13d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
