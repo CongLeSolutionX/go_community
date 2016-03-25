@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1145534_f9eef7a2",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-25T03:35:10Z",
+      "side": 1,
+      "message": "comma after linking?",
+      "revId": "cf7162621f3b0c8269d120a5ec46251a4afa4e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1145534_d9eb3391",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-25T03:35:10Z",
+      "side": 1,
+      "message": "because it has two dots, it\u0027s not decoded as a type?",
+      "revId": "cf7162621f3b0c8269d120a5ec46251a4afa4e4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
