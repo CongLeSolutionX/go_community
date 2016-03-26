@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91d6710b_66e5cabf",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-26T03:43:32Z",
+      "side": 1,
+      "message": "Can be in a separate CL, but this comment is very specific about *named* constants, whereas OLITERAL is used to represent all constant expressions, whether named or not.\n\nI suspect we could first fix convlit1 and defaultlit to only duplicated OLITERAL Nodes with a non-nil Sym field, which should be non-intrusive.  After that, I\u0027m curious how much this change still nets us.",
+      "revId": "57a3d383be4252fbbc6ac691ba2c49162b917e37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
