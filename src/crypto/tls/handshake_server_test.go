@@ -1061,3 +1061,27 @@ var testECDSAPrivateKey = &ecdsa.PrivateKey{
 	},
 	D: bigFromString("5477294338614160138026852784385529180817726002953041720191098180813046231640184669647735805135001309477695746518160084669446643325196003346204701381388769751"),
 }
+
+func TestECDHECurvesPoints(t *testing.T) {
+	// Test that if the client offers ECDHE cipher(s) but omits supported
+	// curves and/or points the hello still succeeds. (RFC 4492 section 4)
+	clientHello := &clientHelloMsg{
+		vers:               VersionTLS12,
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
+		compressionMethods: []uint8{compressionNone},
+	}
+	serverConfig := *testConfig
+	serverConfig.CipherSuites = clientHello.cipherSuites
+
+	clientHello.supportedCurves = nil
+	clientHello.supportedPoints = nil
+	testClientHello(t, &serverConfig, clientHello)
+
+	clientHello.supportedCurves = []CurveID{CurveP256}
+	clientHello.supportedPoints = nil
+	testClientHello(t, &serverConfig, clientHello)
+
+	clientHello.supportedCurves = nil
+	clientHello.supportedPoints = []uint8{pointFormatUncompressed}
+	testClientHello(t, &serverConfig, clientHello)
+}
