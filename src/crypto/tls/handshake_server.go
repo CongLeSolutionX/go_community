@@ -123,26 +123,65 @@ func (hs *serverHandshakeState) readClientHello() (isResume bool, err error) {
 
 	hs.hello = new(serverHelloMsg)
 
-	supportedCurve := false
-	preferredCurves := config.curvePreferences()
-Curves:
-	for _, curve := range hs.clientHello.supportedCurves {
-		for _, supported := range preferredCurves {
-			if supported == curve {
-				supportedCurve = true
-				break Curves
+	matchedECDHE := false
+ECDHE:
+	for _, id := range hs.clientHello.cipherSuites {
+		for _, s := range cipherSuites {
+			if s.id == id {
+				if s.flags&suiteECDHE != 0 {
+					matchedECDHE = true
+					break ECDHE
+				}
+				break
 			}
 		}
 	}
 
-	supportedPointFormat := false
-	for _, pointFormat := range hs.clientHello.supportedPoints {
-		if pointFormat == pointFormatUncompressed {
-			supportedPointFormat = true
-			break
+	matchedCurve := false
+	if hs.clientHello.supportedCurves != nil {
+		preferredCurves := config.curvePreferences()
+		supportedCurves := hs.clientHello.supportedCurves
+	Curves:
+		for _, curve := range preferredCurves {
+			for _, supported := range supportedCurves {
+				if supported == curve {
+					matchedCurve = true
+					break Curves
+				}
+			}
+		}
+	} else if matchedECDHE {
+		// RFC 4492 section 4: If a client that proposes ECC cipher suites
+		// omits supported curves the server can use any from section 5.
+		preferredCurves := config.curvePreferences()
+		supportedCurves := make([]CurveID, 0, len(preferredCurves))
+		for _, curve := range preferredCurves {
+			if curve <= 25 || curve == 0xFF01 || curve == 0xFF02 {
+				supportedCurves = append(supportedCurves, curve)
+			}
+		}
+		if len(supportedCurves) > 0 {
+			hs.clientHello.supportedCurves = supportedCurves
+			matchedCurve = true
 		}
 	}
-	hs.ellipticOk = supportedCurve && supportedPointFormat
+
+	matchedPointFormat := false
+	if hs.clientHello.supportedPoints != nil {
+		for _, pointFormat := range hs.clientHello.supportedPoints {
+			if pointFormat == pointFormatUncompressed {
+				matchedPointFormat = true
+				break
+			}
+		}
+	} else if matchedECDHE {
+		// RFC 4492 section 4: If a client that proposes ECC cipher suites
+		// omits supported points the server can use any from section 5.
+		hs.clientHello.supportedPoints = []uint8{pointFormatUncompressed}
+		matchedPointFormat = true
+	}
+
+	hs.ellipticOk = matchedCurve && matchedPointFormat
 
 	foundCompression := false
 	// We only support null compression, so check that the client offered it.
