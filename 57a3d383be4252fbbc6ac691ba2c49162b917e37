@@ -16,6 +16,23 @@
       "revId": "57a3d383be4252fbbc6ac691ba2c49162b917e37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f16b2d2f_e3db7234",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1720,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-26T05:25:50Z",
+      "side": 1,
+      "message": "Next up: true, false, false, true, true\n\nI\u0027d add at least constants like \"reuseOkay\", \"noReuse\" for one of those bools. Different bool types might even be safer.",
+      "revId": "57a3d383be4252fbbc6ac691ba2c49162b917e37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
