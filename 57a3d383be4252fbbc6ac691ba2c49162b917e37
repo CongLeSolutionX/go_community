@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91d6710b_46d4463b",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-26T23:56:51Z",
+      "side": 1,
+      "message": "That yields (unsurprisingly) almost exactly double the improvements of this CL. And it\u0027s way nicer and cleaner. But it also doesn\u0027t appear to be fully safe. I got as far as CL 21179. The local generated code is fine, but we\u0027ve modified a node that the printing routines expect to be the original node. That breaks error printing (was: \"0\", now \"int(0)\"). I fixed that, but export printing is also broken; see CL 21179. I suppose I could wait to see whether binary import/export fixing that of its own accord, but I doubt it--we\u0027ve modified the source of truth for export/import.\n\nIf you have suggestions for how to make CL 21179 work, I\u0027m all ears, since it\u0027s both cleaner and more effective than this CL. If not, I\u0027ll update this one with your and Brad\u0027s feedback.\n\nBtw, I\u0027m not quite sure what you want that comment to read instead.",
+      "parentUuid": "91d6710b_66e5cabf",
+      "revId": "57a3d383be4252fbbc6ac691ba2c49162b917e37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f16b2d2f_e3db7234",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
