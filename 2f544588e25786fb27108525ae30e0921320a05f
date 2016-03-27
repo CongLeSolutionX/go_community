@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f16b2d2f_636b02ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-27T00:02:29Z",
+      "side": 1,
+      "message": "the part after the colon should start with a verb. Look at previous commit messages for examples, or try to complete this sentence:\n\n\"We should modify Go to __________________\"\n\nIf I understand this change correctly, this might be:\n\n    crypto/tls: reject ECDHE handshakes without curves or points\n\nOr something.  (I\u0027m reviewing only this first line of the commit message, and not the code)",
+      "revId": "2f544588e25786fb27108525ae30e0921320a05f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
