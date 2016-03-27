@@ -3498,8 +3498,6 @@ func domethod(n *Node) {
 	checkwidth(n.Type)
 }
 
-var mapqueue []*Node
-
 func copytype(n *Node, t *Type) {
 	if t.Etype == TFORW {
 		// This type isn't computed yet; when it is, update n.
@@ -3532,9 +3530,9 @@ func copytype(n *Node, t *Type) {
 		copytype(n, t)
 	}
 
-	// Double-check use of type as embedded type.
 	lno := lineno
 
+	// Double-check use of type as embedded type.
 	if embedlineno != 0 {
 		lineno = embedlineno
 		if Isptr[t.Etype] {
@@ -3542,13 +3540,13 @@ func copytype(n *Node, t *Type) {
 		}
 	}
 
-	lineno = lno
-
-	// Queue check for map until all the types are done settling.
+	// And as map key.
 	if maplineno != 0 {
-		t.Maplineno = maplineno
-		mapqueue = append(mapqueue, n)
+		lineno = maplineno
+		checkMapKeyType(t)
 	}
+
+	lineno = lno
 }
 
 func typecheckdeftype(n *Node) {
@@ -3592,11 +3590,6 @@ ret:
 			for _, n := range s {
 				domethod(n)
 			}
-		}
-
-		for _, n := range mapqueue {
-			lineno = n.Type.Maplineno
-			maptype(n.Type, Types[TBOOL])
 		}
 
 		lineno = lno

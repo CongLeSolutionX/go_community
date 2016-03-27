@@ -366,37 +366,42 @@ func saveorignode(n *Node) {
 	n.Orig = norig
 }
 
-func maptype(key *Type, val *Type) *Type {
-	if key != nil {
-		var bad *Type
-		atype := algtype1(key, &bad)
-		var mtype EType
-		if bad == nil {
-			mtype = key.Etype
-		} else {
-			mtype = bad.Etype
+// checkMapKeyType checks that key is a valid map key type.
+func checkMapKeyType(key *Type) {
+	var bad *Type
+	atype := algtype1(key, &bad)
+	var mtype EType
+	if bad == nil {
+		mtype = key.Etype
+	} else {
+		mtype = bad.Etype
+	}
+	switch mtype {
+	default:
+		if atype == ANOEQ {
+			Yyerror("invalid map key type %v", key)
 		}
-		switch mtype {
-		default:
-			if atype == ANOEQ {
-				Yyerror("invalid map key type %v", key)
-			}
 
-			// will be resolved later.
-		case TANY:
-			break
+	case TANY:
+		// will be resolved later.
+		break
 
-			// map[key] used during definition of key.
+	case TFORW:
+		// map[key] used during definition of key.
 		// postpone check until key is fully defined.
 		// if there are multiple uses of map[key]
 		// before key is fully defined, the error
 		// will only be printed for the first one.
 		// good enough.
-		case TFORW:
-			if key.Maplineno == 0 {
-				key.Maplineno = lineno
-			}
+		if key.Maplineno == 0 {
+			key.Maplineno = lineno
 		}
+	}
+}
+
+func maptype(key *Type, val *Type) *Type {
+	if key != nil {
+		checkMapKeyType(key)
 	}
 
 	t := typ(TMAP)
