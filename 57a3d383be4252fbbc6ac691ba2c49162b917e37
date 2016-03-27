@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "91d6710b_4689a650",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-27T00:41:08Z",
+      "side": 1,
+      "message": "Sigh, of course the simpler solution wouldn\u0027t work.  Oh well.\n\nLet\u0027s go forward with what you have here then.  This at least seems safe and a good improvement.\n\nI\u0027ll poke at CL 21179 to see what we can do to fix it.\n\nI\u0027m not sure what to do about that comment.  Maybe move it down inside the \"if n.Op \u003d\u003d OLITERAL\" body, and change it to something like:\n\n    // Can\u0027t always set n.Type directly on OLITERAL nodes.\n    // See discussion on CL 20813.",
+      "parentUuid": "91d6710b_46d4463b",
+      "revId": "57a3d383be4252fbbc6ac691ba2c49162b917e37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f16b2d2f_e3db7234",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
