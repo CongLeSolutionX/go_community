@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51acf9b4_5e9af53d",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T10:15:26Z",
+      "side": 1,
+      "message": "Should be replaceable with\ns.Dupok \u003d flag\u0026DUPOK !\u003d 0\nright?",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "2844bdb005ffaa9e100d7ca53f71b374d941621f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_3ea7297e",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T10:15:26Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 217,
+        "startChar": 4,
+        "endLine": 225,
+        "endChar": 5
+      },
+      "revId": "2844bdb005ffaa9e100d7ca53f71b374d941621f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_7e9db133",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T10:15:26Z",
+      "side": 1,
+      "message": "Same here as in my comment from Patch Set 1.\nwrint(b, int64(s.Nosplit))\nwould be much nicer than if/else.",
+      "range": {
+        "startLine": 527,
+        "startChar": 2,
+        "endLine": 531,
+        "endChar": 3
+      },
+      "revId": "2844bdb005ffaa9e100d7ca53f71b374d941621f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
