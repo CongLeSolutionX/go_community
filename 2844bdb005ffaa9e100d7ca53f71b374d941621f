@@ -65,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "51acf9b4_fe7e6188",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T11:22:20Z",
+      "side": 1,
+      "message": "Onlist is also used here, and the log messages differ for Onlist and Seenglobl\nProbably there is a reason behind that.",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "2844bdb005ffaa9e100d7ca53f71b374d941621f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51acf9b4_3ea7297e",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 2
@@ -76,6 +99,30 @@
       "writtenOn": "2016-03-28T10:15:26Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 217,
+        "startChar": 4,
+        "endLine": 225,
+        "endChar": 5
+      },
+      "revId": "2844bdb005ffaa9e100d7ca53f71b374d941621f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_de83a5c8",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T11:22:20Z",
+      "side": 1,
+      "message": "Should I change this?",
+      "parentUuid": "51acf9b4_3ea7297e",
       "range": {
         "startLine": 217,
         "startChar": 4,
