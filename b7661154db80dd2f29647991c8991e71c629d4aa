@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "71f3bdea_95dde45f",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-28T20:13:47Z",
+      "side": 1,
+      "message": "BADWIDTH is also used for Type.Width, so just renaming it would cause the \"t.Width \u003d\u003d BADOFFSET\" checks to look funny instead.  I\u0027ll check splitting it into two BadOffset/BadWidth values though.  Separate CL.",
+      "parentUuid": "f16b2d2f_6607906c",
+      "revId": "b7661154db80dd2f29647991c8991e71c629d4aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f16b2d2f_c6f5a497",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-28T20:02:01Z",
       "side": 1,
       "message": "Maybe add a comment\n\n// Offset of this field relative to it\u0027s parent *Node, in bytes.",
+      "revId": "b7661154db80dd2f29647991c8991e71c629d4aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71f3bdea_f59c309e",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-28T20:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f16b2d2f_c6f5a497",
       "revId": "b7661154db80dd2f29647991c8991e71c629d4aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
