@@ -85,6 +85,9 @@ func genRules(arch arch) {
 	blockrules := map[string][]Rule{}
 	oprules := map[string][]Rule{}
 
+	// ddExpansion
+	var ddExpansion []string
+
 	// read rule file
 	scanner := bufio.NewScanner(text)
 	rule := ""
@@ -102,6 +105,15 @@ func genRules(arch arch) {
 		if rule == "" {
 			continue
 		}
+		if strings.HasPrefix(rule, "..") {
+			if tmp := strings.Split(rule, "="); len(tmp) == 2 {
+				ddExpansion = strings.Split(tmp[1], ",")
+				rule = ""
+				continue
+			} else {
+				log.Fatalf("ddExpansion broken at line %d: %v\n", lineno, rule)
+			}
+		}
 		if !strings.Contains(rule, "->") {
 			continue
 		}
@@ -111,14 +123,24 @@ func genRules(arch arch) {
 		if unbalanced(rule) {
 			continue
 		}
-		op := strings.Split(rule, " ")[0][1:]
-		if op[len(op)-1] == ')' {
-			op = op[:len(op)-1] // rule has only opcode, e.g. (ConstNil) -> ...
+		addRule := func(rule string) {
+			op := strings.Split(rule, " ")[0][1:]
+			if op[len(op)-1] == ')' {
+				op = op[:len(op)-1] // rule has only opcode, e.g. (ConstNil) -> ...
+			}
+			if isBlock(op, arch) {
+				blockrules[op] = append(blockrules[op], Rule{rule: rule, lineno: lineno})
+			} else {
+				oprules[op] = append(oprules[op], Rule{rule: rule, lineno: lineno})
+			}
 		}
-		if isBlock(op, arch) {
-			blockrules[op] = append(blockrules[op], Rule{rule: rule, lineno: lineno})
+		if !strings.Contains(rule, "..") {
+			addRule(rule)
 		} else {
-			oprules[op] = append(oprules[op], Rule{rule: rule, lineno: lineno})
+			for i := range ddExpansion {
+				ruleExpanded := strings.Replace(rule, "..", ddExpansion[i], -1)
+				addRule(ruleExpanded)
+			}
 		}
 		rule = ""
 	}
