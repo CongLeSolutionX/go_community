@@ -16,6 +16,24 @@
       "revId": "6681f6f65736f1441559e6b576b2002de927af29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71f3bdea_95b724b1",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-28T18:46:31Z",
+      "side": 1,
+      "message": "Also, if you\u0027d rather not tackle this immediately, since this CL at least preserves the current semantics, I\u0027m fine with just leaving a TODO(mdempsky) or something to investigate it.",
+      "parentUuid": "71f3bdea_d5892c1b",
+      "revId": "6681f6f65736f1441559e6b576b2002de927af29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
