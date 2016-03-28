@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51acf9b4_fea8a154",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T10:04:22Z",
+      "side": 1,
+      "message": "Here it would be nice to have https://github.com/golang/go/issues/6011\nThen we could simply do\nflags :\u003d int64(s.Leaf)|int64(s.Cfunc)\u003c\u003c1|int64(s.ReflectMethod)\u003c\u003c2\nwhich probably were the only benefits of using uint8.",
+      "range": {
+        "startLine": 532,
+        "startChar": 2,
+        "endLine": 541,
+        "endChar": 3
+      },
+      "revId": "1432adde336ca32d90129e6082ef939650d66afe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
