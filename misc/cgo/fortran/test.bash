@@ -8,8 +8,16 @@
 set -e
 
 FC=$1
+export FC
 
-if ! $FC helloworld/helloworld.f90 -o main.exe >& /dev/null; then
+flibs=
+case "$FC" in
+*gfortran*)
+  flibs="-lgfortran"
+  ;;
+esac
+
+if ! $FC helloworld/helloworld.f90 -o main.exe $flibs >& /dev/null; then
   echo "skipping Fortran test: could not build helloworld.f90 with $FC"
   exit 0
 fi
