@@ -97,6 +97,12 @@ type Frontend interface {
 	// The SSA compiler uses this function to allocate space for spills.
 	Auto(Type) GCNode
 
+	// Given the name for a string, returns the name we should use
+	// for the two parts (ptr & len) of the string.
+	SplitString(LocalSlot) (LocalSlot, LocalSlot)
+	SplitInterface(LocalSlot) (LocalSlot, LocalSlot)
+	SplitSlice(LocalSlot) (LocalSlot, LocalSlot, LocalSlot)
+
 	// Line returns a string describing the given line number.
 	Line(int32) string
 }
