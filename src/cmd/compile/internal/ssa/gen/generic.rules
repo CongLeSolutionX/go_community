@@ -37,56 +37,31 @@
 //(Neg32F (Const32F [c])) -> (Const32F [f2i(-i2f(c))])
 //(Neg64F (Const64F [c])) -> (Const64F [f2i(-i2f(c))])
 
-(Add8 (Const8 [c]) (Const8 [d])) -> (Const8 [c+d])
-(Add16 (Const16 [c]) (Const16 [d])) -> (Const16 [c+d])
-(Add32 (Const32 [c]) (Const32 [d])) -> (Const32 [c+d])
-(Add64 (Const64 [c]) (Const64 [d])) -> (Const64 [c+d])
+..=8,16,32,64
+(Add.. (Const.. [c]) (Const.. [d])) -> (Const.. [c+d])
 (Add32F (Const32F [c]) (Const32F [d])) -> 
         (Const32F [f2i(float64(i2f32(c) + i2f32(d)))]) // ensure we combine the operands with 32 bit precision
 (Add64F (Const64F [c]) (Const64F [d])) -> (Const64F [f2i(i2f(c) + i2f(d))])
 (AddPtr <t> x (Const64 [c])) -> (OffPtr <t> x [c])
 
-(Sub8 (Const8 [c]) (Const8 [d])) -> (Const8 [c-d])
-(Sub16 (Const16 [c]) (Const16 [d])) -> (Const16 [c-d])
-(Sub32 (Const32 [c]) (Const32 [d])) -> (Const32 [c-d])
-(Sub64 (Const64 [c]) (Const64 [d])) -> (Const64 [c-d])
+(Sub.. (Const.. [c]) (Const.. [d])) -> (Const.. [c-d])
 (Sub32F (Const32F [c]) (Const32F [d])) -> 
         (Const32F [f2i(float64(i2f32(c) - i2f32(d)))])
 (Sub64F (Const64F [c]) (Const64F [d])) -> (Const64F [f2i(i2f(c) - i2f(d))])
 
-(Mul8 (Const8 [c]) (Const8 [d])) -> (Const8 [c*d])
-(Mul16 (Const16 [c]) (Const16 [d])) -> (Const16 [c*d])
-(Mul32 (Const32 [c]) (Const32 [d])) -> (Const32 [c*d])
-(Mul64 (Const64 [c]) (Const64 [d])) -> (Const64 [c*d])
+(Mul.. (Const.. [c]) (Const.. [d])) -> (Const.. [c*d])
 (Mul32F (Const32F [c]) (Const32F [d])) -> 
         (Const32F [f2i(float64(i2f32(c) * i2f32(d)))])
 (Mul64F (Const64F [c]) (Const64F [d])) -> (Const64F [f2i(i2f(c) * i2f(d))])
 
-(Lsh64x64  (Const64 [c]) (Const64 [d])) -> (Const64 [c << uint64(d)])
-(Rsh64x64  (Const64 [c]) (Const64 [d])) -> (Const64 [c >> uint64(d)])
-(Rsh64Ux64 (Const64 [c]) (Const64 [d])) -> (Const64 [int64(uint64(c) >> uint64(d))])
-(Lsh32x64  (Const32 [c]) (Const64 [d])) -> (Const32 [int64(int32(c) << uint64(d))])
-(Rsh32x64  (Const32 [c]) (Const64 [d])) -> (Const32 [int64(int32(c) >> uint64(d))])
-(Rsh32Ux64 (Const32 [c]) (Const64 [d])) -> (Const32 [int64(uint32(c) >> uint64(d))])
-(Lsh16x64  (Const16 [c]) (Const64 [d])) -> (Const16 [int64(int16(c) << uint64(d))])
-(Rsh16x64  (Const16 [c]) (Const64 [d])) -> (Const16 [int64(int16(c) >> uint64(d))])
-(Rsh16Ux64 (Const16 [c]) (Const64 [d])) -> (Const16 [int64(uint16(c) >> uint64(d))])
-(Lsh8x64   (Const8  [c]) (Const64 [d])) -> (Const8  [int64(int8(c) << uint64(d))])
-(Rsh8x64   (Const8  [c]) (Const64 [d])) -> (Const8  [int64(int8(c) >> uint64(d))])
-(Rsh8Ux64  (Const8  [c]) (Const64 [d])) -> (Const8  [int64(uint8(c) >> uint64(d))])
+..=64,32,16,8
+(Lsh..x64  (Const.. [c]) (Const64 [d])) -> (Const.. [int64(int..(c) << uint64(d))])
+(Rsh..x64  (Const.. [c]) (Const64 [d])) -> (Const.. [int64(int..(c) >> uint64(d))])
+(Rsh..Ux64 (Const.. [c]) (Const64 [d])) -> (Const.. [int64(uint..(c) >> uint64(d))])
 
-(Lsh64x64  (Const64 [0]) _) -> (Const64 [0])
-(Rsh64x64  (Const64 [0]) _) -> (Const64 [0])
-(Rsh64Ux64 (Const64 [0]) _) -> (Const64 [0])
-(Lsh32x64  (Const32 [0]) _) -> (Const32 [0])
-(Rsh32x64  (Const32 [0]) _) -> (Const32 [0])
-(Rsh32Ux64 (Const32 [0]) _) -> (Const32 [0])
-(Lsh16x64  (Const16 [0]) _) -> (Const16 [0])
-(Rsh16x64  (Const16 [0]) _) -> (Const16 [0])
-(Rsh16Ux64 (Const16 [0]) _) -> (Const16 [0])
-(Lsh8x64   (Const8  [0]) _) -> (Const8  [0])
-(Rsh8x64   (Const8  [0]) _) -> (Const8  [0])
-(Rsh8Ux64  (Const8  [0]) _) -> (Const8  [0])
+(Lsh..x64  (Const.. [0]) _) -> (Const.. [0])
+(Rsh..x64  (Const.. [0]) _) -> (Const.. [0])
+(Rsh..Ux64 (Const.. [0]) _) -> (Const.. [0])
 
 // ((x >> c1) << c2) >> c3 
 (Rsh64Ux64 (Lsh64x64 (Rsh64Ux64 x (Const64 [c1])) (Const64 [c2])) (Const64 [c3])) && c1 >= c2 && c3 >= c2 ->  (Rsh64Ux64 x (Const64 <config.fe.TypeUInt64()> [c1-c2+c3]))
