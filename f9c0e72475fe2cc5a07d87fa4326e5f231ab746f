@@ -16,6 +16,24 @@
       "revId": "f9c0e72475fe2cc5a07d87fa4326e5f231ab746f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71f3bdea_981cf9b2",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-28T20:38:54Z",
+      "side": 1,
+      "message": "Fixed.\n\n(FWIW, nfs was already heap garbage even before PS1: because it might have escaped in the SetFields call, it had to be heap allocated unconditionally.)",
+      "parentUuid": "f16b2d2f_06089c7d",
+      "revId": "f9c0e72475fe2cc5a07d87fa4326e5f231ab746f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
