@@ -56,7 +56,7 @@ import (
 //
 // Struct values encode as JSON objects. Each exported struct field
 // becomes a member of the object unless
-//   - the field's tag is "-", or
+//   - the field's tag is exactly "-", or
 //   - the field is empty and its tag specifies the "omitempty" option.
 // The empty values are false, 0, any
 // nil pointer or interface value, and any array, slice, map, or string of
@@ -67,6 +67,9 @@ import (
 //
 //   // Field is ignored by this package.
 //   Field int `json:"-"`
+//
+//   // Field appears in JSON as key "-".
+//   Field int `json:"-,"`
 //
 //   // Field appears in JSON as key "myName".
 //   Field int `json:"myName"`
