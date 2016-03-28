@@ -93,6 +93,10 @@ func checkCopyLocksReturnStmt(f *File, rs *ast.ReturnStmt) {
 
 // checkCopyLocksCallExpr detects lock copy in function call
 func checkCopyLocksCallExpr(f *File, ce *ast.CallExpr) {
+	if id, ok := ce.Fun.(*ast.Ident); ok && id.Name == "new" {
+		// skip 'new(Type)'.
+		return
+	}
 	for _, x := range ce.Args {
 		if path := lockPathRhs(f, x); path != nil {
 			f.Badf(x.Pos(), "function call copies lock value: %v", path)

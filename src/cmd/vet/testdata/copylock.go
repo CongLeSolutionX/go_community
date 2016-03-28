@@ -22,6 +22,12 @@ func OkFunc() {
 			once: sync.Once{},
 		},
 	}
+
+	nl := new(sync.Mutex)
+	mx := make([]sync.Mutex, 10)
+	xx := struct{ L *sync.Mutex }{
+		L: new(sync.Mutex),
+	}
 }
 
 type Tlock struct {
