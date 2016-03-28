@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "f16b2d2f_83139eef",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-28T10:56:08Z",
+      "side": 1,
+      "message": "it looks like Seenglobl and Onlist are psuedonyms. Maybe one can be removed.",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 19
+      },
+      "revId": "2844bdb005ffaa9e100d7ca53f71b374d941621f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51acf9b4_5e9af53d",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 2
