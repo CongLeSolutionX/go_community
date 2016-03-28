@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f16b2d2f_a647c898",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-28T20:50:11Z",
+      "side": 1,
+      "message": "what\u0027s wrong with\n\nnfs \u003d append(nfs, fields...)",
+      "revId": "7de9a7748922ef871b9275cb308d79fd58ca79c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f16b2d2f_c654c448",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-03-28T20:50:11Z",
+      "side": 1,
+      "message": "would\n\nif len(nfs) \u003e 0 {\n\nbe more robust ?",
+      "revId": "7de9a7748922ef871b9275cb308d79fd58ca79c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
