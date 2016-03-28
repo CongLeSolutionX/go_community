@@ -166,9 +166,9 @@ type Field struct {
 	Sym   *Sym
 	Nname *Node
 
-	Type  *Type   // field type
-	Width int64   // TODO(mdempsky): Rename to offset.
-	Note  *string // literal string annotation
+	Type   *Type // field type
+	Offset int64
+	Note   *string // literal string annotation
 }
 
 // Fields is a pointer to a slice of *Field.
@@ -226,7 +226,7 @@ func typ(et EType) *Type {
 
 func newField() *Field {
 	return &Field{
-		Width: BADWIDTH,
+		Offset: BADWIDTH,
 	}
 }
 
@@ -672,7 +672,7 @@ func (t *Type) FieldType(i int) ssa.Type {
 	return t.Field(i).Type
 }
 func (t *Type) FieldOff(i int) int64 {
-	return t.Field(i).Width
+	return t.Field(i).Offset
 }
 
 func (t *Type) NumElem() int64 {
