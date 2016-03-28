@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f16b2d2f_6607906c",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-28T19:47:30Z",
+      "side": 1,
+      "message": "rename BADWIDTH too? And the all cap too? BadOffset?",
+      "revId": "b7661154db80dd2f29647991c8991e71c629d4aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
