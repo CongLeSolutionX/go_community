@@ -622,6 +622,10 @@ func (t *Type) IsComplex() bool {
 }
 
 func (t *Type) IsPtr() bool {
+	return t.Etype == TPTR32 || t.Etype == TPTR64
+}
+
+func (t *Type) IsPtrShaped() bool {
 	return t.Etype == TPTR32 || t.Etype == TPTR64 || t.Etype == TUNSAFEPTR ||
 		t.Etype == TMAP || t.Etype == TCHAN || t.Etype == TFUNC
 }
