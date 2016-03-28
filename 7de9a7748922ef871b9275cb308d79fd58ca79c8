@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "71f3bdea_d8060141",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-28T21:06:30Z",
+      "side": 1,
+      "message": "Nothing technically.  I think this way makes it clearer that this is a slice copy operation and not an append operation.",
+      "parentUuid": "f16b2d2f_a647c898",
+      "revId": "7de9a7748922ef871b9275cb308d79fd58ca79c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f16b2d2f_c654c448",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-28T20:50:11Z",
       "side": 1,
       "message": "would\n\nif len(nfs) \u003e 0 {\n\nbe more robust ?",
+      "revId": "7de9a7748922ef871b9275cb308d79fd58ca79c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71f3bdea_b8fb3d5f",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-28T21:06:30Z",
+      "side": 1,
+      "message": "I don\u0027t think so.  It\u0027s impossible for (len(nfs) \u003e 0) !\u003d (nfs !\u003d nil) here.  It also matches the condition used inside the loop above.",
+      "parentUuid": "f16b2d2f_c654c448",
       "revId": "7de9a7748922ef871b9275cb308d79fd58ca79c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
