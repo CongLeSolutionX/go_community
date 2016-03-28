@@ -503,8 +503,7 @@ func (p *exporter) typ(t *Type) {
 	// otherwise we have a type literal
 	switch t.Etype {
 	case TARRAY:
-		// TODO(gri) define named constant for the -100
-		if t.Bound >= 0 || t.Bound == -100 {
+		if t.Bound >= 0 || t.isDDDArray() {
 			p.tag(arrayTag)
 			p.int64(t.Bound)
 		} else {
