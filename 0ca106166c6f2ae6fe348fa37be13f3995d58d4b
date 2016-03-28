@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51acf9b4_fe6541ea",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-28T11:35:04Z",
+      "side": 1,
+      "message": "Maybe we can remove this part + Seenglobl completely,\nsince Onlist check will trigger anyway and this here only prints on Stdout...",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 22
+      },
+      "revId": "0ca106166c6f2ae6fe348fa37be13f3995d58d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
