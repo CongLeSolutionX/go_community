@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51acf9b4_7ee3711b",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912111e5_a8a69bd0",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "912111e5_88a3d7c0",
         "filename": "src/cmd/vet/print.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-25T21:57:07Z",
       "side": 1,
       "message": "Invert this test for consistency and the usual Go style. If !ok, return error",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_3eede904",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912111e5_88a3d7c0",
       "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "51acf9b4_1eea2ded",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912111e5_e8b09307",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "912111e5_c8adcfad",
         "filename": "src/cmd/vet/print.go",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-03-25T21:57:07Z",
       "side": 1,
       "message": "s/string/string constant/",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_deba8504",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912111e5_c8adcfad",
       "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b1c4557e_797a678b",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:46:47Z",
+      "side": 1,
+      "message": "These doesn\u0027t fail with go tip, but did fail with the previous version of this CL. So I added these tests here.",
+      "parentUuid": "912111e5_48a27fc0",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "912111e5_689dc386",
         "filename": "src/cmd/vet/testdata/print.go",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2016-03-25T21:57:07Z",
       "side": 1,
       "message": "It\u0027s confusing that this function has effectively two signatures. please name the two differently. Maybe Printf and Logf.",
+      "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_7eca518d",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "912111e5_689dc386",
       "revId": "680ee89c6b906ada6b1591fba816929f7108cd6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
