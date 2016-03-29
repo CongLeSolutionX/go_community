@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1e40df9_fef23dac",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-29T15:59:38Z",
+      "side": 1,
+      "message": "This seems to preclude some cases of increment by larger than one, not that I would mutilate the matcher much to handle that case but perhaps your increment is always one?",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_159f7626",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -53,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "115281ad_bca1e1bc",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-29T15:59:38Z",
+      "side": 1,
+      "message": "Agreed.  Suppose:\n\nloop:\n   ind \u003d (Phi min nxt), // b\n   if ind \u003c max {          // b\n      if something {      // b.Succs[0] aka b.0\n         w                       //  b.0.0\n      } else {\n         x                       //  b.0.1\n      }\n   } else if coinflip {  //  b.1\n         y                      //  b.1.0\n   } else {\n         z                      //  b.1.1\n   }\n\nw, x, y, z can be arbitrary combinations of break, continue, and fall through.\n\nI suspect you may need to pay the cost of actual loop-finding, together with the code that finds all the must-be-executed blocks of the loop (i.e., the spine).  The loop finder exists, and I coded up must-be-executed for it but then discarded it because loop-invariant-code-motion was not that profitable (there was very little of it).",
+      "parentUuid": "fcab02ee_75fa3a62",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_f5fe2a4f",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -87,6 +128,29 @@
     },
     {
       "key": {
+        "uuid": "f1e40df9_7e462da1",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-29T15:59:38Z",
+      "side": 1,
+      "message": "Can\u0027t this overflow?  E.g., MAXINT- -5 \u003d MININT+4.\n\nIs it guaranteed that (max-min) % inc \u003d\u003d 0 iff\n                                  (max - min - 2**64) % inc \u003d\u003d 0 ?\n\nYes, overflow is a problem, see example worked in int8:\nhttp://play.golang.org/p/R084HtVlbN",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 29
+      },
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_55457e3c",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -115,6 +179,24 @@
       "writtenOn": "2016-03-24T21:43:20Z",
       "side": 1,
       "message": "How does this fail if the Fatal is left in here?  It seems impossible to me.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1e40df9_7e070d6c",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-29T15:59:38Z",
+      "side": 1,
+      "message": "I have the same question.",
+      "parentUuid": "fcab02ee_751b5a51",
       "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
