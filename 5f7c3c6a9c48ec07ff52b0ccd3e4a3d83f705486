@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f16b2d2f_861d6c4f",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-29T04:32:38Z",
+      "side": 1,
+      "message": "missed a false -\u003e canResuseNode value",
+      "revId": "5f7c3c6a9c48ec07ff52b0ccd3e4a3d83f705486",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
