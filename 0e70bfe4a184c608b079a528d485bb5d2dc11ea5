@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51acf9b4_3e49690d",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f16b2d2f_0685fcfd",
+      "revId": "0e70bfe4a184c608b079a528d485bb5d2dc11ea5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f16b2d2f_e628e0c5",
         "filename": "src/cmd/vet/copylock.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-28T22:56:06Z",
       "side": 1,
       "message": "s/skip/Skip/\n\nprobably should check that this is new in the universe, that is, the predefined new, and explain this better as well.",
+      "revId": "0e70bfe4a184c608b079a528d485bb5d2dc11ea5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_9e075db3",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-03-29T12:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f16b2d2f_e628e0c5",
       "revId": "0e70bfe4a184c608b079a528d485bb5d2dc11ea5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
