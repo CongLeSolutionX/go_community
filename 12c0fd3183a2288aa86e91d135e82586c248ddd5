@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51acf9b4_c1562402",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:10:13Z",
+      "side": 1,
+      "message": "b.Succs[entry].",
+      "revId": "12c0fd3183a2288aa86e91d135e82586c248ddd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
