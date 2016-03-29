@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51acf9b4_a11c38b2",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "So far this is always the case.",
+      "parentUuid": "f1e40df9_fef23dac",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_159f7626",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d1e62928_72e3b81b",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "I tried to fix as much fragility as I could. Please let me know if you spot more so I fix or add TODOs.",
+      "parentUuid": "fcab02ee_159f7626",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_75599a5f",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2016-03-24T21:43:20Z",
       "side": 1,
       "message": "TODO: Less32 for 32-bit archs?",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5177990e_e9ad11ad",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcab02ee_75599a5f",
       "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "31d0653b_db060b41",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "I tried to explain in a comment below. I think your comment misses the second condition: sdom.IsAncestorEq(b.0, nxt). In your example it\u0027s not because you can reach the definition of nxt through b.1.",
+      "parentUuid": "115281ad_bca1e1bc",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_f5fe2a4f",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -111,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "d1e62928_52e0b40c",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcab02ee_f5fe2a4f",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_f5810ac0",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -122,6 +218,24 @@
       "writtenOn": "2016-03-24T21:43:20Z",
       "side": 1,
       "message": "I\u0027m not sure what this condition is doing either.  It seems related somehow to knowing that b.Succs[1] exits the loop, but I don\u0027t see the logic.",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51acf9b4_817a5c88",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "I added comments to explain the logic here.",
+      "parentUuid": "fcab02ee_f5810ac0",
       "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -151,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "b1c4557e_39a50f24",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "Done. Added a test.",
+      "parentUuid": "f1e40df9_7e462da1",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 29
+      },
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcab02ee_55457e3c",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 3
@@ -162,6 +300,24 @@
       "writtenOn": "2016-03-24T21:43:20Z",
       "side": 1,
       "message": "Reusing iv is confusing.  Name the slice ivList?",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3189453b_edc0c568",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcab02ee_55457e3c",
       "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -197,6 +353,24 @@
       "side": 1,
       "message": "I have the same question.",
       "parentUuid": "fcab02ee_751b5a51",
+      "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d0653b_fb01c72a",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-29T22:06:35Z",
+      "side": 1,
+      "message": "I managed to produce a crash with another version but I cannot reproduce now.",
+      "parentUuid": "f1e40df9_7e070d6c",
       "revId": "fdf6a05c4681ff66ea01497aee5ba4fbd70ed630",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
