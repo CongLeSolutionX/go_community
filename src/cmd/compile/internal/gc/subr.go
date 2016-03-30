@@ -583,7 +583,10 @@ func Istype(t *Type, et EType) bool {
 }
 
 func Isfixedarray(t *Type) bool {
-	return t != nil && t.IsArray()
+	if t == nil {
+		panic("impossible")
+	}
+	return t.IsArray()
 }
 
 func Isslice(t *Type) bool {
