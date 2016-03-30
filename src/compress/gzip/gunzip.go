@@ -258,20 +258,18 @@ func (z *Reader) readHeader(save bool) error {
 	return nil
 }
 
-func (z *Reader) Read(p []byte) (n int, err error) {
+func (z *Reader) Read(p []byte) (int, error) {
 	if z.err != nil {
 		return 0, z.err
 	}
-	if len(p) == 0 {
-		return 0, nil
-	}
 
-	n, err = z.decompressor.Read(p)
+	var n int
+	n, z.err = z.decompressor.Read(p)
 	z.digest.Write(p[0:n])
 	z.size += uint32(n)
-	if n != 0 || err != io.EOF {
-		z.err = err
-		return
+	if z.err != io.EOF {
+		// In the normal case we return here.
+		return n, z.err
 	}
 
 	// Finished file; check checksum + size.
@@ -280,28 +278,31 @@ func (z *Reader) Read(p []byte) (n int, err error) {
 			err = io.ErrUnexpectedEOF
 		}
 		z.err = err
-		return 0, err
+		return n, z.err
 	}
 	crc32, isize := get4(z.buf[0:4]), get4(z.buf[4:8])
 	sum := z.digest.Sum32()
 	if sum != crc32 || isize != z.size {
 		z.err = ErrChecksum
-		return 0, z.err
+		return n, z.err
 	}
+	z.digest.Reset()
+	z.size = 0
 
 	// File is ok; is there another?
 	if !z.multistream {
-		return 0, io.EOF
+		return n, z.err
 	}
+	z.err = nil // Remove io.EOF
 
-	if err = z.readHeader(false); err != nil {
-		z.err = err
-		return
+	if z.err = z.readHeader(false); z.err != nil {
+		return n, z.err
 	}
 
 	// Yes. Reset and read from it.
-	z.digest.Reset()
-	z.size = 0
+	if n > 0 {
+		return n, z.err
+	}
 	return z.Read(p)
 }
 
