@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51acf9b4_613e30be",
+        "filename": "src/cmd/compile/internal/gc/testdata/strength_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-30T00:40:32Z",
+      "side": 1,
+      "message": "What about:\nfunc testMultiplication(r, s [100]int64, t int64) {\n\tfor i :\u003d 0; i \u003c len(r); i++ {\n\t\tif want, got :\u003d r[i], s[i]*t; want !\u003d got {\n\t\t\tfailed \u003d true\n\t\t\tfmt.Printf(\"got %d * %d \u003d\u003d %d, wanted %d\\n\", t, s[i], got, want)\n\t\t}\n\t}\n}\n\nfunc main() {\n\tvar r, s [100]int64\n\tt :\u003d 15\n\tfor i, j :\u003d 0; i \u003c len(r); i, j \u003d i+1, j+t {\n\t\ts[i] \u003d int64(i)\n\t\tr[i] \u003d int64(j)\n\t}\n\ttestMultiplication(r, s, int64(t))\n\tif failed {\n\t\tpanic(\"failed multiplication\")\n\t}\n}",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 1
+      },
+      "revId": "1265e94ecb4ee48fa2181023fff87eef55d044eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
