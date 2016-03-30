@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_1914efd6",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-30T19:19:26Z",
+      "side": 1,
+      "message": "I\u0027ve been working in gc so long, I\u0027m not sure the idiomatic way to comment a case statement anymore.  I\u0027ve generally been trying to clean up these comments as I go to more like:\n\n    case X:\n        // blah\n        blah\n\nIs this way better?  (I don\u0027t care, just want to make sure we\u0027re converging towards something long term.)",
+      "revId": "cce1e61595831ecfd0d64338531c5abd80590703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_99ce3faa",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-03-30T19:19:26Z",
+      "side": 1,
+      "message": "nit: Go spec calls it element type.\n\nMaybe \"element (aka value) type v\".",
+      "range": {
+        "startLine": 270,
+        "startChar": 53,
+        "endLine": 270,
+        "endChar": 58
+      },
+      "revId": "cce1e61595831ecfd0d64338531c5abd80590703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
