@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_cac0d39f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T23:45:43Z",
+      "side": 1,
+      "message": "Re-reading this, one comment to make sure we\u0027re on the same page. (I think we are, I just want to make sure.)\n\nThe compiler shouldn\u0027t panic for any input, valid or not. For invalid input it should give maximally helpful error messages, which sometimes means multiple error messages. So attempting to typecheck the rest of the package is frequently desirable.",
+      "revId": "1624a9c9e79c1c5dd9a4e69c359c98838c3eb6f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
