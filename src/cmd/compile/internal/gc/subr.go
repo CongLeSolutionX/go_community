@@ -382,11 +382,11 @@ func maptype(key *Type, val *Type) *Type {
 				Yyerror("invalid map key type %v", key)
 			}
 
-			// will be resolved later.
+		// will be resolved later.
 		case TANY:
 			break
 
-			// map[key] used during definition of key.
+		// map[key] used during definition of key.
 		// postpone check until key is fully defined.
 		// if there are multiple uses of map[key]
 		// before key is fully defined, the error
@@ -399,10 +399,7 @@ func maptype(key *Type, val *Type) *Type {
 		}
 	}
 
-	t := typ(TMAP)
-	t.Down = key
-	t.Type = val
-	return t
+	return typMap(key, val)
 }
 
 // methcmp sorts by symbol, then by package path for unexported symbols.
