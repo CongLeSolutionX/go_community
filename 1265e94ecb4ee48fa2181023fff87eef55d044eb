@@ -46,6 +46,30 @@
       "revId": "1265e94ecb4ee48fa2181023fff87eef55d044eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1da95a7_69f6e5a3",
+        "filename": "src/cmd/compile/internal/gc/testdata/strength_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2016-03-30T11:20:18Z",
+      "side": 1,
+      "message": "Sorry. Yeah, totally missed the point. Never mind.",
+      "parentUuid": "51acf9b4_814c9c47",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 1
+      },
+      "revId": "1265e94ecb4ee48fa2181023fff87eef55d044eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
