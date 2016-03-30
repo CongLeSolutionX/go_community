@@ -16,6 +16,24 @@
       "revId": "f752f28f763f9c3a85cb620d58071d2eb2dc2902",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ed7d37_c26d4494",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-30T08:14:09Z",
+      "side": 1,
+      "message": "Returning (n, nil).\n\nPersonally, I\u0027d vote against deferring readHeader till later just because I think it complicates gunzip slightly and I don\u0027t see too much value in it. If there is another GZIP stream, most likely, the user intends to read from it too.\n\nBut if we want to defer readHeader, perhaps that can be a separate CL? This one is targeted towards just fixing the error handling.",
+      "parentUuid": "115281ad_7c1b5959",
+      "revId": "f752f28f763f9c3a85cb620d58071d2eb2dc2902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
