@@ -16,6 +16,24 @@
       "revId": "85c514265ca6f112fbc870725fd4674605ceb575",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_ff06336e",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3476,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T21:13:57Z",
+      "side": 1,
+      "message": "This is a big enough CL that I really want it to pass toolstash (on all architectures!), which it now does.\n\nI\u0027d actually rather leave it alone entirely and wait for SSA to fix our problems (why take risks in the meantime?), but if you want to switch it, I won\u0027t stand in the way.",
+      "parentUuid": "51795972_7fc5c355",
+      "revId": "85c514265ca6f112fbc870725fd4674605ceb575",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
