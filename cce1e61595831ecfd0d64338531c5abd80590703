@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51795972_5ced7503",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T21:05:22Z",
+      "side": 1,
+      "message": "I don\u0027t have much of an opinion. I just care about the mismatched indentation. Your way seems fine; switched this instance.",
+      "parentUuid": "51795972_1914efd6",
+      "revId": "cce1e61595831ecfd0d64338531c5abd80590703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51795972_99ce3faa",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-03-30T19:19:26Z",
       "side": 1,
       "message": "nit: Go spec calls it element type.\n\nMaybe \"element (aka value) type v\".",
+      "range": {
+        "startLine": 270,
+        "startChar": 53,
+        "endLine": 270,
+        "endChar": 58
+      },
+      "revId": "cce1e61595831ecfd0d64338531c5abd80590703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_9cb54d16",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T21:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51795972_99ce3faa",
       "range": {
         "startLine": 270,
         "startChar": 53,
