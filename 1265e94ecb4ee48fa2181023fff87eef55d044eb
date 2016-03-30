@@ -118,6 +118,30 @@
       "revId": "1265e94ecb4ee48fa2181023fff87eef55d044eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912d9179_a80c7b92",
+        "filename": "src/cmd/compile/internal/gc/testdata/strength_ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-03-30T17:37:49Z",
+      "side": 1,
+      "message": "The test is for constant multiplications,\nand the test generator will use variable\nmultiplications.\n\nIn the worse case, we can use adding\nbased multiplication in the test generator.",
+      "parentUuid": "11ac4106_2c16b370",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 417,
+        "endChar": 1
+      },
+      "revId": "1265e94ecb4ee48fa2181023fff87eef55d044eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
