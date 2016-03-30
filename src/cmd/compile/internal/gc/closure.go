@@ -397,10 +397,27 @@ func transformclosure(xfunc *Node) {
 	lineno = lno
 }
 
+func hasemptycvars(func_ *Node) bool {
+	for _, v := range func_.Func.Cvars.Slice() {
+		if v.Op == OXXX {
+			continue
+		}
+		return false
+	}
+	return true
+}
+
 func walkclosure(func_ *Node, init *Nodes) *Node {
 	// If no closure vars, don't bother wrapping.
-	if len(func_.Func.Cvars.Slice()) == 0 {
+	if hasemptycvars(func_) {
+		if Debug_closure > 0 {
+			Warnl(func_.Lineno, "closure converted to global")
+		}
 		return func_.Func.Closure.Func.Nname
+	} else {
+		if Debug_closure > 0 {
+			Warnl(func_.Lineno, "closure remains, captured vars = %v", func_.Func.Cvars)
+		}
 	}
 
 	// Create closure in the form of a composite literal.

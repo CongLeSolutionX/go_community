@@ -1891,7 +1891,7 @@ func escwalkBody(e *EscState, level Level, dst *Node, src *Node, step *EscStep, 
 		OCONVIFACE:
 		if leaks {
 			src.Esc = EscHeap
-			if Debug['m'] != 0 && osrcesc != src.Esc {
+			if (Debug['m'] != 0 || Debug_closure > 0 && src.Op == OCLOSURE) && osrcesc != src.Esc {
 				Warnl(src.Lineno, "%v escapes to heap", Nconv(src, FmtShort))
 				step.describe(src)
 			}
