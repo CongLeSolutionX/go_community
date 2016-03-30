@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_3c48b9a9",
+        "filename": "src/hash/crc64/crc64_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T19:41:59Z",
+      "side": 1,
+      "message": "MakeTable for both only needs to be done once.\n\nJust add another global variable for ECMA?\n\nOr two variables before the for loop.",
+      "revId": "b6ec42cd7043f8f4723ecd11c44d449bfe9439c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

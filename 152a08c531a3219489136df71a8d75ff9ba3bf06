@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_5c557540",
+        "filename": "src/hash/crc64/crc64_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T19:41:59Z",
+      "side": 0,
+      "message": "rename to tabISO and add tabECMA?",
+      "revId": "152a08c531a3219489136df71a8d75ff9ba3bf06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
