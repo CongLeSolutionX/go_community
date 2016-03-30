@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_df8ed720",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T21:40:34Z",
+      "side": 1,
+      "message": "Add IsString and use it here? (Separate CL ok.)",
+      "revId": "abcac3c14ca185a45c723835536236dd8ae716bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_5ff9e769",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T21:40:34Z",
+      "side": 1,
+      "message": "IsStruct? (Separate CL ok.)",
+      "revId": "abcac3c14ca185a45c723835536236dd8ae716bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_9f01bf2c",
+        "filename": "src/cmd/compile/internal/gc/range.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-03-30T21:40:34Z",
+      "side": 1,
+      "message": "IsPtr(). You know. :)",
+      "revId": "abcac3c14ca185a45c723835536236dd8ae716bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
