@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b16e1579_e93555bb",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-30T10:28:28Z",
+      "side": 1,
+      "message": "Just a suggestion: swap the order in the code of the fwdBy8 and fwdBy1 blocks, and this becomes\nJEQ fwdBy8\nthe point of that being you then don\u0027t need a fwdBy1 label at all, as you can just fall through.",
+      "revId": "fb2d3e90360e489ea12af98f4ca597399c8be3bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b16e1579_c95731d7",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-30T10:28:28Z",
+      "side": 1,
+      "message": "Does asm_386.s need updating? Does memmove_386.s need updating?",
+      "revId": "fb2d3e90360e489ea12af98f4ca597399c8be3bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
