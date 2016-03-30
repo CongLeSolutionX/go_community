@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "71ed7d37_02528ce6",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-03-30T07:23:02Z",
+      "side": 1,
+      "message": "Meant to say:\n\nIf this is non-multistream, there is not problem here since we returned above at L294.\n\nIf this is multistream, we have to do readHeader. It will tell us either:\n1) There are no more streams, by returning io.EOF. In which case, the error is sticky and we won\u0027t go through the process again (even if someone called Read again).\n2) There is another stream, in which we would need to keep reading data.\n\nNo more and no less calls to readHeader are done than absolutely necessary.",
+      "parentUuid": "71ed7d37_822fbc64",
+      "revId": "8d75401ede77232eb1245400c7d3be476cdb1655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71ed7d37_c209c414",
         "filename": "src/compress/gzip/gunzip.go",
         "patchSetId": 1
