@@ -1132,7 +1132,9 @@ func gcDumpObject(label string, obj, off uintptr) {
 	}
 }
 
-// If gcBlackenPromptly is true we are in the second mark phase phase so we allocate black.
+// gcmarknewobject_m marks a newly allocated object black. obj must
+// not contain any non-nil pointers.
+//
 //go:nowritebarrier
 func gcmarknewobject_m(obj, size uintptr) {
 	if useCheckmark && !gcBlackenPromptly { // The world should be stopped so this should not happen.
