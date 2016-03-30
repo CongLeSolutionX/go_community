@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "115281ad_7c1b5959",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T07:43:29Z",
+      "side": 1,
+      "message": "if n \u003e 0 here, I\u0027d prefer to return (n, nil) before doing the next readHeader.\n\nCan\u0027t we just track that the next Read call needs to do readHeader?",
+      "revId": "f752f28f763f9c3a85cb620d58071d2eb2dc2902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
