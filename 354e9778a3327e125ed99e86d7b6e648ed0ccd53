@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ed7d37_02044cf6",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T06:55:57Z",
+      "side": 0,
+      "message": "Are you sure this is right? Isn\u0027t this what\u0027s preventing one Read from doing two underlying Reads?",
+      "revId": "354e9778a3327e125ed99e86d7b6e648ed0ccd53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

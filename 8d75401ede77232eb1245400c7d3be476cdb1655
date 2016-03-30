@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ed7d37_82017cee",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T06:55:57Z",
+      "side": 1,
+      "message": "I\u0027d keep the named return parameters. They\u0027re conventional.\n\nBut I\u0027d 100% agree with your decision to not use naked returns. This function is way too long for naked returns.",
+      "revId": "8d75401ede77232eb1245400c7d3be476cdb1655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ed7d37_62fef813",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T06:55:57Z",
+      "side": 1,
+      "message": "or just err",
+      "revId": "8d75401ede77232eb1245400c7d3be476cdb1655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ed7d37_a20e4018",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T06:55:57Z",
+      "side": 1,
+      "message": "I thought io.EOF was a bit more clear, but this is fine too for consistency. Maybe a comment: // z.err is io.EOF",
+      "revId": "8d75401ede77232eb1245400c7d3be476cdb1655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ed7d37_221b505a",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T06:55:57Z",
+      "side": 1,
+      "message": "Aren\u0027t you now doing more underlying Reads than you were before?",
+      "revId": "8d75401ede77232eb1245400c7d3be476cdb1655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ed7d37_c209c414",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T06:55:57Z",
+      "side": 1,
+      "message": "this \"Yes.\" is pretty far away from its question, if 292 is its question.\n\nRewrite?",
+      "revId": "8d75401ede77232eb1245400c7d3be476cdb1655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
