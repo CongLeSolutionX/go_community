@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4efc542b_5e895517",
+        "filename": "src/runtime/memmove_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-03-30T23:50:34Z",
+      "side": 1,
+      "message": "FWIW, the memmove_amd64.s code has a \"// Do 1 byte at a time\" comment here, and ditto below for \"8 bytes\".",
+      "revId": "76bdfe1c034c38eb7d87e675e9e16d17dfd38fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
