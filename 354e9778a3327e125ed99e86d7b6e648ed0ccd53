@@ -34,6 +34,24 @@
       "revId": "354e9778a3327e125ed99e86d7b6e648ed0ccd53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "115281ad_5c1e9d4a",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-30T07:43:29Z",
+      "side": 0,
+      "message": "Okay, I follow again.",
+      "parentUuid": "71ed7d37_2222307e",
+      "revId": "354e9778a3327e125ed99e86d7b6e648ed0ccd53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
