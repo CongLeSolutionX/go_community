@@ -117,7 +117,7 @@ func algtype1(t *Type, bad **Type) int {
 			return ANOEQ
 		}
 
-		switch t.Bound {
+		switch t.NumElem() {
 		case 0:
 			// We checked above that the element type is comparable.
 			return AMEM
