@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee00a8f1_bb8187ee",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-03-31T09:34:18Z",
+      "side": 1,
+      "message": "If avoidDNS() is called with name being just \"onion\" or \"local\", then this returns true?  Perhaps that can\u0027t happen.  If it can, then some test cases would aid the reader as to the intent.",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 13
+      },
+      "revId": "e09d4f0c72f56f819b237448492de57e259138de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
