@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "912d9179_6ba43d77",
+        "filename": "src/cmd/compile/internal/ssa/stackalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-03-31T21:06:18Z",
+      "side": 1,
+      "message": "Is there any risk of Foo and Foo.Real/Foo.Imag coming into conflict?",
+      "range": {
+        "startLine": 190,
+        "startChar": 16,
+        "endLine": 190,
+        "endChar": 78
+      },
+      "revId": "17f170aae773714129a0cdbb1bee294bfd7149af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
