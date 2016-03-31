@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51795972_dd06dc40",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T18:17:26Z",
+      "side": 1,
+      "message": "Just a bit cheaper.  ID is only 32 bits and it isn\u0027t a pointer.\nWe could change pair to use IDs instead.",
+      "parentUuid": "4e25349f_16029c2c",
+      "revId": "a8dcebce13bc18ec658cabdb921b924b85a328c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e1fbc56_d4f2dc47",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-31T10:24:22Z",
       "side": 1,
       "message": "Why is this here? Can you move it to value.go? It\u0027s useful in other places, too.",
+      "revId": "a8dcebce13bc18ec658cabdb921b924b85a328c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_9d570431",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T18:17:26Z",
+      "side": 1,
+      "message": "I could move it.  My only worry is that it is really \"isGenericIntConst\", as it doesn\u0027t handle other constants (float, ptr, interface, ...) and it doesn\u0027t handle arch-specific constants (MOVQconst and friends).  So I\u0027m not sure we should promote it widely.  What do you think?",
+      "parentUuid": "0e1fbc56_d4f2dc47",
       "revId": "a8dcebce13bc18ec658cabdb921b924b85a328c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2016-03-31T10:24:22Z",
       "side": 1,
       "message": "why not old \u003d\u003d checkpointBound ?",
+      "revId": "a8dcebce13bc18ec658cabdb921b924b85a328c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_7df9486a",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T18:17:26Z",
+      "side": 1,
+      "message": "Cheaper just to check the vid.  No need to check all of min,max,umin,umax also.",
+      "parentUuid": "0e1fbc56_140a9403",
       "revId": "a8dcebce13bc18ec658cabdb921b924b85a328c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
