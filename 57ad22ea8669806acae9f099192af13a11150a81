@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e25349f_b6f528e1",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-31T20:42:34Z",
+      "side": 1,
+      "message": "No, it tests len(s) \u003e i so the first successor means i \u003c len(s). The indexes are inverted below. There is a test for this, too. I guess I could simplify this.",
+      "parentUuid": "912d9179_8b01712c",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "57ad22ea8669806acae9f099192af13a11150a81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "912d9179_ab06353f",
         "filename": "src/cmd/compile/internal/ssa/loopbce.go",
         "patchSetId": 5
