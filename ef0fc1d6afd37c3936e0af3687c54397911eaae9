@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_b665bdeb",
+        "filename": "src/cmd/compile/internal/ssa/likelyadjust.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "I have no idea what that comment means.",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_36c9adcf",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "Will val always be spill.Args[0]?",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_f6565501",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "Add a g",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_9648c159",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "We don\u0027t care about single-exit any more, do we?",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_56f46932",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "\"spill not already used (in the loop)\" may be a more precise description.\nAnd mention that it is equivalent to \"in a register at all loop exits\".",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_d6d959a5",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "I think we need an additional comment here.\nThese new stores will have no SSA uses.  All of the users of the spill will still end up pointing to the old spill, which is now no longer in any block.  Do I have that correct?  It creeps me out a bit.  We have something similar with registers (see the bottom two paragraphs of the comment at the top of this file), but this is worse as there\u0027s a value totally in limbo.  How does stackalloc handle this situation?",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_16bbd137",
+        "filename": "src/cmd/compile/internal/ssa/sparsemap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T23:08:46Z",
+      "side": 1,
+      "message": "Still used?",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
