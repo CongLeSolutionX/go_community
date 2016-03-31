@@ -343,6 +343,10 @@ func stringsHasSuffix(s, suffix string) bool {
 	return len(s) >= len(suffix) && s[len(s)-len(suffix):] == suffix
 }
 
+func stringsEqualFold(a, b string) bool {
+	return len(a) == len(b) && stringsHasSuffixFold(a, b)
+}
+
 // stringsHasSuffixFold reports whether s ends in suffix,
 // ASCII-case-insensitively.
 func stringsHasSuffixFold(s, suffix string) bool {
