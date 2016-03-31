@@ -433,7 +433,7 @@ func staticassign(l *Node, r *Node, out *[]*Node) bool {
 		initplan(r)
 		if r.Type.IsSlice() {
 			// Init slice.
-			bound := r.Right.Val().U.(*Mpint).Int64()
+			bound := r.Right.Int()
 			ta := typArray(r.Type.Elem(), bound)
 			a := staticname(ta, 1)
 			inittemps[r] = a
@@ -685,7 +685,7 @@ func arraylit(ctxt int, pass int, n *Node, var_ *Node, init *Nodes) {
 func slicelit(ctxt int, n *Node, var_ *Node, init *Nodes) {
 	// make an array type
 	t := n.Type.Copy()
-	t.Bound = n.Right.Val().U.(*Mpint).Int64()
+	t.Bound = n.Right.Int()
 	t.Width = 0
 	t.Sym = nil
 	t.Haspointers = 0
@@ -1170,7 +1170,7 @@ func oaslit(n *Node, init *Nodes) bool {
 
 func getlit(lit *Node) int {
 	if Smallintconst(lit) {
-		return int(lit.Val().U.(*Mpint).Int64())
+		return int(lit.Int())
 	}
 	return -1
 }
@@ -1233,7 +1233,7 @@ func initplan(n *Node) {
 			if a.Op != OKEY || !Smallintconst(a.Left) {
 				Fatalf("initplan arraylit")
 			}
-			addvalue(p, n.Type.Elem().Width*a.Left.Val().U.(*Mpint).Int64(), a.Right)
+			addvalue(p, n.Type.Elem().Width*a.Left.Int(), a.Right)
 		}
 
 	case OSTRUCTLIT:
