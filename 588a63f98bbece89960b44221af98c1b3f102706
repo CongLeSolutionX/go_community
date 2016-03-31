@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_1033dcee",
+        "filename": "test/fixedbugs/issue8613.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T05:32:31Z",
+      "side": 1,
+      "message": "It might be clearer to just read v from a global which is set to 0.",
+      "revId": "588a63f98bbece89960b44221af98c1b3f102706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_f02d8089",
+        "filename": "test/fixedbugs/issue8613.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-03-31T05:32:31Z",
+      "side": 1,
+      "message": "It\u0027s \"go:noinline\".",
+      "revId": "588a63f98bbece89960b44221af98c1b3f102706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
