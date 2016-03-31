@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51795972_f619f513",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-03-31T23:19:46Z",
+      "side": 1,
+      "message": "this looks like a typo if it doesn\u0027t appear right next to line 69",
+      "revId": "4c90efe56ec694833a6054464991dca54fccae16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
