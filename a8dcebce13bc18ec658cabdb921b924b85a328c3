@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0e1fbc56_57100e37",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-03-31T18:20:43Z",
+      "side": 1,
+      "message": "In a few places in #20517 I use \u003d\u003d OpConst64, but I would actually use isGenericIntConst instead.",
+      "parentUuid": "51795972_9d570431",
+      "revId": "a8dcebce13bc18ec658cabdb921b924b85a328c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e0e782a_37e478c4",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 2
