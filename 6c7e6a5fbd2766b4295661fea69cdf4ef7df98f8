@@ -33,6 +33,24 @@
       "revId": "6c7e6a5fbd2766b4295661fea69cdf4ef7df98f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_112e7b85",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3097,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-01T00:47:15Z",
+      "side": 1,
+      "message": "Yes, but we have a rule in the codebase: we only use shifts of \u003c\u003c10 (KB), \u003c\u003c20 (MB), \u003c\u003c30 (GB), etc.",
+      "parentUuid": "51795972_30e3781c",
+      "revId": "6c7e6a5fbd2766b4295661fea69cdf4ef7df98f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
