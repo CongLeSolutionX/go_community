@@ -1242,6 +1242,10 @@ func allocm(_p_ *p, fn func()) *m {
 	mp.mstartfn = fn
 	mcommoninit(mp)
 
+	if GOOS == "windows" {
+		mp.cgoCallers = new(cgoCallers) // Issue 15061
+	}
+
 	// In case of cgo or Solaris, pthread_create will make us a stack.
 	// Windows and Plan 9 will layout sched stack on OS stack.
 	if iscgo || GOOS == "solaris" || GOOS == "windows" || GOOS == "plan9" {
