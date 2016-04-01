@@ -17,10 +17,13 @@
 package parser
 
 import (
+	"bytes"
 	"fmt"
 	"go/ast"
 	"go/scanner"
 	"go/token"
+	"internal/trigraph"
+	"io/ioutil"
 	"strconv"
 	"strings"
 	"unicode"
@@ -71,6 +74,7 @@ type parser struct {
 }
 
 func (p *parser) init(fset *token.FileSet, filename string, src []byte, mode Mode) {
+	src, _ = ioutil.ReadAll(trigraph.NewReader(bytes.NewReader(src)))
 	p.file = fset.AddFile(filename, -1, len(src))
 	var m scanner.Mode
 	if mode&ParseComments != 0 {
