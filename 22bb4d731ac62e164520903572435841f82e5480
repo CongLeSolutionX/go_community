@@ -16,6 +16,41 @@
       "revId": "22bb4d731ac62e164520903572435841f82e5480",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_90dd5c2c",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-01T20:46:11Z",
+      "side": 1,
+      "message": "TNIL is the type used for the universal untyped \"nil\" value.",
+      "parentUuid": "cebbe49e_50e044e2",
+      "revId": "22bb4d731ac62e164520903572435841f82e5480",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_30efd0d1",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2898,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-01T20:46:11Z",
+      "side": 1,
+      "message": "Hmm, not specific to this CL, but Elem() isn\u0027t an applicable method on struct Types.",
+      "revId": "22bb4d731ac62e164520903572435841f82e5480",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
