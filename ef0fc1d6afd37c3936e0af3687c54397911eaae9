@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "51795972_6c2fd4ce",
+        "filename": "src/cmd/compile/internal/ssa/likelyadjust.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-01T03:04:42Z",
+      "side": 1,
+      "message": "Ok, then the \"has\" confused me.  How about computedChildren, childrenInitialized, ...",
+      "parentUuid": "912d9179_ebf10d46",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51795972_36c9adcf",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I was unsure of that after register allocation, and so I recorded it here.  There are not very many of these.",
       "parentUuid": "51795972_36c9adcf",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_cc846804",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-01T03:04:42Z",
+      "side": 1,
+      "message": "True, but it\u0027s not the space, it\u0027s the code understanding.\nYou could replace this field with a comment and change the uses to spill.Args[0] (or even a method on spillToSink).",
+      "parentUuid": "912d9179_0bf74139",
       "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -170,6 +206,24 @@
       "side": 1,
       "message": "You mean, what does stackalloc do for tying uses to defs, or how does it react to this mutilated input?  This runs *after* stackalloc, that was what caused me to realize that I didn\u0027t have to think about single vs multiple spill sites being fed to stackalloc.",
       "parentUuid": "51795972_d6d959a5",
+      "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51795972_2c94fc2f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-01T03:04:42Z",
+      "side": 1,
+      "message": "I see then.  It\u0027s ok to keep this, but please document it well.",
+      "parentUuid": "912d9179_6bfefd13",
       "revId": "ef0fc1d6afd37c3936e0af3687c54397911eaae9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
