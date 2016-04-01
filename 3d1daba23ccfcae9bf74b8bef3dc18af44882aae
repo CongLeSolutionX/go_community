@@ -16,6 +16,24 @@
       "revId": "3d1daba23ccfcae9bf74b8bef3dc18af44882aae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce112444_dd5d5f54",
+        "filename": "src/net/port.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 10928
+      },
+      "writtenOn": "2016-04-01T09:31:13Z",
+      "side": 1,
+      "message": "Mikio insists it should be there. I can only speculate that whatever system resolver/parser we\u0027re trying to cheat also parses plus/minus signs.\n\nIf I can persuade you to start the trybots for me, I can remove it and see which tests, if any, fail.\n\nSlight aside: if that is the case, what about scientific notation, hex, floating point etc?",
+      "parentUuid": "51795972_1633d1ee",
+      "revId": "3d1daba23ccfcae9bf74b8bef3dc18af44882aae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
