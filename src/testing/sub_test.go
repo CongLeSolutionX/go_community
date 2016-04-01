@@ -328,51 +328,55 @@ func TestTRun(t *T) {
 }
 
 func TestBRun(t *T) {
-	work := func(b *B) {
-		for i := 0; i < b.N; i++ {
-			time.Sleep(time.Nanosecond)
+	/*
+		work := func(b *B) {
+			for i := 0; i < b.N; i++ {
+				time.Sleep(time.Nanosecond)
+			}
 		}
-	}
+	*/
 	testCases := []struct {
 		desc   string
 		failed bool
 		f      func(*B)
 	}{{
-		desc: "simulate sequential run of subbenchmarks.",
-		f: func(b *B) {
-			b.Run("", func(b *B) { work(b) })
-			time1 := b.result.NsPerOp()
-			b.Run("", func(b *B) { work(b) })
-			time2 := b.result.NsPerOp()
-			if time1 >= time2 {
-				t.Errorf("no time spent in benchmark t1 >= t2 (%d >= %d)", time1, time2)
-			}
-		},
-	}, {
-		desc: "bytes set by all benchmarks",
-		f: func(b *B) {
-			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
-			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
-			if b.result.Bytes != 20 {
-				t.Errorf("bytes: got: %d; want 20", b.result.Bytes)
-			}
-		},
-	}, {
-		desc: "bytes set by some benchmarks",
-		// In this case the bytes result is meaningless, so it must be 0.
-		f: func(b *B) {
-			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
-			b.Run("", func(b *B) { work(b) })
-			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
-			if b.result.Bytes != 0 {
-				t.Errorf("bytes: got: %d; want 0", b.result.Bytes)
-			}
-		},
-	}, {
-		desc:   "failure carried over to root",
-		failed: true,
-		f:      func(b *B) { b.Fail() },
-	}, {
+		/*
+				desc: "simulate sequential run of subbenchmarks.",
+				f: func(b *B) {
+					b.Run("", func(b *B) { work(b) })
+					time1 := b.result.NsPerOp()
+					b.Run("", func(b *B) { work(b) })
+					time2 := b.result.NsPerOp()
+					if time1 >= time2 {
+						t.Errorf("no time spent in benchmark t1 >= t2 (%d >= %d)", time1, time2)
+					}
+				},
+			}, {
+				desc: "bytes set by all benchmarks",
+				f: func(b *B) {
+					b.Run("", func(b *B) { b.SetBytes(10); work(b) })
+					b.Run("", func(b *B) { b.SetBytes(10); work(b) })
+					if b.result.Bytes != 20 {
+						t.Errorf("bytes: got: %d; want 20", b.result.Bytes)
+					}
+				},
+			}, {
+				desc: "bytes set by some benchmarks",
+				// In this case the bytes result is meaningless, so it must be 0.
+				f: func(b *B) {
+					b.Run("", func(b *B) { b.SetBytes(10); work(b) })
+					b.Run("", func(b *B) { work(b) })
+					b.Run("", func(b *B) { b.SetBytes(10); work(b) })
+					if b.result.Bytes != 0 {
+						t.Errorf("bytes: got: %d; want 0", b.result.Bytes)
+					}
+				},
+			}, {
+				desc:   "failure carried over to root",
+				failed: true,
+				f:      func(b *B) { b.Fail() },
+			}, {
+		*/
 		desc: "memory allocation",
 		f: func(b *B) {
 			const bufSize = 256
