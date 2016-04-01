@@ -16,7 +16,7 @@ func (n *Node) IntLiteral() (x int64, ok bool) {
 	case n == nil:
 		return
 	case Isconst(n, CTINT):
-		return n.Int(), true
+		return n.Int64(), true
 	case Isconst(n, CTBOOL):
 		return int64(obj.Bool2int(n.Bool())), true
 	}
@@ -25,7 +25,7 @@ func (n *Node) IntLiteral() (x int64, ok bool) {
 
 // Int returns n as an int.
 // n must be an integer constant.
-func (n *Node) Int() int64 {
+func (n *Node) Int64() int64 {
 	if !Isconst(n, CTINT) {
 		Fatalf("Int(%v)", n)
 	}
@@ -1455,7 +1455,7 @@ func nonnegconst(n *Node) int {
 			if n.Val().U.(*Mpint).Cmp(Minintval[TUINT32]) < 0 || n.Val().U.(*Mpint).Cmp(Maxintval[TINT32]) > 0 {
 				break
 			}
-			return int(n.Int())
+			return int(n.Int64())
 		}
 	}
 
@@ -1510,7 +1510,7 @@ func (n *Node) Convconst(con *Node, t *Type) {
 			Fatalf("convconst ctype=%d %v", n.Val().Ctype(), Tconv(t, FmtLong))
 
 		case CTINT, CTRUNE:
-			i = n.Int()
+			i = n.Int64()
 
 		case CTBOOL:
 			i = int64(obj.Bool2int(n.Val().U.(bool)))
