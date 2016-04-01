@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4efc542b_6108f04c",
+        "filename": "src/cmd/compile/internal/gc/trigraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-04-01T06:11:04Z",
+      "side": 1,
+      "message": "doc comment please",
+      "revId": "bf4017a58b6821f55aaa29498d687127c3183c3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4efc542b_41fdf450",
+        "filename": "src/internal/trigraph/trigraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-04-01T06:11:04Z",
+      "side": 1,
+      "message": "It\u0027s really unfortunate that this appears twice in the tree. Can\u0027t the compiler use this package too?",
+      "revId": "bf4017a58b6821f55aaa29498d687127c3183c3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
