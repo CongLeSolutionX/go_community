@@ -51,6 +51,24 @@
       "revId": "bf4017a58b6821f55aaa29498d687127c3183c3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_0d8875e2",
+        "filename": "src/internal/trigraph/trigraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-01T19:23:37Z",
+      "side": 1,
+      "message": "See cmd/dist/buildtool.go.  Currently we only guarantee the toolchain has access to the current versions of \"cmd/*\"; everything outside that directory (e.g., \"internal/trigraph\") would be provided by the bootstrap Go install.\n\nI think obviously this means we need to backport \"internal/trigraph\" support to Go 1.4.",
+      "parentUuid": "51795972_aca72c12",
+      "revId": "bf4017a58b6821f55aaa29498d687127c3183c3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
