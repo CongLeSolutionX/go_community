@@ -182,7 +182,7 @@ var pkgDeps = map[string][]string{
 	// Go parser.
 	"go/ast":     {"L4", "OS", "go/scanner", "go/token"},
 	"go/doc":     {"L4", "go/ast", "go/token", "regexp", "text/template"},
-	"go/parser":  {"L4", "OS", "go/ast", "go/scanner", "go/token"},
+	"go/parser":  {"L4", "OS", "go/ast", "go/scanner", "go/token", "internal/trigraph"},
 	"go/printer": {"L4", "OS", "go/ast", "go/scanner", "go/token", "text/tabwriter"},
 	"go/scanner": {"L4", "OS", "go/token"},
 	"go/token":   {"L4"},
@@ -243,6 +243,7 @@ var pkgDeps = map[string][]string{
 	"index/suffixarray":        {"L4", "regexp"},
 	"internal/singleflight":    {"sync"},
 	"internal/trace":           {"L4", "OS"},
+	"internal/trigraph":        {"io", "bufio"},
 	"math/big":                 {"L4"},
 	"mime":                     {"L4", "OS", "syscall", "internal/syscall/windows/registry"},
 	"mime/quotedprintable":     {"L4"},

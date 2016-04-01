@@ -324,7 +324,7 @@ func Main() {
 			fmt.Printf("open %s: %v\n", infile, err)
 			errorexit()
 		}
-		bin := bufio.NewReader(f)
+		bin := bufio.NewReader(&trigraphReader{r: f})
 
 		// Skip initial BOM if present.
 		if r, _, _ := bin.ReadRune(); r != BOM {

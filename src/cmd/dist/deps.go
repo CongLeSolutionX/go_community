@@ -3,6 +3,7 @@
 package main
 
 var builddeps = map[string][]string{
+	"internal/trigraph":                 {"io", "bufio"},
 	"bufio":                             {"bytes", "errors", "internal/race", "io", "runtime", "runtime/internal/atomic", "runtime/internal/sys", "sync", "sync/atomic", "unicode", "unicode/utf8"},
 	"bytes":                             {"errors", "internal/race", "io", "runtime", "runtime/internal/atomic", "runtime/internal/sys", "sync", "sync/atomic", "unicode", "unicode/utf8"},
 	"compress/flate":                    {"bufio", "bytes", "errors", "fmt", "internal/race", "internal/syscall/windows", "internal/syscall/windows/registry", "io", "math", "os", "reflect", "runtime", "runtime/internal/atomic", "runtime/internal/sys", "sort", "strconv", "sync", "sync/atomic", "syscall", "time", "unicode", "unicode/utf16", "unicode/utf8"},
