@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cebbe49e_19b517f3",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-04-02T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebbe49e_9e47adf9",
+      "revId": "ada193d89dc34c36537c5a665cd2b8b72734a99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cebbe49e_fe3a6976",
         "filename": "src/compress/gzip/gunzip.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "cebbe49e_39ba5be2",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-04-02T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebbe49e_fe3a6976",
+      "revId": "ada193d89dc34c36537c5a665cd2b8b72734a99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cebbe49e_be44f1f4",
         "filename": "src/compress/gzip/gzip.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-02T02:17:36Z",
       "side": 1,
       "message": "// IEEE crc32",
+      "revId": "ada193d89dc34c36537c5a665cd2b8b72734a99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_d9ce9f7e",
+        "filename": "src/compress/gzip/gzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2016-04-02T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebbe49e_be44f1f4",
       "revId": "ada193d89dc34c36537c5a665cd2b8b72734a99b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
