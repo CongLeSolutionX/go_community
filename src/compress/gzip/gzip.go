@@ -8,7 +8,6 @@ import (
 	"compress/flate"
 	"errors"
 	"fmt"
-	"hash"
 	"hash/crc32"
 	"io"
 )
@@ -30,7 +29,7 @@ type Writer struct {
 	level       int
 	wroteHeader bool
 	compressor  *flate.Writer
-	digest      hash.Hash32
+	digest      uint32
 	size        uint32
 	closed      bool
 	buf         [10]byte
@@ -66,12 +65,6 @@ func NewWriterLevel(w io.Writer, level int) (*Writer, error) {
 }
 
 func (z *Writer) init(w io.Writer, level int) {
-	digest := z.digest
-	if digest != nil {
-		digest.Reset()
-	} else {
-		digest = crc32.NewIEEE()
-	}
 	compressor := z.compressor
 	if compressor != nil {
 		compressor.Reset(w)
@@ -82,7 +75,6 @@ func (z *Writer) init(w io.Writer, level int) {
 		},
 		w:          w,
 		level:      level,
-		digest:     digest,
 		compressor: compressor,
 	}
 }
@@ -212,7 +204,7 @@ func (z *Writer) Write(p []byte) (int, error) {
 		}
 	}
 	z.size += uint32(len(p))
-	z.digest.Write(p)
+	z.digest = crc32.Update(z.digest, crc32.IEEETable, p)
 	n, z.err = z.compressor.Write(p)
 	return n, z.err
 }
@@ -262,7 +254,7 @@ func (z *Writer) Close() error {
 	if z.err != nil {
 		return z.err
 	}
-	put4(z.buf[0:4], z.digest.Sum32())
+	put4(z.buf[0:4], z.digest)
 	put4(z.buf[4:8], z.size)
 	_, z.err = z.w.Write(z.buf[0:8])
 	return z.err
