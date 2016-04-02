@@ -23,7 +23,7 @@ import (
 	"time"
 )
 
-// A Client is an HTTP client. Its zero value (DefaultClient) is a
+// A Client is a HTTP client. Its zero value (DefaultClient) is a
 // usable client that uses DefaultTransport.
 //
 // The Client's Transport typically has internal state (cached TCP
@@ -41,7 +41,7 @@ type Client struct {
 
 	// CheckRedirect specifies the policy for handling redirects.
 	// If CheckRedirect is not nil, the client calls it before
-	// following an HTTP redirect. The arguments req and via are
+	// following a HTTP redirect. The arguments req and via are
 	// the upcoming request and the requests made already, oldest
 	// first. If CheckRedirect returns an error, the Client's Get
 	// method returns both the previous Response (with its Body
@@ -156,7 +156,7 @@ func (c *Client) send(req *Request, deadline time.Time) (*Response, error) {
 	return resp, nil
 }
 
-// Do sends an HTTP request and returns an HTTP response, following
+// Do sends a HTTP request and returns a HTTP response, following
 // policy (such as redirects, cookies, auth) as configured on the
 // client.
 //
@@ -204,7 +204,7 @@ func (c *Client) transport() RoundTripper {
 	return DefaultTransport
 }
 
-// send issues an HTTP request.
+// send issues a HTTP request.
 // Caller should close resp.Body when done reading from it.
 func send(ireq *Request, rt RoundTripper, deadline time.Time) (*Response, error) {
 	req := ireq // req is either the original request, or a modified fork
@@ -380,7 +380,7 @@ func shouldRedirectPost(statusCode int) bool {
 //    307 (Temporary Redirect)
 //
 // An error is returned if there were too many redirects or if there
-// was an HTTP protocol error. A non-2xx response doesn't cause an
+// was a HTTP protocol error. A non-2xx response doesn't cause an
 // error.
 //
 // When err is nil, resp always contains a non-nil resp.Body.
@@ -404,7 +404,7 @@ func Get(url string) (resp *Response, err error) {
 //    307 (Temporary Redirect)
 //
 // An error is returned if the Client's CheckRedirect function fails
-// or if there was an HTTP protocol error. A non-2xx response doesn't
+// or if there was a HTTP protocol error. A non-2xx response doesn't
 // cause an error.
 //
 // When err is nil, resp always contains a non-nil resp.Body.
