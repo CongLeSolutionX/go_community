@@ -1,15 +1,21 @@
 package ssa
 
+import "fmt"
+
 type indVar struct {
-	ind   *Value // induction variable
-	inc   *Value // increment, a constant
-	nxt   *Value // ind+inc variable
-	min   *Value // minimum value. inclusive,
-	max   *Value // maximum value. exclusive.
-	entry *Block // entry block in the loop.
+	ind    *Value // induction variable
+	inc    *Value // increment, a constant
+	nxt    *Value // ind+inc variable
+	min    *Value // minimum value. inclusive,
+	max    *Value // maximum value. exclusive.
+	maxOff int64  // maximum value offset
+	entry  *Block // entry block in the loop.
 	// Invariants: for all blocks dominated by entry:
-	//	min <= ind < max
-	//	min <= nxt <= max
+	//	min <= ind < max+maxOff
+	//	min <= nxt <= max+maxOff
+
+	slice *Value // points to SliceMake or StringMake if known
+	ptr   *Value // points to the parallel vector iterating over slice
 }
 
 // findIndVar finds induction variables in a function.
@@ -117,9 +123,9 @@ nextb:
 
 		// If max is c + SliceLen with c <= 0 then we drop c.
 		// Makes sure c + SliceLen doesn't overflow when SliceLen == 0.
-		// TODO: save c as an offset from max.
+		maxOff := int64(0)
 		if w, c := dropAdd64(max); (w.Op == OpStringLen || w.Op == OpSliceLen) && 0 >= c && -c >= 0 {
-			max = w
+			max, maxOff = w, c
 		}
 
 		// We can only guarantee that the loops runs withing limits of induction variable
@@ -145,12 +151,13 @@ nextb:
 		}
 
 		iv = append(iv, indVar{
-			ind:   ind,
-			inc:   inc,
-			nxt:   nxt,
-			min:   min,
-			max:   max,
-			entry: b.Succs[entry],
+			ind:    ind,
+			inc:    inc,
+			nxt:    nxt,
+			min:    min,
+			max:    max,
+			maxOff: maxOff,
+			entry:  b.Succs[entry],
 		})
 		b.Logf("found induction variable %v (inc = %v, min = %v, max = %v)\n", ind, inc, min, max)
 	}
@@ -158,18 +165,86 @@ nextb:
 	return iv
 }
 
+func findSlice(sdom sparseTree, iv *indVar) {
+	b := iv.ind.Block
+	if iv.max.Op != OpSliceLen || iv.maxOff != 0 || iv.min.Op != OpConst64 || iv.min.AuxInt != 0 {
+		// TODO: handle non-0 max offset
+		// TODO: handle non-0 min.
+		b.Logf("skipping %v %v %d %v %d\n", *iv, iv.max.Op, iv.maxOff, iv.min.Op, iv.min.AuxInt)
+		return
+	}
+
+	iv.slice = iv.max.Args[0]
+	b.Logf("iv %v iterates over %v\n", iv.ind, iv.slice)
+
+	for _, ptr := range b.Values {
+		if ptr.Op != OpPhi {
+			continue
+		}
+		// Checks ptr is of form (+ permutations)
+		// ptr = (Phi slice (Add64 size ptr))
+
+		var inc *Value
+		if ptr.Args[0].Op == OpSlicePtr && ptr.Args[0].Args[0] == iv.slice {
+			inc = ptr.Args[1]
+		} else {
+			// TODO
+			continue
+		}
+		if inc.Op != OpAdd64 {
+			continue
+		}
+		if !sdom.isAncestorEq(iv.entry, inc.Block) {
+			continue
+		}
+
+		size := iv.slice.Type.ElemType().Size()
+		if !(inc.Args[0].Op == OpConst64 && inc.Args[0].AuxInt == size && inc.Args[1] == ptr) &&
+			!(inc.Args[1].Op == OpConst64 && inc.Args[1].AuxInt == size && inc.Args[0] == ptr) {
+			continue
+		}
+
+		iv.ptr = ptr
+		b.Logf("ptr %v iterates over %v\n", iv.ptr, iv.slice)
+		// fmt.Printf("ptr %v iterates over %v, iv.ind.Uses %d in %s\n", iv.ptr, iv.slice, iv.ind.Uses, iv.ind.Block.Func.Name)
+		_ = fmt.Print
+	}
+}
+
 // loopbce performs loop based bounds check elimination.
 func loopbce(f *Func) {
 	idom := dominators(f)
 	sdom := newSparseTree(f, idom)
-	ivList := findIndVar(f, sdom)
 
-	m := make(map[*Value]indVar)
-	for _, iv := range ivList {
-		m[iv.ind] = iv
+	ivList := findIndVar(f, sdom)
+	ivMap := make(map[*Value]indVar)
+	for i := range ivList {
+		iv := &ivList[i]
+		findSlice(sdom, iv)
+		ivMap[iv.ind] = *iv
 	}
 
-	removeBoundsChecks(f, sdom, m)
+	removeIndVar(f, ivList)
+	removeBoundsChecks(f, sdom, ivMap)
+}
+
+func removeIndVar(f *Func, ivList []indVar) {
+	for _, iv := range ivList {
+		if iv.ptr == nil || iv.ind.Uses > 2 {
+			continue
+		}
+
+		// Replaces ind < max by ptr < slice + size * max
+		size := iv.slice.Type.ElemType().Size()
+		maxptr := iv.ind.Block.NewValue2(iv.ptr.Line, OpAdd64, iv.ptr.Type,
+			iv.ptr.Args[0], // TODO: what if not minimum
+			iv.ind.Block.NewValue2(iv.ptr.Line, OpMul64, f.Config.Frontend().TypeInt(),
+				f.ConstInt64(iv.ind.Line, f.Config.Frontend().TypeInt(), size),
+				iv.max))
+		iv.ind.Block.SetControl(iv.ind.Block.NewValue2(iv.ind.Line, OpLess64, f.Config.Frontend().TypeBool(), iv.ptr, maxptr))
+
+		f.Logf("dropped induction variable %v in favor of %v\n", iv.ind, iv.ptr)
+	}
 }
 
 // removesBoundsChecks remove IsInBounds and IsSliceInBounds based on the induction variables.
