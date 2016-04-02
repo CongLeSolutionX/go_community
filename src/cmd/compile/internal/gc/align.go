@@ -282,7 +282,7 @@ func dowidth(t *Type) {
 		w = widstruct(t1, t1.Recvs(), 0, 0)
 		w = widstruct(t1, t1.Params(), w, Widthreg)
 		w = widstruct(t1, t1.Results(), w, Widthreg)
-		t1.Argwid = w
+		t1.Extra.(*FuncType).Argwid = w
 		if w%int64(Widthreg) != 0 {
 			Warn("bad type %v %d\n", t1, w)
 		}
@@ -386,7 +386,7 @@ func Argsize(t *Type) int {
 		}
 	}
 
-	w = (w + int64(Widthptr) - 1) &^ (int64(Widthptr) - 1)
+	w = Rnd(w, int64(Widthptr))
 	if int64(int(w)) != w {
 		Fatalf("argsize too big")
 	}

@@ -27,7 +27,14 @@ func TestSizeof(t *testing.T) {
 		{Name{}, 52, 80},
 		{Node{}, 92, 144},
 		{Sym{}, 60, 112},
-		{Type{}, 116, 184},
+		{Type{}, 56, 88},
+		{MapType{}, 20, 40},
+		{ForwardType{}, 16, 32},
+		{FuncType{}, 28, 48},
+		{StructType{}, 12, 24},
+		{InterType{}, 4, 8},
+		{ChanType{}, 8, 16},
+		{ArrayType{}, 16, 24},
 	}
 
 	for _, tt := range tests {
