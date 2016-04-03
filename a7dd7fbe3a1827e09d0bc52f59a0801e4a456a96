@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "cebbe49e_84c0ba4e",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-04-03T07:43:28Z",
+      "side": 1,
+      "message": "Aha now I recall why I changed the inputs. The reasoning is because the tests do a plain comparison of input vs expected in \"DoTestString\" and were expecting the incorrect behavior as you\u0027ll see below.\n\n`\nfunc DoTestString(t *testing.T, parse func(string) (*URL, error), name string, tests []URLTest) {\n        for _, tt :\u003d range tests {\n                u, err :\u003d parse(tt.in)\n                if err !\u003d nil {\n                        t.Errorf(\"%s(%q) returned error %s\", name, tt.in, err)\n                        continue\n                }\n                expected :\u003d tt.in\n                if len(tt.roundtrip) \u003e 0 {\n                        expected \u003d tt.roundtrip\n                }\n                s :\u003d u.String()\n                if s !\u003d expected {\n                        t.Errorf(\"%s(%q).String() \u003d\u003d %q (expected %q)\", name, tt.in, s, expected)\n                }\n        }\n}\n`\nTrying to change the expected output of those tests causes way too much noise than this CL should. This why this CL adds newer tests.",
+      "parentUuid": "b1145534_79a9c755",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1145534_39b34fc8",
         "filename": "src/net/url/url_test.go",
         "patchSetId": 6
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "cebbe49e_44bac2e2",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-04-03T07:43:28Z",
+      "side": 1,
+      "message": "The reasoning is because the tests do a plain comparison of input vs expected in \"DoTestString\" and are expecting the incorrect behavior. If the CL is successful and corrects this behavior, changing the tests in the same CL will cause way more noise than it should. This is why this CL has tests to check for failed parsing as well as colon:port normalization.",
+      "parentUuid": "b1145534_39b34fc8",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1145534_19b88ba0",
         "filename": "src/net/url/url_test.go",
         "patchSetId": 6
@@ -81,6 +117,24 @@
       "writtenOn": "2016-03-25T03:50:19Z",
       "side": 1,
       "message": "revert",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_24b54ef3",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-04-03T07:43:28Z",
+      "side": 1,
+      "message": "The reasoning is because the tests do a plain comparison of input vs expected in \"DoTestString\" and are expecting the incorrect behavior. If the CL is successful and corrects this behavior, changing the tests in the same CL will cause way more noise than it should. This is why this CL has tests to check for failed parsing as well as colon:port normalization.",
+      "parentUuid": "b1145534_19b88ba0",
       "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
