@@ -34,6 +34,24 @@
       "revId": "1529be0bbea2ab8513e7a89365dfac1e5c4756f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc1c7c_acca2388",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-04T20:40:29Z",
+      "side": 1,
+      "message": "What I am proposing is that instead of a procyield(10) which is\nfor i:\u003d0; i\u003c10; i++ {\n     PAUSE\n}\nwe do the following:\nfor i:\u003d0; i\u003c10; i++ {\n     PAUSE\n     if gp.atomicstatus \u003d\u003d oldval {\n          break;\n     }\n}\n\nThe later seems to be the use case that Intel uses when it talks about PAUSE so I suspect that is what their HW is optimized for.",
+      "parentUuid": "2eaac053_45596a0a",
+      "revId": "1529be0bbea2ab8513e7a89365dfac1e5c4756f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
