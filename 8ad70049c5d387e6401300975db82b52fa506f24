@@ -33,6 +33,24 @@
       "revId": "8ad70049c5d387e6401300975db82b52fa506f24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ec48060_186d4902",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 12700
+      },
+      "writtenOn": "2016-04-04T20:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebbe49e_072609ab",
+      "revId": "8ad70049c5d387e6401300975db82b52fa506f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
