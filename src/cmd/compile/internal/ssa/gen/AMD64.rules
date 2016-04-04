@@ -587,6 +587,11 @@
 (CMPB x (MOVBconst [c])) -> (CMPBconst x [c])
 (CMPB (MOVBconst [c]) x) -> (InvertFlags (CMPBconst x [c]))
 
+// Using MOVBQZX instead of ADDQ is cheaper.
+(ANDQconst [0xff] x) -> (MOVBQZX x)
+(ANDQconst [0xffff] x) -> (MOVWQZX x)
+(ANDQconst [0xffffffff] x) -> (MOVLQZX x)
+
 // strength reduction
 // Assumes that the following costs from https://gmplib.org/~tege/x86-timing.pdf:
 //    1 - addq, shlq, leaq, negq
