@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efc1c7c_0cd9b7a2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-04T17:29:25Z",
+      "side": 1,
+      "message": "I don\u0027t understand why procyield takes a spin count and how/why we use 10. I would have expected that the spin loop would call PAUSE once each time around a loop that checks if the target of the CAS has changed.\n\nfor !atomic.Cas(\u0026gp.atomicstatus, oldval, newval) {\n    for i:\u003d0; i\u003cloopCount; i++ {\n         PAUSE\n         if gp.atomicstatus \u003d\u003d oldval {\n              break;\n         }\n     }\n}",
+      "revId": "1529be0bbea2ab8513e7a89365dfac1e5c4756f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
