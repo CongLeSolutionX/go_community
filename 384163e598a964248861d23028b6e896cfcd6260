@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efc1c7c_6c903bcf",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-04T15:55:56Z",
+      "side": 1,
+      "message": "Is it possible for the compiler to get tricked into performing a modulo-by-zero?  e.g.\n\n  func probably_inlined(a,b uint8) uint8 {\n  return a%b\n  }\n\nor\n\n  func f(uint a) uint {\n  b :\u003d uint(1)\n  return a%(b-1)\n  }\n\netc.\n\nand possibly the same for MININT foolishness.",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 10
+      },
+      "revId": "384163e598a964248861d23028b6e896cfcd6260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
