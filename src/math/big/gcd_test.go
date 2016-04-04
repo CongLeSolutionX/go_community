@@ -20,13 +20,26 @@ func randInt(r *rand.Rand, size uint) *Int {
 }
 
 func runGCD(b *testing.B, aSize, bSize uint) {
+	runGCDExt(b, aSize, bSize, false)
+}
+
+func runGCDXY(b *testing.B, aSize, bSize uint) {
+	runGCDExt(b, aSize, bSize, true)
+}
+
+func runGCDExt(b *testing.B, aSize, bSize uint, calcXY bool) {
 	b.StopTimer()
 	var r = rand.New(rand.NewSource(1234))
 	aa := randInt(r, aSize)
 	bb := randInt(r, bSize)
+	var x, y *Int
+	if calcXY {
+		x = new(Int)
+		y = new(Int)
+	}
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
-		new(Int).GCD(nil, nil, aa, bb)
+		new(Int).GCD(x, y, aa, bb)
 	}
 }
 
@@ -45,3 +58,19 @@ func BenchmarkGCD1000x100000(b *testing.B)   { runGCD(b, 1000, 100000) }
 func BenchmarkGCD10000x10000(b *testing.B)   { runGCD(b, 10000, 10000) }
 func BenchmarkGCD10000x100000(b *testing.B)  { runGCD(b, 10000, 100000) }
 func BenchmarkGCD100000x100000(b *testing.B) { runGCD(b, 100000, 100000) }
+
+func BenchmarkGCDXY10x10(b *testing.B)         { runGCDXY(b, 10, 10) }
+func BenchmarkGCDXY10x100(b *testing.B)        { runGCDXY(b, 10, 100) }
+func BenchmarkGCDXY10x1000(b *testing.B)       { runGCDXY(b, 10, 1000) }
+func BenchmarkGCDXY10x10000(b *testing.B)      { runGCDXY(b, 10, 10000) }
+func BenchmarkGCDXY10x100000(b *testing.B)     { runGCDXY(b, 10, 100000) }
+func BenchmarkGCDXY100x100(b *testing.B)       { runGCDXY(b, 100, 100) }
+func BenchmarkGCDXY100x1000(b *testing.B)      { runGCDXY(b, 100, 1000) }
+func BenchmarkGCDXY100x10000(b *testing.B)     { runGCDXY(b, 100, 10000) }
+func BenchmarkGCDXY100x100000(b *testing.B)    { runGCDXY(b, 100, 100000) }
+func BenchmarkGCDXY1000x1000(b *testing.B)     { runGCDXY(b, 1000, 1000) }
+func BenchmarkGCDXY1000x10000(b *testing.B)    { runGCDXY(b, 1000, 10000) }
+func BenchmarkGCDXY1000x100000(b *testing.B)   { runGCDXY(b, 1000, 100000) }
+func BenchmarkGCDXY10000x10000(b *testing.B)   { runGCDXY(b, 10000, 10000) }
+func BenchmarkGCDXY10000x100000(b *testing.B)  { runGCDXY(b, 10000, 100000) }
+func BenchmarkGCDXY100000x100000(b *testing.B) { runGCDXY(b, 100000, 100000) }

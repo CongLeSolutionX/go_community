@@ -8,7 +8,10 @@
 
 package big
 
-import "math/rand"
+import (
+	"math/rand"
+	"sync"
+)
 
 // An unsigned integer x of the form
 //
@@ -539,6 +542,29 @@ func (z nat) div(z2, u, v nat) (q, r nat) {
 	return
 }
 
+func acquireNat(n int) nat {
+	v := natPool.Get()
+	if v == nil {
+		return make(nat, n)
+	}
+	a := v.(nat)
+	if cap(a) < n {
+		natPool.Put(v)
+		return make(nat, n)
+	}
+	a = a[:n]
+	for i := range a {
+		a[i] = 0
+	}
+	return a
+}
+
+func releaseNat(a nat) {
+	natPool.Put(a)
+}
+
+var natPool sync.Pool
+
 // q = (uIn-r)/v, with 0 <= r < y
 // Uses z as storage for q, and u as storage for r if possible.
 // See Knuth, Volume 2, section 4.3.1, Algorithm D.
@@ -557,7 +583,7 @@ func (z nat) divLarge(u, uIn, v nat) (q, r nat) {
 	}
 	q = z.make(m + 1)
 
-	qhatv := make(nat, n+1)
+	qhatv := acquireNat(n + 1)
 	if alias(u, uIn) || alias(u, v) {
 		u = nil // u is an alias for uIn or v - cannot reuse
 	}
@@ -565,10 +591,11 @@ func (z nat) divLarge(u, uIn, v nat) (q, r nat) {
 	u.clear() // TODO(gri) no need to clear if we allocated a new u
 
 	// D1.
+	var v1 nat
 	shift := nlz(v[n-1])
 	if shift > 0 {
 		// do not modify v, it may be used by another goroutine simultaneously
-		v1 := make(nat, n)
+		v1 = acquireNat(n)
 		shlVU(v1, v, shift)
 		v = v1
 	}
@@ -609,6 +636,10 @@ func (z nat) divLarge(u, uIn, v nat) (q, r nat) {
 
 		q[j] = qhat
 	}
+	if v1 != nil {
+		releaseNat(v1)
+	}
+	releaseNat(qhatv)
 
 	q = q.norm()
 	shrVU(u, u, shift)
