@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_1f565704",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T16:42:21Z",
+      "side": 1,
+      "message": "ioutil.Discard",
+      "revId": "67b029a17db6378f835b8f2501f30b5f3b46519a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_3f5b1b2b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T16:42:21Z",
+      "side": 1,
+      "message": "... then you can delete this",
+      "revId": "67b029a17db6378f835b8f2501f30b5f3b46519a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_df3f5fb7",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T16:42:21Z",
+      "side": 1,
+      "message": "trailing whitespace expected?",
+      "revId": "67b029a17db6378f835b8f2501f30b5f3b46519a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_9f49e75d",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T16:42:21Z",
+      "side": 1,
+      "message": "sanitize",
+      "revId": "67b029a17db6378f835b8f2501f30b5f3b46519a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_bf462b4b",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T16:42:21Z",
+      "side": 1,
+      "message": "sanitize",
+      "revId": "67b029a17db6378f835b8f2501f30b5f3b46519a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_5f35afd3",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T16:42:21Z",
+      "side": 1,
+      "message": "what\u0027s this supposed to do?",
+      "revId": "67b029a17db6378f835b8f2501f30b5f3b46519a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
