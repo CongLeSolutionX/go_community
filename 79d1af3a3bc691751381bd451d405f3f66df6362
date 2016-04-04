@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efc1c7c_8cc487b7",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-04-04T17:32:50Z",
+      "side": 1,
+      "message": "get/put are more common names for freelist operations, I think.  (Acquire/release sounds like a barrier or a lock.)",
+      "revId": "79d1af3a3bc691751381bd451d405f3f66df6362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
