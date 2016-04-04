@@ -16,6 +16,24 @@
       "revId": "1529be0bbea2ab8513e7a89365dfac1e5c4756f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2eaac053_45596a0a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-04T17:38:02Z",
+      "side": 1,
+      "message": "Procyield takes count to provide more relaxation.\nIf we execute a single PAUSE instruction per loop iteration, it will be a single PAUSE instruction per 2 function calls and several dozens of real instructions. I.e. no relaxation for the HT sibling.\nSince we are talking about tens of microseconds, 10 PAUSE instructions don\u0027t visibly affect latency.\n10 is chosen by a fair dice roll.",
+      "parentUuid": "0efc1c7c_0cd9b7a2",
+      "revId": "1529be0bbea2ab8513e7a89365dfac1e5c4756f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
