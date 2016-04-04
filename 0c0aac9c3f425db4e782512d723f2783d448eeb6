@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_e7c735ba",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T20:49:21Z",
+      "side": 1,
+      "message": "errant double space after 2*n",
+      "revId": "0c0aac9c3f425db4e782512d723f2783d448eeb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
