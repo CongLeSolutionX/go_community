@@ -66,6 +66,11 @@
         (Const32F [f2i(float64(i2f32(c) * i2f32(d)))])
 (Mul64F (Const64F [c]) (Const64F [d])) -> (Const64F [f2i(i2f(c) * i2f(d))])
 
+(Mod8 (Const8 [c]) (Const8 [d])) -> (Const8 [int64(int8(c % d))])
+(Mod16 (Const16 [c]) (Const16 [d])) -> (Const16 [int64(int16(c % d))])
+(Mod32 (Const32 [c]) (Const32 [d])) -> (Const32 [int64(int32(c % d))])
+(Mod64 (Const64 [c]) (Const64 [d])) -> (Const64 [c % d])
+
 (Lsh64x64  (Const64 [c]) (Const64 [d])) -> (Const64 [c << uint64(d)])
 (Rsh64x64  (Const64 [c]) (Const64 [d])) -> (Const64 [c >> uint64(d)])
 (Rsh64Ux64 (Const64 [c]) (Const64 [d])) -> (Const64 [int64(uint64(c) >> uint64(d))])
