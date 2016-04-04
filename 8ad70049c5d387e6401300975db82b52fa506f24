@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_67e2657d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T20:38:12Z",
+      "side": 1,
+      "message": "Well, it was used. Its last and only use is removed in this commit.",
+      "revId": "8ad70049c5d387e6401300975db82b52fa506f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_072609ab",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T20:38:12Z",
+      "side": 1,
+      "message": "same-line comment:\n\n    // in case 2*n wasn\u0027t enough",
+      "revId": "8ad70049c5d387e6401300975db82b52fa506f24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
