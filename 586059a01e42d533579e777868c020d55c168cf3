@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_ff490335",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T17:11:35Z",
+      "side": 1,
+      "message": "want \u003e\u003d 2",
+      "range": {
+        "startLine": 469,
+        "startChar": 36,
+        "endLine": 469,
+        "endChar": 38
+      },
+      "revId": "586059a01e42d533579e777868c020d55c168cf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_9f46c724",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-04T17:11:35Z",
+      "side": 1,
+      "message": "want \u003e\u003d %v",
+      "revId": "586059a01e42d533579e777868c020d55c168cf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
