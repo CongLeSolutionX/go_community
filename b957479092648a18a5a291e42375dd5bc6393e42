@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_01458eef",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T14:58:10Z",
+      "side": 1,
+      "message": "We have to be careful not to accidentally encourage people to write benchmarks this way, thinking this is the main way.\n\nMaybe these docs should call out that it\u0027s a non-standard way to write benchmarks, or reference the other docs on writing tests/benchmarks?",
+      "revId": "b957479092648a18a5a291e42375dd5bc6393e42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
