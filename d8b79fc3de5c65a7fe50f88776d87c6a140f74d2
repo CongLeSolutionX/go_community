@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_4ceaddc1",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:23:25Z",
+      "side": 1,
+      "message": "can\u0027t this whole block be inside the loadOptionalSyscalls func?\n\nAnd only kernel32dll needs an actual variable. The other 4 can just have their values passed to windowsFindFunc.",
+      "revId": "d8b79fc3de5c65a7fe50f88776d87c6a140f74d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_ccdd6d2b",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:23:25Z",
+      "side": 1,
+      "message": "this lib I might call \"k32\"",
+      "revId": "d8b79fc3de5c65a7fe50f88776d87c6a140f74d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_6cba41e3",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:23:25Z",
+      "side": 1,
+      "message": "throw(\"kernel32.dll not found\")",
+      "revId": "d8b79fc3de5c65a7fe50f88776d87c6a140f74d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
