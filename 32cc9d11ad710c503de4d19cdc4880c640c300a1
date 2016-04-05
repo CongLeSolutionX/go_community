@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0efc1c7c_6f566d05",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-05T13:37:27Z",
+      "side": 1,
+      "message": "You\u0027re right. \nDone",
+      "parentUuid": "2ec48060_18bd492c",
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc1c7c_af7a1586",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "Because we may need to make some actions depending on the status: scan stack or preempt. We could also check that status does not change, but then I am not sure whether it is correct for _Grunning (e.g. maybe we need to re-preempt again). It is subtle, and exact value of procyield does not matter here.\n\nAnd, no, don\u0027t change all other places. The most important one is mutex, and there we actually need to back off from the shared state for longer. Even loading the mutex state will cause cache coherence traffic.",
       "parentUuid": "0efc1c7c_af7a1586",
+      "range": {
+        "startLine": 858,
+        "startChar": 3,
+        "endLine": 858,
+        "endChar": 16
+      },
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc1c7c_cf46814c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-05T13:37:27Z",
+      "side": 1,
+      "message": "OK, we can take up this discussion later. I have no numbers.",
+      "parentUuid": "6eb2f8f7_1a929979",
       "range": {
         "startLine": 858,
         "startChar": 3,
