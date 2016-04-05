@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efc1c7c_4f6611f6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-05T12:13:53Z",
+      "side": 1,
+      "message": "Why the break loop here instead of a simple break?",
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc1c7c_af7a1586",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-05T12:13:53Z",
+      "side": 1,
+      "message": "Again why not \nfor x :\u003d 0; x \u003c 10 \u0026\u0026 !gp.gcscandone; x++ {\n    procyield(1)\n}\n\nIf we agree on this as the idiom for using PAUSE I\u0027ll put in a CL changing the other places in the code that pass procyield something besides 1.",
+      "range": {
+        "startLine": 858,
+        "startChar": 3,
+        "endLine": 858,
+        "endChar": 16
+      },
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
