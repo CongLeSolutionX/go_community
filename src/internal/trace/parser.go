@@ -20,7 +20,6 @@ import (
 type Event struct {
 	Off   int       // offset in input file (for debugging and error reporting)
 	Type  byte      // one of Ev*
-	Seq   int64     // sequence number
 	Ts    int64     // timestamp in nanoseconds
 	P     int       // P on which the event happened (can be one of TimerP, NetpollP, SyscallP)
 	G     uint64    // G on which the event happened
@@ -39,6 +38,9 @@ type Event struct {
 	// for blocking GoSysCall: the associated GoSysExit
 	// for GoSysExit: the next GoStart
 	Link *Event
+
+	pSeq uint64
+	gSeq uint64
 }
 
 // Frame is a frame in stack traces.
@@ -55,6 +57,8 @@ const (
 	TimerP   // depicts timer unblocks
 	NetpollP // depicts network unblocks
 	SyscallP // depicts returns from syscalls
+
+	sysExitBatch = -2 // -1 is traceGlobProc in runtime
 )
 
 // Parse parses, post-processes and verifies the trace.
@@ -94,7 +98,7 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 	if off != 16 || err != nil {
 		return nil, fmt.Errorf("failed to read header: read %v, err %v", off, err)
 	}
-	if !bytes.Equal(buf[:], []byte("go 1.5 trace\x00\x00\x00\x00")) {
+	if !bytes.Equal(buf[:], []byte("go 1.7 trace\x00\x00\x00\x00")) {
 		return nil, fmt.Errorf("not a trace file")
 	}
 
@@ -112,19 +116,21 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 		}
 		off += n
 		typ := buf[0] << 2 >> 2
-		narg := buf[0] >> 6
+		narg := buf[0]>>6 + 1
+		//println("read event:", EventDescriptions[typ].Name, narg, off0)
 		ev := rawEvent{typ: typ, off: off0}
-		if narg < 3 {
-			for i := 0; i < int(narg)+2; i++ { // sequence number and time stamp are present but not counted in narg
+		if narg < 4 {
+			for i := 0; i < int(narg); i++ {
 				var v uint64
 				v, off, err = readVal(r, off)
 				if err != nil {
 					return nil, err
 				}
+				//println("  ", v)
 				ev.args = append(ev.args, v)
 			}
 		} else {
-			// If narg == 3, the first value is length of the event in bytes.
+			// If narg == 4, the first value is length of the event in bytes.
 			var v uint64
 			v, off, err = readVal(r, off)
 			if err != nil {
@@ -132,11 +138,13 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 			}
 			evLen := v
 			off1 := off
+			//println("  len ", v)
 			for evLen > uint64(off-off1) {
 				v, off, err = readVal(r, off)
 				if err != nil {
 					return nil, err
 				}
+				//println("  ", v)
 				ev.args = append(ev.args, v)
 			}
 			if evLen != uint64(off-off1) {
@@ -145,17 +153,35 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 		}
 		events = append(events, ev)
 	}
+	fmt.Printf("event size: %.2f\n", float64(off)/float64(len(events)))
+	counts := make([]int, len(EventDescriptions))
+	sizes := make([]int, len(EventDescriptions))
+	for i, ev := range events {
+		sz := 0
+		if i != len(events)-1 {
+			sz = events[i+1].off - ev.off
+		}
+		counts[ev.typ]++
+		sizes[ev.typ] += sz
+	}
+	for i, desc := range EventDescriptions {
+		if counts[i] == 0 {
+			continue
+		}
+		fmt.Printf("%v cnt=%v size=%.2f\n", desc.Name, counts[i], float64(sizes[i])/float64(counts[i]))
+	}
 	return events, nil
 }
 
 // Parse events transforms raw events into events.
 // It does analyze and verify per-event-type arguments.
 func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
-	var ticksPerSec, lastSeq, lastTs int64
-	var lastG, timerGoid uint64
+	var ticksPerSec, lastTs int64
+	var lastG, timerGoid, lastPSeq uint64
 	var lastP int
 	lastGs := make(map[int]uint64) // last goroutine running on P
 	stacks := make(map[uint64][]*Frame)
+	batches := make(map[int][]*Event)
 	for _, raw := range rawEvents {
 		if raw.typ == EvNone || raw.typ >= EvCount {
 			err = fmt.Errorf("unknown event type %v at offset 0x%x", raw.typ, raw.off)
@@ -172,7 +198,6 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 				narg++
 			}
 			if raw.typ != EvBatch && raw.typ != EvFrequency && raw.typ != EvTimerGoroutine {
-				narg++ // sequence number
 				narg++ // timestamp
 			}
 			if len(raw.args) != narg {
@@ -186,8 +211,8 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 			lastGs[lastP] = lastG
 			lastP = int(raw.args[0])
 			lastG = lastGs[lastP]
-			lastSeq = int64(raw.args[1])
-			lastTs = int64(raw.args[2])
+			lastTs = int64(raw.args[1])
+			lastPSeq = raw.args[2]
 		case EvFrequency:
 			ticksPerSec = int64(raw.args[0])
 			if ticksPerSec <= 0 {
@@ -225,16 +250,20 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 				stacks[id] = stk
 			}
 		default:
-			e := &Event{Off: raw.off, Type: raw.typ, P: lastP, G: lastG}
-			e.Seq = lastSeq + int64(raw.args[0])
-			e.Ts = lastTs + int64(raw.args[1])
-			lastSeq = e.Seq
+			e := &Event{Off: raw.off, Type: raw.typ, P: lastP, G: lastG, pSeq: lastPSeq}
+			e.Ts = lastTs + int64(raw.args[0])
 			lastTs = e.Ts
+			totalArgs := len(desc.Args) + 1
 			for i := range desc.Args {
-				e.Args[i] = raw.args[i+2]
+				e.Args[i] = raw.args[i+1]
 			}
 			if desc.Stack {
-				e.StkID = raw.args[len(desc.Args)+2]
+				totalArgs++
+				e.StkID = raw.args[len(desc.Args)+1]
+			}
+			if totalArgs != len(raw.args) {
+				err = fmt.Errorf("unused arguments in event %v", desc.Name)
+				return
 			}
 			switch raw.typ {
 			case EvGoStart:
@@ -250,16 +279,39 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 			case EvGoSysExit:
 				// EvGoSysExit emission is delayed until the thread has a P.
 				// Give it the real sequence number and time stamp.
-				e.Seq = int64(e.Args[1])
 				if e.Args[2] != 0 {
 					e.Ts = int64(e.Args[2])
 				}
 			}
-			events = append(events, e)
+			/*
+				switch raw.typ {
+				case EvGoCreate:
+					//e.gSeq = e.Args[1]
+				case EvGoStart:
+					e.gSeq = e.Args[1]
+				}
+				events = append(events, e)
+			*/
+			p := lastP
+			/*
+				if raw.typ == EvGoSysExit {
+					p = sysExitBatch
+				}
+			*/
+			batches[p] = append(batches[p], e)
+			//PrintEvent(e)
 		}
 	}
-	if len(events) == 0 {
+	if len(batches) == 0 {
 		err = fmt.Errorf("trace is empty")
+		return
+	}
+	if ticksPerSec == 0 {
+		err = fmt.Errorf("no EvFrequency event")
+		return
+	}
+	events, err = order(batches)
+	if err != nil {
 		return
 	}
 
@@ -270,12 +322,6 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 		}
 	}
 
-	// Sort by sequence number and translate cpu ticks to real time.
-	sort.Sort(eventList(events))
-	if ticksPerSec == 0 {
-		err = fmt.Errorf("no EvFrequency event")
-		return
-	}
 	minTs := events[0].Ts
 	for _, ev := range events {
 		ev.Ts = (ev.Ts - minTs) * 1e9 / ticksPerSec
@@ -289,6 +335,118 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 		}
 	}
 
+	return
+}
+
+//!!! unexport
+type Batch struct {
+	events   []*Event
+	selected bool
+}
+
+type Frontier struct {
+	ev    *Event
+	batch int
+	g     uint64
+	seq   uint64
+}
+
+type frontierList []Frontier
+
+func (l frontierList) Len() int {
+	return len(l)
+}
+
+func (l frontierList) Less(i, j int) bool {
+	return l[i].ev.Ts < l[j].ev.Ts
+}
+
+func (l frontierList) Swap(i, j int) {
+	l[i], l[j] = l[j], l[i]
+}
+
+func order(m map[int][]*Event) (events []*Event, err error) {
+	sort.Stable(eventList(m[sysExitBatch]))
+	pending := 0
+	var batches []*Batch
+	for _, v := range m {
+		//println("p", v[0].P, "->", len(batches))
+		pending += len(v)
+		batches = append(batches, &Batch{v, false})
+	}
+	gseq := make(map[uint64]uint64)
+	var frontier []Frontier
+	for ; pending != 0; pending-- {
+		//println("PENDING", pending)
+		const unordered = ^uint64(0)
+		for i, b := range batches {
+			if b.selected || len(b.events) == 0 {
+				continue
+			}
+			ev := b.events[0]
+			g := unordered
+			var seq uint64
+			switch ev.Type {
+			case EvGoCreate:
+				g = ev.Args[0]
+				seq = 0
+			case EvGoWaiting, EvGoInSyscall:
+				g = ev.Args[0]
+				seq = 1
+			case EvGoStart:
+				g = ev.G
+				seq = ev.Args[1]
+			case EvGoBlock, EvGoBlockSend, EvGoBlockRecv, EvGoBlockSelect,
+				EvGoBlockSync, EvGoBlockCond, EvGoBlockNet, EvGoSleep,
+				EvGoSched, EvGoPreempt, EvGoSysBlock:
+				g = ev.G
+				seq = ev.Args[0]
+			case EvGoUnblock, EvGoSysExit:
+				g = ev.Args[0]
+				seq = ev.Args[1]
+			}
+			if g != unordered && gseq[g] != seq {
+				//println("  consider", ev.Ts, "from", i, "g:", g, "seq:", seq, "gseq:", gseq[g], "NOT READY")
+				continue
+			}
+			//println("  consider", ev.Ts, "from", i, "g:", g, "seq:", seq, "gseq:", gseq[g], "READY")
+			frontier = append(frontier, Frontier{ev, i, g, seq})
+			b.events = b.events[1:]
+			b.selected = true
+		}
+		if len(frontier) == 0 {
+			return nil, fmt.Errorf("no consistent ordering of events possible")
+		}
+		sort.Sort(frontierList(frontier))
+		f := frontier[0]
+		//!!! don't slide
+		//println("  select", f.ev.Ts, "sfrom", f.batch, "remain", len(batches[f.batch].events))
+		frontier = frontier[1:]
+		events = append(events, f.ev)
+		if f.g != unordered {
+			if gseq[f.g] != f.seq {
+				panic("event sequences are broken")
+			}
+			gseq[f.g] = f.seq + 1
+		}
+		if !batches[f.batch].selected {
+			panic("frontier batch is not selected")
+		}
+		batches[f.batch].selected = false
+	}
+
+	// Make sure time stamps respect sequence numbers.
+	// The tests will skip (not fail) the test case if they see this error,
+	// so check everything else that could possibly be wrong first.
+	var lastTs int64
+	for _, ev := range events {
+		if ev.Ts < lastTs {
+			//Print(events)
+			//println(lastTs, ev.Ts)
+			return nil, ErrTimeOrder
+		}
+		lastTs = ev.Ts
+	}
 	return
 }
 
@@ -565,18 +723,6 @@ func postProcessTrace(events []*Event) error {
 	// TODO(dvyukov): restore stacks for EvGoStart events.
 	// TODO(dvyukov): test that all EvGoStart events has non-nil Link.
 
-	// Last, after all the other consistency checks,
-	// make sure time stamps respect sequence numbers.
-	// The tests will skip (not fail) the test case if they see this error,
-	// so check everything else that could possibly be wrong first.
-	lastTs := int64(0)
-	for _, ev := range events {
-		if ev.Ts < lastTs {
-			return ErrTimeOrder
-		}
-		lastTs = ev.Ts
-	}
-
 	return nil
 }
 
@@ -679,30 +825,83 @@ func (l eventList) Len() int {
 }
 
 func (l eventList) Less(i, j int) bool {
-	return l[i].Seq < l[j].Seq
+	a, b := l[i], l[j]
+	switch {
+	case a == nil && b == nil:
+		return false
+	case a == nil:
+		return false
+	case b == nil:
+		return true
+	default:
+		return a.Ts < b.Ts
+	}
+	/*
+		if a.P >= FakeP || b.P >= FakeP {
+			panic("fake Ps must not appear here")
+		}
+		if a.Type == EvGoSysExit || b.Type == EvGoSysExit {
+			return a.Ts < b.Ts
+		}
+		if a.P == b.P {
+			return a.pSeq < b.pSeq
+		}
+	*/
+	/*
+		if isGoroutineCreateStart(a, b) {
+			return true
+		}
+		if isCreateStart(b, a) {
+			return false
+		}
+		ga, seqa, ordereda := isOrdered(a)
+		gb, seqb, orderedb := isOrdered(b)
+		if ordereda && orderedb && ga == gb {
+			return
+		}
+		switch a.Type {
+		case EvGoCreate, EvGoStart:
+
+					ev.gSeq = e.Args[1]
+				case :
+					ev.gSeq = e.Args[1]
+
+		return a.Ts < b.Ts
+	*/
 }
 
 func (l eventList) Swap(i, j int) {
 	l[i], l[j] = l[j], l[i]
 }
 
+/*
+func isCreateStart(a, b *Event) bool {
+	return a.Type == EvGoCreate && b.Type == EvGoStart
+}
+*/
+
 // Print dumps events to stdout. For debugging.
 func Print(events []*Event) {
 	for _, ev := range events {
-		desc := EventDescriptions[ev.Type]
-		fmt.Printf("%v %v p=%v g=%v off=%v", ev.Ts, desc.Name, ev.P, ev.G, ev.Off)
-		for i, a := range desc.Args {
-			fmt.Printf(" %v=%v", a, ev.Args[i])
-		}
-		fmt.Printf("\n")
+		PrintEvent(ev)
 	}
+}
+
+// PrintEvent dumps the event to stdout. For debugging.
+func PrintEvent(ev *Event) {
+	desc := EventDescriptions[ev.Type]
+	fmt.Printf("%v %v p=%v g=%v off=%v", ev.Ts, desc.Name, ev.P, ev.G, ev.Off)
+	for i, a := range desc.Args {
+		fmt.Printf(" %v=%v", a, ev.Args[i])
+	}
+	fmt.Printf("\n")
 }
 
 // Event types in the trace.
 // Verbatim copy from src/runtime/trace.go.
 const (
 	EvNone           = 0  // unused
-	EvBatch          = 1  // start of per-P batch of events [pid, timestamp]
+	EvBatch          = 1  // start of per-P batch of events [pid, timestamp, seq]
 	EvFrequency      = 2  // contains tracer timer frequency [frequency (ticks per second)]
 	EvStack          = 3  // stack [stack id, number of PCs, array of PCs]
 	EvGomaxprocs     = 4  // current value of GOMAXPROCS [timestamp, GOMAXPROCS, stack id]
@@ -715,7 +914,7 @@ const (
 	EvGCSweepStart   = 11 // GC sweep start [timestamp, stack id]
 	EvGCSweepDone    = 12 // GC sweep done [timestamp]
 	EvGoCreate       = 13 // goroutine creation [timestamp, new goroutine id, start PC, stack id]
-	EvGoStart        = 14 // goroutine starts running [timestamp, goroutine id]
+	EvGoStart        = 14 // goroutine starts running [timestamp, goroutine id, seq]
 	EvGoEnd          = 15 // goroutine ends [timestamp]
 	EvGoStop         = 16 // goroutine stops (like in select{}) [timestamp, stack]
 	EvGoSched        = 17 // goroutine calls Gosched [timestamp, stack]
@@ -747,8 +946,8 @@ var EventDescriptions = [EvCount]struct {
 	Args  []string
 }{
 	EvNone:           {"None", false, []string{}},
-	EvBatch:          {"Batch", false, []string{"p", "seq", "ticks"}},
-	EvFrequency:      {"Frequency", false, []string{"freq", "unused"}},
+	EvBatch:          {"Batch", false, []string{"p", "ticks", "seq"}},
+	EvFrequency:      {"Frequency", false, []string{"freq"}},
 	EvStack:          {"Stack", false, []string{"id", "siz"}},
 	EvGomaxprocs:     {"Gomaxprocs", true, []string{"procs"}},
 	EvProcStart:      {"ProcStart", false, []string{"thread"}},
@@ -760,27 +959,27 @@ var EventDescriptions = [EvCount]struct {
 	EvGCSweepStart:   {"GCSweepStart", true, []string{}},
 	EvGCSweepDone:    {"GCSweepDone", false, []string{}},
 	EvGoCreate:       {"GoCreate", true, []string{"g", "pc"}},
-	EvGoStart:        {"GoStart", false, []string{"g"}},
+	EvGoStart:        {"GoStart", false, []string{"g", "seq"}},
 	EvGoEnd:          {"GoEnd", false, []string{}},
-	EvGoStop:         {"GoStop", true, []string{}},
-	EvGoSched:        {"GoSched", true, []string{}},
-	EvGoPreempt:      {"GoPreempt", true, []string{}},
-	EvGoSleep:        {"GoSleep", true, []string{}},
-	EvGoBlock:        {"GoBlock", true, []string{}},
-	EvGoUnblock:      {"GoUnblock", true, []string{"g"}},
-	EvGoBlockSend:    {"GoBlockSend", true, []string{}},
-	EvGoBlockRecv:    {"GoBlockRecv", true, []string{}},
-	EvGoBlockSelect:  {"GoBlockSelect", true, []string{}},
-	EvGoBlockSync:    {"GoBlockSync", true, []string{}},
-	EvGoBlockCond:    {"GoBlockCond", true, []string{}},
-	EvGoBlockNet:     {"GoBlockNet", true, []string{}},
+	EvGoStop:         {"GoStop", true, []string{"seq"}},
+	EvGoSched:        {"GoSched", true, []string{"seq"}},
+	EvGoPreempt:      {"GoPreempt", true, []string{"seq"}},
+	EvGoSleep:        {"GoSleep", true, []string{"seq"}},
+	EvGoBlock:        {"GoBlock", true, []string{"seq"}},
+	EvGoUnblock:      {"GoUnblock", true, []string{"g", "seq"}},
+	EvGoBlockSend:    {"GoBlockSend", true, []string{"seq"}},
+	EvGoBlockRecv:    {"GoBlockRecv", true, []string{"seq"}},
+	EvGoBlockSelect:  {"GoBlockSelect", true, []string{"seq"}},
+	EvGoBlockSync:    {"GoBlockSync", true, []string{"seq"}},
+	EvGoBlockCond:    {"GoBlockCond", true, []string{"seq"}},
+	EvGoBlockNet:     {"GoBlockNet", true, []string{"seq"}},
 	EvGoSysCall:      {"GoSysCall", true, []string{}},
 	EvGoSysExit:      {"GoSysExit", false, []string{"g", "seq", "ts"}},
-	EvGoSysBlock:     {"GoSysBlock", false, []string{}},
+	EvGoSysBlock:     {"GoSysBlock", false, []string{"seq"}},
 	EvGoWaiting:      {"GoWaiting", false, []string{"g"}},
 	EvGoInSyscall:    {"GoInSyscall", false, []string{"g"}},
 	EvHeapAlloc:      {"HeapAlloc", false, []string{"mem"}},
 	EvNextGC:         {"NextGC", false, []string{"mem"}},
-	EvTimerGoroutine: {"TimerGoroutine", false, []string{"g", "unused"}},
+	EvTimerGoroutine: {"TimerGoroutine", false, []string{"g"}},
 	EvFutileWakeup:   {"FutileWakeup", false, []string{}},
 }
