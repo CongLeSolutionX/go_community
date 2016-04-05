@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "cebbe49e_d8be8f82",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T04:57:12Z",
+      "side": 1,
+      "message": "One of the big reasons we have tests is to we don\u0027t accidentally change behavior on people and violate the Go 1 compatibility promise.\n\nThis is a behavior change. We might need a special case to keep these working. We might have to accept these but reject http://1.2.3.4:edac/ or http://foo.com:adac/.",
+      "parentUuid": "cebbe49e_44bac2e2",
+      "revId": "a7dd7fbe3a1827e09d0bc52f59a0801e4a456a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1145534_19b88ba0",
         "filename": "src/net/url/url_test.go",
         "patchSetId": 6
