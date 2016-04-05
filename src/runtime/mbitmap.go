@@ -960,21 +960,20 @@ var oneBitCount = [256]uint8{
 
 // countFree runs through the mark bits in a span and counts the number of free objects
 // in the span.
-// TODO:(rlh) Use popcount intrinsic.
-func (s *mspan) countFree() int {
-	count := 0
+func (s *mspan) countFree() uint16 {
+	count := uint16(0)
 	maxIndex := s.nelems / 8
 	for i := uintptr(0); i < maxIndex; i++ {
 		mrkBits := *addb(s.gcmarkBits, i)
-		count += int(oneBitCount[mrkBits])
+		count += uint16(oneBitCount[mrkBits])
 	}
 	if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
 		mrkBits := *addb(s.gcmarkBits, maxIndex)
 		mask := uint8((1 << bitsInLastByte) - 1)
 		bits := mrkBits & mask
-		count += int(oneBitCount[bits])
+		count += uint16(oneBitCount[bits])
 	}
-	return int(s.nelems) - count
+	return uint16(s.nelems) - count
 }
 
 // heapBitsSetType records that the new allocation [x, x+size)
