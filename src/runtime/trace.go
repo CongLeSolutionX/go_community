@@ -13,7 +13,6 @@
 package runtime
 
 import (
-	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -21,7 +20,7 @@ import (
 // Event types in the trace, args are given in square brackets.
 const (
 	traceEvNone           = 0  // unused
-	traceEvBatch          = 1  // start of per-P batch of events [pid, timestamp]
+	traceEvBatch          = 1  // start of per-P batch of events [pid, timestamp, seq]
 	traceEvFrequency      = 2  // contains tracer timer frequency [frequency (ticks per second)]
 	traceEvStack          = 3  // stack [stack id, number of PCs, array of PCs]
 	traceEvGomaxprocs     = 4  // current value of GOMAXPROCS [timestamp, GOMAXPROCS, stack id]
@@ -111,35 +110,14 @@ var trace struct {
 	reader        *g              // goroutine that called ReadTrace, or nil
 	stackTab      traceStackTable // maps stack traces to unique ids
 
-	bufLock mutex       // protects buf
+	bufLock mutex
 	buf     traceBufPtr // global trace buffer, used when running without a p
-}
-
-var traceseq uint64 // global trace sequence number
-
-// tracestamp returns a consistent sequence number, time stamp pair
-// for use in a trace. We need to make sure that time stamp ordering
-// (assuming synchronized CPUs) and sequence ordering match.
-// To do that, we increment traceseq, grab ticks, and increment traceseq again.
-// We treat odd traceseq as a sign that another thread is in the middle
-// of the sequence and spin until it is done.
-// Not splitting stack to avoid preemption, just in case the call sites
-// that used to call xadd64 and cputicks are sensitive to that.
-//go:nosplit
-func tracestamp() (seq uint64, ts int64) {
-	seq = atomic.Load64(&traceseq)
-	for seq&1 != 0 || !atomic.Cas64(&traceseq, seq, seq+1) {
-		seq = atomic.Load64(&traceseq)
-	}
-	ts = cputicks()
-	atomic.Store64(&traceseq, seq+2)
-	return seq >> 1, ts
+	seq     uint64
 }
 
 // traceBufHeader is per-P tracing buffer.
 type traceBufHeader struct {
 	link      traceBufPtr             // in trace.empty/full
-	lastSeq   uint64                  // sequence number of last event
 	lastTicks uint64                  // when we wrote the last event
 	pos       int                     // next write offset in arr
 	stk       [traceStackSize]uintptr // scratch buffer for traceback
@@ -187,7 +165,7 @@ func StartTrace() error {
 		return errorString("tracing is already enabled")
 	}
 
-	trace.seqStart, trace.ticksStart = tracestamp()
+	trace.ticksStart = cputicks()
 	trace.timeStart = nanotime()
 	trace.headerWritten = false
 	trace.footerWritten = false
@@ -348,7 +326,7 @@ func ReadTrace() []byte {
 		trace.headerWritten = true
 		trace.lockOwner = nil
 		unlock(&trace.lock)
-		return []byte("go 1.5 trace\x00\x00\x00\x00")
+		return []byte("go 1.7 trace\x00\x00\x00\x00")
 	}
 	// Wait for new data.
 	if trace.fullHead == 0 && !trace.shutdown {
@@ -374,11 +352,9 @@ func ReadTrace() []byte {
 		var data []byte
 		data = append(data, traceEvFrequency|0<<traceArgCountShift)
 		data = traceAppend(data, uint64(freq))
-		data = traceAppend(data, 0)
 		if timers.gp != nil {
 			data = append(data, traceEvTimerGoroutine|0<<traceArgCountShift)
 			data = traceAppend(data, uint64(timers.gp.goid))
-			data = traceAppend(data, 0)
 		}
 		return data
 	}
@@ -483,19 +459,20 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		(*bufp).set(buf)
 	}
 
-	seq, ticksraw := tracestamp()
-	seqDiff := seq - buf.lastSeq
-	ticks := uint64(ticksraw) / traceTickDiv
+	ticks := uint64(cputicks() /*+ int64(fastrand1()%1000)*/) / traceTickDiv
 	tickDiff := ticks - buf.lastTicks
 	if buf.pos == 0 {
-		buf.byte(traceEvBatch | 1<<traceArgCountShift)
+		buf.byte(traceEvBatch | 2<<traceArgCountShift)
 		buf.varint(uint64(pid))
-		buf.varint(seq)
 		buf.varint(ticks)
-		seqDiff = 0
+		seq := &trace.seq
+		if p := mp.p.ptr(); p != nil {
+			seq = &p.traceseq
+		}
+		*seq++
+		buf.varint(*seq)
 		tickDiff = 0
 	}
-	buf.lastSeq = seq
 	buf.lastTicks = ticks
 	narg := byte(len(args))
 	if skip >= 0 {
@@ -514,7 +491,6 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		buf.varint(0)
 		lenp = &buf.arr[buf.pos-1]
 	}
-	buf.varint(seqDiff)
 	buf.varint(tickDiff)
 	for _, a := range args {
 		buf.varint(a)
@@ -878,12 +854,12 @@ func traceGoSysCall() {
 	traceEvent(traceEvGoSysCall, 1)
 }
 
-func traceGoSysExit(seq uint64, ts int64) {
-	if int64(seq)-int64(trace.seqStart) < 0 {
+func traceGoSysExit(ts int64) {
+	if ts != 0 && ts < trace.ticksStart {
 		// The timestamp was obtained during a previous tracing session, ignore.
 		return
 	}
-	traceEvent(traceEvGoSysExit, -1, uint64(getg().m.curg.goid), seq, uint64(ts)/traceTickDiv)
+	traceEvent(traceEvGoSysExit, -1, uint64(getg().m.curg.goid), uint64(ts)/traceTickDiv)
 }
 
 func traceGoSysBlock(pp *p) {

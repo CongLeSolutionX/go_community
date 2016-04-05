@@ -319,7 +319,7 @@ type g struct {
 	raceignore     int8   // ignore race detection events
 	sysblocktraced bool   // StartTrace has emitted EvGoInSyscall about this goroutine
 	sysexitticks   int64  // cputicks when syscall has returned (for tracing)
-	sysexitseq     uint64 // trace seq when syscall has returned (for tracing)
+	traceseq       uint64 // trace event sequencer
 	lockedm        *m
 	sig            uint32
 	writebuf       []byte
@@ -451,6 +451,7 @@ type p struct {
 	sudogbuf   [128]*sudog
 
 	tracebuf traceBufPtr
+	traceseq uint64 // trace event sequencer
 
 	palloc persistentAlloc // per-P to avoid mutex
 

@@ -20,13 +20,12 @@ import (
 type Event struct {
 	Off   int       // offset in input file (for debugging and error reporting)
 	Type  byte      // one of Ev*
-	Seq   int64     // sequence number
 	Ts    int64     // timestamp in nanoseconds
 	P     int       // P on which the event happened (can be one of TimerP, NetpollP, SyscallP)
 	G     uint64    // G on which the event happened
 	StkID uint64    // unique stack ID
 	Stk   []*Frame  // stack trace (can be empty)
-	Args  [3]uint64 // event-type-specific arguments
+	Args  [2]uint64 // event-type-specific arguments
 	// linked event (can be nil), depends on event type:
 	// for GCStart: the GCStop
 	// for GCScanStart: the GCScanDone
@@ -39,6 +38,8 @@ type Event struct {
 	// for blocking GoSysCall: the associated GoSysExit
 	// for GoSysExit: the next GoStart
 	Link *Event
+
+	pSeq uint64
 }
 
 // Frame is a frame in stack traces.
@@ -94,7 +95,7 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 	if off != 16 || err != nil {
 		return nil, fmt.Errorf("failed to read header: read %v, err %v", off, err)
 	}
-	if !bytes.Equal(buf[:], []byte("go 1.5 trace\x00\x00\x00\x00")) {
+	if !bytes.Equal(buf[:], []byte("go 1.7 trace\x00\x00\x00\x00")) {
 		return nil, fmt.Errorf("not a trace file")
 	}
 
@@ -112,19 +113,21 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 		}
 		off += n
 		typ := buf[0] << 2 >> 2
-		narg := buf[0] >> 6
+		narg := buf[0]>>6 + 1
+		//println("read event:", EventDescriptions[typ].Name, narg, off0)
 		ev := rawEvent{typ: typ, off: off0}
-		if narg < 3 {
-			for i := 0; i < int(narg)+2; i++ { // sequence number and time stamp are present but not counted in narg
+		if narg < 4 {
+			for i := 0; i < int(narg); i++ {
 				var v uint64
 				v, off, err = readVal(r, off)
 				if err != nil {
 					return nil, err
 				}
+				//println("  ", v)
 				ev.args = append(ev.args, v)
 			}
 		} else {
-			// If narg == 3, the first value is length of the event in bytes.
+			// If narg == 4, the first value is length of the event in bytes.
 			var v uint64
 			v, off, err = readVal(r, off)
 			if err != nil {
@@ -132,11 +135,13 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 			}
 			evLen := v
 			off1 := off
+			//println("  len ", v)
 			for evLen > uint64(off-off1) {
 				v, off, err = readVal(r, off)
 				if err != nil {
 					return nil, err
 				}
+				//println("  ", v)
 				ev.args = append(ev.args, v)
 			}
 			if evLen != uint64(off-off1) {
@@ -151,8 +156,8 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 // Parse events transforms raw events into events.
 // It does analyze and verify per-event-type arguments.
 func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
-	var ticksPerSec, lastSeq, lastTs int64
-	var lastG, timerGoid uint64
+	var ticksPerSec, lastTs int64
+	var lastG, timerGoid, lastPSeq uint64
 	var lastP int
 	lastGs := make(map[int]uint64) // last goroutine running on P
 	stacks := make(map[uint64][]*Frame)
@@ -172,7 +177,6 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 				narg++
 			}
 			if raw.typ != EvBatch && raw.typ != EvFrequency && raw.typ != EvTimerGoroutine {
-				narg++ // sequence number
 				narg++ // timestamp
 			}
 			if len(raw.args) != narg {
@@ -186,8 +190,8 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 			lastGs[lastP] = lastG
 			lastP = int(raw.args[0])
 			lastG = lastGs[lastP]
-			lastSeq = int64(raw.args[1])
-			lastTs = int64(raw.args[2])
+			lastTs = int64(raw.args[1])
+			lastPSeq = raw.args[2]
 		case EvFrequency:
 			ticksPerSec = int64(raw.args[0])
 			if ticksPerSec <= 0 {
@@ -225,16 +229,14 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 				stacks[id] = stk
 			}
 		default:
-			e := &Event{Off: raw.off, Type: raw.typ, P: lastP, G: lastG}
-			e.Seq = lastSeq + int64(raw.args[0])
-			e.Ts = lastTs + int64(raw.args[1])
-			lastSeq = e.Seq
+			e := &Event{Off: raw.off, Type: raw.typ, P: lastP, G: lastG, pSeq: lastPSeq}
+			e.Ts = lastTs + int64(raw.args[0])
 			lastTs = e.Ts
 			for i := range desc.Args {
-				e.Args[i] = raw.args[i+2]
+				e.Args[i] = raw.args[i+1]
 			}
 			if desc.Stack {
-				e.StkID = raw.args[len(desc.Args)+2]
+				e.StkID = raw.args[len(desc.Args)+1]
 			}
 			switch raw.typ {
 			case EvGoStart:
@@ -250,9 +252,8 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 			case EvGoSysExit:
 				// EvGoSysExit emission is delayed until the thread has a P.
 				// Give it the real sequence number and time stamp.
-				e.Seq = int64(e.Args[1])
-				if e.Args[2] != 0 {
-					e.Ts = int64(e.Args[2])
+				if e.Args[1] != 0 {
+					e.Ts = int64(e.Args[1])
 				}
 			}
 			events = append(events, e)
@@ -270,8 +271,7 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 		}
 	}
 
-	// Sort by sequence number and translate cpu ticks to real time.
-	sort.Sort(eventList(events))
+	sort.Stable(eventList(events))
 	if ticksPerSec == 0 {
 		err = fmt.Errorf("no EvFrequency event")
 		return
@@ -679,7 +679,14 @@ func (l eventList) Len() int {
 }
 
 func (l eventList) Less(i, j int) bool {
-	return l[i].Seq < l[j].Seq
+	a, b := l[i], l[j]
+	if a.P >= FakeP || b.P >= FakeP {
+		panic("fake Ps must not appear here")
+	}
+	if a.P == b.P && a.pSeq != b.pSeq {
+		return a.pSeq < b.pSeq
+	}
+	return a.Ts < b.Ts
 }
 
 func (l eventList) Swap(i, j int) {
@@ -747,8 +754,8 @@ var EventDescriptions = [EvCount]struct {
 	Args  []string
 }{
 	EvNone:           {"None", false, []string{}},
-	EvBatch:          {"Batch", false, []string{"p", "seq", "ticks"}},
-	EvFrequency:      {"Frequency", false, []string{"freq", "unused"}},
+	EvBatch:          {"Batch", false, []string{"p", "ticks", "seq"}},
+	EvFrequency:      {"Frequency", false, []string{"freq"}},
 	EvStack:          {"Stack", false, []string{"id", "siz"}},
 	EvGomaxprocs:     {"Gomaxprocs", true, []string{"procs"}},
 	EvProcStart:      {"ProcStart", false, []string{"thread"}},
@@ -775,12 +782,12 @@ var EventDescriptions = [EvCount]struct {
 	EvGoBlockCond:    {"GoBlockCond", true, []string{}},
 	EvGoBlockNet:     {"GoBlockNet", true, []string{}},
 	EvGoSysCall:      {"GoSysCall", true, []string{}},
-	EvGoSysExit:      {"GoSysExit", false, []string{"g", "seq", "ts"}},
+	EvGoSysExit:      {"GoSysExit", false, []string{"g", "ts"}},
 	EvGoSysBlock:     {"GoSysBlock", false, []string{}},
 	EvGoWaiting:      {"GoWaiting", false, []string{"g"}},
 	EvGoInSyscall:    {"GoInSyscall", false, []string{"g"}},
 	EvHeapAlloc:      {"HeapAlloc", false, []string{"mem"}},
 	EvNextGC:         {"NextGC", false, []string{"mem"}},
-	EvTimerGoroutine: {"TimerGoroutine", false, []string{"g", "unused"}},
+	EvTimerGoroutine: {"TimerGoroutine", false, []string{"g"}},
 	EvFutileWakeup:   {"FutileWakeup", false, []string{}},
 }
