@@ -2833,6 +2833,22 @@ func rewriteValueAMD64_OpAMD64CMPLconst(v *Value, config *Config) bool {
 		v.reset(OpAMD64FlagGT_UGT)
 		return true
 	}
+	// match: (CMPLconst (SHRLconst _ [c]) [n])
+	// cond: 0 <= n && 0 <= c && c <= 31 && (1<<uint64(32-c)) <= uint64(n)
+	// result: (FlagLT_ULT)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64SHRLconst {
+			break
+		}
+		c := v_0.AuxInt
+		n := v.AuxInt
+		if !(0 <= n && 0 <= c && c <= 31 && (1<<uint64(32-c)) <= uint64(n)) {
+			break
+		}
+		v.reset(OpAMD64FlagLT_ULT)
+		return true
+	}
 	// match: (CMPLconst (ANDLconst _ [m]) [n])
 	// cond: 0 <= int32(m) && int32(m) < int32(n)
 	// result: (FlagLT_ULT)
@@ -3024,6 +3040,22 @@ func rewriteValueAMD64_OpAMD64CMPQconst(v *Value, config *Config) bool {
 			break
 		}
 		v.reset(OpAMD64FlagGT_UGT)
+		return true
+	}
+	// match: (CMPQconst (SHRQconst _ [c]) [n])
+	// cond: 0 <= n && 0 <= c && c <= 63 && (1<<uint64(64-c)) <= uint64(n)
+	// result: (FlagLT_ULT)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64SHRQconst {
+			break
+		}
+		c := v_0.AuxInt
+		n := v.AuxInt
+		if !(0 <= n && 0 <= c && c <= 63 && (1<<uint64(64-c)) <= uint64(n)) {
+			break
+		}
+		v.reset(OpAMD64FlagLT_ULT)
 		return true
 	}
 	// match: (CMPQconst (ANDQconst _ [m]) [n])
