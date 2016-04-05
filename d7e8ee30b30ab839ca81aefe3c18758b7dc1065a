@@ -16,6 +16,24 @@
       "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ec48060_5b197bc0",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-05T18:42:24Z",
+      "side": 1,
+      "message": "On second thought, can\u0027t we limit a per-P list? If a P dirtied, say, 1000 stacks, it could scan one of these stacks and replace the slot with a new dirty stack. Looks better then leaving massive amounts of dirty stacks for mark termination.",
+      "parentUuid": "2ec48060_fb508753",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
