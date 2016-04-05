@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebbe49e_0c24e589",
+        "filename": "src/cmd/vet/testdata/atomic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-05T16:16:33Z",
+      "side": 1,
+      "message": "you don\u0027t need if true. a block is all you need.",
+      "revId": "8e201241ab555e29ffef27685c758509802aec2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_2c21a979",
+        "filename": "src/cmd/vet/testdata/atomic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-05T16:16:33Z",
+      "side": 1,
+      "message": "s/variable/A variable/\ns/$/./",
+      "revId": "8e201241ab555e29ffef27685c758509802aec2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_6c580105",
+        "filename": "src/cmd/vet/testdata/atomic.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-05T16:16:33Z",
+      "side": 1,
+      "message": "s/re/Re/\ns/$/./",
+      "revId": "8e201241ab555e29ffef27685c758509802aec2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
