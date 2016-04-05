@@ -16,6 +16,24 @@
       "revId": "16c44af8dc18ba8fdb90b1df780e870a2ace1805",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ec48060_3bc03f4d",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-04-05T16:41:08Z",
+      "side": 1,
+      "message": "Because the first variadic argument (the second one in the call) is a function, not a function call. See other lines with the same error in this test for details.",
+      "parentUuid": "cebbe49e_4c3addab",
+      "revId": "16c44af8dc18ba8fdb90b1df780e870a2ace1805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
