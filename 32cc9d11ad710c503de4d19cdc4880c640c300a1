@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ec48060_18bd492c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-05T12:51:18Z",
+      "side": 1,
+      "message": "Simple break would cause an additional, unnecessary yield after the switch (break would break from the switch, not from the for).",
+      "parentUuid": "0efc1c7c_4f6611f6",
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc1c7c_af7a1586",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
