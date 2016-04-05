@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0efc1c7c_6f02eda6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-05T19:09:38Z",
+      "side": 1,
+      "message": "Interesting. I think I like my approach to scang better than further complicating the G state machine, but I like your idea of fixing the casgstatus spin by making it encode the desired transition in the status and return immediately, letting the scan complete the transition when it finishes. I don\u0027t think this is feasible for all transitions; for example if a G in _Grunnable|_Gscan reaches the head of a run queue, I don\u0027t know what it would mean for the scan to complete the _Grunnable-\u003e_Grunning transition later. But in that case the scheduler could just kick the goroutine to the end of the run queue or something.",
+      "parentUuid": "2ec48060_fb2967c7",
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc1c7c_4f6611f6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
