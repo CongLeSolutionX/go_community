@@ -186,7 +186,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	spc := s.spanclass
 	size := s.elemsize
 	res := false
-	nfree := 0
+	nfree := uint16(0)
 
 	c := _g_.m.mcache
 	freeToHeap := false
