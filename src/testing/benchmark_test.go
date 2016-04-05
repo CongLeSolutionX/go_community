@@ -6,6 +6,8 @@ package testing_test
 
 import (
 	"bytes"
+	"fmt"
+	"math/rand"
 	"runtime"
 	"sync/atomic"
 	"testing"
@@ -110,4 +112,21 @@ func ExampleB_RunParallel() {
 			}
 		})
 	})
+}
+
+func ExampleBenchmark() {
+	// Define a benchmarking function measuring the performances
+	// of exponentially distributed float64 values generation.
+	benchRand := func(b *testing.B) {
+		r := rand.New(rand.NewSource(42))
+		for i := 0; i < b.N; i++ {
+			r.ExpFloat64()
+		}
+	}
+
+	// Run the benchmark.
+	br := testing.Benchmark(benchRand)
+
+	// Print results (including memory allocations counters).
+	fmt.Println(br.String() + br.MemString())
 }

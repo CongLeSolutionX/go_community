@@ -33,6 +33,9 @@
 // are considered benchmarks, and are executed by the "go test" command when
 // its -bench flag is provided. Benchmarks are run sequentially.
 //
+// Simple custom benchmarks that do not use the "go test"
+// command can also be run using the Benchmark function.
+//
 // For a description of the testing flags, see
 // https://golang.org/cmd/go/#hdr-Description_of_testing_flags.
 //
