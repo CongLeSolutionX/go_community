@@ -186,7 +186,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	spc := s.spanclass
 	size := s.elemsize
 	res := false
-	nfree := 0
+	nfree := uintptr(0)
 
 	c := _g_.m.mcache
 	freeToHeap := false
@@ -281,7 +281,7 @@ func (s *mspan) sweep(preserve bool) bool {
 		s.needzero = 1
 		freeToHeap = true
 	}
-	nalloc := uint16(s.nelems) - uint16(nfree)
+	nalloc := s.nelems - nfree
 	nfreed := s.allocCount - nalloc
 	if nalloc > s.allocCount {
 		print("runtime: nelems=", s.nelems, " nfree=", nfree, " nalloc=", nalloc, " previous allocCount=", s.allocCount, " nfreed=", nfreed, "\n")
