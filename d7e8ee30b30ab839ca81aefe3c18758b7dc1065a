@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ec48060_fb508753",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-05T18:40:20Z",
+      "side": 1,
+      "message": "Global mutexes in common operations worry me. There are chances we will need to rework this later (think of 64 core machine with tens of gigs heap).\n\nMore elaborate solutions are possible (for example, building per-P lists, or grow-only lists, or per-P lists with local freelists of remotely freed slots). But I would try a simpler solution. I don\u0027t see any fast path exits in markroot for clean stacks, we seem to execute systemstack+traceback+some minor stuff for clean stacks. So I would try to add just gcscanvalid per-G flag and short circuit markroot on that flag. Additionally we can add a very conservative batching of stack scanning, if we are talking about 300K goroutines, batch of 10 or so goroutines looks like a reasonable thing. Both these optimizations should reduce per-G overhead to few nanoseconds (while being reasonably simple).\n\nIf that does not help, I would try per-P grow-only lists. All 300K goroutines are unlikely to run during concurrent phase. And if there is high goroutine creation/exit rate, then these goroutines will reuse the same G\u0027s so they won\u0027t grow the lists.",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
