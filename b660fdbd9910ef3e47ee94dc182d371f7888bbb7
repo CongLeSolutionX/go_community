@@ -122,6 +122,24 @@
       "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_41c86690",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:15:28Z",
+      "side": 1,
+      "message": "throw(\"kernel32.dll not found\")\n\nWe got surprisingly far because these are the optional functions (but in the required DLL)",
+      "parentUuid": "0efc1c7c_6f3aedab",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
