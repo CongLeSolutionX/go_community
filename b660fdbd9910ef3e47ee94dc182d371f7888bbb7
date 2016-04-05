@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0efc1c7c_4f3f319a",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-05T15:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebbe49e_8152deb4",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cebbe49e_4164e689",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 9
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0efc1c7c_af233582",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-05T15:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebbe49e_4164e689",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cebbe49e_c1fd36cc",
         "filename": "src/runtime/os1_windows.go",
         "patchSetId": 9
@@ -65,6 +101,24 @@
       "writtenOn": "2016-04-05T15:00:50Z",
       "side": 1,
       "message": "return early and unindent.\n\nactually, if this fails, blow up? kernel32.dll should always be available. It\u0027s the entrypoint to everything.",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc1c7c_6f3aedab",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-05T15:11:02Z",
+      "side": 1,
+      "message": "If kernel32.dll is truly missing, what are my options for \"blow up\"?\nNote that we got surprisingly far with a failing call *here* (passing all tests) till you added your test.",
+      "parentUuid": "cebbe49e_c1fd36cc",
       "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
