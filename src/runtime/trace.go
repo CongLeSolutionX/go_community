@@ -13,7 +13,6 @@
 package runtime
 
 import (
-	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -34,30 +33,35 @@ const (
 	traceEvGCSweepStart   = 11 // GC sweep start [timestamp, stack id]
 	traceEvGCSweepDone    = 12 // GC sweep done [timestamp]
 	traceEvGoCreate       = 13 // goroutine creation [timestamp, new goroutine id, start PC, stack id]
-	traceEvGoStart        = 14 // goroutine starts running [timestamp, goroutine id]
+	traceEvGoStart        = 14 // goroutine starts running [timestamp, goroutine id, seq]
 	traceEvGoEnd          = 15 // goroutine ends [timestamp]
 	traceEvGoStop         = 16 // goroutine stops (like in select{}) [timestamp, stack]
 	traceEvGoSched        = 17 // goroutine calls Gosched [timestamp, stack]
 	traceEvGoPreempt      = 18 // goroutine is preempted [timestamp, stack]
-	traceEvGoSleep        = 19 // goroutine calls Sleep [timestamp, stack]
-	traceEvGoBlock        = 20 // goroutine blocks [timestamp, stack]
+	traceEvGoSleep        = 19 // goroutine calls Sleep [timestamp, seq, stack]
+	traceEvGoBlock        = 20 // goroutine blocks [timestamp, seq, stack]
 	traceEvGoUnblock      = 21 // goroutine is unblocked [timestamp, goroutine id, stack]
-	traceEvGoBlockSend    = 22 // goroutine blocks on chan send [timestamp, stack]
-	traceEvGoBlockRecv    = 23 // goroutine blocks on chan recv [timestamp, stack]
-	traceEvGoBlockSelect  = 24 // goroutine blocks on select [timestamp, stack]
-	traceEvGoBlockSync    = 25 // goroutine blocks on Mutex/RWMutex [timestamp, stack]
-	traceEvGoBlockCond    = 26 // goroutine blocks on Cond [timestamp, stack]
-	traceEvGoBlockNet     = 27 // goroutine blocks on network [timestamp, stack]
+	traceEvGoBlockSend    = 22 // goroutine blocks on chan send [timestamp, seq, stack]
+	traceEvGoBlockRecv    = 23 // goroutine blocks on chan recv [timestamp, seq, stack]
+	traceEvGoBlockSelect  = 24 // goroutine blocks on select [timestamp, seq, stack]
+	traceEvGoBlockSync    = 25 // goroutine blocks on Mutex/RWMutex [timestamp, seq, stack]
+	traceEvGoBlockCond    = 26 // goroutine blocks on Cond [timestamp, seq, stack]
+	traceEvGoBlockNet     = 27 // goroutine blocks on network [timestamp, seq, stack]
 	traceEvGoSysCall      = 28 // syscall enter [timestamp, stack]
 	traceEvGoSysExit      = 29 // syscall exit [timestamp, goroutine id, real timestamp]
 	traceEvGoSysBlock     = 30 // syscall blocks [timestamp]
-	traceEvGoWaiting      = 31 // denotes that goroutine is blocked when tracing starts [goroutine id]
-	traceEvGoInSyscall    = 32 // denotes that goroutine is in syscall when tracing starts [goroutine id]
+	traceEvGoWaiting      = 31 // denotes that goroutine is blocked when tracing starts [timestamp, goroutine id]
+	traceEvGoInSyscall    = 32 // denotes that goroutine is in syscall when tracing starts [timestamp, goroutine id]
 	traceEvHeapAlloc      = 33 // memstats.heap_live change [timestamp, heap_alloc]
 	traceEvNextGC         = 34 // memstats.next_gc change [timestamp, next_gc]
 	traceEvTimerGoroutine = 35 // denotes timer goroutine [timer goroutine id]
 	traceEvFutileWakeup   = 36 // denotes that the previous wakeup of this goroutine was futile [timestamp]
-	traceEvCount          = 37
+
+	traceEvGoUnblockLocal = 37
+	traceEvGoStartLocal   = 38
+	traceEvGoSysExitLocal = 39
+
+	traceEvCount = 40
 )
 
 const (
@@ -111,35 +115,16 @@ var trace struct {
 	reader        *g              // goroutine that called ReadTrace, or nil
 	stackTab      traceStackTable // maps stack traces to unique ids
 
-	bufLock mutex       // protects buf
+	bufLock mutex
 	buf     traceBufPtr // global trace buffer, used when running without a p
-}
+	//seq     uint64
 
-var traceseq uint64 // global trace sequence number
-
-// tracestamp returns a consistent sequence number, time stamp pair
-// for use in a trace. We need to make sure that time stamp ordering
-// (assuming synchronized CPUs) and sequence ordering match.
-// To do that, we increment traceseq, grab ticks, and increment traceseq again.
-// We treat odd traceseq as a sign that another thread is in the middle
-// of the sequence and spin until it is done.
-// Not splitting stack to avoid preemption, just in case the call sites
-// that used to call xadd64 and cputicks are sensitive to that.
-//go:nosplit
-func tracestamp() (seq uint64, ts int64) {
-	seq = atomic.Load64(&traceseq)
-	for seq&1 != 0 || !atomic.Cas64(&traceseq, seq, seq+1) {
-		seq = atomic.Load64(&traceseq)
-	}
-	ts = cputicks()
-	atomic.Store64(&traceseq, seq+2)
-	return seq >> 1, ts
+	brokenCputicks int
 }
 
 // traceBufHeader is per-P tracing buffer.
 type traceBufHeader struct {
 	link      traceBufPtr             // in trace.empty/full
-	lastSeq   uint64                  // sequence number of last event
 	lastTicks uint64                  // when we wrote the last event
 	pos       int                     // next write offset in arr
 	stk       [traceStackSize]uintptr // scratch buffer for traceback
@@ -187,10 +172,12 @@ func StartTrace() error {
 		return errorString("tracing is already enabled")
 	}
 
-	trace.seqStart, trace.ticksStart = tracestamp()
+	trace.ticksStart = cputicks()
 	trace.timeStart = nanotime()
 	trace.headerWritten = false
 	trace.footerWritten = false
+
+	//trace.brokenCputicks = int(fastrand1() % 4)
 
 	// Can't set trace.enabled yet. While the world is stopped, exitsyscall could
 	// already emit a delayed event (see exitTicks in exitsyscall) if we set trace.enabled here.
@@ -207,9 +194,12 @@ func StartTrace() error {
 			traceGoCreate(gp, gp.startpc)
 		}
 		if status == _Gwaiting {
+			// traceEvGoWaiting is implied to have seq=1.
+			gp.traceseq++
 			traceEvent(traceEvGoWaiting, -1, uint64(gp.goid))
 		}
 		if status == _Gsyscall {
+			gp.traceseq++
 			traceEvent(traceEvGoInSyscall, -1, uint64(gp.goid))
 		} else {
 			gp.sysblocktraced = false
@@ -348,7 +338,7 @@ func ReadTrace() []byte {
 		trace.headerWritten = true
 		trace.lockOwner = nil
 		unlock(&trace.lock)
-		return []byte("go 1.5 trace\x00\x00\x00\x00")
+		return []byte("go 1.7 trace\x00\x00\x00\x00")
 	}
 	// Wait for new data.
 	if trace.fullHead == 0 && !trace.shutdown {
@@ -374,11 +364,9 @@ func ReadTrace() []byte {
 		var data []byte
 		data = append(data, traceEvFrequency|0<<traceArgCountShift)
 		data = traceAppend(data, uint64(freq))
-		data = traceAppend(data, 0)
 		if timers.gp != nil {
 			data = append(data, traceEvTimerGoroutine|0<<traceArgCountShift)
 			data = traceAppend(data, uint64(timers.gp.goid))
-			data = traceAppend(data, 0)
 		}
 		return data
 	}
@@ -483,19 +471,29 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		(*bufp).set(buf)
 	}
 
-	seq, ticksraw := tracestamp()
-	seqDiff := seq - buf.lastSeq
-	ticks := uint64(ticksraw) / traceTickDiv
+	ticks := uint64(cputicks()) / traceTickDiv
+	switch trace.brokenCputicks {
+	case 0:
+	case 1:
+		ticks += uint64(fastrand1() % 10000)
+	case 2:
+		inc := uint64(pid * 1000)
+		if pid == traceGlobProc {
+			inc = 0
+		}
+		ticks += inc
+	case 3:
+		if fastrand1()%50 == 0 {
+			ticks += uint64(fastrand1() % 1000)
+		}
+	}
 	tickDiff := ticks - buf.lastTicks
 	if buf.pos == 0 {
 		buf.byte(traceEvBatch | 1<<traceArgCountShift)
 		buf.varint(uint64(pid))
-		buf.varint(seq)
 		buf.varint(ticks)
-		seqDiff = 0
 		tickDiff = 0
 	}
-	buf.lastSeq = seq
 	buf.lastTicks = ticks
 	narg := byte(len(args))
 	if skip >= 0 {
@@ -514,7 +512,6 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		buf.varint(0)
 		lenp = &buf.arr[buf.pos-1]
 	}
-	buf.varint(seqDiff)
 	buf.varint(tickDiff)
 	for _, a := range args {
 		buf.varint(a)
@@ -844,11 +841,22 @@ func traceGCSweepDone() {
 }
 
 func traceGoCreate(newg *g, pc uintptr) {
+	// traceEvGoCreate is implied to have seq=0.
+	newg.traceseq = 0
+	newg.tracelastp = getg().m.p
 	traceEvent(traceEvGoCreate, 2, uint64(newg.goid), uint64(pc))
 }
 
 func traceGoStart() {
-	traceEvent(traceEvGoStart, -1, uint64(getg().m.curg.goid))
+	_g_ := getg().m.curg
+	_p_ := _g_.m.p
+	_g_.traceseq++
+	if _g_.tracelastp == _p_ {
+		traceEvent(traceEvGoStartLocal, -1, uint64(_g_.goid))
+	} else {
+		_g_.tracelastp = _p_
+		traceEvent(traceEvGoStart, -1, uint64(_g_.goid), _g_.traceseq)
+	}
 }
 
 func traceGoEnd() {
@@ -856,10 +864,14 @@ func traceGoEnd() {
 }
 
 func traceGoSched() {
+	_g_ := getg()
+	_g_.tracelastp = _g_.m.p
 	traceEvent(traceEvGoSched, 1)
 }
 
 func traceGoPreempt() {
+	_g_ := getg()
+	_g_.tracelastp = _g_.m.p
 	traceEvent(traceEvGoPreempt, 1)
 }
 
@@ -871,19 +883,29 @@ func traceGoPark(traceEv byte, skip int, gp *g) {
 }
 
 func traceGoUnpark(gp *g, skip int) {
-	traceEvent(traceEvGoUnblock, skip, uint64(gp.goid))
+	_p_ := getg().m.p
+	gp.traceseq++
+	if gp.tracelastp == _p_ {
+		traceEvent(traceEvGoUnblockLocal, skip, uint64(gp.goid))
+	} else {
+		gp.tracelastp = _p_
+		traceEvent(traceEvGoUnblock, skip, uint64(gp.goid), gp.traceseq)
+	}
 }
 
 func traceGoSysCall() {
 	traceEvent(traceEvGoSysCall, 1)
 }
 
-func traceGoSysExit(seq uint64, ts int64) {
-	if int64(seq)-int64(trace.seqStart) < 0 {
+func traceGoSysExit(ts int64) {
+	if ts < trace.ticksStart {
 		// The timestamp was obtained during a previous tracing session, ignore.
 		return
 	}
-	traceEvent(traceEvGoSysExit, -1, uint64(getg().m.curg.goid), seq, uint64(ts)/traceTickDiv)
+	_g_ := getg().m.curg
+	_g_.traceseq++
+	_g_.tracelastp = _g_.m.p
+	traceEvent(traceEvGoSysExit, -1, uint64(_g_.goid), _g_.traceseq, uint64(ts)/traceTickDiv)
 }
 
 func traceGoSysBlock(pp *p) {
@@ -892,6 +914,12 @@ func traceGoSysBlock(pp *p) {
 	mp := acquirem()
 	oldp := mp.p
 	mp.p.set(pp)
+	//!!! remove tracesysg
+	/*
+		_g_ := pp.tracesysg
+		pp.tracesysg = nil
+		_g_.traceseq++
+	*/
 	traceEvent(traceEvGoSysBlock, -1)
 	mp.p = oldp
 	releasem(mp)
