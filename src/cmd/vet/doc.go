@@ -189,12 +189,7 @@ These flags configure the behavior of vet:
 		Verbose mode
 	-printfuncs
 		A comma-separated list of print-like functions to supplement the
-		standard list.  Each entry is in the form Name:N where N is the
-		zero-based argument position of the first argument involved in the
-		print: either the format or the first print argument for non-formatted
-		prints.  For example, if you have Warn and Warnf functions that
-		take an io.Writer as their first argument, like Fprintf,
-			-printfuncs=Warn:1,Warnf:1
+		standard list.
 		For more information, see the discussion of the -printf flag.
 	-shadowstrict
 		Whether to be strict about shadowing; can be noisy.
