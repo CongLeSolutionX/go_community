@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "0efc1c7c_cf1fa150",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-05T14:39:05Z",
+      "side": 1,
+      "message": "I\u0027m a little surprised that casgstatus waits for a long time. Do you happen to know what it\u0027s waiting on? We may be able to make algorithmic improvements here.",
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc1c7c_aff5f532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-05T14:39:05Z",
+      "side": 1,
+      "message": "The spin wait in scang has worried me for a while. It\u0027s interesting to see that its effect can be elucidated by the http benchmark.\n\nThere\u0027s actually a TODO in markroot suggesting fixing this with two passes where the first is non-blocking and the second is blocking, though obviously this could still spin. That may be an easy first step, though.\n\nI think the tricky bit is dealing the _Grunning/preempt race. A while ago I prototyped something that, rather than signaling individual goroutines to scan their stacks, would increment a single, global generation counter while the world was stopped at the beginning of GC. Then, if a goroutine saw its own scan generation was behind the global generation, it was responsible for fixing that. If we do this right, we could set it up so that no goroutine can enter _Grunning without first scanning its stack to catch up to the global generation. If we count these as \"mark jobs\", then concurrent mark simply won\u0027t end until all of the stacks have been scanned.",
+      "revId": "32cc9d11ad710c503de4d19cdc4880c640c300a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc1c7c_4f6611f6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
