@@ -16,6 +16,58 @@
       "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_8152deb4",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:00:50Z",
+      "side": 1,
+      "message": "can you also put these all in a factored var block?\n\nvar (\n   ....\n   ....\n)",
+      "parentUuid": "cebbe49e_21b1b254",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_4164e689",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:00:50Z",
+      "side": 1,
+      "message": "pick a better name for l? lib?",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebbe49e_c1fd36cc",
+        "filename": "src/runtime/os1_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-05T15:00:50Z",
+      "side": 1,
+      "message": "return early and unindent.\n\nactually, if this fails, blow up? kernel32.dll should always be available. It\u0027s the entrypoint to everything.",
+      "revId": "b660fdbd9910ef3e47ee94dc182d371f7888bbb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
