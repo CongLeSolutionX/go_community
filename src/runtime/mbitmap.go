@@ -990,6 +990,7 @@ func (h heapBits) initSpan(s *mspan) {
 
 	// Init the markbit structures
 	s.freeindex = 0
+	s.allocCount = 0
 	s.allocCache = ^uint64(0) // all 1s indicating all free.
 	s.nelems = n
 	s.allocBits = nil
@@ -1098,20 +1099,78 @@ var oneBitCount = [256]uint8{
 // countFree runs through the mark bits in a span and counts the number of free objects
 // in the span.
 // TODO:(rlh) Use popcount intrinsic.
-func (s *mspan) countFree() int {
-	count := 0
+func (s *mspan) countFree() uintptr {
+	count := uintptr(0)
 	maxIndex := s.nelems / 8
 	for i := uintptr(0); i < maxIndex; i++ {
 		mrkBits := *addb(s.gcmarkBits, i)
-		count += int(oneBitCount[mrkBits])
+		count += uintptr(oneBitCount[mrkBits])
 	}
 	if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
 		mrkBits := *addb(s.gcmarkBits, maxIndex)
 		mask := uint8((1 << bitsInLastByte) - 1)
 		bits := mrkBits & mask
-		count += int(oneBitCount[bits])
+		count += uintptr(oneBitCount[bits])
 	}
-	return int(s.nelems) - count
+	return (s.nelems) - count
+}
+
+// allocated counts allocated objects. This is sometimes called popcount.
+// The algorithm iterates over the bytes using each byte as an index into
+// an array of pop count values.
+// In order to eliminate bits before s.freeindex and >= s.nelems it simple shifts
+// the unused bits away.
+func (s *mspan) allocated() uintptr {
+	if s.freeindex == s.nelems {
+		return s.freeindex
+	}
+	count := s.freeindex
+	maxIndex := (s.nelems - 1) / 8
+	idx := s.freeindex / 8
+	allocByte := *addb(s.allocBits, idx)
+	// shift way bits < s.freeindex
+	allocByte = allocByte >> (byte(s.freeindex) & 7)
+
+	if idx == maxIndex {
+		bitsToCount := s.nelems % 8
+		if bitsToCount == 0 {
+			bitsToCount = 8
+		}
+		// move bits you just shifted back.
+		allocByte = allocByte << (byte(s.freeindex) & 7)
+		// shift bits > maxIndex off to the left
+		allocByte = allocByte << (8 - bitsToCount)
+	}
+	count += uintptr(oneBitCount[allocByte])
+	if idx == maxIndex {
+		if count > s.nelems {
+			throw("allocCount > s.nelems")
+		}
+		return count
+	}
+	for i := idx + 1; i < maxIndex; i++ {
+		allocByte = *addb(s.allocBits, i)
+		count += uintptr(oneBitCount[allocByte])
+	}
+	// Deal with last byte.
+	allocByte = *addb(s.allocBits, maxIndex)
+	bitsInLastByte := s.nelems % 8
+	if bitsInLastByte == 0 {
+		// all of last byte is used.
+		count += uintptr(oneBitCount[allocByte])
+	} else {
+		// Now deal with maxIndex bits if there are any.
+		bitsToCount := s.nelems % 8
+		if bitsToCount == 0 {
+			bitsToCount = 8
+		}
+		allocByte = allocByte << (8 - bitsToCount)
+		count += uintptr(oneBitCount[allocByte])
+	}
+	if count > s.nelems {
+		throw("allocCount > s.nelems")
+	}
+	return count
 }
 
 // heapBitsSetType records that the new allocation [x, x+size)
