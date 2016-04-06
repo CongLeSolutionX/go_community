@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/sys"
 	"fmt"
 	"strings"
 )
@@ -672,8 +673,8 @@ opswitch:
 		walkexprlist(n.List.Slice(), init)
 
 		if n.Left.Op == ONAME && n.Left.Sym.Name == "Sqrt" && n.Left.Sym.Pkg.Path == "math" {
-			switch Thearch.Thechar {
-			case '5', '6', '7', '9':
+			switch Thearch.LinkArch.Char {
+			case sys.CharARM, sys.CharAMD64, sys.CharARM64, sys.CharPPC64:
 				n.Op = OSQRT
 				n.Left = n.List.First()
 				n.List.Set(nil)
@@ -1056,7 +1057,7 @@ opswitch:
 		n = walkexpr(n, init)
 
 	case OCONV, OCONVNOP:
-		if Thearch.Thechar == '5' {
+		if Thearch.LinkArch.Char == sys.CharARM {
 			if n.Left.Type.IsFloat() {
 				if n.Type.Etype == TINT64 {
 					n = mkcall("float64toint64", n.Type, init, conv(n.Left, Types[TFLOAT64]))
@@ -3274,7 +3275,7 @@ func samecheap(a *Node, b *Node) bool {
 // The result of walkrotate MUST be assigned back to n, e.g.
 // 	n.Left = walkrotate(n.Left)
 func walkrotate(n *Node) *Node {
-	if Thearch.Thechar == '0' || Thearch.Thechar == '7' || Thearch.Thechar == '9' {
+	if Thearch.LinkArch.HasChar(sys.CharMIPS64, sys.CharARM64, sys.CharPPC64) {
 		return n
 	}
 
@@ -3401,7 +3402,7 @@ func walkdiv(n *Node, init *Nodes) *Node {
 	// if >= 0, nr is 1<<pow // 1 if nr is negative.
 
 	// TODO(minux)
-	if Thearch.Thechar == '0' || Thearch.Thechar == '7' || Thearch.Thechar == '9' {
+	if Thearch.LinkArch.HasChar(sys.CharMIPS64, sys.CharARM64, sys.CharPPC64) {
 		return n
 	}
 

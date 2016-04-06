@@ -6,6 +6,7 @@ package ld
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/sys"
 	"crypto/sha1"
 	"encoding/binary"
 	"encoding/hex"
@@ -866,25 +867,23 @@ var buildinfo []byte
 func Elfinit() {
 	Iself = true
 
-	switch Thearch.Thechar {
-	case '0', '6', '7', '9', 'z':
+	if SysArch.HasChar(sys.CharAMD64, sys.CharARM64, sys.CharMIPS64, sys.CharPPC64, sys.CharS390X) {
 		elfRelType = ".rela"
-	default:
+	} else {
 		elfRelType = ".rel"
 	}
 
-	switch Thearch.Thechar {
+	switch SysArch.Char {
 	// 64-bit architectures
-	case '9', 'z':
+	case sys.CharPPC64, sys.CharS390X:
 		if Ctxt.Arch.ByteOrder == binary.BigEndian {
 			ehdr.flags = 1 /* Version 1 ABI */
 		} else {
 			ehdr.flags = 2 /* Version 2 ABI */
 		}
 		fallthrough
-
-	case '0', '6', '7':
-		if Thearch.Thechar == '0' {
+	case sys.CharAMD64, sys.CharARM64, sys.CharMIPS64:
+		if SysArch.Char == sys.CharMIPS64 {
 			ehdr.flags = 0x20000000 /* MIPS 3 */
 		}
 		elf64 = true
@@ -897,7 +896,7 @@ func Elfinit() {
 
 	// we use EABI on both linux/arm and freebsd/arm.
 	// 32-bit architectures
-	case '5':
+	case sys.CharARM:
 		// we use EABI on both linux/arm and freebsd/arm.
 		if HEADTYPE == obj.Hlinux || HEADTYPE == obj.Hfreebsd {
 			// We set a value here that makes no indication of which
@@ -911,7 +910,6 @@ func Elfinit() {
 			ehdr.flags = 0x5000002 // has entry point, Version5 EABI
 		}
 		fallthrough
-
 	default:
 		ehdr.phoff = ELF32HDRSIZE
 		/* Must be be ELF32HDRSIZE: first PHdr must follow ELF header */
@@ -1432,7 +1430,7 @@ func elfdynhash() {
 	}
 
 	// s390x (ELF64) hash table entries are 8 bytes
-	if Thearch.Thechar == 'z' {
+	if SysArch.Char == sys.CharS390X {
 		Adduint64(Ctxt, s, uint64(nbucket))
 		Adduint64(Ctxt, s, uint64(nsym))
 		for i := 0; i < nbucket; i++ {
@@ -1657,15 +1655,15 @@ func elfshreloc(sect *Section) *ElfShdr {
 
 	sh := elfshname(elfRelType + sect.Name)
 	sh.type_ = uint32(typ)
-	sh.entsize = uint64(Thearch.Regsize) * 2
+	sh.entsize = uint64(SysArch.RegSize) * 2
 	if typ == SHT_RELA {
-		sh.entsize += uint64(Thearch.Regsize)
+		sh.entsize += uint64(SysArch.RegSize)
 	}
 	sh.link = uint32(elfshname(".symtab").shnum)
 	sh.info = uint32(sect.Elfsect.shnum)
 	sh.off = sect.Reloff
 	sh.size = sect.Rellen
-	sh.addralign = uint64(Thearch.Regsize)
+	sh.addralign = uint64(SysArch.RegSize)
 	return sh
 }
 
@@ -1866,7 +1864,7 @@ func doelf() {
 		Addstring(shstrtab, ".interp")
 		Addstring(shstrtab, ".hash")
 		Addstring(shstrtab, ".got")
-		if Thearch.Thechar == '9' {
+		if SysArch.Char == sys.CharPPC64 {
 			Addstring(shstrtab, ".glink")
 		}
 		Addstring(shstrtab, ".got.plt")
@@ -1913,7 +1911,7 @@ func doelf() {
 		s.Type = obj.SELFGOT // writable
 
 		/* ppc64 glink resolver */
-		if Thearch.Thechar == '9' {
+		if SysArch.Char == sys.CharPPC64 {
 			s := Linklookup(Ctxt, ".glink", 0)
 			s.Attr |= AttrReachable
 			s.Type = obj.SELFRXSECT
@@ -1932,7 +1930,7 @@ func doelf() {
 		s = Linklookup(Ctxt, ".plt", 0)
 
 		s.Attr |= AttrReachable
-		if Thearch.Thechar == '9' {
+		if SysArch.Char == sys.CharPPC64 {
 			// In the ppc64 ABI, .plt is a data section
 			// written by the dynamic linker.
 			s.Type = obj.SELFSECT
@@ -1987,15 +1985,15 @@ func doelf() {
 			Elfwritedynent(s, DT_RUNPATH, uint64(Addstring(dynstr, rpath.val)))
 		}
 
-		if Thearch.Thechar == '9' {
+		if SysArch.Char == sys.CharPPC64 {
 			elfwritedynentsym(s, DT_PLTGOT, Linklookup(Ctxt, ".plt", 0))
-		} else if Thearch.Thechar == 'z' {
+		} else if SysArch.Char == sys.CharS390X {
 			elfwritedynentsym(s, DT_PLTGOT, Linklookup(Ctxt, ".got", 0))
 		} else {
 			elfwritedynentsym(s, DT_PLTGOT, Linklookup(Ctxt, ".got.plt", 0))
 		}
 
-		if Thearch.Thechar == '9' {
+		if SysArch.Char == sys.CharPPC64 {
 			Elfwritedynent(s, DT_PPC64_OPT, 0)
 		}
 
@@ -2071,22 +2069,22 @@ func Asmbelfsetup() {
 
 func Asmbelf(symo int64) {
 	eh := getElfEhdr()
-	switch Thearch.Thechar {
+	switch SysArch.Char {
 	default:
-		Exitf("unknown architecture in asmbelf: %v", Thearch.Thechar)
-	case '0':
+		Exitf("unknown architecture in asmbelf: %v", SysArch.Char)
+	case sys.CharMIPS64:
 		eh.machine = EM_MIPS
-	case '5':
+	case sys.CharARM:
 		eh.machine = EM_ARM
-	case '6':
+	case sys.CharAMD64:
 		eh.machine = EM_X86_64
-	case '7':
+	case sys.CharARM64:
 		eh.machine = EM_AARCH64
-	case '8':
+	case sys.Char386:
 		eh.machine = EM_386
-	case '9':
+	case sys.CharPPC64:
 		eh.machine = EM_PPC64
-	case 'z':
+	case sys.CharS390X:
 		eh.machine = EM_S390
 	}
 
@@ -2242,7 +2240,7 @@ func Asmbelf(symo int64) {
 		} else {
 			sh.entsize = ELF32SYMSIZE
 		}
-		sh.addralign = uint64(Thearch.Regsize)
+		sh.addralign = uint64(SysArch.RegSize)
 		sh.link = uint32(elfshname(".dynstr").shnum)
 
 		// sh->info = index of first non-local symbol (number of local symbols)
@@ -2266,7 +2264,7 @@ func Asmbelf(symo int64) {
 			sh = elfshname(".gnu.version_r")
 			sh.type_ = SHT_GNU_VERNEED
 			sh.flags = SHF_ALLOC
-			sh.addralign = uint64(Thearch.Regsize)
+			sh.addralign = uint64(SysArch.RegSize)
 			sh.info = uint32(elfverneed)
 			sh.link = uint32(elfshname(".dynstr").shnum)
 			shsym(sh, Linklookup(Ctxt, ".gnu.version_r", 0))
@@ -2277,7 +2275,7 @@ func Asmbelf(symo int64) {
 			sh.type_ = SHT_RELA
 			sh.flags = SHF_ALLOC
 			sh.entsize = ELF64RELASIZE
-			sh.addralign = uint64(Thearch.Regsize)
+			sh.addralign = uint64(SysArch.RegSize)
 			sh.link = uint32(elfshname(".dynsym").shnum)
 			sh.info = uint32(elfshname(".plt").shnum)
 			shsym(sh, Linklookup(Ctxt, ".rela.plt", 0))
@@ -2341,15 +2339,15 @@ func Asmbelf(symo int64) {
 			sh := elfshname(".got")
 			sh.type_ = SHT_PROGBITS
 			sh.flags = SHF_ALLOC + SHF_WRITE
-			sh.entsize = uint64(Thearch.Regsize)
-			sh.addralign = uint64(Thearch.Regsize)
+			sh.entsize = uint64(SysArch.RegSize)
+			sh.addralign = uint64(SysArch.RegSize)
 			shsym(sh, Linklookup(Ctxt, ".got", 0))
 
 			sh = elfshname(".got.plt")
 			sh.type_ = SHT_PROGBITS
 			sh.flags = SHF_ALLOC + SHF_WRITE
-			sh.entsize = uint64(Thearch.Regsize)
-			sh.addralign = uint64(Thearch.Regsize)
+			sh.entsize = uint64(SysArch.RegSize)
+			sh.addralign = uint64(SysArch.RegSize)
 			shsym(sh, Linklookup(Ctxt, ".got.plt", 0))
 		}
 
@@ -2357,7 +2355,7 @@ func Asmbelf(symo int64) {
 		sh.type_ = SHT_HASH
 		sh.flags = SHF_ALLOC
 		sh.entsize = 4
-		sh.addralign = uint64(Thearch.Regsize)
+		sh.addralign = uint64(SysArch.RegSize)
 		sh.link = uint32(elfshname(".dynsym").shnum)
 		shsym(sh, Linklookup(Ctxt, ".hash", 0))
 
@@ -2366,8 +2364,8 @@ func Asmbelf(symo int64) {
 
 		sh.type_ = SHT_DYNAMIC
 		sh.flags = SHF_ALLOC + SHF_WRITE
-		sh.entsize = 2 * uint64(Thearch.Regsize)
-		sh.addralign = uint64(Thearch.Regsize)
+		sh.entsize = 2 * uint64(SysArch.RegSize)
+		sh.addralign = uint64(SysArch.RegSize)
 		sh.link = uint32(elfshname(".dynstr").shnum)
 		shsym(sh, Linklookup(Ctxt, ".dynamic", 0))
 		ph := newElfPhdr()
@@ -2393,7 +2391,7 @@ func Asmbelf(symo int64) {
 				ph.type_ = PT_TLS
 				ph.flags = PF_R
 				ph.memsz = tlssize
-				ph.align = uint64(Thearch.Regsize)
+				ph.align = uint64(SysArch.RegSize)
 			}
 		}
 	}
@@ -2402,12 +2400,12 @@ func Asmbelf(symo int64) {
 		ph := newElfPhdr()
 		ph.type_ = PT_GNU_STACK
 		ph.flags = PF_W + PF_R
-		ph.align = uint64(Thearch.Regsize)
+		ph.align = uint64(SysArch.RegSize)
 
 		ph = newElfPhdr()
 		ph.type_ = PT_PAX_FLAGS
 		ph.flags = 0x2a00 // mprotect, randexec, emutramp disabled
-		ph.align = uint64(Thearch.Regsize)
+		ph.align = uint64(SysArch.RegSize)
 	}
 
 elfobj:
@@ -2457,8 +2455,8 @@ elfobj:
 		sh.type_ = SHT_SYMTAB
 		sh.off = uint64(symo)
 		sh.size = uint64(Symsize)
-		sh.addralign = uint64(Thearch.Regsize)
-		sh.entsize = 8 + 2*uint64(Thearch.Regsize)
+		sh.addralign = uint64(SysArch.RegSize)
+		sh.entsize = 8 + 2*uint64(SysArch.RegSize)
 		sh.link = uint32(elfshname(".strtab").shnum)
 		sh.info = uint32(elfglobalsymndx)
 
@@ -2583,7 +2581,7 @@ func Elfadddynsym(ctxt *Link, s *LSym) {
 		/* size of object */
 		Adduint64(ctxt, d, uint64(s.Size))
 
-		if Thearch.Thechar == '6' && !s.Attr.CgoExportDynamic() && s.Dynimplib != "" && !seenlib[s.Dynimplib] {
+		if SysArch.Char == sys.CharAMD64 && !s.Attr.CgoExportDynamic() && s.Dynimplib != "" && !seenlib[s.Dynimplib] {
 			Elfwritedynent(Linklookup(ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(Linklookup(ctxt, ".dynstr", 0), s.Dynimplib)))
 		}
 	} else {
@@ -2611,9 +2609,9 @@ func Elfadddynsym(ctxt *Link, s *LSym) {
 		t := STB_GLOBAL << 4
 
 		// TODO(mwhudson): presumably the behaviour should actually be the same on both arm and 386.
-		if Thearch.Thechar == '8' && s.Attr.CgoExport() && s.Type&obj.SMASK == obj.STEXT {
+		if SysArch.Char == sys.Char386 && s.Attr.CgoExport() && s.Type&obj.SMASK == obj.STEXT {
 			t |= STT_FUNC
-		} else if Thearch.Thechar == '5' && s.Attr.CgoExportDynamic() && s.Type&obj.SMASK == obj.STEXT {
+		} else if SysArch.Char == sys.CharARM && s.Attr.CgoExportDynamic() && s.Type&obj.SMASK == obj.STEXT {
 			t |= STT_FUNC
 		} else {
 			t |= STT_OBJECT
