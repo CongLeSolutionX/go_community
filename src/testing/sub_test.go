@@ -122,8 +122,8 @@ func TestTRun(t *T) {
 		ok:     false,
 		maxPar: 1,
 		output: `
---- FAIL: failnow skips future sequential and parallel tests at same level (0.00s)
-    --- FAIL: failnow skips future sequential and parallel tests at same level/#00 (0.00s)
+--- FAIL: failnow skips future sequential and parallel tests at same level \(\d.\d\ds\)
+    --- FAIL: failnow skips future sequential and parallel tests at same level/#00 \(\d.\d\ds\)
     `,
 		f: func(t *T) {
 			ranSeq := false
@@ -157,9 +157,9 @@ func TestTRun(t *T) {
 		ok:     false,
 		maxPar: 1,
 		output: `
---- FAIL: failure in parallel test propagates upwards (0.00s)
-    --- FAIL: failure in parallel test propagates upwards/#00 (0.00s)
-        --- FAIL: failure in parallel test propagates upwards/#00/par (0.00s)
+--- FAIL: failure in parallel test propagates upwards \(\d.\d\ds\)
+    --- FAIL: failure in parallel test propagates upwards/#00 \(\d.\d\ds\)
+        --- FAIL: failure in parallel test propagates upwards/#00/par \(\d.\d\ds\)
 		`,
 		f: func(t *T) {
 			t.Run("", func(t *T) {
@@ -176,7 +176,7 @@ func TestTRun(t *T) {
 		chatty: true,
 		output: `
 === RUN   skipping without message, chatty
---- SKIP: skipping without message, chatty (0.00s)`,
+--- SKIP: skipping without message, chatty \(\d.\d\ds\)`,
 		f: func(t *T) { t.SkipNow() },
 	}, {
 		desc:   "chatty with recursion",
@@ -186,9 +186,9 @@ func TestTRun(t *T) {
 === RUN   chatty with recursion
 === RUN   chatty with recursion/#00
 === RUN   chatty with recursion/#00/#00
---- PASS: chatty with recursion (0.00s)
-    --- PASS: chatty with recursion/#00 (0.00s)
-        --- PASS: chatty with recursion/#00/#00 (0.00s)`,
+--- PASS: chatty with recursion \(\d.\d\ds\)
+    --- PASS: chatty with recursion/#00 \(\d.\d\ds\)
+        --- PASS: chatty with recursion/#00/#00 \(\d.\d\ds\)`,
 		f: func(t *T) {
 			t.Run("", func(t *T) {
 				t.Run("", func(t *T) {})
@@ -201,9 +201,9 @@ func TestTRun(t *T) {
 	}, {
 		desc: "skipping after error",
 		output: `
---- FAIL: skipping after error (0.00s)
-	sub_test.go:nnn: an error
-	sub_test.go:nnn: skipped`,
+--- FAIL: skipping after error \(\d.\d\ds\)
+	sub_test.go:\d\d\d: an error
+	sub_test.go:\d\d\d: skipped`,
 		f: func(t *T) {
 			t.Error("an error")
 			t.Skip("skipped")
@@ -383,9 +383,9 @@ func TestTRun(t *T) {
 		if ctx.running != 0 || ctx.numWaiting != 0 {
 			t.Errorf("%s:running and waiting non-zero: got %d and %d", tc.desc, ctx.running, ctx.numWaiting)
 		}
-		got := sanitizeLog(buf.String())
-		want := sanitizeLog(tc.output)
-		if got != want {
+		got := strings.TrimSpace(buf.String())
+		want := strings.TrimSpace(tc.output)
+		if ok, err := regexp.MatchString(want, got); !ok || err != nil {
 			t.Errorf("%s:ouput:\ngot:\n%s\nwant:\n%s", tc.desc, got, want)
 		}
 	}
@@ -449,7 +449,7 @@ func TestBRun(t *T) {
 		chatty: true,
 		output: `
 --- SKIP: root
-	sub_test.go:: skipping`,
+	sub_test.go:\d\d\d: skipping`,
 		f: func(b *B) { b.Skip("skipping") },
 	}, {
 		desc:   "chatty with recursion",
@@ -467,8 +467,8 @@ func TestBRun(t *T) {
 		failed: true,
 		output: `
 --- FAIL: root
-	sub_test.go:nnn: an error
-	sub_test.go:nnn: skipped`,
+	sub_test.go:\d\d\d: an error
+	sub_test.go:\d\d\d: skipped`,
 		f: func(b *B) {
 			b.Error("an error")
 			b.Skip("skipped")
@@ -523,25 +523,12 @@ func TestBRun(t *T) {
 		if root.result.N != 1 {
 			t.Errorf("%s: N for parent benchmark was %d; want 1", tc.desc, root.result.N)
 		}
-		got := sanitizeLog(buf.String())
-		want := sanitizeLog(tc.output)
-		if got != want {
+		got := strings.TrimSpace(buf.String())
+		want := strings.TrimSpace(tc.output)
+		if ok, err := regexp.MatchString(want, got); !ok || err != nil {
 			t.Errorf("%s:ouput:\ngot:\n%s\nwant:\n%s", tc.desc, got, want)
 		}
 	}
-}
-
-// sanitizeLog removes line numbers from log entries.
-func sanitizeLog(s string) string {
-	s = strings.TrimSpace(s)
-	lines := strings.Split(s, "\n")
-	for i, line := range lines {
-		p := strings.IndexByte(line, ':')
-		if p > 0 && line[p+4] == ':' { // assuming 3-digit file positions
-			lines[i] = line[:p+1] + line[p+4:]
-		}
-	}
-	return strings.Join(lines, "\n")
 }
 
 func TestBenchmarkOutput(t *T) {
