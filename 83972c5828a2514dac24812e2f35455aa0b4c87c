@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea598c6_4bc22872",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T15:42:56Z",
+      "side": 1,
+      "message": "I worry about these getting gross(er).\n\nWill the time parts ever matter?\n\nIf not, alternative proposals:\n\n1) use a magic value like \" (N.NNs)\" or \" (0.00s)\" in the tc.output value, and then normalize both before comparing with \u003d\u003d.\n\n2) add a global boolean to the testing package used only for testing which, when true, omits times.\n\nAs-is, this doesn\u0027t handle a case that takes 10+ seconds, but I guess that\u0027s okay.",
+      "revId": "83972c5828a2514dac24812e2f35455aa0b4c87c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
