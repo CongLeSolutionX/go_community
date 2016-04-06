@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea598c6_b2792106",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3618,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T21:44:50Z",
+      "side": 1,
+      "message": "Leave out this delete.  We actually iterate over the types in mapqueue multiple times.\n\n(We don\u0027t generally need to iterate over them quite as often as we currently do, but there are cases where we may need to iterate over them more than once.)",
+      "revId": "11b4997deb20423614965bfa27fbc5012fd11ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
