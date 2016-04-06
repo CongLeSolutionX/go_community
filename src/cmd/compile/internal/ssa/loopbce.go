@@ -1,15 +1,16 @@
 package ssa
 
 type indVar struct {
-	ind   *Value // induction variable
-	inc   *Value // increment, a constant
-	nxt   *Value // ind+inc variable
-	min   *Value // minimum value. inclusive,
-	max   *Value // maximum value. exclusive.
-	entry *Block // entry block in the loop.
+	ind       *Value // induction variable
+	inc       *Value // increment, a constant
+	nxt       *Value // ind+inc variable
+	min       *Value // minimum value. inclusive,
+	max       *Value // maximum value. exclusive.
+	maxOffset int64  // offset from maximum
+	entry     *Block // entry block in the loop.
 	// Invariants: for all blocks dominated by entry:
-	//	min <= ind < max
-	//	min <= nxt <= max
+	//	min <= ind < max+maxOffset
+	//	min <= nxt <= max+maxOffset
 }
 
 // findIndVar finds induction variables in a function.
@@ -117,9 +118,9 @@ nextb:
 
 		// If max is c + SliceLen with c <= 0 then we drop c.
 		// Makes sure c + SliceLen doesn't overflow when SliceLen == 0.
-		// TODO: save c as an offset from max.
-		if w, c := dropAdd64(max); (w.Op == OpStringLen || w.Op == OpSliceLen) && 0 >= c && -c >= 0 {
-			max = w
+		var maxOffset int64
+		if w, c := dropOffset(max); (w.Op == OpStringLen || w.Op == OpSliceLen) && 0 >= c && -c >= 0 {
+			max, maxOffset = w, c
 		}
 
 		// We can only guarantee that the loops runs within limits of induction variable
@@ -145,12 +146,13 @@ nextb:
 		}
 
 		iv = append(iv, indVar{
-			ind:   ind,
-			inc:   inc,
-			nxt:   nxt,
-			min:   min,
-			max:   max,
-			entry: b.Succs[entry],
+			ind:       ind,
+			inc:       inc,
+			nxt:       nxt,
+			min:       min,
+			max:       max,
+			maxOffset: maxOffset,
+			entry:     b.Succs[entry],
 		})
 		b.Logf("found induction variable %v (inc = %v, min = %v, max = %v)\n", ind, inc, min, max)
 	}
@@ -191,21 +193,20 @@ func removeBoundsChecks(f *Func, sdom sparseTree, m map[*Value]indVar) {
 		//		use a[:i]
 		//	}
 		if v.Op == OpIsInBounds || v.Op == OpIsSliceInBounds {
-			ind, add := dropAdd64(v.Args[0])
+			ind, add := dropOffset(v.Args[0])
 			if ind.Op != OpPhi {
 				goto skip1
 			}
-			if v.Op == OpIsInBounds && add != 0 {
-				goto skip1
-			}
-			if v.Op == OpIsSliceInBounds && (0 > add || add > 1) {
-				goto skip1
-			}
-
 			if iv, has := m[ind]; has && sdom.isAncestorEq(iv.entry, b) && isNonNegative(iv.min) {
+				if v.Op == OpIsInBounds && (add < 0 || add > -iv.maxOffset) {
+					goto skip1
+				}
+				if v.Op == OpIsSliceInBounds && (add < 0 || add > 1-iv.maxOffset) {
+					goto skip1
+				}
 				if v.Args[1] == iv.max {
 					if f.pass.debug > 0 {
-						f.Config.Warnl(b.Line, "Found redundant %s", v.Op)
+						f.Config.Warnl(b.Line, "Removing redundant %s", v.Op)
 					}
 					goto simplify
 				}
@@ -221,18 +222,17 @@ func removeBoundsChecks(f *Func, sdom sparseTree, m map[*Value]indVar) {
 		//		use a[:i+1]
 		//	}
 		if v.Op == OpIsSliceInBounds {
-			ind, add := dropAdd64(v.Args[0])
+			ind, add := dropOffset(v.Args[0])
 			if ind.Op != OpPhi {
 				goto skip2
 			}
-			if 0 > add || add > 1 {
-				goto skip2
-			}
-
 			if iv, has := m[ind]; has && sdom.isAncestorEq(iv.entry, b) && isNonNegative(iv.min) {
+				if v.Op == OpIsSliceInBounds && (add < 0 || add > 1-iv.maxOffset) {
+					goto skip2
+				}
 				if v.Args[1].Op == OpSliceCap && iv.max.Op == OpSliceLen && v.Args[1].Args[0] == iv.max.Args[0] {
 					if f.pass.debug > 0 {
-						f.Config.Warnl(b.Line, "Found redundant %s (len promoted to cap)", v.Op)
+						f.Config.Warnl(b.Line, "Removing redundant %s (len promoted to cap)", v.Op)
 					}
 					goto simplify
 				}
@@ -249,11 +249,15 @@ func removeBoundsChecks(f *Func, sdom sparseTree, m map[*Value]indVar) {
 	}
 }
 
-func dropAdd64(v *Value) (*Value, int64) {
-	if v.Op == OpAdd64 && v.Args[0].Op == OpConst64 {
+func dropOffset(v *Value) (*Value, int64) {
+	if v.Op != OpAdd64 && v.Op != OpAdd32 && v.Op != OpAdd16 && v.Op != OpAdd8 {
+		// "opt" pass will transform sub operations into adds.
+		return v, 0
+	}
+	if v.Args[0].isGenericIntConst() {
 		return v.Args[1], v.Args[0].AuxInt
 	}
-	if v.Op == OpAdd64 && v.Args[1].Op == OpConst64 {
+	if v.Args[1].isGenericIntConst() {
 		return v.Args[0], v.Args[1].AuxInt
 	}
 	return v, 0
