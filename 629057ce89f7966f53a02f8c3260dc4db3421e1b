@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_cd388883",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2efe40bd_0516722e",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 65
+      },
+      "revId": "629057ce89f7966f53a02f8c3260dc4db3421e1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2efe40bd_e52fd668",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-06T22:43:26Z",
       "side": 1,
       "message": "Wait... that\u0027s not right (should be CharAMD64). I haven\u0027t been checking all of these character literal -\u003e name replacements and I sort of assumed you\u0027d done them mechanically. If not, this review needs to be more careful.",
+      "range": {
+        "startLine": 210,
+        "startChar": 55,
+        "endLine": 210,
+        "endChar": 68
+      },
+      "revId": "629057ce89f7966f53a02f8c3260dc4db3421e1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_8dae00f0",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "Whoops, most of the rewrites were mechanical.  There were a few stragglers at the end that I editted manually, this being one of them.\n\nLet me try to do some diff analysis to give confidence that the chars all line up correctly.",
+      "parentUuid": "2efe40bd_e52fd668",
       "range": {
         "startLine": 210,
         "startChar": 55,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_6d485c08",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "Will do in a followup.  (It\u0027ll be easier to verify that the \u0027x\u0027 -\u003e CharXXX mappings are correct if I keep the lines ordered the same.)",
+      "parentUuid": "2efe40bd_c534dac1",
+      "range": {
+        "startLine": 2075,
+        "startChar": 0,
+        "endLine": 2088,
+        "endChar": 22
+      },
+      "revId": "629057ce89f7966f53a02f8c3260dc4db3421e1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2efe40bd_a539deb7",
         "filename": "src/cmd/link/internal/ld/ldelf.go",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_4d4598ee",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2efe40bd_a539deb7",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 22
+      },
+      "revId": "629057ce89f7966f53a02f8c3260dc4db3421e1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2efe40bd_853ee29b",
         "filename": "src/cmd/link/internal/ld/macho.go",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2016-04-06T22:43:26Z",
       "side": 1,
       "message": "could be a HasChar",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 50
+      },
+      "revId": "629057ce89f7966f53a02f8c3260dc4db3421e1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_cd51a8b3",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "Simplified further.",
+      "parentUuid": "2efe40bd_853ee29b",
       "range": {
         "startLine": 135,
         "startChar": 0,
