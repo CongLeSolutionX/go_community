@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea598c6_c144d999",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T17:18:53Z",
+      "side": 1,
+      "message": "want here is wrong. you want tc.output. users don\u0027t care to see the regexp they never wrote.",
+      "revId": "f7a845bfd90bb63046f1b8ca6aaabbde7685dc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
