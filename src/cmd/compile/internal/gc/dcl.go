@@ -380,16 +380,20 @@ func dclname(s *Sym) *Node {
 }
 
 func typenod(t *Type) *Node {
-	// if we copied another type with *t = *u
-	// then t->nod might be out of date, so
-	// check t->nod->type too
-	if t.Nod == nil || t.Nod.Type != t {
-		t.Nod = Nod(OTYPE, nil, nil)
-		t.Nod.Type = t
-		t.Nod.Sym = t.Sym
+	// If t is a copy of another type then t.ForwardType().Nod might be out of date,
+	// so be sure to check that t.ForwardType().Nod.Type == t before reusing it.
+	if t.IsKind(TFORW) && t.ForwardType().Nod != nil && t.ForwardType().Nod.Type == t {
+		return t.ForwardType().Nod
 	}
 
-	return t.Nod
+	n := Nod(OTYPE, nil, nil)
+	n.Type = t
+	n.Sym = t.Sym
+
+	if t.IsKind(TFORW) {
+		t.ForwardType().Nod = n
+	}
+	return n
 }
 
 // oldname returns the Node that declares symbol s in the current scope.

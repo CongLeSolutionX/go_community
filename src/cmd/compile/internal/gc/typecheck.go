@@ -3489,7 +3489,6 @@ func domethod(n *Node) {
 		// type check failed; leave empty func
 		// TODO(mdempsky): Fix Type rekinding.
 		n.Type.Etype = TFUNC
-		n.Type.Nod = nil
 		return
 	}
 
@@ -3509,7 +3508,6 @@ func domethod(n *Node) {
 
 	// TODO(mdempsky): Fix Type rekinding.
 	*n.Type = *nt.Type
-	n.Type.Nod = nil
 	checkwidth(n.Type)
 }
 
@@ -3537,7 +3535,6 @@ func copytype(n *Node, t *Type) {
 	}
 	t.methods = Fields{}
 	t.allMethods = Fields{}
-	t.Nod = nil
 	t.Printed = false
 	t.Deferwidth = false
 

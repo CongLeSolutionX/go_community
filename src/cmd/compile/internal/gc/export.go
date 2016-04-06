@@ -555,14 +555,13 @@ func importtype(pt *Type, t *Type) {
 	// override declaration in unsafe.go for Pointer.
 	// there is no way in Go code to define unsafe.Pointer
 	// so we have to supply it.
-	if incannedimport != 0 && importpkg.Name == "unsafe" && pt.Nod.Sym.Name == "Pointer" {
+	if incannedimport != 0 && importpkg.Name == "unsafe" && pt.IsKind(TUNSAFEPTR) {
 		t = Types[TUNSAFEPTR]
 	}
 
-	if pt.Etype == TFORW {
-		n := pt.Nod
-		copytype(pt.Nod, t)
-		pt.Nod = n // unzero nod
+	if pt.IsKind(TFORW) {
+		n := pt.ForwardType().Nod
+		copytype(pt.ForwardType().Nod, t)
 		pt.Sym.Importdef = importpkg
 		pt.Sym.Lastlineno = lineno
 		declare(n, PEXTERN)

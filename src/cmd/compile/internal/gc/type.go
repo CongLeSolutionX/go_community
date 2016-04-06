@@ -146,7 +146,6 @@ type Type struct {
 	methods    Fields
 	allMethods Fields
 
-	Nod  *Node // canonical OTYPE node
 	Orig *Type // original type (type literal or predefined type)
 
 	Sym    *Sym  // symbol containing name, for named types
@@ -184,6 +183,7 @@ func (t *Type) MapType() *MapType {
 // ForwardType contains Type fields specific to forward types.
 type ForwardType struct {
 	Copyto      []*Node // where to copy the eventual value to
+	Nod         *Node   // canonical OTYPE node
 	Embedlineno int32   // first use of this type as an embedded type
 }
 
