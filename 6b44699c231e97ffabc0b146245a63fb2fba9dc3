@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_21e2657c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea598c6_5eb0a406",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_fe3ad81a",
         "filename": "src/cmd/compile/internal/gc/sizeof_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-06T16:06:32Z",
       "side": 1,
       "message": "add a bunch of all the new Extra types, so none of the pointer-shaped ones grow on accident.",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_01e7618b",
+        "filename": "src/cmd/compile/internal/gc/sizeof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea598c6_fe3ad81a",
       "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_410e8954",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea598c6_7ecc8884",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_5ede6427",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-06T16:06:32Z",
       "side": 1,
       "message": "clarify that this is \u003e\u003d 0 and -1 isn\u0027t special in this type?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_e1b11dc0",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea598c6_5ede6427",
       "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_61a62d83",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Later?",
+      "parentUuid": "6ea598c6_1e09fc81",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_9efd0c82",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2016-04-06T16:06:32Z",
       "side": 1,
       "message": "with new accessor methods?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_81c25101",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Yeah, although I\u0027d want to measure first to see whether it\u0027d make a difference.",
+      "parentUuid": "6ea598c6_9efd0c82",
       "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_c15a9925",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Correct.\n\nIn the end, though, it\u0027d be better to add TSLICE and TDDDARRAY. It\u0027s cheaper to check etypes than itabs, and the compiler is littered with:\n\ncase TARRAY:\n  if t.IsSlice() {\n    // ...\n  }\n\nThat\u0027s a bigger change than I\u0027m personally ready to work on right now, though.",
+      "parentUuid": "6ea598c6_5e542446",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_9e33cc3d",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2016-04-06T16:06:32Z",
       "side": 1,
       "message": "kinda redundant now, but better diagnostics on fail, I guess?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_8126d1a8",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T17:35:13Z",
+      "side": 1,
+      "message": "Yep. And ultimately we can probably remove a lot of the failsafes sprinkled throughout this file, but as long as we\u0027re doing active surgery, they\u0027re super helpful. (Long might be worth hiding them behind a const that we can manually flip. Never know--some of these might be hot enough methods that it might actually help with CPU time a tiny bit.)",
+      "parentUuid": "6ea598c6_9e33cc3d",
       "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
