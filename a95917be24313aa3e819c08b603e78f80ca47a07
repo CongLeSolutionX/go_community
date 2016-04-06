@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea598c6_575e47be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-06T20:01:05Z",
+      "side": 1,
+      "message": "Please add the WithoutXY results so we can see if there is any improvement/degradation in that case.",
+      "revId": "a95917be24313aa3e819c08b603e78f80ca47a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_b783537f",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-06T20:01:05Z",
+      "side": 1,
+      "message": "1) The usual way to allocate new nat\u0027s in this code is: z.make(n) where z is an existing (or possibly nil) nat. So let\u0027s use this mechanism here.\n\n2) z.make(n) may return a non-zeroed nat, and that\u0027s the assumption in all of the code in this file. Instead, we clear explicitly, if needed (turns out it\u0027s not needed in this case).\n\n3) By convention, in this code, a result nat is named z, and incoming nat\u0027s are named x, y, ... (with few exceptions). Let\u0027s stick to this naming scheme.\n\nThus, please replace this code with:\n\n// getNat returns a nat of len n. The contents may not be zero.\nfunc getNat(n int) nat {\n\tvar z nat\n\tif v :\u003d natPool.Get(); v !\u003d nil {\n\t\tz \u003d v.(nat)\n\t}\n\treturn z.make(n)\n}",
+      "revId": "a95917be24313aa3e819c08b603e78f80ca47a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_574527ee",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-06T20:01:05Z",
+      "side": 1,
+      "message": "please rename a to x to match the existing naming scheme",
+      "range": {
+        "startLine": 561,
+        "startChar": 12,
+        "endLine": 561,
+        "endChar": 13
+      },
+      "revId": "a95917be24313aa3e819c08b603e78f80ca47a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_57cf67cf",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-06T20:01:05Z",
+      "side": 1,
+      "message": "note that the shlVU produces the result in v1, it doesn\u0027t matter that it\u0027s not zeroed out",
+      "range": {
+        "startLine": 597,
+        "startChar": 15,
+        "endLine": 597,
+        "endChar": 16
+      },
+      "revId": "a95917be24313aa3e819c08b603e78f80ca47a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_f7b67b4e",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-06T20:01:05Z",
+      "side": 1,
+      "message": "note that the mulAddVWW produces the result in qhat; it doesn\u0027t matter that it\u0027s not zeroed out",
+      "revId": "a95917be24313aa3e819c08b603e78f80ca47a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
