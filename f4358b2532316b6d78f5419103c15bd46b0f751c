@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_6d617c78",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "What do we rename sys.Char386 to?  sys.I386?  sys.X86?  (Either is a bit unfortunate IMO, because then it doesn\u0027t match $GOOS, but that\u0027s not critical.)",
+      "parentUuid": "6ea598c6_ad83047f",
+      "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_6dd29c7d",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-06T22:45:40Z",
       "side": 1,
       "message": "why not just make sys.ArchAMD64 already be a pointer type?",
+      "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_0d26704e",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1405,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "Doing\n\n    var x int\n    var p \u003d \u0026x\n\nallows us to statically initialize p with a relocation referencing symbol x, whereas\n\n    var x \u003d new(int)\n    var p \u003d x\n\nrequires dynamic initialization to copy x\u0027s value to p.\n\nSimilarly, code like:\n\n    if localptr \u003d\u003d \u0026global { ... }\n\ncompiles down to fewer instructions, because \u0026x only involves an address calculation (which is a constant for non-PIC code, and cheap for arches with PC-relative addressing), but\n\n    if localptr \u003d\u003d globalptr { ... }\n\nrequires loading the value of globalptr at runtime.\n\n\nSo generally I favor the former.\n\nIt\u0027s not a significant win here though, so we could change it if it you think it\u0027s more idiomatic to do otherwise.",
+      "parentUuid": "6ea598c6_6dd29c7d",
       "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_8d1280eb",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "I called out the two contexts I\u0027m aware of in the commit message, and I hope to eliminate those in a followup.\n\nDoes ArchFamily sound better?",
+      "parentUuid": "6ea598c6_0dd9d0a2",
+      "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_0dc2f0a6",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-06T22:45:40Z",
       "side": 1,
       "message": "Can we drop all the \"Arch\" prefixes? This is the only one which would need a prefix to be a variable. \"X386\" seems fine.",
+      "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_4d0c78ca",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "We can.",
+      "parentUuid": "6ea598c6_0dc2f0a6",
       "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -98,6 +170,24 @@
       "writtenOn": "2016-04-06T22:46:29Z",
       "side": 1,
       "message": "What about:\n\n     if Iself \u0026\u0026 SysArch \u003d\u003d sys.AMD64 {\n\n?",
+      "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_ade2e415",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:04:29Z",
+      "side": 1,
+      "message": "\"SysArch.Char \u003d\u003d sys.CharAMD64\" is also true for amd64p32.\n\nI\u0027d have to check what GOOS\u003dnacl sets for Iself.  I\u0027m inclined to leave for now and consider for a followup CL.",
+      "parentUuid": "6ea598c6_cdbbe834",
       "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
