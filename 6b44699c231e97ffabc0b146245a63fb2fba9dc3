@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea598c6_5eb0a406",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "This is a little modest. It shrinks it in half!",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_fe3ad81a",
+        "filename": "src/cmd/compile/internal/gc/sizeof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "add a bunch of all the new Extra types, so none of the pointer-shaped ones grow on accident.",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_7ecc8884",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "more could be said here. Which Etypes is this used for? Give at least one example?\n\nI see above TDDDFIELD, TFUNCARGS, TCHANARGS. So this is the type of what related to those?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_5ede6427",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "clarify that this is \u003e\u003d 0 and -1 isn\u0027t special in this type?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_1e09fc81",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "Later.",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_9efd0c82",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "with new accessor methods?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_5e542446",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "won\u0027t be able to lazily initialize these, huh? since both have Etype TARRAY",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_9e33cc3d",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T16:06:32Z",
+      "side": 1,
+      "message": "kinda redundant now, but better diagnostics on fail, I guess?",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
