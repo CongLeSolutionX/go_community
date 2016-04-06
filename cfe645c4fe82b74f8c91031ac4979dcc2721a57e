@@ -16,6 +16,23 @@
       "revId": "cfe645c4fe82b74f8c91031ac4979dcc2721a57e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_71bcb688",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-06T23:44:18Z",
+      "side": 1,
+      "message": "InFamily?",
+      "revId": "cfe645c4fe82b74f8c91031ac4979dcc2721a57e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
