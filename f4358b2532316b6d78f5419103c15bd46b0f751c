@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_d133823c",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T23:27:44Z",
+      "side": 1,
+      "message": "Rather, we can drop either the Arch prefixes here, or the Char prefixes for the ArchChar constants above.  We can\u0027t drop both, otherwise there will be collisions.\n\nI would favor dropping Char, because the ArchChar values are more commonly referenced.  Also, they already don\u0027t correspond 1:1 with $GOARCH values, so it would be less inconsistent to rename Char386 to X86 than to rename Arch386 to X86.",
+      "parentUuid": "6ea598c6_4d0c78ca",
+      "revId": "f4358b2532316b6d78f5419103c15bd46b0f751c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_4dcfd8cf",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 3
