@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_4197a972",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T18:07:31Z",
+      "side": 1,
+      "message": "Yep.",
+      "parentUuid": "6ea598c6_013521bb",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_9efd0c82",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -282,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_219ca59a",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T18:07:31Z",
+      "side": 1,
+      "message": "Yep. I made this function much pickier. I plan to get rid of it entirely in a follow-on CL soon.",
+      "parentUuid": "6ea598c6_2135c5d4",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_9e33cc3d",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -328,6 +364,24 @@
       "writtenOn": "2016-04-06T17:40:40Z",
       "side": 1,
       "message": "This condition is never true: we checked that t.Etype !\u003d TFORW at the beginning, and then copied that to n.Type.Etype (which we\u0027re inspecting here).",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_619aad9c",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3543,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-06T18:07:31Z",
+      "side": 1,
+      "message": "Thanks; removed.",
+      "parentUuid": "6ea598c6_e1391db7",
       "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
