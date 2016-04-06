@@ -34,6 +34,7 @@ package ld
 import (
 	"cmd/internal/gcprog"
 	"cmd/internal/obj"
+	"cmd/internal/sys"
 	"fmt"
 	"log"
 	"os"
@@ -107,7 +108,7 @@ func Adduint64(ctxt *Link, s *LSym, v uint64) int64 {
 }
 
 func adduint(ctxt *Link, s *LSym, v uint64) int64 {
-	return adduintxx(ctxt, s, v, Thearch.Intsize)
+	return adduintxx(ctxt, s, v, SysArch.IntSize)
 }
 
 func setuint8(ctxt *Link, s *LSym, r int64, v uint8) int64 {
@@ -124,12 +125,12 @@ func Addaddrplus(ctxt *Link, s *LSym, t *LSym, add int64) int64 {
 	}
 	s.Attr |= AttrReachable
 	i := s.Size
-	s.Size += int64(ctxt.Arch.Ptrsize)
+	s.Size += int64(ctxt.Arch.PtrSize)
 	Symgrow(ctxt, s, s.Size)
 	r := Addrel(s)
 	r.Sym = t
 	r.Off = int32(i)
-	r.Siz = uint8(ctxt.Arch.Ptrsize)
+	r.Siz = uint8(ctxt.Arch.PtrSize)
 	r.Type = obj.R_ADDR
 	r.Add = add
 	return i + int64(r.Siz)
@@ -149,7 +150,7 @@ func Addpcrelplus(ctxt *Link, s *LSym, t *LSym, add int64) int64 {
 	r.Add = add
 	r.Type = obj.R_PCREL
 	r.Siz = 4
-	if Thearch.Thechar == 'z' {
+	if SysArch.Family == sys.S390X {
 		r.Variant = RV_390_DBL
 	}
 	return i + int64(r.Siz)
@@ -164,15 +165,15 @@ func setaddrplus(ctxt *Link, s *LSym, off int64, t *LSym, add int64) int64 {
 		s.Type = obj.SDATA
 	}
 	s.Attr |= AttrReachable
-	if off+int64(ctxt.Arch.Ptrsize) > s.Size {
-		s.Size = off + int64(ctxt.Arch.Ptrsize)
+	if off+int64(ctxt.Arch.PtrSize) > s.Size {
+		s.Size = off + int64(ctxt.Arch.PtrSize)
 		Symgrow(ctxt, s, s.Size)
 	}
 
 	r := Addrel(s)
 	r.Sym = t
 	r.Off = int32(off)
-	r.Siz = uint8(ctxt.Arch.Ptrsize)
+	r.Siz = uint8(ctxt.Arch.PtrSize)
 	r.Type = obj.R_ADDR
 	r.Add = add
 	return off + int64(r.Siz)
@@ -188,12 +189,12 @@ func addsize(ctxt *Link, s *LSym, t *LSym) int64 {
 	}
 	s.Attr |= AttrReachable
 	i := s.Size
-	s.Size += int64(ctxt.Arch.Ptrsize)
+	s.Size += int64(ctxt.Arch.PtrSize)
 	Symgrow(ctxt, s, s.Size)
 	r := Addrel(s)
 	r.Sym = t
 	r.Off = int32(i)
-	r.Siz = uint8(ctxt.Arch.Ptrsize)
+	r.Siz = uint8(ctxt.Arch.PtrSize)
 	r.Type = obj.R_SIZE
 	return i + int64(r.Siz)
 }
@@ -342,7 +343,7 @@ func relocsym(s *LSym) {
 		// We need to be able to reference dynimport symbols when linking against
 		// shared libraries, and Solaris needs it always
 		if HEADTYPE != obj.Hsolaris && r.Sym != nil && r.Sym.Type == obj.SDYNIMPORT && !DynlinkingGo() {
-			if !(Thearch.Thechar == '9' && Linkmode == LinkExternal && r.Sym.Name == ".TOC.") {
+			if !(SysArch.Family == sys.PPC64 && Linkmode == LinkExternal && r.Sym.Name == ".TOC.") {
 				Diag("unhandled relocation for %s (type %d rtype %d)", r.Sym.Name, r.Sym.Type, r.Type)
 			}
 		}
@@ -351,7 +352,7 @@ func relocsym(s *LSym) {
 		}
 
 		// TODO(mundaym): remove this special case - see issue 14218.
-		if Thearch.Thechar == 'z' {
+		if SysArch.Family == sys.S390X {
 			switch r.Type {
 			case obj.R_PCRELDBL:
 				r.Type = obj.R_PCREL
@@ -380,7 +381,7 @@ func relocsym(s *LSym) {
 			}
 
 		case obj.R_TLS_LE:
-			isAndroidX86 := goos == "android" && (Thearch.Thechar == '6' || Thearch.Thechar == '8')
+			isAndroidX86 := goos == "android" && (SysArch.HasFamily(sys.AMD64, sys.X86))
 
 			if Linkmode == LinkExternal && Iself && HEADTYPE != obj.Hopenbsd && !isAndroidX86 {
 				r.Done = 0
@@ -390,13 +391,13 @@ func relocsym(s *LSym) {
 				r.Xsym = r.Sym
 				r.Xadd = r.Add
 				o = 0
-				if Thearch.Thechar != '6' {
+				if SysArch.Family != sys.AMD64 {
 					o = r.Add
 				}
 				break
 			}
 
-			if Iself && Thearch.Thechar == '5' {
+			if Iself && SysArch.Family == sys.ARM {
 				// On ELF ARM, the thread pointer is 8 bytes before
 				// the start of the thread-local data block, so add 8
 				// to the actual TLS offset (r->sym->value).
@@ -414,7 +415,7 @@ func relocsym(s *LSym) {
 			}
 
 		case obj.R_TLS_IE:
-			isAndroidX86 := goos == "android" && (Thearch.Thechar == '6' || Thearch.Thechar == '8')
+			isAndroidX86 := goos == "android" && (SysArch.HasFamily(sys.AMD64, sys.X86))
 
 			if Linkmode == LinkExternal && Iself && HEADTYPE != obj.Hopenbsd && !isAndroidX86 {
 				r.Done = 0
@@ -424,7 +425,7 @@ func relocsym(s *LSym) {
 				r.Xsym = r.Sym
 				r.Xadd = r.Add
 				o = 0
-				if Thearch.Thechar != '6' {
+				if SysArch.Family != sys.AMD64 {
 					o = r.Add
 				}
 				break
@@ -451,7 +452,7 @@ func relocsym(s *LSym) {
 
 				o = r.Xadd
 				if Iself {
-					if Thearch.Thechar == '6' {
+					if SysArch.Family == sys.AMD64 {
 						o = 0
 					}
 				} else if HEADTYPE == obj.Hdarwin {
@@ -461,10 +462,10 @@ func relocsym(s *LSym) {
 					// The workaround is that on arm64 don't ever add symaddr to o and always use
 					// extern relocation by requiring rs->dynid >= 0.
 					if rs.Type != obj.SHOSTOBJ {
-						if Thearch.Thechar == '7' && rs.Dynid < 0 {
+						if SysArch.Family == sys.ARM64 && rs.Dynid < 0 {
 							Diag("R_ADDR reloc to %s+%d is not supported on darwin/arm64", rs.Name, o)
 						}
-						if Thearch.Thechar != '7' {
+						if SysArch.Family != sys.ARM64 {
 							o += Symaddr(rs)
 						}
 					}
@@ -484,7 +485,7 @@ func relocsym(s *LSym) {
 			// fail at runtime. See https://golang.org/issue/7980.
 			// Instead of special casing only amd64, we treat this as an error on all
 			// 64-bit architectures so as to be future-proof.
-			if int32(o) < 0 && Thearch.Ptrsize > 4 && siz == 4 {
+			if int32(o) < 0 && SysArch.PtrSize > 4 && siz == 4 {
 				Diag("non-pc-relative relocation address is too big: %#x (%#x + %#x)", uint64(o), Symaddr(r.Sym), r.Add)
 				errorexit()
 			}
@@ -511,7 +512,7 @@ func relocsym(s *LSym) {
 
 				o = r.Xadd
 				if Iself {
-					if Thearch.Thechar == '6' {
+					if SysArch.Family == sys.AMD64 {
 						o = 0
 					}
 				} else if HEADTYPE == obj.Hdarwin {
@@ -523,7 +524,7 @@ func relocsym(s *LSym) {
 					} else {
 						o += int64(r.Siz)
 					}
-				} else if HEADTYPE == obj.Hwindows && Thearch.Thechar == '6' { // only amd64 needs PCREL
+				} else if HEADTYPE == obj.Hwindows && SysArch.Family == sys.AMD64 { // only amd64 needs PCREL
 					// PE/COFF's PC32 relocation uses the address after the relocated
 					// bytes as the base. Compensate by skewing the addend.
 					o += int64(r.Siz)
@@ -639,7 +640,7 @@ func dynrelocsym(s *LSym) {
 				r.Add = int64(targ.Plt)
 
 				// jmp *addr
-				if Thearch.Thechar == '8' {
+				if SysArch.Family == sys.X86 {
 					Adduint8(Ctxt, rel, 0xff)
 					Adduint8(Ctxt, rel, 0x25)
 					Addaddr(Ctxt, rel, targ)
@@ -938,7 +939,7 @@ func addstrdata(name string, value string) {
 	s.Attr |= AttrDuplicateOK
 	reachable := s.Attr.Reachable()
 	Addaddr(Ctxt, s, sp)
-	adduintxx(Ctxt, s, uint64(len(value)), Thearch.Ptrsize)
+	adduintxx(Ctxt, s, uint64(len(value)), SysArch.PtrSize)
 
 	// addstring, addaddr, etc., mark the symbols as reachable.
 	// In this case that is not necessarily true, so stick to what
@@ -1084,7 +1085,7 @@ func (p *GCProg) writeByte(x byte) {
 }
 
 func (p *GCProg) End(size int64) {
-	p.w.ZeroUntil(size / int64(Thearch.Ptrsize))
+	p.w.ZeroUntil(size / int64(SysArch.PtrSize))
 	p.w.End()
 	if debugGCProg {
 		fmt.Fprintf(os.Stderr, "ld: end GCProg\n")
@@ -1100,7 +1101,7 @@ func (p *GCProg) AddSym(s *LSym) {
 		return
 	}
 
-	ptrsize := int64(Thearch.Ptrsize)
+	ptrsize := int64(SysArch.PtrSize)
 	nptr := decodetype_ptrdata(typ) / ptrsize
 
 	if debugGCProg {
@@ -1488,7 +1489,7 @@ func dodata() {
 	if s != nil && s.Type == obj.STLSBSS {
 		if Iself && (Linkmode == LinkExternal || Debug['d'] == 0) && HEADTYPE != obj.Hopenbsd {
 			sect = addsection(&Segdata, ".tbss", 06)
-			sect.Align = int32(Thearch.Ptrsize)
+			sect.Align = int32(SysArch.PtrSize)
 			sect.Vaddr = 0
 		} else {
 			sect = nil
