@@ -3,6 +3,7 @@ package ld
 import (
 	"bytes"
 	"cmd/internal/obj"
+	"cmd/internal/sys"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -546,47 +547,48 @@ func ldelf(f *obj.Biobuf, pkg string, length int64, pn string) {
 		return
 	}
 
-	switch Thearch.Thechar {
+	switch SysArch.Char {
 	default:
-		Diag("%s: elf %s unimplemented", pn, Thestring)
+		Diag("%s: elf %s unimplemented", pn, SysArch.Name)
 		return
 
-	case '0':
+	case sys.CharMIPS64:
 		if elfobj.machine != ElfMachMips || hdr.Ident[4] != ElfClass64 {
 			Diag("%s: elf object but not mips64", pn)
 			return
 		}
 
-	case '5':
+	case sys.CharARM:
 		if e != binary.LittleEndian || elfobj.machine != ElfMachArm || hdr.Ident[4] != ElfClass32 {
 			Diag("%s: elf object but not arm", pn)
 			return
 		}
 
-	case '6':
+	case sys.CharAMD64:
 		if e != binary.LittleEndian || elfobj.machine != ElfMachAmd64 || hdr.Ident[4] != ElfClass64 {
 			Diag("%s: elf object but not amd64", pn)
 			return
 		}
 
-	case '7':
+	case sys.CharARM64:
 		if e != binary.LittleEndian || elfobj.machine != ElfMachArm64 || hdr.Ident[4] != ElfClass64 {
 			Diag("%s: elf object but not arm64", pn)
 			return
 		}
 
-	case '8':
+	case sys.Char386:
 		if e != binary.LittleEndian || elfobj.machine != ElfMach386 || hdr.Ident[4] != ElfClass32 {
 			Diag("%s: elf object but not 386", pn)
 			return
 		}
 
-	case '9':
+	case sys.CharPPC64:
 		if elfobj.machine != ElfMachPower64 || hdr.Ident[4] != ElfClass64 {
 			Diag("%s: elf object but not ppc64", pn)
 			return
 		}
-	case 'z':
+
+	case sys.CharS390X:
 		if elfobj.machine != ElfMachS390 || hdr.Ident[4] != ElfClass64 {
 			Diag("%s: elf object but not s390x", pn)
 			return
@@ -1056,7 +1058,7 @@ func readelfsym(elfobj *ElfObj, i int, sym *ElfSym, needSym int) (err error) {
 			}
 
 		case ElfSymBindLocal:
-			if Thearch.Thechar == '5' && (strings.HasPrefix(sym.name, "$a") || strings.HasPrefix(sym.name, "$d")) {
+			if SysArch.Char == sys.CharARM && (strings.HasPrefix(sym.name, "$a") || strings.HasPrefix(sym.name, "$d")) {
 				// binutils for arm generate these mapping
 				// symbols, ignore these
 				break
@@ -1127,7 +1129,7 @@ func (x rbyoff) Less(i, j int) bool {
 }
 
 func reltype(pn string, elftype int, siz *uint8) int {
-	switch uint32(Thearch.Thechar) | uint32(elftype)<<24 {
+	switch uint32(SysArch.Char) | uint32(elftype)<<24 {
 	default:
 		Diag("%s: unknown relocation type %d; compiled without -fpic?", pn, elftype)
 		fallthrough

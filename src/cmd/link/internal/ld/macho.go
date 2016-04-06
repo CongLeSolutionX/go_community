@@ -6,6 +6,7 @@ package ld
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/sys"
 	"sort"
 	"strings"
 )
@@ -131,9 +132,9 @@ var nsortsym int
 var load_budget int = INITIAL_MACHO_HEADR - 2*1024
 
 func Machoinit() {
-	switch Thearch.Thechar {
+	switch SysArch.Char {
 	// 64-bit architectures
-	case '6', '7', '9':
+	case sys.CharAMD64, sys.CharARM64, sys.CharPPC64:
 		macho64 = true
 
 		// 32-bit architectures
@@ -356,8 +357,8 @@ func machoshbits(mseg *MachoSeg, sect *Section, segname string) {
 	buf := "__" + strings.Replace(sect.Name[1:], ".", "_", -1)
 
 	var msect *MachoSect
-	if sect.Rwx&1 == 0 && (Thearch.Thechar == '7' || // arm64
-		(Thearch.Thechar == '6' && (Buildmode == BuildmodeCShared || Buildmode == BuildmodeCArchive))) { // amd64
+	if sect.Rwx&1 == 0 && (SysArch.Char == sys.CharARM64 ||
+		(SysArch.Char == sys.CharAMD64 && (Buildmode == BuildmodeCShared || Buildmode == BuildmodeCArchive))) { // amd64
 		// Darwin external linker on arm64 and on amd64 in c-shared/c-archive buildmode
 		// complains about absolute relocs in __TEXT, so if the section is not
 		// executable, put it in __DATA segment.
@@ -418,23 +419,23 @@ func Asmbmacho() {
 	va := INITTEXT - int64(HEADR)
 
 	mh := getMachoHdr()
-	switch Thearch.Thechar {
+	switch SysArch.Char {
 	default:
-		Exitf("unknown macho architecture: %v", Thearch.Thechar)
+		Exitf("unknown macho architecture: %v", SysArch.Char)
 
-	case '5':
+	case sys.CharARM:
 		mh.cpu = MACHO_CPU_ARM
 		mh.subcpu = MACHO_SUBCPU_ARMV7
 
-	case '6':
+	case sys.CharAMD64:
 		mh.cpu = MACHO_CPU_AMD64
 		mh.subcpu = MACHO_SUBCPU_X86
 
-	case '7':
+	case sys.CharARM64:
 		mh.cpu = MACHO_CPU_ARM64
 		mh.subcpu = MACHO_SUBCPU_ARM64_ALL
 
-	case '8':
+	case sys.Char386:
 		mh.cpu = MACHO_CPU_386
 		mh.subcpu = MACHO_SUBCPU_X86
 	}
@@ -445,7 +446,7 @@ func Asmbmacho() {
 		ms = newMachoSeg("", 40)
 
 		ms.fileoffset = Segtext.Fileoff
-		if Thearch.Thechar == '5' || Buildmode == BuildmodeCArchive {
+		if SysArch.Char == sys.CharARM || Buildmode == BuildmodeCArchive {
 			ms.filesize = Segdata.Fileoff + Segdata.Filelen - Segtext.Fileoff
 		} else {
 			ms.filesize = Segdwarf.Fileoff + Segdwarf.Filelen - Segtext.Fileoff
@@ -493,31 +494,31 @@ func Asmbmacho() {
 	}
 
 	if Linkmode != LinkExternal {
-		switch Thearch.Thechar {
+		switch SysArch.Char {
 		default:
-			Exitf("unknown macho architecture: %v", Thearch.Thechar)
+			Exitf("unknown macho architecture: %v", SysArch.Char)
 
-		case '5':
+		case sys.CharARM:
 			ml := newMachoLoad(5, 17+2)          /* unix thread */
 			ml.data[0] = 1                       /* thread type */
 			ml.data[1] = 17                      /* word count */
 			ml.data[2+15] = uint32(Entryvalue()) /* start pc */
 
-		case '6':
+		case sys.CharAMD64:
 			ml := newMachoLoad(5, 42+2)          /* unix thread */
 			ml.data[0] = 4                       /* thread type */
 			ml.data[1] = 42                      /* word count */
 			ml.data[2+32] = uint32(Entryvalue()) /* start pc */
 			ml.data[2+32+1] = uint32(Entryvalue() >> 32)
 
-		case '7':
+		case sys.CharARM64:
 			ml := newMachoLoad(5, 68+2)          /* unix thread */
 			ml.data[0] = 6                       /* thread type */
 			ml.data[1] = 68                      /* word count */
 			ml.data[2+64] = uint32(Entryvalue()) /* start pc */
 			ml.data[2+64+1] = uint32(Entryvalue() >> 32)
 
-		case '8':
+		case sys.Char386:
 			ml := newMachoLoad(5, 16+2)          /* unix thread */
 			ml.data[0] = 1                       /* thread type */
 			ml.data[1] = 16                      /* word count */
@@ -528,7 +529,6 @@ func Asmbmacho() {
 	if Debug['d'] == 0 {
 		// must match domacholink below
 		s1 := Linklookup(Ctxt, ".machosymtab", 0)
-
 		s2 := Linklookup(Ctxt, ".linkedit.plt", 0)
 		s3 := Linklookup(Ctxt, ".linkedit.got", 0)
 		s4 := Linklookup(Ctxt, ".machosymstr", 0)
@@ -716,7 +716,7 @@ func machosymtab() {
 			Adduint8(Ctxt, symtab, 0x01)                // type N_EXT, external symbol
 			Adduint8(Ctxt, symtab, 0)                   // no section
 			Adduint16(Ctxt, symtab, 0)                  // desc
-			adduintxx(Ctxt, symtab, 0, Thearch.Ptrsize) // no value
+			adduintxx(Ctxt, symtab, 0, SysArch.PtrSize) // no value
 		} else {
 			if s.Attr.CgoExport() {
 				Adduint8(Ctxt, symtab, 0x0f)
@@ -734,7 +734,7 @@ func machosymtab() {
 				Adduint8(Ctxt, symtab, uint8(o.Sect.Extnum))
 			}
 			Adduint16(Ctxt, symtab, 0) // desc
-			adduintxx(Ctxt, symtab, uint64(Symaddr(s)), Thearch.Ptrsize)
+			adduintxx(Ctxt, symtab, uint64(Symaddr(s)), SysArch.PtrSize)
 		}
 	}
 }
