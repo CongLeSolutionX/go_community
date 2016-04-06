@@ -22,6 +22,30 @@
       "revId": "e58ac8c7495d7ddb4a8ec024cc1c19c544e2be21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee4c2816_3edb8537",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-04-06T21:39:26Z",
+      "side": 1,
+      "message": "I got the ends wrong. Fixed now.",
+      "parentUuid": "8ef00cde_701f3045",
+      "range": {
+        "startLine": 1097,
+        "startChar": 69,
+        "endLine": 1097,
+        "endChar": 85
+      },
+      "revId": "e58ac8c7495d7ddb4a8ec024cc1c19c544e2be21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
