@@ -247,6 +247,23 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_2135c5d4",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T17:40:40Z",
+      "side": 1,
+      "message": "I don\u0027t think this case ever happens.\n\n(I\u0027d argue the sliceBound case above should never happen either, but currently it does.)",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_9e33cc3d",
         "filename": "src/cmd/compile/internal/gc/type.go",
         "patchSetId": 1
@@ -276,6 +293,23 @@
       "side": 1,
       "message": "Yep. And ultimately we can probably remove a lot of the failsafes sprinkled throughout this file, but as long as we\u0027re doing active surgery, they\u0027re super helpful. (Long might be worth hiding them behind a const that we can manually flip. Never know--some of these might be hot enough methods that it might actually help with CPU time a tiny bit.)",
       "parentUuid": "6ea598c6_9e33cc3d",
+      "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_e1391db7",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3543,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-06T17:40:40Z",
+      "side": 1,
+      "message": "This condition is never true: we checked that t.Etype !\u003d TFORW at the beginning, and then copied that to n.Type.Etype (which we\u0027re inspecting here).",
       "revId": "6b44699c231e97ffabc0b146245a63fb2fba9dc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
