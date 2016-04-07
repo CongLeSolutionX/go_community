@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ef00cde_73297a79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7845
+      },
+      "writtenOn": "2016-04-07T17:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea598c6_a07546d1",
+      "revId": "f9ff522a2e4d45b81769605059fbc4c02b5dafb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_802da2d5",
         "filename": "CONTRIBUTORS",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-07T17:13:09Z",
       "side": 1,
       "message": "remove this from this CL. We never update A+C files in the same CLs as code. Also, we auto-generate this file in batches these days.",
+      "revId": "f9ff522a2e4d45b81769605059fbc4c02b5dafb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ef00cde_532676ab",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 7845
+      },
+      "writtenOn": "2016-04-07T17:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea598c6_802da2d5",
       "revId": "f9ff522a2e4d45b81769605059fbc4c02b5dafb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
