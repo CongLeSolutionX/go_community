@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_5736423a",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-07T03:18:49Z",
+      "side": 1,
+      "message": "uint8 would be a better spelling of byte, you mean?",
+      "parentUuid": "6ea598c6_97f72a9f",
+      "revId": "43192f949dc923afaf762caa73f3dbd56be49d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_f7ee76d2",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 1
