@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6ea598c6_b747ce99",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-04-07T03:21:27Z",
+      "side": 1,
+      "message": "sorry, i should have said \"can this be an int now\". There aren\u0027t many Arch values, and the padding of Family doesn\u0027t matter.\n\nThis was historically a byte, because really it was a char, but that doesn\u0027t matter any more.",
+      "parentUuid": "6ea598c6_5736423a",
+      "revId": "43192f949dc923afaf762caa73f3dbd56be49d9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ea598c6_f7ee76d2",
         "filename": "src/cmd/internal/sys/arch.go",
         "patchSetId": 1
