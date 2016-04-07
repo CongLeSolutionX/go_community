@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math/rand"
 	"os"
 	"os/exec"
 	"sort"
@@ -58,12 +59,13 @@ const (
 )
 
 // Parse parses, post-processes and verifies the trace.
-func Parse(r io.Reader) ([]*Event, error) {
+// If breakTimestamps is set parser randomly alters timestamps (for testing of broken cputicks).
+func Parse(r io.Reader, breakTimestamps bool) ([]*Event, error) {
 	rawEvents, err := readTrace(r)
 	if err != nil {
 		return nil, err
 	}
-	events, err := parseEvents(rawEvents)
+	events, err := parseEvents(rawEvents, breakTimestamps)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +152,7 @@ func readTrace(r io.Reader) ([]rawEvent, error) {
 
 // Parse events transforms raw events into events.
 // It does analyze and verify per-event-type arguments.
-func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
+func parseEvents(rawEvents []rawEvent, breakTimestamps bool) (events []*Event, err error) {
 	var ticksPerSec, lastSeq, lastTs int64
 	var lastG, timerGoid uint64
 	var lastP int
@@ -261,6 +263,11 @@ func parseEvents(rawEvents []rawEvent) (events []*Event, err error) {
 	if len(events) == 0 {
 		err = fmt.Errorf("trace is empty")
 		return
+	}
+	if breakTimestamps {
+		for i := 0; i < 5; i++ {
+			events[rand.Intn(len(events))].Ts += int64(rand.Intn(2000) - 1000)
+		}
 	}
 
 	// Attach stack traces.
