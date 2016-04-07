@@ -16,6 +16,24 @@
       "revId": "67f3a17c1c038487ff72eb469fd457110f915440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_b7eb4e91",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-07T03:55:55Z",
+      "side": 1,
+      "message": "We can, but it ends up generating much uglier assembly. I suspect it doesn\u0027t matter, but I\u0027d want to measure.\n\nIn particular, the current switch statement has all integer constant cases, which cmd/compile compiles into a binary search.\n\nOtherwise (e.g., comparing struct values) it uses a linear search.\n\nAlso, even using \"type ft struct { af sys.ArchFamily; et byte }\" so that ft is 2 bytes without padding, cmd/compile handles each case\u0027s comparison by:\n- Using three MOVB instructions (including one useless 0-initialization) to initialize an ft value on the stack.\n- And then two MOVBLZX instructions to load both the case\u0027s temporary value and the switch temporary value into registers to compare them.  (The switch temp actually ends up staying in AX the entire time, but the compiler doesn\u0027t realize this.)\n\nI\u0027d rather go forward with this for now to unblock 21628. If we want to adopt the struct-switch idiom, there\u0027s at least one other instance in the compiler that I\u0027d also like to cleanup.",
+      "parentUuid": "6ea598c6_370e1e8a",
+      "revId": "67f3a17c1c038487ff72eb469fd457110f915440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
