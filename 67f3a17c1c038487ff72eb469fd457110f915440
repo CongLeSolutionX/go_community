@@ -34,6 +34,24 @@
       "revId": "67f3a17c1c038487ff72eb469fd457110f915440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea598c6_77f5c66c",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-07T03:58:41Z",
+      "side": 1,
+      "message": "Leave a TODO here to be more idiomatic at least? Ideally with a new bug number explaining what the compiler\u0027s not doing well currently?",
+      "parentUuid": "6ea598c6_b7eb4e91",
+      "revId": "67f3a17c1c038487ff72eb469fd457110f915440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
