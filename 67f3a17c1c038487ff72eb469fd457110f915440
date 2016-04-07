@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea598c6_370e1e8a",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-07T03:16:37Z",
+      "side": 1,
+      "message": "Can we use Go instead?\n\nUse a func-local type that supports \u003d\u003d:\n\n    // family and elf type\n    type ft struct {\n       sysArch.Family\n       elftype uint32\n    }\n\n    switch (ft{SysArch.Family, elftype}) {\n\n    case (ft{sys.S390x, R_390_8}):\n         return 1",
+      "revId": "67f3a17c1c038487ff72eb469fd457110f915440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
