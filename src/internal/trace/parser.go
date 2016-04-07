@@ -9,11 +9,13 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math/rand"
 	"os"
 	"os/exec"
 	"sort"
 	"strconv"
 	"strings"
+	_ "unsafe"
 )
 
 // Event describes one event in the trace.
@@ -363,6 +365,11 @@ func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string) (even
 	if len(events) == 0 {
 		err = fmt.Errorf("trace is empty")
 		return
+	}
+	if breakTimestampsForTesting {
+		for i := 0; i < 5; i++ {
+			events[rand.Intn(len(events))].Ts += int64(rand.Intn(2000) - 1000)
+		}
 	}
 
 	// Sort by sequence number and translate cpu ticks to real time.
@@ -797,6 +804,14 @@ func Print(events []*Event) {
 		}
 		fmt.Printf("\n")
 	}
+}
+
+// If set parser randomly alters timestamps (for testing of broken cputicks).
+var breakTimestampsForTesting bool
+
+//go:linkname breakTimestamps runtime/trace.breakTimestampsForTesting
+func breakTimestamps(v bool) {
+	breakTimestampsForTesting = v
 }
 
 // Event types in the trace.
