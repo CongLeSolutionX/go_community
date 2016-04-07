@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math/rand"
 	"os"
 	"os/exec"
 	"sort"
@@ -58,12 +59,13 @@ const (
 )
 
 // Parse parses, post-processes and verifies the trace.
-func Parse(r io.Reader, bin string) ([]*Event, error) {
+// If breakTimestamps is set parser randomly alters timestamps (for testing of broken cputicks).
+func Parse(r io.Reader, bin string, breakTimestamps bool) ([]*Event, error) {
 	ver, rawEvents, strings, err := readTrace(r)
 	if err != nil {
 		return nil, err
 	}
-	events, stacks, err := parseEvents(ver, rawEvents, strings)
+	events, stacks, err := parseEvents(ver, rawEvents, strings, breakTimestamps)
 	if err != nil {
 		return nil, err
 	}
@@ -244,7 +246,7 @@ func parseHeader(buf []byte) (int, error) {
 
 // Parse events transforms raw events into events.
 // It does analyze and verify per-event-type arguments.
-func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string) (events []*Event, stacks map[uint64][]*Frame, err error) {
+func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string, breakTimestamps bool) (events []*Event, stacks map[uint64][]*Frame, err error) {
 	var ticksPerSec, lastSeq, lastTs int64
 	var lastG, timerGoid uint64
 	var lastP int
@@ -363,6 +365,11 @@ func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string) (even
 	if len(events) == 0 {
 		err = fmt.Errorf("trace is empty")
 		return
+	}
+	if breakTimestamps {
+		for i := 0; i < 5; i++ {
+			events[rand.Intn(len(events))].Ts += int64(rand.Intn(2000) - 1000)
+		}
 	}
 
 	// Sort by sequence number and translate cpu ticks to real time.

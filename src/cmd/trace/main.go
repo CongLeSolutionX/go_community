@@ -99,7 +99,7 @@ func parseEvents() ([]*trace.Event, error) {
 		defer tracef.Close()
 
 		// Parse and symbolize.
-		events, err := trace.Parse(bufio.NewReader(tracef), programBinary)
+		events, err := trace.Parse(bufio.NewReader(tracef), programBinary, false)
 		if err != nil {
 			loader.err = fmt.Errorf("failed to parse trace: %v", err)
 			return
