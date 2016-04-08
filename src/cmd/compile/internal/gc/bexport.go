@@ -124,7 +124,7 @@ const exportVersion = "v0"
 const exportInlined = true // default: true
 
 type exporter struct {
-	out      *bio.Buf
+	out      *bio.Writer
 	pkgIndex map[*Pkg]int
 	typIndex map[*Type]int
 	inlined  []*Func
@@ -136,7 +136,7 @@ type exporter struct {
 }
 
 // Export writes the exportlist for localpkg to out and returns the number of bytes written.
-func Export(out *bio.Buf, trace bool) int {
+func Export(out *bio.Writer, trace bool) int {
 	p := exporter{
 		out:      out,
 		pkgIndex: make(map[*Pkg]int),
