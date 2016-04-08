@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b20f290_55d7ecc5",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-08T21:34:04Z",
+      "side": 1,
+      "message": "Is the plan to eliminate this argument?",
+      "revId": "0fb7b4cccd02df10f239ed77d6d85566b6388b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b20f290_75ab0852",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-08T21:34:04Z",
+      "side": 1,
+      "message": "s/invalie/invalid/",
+      "revId": "0fb7b4cccd02df10f239ed77d6d85566b6388b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
