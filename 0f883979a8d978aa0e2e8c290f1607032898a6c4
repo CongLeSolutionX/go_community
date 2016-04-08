@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0eac1c06_8c252744",
+        "filename": "src/cmd/internal/bio/buf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-04-08T14:11:13Z",
+      "side": 1,
+      "message": "Yes, I have a set of follow ups that removes these methods. I added a comment to them for the moment.",
+      "parentUuid": "2e74807a_1583d480",
+      "revId": "0f883979a8d978aa0e2e8c290f1607032898a6c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e8ba0a4_bdd59fc1",
         "filename": "src/cmd/internal/bio/buf.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0eac1c06_ec1aeb05",
+        "filename": "src/cmd/internal/bio/buf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-04-08T14:11:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e8ba0a4_bdd59fc1",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 19
+      },
+      "revId": "0f883979a8d978aa0e2e8c290f1607032898a6c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e8ba0a4_ddca6b1c",
         "filename": "src/cmd/internal/bio/buf.go",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-04-08T13:52:11Z",
       "side": 1,
       "message": "copy and paste of above typo",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "0f883979a8d978aa0e2e8c290f1607032898a6c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eac1c06_cc1f2ff4",
+        "filename": "src/cmd/internal/bio/buf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-04-08T14:11:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e8ba0a4_ddca6b1c",
       "range": {
         "startLine": 58,
         "startChar": 12,
