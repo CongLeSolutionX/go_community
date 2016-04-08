@@ -4,9 +4,9 @@
 
 package net
 
-func installTestHooks() {}
+func installSocktestHooks() {}
 
-func uninstallTestHooks() {}
+func uninstallSocktestHooks() {}
 
 func forceCloseSockets() {}
 

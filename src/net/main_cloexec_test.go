@@ -7,8 +7,8 @@
 package net
 
 func init() {
-	extraTestHookInstallers = append(extraTestHookInstallers, installAccept4TestHook)
-	extraTestHookUninstallers = append(extraTestHookUninstallers, uninstallAccept4TestHook)
+	socktestExtraHookInstallers = append(socktestExtraHookInstallers, installAccept4TestHook)
+	socktestExtraHookUninstallers = append(socktestExtraHookUninstallers, uninstallAccept4TestHook)
 }
 
 var (

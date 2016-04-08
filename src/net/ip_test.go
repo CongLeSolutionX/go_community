@@ -96,7 +96,7 @@ func TestLookupWithIP(t *testing.T) {
 }
 
 func BenchmarkParseIP(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 
 	for i := 0; i < b.N; i++ {
 		for _, tt := range parseIPTests {
@@ -153,7 +153,7 @@ func TestIPString(t *testing.T) {
 }
 
 func BenchmarkIPString(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 
 	for i := 0; i < b.N; i++ {
 		for _, tt := range ipStringTests {
@@ -205,7 +205,7 @@ func TestIPMaskString(t *testing.T) {
 }
 
 func BenchmarkIPMaskString(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 
 	for i := 0; i < b.N; i++ {
 		for _, tt := range ipMaskStringTests {

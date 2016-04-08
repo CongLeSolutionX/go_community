@@ -531,7 +531,7 @@ func TestErrorForOriginalNameWhenSearching(t *testing.T) {
 }
 
 func BenchmarkGoLookupIP(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 
 	for i := 0; i < b.N; i++ {
 		goLookupIP("www.example.com")
@@ -539,7 +539,7 @@ func BenchmarkGoLookupIP(b *testing.B) {
 }
 
 func BenchmarkGoLookupIPNoSuchHost(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 
 	for i := 0; i < b.N; i++ {
 		goLookupIP("some.nonexistent")
@@ -547,7 +547,7 @@ func BenchmarkGoLookupIPNoSuchHost(b *testing.B) {
 }
 
 func BenchmarkGoLookupIPWithBrokenNameServer(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 
 	conf, err := newResolvConfTest()
 	if err != nil {

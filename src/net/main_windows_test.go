@@ -14,7 +14,7 @@ var (
 	origAccept      = acceptFunc
 )
 
-func installTestHooks() {
+func installSocktestHooks() {
 	socketFunc = sw.Socket
 	closeFunc = sw.Closesocket
 	connectFunc = sw.Connect
@@ -23,7 +23,7 @@ func installTestHooks() {
 	acceptFunc = sw.AcceptEx
 }
 
-func uninstallTestHooks() {
+func uninstallSocktestHooks() {
 	socketFunc = origSocket
 	closeFunc = origClosesocket
 	connectFunc = origConnect

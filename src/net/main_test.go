@@ -19,8 +19,8 @@ import (
 var (
 	sw socktest.Switch
 
-	// uninstallTestHooks runs just before a run of benchmarks.
-	testHookUninstaller sync.Once
+	// socktestUninstaller runs just before a run of benchmarks.
+	socktestHookUninstaller sync.Once
 )
 
 var (
@@ -45,11 +45,11 @@ var (
 
 func TestMain(m *testing.M) {
 	setupTestData()
-	installTestHooks()
+	installSocktestHooks()
 
 	st := m.Run()
 
-	testHookUninstaller.Do(uninstallTestHooks)
+	socktestHookUninstaller.Do(uninstallSocktestHooks)
 	if testing.Verbose() {
 		printRunningGoroutines()
 		printInflightSockets()

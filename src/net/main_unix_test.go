@@ -15,11 +15,11 @@ var (
 	origAccept        = acceptFunc
 	origGetsockoptInt = getsockoptIntFunc
 
-	extraTestHookInstallers   []func()
-	extraTestHookUninstallers []func()
+	socktestExtraHookInstallers   []func()
+	socktestExtraHookUninstallers []func()
 )
 
-func installTestHooks() {
+func installSocktestHooks() {
 	socketFunc = sw.Socket
 	closeFunc = sw.Close
 	connectFunc = sw.Connect
@@ -27,12 +27,12 @@ func installTestHooks() {
 	acceptFunc = sw.Accept
 	getsockoptIntFunc = sw.GetsockoptInt
 
-	for _, fn := range extraTestHookInstallers {
+	for _, fn := range socktestExtraHookInstallers {
 		fn()
 	}
 }
 
-func uninstallTestHooks() {
+func uninstallSocktestHooks() {
 	socketFunc = origSocket
 	closeFunc = origClose
 	connectFunc = origConnect
@@ -40,7 +40,7 @@ func uninstallTestHooks() {
 	acceptFunc = origAccept
 	getsockoptIntFunc = origGetsockoptInt
 
-	for _, fn := range extraTestHookUninstallers {
+	for _, fn := range socktestExtraHookUninstallers {
 		fn()
 	}
 }
