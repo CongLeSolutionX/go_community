@@ -50,8 +50,12 @@ func TestResolveIPAddr(t *testing.T) {
 		t.Skip("ip+nopriv test")
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = lookupLocalhost
 
 	for i, tt := range resolveIPAddrTests {

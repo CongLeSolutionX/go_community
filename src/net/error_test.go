@@ -136,8 +136,12 @@ func TestDialError(t *testing.T) {
 		t.Skipf("%s does not have full support of socktest", runtime.GOOS)
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = func(fn func(string) ([]IPAddr, error), host string) ([]IPAddr, error) {
 		return nil, &DNSError{Err: "dial error test", Name: "name", Server: "server", IsTimeout: true}
 	}
@@ -229,8 +233,12 @@ func TestListenError(t *testing.T) {
 		t.Skipf("%s does not have full support of socktest", runtime.GOOS)
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = func(fn func(string) ([]IPAddr, error), host string) ([]IPAddr, error) {
 		return nil, &DNSError{Err: "listen error test", Name: "name", Server: "server", IsTimeout: true}
 	}
@@ -289,8 +297,12 @@ func TestListenPacketError(t *testing.T) {
 		t.Skipf("%s does not have full support of socktest", runtime.GOOS)
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = func(fn func(string) ([]IPAddr, error), host string) ([]IPAddr, error) {
 		return nil, &DNSError{Err: "listen error test", Name: "name", Server: "server", IsTimeout: true}
 	}
