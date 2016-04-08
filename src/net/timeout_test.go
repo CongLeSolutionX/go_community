@@ -37,8 +37,12 @@ var dialTimeoutTests = []struct {
 
 func TestDialTimeout(t *testing.T) {
 	// Cannot use t.Parallel - modifies global hooks.
+	testHookMu.Lock()
 	origTestHookDialChannel := testHookDialChannel
-	defer func() { testHookDialChannel = origTestHookDialChannel }()
+	defer func() {
+		testHookDialChannel = origTestHookDialChannel
+		testHookMu.Unlock()
+	}()
 	defer sw.Set(socktest.FilterConnect, nil)
 
 	// Avoid tracking open-close jitterbugs between netFD and

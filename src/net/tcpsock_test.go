@@ -312,8 +312,12 @@ var resolveTCPAddrTests = []resolveTCPAddrTest{
 }
 
 func TestResolveTCPAddr(t *testing.T) {
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = lookupLocalhost
 
 	for i, tt := range resolveTCPAddrTests {

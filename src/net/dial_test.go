@@ -67,9 +67,13 @@ func TestDialTimeoutFDLeak(t *testing.T) {
 
 	switch runtime.GOOS {
 	case "plan9", "windows":
+		testHookMu.Lock()
 		origTestHookDialChannel := testHookDialChannel
+		defer func() {
+			testHookDialChannel = origTestHookDialChannel
+			testHookMu.Unlock()
+		}()
 		testHookDialChannel = func() { time.Sleep(2 * T) }
-		defer func() { testHookDialChannel = origTestHookDialChannel }()
 		if runtime.GOOS == "plan9" {
 			break
 		}
@@ -136,8 +140,12 @@ func TestDialerDualStackFDLeak(t *testing.T) {
 	}
 
 	before := sw.Sockets()
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = lookupLocalhost
 	handler := func(dss *dualStackServer, ln Listener) {
 		for {
@@ -271,8 +279,12 @@ func TestDialParallel(t *testing.T) {
 		closedPortOrFallbackDelay = fallbackDelay
 	}
 
+	testHookMu.Lock()
 	origTestHookDialTCP := testHookDialTCP
-	defer func() { testHookDialTCP = origTestHookDialTCP }()
+	defer func() {
+		testHookDialTCP = origTestHookDialTCP
+		testHookMu.Unlock()
+	}()
 	testHookDialTCP = slowDialTCP
 
 	nCopies := func(s string, n int) []string {
@@ -429,12 +441,15 @@ func TestDialerFallbackDelay(t *testing.T) {
 		t.Skip("both IPv4 and IPv6 are required")
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
-	testHookLookupIP = lookupSlowFast
-
 	origTestHookDialTCP := testHookDialTCP
-	defer func() { testHookDialTCP = origTestHookDialTCP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookDialTCP = origTestHookDialTCP
+		testHookMu.Unlock()
+	}()
+	testHookLookupIP = lookupSlowFast
 	testHookDialTCP = slowDialTCP
 
 	var testCases = []struct {
@@ -531,8 +546,12 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 
 	const fallbackDelay = 100 * time.Millisecond
 
+	testHookMu.Lock()
 	origTestHookDialTCP := testHookDialTCP
-	defer func() { testHookDialTCP = origTestHookDialTCP }()
+	defer func() {
+		testHookDialTCP = origTestHookDialTCP
+		testHookMu.Unlock()
+	}()
 	testHookDialTCP = func(net string, laddr, raddr *TCPAddr, deadline time.Time, cancel <-chan struct{}) (*TCPConn, error) {
 		// Sleep long enough for Happy Eyeballs to kick in, and inhibit cancelation.
 		// This forces dialParallel to juggle two successful connections.
@@ -671,8 +690,12 @@ func TestDialerLocalAddr(t *testing.T) {
 		})
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = lookupLocalhost
 	handler := func(ls *localServer, ln Listener) {
 		for {
@@ -730,8 +753,12 @@ func TestDialerDualStack(t *testing.T) {
 		t.Errorf("got %v; want <= %v", closedPortDelay, expectClosedPortDelay)
 	}
 
+	testHookMu.Lock()
 	origTestHookLookupIP := testHookLookupIP
-	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer func() {
+		testHookLookupIP = origTestHookLookupIP
+		testHookMu.Unlock()
+	}()
 	testHookLookupIP = lookupLocalhost
 	handler := func(dss *dualStackServer, ln Listener) {
 		for {
@@ -793,7 +820,11 @@ func TestDialerKeepAlive(t *testing.T) {
 	if err := ls.buildup(handler); err != nil {
 		t.Fatal(err)
 	}
-	defer func() { testHookSetKeepAlive = func() {} }()
+	testHookMu.Lock()
+	defer func() {
+		testHookSetKeepAlive = func() {}
+		testHookMu.Unlock()
+	}()
 
 	for _, keepAlive := range []bool{false, true} {
 		got := false

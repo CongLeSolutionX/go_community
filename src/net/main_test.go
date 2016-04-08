@@ -21,6 +21,10 @@ var (
 
 	// uninstallTestHooks runs just before a run of benchmarks.
 	testHookUninstaller sync.Once
+
+	// testHookMu serializes access to internal API test hooks in
+	// testing.
+	testHookMu sync.Mutex
 )
 
 var (

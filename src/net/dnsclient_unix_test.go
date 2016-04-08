@@ -449,7 +449,11 @@ func TestGoLookupIPOrderFallbackToFile(t *testing.T) {
 		t.Fatal(err)
 	}
 	// Redirect host file lookups.
-	defer func(orig string) { testHookHostsPath = orig }(testHookHostsPath)
+	testHookMu.Lock()
+	defer func(orig string) {
+		testHookHostsPath = orig
+		testHookMu.Unlock()
+	}(testHookHostsPath)
 	testHookHostsPath = "testdata/hosts"
 
 	for _, order := range []hostLookupOrder{hostLookupFilesDNS, hostLookupDNSFiles} {
@@ -486,8 +490,12 @@ func TestGoLookupIPOrderFallbackToFile(t *testing.T) {
 func TestErrorForOriginalNameWhenSearching(t *testing.T) {
 	const fqdn = "doesnotexist.domain"
 
+	testHookMu.Lock()
 	origTestHookDNSDialer := testHookDNSDialer
-	defer func() { testHookDNSDialer = origTestHookDNSDialer }()
+	defer func() {
+		testHookDNSDialer = origTestHookDNSDialer
+		testHookMu.Unlock()
+	}()
 
 	conf, err := newResolvConfTest()
 	if err != nil {
