@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb009af1_bbae27aa",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-08T17:02:01Z",
+      "side": 1,
+      "message": "The reasoning was that string dictionary functionality is generic and can be used by something else in future.",
+      "parentUuid": "4ef45402_7e5b315f",
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef45402_5e58f560",
         "filename": "src/runtime/trace.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-08T15:26:09Z",
       "side": 1,
       "message": "if you decide to keep trace.strings/stringSeq global, we need this comment next to the trace.strings/stringSeq to ensure they are updated only through traceString",
+      "range": {
+        "startLine": 616,
+        "startChar": 39,
+        "endLine": 616,
+        "endChar": 40
+      },
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee1b4859_23cc2a84",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-08T17:02:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef45402_5e58f560",
       "range": {
         "startLine": 616,
         "startChar": 39,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0b06ce0a_5cbdddd8",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-08T17:02:01Z",
+      "side": 1,
+      "message": "You are right! Shame tests did not catch it.\nFixed this and added a test (indeed fails with this version).",
+      "parentUuid": "4ef45402_de6b65ea",
+      "range": {
+        "startLine": 918,
+        "startChar": 60,
+        "endLine": 918,
+        "endChar": 62
+      },
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef45402_bed93916",
         "filename": "src/runtime/trace/trace_stack_test.go",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2016-04-08T15:26:09Z",
       "side": 1,
       "message": "?",
+      "range": {
+        "startLine": 132,
+        "startChar": 42,
+        "endLine": 132,
+        "endChar": 44
+      },
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b06ce0a_bcae21aa",
+        "filename": "src/runtime/trace/trace_stack_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-08T17:02:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef45402_bed93916",
       "range": {
         "startLine": 132,
         "startChar": 42,
