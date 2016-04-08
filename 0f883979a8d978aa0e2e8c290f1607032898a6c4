@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e74807a_1583d480",
+        "filename": "src/cmd/internal/bio/buf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-08T14:03:47Z",
+      "side": 1,
+      "message": "these two method names are a bit weird now. but they\u0027re temporary.",
+      "revId": "0f883979a8d978aa0e2e8c290f1607032898a6c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e8ba0a4_bdd59fc1",
         "filename": "src/cmd/internal/bio/buf.go",
         "patchSetId": 1
