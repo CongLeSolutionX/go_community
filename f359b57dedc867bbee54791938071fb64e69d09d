@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef45402_3ea6c9d3",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-08T02:21:09Z",
+      "side": 1,
+      "message": "Mention the issue #.",
+      "revId": "f359b57dedc867bbee54791938071fb64e69d09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
