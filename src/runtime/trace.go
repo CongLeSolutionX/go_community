@@ -272,8 +272,6 @@ func StopTrace() {
 
 	trace.enabled = false
 	trace.shutdown = true
-	trace.stackTab.dump()
-
 	unlock(&trace.bufLock)
 
 	startTheWorld()
@@ -380,6 +378,9 @@ func ReadTrace() []byte {
 			data = traceAppend(data, uint64(timers.gp.goid))
 			data = traceAppend(data, 0)
 		}
+		// This will emit a bunch of full buffers, we will pick them up
+		// on the next iteration.
+		trace.stackTab.dump()
 		return data
 	}
 	// Done.
