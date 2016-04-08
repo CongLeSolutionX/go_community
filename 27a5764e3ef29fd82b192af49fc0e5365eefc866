@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ef45402_7e5b315f",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-04-08T15:26:09Z",
+      "side": 1,
+      "message": "since trace.strings is being updated only at the trace finalization session and reset after the finalization, trace.strings/stringSeq can be defined locally instead of globally.",
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef45402_5e58f560",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-04-08T15:26:09Z",
+      "side": 1,
+      "message": "if you decide to keep trace.strings/stringSeq global, we need this comment next to the trace.strings/stringSeq to ensure they are updated only through traceString",
+      "range": {
+        "startLine": 616,
+        "startChar": 39,
+        "endLine": 616,
+        "endChar": 40
+      },
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef45402_de6b65ea",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-04-08T15:26:09Z",
+      "side": 1,
+      "message": "this pc (or pc+1) may need symbol info. I maintained a small symbol table like traceStackTable.\n\nSee internal/trace/parser.go postProcessTrace\u0027s  EvGoStart case handling.",
+      "range": {
+        "startLine": 918,
+        "startChar": 60,
+        "endLine": 918,
+        "endChar": 62
+      },
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef45402_bed93916",
+        "filename": "src/runtime/trace/trace_stack_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-04-08T15:26:09Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 132,
+        "startChar": 42,
+        "endLine": 132,
+        "endChar": 44
+      },
+      "revId": "27a5764e3ef29fd82b192af49fc0e5365eefc866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
