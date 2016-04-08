@@ -31,7 +31,7 @@
 package ld
 
 import (
-	"cmd/internal/bio"
+	"bufio"
 	"cmd/internal/obj"
 	"cmd/internal/sys"
 	"flag"
@@ -50,7 +50,7 @@ func Ldmain() {
 	Ctxt.Diag = Diag
 	Ctxt.Bso = &Bso
 
-	Bso = *bio.BufWriter(os.Stdout)
+	Bso = *bufio.NewWriter(os.Stdout)
 	Debug = [128]int{}
 	nerrors = 0
 	outfile = ""
