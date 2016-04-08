@@ -60,6 +60,9 @@ func symbolize(mode, source string, p *profile.Profile, obj plugin.ObjTool, ui p
 		if err = symbolizer.Symbolize(mode, p, obj, ui); err == nil {
 			return nil
 		}
+		if err := symbolizer.SymbolizeFromProfile(p, source); err == nil {
+			return nil
+		}
 	}
 	if remote {
 		err = symbolz.Symbolize(source, fetch.PostURL, p)

@@ -8,9 +8,12 @@
 package symbolizer
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"cmd/pprof/internal/plugin"
@@ -192,4 +195,60 @@ func (mt *mappingTable) close() {
 	for _, segment := range mt.segments {
 		segment.Close()
 	}
+}
+
+// SymbolizeFromProfile extracts symbol info from a legacy profile (if present).
+// The symbol info has the following form:
+// # 0x4d8348 os.Open+0x48 /usr/local/go/src/os/file.go:246
+func SymbolizeFromProfile(prof *profile.Profile, source string) error {
+	f, err := os.Open(source)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	locRE := regexp.MustCompile(`#\s+0x([[:xdigit:]]+)\s+(([[:alnum:]]|\pN|[./()*])+)\+0x[[:xdigit:]]+\s+([^:]+):([0-9]+)`)
+	lines := make(map[uint64]profile.Line)
+	funcs := make(map[string]*profile.Function)
+	s := bufio.NewScanner(f)
+	for s.Scan() {
+		match := locRE.FindStringSubmatch(s.Text())
+		if match == nil {
+			continue
+		}
+		pc, err := strconv.ParseUint(match[1], 16, 64)
+		if err != nil {
+			continue
+		}
+		if _, ok := lines[pc]; ok {
+			continue
+		}
+		line, err := strconv.ParseUint(match[5], 10, 64)
+		if err != nil {
+			continue
+		}
+		fn := match[2]
+		f := funcs[fn]
+		if f == nil {
+			f = &profile.Function{ID: uint64(len(prof.Function) + 1), Name: fn, SystemName: fn, Filename: match[4]}
+			prof.Function = append(prof.Function, f)
+			funcs[fn] = f
+		}
+		lines[pc] = profile.Line{Function: f, Line: int64(line)}
+	}
+	if err := s.Err(); err != nil {
+		return err
+	}
+	for _, l := range prof.Location {
+		line, ok := lines[l.Address]
+		if ok {
+			l.Line = []profile.Line{line}
+			continue
+		}
+		line, ok = lines[l.Address+1]
+		if ok {
+			l.Line = []profile.Line{line}
+			continue
+		}
+	}
+	return nil
 }
