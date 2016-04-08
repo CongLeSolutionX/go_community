@@ -23,7 +23,7 @@ const (
 	traceEvNone           = 0  // unused
 	traceEvBatch          = 1  // start of per-P batch of events [pid, timestamp]
 	traceEvFrequency      = 2  // contains tracer timer frequency [frequency (ticks per second)]
-	traceEvStack          = 3  // stack [stack id, number of PCs, array of PCs]
+	traceEvStack          = 3  // stack [stack id, number of PCs, array of {PC, func string ID, file string ID, line}]
 	traceEvGomaxprocs     = 4  // current value of GOMAXPROCS [timestamp, GOMAXPROCS, stack id]
 	traceEvProcStart      = 5  // start of P [timestamp, thread id]
 	traceEvProcStop       = 6  // stop of P [timestamp]
@@ -57,7 +57,8 @@ const (
 	traceEvNextGC         = 34 // memstats.next_gc change [timestamp, next_gc]
 	traceEvTimerGoroutine = 35 // denotes timer goroutine [timer goroutine id]
 	traceEvFutileWakeup   = 36 // denotes that the previous wakeup of this goroutine was futile [timestamp]
-	traceEvCount          = 37
+	traceEvString         = 37 // string dictionary entry [ID, length, string]
+	traceEvCount          = 38
 )
 
 const (
@@ -110,6 +111,9 @@ var trace struct {
 	fullTail      traceBufPtr
 	reader        *g              // goroutine that called ReadTrace, or nil
 	stackTab      traceStackTable // maps stack traces to unique ids
+
+	strings   map[string]uint64
+	stringSeq uint64
 
 	bufLock mutex       // protects buf
 	buf     traceBufPtr // global trace buffer, used when running without a p
@@ -191,6 +195,8 @@ func StartTrace() error {
 	trace.timeStart = nanotime()
 	trace.headerWritten = false
 	trace.footerWritten = false
+	trace.strings = make(map[string]uint64)
+	trace.stringSeq = 0
 
 	// Can't set trace.enabled yet. While the world is stopped, exitsyscall could
 	// already emit a delayed event (see exitTicks in exitsyscall) if we set trace.enabled here.
@@ -272,8 +278,6 @@ func StopTrace() {
 
 	trace.enabled = false
 	trace.shutdown = true
-	trace.stackTab.dump()
-
 	unlock(&trace.bufLock)
 
 	startTheWorld()
@@ -309,6 +313,7 @@ func StopTrace() {
 		trace.empty = buf.ptr().link
 		sysFree(unsafe.Pointer(buf), unsafe.Sizeof(*buf.ptr()), &memstats.other_sys)
 	}
+	trace.strings = nil
 	trace.shutdown = false
 	unlock(&trace.lock)
 }
@@ -380,6 +385,9 @@ func ReadTrace() []byte {
 			data = traceAppend(data, uint64(timers.gp.goid))
 			data = traceAppend(data, 0)
 		}
+		// This will emit a bunch of full buffers, we will pick them up
+		// on the next iteration.
+		trace.stackTab.dump()
 		return data
 	}
 	// Done.
@@ -603,6 +611,31 @@ func traceFlush(buf traceBufPtr) traceBufPtr {
 	return buf
 }
 
+func traceString(buf *traceBuf, s string) (uint64, *traceBuf) {
+	// Currently this is used only for func/file:line info after tracing session,
+	// so we assume single-threaded access.
+	if s == "" {
+		return 0, buf
+	}
+	if id, ok := trace.strings[s]; ok {
+		return id, buf
+	}
+
+	trace.stringSeq++
+	id := trace.stringSeq
+	trace.strings[s] = id
+
+	size := 1 + 2*traceBytesPerNumber + len(s)
+	if len(buf.arr)-buf.pos < size {
+		buf = traceFlush(traceBufPtrOf(buf)).ptr()
+	}
+	buf.byte(traceEvString)
+	buf.varint(id)
+	buf.varint(uint64(len(s)))
+	buf.pos += copy(buf.arr[buf.pos:], s)
+	return id, buf
+}
+
 // traceAppend appends v to buf in little-endian-base-128 encoding.
 func traceAppend(buf []byte, v uint64) []byte {
 	for ; v >= 0x80; v >>= 7 {
@@ -716,23 +749,28 @@ func (tab *traceStackTable) newStack(n int) *traceStack {
 // dump writes all previously cached stacks to trace buffers,
 // releases all memory and resets state.
 func (tab *traceStackTable) dump() {
-	var tmp [(2 + traceStackSize) * traceBytesPerNumber]byte
+	frames := make(map[uintptr]traceFrame)
+	var tmp [(2 + 4*traceStackSize) * traceBytesPerNumber]byte
 	buf := traceFlush(0).ptr()
 	for _, stk := range tab.tab {
 		stk := stk.ptr()
 		for ; stk != nil; stk = stk.link.ptr() {
-			maxSize := 1 + (3+stk.n)*traceBytesPerNumber
-			if len(buf.arr)-buf.pos < maxSize {
-				buf = traceFlush(traceBufPtrOf(buf)).ptr()
-			}
-			// Form the event in the temp buffer, we need to know the actual length.
 			tmpbuf := tmp[:0]
 			tmpbuf = traceAppend(tmpbuf, uint64(stk.id))
 			tmpbuf = traceAppend(tmpbuf, uint64(stk.n))
 			for _, pc := range stk.stack() {
+				var frame traceFrame
+				frame, buf = traceFrameForPC(buf, frames, pc)
 				tmpbuf = traceAppend(tmpbuf, uint64(pc))
+				tmpbuf = traceAppend(tmpbuf, uint64(frame.funcID))
+				tmpbuf = traceAppend(tmpbuf, uint64(frame.fileID))
+				tmpbuf = traceAppend(tmpbuf, uint64(frame.line))
 			}
 			// Now copy to the buffer.
+			size := 1 + traceBytesPerNumber + len(tmpbuf)
+			if len(buf.arr)-buf.pos < size {
+				buf = traceFlush(traceBufPtrOf(buf)).ptr()
+			}
 			buf.byte(traceEvStack | 3<<traceArgCountShift)
 			buf.varint(uint64(len(tmpbuf)))
 			buf.pos += copy(buf.arr[buf.pos:], tmpbuf)
@@ -745,6 +783,39 @@ func (tab *traceStackTable) dump() {
 
 	tab.mem.drop()
 	*tab = traceStackTable{}
+}
+
+type traceFrame struct {
+	funcID uint64
+	fileID uint64
+	line   uint64
+}
+
+func traceFrameForPC(buf *traceBuf, frames map[uintptr]traceFrame, pc uintptr) (traceFrame, *traceBuf) {
+	if frame, ok := frames[pc]; ok {
+		return frame, buf
+	}
+
+	var frame traceFrame
+	f := findfunc(pc)
+	if f == nil {
+		frames[pc] = frame
+		return frame, buf
+	}
+
+	fn := funcname(f)
+	const maxLen = 1 << 10
+	if len(fn) > maxLen {
+		fn = fn[len(fn)-maxLen:]
+	}
+	frame.funcID, buf = traceString(buf, fn)
+	file, line := funcline(f, pc-sys.PCQuantum)
+	frame.line = uint64(line)
+	if len(file) > maxLen {
+		file = file[len(file)-maxLen:]
+	}
+	frame.fileID, buf = traceString(buf, file)
+	return frame, buf
 }
 
 // traceAlloc is a non-thread-safe region allocator.
