@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eac1c06_cc33afed",
+        "filename": "src/runtime/lfstack_64bit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-04-08T07:53:39Z",
+      "side": 1,
+      "message": "This is a constant comparison, I have checked that this branch is not present in the compiled code.",
+      "revId": "ba25c20257ad19c426262f77ef1a274013f45b3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
