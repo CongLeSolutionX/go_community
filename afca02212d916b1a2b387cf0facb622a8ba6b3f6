@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b06ce0a_9ca5a577",
+        "filename": "src/cmd/compile/internal/gc/lex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-09T17:58:59Z",
+      "side": 1,
+      "message": "I can not make errorcheck work with pragmas since they have to be on the same line. This workaround is only here for demonstration since i could not see a way to make testing the errors work with errorcheck otherwise. Seems like errorcheck has to first be extended in a way to put the matching error on a different line so this work around will not be needed.\n\nOther path going forward would be to submit a version of this CL only with the tests added in lex_test.go.",
+      "revId": "afca02212d916b1a2b387cf0facb622a8ba6b3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
