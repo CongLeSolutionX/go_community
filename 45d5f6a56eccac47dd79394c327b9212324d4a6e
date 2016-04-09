@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_cd237aed",
+        "filename": "src/runtime/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-09T23:35:42Z",
+      "side": 1,
+      "message": "add after this:\n\n    // plainStringPanic panics with a runtime.Error which\n    // stringifies to exactly s, without a \"runtime error: \" prefix.\n    // See Issue 14965. \n    func plainStringPanic(s string) { panic(plainErrorString(s)) }\n\nAnd use that everywhere instead of panic(plainErrorString(...))",
+      "revId": "45d5f6a56eccac47dd79394c327b9212324d4a6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
