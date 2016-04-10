@@ -56,6 +56,24 @@
       "revId": "18dda58543f25f7e8c6a07530f6512d204bdc186",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_4d8dca5f",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-10T18:41:12Z",
+      "side": 1,
+      "message": "I don\u0027t see this as a case where we should apply any optimization that obscures the code.  No program is dominated by the time it takes to call `make`, and since I suspect few programs call `make` with an argument of 0 the improvement here is quite small.  This CL looks OK (though the benchmark should not use a size of 0, any other size would be better) but I don\u0027t think we should reach into newarray.",
+      "parentUuid": "0b06ce0a_3c8fb1b1",
+      "revId": "18dda58543f25f7e8c6a07530f6512d204bdc186",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
