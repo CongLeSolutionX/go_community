@@ -195,6 +195,7 @@ const (
 	OpAMD64CMPLconst
 	OpAMD64CMPWconst
 	OpAMD64CMPBconst
+	OpAMD64CMPBMemZero
 	OpAMD64UCOMISS
 	OpAMD64UCOMISD
 	OpAMD64TESTQ
@@ -2181,6 +2182,17 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
 			},
+			outputs: []regMask{
+				8589934592, // FLAGS
+			},
+		},
+	},
+	{
+		name:    "CMPBMemZero",
+		auxType: auxSym,
+		argLen:  1,
+		asm:     x86.ACMPB,
+		reg: regInfo{
 			outputs: []regMask{
 				8589934592, // FLAGS
 			},
