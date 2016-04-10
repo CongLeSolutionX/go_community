@@ -607,3 +607,14 @@ func TestTextMarshalerMapKeysAreSorted(t *testing.T) {
 		t.Errorf("Marshal map with text.Marshaler keys: got %#q, want %#q", b, want)
 	}
 }
+
+func TestMarshalRawMessageValue(t *testing.T) {
+	const val = "some value"
+	b, err := Marshal(RawMessage(val))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(b) != val {
+		t.Errorf("got %q; want %q", b, val)
+	}
+}
