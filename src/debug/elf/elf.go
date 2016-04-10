@@ -13,9 +13,9 @@
  * $FreeBSD: src/sys/sparc64/include/elf.h,v 1.12 2003/09/25 01:10:26 peter Exp $
  * "ELF for the ARM® 64-bit Architecture (AArch64)" (ARM IHI 0056B)
  *
- * Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.
+ * Copyright (c) 1996-1998 John D. Polstra. All rights reserved.
  * Copyright (c) 2001 David E. O'Brien
- * Portions Copyright 2009 The Go Authors.  All rights reserved.
+ * Portions Copyright 2009 The Go Authors. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

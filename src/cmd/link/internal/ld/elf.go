@@ -27,9 +27,9 @@ import (
  * $FreeBSD: src/sys/powerpc/include/elf.h,v 1.7 2004/11/02 09:47:01 ssouhlal Exp $
  * $FreeBSD: src/sys/sparc64/include/elf.h,v 1.12 2003/09/25 01:10:26 peter Exp $
  *
- * Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.
+ * Copyright (c) 1996-1998 John D. Polstra. All rights reserved.
  * Copyright (c) 2001 David E. O'Brien
- * Portions Copyright 2009 The Go Authors.  All rights reserved.
+ * Portions Copyright 2009 The Go Authors. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
