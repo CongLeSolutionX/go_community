@@ -34,6 +34,40 @@
       "revId": "f055288eb6aa9641d01421a7021a099bfa93c0bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_cdde1afb",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-10T00:39:04Z",
+      "side": 1,
+      "message": "test: make(chan bool, -1)",
+      "revId": "f055288eb6aa9641d01421a7021a099bfa93c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_ede3d6bb",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-10T00:39:04Z",
+      "side": 1,
+      "message": "test: close((chan bool)(nil))",
+      "revId": "f055288eb6aa9641d01421a7021a099bfa93c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
