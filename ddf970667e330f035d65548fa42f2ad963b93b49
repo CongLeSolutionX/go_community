@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e27f498_90f51970",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-10T22:46:24Z",
+      "side": 1,
+      "message": "I got rid of the SUBXconst -\u003e LEAQ code in ssa.go, as it is largely redundant with the ADDXconst -\u003e LEAQ code there.  This is a much shorter code sequence that accomplishes the same thing.",
+      "parentUuid": "4e27f498_f0180dc0",
+      "revId": "ddf970667e330f035d65548fa42f2ad963b93b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e27f498_90519958",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-10T21:04:11Z",
       "side": 1,
       "message": "This is a long, hard to parse line (as are some of the lines preceding it). Introduce a couple of named temp vars to help readability?",
+      "revId": "ddf970667e330f035d65548fa42f2ad963b93b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_b002152e",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-10T22:46:24Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "4e27f498_90519958",
       "revId": "ddf970667e330f035d65548fa42f2ad963b93b49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
