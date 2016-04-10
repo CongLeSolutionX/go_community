@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_6d11a676",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-10T00:47:04Z",
+      "side": 1,
+      "message": "\"test %d: recovered value %v (type %T) does not implement RuntimeError\"",
+      "revId": "f0448e5efe1b2e82fb104a0788cf09247c90f226",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_cd07fa3c",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-10T00:47:04Z",
+      "side": 1,
+      "message": "delete empty line",
+      "revId": "f0448e5efe1b2e82fb104a0788cf09247c90f226",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
