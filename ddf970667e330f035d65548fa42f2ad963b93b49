@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_f0180dc0",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-10T21:04:11Z",
+      "side": 1,
+      "message": "Why is this a part of this CL?\n\n(It\u0027s ok to leave, I just want to understand why this is needed for the resultInArg0 changes.)",
+      "revId": "ddf970667e330f035d65548fa42f2ad963b93b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_90519958",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-10T21:04:11Z",
+      "side": 1,
+      "message": "This is a long, hard to parse line (as are some of the lines preceding it). Introduce a couple of named temp vars to help readability?",
+      "revId": "ddf970667e330f035d65548fa42f2ad963b93b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
