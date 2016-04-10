@@ -16,6 +16,24 @@
       "revId": "f055288eb6aa9641d01421a7021a099bfa93c0bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_8d58a262",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-10T00:37:59Z",
+      "side": 1,
+      "message": "Better:\n\nruntime: make execution error panic values implement the Error interface",
+      "parentUuid": "4e27f498_cd71bae1",
+      "revId": "f055288eb6aa9641d01421a7021a099bfa93c0bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
