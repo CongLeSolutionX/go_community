@@ -10,7 +10,7 @@
 //	Portions Copyright © 1997-1999 Vita Nuova Limited.
 //	Portions Copyright © 2000-2007 Vita Nuova Holdings Limited (www.vitanuova.com).
 //	Revisions Copyright © 2000-2004 Lucent Technologies Inc. and others.
-//	Portions Copyright © 2009 The Go Authors.  All rights reserved.
+//	Portions Copyright © 2009 The Go Authors. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
