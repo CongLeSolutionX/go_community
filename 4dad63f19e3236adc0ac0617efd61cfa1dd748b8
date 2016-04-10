@@ -16,6 +16,24 @@
       "revId": "4dad63f19e3236adc0ac0617efd61cfa1dd748b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_1093e94b",
+        "filename": "test/syntax/semi6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-04-10T21:21:40Z",
+      "side": 1,
+      "message": "Yes it was done by hand, but I didn\u0027t change this intentionally, my editor must have done this. My bad, we can nix this CL and then use a script to change this.",
+      "parentUuid": "4e27f498_b083f5fa",
+      "revId": "4dad63f19e3236adc0ac0617efd61cfa1dd748b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
