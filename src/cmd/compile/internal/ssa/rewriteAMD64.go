@@ -744,6 +744,8 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		return rewriteValueAMD64_OpSub8(v, config)
 	case OpSubPtr:
 		return rewriteValueAMD64_OpSubPtr(v, config)
+	case OpAMD64TESTB:
+		return rewriteValueAMD64_OpAMD64TESTB(v, config)
 	case OpTrunc16to8:
 		return rewriteValueAMD64_OpTrunc16to8(v, config)
 	case OpTrunc32to16:
@@ -17318,6 +17320,47 @@ func rewriteValueAMD64_OpSubPtr(v *Value, config *Config) bool {
 		v.reset(OpAMD64SUBQ)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+	return false
+}
+func rewriteValueAMD64_OpAMD64TESTB(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (TESTB (MOVLload [c] {sym} sb mem) (MOVLload [c] {sym} sb mem))
+	// cond: sb.Op == OpSB
+	// result: (CMPBMemZero {sym} mem)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64MOVLload {
+			break
+		}
+		c := v_0.AuxInt
+		sym := v_0.Aux
+		sb := v_0.Args[0]
+		mem := v_0.Args[1]
+		v_1 := v.Args[1]
+		if v_1.Op != OpAMD64MOVLload {
+			break
+		}
+		if v_1.AuxInt != c {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		if sb != v_1.Args[0] {
+			break
+		}
+		if mem != v_1.Args[1] {
+			break
+		}
+		if !(sb.Op == OpSB) {
+			break
+		}
+		v.reset(OpAMD64CMPBMemZero)
+		v.Aux = sym
+		v.AddArg(mem)
 		return true
 	}
 	return false

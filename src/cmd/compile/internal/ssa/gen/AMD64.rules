@@ -1359,6 +1359,10 @@
 (CMPWconst x [0]) -> (TESTW x x)
 (CMPBconst x [0]) -> (TESTB x x)
 
+// Checking runtime.writeBarrier is comparing a memory location against 0.
+// Doing CMPB mem, $0 is shorter than MOVL mem, reg; TESTB reg, reg and doesn't use a register.
+(TESTB (MOVLload [c] {sym} sb mem) (MOVLload [c] {sym} sb mem)) && sb.Op == OpSB -> (CMPBMemZero {sym} mem)
+
 // Combining byte loads into larger (unaligned) loads.
 // There are many ways these combinations could occur.  This is
 // designed to match the way encoding/binary.LittleEndian does it.

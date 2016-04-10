@@ -124,9 +124,10 @@ func init() {
 		gp11mod = regInfo{inputs: []regMask{ax, gpsp &^ dx}, outputs: []regMask{dx},
 			clobbers: ax | flags}
 
-		gp2flags = regInfo{inputs: []regMask{gpsp, gpsp}, outputs: flagsonly}
-		gp1flags = regInfo{inputs: []regMask{gpsp}, outputs: flagsonly}
-		flagsgp  = regInfo{inputs: flagsonly, outputs: gponly}
+		gp2flags   = regInfo{inputs: []regMask{gpsp, gpsp}, outputs: flagsonly}
+		gp1flags   = regInfo{inputs: []regMask{gpsp}, outputs: flagsonly}
+		writeflags = regInfo{outputs: flagsonly}
+		flagsgp    = regInfo{inputs: flagsonly, outputs: gponly}
 
 		// for CMOVconst -- uses AX to hold constant temporary. AX input is moved before temp.
 		gp1flagsgp = regInfo{inputs: []regMask{gp, flags}, clobbers: ax | flags, outputs: []regMask{gp &^ ax}}
@@ -265,14 +266,15 @@ func init() {
 		{name: "XORWconst", argLength: 1, reg: gp11, asm: "XORL", aux: "Int16", resultInArg0: true}, // arg0 ^ auxint
 		{name: "XORBconst", argLength: 1, reg: gp11, asm: "XORL", aux: "Int8", resultInArg0: true},  // arg0 ^ auxint
 
-		{name: "CMPQ", argLength: 2, reg: gp2flags, asm: "CMPQ", typ: "Flags"},                    // arg0 compare to arg1
-		{name: "CMPL", argLength: 2, reg: gp2flags, asm: "CMPL", typ: "Flags"},                    // arg0 compare to arg1
-		{name: "CMPW", argLength: 2, reg: gp2flags, asm: "CMPW", typ: "Flags"},                    // arg0 compare to arg1
-		{name: "CMPB", argLength: 2, reg: gp2flags, asm: "CMPB", typ: "Flags"},                    // arg0 compare to arg1
-		{name: "CMPQconst", argLength: 1, reg: gp1flags, asm: "CMPQ", typ: "Flags", aux: "Int64"}, // arg0 compare to auxint
-		{name: "CMPLconst", argLength: 1, reg: gp1flags, asm: "CMPL", typ: "Flags", aux: "Int32"}, // arg0 compare to auxint
-		{name: "CMPWconst", argLength: 1, reg: gp1flags, asm: "CMPW", typ: "Flags", aux: "Int16"}, // arg0 compare to auxint
-		{name: "CMPBconst", argLength: 1, reg: gp1flags, asm: "CMPB", typ: "Flags", aux: "Int8"},  // arg0 compare to auxint
+		{name: "CMPQ", argLength: 2, reg: gp2flags, asm: "CMPQ", typ: "Flags"},                      // arg0 compare to arg1
+		{name: "CMPL", argLength: 2, reg: gp2flags, asm: "CMPL", typ: "Flags"},                      // arg0 compare to arg1
+		{name: "CMPW", argLength: 2, reg: gp2flags, asm: "CMPW", typ: "Flags"},                      // arg0 compare to arg1
+		{name: "CMPB", argLength: 2, reg: gp2flags, asm: "CMPB", typ: "Flags"},                      // arg0 compare to arg1
+		{name: "CMPQconst", argLength: 1, reg: gp1flags, asm: "CMPQ", typ: "Flags", aux: "Int64"},   // arg0 compare to auxint
+		{name: "CMPLconst", argLength: 1, reg: gp1flags, asm: "CMPL", typ: "Flags", aux: "Int32"},   // arg0 compare to auxint
+		{name: "CMPWconst", argLength: 1, reg: gp1flags, asm: "CMPW", typ: "Flags", aux: "Int16"},   // arg0 compare to auxint
+		{name: "CMPBconst", argLength: 1, reg: gp1flags, asm: "CMPB", typ: "Flags", aux: "Int8"},    // arg0 compare to auxint
+		{name: "CMPBMemZero", argLength: 1, reg: writeflags, asm: "CMPB", typ: "Flags", aux: "Sym"}, // aux compare to 0
 
 		{name: "UCOMISS", argLength: 2, reg: fp2flags, asm: "UCOMISS", typ: "Flags"}, // arg0 compare to arg1, f32
 		{name: "UCOMISD", argLength: 2, reg: fp2flags, asm: "UCOMISD", typ: "Flags"}, // arg0 compare to arg1, f64
