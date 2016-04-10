@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bf71249_bd529f56",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-10T16:59:49Z",
+      "side": 1,
+      "message": "The division happens again in malloc.go\u0027s newarray().\nIs it worth that one being knocked on the head,\ne.g. with a version that demands it\u0027s already been checked?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 36
+      },
+      "revId": "18dda58543f25f7e8c6a07530f6512d204bdc186",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
