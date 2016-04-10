@@ -22,6 +22,23 @@
       "revId": "18dda58543f25f7e8c6a07530f6512d204bdc186",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b06ce0a_3c8fb1b1",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-10T17:01:15Z",
+      "side": 1,
+      "message": "newarray will check (n \u003e _MaxMem/typ.size) again. Would another CL be acceptable where 1) the newarray without the maxelem check is inlined here and in growslice. Or 2) a new version of newarray like newarraynocheck is introduced that does not check the bounds again. \n\nThis would allow for another reduction from 25.5ns to 17ns.\n\nAnother possibility would be to make sure all call sites of newarray check the bounds and also supply more detailed error messages there (e.g. in hashmap) and remove the check from newarray but this might be more dangerous if some new code forgets the checks around newarray.",
+      "revId": "18dda58543f25f7e8c6a07530f6512d204bdc186",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
