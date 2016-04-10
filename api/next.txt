@@ -173,8 +173,10 @@ pkg math/big, method (*Float) GobDecode([]uint8) error
 pkg math/big, method (*Float) GobEncode() ([]uint8, error)
 pkg net, method (*Dialer) DialContext(context.Context, string, string) (Conn, error)
 pkg net, type IPNet struct, Zone string
+pkg net/http, func HandleFunc(string, HandlerFunc)
 pkg net/http, method (*Request) Context() context.Context
 pkg net/http, method (*Request) WithContext(context.Context) *Request
+pkg net/http, method (*ServeMux) HandleFunc(string, HandlerFunc)
 pkg net/http, type Transport struct, Dialer *net.Dialer
 pkg net/http, type Transport struct, MaxResponseHeaderBytes int64
 pkg net/http, var ServerContextKey *contextKey

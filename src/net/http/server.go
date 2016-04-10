@@ -2003,7 +2003,7 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 }
 
 // HandleFunc registers the handler function for the given pattern.
-func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+func (mux *ServeMux) HandleFunc(pattern string, handler HandlerFunc) {
 	mux.Handle(pattern, HandlerFunc(handler))
 }
 
@@ -2015,7 +2015,7 @@ func Handle(pattern string, handler Handler) { DefaultServeMux.Handle(pattern, h
 // HandleFunc registers the handler function for the given pattern
 // in the DefaultServeMux.
 // The documentation for ServeMux explains how patterns are matched.
-func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+func HandleFunc(pattern string, handler HandlerFunc) {
 	DefaultServeMux.HandleFunc(pattern, handler)
 }
 

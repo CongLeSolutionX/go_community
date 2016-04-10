@@ -1,4 +1,6 @@
 pkg net, func ListenUnixgram(string, *UnixAddr) (*UDPConn, error)
+pkg net/http, func HandleFunc(string, func(ResponseWriter, *Request))
+pkg net/http, method (*ServeMux) HandleFunc(string, func(ResponseWriter, *Request))
 pkg syscall (darwin-386), func Fchflags(string, int) error
 pkg syscall (darwin-386-cgo), func Fchflags(string, int) error
 pkg syscall (darwin-amd64), func Fchflags(string, int) error
