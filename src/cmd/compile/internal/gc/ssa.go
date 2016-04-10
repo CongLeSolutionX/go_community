@@ -3063,7 +3063,7 @@ func (s *state) insertWBmove(t *Type, left, right *ssa.Value, line int32) {
 // t is the type being assigned.
 func (s *state) insertWBstore(t *Type, left, right *ssa.Value, line int32, skip skipMask) {
 	// store scalar fields
-	// if writeBarrier.enabled {
+	// if writeBarrier.enabled && right != nil {
 	//   writebarrierptr for pointer fields
 	// } else {
 	//   store pointer fields
@@ -3077,7 +3077,13 @@ func (s *state) insertWBstore(t *Type, left, right *ssa.Value, line int32, skip 
 	}
 	s.storeTypeScalars(t, left, right, skip)
 
+	isptr := t.IsPtrShaped()
+
 	bThen := s.f.NewBlock(ssa.BlockPlain)
+	var bNilCheck *ssa.Block
+	if isptr {
+		bNilCheck = s.f.NewBlock(ssa.BlockPlain)
+	}
 	bElse := s.f.NewBlock(ssa.BlockPlain)
 	bEnd := s.f.NewBlock(ssa.BlockPlain)
 
@@ -3091,8 +3097,23 @@ func (s *state) insertWBstore(t *Type, left, right *ssa.Value, line int32, skip 
 	b.Kind = ssa.BlockIf
 	b.Likely = ssa.BranchUnlikely
 	b.SetControl(flag)
-	b.AddEdgeTo(bThen)
+	if isptr {
+		b.AddEdgeTo(bNilCheck)
+	} else {
+		b.AddEdgeTo(bThen)
+	}
 	b.AddEdgeTo(bElse)
+
+	if isptr {
+		s.startBlock(bNilCheck)
+		isnonnil := s.newValue2(s.ssaOp(ONE, Types[Tptr]), Types[TBOOL], right, s.constNil(Types[Tptr]))
+		b = s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.Likely = ssa.BranchLikely
+		b.SetControl(isnonnil)
+		b.AddEdgeTo(bThen)
+		b.AddEdgeTo(bElse)
+	}
 
 	// Issue write barriers for pointer writes.
 	s.startBlock(bThen)
