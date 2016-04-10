@@ -702,6 +702,10 @@ func newMapEncoder(t reflect.Type) encoderFunc {
 	return me.encode
 }
 
+func encodeRawMessageValue(e *encodeState, v reflect.Value, _ encOpts) {
+	e.Write(v.Bytes())
+}
+
 func encodeByteSlice(e *encodeState, v reflect.Value, _ encOpts) {
 	if v.IsNil() {
 		e.WriteString("null")
@@ -737,7 +741,12 @@ func (se *sliceEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 	se.arrayEnc(e, v, opts)
 }
 
+var rawMessageValueType = reflect.TypeOf(RawMessage(nil))
+
 func newSliceEncoder(t reflect.Type) encoderFunc {
+	if t == rawMessageValueType {
+		return encodeRawMessageValue
+	}
 	// Byte slices get special treatment; arrays don't.
 	if t.Elem().Kind() == reflect.Uint8 {
 		p := reflect.PtrTo(t.Elem())
