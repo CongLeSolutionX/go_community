@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_f0b48df8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2146,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-10T19:50:44Z",
+      "side": 1,
+      "message": "It bothers me to call both expr(sn) and addr(sn).  We should call one or the other.  Maybe walk doesn\u0027t give us sn\u0027s with side effects, but I\u0027d rather not risk that.  Can you put the expr(sn) inside an \"if !inplace {...}\"?",
+      "revId": "1d629d437685e366d444693a78f1f1e5c6469ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_10ba09e2",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2151,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-10T19:50:44Z",
+      "side": 1,
+      "message": "Isn\u0027t n always an OAPPEND?  Do you mean sn here?",
+      "revId": "1d629d437685e366d444693a78f1f1e5c6469ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
