@@ -346,6 +346,12 @@ func Must(t *Template, err error) *Template {
 // the named files. The returned template's name will have the (base) name and
 // (parsed) contents of the first file. There must be at least one file.
 // If an error occurs, parsing stops and the returned *Template is nil.
+//
+// Note that when parsing files with equivalent base names but that reside in
+// different directories, the files that appear last in the argument list will
+// take precedence.
+// That is, for ParseFiles("a/t.tmpl", "b/t.tmpl") the file "b/t.tmpl" is
+// stored as the template named "t.tmpl" while "a/t.tmpl" is unavailable.
 func ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(nil, filenames...)
 }
@@ -353,6 +359,12 @@ func ParseFiles(filenames ...string) (*Template, error) {
 // ParseFiles parses the named files and associates the resulting templates with
 // t. If an error occurs, parsing stops and the returned template is nil;
 // otherwise it is t. There must be at least one file.
+//
+// Note that when parsing files with equivalent base names but that reside in
+// different directories, the files that appear last in the argument list will
+// take precedence.
+// That is, for ParseFiles("a/t.tmpl", "b/t.tmpl") the file "b/t.tmpl" is
+// stored as the template named "t.tmpl" while "a/t.tmpl" is unavailable.
 func (t *Template) ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(t, filenames...)
 }
