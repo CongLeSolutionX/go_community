@@ -15,7 +15,7 @@ import (
 type Event struct {
 	Off   int       // offset in input file (for debugging and error reporting)
 	Type  byte      // one of Ev*
-	Seq   int64     // sequence number
+	seq   int64     // sequence number
 	Ts    int64     // timestamp in nanoseconds
 	P     int       // P on which the event happened (can be one of TimerP, NetpollP, SyscallP)
 	G     uint64    // G on which the event happened
@@ -54,7 +54,7 @@ const (
 
 // Parse parses, post-processes and verifies the trace.
 func Parse(r io.Reader) ([]*Event, error) {
-	rawEvents, strings, err := readTrace(r)
+	version, rawEvents, strings, err := readTrace(r)
 	if err != nil {
 		return nil, err
 	}
@@ -88,20 +88,21 @@ type rawEvent struct {
 
 // readTrace does wire-format parsing and verification.
 // It does not care about specific event types and argument meaning.
-func readTrace(r io.Reader) ([]rawEvent, map[uint64]string, error) {
+func readTrace(r io.Reader) (ver int, events []rawEvent, strings map[uint64]string, err error) {
 	// Read and validate trace header.
 	var buf [16]byte
-	off, err := r.Read(buf[:])
-	if off != 16 || err != nil {
-		return nil, nil, fmt.Errorf("failed to read header: read %v, err %v", off, err)
+	off, err := io.ReadAll(r, buf[:])
+	if err != nil {
+		err = fmt.Errorf("failed to read header: read %v, err %v", off, err)
+		return
 	}
-	if !bytes.Equal(buf[:], []byte("go 1.5 trace\x00\x00\x00\x00")) {
-		return nil, nil, fmt.Errorf("not a trace file")
+	ver, err = parseHeader(buf)
+	if err != nil {
+		return
 	}
 
 	// Read events.
-	var events []rawEvent
-	strings := make(map[uint64]string)
+	strings = make(map[uint64]string)
 	for {
 		// Read event type and number of arguments (1 byte).
 		off0 := off
@@ -110,7 +111,8 @@ func readTrace(r io.Reader) ([]rawEvent, map[uint64]string, error) {
 			break
 		}
 		if err != nil || n != 1 {
-			return nil, nil, fmt.Errorf("failed to read trace at offset 0x%x: n=%v err=%v", off0, n, err)
+			err = fmt.Errorf("failed to read trace at offset 0x%x: n=%v err=%v", off0, n, err)
+			return
 		}
 		off += n
 		typ := buf[0] << 2 >> 2
@@ -120,29 +122,34 @@ func readTrace(r io.Reader) ([]rawEvent, map[uint64]string, error) {
 			var id uint64
 			id, off, err = readVal(r, off)
 			if err != nil {
-				return nil, nil, err
+				return
 			}
 			if id == 0 {
-				return nil, nil, fmt.Errorf("string at offset %d has invalid id 0", off)
+				err = fmt.Errorf("string at offset %d has invalid id 0", off)
+				return
 			}
 			if strings[id] != "" {
-				return nil, nil, fmt.Errorf("string at offset %d has duplicate id %v", off, id)
+				err = fmt.Errorf("string at offset %d has duplicate id %v", off, id)
+				return
 			}
 			var ln uint64
 			ln, off, err = readVal(r, off)
 			if err != nil {
-				return nil, nil, err
+				return
 			}
 			if ln == 0 {
-				return nil, nil, fmt.Errorf("string at offset %d has invalie length 0", off)
+				err = fmt.Errorf("string at offset %d has invalie length 0", off)
+				return
 			}
 			if ln > 1e6 {
-				return nil, nil, fmt.Errorf("string at offset %d has too large length %v", off, ln)
+				err = fmt.Errorf("string at offset %d has too large length %v", off, ln)
+				return
 			}
 			buf := make([]byte, ln)
 			n, err := io.ReadFull(r, buf)
 			if err != nil {
-				return nil, nil, fmt.Errorf("failed to read trace at offset %d: read %v, want %v, error %v", off, n, ln, err)
+				err = fmt.Errorf("failed to read trace at offset %d: read %v, want %v, error %v", off, n, ln, err)
+				return
 			}
 			off += n
 			strings[id] = string(buf)
@@ -154,7 +161,7 @@ func readTrace(r io.Reader) ([]rawEvent, map[uint64]string, error) {
 				var v uint64
 				v, off, err = readVal(r, off)
 				if err != nil {
-					return nil, nil, err
+					return
 				}
 				ev.args = append(ev.args, v)
 			}
@@ -163,24 +170,50 @@ func readTrace(r io.Reader) ([]rawEvent, map[uint64]string, error) {
 			var v uint64
 			v, off, err = readVal(r, off)
 			if err != nil {
-				return nil, nil, err
+				return
 			}
 			evLen := v
 			off1 := off
 			for evLen > uint64(off-off1) {
 				v, off, err = readVal(r, off)
 				if err != nil {
-					return nil, nil, err
+					return
 				}
 				ev.args = append(ev.args, v)
 			}
 			if evLen != uint64(off-off1) {
-				return nil, nil, fmt.Errorf("event has wrong length at offset 0x%x: want %v, got %v", off0, evLen, off-off1)
+				err = fmt.Errorf("event has wrong length at offset 0x%x: want %v, got %v", off0, evLen, off-off1)
+				return
 			}
 		}
 		events = append(events, ev)
 	}
-	return events, strings, nil
+	return
+}
+
+func parseHeader(buf [16]byte) (int, error) {
+	if buf[0] != 'g' || buf[1] != 'o' || buf[2] != ' ' ||
+		buf[3] < '1' || buf[3] > '9' ||
+		buf[4] != '.' ||
+		buf[5] < '1' || buf[5] > '9' {
+		return 0, fmt.Errorf("not a trace file")
+	}
+	ver := int('0' - buf[5])
+	i := 0
+	for ; buf[6+i] >= '0' && buf[6+i] <= '9' && i <= 3; i++ {
+		ver = ver*10 + '0' - buf[6+i]
+	}
+	ver += buf[3] * 1000
+	if !bytes.Equal(buf[6+i:], []byte(" trace\x00\x00\x00\x00")[10-i]) {
+		return 0, fmt.Errorf("not a trace file")
+	}
+	switch ver {
+	case 1005, 1007:
+		break
+	default:
+		return 0, fmt.Errorf("unsupported trace file version %v.%v (update Go toolchain)", ver/1000, ver%1000)
+	}
+	return ver, nil
 }
 
 // Parse events transforms raw events into events.
@@ -265,9 +298,9 @@ func parseEvents(rawEvents []rawEvent, strings map[uint64]string) (events []*Eve
 			}
 		default:
 			e := &Event{Off: raw.off, Type: raw.typ, P: lastP, G: lastG}
-			e.Seq = lastSeq + int64(raw.args[0])
+			e.seq = lastSeq + int64(raw.args[0])
 			e.Ts = lastTs + int64(raw.args[1])
-			lastSeq = e.Seq
+			lastSeq = e.seq
 			lastTs = e.Ts
 			for i := range desc.Args {
 				e.Args[i] = raw.args[i+2]
@@ -289,7 +322,7 @@ func parseEvents(rawEvents []rawEvent, strings map[uint64]string) (events []*Eve
 			case EvGoSysExit:
 				// EvGoSysExit emission is delayed until the thread has a P.
 				// Give it the real sequence number and time stamp.
-				e.Seq = int64(e.Args[1])
+				e.seq = int64(e.Args[1])
 				if e.Args[2] != 0 {
 					e.Ts = int64(e.Args[2])
 				}
@@ -637,7 +670,7 @@ func (l eventList) Len() int {
 }
 
 func (l eventList) Less(i, j int) bool {
-	return l[i].Seq < l[j].Seq
+	return l[i].seq < l[j].seq
 }
 
 func (l eventList) Swap(i, j int) {
