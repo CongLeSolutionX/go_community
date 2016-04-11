@@ -346,6 +346,12 @@ func Must(t *Template, err error) *Template {
 // the named files. The returned template's name will have the (base) name and
 // (parsed) contents of the first file. There must be at least one file.
 // If an error occurs, parsing stops and the returned *Template is nil.
+//
+// When parsing multiple files with the same name in different directories,
+// the last one mentioned will be the one that results.
+// For instance, the call ParseFiles("a/t.tmpl", "b/t.tmpl") the file
+// "b/t.tmpl" is stored as the template named "t.tmpl" while "a/t.tmpl" is
+// unavailable.
 func ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(nil, filenames...)
 }
@@ -353,6 +359,9 @@ func ParseFiles(filenames ...string) (*Template, error) {
 // ParseFiles parses the named files and associates the resulting templates with
 // t. If an error occurs, parsing stops and the returned template is nil;
 // otherwise it is t. There must be at least one file.
+//
+// When parsing multiple files with the same name in different directories,
+// the last one mentioned will be the one that results.
 func (t *Template) ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(t, filenames...)
 }
@@ -399,6 +408,9 @@ func parseFiles(t *Template, filenames ...string) (*Template, error) {
 // returned template will have the (base) name and (parsed) contents of the
 // first file matched by the pattern. ParseGlob is equivalent to calling
 // ParseFiles with the list of files matched by the pattern.
+//
+// When parsing multiple files with the same name in different directories,
+// the last one mentioned will be the one that results.
 func ParseGlob(pattern string) (*Template, error) {
 	return parseGlob(nil, pattern)
 }
@@ -408,6 +420,9 @@ func ParseGlob(pattern string) (*Template, error) {
 // processed by filepath.Glob and must match at least one file. ParseGlob is
 // equivalent to calling t.ParseFiles with the list of files matched by the
 // pattern.
+//
+// When parsing multiple files with the same name in different directories,
+// the last one mentioned will be the one that results.
 func (t *Template) ParseGlob(pattern string) (*Template, error) {
 	return parseGlob(t, pattern)
 }
