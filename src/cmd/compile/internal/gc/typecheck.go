@@ -338,7 +338,6 @@ OpSwitch:
 		ok |= Etype
 
 		if n.Type == nil {
-			n.Type = nil
 			return n
 		}
 
@@ -417,6 +416,19 @@ OpSwitch:
 		}
 		n.Op = OTYPE
 		n.Type = typMap(l.Type, r.Type)
+
+		// map key validation
+		alg, bad := algtype1(l.Type)
+		if alg == ANOEQ {
+			if bad.Etype == TFORW {
+				// queue check for map until all the types are done settling.
+				maplineno[l.Type] = n.Lineno
+				mapqueue = append(mapqueue, l)
+			} else if bad.Etype != TANY {
+				// no need to queue, key is already bad
+				Yyerror("invalid map key type %v", l.Type)
+			}
+		}
 		n.Left = nil
 		n.Right = nil
 
@@ -449,7 +461,6 @@ OpSwitch:
 		n.Op = OTYPE
 		n.Type = tointerface(n.List.Slice())
 		if n.Type == nil {
-			n.Type = nil
 			return n
 		}
 
@@ -458,7 +469,6 @@ OpSwitch:
 		n.Op = OTYPE
 		n.Type = functype(n.Left, n.List.Slice(), n.Rlist.Slice())
 		if n.Type == nil {
-			n.Type = nil
 			return n
 		}
 		n.Left = nil
@@ -822,7 +832,6 @@ OpSwitch:
 		ok |= Erv
 		n = typecheckcomplit(n)
 		if n.Type == nil {
-			n.Type = nil
 			return n
 		}
 		break OpSwitch
@@ -863,7 +872,6 @@ OpSwitch:
 
 			if n.Type.Etype != TFUNC || n.Type.Recv() == nil {
 				Yyerror("type %v has no method %v", n.Left.Type, Sconv(n.Right.Sym, FmtShort))
-				n.Type = nil
 				n.Type = nil
 				return n
 			}
@@ -1961,7 +1969,6 @@ OpSwitch:
 		ok |= Erv
 		typecheckclosure(n, top)
 		if n.Type == nil {
-			n.Type = nil
 			return n
 		}
 		break OpSwitch
@@ -3536,6 +3543,7 @@ func copytype(n *Node, t *Type) {
 	t = n.Type
 	t.Sym = n.Sym
 	t.Local = n.Local
+	maplineno[t] = mapline
 	if n.Name != nil {
 		t.Vargen = n.Name.Vargen
 	}
@@ -3561,12 +3569,6 @@ func copytype(n *Node, t *Type) {
 	}
 
 	lineno = lno
-
-	// Queue check for map until all the types are done settling.
-	if mapline != 0 {
-		maplineno[t] = mapline
-		mapqueue = append(mapqueue, n)
-	}
 }
 
 func typecheckdeftype(n *Node) {
@@ -3614,7 +3616,9 @@ ret:
 
 		for _, n := range mapqueue {
 			lineno = maplineno[n.Type]
-			checkMapKeyType(n.Type)
+			if alg, _ := algtype1(n.Type); alg == ANOEQ {
+				Yyerror("invalid map key type %v", n.Type)
+			}
 		}
 
 		lineno = lno

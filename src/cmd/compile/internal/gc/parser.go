@@ -3012,6 +3012,10 @@ func (p *parser) hidden_type_misc() *Type {
 		p.want(']')
 		s5 := p.hidden_type()
 
+		alg, bad := algtype1(s3)
+		if alg == ANOEQ && bad.Etype != TANY && bad.Etype != TFORW {
+			Yyerror("invalid map key type %v", s3)
+		}
 		return typMap(s3, s5)
 
 	case LSTRUCT:
