@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3abef4_e681faed",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-11T23:41:11Z",
+      "side": 1,
+      "message": "s/2009/2016/",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b3abef4_e66e1aca",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-11T23:41:11Z",
+      "side": 1,
+      "message": "A file-level comment that this algorithm is based on Snappy would be nice. I like to place such file-level comments after the package clause (and before the imports, if any):\n\n----\npackage flate\n\n// This encoding algorithm, which prioritizes speed over encoding size, is\n// based on Snappy: github.com/golang/snappy\n\nconst etc\n----",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b3abef4_e6973afe",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-11T23:41:11Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that this cur mechanism is a net win, with the latest version of the Go snappy encoder. I might have screwed up somewhere, but see https://github.com/golang/snappy/commit/fdf5d5de7f4e9fb3760d9421a87402c249a05326",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b3abef4_668ccafa",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-11T23:41:11Z",
+      "side": 1,
+      "message": "If you\u0027re going to use \"the Snappy algorithm\", please use the latest version of the golang/snappy code. It matches the C++ output, it\u0027s faster and it emits smaller encodings than the older version that you\u0027ve copied here. See https://github.com/golang/snappy/commit/8939696c2214cde5dda896a76f5bf56e80a16855",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
