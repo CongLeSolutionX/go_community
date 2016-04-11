@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_6311b576",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-11T05:20:14Z",
+      "side": 1,
+      "message": "you don\u0027t need both syntaxes, and any pattern that doesn\u0027t match will work, which this doesn\u0027t make clear.\n\nTo skip all tests, use a pattern that matches no test names, such as\n\u0027-run\u003d^$\u0027.",
+      "revId": "198b92ad1dc255c9dee48441f06baeeaeb2cbda6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
