@@ -36,6 +36,8 @@ type Func struct {
 	freeValues *Value // free Values linked by argstorage[0].  All other fields except ID are 0/nil.
 	freeBlocks *Block // free Blocks linked by succstorage[0].  All other fields except ID are 0/nil.
 
+	idom []*Block // precomputed immediate dominators
+
 	constants map[int64][]*Value // constants cache, keyed by constant value; users must check value's Op and Type
 }
 
