@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b20f290_18440998",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T17:43:10Z",
+      "side": 1,
+      "message": "Why change this?",
+      "revId": "8dde427f899f34dc5343240638bfe70df4fda7b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b20f290_78353d29",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T17:43:10Z",
+      "side": 1,
+      "message": "This function seems like slight overkill given that there are only two known versions, but whatever. :)",
+      "revId": "8dde427f899f34dc5343240638bfe70df4fda7b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b20f290_3816a591",
+        "filename": "src/internal/trace/parser_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T17:43:10Z",
+      "side": 1,
+      "message": "Hopefully we\u0027ll get to Go 2.0 before this point.",
+      "revId": "8dde427f899f34dc5343240638bfe70df4fda7b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
