@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e27f498_f0680d82",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-11T01:25:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e27f498_4dc86a91",
+      "revId": "f353832e5d37a82474f8c680e01456d768409040",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e27f498_f0048dfa",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-11T00:49:10Z",
       "side": 1,
       "message": "can you comment about what part of this doesn\u0027t work yet?",
+      "revId": "f353832e5d37a82474f8c680e01456d768409040",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e27f498_30838581",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4020,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-11T01:25:27Z",
+      "side": 1,
+      "message": "Done, despite it being somewhat redundant with the bug",
+      "parentUuid": "4e27f498_f0048dfa",
       "revId": "f353832e5d37a82474f8c680e01456d768409040",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
