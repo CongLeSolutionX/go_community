@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0b4eceab_9c77a5d5",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T23:14:06Z",
+      "side": 1,
+      "message": "(This comment is on an old version of this CL, but it still applies to the latest version.)\n\nI haven\u0027t gotten to the follow-up CLs yet, but I don\u0027t understand your argument. My point is that you don\u0027t have to pass the span because c and sizeclass *already* tell you exactly what the span is. I don\u0027t think that\u0027s going to change with the bitmap stuff. You just have to change this to\n\nfunc nextFree(sizeclass int8, c *mcache) (v gclinkptr, shouldhelpgc bool) {\n  s :\u003d c.alloc[sizeclass]\n  ...\n}\n\nPlus, currently, the \"s\" variable in mallocgc winds up holding the wrong span if it turned out nextFree had to get a new one. This is safe because mallocgc never uses \"s\" after the call to nextFree, but it\u0027s asking for trouble.",
+      "parentUuid": "1da7f0d2_3c0288ec",
+      "revId": "ec6c667ca4d16c3f5f1b8ecbd0b96f94e4cb7252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1da7f0d2_fdb1c72c",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 3
