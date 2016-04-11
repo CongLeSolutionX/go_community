@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_662d43d3",
+        "filename": "src/net/tcpsock_darwin.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-04-11T13:36:17Z",
+      "side": 1,
+      "message": "will",
+      "range": {
+        "startLine": 18,
+        "startChar": 22,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "f765db26f8e5324c90a3b82eaab2390b7b17fd4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
