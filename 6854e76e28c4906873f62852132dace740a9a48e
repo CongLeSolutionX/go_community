@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e27f498_837231ad",
+        "filename": "src/html/template/template.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-11T06:00:36Z",
+      "side": 1,
+      "message": "you really don\u0027t need to say all this twice, and certainly not the same exmaple twice. how about,\n\nSee the documentation for the global function ParseFiles for more information.",
+      "revId": "6854e76e28c4906873f62852132dace740a9a48e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
