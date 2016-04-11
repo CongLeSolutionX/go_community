@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3abef4_c6ecb6af",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-11T23:26:42Z",
+      "side": 1,
+      "message": "Copyright.",
+      "revId": "a46774c9fb042a15ef5eae4ae8f46b92083ab581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
