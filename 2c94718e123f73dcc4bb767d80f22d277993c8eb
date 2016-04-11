@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b20f290_185e4919",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "\"need to be\"?",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_bcfd4181",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "That\u0027s not actually true. Multi-page spans can hold more than one object. Perhaps,\n\n// By construction, single page spans of the smallest object class\n// have the most objects per span.\n\nMaybe add a check to initSizes that makes sure this is actually true? Something like\n\nfor i, size :\u003d range class_to_size {\n  if class_to_allocnpages[i] * pageSize / size \u003e maxObjsPerSpan {\n    throw(...)\n  }\n}\n\nright after the sizeclass !\u003d _NumSizeClasses check?",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_9cfa0585",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "Perhaps // list of free objects for _MSpanInUse",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_fcf7c99a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "and // list of free stacks for _MSpanStack\n\nDo we actually need both, or was this just for sanity? (If we don\u0027t need both, add a TODO. There\u0027s some cost to making mspan bigger, so we shouldn\u0027t without good reason.)",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_dcf48d99",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "\"typically\"? What\u0027s the non-typical case? Perhaps this should be merged with the first sentence in this comment to make a precise statement about what freeindex means.",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_3c35b12a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "Perhaps \"starts at address\"",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_1c3a751a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-11T22:41:59Z",
+      "side": 1,
+      "message": "Is there a reason to have this field in every span, rather than just having a table indexed by size class? (You don\u0027t have to change it in this CL, but add a TODO.)",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
