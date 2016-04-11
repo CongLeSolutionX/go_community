@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3abef4_606b127f",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-11T21:40:37Z",
+      "side": 1,
+      "message": "You could do\n(TESTB x:(MOVLload [c] {sym} sb mem) x) ...\nYou need x.Uses \u003d\u003d 1 also, otherwise you\u0027re duplicating a load.  That can lead to weirdness like:\nvar p *int32 \u003d ...\nx :\u003d *p\nif x !\u003d 0 {\n  ... use x and discover that it is zero! ...\n}",
+      "revId": "820ac690e526551f6a013b0565180a2b66c2beff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
