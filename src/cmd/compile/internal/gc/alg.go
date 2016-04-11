@@ -132,12 +132,12 @@ func algtype1(t *Type) (AlgKind, *Type) {
 			return ANOEQ, t
 		}
 
-		a, bad := algtype1(t.Elem())
+		a, _ := algtype1(t.Elem())
 		switch a {
 		case AMEM:
 			return AMEM, nil
 		case ANOEQ:
-			return ANOEQ, bad
+			return ANOEQ, t
 		}
 
 		switch t.NumElem() {
