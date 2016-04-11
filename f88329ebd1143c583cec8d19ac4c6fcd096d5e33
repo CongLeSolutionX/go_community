@@ -22,6 +22,30 @@
       "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b06ce0a_c2f6a678",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-04-11T19:19:08Z",
+      "side": 1,
+      "message": "maxOffset is already included in the next conditions.\nnxt \u003d ind+inc so it\u0027s already included.\n\nCurrently min is a const and maxOffset\u003c\u003d0. However, I don\u0027t want to specify these because I want more general that isn\u0027t very fragile. findIndVar doesn\u0027t guarantee to find all indVar, just that those found respect these invariants.",
+      "parentUuid": "2b20f290_583a811b",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
