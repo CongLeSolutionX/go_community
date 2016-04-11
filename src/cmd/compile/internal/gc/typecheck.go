@@ -417,6 +417,21 @@ OpSwitch:
 		}
 		n.Op = OTYPE
 		n.Type = typMap(l.Type, r.Type)
+
+		// map key validation
+		alg, bad := algtype1(l.Type)
+		if alg == ANOEQ {
+			if bad.Etype == TFORW {
+				// queue check for map until all the types are done settling.
+				mapqueue = append(mapqueue, struct {
+					n   *Node
+					lno int32
+				}{l, n.Lineno})
+			} else if bad.Etype != TANY {
+				// no need to queue, key is already bad
+				Yyerror("invalid map key type %v", l.Type)
+			}
+		}
 		n.Left = nil
 		n.Right = nil
 
@@ -3514,9 +3529,11 @@ func domethod(n *Node) {
 }
 
 var (
-	mapqueue []*Node
-	// maplineno tracks the line numbers at which types are first used as map keys
-	maplineno = map[*Type]int32{}
+	// tracks the line numbers at which forward types are first used as map keys
+	mapqueue []struct {
+		n   *Node
+		lno int32
+	}
 )
 
 func copytype(n *Node, t *Type) {
@@ -3526,7 +3543,6 @@ func copytype(n *Node, t *Type) {
 		return
 	}
 
-	mapline := maplineno[n.Type]
 	embedlineno := n.Type.ForwardType().Embedlineno
 	l := n.Type.ForwardType().Copyto
 
@@ -3561,12 +3577,6 @@ func copytype(n *Node, t *Type) {
 	}
 
 	lineno = lno
-
-	// Queue check for map until all the types are done settling.
-	if mapline != 0 {
-		maplineno[t] = mapline
-		mapqueue = append(mapqueue, n)
-	}
 }
 
 func typecheckdeftype(n *Node) {
@@ -3611,12 +3621,13 @@ ret:
 				domethod(n)
 			}
 		}
-
-		for _, n := range mapqueue {
-			lineno = maplineno[n.Type]
-			checkMapKeyType(n.Type)
+		for _, e := range mapqueue {
+			lineno = e.lno
+			if !e.n.Type.IsComparable() {
+				Yyerror("invalid map key type %v", e.n.Type)
+			}
 		}
-
+		mapqueue = nil
 		lineno = lno
 	}
 
