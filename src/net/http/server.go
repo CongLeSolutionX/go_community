@@ -147,6 +147,12 @@ type CloseNotifier interface {
 	CloseNotify() <-chan bool
 }
 
+var (
+	// ContextKeySever is a context key for use with context.WithValue.
+	// Handlers can access their *Server using this key.
+	ContextKeyServer = &contextKey{"http-server"}
+)
+
 // A conn represents the server side of an HTTP connection.
 type conn struct {
 	// server is the server on which the connection arrived.
@@ -1402,7 +1408,7 @@ type badRequestError string
 func (e badRequestError) Error() string { return "Bad Request: " + string(e) }
 
 // Serve a new connection.
-func (c *conn) serve() {
+func (c *conn) serve(ctx context.Context) {
 	c.remoteAddr = c.rwc.RemoteAddr().String()
 	defer func() {
 		if err := recover(); err != nil {
@@ -1445,10 +1451,7 @@ func (c *conn) serve() {
 	c.bufr = newBufioReader(c.r)
 	c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, 4<<10)
 
-	// TODO: allow changing base context? can't imagine concrete
-	// use cases yet.
-	baseCtx := context.Background()
-	ctx, cancelCtx := context.WithCancel(baseCtx)
+	ctx, cancelCtx := context.WithCancel(ctx)
 	defer cancelCtx()
 
 	for {
@@ -2149,6 +2152,10 @@ func (srv *Server) Serve(l net.Listener) error {
 	if err := srv.setupHTTP2(); err != nil {
 		return err
 	}
+	// TODO: allow changing base context? can't imagine concrete
+	// use cases yet.
+	baseCtx := context.Background()
+	ctx := context.WithValue(baseCtx, ContextKeyServer, srv)
 	for {
 		rw, e := l.Accept()
 		if e != nil {
@@ -2170,7 +2177,7 @@ func (srv *Server) Serve(l net.Listener) error {
 		tempDelay = 0
 		c := srv.newConn(rw)
 		c.setState(c.rwc, StateNew) // before Serve can return
-		go c.serve()
+		go c.serve(ctx)
 	}
 }
 
