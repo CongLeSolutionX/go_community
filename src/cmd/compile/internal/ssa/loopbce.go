@@ -160,8 +160,7 @@ nextb:
 
 // loopbce performs loop based bounds check elimination.
 func loopbce(f *Func) {
-	idom := dominators(f)
-	sdom := newSparseTree(f, idom)
+	sdom := newSparseTree(f, f.idom)
 	ivList := findIndVar(f, sdom)
 
 	m := make(map[*Value]indVar)
