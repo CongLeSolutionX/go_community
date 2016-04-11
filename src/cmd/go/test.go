@@ -214,7 +214,8 @@ const testFlag2 = `
 
 	-run regexp
 	    Run only those tests and examples matching the regular
-	    expression.
+	    expression. By default, all tests run.
+	    To skip all tests, use '-run ^$' or '-run=^$'.
 
 	-short
 	    Tell long-running tests to shorten their run time.
