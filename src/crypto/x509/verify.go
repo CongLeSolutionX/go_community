@@ -136,7 +136,11 @@ var errNotParsed = errors.New("x509: missing ASN.1 contents; use ParseCertificat
 // VerifyOptions contains parameters for Certificate.Verify. It's a structure
 // because other PKIX verification APIs have ended up needing many options.
 type VerifyOptions struct {
-	DNSName       string
+	// DNSName specifies the DNS name that the certificate should be valid
+	// for. This can be empty but that will cause all name constrained
+	// chains to be rejected.
+	DNSName string
+
 	Intermediates *CertPool
 	Roots         *CertPool // if nil, the system roots are used
 	CurrentTime   time.Time // if zero, the current time is used
@@ -164,6 +168,12 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
 	}
 
 	if len(c.PermittedDNSDomains) > 0 {
+		if len(opts.DNSName) == 0 {
+			// Name constrained certificates cannot be accepted
+			// unless we are verifying for a specific target.
+			return CertificateInvalidError{c, CANotAuthorizedForThisName}
+		}
+
 		ok := false
 		for _, domain := range c.PermittedDNSDomains {
 			if opts.DNSName == domain ||
@@ -411,6 +421,10 @@ func toLowerCaseASCII(in string) string {
 
 // VerifyHostname returns nil if c is a valid certificate for the named host.
 // Otherwise it returns an error describing the mismatch.
+//
+// This function is deprecated. Rather than use this function, call Verify with
+// DNSName set in the VerifyOptions as this allows name constraints to be
+// applied.
 func (c *Certificate) VerifyHostname(h string) error {
 	// IP addresses may be written in [ ].
 	candidateIP := h

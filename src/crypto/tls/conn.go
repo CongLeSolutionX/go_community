@@ -1139,6 +1139,30 @@ func (c *Conn) OCSPResponse() []byte {
 	return c.ocspResponse
 }
 
+// verifyHostname checks that the peer certificate chain is valid for
+// connecting to host. It assumes that c.handshakeMutex is held by the caller.
+func (c *Conn) verifyHostname(host string) (verifiedChains [][]*x509.Certificate, err error) {
+	opts := x509.VerifyOptions{
+		Roots:         c.config.RootCAs,
+		CurrentTime:   c.config.time(),
+		DNSName:       host,
+		Intermediates: x509.NewCertPool(),
+	}
+
+	for i, cert := range c.peerCertificates {
+		if i == 0 {
+			continue
+		}
+		opts.Intermediates.AddCert(cert)
+	}
+
+	if verifiedChains, err = c.peerCertificates[0].Verify(opts); err != nil {
+		return nil, err
+	}
+
+	return verifiedChains, nil
+}
+
 // VerifyHostname checks that the peer certificate chain is valid for
 // connecting to host. If so, it returns nil; if not, it returns an error
 // describing the problem.
@@ -1151,8 +1175,6 @@ func (c *Conn) VerifyHostname(host string) error {
 	if !c.handshakeComplete {
 		return errors.New("tls: handshake has not yet been performed")
 	}
-	if len(c.verifiedChains) == 0 {
-		return errors.New("tls: handshake did not verify certificate chain")
-	}
-	return c.peerCertificates[0].VerifyHostname(host)
+	_, err := c.verifyHostname(host)
+	return err
 }

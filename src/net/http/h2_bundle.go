@@ -24,7 +24,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"golang.org/x/net/http2/hpack"
 	"io"
 	"io/ioutil"
 	"log"
@@ -39,6 +38,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"golang.org/x/net/http2/hpack"
 )
 
 // ClientConnPool manages a pool of HTTP/2 client connections.
@@ -2979,10 +2980,6 @@ func (s *http2Server) ServeConn(c net.Conn, opts *http2ServeConnOpts) {
 			return
 		}
 
-		if sc.tlsState.ServerName == "" {
-
-		}
-
 		if !s.PermitProhibitedCipherSuites && http2isBadCipher(sc.tlsState.CipherSuite) {
 
 			sc.rejectConn(http2ErrCodeInadequateSecurity, fmt.Sprintf("Prohibited TLS 1.2 Cipher Suite: %x", sc.tlsState.CipherSuite))
@@ -5035,11 +5032,6 @@ func (t *http2Transport) dialTLSDefault(network, addr string, cfg *tls.Config) (
 	}
 	if err := cn.Handshake(); err != nil {
 		return nil, err
-	}
-	if !cfg.InsecureSkipVerify {
-		if err := cn.VerifyHostname(cfg.ServerName); err != nil {
-			return nil, err
-		}
 	}
 	state := cn.ConnectionState()
 	if p := state.NegotiatedProtocol; p != http2NextProtoTLS {

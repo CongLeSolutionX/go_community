@@ -257,21 +257,10 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		certs[i] = cert
 	}
 
-	if !c.config.InsecureSkipVerify {
-		opts := x509.VerifyOptions{
-			Roots:         c.config.RootCAs,
-			CurrentTime:   c.config.time(),
-			DNSName:       c.config.ServerName,
-			Intermediates: x509.NewCertPool(),
-		}
+	c.peerCertificates = certs
 
-		for i, cert := range certs {
-			if i == 0 {
-				continue
-			}
-			opts.Intermediates.AddCert(cert)
-		}
-		c.verifiedChains, err = certs[0].Verify(opts)
+	if !c.config.InsecureSkipVerify {
+		c.verifiedChains, err = c.verifyHostname(c.config.ServerName)
 		if err != nil {
 			c.sendAlert(alertBadCertificate)
 			return err
@@ -285,8 +274,6 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		c.sendAlert(alertUnsupportedCertificate)
 		return fmt.Errorf("tls: server's certificate contains an unsupported type of public key: %T", certs[0].PublicKey)
 	}
-
-	c.peerCertificates = certs
 
 	if hs.serverHello.ocspStapling {
 		msg, err = c.readHandshake()

@@ -182,9 +182,34 @@ type ClientAuthType int
 
 const (
 	NoClientCert ClientAuthType = iota
+
+	// RequestClientCert causes a client certificate to be requested, but
+	// the handshake will continue if the client declines to send one. Any
+	// client certificate presented will not be verified and the contents
+	// of ConnectionState.PeerCertificates must be checked by the caller.
 	RequestClientCert
+
+	// RequireAnyClientCert causes a client certificate to be requested and
+	// the connection to be rejected if the client declines to provide one.
+	// Any client certificate presented will not be verified and the
+	// contents of ConnectionState.PeerCertificates must be checked by the
+	// caller.
 	RequireAnyClientCert
+
+	// VerifyClientCertIfGiven causes a client certificate to be requested,
+	// but the handshake will continue if the client declines to send one.
+	// Any client certificate presented will be verified only for the
+	// client-auth extended key usage. Note that this means that chains
+	// with name constraints will be rejected because no name is given at
+	// verification time.
 	VerifyClientCertIfGiven
+
+	// RequireAndVerifyClientCert causes a client certificate to be
+	// requested and the connection to be rejected if the client declines
+	// to provide one.  Any client certificate presented will be verified
+	// only for the client-auth extended key usage. Note that this means
+	// that chains with name constraints will be rejected because no name
+	// is given at verification time.
 	RequireAndVerifyClientCert
 )
 

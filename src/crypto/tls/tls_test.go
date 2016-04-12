@@ -340,8 +340,8 @@ func TestVerifyHostname(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := c.VerifyHostname("www.google.com"); err == nil {
-		t.Fatalf("verify www.google.com succeeded with InsecureSkipVerify=true")
+	if err := c.VerifyHostname("www.google.com"); err != nil {
+		t.Fatalf("verify www.google.com failed after InsecureSkipVerify=true")
 	}
 	if err := c.VerifyHostname("www.yahoo.com"); err == nil {
 		t.Fatalf("verify www.google.com succeeded with InsecureSkipVerify=true")

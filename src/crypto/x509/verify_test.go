@@ -213,6 +213,15 @@ var verifyTests = []verifyTest{
 		},
 	},
 	{
+		// Check that trying to verify with an empty DNSName fails if
+		// the intermediate is name constrained.
+		leaf:          nameConstraintsLeaf,
+		intermediates: []string{nameConstraintsIntermediate1, nameConstraintsIntermediate2},
+		roots:         []string{globalSignRoot},
+		currentTime:   1382387896,
+		errorCallback: expectNameNotAuthorizedError,
+	},
+	{
 		// Check that SHA-384 intermediates (which are popping up)
 		// work.
 		leaf:          moipLeafCert,
@@ -284,6 +293,14 @@ func expectHashError(t *testing.T, i int, err error) bool {
 	}
 	if expected := "algorithm unimplemented"; !strings.Contains(err.Error(), expected) {
 		t.Errorf("#%d: error resulting from invalid hash didn't contain '%s', rather it was: %s", i, expected, err)
+		return false
+	}
+	return true
+}
+
+func expectNameNotAuthorizedError(t *testing.T, i int, err error) bool {
+	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != CANotAuthorizedForThisName {
+		t.Errorf("#%d: error was not CANotAuthorizedForThisName: %s", i, err)
 		return false
 	}
 	return true

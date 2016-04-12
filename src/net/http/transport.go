@@ -873,12 +873,6 @@ func (t *Transport) dialConn(cm connectMethod) (*persistConn, error) {
 			plainConn.Close()
 			return nil, err
 		}
-		if !cfg.InsecureSkipVerify {
-			if err := tlsConn.VerifyHostname(cfg.ServerName); err != nil {
-				plainConn.Close()
-				return nil, err
-			}
-		}
 		cs := tlsConn.ConnectionState()
 		pconn.tlsState = &cs
 		pconn.conn = tlsConn
