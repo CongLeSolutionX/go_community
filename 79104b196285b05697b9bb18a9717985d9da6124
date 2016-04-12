@@ -88,6 +88,24 @@
       "revId": "79104b196285b05697b9bb18a9717985d9da6124",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbccb67f_a2cb3e70",
+        "filename": "src/cmd/pprof/internal/symbolizer/symbolizer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-12T08:26:18Z",
+      "side": 1,
+      "message": "Mailed https://go-review.googlesource.com/#/c/21870/ to move cmd/pprof/internal to cmd/internal/pprof.\n\nIf I import the package and populate Profile struct, then it makes sense to just generate svg programmatically in-memory instead of invoking pprof command. Need to figure out how to do it.",
+      "parentUuid": "8b3abef4_861c6e02",
+      "revId": "79104b196285b05697b9bb18a9717985d9da6124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
