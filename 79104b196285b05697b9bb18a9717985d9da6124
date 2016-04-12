@@ -124,6 +124,29 @@
       "revId": "79104b196285b05697b9bb18a9717985d9da6124",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_593d03a0",
+        "filename": "src/cmd/pprof/internal/symbolizer/symbolizer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-04-12T19:40:51Z",
+      "side": 1,
+      "message": "can we have a test for this? (to detect any regression due to debug mode legacy profile format change)",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 1
+      },
+      "revId": "79104b196285b05697b9bb18a9717985d9da6124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
