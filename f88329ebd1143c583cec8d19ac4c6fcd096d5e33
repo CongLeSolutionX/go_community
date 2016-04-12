@@ -46,6 +46,190 @@
       "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_5c387d7f",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "The comment doesn\u0027t seem to match the code; it\u0027s (+ ind add), right?",
+      "range": {
+        "startLine": 187,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 2
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_1c71d56c",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "// OpIsInBounds, 0 \u003c\u003d i \u003c len",
+      "range": {
+        "startLine": 191,
+        "startChar": 9,
+        "endLine": 191,
+        "endChar": 14
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_7c6619b8",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "// OpIsSliceInBounds, 0 \u003c\u003d i \u003c\u003d len",
+      "range": {
+        "startLine": 192,
+        "startChar": 10,
+        "endLine": 193,
+        "endChar": 12
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_9c7cc543",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "// For IsInBounds a[ind+add], require ind \u003e\u003d 0, require add \u003e\u003d 0, require add \u003c\u003d -maxOffset, where ind \u003c len(a)+c (c \u003c\u003d 0)",
+      "range": {
+        "startLine": 201,
+        "startChar": 64,
+        "endLine": 201,
+        "endChar": 65
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_3cbe5128",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "// as above, but for IsSliceInBounds, \"out of bounds\" indexing depends on the slice capacity, not just the slice/array/string length.",
+      "range": {
+        "startLine": 204,
+        "startChar": 70,
+        "endLine": 204,
+        "endChar": 71
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_bc7f0137",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "// Require slice operand and induction variable bound are the same",
+      "range": {
+        "startLine": 207,
+        "startChar": 7,
+        "endLine": 207,
+        "endChar": 26
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_7c33b9a4",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "These checks appear to duplicate the ones earlier that branch here on failure.  Perhaps the earlier checks (most of them) should just \"continue\" instead.",
+      "range": {
+        "startLine": 224,
+        "startChar": 2,
+        "endLine": 232,
+        "endChar": 5
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_bc3c2174",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-12T16:01:01Z",
+      "side": 1,
+      "message": "It seems to me that this chunk of code here could moved to just under\n\n  goto simplify\n}\n\nabove adding\n\n  else if v.Op \u003d\u003d OpIsSliceInBounds \u0026\u0026 v.Args[1].Op \u003d\u003d OpSliceCap ... etc\n\nand all gotos to skip1 and skip2 could be replaced with \"continue\".\n\nAny place where you have plans to do more, comment the continue with \n// TODO: whatever is meant to be done in the future.",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 238,
+        "endChar": 5
+      },
+      "revId": "f88329ebd1143c583cec8d19ac4c6fcd096d5e33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
