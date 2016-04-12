@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebbdfaca_f3d19073",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3016,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-12T17:15:57Z",
+      "side": 1,
+      "message": "This seems inconsistent:\n1. You added this code to parser.go\u0027s textual export data parsing, but not to bimport.go\u0027s binary export data parsing.\n2. You\u0027re not queueing s3 if it contains a TFORW type, so we don\u0027t end up checking it later.",
+      "revId": "5d327bd4dff7f77caf03d9be30447a56834ebef8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_931bfc56",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-12T17:15:57Z",
+      "side": 1,
+      "message": "Change mapqueue into something like []struct{n *Node; lno int32}, so that we can get rid of maplineno.",
+      "revId": "5d327bd4dff7f77caf03d9be30447a56834ebef8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_335f88f0",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3546,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-12T17:15:57Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "5d327bd4dff7f77caf03d9be30447a56834ebef8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_d379f451",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3619,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-12T17:15:57Z",
+      "side": 1,
+      "message": "I\u0027m a little suspicious of this. In particular, I\u0027m nervous there could still be types queued that aren\u0027t fully resolved yet, which this would give false positives for.\n\nHowever, if it\u0027s true that at this point all of mapqueue is guarantee is fully resolved, then we can also add a \"mapqueue \u003d nil\" assignment after the loop.\n\nLastly, use:\n\n    if !n.Type.IsComparable() {\n\ninstead of checking for ANOEQ.",
+      "revId": "5d327bd4dff7f77caf03d9be30447a56834ebef8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
