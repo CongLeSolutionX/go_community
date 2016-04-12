@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3abef4_2f00d59d",
+        "filename": "src/net/net.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-04-12T14:14:40Z",
+      "side": 1,
+      "message": "returns",
+      "range": {
+        "startLine": 305,
+        "startChar": 59,
+        "endLine": 305,
+        "endChar": 66
+      },
+      "revId": "056b46926fec0159a9946300c9367913e0811c7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
