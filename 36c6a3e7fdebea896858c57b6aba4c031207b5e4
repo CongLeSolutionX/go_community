@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebbdfaca_279f4291",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1751,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-12T22:27:40Z",
+      "side": 1,
+      "message": "s pretty much has to be a function here; it is necessary to check whether s.Pcln !\u003d nil?",
+      "revId": "36c6a3e7fdebea896858c57b6aba4c031207b5e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_47a43edf",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1986,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-12T22:27:40Z",
+      "side": 1,
+      "message": "Here too I\u0027m not clear on how s.Pcln could be nil.",
+      "revId": "36c6a3e7fdebea896858c57b6aba4c031207b5e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_478b5e4c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-12T22:27:40Z",
+      "side": 1,
+      "message": "Here too I don\u0027t see how Pcln could be nil.",
+      "revId": "36c6a3e7fdebea896858c57b6aba4c031207b5e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
