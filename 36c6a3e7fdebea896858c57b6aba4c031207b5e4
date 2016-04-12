@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bf3caea_8f439591",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1751,
+      "author": {
+        "id": 12700
+      },
+      "writtenOn": "2016-04-12T23:01:46Z",
+      "side": 1,
+      "message": "when adding \n\n} else {\n  println(s.Name)\n}\n\ni get:\n\nnet(.text)\n_cgo_a1e944f6ea8b_C2func_getnameinfo\n_cgo_a1e944f6ea8b_Cfunc_getnameinfo\n_cgo_a1e944f6ea8b_C2func_getaddrinfo\n_cgo_a1e944f6ea8b_Cfunc_free\n_cgo_a1e944f6ea8b_Cfunc_freeaddrinfo\n_cgo_a1e944f6ea8b_Cfunc_gai_strerror\n_cgo_a1e944f6ea8b_Cfunc_getaddrinfo\nruntime/cgo(.text)\nfatalf\nx_cgo_sys_thread_create\n_cgo_wait_runtime_init_done\nx_cgo_notify_runtime_init_done\nthreadentry\nx_cgo_init\n_cgo_sys_thread_start\nx_cgo_mmap\nx_cgo_setenv\nx_cgo_unsetenv\nx_cgo_callers\nx_cgo_malloc\nx_cgo_free\nx_cgo_thread_start",
+      "parentUuid": "ebbdfaca_279f4291",
+      "revId": "36c6a3e7fdebea896858c57b6aba4c031207b5e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebbdfaca_47a43edf",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
