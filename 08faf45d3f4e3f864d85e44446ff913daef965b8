@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebbdfaca_dcbf417c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "drop period at end.\n\nI might use a stronger verb than \"align around\"\n\ncrypto: make certificate verification target-specific\n\n?",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_dc9ae128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "inherently",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_1c3619df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "can you add something about what users are now expected or not expected to do?\n\nIs it now simply redundant to call VerifyHostname?",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_1c6459ef",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "might as well document this one too for completeness?",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_5c5ed122",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "single space after period",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_7c354dce",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "Is this also deprecated?",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_1c4ff96a",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "include err in message now?",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_7c5e2d1a",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "name-constrained (hyphenated adjective phrase)",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_3c0d9520",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "There is an official tool-recognized deprecation syntax nowadays.\n\nAs the last paragraph, write:\n\n// Deprecated: Use x. Words words.\n\n(starting with a capitalized sentence after the \": \")",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_bc3fe5b5",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-12T21:06:22Z",
+      "side": 1,
+      "message": "This file is auto-generated. We don\u0027t modify it by hand.\n\nFurther, the upstream golang.org/x/net/http2 has to work for multiple Go versions.",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
