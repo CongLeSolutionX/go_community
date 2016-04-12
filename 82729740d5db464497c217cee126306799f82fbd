@@ -1,0 +1,463 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b4eceab_dc812dee",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "I understand the world was different once, but I think we can safely assume these days that there are 8 bits per byte and we\u0027re not going to have to change that. :)\n\nI would just use 8 in the code to make it clear that there\u0027s no funny business going on here. If you want to keep this, consider calling it \"markBitsPerByte\".",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_1c7395e6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "s/provide/provides/ (it\u0027s not actually plural, since it\u0027s \"a markBits object\")",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_3c6e5102",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "s/pointers/points/. Missing \".\"",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_fc5b495b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Why not use spanOf? (spanOf returns nil instead of panicking, but the nil return is likely to panic soon enough, and it\u0027s inlinable, unlike spanForAddr.)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_1cdef5fa",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "This comment seems out of place. This code doesn\u0027t find the object\u0027s beginning (nor should it)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_7ce3b9be",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "This \"InSpan\" part is implied by this being a method of mspan. Consider just calling this \"allocBitsForAddr\"",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_5ce87d99",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "I assume we\u0027re going to wind up using the divmagic for this? (Or possibly not using this code path at all, from what I recall?)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_bcec21ae",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "The comment should begin with the name of the function (Go style); it\u0027s looking at alloc bits, not mark bits; and you should mention how the \"index\" argument fits in. Perhaps,\n\n// nextFreeIndex returns the index of the next free object slot in s\n// at or after the index\u0027th object slot.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4eceab_9ce9659e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "This is really complicated for being the \"unoptimized\" version. I assume this whole function is going to get rewritten in a later CL, so it doesn\u0027t matter?\n\nfunc (s *mspan) nextFreeIndex(index uintptr) uintptr {\n  for index \u003c s.nelems \u0026\u0026 !s.isFree(index) {\n    index++\n  }\n  return index\n}",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_382aa9c0",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "The bounds check on the actual index will take care of this, so you don\u0027t really need to assert it.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_582d5dd6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "The uint8 conversion isn\u0027t necessary. The \"1\" literal is an \"untyped\" number, so it gets coerced to whatever real type is necessary once you go up the expression tree far enough to have a real type. (But if this is being replaced, don\u0027t worry about it.)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_1827e5f6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Likewise, \"InSpan\" is redundant.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_b890f93c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_9895352d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "// isMarked reports whether mark bit m is set.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_787b81c4",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t belong here. Probably just remove this line (the other three are fine).",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_388509fa",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "This seems like overkill.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_5878bdc5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Remove the file name and line number. This is added automatically by the traceback (and will be correct). Just throw(\"should be marked\").",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_188245f2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Update comment.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_d8728de1",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_585f9d4a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Update comment.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_385ce953",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this exists. Why not just have nextBit?",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_f8d8b110",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "m.bytep \u003d add1(m.bytep)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_18592564",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "I would just call this \"next\" (like the comment says)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_d8ddedfe",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "add1(m.bytep)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_78edc1a7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Can you add a comment explaining why this is nosplit? I find the reason a given function is nosplit is often really hard to track down, so I\u0027ve been trying to always document it when I add a nosplit.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_18f4856d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "If you write this as\n\n\tbytesInMarkBits :\u003d (s.nelems + 7) / 8\n\tbits :\u003d s.gcmarkBits[:bytesInMarkBits]\n\tfor i :\u003d range bits {\n\t\tbits[i] \u003d 0\n\t}\n\nthen the bounds check will be taken care of *and* the zeroing loop will be compiled down to a memclr. (And you won\u0027t need the int() conversion. :)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bbb9ef1_f8ff9149",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-12T21:14:15Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
