@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebbdfaca_3ce835cb",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-12T20:33:43Z",
+      "side": 1,
+      "message": "As a favor to me, since you\u0027re in here anyway, would you do s/0x10100/0x010100/. It makes no functional difference, but it makes the comment more obviously correct.",
+      "revId": "f25076adf93405ce3fd4516d610daff4b7b828f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_7cb70df8",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-12T20:33:43Z",
+      "side": 1,
+      "message": "Remove unnecessary parens. Same for b and g below.",
+      "revId": "f25076adf93405ce3fd4516d610daff4b7b828f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_bcc8c574",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-12T20:33:43Z",
+      "side": 1,
+      "message": "Please add a comment like:\n\n// This bit twiddling is equivalent to\n//\n// if r \u003c 0 {\n// ...\n// ...\n// }\n//\n// but uses fewer branches etc.\n// Same for b and g below.\n\nThat\u0027ll help future readers of the code understand what the heck is going on. :)",
+      "revId": "f25076adf93405ce3fd4516d610daff4b7b828f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbdfaca_fcdddd28",
+        "filename": "src/image/internal/imageutil/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-12T20:33:43Z",
+      "side": 1,
+      "message": "I assume you\u0027ll update this and the generated code in accordance with the other comments. Thanks!",
+      "revId": "f25076adf93405ce3fd4516d610daff4b7b828f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
