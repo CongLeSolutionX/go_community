@@ -45,21 +45,21 @@ import "errors"
 // The executable example for time.Format demonstrates the working
 // of the layout string in detail and is a good reference.
 //
-// Note that the RFC822, RFC850, and RFC1123 formats should be applied
+// Note that the RFC 822, RFC 850, and RFC 1123 formats should be applied
 // only to local times. Applying them to UTC times will use "UTC" as the
 // time zone abbreviation, while strictly speaking those RFCs require the
 // use of "GMT" in that case.
-// In general RFC1123Z should be used instead of RFC1123 for servers
-// that insist on that format, and RFC3339 should be preferred for new protocols.
+// In general RFC 1123Z should be used instead of RFC 1123 for servers that
+// insist on that format, and RFC 3339 should be preferred for new protocols.
 const (
 	ANSIC       = "Mon Jan _2 15:04:05 2006"
 	UnixDate    = "Mon Jan _2 15:04:05 MST 2006"
 	RubyDate    = "Mon Jan 02 15:04:05 -0700 2006"
 	RFC822      = "02 Jan 06 15:04 MST"
-	RFC822Z     = "02 Jan 06 15:04 -0700" // RFC822 with numeric zone
+	RFC822Z     = "02 Jan 06 15:04 -0700" // RFC 822 with numeric zone
 	RFC850      = "Monday, 02-Jan-06 15:04:05 MST"
 	RFC1123     = "Mon, 02 Jan 2006 15:04:05 MST"
-	RFC1123Z    = "Mon, 02 Jan 2006 15:04:05 -0700" // RFC1123 with numeric zone
+	RFC1123Z    = "Mon, 02 Jan 2006 15:04:05 -0700" // RFC 1123 with numeric zone
 	RFC3339     = "2006-01-02T15:04:05Z07:00"
 	RFC3339Nano = "2006-01-02T15:04:05.999999999Z07:00"
 	Kitchen     = "3:04PM"
@@ -430,7 +430,7 @@ func (t Time) String() string {
 // to the end of the seconds section of layout string, as in "15:04:05.000"
 // to format a time stamp with millisecond precision.
 //
-// Predefined layouts ANSIC, UnixDate, RFC3339 and others describe standard
+// Predefined layouts ANSIC, UnixDate, RFC 3339 and others describe standard
 // and convenient representations of the reference time. For more information
 // about the formats and the definition of the reference time, see the
 // documentation for ANSIC and the other constants defined by this package.
@@ -694,7 +694,7 @@ func skip(value, prefix string) (string, error) {
 // the input format. The same interpretation will then be made to the
 // input string.
 //
-// Predefined layouts ANSIC, UnixDate, RFC3339 and others describe standard
+// Predefined layouts ANSIC, UnixDate, RFC 3339 and others describe standard
 // and convenient representations of the reference time. For more information
 // about the formats and the definition of the reference time, see the
 // documentation for ANSIC and the other constants defined by this package.
