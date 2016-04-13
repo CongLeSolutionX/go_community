@@ -34,6 +34,24 @@
       "revId": "a8a8049036e38dc64c5c2cdc1523d9326702f2db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_15c3fe08",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-13T22:50:03Z",
+      "side": 1,
+      "message": "Indeed, it does happen elsewhere a lot already as you point out. Overarching comment SGTM.",
+      "parentUuid": "4bcb66e2_95afee5b",
+      "revId": "a8a8049036e38dc64c5c2cdc1523d9326702f2db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
