@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4bcb66e2_75a35223",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-04-13T23:05:57Z",
+      "side": 1,
+      "message": "types?\n\nThis sentence is about Go, not JSON.",
+      "range": {
+        "startLine": 100,
+        "startChar": 47,
+        "endLine": 100,
+        "endChar": 53
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcb66e2_158e5ef0",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2016-04-13T22:54:32Z",
       "side": 1,
       "message": "null is not a JSON object. Maybe this should be one of\n\nencodes as \"null\".\nencodes as JSON null.\nencodes as the null JSON value.\nencodes as the JSON value \"null\".",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_f58e22b2",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-04-13T23:05:57Z",
+      "side": 1,
+      "message": "\"encodes as null\" works for me.",
+      "parentUuid": "4bcb66e2_158e5ef0",
       "range": {
         "startLine": 55,
         "startChar": 18,
@@ -64,6 +111,29 @@
         "startChar": 40,
         "endLine": 127,
         "endChar": 56
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_15965ec5",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-04-13T23:05:57Z",
+      "side": 1,
+      "message": "types ?",
+      "range": {
+        "startLine": 195,
+        "startChar": 45,
+        "endLine": 195,
+        "endChar": 51
       },
       "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
