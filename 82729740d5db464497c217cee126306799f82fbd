@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b31a681_965dec26",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-13T11:04:18Z",
+      "side": 1,
+      "message": "8 won\u0027t change, I think it\u0027s more that 8 can mean multiple things, e.g. bytes per uint64.  BTW, there\u0027s an 8 in heapBitmapScale two lines up that is bits per byte.  :-)",
+      "parentUuid": "0b4eceab_dc812dee",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_1c7395e6",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
