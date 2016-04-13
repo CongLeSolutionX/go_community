@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b524ead_02718e6c",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-13T03:07:51Z",
+      "side": 1,
+      "message": "this comment only applies to OPACK, but it can be ambiguous whether this applies to all 4 here, and OPACK was just perhaps an old comment that was never outdated. I\u0027d eithe clarify or put OPACK in its own case and own comment with a fallthrough or its own \"return n\".",
+      "revId": "fe52889c3c89cbf5b47bc883e2cc408d006db5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
