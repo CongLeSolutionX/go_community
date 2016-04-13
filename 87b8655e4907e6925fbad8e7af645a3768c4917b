@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4bcb66e2_c6b26227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-13T16:43:31Z",
+      "side": 1,
+      "message": "We write this as\n\nFixes #9171",
+      "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcb66e2_e6f95e66",
         "filename": "src/cmd/vet/testdata/composite.go",
         "patchSetId": 1
