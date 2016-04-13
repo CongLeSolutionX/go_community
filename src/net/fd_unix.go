@@ -213,8 +213,21 @@ func (fd *netFD) Read(p []byte) (n int, err error) {
 					continue
 				}
 			}
+		} else {
+			// If the user requested a zero-byte read,
+			// interpret that as a wait for readability,
+			// but don't actually do another read.
+			// Except on nacl, waitRead always returns an error.
+			if runtime.GOOS != "nacl" && len(p) == 0 && n == 0 {
+				err = fd.pd.waitRead()
+			}
 		}
-		err = fd.eofError(n, err)
+
+		// Convert (0, nil) into (0, io.EOF), except in the
+		// case where the user asked to read 0 bytes.
+		if len(p) != 0 {
+			err = fd.eofError(n, err)
+		}
 		break
 	}
 	if _, ok := err.(syscall.Errno); ok {
