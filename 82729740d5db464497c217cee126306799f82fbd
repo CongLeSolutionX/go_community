@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0b808e4d_2c13733d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-13T14:43:53Z",
+      "side": 1,
+      "message": "Sure, but it\u0027s not *called* bitsPerByte. :) I consider \"bitsPerByte\" a universal constant at this point. \"markBitsPerByte\" (and \"heapBitmapScale\"), OTOH, tells you something semantic about the 8. I still think this can be omitted entirely: you\u0027re right that 8 can mean multiple things, but I suppose I\u0027m so used to seeing bitmap calculations that I don\u0027t get confused, and in Go you wouldn\u0027t be indexing bytes in uint64.",
+      "parentUuid": "4b31a681_965dec26",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_1c7395e6",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
