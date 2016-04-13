@@ -70,6 +70,75 @@
     },
     {
       "key": {
+        "uuid": "4b31a681_d6b7e4f8",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "missing space",
+      "range": {
+        "startLine": 189,
+        "startChar": 22,
+        "endLine": 189,
+        "endChar": 24
+      },
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b2b2e19_74a288c1",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "missing space",
+      "range": {
+        "startLine": 195,
+        "startChar": 31,
+        "endLine": 195,
+        "endChar": 33
+      },
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b5ab2dd_c5e2baec",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "Why would we not validate the name constraints? My change should implement the logic to validate typical client-auth constraints. \n\nThe value given to validate the constraint(s) do not come from the application but the actual client certificate which needs to be validated down the chain. \n\nA generic chain validation would work here.\n\nhttps://go-review.googlesource.com/#/c/3230/",
+      "range": {
+        "startLine": 202,
+        "startChar": 36,
+        "endLine": 204,
+        "endChar": 22
+      },
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebbdfaca_5c5ed122",
         "filename": "src/crypto/tls/common.go",
         "patchSetId": 1
@@ -81,6 +150,29 @@
       "writtenOn": "2016-04-12T21:06:22Z",
       "side": 1,
       "message": "single space after period",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b31a681_36ac18b1",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "same comment on constraints as above",
+      "range": {
+        "startLine": 210,
+        "startChar": 49,
+        "endLine": 212,
+        "endChar": 34
+      },
       "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +213,23 @@
     },
     {
       "key": {
+        "uuid": "6b1aea04_57a50cc6",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "This assumes that certificates are only used for the purpose of DNSName based handshakes.\n\nRFC 5280 section 4.2.1.10 states that at least directoryName constraints MUST be validated and implementations SHOULD be able to process name constraints that are imposed on the rfc822Name, uniformResourceIdentifier, dNSName, and iPAddress name\nforms.",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebbdfaca_7c5e2d1a",
         "filename": "src/crypto/x509/verify.go",
         "patchSetId": 1
@@ -132,6 +241,46 @@
       "writtenOn": "2016-04-12T21:06:22Z",
       "side": 1,
       "message": "name-constrained (hyphenated adjective phrase)",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b171ed8_58a53dc6",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "A certificate can\u0027t constrain itself, a CA certificate can only constrain its child\u0027s.\n\nSee also my suggested changes in https://go-review.googlesource.com/#/c/3230/",
+      "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb25fa43_53a524c6",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5920
+      },
+      "writtenOn": "2016-04-13T07:18:45Z",
+      "side": 1,
+      "message": "This would not accept any sub-domains when allowed by the name constraints.\n\nSee my change:\nhttps://go-review.googlesource.com/#/c/3230/5/src/crypto/x509/verify.go",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 4
+      },
       "revId": "08faf45d3f4e3f864d85e44446ff913daef965b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
