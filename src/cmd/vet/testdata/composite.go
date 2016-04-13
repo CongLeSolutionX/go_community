@@ -11,6 +11,7 @@ package testdata
 import (
 	"flag"
 	"go/scanner"
+	"unicode"
 )
 
 var Okay1 = []string{
@@ -55,6 +56,10 @@ var BadStructLiteralUsedInTests = flag.Flag{ // ERROR "unkeyed fields"
 	"Usage",
 	nil, // Value
 	"DefValue",
+}
+
+var GoodNamedSliceLiteralUsedInTests = unicode.SpecialCase{
+	{Lo: 1, Hi: 2},
 }
 
 // Used to test the check for slices and arrays: If that test is disabled and
