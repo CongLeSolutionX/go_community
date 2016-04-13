@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b31a681_16f79c75",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-13T08:58:43Z",
+      "side": 1,
+      "message": "Allowing that we\u0027re moving to 16_16 fixed point, why does this multiply by 257/256ths?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "f0c5b8b9c9c7900033ddb11b584da6198d599454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
