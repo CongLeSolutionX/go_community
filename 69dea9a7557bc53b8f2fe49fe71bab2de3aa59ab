@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcb66e2_0f612d7b",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-13T20:50:33Z",
+      "side": 1,
+      "message": "Please write these as \u00270\u0027, \u00271\u0027, ..., \u0027a\u0027, \u0027b\u0027, ....",
+      "revId": "69dea9a7557bc53b8f2fe49fe71bab2de3aa59ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
