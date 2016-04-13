@@ -783,7 +783,11 @@ func (p *exporter) param(q *Field, n int, numbered bool) {
 		// supply the parameter package here. We need the package
 		// when the function is inlined so we can properly resolve
 		// the name.
-		// TODO(gri) should do this only once per function/method
+		// TODO(gri) This is compiler-specific. Try using importpkg
+		// here and then update the symbols if we find an inlined
+		// body only. Otherwise, the parameter name is ignored and
+		// the package doesn't matter. This would remove an int
+		// (likely 1 byte) for each named parameter.
 		p.pkg(q.Sym.Pkg)
 	}
 	// TODO(gri) This is compiler-specific (escape info).
@@ -1266,12 +1270,11 @@ func (p *exporter) stmt(n *Node) {
 	//	unimplemented - handled by default case
 
 	case OAS, OASWB:
-		p.op(op)
 		// Don't export "v = <N>" initializing statements, hope they're always
 		// preceded by the DCL which will be re-parsed and typecheck to reproduce
 		// the "v = <N>" again.
-		// TODO(gri) if n.Right == nil, don't emit anything
-		if p.bool(n.Right != nil) {
+		if n.Right != nil {
+			p.op(OAS)
 			p.expr(n.Left)
 			p.expr(n.Right)
 		}

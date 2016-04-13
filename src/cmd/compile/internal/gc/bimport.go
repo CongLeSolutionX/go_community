@@ -871,14 +871,11 @@ func (p *importer) node() *Node {
 	// case ODCLFIELD:
 	//	unimplemented
 
-	case OAS, OASWB:
-		if p.bool() {
-			lhs := p.expr()
-			rhs := p.expr()
-			return Nod(OAS, lhs, rhs)
-		}
-		// TODO(gri) we should not have emitted anything here
-		return Nod(OEMPTY, nil, nil)
+	// case OAS, OASWB:
+	// 	unreachable - mapped to OAS case below by exporter
+
+	case OAS:
+		return Nod(OAS, p.expr(), p.expr())
 
 	case OASOP:
 		n := Nod(OASOP, nil, nil)
