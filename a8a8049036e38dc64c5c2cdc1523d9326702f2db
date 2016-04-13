@@ -16,6 +16,24 @@
       "revId": "a8a8049036e38dc64c5c2cdc1523d9326702f2db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_95afee5b",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-13T22:47:47Z",
+      "side": 1,
+      "message": "It\u0027s because OASWB is a specialization that\u0027s done later, again, because this code is re-type-checked. This happens in a couple of places (see OXDOT and friends, OINDEX and friends, etc.). I\u0027ll add an overarching comment.",
+      "parentUuid": "4bcb66e2_f5e2a2b9",
+      "revId": "a8a8049036e38dc64c5c2cdc1523d9326702f2db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
