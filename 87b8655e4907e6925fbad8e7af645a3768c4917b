@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcb66e2_e6f95e66",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-13T15:44:26Z",
+      "side": 1,
+      "message": "please avoid adding this (huge) dependency.",
+      "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_c6fee24b",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-13T15:44:26Z",
+      "side": 1,
+      "message": "use a flag.Flag here with keys instead of importing a whole package just for one example",
+      "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
