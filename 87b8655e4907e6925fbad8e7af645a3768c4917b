@@ -50,6 +50,24 @@
       "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_bad81910",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13330
+      },
+      "writtenOn": "2016-04-13T21:35:12Z",
+      "side": 1,
+      "message": "I\u0027d love to use something smaller for this example. Problem is flag.Flag with keys is already fine for go vet before my patch. The reason I chose unicode.CaseRange is because it was the only example of a type alias for a slice I could find in the core library. Defining the type alias in the same package is also not feasible because go vet can detect it already.\nDo you have any suggestions for a workable example that I can put here?",
+      "parentUuid": "4bcb66e2_c6fee24b",
+      "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
