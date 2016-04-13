@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b524ead_250e1458",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-13T06:30:17Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t literally mean []struct{n *Node; lno int32}.  Please use a named type for the struct.  (mapqueuenode or mapqueueval or something are fine if you can\u0027t come up with anything better.)",
+      "revId": "c38bf9d6172f85858f1b239bde1b8dbe80267c16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b524ead_e5aa6c4d",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3531,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-13T06:30:17Z",
+      "side": 1,
+      "message": "Just use the short\n\n    var name type\n\nform when declaring a single variable.",
+      "revId": "c38bf9d6172f85858f1b239bde1b8dbe80267c16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b524ead_05b0b8b7",
+        "filename": "test/fixedbugs/issue14988.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-13T06:30:17Z",
+      "side": 1,
+      "message": "nit: 2016",
+      "revId": "c38bf9d6172f85858f1b239bde1b8dbe80267c16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
