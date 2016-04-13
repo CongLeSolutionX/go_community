@@ -360,3 +360,172 @@ func TestAcceptIgnoreAbortedConnRequest(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestZeroByteRead(t *testing.T) {
+	for _, network := range []string{"tcp", "unix", "unixpacket"} {
+		network := network
+		if !testableNetwork(network) {
+			t.Logf("skipping %s test", network)
+			continue
+		}
+
+		ln, err := newLocalListener(network)
+		if err != nil {
+			t.Fatal(err)
+		}
+		connc := make(chan Conn, 1)
+		go func() {
+			defer ln.Close()
+			c, err := ln.Accept()
+			if err != nil {
+				t.Error(err)
+			}
+			connc <- c // might be nil
+		}()
+		c, err := Dial(network, ln.Addr().String())
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer c.Close()
+		sc := <-connc
+		if sc == nil {
+			continue
+		}
+		defer sc.Close()
+
+		type readResult struct {
+			side string
+			n    int
+			err  error
+		}
+
+		readc := make(chan readResult, 2)
+		go func() {
+			n, err := c.Read(nil)
+			readc <- readResult{"client", n, err}
+		}()
+		go func() {
+			n, err := sc.Read(nil)
+			readc <- readResult{"server", n, err}
+		}()
+		select {
+		case rr := <-readc:
+			t.Fatalf("%s: unexpected %s read result before any writes: (%v, %v)", network, rr.side, rr.n, rr.err)
+		case <-time.After(50 * time.Millisecond):
+		}
+		if _, err := io.WriteString(c, "a"); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := io.WriteString(sc, "b"); err != nil {
+			t.Fatal(err)
+		}
+
+		for i := 0; i < 2; i++ {
+			select {
+			case <-readc:
+			case <-time.After(2 * time.Second):
+				t.Errorf("timeout waiting for read")
+			}
+		}
+	}
+}
+
+func TestWaitReadZeroByteRead(t *testing.T) {
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+
+	script := make(chan string, 1)
+	defer close(script)
+
+	go func() {
+		c, err := ln.Accept()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		defer c.Close()
+		for s := range script {
+			if s == "" {
+				break
+			}
+			if _, err := io.WriteString(c, s); err != nil {
+				t.Error(err)
+				break
+			}
+		}
+	}()
+	c, err := Dial(ln.Addr().Network(), ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer c.Close()
+	delay := make(chan time.Duration, 1)
+
+	// Verify that Read blocks until it sees data.
+	go func() {
+		t0 := time.Now()
+		n, err := c.Read(nil)
+		d := time.Since(t0)
+		if n != 0 || err != nil {
+			t.Errorf("Read = %v, %v; want 0, nil", n, err)
+		}
+		delay <- d
+	}()
+
+	// Give it time to fail: (worst case this 10ms is too fast on
+	// loaded builders and misses failures, but it shouldn't cause
+	// spurious failures)
+	time.Sleep(10 * time.Millisecond)
+	select {
+	case d := <-delay:
+		t.Fatalf("Got read before write, after %v", d)
+	default:
+	}
+
+	const msg = "hi"
+	script <- msg
+
+	select {
+	case <-delay:
+		buf := make([]byte, len(msg))
+		if n, err := io.ReadFull(c, buf); err != nil || string(buf) != msg {
+			t.Fatalf("ReadFull = %v, %v with buffer %q; want %q", n, err, buf, msg)
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatalf("0-byte read after 'hi' timed out")
+	}
+
+	// Now close it.
+
+	go func() {
+		t0 := time.Now()
+		n, err := c.Read(nil)
+		d := time.Since(t0)
+		if n > 0 {
+			t.Errorf("unexpected read of %d bytes at EOF", n)
+		}
+		if err != nil && err != io.EOF {
+			t.Errorf("0-byte read at EOF woke up with unexpected error: %v", err)
+		} else {
+			t.Logf("0-byte read at EOF woke up with expected error: %v", err)
+		}
+		delay <- d
+	}()
+
+	time.Sleep(10 * time.Millisecond)
+	select {
+	case d := <-delay:
+		t.Fatalf("Got read before socket close, after %v", d)
+	default:
+	}
+
+	script <- "" // closes
+	select {
+	case <-delay:
+	case <-time.After(5 * time.Second):
+		t.Fatal("timeout waiting for Read to finish after close")
+	}
+}
