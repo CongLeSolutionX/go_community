@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0b524ead_e56b4c80",
+        "filename": "src/cmd/compile/internal/gc/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3016,
+      "author": {
+        "id": 11915
+      },
+      "writtenOn": "2016-04-13T08:12:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b524ead_85112877",
+      "revId": "5d327bd4dff7f77caf03d9be30447a56834ebef8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebbdfaca_931bfc56",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 2
