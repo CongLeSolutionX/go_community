@@ -22,6 +22,10 @@ var encDecTests = []encDecTest{
 	{"f8f9fafbfcfdfeff", []byte{0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff}},
 	{"67", []byte{'g'}},
 	{"e3a1", []byte{0xe3, 0xa1}},
+
+	// Test on a slice with odd len (greater than 4) to
+	// trigger all the phases of the unrolled loop in Encode.
+	{"00010203040506", []byte{0, 1, 2, 3, 4, 5, 6}},
 }
 
 func TestEncode(t *testing.T) {
@@ -151,3 +155,27 @@ var expectedHexDump = []byte(`00000000  1e 1f 20 21 22 23 24 25  26 27 28 29 2a 
 00000010  2e 2f 30 31 32 33 34 35  36 37 38 39 3a 3b 3c 3d  |./0123456789:;<=|
 00000020  3e 3f 40 41 42 43 44 45                           |>?@ABCDE|
 `)
+
+var sink []byte
+
+func BenchmarkEncode16(b *testing.B) {
+	src := bytes.Repeat([]byte{2, 3, 5, 7, 9, 11, 13, 17}, 2)
+	sink = make([]byte, 32)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Encode(sink, src)
+	}
+
+}
+
+func BenchmarkEncode1024(b *testing.B) {
+	src := bytes.Repeat([]byte{2, 3, 5, 7, 9, 11, 13, 17}, 128)
+	sink = make([]byte, 2048)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		Encode(sink, src)
+	}
+
+}
