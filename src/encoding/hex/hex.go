@@ -12,7 +12,10 @@ import (
 	"io"
 )
 
-const hextable = "0123456789abcdef"
+var hextable [16]byte = [16]byte{
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+	'a', 'b', 'c', 'd', 'e', 'f',
+}
 
 // EncodedLen returns the length of an encoding of n source bytes.
 func EncodedLen(n int) int { return n * 2 }
@@ -22,7 +25,31 @@ func EncodedLen(n int) int { return n * 2 }
 // of bytes written to dst, but this value is always EncodedLen(len(src)).
 // Encode implements hexadecimal encoding.
 func Encode(dst, src []byte) int {
-	for i, v := range src {
+	left := len(src) % 4
+	rep := len(src) - left
+
+	for i := 0; i < rep; i += 4 {
+		// unroll loop x4
+		v := src[i]
+		dst[i*2] = hextable[v>>4]
+		dst[i*2+1] = hextable[v&0x0f]
+
+		v = src[i+1]
+		dst[i*2+2] = hextable[v>>4]
+		dst[i*2+3] = hextable[v&0x0f]
+
+		v = src[i+2]
+		dst[i*2+4] = hextable[v>>4]
+		dst[i*2+5] = hextable[v&0x0f]
+
+		v = src[i+3]
+		dst[i*2+6] = hextable[v>>4]
+		dst[i*2+7] = hextable[v&0x0f]
+	}
+
+	// process what's left
+	for i := rep; i < len(src); i++ {
+		v := src[i]
 		dst[i*2] = hextable[v>>4]
 		dst[i*2+1] = hextable[v&0x0f]
 	}
