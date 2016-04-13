@@ -10,7 +10,7 @@ import (
 	"io"
 )
 
-// A Decoder reads and decodes JSON objects from an input stream.
+// A Decoder reads and decodes JSON values from an input stream.
 type Decoder struct {
 	r     io.Reader
 	buf   []byte
@@ -164,7 +164,7 @@ func nonSpace(b []byte) bool {
 	return false
 }
 
-// An Encoder writes JSON objects to an output stream.
+// An Encoder writes JSON values to an output stream.
 type Encoder struct {
 	w   io.Writer
 	err error
@@ -225,7 +225,7 @@ func (enc *Encoder) Indent(prefix, indent string) {
 	enc.indentValue = indent
 }
 
-// RawMessage is a raw encoded JSON object.
+// RawMessage is a raw encoded JSON value.
 // It implements Marshaler and Unmarshaler and can
 // be used to delay JSON decoding or precompute a JSON encoding.
 type RawMessage []byte
