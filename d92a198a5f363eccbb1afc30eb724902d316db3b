@@ -210,6 +210,30 @@
       "revId": "d92a198a5f363eccbb1afc30eb724902d316db3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_0dd7510b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Point taken. That said this routine was deleted.",
+      "parentUuid": "5da5e8c5_1f19035a",
+      "range": {
+        "startLine": 381,
+        "startChar": 2,
+        "endLine": 381,
+        "endChar": 22
+      },
+      "revId": "d92a198a5f363eccbb1afc30eb724902d316db3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
