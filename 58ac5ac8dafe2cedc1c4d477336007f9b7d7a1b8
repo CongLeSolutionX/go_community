@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcb66e2_431c994e",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-14T14:34:01Z",
+      "side": 1,
+      "message": "I feel like I saw this CL before and somebody turned it down, saying they preferred the op-per-line style.",
+      "revId": "58ac5ac8dafe2cedc1c4d477336007f9b7d7a1b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_23199d5e",
+        "filename": "src/cmd/compile/internal/gc/cplx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-14T14:34:01Z",
+      "side": 1,
+      "message": "single line here, but not above?",
+      "revId": "58ac5ac8dafe2cedc1c4d477336007f9b7d7a1b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
