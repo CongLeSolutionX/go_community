@@ -5,6 +5,7 @@
 package sync
 
 import (
+	"internal/nocopy"
 	"internal/race"
 	"runtime"
 	"sync/atomic"
@@ -40,7 +41,10 @@ import (
 // that scenario. It is more efficient to have such objects implement their own
 // free list.
 //
+// A Pool must not be copied after first use.
 type Pool struct {
+	noCopy nocopy.NoCopy
+
 	local     unsafe.Pointer // local fixed-size per-P pool, actual type is [P]poolLocal
 	localSize uintptr        // size of the local array
 
