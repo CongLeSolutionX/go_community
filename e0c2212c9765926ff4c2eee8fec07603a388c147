@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bcb66e2_a368edc4",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-14T13:54:48Z",
+      "side": 1,
+      "message": "please delete lines 5 and 6. not your issue but you\u0027re in here.",
+      "revId": "e0c2212c9765926ff4c2eee8fec07603a388c147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_23751d95",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-14T13:54:48Z",
+      "side": 1,
+      "message": "// SpecialCase is an (aptly named) slice of CaseRange to test issue 9171.",
+      "revId": "e0c2212c9765926ff4c2eee8fec07603a388c147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
