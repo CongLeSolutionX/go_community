@@ -86,6 +86,24 @@
       "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_dbdb5767",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13330
+      },
+      "writtenOn": "2016-04-14T01:59:20Z",
+      "side": 1,
+      "message": "You\u0027re right, I messed up that line, probably hit undo before saving and didn\u0027t notice. That was meant to be unicode.SpecialCase which as a named slice. Also, poor choice of words on my part, I should\u0027ve said named type not type alias.",
+      "parentUuid": "4bcb66e2_00057aad",
+      "revId": "87b8655e4907e6925fbad8e7af645a3768c4917b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
