@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb4af641_52a9f451",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-14T10:09:12Z",
+      "side": 1,
+      "message": "12.345 happens to be six characters long anyway, so %6.3f doesn\u0027t show the width-padding aspect.  %.3g is not showing the subtlety of what is a \"significant digit\".\n\nHow about 0.012345 instead?  %6.3f gives \" 0.012\", showing padding.  %.3g\u0027s \"0.0123\" shows leading zeroes don\u0027t count.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 75
+      },
+      "revId": "933d521a7aa5defc46d3336bcb71a2f3f2b8172d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
