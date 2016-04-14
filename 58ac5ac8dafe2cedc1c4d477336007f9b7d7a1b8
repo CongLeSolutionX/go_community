@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4bcb66e2_81d20976",
+        "filename": "src/cmd/compile/internal/gc/cgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-14T18:35:39Z",
+      "side": 1,
+      "message": "I don\u0027t remember.  We can see if anybody else comments.",
+      "parentUuid": "4bcb66e2_431c994e",
+      "revId": "58ac5ac8dafe2cedc1c4d477336007f9b7d7a1b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcb66e2_23199d5e",
         "filename": "src/cmd/compile/internal/gc/cplx.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-14T14:34:01Z",
       "side": 1,
       "message": "single line here, but not above?",
+      "revId": "58ac5ac8dafe2cedc1c4d477336007f9b7d7a1b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bcb66e2_e1bdbd2b",
+        "filename": "src/cmd/compile/internal/gc/cplx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-14T18:35:39Z",
+      "side": 1,
+      "message": "Done.  The comment meant that my grep missed it.",
+      "parentUuid": "4bcb66e2_23199d5e",
       "revId": "58ac5ac8dafe2cedc1c4d477336007f9b7d7a1b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
