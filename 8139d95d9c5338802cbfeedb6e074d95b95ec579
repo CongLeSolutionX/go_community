@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b39d2b4_509bb22d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-14T21:47:10Z",
+      "side": 1,
+      "message": "An extra \"//\" slipped in here.",
+      "revId": "8139d95d9c5338802cbfeedb6e074d95b95ec579",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_b06856c5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-14T21:47:10Z",
+      "side": 1,
+      "message": "s/heap bits/markbits/",
+      "revId": "8139d95d9c5338802cbfeedb6e074d95b95ec579",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
