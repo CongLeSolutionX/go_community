@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0b808e4d_4c935f87",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done\nUpon reviewing the uses they are all in code that looks similar to this:\nfunc (s *mspan) allocBitsForAddrInSpan(p uintptr) markBits {\n\tbyteOffset :\u003d p - s.base()\n\tallocBitIndex :\u003d byteOffset / s.elemsize\n\twhichByte :\u003d allocBitIndex / 8\n\twhichBit :\u003d allocBitIndex % 8\n\treturn markBits{\u0026s.allocBits[whichByte], uint8(1 \u003c\u003c whichBit), allocBitIndex}\n}\n\nWhat 8 means seems obvious and it avoids the confusion of the old heapBits which did not have only 2 mark bits per byte since other bits were used for other things.",
+      "parentUuid": "0b808e4d_2c13733d",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_1c7395e6",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -66,6 +84,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "s/provide/provides/ (it\u0027s not actually plural, since it\u0027s \"a markBits object\")",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b808e4d_ec8a4b48",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4eceab_1c7395e6",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "0b808e4d_8c7f07e9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4eceab_3c6e5102",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_fc5b495b",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -100,6 +154,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "Why not use spanOf? (spanOf returns nil instead of panicking, but the nil return is likely to panic soon enough, and it\u0027s inlinable, unlike spanForAddr.)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b808e4d_6fc96d77",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "If it is inlined then there will be no problems but spanOf is not go:nosplit. Should I also make that change?",
+      "parentUuid": "0b4eceab_fc5b495b",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -123,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "0b808e4d_2fc36557",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "I agree but this routine just got deleted so it is a non-issue.",
+      "parentUuid": "0b4eceab_1cdef5fa",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_7ce3b9be",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -134,6 +224,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "This \"InSpan\" part is implied by this being a method of mspan. Consider just calling this \"allocBitsForAddr\"",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b808e4d_6fd40d05",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4eceab_7ce3b9be",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "0b808e4d_0fe1c9e1",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Good catch, this is actually dead code so it didn\u0027t appear when I was doing the performance work. I am deleting it.",
+      "parentUuid": "0b4eceab_5ce87d99",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_bcec21ae",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -168,6 +294,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "The comment should begin with the name of the function (Go style); it\u0027s looking at alloc bits, not mark bits; and you should mention how the \"index\" argument fits in. Perhaps,\n\n// nextFreeIndex returns the index of the next free object slot in s\n// at or after the index\u0027th object slot.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b808e4d_6ffbad8b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4eceab_bcec21ae",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -191,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "0b808e4d_0ff8e98b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "This code will be replaced so it does\u0027t really matter. That said the final version isn\u0027t a lot simpler than this once\nwe introduced ctz and we start caching the allocation bits.",
+      "parentUuid": "0b4eceab_9ce9659e",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_382aa9c0",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -202,6 +364,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "The bounds check on the actual index will take care of this, so you don\u0027t really need to assert it.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b808e4d_2ff5a592",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "This check is gone if future versions. I am resisting changing it now to avoid having to merge things that are just going to be deleted anyway.",
+      "parentUuid": "8bbb9ef1_382aa9c0",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -225,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "6bed8a37_1f3ae376",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Yes, this it is being replaced and I just checked that code and there are no gratuitous uint8. \nDone",
+      "parentUuid": "8bbb9ef1_582d5dd6",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_1827e5f6",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -242,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "6bed8a37_7f47affa",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbb9ef1_1827e5f6",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_b890f93c",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -253,6 +469,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "Same.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb533ac8_e370126b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbb9ef1_b890f93c",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -293,6 +527,24 @@
     },
     {
       "key": {
+        "uuid": "4b5fe6cb_a9ef5961",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbb9ef1_787b81c4",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_388509fa",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -304,6 +556,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "This seems like overkill.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe0363f_021c4aff",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Removed\nDone",
+      "parentUuid": "8bbb9ef1_388509fa",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -327,6 +597,24 @@
     },
     {
       "key": {
+        "uuid": "4b5fe6cb_49f5852c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "No longer relevant.\nDone",
+      "parentUuid": "8bbb9ef1_5878bdc5",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_188245f2",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -338,6 +626,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "Update comment.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_8d90a16f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbb9ef1_188245f2",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -361,6 +667,24 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_ad955d5e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbb9ef1_d8728de1",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_585f9d4a",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -372,6 +696,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "Update comment.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_4dc6b967",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "This routine has been deleted.\nDone",
+      "parentUuid": "8bbb9ef1_585f9d4a",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -429,6 +771,24 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_6dac55b2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Dead code. I deleted it.",
+      "parentUuid": "8bbb9ef1_18592564",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_d8ddedfe",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -440,6 +800,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "add1(m.bytep)",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_8db7c1f9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Dead code, I deleted the function.",
+      "parentUuid": "8bbb9ef1_d8ddedfe",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -463,6 +841,24 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_cdb1c905",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Not sure why I made it go:nosplit. It is not called by any routines that are go:nosplit so I\u0027m deleting the go:nosplit.",
+      "parentUuid": "8bbb9ef1_78edc1a7",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_18f4856d",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -480,6 +876,24 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_edb685fa",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Thanks for the clue.\nDone",
+      "parentUuid": "8bbb9ef1_18f4856d",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bbb9ef1_f8ff9149",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
@@ -491,6 +905,24 @@
       "writtenOn": "2016-04-12T21:14:15Z",
       "side": 1,
       "message": "Likewise.",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_0dccb187",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-14T18:54:41Z",
+      "side": 1,
+      "message": "Done\nThat said this routine is going to be deleted in a later\nCL but is needed in this one.",
+      "parentUuid": "8bbb9ef1_f8ff9149",
       "revId": "82729740d5db464497c217cee126306799f82fbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
