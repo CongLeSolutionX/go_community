@@ -5,8 +5,7 @@
 package sync
 
 import (
-	"sync/atomic"
-	"unsafe"
+	"internal/nocopy"
 )
 
 // Cond implements a condition variable, a rendezvous point
@@ -20,11 +19,12 @@ import (
 // A Cond can be created as part of other structures.
 // A Cond must not be copied after first use.
 type Cond struct {
+	noCopy nocopy.NoCopy
+
 	// L is held while observing or changing the condition
 	L Locker
 
-	notify  notifyList
-	checker copyChecker
+	notify notifyList
 }
 
 // NewCond returns a new Cond with Locker l.
@@ -49,7 +49,6 @@ func NewCond(l Locker) *Cond {
 //    c.L.Unlock()
 //
 func (c *Cond) Wait() {
-	c.checker.check()
 	t := runtime_notifyListAdd(&c.notify)
 	c.L.Unlock()
 	runtime_notifyListWait(&c.notify, t)
@@ -61,7 +60,6 @@ func (c *Cond) Wait() {
 // It is allowed but not required for the caller to hold c.L
 // during the call.
 func (c *Cond) Signal() {
-	c.checker.check()
 	runtime_notifyListNotifyOne(&c.notify)
 }
 
@@ -70,17 +68,5 @@ func (c *Cond) Signal() {
 // It is allowed but not required for the caller to hold c.L
 // during the call.
 func (c *Cond) Broadcast() {
-	c.checker.check()
 	runtime_notifyListNotifyAll(&c.notify)
-}
-
-// copyChecker holds back pointer to itself to detect object copying.
-type copyChecker uintptr
-
-func (c *copyChecker) check() {
-	if uintptr(*c) != uintptr(unsafe.Pointer(c)) &&
-		!atomic.CompareAndSwapUintptr((*uintptr)(c), 0, uintptr(unsafe.Pointer(c))) &&
-		uintptr(*c) != uintptr(unsafe.Pointer(c)) {
-		panic("sync.Cond is copied")
-	}
 }

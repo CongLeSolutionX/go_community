@@ -242,19 +242,6 @@ func TestCondSignalStealing(t *testing.T) {
 	}
 }
 
-func TestCondCopy(t *testing.T) {
-	defer func() {
-		err := recover()
-		if err == nil || err.(string) != "sync.Cond is copied" {
-			t.Fatalf("got %v, expect sync.Cond is copied", err)
-		}
-	}()
-	c := Cond{L: &Mutex{}}
-	c.Signal()
-	c2 := c
-	c2.Signal()
-}
-
 func BenchmarkCond1(b *testing.B) {
 	benchmarkCond(b, 1)
 }
