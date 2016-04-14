@@ -749,12 +749,7 @@ func typeptrdata(t *Type) int64 {
 	}
 
 	switch t.Etype {
-	case TPTR32,
-		TPTR64,
-		TUNSAFEPTR,
-		TFUNC,
-		TCHAN,
-		TMAP:
+	case TPTR32, TPTR64, TUNSAFEPTR, TFUNC, TCHAN, TMAP:
 		return int64(Widthptr)
 
 	case TSTRING:
@@ -991,30 +986,13 @@ func itabname(t, itype *Type) *Node {
 // That is, if x==x for all x of type t.
 func isreflexive(t *Type) bool {
 	switch t.Etype {
-	case TBOOL,
-		TINT,
-		TUINT,
-		TINT8,
-		TUINT8,
-		TINT16,
-		TUINT16,
-		TINT32,
-		TUINT32,
-		TINT64,
-		TUINT64,
-		TUINTPTR,
-		TPTR32,
-		TPTR64,
-		TUNSAFEPTR,
-		TSTRING,
-		TCHAN:
+	case TBOOL, TINT, TUINT, TINT8, TUINT8, TINT16, TUINT16,
+		TINT32, TUINT32, TINT64, TUINT64, TUINTPTR,
+		TPTR32, TPTR64, TUNSAFEPTR,
+		TSTRING, TCHAN:
 		return true
 
-	case TFLOAT32,
-		TFLOAT64,
-		TCOMPLEX64,
-		TCOMPLEX128,
-		TINTER:
+	case TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TINTER:
 		return false
 
 	case TARRAY:
@@ -1041,29 +1019,14 @@ func isreflexive(t *Type) bool {
 // need the key to be updated.
 func needkeyupdate(t *Type) bool {
 	switch t.Etype {
-	case TBOOL,
-		TINT,
-		TUINT,
-		TINT8,
-		TUINT8,
-		TINT16,
-		TUINT16,
-		TINT32,
-		TUINT32,
-		TINT64,
-		TUINT64,
-		TUINTPTR,
-		TPTR32,
-		TPTR64,
-		TUNSAFEPTR,
-		TCHAN:
+	case TBOOL, TINT, TUINT, TINT8, TUINT8, TINT16, TUINT16,
+		TINT32, TUINT32, TINT64, TUINT64, TUINTPTR,
+		TPTR32, TPTR64,
+		TUNSAFEPTR, TCHAN:
 		return false
 
 	case TFLOAT32, // floats can be +0/-0
-		TFLOAT64,
-		TCOMPLEX64,
-		TCOMPLEX128,
-		TINTER,
+		TFLOAT64, TCOMPLEX64, TCOMPLEX128, TINTER,
 		TSTRING: // strings might have smaller backing stores
 		return true
 

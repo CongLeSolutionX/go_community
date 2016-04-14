@@ -268,11 +268,7 @@ maybe:
 		//dump("\ncomplex-yes", n);
 		return true
 
-	case ODOT,
-		ODOTPTR,
-		OINDEX,
-		OIND,
-		ONAME:
+	case ODOT, ODOTPTR, OINDEX, OIND, ONAME:
 		//dump("\ncomplex-yes", n);
 		return true
 	}
@@ -400,14 +396,9 @@ func Complexgen(n *Node, res *Node) {
 		Dump("complexgen: unknown op", n)
 		Fatalf("complexgen: unknown op %v", Oconv(n.Op, 0))
 
-	case ODOT,
-		ODOTPTR,
-		OINDEX,
-		OIND,
+	case ODOT, ODOTPTR, OINDEX, OIND,
 		ONAME, // PHEAP or PPARAMREF var
-		OCALLFUNC,
-		OCALLMETH,
-		OCALLINTER:
+		OCALLFUNC, OCALLMETH, OCALLINTER:
 		var n1 Node
 		Igen(n, &n1, res)
 
@@ -415,14 +406,7 @@ func Complexgen(n *Node, res *Node) {
 		Regfree(&n1)
 		return
 
-	case OCONV,
-		OADD,
-		OSUB,
-		OMUL,
-		OMINUS,
-		OCOMPLEX,
-		OREAL,
-		OIMAG:
+	case OCONV, OADD, OSUB, OMUL, OMINUS, OCOMPLEX, OREAL, OIMAG:
 		break
 	}
 

@@ -441,11 +441,7 @@ func oldname(s *Sym) *Node {
 // := declarations
 func colasname(n *Node) bool {
 	switch n.Op {
-	case ONAME,
-		ONONAME,
-		OPACK,
-		OTYPE,
-		OLITERAL:
+	case ONAME, ONONAME, OPACK, OTYPE, OLITERAL:
 		return n.Sym != nil
 	}
 

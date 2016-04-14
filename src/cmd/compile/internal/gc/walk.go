@@ -97,13 +97,11 @@ func samelist(a, b []*Node) bool {
 func paramoutheap(fn *Node) bool {
 	for _, ln := range fn.Func.Dcl {
 		switch ln.Class {
-		case PPARAMOUT,
-			PPARAMOUT | PHEAP:
+		case PPARAMOUT, PPARAMOUT | PHEAP:
 			return ln.Addrtaken
 
 			// stop early - parameters are over
-		case PAUTO,
-			PAUTO | PHEAP:
+		case PAUTO, PAUTO | PHEAP:
 			return false
 		}
 	}
@@ -163,27 +161,10 @@ func walkstmt(n *Node) *Node {
 		}
 		Dump("nottop", n)
 
-	case OAS,
-		OASOP,
-		OAS2,
-		OAS2DOTTYPE,
-		OAS2RECV,
-		OAS2FUNC,
-		OAS2MAPR,
-		OCLOSE,
-		OCOPY,
-		OCALLMETH,
-		OCALLINTER,
-		OCALL,
-		OCALLFUNC,
-		ODELETE,
-		OSEND,
-		OPRINT,
-		OPRINTN,
-		OPANIC,
-		OEMPTY,
-		ORECOVER,
-		OGETG:
+	case OAS, OASOP, OAS2, OAS2DOTTYPE, OAS2RECV, OAS2FUNC, OAS2MAPR,
+		OCLOSE, OCOPY, OCALLMETH, OCALLINTER, OCALL, OCALLFUNC,
+		ODELETE, OSEND, OPRINT, OPRINTN, OPANIC,
+		OEMPTY, ORECOVER, OGETG:
 		if n.Typecheck == 0 {
 			Fatalf("missing typecheck: %v", Nconv(n, FmtSign))
 		}
@@ -211,17 +192,8 @@ func walkstmt(n *Node) *Node {
 
 		n = addinit(n, init.Slice())
 
-	case OBREAK,
-		ODCL,
-		OCONTINUE,
-		OFALL,
-		OGOTO,
-		OLABEL,
-		ODCLCONST,
-		ODCLTYPE,
-		OCHECKNIL,
-		OVARKILL,
-		OVARLIVE:
+	case OBREAK, ODCL, OCONTINUE, OFALL, OGOTO, OLABEL,
+		ODCLCONST, ODCLTYPE, OCHECKNIL, OVARKILL, OVARLIVE:
 		break
 
 	case OBLOCK:
@@ -493,21 +465,9 @@ opswitch:
 		Dump("walk", n)
 		Fatalf("walkexpr: switch 1 unknown op %v", Nconv(n, FmtShort|FmtSign))
 
-	case OTYPE,
-		ONONAME,
-		OINDREG,
-		OEMPTY,
-		OPARAM,
-		OGETG:
+	case OTYPE, ONONAME, OINDREG, OEMPTY, OPARAM, OGETG:
 
-	case ONOT,
-		OMINUS,
-		OPLUS,
-		OCOM,
-		OREAL,
-		OIMAG,
-		ODOTMETH,
-		ODOTINTER:
+	case ONOT, OMINUS, OPLUS, OCOM, OREAL, OIMAG, ODOTMETH, ODOTINTER:
 		n.Left = walkexpr(n.Left, init)
 
 	case OIND:
@@ -561,16 +521,7 @@ opswitch:
 		}
 
 		// Use results from call expression as arguments for complex.
-	case OAND,
-		OSUB,
-		OHMUL,
-		OLT,
-		OLE,
-		OGE,
-		OGT,
-		OADD,
-		OCOMPLEX,
-		OLROT:
+	case OAND, OSUB, OHMUL, OLT, OLE, OGE, OGT, OADD, OCOMPLEX, OLROT:
 		if n.Op == OCOMPLEX && n.Left == nil && n.Right == nil {
 			n.Left = n.List.First()
 			n.Right = n.List.Second()
@@ -2423,27 +2374,9 @@ func varexpr(n *Node) bool {
 
 		return false
 
-	case OADD,
-		OSUB,
-		OOR,
-		OXOR,
-		OMUL,
-		ODIV,
-		OMOD,
-		OLSH,
-		ORSH,
-		OAND,
-		OANDNOT,
-		OPLUS,
-		OMINUS,
-		OCOM,
-		OPAREN,
-		OANDAND,
-		OOROR,
-		OCONV,
-		OCONVNOP,
-		OCONVIFACE,
-		ODOTTYPE:
+	case OADD, OSUB, OOR, OXOR, OMUL, ODIV, OMOD, OLSH, ORSH,
+		OAND, OANDNOT, OPLUS, OMINUS, OCOM, OPAREN,
+		OANDAND, OOROR, OCONV, OCONVNOP, OCONVIFACE, ODOTTYPE:
 		return varexpr(n.Left) && varexpr(n.Right)
 
 	case ODOT: // but not ODOTPTR
@@ -3830,58 +3763,16 @@ func candiscard(n *Node) bool {
 		return false
 
 		// Discardable as long as the subpieces are.
-	case ONAME,
-		ONONAME,
-		OTYPE,
-		OPACK,
-		OLITERAL,
-		OADD,
-		OSUB,
-		OOR,
-		OXOR,
-		OADDSTR,
-		OADDR,
-		OANDAND,
-		OARRAYBYTESTR,
-		OARRAYRUNESTR,
-		OSTRARRAYBYTE,
-		OSTRARRAYRUNE,
-		OCAP,
-		OCMPIFACE,
-		OCMPSTR,
-		OCOMPLIT,
-		OMAPLIT,
-		OSTRUCTLIT,
-		OARRAYLIT,
-		OPTRLIT,
-		OCONV,
-		OCONVIFACE,
-		OCONVNOP,
-		ODOT,
-		OEQ,
-		ONE,
-		OLT,
-		OLE,
-		OGT,
-		OGE,
-		OKEY,
-		OLEN,
-		OMUL,
-		OLSH,
-		ORSH,
-		OAND,
-		OANDNOT,
-		ONEW,
-		ONOT,
-		OCOM,
-		OPLUS,
-		OMINUS,
-		OOROR,
-		OPAREN,
-		ORUNESTR,
-		OREAL,
-		OIMAG,
-		OCOMPLEX:
+	case ONAME, ONONAME, OTYPE, OPACK, OLITERAL, OADD, OSUB,
+		OOR, OXOR, OADDSTR, OADDR, OANDAND,
+		OARRAYBYTESTR, OARRAYRUNESTR, OSTRARRAYBYTE, OSTRARRAYRUNE,
+		OCAP, OCMPIFACE, OCMPSTR,
+		OCOMPLIT, OMAPLIT, OSTRUCTLIT, OARRAYLIT, OPTRLIT,
+		OCONV, OCONVIFACE, OCONVNOP,
+		ODOT, OEQ, ONE, OLT, OLE, OGT, OGE,
+		OKEY, OLEN, OMUL, OLSH, ORSH, OAND, OANDNOT,
+		ONEW, ONOT, OCOM, OPLUS, OMINUS, OOROR,
+		OPAREN, ORUNESTR, OREAL, OIMAG, OCOMPLEX:
 		break
 
 		// Discardable as long as we know it's not division by zero.

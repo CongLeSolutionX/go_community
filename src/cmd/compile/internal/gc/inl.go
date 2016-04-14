@@ -209,17 +209,9 @@ func ishairy(n *Node, budget *int) bool {
 			return true
 		}
 
-	case OCLOSURE,
-		OCALLPART,
-		ORANGE,
-		OFOR,
-		OSELECT,
-		OTYPESW,
-		OPROC,
-		ODEFER,
+	case OCLOSURE, OCALLPART, ORANGE, OFOR, OSELECT, OTYPESW, OPROC, ODEFER,
 		ODCLTYPE, // can't print yet
-		OBREAK,
-		ORETJMP:
+		OBREAK, ORETJMP:
 		return true
 	}
 
@@ -384,12 +376,7 @@ func inlnode(n *Node) *Node {
 
 		// if we just replaced arg in f(arg()) or return arg with an inlined call
 	// and arg returns multiple values, glue as list
-	case ORETURN,
-		OCALLFUNC,
-		OCALLMETH,
-		OCALLINTER,
-		OAPPEND,
-		OCOMPLEX:
+	case ORETURN, OCALLFUNC, OCALLMETH, OCALLINTER, OAPPEND, OCOMPLEX:
 		if n.List.Len() == 1 && n.List.First().Op == OINLCALL && n.List.First().Rlist.Len() > 1 {
 			n.List.Set(inlconv2list(n.List.First()))
 			break

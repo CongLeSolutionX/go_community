@@ -923,11 +923,7 @@ func stmtfmt(n *Node) string {
 			f += fmt.Sprintf("default: %v", n.Nbody)
 		}
 
-	case OBREAK,
-		OCONTINUE,
-		OGOTO,
-		OFALL,
-		OXFALL:
+	case OBREAK, OCONTINUE, OGOTO, OFALL, OXFALL:
 		if n.Left != nil {
 			f += fmt.Sprintf("%v %v", Oconv(n.Op, FmtSharp), n.Left)
 		} else {
@@ -1300,13 +1296,7 @@ func exprfmt(n *Node, prec int) string {
 		f += fmt.Sprintf(".(%v)", n.Type)
 		return f
 
-	case OINDEX,
-		OINDEXMAP,
-		OSLICE,
-		OSLICESTR,
-		OSLICEARR,
-		OSLICE3,
-		OSLICE3ARR:
+	case OINDEX, OINDEXMAP, OSLICE, OSLICESTR, OSLICEARR, OSLICE3, OSLICE3ARR:
 		var f string
 		f += exprfmt(n.Left, nprec)
 		f += fmt.Sprintf("[%v]", n.Right)
@@ -1315,14 +1305,8 @@ func exprfmt(n *Node, prec int) string {
 	case OCOPY, OCOMPLEX:
 		return fmt.Sprintf("%v(%v, %v)", Oconv(n.Op, FmtSharp), n.Left, n.Right)
 
-	case OCONV,
-		OCONVIFACE,
-		OCONVNOP,
-		OARRAYBYTESTR,
-		OARRAYRUNESTR,
-		OSTRARRAYBYTE,
-		OSTRARRAYRUNE,
-		ORUNESTR:
+	case OCONV, OCONVIFACE, OCONVNOP,
+		OARRAYBYTESTR, OARRAYRUNESTR, OSTRARRAYBYTE, OSTRARRAYRUNE, ORUNESTR:
 		if n.Type == nil || n.Type.Sym == nil {
 			return fmt.Sprintf("(%v)(%v)", n.Type, n.Left)
 		}
@@ -1331,19 +1315,8 @@ func exprfmt(n *Node, prec int) string {
 		}
 		return fmt.Sprintf("%v(%v)", n.Type, Hconv(n.List, FmtComma))
 
-	case OREAL,
-		OIMAG,
-		OAPPEND,
-		OCAP,
-		OCLOSE,
-		ODELETE,
-		OLEN,
-		OMAKE,
-		ONEW,
-		OPANIC,
-		ORECOVER,
-		OPRINT,
-		OPRINTN:
+	case OREAL, OIMAG, OAPPEND, OCAP, OCLOSE, ODELETE, OLEN,
+		OMAKE, ONEW, OPANIC, ORECOVER, OPRINT, OPRINTN:
 		if n.Left != nil {
 			return fmt.Sprintf("%v(%v)", Oconv(n.Op, FmtSharp), n.Left)
 		}
@@ -1375,13 +1348,7 @@ func exprfmt(n *Node, prec int) string {
 		return fmt.Sprintf("make(%v)", n.Type)
 
 		// Unary
-	case OPLUS,
-		OMINUS,
-		OADDR,
-		OCOM,
-		OIND,
-		ONOT,
-		ORECV:
+	case OPLUS, OMINUS, OADDR, OCOM, OIND, ONOT, ORECV:
 		var f string
 		if n.Left.Op == n.Op {
 			f += fmt.Sprintf("%v ", Oconv(n.Op, FmtSharp))
@@ -1392,26 +1359,8 @@ func exprfmt(n *Node, prec int) string {
 		return f
 
 		// Binary
-	case OADD,
-		OAND,
-		OANDAND,
-		OANDNOT,
-		ODIV,
-		OEQ,
-		OGE,
-		OGT,
-		OLE,
-		OLT,
-		OLSH,
-		OMOD,
-		OMUL,
-		ONE,
-		OOR,
-		OOROR,
-		ORSH,
-		OSEND,
-		OSUB,
-		OXOR:
+	case OADD, OAND, OANDAND, OANDNOT, ODIV, OEQ, OGE, OGT, OLE, OLT,
+		OLSH, OMOD, OMUL, ONE, OOR, OOROR, ORSH, OSEND, OSUB, OXOR:
 		var f string
 		f += exprfmt(n.Left, nprec)
 

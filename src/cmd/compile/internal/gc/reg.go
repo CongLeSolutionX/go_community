@@ -654,20 +654,9 @@ func allreg(b uint64, r *Rgn) uint64 {
 	default:
 		Fatalf("unknown etype %d/%v", Bitno(b), Econv(v.etype))
 
-	case TINT8,
-		TUINT8,
-		TINT16,
-		TUINT16,
-		TINT32,
-		TUINT32,
-		TINT64,
-		TUINT64,
-		TINT,
-		TUINT,
-		TUINTPTR,
-		TBOOL,
-		TPTR32,
-		TPTR64:
+	case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32,
+		TINT64, TUINT64, TINT, TUINT, TUINTPTR,
+		TBOOL, TPTR32, TPTR64:
 		i := Thearch.BtoR(^b)
 		if i != 0 && r.cost > 0 {
 			r.regno = int16(i)

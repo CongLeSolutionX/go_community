@@ -207,17 +207,8 @@ func callrecv(n *Node) bool {
 	}
 
 	switch n.Op {
-	case OCALL,
-		OCALLMETH,
-		OCALLINTER,
-		OCALLFUNC,
-		ORECV,
-		OCAP,
-		OLEN,
-		OCOPY,
-		ONEW,
-		OAPPEND,
-		ODELETE:
+	case OCALL, OCALLMETH, OCALLINTER, OCALLFUNC,
+		ORECV, OCAP, OLEN, OCOPY, ONEW, OAPPEND, ODELETE:
 		return true
 	}
 
@@ -512,27 +503,10 @@ OpSwitch:
 		break OpSwitch
 
 	// arithmetic exprs
-	case OASOP,
-		OADD,
-		OAND,
-		OANDAND,
-		OANDNOT,
-		ODIV,
-		OEQ,
-		OGE,
-		OGT,
-		OHMUL,
-		OLE,
-		OLT,
-		OLSH,
-		ORSH,
-		OMOD,
-		OMUL,
-		ONE,
-		OOR,
-		OOROR,
-		OSUB,
-		OXOR:
+	case OASOP, OADD, OAND, OANDAND, OANDNOT, ODIV,
+		OEQ, OGE, OGT, OHMUL, OLE, OLT,
+		OLSH, ORSH, OMOD, OMUL, ONE,
+		OOR, OOROR, OSUB, OXOR:
 		var l *Node
 		var op Op
 		var r *Node
@@ -2036,14 +2010,8 @@ OpSwitch:
 		typecheckas2(n)
 		break OpSwitch
 
-	case OBREAK,
-		OCONTINUE,
-		ODCL,
-		OEMPTY,
-		OGOTO,
-		OXFALL,
-		OVARKILL,
-		OVARLIVE:
+	case OBREAK, OCONTINUE, ODCL, OEMPTY,
+		OGOTO, OXFALL, OVARKILL, OVARLIVE:
 		ok |= Etop
 		break OpSwitch
 
@@ -2263,29 +2231,14 @@ func checkdefergo(n *Node) {
 
 	switch n.Left.Op {
 	// ok
-	case OCALLINTER,
-		OCALLMETH,
-		OCALLFUNC,
-		OCLOSE,
-		OCOPY,
-		ODELETE,
-		OPANIC,
-		OPRINT,
-		OPRINTN,
-		ORECOVER:
+	case OCALLINTER, OCALLMETH, OCALLFUNC,
+		OCLOSE, OCOPY, ODELETE,
+		OPANIC, OPRINT, OPRINTN, ORECOVER:
 		return
 
-	case OAPPEND,
-		OCAP,
-		OCOMPLEX,
-		OIMAG,
-		OLEN,
-		OMAKE,
-		OMAKESLICE,
-		OMAKECHAN,
-		OMAKEMAP,
-		ONEW,
-		OREAL,
+	case OAPPEND, OCAP, OCOMPLEX, OIMAG, OLEN,
+		OMAKE, OMAKESLICE, OMAKECHAN, OMAKEMAP,
+		ONEW, OREAL,
 		OLITERAL: // conversion or unsafe.Alignof, Offsetof, Sizeof
 		if n.Left.Orig != nil && n.Left.Orig.Op == OCONV {
 			break
@@ -3866,11 +3819,7 @@ func markbreak(n *Node, implicit *Node) {
 			}
 		}
 
-	case OFOR,
-		OSWITCH,
-		OTYPESW,
-		OSELECT,
-		ORANGE:
+	case OFOR, OSWITCH, OTYPESW, OSELECT, ORANGE:
 		implicit = n
 		fallthrough
 
@@ -3930,11 +3879,7 @@ func (n *Node) isterminating() bool {
 	case OBLOCK:
 		return n.List.isterminating()
 
-	case OGOTO,
-		ORETURN,
-		ORETJMP,
-		OPANIC,
-		OXFALL:
+	case OGOTO, ORETURN, ORETJMP, OPANIC, OXFALL:
 		return true
 
 	case OFOR:

@@ -268,33 +268,14 @@ func cgen_discard(nr *Node) {
 		}
 
 		// unary
-	case OADD,
-		OAND,
-		ODIV,
-		OEQ,
-		OGE,
-		OGT,
-		OLE,
-		OLSH,
-		OLT,
-		OMOD,
-		OMUL,
-		ONE,
-		OOR,
-		ORSH,
-		OSUB,
-		OXOR:
+	case OADD, OAND, ODIV, OEQ, OGE, OGT, OLE, OLSH, OLT, OMOD, OMUL,
+		ONE, OOR, ORSH, OSUB, OXOR:
 		cgen_discard(nr.Left)
 
 		cgen_discard(nr.Right)
 
 		// binary
-	case OCAP,
-		OCOM,
-		OLEN,
-		OMINUS,
-		ONOT,
-		OPLUS:
+	case OCAP, OCOM, OLEN, OMINUS, ONOT, OPLUS:
 		cgen_discard(nr.Left)
 
 	case OIND:
@@ -334,14 +315,7 @@ func Clearslim(n *Node) {
 	case TBOOL:
 		z.SetVal(Val{false})
 
-	case TINT8,
-		TINT16,
-		TINT32,
-		TINT64,
-		TUINT8,
-		TUINT16,
-		TUINT32,
-		TUINT64:
+	case TINT8, TINT16, TINT32, TINT64, TUINT8, TUINT16, TUINT32, TUINT64:
 		z.SetVal(Val{new(Mpint)})
 		z.Val().U.(*Mpint).SetInt64(0)
 
@@ -641,13 +615,7 @@ func gen(n *Node) {
 	default:
 		Fatalf("gen: unknown op %v", Nconv(n, FmtShort|FmtSign))
 
-	case OCASE,
-		OFALL,
-		OXCASE,
-		OXFALL,
-		ODCLCONST,
-		ODCLFUNC,
-		ODCLTYPE:
+	case OCASE, OFALL, OXCASE, OXFALL, ODCLCONST, ODCLFUNC, ODCLTYPE:
 		break
 
 	case OEMPTY:
