@@ -5,6 +5,7 @@
 package atomic
 
 import (
+	"internal/nocopy"
 	"unsafe"
 )
 
@@ -12,7 +13,11 @@ import (
 // Values can be created as part of other data structures.
 // The zero value for a Value returns nil from Load.
 // Once Store has been called, a Value must not be copied.
+//
+// A Value must not be copied after first use.
 type Value struct {
+	noCopy nocopy.NoCopy
+
 	v interface{}
 }
 
