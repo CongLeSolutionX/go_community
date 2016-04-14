@@ -490,13 +490,7 @@ func orderstmt(n *Node, order *Order) {
 		ordermapassign(n, order)
 		cleantemp(t, order)
 
-	case OAS2,
-		OCLOSE,
-		OCOPY,
-		OPRINT,
-		OPRINTN,
-		ORECOVER,
-		ORECV:
+	case OAS2, OCLOSE, OCOPY, OPRINT, OPRINTN, ORECOVER, ORECV:
 		t := marktemp(order)
 		n.Left = orderexpr(n.Left, order, nil)
 		n.Right = orderexpr(n.Right, order, nil)
@@ -613,16 +607,8 @@ func orderstmt(n *Node, order *Order) {
 		orderstmtlist(n.List, order)
 
 		// Special: n->left is not an expression; save as is.
-	case OBREAK,
-		OCONTINUE,
-		ODCL,
-		ODCLCONST,
-		ODCLTYPE,
-		OFALL,
-		OXFALL,
-		OGOTO,
-		OLABEL,
-		ORETJMP:
+	case OBREAK, OCONTINUE, ODCL, ODCLCONST, ODCLTYPE, OFALL, OXFALL,
+		OGOTO, OLABEL, ORETJMP:
 		order.out = append(order.out, n)
 
 		// Special: handle call arguments.
@@ -1095,23 +1081,9 @@ func orderexpr(n *Node, order *Order, lhs *Node) *Node {
 		n.Right.Ninit.Set(append(s, n.Right.Ninit.Slice()...))
 		n.Right = orderexprinplace(n.Right, order)
 
-	case OCALLFUNC,
-		OCALLINTER,
-		OCALLMETH,
-		OCAP,
-		OCOMPLEX,
-		OCOPY,
-		OIMAG,
-		OLEN,
-		OMAKECHAN,
-		OMAKEMAP,
-		OMAKESLICE,
-		ONEW,
-		OREAL,
-		ORECOVER,
-		OSTRARRAYBYTE,
-		OSTRARRAYBYTETMP,
-		OSTRARRAYRUNE:
+	case OCALLFUNC, OCALLINTER, OCALLMETH, OCAP, OCOMPLEX, OCOPY, OIMAG,
+		OLEN, OMAKECHAN, OMAKEMAP, OMAKESLICE, ONEW, OREAL,
+		ORECOVER, OSTRARRAYBYTE, OSTRARRAYBYTETMP, OSTRARRAYRUNE:
 		ordercall(n, order)
 		if lhs == nil || lhs.Op != ONAME || instrumenting {
 			n = ordercopyexpr(n, n.Type, order, 0)

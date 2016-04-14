@@ -314,17 +314,9 @@ func cgen_wb(n, res *Node, wb bool) {
 	if Ctxt.Arch.RegSize == 4 && (Is64(n.Type) || Is64(res.Type) || n.Left != nil && Is64(n.Left.Type)) {
 		switch n.Op {
 		// math goes to cgen64.
-		case OMINUS,
-			OCOM,
-			OADD,
-			OSUB,
-			OMUL,
-			OLROT,
-			OLSH,
-			ORSH,
-			OAND,
-			OOR,
-			OXOR:
+		case OMINUS, OCOM, OADD, OSUB, OMUL,
+			OLROT, OLSH, ORSH,
+			OAND, OOR, OXOR:
 			Thearch.Cgen64(n, res)
 			return
 		}
@@ -428,11 +420,7 @@ func cgen_wb(n, res *Node, wb bool) {
 		return
 
 		// symmetric binary
-	case OAND,
-		OOR,
-		OXOR,
-		OADD,
-		OMUL:
+	case OAND, OOR, OXOR, OADD, OMUL:
 		if n.Op == OMUL && Thearch.Cgen_bmul != nil && Thearch.Cgen_bmul(n.Op, nl, nr, res) {
 			break
 		}
@@ -515,10 +503,7 @@ func cgen_wb(n, res *Node, wb bool) {
 			Regfree(&n1)
 		}
 
-	case ODOT,
-		ODOTPTR,
-		OINDEX,
-		OIND,
+	case ODOT, ODOTPTR, OINDEX, OIND,
 		ONAME: // PHEAP or PPARAMREF var
 		var n1 Node
 		Igen(n, &n1, res)
@@ -937,13 +922,7 @@ func Cgenr(n *Node, a *Node, res *Node) {
 	}
 
 	switch n.Op {
-	case ONAME,
-		ODOT,
-		ODOTPTR,
-		OINDEX,
-		OCALLFUNC,
-		OCALLMETH,
-		OCALLINTER:
+	case ONAME, ODOT, ODOTPTR, OINDEX, OCALLFUNC, OCALLMETH, OCALLINTER:
 		var n1 Node
 		Igen(n, &n1, res)
 		Regalloc(a, Types[Tptr], &n1)

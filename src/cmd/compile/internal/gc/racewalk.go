@@ -195,13 +195,7 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 		instrumentnode(&n.Left, init, 0, 0)
 		goto ret
 
-	case ONOT,
-		OMINUS,
-		OPLUS,
-		OREAL,
-		OIMAG,
-		OCOM,
-		OSQRT:
+	case ONOT, OMINUS, OPLUS, OREAL, OIMAG, OCOM, OSQRT:
 		instrumentnode(&n.Left, init, wr, 0)
 		goto ret
 
@@ -238,24 +232,8 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 
 		goto ret
 
-	case OLSH,
-		ORSH,
-		OLROT,
-		OAND,
-		OANDNOT,
-		OOR,
-		OXOR,
-		OSUB,
-		OMUL,
-		OHMUL,
-		OEQ,
-		ONE,
-		OLT,
-		OLE,
-		OGE,
-		OGT,
-		OADD,
-		OCOMPLEX:
+	case OLSH, ORSH, OLROT, OAND, OANDNOT, OOR, OXOR, OSUB, OMUL, OHMUL,
+		OEQ, ONE, OLT, OLE, OGE, OGT, OADD, OCOMPLEX:
 		instrumentnode(&n.Left, init, wr, 0)
 		instrumentnode(&n.Right, init, wr, 0)
 		goto ret
@@ -330,46 +308,20 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 		goto ret
 
 		// should not appear in AST by now
-	case OSEND,
-		ORECV,
-		OCLOSE,
-		ONEW,
-		OXCASE,
-		OXFALL,
-		OCASE,
-		OPANIC,
-		ORECOVER,
-		OCONVIFACE,
-		OCMPIFACE,
-		OMAKECHAN,
-		OMAKEMAP,
-		OMAKESLICE,
-		OCALL,
-		OCOPY,
-		OAPPEND,
-		ORUNESTR,
-		OARRAYBYTESTR,
-		OARRAYRUNESTR,
-		OSTRARRAYBYTE,
-		OSTRARRAYRUNE,
-		OINDEXMAP,
-		// lowered to call
-		OCMPSTR,
-		OADDSTR,
-		ODOTTYPE,
-		ODOTTYPE2,
-		OAS2DOTTYPE,
-		OCALLPART,
-		// lowered to PTRLIT
+	case OSEND, ORECV, OCLOSE, ONEW, OXCASE, OXFALL, OCASE,
+		OPANIC, ORECOVER, OCONVIFACE, OCMPIFACE,
+		OMAKECHAN, OMAKEMAP, OMAKESLICE,
+		OCALL, OCOPY, OAPPEND, ORUNESTR,
+		OARRAYBYTESTR, OARRAYRUNESTR, OSTRARRAYBYTE, OSTRARRAYRUNE,
+		OINDEXMAP, // lowered to call
+		OCMPSTR, OADDSTR, ODOTTYPE, ODOTTYPE2, OAS2DOTTYPE,
+		OCALLPART, // lowered to PTRLIT
 		OCLOSURE,  // lowered to PTRLIT
 		ORANGE,    // lowered to ordinary for loop
 		OARRAYLIT, // lowered to assignments
 		OMAPLIT,
 		OSTRUCTLIT,
-		OAS2,
-		OAS2RECV,
-		OAS2MAPR,
-		OASOP:
+		OAS2, OAS2RECV, OAS2MAPR, OASOP:
 		Yyerror("instrument: %v must be lowered by now", Oconv(n.Op, 0))
 
 		goto ret
@@ -399,16 +351,8 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 		goto ret
 
 		// just do generic traversal
-	case OCALLMETH,
-		ORETURN,
-		ORETJMP,
-		OSELECT,
-		OEMPTY,
-		OBREAK,
-		OCONTINUE,
-		OFALL,
-		OGOTO,
-		OLABEL:
+	case OCALLMETH, ORETURN, ORETJMP, OSELECT, OEMPTY,
+		OBREAK, OCONTINUE, OFALL, OGOTO, OLABEL:
 		goto ret
 
 		// does not require instrumentation

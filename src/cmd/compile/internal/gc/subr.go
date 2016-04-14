@@ -592,12 +592,7 @@ func methtype(t *Type, mustname int) *Type {
 		default:
 			return nil
 
-		case TSTRUCT,
-			TARRAY,
-			TMAP,
-			TCHAN,
-			TSTRING,
-			TFUNC:
+		case TSTRUCT, TARRAY, TMAP, TCHAN, TSTRING, TFUNC:
 			break
 		}
 	}
@@ -842,12 +837,7 @@ func assignop(src *Type, dst *Type, why *string) Op {
 			}
 			fallthrough
 
-		case TPTR32,
-			TPTR64,
-			TFUNC,
-			TMAP,
-			TCHAN,
-			TINTER:
+		case TPTR32, TPTR64, TFUNC, TMAP, TCHAN, TINTER:
 			return OCONVNOP
 		}
 	}
@@ -2209,12 +2199,7 @@ func checknil(x *Node, init *Nodes) {
 // Yes, if the representation is a single pointer.
 func isdirectiface(t *Type) bool {
 	switch t.Etype {
-	case TPTR32,
-		TPTR64,
-		TCHAN,
-		TMAP,
-		TFUNC,
-		TUNSAFEPTR:
+	case TPTR32, TPTR64, TCHAN, TMAP, TFUNC, TUNSAFEPTR:
 		return true
 
 	case TARRAY:

@@ -869,30 +869,13 @@ func onebitwalktype1(t *Type, xoffset *int64, bv Bvec) {
 	}
 
 	switch t.Etype {
-	case TINT8,
-		TUINT8,
-		TINT16,
-		TUINT16,
-		TINT32,
-		TUINT32,
-		TINT64,
-		TUINT64,
-		TINT,
-		TUINT,
-		TUINTPTR,
-		TBOOL,
-		TFLOAT32,
-		TFLOAT64,
-		TCOMPLEX64,
-		TCOMPLEX128:
+	case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64,
+		TINT, TUINT, TUINTPTR, TBOOL,
+		TFLOAT32, TFLOAT64,
+		TCOMPLEX64, TCOMPLEX128:
 		*xoffset += t.Width
 
-	case TPTR32,
-		TPTR64,
-		TUNSAFEPTR,
-		TFUNC,
-		TCHAN,
-		TMAP:
+	case TPTR32, TPTR64, TUNSAFEPTR, TFUNC, TCHAN, TMAP:
 		if *xoffset&int64(Widthptr-1) != 0 {
 			Fatalf("onebitwalktype1: invalid alignment, %v", t)
 		}

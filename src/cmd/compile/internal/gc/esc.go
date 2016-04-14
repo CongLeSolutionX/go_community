@@ -918,14 +918,8 @@ func esc(e *EscState, n *Node, up *Node) {
 		}
 		fallthrough
 
-	case OMAKECHAN,
-		OMAKEMAP,
-		OMAKESLICE,
-		ONEW,
-		OARRAYRUNESTR,
-		OARRAYBYTESTR,
-		OSTRARRAYRUNE,
-		OSTRARRAYBYTE,
+	case OMAKECHAN, OMAKEMAP, OMAKESLICE, ONEW,
+		OARRAYRUNESTR, OARRAYBYTESTR, OSTRARRAYRUNE, OSTRARRAYBYTE,
 		ORUNESTR:
 		e.track(n)
 
@@ -1014,16 +1008,8 @@ func escassign(e *EscState, dst, src *Node, step *EscStep) {
 		Dump("dst", dst)
 		Fatalf("escassign: unexpected dst")
 
-	case OARRAYLIT,
-		OCLOSURE,
-		OCONV,
-		OCONVIFACE,
-		OCONVNOP,
-		OMAPLIT,
-		OSTRUCTLIT,
-		OPTRLIT,
-		ODDDARG,
-		OCALLPART:
+	case OARRAYLIT, OCLOSURE, OCONV, OCONVIFACE, OCONVNOP,
+		OMAPLIT, OSTRUCTLIT, OPTRLIT, ODDDARG, OCALLPART:
 		break
 
 	case ONAME:
@@ -1112,17 +1098,11 @@ func escassign(e *EscState, dst, src *Node, step *EscStep) {
 		fallthrough
 
 		// Conversions, field access, slice all preserve the input value.
-	case OCONV,
-		OCONVNOP,
-		ODOTMETH,
+	case OCONV, OCONVNOP, ODOTMETH,
 		// treat recv.meth as a value with recv in it, only happens in ODEFER and OPROC
 		// iface.method already leaks iface in esccall, no need to put in extra ODOTINTER edge here
 		ODOTTYPE2,
-		OSLICE,
-		OSLICE3,
-		OSLICEARR,
-		OSLICE3ARR,
-		OSLICESTR:
+		OSLICE, OSLICE3, OSLICEARR, OSLICE3ARR, OSLICESTR:
 		// Conversions, field access, slice all preserve the input value.
 		escassign(e, dst, src.Left, e.stepAssign(step, originalDst, src, dstwhy))
 
@@ -1145,23 +1125,11 @@ func escassign(e *EscState, dst, src *Node, step *EscStep) {
 			escflows(e, dst, src, e.stepAssign(step, originalDst, src, dstwhy))
 		}
 
-		// Might be pointer arithmetic, in which case
+	// Might be pointer arithmetic, in which case
 	// the operands flow into the result.
 	// TODO(rsc): Decide what the story is here. This is unsettling.
-	case OADD,
-		OSUB,
-		OOR,
-		OXOR,
-		OMUL,
-		ODIV,
-		OMOD,
-		OLSH,
-		ORSH,
-		OAND,
-		OANDNOT,
-		OPLUS,
-		OMINUS,
-		OCOM:
+	case OADD, OSUB, OOR, OXOR, OMUL, ODIV, OMOD, OLSH, ORSH,
+		OAND, OANDNOT, OPLUS, OMINUS, OCOM:
 		escassign(e, dst, src.Left, e.stepAssign(step, originalDst, src, dstwhy))
 
 		escassign(e, dst, src.Right, e.stepAssign(step, originalDst, src, dstwhy))
@@ -1582,12 +1550,8 @@ func esccall(e *EscState, n *Node, up *Node) {
 				// src->esc == EscNone means that src does not escape the current function.
 				// src->noescape = 1 here means that src does not escape this statement
 				// in the current function.
-				case OCALLPART,
-					OCLOSURE,
-					ODDDARG,
-					OARRAYLIT,
-					OPTRLIT,
-					OSTRUCTLIT:
+				case OCALLPART, OCLOSURE, ODDDARG,
+					OARRAYLIT, OPTRLIT, OSTRUCTLIT:
 					a.Noescape = true
 				}
 			}
@@ -1880,20 +1844,9 @@ func escwalkBody(e *EscState, level Level, dst *Node, src *Node, step *EscStep, 
 
 		fallthrough
 
-	case OMAKECHAN,
-		OMAKEMAP,
-		OMAKESLICE,
-		OARRAYRUNESTR,
-		OARRAYBYTESTR,
-		OSTRARRAYRUNE,
-		OSTRARRAYBYTE,
-		OADDSTR,
-		OMAPLIT,
-		ONEW,
-		OCLOSURE,
-		OCALLPART,
-		ORUNESTR,
-		OCONVIFACE:
+	case OMAKECHAN, OMAKEMAP, OMAKESLICE, OARRAYRUNESTR, OARRAYBYTESTR,
+		OSTRARRAYRUNE, OSTRARRAYBYTE, OADDSTR, OMAPLIT, ONEW,
+		OCLOSURE, OCALLPART, ORUNESTR, OCONVIFACE:
 		if leaks {
 			src.Esc = EscHeap
 			if Debug['m'] != 0 && osrcesc != src.Esc {
@@ -1903,16 +1856,10 @@ func escwalkBody(e *EscState, level Level, dst *Node, src *Node, step *EscStep, 
 			extraloopdepth = modSrcLoopdepth
 		}
 
-	case ODOT,
-		ODOTTYPE:
+	case ODOT, ODOTTYPE:
 		escwalk(e, level, dst, src.Left, e.stepWalk(dst, src.Left, "dot", step))
 
-	case
-		OSLICE,
-		OSLICEARR,
-		OSLICE3,
-		OSLICE3ARR,
-		OSLICESTR:
+	case OSLICE, OSLICEARR, OSLICE3, OSLICE3ARR, OSLICESTR:
 		escwalk(e, level, dst, src.Left, e.stepWalk(dst, src.Left, "slice", step))
 
 	case OINDEX:

@@ -288,13 +288,7 @@ func convlit1(n *Node, t *Type, explicit bool, reuse canReuseNode) *Node {
 				goto bad
 			}
 
-		case TPTR32,
-			TPTR64,
-			TINTER,
-			TMAP,
-			TCHAN,
-			TFUNC,
-			TUNSAFEPTR:
+		case TPTR32, TPTR64, TINTER, TMAP, TCHAN, TFUNC, TUNSAFEPTR:
 			break
 
 			// A nil literal may be converted to uintptr
@@ -575,30 +569,10 @@ func evconst(n *Node) {
 	default:
 		return
 
-	case OADD,
-		OAND,
-		OANDAND,
-		OANDNOT,
-		OARRAYBYTESTR,
-		OCOM,
-		ODIV,
-		OEQ,
-		OGE,
-		OGT,
-		OLE,
-		OLSH,
-		OLT,
-		OMINUS,
-		OMOD,
-		OMUL,
-		ONE,
-		ONOT,
-		OOR,
-		OOROR,
-		OPLUS,
-		ORSH,
-		OSUB,
-		OXOR:
+	case OADD, OAND, OANDAND, OANDNOT, OARRAYBYTESTR, OCOM, ODIV,
+		OEQ, OGE, OGT, OLE, OLSH, OLT,
+		OMINUS, OMOD, OMUL, ONE, ONOT, OOR, OOROR,
+		OPLUS, ORSH, OSUB, OXOR:
 		break
 
 	case OCONV:
@@ -712,16 +686,13 @@ func evconst(n *Node) {
 			}
 			return
 
-		case OCONV_ | CTNIL_,
-			OARRAYBYTESTR_ | CTNIL_:
+		case OCONV_ | CTNIL_, OARRAYBYTESTR_ | CTNIL_:
 			if n.Type.IsString() {
 				v = tostr(v)
 				nl.Type = n.Type
 				break
 			}
 			fallthrough
-
-			// fall through
 		case OCONV_ | CTINT_,
 			OCONV_ | CTRUNE_,
 			OCONV_ | CTFLT_,
@@ -730,16 +701,13 @@ func evconst(n *Node) {
 			nl = convlit1(nl, n.Type, true, false)
 			v = nl.Val()
 
-		case OPLUS_ | CTINT_,
-			OPLUS_ | CTRUNE_:
+		case OPLUS_ | CTINT_, OPLUS_ | CTRUNE_:
 			break
 
-		case OMINUS_ | CTINT_,
-			OMINUS_ | CTRUNE_:
+		case OMINUS_ | CTINT_, OMINUS_ | CTRUNE_:
 			v.U.(*Mpint).Neg()
 
-		case OCOM_ | CTINT_,
-			OCOM_ | CTRUNE_:
+		case OCOM_ | CTINT_, OCOM_ | CTRUNE_:
 			var et EType = Txxx
 			if nl.Type != nil {
 				et = nl.Type.Etype
@@ -754,12 +722,7 @@ func evconst(n *Node) {
 				b.SetInt64(-1)
 
 				// unsigned guys invert their bits
-			case TUINT8,
-				TUINT16,
-				TUINT32,
-				TUINT64,
-				TUINT,
-				TUINTPTR:
+			case TUINT8, TUINT16, TUINT32, TUINT64, TUINT, TUINTPTR:
 				b.Set(Maxintval[et])
 			}
 
@@ -889,20 +852,16 @@ func evconst(n *Node) {
 	default:
 		goto illegal
 
-	case OADD_ | CTINT_,
-		OADD_ | CTRUNE_:
+	case OADD_ | CTINT_, OADD_ | CTRUNE_:
 		v.U.(*Mpint).Add(rv.U.(*Mpint))
 
-	case OSUB_ | CTINT_,
-		OSUB_ | CTRUNE_:
+	case OSUB_ | CTINT_, OSUB_ | CTRUNE_:
 		v.U.(*Mpint).Sub(rv.U.(*Mpint))
 
-	case OMUL_ | CTINT_,
-		OMUL_ | CTRUNE_:
+	case OMUL_ | CTINT_, OMUL_ | CTRUNE_:
 		v.U.(*Mpint).Mul(rv.U.(*Mpint))
 
-	case ODIV_ | CTINT_,
-		ODIV_ | CTRUNE_:
+	case ODIV_ | CTINT_, ODIV_ | CTRUNE_:
 		if rv.U.(*Mpint).CmpInt64(0) == 0 {
 			Yyerror("division by zero")
 			v.U.(*Mpint).SetOverflow()
@@ -911,8 +870,7 @@ func evconst(n *Node) {
 
 		v.U.(*Mpint).Quo(rv.U.(*Mpint))
 
-	case OMOD_ | CTINT_,
-		OMOD_ | CTRUNE_:
+	case OMOD_ | CTINT_, OMOD_ | CTRUNE_:
 		if rv.U.(*Mpint).CmpInt64(0) == 0 {
 			Yyerror("division by zero")
 			v.U.(*Mpint).SetOverflow()
@@ -921,28 +879,22 @@ func evconst(n *Node) {
 
 		v.U.(*Mpint).Rem(rv.U.(*Mpint))
 
-	case OLSH_ | CTINT_,
-		OLSH_ | CTRUNE_:
+	case OLSH_ | CTINT_, OLSH_ | CTRUNE_:
 		v.U.(*Mpint).Lsh(rv.U.(*Mpint))
 
-	case ORSH_ | CTINT_,
-		ORSH_ | CTRUNE_:
+	case ORSH_ | CTINT_, ORSH_ | CTRUNE_:
 		v.U.(*Mpint).Rsh(rv.U.(*Mpint))
 
-	case OOR_ | CTINT_,
-		OOR_ | CTRUNE_:
+	case OOR_ | CTINT_, OOR_ | CTRUNE_:
 		v.U.(*Mpint).Or(rv.U.(*Mpint))
 
-	case OAND_ | CTINT_,
-		OAND_ | CTRUNE_:
+	case OAND_ | CTINT_, OAND_ | CTRUNE_:
 		v.U.(*Mpint).And(rv.U.(*Mpint))
 
-	case OANDNOT_ | CTINT_,
-		OANDNOT_ | CTRUNE_:
+	case OANDNOT_ | CTINT_, OANDNOT_ | CTRUNE_:
 		v.U.(*Mpint).AndNot(rv.U.(*Mpint))
 
-	case OXOR_ | CTINT_,
-		OXOR_ | CTRUNE_:
+	case OXOR_ | CTINT_, OXOR_ | CTRUNE_:
 		v.U.(*Mpint).Xor(rv.U.(*Mpint))
 
 	case OADD_ | CTFLT_:
@@ -963,7 +915,7 @@ func evconst(n *Node) {
 
 		v.U.(*Mpflt).Quo(rv.U.(*Mpflt))
 
-		// The default case above would print 'ideal % ideal',
+	// The default case above would print 'ideal % ideal',
 	// which is not quite an ideal error.
 	case OMOD_ | CTFLT_:
 		if n.Diag == 0 {
@@ -1000,43 +952,37 @@ func evconst(n *Node) {
 	case ONE_ | CTNIL_:
 		goto setfalse
 
-	case OEQ_ | CTINT_,
-		OEQ_ | CTRUNE_:
+	case OEQ_ | CTINT_, OEQ_ | CTRUNE_:
 		if v.U.(*Mpint).Cmp(rv.U.(*Mpint)) == 0 {
 			goto settrue
 		}
 		goto setfalse
 
-	case ONE_ | CTINT_,
-		ONE_ | CTRUNE_:
+	case ONE_ | CTINT_, ONE_ | CTRUNE_:
 		if v.U.(*Mpint).Cmp(rv.U.(*Mpint)) != 0 {
 			goto settrue
 		}
 		goto setfalse
 
-	case OLT_ | CTINT_,
-		OLT_ | CTRUNE_:
+	case OLT_ | CTINT_, OLT_ | CTRUNE_:
 		if v.U.(*Mpint).Cmp(rv.U.(*Mpint)) < 0 {
 			goto settrue
 		}
 		goto setfalse
 
-	case OLE_ | CTINT_,
-		OLE_ | CTRUNE_:
+	case OLE_ | CTINT_, OLE_ | CTRUNE_:
 		if v.U.(*Mpint).Cmp(rv.U.(*Mpint)) <= 0 {
 			goto settrue
 		}
 		goto setfalse
 
-	case OGE_ | CTINT_,
-		OGE_ | CTRUNE_:
+	case OGE_ | CTINT_, OGE_ | CTRUNE_:
 		if v.U.(*Mpint).Cmp(rv.U.(*Mpint)) >= 0 {
 			goto settrue
 		}
 		goto setfalse
 
-	case OGT_ | CTINT_,
-		OGT_ | CTRUNE_:
+	case OGT_ | CTINT_, OGT_ | CTRUNE_:
 		if v.U.(*Mpint).Cmp(rv.U.(*Mpint)) > 0 {
 			goto settrue
 		}
@@ -1254,18 +1200,8 @@ func idealkind(n *Node) Ctype {
 		return n.Val().Ctype()
 
 		// numeric kinds.
-	case OADD,
-		OAND,
-		OANDNOT,
-		OCOM,
-		ODIV,
-		OMINUS,
-		OMOD,
-		OMUL,
-		OSUB,
-		OXOR,
-		OOR,
-		OPLUS:
+	case OADD, OAND, OANDNOT, OCOM, ODIV, OMINUS, OMOD, OMUL,
+		OSUB, OXOR, OOR, OPLUS:
 		k1 := idealkind(n.Left)
 
 		k2 := idealkind(n.Right)
@@ -1284,17 +1220,8 @@ func idealkind(n *Node) Ctype {
 	case OADDSTR:
 		return CTSTR
 
-	case OANDAND,
-		OEQ,
-		OGE,
-		OGT,
-		OLE,
-		OLT,
-		ONE,
-		ONOT,
-		OOROR,
-		OCMPSTR,
-		OCMPIFACE:
+	case OANDAND, OEQ, OGE, OGT, OLE, OLT, ONE,
+		ONOT, OOROR, OCMPSTR, OCMPIFACE:
 		return CTBOOL
 
 		// shifts (beware!).
@@ -1471,14 +1398,7 @@ func strlit(n *Node) string {
 func Smallintconst(n *Node) bool {
 	if n.Op == OLITERAL && Isconst(n, CTINT) && n.Type != nil {
 		switch Simtype[n.Type.Etype] {
-		case TINT8,
-			TUINT8,
-			TINT16,
-			TUINT16,
-			TINT32,
-			TUINT32,
-			TBOOL,
-			TPTR32:
+		case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TBOOL, TPTR32:
 			return true
 
 		case TIDEAL, TINT64, TUINT64, TPTR64:
@@ -1496,15 +1416,7 @@ func nonnegconst(n *Node) int {
 	if n.Op == OLITERAL && n.Type != nil {
 		switch Simtype[n.Type.Etype] {
 		// check negative and 2^31
-		case TINT8,
-			TUINT8,
-			TINT16,
-			TUINT16,
-			TINT32,
-			TUINT32,
-			TINT64,
-			TUINT64,
-			TIDEAL:
+		case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64, TIDEAL:
 			if n.Val().U.(*Mpint).Cmp(Minintval[TUINT32]) < 0 || n.Val().U.(*Mpint).Cmp(Maxintval[TINT32]) > 0 {
 				break
 			}
@@ -1688,34 +1600,10 @@ func isgoconst(n *Node) bool {
 	}
 
 	switch n.Op {
-	case OADD,
-		OADDSTR,
-		OAND,
-		OANDAND,
-		OANDNOT,
-		OCOM,
-		ODIV,
-		OEQ,
-		OGE,
-		OGT,
-		OLE,
-		OLSH,
-		OLT,
-		OMINUS,
-		OMOD,
-		OMUL,
-		ONE,
-		ONOT,
-		OOR,
-		OOROR,
-		OPLUS,
-		ORSH,
-		OSUB,
-		OXOR,
-		OIOTA,
-		OCOMPLEX,
-		OREAL,
-		OIMAG:
+	case OADD, OADDSTR, OAND, OANDAND, OANDNOT, OCOM, ODIV,
+		OEQ, OGE, OGT, OLE, OLSH, OLT, OMINUS, OMOD, OMUL,
+		ONE, ONOT, OOR, OOROR, OPLUS, ORSH, OSUB, OXOR,
+		OIOTA, OCOMPLEX, OREAL, OIMAG:
 		if isgoconst(n.Left) && (n.Right == nil || isgoconst(n.Right)) {
 			return true
 		}
@@ -1783,26 +1671,9 @@ func hascallchan(n *Node) bool {
 		return false
 	}
 	switch n.Op {
-	case OAPPEND,
-		OCALL,
-		OCALLFUNC,
-		OCALLINTER,
-		OCALLMETH,
-		OCAP,
-		OCLOSE,
-		OCOMPLEX,
-		OCOPY,
-		ODELETE,
-		OIMAG,
-		OLEN,
-		OMAKE,
-		ONEW,
-		OPANIC,
-		OPRINT,
-		OPRINTN,
-		OREAL,
-		ORECOVER,
-		ORECV:
+	case OAPPEND, OCALL, OCALLFUNC, OCALLINTER, OCALLMETH, OCAP,
+		OCLOSE, OCOMPLEX, OCOPY, ODELETE, OIMAG, OLEN, OMAKE, ONEW,
+		OPANIC, OPRINT, OPRINTN, OREAL, ORECOVER, ORECV:
 		return true
 	}
 

@@ -47,14 +47,7 @@ var (
 // Is this node a memory operand?
 func Ismem(n *Node) bool {
 	switch n.Op {
-	case OITAB,
-		OSPTR,
-		OLEN,
-		OCAP,
-		OINDREG,
-		ONAME,
-		OPARAM,
-		OCLOSUREVAR:
+	case OITAB, OSPTR, OLEN, OCAP, OINDREG, ONAME, OPARAM, OCLOSUREVAR:
 		return true
 
 	case OADDR:
