@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "083414db_7b90ab6e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-15T23:52:01Z",
+      "side": 1,
+      "message": "I find this confusing.  Above you said what happens if Dial and Dialer are both nil.  What does the default mean here?",
+      "revId": "29a00300eca19837655bb3e40c7534b7c5566cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
