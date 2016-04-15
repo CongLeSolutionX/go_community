@@ -124,6 +124,7 @@ func (s *stackAllocState) init(f *Func, spillLive [][]ID) {
 
 func (s *stackAllocState) stackalloc() {
 	f := s.f
+	fe := f.Config.Frontend()
 
 	// Build map from values to their names, if any.
 	// A value may be associated with more than one name (e.g. after
@@ -147,9 +148,9 @@ func (s *stackAllocState) stackalloc() {
 		if v.Op != OpArg {
 			continue
 		}
-		loc := LocalSlot{v.Aux.(GCNode), v.Type, v.AuxInt}
+		loc := MakeLocalSlot(fe, v.Aux.(GCNode), v.Type, v.AuxInt)
 		if f.pass.debug > stackDebug {
-			fmt.Printf("stackalloc %s to %s\n", v, loc.Name())
+			fmt.Printf("stackalloc %s to %s\n", v, loc.Name(fe))
 		}
 		f.setHome(v, loc)
 	}
@@ -201,18 +202,21 @@ func (s *stackAllocState) stackalloc() {
 			} else {
 				name = names[v.ID]
 			}
-			if name.N != nil && v.Type.Equal(name.Type) {
+			if name.N != nil && v.Type.Equal(name.Type(fe)) {
 				for _, id := range s.interfere[v.ID] {
 					h := f.getHome(id)
-					if h != nil && h.(LocalSlot).N == name.N && h.(LocalSlot).Off == name.Off {
-						// A variable can interfere with itself.
-						// It is rare, but but it can happen.
-						s.nSelfInterfere++
-						goto noname
+					if h != nil {
+						hs := h.(LocalSlot)
+						if hs.N == name.N && hs.Off() == name.Off() {
+							// A variable can interfere with itself.
+							// It is rare, but but it can happen.
+							s.nSelfInterfere++
+							goto noname
+						}
 					}
 				}
 				if f.pass.debug > stackDebug {
-					fmt.Printf("stackalloc %s to %s\n", v, name.Name())
+					fmt.Printf("stackalloc %s to %s\n", v, name.Name(fe))
 				}
 				s.nNamedSlot++
 				f.setHome(v, name)
@@ -243,13 +247,13 @@ func (s *stackAllocState) stackalloc() {
 			// If there is no unused stack slot, allocate a new one.
 			if i == len(locs) {
 				s.nAuto++
-				locs = append(locs, LocalSlot{N: f.Config.fe.Auto(v.Type), Type: v.Type, Off: 0})
+				locs = append(locs, MakeLocalSlot(fe, fe.Auto(v.Type), v.Type, 0))
 				locations[v.Type] = locs
 			}
 			// Use the stack variable at that index for v.
 			loc := locs[i]
 			if f.pass.debug > stackDebug {
-				fmt.Printf("stackalloc %s to %s\n", v, loc.Name())
+				fmt.Printf("stackalloc %s to %s\n", v, loc.Name(fe))
 			}
 			f.setHome(v, loc)
 			slots[v.ID] = i

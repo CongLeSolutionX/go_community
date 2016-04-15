@@ -6,6 +6,8 @@ package ssa
 
 // TODO: use go/types instead?
 
+import "strconv"
+
 // A type interface used to import cmd/internal/gc:Type
 // Type instances are not guaranteed to be canonical.
 type Type interface {
@@ -52,6 +54,49 @@ type CompilerType struct {
 	Flags  bool
 	Void   bool
 	Int128 bool
+}
+
+type TypeIntern struct {
+	table RBTint32
+	types []Type
+	calls int
+}
+
+func NewTypeIntern() *TypeIntern {
+	ti := &TypeIntern{}
+	compare := func(x, y int32) Cmp {
+		return ti.types[x].Compare(ti.types[y])
+	}
+	ti.table = RBTint32{compare: compare}
+	return ti
+}
+
+type InternedType int32
+
+func (x InternedType) String() string {
+	return strconv.Itoa(int(x))
+}
+
+func (ti *TypeIntern) Size() int {
+	return len(ti.types)
+}
+
+func (ti *TypeIntern) Calls() int {
+	return ti.calls
+}
+
+func (ti *TypeIntern) Intern(t Type) InternedType {
+	ti.calls++
+	ti.types = append(ti.types, t)
+	l := len(ti.types) - 1
+	i := ti.table.Find(int32(l))
+	if i != nil {
+		// Was already in table, drop off end of slice.
+		ti.types = ti.types[:l]
+		return i.(InternedType)
+	}
+	ti.table.Insert(int32(l), InternedType(l))
+	return InternedType(l)
 }
 
 func (t *CompilerType) Size() int64            { return t.size } // Size in bytes

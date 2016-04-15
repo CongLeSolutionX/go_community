@@ -24,6 +24,7 @@ var ssaExp ssaExport
 func initssa() *ssa.Config {
 	ssaExp.unimplemented = false
 	ssaExp.mustImplement = true
+	ssaExp.interner = ssa.NewTypeIntern()
 	if ssaConfig == nil {
 		ssaConfig = ssa.NewConfig(Thearch.LinkArch.Name, &ssaExp, Ctxt, Debug['N'] == 0)
 	}
@@ -3865,7 +3866,7 @@ func (s *state) addNamedValue(n *Node, v *ssa.Value) {
 	if n.Class == PAUTO && n.Xoffset != 0 {
 		s.Fatalf("AUTO var with offset %s %d", n, n.Xoffset)
 	}
-	loc := ssa.LocalSlot{N: n, Type: n.Type, Off: 0}
+	loc := ssa.MakeLocalSlot(s.config.Frontend(), n, n.Type, 0)
 	values, ok := s.f.NamedValues[loc]
 	if !ok {
 		s.f.Names = append(s.f.Names, loc)
@@ -4195,11 +4196,13 @@ func SSARegNum(v *ssa.Value) int16 {
 // AutoVar returns a *Node and int64 representing the auto variable and offset within it
 // where v should be spilled.
 func AutoVar(v *ssa.Value) (*Node, int64) {
-	loc := v.Block.Func.RegAlloc[v.ID].(ssa.LocalSlot)
-	if v.Type.Size() > loc.Type.Size() {
-		v.Fatalf("spill/restore type %s doesn't fit in slot type %s", v.Type, loc.Type)
+	f := v.Block.Func
+	loc := f.RegAlloc[v.ID].(ssa.LocalSlot)
+	loctype := loc.Type(f.Config.Frontend())
+	if v.Type.Size() > loctype.Size() {
+		v.Fatalf("spill/restore type %s doesn't fit in slot type %s", v.Type, loctype)
 	}
-	return loc.N.(*Node), loc.Off
+	return loc.N.(*Node), loc.Off()
 }
 
 // fieldIdx finds the index of the field referred to by the ODOT node n.
@@ -4232,6 +4235,7 @@ type ssaExport struct {
 	log           bool
 	unimplemented bool
 	mustImplement bool
+	interner      *ssa.TypeIntern
 }
 
 func (s *ssaExport) TypeBool() ssa.Type    { return Types[TBOOL] }
@@ -4249,6 +4253,9 @@ func (s *ssaExport) TypeInt() ssa.Type     { return Types[TINT] }
 func (s *ssaExport) TypeUintptr() ssa.Type { return Types[TUINTPTR] }
 func (s *ssaExport) TypeString() ssa.Type  { return Types[TSTRING] }
 func (s *ssaExport) TypeBytePtr() ssa.Type { return Ptrto(Types[TUINT8]) }
+
+func (s *ssaExport) Intern(t ssa.Type) ssa.InternedType { return s.interner.Intern(t) }
+func (s *ssaExport) TypeIntern() *ssa.TypeIntern        { return s.interner }
 
 // StringData returns a symbol (a *Sym wrapped in an interface) which
 // is the data component of a global string constant containing s.
@@ -4272,10 +4279,10 @@ func (e *ssaExport) SplitString(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlo
 		// Split this string up into two separate variables.
 		p := e.namedAuto(n.Sym.Name+".ptr", ptrType)
 		l := e.namedAuto(n.Sym.Name+".len", lenType)
-		return ssa.LocalSlot{p, ptrType, 0}, ssa.LocalSlot{l, lenType, 0}
+		return ssa.MakeLocalSlot(e, p, ptrType, 0), ssa.MakeLocalSlot(e, l, lenType, 0)
 	}
 	// Return the two parts of the larger variable.
-	return ssa.LocalSlot{n, ptrType, name.Off}, ssa.LocalSlot{n, lenType, name.Off + int64(Widthptr)}
+	return ssa.MakeLocalSlot(e, n, ptrType, name.Off()), ssa.MakeLocalSlot(e, n, lenType, name.Off()+int64(Widthptr))
 }
 
 func (e *ssaExport) SplitInterface(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
@@ -4289,32 +4296,32 @@ func (e *ssaExport) SplitInterface(name ssa.LocalSlot) (ssa.LocalSlot, ssa.Local
 		}
 		c := e.namedAuto(n.Sym.Name+f, t)
 		d := e.namedAuto(n.Sym.Name+".data", t)
-		return ssa.LocalSlot{c, t, 0}, ssa.LocalSlot{d, t, 0}
+		return ssa.MakeLocalSlot(e, c, t, 0), ssa.MakeLocalSlot(e, d, t, 0)
 	}
 	// Return the two parts of the larger variable.
-	return ssa.LocalSlot{n, t, name.Off}, ssa.LocalSlot{n, t, name.Off + int64(Widthptr)}
+	return ssa.MakeLocalSlot(e, n, t, name.Off()), ssa.MakeLocalSlot(e, n, t, name.Off()+int64(Widthptr))
 }
 
 func (e *ssaExport) SplitSlice(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
-	ptrType := Ptrto(name.Type.ElemType().(*Type))
+	ptrType := Ptrto(name.Type(e).ElemType().(*Type))
 	lenType := Types[TINT]
 	if n.Class == PAUTO && !n.Addrtaken {
 		// Split this slice up into three separate variables.
 		p := e.namedAuto(n.Sym.Name+".ptr", ptrType)
 		l := e.namedAuto(n.Sym.Name+".len", lenType)
 		c := e.namedAuto(n.Sym.Name+".cap", lenType)
-		return ssa.LocalSlot{p, ptrType, 0}, ssa.LocalSlot{l, lenType, 0}, ssa.LocalSlot{c, lenType, 0}
+		return ssa.MakeLocalSlot(e, p, ptrType, 0), ssa.MakeLocalSlot(e, l, lenType, 0), ssa.MakeLocalSlot(e, c, lenType, 0)
 	}
 	// Return the three parts of the larger variable.
-	return ssa.LocalSlot{n, ptrType, name.Off},
-		ssa.LocalSlot{n, lenType, name.Off + int64(Widthptr)},
-		ssa.LocalSlot{n, lenType, name.Off + int64(2*Widthptr)}
+	return ssa.MakeLocalSlot(e, n, ptrType, name.Off()),
+		ssa.MakeLocalSlot(e, n, lenType, name.Off()+int64(Widthptr)),
+		ssa.MakeLocalSlot(e, n, lenType, name.Off()+int64(2*Widthptr))
 }
 
 func (e *ssaExport) SplitComplex(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
-	s := name.Type.Size() / 2
+	s := name.Type(e).Size() / 2
 	var t *Type
 	if s == 8 {
 		t = Types[TFLOAT64]
@@ -4325,24 +4332,24 @@ func (e *ssaExport) SplitComplex(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSl
 		// Split this complex up into two separate variables.
 		c := e.namedAuto(n.Sym.Name+".real", t)
 		d := e.namedAuto(n.Sym.Name+".imag", t)
-		return ssa.LocalSlot{c, t, 0}, ssa.LocalSlot{d, t, 0}
+		return ssa.MakeLocalSlot(e, c, t, 0), ssa.MakeLocalSlot(e, d, t, 0)
 	}
 	// Return the two parts of the larger variable.
-	return ssa.LocalSlot{n, t, name.Off}, ssa.LocalSlot{n, t, name.Off + s}
+	return ssa.MakeLocalSlot(e, n, t, name.Off()), ssa.MakeLocalSlot(e, n, t, name.Off()+s)
 }
 
 func (e *ssaExport) SplitStruct(name ssa.LocalSlot, i int) ssa.LocalSlot {
 	n := name.N.(*Node)
-	st := name.Type
+	st := name.Type(e)
 	ft := st.FieldType(i)
 	if n.Class == PAUTO && !n.Addrtaken {
 		// Note: the _ field may appear several times.  But
 		// have no fear, identically-named but distinct Autos are
 		// ok, albeit maybe confusing for a debugger.
 		x := e.namedAuto(n.Sym.Name+"."+st.FieldName(i), ft)
-		return ssa.LocalSlot{x, ft, 0}
+		return ssa.MakeLocalSlot(e, x, ft, 0)
 	}
-	return ssa.LocalSlot{n, ft, name.Off + st.FieldOff(i)}
+	return ssa.MakeLocalSlot(e, n, ft, name.Off()+st.FieldOff(i))
 }
 
 // namedAuto returns a new AUTO variable with the given name and type.

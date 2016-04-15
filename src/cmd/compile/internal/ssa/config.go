@@ -62,6 +62,8 @@ type TypeSource interface {
 	TypeBytePtr() Type // TODO: use unsafe.Pointer instead?
 
 	CanSSA(t Type) bool
+	Intern(t Type) InternedType
+	TypeIntern() *TypeIntern
 }
 
 type Logger interface {

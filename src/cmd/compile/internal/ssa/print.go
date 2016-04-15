@@ -16,7 +16,7 @@ func printFunc(f *Func) {
 
 func (f *Func) String() string {
 	var buf bytes.Buffer
-	p := stringFuncPrinter{w: &buf}
+	p := stringFuncPrinter{fe: f.Config.Frontend(), w: &buf}
 	fprintFunc(p, f)
 	return buf.String()
 }
@@ -32,7 +32,8 @@ type funcPrinter interface {
 }
 
 type stringFuncPrinter struct {
-	w io.Writer
+	fe Frontend
+	w  io.Writer
 }
 
 func (p stringFuncPrinter) header(f *Func) {
@@ -77,7 +78,7 @@ func (p stringFuncPrinter) startDepCycle() {
 func (p stringFuncPrinter) endDepCycle() {}
 
 func (p stringFuncPrinter) named(n LocalSlot, vals []*Value) {
-	fmt.Fprintf(p.w, "name %s: %v\n", n.Name(), vals)
+	fmt.Fprintf(p.w, "name %s: %v\n", n.Name(p.fe), vals)
 }
 
 func fprintFunc(p funcPrinter, f *Func) {

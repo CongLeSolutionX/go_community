@@ -286,7 +286,8 @@ func (s *regAllocState) freeReg(r register) {
 
 	// Mark r as unused.
 	if s.f.pass.debug > regDebug {
-		fmt.Printf("freeReg %s (dump %s/%s)\n", s.registers[r].Name(), v, s.regs[r].c)
+		fe := s.f.Config.Frontend()
+		fmt.Printf("freeReg %s (dump %s/%s)\n", s.registers[r].Name(fe), v, s.regs[r].c)
 	}
 	s.regs[r] = regState{}
 	s.values[v.ID].regs &^= regMask(1) << r
@@ -316,7 +317,8 @@ func (s *regAllocState) setOrig(c *Value, v *Value) {
 // r must be unused.
 func (s *regAllocState) assignReg(r register, v *Value, c *Value) {
 	if s.f.pass.debug > regDebug {
-		fmt.Printf("assignReg %s %s/%s\n", s.registers[r].Name(), v, c)
+		fe := s.f.Config.Frontend()
+		fmt.Printf("assignReg %s %s/%s\n", s.registers[r].Name(fe), v, c)
 	}
 	if s.regs[r].v != nil {
 		s.f.Fatalf("tried to assign register %d to %s/%s but it is already used by %s", r, v, c, s.regs[r].v)
@@ -459,14 +461,15 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, line
 func (s *regAllocState) init(f *Func) {
 	s.registers = f.Config.registers
 	s.numRegs = register(len(s.registers))
+
 	if s.numRegs > noRegister || s.numRegs > register(unsafe.Sizeof(regMask(0))*8) {
 		panic("too many registers")
 	}
 	for r := register(0); r < s.numRegs; r++ {
-		if s.registers[r].Name() == "SP" {
+		if s.registers[r].Name(nil) == "SP" {
 			s.SPReg = r
 		}
-		if s.registers[r].Name() == "SB" {
+		if s.registers[r].Name(nil) == "SB" {
 			s.SBReg = r
 		}
 	}
@@ -735,9 +738,10 @@ func (s *regAllocState) regalloc(f *Func) {
 			s.setState(s.endRegs[p.ID])
 
 			if s.f.pass.debug > regDebug {
+				fe := s.f.Config.Frontend()
 				fmt.Printf("starting merge block %s with end state of %s:\n", b, p)
 				for _, x := range s.endRegs[p.ID] {
-					fmt.Printf("  %s: orig:%s cache:%s\n", s.registers[x.r].Name(), x.v, x.c)
+					fmt.Printf("  %s: orig:%s cache:%s\n", s.registers[x.r].Name(fe), x.v, x.c)
 				}
 			}
 
@@ -838,9 +842,10 @@ func (s *regAllocState) regalloc(f *Func) {
 			s.startRegs[b.ID] = regList
 
 			if s.f.pass.debug > regDebug {
+				fe := s.f.Config.Frontend()
 				fmt.Printf("after phis\n")
 				for _, x := range s.startRegs[b.ID] {
-					fmt.Printf("  %s: v%d\n", s.registers[x.r].Name(), x.vid)
+					fmt.Printf("  %s: v%d\n", s.registers[x.r].Name(fe), x.vid)
 				}
 			}
 		}
@@ -1397,6 +1402,7 @@ sinking:
 	if f.pass.stats > 0 {
 		f.logStat("spills_info",
 			nSpills, "spills", nSpillsInner, "inner_spills_remaining", nSpillsSunk, "inner_spills_sunk", nSpillsSunkUnused, "inner_spills_unused", nSpillsNotSunkLateUse, "inner_spills_shuffled", nSpillsChanged, "inner_spills_changed")
+		f.logStat("slot_interns", f.Config.fe.TypeIntern().Size(), "intern_size", f.Config.fe.TypeIntern().Calls(), "intern_calls")
 	}
 }
 
@@ -1488,7 +1494,8 @@ type dstRecord struct {
 
 // setup initializes the edge state for shuffling.
 func (e *edgeState) setup(idx int, srcReg []endReg, dstReg []startReg, stacklive []ID) {
-	if e.s.f.pass.debug > regDebug {
+	f := e.s.f
+	if f.pass.debug > regDebug {
 		fmt.Printf("edge %s->%s\n", e.p, e.b)
 	}
 
@@ -1512,7 +1519,7 @@ func (e *edgeState) setup(idx int, srcReg []endReg, dstReg []startReg, stacklive
 	for _, spillID := range stacklive {
 		v := e.s.orig[spillID]
 		spill := e.s.values[v.ID].spill
-		e.set(e.s.f.getHome(spillID), v.ID, spill, false)
+		e.set(f.getHome(spillID), v.ID, spill, false)
 	}
 
 	// Figure out all the destinations we need.
@@ -1525,7 +1532,7 @@ func (e *edgeState) setup(idx int, srcReg []endReg, dstReg []startReg, stacklive
 		if v.Op != OpPhi {
 			break
 		}
-		loc := e.s.f.getHome(v.ID)
+		loc := f.getHome(v.ID)
 		if loc == nil {
 			continue
 		}
@@ -1533,15 +1540,16 @@ func (e *edgeState) setup(idx int, srcReg []endReg, dstReg []startReg, stacklive
 	}
 	e.destinations = dsts
 
-	if e.s.f.pass.debug > regDebug {
+	if f.pass.debug > regDebug {
+		fe := f.Config.Frontend()
 		for _, vid := range e.cachedVals {
 			a := e.cache[vid]
 			for _, c := range a {
-				fmt.Printf("src %s: v%d cache=%s\n", e.s.f.getHome(c.ID).Name(), vid, c)
+				fmt.Printf("src %s: v%d cache=%s\n", f.getHome(c.ID).Name(fe), vid, c)
 			}
 		}
 		for _, d := range e.destinations {
-			fmt.Printf("dst %s: v%d\n", d.loc.Name(), d.vid)
+			fmt.Printf("dst %s: v%d\n", d.loc.Name(fe), d.vid)
 		}
 	}
 }
@@ -1597,7 +1605,7 @@ func (e *edgeState) process() {
 		c := e.contents[loc].c
 		r := e.findRegFor(c.Type)
 		if e.s.f.pass.debug > regDebug {
-			fmt.Printf("breaking cycle with v%d in %s:%s\n", vid, loc.Name(), c)
+			fmt.Printf("breaking cycle with v%d in %s:%s\n", vid, loc.Name(e.s.f.Config.Frontend()), c)
 		}
 		if _, isReg := loc.(*Register); isReg {
 			c = e.p.NewValue1(c.Line, OpCopy, c.Type, c)
@@ -1613,6 +1621,8 @@ func (e *edgeState) process() {
 // if progress was made.
 func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 	occupant := e.contents[loc]
+	f := e.s.f
+	fe := f.Config.Frontend()
 	if occupant.vid == vid {
 		// Value is already in the correct place.
 		e.contents[loc] = contentRecord{vid, occupant.c, true}
@@ -1638,14 +1648,14 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 	v := e.s.orig[vid]
 	var c *Value
 	var src Location
-	if e.s.f.pass.debug > regDebug {
-		fmt.Printf("moving v%d to %s\n", vid, loc.Name())
+	if f.pass.debug > regDebug {
+		fmt.Printf("moving v%d to %s\n", vid, loc.Name(fe))
 		fmt.Printf("sources of v%d:", vid)
 	}
 	for _, w := range e.cache[vid] {
-		h := e.s.f.getHome(w.ID)
-		if e.s.f.pass.debug > regDebug {
-			fmt.Printf(" %s:%s", h.Name(), w)
+		h := f.getHome(w.ID)
+		if f.pass.debug > regDebug {
+			fmt.Printf(" %s:%s", h.Name(fe), w)
 		}
 		_, isreg := h.(*Register)
 		if src == nil || isreg {
@@ -1653,9 +1663,9 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 			src = h
 		}
 	}
-	if e.s.f.pass.debug > regDebug {
+	if f.pass.debug > regDebug {
 		if src != nil {
-			fmt.Printf(" [use %s]\n", src.Name())
+			fmt.Printf(" [use %s]\n", src.Name(fe))
 		} else {
 			fmt.Printf(" [no source]\n")
 		}
@@ -1664,7 +1674,7 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 	var x *Value
 	if c == nil {
 		if !e.s.values[vid].rematerializeable {
-			e.s.f.Fatalf("can't find source for %s->%s: v%d\n", e.p, e.b, vid)
+			f.Fatalf("can't find source for %s->%s: v%d\n", e.p, e.b, vid)
 		}
 		if dstReg {
 			x = v.copyInto(e.p)
@@ -1678,7 +1688,8 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 			// Make sure we spill with the size of the slot, not the
 			// size of x (which might be wider due to our dropping
 			// of narrowing conversions).
-			x = e.p.NewValue1(x.Line, OpStoreReg, loc.(LocalSlot).Type, x)
+			ls := loc.(LocalSlot)
+			x = e.p.NewValue1(x.Line, OpStoreReg, ls.Type(fe), x)
 		}
 	} else {
 		// Emit move from src to dst.
@@ -1687,7 +1698,8 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 			if dstReg {
 				x = e.p.NewValue1(c.Line, OpCopy, c.Type, c)
 			} else {
-				x = e.p.NewValue1(c.Line, OpStoreReg, loc.(LocalSlot).Type, c)
+				ls := loc.(LocalSlot)
+				x = e.p.NewValue1(c.Line, OpStoreReg, ls.Type(fe), c)
 			}
 		} else {
 			if dstReg {
@@ -1712,7 +1724,8 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 				e.s.lateSpillUse(c)
 				t := e.p.NewValue1(c.Line, OpLoadReg, c.Type, c)
 				e.set(r, vid, t, false)
-				x = e.p.NewValue1(c.Line, OpStoreReg, loc.(LocalSlot).Type, t)
+				ls := loc.(LocalSlot)
+				x = e.p.NewValue1(c.Line, OpStoreReg, ls.Type(fe), t)
 			}
 		}
 	}
@@ -1727,7 +1740,8 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value) bool {
 
 // set changes the contents of location loc to hold the given value and its cached representative.
 func (e *edgeState) set(loc Location, vid ID, c *Value, final bool) {
-	e.s.f.setHome(c, loc)
+	f := e.s.f
+	f.setHome(c, loc)
 	e.erase(loc)
 	e.contents[loc] = contentRecord{vid, c, final}
 	a := e.cache[vid]
@@ -1750,9 +1764,10 @@ func (e *edgeState) set(loc Location, vid ID, c *Value, final bool) {
 			}
 		}
 	}
-	if e.s.f.pass.debug > regDebug {
+	if f.pass.debug > regDebug {
+		fe := f.Config.Frontend()
 		fmt.Printf("%s\n", c.LongString())
-		fmt.Printf("v%d now available in %s:%s\n", vid, loc.Name(), c)
+		fmt.Printf("v%d now available in %s:%s\n", vid, loc.Name(fe), c)
 	}
 }
 
@@ -1776,7 +1791,7 @@ func (e *edgeState) erase(loc Location) {
 	for i, c := range a {
 		if e.s.f.getHome(c.ID) == loc {
 			if e.s.f.pass.debug > regDebug {
-				fmt.Printf("v%d no longer available in %s:%s\n", vid, loc.Name(), c)
+				fmt.Printf("v%d no longer available in %s:%s\n", vid, loc.Name(e.s.f.Config.Frontend()), c)
 			}
 			a[i], a = a[len(a)-1], a[:len(a)-1]
 			break
@@ -1800,12 +1815,13 @@ func (e *edgeState) erase(loc Location) {
 
 // findRegFor finds a register we can use to make a temp copy of type typ.
 func (e *edgeState) findRegFor(typ Type) Location {
+	fe := e.s.f.Config.fe
 	// Which registers are possibilities.
 	var m regMask
 	if typ.IsFloat() {
-		m = e.s.compatRegs(e.s.f.Config.fe.TypeFloat64())
+		m = e.s.compatRegs(fe.TypeFloat64())
 	} else {
-		m = e.s.compatRegs(e.s.f.Config.fe.TypeInt64())
+		m = e.s.compatRegs(fe.TypeInt64())
 	}
 
 	// Pick a register. In priority order:
@@ -1829,7 +1845,7 @@ func (e *edgeState) findRegFor(typ Type) Location {
 	// The type of the slot is immaterial - it will not be live across
 	// any safepoint. Just use a type big enough to hold any register.
 	typ = e.s.f.Config.fe.TypeInt64()
-	t := LocalSlot{e.s.f.Config.fe.Auto(typ), typ, 0}
+	t := MakeLocalSlot(fe, fe.Auto(typ), typ, 0)
 	// TODO: reuse these slots.
 
 	// Pick a register to spill.
@@ -1840,7 +1856,7 @@ func (e *edgeState) findRegFor(typ Type) Location {
 				x := e.p.NewValue1(c.Line, OpStoreReg, c.Type, c)
 				e.set(t, vid, x, false)
 				if e.s.f.pass.debug > regDebug {
-					fmt.Printf("  SPILL %s->%s %s\n", r.Name(), t.Name(), x.LongString())
+					fmt.Printf("  SPILL %s->%s %s\n", r.Name(fe), t.Name(fe), x.LongString())
 				}
 				// r will now be overwritten by the caller. At some point
 				// later, the newly saved value will be moved back to its
@@ -1854,7 +1870,7 @@ func (e *edgeState) findRegFor(typ Type) Location {
 	for _, vid := range e.cachedVals {
 		a := e.cache[vid]
 		for _, c := range a {
-			fmt.Printf("v%d: %s %s\n", vid, c, e.s.f.getHome(c.ID).Name())
+			fmt.Printf("v%d: %s %s\n", vid, c, e.s.f.getHome(c.ID).Name(fe))
 		}
 	}
 	e.s.f.Fatalf("can't find empty register on edge %s->%s", e.p, e.b)

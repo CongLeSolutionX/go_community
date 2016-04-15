@@ -137,7 +137,7 @@ func (v *Value) LongString() string {
 	}
 	r := v.Block.Func.RegAlloc
 	if int(v.ID) < len(r) && r[v.ID] != nil {
-		s += " : " + r[v.ID].Name()
+		s += " : " + r[v.ID].Name(v.Block.Func.Config.Frontend())
 	}
 	return s
 }

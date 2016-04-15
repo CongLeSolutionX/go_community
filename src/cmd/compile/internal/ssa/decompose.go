@@ -23,7 +23,7 @@ func decomposeBuiltIn(f *Func) {
 	// lose the name->value correspondence.
 	var newNames []LocalSlot
 	for _, name := range f.Names {
-		t := name.Type
+		t := name.Type(f.Config.Frontend())
 		switch {
 		case t.IsComplex():
 			var elemType Type
@@ -192,7 +192,7 @@ func decomposeUser(f *Func) {
 	var fnames []LocalSlot
 	var newNames []LocalSlot
 	for _, name := range f.Names {
-		t := name.Type
+		t := name.Type(f.Config.Frontend())
 		switch {
 		case t.IsStruct():
 			n := t.NumFields()

@@ -16,13 +16,18 @@ var Deadcode = deadcode
 
 func testConfig(t *testing.T) *Config {
 	testCtxt := &obj.Link{}
-	return NewConfig("amd64", DummyFrontend{t}, testCtxt, true)
+	return NewConfig("amd64", newDummyFrontend(t), testCtxt, true)
 }
 
 // DummyFrontend is a test-only frontend.
 // It assumes 64 bit integers and pointers.
 type DummyFrontend struct {
-	t testing.TB
+	t        testing.TB
+	interner *TypeIntern
+}
+
+func newDummyFrontend(t testing.TB) DummyFrontend {
+	return DummyFrontend{t, NewTypeIntern()}
 }
 
 func (DummyFrontend) StringData(s string) interface{} {
@@ -31,25 +36,31 @@ func (DummyFrontend) StringData(s string) interface{} {
 func (DummyFrontend) Auto(t Type) GCNode {
 	return nil
 }
+func (d DummyFrontend) Intern(t Type) InternedType {
+	return d.interner.Intern(t)
+}
+func (d DummyFrontend) TypeIntern() *TypeIntern {
+	return d.interner
+}
 func (d DummyFrontend) SplitString(s LocalSlot) (LocalSlot, LocalSlot) {
-	return LocalSlot{s.N, d.TypeBytePtr(), s.Off}, LocalSlot{s.N, d.TypeInt(), s.Off + 8}
+	return MakeLocalSlot(d, s.N, d.TypeBytePtr(), s.Off()), MakeLocalSlot(d, s.N, d.TypeInt(), s.Off()+8)
 }
 func (d DummyFrontend) SplitInterface(s LocalSlot) (LocalSlot, LocalSlot) {
-	return LocalSlot{s.N, d.TypeBytePtr(), s.Off}, LocalSlot{s.N, d.TypeBytePtr(), s.Off + 8}
+	return MakeLocalSlot(d, s.N, d.TypeBytePtr(), s.Off()), MakeLocalSlot(d, s.N, d.TypeBytePtr(), s.Off()+8)
 }
 func (d DummyFrontend) SplitSlice(s LocalSlot) (LocalSlot, LocalSlot, LocalSlot) {
-	return LocalSlot{s.N, s.Type.ElemType().PtrTo(), s.Off},
-		LocalSlot{s.N, d.TypeInt(), s.Off + 8},
-		LocalSlot{s.N, d.TypeInt(), s.Off + 16}
+	return MakeLocalSlot(d, s.N, s.Type(d).ElemType().PtrTo(), s.Off()),
+		MakeLocalSlot(d, s.N, d.TypeInt(), s.Off()+8),
+		MakeLocalSlot(d, s.N, d.TypeInt(), s.Off()+16)
 }
 func (d DummyFrontend) SplitComplex(s LocalSlot) (LocalSlot, LocalSlot) {
-	if s.Type.Size() == 16 {
-		return LocalSlot{s.N, d.TypeFloat64(), s.Off}, LocalSlot{s.N, d.TypeFloat64(), s.Off + 8}
+	if s.Type(d).Size() == 16 {
+		return MakeLocalSlot(d, s.N, d.TypeFloat64(), s.Off()), MakeLocalSlot(d, s.N, d.TypeFloat64(), s.Off()+8)
 	}
-	return LocalSlot{s.N, d.TypeFloat32(), s.Off}, LocalSlot{s.N, d.TypeFloat32(), s.Off + 4}
+	return MakeLocalSlot(d, s.N, d.TypeFloat32(), s.Off()), MakeLocalSlot(d, s.N, d.TypeFloat32(), s.Off()+4)
 }
 func (d DummyFrontend) SplitStruct(s LocalSlot, i int) LocalSlot {
-	return LocalSlot{s.N, s.Type.FieldType(i), s.Off + s.Type.FieldOff(i)}
+	return MakeLocalSlot(d, s.N, s.Type(d).FieldType(i), s.Off()+s.Type(d).FieldOff(i))
 }
 func (DummyFrontend) Line(line int32) string {
 	return "unknown.go:0"
