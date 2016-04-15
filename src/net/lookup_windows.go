@@ -5,6 +5,7 @@
 package net
 
 import (
+	"context"
 	"os"
 	"runtime"
 	"syscall"
@@ -51,8 +52,8 @@ func lookupProtocol(name string) (int, error) {
 	return r.proto, r.err
 }
 
-func lookupHost(name string) ([]string, error) {
-	ips, err := LookupIP(name)
+func lookupHost(ctx context.Context, name string) ([]string, error) {
+	ips, err := lookupIP(ctx, name)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,9 @@ func gethostbyname(name string) (addrs []IPAddr, err error) {
 	return addrs, nil
 }
 
-func oldLookupIP(name string) ([]IPAddr, error) {
+func oldLookupIP(ctx context.Context, name string) ([]IPAddr, error) {
+	// TODO(bradfitz,brainman): use ctx?
+
 	// GetHostByName return value is stored in thread local storage.
 	// Start new os thread before the call to prevent races.
 	type result struct {
@@ -106,7 +109,9 @@ func oldLookupIP(name string) ([]IPAddr, error) {
 	return r.addrs, r.err
 }
 
-func newLookupIP(name string) ([]IPAddr, error) {
+func newLookupIP(ctx context.Context, name string) ([]IPAddr, error) {
+	// TODO(bradfitz,brainman): use ctx?
+
 	acquireThread()
 	defer releaseThread()
 	hints := syscall.AddrinfoW{
