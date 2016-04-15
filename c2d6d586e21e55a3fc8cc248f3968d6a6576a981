@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_e1676e20",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T02:32:03Z",
+      "side": 1,
+      "message": "I\u0027d probably change it to\n\n    for i, file :\u003d range pcln.File { ... }\n\nbut will save that for a followup CL.",
+      "parentUuid": "2b39d2b4_217b36c5",
+      "range": {
+        "startLine": 161,
+        "startChar": 1,
+        "endLine": 162,
+        "endChar": 11
+      },
+      "revId": "c2d6d586e21e55a3fc8cc248f3968d6a6576a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_a11ba6ba",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 1
