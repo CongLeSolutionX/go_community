@@ -22,6 +22,47 @@
       "revId": "f0c5b8b9c9c7900033ddb11b584da6198d599454",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_74b9c8ec",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-15T06:36:13Z",
+      "side": 1,
+      "message": "So that if\nc :\u003d color.YCbCr{Y: 0xff, Cb: 0x80, Cr: 0x80}\nthen c.RGBA should return 0xffff values, not 0xff00 values. See also the TestYCbCrGray test.",
+      "parentUuid": "4b31a681_16f79c75",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "f0c5b8b9c9c7900033ddb11b584da6198d599454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_944ea4b4",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-15T06:36:13Z",
+      "side": 1,
+      "message": "Any reason why you swapped the order and compute b before g?",
+      "revId": "f0c5b8b9c9c7900033ddb11b584da6198d599454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
