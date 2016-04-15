@@ -13,17 +13,9 @@ import (
 
 // Declaration stack & operations
 
+// TODO(mdempsky): Remove?
 func dflag() bool {
-	if Debug['d'] == 0 {
-		return false
-	}
-	if Debug['y'] != 0 {
-		return true
-	}
-	if incannedimport != 0 {
-		return false
-	}
-	return true
+	return false
 }
 
 var externdcl []*Node
