@@ -416,7 +416,7 @@ func (b *buf) entry(atab abbrevTable, ubase Offset) *Entry {
 		case formData8:
 			val = int64(b.uint64())
 		case formSdata:
-			val = int64(b.int())
+			val = b.int()
 		case formUdata:
 			val = int64(b.uint())
 

@@ -300,7 +300,7 @@ func readDirectoryHeader(f *File, r io.Reader) error {
 				// They should only be consulted if the sizes read earlier
 				// are maxed out.
 				// See golang.org/issue/13367.
-				eb := readBuf(b[:size])
+				eb := b[:size]
 
 				if needUSize {
 					needUSize = false

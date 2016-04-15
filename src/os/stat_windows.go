@@ -35,7 +35,7 @@ func (file *File) Stat() (FileInfo, error) {
 	}
 
 	var d syscall.ByHandleFileInformation
-	err = syscall.GetFileInformationByHandle(syscall.Handle(file.fd), &d)
+	err = syscall.GetFileInformationByHandle(file.fd, &d)
 	if err != nil {
 		return nil, &PathError{"GetFileInformationByHandle", file.name, err}
 	}
@@ -82,7 +82,7 @@ func Stat(name string) (FileInfo, error) {
 // If there is an error, it will be of type *PathError.
 func Lstat(name string) (FileInfo, error) {
 	if len(name) == 0 {
-		return nil, &PathError{"Lstat", name, syscall.Errno(syscall.ERROR_PATH_NOT_FOUND)}
+		return nil, &PathError{"Lstat", name, syscall.ERROR_PATH_NOT_FOUND}
 	}
 	if name == DevNull {
 		return &devNullStat, nil

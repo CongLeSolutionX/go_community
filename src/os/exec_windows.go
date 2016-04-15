@@ -66,7 +66,7 @@ func (p *Process) signal(sig Signal) error {
 		return terminateProcess(p.Pid, 1)
 	}
 	// TODO(rsc): Handle Interrupt too?
-	return syscall.Errno(syscall.EWINDOWS)
+	return syscall.EWINDOWS
 }
 
 func (p *Process) release() error {
@@ -104,7 +104,7 @@ func init() {
 	defer syscall.LocalFree(syscall.Handle(uintptr(unsafe.Pointer(argv))))
 	Args = make([]string, argc)
 	for i, v := range (*argv)[:argc] {
-		Args[i] = string(syscall.UTF16ToString((*v)[:]))
+		Args[i] = syscall.UTF16ToString((*v)[:])
 	}
 }
 
