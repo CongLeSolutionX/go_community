@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "083414db_52c4b4b3",
+        "filename": "src/net/dial.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T21:45:24Z",
+      "side": 1,
+      "message": "Actually I just deleted the last two sentences. It\u0027s not even true that the context\u0027s error is returned: they\u0027re always wrapped in OpError anyway, and they\u0027re mapped to the nearest semantically identical error. But even that will likely change later. So I\u0027m going to say nothing for now. People won\u0027t use this unless they know what a context is for. We can add more docs later.",
+      "parentUuid": "2b39d2b4_16c84294",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083414db_d27664da",
         "filename": "src/net/fd_unix.go",
         "patchSetId": 2
@@ -77,6 +95,24 @@
       "writtenOn": "2016-04-15T21:10:50Z",
       "side": 1,
       "message": "DELETEME",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_f2b28056",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T21:45:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "083414db_d27664da",
       "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -100,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "083414db_522dd441",
+        "filename": "src/net/hook.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T21:45:24Z",
+      "side": 1,
+      "message": "Because I thought these were terrible.\n\nThey have confused me for as long as I\u0027ve worked in this code and I thought it was time for them to die, and while I was here touching this anyway for context, I cleaned it up.\n\nI could revert, but I\u0027d rather not. I\u0027d rather keep cleaning (in another CL) and making things named \"testHook\" be optional and not be the actual guts of the implementation.",
+      "parentUuid": "083414db_b24bd855",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083414db_f29de032",
         "filename": "src/net/lookup_unix.go",
         "patchSetId": 2
@@ -117,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "083414db_b24518f5",
+        "filename": "src/net/lookup_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T21:45:24Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/issues/15321",
+      "parentUuid": "083414db_f29de032",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083414db_92a45c7b",
         "filename": "src/net/lookup_windows.go",
         "patchSetId": 2
@@ -128,6 +200,41 @@
       "writtenOn": "2016-04-15T21:10:50Z",
       "side": 1,
       "message": "I think we don\u0027t want to release 1.7 without implementing a timeout here.",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_95aa0694",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T21:45:24Z",
+      "side": 1,
+      "message": "I\u0027ve just implemented them in this CL.",
+      "parentUuid": "083414db_92a45c7b",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_75b9daec",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T21:45:24Z",
+      "side": 1,
+      "message": "done",
       "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
