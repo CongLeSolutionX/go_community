@@ -63,6 +63,24 @@
       "revId": "f0c5b8b9c9c7900033ddb11b584da6198d599454",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b79a672_b9393b28",
+        "filename": "src/image/color/ycbcr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-15T06:41:29Z",
+      "side": 1,
+      "message": "no, that was not intentional. i will send a CL to bring them into the correct order again.",
+      "parentUuid": "081fb456_944ea4b4",
+      "revId": "f0c5b8b9c9c7900033ddb11b584da6198d599454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
