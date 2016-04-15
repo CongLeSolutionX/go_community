@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b39d2b4_dcb17905",
+        "filename": "src/debug/pe/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:13:10Z",
+      "side": 0,
+      "message": "don\u0027t move stuff around in this CL. minimize diff size for now. rearrange later?",
+      "revId": "77d374940e87935a2cc46a60591ec8213003e99a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
