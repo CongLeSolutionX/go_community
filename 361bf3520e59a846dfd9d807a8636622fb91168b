@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "cb4af641_35ea9a91",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-04-15T07:54:17Z",
+      "side": 1,
+      "message": "It is not always a win. The goal of using an offset is to avoid zeroing the hash table between blocks. This will be a win if there is several block being compressed, but gives a small calculation overhead if only one block is compressed at a time, because we zero the block when creating a newEncState.\n\nThat said, we need to keep track of our offset, if we are to make matches between blocks, so for this variation it is needed.\n\nThe \"level 1\" I have taken out didn\u0027t match between blocks, but it compresses about 1% worse if payload is \u003e1 block, and speed is close to equivalent.",
+      "parentUuid": "8b3abef4_e6973afe",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b3abef4_668ccafa",
         "filename": "src/compress/flate/deflatefast.go",
         "patchSetId": 6
@@ -87,6 +105,30 @@
       "writtenOn": "2016-04-12T02:34:05Z",
       "side": 1,
       "message": "Oh, it should go without saying, but we have miscommunicated in the past... when I referred to https://github.com/golang/snappy/commit/8939696c2214cde5dda896a76f5bf56e80a16855, be aware that there have been other optimizations committed since that original commit, so please base on the latest master, not that particular snapshot.",
+      "parentUuid": "8b3abef4_668ccafa",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4af641_b504ca3b",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-04-15T07:54:17Z",
+      "side": 1,
+      "message": "That looks very good. \n\nHowever, that has diverged quite a bit, and does matching across blocks, so I am not sure how changes will translate. \n\nI am using a fixed size table (using 16 instead of up to 14 bits, since it is faster an gives better compression), since the table size has to remain constant across blocks. I will see if there are other things that can be carried over, but I think the main improvements are already present.",
       "parentUuid": "8b3abef4_668ccafa",
       "range": {
         "startLine": 46,
