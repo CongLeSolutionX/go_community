@@ -120,9 +120,6 @@ const debugFormat = false // default: false
 // TODO(gri) determine what to do here.
 const posInfoFormat = false
 
-// TODO(gri) remove eventually
-const forceNewExport = false // force new export format - DO NOT SUBMIT with this flag set
-
 // forceObjFileStability enforces additional constraints in export data
 // and other parts of the compiler to eliminate object file differences
 // only due to the choice of export format.
