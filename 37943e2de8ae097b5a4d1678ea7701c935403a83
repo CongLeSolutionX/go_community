@@ -16,6 +16,24 @@
       "revId": "37943e2de8ae097b5a4d1678ea7701c935403a83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_3517d28f",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T21:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "083414db_95dc462c",
+      "revId": "37943e2de8ae097b5a4d1678ea7701c935403a83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
