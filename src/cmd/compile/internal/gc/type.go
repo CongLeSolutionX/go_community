@@ -230,6 +230,12 @@ type StructType struct {
 	Haspointers uint8 // 0 unknown, 1 no, 2 yes
 }
 
+const (
+	hasPtrsUnknown = iota
+	hasPtrsNo
+	hasPtrsYes
+)
+
 // StructType returns t's extra struct-specific fields.
 func (t *Type) StructType() *StructType {
 	t.wantEtype(TSTRUCT)
@@ -670,12 +676,6 @@ func (t *Type) wantEtype(et EType) {
 	}
 }
 
-func (t *Type) wantEtype2(et1, et2 EType) {
-	if t.Etype != et1 && t.Etype != et2 {
-		Fatalf("want %v or %v, but have %v", et1, et2, t)
-	}
-}
-
 func (t *Type) RecvsP() **Type {
 	t.wantEtype(TFUNC)
 	return &t.Extra.(*FuncType).Receiver
@@ -976,9 +976,7 @@ func (t *Type) cmp(x *Type) ssa.Cmp {
 	}
 	// both syms nil, look at structure below.
 
-	switch t.Etype {
-	case TBOOL, TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TUNSAFEPTR, TUINTPTR,
-		TINT8, TINT16, TINT32, TINT64, TINT, TUINT8, TUINT16, TUINT32, TUINT64, TUINT:
+	if t.IsInteger() || t.IsBoolean() || t.IsFloat() || t.IsComplex() {
 		return ssa.CMPeq
 	}
 
@@ -1089,11 +1087,7 @@ func (t *Type) IsBoolean() bool {
 }
 
 func (t *Type) IsInteger() bool {
-	switch t.Etype {
-	case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64, TINT, TUINT, TUINTPTR:
-		return true
-	}
-	return false
+	return t.Etype >= TINT8 && t.Etype <= TUINTPTR
 }
 
 func (t *Type) IsSigned() bool {

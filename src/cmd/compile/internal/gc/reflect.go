@@ -698,47 +698,37 @@ var kinds = []int{
 }
 
 func haspointers(t *Type) bool {
-	switch t.Etype {
-	case TINT, TUINT, TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64,
-		TUINT64, TUINTPTR, TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TBOOL:
+	switch {
+	case t.IsBoolean(), t.IsInteger(), t.IsFloat(), t.IsComplex():
 		return false
 
-	case TARRAY:
-		if t.IsSlice() {
-			return true
-		}
-
+	case t.IsArray():
 		at := t.Extra.(*ArrayType)
-		if at.Haspointers != 0 {
-			return at.Haspointers-1 != 0
-		}
-
-		ret := false
-		if t.NumElem() != 0 { // non-empty array
-			ret = haspointers(t.Elem())
-		}
-
-		at.Haspointers = 1 + uint8(obj.Bool2int(ret))
-		return ret
-
-	case TSTRUCT:
-		st := t.StructType()
-		if st.Haspointers != 0 {
-			return st.Haspointers-1 != 0
-		}
-
-		ret := false
-		for _, t1 := range t.Fields().Slice() {
-			if haspointers(t1.Type) {
-				ret = true
-				break
+		if at.Haspointers == hasPtrsUnknown {
+			if t.NumElem() != 0 && haspointers(t.Elem()) {
+				at.Haspointers = hasPtrsYes
+			} else {
+				at.Haspointers = hasPtrsNo
 			}
 		}
-		st.Haspointers = 1 + uint8(obj.Bool2int(ret))
-		return ret
-	}
+		return at.Haspointers == hasPtrsYes
 
-	return true
+	case t.IsStruct():
+		st := t.StructType()
+		if st.Haspointers == hasPtrsUnknown {
+			st.Haspointers = hasPtrsNo
+			for _, t1 := range t.Fields().Slice() {
+				if haspointers(t1.Type) {
+					st.Haspointers = hasPtrsYes
+					return true
+				}
+			}
+		}
+		return st.Haspointers == hasPtrsYes
+
+	default:
+		return true
+	}
 }
 
 // typeptrdata returns the length in bytes of the prefix of t
