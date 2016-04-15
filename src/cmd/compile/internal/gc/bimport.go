@@ -308,7 +308,11 @@ func (p *importer) pos() {
 	}
 	p.prevLine = line
 
-	// TODO(gri) register new position
+	// use a new virtual line number for each position
+	// and update line history table
+	lexlineno++
+	lineno = lexlineno // use this lineno for new nodes
+	linehistupdate(file, line)
 }
 
 func (p *importer) newtyp(etype EType) *Type {

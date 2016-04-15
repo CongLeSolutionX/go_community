@@ -822,7 +822,11 @@ func importfile(f *Val, indent []byte) {
 			fmt.Printf("importing %s (%s)\n", path_, file)
 		}
 		imp.ReadByte() // skip \n after $$B
+
+		// push a virtual file so we can give line numbers to imported objects
+		linehistpush(file)
 		Import(imp)
+		linehistpop()
 
 	default:
 		Yyerror("no import in %q", path_)
