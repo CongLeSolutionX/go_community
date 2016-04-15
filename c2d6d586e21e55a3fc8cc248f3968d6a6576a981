@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b39d2b4_61537e5d",
+        "filename": "src/cmd/internal/obj/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T02:21:37Z",
+      "side": 1,
+      "message": "Maybe worth reverting?  (Though case 1 is already different.)",
+      "revId": "c2d6d586e21e55a3fc8cc248f3968d6a6576a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_a11ba6ba",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T02:21:37Z",
+      "side": 1,
+      "message": "Maybe worth reverting?  (Though case 1 is already different.)",
+      "revId": "c2d6d586e21e55a3fc8cc248f3968d6a6576a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_c120b2e5",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T02:21:37Z",
+      "side": 1,
+      "message": "Can be simplified further.  Followup CL.",
+      "revId": "c2d6d586e21e55a3fc8cc248f3968d6a6576a981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
