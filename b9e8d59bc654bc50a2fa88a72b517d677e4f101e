@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b39d2b4_e13e8e0c",
+        "filename": "src/net/dial.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-04-15T03:10:42Z",
+      "side": 1,
+      "message": "I have a question, it\u0027s not related net.DialContext directly, though.\n\nMy concern with DialContext is how we should represent a customer transport stack using context.Context. I can imagine a few typical examples like the following:\n \n 1. HTTP over TLS over TCP for DANE host\n 1.1. control plane for host/service/auth discovery\n   - DNS over TLS over TCP or DNS over UDP\n 1.2. forwarding plane\n  - HTTP/[12] over TLS over TCP\n \n 2. WebSocket over (HTTP/1 over) TLS over TCP for DANE host\n 2.1. control plane for host/service/auth discovery\n  - DNS over TLS over TCP or DNS over UDP\n  - WebSocket over HTTP/1 over TLS over TCP // first-half of forwarding plane setup\n 2.2. forwarding plane\n  - WebSocket over TLS over TCP\n \nWhat\u0027s your plan on above examples?\n\nJust adding a few fields to http.Transport to make http.Transport as a central control entity?\n \n client :\u003d http.Client{Transport: \u0026http.Transport{\n        DialContext: // new field for net.DialContext\n        DialTLSContext: // new field for tls.\u003cnew context-aware function\u003e\n }}",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
