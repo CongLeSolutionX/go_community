@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "081fb456_54afec5b",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T07:08:25Z",
+      "side": 1,
+      "message": "Ack; later.",
+      "parentUuid": "2b39d2b4_41c5a279",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_81bf8aeb",
         "filename": "src/archive/zip/reader.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-15T05:06:07Z",
       "side": 1,
       "message": "I thought this was more clear. Otherwise chasing down the type by hand from line 310 backwards is more annoying.",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_34b470ac",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T07:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b39d2b4_81bf8aeb",
       "revId": "9f35e1a083d47e6d6046808039507e334df76847",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -106,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "081fb456_14b974a2",
+        "filename": "src/debug/dwarf/entry.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T07:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b39d2b4_619d3e90",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_819a2a97",
         "filename": "src/os/exec_windows.go",
         "patchSetId": 1
@@ -123,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "081fb456_b4a7607f",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T07:08:25Z",
+      "side": 1,
+      "message": "Done, though this way seems consistent with the \"return syscall.EINVAL\" statements on lines 60 and 75.",
+      "parentUuid": "2b39d2b4_819a2a97",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_a1856639",
         "filename": "src/os/stat_windows.go",
         "patchSetId": 1
@@ -134,6 +206,24 @@
       "writtenOn": "2016-04-15T05:06:07Z",
       "side": 1,
       "message": "maybe this one too",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_74d308dc",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T07:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b39d2b4_a1856639",
       "revId": "9f35e1a083d47e6d6046808039507e334df76847",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -221,6 +311,24 @@
       "writtenOn": "2016-04-15T05:06:07Z",
       "side": 1,
       "message": "maybe put the parens back at least?",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_54d80cf4",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-15T07:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b39d2b4_9c90d16f",
       "revId": "9f35e1a083d47e6d6046808039507e334df76847",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
