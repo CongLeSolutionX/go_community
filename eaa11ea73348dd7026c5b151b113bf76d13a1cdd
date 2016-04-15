@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "083414db_35cd9236",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-04-15T22:10:03Z",
+      "side": 1,
+      "message": "Please remove this extra comment line.",
+      "revId": "eaa11ea73348dd7026c5b151b113bf76d13a1cdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_3586b2dc",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-04-15T22:10:03Z",
+      "side": 1,
+      "message": "Would it be helpful for us to provide a link to CL 21881?",
+      "revId": "eaa11ea73348dd7026c5b151b113bf76d13a1cdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
