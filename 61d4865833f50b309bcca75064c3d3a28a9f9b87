@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "083414db_95f20683",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcb66e2_75a35223",
+      "range": {
+        "startLine": 100,
+        "startChar": 47,
+        "endLine": 100,
+        "endChar": 53
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcb66e2_158e5ef0",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "083414db_9559e664",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:01:54Z",
+      "side": 1,
+      "message": "I went with \"as the null JSON value\" to be minimally disruptive to the flow.",
+      "parentUuid": "4bcb66e2_f58e22b2",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcb66e2_f55d8225",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 1
@@ -83,6 +131,30 @@
       "writtenOn": "2016-04-13T22:54:32Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 124,
+        "startChar": 32,
+        "endLine": 124,
+        "endChar": 48
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_75d8ba0d",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcb66e2_f55d8225",
       "range": {
         "startLine": 124,
         "startChar": 32,
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "083414db_55ddbefb",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcb66e2_d56206e1",
+      "range": {
+        "startLine": 127,
+        "startChar": 40,
+        "endLine": 127,
+        "endChar": 56
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bcb66e2_15965ec5",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 1
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "083414db_15e736cc",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bcb66e2_15965ec5",
+      "range": {
+        "startLine": 195,
+        "startChar": 45,
+        "endLine": 195,
+        "endChar": 51
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_2d116d75",
         "filename": "src/encoding/json/stream.go",
         "patchSetId": 1
@@ -152,6 +272,30 @@
       "writtenOn": "2016-04-13T22:54:32Z",
       "side": 1,
       "message": "here?",
+      "range": {
+        "startLine": 221,
+        "startChar": 50,
+        "endLine": 221,
+        "endChar": 56
+      },
+      "revId": "61d4865833f50b309bcca75064c3d3a28a9f9b87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_d5e88e98",
+        "filename": "src/encoding/json/stream.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b39d2b4_2d116d75",
       "range": {
         "startLine": 221,
         "startChar": 50,
