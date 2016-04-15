@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "2b39d2b4_41c5a279",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "now or later: nanoBuf (killing underscores)",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_81bf8aeb",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "I thought this was more clear. Otherwise chasing down the type by hand from line 310 backwards is more annoying.",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_61f8de8d",
         "filename": "src/debug/dwarf/buf.go",
         "patchSetId": 1
@@ -13,6 +47,24 @@
       "writtenOn": "2016-04-15T02:17:40Z",
       "side": 1,
       "message": "Maybe worth reverting?",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_41904279",
+        "filename": "src/debug/dwarf/buf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "It\u0027s fine like this. Or reverted. It\u0027s small and easy to read either way.",
+      "parentUuid": "2b39d2b4_61f8de8d",
       "revId": "9f35e1a083d47e6d6046808039507e334df76847",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -36,6 +88,58 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_619d3e90",
+        "filename": "src/debug/dwarf/entry.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "This one is worth reverting, since it\u0027s not obvious an int means an int64.",
+      "parentUuid": "2b39d2b4_81f5ca94",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_819a2a97",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "I\u0027d revert this one.",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_a1856639",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "maybe this one too",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_01447a97",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -53,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_c18a7248",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "It\u0027s fine. It\u0027s very clear after your change, maybe even more so.",
+      "parentUuid": "2b39d2b4_01447a97",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_214976b1",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -64,6 +186,41 @@
       "writtenOn": "2016-04-15T02:17:40Z",
       "side": 1,
       "message": "Maybe worth reverting?",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_e17f6ee7",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "naah",
+      "parentUuid": "2b39d2b4_214976b1",
+      "revId": "9f35e1a083d47e6d6046808039507e334df76847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_9c90d16f",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T05:06:07Z",
+      "side": 1,
+      "message": "maybe put the parens back at least?",
       "revId": "9f35e1a083d47e6d6046808039507e334df76847",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
