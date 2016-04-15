@@ -47,7 +47,10 @@ func main() {
 
 // Compile .go file, import data from .o file, and write Go string version.
 func mkbuiltin(w io.Writer, name string) {
-	args := []string{"tool", "compile", "-A"}
+	// We cannot use the binary export format yet because the compiler
+	// relies on a 1.4 compiler for bootstrapping itself. See #15322.
+	// TODO(gri) eliminate this requirement.
+	args := []string{"tool", "compile", "-A", "-newexport=false"}
 	if name == "runtime" {
 		args = append(args, "-u")
 	}
