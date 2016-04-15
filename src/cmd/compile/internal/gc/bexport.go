@@ -112,9 +112,6 @@ import (
 // (suspected) format errors, and whenever a change is made to the format.
 const debugFormat = false // default: false
 
-// TODO(gri) remove eventually
-const forceNewExport = false // force new export format - DO NOT SUBMIT with this flag set
-
 const exportVersion = "v0"
 
 // exportInlined enables the export of inlined function bodies and related
