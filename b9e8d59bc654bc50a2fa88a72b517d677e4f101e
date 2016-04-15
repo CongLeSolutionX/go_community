@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "88400444_90f57496",
+        "filename": "src/net/hook.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-04-15T21:51:27Z",
+      "side": 1,
+      "message": "testHookDialTCP was introduced by Mr. Fitzpatrick a few years ago. I think it\u0027s up to him.",
+      "parentUuid": "083414db_522dd441",
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083414db_f29de032",
         "filename": "src/net/lookup_unix.go",
         "patchSetId": 2
