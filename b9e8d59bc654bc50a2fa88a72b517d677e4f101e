@@ -22,6 +22,30 @@
       "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_4113e2ed",
+        "filename": "src/net/dial.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T04:50:15Z",
+      "side": 1,
+      "message": "The plan is to add net/http.Transport.Dialer (a *net.Dialer) which takes precedence over Transport.Dial. The *http.Request\u0027s Context is then passed down the chain.",
+      "parentUuid": "2b39d2b4_e13e8e0c",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "b9e8d59bc654bc50a2fa88a72b517d677e4f101e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
