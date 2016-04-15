@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "083414db_b5fd0216",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:15:06Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "083414db_35cd9236",
+      "revId": "eaa11ea73348dd7026c5b151b113bf76d13a1cdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "083414db_3586b2dc",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-15T22:10:03Z",
       "side": 1,
       "message": "Would it be helpful for us to provide a link to CL 21881?",
+      "revId": "eaa11ea73348dd7026c5b151b113bf76d13a1cdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_550ede1c",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-15T22:15:06Z",
+      "side": 1,
+      "message": "No. We don\u0027t link to bugs or CLs from docs.",
+      "parentUuid": "083414db_3586b2dc",
       "revId": "eaa11ea73348dd7026c5b151b113bf76d13a1cdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
