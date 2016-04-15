@@ -116,9 +116,6 @@ const debugFormat = false // default: false
 // for each exported object, including methods and struct fields.
 const posInfoFormat = true // default: true
 
-// TODO(gri) remove eventually
-const forceNewExport = false // force new export format - do NOT submit with this flag set
-
 // forceObjFileStability enforces additional constraints in export data
 // and other parts of the compiler to eliminate object file differences
 // only due to the choice of export format.
