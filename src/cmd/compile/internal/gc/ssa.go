@@ -121,7 +121,7 @@ func buildssa(fn *Node) *ssa.Func {
 	s.exitCode = fn.Func.Exit
 	s.panics = map[funcLine]*ssa.Block{}
 
-	if name == os.Getenv("GOSSAFUNC") {
+	if printssa {
 		// TODO: tempfile? it is handy to have the location
 		// of this file be stable, so you can just reload in the browser.
 		s.config.HTML = ssa.NewHTMLWriter("ssa.html", s.config, name)
@@ -519,14 +519,7 @@ func (s *state) stmts(a Nodes) {
 	}
 }
 
-// ssaStmtList converts the statement n to SSA and adds it to s.
-func (s *state) stmtList(l Nodes) {
-	for _, n := range l.Slice() {
-		s.stmt(n)
-	}
-}
-
-// ssaStmt converts the statement n to SSA and adds it to s.
+// stmt converts the statement n to SSA and adds it to s.
 func (s *state) stmt(n *Node) {
 	s.pushLine(n.Lineno)
 	defer s.popLine()
@@ -541,11 +534,11 @@ func (s *state) stmt(n *Node) {
 		s.startBlock(dead)
 	}
 
-	s.stmtList(n.Ninit)
+	s.stmts(n.Ninit)
 	switch n.Op {
 
 	case OBLOCK:
-		s.stmtList(n.List)
+		s.stmts(n.List)
 
 	// No-ops
 	case OEMPTY, ODCLCONST, ODCLTYPE, OFALL:
@@ -573,7 +566,6 @@ func (s *state) stmt(n *Node) {
 		res, resok := s.dottype(n.Rlist.First(), true)
 		s.assign(n.List.First(), res, needwritebarrier(n.List.First(), n.Rlist.First()), false, n.Lineno, 0)
 		s.assign(n.List.Second(), resok, false, false, n.Lineno, 0)
-		return
 
 	case ODCL:
 		if n.Left.Class&PHEAP == 0 {
@@ -637,9 +629,8 @@ func (s *state) stmt(n *Node) {
 		if lab.target == nil {
 			lab.target = s.f.NewBlock(ssa.BlockPlain)
 		}
-		if !lab.used() {
-			lab.useNode = n
-		}
+		//overwrite of lab.useNode does no harm
+		lab.useNode = n
 
 		if lab.defined() {
 			s.checkgoto(n, lab.defNode)
@@ -774,12 +765,17 @@ func (s *state) stmt(n *Node) {
 	case OIF:
 		bThen := s.f.NewBlock(ssa.BlockPlain)
 		bEnd := s.f.NewBlock(ssa.BlockPlain)
-		var bElse *ssa.Block
-		if n.Rlist.Len() != 0 {
-			bElse = s.f.NewBlock(ssa.BlockPlain)
-			s.condBranch(n.Left, bThen, bElse, n.Likely)
-		} else {
+		if n.Rlist.Len() == 0 {
 			s.condBranch(n.Left, bThen, bEnd, n.Likely)
+		} else {
+			bElse := s.f.NewBlock(ssa.BlockPlain)
+			s.condBranch(n.Left, bThen, bElse, n.Likely)
+
+			s.startBlock(bElse)
+			s.stmts(n.Rlist)
+			if b := s.endBlock(); b != nil {
+				b.AddEdgeTo(bEnd)
+			}
 		}
 
 		s.startBlock(bThen)
@@ -788,50 +784,39 @@ func (s *state) stmt(n *Node) {
 			b.AddEdgeTo(bEnd)
 		}
 
-		if n.Rlist.Len() != 0 {
-			s.startBlock(bElse)
-			s.stmtList(n.Rlist)
-			if b := s.endBlock(); b != nil {
-				b.AddEdgeTo(bEnd)
-			}
-		}
 		s.startBlock(bEnd)
 
 	case ORETURN:
-		s.stmtList(n.List)
+		s.stmts(n.List)
 		s.exit()
 	case ORETJMP:
-		s.stmtList(n.List)
+		s.stmts(n.List)
 		b := s.exit()
 		b.Kind = ssa.BlockRetJmp // override BlockRet
 		b.Aux = n.Left.Sym
 
 	case OCONTINUE, OBREAK:
-		var op string
 		var to *ssa.Block
-		switch n.Op {
-		case OCONTINUE:
-			op = "continue"
-			to = s.continueTo
-		case OBREAK:
-			op = "break"
-			to = s.breakTo
-		}
 		if n.Left == nil {
 			// plain break/continue
+			switch n.Op {
+			case OCONTINUE:
+				to = s.continueTo
+			case OBREAK:
+				to = s.breakTo
+			}
 			if to == nil {
+				op := strings.ToLower(opnames[n.Op])
 				s.Error("%s is not in a loop", op)
 				return
 			}
-			// nothing to do; "to" is already the correct target
 		} else {
 			// labeled break/continue; look up the target
 			sym := n.Left.Sym
 			lab := s.label(sym)
-			if !lab.used() {
-				lab.useNode = n.Left
-			}
+			lab.useNode = n.Left
 			if !lab.defined() {
+				op := strings.ToLower(opnames[n.Op])
 				s.Error("%s label not defined: %v", op, sym)
 				lab.reported = true
 				return
@@ -849,6 +834,7 @@ func (s *state) stmt(n *Node) {
 				// }
 				// abc:
 				// for {}
+				op := strings.ToLower(opnames[n.Op])
 				s.Error("invalid %s label %v", op, sym)
 				lab.reported = true
 				return
@@ -884,8 +870,7 @@ func (s *state) stmt(n *Node) {
 		prevBreak := s.breakTo
 		s.continueTo = bIncr
 		s.breakTo = bEnd
-		lab := s.labeledNodes[n]
-		if lab != nil {
+		if lab := s.labeledNodes[n]; lab != nil {
 			// labeled for loop
 			lab.continueTarget = bIncr
 			lab.breakTarget = bEnd
@@ -898,10 +883,6 @@ func (s *state) stmt(n *Node) {
 		// tear down continue/break
 		s.continueTo = prevContinue
 		s.breakTo = prevBreak
-		if lab != nil {
-			lab.continueTarget = nil
-			lab.breakTarget = nil
-		}
 
 		// done with body, goto incr
 		if b := s.endBlock(); b != nil {
@@ -925,8 +906,7 @@ func (s *state) stmt(n *Node) {
 
 		prevBreak := s.breakTo
 		s.breakTo = bEnd
-		lab := s.labeledNodes[n]
-		if lab != nil {
+		if lab := s.labeledNodes[n]; lab != nil {
 			// labeled
 			lab.breakTarget = bEnd
 		}
@@ -934,10 +914,8 @@ func (s *state) stmt(n *Node) {
 		// generate body code
 		s.stmts(n.Nbody)
 
+		// tear down break
 		s.breakTo = prevBreak
-		if lab != nil {
-			lab.breakTarget = nil
-		}
 
 		// OSWITCH never falls through (s.curBlock == nil here).
 		// OSELECT does not fall through if we're calling selectgo.
@@ -1011,213 +989,213 @@ type opAndType struct {
 }
 
 var opToSSA = map[opAndType]ssa.Op{
-	opAndType{OADD, TINT8}:    ssa.OpAdd8,
-	opAndType{OADD, TUINT8}:   ssa.OpAdd8,
-	opAndType{OADD, TINT16}:   ssa.OpAdd16,
-	opAndType{OADD, TUINT16}:  ssa.OpAdd16,
-	opAndType{OADD, TINT32}:   ssa.OpAdd32,
-	opAndType{OADD, TUINT32}:  ssa.OpAdd32,
-	opAndType{OADD, TPTR32}:   ssa.OpAdd32,
-	opAndType{OADD, TINT64}:   ssa.OpAdd64,
-	opAndType{OADD, TUINT64}:  ssa.OpAdd64,
-	opAndType{OADD, TPTR64}:   ssa.OpAdd64,
-	opAndType{OADD, TFLOAT32}: ssa.OpAdd32F,
-	opAndType{OADD, TFLOAT64}: ssa.OpAdd64F,
+	{OADD, TINT8}:    ssa.OpAdd8,
+	{OADD, TUINT8}:   ssa.OpAdd8,
+	{OADD, TINT16}:   ssa.OpAdd16,
+	{OADD, TUINT16}:  ssa.OpAdd16,
+	{OADD, TINT32}:   ssa.OpAdd32,
+	{OADD, TUINT32}:  ssa.OpAdd32,
+	{OADD, TPTR32}:   ssa.OpAdd32,
+	{OADD, TINT64}:   ssa.OpAdd64,
+	{OADD, TUINT64}:  ssa.OpAdd64,
+	{OADD, TPTR64}:   ssa.OpAdd64,
+	{OADD, TFLOAT32}: ssa.OpAdd32F,
+	{OADD, TFLOAT64}: ssa.OpAdd64F,
 
-	opAndType{OSUB, TINT8}:    ssa.OpSub8,
-	opAndType{OSUB, TUINT8}:   ssa.OpSub8,
-	opAndType{OSUB, TINT16}:   ssa.OpSub16,
-	opAndType{OSUB, TUINT16}:  ssa.OpSub16,
-	opAndType{OSUB, TINT32}:   ssa.OpSub32,
-	opAndType{OSUB, TUINT32}:  ssa.OpSub32,
-	opAndType{OSUB, TINT64}:   ssa.OpSub64,
-	opAndType{OSUB, TUINT64}:  ssa.OpSub64,
-	opAndType{OSUB, TFLOAT32}: ssa.OpSub32F,
-	opAndType{OSUB, TFLOAT64}: ssa.OpSub64F,
+	{OSUB, TINT8}:    ssa.OpSub8,
+	{OSUB, TUINT8}:   ssa.OpSub8,
+	{OSUB, TINT16}:   ssa.OpSub16,
+	{OSUB, TUINT16}:  ssa.OpSub16,
+	{OSUB, TINT32}:   ssa.OpSub32,
+	{OSUB, TUINT32}:  ssa.OpSub32,
+	{OSUB, TINT64}:   ssa.OpSub64,
+	{OSUB, TUINT64}:  ssa.OpSub64,
+	{OSUB, TFLOAT32}: ssa.OpSub32F,
+	{OSUB, TFLOAT64}: ssa.OpSub64F,
 
-	opAndType{ONOT, TBOOL}: ssa.OpNot,
+	{ONOT, TBOOL}: ssa.OpNot,
 
-	opAndType{OMINUS, TINT8}:    ssa.OpNeg8,
-	opAndType{OMINUS, TUINT8}:   ssa.OpNeg8,
-	opAndType{OMINUS, TINT16}:   ssa.OpNeg16,
-	opAndType{OMINUS, TUINT16}:  ssa.OpNeg16,
-	opAndType{OMINUS, TINT32}:   ssa.OpNeg32,
-	opAndType{OMINUS, TUINT32}:  ssa.OpNeg32,
-	opAndType{OMINUS, TINT64}:   ssa.OpNeg64,
-	opAndType{OMINUS, TUINT64}:  ssa.OpNeg64,
-	opAndType{OMINUS, TFLOAT32}: ssa.OpNeg32F,
-	opAndType{OMINUS, TFLOAT64}: ssa.OpNeg64F,
+	{OMINUS, TINT8}:    ssa.OpNeg8,
+	{OMINUS, TUINT8}:   ssa.OpNeg8,
+	{OMINUS, TINT16}:   ssa.OpNeg16,
+	{OMINUS, TUINT16}:  ssa.OpNeg16,
+	{OMINUS, TINT32}:   ssa.OpNeg32,
+	{OMINUS, TUINT32}:  ssa.OpNeg32,
+	{OMINUS, TINT64}:   ssa.OpNeg64,
+	{OMINUS, TUINT64}:  ssa.OpNeg64,
+	{OMINUS, TFLOAT32}: ssa.OpNeg32F,
+	{OMINUS, TFLOAT64}: ssa.OpNeg64F,
 
-	opAndType{OCOM, TINT8}:   ssa.OpCom8,
-	opAndType{OCOM, TUINT8}:  ssa.OpCom8,
-	opAndType{OCOM, TINT16}:  ssa.OpCom16,
-	opAndType{OCOM, TUINT16}: ssa.OpCom16,
-	opAndType{OCOM, TINT32}:  ssa.OpCom32,
-	opAndType{OCOM, TUINT32}: ssa.OpCom32,
-	opAndType{OCOM, TINT64}:  ssa.OpCom64,
-	opAndType{OCOM, TUINT64}: ssa.OpCom64,
+	{OCOM, TINT8}:   ssa.OpCom8,
+	{OCOM, TUINT8}:  ssa.OpCom8,
+	{OCOM, TINT16}:  ssa.OpCom16,
+	{OCOM, TUINT16}: ssa.OpCom16,
+	{OCOM, TINT32}:  ssa.OpCom32,
+	{OCOM, TUINT32}: ssa.OpCom32,
+	{OCOM, TINT64}:  ssa.OpCom64,
+	{OCOM, TUINT64}: ssa.OpCom64,
 
-	opAndType{OIMAG, TCOMPLEX64}:  ssa.OpComplexImag,
-	opAndType{OIMAG, TCOMPLEX128}: ssa.OpComplexImag,
-	opAndType{OREAL, TCOMPLEX64}:  ssa.OpComplexReal,
-	opAndType{OREAL, TCOMPLEX128}: ssa.OpComplexReal,
+	{OIMAG, TCOMPLEX64}:  ssa.OpComplexImag,
+	{OIMAG, TCOMPLEX128}: ssa.OpComplexImag,
+	{OREAL, TCOMPLEX64}:  ssa.OpComplexReal,
+	{OREAL, TCOMPLEX128}: ssa.OpComplexReal,
 
-	opAndType{OMUL, TINT8}:    ssa.OpMul8,
-	opAndType{OMUL, TUINT8}:   ssa.OpMul8,
-	opAndType{OMUL, TINT16}:   ssa.OpMul16,
-	opAndType{OMUL, TUINT16}:  ssa.OpMul16,
-	opAndType{OMUL, TINT32}:   ssa.OpMul32,
-	opAndType{OMUL, TUINT32}:  ssa.OpMul32,
-	opAndType{OMUL, TINT64}:   ssa.OpMul64,
-	opAndType{OMUL, TUINT64}:  ssa.OpMul64,
-	opAndType{OMUL, TFLOAT32}: ssa.OpMul32F,
-	opAndType{OMUL, TFLOAT64}: ssa.OpMul64F,
+	{OMUL, TINT8}:    ssa.OpMul8,
+	{OMUL, TUINT8}:   ssa.OpMul8,
+	{OMUL, TINT16}:   ssa.OpMul16,
+	{OMUL, TUINT16}:  ssa.OpMul16,
+	{OMUL, TINT32}:   ssa.OpMul32,
+	{OMUL, TUINT32}:  ssa.OpMul32,
+	{OMUL, TINT64}:   ssa.OpMul64,
+	{OMUL, TUINT64}:  ssa.OpMul64,
+	{OMUL, TFLOAT32}: ssa.OpMul32F,
+	{OMUL, TFLOAT64}: ssa.OpMul64F,
 
-	opAndType{ODIV, TFLOAT32}: ssa.OpDiv32F,
-	opAndType{ODIV, TFLOAT64}: ssa.OpDiv64F,
+	{ODIV, TFLOAT32}: ssa.OpDiv32F,
+	{ODIV, TFLOAT64}: ssa.OpDiv64F,
 
-	opAndType{OHMUL, TINT8}:   ssa.OpHmul8,
-	opAndType{OHMUL, TUINT8}:  ssa.OpHmul8u,
-	opAndType{OHMUL, TINT16}:  ssa.OpHmul16,
-	opAndType{OHMUL, TUINT16}: ssa.OpHmul16u,
-	opAndType{OHMUL, TINT32}:  ssa.OpHmul32,
-	opAndType{OHMUL, TUINT32}: ssa.OpHmul32u,
+	{OHMUL, TINT8}:   ssa.OpHmul8,
+	{OHMUL, TUINT8}:  ssa.OpHmul8u,
+	{OHMUL, TINT16}:  ssa.OpHmul16,
+	{OHMUL, TUINT16}: ssa.OpHmul16u,
+	{OHMUL, TINT32}:  ssa.OpHmul32,
+	{OHMUL, TUINT32}: ssa.OpHmul32u,
 
-	opAndType{ODIV, TINT8}:   ssa.OpDiv8,
-	opAndType{ODIV, TUINT8}:  ssa.OpDiv8u,
-	opAndType{ODIV, TINT16}:  ssa.OpDiv16,
-	opAndType{ODIV, TUINT16}: ssa.OpDiv16u,
-	opAndType{ODIV, TINT32}:  ssa.OpDiv32,
-	opAndType{ODIV, TUINT32}: ssa.OpDiv32u,
-	opAndType{ODIV, TINT64}:  ssa.OpDiv64,
-	opAndType{ODIV, TUINT64}: ssa.OpDiv64u,
+	{ODIV, TINT8}:   ssa.OpDiv8,
+	{ODIV, TUINT8}:  ssa.OpDiv8u,
+	{ODIV, TINT16}:  ssa.OpDiv16,
+	{ODIV, TUINT16}: ssa.OpDiv16u,
+	{ODIV, TINT32}:  ssa.OpDiv32,
+	{ODIV, TUINT32}: ssa.OpDiv32u,
+	{ODIV, TINT64}:  ssa.OpDiv64,
+	{ODIV, TUINT64}: ssa.OpDiv64u,
 
-	opAndType{OMOD, TINT8}:   ssa.OpMod8,
-	opAndType{OMOD, TUINT8}:  ssa.OpMod8u,
-	opAndType{OMOD, TINT16}:  ssa.OpMod16,
-	opAndType{OMOD, TUINT16}: ssa.OpMod16u,
-	opAndType{OMOD, TINT32}:  ssa.OpMod32,
-	opAndType{OMOD, TUINT32}: ssa.OpMod32u,
-	opAndType{OMOD, TINT64}:  ssa.OpMod64,
-	opAndType{OMOD, TUINT64}: ssa.OpMod64u,
+	{OMOD, TINT8}:   ssa.OpMod8,
+	{OMOD, TUINT8}:  ssa.OpMod8u,
+	{OMOD, TINT16}:  ssa.OpMod16,
+	{OMOD, TUINT16}: ssa.OpMod16u,
+	{OMOD, TINT32}:  ssa.OpMod32,
+	{OMOD, TUINT32}: ssa.OpMod32u,
+	{OMOD, TINT64}:  ssa.OpMod64,
+	{OMOD, TUINT64}: ssa.OpMod64u,
 
-	opAndType{OAND, TINT8}:   ssa.OpAnd8,
-	opAndType{OAND, TUINT8}:  ssa.OpAnd8,
-	opAndType{OAND, TINT16}:  ssa.OpAnd16,
-	opAndType{OAND, TUINT16}: ssa.OpAnd16,
-	opAndType{OAND, TINT32}:  ssa.OpAnd32,
-	opAndType{OAND, TUINT32}: ssa.OpAnd32,
-	opAndType{OAND, TINT64}:  ssa.OpAnd64,
-	opAndType{OAND, TUINT64}: ssa.OpAnd64,
+	{OAND, TINT8}:   ssa.OpAnd8,
+	{OAND, TUINT8}:  ssa.OpAnd8,
+	{OAND, TINT16}:  ssa.OpAnd16,
+	{OAND, TUINT16}: ssa.OpAnd16,
+	{OAND, TINT32}:  ssa.OpAnd32,
+	{OAND, TUINT32}: ssa.OpAnd32,
+	{OAND, TINT64}:  ssa.OpAnd64,
+	{OAND, TUINT64}: ssa.OpAnd64,
 
-	opAndType{OOR, TINT8}:   ssa.OpOr8,
-	opAndType{OOR, TUINT8}:  ssa.OpOr8,
-	opAndType{OOR, TINT16}:  ssa.OpOr16,
-	opAndType{OOR, TUINT16}: ssa.OpOr16,
-	opAndType{OOR, TINT32}:  ssa.OpOr32,
-	opAndType{OOR, TUINT32}: ssa.OpOr32,
-	opAndType{OOR, TINT64}:  ssa.OpOr64,
-	opAndType{OOR, TUINT64}: ssa.OpOr64,
+	{OOR, TINT8}:   ssa.OpOr8,
+	{OOR, TUINT8}:  ssa.OpOr8,
+	{OOR, TINT16}:  ssa.OpOr16,
+	{OOR, TUINT16}: ssa.OpOr16,
+	{OOR, TINT32}:  ssa.OpOr32,
+	{OOR, TUINT32}: ssa.OpOr32,
+	{OOR, TINT64}:  ssa.OpOr64,
+	{OOR, TUINT64}: ssa.OpOr64,
 
-	opAndType{OXOR, TINT8}:   ssa.OpXor8,
-	opAndType{OXOR, TUINT8}:  ssa.OpXor8,
-	opAndType{OXOR, TINT16}:  ssa.OpXor16,
-	opAndType{OXOR, TUINT16}: ssa.OpXor16,
-	opAndType{OXOR, TINT32}:  ssa.OpXor32,
-	opAndType{OXOR, TUINT32}: ssa.OpXor32,
-	opAndType{OXOR, TINT64}:  ssa.OpXor64,
-	opAndType{OXOR, TUINT64}: ssa.OpXor64,
+	{OXOR, TINT8}:   ssa.OpXor8,
+	{OXOR, TUINT8}:  ssa.OpXor8,
+	{OXOR, TINT16}:  ssa.OpXor16,
+	{OXOR, TUINT16}: ssa.OpXor16,
+	{OXOR, TINT32}:  ssa.OpXor32,
+	{OXOR, TUINT32}: ssa.OpXor32,
+	{OXOR, TINT64}:  ssa.OpXor64,
+	{OXOR, TUINT64}: ssa.OpXor64,
 
-	opAndType{OEQ, TBOOL}:      ssa.OpEq8,
-	opAndType{OEQ, TINT8}:      ssa.OpEq8,
-	opAndType{OEQ, TUINT8}:     ssa.OpEq8,
-	opAndType{OEQ, TINT16}:     ssa.OpEq16,
-	opAndType{OEQ, TUINT16}:    ssa.OpEq16,
-	opAndType{OEQ, TINT32}:     ssa.OpEq32,
-	opAndType{OEQ, TUINT32}:    ssa.OpEq32,
-	opAndType{OEQ, TINT64}:     ssa.OpEq64,
-	opAndType{OEQ, TUINT64}:    ssa.OpEq64,
-	opAndType{OEQ, TINTER}:     ssa.OpEqInter,
-	opAndType{OEQ, TARRAY}:     ssa.OpEqSlice,
-	opAndType{OEQ, TFUNC}:      ssa.OpEqPtr,
-	opAndType{OEQ, TMAP}:       ssa.OpEqPtr,
-	opAndType{OEQ, TCHAN}:      ssa.OpEqPtr,
-	opAndType{OEQ, TPTR64}:     ssa.OpEqPtr,
-	opAndType{OEQ, TUINTPTR}:   ssa.OpEqPtr,
-	opAndType{OEQ, TUNSAFEPTR}: ssa.OpEqPtr,
-	opAndType{OEQ, TFLOAT64}:   ssa.OpEq64F,
-	opAndType{OEQ, TFLOAT32}:   ssa.OpEq32F,
+	{OEQ, TBOOL}:      ssa.OpEq8,
+	{OEQ, TINT8}:      ssa.OpEq8,
+	{OEQ, TUINT8}:     ssa.OpEq8,
+	{OEQ, TINT16}:     ssa.OpEq16,
+	{OEQ, TUINT16}:    ssa.OpEq16,
+	{OEQ, TINT32}:     ssa.OpEq32,
+	{OEQ, TUINT32}:    ssa.OpEq32,
+	{OEQ, TINT64}:     ssa.OpEq64,
+	{OEQ, TUINT64}:    ssa.OpEq64,
+	{OEQ, TINTER}:     ssa.OpEqInter,
+	{OEQ, TARRAY}:     ssa.OpEqSlice,
+	{OEQ, TFUNC}:      ssa.OpEqPtr,
+	{OEQ, TMAP}:       ssa.OpEqPtr,
+	{OEQ, TCHAN}:      ssa.OpEqPtr,
+	{OEQ, TPTR64}:     ssa.OpEqPtr,
+	{OEQ, TUINTPTR}:   ssa.OpEqPtr,
+	{OEQ, TUNSAFEPTR}: ssa.OpEqPtr,
+	{OEQ, TFLOAT64}:   ssa.OpEq64F,
+	{OEQ, TFLOAT32}:   ssa.OpEq32F,
 
-	opAndType{ONE, TBOOL}:      ssa.OpNeq8,
-	opAndType{ONE, TINT8}:      ssa.OpNeq8,
-	opAndType{ONE, TUINT8}:     ssa.OpNeq8,
-	opAndType{ONE, TINT16}:     ssa.OpNeq16,
-	opAndType{ONE, TUINT16}:    ssa.OpNeq16,
-	opAndType{ONE, TINT32}:     ssa.OpNeq32,
-	opAndType{ONE, TUINT32}:    ssa.OpNeq32,
-	opAndType{ONE, TINT64}:     ssa.OpNeq64,
-	opAndType{ONE, TUINT64}:    ssa.OpNeq64,
-	opAndType{ONE, TINTER}:     ssa.OpNeqInter,
-	opAndType{ONE, TARRAY}:     ssa.OpNeqSlice,
-	opAndType{ONE, TFUNC}:      ssa.OpNeqPtr,
-	opAndType{ONE, TMAP}:       ssa.OpNeqPtr,
-	opAndType{ONE, TCHAN}:      ssa.OpNeqPtr,
-	opAndType{ONE, TPTR64}:     ssa.OpNeqPtr,
-	opAndType{ONE, TUINTPTR}:   ssa.OpNeqPtr,
-	opAndType{ONE, TUNSAFEPTR}: ssa.OpNeqPtr,
-	opAndType{ONE, TFLOAT64}:   ssa.OpNeq64F,
-	opAndType{ONE, TFLOAT32}:   ssa.OpNeq32F,
+	{ONE, TBOOL}:      ssa.OpNeq8,
+	{ONE, TINT8}:      ssa.OpNeq8,
+	{ONE, TUINT8}:     ssa.OpNeq8,
+	{ONE, TINT16}:     ssa.OpNeq16,
+	{ONE, TUINT16}:    ssa.OpNeq16,
+	{ONE, TINT32}:     ssa.OpNeq32,
+	{ONE, TUINT32}:    ssa.OpNeq32,
+	{ONE, TINT64}:     ssa.OpNeq64,
+	{ONE, TUINT64}:    ssa.OpNeq64,
+	{ONE, TINTER}:     ssa.OpNeqInter,
+	{ONE, TARRAY}:     ssa.OpNeqSlice,
+	{ONE, TFUNC}:      ssa.OpNeqPtr,
+	{ONE, TMAP}:       ssa.OpNeqPtr,
+	{ONE, TCHAN}:      ssa.OpNeqPtr,
+	{ONE, TPTR64}:     ssa.OpNeqPtr,
+	{ONE, TUINTPTR}:   ssa.OpNeqPtr,
+	{ONE, TUNSAFEPTR}: ssa.OpNeqPtr,
+	{ONE, TFLOAT64}:   ssa.OpNeq64F,
+	{ONE, TFLOAT32}:   ssa.OpNeq32F,
 
-	opAndType{OLT, TINT8}:    ssa.OpLess8,
-	opAndType{OLT, TUINT8}:   ssa.OpLess8U,
-	opAndType{OLT, TINT16}:   ssa.OpLess16,
-	opAndType{OLT, TUINT16}:  ssa.OpLess16U,
-	opAndType{OLT, TINT32}:   ssa.OpLess32,
-	opAndType{OLT, TUINT32}:  ssa.OpLess32U,
-	opAndType{OLT, TINT64}:   ssa.OpLess64,
-	opAndType{OLT, TUINT64}:  ssa.OpLess64U,
-	opAndType{OLT, TFLOAT64}: ssa.OpLess64F,
-	opAndType{OLT, TFLOAT32}: ssa.OpLess32F,
+	{OLT, TINT8}:    ssa.OpLess8,
+	{OLT, TUINT8}:   ssa.OpLess8U,
+	{OLT, TINT16}:   ssa.OpLess16,
+	{OLT, TUINT16}:  ssa.OpLess16U,
+	{OLT, TINT32}:   ssa.OpLess32,
+	{OLT, TUINT32}:  ssa.OpLess32U,
+	{OLT, TINT64}:   ssa.OpLess64,
+	{OLT, TUINT64}:  ssa.OpLess64U,
+	{OLT, TFLOAT64}: ssa.OpLess64F,
+	{OLT, TFLOAT32}: ssa.OpLess32F,
 
-	opAndType{OGT, TINT8}:    ssa.OpGreater8,
-	opAndType{OGT, TUINT8}:   ssa.OpGreater8U,
-	opAndType{OGT, TINT16}:   ssa.OpGreater16,
-	opAndType{OGT, TUINT16}:  ssa.OpGreater16U,
-	opAndType{OGT, TINT32}:   ssa.OpGreater32,
-	opAndType{OGT, TUINT32}:  ssa.OpGreater32U,
-	opAndType{OGT, TINT64}:   ssa.OpGreater64,
-	opAndType{OGT, TUINT64}:  ssa.OpGreater64U,
-	opAndType{OGT, TFLOAT64}: ssa.OpGreater64F,
-	opAndType{OGT, TFLOAT32}: ssa.OpGreater32F,
+	{OGT, TINT8}:    ssa.OpGreater8,
+	{OGT, TUINT8}:   ssa.OpGreater8U,
+	{OGT, TINT16}:   ssa.OpGreater16,
+	{OGT, TUINT16}:  ssa.OpGreater16U,
+	{OGT, TINT32}:   ssa.OpGreater32,
+	{OGT, TUINT32}:  ssa.OpGreater32U,
+	{OGT, TINT64}:   ssa.OpGreater64,
+	{OGT, TUINT64}:  ssa.OpGreater64U,
+	{OGT, TFLOAT64}: ssa.OpGreater64F,
+	{OGT, TFLOAT32}: ssa.OpGreater32F,
 
-	opAndType{OLE, TINT8}:    ssa.OpLeq8,
-	opAndType{OLE, TUINT8}:   ssa.OpLeq8U,
-	opAndType{OLE, TINT16}:   ssa.OpLeq16,
-	opAndType{OLE, TUINT16}:  ssa.OpLeq16U,
-	opAndType{OLE, TINT32}:   ssa.OpLeq32,
-	opAndType{OLE, TUINT32}:  ssa.OpLeq32U,
-	opAndType{OLE, TINT64}:   ssa.OpLeq64,
-	opAndType{OLE, TUINT64}:  ssa.OpLeq64U,
-	opAndType{OLE, TFLOAT64}: ssa.OpLeq64F,
-	opAndType{OLE, TFLOAT32}: ssa.OpLeq32F,
+	{OLE, TINT8}:    ssa.OpLeq8,
+	{OLE, TUINT8}:   ssa.OpLeq8U,
+	{OLE, TINT16}:   ssa.OpLeq16,
+	{OLE, TUINT16}:  ssa.OpLeq16U,
+	{OLE, TINT32}:   ssa.OpLeq32,
+	{OLE, TUINT32}:  ssa.OpLeq32U,
+	{OLE, TINT64}:   ssa.OpLeq64,
+	{OLE, TUINT64}:  ssa.OpLeq64U,
+	{OLE, TFLOAT64}: ssa.OpLeq64F,
+	{OLE, TFLOAT32}: ssa.OpLeq32F,
 
-	opAndType{OGE, TINT8}:    ssa.OpGeq8,
-	opAndType{OGE, TUINT8}:   ssa.OpGeq8U,
-	opAndType{OGE, TINT16}:   ssa.OpGeq16,
-	opAndType{OGE, TUINT16}:  ssa.OpGeq16U,
-	opAndType{OGE, TINT32}:   ssa.OpGeq32,
-	opAndType{OGE, TUINT32}:  ssa.OpGeq32U,
-	opAndType{OGE, TINT64}:   ssa.OpGeq64,
-	opAndType{OGE, TUINT64}:  ssa.OpGeq64U,
-	opAndType{OGE, TFLOAT64}: ssa.OpGeq64F,
-	opAndType{OGE, TFLOAT32}: ssa.OpGeq32F,
+	{OGE, TINT8}:    ssa.OpGeq8,
+	{OGE, TUINT8}:   ssa.OpGeq8U,
+	{OGE, TINT16}:   ssa.OpGeq16,
+	{OGE, TUINT16}:  ssa.OpGeq16U,
+	{OGE, TINT32}:   ssa.OpGeq32,
+	{OGE, TUINT32}:  ssa.OpGeq32U,
+	{OGE, TINT64}:   ssa.OpGeq64,
+	{OGE, TUINT64}:  ssa.OpGeq64U,
+	{OGE, TFLOAT64}: ssa.OpGeq64F,
+	{OGE, TFLOAT32}: ssa.OpGeq32F,
 
-	opAndType{OLROT, TUINT8}:  ssa.OpLrot8,
-	opAndType{OLROT, TUINT16}: ssa.OpLrot16,
-	opAndType{OLROT, TUINT32}: ssa.OpLrot32,
-	opAndType{OLROT, TUINT64}: ssa.OpLrot64,
+	{OLROT, TUINT8}:  ssa.OpLrot8,
+	{OLROT, TUINT16}: ssa.OpLrot16,
+	{OLROT, TUINT32}: ssa.OpLrot32,
+	{OLROT, TUINT64}: ssa.OpLrot64,
 
-	opAndType{OSQRT, TFLOAT64}: ssa.OpSqrt,
+	{OSQRT, TFLOAT64}: ssa.OpSqrt,
 }
 
 func (s *state) concreteEtype(t *Type) EType {
@@ -1260,12 +1238,6 @@ func floatForComplex(t *Type) *Type {
 	}
 }
 
-type opAndTwoTypes struct {
-	op     Op
-	etype1 EType
-	etype2 EType
-}
-
 type twoTypes struct {
 	etype1 EType
 	etype2 EType
@@ -1278,131 +1250,136 @@ type twoOpsAndType struct {
 }
 
 var fpConvOpToSSA = map[twoTypes]twoOpsAndType{
+	{TINT8, TFLOAT32}:  {ssa.OpSignExt8to32, ssa.OpCvt32to32F, TINT32},
+	{TINT16, TFLOAT32}: {ssa.OpSignExt16to32, ssa.OpCvt32to32F, TINT32},
+	{TINT32, TFLOAT32}: {ssa.OpCopy, ssa.OpCvt32to32F, TINT32},
+	{TINT64, TFLOAT32}: {ssa.OpCopy, ssa.OpCvt64to32F, TINT64},
 
-	twoTypes{TINT8, TFLOAT32}:  twoOpsAndType{ssa.OpSignExt8to32, ssa.OpCvt32to32F, TINT32},
-	twoTypes{TINT16, TFLOAT32}: twoOpsAndType{ssa.OpSignExt16to32, ssa.OpCvt32to32F, TINT32},
-	twoTypes{TINT32, TFLOAT32}: twoOpsAndType{ssa.OpCopy, ssa.OpCvt32to32F, TINT32},
-	twoTypes{TINT64, TFLOAT32}: twoOpsAndType{ssa.OpCopy, ssa.OpCvt64to32F, TINT64},
+	{TINT8, TFLOAT64}:  {ssa.OpSignExt8to32, ssa.OpCvt32to64F, TINT32},
+	{TINT16, TFLOAT64}: {ssa.OpSignExt16to32, ssa.OpCvt32to64F, TINT32},
+	{TINT32, TFLOAT64}: {ssa.OpCopy, ssa.OpCvt32to64F, TINT32},
+	{TINT64, TFLOAT64}: {ssa.OpCopy, ssa.OpCvt64to64F, TINT64},
 
-	twoTypes{TINT8, TFLOAT64}:  twoOpsAndType{ssa.OpSignExt8to32, ssa.OpCvt32to64F, TINT32},
-	twoTypes{TINT16, TFLOAT64}: twoOpsAndType{ssa.OpSignExt16to32, ssa.OpCvt32to64F, TINT32},
-	twoTypes{TINT32, TFLOAT64}: twoOpsAndType{ssa.OpCopy, ssa.OpCvt32to64F, TINT32},
-	twoTypes{TINT64, TFLOAT64}: twoOpsAndType{ssa.OpCopy, ssa.OpCvt64to64F, TINT64},
+	{TFLOAT32, TINT8}:  {ssa.OpCvt32Fto32, ssa.OpTrunc32to8, TINT32},
+	{TFLOAT32, TINT16}: {ssa.OpCvt32Fto32, ssa.OpTrunc32to16, TINT32},
+	{TFLOAT32, TINT32}: {ssa.OpCvt32Fto32, ssa.OpCopy, TINT32},
+	{TFLOAT32, TINT64}: {ssa.OpCvt32Fto64, ssa.OpCopy, TINT64},
 
-	twoTypes{TFLOAT32, TINT8}:  twoOpsAndType{ssa.OpCvt32Fto32, ssa.OpTrunc32to8, TINT32},
-	twoTypes{TFLOAT32, TINT16}: twoOpsAndType{ssa.OpCvt32Fto32, ssa.OpTrunc32to16, TINT32},
-	twoTypes{TFLOAT32, TINT32}: twoOpsAndType{ssa.OpCvt32Fto32, ssa.OpCopy, TINT32},
-	twoTypes{TFLOAT32, TINT64}: twoOpsAndType{ssa.OpCvt32Fto64, ssa.OpCopy, TINT64},
-
-	twoTypes{TFLOAT64, TINT8}:  twoOpsAndType{ssa.OpCvt64Fto32, ssa.OpTrunc32to8, TINT32},
-	twoTypes{TFLOAT64, TINT16}: twoOpsAndType{ssa.OpCvt64Fto32, ssa.OpTrunc32to16, TINT32},
-	twoTypes{TFLOAT64, TINT32}: twoOpsAndType{ssa.OpCvt64Fto32, ssa.OpCopy, TINT32},
-	twoTypes{TFLOAT64, TINT64}: twoOpsAndType{ssa.OpCvt64Fto64, ssa.OpCopy, TINT64},
+	{TFLOAT64, TINT8}:  {ssa.OpCvt64Fto32, ssa.OpTrunc32to8, TINT32},
+	{TFLOAT64, TINT16}: {ssa.OpCvt64Fto32, ssa.OpTrunc32to16, TINT32},
+	{TFLOAT64, TINT32}: {ssa.OpCvt64Fto32, ssa.OpCopy, TINT32},
+	{TFLOAT64, TINT64}: {ssa.OpCvt64Fto64, ssa.OpCopy, TINT64},
 	// unsigned
-	twoTypes{TUINT8, TFLOAT32}:  twoOpsAndType{ssa.OpZeroExt8to32, ssa.OpCvt32to32F, TINT32},
-	twoTypes{TUINT16, TFLOAT32}: twoOpsAndType{ssa.OpZeroExt16to32, ssa.OpCvt32to32F, TINT32},
-	twoTypes{TUINT32, TFLOAT32}: twoOpsAndType{ssa.OpZeroExt32to64, ssa.OpCvt64to32F, TINT64}, // go wide to dodge unsigned
-	twoTypes{TUINT64, TFLOAT32}: twoOpsAndType{ssa.OpCopy, ssa.OpInvalid, TUINT64},            // Cvt64Uto32F, branchy code expansion instead
+	{TUINT8, TFLOAT32}:  {ssa.OpZeroExt8to32, ssa.OpCvt32to32F, TINT32},
+	{TUINT16, TFLOAT32}: {ssa.OpZeroExt16to32, ssa.OpCvt32to32F, TINT32},
+	{TUINT32, TFLOAT32}: {ssa.OpZeroExt32to64, ssa.OpCvt64to32F, TINT64}, // go wide to dodge unsigned
+	{TUINT64, TFLOAT32}: {ssa.OpCopy, ssa.OpInvalid, TUINT64},            // Cvt64Uto32F, branchy code expansion instead
 
-	twoTypes{TUINT8, TFLOAT64}:  twoOpsAndType{ssa.OpZeroExt8to32, ssa.OpCvt32to64F, TINT32},
-	twoTypes{TUINT16, TFLOAT64}: twoOpsAndType{ssa.OpZeroExt16to32, ssa.OpCvt32to64F, TINT32},
-	twoTypes{TUINT32, TFLOAT64}: twoOpsAndType{ssa.OpZeroExt32to64, ssa.OpCvt64to64F, TINT64}, // go wide to dodge unsigned
-	twoTypes{TUINT64, TFLOAT64}: twoOpsAndType{ssa.OpCopy, ssa.OpInvalid, TUINT64},            // Cvt64Uto64F, branchy code expansion instead
+	{TUINT8, TFLOAT64}:  {ssa.OpZeroExt8to32, ssa.OpCvt32to64F, TINT32},
+	{TUINT16, TFLOAT64}: {ssa.OpZeroExt16to32, ssa.OpCvt32to64F, TINT32},
+	{TUINT32, TFLOAT64}: {ssa.OpZeroExt32to64, ssa.OpCvt64to64F, TINT64}, // go wide to dodge unsigned
+	{TUINT64, TFLOAT64}: {ssa.OpCopy, ssa.OpInvalid, TUINT64},            // Cvt64Uto64F, branchy code expansion instead
 
-	twoTypes{TFLOAT32, TUINT8}:  twoOpsAndType{ssa.OpCvt32Fto32, ssa.OpTrunc32to8, TINT32},
-	twoTypes{TFLOAT32, TUINT16}: twoOpsAndType{ssa.OpCvt32Fto32, ssa.OpTrunc32to16, TINT32},
-	twoTypes{TFLOAT32, TUINT32}: twoOpsAndType{ssa.OpCvt32Fto64, ssa.OpTrunc64to32, TINT64}, // go wide to dodge unsigned
-	twoTypes{TFLOAT32, TUINT64}: twoOpsAndType{ssa.OpInvalid, ssa.OpCopy, TUINT64},          // Cvt32Fto64U, branchy code expansion instead
+	{TFLOAT32, TUINT8}:  {ssa.OpCvt32Fto32, ssa.OpTrunc32to8, TINT32},
+	{TFLOAT32, TUINT16}: {ssa.OpCvt32Fto32, ssa.OpTrunc32to16, TINT32},
+	{TFLOAT32, TUINT32}: {ssa.OpCvt32Fto64, ssa.OpTrunc64to32, TINT64}, // go wide to dodge unsigned
+	{TFLOAT32, TUINT64}: {ssa.OpInvalid, ssa.OpCopy, TUINT64},          // Cvt32Fto64U, branchy code expansion instead
 
-	twoTypes{TFLOAT64, TUINT8}:  twoOpsAndType{ssa.OpCvt64Fto32, ssa.OpTrunc32to8, TINT32},
-	twoTypes{TFLOAT64, TUINT16}: twoOpsAndType{ssa.OpCvt64Fto32, ssa.OpTrunc32to16, TINT32},
-	twoTypes{TFLOAT64, TUINT32}: twoOpsAndType{ssa.OpCvt64Fto64, ssa.OpTrunc64to32, TINT64}, // go wide to dodge unsigned
-	twoTypes{TFLOAT64, TUINT64}: twoOpsAndType{ssa.OpInvalid, ssa.OpCopy, TUINT64},          // Cvt64Fto64U, branchy code expansion instead
+	{TFLOAT64, TUINT8}:  {ssa.OpCvt64Fto32, ssa.OpTrunc32to8, TINT32},
+	{TFLOAT64, TUINT16}: {ssa.OpCvt64Fto32, ssa.OpTrunc32to16, TINT32},
+	{TFLOAT64, TUINT32}: {ssa.OpCvt64Fto64, ssa.OpTrunc64to32, TINT64}, // go wide to dodge unsigned
+	{TFLOAT64, TUINT64}: {ssa.OpInvalid, ssa.OpCopy, TUINT64},          // Cvt64Fto64U, branchy code expansion instead
 
 	// float
-	twoTypes{TFLOAT64, TFLOAT32}: twoOpsAndType{ssa.OpCvt64Fto32F, ssa.OpCopy, TFLOAT32},
-	twoTypes{TFLOAT64, TFLOAT64}: twoOpsAndType{ssa.OpCopy, ssa.OpCopy, TFLOAT64},
-	twoTypes{TFLOAT32, TFLOAT32}: twoOpsAndType{ssa.OpCopy, ssa.OpCopy, TFLOAT32},
-	twoTypes{TFLOAT32, TFLOAT64}: twoOpsAndType{ssa.OpCvt32Fto64F, ssa.OpCopy, TFLOAT64},
+	{TFLOAT64, TFLOAT32}: {ssa.OpCvt64Fto32F, ssa.OpCopy, TFLOAT32},
+	{TFLOAT64, TFLOAT64}: {ssa.OpCopy, ssa.OpCopy, TFLOAT64},
+	{TFLOAT32, TFLOAT32}: {ssa.OpCopy, ssa.OpCopy, TFLOAT32},
+	{TFLOAT32, TFLOAT64}: {ssa.OpCvt32Fto64F, ssa.OpCopy, TFLOAT64},
+}
+
+type opAndTwoTypes struct {
+	op     Op
+	etype1 EType
+	etype2 EType
 }
 
 var shiftOpToSSA = map[opAndTwoTypes]ssa.Op{
-	opAndTwoTypes{OLSH, TINT8, TUINT8}:   ssa.OpLsh8x8,
-	opAndTwoTypes{OLSH, TUINT8, TUINT8}:  ssa.OpLsh8x8,
-	opAndTwoTypes{OLSH, TINT8, TUINT16}:  ssa.OpLsh8x16,
-	opAndTwoTypes{OLSH, TUINT8, TUINT16}: ssa.OpLsh8x16,
-	opAndTwoTypes{OLSH, TINT8, TUINT32}:  ssa.OpLsh8x32,
-	opAndTwoTypes{OLSH, TUINT8, TUINT32}: ssa.OpLsh8x32,
-	opAndTwoTypes{OLSH, TINT8, TUINT64}:  ssa.OpLsh8x64,
-	opAndTwoTypes{OLSH, TUINT8, TUINT64}: ssa.OpLsh8x64,
+	{OLSH, TINT8, TUINT8}:   ssa.OpLsh8x8,
+	{OLSH, TUINT8, TUINT8}:  ssa.OpLsh8x8,
+	{OLSH, TINT8, TUINT16}:  ssa.OpLsh8x16,
+	{OLSH, TUINT8, TUINT16}: ssa.OpLsh8x16,
+	{OLSH, TINT8, TUINT32}:  ssa.OpLsh8x32,
+	{OLSH, TUINT8, TUINT32}: ssa.OpLsh8x32,
+	{OLSH, TINT8, TUINT64}:  ssa.OpLsh8x64,
+	{OLSH, TUINT8, TUINT64}: ssa.OpLsh8x64,
 
-	opAndTwoTypes{OLSH, TINT16, TUINT8}:   ssa.OpLsh16x8,
-	opAndTwoTypes{OLSH, TUINT16, TUINT8}:  ssa.OpLsh16x8,
-	opAndTwoTypes{OLSH, TINT16, TUINT16}:  ssa.OpLsh16x16,
-	opAndTwoTypes{OLSH, TUINT16, TUINT16}: ssa.OpLsh16x16,
-	opAndTwoTypes{OLSH, TINT16, TUINT32}:  ssa.OpLsh16x32,
-	opAndTwoTypes{OLSH, TUINT16, TUINT32}: ssa.OpLsh16x32,
-	opAndTwoTypes{OLSH, TINT16, TUINT64}:  ssa.OpLsh16x64,
-	opAndTwoTypes{OLSH, TUINT16, TUINT64}: ssa.OpLsh16x64,
+	{OLSH, TINT16, TUINT8}:   ssa.OpLsh16x8,
+	{OLSH, TUINT16, TUINT8}:  ssa.OpLsh16x8,
+	{OLSH, TINT16, TUINT16}:  ssa.OpLsh16x16,
+	{OLSH, TUINT16, TUINT16}: ssa.OpLsh16x16,
+	{OLSH, TINT16, TUINT32}:  ssa.OpLsh16x32,
+	{OLSH, TUINT16, TUINT32}: ssa.OpLsh16x32,
+	{OLSH, TINT16, TUINT64}:  ssa.OpLsh16x64,
+	{OLSH, TUINT16, TUINT64}: ssa.OpLsh16x64,
 
-	opAndTwoTypes{OLSH, TINT32, TUINT8}:   ssa.OpLsh32x8,
-	opAndTwoTypes{OLSH, TUINT32, TUINT8}:  ssa.OpLsh32x8,
-	opAndTwoTypes{OLSH, TINT32, TUINT16}:  ssa.OpLsh32x16,
-	opAndTwoTypes{OLSH, TUINT32, TUINT16}: ssa.OpLsh32x16,
-	opAndTwoTypes{OLSH, TINT32, TUINT32}:  ssa.OpLsh32x32,
-	opAndTwoTypes{OLSH, TUINT32, TUINT32}: ssa.OpLsh32x32,
-	opAndTwoTypes{OLSH, TINT32, TUINT64}:  ssa.OpLsh32x64,
-	opAndTwoTypes{OLSH, TUINT32, TUINT64}: ssa.OpLsh32x64,
+	{OLSH, TINT32, TUINT8}:   ssa.OpLsh32x8,
+	{OLSH, TUINT32, TUINT8}:  ssa.OpLsh32x8,
+	{OLSH, TINT32, TUINT16}:  ssa.OpLsh32x16,
+	{OLSH, TUINT32, TUINT16}: ssa.OpLsh32x16,
+	{OLSH, TINT32, TUINT32}:  ssa.OpLsh32x32,
+	{OLSH, TUINT32, TUINT32}: ssa.OpLsh32x32,
+	{OLSH, TINT32, TUINT64}:  ssa.OpLsh32x64,
+	{OLSH, TUINT32, TUINT64}: ssa.OpLsh32x64,
 
-	opAndTwoTypes{OLSH, TINT64, TUINT8}:   ssa.OpLsh64x8,
-	opAndTwoTypes{OLSH, TUINT64, TUINT8}:  ssa.OpLsh64x8,
-	opAndTwoTypes{OLSH, TINT64, TUINT16}:  ssa.OpLsh64x16,
-	opAndTwoTypes{OLSH, TUINT64, TUINT16}: ssa.OpLsh64x16,
-	opAndTwoTypes{OLSH, TINT64, TUINT32}:  ssa.OpLsh64x32,
-	opAndTwoTypes{OLSH, TUINT64, TUINT32}: ssa.OpLsh64x32,
-	opAndTwoTypes{OLSH, TINT64, TUINT64}:  ssa.OpLsh64x64,
-	opAndTwoTypes{OLSH, TUINT64, TUINT64}: ssa.OpLsh64x64,
+	{OLSH, TINT64, TUINT8}:   ssa.OpLsh64x8,
+	{OLSH, TUINT64, TUINT8}:  ssa.OpLsh64x8,
+	{OLSH, TINT64, TUINT16}:  ssa.OpLsh64x16,
+	{OLSH, TUINT64, TUINT16}: ssa.OpLsh64x16,
+	{OLSH, TINT64, TUINT32}:  ssa.OpLsh64x32,
+	{OLSH, TUINT64, TUINT32}: ssa.OpLsh64x32,
+	{OLSH, TINT64, TUINT64}:  ssa.OpLsh64x64,
+	{OLSH, TUINT64, TUINT64}: ssa.OpLsh64x64,
 
-	opAndTwoTypes{ORSH, TINT8, TUINT8}:   ssa.OpRsh8x8,
-	opAndTwoTypes{ORSH, TUINT8, TUINT8}:  ssa.OpRsh8Ux8,
-	opAndTwoTypes{ORSH, TINT8, TUINT16}:  ssa.OpRsh8x16,
-	opAndTwoTypes{ORSH, TUINT8, TUINT16}: ssa.OpRsh8Ux16,
-	opAndTwoTypes{ORSH, TINT8, TUINT32}:  ssa.OpRsh8x32,
-	opAndTwoTypes{ORSH, TUINT8, TUINT32}: ssa.OpRsh8Ux32,
-	opAndTwoTypes{ORSH, TINT8, TUINT64}:  ssa.OpRsh8x64,
-	opAndTwoTypes{ORSH, TUINT8, TUINT64}: ssa.OpRsh8Ux64,
+	{ORSH, TINT8, TUINT8}:   ssa.OpRsh8x8,
+	{ORSH, TUINT8, TUINT8}:  ssa.OpRsh8Ux8,
+	{ORSH, TINT8, TUINT16}:  ssa.OpRsh8x16,
+	{ORSH, TUINT8, TUINT16}: ssa.OpRsh8Ux16,
+	{ORSH, TINT8, TUINT32}:  ssa.OpRsh8x32,
+	{ORSH, TUINT8, TUINT32}: ssa.OpRsh8Ux32,
+	{ORSH, TINT8, TUINT64}:  ssa.OpRsh8x64,
+	{ORSH, TUINT8, TUINT64}: ssa.OpRsh8Ux64,
 
-	opAndTwoTypes{ORSH, TINT16, TUINT8}:   ssa.OpRsh16x8,
-	opAndTwoTypes{ORSH, TUINT16, TUINT8}:  ssa.OpRsh16Ux8,
-	opAndTwoTypes{ORSH, TINT16, TUINT16}:  ssa.OpRsh16x16,
-	opAndTwoTypes{ORSH, TUINT16, TUINT16}: ssa.OpRsh16Ux16,
-	opAndTwoTypes{ORSH, TINT16, TUINT32}:  ssa.OpRsh16x32,
-	opAndTwoTypes{ORSH, TUINT16, TUINT32}: ssa.OpRsh16Ux32,
-	opAndTwoTypes{ORSH, TINT16, TUINT64}:  ssa.OpRsh16x64,
-	opAndTwoTypes{ORSH, TUINT16, TUINT64}: ssa.OpRsh16Ux64,
+	{ORSH, TINT16, TUINT8}:   ssa.OpRsh16x8,
+	{ORSH, TUINT16, TUINT8}:  ssa.OpRsh16Ux8,
+	{ORSH, TINT16, TUINT16}:  ssa.OpRsh16x16,
+	{ORSH, TUINT16, TUINT16}: ssa.OpRsh16Ux16,
+	{ORSH, TINT16, TUINT32}:  ssa.OpRsh16x32,
+	{ORSH, TUINT16, TUINT32}: ssa.OpRsh16Ux32,
+	{ORSH, TINT16, TUINT64}:  ssa.OpRsh16x64,
+	{ORSH, TUINT16, TUINT64}: ssa.OpRsh16Ux64,
 
-	opAndTwoTypes{ORSH, TINT32, TUINT8}:   ssa.OpRsh32x8,
-	opAndTwoTypes{ORSH, TUINT32, TUINT8}:  ssa.OpRsh32Ux8,
-	opAndTwoTypes{ORSH, TINT32, TUINT16}:  ssa.OpRsh32x16,
-	opAndTwoTypes{ORSH, TUINT32, TUINT16}: ssa.OpRsh32Ux16,
-	opAndTwoTypes{ORSH, TINT32, TUINT32}:  ssa.OpRsh32x32,
-	opAndTwoTypes{ORSH, TUINT32, TUINT32}: ssa.OpRsh32Ux32,
-	opAndTwoTypes{ORSH, TINT32, TUINT64}:  ssa.OpRsh32x64,
-	opAndTwoTypes{ORSH, TUINT32, TUINT64}: ssa.OpRsh32Ux64,
+	{ORSH, TINT32, TUINT8}:   ssa.OpRsh32x8,
+	{ORSH, TUINT32, TUINT8}:  ssa.OpRsh32Ux8,
+	{ORSH, TINT32, TUINT16}:  ssa.OpRsh32x16,
+	{ORSH, TUINT32, TUINT16}: ssa.OpRsh32Ux16,
+	{ORSH, TINT32, TUINT32}:  ssa.OpRsh32x32,
+	{ORSH, TUINT32, TUINT32}: ssa.OpRsh32Ux32,
+	{ORSH, TINT32, TUINT64}:  ssa.OpRsh32x64,
+	{ORSH, TUINT32, TUINT64}: ssa.OpRsh32Ux64,
 
-	opAndTwoTypes{ORSH, TINT64, TUINT8}:   ssa.OpRsh64x8,
-	opAndTwoTypes{ORSH, TUINT64, TUINT8}:  ssa.OpRsh64Ux8,
-	opAndTwoTypes{ORSH, TINT64, TUINT16}:  ssa.OpRsh64x16,
-	opAndTwoTypes{ORSH, TUINT64, TUINT16}: ssa.OpRsh64Ux16,
-	opAndTwoTypes{ORSH, TINT64, TUINT32}:  ssa.OpRsh64x32,
-	opAndTwoTypes{ORSH, TUINT64, TUINT32}: ssa.OpRsh64Ux32,
-	opAndTwoTypes{ORSH, TINT64, TUINT64}:  ssa.OpRsh64x64,
-	opAndTwoTypes{ORSH, TUINT64, TUINT64}: ssa.OpRsh64Ux64,
+	{ORSH, TINT64, TUINT8}:   ssa.OpRsh64x8,
+	{ORSH, TUINT64, TUINT8}:  ssa.OpRsh64Ux8,
+	{ORSH, TINT64, TUINT16}:  ssa.OpRsh64x16,
+	{ORSH, TUINT64, TUINT16}: ssa.OpRsh64Ux16,
+	{ORSH, TINT64, TUINT32}:  ssa.OpRsh64x32,
+	{ORSH, TUINT64, TUINT32}: ssa.OpRsh64Ux32,
+	{ORSH, TINT64, TUINT64}:  ssa.OpRsh64x64,
+	{ORSH, TUINT64, TUINT64}: ssa.OpRsh64Ux64,
 }
 
-func (s *state) ssaShiftOp(op Op, t *Type, u *Type) ssa.Op {
-	etype1 := s.concreteEtype(t)
-	etype2 := s.concreteEtype(u)
+func (s *state) ssaShiftOp(op Op, t1, t2 *Type) ssa.Op {
+	etype1 := s.concreteEtype(t1)
+	etype2 := s.concreteEtype(t2)
 	x, ok := shiftOpToSSA[opAndTwoTypes{op, etype1, etype2}]
 	if !ok {
 		s.Unimplementedf("unhandled shift op %s etype=%s/%s", opnames[op], Econv(etype1), Econv(etype2))
@@ -1411,10 +1388,10 @@ func (s *state) ssaShiftOp(op Op, t *Type, u *Type) ssa.Op {
 }
 
 func (s *state) ssaRotateOp(op Op, t *Type) ssa.Op {
-	etype1 := s.concreteEtype(t)
-	x, ok := opToSSA[opAndType{op, etype1}]
+	etype := s.concreteEtype(t)
+	x, ok := opToSSA[opAndType{op, etype}]
 	if !ok {
-		s.Unimplementedf("unhandled rotate op %s etype=%s", opnames[op], Econv(etype1))
+		s.Unimplementedf("unhandled rotate op %s etype=%s", opnames[op], Econv(etype))
 	}
 	return x
 }
@@ -1424,14 +1401,16 @@ func (s *state) expr(n *Node) *ssa.Value {
 	s.pushLine(n.Lineno)
 	defer s.popLine()
 
-	s.stmtList(n.Ninit)
+	s.stmts(n.Ninit)
 	switch n.Op {
 	case OCFUNC:
 		aux := s.lookupSymbol(n, &ssa.ExternSymbol{n.Type, n.Left.Sym})
 		return s.entryNewValue1A(ssa.OpAddr, n.Type, aux, s.sb)
+
 	case OPARAM:
 		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Left.Type, addr, s.mem())
+
 	case ONAME:
 		if n.Class == PFUNC {
 			// "value" of a function is the address of the function's closure
@@ -1444,9 +1423,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
+
 	case OCLOSUREVAR:
 		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
+
 	case OLITERAL:
 		switch n.Val().Ctype() {
 		case CTINT:
@@ -1505,19 +1486,15 @@ func (s *state) expr(n *Node) *ssa.Value {
 			i := &c.Imag
 			switch n.Type.Size() {
 			case 8:
-				{
-					pt := Types[TFLOAT32]
-					return s.newValue2(ssa.OpComplexMake, n.Type,
-						s.constFloat32(pt, r.Float32()),
-						s.constFloat32(pt, i.Float32()))
-				}
+				pt := Types[TFLOAT32]
+				return s.newValue2(ssa.OpComplexMake, n.Type,
+					s.constFloat32(pt, r.Float32()),
+					s.constFloat32(pt, i.Float32()))
 			case 16:
-				{
-					pt := Types[TFLOAT64]
-					return s.newValue2(ssa.OpComplexMake, n.Type,
-						s.constFloat64(pt, r.Float64()),
-						s.constFloat64(pt, i.Float64()))
-				}
+				pt := Types[TFLOAT64]
+				return s.newValue2(ssa.OpComplexMake, n.Type,
+					s.constFloat64(pt, r.Float64()),
+					s.constFloat64(pt, i.Float64()))
 			default:
 				s.Fatalf("bad float size %d", n.Type.Size())
 				return nil
@@ -1527,6 +1504,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			s.Unimplementedf("unhandled OLITERAL %v", n.Val().Ctype())
 			return nil
 		}
+
 	case OCONVNOP:
 		to := n.Type
 		from := n.Left.Type
@@ -1739,6 +1717,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			}
 		}
 		return s.newValue2(s.ssaOp(n.Op, n.Left.Type), Types[TBOOL], a, b)
+
 	case OMUL:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
@@ -1824,6 +1803,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			s.check(cmp, panicdivide)
 			return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
 		}
+
 	case OMOD:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
@@ -1831,6 +1811,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		cmp := s.newValue2(s.ssaOp(ONE, n.Type), Types[TBOOL], b, s.zeroVal(n.Type))
 		s.check(cmp, panicdivide)
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
 	case OADD, OSUB:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
@@ -1842,14 +1823,17 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue2(op, pt, s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b)))
 		}
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
 	case OAND, OOR, OHMUL, OXOR:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
 	case OLSH, ORSH:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaShiftOp(n.Op, n.Type, n.Right.Type), a.Type, a, b)
+
 	case OLROT:
 		a := s.expr(n.Left)
 		i := n.Right.Int64()
@@ -1857,6 +1841,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			s.Fatalf("Wrong rotate distance for LROT, expected 1 through %d, saw %d", n.Type.Size()*8-1, i)
 		}
 		return s.newValue1I(s.ssaRotateOp(n.Op, n.Type), a.Type, i, a)
+
 	case OANDAND, OOROR:
 		// To implement OANDAND (and OOROR), we introduce a
 		// new temporary variable to hold the result. The
@@ -1901,6 +1886,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		s.startBlock(bResult)
 		return s.variable(n, Types[TBOOL])
+
 	case OCOMPLEX:
 		r := s.expr(n.Left)
 		i := s.expr(n.Right)
@@ -1917,12 +1903,15 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexImag, tp, a)))
 		}
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
+
 	case ONOT, OCOM, OSQRT:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
+
 	case OIMAG, OREAL:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Left.Type), n.Type, a)
+
 	case OPLUS:
 		return s.expr(n.Left)
 
@@ -2057,6 +2046,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 		p, l, c := s.slice(n.Left.Type, v, i, j, nil)
 		return s.newValue3(ssa.OpSliceMake, n.Type, p, l, c)
+
 	case OSLICESTR:
 		v := s.expr(n.Left)
 		var i, j *ssa.Value
@@ -2068,6 +2058,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 		p, l, _ := s.slice(n.Left.Type, v, i, j, nil)
 		return s.newValue2(ssa.OpStringMake, n.Type, p, l)
+
 	case OSLICE3, OSLICE3ARR:
 		v := s.expr(n.Left)
 		var i *ssa.Value
@@ -2261,43 +2252,40 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 // This function is intended to handle && and || better than just calling
 // s.expr(cond) and branching on the result.
 func (s *state) condBranch(cond *Node, yes, no *ssa.Block, likely int8) {
-	if cond.Op == OANDAND {
+	switch cond.Op {
+	case OANDAND:
 		mid := s.f.NewBlock(ssa.BlockPlain)
-		s.stmtList(cond.Ninit)
+		s.stmts(cond.Ninit)
 		s.condBranch(cond.Left, mid, no, max8(likely, 0))
 		s.startBlock(mid)
 		s.condBranch(cond.Right, yes, no, likely)
-		return
 		// Note: if likely==1, then both recursive calls pass 1.
 		// If likely==-1, then we don't have enough information to decide
 		// whether the first branch is likely or not. So we pass 0 for
 		// the likeliness of the first branch.
 		// TODO: have the frontend give us branch prediction hints for
 		// OANDAND and OOROR nodes (if it ever has such info).
-	}
-	if cond.Op == OOROR {
+	case OOROR:
 		mid := s.f.NewBlock(ssa.BlockPlain)
-		s.stmtList(cond.Ninit)
+		s.stmts(cond.Ninit)
 		s.condBranch(cond.Left, yes, mid, min8(likely, 0))
 		s.startBlock(mid)
 		s.condBranch(cond.Right, yes, no, likely)
-		return
 		// Note: if likely==-1, then both recursive calls pass -1.
 		// If likely==1, then we don't have enough info to decide
 		// the likelihood of the first branch.
-	}
-	if cond.Op == ONOT {
-		s.stmtList(cond.Ninit)
+	case ONOT:
+		s.stmts(cond.Ninit)
 		s.condBranch(cond.Left, no, yes, -likely)
-		return
+	default:
+		c := s.expr(cond)
+		b := s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.SetControl(c)
+		b.Likely = ssa.BranchPrediction(likely) // gc and ssa both use -1/0/+1 for likeliness
+		b.AddEdgeTo(yes)
+		b.AddEdgeTo(no)
 	}
-	c := s.expr(cond)
-	b := s.endBlock()
-	b.Kind = ssa.BlockIf
-	b.SetControl(c)
-	b.Likely = ssa.BranchPrediction(likely) // gc and ssa both use -1/0/+1 for likeliness
-	b.AddEdgeTo(yes)
-	b.AddEdgeTo(no)
 }
 
 type skipMask uint8
@@ -2590,7 +2578,7 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	// been offset by the appropriate amount (+2*widthptr for go/defer,
 	// +widthptr for interface calls).
 	// For OCALLMETH, the receiver is set in these statements.
-	s.stmtList(n.List)
+	s.stmts(n.List)
 
 	// Set receiver (for interface calls)
 	if rcvr != nil {
@@ -2613,7 +2601,6 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	}
 
 	// call target
-	bNext := s.f.NewBlock(ssa.BlockPlain)
 	var call *ssa.Value
 	switch {
 	case k == callDefer:
@@ -2637,6 +2624,7 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	b := s.endBlock()
 	b.Kind = ssa.BlockCall
 	b.SetControl(call)
+	bNext := s.f.NewBlock(ssa.BlockPlain)
 	b.AddEdgeTo(bNext)
 	if k == callDefer {
 		// Add recover edge to exit code.
@@ -2857,18 +2845,17 @@ func canSSAType(t *Type) bool {
 		// Too big and we'll introduce too much register pressure.
 		return false
 	}
-	switch t.Etype {
-	case TARRAY:
-		if t.IsSlice() {
-			return true
-		}
+	switch {
+	default:
+		return true
+	case t.IsArray():
 		// We can't do arrays because dynamic indexing is
 		// not supported on SSA variables.
 		// TODO: maybe allow if length is <=1?  All indexes
 		// are constant?  Might be good for the arrays
 		// introduced by the compiler for variadic functions.
 		return false
-	case TSTRUCT:
+	case t.IsStruct():
 		if t.NumFields() > ssa.MaxStruct {
 			return false
 		}
@@ -2877,8 +2864,6 @@ func canSSAType(t *Type) bool {
 				return false
 			}
 		}
-		return true
-	default:
 		return true
 	}
 }
