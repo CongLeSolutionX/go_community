@@ -40,25 +40,33 @@ type dnsConn interface {
 
 	// readDNSResponse reads a DNS response message from the DNS
 	// transport endpoint and returns the received DNS response
-	// message.
-	readDNSResponse() (*dnsMsg, error)
+	// message. The transport is responsible for ensuring the
+	// returned message m satisfies m.IsResponseTo(q).
+	readDNSResponse(q *dnsMsg) (*dnsMsg, error)
 
 	// writeDNSQuery writes a DNS query message to the DNS
 	// connection endpoint.
 	writeDNSQuery(*dnsMsg) error
 }
 
-func (c *UDPConn) readDNSResponse() (*dnsMsg, error) {
+func (c *UDPConn) readDNSResponse(out *dnsMsg) (*dnsMsg, error) {
 	b := make([]byte, 512) // see RFC 1035
-	n, err := c.Read(b)
-	if err != nil {
-		return nil, err
+	for {
+		n, err := c.Read(b)
+		if err != nil {
+			return nil, err
+		}
+		msg := &dnsMsg{}
+		// If we get an invalid DNS response, keep waiting in case
+		// it was a forgery attempt (golang.org/issue/13281).
+		if !msg.Unpack(b[:n]) {
+			continue
+		}
+		if !msg.IsResponseTo(out) {
+			continue
+		}
+		return msg, nil
 	}
-	msg := &dnsMsg{}
-	if !msg.Unpack(b[:n]) {
-		return nil, errors.New("cannot unmarshal DNS message")
-	}
-	return msg, nil
 }
 
 func (c *UDPConn) writeDNSQuery(msg *dnsMsg) error {
@@ -72,7 +80,7 @@ func (c *UDPConn) writeDNSQuery(msg *dnsMsg) error {
 	return nil
 }
 
-func (c *TCPConn) readDNSResponse() (*dnsMsg, error) {
+func (c *TCPConn) readDNSResponse(out *dnsMsg) (*dnsMsg, error) {
 	b := make([]byte, 1280) // 1280 is a reasonable initial size for IP over Ethernet, see RFC 4035
 	if _, err := io.ReadFull(c, b[:2]); err != nil {
 		return nil, err
@@ -88,6 +96,9 @@ func (c *TCPConn) readDNSResponse() (*dnsMsg, error) {
 	msg := &dnsMsg{}
 	if !msg.Unpack(b[:n]) {
 		return nil, errors.New("cannot unmarshal DNS message")
+	}
+	if !msg.IsResponseTo(out) {
+		return nil, errors.New("invalid DNS response")
 	}
 	return msg, nil
 }
@@ -153,12 +164,9 @@ func exchange(ctx context.Context, server, name string, qtype uint16) (*dnsMsg, 
 		if err := c.writeDNSQuery(&out); err != nil {
 			return nil, mapErr(err)
 		}
-		in, err := c.readDNSResponse()
+		in, err := c.readDNSResponse(&out)
 		if err != nil {
 			return nil, mapErr(err)
-		}
-		if in.id != out.id {
-			return nil, errors.New("DNS message ID mismatch")
 		}
 		if in.truncated { // see RFC 5966
 			continue

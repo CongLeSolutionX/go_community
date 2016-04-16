@@ -593,7 +593,7 @@ func (f *fakeDNSConn) writeDNSQuery(q *dnsMsg) error {
 	return nil
 }
 
-func (f *fakeDNSConn) readDNSResponse() (*dnsMsg, error) {
+func (f *fakeDNSConn) readDNSResponse(*dnsMsg) (*dnsMsg, error) {
 	f.qmu.Lock()
 	q := f.q
 	f.qmu.Unlock()
