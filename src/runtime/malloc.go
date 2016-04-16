@@ -667,6 +667,7 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		size = s.elemsize
 	}
 
+	var scanSize uintptr
 	if flags&flagNoScan != 0 {
 		// All objects are pre-marked as noscan. Nothing to do.
 	} else {
@@ -685,11 +686,12 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			// pointers, GC has to scan to the last
 			// element.
 			if typ.ptrdata != 0 {
-				c.local_scan += dataSize - typ.size + typ.ptrdata
+				scanSize = dataSize - typ.size + typ.ptrdata
 			}
 		} else {
-			c.local_scan += typ.ptrdata
+			scanSize = typ.ptrdata
 		}
+		c.local_scan += scanSize
 
 		// Ensure that the stores above that initialize x to
 		// type-safe memory and set the heap bits occur before
@@ -706,7 +708,7 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 	// a race marking the bit.
 	if gcphase == _GCmarktermination || gcBlackenPromptly {
 		systemstack(func() {
-			gcmarknewobject_m(uintptr(x), size)
+			gcmarknewobject_m(uintptr(x), size, scanSize)
 		})
 	}
 
