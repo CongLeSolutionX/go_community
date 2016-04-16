@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b732e96_37de1257",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-16T23:40:05Z",
+      "side": 1,
+      "message": "If this was just before copyBuffer() then I\u0027d know what copyBufPool was for certain before reading the function.",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 25
+      },
+      "revId": "e85636d192d3f6d11fe9e7c5f2d743934db64bf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
