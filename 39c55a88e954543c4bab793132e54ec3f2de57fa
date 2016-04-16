@@ -16,6 +16,70 @@
       "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4af641_98845d95",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-16T21:29:45Z",
+      "side": 1,
+      "message": "True. Both should be padded with spaces to follow C\u0027s rule of canceling the zero modifier when precision is set. I will change the CL to generally fix fmt_integer to adhere to that for all values.",
+      "parentUuid": "4898cc33_9e2a5dbd",
+      "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6dfab4_19cceb87",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-16T21:29:45Z",
+      "side": 1,
+      "message": "Might be worded better too. I think this could be misunderstood to mean that no padding is applied at all.",
+      "range": {
+        "startLine": 221,
+        "startChar": 1,
+        "endLine": 221,
+        "endChar": 44
+      },
+      "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b732e96_17e11614",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-16T21:29:45Z",
+      "side": 1,
+      "message": "while we are at it: would you be in favour to also make the change before go1.7 to take f.sharp into account to fix: #14616 such that Sprintf(%#06x,0) is \"0x0000\" instead of \"0x000000\" for compatibility with C and consistency with other prefixes?",
+      "range": {
+        "startLine": 227,
+        "startChar": 2,
+        "endLine": 227,
+        "endChar": 36
+      },
+      "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
