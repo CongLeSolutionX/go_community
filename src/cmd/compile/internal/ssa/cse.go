@@ -148,6 +148,7 @@ func cse(f *Func) {
 
 			e[i] = nil
 			// Replace all elements of e which v dominates
+			done := false
 			for j := i + 1; j < len(e); j++ {
 				w := e[j]
 				if w == nil {
@@ -160,7 +161,10 @@ func cse(f *Func) {
 					// since the blocks are assorted in ascending order by entry number
 					// once we know that we don't dominate a block we can't dominate any
 					// 'later' block
-					break
+					if done {
+						w.Fatalf("nope")
+					}
+					done = true
 				}
 			}
 		}
