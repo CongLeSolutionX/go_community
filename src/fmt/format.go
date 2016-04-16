@@ -192,9 +192,9 @@ func (f *fmt) fmt_unicode(u uint64) {
 
 // fmt_integer formats signed and unsigned integers.
 func (f *fmt) fmt_integer(u uint64, base int, isSigned bool, digits string) {
-	// Precision of 0 and value of 0 means "print nothing" but padding.
+	// Precision of 0 and value of 0 means "print nothing" but padding with spaces.
 	if f.precPresent && f.prec == 0 && u == 0 {
-		if f.widPresent {
+		if !f.zero && f.widPresent {
 			f.writePadding(f.wid)
 		}
 		return
