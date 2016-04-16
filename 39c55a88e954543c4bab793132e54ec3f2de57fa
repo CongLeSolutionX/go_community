@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4898cc33_9e2a5dbd",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-16T15:59:18Z",
+      "side": 1,
+      "message": "shouldn\u0027t 331 and 332 produce six spaces? that\u0027s what C would do, and i\u0027m mostly trying to follow its lead. i admit they didn\u0027t before (i even checked back to go1.4).\n\nbut if we\u0027re going to fix this up, let\u0027s get it right. if you ask for a field width of 6, you should always get 6.",
+      "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
