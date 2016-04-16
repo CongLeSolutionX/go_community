@@ -16,6 +16,24 @@
       "revId": "29a00300eca19837655bb3e40c7534b7c5566cdb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083414db_fb2a5b6f",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-16T00:46:51Z",
+      "side": 1,
+      "message": "It means the same: net.Dial. \n\nI think I should just document in the net package on net.Dialer that a nil pointer there is equivalent to the zero value, and then simplify these docs. I\u0027ll at least make this consistent before submitting and address net separately if that turns out nicer.",
+      "parentUuid": "083414db_7b90ab6e",
+      "revId": "29a00300eca19837655bb3e40c7534b7c5566cdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
