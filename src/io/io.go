@@ -14,6 +14,7 @@ package io
 
 import (
 	"errors"
+	"sync"
 )
 
 // Seek whence values.
@@ -391,8 +392,13 @@ func copyBuffer(dst Writer, src Reader, buf []byte) (written int64, err error) {
 	if rt, ok := dst.(ReaderFrom); ok {
 		return rt.ReadFrom(src)
 	}
+	var bufv interface{}
 	if buf == nil {
-		buf = make([]byte, 32*1024)
+		bufv = copyBufPool.Get()
+		if bufv == nil {
+			bufv = make([]byte, 32*1024)
+		}
+		buf = bufv.([]byte)
 	}
 	for {
 		nr, er := src.Read(buf)
@@ -418,8 +424,13 @@ func copyBuffer(dst Writer, src Reader, buf []byte) (written int64, err error) {
 			break
 		}
 	}
+	if bufv != nil {
+		copyBufPool.Put(bufv)
+	}
 	return written, err
 }
+
+var copyBufPool sync.Pool
 
 // LimitReader returns a Reader that reads from r
 // but stops with EOF after n bytes.
