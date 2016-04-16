@@ -80,6 +80,24 @@
       "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_def3054a",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-16T23:20:30Z",
+      "side": 1,
+      "message": "Yes, if you want to do so. Thanks.",
+      "parentUuid": "0b732e96_17e11614",
+      "revId": "39c55a88e954543c4bab793132e54ec3f2de57fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
