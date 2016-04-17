@@ -71,6 +71,41 @@
     },
     {
       "key": {
+        "uuid": "4898cc33_1ea88db0",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-17T08:08:30Z",
+      "side": 1,
+      "message": "If you must keep this e.cur mechanism, it needs commentary, as I said on https://github.com/golang/snappy/pull/23:\n\n\"It\u0027s still not obvious to me what the invariant is before/after every call to encoder.encode. In other words, what is the relationship between e.cur and the elements of e.table? Originally, I thought that e.table[i] \u003c\u003d e.cur for all i in the range [0, tableSize), but that\u0027s not true, because [e.cur can overflow].\"",
+      "parentUuid": "cb4af641_35ea9a91",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_de91c57f",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-17T08:08:30Z",
+      "side": 1,
+      "message": "For example, is this necessary? Can e.cur overflow? Does that invalidate the \"we make sure that e.cur is always \u003e 0\" claim below?",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b3abef4_668ccafa",
         "filename": "src/compress/flate/deflatefast.go",
         "patchSetId": 6
@@ -130,6 +165,30 @@
       "side": 1,
       "message": "That looks very good. \n\nHowever, that has diverged quite a bit, and does matching across blocks, so I am not sure how changes will translate. \n\nI am using a fixed size table (using 16 instead of up to 14 bits, since it is faster an gives better compression), since the table size has to remain constant across blocks. I will see if there are other things that can be carried over, but I think the main improvements are already present.",
       "parentUuid": "8b3abef4_668ccafa",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_7ea3d1d8",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-17T08:08:30Z",
+      "side": 1,
+      "message": "I still think that it\u0027s worth re-basing. Assuming that this CL\u0027s algorithm is close to what github.com/klauspost/compress/snappy is doing, call that algorithm \"old Snappy\", and what github.com/golang/snappy currently does \"new Snappy\", a.k.a. \"what C++ snappy does\". The benchcmp numbers I get for github.com/klauspost/compress/snappy vs github.com/golang/snappy is slower on small inputs, but faster on large inputs, which I think is the right trade-off:\n\nbenchmark                     old MB/s     new MB/s     speedup\nBenchmarkWordsEncode1e1-4     96.01        471.58       4.91x\nBenchmarkWordsEncode1e2-4     153.61       59.74        0.39x\nBenchmarkWordsEncode1e3-4     182.18       172.14       0.94x\nBenchmarkWordsEncode1e4-4     136.51       168.15       1.23x\nBenchmarkWordsEncode1e5-4     102.30       132.06       1.29x\nBenchmarkWordsEncode1e6-4     122.99       150.50       1.22x\nBenchmarkRandomEncode-4       2300.83      6565.85      2.85x\nBenchmark_ZFlat0-4            261.25       309.14       1.18x\nBenchmark_ZFlat1-4            133.00       195.88       1.47x\nBenchmark_ZFlat2-4            3607.28      7857.58      2.18x\nBenchmark_ZFlat3-4            207.72       121.92       0.59x\nBenchmark_ZFlat4-4            1424.50      2199.72      1.54x\nBenchmark_ZFlat5-4            261.64       305.29       1.17x\nBenchmark_ZFlat6-4            113.80       136.30       1.20x\nBenchmark_ZFlat7-4            108.39       129.91       1.20x\nBenchmark_ZFlat8-4            117.76       143.41       1.22x\nBenchmark_ZFlat9-4            102.93       124.86       1.21x\nBenchmark_ZFlat10-4           304.33       365.08       1.20x\nBenchmark_ZFlat11-4           171.97       197.88       1.15x\n\nThese numbers are both run with \"-tags\u003dnoasm\", since the github.com/golang/snappy version does not use PCMPESTRI yet. There\u0027s no reason that it can\u0027t do it, it\u0027s just that nobody has got around to implementing it.\n\nThe \"new Snappy\" version also results in smaller output in 10/11 cases:\n\ndata\tinsize\toutsize\treference\treduction\tref-red\tr-delta\nFlat0:\thtml\t102400\t23317\t22843\t77.23%\t77.69%\t-0.46%\nFlat1:\turls\t702087\t337057\t335492\t51.99%\t52.22%\t-0.22%\nFlat2:\tjpg\t123093\t123035\t123034\t0.05%\t0.05%\t-0.00%\nFlat3:\tjpg_200\t123093\t123035\t123034\t0.05%\t0.05%\t-0.00%\nFlat4:\tpdf\t102400\t84897\t85304\t17.09%\t16.70%\t0.40%\nFlat5:\thtml4\t409600\t92689\t92234\t77.37%\t77.48%\t-0.11%\nFlat6:\ttxt1\t152089\t89544\t88034\t41.12%\t42.12%\t-0.99%\nFlat7:\ttxt2\t125179\t80536\t77503\t35.66%\t38.09%\t-2.42%\nFlat8:\ttxt3\t426754\t238857\t234661\t44.03%\t45.01%\t-0.98%\nFlat9:\ttxt4\t481861\t324755\t319267\t32.60%\t33.74%\t-1.14%\nFlat10:\tpb\t118588\t24723\t23335\t79.15%\t80.32%\t-1.17%\nFlat11:\tgaviota\t184320\t73963\t69526\t59.87%\t62.28%\t-2.41%\n\nIf you don\u0027t have time to re-base this CL on the \"new Snappy\" algorithm, I\u0027ll make that my highest priority task this working week, although I probably won\u0027t send anything out until the second half of the week, as I work part time.",
+      "parentUuid": "cb4af641_b504ca3b",
       "range": {
         "startLine": 46,
         "startChar": 4,
