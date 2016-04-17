@@ -227,6 +227,9 @@ func (f *fmt) fmt_integer(u uint64, base int, isSigned bool, digits string) {
 		if negative || f.plus || f.space {
 			prec-- // leave room for sign
 		}
+		if f.sharp && base == 16 {
+			prec -= 2 // leave room for "0x"
+		}
 	}
 
 	// Because printing is easier right-to-left: format u into buf, ending at buf[i].
