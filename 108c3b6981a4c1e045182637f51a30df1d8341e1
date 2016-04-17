@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b74727a_78a6bd82",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-17T09:41:20Z",
+      "side": 1,
+      "message": "Haven\u0027t checked, but is similar adjustment needed for the \"0\" of %#o, including tests?  As a reader of the code, I\u0027d assume that should be near the 0x/%#x adjustment here.",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 35
+      },
+      "revId": "108c3b6981a4c1e045182637f51a30df1d8341e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
