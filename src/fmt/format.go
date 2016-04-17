@@ -226,7 +226,10 @@ func (f *fmt) fmt_integer(u uint64, base int, isSigned bool, digits string) {
 	} else if f.zero && f.widPresent {
 		prec = f.wid
 		if negative || f.plus || f.space {
-			prec-- // leave room for sign
+			prec-- // Leave room for a sign.
+		}
+		if f.sharp && base == 16 {
+			prec -= 2 // Leave room for "0x".
 		}
 	}
 

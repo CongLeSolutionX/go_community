@@ -342,7 +342,10 @@ var fmtTests = []struct {
 	{"%#o", 01234, "01234"},
 	{"%o", ^uint32(0), "37777777777"},
 	{"%o", ^uint64(0), "1777777777777777777777"},
+	{"%#o", 0, "0"},
+	{"%#03o", 1, "001"},
 	{"%#X", 0, "0X0"},
+	{"%#04x", 1, "0x01"},
 	{"%x", 0x12abcdef, "12abcdef"},
 	{"%X", 0x12abcdef, "12ABCDEF"},
 	{"%x", ^uint32(0), "ffffffff"},
@@ -569,7 +572,7 @@ var fmtTests = []struct {
 	{"%-06v", []byte{1, 11, 111}, "[1      11     111   ]"},
 	{"%#v", []byte{1, 11, 111}, "[]byte{0x1, 0xb, 0x6f}"},
 	{"%#6v", []byte{1, 11, 111}, "[]byte{   0x1,    0xb,   0x6f}"},
-	{"%#06v", []byte{1, 11, 111}, "[]byte{0x000001, 0x00000b, 0x00006f}"},
+	{"%#06v", []byte{1, 11, 111}, "[]byte{0x0001, 0x000b, 0x006f}"},
 	{"%#-6v", []byte{1, 11, 111}, "[]byte{0x1   , 0xb   , 0x6f  }"},
 	{"%#-06v", []byte{1, 11, 111}, "[]byte{0x1   , 0xb   , 0x6f  }"},
 	// f.space should and f.plus should not have an effect with %v.
@@ -941,7 +944,7 @@ var fmtTests = []struct {
 	// verbs apply to the extracted value too.
 	{"%s", reflect.ValueOf("hello"), "hello"},
 	{"%q", reflect.ValueOf("hello"), `"hello"`},
-	{"%#04x", reflect.ValueOf(256), "0x0100"},
+	{"%#.4x", reflect.ValueOf(256), "0x0100"},
 
 	// invalid reflect.Value doesn't crash.
 	{"%v", reflect.Value{}, "<invalid reflect.Value>"},
