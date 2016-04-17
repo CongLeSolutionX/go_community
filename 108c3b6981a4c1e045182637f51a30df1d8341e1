@@ -46,6 +46,30 @@
       "revId": "108c3b6981a4c1e045182637f51a30df1d8341e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b74727a_b8d695c7",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-17T10:52:13Z",
+      "side": 1,
+      "message": "Is this meant to be matching C?\n\nfmt says of #: \"add leading 0 for octal (%#o), 0x for hex (%#x)\", ignoring their values.  The playground has \"%#o\" give \"0\", not \"00\", which could still match the documentation, and \"%#x\" give \"0x0\".\n\nPOSIX, according to fprintf(3p) here, says of \"%#o\": \"it increases the precision (if necessary) to force the first digit of the result to be zero\", so that\u0027s more explicitly saying 0 is \"0\".  For \"%#x\": \"a non-zero result shall have 0x (or 0X) prefixed to it\"; that differs from Go\u0027s documentation and behaviour.  And that\u0027s fine, I just think it shows C isn\u0027t the definition.",
+      "parentUuid": "680e702a_d74bfc2d",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 35
+      },
+      "revId": "108c3b6981a4c1e045182637f51a30df1d8341e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
