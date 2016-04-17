@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "4898cc33_5e87f541",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-17T10:37:06Z",
+      "side": 1,
+      "message": "I don\u0027t have a lot of time right now, but just a quick note: please make some form of this a comment in the code itself, not just in the code review. I\u0027ve said a number of times now that the e.cur field needs commentary.",
+      "parentUuid": "cb4af641_38c8d1cb",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4898cc33_de91c57f",
         "filename": "src/compress/flate/deflatefast.go",
         "patchSetId": 6
