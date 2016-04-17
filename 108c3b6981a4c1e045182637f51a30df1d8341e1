@@ -70,6 +70,30 @@
       "revId": "108c3b6981a4c1e045182637f51a30df1d8341e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4af641_58ebd5f3",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-17T16:17:53Z",
+      "side": 1,
+      "message": "The (with C) earlier was meant more to say i check Go and C and see what both will do. Since C is not the definition but if possible go is mirroring printf behavior \"Package fmt implements formatted I/O with functions analogous to C\u0027s printf and scanf.\" So if they would disagree and documentation wasn\u0027t clear that could have been an argument for change. But the output before and after the change for %#o seems the same (will add test cases) and seems consistent with doc and C in context of how padding with spaces should be handled.\n\nGood point that there might be another issue here e.g. %#.o produces no string on playground but C and maybe documentation? require it to be a 0. But i guess that is a separate CL and issue on the tracker.",
+      "parentUuid": "2b74727a_b8d695c7",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 35
+      },
+      "revId": "108c3b6981a4c1e045182637f51a30df1d8341e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
