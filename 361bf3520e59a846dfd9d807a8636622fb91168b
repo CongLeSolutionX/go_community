@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cb4af641_38c8d1cb",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-04-17T09:15:51Z",
+      "side": 1,
+      "message": "ok, let me try to rephrase it:\n\ne.table[i] returns the potential match of a hash i of the 4 current bytes we are searching for. We subtract cur from that position. This gives us the relative position \"t\" in the current buffer of the match. \n\nWe discard the position if -max-offset \u003e s-t \u003e\u003d 0, because it is invalid match positions anyway.\n\nif t \u003c 0, we might have a match that starts in the previous buffer. If that is present, we use that. If t \u003e\u003d0 we have a potential match in the current buffer.\n\nThis means that we only check valid positions for potential matches.\n\nIf we get a \"false\" match returned from the hash table nothing happens because we still check if the bytes match.\n\nYou could potentially start the encoding of any buffer with \"junk\" in the e.table, and it will output the same. Some extra checks will be done, but the match will be discarded every time because the actual bytes will not match.",
+      "parentUuid": "4898cc33_1ea88db0",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4898cc33_de91c57f",
         "filename": "src/compress/flate/deflatefast.go",
         "patchSetId": 6
@@ -100,6 +118,24 @@
       "writtenOn": "2016-04-17T08:08:30Z",
       "side": 1,
       "message": "For example, is this necessary? Can e.cur overflow? Does that invalidate the \"we make sure that e.cur is always \u003e 0\" claim below?",
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4af641_58d5955e",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-04-17T09:15:51Z",
+      "side": 1,
+      "message": "If len(src) \u003c\u003d 4 we are in \"sync/flush\" mode. The input makes sure that unless we are flushing blocks are always maxstorebytes (64k) in size.",
+      "parentUuid": "4898cc33_de91c57f",
       "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +225,30 @@
       "side": 1,
       "message": "I still think that it\u0027s worth re-basing. Assuming that this CL\u0027s algorithm is close to what github.com/klauspost/compress/snappy is doing, call that algorithm \"old Snappy\", and what github.com/golang/snappy currently does \"new Snappy\", a.k.a. \"what C++ snappy does\". The benchcmp numbers I get for github.com/klauspost/compress/snappy vs github.com/golang/snappy is slower on small inputs, but faster on large inputs, which I think is the right trade-off:\n\nbenchmark                     old MB/s     new MB/s     speedup\nBenchmarkWordsEncode1e1-4     96.01        471.58       4.91x\nBenchmarkWordsEncode1e2-4     153.61       59.74        0.39x\nBenchmarkWordsEncode1e3-4     182.18       172.14       0.94x\nBenchmarkWordsEncode1e4-4     136.51       168.15       1.23x\nBenchmarkWordsEncode1e5-4     102.30       132.06       1.29x\nBenchmarkWordsEncode1e6-4     122.99       150.50       1.22x\nBenchmarkRandomEncode-4       2300.83      6565.85      2.85x\nBenchmark_ZFlat0-4            261.25       309.14       1.18x\nBenchmark_ZFlat1-4            133.00       195.88       1.47x\nBenchmark_ZFlat2-4            3607.28      7857.58      2.18x\nBenchmark_ZFlat3-4            207.72       121.92       0.59x\nBenchmark_ZFlat4-4            1424.50      2199.72      1.54x\nBenchmark_ZFlat5-4            261.64       305.29       1.17x\nBenchmark_ZFlat6-4            113.80       136.30       1.20x\nBenchmark_ZFlat7-4            108.39       129.91       1.20x\nBenchmark_ZFlat8-4            117.76       143.41       1.22x\nBenchmark_ZFlat9-4            102.93       124.86       1.21x\nBenchmark_ZFlat10-4           304.33       365.08       1.20x\nBenchmark_ZFlat11-4           171.97       197.88       1.15x\n\nThese numbers are both run with \"-tags\u003dnoasm\", since the github.com/golang/snappy version does not use PCMPESTRI yet. There\u0027s no reason that it can\u0027t do it, it\u0027s just that nobody has got around to implementing it.\n\nThe \"new Snappy\" version also results in smaller output in 10/11 cases:\n\ndata\tinsize\toutsize\treference\treduction\tref-red\tr-delta\nFlat0:\thtml\t102400\t23317\t22843\t77.23%\t77.69%\t-0.46%\nFlat1:\turls\t702087\t337057\t335492\t51.99%\t52.22%\t-0.22%\nFlat2:\tjpg\t123093\t123035\t123034\t0.05%\t0.05%\t-0.00%\nFlat3:\tjpg_200\t123093\t123035\t123034\t0.05%\t0.05%\t-0.00%\nFlat4:\tpdf\t102400\t84897\t85304\t17.09%\t16.70%\t0.40%\nFlat5:\thtml4\t409600\t92689\t92234\t77.37%\t77.48%\t-0.11%\nFlat6:\ttxt1\t152089\t89544\t88034\t41.12%\t42.12%\t-0.99%\nFlat7:\ttxt2\t125179\t80536\t77503\t35.66%\t38.09%\t-2.42%\nFlat8:\ttxt3\t426754\t238857\t234661\t44.03%\t45.01%\t-0.98%\nFlat9:\ttxt4\t481861\t324755\t319267\t32.60%\t33.74%\t-1.14%\nFlat10:\tpb\t118588\t24723\t23335\t79.15%\t80.32%\t-1.17%\nFlat11:\tgaviota\t184320\t73963\t69526\t59.87%\t62.28%\t-2.41%\n\nIf you don\u0027t have time to re-base this CL on the \"new Snappy\" algorithm, I\u0027ll make that my highest priority task this working week, although I probably won\u0027t send anything out until the second half of the week, as I work part time.",
       "parentUuid": "cb4af641_b504ca3b",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "361bf3520e59a846dfd9d807a8636622fb91168b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4af641_78d25979",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2016-04-17T09:15:51Z",
+      "side": 1,
+      "message": "Isn\u0027t 1e6 still barely 2 blocks (100000 bytes) - maybe you should also include some 10+MB tests, just so we get a good sample size.\n\nAs i said, the numbers looks good, but I have also made a good load of changes to make this adapt reasonably to deflate.",
+      "parentUuid": "4898cc33_7ea3d1d8",
       "range": {
         "startLine": 46,
         "startChar": 4,
