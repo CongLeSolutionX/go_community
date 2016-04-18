@@ -764,7 +764,7 @@ func addexports() {
 
 // perelocsect relocates symbols from first in section sect, and returns
 // the total number of relocations emitted.
-func perelocsect(sect *Section, first *LSym) int {
+func perelocsect(sect *Section, syms []*LSym) int {
 	// If main section has no bits, nothing to relocate.
 	if sect.Vaddr >= sect.Seg.Vaddr+sect.Seg.Filelen {
 		return 0
@@ -773,30 +773,28 @@ func perelocsect(sect *Section, first *LSym) int {
 	relocs := 0
 
 	sect.Reloff = uint64(Cpos())
-	var sym *LSym
-	for sym = first; sym != nil; sym = sym.Next {
-		if !sym.Attr.Reachable() {
+	for i, s := range syms {
+		if !s.Attr.Reachable() {
 			continue
 		}
-		if uint64(sym.Value) >= sect.Vaddr {
+		if uint64(s.Value) >= sect.Vaddr {
+			syms = syms[i:]
 			break
 		}
 	}
 
 	eaddr := int32(sect.Vaddr + sect.Length)
-	var r *Reloc
-	var ri int
-	for ; sym != nil; sym = sym.Next {
-		if !sym.Attr.Reachable() {
+	for _, s := range syms {
+		if !s.Attr.Reachable() {
 			continue
 		}
-		if sym.Value >= int64(eaddr) {
+		if s.Value >= int64(eaddr) {
 			break
 		}
-		Ctxt.Cursym = sym
+		Ctxt.Cursym = s
 
-		for ri = 0; ri < len(sym.R); ri++ {
-			r = &sym.R[ri]
+		for ri := 0; ri < len(s.R); ri++ {
+			r := &s.R[ri]
 			if r.Done != 0 {
 				continue
 			}
@@ -808,7 +806,7 @@ func perelocsect(sect *Section, first *LSym) int {
 			if r.Xsym.Dynid < 0 {
 				Diag("reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
 			}
-			if !Thearch.PEreloc1(r, int64(uint64(sym.Value+int64(r.Off))-PEBASE)) {
+			if !Thearch.PEreloc1(r, int64(uint64(s.Value+int64(r.Off))-PEBASE)) {
 				Diag("unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
 			}
 
@@ -833,9 +831,9 @@ func peemitreloc(text, data, ctors *IMAGE_SECTION_HEADER) {
 	Lputl(0)
 	Wputl(0)
 
-	n := perelocsect(Segtext.Sect, Ctxt.Textp) + 1
+	n := perelocsect(Segtext.Sect, list2slice(Ctxt.Textp)) + 1
 	for sect := Segtext.Sect.Next; sect != nil; sect = sect.Next {
-		n += perelocsect(sect, datap)
+		n += perelocsect(sect, datapFlat)
 	}
 
 	cpos := Cpos()
@@ -858,7 +856,7 @@ func peemitreloc(text, data, ctors *IMAGE_SECTION_HEADER) {
 
 	n = 1
 	for sect := Segdata.Sect; sect != nil; sect = sect.Next {
-		n += perelocsect(sect, datap)
+		n += perelocsect(sect, datapFlat)
 	}
 
 	cpos = Cpos()
