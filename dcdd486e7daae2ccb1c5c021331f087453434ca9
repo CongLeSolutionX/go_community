@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4898cc33_a1c29871",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-18T04:44:56Z",
+      "side": 1,
+      "message": "\u003e ... bug number with the plan?\n\nI have created a proposal for this: https://github.com/golang/go/issues/15345 I will wait for others to agree to what I am doing here first, then I will address all your comments.",
+      "parentUuid": "2b39d2b4_1cd7810b",
+      "revId": "dcdd486e7daae2ccb1c5c021331f087453434ca9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_fcf1d5b3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
