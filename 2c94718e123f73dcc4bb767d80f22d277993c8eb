@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "081fb456_68956b5d",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T14:42:02Z",
+      "side": 1,
+      "message": "Done and a check that size !\u003d 0 when i !\u003d 0 was also added to your suggested code in msize.go",
+      "parentUuid": "0b4eceab_bcfd4181",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_9cfa0585",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 10
@@ -47,6 +65,24 @@
       "writtenOn": "2016-04-11T22:41:59Z",
       "side": 1,
       "message": "Perhaps // list of free objects for _MSpanInUse",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_08cdd783",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T14:42:02Z",
+      "side": 1,
+      "message": "Done but this field is deleted in a later CL.",
+      "parentUuid": "0b4eceab_9cfa0585",
       "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "081fb456_489aaf8d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T14:42:02Z",
+      "side": 1,
+      "message": "We don\u0027t need both. I split them out in this CL since in a later CL freelist is going to be deleted as we go to the sweep free allocation scheme. stackfreelist seems more descriptive than just using freelist.",
+      "parentUuid": "0b4eceab_fcf7c99a",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_dcf48d99",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 10
@@ -81,6 +135,24 @@
       "writtenOn": "2016-04-11T22:41:59Z",
       "side": 1,
       "message": "\"typically\"? What\u0027s the non-typical case? Perhaps this should be merged with the first sentence in this comment to make a precise statement about what freeindex means.",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_28b893e5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T14:42:02Z",
+      "side": 1,
+      "message": "Comment fixed to reflect that where freeindex is set is a performance consideration.\nDone",
+      "parentUuid": "0b4eceab_dcf48d99",
       "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "081fb456_48b3cf0d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T14:42:02Z",
+      "side": 1,
+      "message": "\u003e Perhaps \"starts at address\"",
+      "parentUuid": "0b4eceab_3c35b12a",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_1c3a751a",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 10
@@ -115,6 +205,24 @@
       "writtenOn": "2016-04-11T22:41:59Z",
       "side": 1,
       "message": "Is there a reason to have this field in every span, rather than just having a table indexed by size class? (You don\u0027t have to change it in this CL, but add a TODO.)",
+      "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081fb456_68be8bd7",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T14:42:02Z",
+      "side": 1,
+      "message": "SOA vs. AOS TODO comment added. My sense is that we will end\nup with a hybrid but I don\u0027t know until I measure it.",
+      "parentUuid": "0b4eceab_1c3a751a",
       "revId": "2c94718e123f73dcc4bb767d80f22d277993c8eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
