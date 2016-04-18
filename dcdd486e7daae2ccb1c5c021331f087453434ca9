@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "4898cc33_6486de0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-18T06:16:47Z",
+      "side": 1,
+      "message": "First of \"small\" CLs is here https://go-review.googlesource.com/22181\n\nAlex",
+      "parentUuid": "4898cc33_24b3f60e",
+      "revId": "dcdd486e7daae2ccb1c5c021331f087453434ca9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b39d2b4_9cb7f1f9",
         "filename": "src/debug/pe/file.go",
         "patchSetId": 2
