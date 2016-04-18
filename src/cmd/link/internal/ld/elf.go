@@ -10,6 +10,7 @@ import (
 	"crypto/sha1"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -1670,7 +1671,7 @@ func elfshreloc(sect *Section) *ElfShdr {
 	return sh
 }
 
-func elfrelocsect(sect *Section, first *LSym) {
+func elfrelocsect(sect *Section, syms []*LSym) {
 	// If main section is SHT_NOBITS, nothing to relocate.
 	// Also nothing to relocate in .shstrtab.
 	if sect.Vaddr >= sect.Seg.Vaddr+sect.Seg.Filelen {
@@ -1681,30 +1682,28 @@ func elfrelocsect(sect *Section, first *LSym) {
 	}
 
 	sect.Reloff = uint64(Cpos())
-	var sym *LSym
-	for sym = first; sym != nil; sym = sym.Next {
-		if !sym.Attr.Reachable() {
+	for i, s := range syms {
+		if !s.Attr.Reachable() {
 			continue
 		}
-		if uint64(sym.Value) >= sect.Vaddr {
+		if uint64(s.Value) >= sect.Vaddr {
+			syms = syms[i:]
 			break
 		}
 	}
 
 	eaddr := int32(sect.Vaddr + sect.Length)
-	var r *Reloc
-	var ri int
-	for ; sym != nil; sym = sym.Next {
-		if !sym.Attr.Reachable() {
+	for _, s := range syms {
+		if !s.Attr.Reachable() {
 			continue
 		}
-		if sym.Value >= int64(eaddr) {
+		if s.Value >= int64(eaddr) {
 			break
 		}
-		Ctxt.Cursym = sym
+		Ctxt.Cursym = s
 
-		for ri = 0; ri < len(sym.R); ri++ {
-			r = &sym.R[ri]
+		for ri := 0; ri < len(s.R); ri++ {
+			r := &s.R[ri]
 			if r.Done != 0 {
 				continue
 			}
@@ -1712,11 +1711,10 @@ func elfrelocsect(sect *Section, first *LSym) {
 				Diag("missing xsym in relocation")
 				continue
 			}
-
 			if r.Xsym.ElfsymForReloc() == 0 {
 				Diag("reloc %d to non-elf symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
 			}
-			if Thearch.Elfreloc1(r, int64(uint64(sym.Value+int64(r.Off))-sect.Vaddr)) < 0 {
+			if Thearch.Elfreloc1(r, int64(uint64(s.Value+int64(r.Off))-sect.Vaddr)) < 0 {
 				Diag("unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
 			}
 		}
@@ -1730,18 +1728,18 @@ func Elfemitreloc() {
 		Cput(0)
 	}
 
-	elfrelocsect(Segtext.Sect, Ctxt.Textp)
+	elfrelocsect(Segtext.Sect, list2slice(Ctxt.Textp))
 	for sect := Segtext.Sect.Next; sect != nil; sect = sect.Next {
-		elfrelocsect(sect, datap)
+		elfrelocsect(sect, datapFlat)
 	}
 	for sect := Segrodata.Sect; sect != nil; sect = sect.Next {
-		elfrelocsect(sect, datap)
+		elfrelocsect(sect, datapFlat)
 	}
 	for sect := Segdata.Sect; sect != nil; sect = sect.Next {
-		elfrelocsect(sect, datap)
+		elfrelocsect(sect, datapFlat)
 	}
 	for sect := Segdwarf.Sect; sect != nil; sect = sect.Next {
-		elfrelocsect(sect, dwarfp)
+		elfrelocsect(sect, list2slice(dwarfp))
 	}
 }
 
@@ -2044,6 +2042,9 @@ func shsym(sh *ElfShdr, s *LSym) {
 	addr := Symaddr(s)
 	if sh.flags&SHF_ALLOC != 0 {
 		sh.addr = uint64(addr)
+	}
+	if addr == 0 {
+		fmt.Printf("shsym 0 addr: Name=%s, Type=%d\n", s.Name, s.Type)
 	}
 	sh.off = uint64(datoff(addr))
 	sh.size = uint64(s.Size)

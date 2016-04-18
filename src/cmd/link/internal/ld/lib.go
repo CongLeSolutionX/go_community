@@ -130,7 +130,6 @@ func (r *Rpath) String() string {
 
 var (
 	Thearch Arch
-	datap   *LSym
 	Debug   [128]int
 	Lcsize  int32
 	rpath   Rpath
@@ -2109,9 +2108,9 @@ func undef() {
 	for s := Ctxt.Textp; s != nil; s = s.Next {
 		undefsym(s)
 	}
-	for s := datap; s != nil; s = s.Next {
+	/* TODO for s := datap; s != nil; s = s.Next {
 		undefsym(s)
-	}
+	}*/
 	if nerrors > 0 {
 		errorexit()
 	}
