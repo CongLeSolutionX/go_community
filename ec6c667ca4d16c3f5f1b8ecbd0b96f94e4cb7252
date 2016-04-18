@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2b39d2b4_f06c9e07",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T15:57:25Z",
+      "side": 1,
+      "message": "I agree now. Cutting it as a method on mcache is cleaner.\nDone",
+      "parentUuid": "0b4eceab_9c77a5d5",
+      "revId": "ec6c667ca4d16c3f5f1b8ecbd0b96f94e4cb7252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1da7f0d2_fdb1c72c",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 3
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "This whole routine is about to be rewritten in a way such that prefetchnta is no longer useful. I moved the reference to the CL into the comment above so that it will persist through the code changes.",
       "parentUuid": "1da7f0d2_fdb1c72c",
+      "revId": "ec6c667ca4d16c3f5f1b8ecbd0b96f94e4cb7252",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b39d2b4_d067a220",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-18T15:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da7f0d2_7cf8102c",
       "revId": "ec6c667ca4d16c3f5f1b8ecbd0b96f94e4cb7252",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
