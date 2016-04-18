@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4898cc33_e43bce78",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "Maybe the encState type should be renamed bestSpeedEncoder, speedEncoder or snappyEncoder.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_04391a80",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "case level \u003d\u003d 1:\n\nwould be more consistent with the neighboring code.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_84568aa9",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "The +1 could do with a comment.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_a445c6f4",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "Revert??",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_c4f492e2",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "Maybe s/position/position (offset by e.cur)/",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_244bf603",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "s/block/prevBlock/ might be a better name.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_8428ca1b",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "s/bits/bit/",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_440962c7",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "FWIW, the outer parens are unnecessary.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_240456b2",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "If you removed the outer parens, gofmt would emphasize the operator precedence:\n\ns +\u003d 1 + (s-lit)\u003e\u003e5",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_a45e26bb",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "The magic 3 could do with a comment. It\u0027s part of the flate file format, right, even though the Snappy-style algorithm emits no matches shorter than 4 bytes long?",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_c45b32ca",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "The magic -5 could do with a comment.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_64fa5ed4",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "\"the number of bytes written\" is wrong, but also, flate doesn\u0027t really have \"literal chunks\". Perhaps just delete the comment.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_6451feb1",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with this comment. It doesn\u0027t seem to add anything.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4898cc33_c44252ea",
+        "filename": "src/compress/flate/deflatefast.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2016-04-18T12:43:16Z",
+      "side": 1,
+      "message": "s/Reset/reset/ as we usually don\u0027t export names unless we have to.",
+      "revId": "b30fae348bc39f571541bdef51ba2ce167de4d5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
