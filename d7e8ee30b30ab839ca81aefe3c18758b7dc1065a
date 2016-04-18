@@ -34,6 +34,24 @@
       "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "084ed4ab_3ce2d1ed",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-18T22:20:57Z",
+      "side": 1,
+      "message": "I\u0027m no fan of global locks myself, but this one is acquired at most once per non-idle goroutine per GC cycle, so I\u0027d be surprised if it\u0027s an issue. If there\u0027s evidence that it is an issue, I\u0027m happy to rework it into something more complex but more scalable. Another way to do this is simply to shard the list by a hash of gp (then gp doesn\u0027t have to keep track of which per-P list it\u0027s on).\n\nI\u0027m not sure I understand your per-G flag suggestion. If I\u0027m reading it right, that\u0027s *exactly* what we do now, which costs us 34ns, which is already too expensive, and is what this CL is moving away from. The point of the rescan list is to attack this at an asymptotic level and bring the STW cost of an idle G to 0. My first version of this CL tried to improve this by simply pulling the gcscanvalid out into a contiguous array, but while that helped, it didn\u0027t help enough. That\u0027s what led me to conclude that improving the asymptotics of this was really the only way to go.\n\nI had a grow-only list (though not per-P) in an earlier version, too, but ran into races involving dead goroutine reuse that I concluded were unresolvable without adding far more synchronization overhead that I was comfortable with.\n\n\u003e On second thought, can\u0027t we limit a per-P list? If a P dirtied, say, 1000 stacks, it could scan one of these stacks and replace the slot with a new dirty stack. Looks better then leaving massive amounts of dirty stacks for mark termination.\n\nThis is solving a different problem, though one we\u0027re definitely interested in solving. Your suggestion is actually one of the solutions we\u0027ve kicked around. Beyond that, we were thinking of bounding the stack rescanning work, which is quite easy to estimate pretty well, rather than the number of stacks; and borrowing some distributed GC tricks from Sapphire to further cut down the set of stacks you have to rescan. But that\u0027s clearly not going to happen for Go 1.7.",
+      "parentUuid": "2ec48060_fb508753",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
