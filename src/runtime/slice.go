@@ -85,16 +85,6 @@ func growslice(t *slicetype, old slice, cap int) slice {
 		msanread(old.array, uintptr(old.len*int(t.elem.size)))
 	}
 
-	et := t.elem
-	if et.size == 0 {
-		if cap < old.cap {
-			panic(errorString("growslice: cap out of range"))
-		}
-		// append should not create a slice with nil pointer but non-zero len.
-		// We assume that append doesn't need to preserve old.array in this case.
-		return slice{unsafe.Pointer(&zerobase), old.len, cap}
-	}
-
 	newcap := old.cap
 	doublecap := newcap + newcap
 	if cap > doublecap {
@@ -109,22 +99,58 @@ func growslice(t *slicetype, old slice, cap int) slice {
 		}
 	}
 
-	var lenmem, capmem, maxcap uintptr
-	const ptrSize = unsafe.Sizeof((*byte)(nil))
+	et := t.elem
+
+	lenmem := uintptr(old.len)
+	capmem := uintptr(newcap)
+	var maxcap uintptr
+
+	// See maxSliceElem for a discussion of these switch cases.
 	switch et.size {
+	case 0:
+		if cap < old.cap {
+			panic(errorString("growslice: cap out of range"))
+		}
+		// append should not create a slice with nil pointer but non-zero len.
+		// We assume that append doesn't need to preserve old.array in this case.
+		return slice{unsafe.Pointer(&zerobase), old.len, cap}
 	case 1:
-		lenmem = uintptr(old.len)
-		capmem = roundupsize(uintptr(newcap))
+		capmem = roundupsize(capmem)
 		newcap = int(capmem)
 		maxcap = _MaxMem
-	case ptrSize:
-		lenmem = uintptr(old.len) * ptrSize
-		capmem = roundupsize(uintptr(newcap) * ptrSize)
-		newcap = int(capmem / ptrSize)
-		maxcap = _MaxMem / ptrSize
+	case 2:
+		lenmem *= 2
+		capmem = roundupsize(capmem * 2)
+		newcap = int(capmem / 2)
+		maxcap = _MaxMem / 2
+	case 4:
+		lenmem *= 4
+		capmem = roundupsize(capmem * 4)
+		newcap = int(capmem / 4)
+		maxcap = _MaxMem / 4
+	case 8:
+		lenmem *= 8
+		capmem = roundupsize(capmem * 8)
+		newcap = int(capmem / 8)
+		maxcap = _MaxMem / 8
+	case 12:
+		lenmem *= 12
+		capmem = roundupsize(capmem * 12)
+		newcap = int(capmem / 12)
+		maxcap = _MaxMem / 12
+	case 16:
+		lenmem *= 16
+		capmem = roundupsize(capmem * 16)
+		newcap = int(capmem / 16)
+		maxcap = _MaxMem / 16
+	case 24:
+		lenmem *= 24
+		capmem = roundupsize(capmem * 24)
+		newcap = int(capmem / 24)
+		maxcap = _MaxMem / 24
 	default:
-		lenmem = uintptr(old.len) * et.size
-		capmem = roundupsize(uintptr(newcap) * et.size)
+		lenmem *= et.size
+		capmem = roundupsize(capmem * et.size)
 		newcap = int(capmem / et.size)
 		maxcap = _MaxMem / et.size
 	}
