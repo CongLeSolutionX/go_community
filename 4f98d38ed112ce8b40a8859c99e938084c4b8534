@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4877ec0e_460452b3",
+        "filename": "src/runtime/append_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-19T17:27:41Z",
+      "side": 1,
+      "message": "This tests the same elem size in a loop. I think a better benchmark would test a mix of cases that cant be predicted in a window of 16 values to test a possible worst case for branch missprediction.",
+      "revId": "4f98d38ed112ce8b40a8859c99e938084c4b8534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4877ec0e_86ed6a1a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-19T17:27:41Z",
+      "side": 1,
+      "message": "is typ.size needed here? if typ.size \u003d\u003d 0 then maxSliceElem returns maximum uintptr which fails n \u003e maxuintptr automatically. This could save a compare and branch for some common cases.",
+      "revId": "4f98d38ed112ce8b40a8859c99e938084c4b8534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08989484_6c5a1bfd",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-19T17:27:41Z",
+      "side": 1,
+      "message": "since _MaxMem is const maybe do a / for consistency and let the compiler do its \"magic\"? (it should result in the same binary)",
+      "revId": "4f98d38ed112ce8b40a8859c99e938084c4b8534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
