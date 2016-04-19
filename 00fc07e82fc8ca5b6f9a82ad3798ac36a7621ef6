@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28db983a_7dad57c0",
+        "filename": "src/hash/crc64/crc64_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-04-19T19:07:15Z",
+      "side": 1,
+      "message": "please use the new subbenchmark feature.",
+      "revId": "00fc07e82fc8ca5b6f9a82ad3798ac36a7621ef6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
