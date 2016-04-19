@@ -19,6 +19,69 @@
     },
     {
       "key": {
+        "uuid": "28db983a_9d622310",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-19T03:44:17Z",
+      "side": 1,
+      "message": "Function descriptions should start with the name of the function and should be full sentences. For example:\n\nhasVectorFacility reports whether the machine has the z/Architecture vector facility installed and enabled.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 4
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_5d697bf4",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-19T03:44:17Z",
+      "side": 1,
+      "message": "The amd64 equivalents of these functions use the go:noescape annotation to tell the escape analysis that p does not escape (i.e. it does not need to go on the heap). Might want that here? Also, like constants, these names shouldn\u0027t have underscores in them.",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_bd76ffd8",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-19T03:44:17Z",
+      "side": 1,
+      "message": "delete the newline",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8275cf3_1006ec44",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -47,6 +110,75 @@
       "writtenOn": "2016-04-19T00:07:28Z",
       "side": 1,
       "message": "no underscores in variable names",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_dd83cbf5",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-19T03:44:17Z",
+      "side": 1,
+      "message": "comments should either be full sentences or all lower case",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_fd8087eb",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-19T03:44:17Z",
+      "side": 1,
+      "message": "remaining",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_3d74afcd",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-19T03:44:17Z",
+      "side": 1,
+      "message": "Probably best not to hard code constants defined elsewhere into comments, they might change later. Maybe just say \u0027and data length is above threshold\u0027.",
+      "range": {
+        "startLine": 82,
+        "startChar": 78,
+        "endLine": 82,
+        "endChar": 86
+      },
       "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
