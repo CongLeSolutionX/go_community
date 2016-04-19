@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08b6d404_a5bd6428",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-19T21:34:23Z",
+      "side": 0,
+      "message": "Seems weird that we\u0027re checking this again after just checking it in the caller.  Something for another CL, perhaps.\nIn fact, newarray doesn\u0027t do much.  The caller(s) could go to mallocgc directly without much trouble.  And why does mallocgc need flagNoScan when it has a typ pointer and could check typ.kind\u0026kindNoPointers itself?",
+      "revId": "55ab07c224a358cabe795fb1e52a627194d7daee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
