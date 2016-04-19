@@ -3,9 +3,36 @@
 // license that can be found in the LICENSE file.
 package runtime_test
 
-import "testing"
+import (
+	"fmt"
+	"runtime"
+	"testing"
+)
 
 const N = 20
+
+func BenchmarkMaxSliceElem(b *testing.B) {
+	var max uintptr
+	sizes := [...]uintptr{0, 1, 2, 140}
+	for _, sz := range sizes {
+		b.Run(fmt.Sprintf("Predictable-%d", sz), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				max = runtime.MaxSliceElem(sz)
+			}
+		})
+	}
+	b.Run("Unpredictable", func(b *testing.B) {
+		idx := 0
+		for i := 0; i < b.N; i++ {
+			max = runtime.MaxSliceElem(sizes[idx])
+			idx++
+			if idx == len(sizes) {
+				idx = 0
+			}
+		}
+	})
+	_ = max
+}
 
 func BenchmarkMakeSlice(b *testing.B) {
 	var x []byte

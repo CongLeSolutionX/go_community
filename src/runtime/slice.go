@@ -14,6 +14,23 @@ type slice struct {
 	cap   int
 }
 
+var maxElems [32]uintptr
+
+func elemsizeinit() {
+	maxElems[0] = ^uintptr(0)
+	for i := 1; i < len(maxElems); i++ {
+		maxElems[i] = _MaxMem / uintptr(i)
+	}
+}
+
+// maxSliceElem returns the maximum capacity for a slice.
+func maxSliceElem(elemsize uintptr) uintptr {
+	if int(elemsize) < len(maxElems) {
+		return maxElems[elemsize]
+	}
+	return _MaxMem / elemsize
+}
+
 // TODO: take uintptrs instead of int64s?
 func makeslice(t *slicetype, len64, cap64 int64) slice {
 	// NOTE: The len > maxElements check here is not strictly necessary,
@@ -22,11 +39,7 @@ func makeslice(t *slicetype, len64, cap64 int64) slice {
 	// but since the cap is only being supplied implicitly, saying len is clearer.
 	// See issue 4085.
 
-	maxElements := ^uintptr(0)
-	if t.elem.size > 0 {
-		maxElements = _MaxMem / t.elem.size
-	}
-
+	maxElements := maxSliceElem(t.elem.size)
 	len := int(len64)
 	if len64 < 0 || int64(len) != len64 || uintptr(len) > maxElements {
 		panic(errorString("makeslice: len out of range"))
