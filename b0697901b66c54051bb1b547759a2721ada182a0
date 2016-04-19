@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08b6d404_e2dc8202",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-19T19:59:19Z",
+      "side": 1,
+      "message": "Can you do maxElems \u003d [32]uintptr {\n   ^uintptr(0),\n   _MaxMem / 1,\n   _MaxMem / 2,\n   ...\n   _MaxMem / 31,\n}\n?\nThen no runtime initialization required.\nAlso, maybe include 32 in the table?",
+      "revId": "b0697901b66c54051bb1b547759a2721ada182a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
