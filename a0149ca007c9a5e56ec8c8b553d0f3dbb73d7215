@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "28db983a_1d6d3394",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8275cf3_30d8500d",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db983a_9d622310",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -47,6 +65,30 @@
       "writtenOn": "2016-04-19T03:44:17Z",
       "side": 1,
       "message": "Function descriptions should start with the name of the function and should be full sentences. For example:\n\nhasVectorFacility reports whether the machine has the z/Architecture vector facility installed and enabled.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 4
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_3d72ef72",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28db983a_9d622310",
       "range": {
         "startLine": 17,
         "startChar": 3,
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "28db983a_5d67bbb3",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28db983a_5d697bf4",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db983a_bd76ffd8",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -93,6 +159,24 @@
       "writtenOn": "2016-04-19T03:44:17Z",
       "side": 1,
       "message": "delete the newline",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_7d6c7795",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28db983a_bd76ffd8",
       "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -116,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "28db983a_9d806376",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8275cf3_1006ec44",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8275cf3_b0144068",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -133,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "28db983a_bd7d1f3f",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8275cf3_b0144068",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db983a_dd83cbf5",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -144,6 +264,30 @@
       "writtenOn": "2016-04-19T03:44:17Z",
       "side": 1,
       "message": "comments should either be full sentences or all lower case",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_dd7aeb43",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28db983a_dd83cbf5",
       "range": {
         "startLine": 69,
         "startChar": 4,
@@ -179,6 +323,30 @@
     },
     {
       "key": {
+        "uuid": "28db983a_fd77a75a",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28db983a_fd8087eb",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db983a_3d74afcd",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -190,6 +358,30 @@
       "writtenOn": "2016-04-19T03:44:17Z",
       "side": 1,
       "message": "Probably best not to hard code constants defined elsewhere into comments, they might change later. Maybe just say \u0027and data length is above threshold\u0027.",
+      "range": {
+        "startLine": 82,
+        "startChar": 78,
+        "endLine": 82,
+        "endChar": 86
+      },
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_1dd61374",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28db983a_3d74afcd",
       "range": {
         "startLine": 82,
         "startChar": 78,
@@ -219,6 +411,24 @@
     },
     {
       "key": {
+        "uuid": "28db983a_3ddbcf9a",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8275cf3_90e81c98",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8275cf3_f0f5186e",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -236,6 +446,24 @@
     },
     {
       "key": {
+        "uuid": "28db983a_5de09b42",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8275cf3_f0f5186e",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8275cf3_b0eba093",
         "filename": "src/hash/crc32/crc32_s390x.go",
         "patchSetId": 1
@@ -247,6 +475,24 @@
       "writtenOn": "2016-04-19T00:07:28Z",
       "side": 1,
       "message": "don\u0027t need these parens",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_7de55751",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 13405
+      },
+      "writtenOn": "2016-04-19T16:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8275cf3_b0eba093",
       "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
