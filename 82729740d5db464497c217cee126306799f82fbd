@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "28db983a_3d0e6f1c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-19T15:21:43Z",
+      "side": 1,
+      "message": "spanOf will be used as part of the TOC write barrier. Doing a preemption and a GC inside of a write barrier seems scary. I think this CL should leave spanOf without a go:nosplit but the TOC write barrier CL needs to add and document the go:nosplits.",
+      "parentUuid": "2b39d2b4_308e26f1",
+      "revId": "82729740d5db464497c217cee126306799f82fbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4eceab_1cdef5fa",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 8
