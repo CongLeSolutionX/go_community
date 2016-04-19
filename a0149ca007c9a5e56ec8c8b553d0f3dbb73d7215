@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8275cf3_30d8500d",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-19T00:07:28Z",
+      "side": 1,
+      "message": "Constants aren\u0027t named LIKE_THIS in Go. See https://golang.org/s/style#mixed-caps\n\n(The syscall, os, and runtime packages have some exceptions, since they used to be written in C in parts or were very old, before Go had its current conventions/style)",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8275cf3_1006ec44",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-19T00:07:28Z",
+      "side": 1,
+      "message": "you can drop the 0",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8275cf3_b0144068",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-19T00:07:28Z",
+      "side": 1,
+      "message": "no underscores in variable names",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8275cf3_90e81c98",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-19T00:07:28Z",
+      "side": 1,
+      "message": "don\u0027t need these parens",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8275cf3_f0f5186e",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-19T00:07:28Z",
+      "side": 1,
+      "message": "generally we prefer to drop the else and unindent the rest.",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8275cf3_b0eba093",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-19T00:07:28Z",
+      "side": 1,
+      "message": "don\u0027t need these parens",
+      "revId": "a0149ca007c9a5e56ec8c8b553d0f3dbb73d7215",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
