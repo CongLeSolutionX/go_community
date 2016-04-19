@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8275cf3_f0fd1815",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13271
+      },
+      "writtenOn": "2016-04-19T00:25:37Z",
+      "side": 1,
+      "message": "Fixed on patch set 4.",
+      "parentUuid": "c8275cf3_307cd08d",
+      "revId": "0ba1ff366eb95c6ee65c7a605ae2f9d71098442d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8275cf3_90c3fc07",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-19T00:10:51Z",
       "side": 1,
       "message": "Change this to `Updates #15204` because it doesn\u0027t seem to address FreeBSD.",
+      "revId": "0ba1ff366eb95c6ee65c7a605ae2f9d71098442d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8275cf3_d0fa941a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13271
+      },
+      "writtenOn": "2016-04-19T00:25:37Z",
+      "side": 1,
+      "message": "Fixed on patch set 4.",
+      "parentUuid": "c8275cf3_90c3fc07",
       "revId": "0ba1ff366eb95c6ee65c7a605ae2f9d71098442d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
