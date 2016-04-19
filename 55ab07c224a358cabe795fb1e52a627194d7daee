@@ -16,6 +16,24 @@
       "revId": "55ab07c224a358cabe795fb1e52a627194d7daee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b6d404_6562bc82",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-19T21:38:46Z",
+      "side": 0,
+      "message": "I had that thought. But newarray gets called from many places, including reflect_unsafe_NewArray and (IIRC) generated code. The only place that max cap is already checked in makeslice. So maybe just going to mallocgc in makeslice is the thing to do. I\u0027ll look at this all separately.",
+      "parentUuid": "08b6d404_a5bd6428",
+      "revId": "55ab07c224a358cabe795fb1e52a627194d7daee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
