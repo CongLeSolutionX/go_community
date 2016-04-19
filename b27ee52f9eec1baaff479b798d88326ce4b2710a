@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28db983a_60ecccde",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-19T19:40:28Z",
+      "side": 1,
+      "message": "// freeindex is the slot index between 0 and nelems at which to begin scanning for the next free object in this span.",
+      "revId": "b27ee52f9eec1baaff479b798d88326ce4b2710a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_40e7d0fc",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-19T19:40:28Z",
+      "side": 1,
+      "message": "Wouldn\u0027t committing to one definition or the other be *better* for performance (and complexity) because users of freeindex wouldn\u0027t have to deal with both possibilities?",
+      "revId": "b27ee52f9eec1baaff479b798d88326ce4b2710a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_e0dffc1e",
+        "filename": "src/runtime/msize.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-19T19:40:28Z",
+      "side": 1,
+      "message": "\u003e\u003d",
+      "revId": "b27ee52f9eec1baaff479b798d88326ce4b2710a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28db983a_00ddc826",
+        "filename": "src/runtime/msize.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-19T19:40:28Z",
+      "side": 1,
+      "message": "Just throw(\"span contains too many objects\"). A throw message should not contain the function it\u0027s in because the traceback will show that anyway (plus, the code will probably move within a few months and the message will be wrong :)",
+      "revId": "b27ee52f9eec1baaff479b798d88326ce4b2710a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
