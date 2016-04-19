@@ -52,6 +52,24 @@
       "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0815f483_c4aade94",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-19T06:17:17Z",
+      "side": 1,
+      "message": "\u003e but this one is acquired at most once per non-idle goroutine per GC cycle, so I\u0027d be surprised if it\u0027s an issue.\n\nYou call dequeueRescan in goexit. It means that the lock can be acquired every 100ns per P, regardless of number of goorutines. That\u0027s going to kill the system.\n\n\u003e If there\u0027s evidence that it is an issue\n\nIs there evidence otherwise? :)\n\n\u003e I\u0027m not sure I understand your per-G flag suggestion. If I\u0027m reading it right, that\u0027s *exactly* what we do now\n\nWhere do we check the flag now? I\u0027ve searched for it, but did not find. 34ns sounds like we are checking it in the wrong place. Should be easily fixable.\nAlong with batching we should be able to get the overhead down to few ns.\n\n\u003e This is solving a different problem\n\nWhy? As far as I see it solves both problems. We will not have more than 1000 goroutines for re-checking.\n\n\u003e and borrowing some distributed GC tricks from Sapphire to further cut down the set of stacks you have to rescan. But that\u0027s clearly not going to happen for Go 1.7.\n\nOK, what about just bounding number of dirty stacks per P?",
+      "parentUuid": "084ed4ab_3ce2d1ed",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
