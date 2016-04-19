@@ -88,8 +88,9 @@ func (e *LinkError) Error() string {
 }
 
 // Read reads up to len(b) bytes from the File.
-// It returns the number of bytes read and an error, if any.
-// EOF is signaled by a zero count with err set to io.EOF.
+// It returns the number of bytes read and any error encountered.
+// When the number of bytes read is equal to zero, yet the length
+// of the read buffer is greater than zero, io.EOF is returned.
 func (f *File) Read(b []byte) (n int, err error) {
 	if f == nil {
 		return 0, ErrInvalid
