@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "08b6d404_452b40c3",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-19T21:12:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08b6d404_e2dc8202",
+      "revId": "b0697901b66c54051bb1b547759a2721ada182a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0815f483_a491a280",
         "filename": "src/runtime/slice.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-19T20:05:47Z",
       "side": 1,
       "message": "not sure if there are such big elements but maybe: elemsize \u003c uintptr(len(maxElems)) is safer?",
+      "revId": "b0697901b66c54051bb1b547759a2721ada182a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b6d404_652e3cd5",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-19T21:12:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0815f483_a491a280",
       "revId": "b0697901b66c54051bb1b547759a2721ada182a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
