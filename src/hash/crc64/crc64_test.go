@@ -72,13 +72,13 @@ func TestGolden(t *testing.T) {
 	}
 }
 
-func BenchmarkISOCrc64KB(b *testing.B) {
-	b.SetBytes(1024)
-	data := make([]byte, 1024)
+func bench(b *testing.B, poly uint64, size int64) {
+	b.SetBytes(size)
+	data := make([]byte, size)
 	for i := range data {
 		data[i] = byte(i)
 	}
-	h := New(MakeTable(ISO))
+	h := New(MakeTable(poly))
 	in := make([]byte, 0, h.Size())
 
 	b.ResetTimer()
@@ -87,4 +87,28 @@ func BenchmarkISOCrc64KB(b *testing.B) {
 		h.Write(data)
 		h.Sum(in)
 	}
+}
+
+func BenchmarkISOCrc64KB(b *testing.B) {
+	bench(b, ISO, 64<<10)
+}
+
+func BenchmarkISOCrc4KB(b *testing.B) {
+	bench(b, ISO, 4<<10)
+}
+
+func BenchmarkISOCrc1KB(b *testing.B) {
+	bench(b, ISO, 1<<10)
+}
+
+func BenchmarkECMACrc64KB(b *testing.B) {
+	bench(b, ECMA, 64<<10)
+}
+
+func BenchmarkRandomCrc64KB(b *testing.B) {
+	bench(b, 0x777, 64<<10)
+}
+
+func BenchmarkRandomCrc16KB(b *testing.B) {
+	bench(b, 0x777, 16<<10)
 }
