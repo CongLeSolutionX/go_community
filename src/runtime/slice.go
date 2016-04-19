@@ -14,6 +14,35 @@ type slice struct {
 	cap   int
 }
 
+// maxSliceElem returns the maximum capacity for a slice.
+func maxSliceElem(elemsize uintptr) uintptr {
+	// The special cases here help performance considerably;
+	// it is much cheaper to branch than to do arbitrary division.
+	// Since we are doing binary search, eight cases is a reasonable number.
+	// With eight cases, we can cover all common types:
+	// integers, pointers, and multiword types for 32 and 64 bit architectures.
+	switch elemsize {
+	case 0:
+		return ^uintptr(0)
+	case 1:
+		return _MaxMem
+	case 2:
+		return _MaxMem >> 1
+	case 4:
+		return _MaxMem >> 2
+	case 8:
+		return _MaxMem >> 3
+	case 12:
+		return _MaxMem / 12
+	case 16:
+		return _MaxMem >> 4
+	case 24:
+		return _MaxMem / 24
+	default:
+		return _MaxMem / elemsize
+	}
+}
+
 // TODO: take uintptrs instead of int64s?
 func makeslice(t *slicetype, len64, cap64 int64) slice {
 	// NOTE: The len > maxElements check here is not strictly necessary,
@@ -22,11 +51,7 @@ func makeslice(t *slicetype, len64, cap64 int64) slice {
 	// but since the cap is only being supplied implicitly, saying len is clearer.
 	// See issue 4085.
 
-	maxElements := ^uintptr(0)
-	if t.elem.size > 0 {
-		maxElements = _MaxMem / t.elem.size
-	}
-
+	maxElements := maxSliceElem(t.elem.size)
 	len := int(len64)
 	if len64 < 0 || int64(len) != len64 || uintptr(len) > maxElements {
 		panic(errorString("makeslice: len out of range"))

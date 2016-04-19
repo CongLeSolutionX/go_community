@@ -137,6 +137,7 @@ func GostringW(w []uint16) (s string) {
 
 var Gostringnocopy = gostringnocopy
 var Maxstring = &maxstring
+var MaxSliceElem = maxSliceElem
 
 type Uintreg sys.Uintreg
 

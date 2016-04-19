@@ -3,9 +3,25 @@
 // license that can be found in the LICENSE file.
 package runtime_test
 
-import "testing"
+import (
+	"runtime"
+	"strconv"
+	"testing"
+)
 
 const N = 20
+
+func BenchmarkMaxSliceElem(b *testing.B) {
+	var max uintptr
+	for _, sz := range [...]uintptr{0, 1, 2, 4, 8, 12, 16, 24, 140} {
+		b.Run(strconv.Itoa(int(sz)), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				max = runtime.MaxSliceElem(sz)
+			}
+		})
+	}
+	_ = max
+}
 
 func BenchmarkMakeSlice(b *testing.B) {
 	var x []byte
