@@ -16,6 +16,24 @@
       "revId": "3152ceeb12aa5b3c1a7f04f949f4c04fb737245f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b6d404_7c15b961",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-19T17:39:00Z",
+      "side": 1,
+      "message": "Ah, I see, that other CL I hadn\u0027t looked at yet.  This looks fine.",
+      "parentUuid": "08b6d404_7cec99ab",
+      "revId": "3152ceeb12aa5b3c1a7f04f949f4c04fb737245f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
