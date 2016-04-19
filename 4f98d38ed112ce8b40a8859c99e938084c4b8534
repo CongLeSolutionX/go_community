@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4877ec0e_66222e3c",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-19T17:30:12Z",
+      "side": 1,
+      "message": "i meant typ.size \u003e 0",
+      "parentUuid": "4877ec0e_86ed6a1a",
+      "revId": "4f98d38ed112ce8b40a8859c99e938084c4b8534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08989484_6c5a1bfd",
         "filename": "src/runtime/slice.go",
         "patchSetId": 1
