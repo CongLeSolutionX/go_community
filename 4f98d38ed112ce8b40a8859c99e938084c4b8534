@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4877ec0e_c69be29a",
+        "filename": "src/runtime/append_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-19T20:05:47Z",
+      "side": 1,
+      "message": "with the lookup table i am not concerned about the mispredict anymore and the need for a mixed case benchmark :) And a cycle through some values that do not have a repeating pattern within a window of 16 values would have been fine too.",
+      "parentUuid": "08b6d404_e28a420f",
+      "revId": "4f98d38ed112ce8b40a8859c99e938084c4b8534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4877ec0e_86ed6a1a",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
