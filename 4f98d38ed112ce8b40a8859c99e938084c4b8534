@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "4877ec0e_26d1164a",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-19T18:05:57Z",
+      "side": 1,
+      "message": "good point. The instruction code size of the switch is also not tiny. In this view the lookup table seems an ok tradeoff cache wise too.",
+      "parentUuid": "08b6d404_1cbeb57f",
+      "revId": "4f98d38ed112ce8b40a8859c99e938084c4b8534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08989484_6c5a1bfd",
         "filename": "src/runtime/slice.go",
         "patchSetId": 1
