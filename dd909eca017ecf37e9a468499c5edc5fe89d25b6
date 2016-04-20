@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_caeee364",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-20T17:39:48Z",
+      "side": 1,
+      "message": "This comment seems wrong in a world where we allocate black and needs to be updated.",
+      "range": {
+        "startLine": 1135,
+        "startChar": 0,
+        "endLine": 1135,
+        "endChar": 91
+      },
+      "revId": "dd909eca017ecf37e9a468499c5edc5fe89d25b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
