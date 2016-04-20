@@ -51,6 +51,24 @@
       "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "289d58d4_10c4aa0e",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-20T21:39:43Z",
+      "side": 1,
+      "message": "i think that is only the case if we assume no caller supplies a negative count for a type of element size 0. While this is currently the case it might be saver not assume this for an int argument. If we make maxSliceCap return int and maxint for 0 size elements in an extra CL we can safely remove the check and some uintptr casts. I think the compiler will warn us if _MaxMem/someconstant does not fit into an int in the lookuptable (need to check).",
+      "parentUuid": "085974e9_330e72c6",
+      "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
