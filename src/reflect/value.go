@@ -2022,7 +2022,7 @@ func Select(cases []SelectCase) (chosen int, recv Value, recvOK bool) {
 
 // implemented in package runtime
 func unsafe_New(*rtype) unsafe.Pointer
-func unsafe_NewArray(*rtype, int) unsafe.Pointer
+func unsafe_NewArray(*rtype, uintptr) unsafe.Pointer
 
 // MakeSlice creates a new zero-initialized slice value
 // for the specified slice type, length, and capacity.
@@ -2040,7 +2040,7 @@ func MakeSlice(typ Type, len, cap int) Value {
 		panic("reflect.MakeSlice: len > cap")
 	}
 
-	s := sliceHeader{unsafe_NewArray(typ.Elem().(*rtype), cap), len, cap}
+	s := sliceHeader{unsafe_NewArray(typ.Elem().(*rtype), uintptr(cap)), len, cap}
 	return Value{typ.common(), unsafe.Pointer(&s), flagIndir | flag(Slice)}
 }
 

@@ -772,7 +772,7 @@ func reflect_unsafe_New(typ *_type) unsafe.Pointer {
 
 // implementation of make builtin for slices
 func newarray(typ *_type, n uintptr) unsafe.Pointer {
-	if int(n) < 0 || n > maxSliceCap(typ.size) {
+	if n > maxSliceCap(typ.size) {
 		panic(plainError("runtime: allocation size out of range"))
 	}
 	return mallocgc(typ.size*n, typ, true)
