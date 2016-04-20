@@ -16,6 +16,41 @@
       "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_3343d2f0",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-20T21:12:38Z",
+      "side": 1,
+      "message": "Don\u0027t worry about the case of sizeof(int)!\u003dsizeof(uintptr).  I think there would be a lot more to fix than this code if that was the case.\nYou could use int64(int(size)) !\u003d size here just to be clearer.",
+      "parentUuid": "a87f884b_c4e61000",
+      "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_330e72c6",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-20T21:12:38Z",
+      "side": 1,
+      "message": "n\u003c0 is redundant, I think.",
+      "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
