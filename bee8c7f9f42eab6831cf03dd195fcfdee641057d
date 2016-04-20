@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_0ab0fb4c",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "Give status a named type.",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_2a4fbf3d",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "\"a consistent stream\"",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_8a2ceb47",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "How does this perform on large traces? This seems Ω(n^2) in the number of events and maybe even O(n^3 log n) (since the number of batches is itself O(n), albeit with a small factor). I can imagine the Chrome trace viewer might fall over before this becomes a problem, but I\u0027m not sure. If this is a problem, you could, for example, use a heap to track the frontier. Or consume elements from the sorted frontier in order, replacing them as you go, and only re-sort the frontier if the smallest replacement element is less than the next sorted element.",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_ca36e393",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "Out of curiosity, why didn\u0027t you approach this the other way around: sort by time stamp and then check that that order is consistent with the goroutine sequence numbers?",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_6aad37f5",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "Can we find a way to make this not mutate the event? At the call site it seems very clear that stateTransition should be a pure function, but it isn\u0027t.",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_4aaaf3de",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "Consider \"if !transitionReady(g, curr, init)\"",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_2a269f95",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "// events by P",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_aa31efd0",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "These argument count changes will cause problems with PrintEvent. It\u0027s possible we don\u0027t care, since PrintEvent is for debugging, but it would be good to document here that Args reflects only the latest trace format version.\n\nAlternatively, we could change the struct a little and keep this information around and simplify argNum. For example, Args could be a slice of {version, []string} pairs and the parser could use the last pair that\u0027s \u003c\u003d the trace version. That would also eliminate the need for the minVersion field: it would just be the version of the first pair in Args.",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_aa08cf10",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "It looks like some of these comments are changing because this CL is genuinely changing the event format, while a few are changing because the comment was wrong (traceEvGoCreate, traceEvGoWaiting, and traceEvGoInSyscall). For more easily tracking changes to the trace format, it may be a good idea to pull the changes that just fix incorrect comments into a separate CL that goes in first.",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_8a0d0b21",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T20:50:06Z",
+      "side": 1,
+      "message": "Why isn\u0027t is necessary to reset traceseq to 0 for all of the goroutines? If I start and stop tracing multiple times within an execution, won\u0027t the goroutines that exist across tracing sessions start at the wrong sequence number?",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
