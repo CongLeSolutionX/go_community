@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_79d36b1f",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T22:27:41Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "085974e9_0a177f2a",
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b14859_31d61010",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -242,6 +260,24 @@
       "side": 1,
       "message": "Yeah this really wants to change. I agree it would make more sense to turn this around, and instead of having the section inside the symbol, have the symbols inside the section. Besides being a lot of work, this is a necessary first step.",
       "parentUuid": "a8b14859_91bd3cdb",
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_9904276c",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T22:27:41Z",
+      "side": 1,
+      "message": "Yeah. There\u0027s also the segment/section headache too. Definitely not something for this branch.",
+      "parentUuid": "085974e9_4a26d796",
       "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
