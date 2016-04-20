@@ -404,22 +404,22 @@
 
 (If cond yes no) -> (NE (TESTB cond cond) yes no)
 
-(NE (TESTB (SETL  cmp)) yes no) -> (LT  cmp yes no)
-(NE (TESTB (SETLE cmp)) yes no) -> (LE  cmp yes no)
-(NE (TESTB (SETG  cmp)) yes no) -> (GT  cmp yes no)
-(NE (TESTB (SETGE cmp)) yes no) -> (GE  cmp yes no)
-(NE (TESTB (SETEQ cmp)) yes no) -> (EQ  cmp yes no)
-(NE (TESTB (SETNE cmp)) yes no) -> (NE  cmp yes no)
-(NE (TESTB (SETB  cmp)) yes no) -> (ULT cmp yes no)
-(NE (TESTB (SETBE cmp)) yes no) -> (ULE cmp yes no)
-(NE (TESTB (SETA  cmp)) yes no) -> (UGT cmp yes no)
-(NE (TESTB (SETAE cmp)) yes no) -> (UGE cmp yes no)
+(NE (TESTB x:(SETL  cmp) x) yes no) -> (LT  cmp yes no)
+(NE (TESTB x:(SETLE cmp) x) yes no) -> (LE  cmp yes no)
+(NE (TESTB x:(SETG  cmp) x) yes no) -> (GT  cmp yes no)
+(NE (TESTB x:(SETGE cmp) x) yes no) -> (GE  cmp yes no)
+(NE (TESTB x:(SETEQ cmp) x) yes no) -> (EQ  cmp yes no)
+(NE (TESTB x:(SETNE cmp) x) yes no) -> (NE  cmp yes no)
+(NE (TESTB x:(SETB  cmp) x) yes no) -> (ULT cmp yes no)
+(NE (TESTB x:(SETBE cmp) x) yes no) -> (ULE cmp yes no)
+(NE (TESTB x:(SETA  cmp) x) yes no) -> (UGT cmp yes no)
+(NE (TESTB x:(SETAE cmp) x) yes no) -> (UGE cmp yes no)
 
 // Special case for floating point - LF/LEF not generated
-(NE (TESTB (SETGF  cmp)) yes no) -> (UGT  cmp yes no)
-(NE (TESTB (SETGEF cmp)) yes no) -> (UGE  cmp yes no)
-(NE (TESTB (SETEQF cmp)) yes no) -> (EQF  cmp yes no)
-(NE (TESTB (SETNEF cmp)) yes no) -> (NEF  cmp yes no)
+(NE (TESTB x:(SETGF  cmp) x) yes no) -> (UGT  cmp yes no)
+(NE (TESTB x:(SETGEF cmp) x) yes no) -> (UGE  cmp yes no)
+(NE (TESTB x:(SETEQF cmp) x) yes no) -> (EQF  cmp yes no)
+(NE (TESTB x:(SETNEF cmp) x) yes no) -> (NEF  cmp yes no)
 
 // Disabled because it interferes with the pattern match above and makes worse code.
 // (SETNEF x) -> (ORQ (SETNE <config.Frontend().TypeInt8()> x) (SETNAN <config.Frontend().TypeInt8()> x))

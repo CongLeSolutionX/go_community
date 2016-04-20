@@ -19009,7 +19009,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			return true
 		}
 	case BlockAMD64NE:
-		// match: (NE (TESTB (SETL  cmp)) yes no)
+		// match: (NE (TESTB x:(SETL  cmp) x) yes no)
 		// cond:
 		// result: (LT  cmp yes no)
 		for {
@@ -19017,11 +19017,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETL {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETL {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64LT
@@ -19030,7 +19031,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETLE cmp)) yes no)
+		// match: (NE (TESTB x:(SETLE cmp) x) yes no)
 		// cond:
 		// result: (LE  cmp yes no)
 		for {
@@ -19038,11 +19039,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETLE {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETLE {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64LE
@@ -19051,7 +19053,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETG  cmp)) yes no)
+		// match: (NE (TESTB x:(SETG  cmp) x) yes no)
 		// cond:
 		// result: (GT  cmp yes no)
 		for {
@@ -19059,11 +19061,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETG {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETG {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64GT
@@ -19072,7 +19075,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETGE cmp)) yes no)
+		// match: (NE (TESTB x:(SETGE cmp) x) yes no)
 		// cond:
 		// result: (GE  cmp yes no)
 		for {
@@ -19080,11 +19083,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETGE {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETGE {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64GE
@@ -19093,7 +19097,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETEQ cmp)) yes no)
+		// match: (NE (TESTB x:(SETEQ cmp) x) yes no)
 		// cond:
 		// result: (EQ  cmp yes no)
 		for {
@@ -19101,11 +19105,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETEQ {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETEQ {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64EQ
@@ -19114,7 +19119,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETNE cmp)) yes no)
+		// match: (NE (TESTB x:(SETNE cmp) x) yes no)
 		// cond:
 		// result: (NE  cmp yes no)
 		for {
@@ -19122,11 +19127,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETNE {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETNE {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64NE
@@ -19135,7 +19141,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETB  cmp)) yes no)
+		// match: (NE (TESTB x:(SETB  cmp) x) yes no)
 		// cond:
 		// result: (ULT cmp yes no)
 		for {
@@ -19143,11 +19149,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETB {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETB {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64ULT
@@ -19156,7 +19163,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETBE cmp)) yes no)
+		// match: (NE (TESTB x:(SETBE cmp) x) yes no)
 		// cond:
 		// result: (ULE cmp yes no)
 		for {
@@ -19164,11 +19171,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETBE {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETBE {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64ULE
@@ -19177,7 +19185,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETA  cmp)) yes no)
+		// match: (NE (TESTB x:(SETA  cmp) x) yes no)
 		// cond:
 		// result: (UGT cmp yes no)
 		for {
@@ -19185,11 +19193,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETA {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETA {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64UGT
@@ -19198,7 +19207,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETAE cmp)) yes no)
+		// match: (NE (TESTB x:(SETAE cmp) x) yes no)
 		// cond:
 		// result: (UGE cmp yes no)
 		for {
@@ -19206,11 +19215,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETAE {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETAE {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64UGE
@@ -19219,7 +19229,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETGF  cmp)) yes no)
+		// match: (NE (TESTB x:(SETGF  cmp) x) yes no)
 		// cond:
 		// result: (UGT  cmp yes no)
 		for {
@@ -19227,11 +19237,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETGF {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETGF {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64UGT
@@ -19240,7 +19251,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETGEF cmp)) yes no)
+		// match: (NE (TESTB x:(SETGEF cmp) x) yes no)
 		// cond:
 		// result: (UGE  cmp yes no)
 		for {
@@ -19248,11 +19259,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETGEF {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETGEF {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64UGE
@@ -19261,7 +19273,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETEQF cmp)) yes no)
+		// match: (NE (TESTB x:(SETEQF cmp) x) yes no)
 		// cond:
 		// result: (EQF  cmp yes no)
 		for {
@@ -19269,11 +19281,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETEQF {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETEQF {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64EQF
@@ -19282,7 +19295,7 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Succs[1] = no
 			return true
 		}
-		// match: (NE (TESTB (SETNEF cmp)) yes no)
+		// match: (NE (TESTB x:(SETNEF cmp) x) yes no)
 		// cond:
 		// result: (NEF  cmp yes no)
 		for {
@@ -19290,11 +19303,12 @@ func rewriteBlockAMD64(b *Block) bool {
 			if v.Op != OpAMD64TESTB {
 				break
 			}
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETNEF {
+			x := v.Args[0]
+			if x.Op != OpAMD64SETNEF {
 				break
 			}
-			cmp := v_0.Args[0]
+			cmp := x.Args[0]
+			x := v.Args[1]
 			yes := b.Succs[0]
 			no := b.Succs[1]
 			b.Kind = BlockAMD64NEF
