@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_8ae4eb88",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T17:39:18Z",
+      "side": 1,
+      "message": "Given that this is only for testing, consider making breakTimestamps a global (unexported) variable. As a litmus test, this is never something you\u0027d expose from a truly public API, and there doesn\u0027t seem to be a good justification for exposing it this way even from a not-really-public API.",
+      "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
