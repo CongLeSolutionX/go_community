@@ -4203,6 +4203,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:              "MOVOconst",
+		auxType:           auxInt128,
 		argLen:            0,
 		rematerializeable: true,
 		reg: regInfo{
@@ -4422,9 +4423,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "MOVWload",
-		argLen: 2,
-		asm:    arm.AMOVW,
+		name:    "MOVWload",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     arm.AMOVW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 31}, // R0 R1 R2 R3 SP
@@ -4435,9 +4437,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "MOVWstore",
-		argLen: 3,
-		asm:    arm.AMOVW,
+		name:    "MOVWstore",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     arm.AMOVW,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 31}, // R0 R1 R2 R3 SP
@@ -4455,7 +4458,7 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:   "LessThan",
-		argLen: 2,
+		argLen: 1,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 32}, // FLAGS
