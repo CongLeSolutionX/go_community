@@ -69,6 +69,24 @@
       "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_f938bb22",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-20T22:29:45Z",
+      "side": 1,
+      "message": "Yes, I guess we still want a panic if n\u003c0 and typ.size\u003d\u003d0.  Looks good as is.\nOr we could set maxSliceCap to the max signed int instead of ^uintptr(0).\nI\u0027m fine with this as is.  I think tracing down all uintptr\u003c-\u003eint confusion deserves its own CL.",
+      "parentUuid": "289d58d4_10c4aa0e",
+      "revId": "cd953fb0d998dd60f35276f28018d27790161d95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
