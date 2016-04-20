@@ -643,11 +643,20 @@ func loadsys() {
 	iota_ = -1000000
 	incannedimport = 1
 
-	importpkg = Runtimepkg
-	parse_import(bufio.NewReader(strings.NewReader(runtimeimport)), nil)
-
-	importpkg = unsafepkg
-	parse_import(bufio.NewReader(strings.NewReader(unsafeimport)), nil)
+	// TODO(gri) simplify once textual export format has gone
+	if strings.HasPrefix(runtimeimport, "package") {
+		// textual export format
+		importpkg = Runtimepkg
+		parse_import(bufio.NewReader(strings.NewReader(runtimeimport)), nil)
+		importpkg = unsafepkg
+		parse_import(bufio.NewReader(strings.NewReader(unsafeimport)), nil)
+	} else {
+		// binary export format
+		importpkg = Runtimepkg
+		Import(bufio.NewReader(strings.NewReader(runtimeimport)))
+		importpkg = unsafepkg
+		Import(bufio.NewReader(strings.NewReader(unsafeimport)))
+	}
 
 	importpkg = nil
 	incannedimport = 0
