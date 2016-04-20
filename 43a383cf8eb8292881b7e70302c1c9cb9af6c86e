@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_6a1ab353",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a8b14859_d1b7c4f6",
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b14859_31cd7084",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 736,
         "endChar": 28
       },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_4a1d7748",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Passing as a parameter to make it clearer.",
+      "parentUuid": "a8b14859_31cd7084",
       "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_0a177f2a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Split out and mailed separately, sorry for the trouble.",
+      "parentUuid": "a8b14859_71c7f863",
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b14859_31d61010",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -88,6 +142,24 @@
         "endLine": 1256,
         "endChar": 1
       },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_2a14bb22",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Done. I\u0027ve reverted the naming and isolated this to sorting.",
+      "parentUuid": "a8b14859_31d61010",
       "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_ca3167d0",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Done :-)",
+      "parentUuid": "a8b14859_11d30c20",
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b14859_91bd3cdb",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 3
@@ -134,6 +224,24 @@
         "endLine": 1733,
         "endChar": 31
       },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_4a26d796",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Yeah this really wants to change. I agree it would make more sense to turn this around, and instead of having the section inside the symbol, have the symbols inside the section. Besides being a lot of work, this is a necessary first step.",
+      "parentUuid": "a8b14859_91bd3cdb",
       "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -163,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_0a30dfc3",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2048,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b14859_b1b840eb",
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b14859_f1b2c808",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 3
@@ -180,6 +306,24 @@
         "endLine": 2112,
         "endChar": 35
       },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_2a2d9b6c",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2112,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-04-20T16:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b14859_f1b2c808",
       "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
