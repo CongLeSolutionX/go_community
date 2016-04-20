@@ -883,13 +883,13 @@ opswitch:
 			n.List.SetIndex(0, var_)
 			n = walkexpr(n, init)
 			init.Append(n)
-			n = Nod(OAS, a, Nod(OIND, var_, nil))
+			v := Nod(OIND, var_, nil)
+			v.Bounded = true // mapaccess always returns a non-nil pointer
+			n = Nod(OAS, a, v)
 		}
 
 		n = typecheck(n, Etop)
 		n = walkexpr(n, init)
-
-		// TODO: ptr is always non-nil, so disable nil check for this OIND op.
 
 	case ODELETE:
 		init.AppendNodes(&n.Ninit)
@@ -1218,7 +1218,6 @@ opswitch:
 			// standard version takes key by reference.
 			// orderexpr made sure key is addressable.
 			key = Nod(OADDR, n.Right, nil)
-
 			p = "mapaccess1"
 		}
 
@@ -1226,6 +1225,7 @@ opswitch:
 		n = Nod(OIND, n, nil)
 		n.Type = t.Val()
 		n.Typecheck = 1
+		n.Bounded = true // mapaccess always returns a non-nil pointer
 
 	case ORECV:
 		Fatalf("walkexpr ORECV") // should see inside OAS only

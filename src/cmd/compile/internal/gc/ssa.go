@@ -1939,7 +1939,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 	case OIND:
 		p := s.expr(n.Left)
-		s.nilCheck(p)
+		if !n.Bounded {
+			s.nilCheck(p)
+		} else if s.f.Config.Debug_checknil() && n.Lineno > 1 {
+			s.f.Config.Warnl(n.Lineno, "removed nil check")
+		}
 		return s.newValue2(ssa.OpLoad, n.Type, p, s.mem())
 
 	case ODOT:
@@ -2779,8 +2783,10 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 		}
 	case OIND:
 		p := s.expr(n.Left)
-		if !bounded {
+		if !n.Bounded {
 			s.nilCheck(p)
+		} else if s.f.Config.Debug_checknil() && n.Lineno > 1 {
+			s.f.Config.Warnl(n.Lineno, "removed nil check")
 		}
 		return p
 	case ODOT:

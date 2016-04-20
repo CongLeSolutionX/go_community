@@ -319,6 +319,9 @@ func Jconv(n *Node, flag FmtFlag) string {
 	if n.Assigned {
 		buf.WriteString(" assigned")
 	}
+	if n.Bounded {
+		buf.WriteString(" bounded")
+	}
 
 	if c == 0 && n.Used {
 		fmt.Fprintf(&buf, " used(%v)", n.Used)
