@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f8a0fc_1bfcbb7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-20T13:22:34Z",
+      "side": 1,
+      "message": "\"fix\" is a pretty general word.  How about\n\ncontainer/heap: correct number of elements in BenchmarkDup",
+      "revId": "1f54f48d8d52d74daab21a6f44f39ac187e4d951",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_7bf97f8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-20T13:22:34Z",
+      "side": 1,
+      "message": "This, unlke the topic sentence, should be a complete sentence with a capital letter and a period.",
+      "revId": "1f54f48d8d52d74daab21a6f44f39ac187e4d951",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_5bf643a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-20T13:22:34Z",
+      "side": 1,
+      "message": "Minor, but since I\u0027m asking for other changes: just one space after \"Fixes\".",
+      "revId": "1f54f48d8d52d74daab21a6f44f39ac187e4d951",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
