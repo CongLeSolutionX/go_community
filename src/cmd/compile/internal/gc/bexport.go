@@ -113,7 +113,7 @@ import (
 const debugFormat = false // default: false
 
 // TODO(gri) remove eventually
-const forceNewExport = false // force new export format - DO NOT SUBMIT with this flag set
+const forceNewExport = true // force new export format - DO NOT SUBMIT with this flag set
 
 const exportVersion = "v0"
 
