@@ -1253,9 +1253,6 @@ func TestTransportConcurrency(t *testing.T) {
 }
 
 func TestIssue4191_InfiniteGetTimeout(t *testing.T) {
-	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test; see https://golang.org/issue/7237")
-	}
 	defer afterTest(t)
 	const debug = false
 	mux := NewServeMux()
@@ -1317,9 +1314,6 @@ func TestIssue4191_InfiniteGetTimeout(t *testing.T) {
 }
 
 func TestIssue4191_InfiniteGetToPutTimeout(t *testing.T) {
-	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test; see https://golang.org/issue/7237")
-	}
 	defer afterTest(t)
 	const debug = false
 	mux := NewServeMux()

@@ -314,11 +314,6 @@ var readTimeoutTests = []struct {
 }
 
 func TestReadTimeout(t *testing.T) {
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("not supported on %s", runtime.GOOS)
-	}
-
 	handler := func(ls *localServer, ln Listener) {
 		c, err := ln.Accept()
 		if err != nil {
@@ -374,11 +369,6 @@ func TestReadTimeout(t *testing.T) {
 
 func TestReadTimeoutMustNotReturn(t *testing.T) {
 	t.Parallel()
-
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("not supported on %s", runtime.GOOS)
-	}
 
 	ln, err := newLocalListener("tcp")
 	if err != nil {
@@ -690,11 +680,6 @@ func TestWriteToTimeout(t *testing.T) {
 func TestReadTimeoutFluctuation(t *testing.T) {
 	t.Parallel()
 
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("not supported on %s", runtime.GOOS)
-	}
-
 	ln, err := newLocalListener("tcp")
 	if err != nil {
 		t.Fatal(err)
@@ -838,11 +823,6 @@ func (b neverEnding) Read(p []byte) (int, error) {
 }
 
 func testVariousDeadlines(t *testing.T) {
-	switch runtime.GOOS {
-	case "plan9":
-		t.Skipf("not supported on %s", runtime.GOOS)
-	}
-
 	type result struct {
 		n   int64
 		err error

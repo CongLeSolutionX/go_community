@@ -22,6 +22,9 @@ type netFD struct {
 	dir          string
 	ctl, data    *os.File
 	laddr, raddr Addr
+
+	raio *asyncIO
+	waio *asyncIO
 }
 
 var (
@@ -76,7 +79,8 @@ func (fd *netFD) Read(b []byte) (n int, err error) {
 		return 0, err
 	}
 	defer fd.readUnlock()
-	n, err = fd.data.Read(b)
+	fd.raio = NewAsyncIO(fd.data.Read, b)
+	n, err = fd.raio.Wait()
 	if isHangup(err) {
 		err = io.EOF
 	}
@@ -95,7 +99,8 @@ func (fd *netFD) Write(b []byte) (n int, err error) {
 		return 0, err
 	}
 	defer fd.writeUnlock()
-	return fd.data.Write(b)
+	fd.waio = NewAsyncIO(fd.data.Write, b)
+	return fd.waio.Wait()
 }
 
 func (fd *netFD) closeRead() error {
@@ -126,6 +131,12 @@ func (fd *netFD) Close() error {
 		// But without it, Reads on dead conns hang forever.
 		// See Issue 9554.
 		fd.ctl.WriteString("hangup")
+	}
+	if fd.raio != nil {
+		fd.raio.Cancel()
+	}
+	if fd.waio != nil {
+		fd.waio.Cancel()
 	}
 	err := fd.ctl.Close()
 	if fd.data != nil {
@@ -164,15 +175,41 @@ func (fd *netFD) file(f *os.File, s string) (*os.File, error) {
 }
 
 func (fd *netFD) setDeadline(t time.Time) error {
-	return syscall.EPLAN9
+	return setDeadlineImpl(fd, t, 'r'+'w')
 }
 
 func (fd *netFD) setReadDeadline(t time.Time) error {
-	return syscall.EPLAN9
+	return setDeadlineImpl(fd, t, 'r')
 }
 
 func (fd *netFD) setWriteDeadline(t time.Time) error {
-	return syscall.EPLAN9
+	return setDeadlineImpl(fd, t, 'w')
+}
+
+func setDeadlineImpl(fd *netFD, t time.Time, mode int) error {
+	d := t.Sub(time.Now())
+	if d < 0 {
+		d = 1
+	}
+	if t.IsZero() {
+		d = 0
+	}
+	go func() {
+		/* XXX we should start the timer only once I/O has started */
+		c := time.Tick(d)
+		<-c
+		if mode == 'r' || mode == 'r'+'w' {
+			if fd.raio != nil {
+				fd.raio.Cancel()
+			}
+		}
+		if mode == 'w' || mode == 'r'+'w' {
+			if fd.waio != nil {
+				fd.waio.Cancel()
+			}
+		}
+	}()
+	return nil
 }
 
 func setReadBuffer(fd *netFD, bytes int) error {
