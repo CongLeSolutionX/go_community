@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f8a0fc_9b0d6b21",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-04-20T22:56:38Z",
+      "side": 1,
+      "message": "aux? (this is not changed in this CL, but perhaps just be consistent.)",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "3d836cd352b294d3a6cefa446d1530e34439dcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_7b17bf29",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-04-20T22:56:38Z",
+      "side": 1,
+      "message": "This seems not used yet. Include it in the aux/auxint check? Or wait until we use it?",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 12
+      },
+      "revId": "3d836cd352b294d3a6cefa446d1530e34439dcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
