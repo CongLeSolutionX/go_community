@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c8d75c7d_2a905f0a",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-20T16:28:01Z",
+      "side": 1,
+      "message": "Perhaps a go:nowritebarrier if markroot has one I suspect anything it calls should also have one.",
+      "range": {
+        "startLine": 842,
+        "startChar": 0,
+        "endLine": 842,
+        "endChar": 25
+      },
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ec48060_fb508753",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 3
@@ -85,6 +108,70 @@
       "side": 1,
       "message": "\u003e \u003e but this one is acquired at most once per non-idle goroutine per GC cycle, so I\u0027d be surprised if it\u0027s an issue.\n \u003e \n \u003e You call dequeueRescan in goexit. It means that the lock can be acquired every 100ns per P, regardless of number of goorutines. That\u0027s going to kill the system.\n\nWhere does the 100ns come from? That sounds like a microbenchmark that does nothing but start and exit goroutines.\n\n \u003e \u003e If there\u0027s evidence that it is an issue\n \u003e \n \u003e Is there evidence otherwise? :)\n\nThat sounds like an argument from my dissertation. :)\n\n \u003e \u003e I\u0027m not sure I understand your per-G flag suggestion. If I\u0027m reading it right, that\u0027s *exactly* what we do now\n \u003e \n \u003e Where do we check the flag now? I\u0027ve searched for it, but did not find. 34ns sounds like we are checking it in the wrong place. Should be easily fixable.\n \u003e Along with batching we should be able to get the overhead down to few ns.\n\nIt\u0027s in scanstack. We could certainly lift that check higher, which would shave off time. But a non-trivial amount of that cost is taking the cache miss just to get the flag field out of the g and that cost will be there with any flag-based approach.\n\n \u003e \u003e This is solving a different problem\n \u003e \n \u003e Why? As far as I see it solves both problems. We will not have more than 1000 goroutines for re-checking.\n \u003e \n \u003e \u003e and borrowing some distributed GC tricks from Sapphire to further cut down the set of stacks you have to rescan. But that\u0027s clearly not going to happen for Go 1.7.\n \u003e \n \u003e OK, what about just bounding number of dirty stacks per P?\n\nI\u0027m not saying we shouldn\u0027t do something about bounding dirty stacks. We definitely should. I\u0027m just saying that there\u0027s less than 2 weeks until the freeze, this CL is already reducing pause times by nearly an order of magnitude for real workloads, and there\u0027s plenty of other stuff to do.",
       "parentUuid": "0815f483_c4aade94",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_4a979300",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-20T16:28:01Z",
+      "side": 1,
+      "message": "While I have no doubt that at some point these locks will cause pain I\u0027m comfortable with using them until we encounter a real world use case.",
+      "parentUuid": "28db983a_ddfd8b15",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_6a9a572a",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-20T16:28:01Z",
+      "side": 1,
+      "message": "Any reason this check can\u0027t be outside the lock like it is in dequeueRescan?",
+      "range": {
+        "startLine": 849,
+        "startChar": 0,
+        "endLine": 851,
+        "endChar": 2
+      },
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_0a8d9bf2",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-20T16:28:01Z",
+      "side": 1,
+      "message": "//go:nowritebarrier here also.",
+      "range": {
+        "startLine": 871,
+        "startChar": 0,
+        "endLine": 871,
+        "endChar": 27
+      },
       "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
