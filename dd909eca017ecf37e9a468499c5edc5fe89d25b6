@@ -22,6 +22,24 @@
       "revId": "dd909eca017ecf37e9a468499c5edc5fe89d25b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_6a49b735",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T18:49:18Z",
+      "side": 1,
+      "message": "This CL is before we switch to allocating black. Some later CL in this series does rewrite this comment.",
+      "parentUuid": "c8d75c7d_caeee364",
+      "revId": "dd909eca017ecf37e9a468499c5edc5fe89d25b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
