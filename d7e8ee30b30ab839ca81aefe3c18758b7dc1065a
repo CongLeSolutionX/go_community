@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c8d75c7d_2a421f3e",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T17:22:36Z",
+      "side": 1,
+      "message": "\u003e Perhaps a go:nowritebarrier if markroot has one I suspect anything it calls should also have one.\n\nThe nowritebarrier on markroot is really only advisory. There are already a few things it calls that have write barriers. I\u0027ll add a comment explaining this.",
+      "parentUuid": "c8d75c7d_2a905f0a",
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ec48060_fb508753",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 3
@@ -149,6 +167,24 @@
         "endLine": 851,
         "endChar": 2
       },
+      "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_0a3f5bb6",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-20T17:22:36Z",
+      "side": 1,
+      "message": "Moved outside the lock.",
+      "parentUuid": "c8d75c7d_6a9a572a",
       "revId": "d7e8ee30b30ab839ca81aefe3c18758b7dc1065a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
