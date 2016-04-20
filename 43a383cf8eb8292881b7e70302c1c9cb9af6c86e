@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8b14859_d1b7c4f6",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "Why can\u0027t this iterate over datapFlat?",
+      "range": {
+        "startLine": 654,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 28
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_31cd7084",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "ah now this can\u0027t iterate over datapFlat can it? Ugh, that\u0027s kinda messy.",
+      "range": {
+        "startLine": 735,
+        "startChar": 0,
+        "endLine": 736,
+        "endChar": 28
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_71c7f863",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "this sort of thing is an improvement, but it really doesn\u0027t make this change easier to review :(",
+      "range": {
+        "startLine": 959,
+        "startChar": 0,
+        "endLine": 959,
+        "endChar": 25
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_31d61010",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "The need for this type seems unfortunate and ISTM uglifies anything that touches datap. The previous dataSortKey stuff was also ugly but more contained.\n\nIt\u0027s not totally necessary is it? I think the size/name special casing could be done in bySizeAndName.Less, although I guess that might hurt performance. If you decide to keep it can you give it some documentation, a better name and a better field name than \u0027s\u0027 please? :-)",
+      "range": {
+        "startLine": 1252,
+        "startChar": 0,
+        "endLine": 1256,
+        "endChar": 1
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_11d30c20",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "It seems like it almost could be made a local variable dodata -- how far away do you think that would be? I\u0027d be less grumpy about the sym type if you did that, I guess :)",
+      "range": {
+        "startLine": 1258,
+        "startChar": 0,
+        "endLine": 1260,
+        "endChar": 26
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_91bd3cdb",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "I guess maybe a Section should hold a slice of datapFlat? But not in this branch...",
+      "range": {
+        "startLine": 1733,
+        "startChar": 0,
+        "endLine": 1733,
+        "endChar": 31
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_b1b840eb",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2048,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "Debugging dreg? Delete or make into a Diag I guess?",
+      "range": {
+        "startLine": 2046,
+        "startChar": 0,
+        "endLine": 2048,
+        "endChar": 2
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b14859_f1b2c808",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2112,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T04:06:34Z",
+      "side": 1,
+      "message": "Why can\u0027t this iterate over datapFlat?",
+      "range": {
+        "startLine": 2111,
+        "startChar": 0,
+        "endLine": 2112,
+        "endChar": 35
+      },
+      "revId": "43a383cf8eb8292881b7e70302c1c9cb9af6c86e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
