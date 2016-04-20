@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_19f91790",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-04-20T22:27:41Z",
+      "side": 1,
+      "message": "This is kind a large thing to pass on the stack? Maybe pass a pointer. Obviously very minor.",
+      "range": {
+        "startLine": 716,
+        "startChar": 14,
+        "endLine": 716,
+        "endChar": 37
+      },
+      "revId": "d7852d19eb70123af75cc768e36cc89b4e58ed44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
