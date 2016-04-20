@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_2a985ff1",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-04-20T21:00:42Z",
+      "side": 1,
+      "message": "\u0027%s.rules\u0027 ?",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 16
+      },
+      "revId": "21c195353137da21e813fb10b2c192ae9505d8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_8a718b70",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-04-20T21:00:42Z",
+      "side": 1,
+      "message": "%s",
+      "range": {
+        "startLine": 293,
+        "startChar": 42,
+        "endLine": 293,
+        "endChar": 53
+      },
+      "revId": "21c195353137da21e813fb10b2c192ae9505d8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_ea6647b6",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-04-20T21:00:42Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 293,
+        "startChar": 61,
+        "endLine": 293,
+        "endChar": 71
+      },
+      "revId": "21c195353137da21e813fb10b2c192ae9505d8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
