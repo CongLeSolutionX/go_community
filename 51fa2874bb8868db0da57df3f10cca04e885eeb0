@@ -16,6 +16,24 @@
       "revId": "51fa2874bb8868db0da57df3f10cca04e885eeb0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_4ec4a45d",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-21T00:35:45Z",
+      "side": 1,
+      "message": "\u003e No need for the 0.  It\u0027s the default.  Just write sh.Name[:].\n\n Done.\n\n \u003e Note that this assumes that cstring continues to accept a string\n \u003e that is not NUL-terminated; otherwise a section with a name 8\n \u003e characters long would panic.\n\nNow I remember / understand why cstring is written the way it is written. I will send CL adjusting cstring documentation.",
+      "parentUuid": "e8f8a0fc_db09b382",
+      "revId": "51fa2874bb8868db0da57df3f10cca04e885eeb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
