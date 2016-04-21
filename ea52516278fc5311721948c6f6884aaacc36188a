@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_c11b85b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-21T02:13:40Z",
+      "side": 1,
+      "message": "Yes. Fixed.",
+      "parentUuid": "085974e9_41dd5525",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_e10a4178",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-21T02:00:12Z",
       "side": 1,
       "message": "typo again?",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_61317132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-21T02:13:40Z",
+      "side": 1,
+      "message": "Yes. Fixed.",
+      "parentUuid": "085974e9_e10a4178",
       "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_e1856101",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-21T02:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "085974e9_a104496b",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_01399d24",
         "filename": "src/debug/pe/section.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-21T02:00:12Z",
       "side": 1,
       "message": "What are the types?",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_c194e531",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-21T02:13:40Z",
+      "side": 1,
+      "message": "I don\u0027t know how to help future readers here. Reloc struct is described (like many types in this package) in pecoff.doc that I\u0027ve found on the Internet. Reloc struct in particular is described in Section 5.2 of that document. Reloc.Type is described in 5.2.1 and can be many different values depending on relocation type and cpu.",
+      "parentUuid": "085974e9_01399d24",
       "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
