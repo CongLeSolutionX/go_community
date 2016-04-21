@@ -863,6 +863,6 @@ func Machoemitreloc() {
 		machorelocsect(sect, datap)
 	}
 	for sect := Segdwarf.Sect; sect != nil; sect = sect.Next {
-		machorelocsect(sect, list2slice(dwarfp))
+		machorelocsect(sect, dwarfp)
 	}
 }
