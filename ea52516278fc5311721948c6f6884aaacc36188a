@@ -157,6 +157,24 @@
       "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_a431b79e",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-04-21T06:12:41Z",
+      "side": 1,
+      "message": "The IMAGE_REL_* are in ldpe.go. I will move them into debug/pe later.",
+      "parentUuid": "085974e9_a45777fc",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
