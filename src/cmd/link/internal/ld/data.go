@@ -663,7 +663,7 @@ func reloc() {
 	for _, sym := range datap {
 		relocsym(sym)
 	}
-	for s := dwarfp; s != nil; s = s.Next {
+	for _, s := range dwarfp {
 		relocsym(s)
 	}
 }
@@ -746,55 +746,6 @@ func dynreloc(data *[obj.SXREF][]*Symbol) {
 	}
 }
 
-func blk(start *Symbol, addr int64, size int64) {
-	var sym *Symbol
-
-	for sym = start; sym != nil; sym = sym.Next {
-		if sym.Type&obj.SSUB == 0 && sym.Value >= addr {
-			break
-		}
-	}
-
-	eaddr := addr + size
-	for ; sym != nil; sym = sym.Next {
-		if sym.Type&obj.SSUB != 0 {
-			continue
-		}
-		if sym.Value >= eaddr {
-			break
-		}
-		Ctxt.Cursym = sym
-		if sym.Value < addr {
-			Diag("phase error: addr=%#x but sym=%#x type=%d", addr, sym.Value, sym.Type)
-			errorexit()
-		}
-
-		if addr < sym.Value {
-			strnput("", int(sym.Value-addr))
-			addr = sym.Value
-		}
-		Cwrite(sym.P)
-		addr += int64(len(sym.P))
-		if addr < sym.Value+sym.Size {
-			strnput("", int(sym.Value+sym.Size-addr))
-			addr = sym.Value + sym.Size
-		}
-		if addr != sym.Value+sym.Size {
-			Diag("phase error: addr=%#x value+size=%#x", addr, sym.Value+sym.Size)
-			errorexit()
-		}
-
-		if sym.Value+sym.Size >= eaddr {
-			break
-		}
-	}
-
-	if addr < eaddr {
-		strnput("", int(eaddr-addr))
-	}
-	Cflush()
-}
-
 func Codeblk(addr int64, size int64) {
 	CodeblkPad(addr, size, zeros[:])
 }
@@ -803,7 +754,7 @@ func CodeblkPad(addr int64, size int64, pad []byte) {
 		fmt.Fprintf(Bso, "codeblk [%#x,%#x) at offset %#x\n", addr, addr+size, Cpos())
 	}
 
-	blkSlice(Ctxt.Textp, addr, size, pad)
+	blk(Ctxt.Textp, addr, size, pad)
 
 	/* again for printing */
 	if Debug['a'] == 0 {
@@ -864,10 +815,7 @@ func CodeblkPad(addr int64, size int64, pad []byte) {
 	Bso.Flush()
 }
 
-// blkSlice is a variant of blk that processes slices.
-// After text symbols are converted from a linked list to a slice,
-// delete blk and give this function its name.
-func blkSlice(syms []*Symbol, addr, size int64, pad []byte) {
+func blk(syms []*Symbol, addr, size int64, pad []byte) {
 	for i, s := range syms {
 		if s.Type&obj.SSUB == 0 && s.Value >= addr {
 			syms = syms[i:]
@@ -918,7 +866,7 @@ func Datblk(addr int64, size int64) {
 		fmt.Fprintf(Bso, "datblk [%#x,%#x) at offset %#x\n", addr, addr+size, Cpos())
 	}
 
-	blkSlice(datap, addr, size, zeros[:])
+	blk(datap, addr, size, zeros[:])
 
 	/* again for printing */
 	if Debug['a'] == 0 {
@@ -989,7 +937,7 @@ func Dwarfblk(addr int64, size int64) {
 		fmt.Fprintf(Bso, "dwarfblk [%#x,%#x) at offset %#x\n", addr, addr+size, Cpos())
 	}
 
-	blk(dwarfp, addr, size)
+	blk(dwarfp, addr, size, zeros[:])
 }
 
 var zeros [512]byte
@@ -1235,14 +1183,6 @@ func checkdatsize(datsize int64, symn int) {
 	if datsize > cutoff {
 		Diag("too much data in section %v (over %d bytes)", symn, cutoff)
 	}
-}
-
-func list2slice(s *Symbol) []*Symbol {
-	var syms []*Symbol
-	for ; s != nil; s = s.Next {
-		syms = append(syms, s)
-	}
-	return syms
 }
 
 // datap is a collection of reachable data symbols in address order.
@@ -1754,7 +1694,11 @@ func dodata() {
 	dwarfgeneratedebugsyms()
 
 	var s *Symbol
-	for s = dwarfp; s != nil && s.Type == obj.SDWARFSECT; s = s.Next {
+	var i int
+	for i, s = range dwarfp {
+		if s.Type != obj.SDWARFSECT {
+			break
+		}
 		sect = addsection(&Segdwarf, s.Name, 04)
 		sect.Align = 1
 		datsize = Rnd(datsize, int64(sect.Align))
@@ -1767,12 +1711,15 @@ func dodata() {
 	}
 	checkdatsize(datsize, obj.SDWARFSECT)
 
-	if s != nil {
+	if i < len(dwarfp) {
 		sect = addsection(&Segdwarf, ".debug_info", 04)
 		sect.Align = 1
 		datsize = Rnd(datsize, int64(sect.Align))
 		sect.Vaddr = uint64(datsize)
-		for ; s != nil && s.Type == obj.SDWARFINFO; s = s.Next {
+		for _, s := range dwarfp[i:] {
+			if s.Type != obj.SDWARFINFO {
+				break
+			}
 			s.Sect = sect
 			s.Type = obj.SRODATA
 			s.Value = int64(uint64(datsize) - sect.Vaddr)
@@ -2091,7 +2038,7 @@ func address() {
 		}
 	}
 
-	for sym := dwarfp; sym != nil; sym = sym.Next {
+	for _, sym := range dwarfp {
 		Ctxt.Cursym = sym
 		if sym.Sect != nil {
 			sym.Value += int64(sym.Sect.Vaddr)

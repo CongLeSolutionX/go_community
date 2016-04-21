@@ -1787,7 +1787,7 @@ func Elfemitreloc() {
 		elfrelocsect(sect, datap)
 	}
 	for sect := Segdwarf.Sect; sect != nil; sect = sect.Next {
-		elfrelocsect(sect, list2slice(dwarfp))
+		elfrelocsect(sect, dwarfp)
 	}
 }
 
@@ -2499,7 +2499,7 @@ elfobj:
 		for sect := Segdata.Sect; sect != nil; sect = sect.Next {
 			elfshreloc(sect)
 		}
-		for s := dwarfp; s != nil; s = s.Next {
+		for _, s := range dwarfp {
 			if len(s.R) > 0 || s.Type == obj.SDWARFINFO {
 				elfshreloc(s.Sect)
 			}
