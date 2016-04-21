@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_709e1530",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-21T19:04:04Z",
+      "side": 1,
+      "message": "you aren\u0027t giving any callbacks any more",
+      "range": {
+        "startLine": 52,
+        "startChar": 54,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "787f00d678850a87f5b28c7508e6518221f33360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_909b913d",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-21T19:04:04Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 78,
+        "startChar": 48,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "787f00d678850a87f5b28c7508e6518221f33360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
