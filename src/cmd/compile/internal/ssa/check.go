@@ -4,6 +4,8 @@
 
 package ssa
 
+import "fmt"
+
 // checkFunc checks invariants of f.
 func checkFunc(f *Func) {
 	blockMark := make([]bool, f.NumBlocks())
@@ -296,6 +298,14 @@ func checkFunc(f *Func) {
 		// See TODO in regalloc.go.
 		idom := dominators(f)
 		sdom := newSparseTree(f, idom)
+
+		for _, b := range f.Blocks {
+			fmt.Printf("idom(%s)=%s\n", b, idom[b.ID])
+		}
+		for _, b := range f.Blocks {
+			s := sdom[b.ID]
+			fmt.Printf("stn(%s) cld=%s sib=%s par=%s ent=%d ext=%d\n", b, s.child, s.sibling, s.parent, s.entry, s.exit)
+		}
 		for _, b := range f.Blocks {
 			for _, v := range b.Values {
 				for i, arg := range v.Args {
@@ -338,7 +348,7 @@ func checkFunc(f *Func) {
 
 // domCheck reports whether x dominates y (including x==y).
 func domCheck(f *Func, sdom sparseTree, x, y *Block) bool {
-	if !sdom.isAncestorEq(y, f.Entry) {
+	if !sdom.isAncestorEq(f.Entry, y) {
 		// unreachable - ignore
 		return true
 	}
