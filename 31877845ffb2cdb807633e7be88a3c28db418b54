@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_16847a93",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-21T21:16:27Z",
+      "side": 1,
+      "message": "if the",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 7
+      },
+      "revId": "31877845ffb2cdb807633e7be88a3c28db418b54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_10f14c42",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-21T21:16:27Z",
+      "side": 1,
+      "message": "unavailable",
+      "range": {
+        "startLine": 55,
+        "startChar": 27,
+        "endLine": 55,
+        "endChar": 37
+      },
+      "revId": "31877845ffb2cdb807633e7be88a3c28db418b54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_50146423",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-21T21:16:27Z",
+      "side": 1,
+      "message": "the data size is less than or equal to vxMinLen",
+      "range": {
+        "startLine": 55,
+        "startChar": 41,
+        "endLine": 55,
+        "endChar": 71
+      },
+      "revId": "31877845ffb2cdb807633e7be88a3c28db418b54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_f03bd8aa",
+        "filename": "src/hash/crc32/crc32_s390x.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-21T21:16:27Z",
+      "side": 1,
+      "message": "same issues as above",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 58
+      },
+      "revId": "31877845ffb2cdb807633e7be88a3c28db418b54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
