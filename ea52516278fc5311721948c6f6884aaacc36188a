@@ -139,6 +139,24 @@
       "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_a45777fc",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-21T05:14:27Z",
+      "side": 1,
+      "message": "It doesn\u0027t have to be this CL, but we should define the relocation codes in this package.  Look at debug/elf: there the relocation codes are defined in elf.go, R_386_* and R_X86_64_*.\n\nFor PE the i386 reloc codes go up to 20 (not all are used) and the x86_64 ones go up to 14.",
+      "parentUuid": "085974e9_c194e531",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
