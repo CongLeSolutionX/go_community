@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_41dd5525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-21T02:00:12Z",
+      "side": 1,
+      "message": "typo",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_e10a4178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-21T02:00:12Z",
+      "side": 1,
+      "message": "typo again?",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_a104496b",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-21T02:00:12Z",
+      "side": 1,
+      "message": "// Reloc represents a PE COFF relocation.\n// Each section contains its own relocation list.",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_01399d24",
+        "filename": "src/debug/pe/section.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-21T02:00:12Z",
+      "side": 1,
+      "message": "What are the types?",
+      "revId": "ea52516278fc5311721948c6f6884aaacc36188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
