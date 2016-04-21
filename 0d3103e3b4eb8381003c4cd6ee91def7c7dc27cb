@@ -33,6 +33,75 @@
       "revId": "0d3103e3b4eb8381003c4cd6ee91def7c7dc27cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_8d5fe5ec",
+        "filename": "src/hash/crc32/crc32_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-04-21T06:49:32Z",
+      "side": 1,
+      "message": "RODATA ?\n\n(RODATA implies NOPTR.)",
+      "range": {
+        "startLine": 46,
+        "startChar": 24,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "0d3103e3b4eb8381003c4cd6ee91def7c7dc27cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_ed54a1d2",
+        "filename": "src/hash/crc32/crc32_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-04-21T06:49:32Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 62,
+        "startChar": 24,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "0d3103e3b4eb8381003c4cd6ee91def7c7dc27cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_2d4fd93d",
+        "filename": "src/hash/crc32/crc32_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-04-21T06:49:32Z",
+      "side": 1,
+      "message": "I\u0027m wondering if we should move these non-trivial\nfeature check functions to the runtime package\nand use //go:linkname to access it from other\npackages. I\u0027m not a fan of duplicating all these\nfunctions in all packages.\n\nPerhaps the runtime should query all optional\nfeatures and save in a runtime.hwcap variable.\nNote that the runtime has access to AT_HWCAP\nauxv, so it probably doesn\u0027t even need to use\nthis function.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 23
+      },
+      "revId": "0d3103e3b4eb8381003c4cd6ee91def7c7dc27cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
