@@ -193,6 +193,8 @@ func checkFunc(f *Func) {
 				canHaveAuxInt = true
 			case auxInt64, auxFloat64:
 				canHaveAuxInt = true
+			case auxInt128:
+				// has auxInt, but it must be 0, so leave canHaveAuxInt at false.
 			case auxFloat32:
 				canHaveAuxInt = true
 				if !isExactFloat32(v) {
