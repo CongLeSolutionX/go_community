@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a87f884b_c70ff285",
+        "filename": "src/math/rand/generate_cooked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-22T09:42:41Z",
+      "side": 1,
+      "message": "0x7fffffff",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "54b828fde45c82636969446088777f1e4d5cf3fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c87cbc59_254fb83d",
+        "filename": "src/math/rand/generate_cooked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-22T09:42:41Z",
+      "side": 1,
+      "message": "seed %\u003d M",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "54b828fde45c82636969446088777f1e4d5cf3fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8a6e026_6e30afc5",
+        "filename": "src/math/rand/generate_cooked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-22T09:42:41Z",
+      "side": 1,
+      "message": "After seed%\u003dM, the smallest value for seed is -M+1 so adding M will ensure it\u0027s \u003e0 and so the second if can be an else-if.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 2
+      },
+      "revId": "54b828fde45c82636969446088777f1e4d5cf3fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8a6e026_ae5a97fc",
+        "filename": "src/math/rand/generate_cooked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-22T09:42:41Z",
+      "side": 1,
+      "message": "Is there a significance to the e10?  They\u0027re often multiples of three, i.e. 7.8e12.\n\nIf i is a 32-bit int then 780e10 is too big.",
+      "range": {
+        "startLine": 80,
+        "startChar": 17,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "54b828fde45c82636969446088777f1e4d5cf3fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288b98a4_e085bccf",
+        "filename": "src/math/rand/generate_cooked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-22T09:42:41Z",
+      "side": 1,
+      "message": "Merge?  Ditto the two later on.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 29
+      },
+      "revId": "54b828fde45c82636969446088777f1e4d5cf3fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88864495_83224095",
+        "filename": "src/math/rand/generate_cooked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-04-22T09:42:41Z",
+      "side": 1,
+      "message": "Use \u0026\u003d",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 32
+      },
+      "revId": "54b828fde45c82636969446088777f1e4d5cf3fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
