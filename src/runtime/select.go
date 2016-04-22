@@ -340,6 +340,7 @@ loop:
 	// pass 1 - look for something already waiting
 	var dfl *scase
 	var cas *scase
+	var closed bool
 	for i := 0; i < int(sel.ncase); i++ {
 		cas = &scases[pollorder[i]]
 		c = cas.c
@@ -362,7 +363,7 @@ loop:
 				racereadpc(unsafe.Pointer(c), cas.pc, chansendpc)
 			}
 			if c.closed != 0 {
-				goto sclose
+				closed = true
 			}
 			sg = c.recvq.dequeue()
 			if sg != nil {
@@ -376,7 +377,9 @@ loop:
 			dfl = cas
 		}
 	}
-
+	if closed {
+		goto sclose
+	}
 	if dfl != nil {
 		selunlock(scases, lockorder)
 		cas = dfl

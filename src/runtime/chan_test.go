@@ -1008,3 +1008,35 @@ func localWork(w int) {
 		workSink += foo
 	}
 }
+
+func TestChanSelectNoPanic(t *testing.T) {
+	defer func() {
+		if v := recover(); v != nil {
+			t.Fatalf("unexpected panic, %v", v)
+		}
+	}()
+	ch := make(chan int, 1)
+	cch := make(chan int, 1)
+	close(ch)
+	go func() {
+		time.Sleep(time.Millisecond)
+		close(cch)
+	}()
+	select {
+	case <-cch:
+	case ch <- 1:
+	}
+}
+
+func TestChanSelectPanic(t *testing.T) {
+	defer func() {
+		if recover() == nil {
+			t.Fatal("expected panic, got nil")
+		}
+	}()
+	ch := make(chan int, 1)
+	close(ch)
+	select {
+	case ch <- 1:
+	}
+}
