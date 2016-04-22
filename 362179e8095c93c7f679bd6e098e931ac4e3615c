@@ -69,6 +69,24 @@
       "revId": "362179e8095c93c7f679bd6e098e931ac4e3615c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_7184cdfe",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-22T21:55:12Z",
+      "side": 1,
+      "message": "Fair enough. Yes, there\u0027s more to do with cancelation but that can happen later.",
+      "parentUuid": "085974e9_960e1fc4",
+      "revId": "362179e8095c93c7f679bd6e098e931ac4e3615c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
