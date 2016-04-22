@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_f64af3fd",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-22T21:29:41Z",
+      "side": 1,
+      "message": "you should clarify that despite being an io.ReadWriter, this doesn\u0027t really operate like a typical io.Reader in that it can\u0027t return short reads whenever it feels like. You do basically expect this \"c\" to behave like a UDPConn.\n\nI might even do:\n\n// udpConnLike is something that acts like a *UDPConn.\ntype udpConnLike interface {\n    io.ReadWriter\n}\n\nOr maybe that\u0027s redundant with the func name.",
+      "revId": "362179e8095c93c7f679bd6e098e931ac4e3615c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_b6655b8a",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-22T21:29:41Z",
+      "side": 1,
+      "message": "shouldn\u0027t this take a context so it\u0027s subject to the caller\u0027s deadline and cancelation?",
+      "revId": "362179e8095c93c7f679bd6e098e931ac4e3615c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
