@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "c8d75c7d_5378ee4a",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-22T21:23:54Z",
+      "side": 1,
+      "message": "Sure, I agree that it makes sense to hide the Local events. I just meant to not mutate the event *in stateTransition*, since it sounds like a pure function. You could, for example, rewrite the events in order1007, perhaps when you take it off the frontier to add it to the events slice. That\u0027s when the event logically passes through the ordering process and the \"Local\"ness of it no longer matters.",
+      "parentUuid": "2874787a_d5aebcc5",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_4aaaf3de",
         "filename": "src/internal/trace/order.go",
         "patchSetId": 10
@@ -282,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "c8d75c7d_b3d5ea68",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-22T21:23:54Z",
+      "side": 1,
+      "message": "Okay. But add comments to the events that are changing that say what the 1.5 argument format was.",
+      "parentUuid": "a87f884b_0750faaa",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_aa08cf10",
         "filename": "src/runtime/trace.go",
         "patchSetId": 10
@@ -346,6 +382,24 @@
       "side": 1,
       "message": "traceGoCreate called above resets traceseq.",
       "parentUuid": "c8d75c7d_8a0d0b21",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_93da6694",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-22T21:23:54Z",
+      "side": 1,
+      "message": "Ah, okay. Consider adding a comment above the traceGoCreate call to the effect of \"// Also resets gp\u0027s tracing state.\"",
+      "parentUuid": "e8a6e026_1145cc93",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
