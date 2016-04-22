@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_f3b8c539",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-22T20:27:55Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "e8f8a0fc_9b0d6b21",
+      "revId": "3d836cd352b294d3a6cefa446d1530e34439dcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8f8a0fc_7b17bf29",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 60,
         "endChar": 12
       },
+      "revId": "3d836cd352b294d3a6cefa446d1530e34439dcd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_93d15176",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-22T20:27:55Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "e8f8a0fc_7b17bf29",
       "revId": "3d836cd352b294d3a6cefa446d1530e34439dcd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
