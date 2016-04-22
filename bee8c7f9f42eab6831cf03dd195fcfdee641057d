@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c87cbc59_a81c7fb2",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_0ab0fb4c",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_2a4fbf3d",
         "filename": "src/internal/trace/order.go",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-20T20:50:06Z",
       "side": 1,
       "message": "\"a consistent stream\"",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a87f884b_67462601",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_2a4fbf3d",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e8a6e026_3148c8ab",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "It should be N*P*log(P), for each event I resort P events. P*log(P) is not too big.\n\nI did not notice any performance degradation, trace still opens in few seconds. And, yes, viewer loading takes much more.\n\nI am sure here are lots of opportunities for optimization. But this change is complex enough in itself to add any optimizations.",
+      "parentUuid": "c8d75c7d_8a2ceb47",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_ca36e393",
         "filename": "src/internal/trace/order.go",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-20T20:50:06Z",
       "side": 1,
       "message": "Out of curiosity, why didn\u0027t you approach this the other way around: sort by time stamp and then check that that order is consistent with the goroutine sequence numbers?",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a87f884b_e74a36fe",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "Consider the following situation. Both trace and timestamps are broken. Order function does not look at timestamps for any logical decisions, it will detect broken trace and report it.\nNow if we resort by timestamp, we can potentially get a correctly ordered trace and report neither of the problems.",
+      "parentUuid": "c8d75c7d_ca36e393",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "2874787a_d5aebcc5",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "I can\u0027t think of such way. These \"Local\" events are purely for ordering, and it is nice that the rest of the code that works with traces (e.g. trace verification, trace transformation to json) are isolated from these new events.",
+      "parentUuid": "c8d75c7d_6aad37f5",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_4aaaf3de",
         "filename": "src/internal/trace/order.go",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2016-04-20T20:50:06Z",
       "side": 1,
       "message": "Consider \"if !transitionReady(g, curr, init)\"",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a87f884b_c755329f",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "Right!",
+      "parentUuid": "c8d75c7d_4aaaf3de",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "c87cbc59_c821c3e9",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_2a269f95",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_aa31efd0",
         "filename": "src/internal/trace/parser.go",
         "patchSetId": 10
@@ -132,6 +258,24 @@
       "writtenOn": "2016-04-20T20:50:06Z",
       "side": 1,
       "message": "These argument count changes will cause problems with PrintEvent. It\u0027s possible we don\u0027t care, since PrintEvent is for debugging, but it would be good to document here that Args reflects only the latest trace format version.\n\nAlternatively, we could change the struct a little and keep this information around and simplify argNum. For example, Args could be a slice of {version, []string} pairs and the parser could use the last pair that\u0027s \u003c\u003d the trace version. That would also eliminate the need for the minVersion field: it would just be the version of the first pair in Args.",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a87f884b_0750faaa",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "Yeah, there is such problem...\nYes, argNum is messy.\nYes, PrintEvent is only for debugging.\n\nYour proposal sounds good, but I would prefer to leave that work until the next big change in trace format. There are chances that it won\u0027t happen any time soon. And for now I\u0027ve tried to cover it all with tests as much as possible.\n\nIf you are very strong about it, then I can do a subsequent change.",
+      "parentUuid": "c8d75c7d_aa31efd0",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "288b98a4_4014b0d5",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "will send a separate change",
+      "parentUuid": "c8d75c7d_aa08cf10",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_8a0d0b21",
         "filename": "src/runtime/trace.go",
         "patchSetId": 10
@@ -166,6 +328,24 @@
       "writtenOn": "2016-04-20T20:50:06Z",
       "side": 1,
       "message": "Why isn\u0027t is necessary to reset traceseq to 0 for all of the goroutines? If I start and stop tracing multiple times within an execution, won\u0027t the goroutines that exist across tracing sessions start at the wrong sequence number?",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8a6e026_1145cc93",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-22T20:41:45Z",
+      "side": 1,
+      "message": "traceGoCreate called above resets traceseq.",
+      "parentUuid": "c8d75c7d_8a0d0b21",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
