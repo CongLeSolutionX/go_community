@@ -34,6 +34,24 @@
       "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_d3e4de57",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-22T21:25:07Z",
+      "side": 1,
+      "message": "Darn. Okay.\n\n(//go:linkname? :)",
+      "parentUuid": "288b98a4_0022a83a",
+      "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
