@@ -9,7 +9,10 @@ package testdata
 import (
 	"flag"
 	"go/scanner"
+	"image"
 	"unicode"
+
+	"unknownpkg"
 )
 
 var Okay1 = []string{
@@ -59,9 +62,20 @@ var BadStructLiteralUsedInTests = flag.Flag{ // ERROR "unkeyed fields"
 // SpecialCase is an (aptly named) slice of CaseRange to test issue 9171.
 var GoodNamedSliceLiteralUsedInTests = unicode.SpecialCase{
 	{Lo: 1, Hi: 2},
+	unicode.CaseRange{Lo: 1, Hi: 2},
+}
+var badNamedSliceLiteralUsedInTests = unicode.SpecialCase{
+	{1, 2},                  // ERROR "unkeyed fields"
+	unicode.CaseRange{1, 2}, // ERROR "unkeyed fields"
 }
 
-// Used to test the check for slices and arrays: If that test is disabled and
-// vet is run with --compositewhitelist=false, this line triggers an error.
-// Clumsy but sufficient.
+// ErrorList is a slice, so no warnings should be emitted.
 var scannerErrorListTest = scanner.ErrorList{nil, nil}
+
+// Check whitelisted structs: if vet is run with --compositewhitelist=false,
+// this line triggers an error.
+var whitelistedP = image.Point{1, 2}
+
+// Do not check type from unknown package.
+// See issue 15408.
+var x = unknownpkg.Foobar{"foo", "bar"}
