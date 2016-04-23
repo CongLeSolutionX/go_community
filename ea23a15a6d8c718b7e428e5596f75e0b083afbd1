@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_9e21cdea",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-23T20:57:48Z",
+      "side": 1,
+      "message": "// BreakTimestampsForTesting causes the parser to randomly alter timestamps (for testing of broken cputicks).",
+      "revId": "ea23a15a6d8c718b7e428e5596f75e0b083afbd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
