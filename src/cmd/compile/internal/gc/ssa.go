@@ -121,7 +121,7 @@ func buildssa(fn *Node) *ssa.Func {
 	s.exitCode = fn.Func.Exit
 	s.panics = map[funcLine]*ssa.Block{}
 
-	if name == os.Getenv("GOSSAFUNC") {
+	if printssa {
 		// TODO: tempfile? it is handy to have the location
 		// of this file be stable, so you can just reload in the browser.
 		s.config.HTML = ssa.NewHTMLWriter("ssa.html", s.config, name)
@@ -520,14 +520,7 @@ func (s *state) stmts(a Nodes) {
 	}
 }
 
-// ssaStmtList converts the statement n to SSA and adds it to s.
-func (s *state) stmtList(l Nodes) {
-	for _, n := range l.Slice() {
-		s.stmt(n)
-	}
-}
-
-// ssaStmt converts the statement n to SSA and adds it to s.
+// stmt converts the statement n to SSA and adds it to s.
 func (s *state) stmt(n *Node) {
 	s.pushLine(n.Lineno)
 	defer s.popLine()
@@ -542,11 +535,11 @@ func (s *state) stmt(n *Node) {
 		s.startBlock(dead)
 	}
 
-	s.stmtList(n.Ninit)
+	s.stmts(n.Ninit)
 	switch n.Op {
 
 	case OBLOCK:
-		s.stmtList(n.List)
+		s.stmts(n.List)
 
 	// No-ops
 	case OEMPTY, ODCLCONST, ODCLTYPE, OFALL:
@@ -574,7 +567,6 @@ func (s *state) stmt(n *Node) {
 		res, resok := s.dottype(n.Rlist.First(), true)
 		s.assign(n.List.First(), res, needwritebarrier(n.List.First(), n.Rlist.First()), false, n.Lineno, 0)
 		s.assign(n.List.Second(), resok, false, false, n.Lineno, 0)
-		return
 
 	case ODCL:
 		if n.Left.Class&PHEAP == 0 {
@@ -767,12 +759,17 @@ func (s *state) stmt(n *Node) {
 	case OIF:
 		bThen := s.f.NewBlock(ssa.BlockPlain)
 		bEnd := s.f.NewBlock(ssa.BlockPlain)
-		var bElse *ssa.Block
-		if n.Rlist.Len() != 0 {
-			bElse = s.f.NewBlock(ssa.BlockPlain)
-			s.condBranch(n.Left, bThen, bElse, n.Likely)
-		} else {
+		if n.Rlist.Len() == 0 {
 			s.condBranch(n.Left, bThen, bEnd, n.Likely)
+		} else {
+			bElse := s.f.NewBlock(ssa.BlockPlain)
+			s.condBranch(n.Left, bThen, bElse, n.Likely)
+
+			s.startBlock(bElse)
+			s.stmts(n.Rlist)
+			if b := s.endBlock(); b != nil {
+				b.AddEdgeTo(bEnd)
+			}
 		}
 
 		s.startBlock(bThen)
@@ -781,42 +778,32 @@ func (s *state) stmt(n *Node) {
 			b.AddEdgeTo(bEnd)
 		}
 
-		if n.Rlist.Len() != 0 {
-			s.startBlock(bElse)
-			s.stmtList(n.Rlist)
-			if b := s.endBlock(); b != nil {
-				b.AddEdgeTo(bEnd)
-			}
-		}
 		s.startBlock(bEnd)
 
 	case ORETURN:
-		s.stmtList(n.List)
+		s.stmts(n.List)
 		s.exit()
 	case ORETJMP:
-		s.stmtList(n.List)
+		s.stmts(n.List)
 		b := s.exit()
 		b.Kind = ssa.BlockRetJmp // override BlockRet
 		b.Aux = n.Left.Sym
 
 	case OCONTINUE, OBREAK:
-		var op string
 		var to *ssa.Block
-		switch n.Op {
-		case OCONTINUE:
-			op = "continue"
-			to = s.continueTo
-		case OBREAK:
-			op = "break"
-			to = s.breakTo
-		}
 		if n.Left == nil {
 			// plain break/continue
+			switch n.Op {
+			case OCONTINUE:
+				to = s.continueTo
+			case OBREAK:
+				to = s.breakTo
+			}
 			if to == nil {
+				op := strings.ToLower(opnames[n.Op])
 				s.Error("%s is not in a loop", op)
 				return
 			}
-			// nothing to do; "to" is already the correct target
 		} else {
 			// labeled break/continue; look up the target
 			sym := n.Left.Sym
@@ -825,6 +812,7 @@ func (s *state) stmt(n *Node) {
 				lab.useNode = n.Left
 			}
 			if !lab.defined() {
+				op := strings.ToLower(opnames[n.Op])
 				s.Error("%s label not defined: %v", op, sym)
 				lab.reported = true
 				return
@@ -842,6 +830,7 @@ func (s *state) stmt(n *Node) {
 				// }
 				// abc:
 				// for {}
+				op := strings.ToLower(opnames[n.Op])
 				s.Error("invalid %s label %v", op, sym)
 				lab.reported = true
 				return
@@ -877,8 +866,7 @@ func (s *state) stmt(n *Node) {
 		prevBreak := s.breakTo
 		s.continueTo = bIncr
 		s.breakTo = bEnd
-		lab := s.labeledNodes[n]
-		if lab != nil {
+		if lab := s.labeledNodes[n]; lab != nil {
 			// labeled for loop
 			lab.continueTarget = bIncr
 			lab.breakTarget = bEnd
@@ -891,10 +879,6 @@ func (s *state) stmt(n *Node) {
 		// tear down continue/break
 		s.continueTo = prevContinue
 		s.breakTo = prevBreak
-		if lab != nil {
-			lab.continueTarget = nil
-			lab.breakTarget = nil
-		}
 
 		// done with body, goto incr
 		if b := s.endBlock(); b != nil {
@@ -918,8 +902,7 @@ func (s *state) stmt(n *Node) {
 
 		prevBreak := s.breakTo
 		s.breakTo = bEnd
-		lab := s.labeledNodes[n]
-		if lab != nil {
+		if lab := s.labeledNodes[n]; lab != nil {
 			// labeled
 			lab.breakTarget = bEnd
 		}
@@ -927,10 +910,8 @@ func (s *state) stmt(n *Node) {
 		// generate body code
 		s.stmts(n.Nbody)
 
+		// tear down break
 		s.breakTo = prevBreak
-		if lab != nil {
-			lab.breakTarget = nil
-		}
 
 		// OSWITCH never falls through (s.curBlock == nil here).
 		// OSELECT does not fall through if we're calling selectgo.
@@ -1253,12 +1234,6 @@ func floatForComplex(t *Type) *Type {
 	}
 }
 
-type opAndTwoTypes struct {
-	op     Op
-	etype1 EType
-	etype2 EType
-}
-
 type twoTypes struct {
 	etype1 EType
 	etype2 EType
@@ -1271,7 +1246,6 @@ type twoOpsAndType struct {
 }
 
 var fpConvOpToSSA = map[twoTypes]twoOpsAndType{
-
 	twoTypes{TINT8, TFLOAT32}:  twoOpsAndType{ssa.OpSignExt8to32, ssa.OpCvt32to32F, TINT32},
 	twoTypes{TINT16, TFLOAT32}: twoOpsAndType{ssa.OpSignExt16to32, ssa.OpCvt32to32F, TINT32},
 	twoTypes{TINT32, TFLOAT32}: twoOpsAndType{ssa.OpCopy, ssa.OpCvt32to32F, TINT32},
@@ -1317,6 +1291,12 @@ var fpConvOpToSSA = map[twoTypes]twoOpsAndType{
 	twoTypes{TFLOAT64, TFLOAT64}: twoOpsAndType{ssa.OpCopy, ssa.OpCopy, TFLOAT64},
 	twoTypes{TFLOAT32, TFLOAT32}: twoOpsAndType{ssa.OpCopy, ssa.OpCopy, TFLOAT32},
 	twoTypes{TFLOAT32, TFLOAT64}: twoOpsAndType{ssa.OpCvt32Fto64F, ssa.OpCopy, TFLOAT64},
+}
+
+type opAndTwoTypes struct {
+	op     Op
+	etype1 EType
+	etype2 EType
 }
 
 var shiftOpToSSA = map[opAndTwoTypes]ssa.Op{
@@ -1393,9 +1373,9 @@ var shiftOpToSSA = map[opAndTwoTypes]ssa.Op{
 	opAndTwoTypes{ORSH, TUINT64, TUINT64}: ssa.OpRsh64Ux64,
 }
 
-func (s *state) ssaShiftOp(op Op, t *Type, u *Type) ssa.Op {
-	etype1 := s.concreteEtype(t)
-	etype2 := s.concreteEtype(u)
+func (s *state) ssaShiftOp(op Op, t1, t2 *Type) ssa.Op {
+	etype1 := s.concreteEtype(t1)
+	etype2 := s.concreteEtype(t2)
 	x, ok := shiftOpToSSA[opAndTwoTypes{op, etype1, etype2}]
 	if !ok {
 		s.Unimplementedf("unhandled shift op %s etype=%s/%s", op, etype1, etype2)
@@ -1404,10 +1384,10 @@ func (s *state) ssaShiftOp(op Op, t *Type, u *Type) ssa.Op {
 }
 
 func (s *state) ssaRotateOp(op Op, t *Type) ssa.Op {
-	etype1 := s.concreteEtype(t)
-	x, ok := opToSSA[opAndType{op, etype1}]
+	etype := s.concreteEtype(t)
+	x, ok := opToSSA[opAndType{op, etype}]
 	if !ok {
-		s.Unimplementedf("unhandled rotate op %s etype=%s", op, etype1)
+		s.Unimplementedf("unhandled rotate op %s etype=%s", op, etype)
 	}
 	return x
 }
@@ -1417,14 +1397,16 @@ func (s *state) expr(n *Node) *ssa.Value {
 	s.pushLine(n.Lineno)
 	defer s.popLine()
 
-	s.stmtList(n.Ninit)
+	s.stmts(n.Ninit)
 	switch n.Op {
 	case OCFUNC:
 		aux := s.lookupSymbol(n, &ssa.ExternSymbol{n.Type, n.Left.Sym})
 		return s.entryNewValue1A(ssa.OpAddr, n.Type, aux, s.sb)
+
 	case OPARAM:
 		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Left.Type, addr, s.mem())
+
 	case ONAME:
 		if n.Class == PFUNC {
 			// "value" of a function is the address of the function's closure
@@ -1437,9 +1419,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 		}
 		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
+
 	case OCLOSUREVAR:
 		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
+
 	case OLITERAL:
 		switch u := n.Val().U.(type) {
 		case *Mpint:
@@ -1514,6 +1498,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			s.Unimplementedf("unhandled OLITERAL %v", n.Val().Ctype())
 			return nil
 		}
+
 	case OCONVNOP:
 		to := n.Type
 		from := n.Left.Type
@@ -1726,6 +1711,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			}
 		}
 		return s.newValue2(s.ssaOp(n.Op, n.Left.Type), Types[TBOOL], a, b)
+
 	case OMUL:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
@@ -1811,6 +1797,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			s.check(cmp, panicdivide)
 			return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
 		}
+
 	case OMOD:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
@@ -1818,6 +1805,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		cmp := s.newValue2(s.ssaOp(ONE, n.Type), Types[TBOOL], b, s.zeroVal(n.Type))
 		s.check(cmp, panicdivide)
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
 	case OADD, OSUB:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
@@ -1829,14 +1817,17 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue2(op, pt, s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b)))
 		}
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
 	case OAND, OOR, OHMUL, OXOR:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
+
 	case OLSH, ORSH:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		return s.newValue2(s.ssaShiftOp(n.Op, n.Type, n.Right.Type), a.Type, a, b)
+
 	case OLROT:
 		a := s.expr(n.Left)
 		i := n.Right.Int64()
@@ -1844,6 +1835,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			s.Fatalf("Wrong rotate distance for LROT, expected 1 through %d, saw %d", n.Type.Size()*8-1, i)
 		}
 		return s.newValue1I(s.ssaRotateOp(n.Op, n.Type), a.Type, i, a)
+
 	case OANDAND, OOROR:
 		// To implement OANDAND (and OOROR), we introduce a
 		// new temporary variable to hold the result. The
@@ -1888,6 +1880,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		s.startBlock(bResult)
 		return s.variable(n, Types[TBOOL])
+
 	case OCOMPLEX:
 		r := s.expr(n.Left)
 		i := s.expr(n.Right)
@@ -1904,12 +1897,15 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexImag, tp, a)))
 		}
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
+
 	case ONOT, OCOM, OSQRT:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
+
 	case OIMAG, OREAL:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Left.Type), n.Type, a)
+
 	case OPLUS:
 		return s.expr(n.Left)
 
@@ -2254,43 +2250,40 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 // This function is intended to handle && and || better than just calling
 // s.expr(cond) and branching on the result.
 func (s *state) condBranch(cond *Node, yes, no *ssa.Block, likely int8) {
-	if cond.Op == OANDAND {
+	switch cond.Op {
+	case OANDAND:
 		mid := s.f.NewBlock(ssa.BlockPlain)
-		s.stmtList(cond.Ninit)
+		s.stmts(cond.Ninit)
 		s.condBranch(cond.Left, mid, no, max8(likely, 0))
 		s.startBlock(mid)
 		s.condBranch(cond.Right, yes, no, likely)
-		return
 		// Note: if likely==1, then both recursive calls pass 1.
 		// If likely==-1, then we don't have enough information to decide
 		// whether the first branch is likely or not. So we pass 0 for
 		// the likeliness of the first branch.
 		// TODO: have the frontend give us branch prediction hints for
 		// OANDAND and OOROR nodes (if it ever has such info).
-	}
-	if cond.Op == OOROR {
+	case OOROR:
 		mid := s.f.NewBlock(ssa.BlockPlain)
-		s.stmtList(cond.Ninit)
+		s.stmts(cond.Ninit)
 		s.condBranch(cond.Left, yes, mid, min8(likely, 0))
 		s.startBlock(mid)
 		s.condBranch(cond.Right, yes, no, likely)
-		return
 		// Note: if likely==-1, then both recursive calls pass -1.
 		// If likely==1, then we don't have enough info to decide
 		// the likelihood of the first branch.
-	}
-	if cond.Op == ONOT {
-		s.stmtList(cond.Ninit)
+	case ONOT:
+		s.stmts(cond.Ninit)
 		s.condBranch(cond.Left, no, yes, -likely)
-		return
+	default:
+		c := s.expr(cond)
+		b := s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.SetControl(c)
+		b.Likely = ssa.BranchPrediction(likely) // gc and ssa both use -1/0/+1 for likeliness
+		b.AddEdgeTo(yes)
+		b.AddEdgeTo(no)
 	}
-	c := s.expr(cond)
-	b := s.endBlock()
-	b.Kind = ssa.BlockIf
-	b.SetControl(c)
-	b.Likely = ssa.BranchPrediction(likely) // gc and ssa both use -1/0/+1 for likeliness
-	b.AddEdgeTo(yes)
-	b.AddEdgeTo(no)
 }
 
 type skipMask uint8
@@ -2583,7 +2576,7 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	// been offset by the appropriate amount (+2*widthptr for go/defer,
 	// +widthptr for interface calls).
 	// For OCALLMETH, the receiver is set in these statements.
-	s.stmtList(n.List)
+	s.stmts(n.List)
 
 	// Set receiver (for interface calls)
 	if rcvr != nil {
@@ -2606,7 +2599,6 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	}
 
 	// call target
-	bNext := s.f.NewBlock(ssa.BlockPlain)
 	var call *ssa.Value
 	switch {
 	case k == callDefer:
@@ -2630,6 +2622,7 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	b := s.endBlock()
 	b.Kind = ssa.BlockCall
 	b.SetControl(call)
+	bNext := s.f.NewBlock(ssa.BlockPlain)
 	b.AddEdgeTo(bNext)
 	if k == callDefer {
 		// Add recover edge to exit code.
@@ -2843,15 +2836,17 @@ func canSSAType(t *Type) bool {
 		// Too big and we'll introduce too much register pressure.
 		return false
 	}
-	switch t.Etype {
-	case TARRAY:
+	switch {
+	default:
+		return true
+	case t.IsArray():
 		// We can't do arrays because dynamic indexing is
 		// not supported on SSA variables.
 		// TODO: maybe allow if length is <=1?  All indexes
 		// are constant?  Might be good for the arrays
 		// introduced by the compiler for variadic functions.
 		return false
-	case TSTRUCT:
+	case t.IsStruct():
 		if t.NumFields() > ssa.MaxStruct {
 			return false
 		}
@@ -2860,8 +2855,6 @@ func canSSAType(t *Type) bool {
 				return false
 			}
 		}
-		return true
-	default:
 		return true
 	}
 }
