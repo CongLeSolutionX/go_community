@@ -70,6 +70,24 @@
       "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_3eff0178",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-23T14:30:26Z",
+      "side": 1,
+      "message": "Oof. This might not be so bad if you didn\u0027t also have to fight with the go tool.\n\nI\u0027d either put it back the way it was, or keep the breakTimestamps function but make it public. That way at least the Parse API stays clean.",
+      "parentUuid": "a87f884b_a79d8e97",
+      "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
