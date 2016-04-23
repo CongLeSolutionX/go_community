@@ -88,6 +88,24 @@
       "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8659cc5_e05776fb",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-23T15:56:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_3eff0178",
+      "revId": "16e7d4a659b8cd6a157ea50c242a54b59a8dac48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
