@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_5e4f55b1",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-23T20:55:30Z",
+      "side": 1,
+      "message": "Does\u0027t this one also have to be sort.Stable?",
+      "revId": "399298a070c0caeeba3c0040a2b323809ff12f1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
