@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "085974e9_48000326",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-23T19:14:44Z",
+      "side": 1,
+      "message": "Add a comment to this function about what it does. (Reads from reader and populates vs? What is maxFormSize? The size of what?)\n\nAlso: \"r\" for reader.",
+      "revId": "793096c5cff2c7f2837f3aab89fc1524acd3c8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_28fb475e",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-23T19:14:44Z",
+      "side": 1,
+      "message": "these are initializations. they\u0027re declarations. But why are they all up here? Push them down to where they\u0027re needed.",
+      "revId": "793096c5cff2c7f2837f3aab89fc1524acd3c8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_e8152f63",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-23T19:14:44Z",
+      "side": 1,
+      "message": "why 100 and why is it a variable?",
+      "revId": "793096c5cff2c7f2837f3aab89fc1524acd3c8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_0813eb7f",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-23T19:14:44Z",
+      "side": 1,
+      "message": "I think using a bufio.Reader would make all this code much easier. You can get one from an existing sync.Pool in this package and then return it when done. (use Reset to change which Reader it reads from)",
+      "revId": "793096c5cff2c7f2837f3aab89fc1524acd3c8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7ab1dee_fe255f48",
         "filename": "src/net/http/request.go",
         "patchSetId": 5
