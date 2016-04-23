@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_48b803e7",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-23T13:07:49Z",
+      "side": 1,
+      "message": "space after //",
+      "revId": "a05d32b21affe6244f6a015de4750d10c6c4a1a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_e8cd2f84",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-23T13:07:49Z",
+      "side": 1,
+      "message": "this isn\u0027t legal Go 1.4 syntax. This code is compiled with Go 1.4 for bootstrapping.",
+      "revId": "a05d32b21affe6244f6a015de4750d10c6c4a1a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
