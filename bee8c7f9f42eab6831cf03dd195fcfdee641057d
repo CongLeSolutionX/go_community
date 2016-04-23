@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "2874787a_f5ac98c6",
+        "filename": "src/internal/trace/order.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-23T14:37:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_5378ee4a",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_4aaaf3de",
         "filename": "src/internal/trace/order.go",
         "patchSetId": 10
@@ -318,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "289d58d4_167822fc",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-23T14:37:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_b3d5ea68",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_aa08cf10",
         "filename": "src/runtime/trace.go",
         "patchSetId": 10
@@ -400,6 +436,24 @@
       "side": 1,
       "message": "Ah, okay. Consider adding a comment above the traceGoCreate call to the effect of \"// Also resets gp\u0027s tracing state.\"",
       "parentUuid": "e8a6e026_1145cc93",
+      "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a87f884b_e7a796e1",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-04-23T14:37:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_93da6694",
       "revId": "bee8c7f9f42eab6831cf03dd195fcfdee641057d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
