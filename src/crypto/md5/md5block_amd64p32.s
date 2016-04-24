@@ -17,10 +17,31 @@
 // Licence: I hereby disclaim the copyright on this code and place it
 // in the public domain.
 
-TEXT	·block(SB),NOSPLIT,$0-32
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$0-12
+	MOVL	dig+0(FP),	R11
+	MOVL	s+4(FP),	SI
+	MOVL	s_len+8(FP),	DX
+	// use CALL instead of JMP for NaCL bundle alignment
+	CALL	block<>(SB)
+	RET
+
+// func block(dig *digest, p []byte)
+TEXT	·block(SB),NOSPLIT,$0-16
 	MOVL	dig+0(FP),	R11
 	MOVL	p+4(FP),	SI
-	MOVL	p_len+8(FP), DX
+	MOVL	p_len+8(FP),	DX
+	// use CALL instead of JMP for NaCL bundle alignment
+	CALL	block<>(SB)
+	RET
+
+// Message block routine, expects:
+//   R11, 0(FP): pointer to digest
+//   SI: pointer to input bytes to hash
+//   DX: length of input
+//
+// All GPRs except R11 considered volatile
+TEXT	block<>(SB),NOSPLIT,$0-0
 	SHRQ	$6,		DX
 	SHLQ	$6,		DX
 

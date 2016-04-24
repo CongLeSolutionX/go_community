@@ -59,10 +59,27 @@
 	XORL	c,		BP; \
 	ADDL	b,		a
 
-TEXT	·block(SB),NOSPLIT,$24-16
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$0-12
+	MOVL	dig+0(FP),	BP
+	MOVL	s+4(FP),	SI
+	MOVL	s_len+8(FP),	DX
+	JMP	block<>(SB)
+
+// func block(dig *digest, p []byte)
+TEXT	·block(SB),NOSPLIT,$0-16
 	MOVL	dig+0(FP),	BP
 	MOVL	p+4(FP),	SI
-	MOVL	p_len+8(FP), DX
+	MOVL	p_len+8(FP),	DX
+	JMP	block<>(SB)
+
+// Message block routine, expects:
+//   BP, 0(FP): pointer to digest
+//   SI: pointer to input bytes to hash
+//   DX: length of input
+//
+// All GPRs except BP considered volatile
+TEXT	block<>(SB),NOSPLIT,$24-0
 	SHRL	$6,		DX
 	SHLL	$6,		DX
 
