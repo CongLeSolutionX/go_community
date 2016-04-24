@@ -152,6 +152,23 @@ func TestBlockSize(t *testing.T) {
 
 var bench = New()
 var buf = make([]byte, 8192)
+var str = string(buf)
+
+func BenchmarkWrite(b *testing.B) {
+	b.SetBytes(int64(len(buf)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		bench.Write(buf)
+	}
+}
+
+func BenchmarkWriteString(b *testing.B) {
+	b.SetBytes(int64(len(str)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		io.WriteString(bench, str)
+	}
+}
 
 func benchmarkSize(b *testing.B, size int) {
 	b.SetBytes(int64(size))

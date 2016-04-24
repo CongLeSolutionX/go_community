@@ -9,6 +9,7 @@ package sha512
 import (
 	"crypto"
 	"hash"
+	"unsafe"
 )
 
 func init() {
@@ -188,6 +189,10 @@ func (d *digest) Write(p []byte) (nn int, err error) {
 		d.nx = copy(d.x[:], p)
 	}
 	return
+}
+
+func (d *digest) WriteString(s string) (nn int, err error) {
+	return d.Write(*(*[]byte)(unsafe.Pointer(&s)))
 }
 
 func (d0 *digest) Sum(in []byte) []byte {

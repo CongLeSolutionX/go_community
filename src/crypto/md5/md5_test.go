@@ -121,6 +121,23 @@ func TestBlockGeneric(t *testing.T) {
 var bench = New()
 var buf = make([]byte, 8192+1)
 var sum = make([]byte, bench.Size())
+var str = string(buf)
+
+func BenchmarkWrite(b *testing.B) {
+	b.SetBytes(8192)
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		bench.Write(buf[:8192])
+	}
+}
+
+func BenchmarkWriteString(b *testing.B) {
+	b.SetBytes(8192)
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		io.WriteString(bench, str[:8192])
+	}
+}
 
 func benchmarkSize(b *testing.B, size int, unaligned bool) {
 	b.SetBytes(int64(size))
