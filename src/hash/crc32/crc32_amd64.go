@@ -18,10 +18,16 @@ func haveCLMUL() bool
 //go:noescape
 func castagnoliSSE42(crc uint32, p []byte) uint32
 
+//go:noescape
+func castagnoliSSE42String(crc uint32, s string) uint32
+
 // ieeeCLMUL is defined in crc_amd64.s and uses the PCLMULQDQ
 // instruction as well as SSE 4.1.
 //go:noescape
 func ieeeCLMUL(crc uint32, p []byte) uint32
+
+//go:noescape
+func ieeeCLMULString(crc uint32, s string) uint32
 
 var sse42 = haveSSE42()
 var useFastIEEE = haveCLMUL() && haveSSE41()
@@ -30,11 +36,14 @@ func updateCastagnoli(crc uint32, p []byte) uint32 {
 	if sse42 {
 		return castagnoliSSE42(crc, p)
 	}
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		return updateSlicingBy8(crc, castagnoliTable8, p)
+	return updateCastagnoliGeneric(crc, p)
+}
+
+func updateCastagnoliString(crc uint32, s string) uint32 {
+	if sse42 {
+		return castagnoliSSE42String(crc, s)
 	}
-	return update(crc, castagnoliTable, p)
+	return updateCastagnoliGenericString(crc, s)
 }
 
 func updateIEEE(crc uint32, p []byte) uint32 {
@@ -47,14 +56,18 @@ func updateIEEE(crc uint32, p []byte) uint32 {
 		}
 		return crc
 	}
+	return updateIEEEGeneric(crc, p)
+}
 
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		ieeeTable8Once.Do(func() {
-			ieeeTable8 = makeTable8(IEEE)
-		})
-		return updateSlicingBy8(crc, ieeeTable8, p)
+func updateIEEEString(crc uint32, s string) uint32 {
+	if useFastIEEE && len(s) >= 64 {
+		left := len(s) & 15
+		do := len(s) - left
+		crc = ^ieeeCLMULString(^crc, s[:do])
+		if left > 0 {
+			crc = updateString(crc, IEEETable, s[do:])
+		}
+		return crc
 	}
-
-	return update(crc, IEEETable, p)
+	return updateIEEEGenericString(crc, s)
 }

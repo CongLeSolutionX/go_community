@@ -74,9 +74,44 @@ func update(d digest, p []byte) digest {
 	return digest(s2<<16 | s1)
 }
 
+// Add s to the running checksum d.
+func updateString(d digest, s string) digest {
+	s1, s2 := uint32(d&0xffff), uint32(d>>16)
+	for len(s) > 0 {
+		var t string
+		if len(s) > nmax {
+			s, t = s[:nmax], s[nmax:]
+		}
+		for len(s) >= 4 {
+			s1 += uint32(s[0])
+			s2 += s1
+			s1 += uint32(s[1])
+			s2 += s1
+			s1 += uint32(s[2])
+			s2 += s1
+			s1 += uint32(s[3])
+			s2 += s1
+			s = s[4:]
+		}
+		for i := 0; i < len(s); i++ {
+			s1 += uint32(s[i])
+			s2 += s1
+		}
+		s1 %= mod
+		s2 %= mod
+		s = t
+	}
+	return digest(s2<<16 | s1)
+}
+
 func (d *digest) Write(p []byte) (nn int, err error) {
 	*d = update(*d, p)
 	return len(p), nil
+}
+
+func (d *digest) WriteString(s string) (nn int, err error) {
+	*d = updateString(*d, s)
+	return len(s), nil
 }
 
 func (d *digest) Sum32() uint32 { return uint32(*d) }
@@ -88,3 +123,8 @@ func (d *digest) Sum(in []byte) []byte {
 
 // Checksum returns the Adler-32 checksum of data.
 func Checksum(data []byte) uint32 { return uint32(update(1, data)) }
+
+// ChecksumString returns the Adler-32 checksum of s.
+func ChecksumString(s string) uint32 {
+	return uint32(updateString(1, s))
+}

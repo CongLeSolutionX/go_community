@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"hash"
+	"io"
 	"testing"
 )
 
@@ -61,11 +62,32 @@ func TestGolden64a(t *testing.T) {
 }
 
 func testGolden(t *testing.T, hash hash.Hash, gold []golden) {
+	testGoldenBytes(t, hash, gold)
+	testGoldenString(t, hash, gold)
+}
+
+func testGoldenBytes(t *testing.T, hash hash.Hash, gold []golden) {
 	for _, g := range gold {
 		hash.Reset()
 		done, error := hash.Write([]byte(g.text))
 		if error != nil {
 			t.Fatalf("write error: %s", error)
+		}
+		if done != len(g.text) {
+			t.Fatalf("wrote only %d out of %d bytes", done, len(g.text))
+		}
+		if actual := hash.Sum(nil); !bytes.Equal(g.sum, actual) {
+			t.Errorf("hash(%q) = 0x%x want 0x%x", g.text, actual, g.sum)
+		}
+	}
+}
+
+func testGoldenString(t *testing.T, hash hash.Hash, gold []golden) {
+	for _, g := range gold {
+		hash.Reset()
+		done, error := io.WriteString(hash, g.text)
+		if error != nil {
+			t.Fatalf("string write error: %s", error)
 		}
 		if done != len(g.text) {
 			t.Fatalf("wrote only %d out of %d bytes", done, len(g.text))
@@ -94,6 +116,7 @@ func TestIntegrity64a(t *testing.T) {
 
 func testIntegrity(t *testing.T, h hash.Hash) {
 	data := []byte{'1', '2', 3, 4, 5}
+	str := string(data)
 	h.Write(data)
 	sum := h.Sum(nil)
 
@@ -112,10 +135,23 @@ func testIntegrity(t *testing.T, h hash.Hash) {
 	}
 
 	h.Reset()
+	io.WriteString(h, str)
+	if a := h.Sum(nil); !bytes.Equal(sum, a) {
+		t.Fatalf("Sum()=0x%x, but after Reset() and WriteString() Sum()=0x%x", sum, a)
+	}
+
+	h.Reset()
 	h.Write(data[:2])
 	h.Write(data[2:])
 	if a := h.Sum(nil); !bytes.Equal(sum, a) {
 		t.Fatalf("Sum()=0x%x, but with partial writes, Sum()=0x%x", sum, a)
+	}
+
+	h.Reset()
+	io.WriteString(h, str[:2])
+	io.WriteString(h, str[2:])
+	if a := h.Sum(nil); !bytes.Equal(sum, a) {
+		t.Fatalf("Sum()=0x%x, but with partial string writes, Sum()=0x%x", sum, a)
 	}
 
 	switch h.Size() {
@@ -129,6 +165,26 @@ func testIntegrity(t *testing.T, h hash.Hash) {
 		if sum64 != binary.BigEndian.Uint64(sum) {
 			t.Fatalf("Sum()=0x%x, but Sum64()=0x%x", sum, sum64)
 		}
+	}
+}
+
+var bench = New64a()
+var buf = make([]byte, 1024)
+var str = string(buf)
+
+func BenchmarkWrite(b *testing.B) {
+	b.SetBytes(int64(len(buf)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		bench.Write(buf)
+	}
+}
+
+func BenchmarkWriteString(b *testing.B) {
+	b.SetBytes(int64(len(str)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		io.WriteString(bench, str)
 	}
 }
 

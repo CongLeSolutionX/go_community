@@ -157,6 +157,69 @@ func updateSlicingBy8(crc uint32, tab *slicing8Table, p []byte) uint32 {
 	return update(crc, &tab[0], p)
 }
 
+// updateSlicingBy8String updates CRC using Slicing-by-8
+func updateSlicingBy8String(crc uint32, tab *slicing8Table, s string) uint32 {
+	crc = ^crc
+	for len(s) > 8 {
+		crc ^= uint32(s[0]) | uint32(s[1])<<8 | uint32(s[2])<<16 | uint32(s[3])<<24
+		crc = tab[0][s[7]] ^ tab[1][s[6]] ^ tab[2][s[5]] ^ tab[3][s[4]] ^
+			tab[4][crc>>24] ^ tab[5][(crc>>16)&0xFF] ^
+			tab[6][(crc>>8)&0xFF] ^ tab[7][crc&0xFF]
+		s = s[8:]
+	}
+	crc = ^crc
+	if len(s) == 0 {
+		return crc
+	}
+	return updateString(crc, &tab[0], s)
+}
+
+func updateString(crc uint32, tab *Table, s string) uint32 {
+	crc = ^crc
+	for i := 0; i < len(s); i++ {
+		crc = tab[byte(crc)^s[i]] ^ (crc >> 8)
+	}
+	return ^crc
+}
+
+func updateCastagnoliGeneric(crc uint32, p []byte) uint32 {
+	// Use slicing-by-8 on larger inputs.
+	if len(p) >= sliceBy8Cutoff {
+		return updateSlicingBy8(crc, castagnoliTable8, p)
+	}
+	return update(crc, castagnoliTable, p)
+}
+
+func updateCastagnoliGenericString(crc uint32, s string) uint32 {
+	// Use slicing-by-8 on larger inputs.
+	if len(s) >= sliceBy8Cutoff {
+		return updateSlicingBy8String(crc, castagnoliTable8, s)
+	}
+	return updateString(crc, castagnoliTable, s)
+}
+
+func updateIEEEGeneric(crc uint32, p []byte) uint32 {
+	// Use slicing-by-8 on larger inputs.
+	if len(p) >= sliceBy8Cutoff {
+		ieeeTable8Once.Do(func() {
+			ieeeTable8 = makeTable8(IEEE)
+		})
+		return updateSlicingBy8(crc, ieeeTable8, p)
+	}
+	return update(crc, IEEETable, p)
+}
+
+func updateIEEEGenericString(crc uint32, s string) uint32 {
+	// Use slicing-by-8 on larger inputs.
+	if len(s) >= sliceBy8Cutoff {
+		ieeeTable8Once.Do(func() {
+			ieeeTable8 = makeTable8(IEEE)
+		})
+		return updateSlicingBy8String(crc, ieeeTable8, s)
+	}
+	return updateString(crc, IEEETable, s)
+}
+
 // Update returns the result of adding the bytes in p to the crc.
 func Update(crc uint32, tab *Table, p []byte) uint32 {
 	switch tab {
@@ -168,9 +231,25 @@ func Update(crc uint32, tab *Table, p []byte) uint32 {
 	return update(crc, tab, p)
 }
 
+// UpdateString returns the result of adding the bytes in s to the crc.
+func UpdateString(crc uint32, tab *Table, s string) uint32 {
+	switch tab {
+	case castagnoliTable:
+		return updateCastagnoliString(crc, s)
+	case IEEETable:
+		return updateIEEEString(crc, s)
+	}
+	return updateString(crc, tab, s)
+}
+
 func (d *digest) Write(p []byte) (n int, err error) {
 	d.crc = Update(d.crc, d.tab, p)
 	return len(p), nil
+}
+
+func (d *digest) WriteString(s string) (n int, err error) {
+	d.crc = UpdateString(d.crc, d.tab, s)
+	return len(s), nil
 }
 
 func (d *digest) Sum32() uint32 { return d.crc }
@@ -183,6 +262,12 @@ func (d *digest) Sum(in []byte) []byte {
 // Checksum returns the CRC-32 checksum of data
 // using the polynomial represented by the Table.
 func Checksum(data []byte, tab *Table) uint32 { return Update(0, tab, data) }
+
+// ChecksumString returns the CRC-32 checksum of s
+// using the polynomial represented by the Table.
+func ChecksumString(s string, tab *Table) uint32 {
+	return UpdateString(0, tab, s)
+}
 
 // ChecksumIEEE returns the CRC-32 checksum of data
 // using the IEEE polynomial.

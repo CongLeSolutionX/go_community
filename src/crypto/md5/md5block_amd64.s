@@ -13,10 +13,27 @@
 // Licence: I hereby disclaim the copyright on this code and place it
 // in the public domain.
 
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$0-24
+	MOVQ	dig+0(FP),	BP
+	MOVQ	s+8(FP),	SI
+	MOVQ	s_len+16(FP),	DX
+	JMP	md5block<>(SB)
+
+// func block(dig *digest, p []byte)
 TEXT	·block(SB),NOSPLIT,$0-32
 	MOVQ	dig+0(FP),	BP
 	MOVQ	p+8(FP),	SI
-	MOVQ	p_len+16(FP), DX
+	MOVQ	p_len+16(FP),	DX
+	JMP	md5block<>(SB)
+
+// Message block routine, expects:
+//   BP: pointer to digest
+//   SI: pointer to input bytes to hash
+//   DX: length of input
+//
+// All GPRs considered volatile
+TEXT	md5block<>(SB),NOSPLIT,$0-0
 	SHRQ	$6,		DX
 	SHLQ	$6,		DX
 

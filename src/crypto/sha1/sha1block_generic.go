@@ -7,3 +7,7 @@
 package sha1
 
 var block = blockGeneric
+
+func blockString(d *digest, s string) {
+	blockGeneric(d, []byte(s))
+}

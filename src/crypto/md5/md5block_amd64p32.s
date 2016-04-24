@@ -17,10 +17,29 @@
 // Licence: I hereby disclaim the copyright on this code and place it
 // in the public domain.
 
-TEXT	·block(SB),NOSPLIT,$0-32
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$0-12
+	MOVL	dig+0(FP),	R11
+	MOVL	s+4(FP),	SI
+	MOVL	s_len+8(FP),	DX
+	CALL	md5block<>(SB)
+	RET
+
+// func block(dig *digest, p []byte)
+TEXT	·block(SB),NOSPLIT,$0-16
 	MOVL	dig+0(FP),	R11
 	MOVL	p+4(FP),	SI
-	MOVL	p_len+8(FP), DX
+	MOVL	p_len+8(FP),	DX
+	CALL	md5block<>(SB)
+	RET
+
+// Message block routine, expects:
+//   R11: pointer to digest
+//   SI: pointer to input bytes to hash
+//   DX: length of input
+//
+// All GPRs considered volatile
+TEXT	md5block<>(SB),NOSPLIT,$8-0
 	SHRQ	$6,		DX
 	SHLQ	$6,		DX
 
@@ -29,6 +48,8 @@ TEXT	·block(SB),NOSPLIT,$0-32
 	MOVL	(1*4)(R11),	BX
 	MOVL	(2*4)(R11),	CX
 	MOVL	(3*4)(R11),	DX
+
+	MOVL	R11,		0(SP)
 
 	CMPQ	SI,		DI
 	JEQ	end
@@ -176,7 +197,7 @@ loop:
 	JB	loop
 
 end:
-	MOVL	dig+0(FP),	R11
+	MOVL	0(SP),		R11
 	MOVL	AX,		(0*4)(R11)
 	MOVL	BX,		(1*4)(R11)
 	MOVL	CX,		(2*4)(R11)

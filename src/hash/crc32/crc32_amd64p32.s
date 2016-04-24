@@ -4,12 +4,30 @@
 
 #include "textflag.h"
 
-// func castagnoliSSE42(crc uint32, p []byte) uint32
-TEXT ·castagnoliSSE42(SB),NOSPLIT,$0
-	MOVL crc+0(FP), AX  // CRC value
-	MOVL p+4(FP), SI  // data pointer
-	MOVL p_len+8(FP), CX  // len(p)
+// func castagnoliSSE42String(crc uint32, s string) uint32
+TEXT	·castagnoliSSE42String(SB),NOSPLIT,$0-20
+	MOVL	crc+0(FP),	AX  // CRC value
+	MOVQ	s+4(FP),	SI  // data pointer
+	MOVQ	s_len+8(FP),	CX  // len(s)
+	CALL	castagnolibody<>(SB)
+	MOVL	AX,	ret+16(FP)
+	RET
 
+// func castagnoliSSE42(crc uint32, p []byte) uint32
+TEXT 	·castagnoliSSE42(SB),NOSPLIT,$0-20
+	MOVL	crc+0(FP),	AX  // CRC value
+	MOVQ	p+4(FP),	SI  // data pointer
+	MOVQ	p_len+8(FP),	CX  // len(p)
+	CALL	castagnolibody<>(SB)
+	MOVL	AX,	ret+16(FP)
+	RET
+
+// Castagnoli SSE4.2 routine, expects:
+//   AX: CRC value
+//   SI: pointer to input bytes
+//   CX: length of input
+// Returns CRC in AX
+TEXT	castagnolibody<>(SB),NOSPLIT,$0-0
 	NOTL AX
 
 	/* If there's less than 8 bytes to process, we do it byte-by-byte. */
@@ -49,7 +67,6 @@ cleanup:
 
 done:
 	NOTL AX
-	MOVL AX, ret+16(FP)
 	RET
 
 // func haveSSE42() bool

@@ -11,10 +11,13 @@ package crc32
 // support.
 func haveSSE42() bool
 
-// castagnoliSSE42 is defined in crc_amd64.s and uses the SSE4.2 CRC32
+// castagnoliSSE42 is defined in crc_amd64p32.s and uses the SSE4.2 CRC32
 // instruction.
 //go:noescape
 func castagnoliSSE42(crc uint32, p []byte) uint32
+
+//go:noescape
+func castagnoliSSE42String(crc uint32, s string) uint32
 
 var sse42 = haveSSE42()
 
@@ -22,21 +25,15 @@ func updateCastagnoli(crc uint32, p []byte) uint32 {
 	if sse42 {
 		return castagnoliSSE42(crc, p)
 	}
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		return updateSlicingBy8(crc, castagnoliTable8, p)
-	}
-	return update(crc, castagnoliTable, p)
+	return updateCastagnoliGeneric(crc, p)
 }
 
-func updateIEEE(crc uint32, p []byte) uint32 {
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		ieeeTable8Once.Do(func() {
-			ieeeTable8 = makeTable8(IEEE)
-		})
-		return updateSlicingBy8(crc, ieeeTable8, p)
+func updateCastagnoliString(crc uint32, s string) uint32 {
+	if sse42 {
+		return castagnoliSSE42String(crc, s)
 	}
-
-	return update(crc, IEEETable, p)
+	return updateCastagnoliGenericString(crc, s)
 }
+
+var updateIEEE = updateIEEEGeneric
+var updateIEEEString = updateIEEEGenericString
