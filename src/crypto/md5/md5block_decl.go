@@ -9,3 +9,4 @@ package md5
 //go:noescape
 
 func block(dig *digest, p []byte)
+func blockString(dig *digest, s string)

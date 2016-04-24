@@ -59,10 +59,19 @@
 	XORL	c,		BP; \
 	ADDL	b,		a
 
-TEXT	·block(SB),NOSPLIT,$24-16
+TEXT	·blockString(SB),NOSPLIT,$0-12
+	MOVL	dig+0(FP),	BP
+	MOVL	s+4(FP),	SI
+	MOVL	s_len+8(FP),	DX
+	JMP	block<>(SB)
+
+TEXT	·block(SB),NOSPLIT,$0-16
 	MOVL	dig+0(FP),	BP
 	MOVL	p+4(FP),	SI
-	MOVL	p_len+8(FP), DX
+	MOVL	p_len+8(FP),	DX
+	JMP	block<>(SB)
+
+TEXT	block<>(SB),NOSPLIT,$24
 	SHRL	$6,		DX
 	SHLL	$6,		DX
 
