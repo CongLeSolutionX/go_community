@@ -84,6 +84,10 @@ func TestGolden(t *testing.T) {
 			t.Errorf("optimized implementation: Checksum(%q) = 0x%x want 0x%x", in, got, g.out)
 			continue
 		}
+		if got := ChecksumString(g.in); got != g.out {
+			t.Errorf("optimized implementation: ChecksumString(%q) = 0x%x want 0x%x", in, got, g.out)
+			continue
+		}
 	}
 }
 
