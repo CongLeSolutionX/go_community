@@ -8,6 +8,8 @@ package sha1
 import (
 	"crypto"
 	"hash"
+	"reflect"
+	"unsafe"
 )
 
 func init() {
@@ -79,6 +81,13 @@ func (d *digest) Write(p []byte) (nn int, err error) {
 		d.nx = copy(d.x[:], p)
 	}
 	return
+}
+
+func (d *digest) WriteString(s string) (nn int, err error) {
+	sh := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	bh := reflect.SliceHeader{sh.Data, sh.Len, sh.Len}
+
+	return d.Write(*(*[]byte)(unsafe.Pointer(&bh)))
 }
 
 func (d0 *digest) Sum(in []byte) []byte {

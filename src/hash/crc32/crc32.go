@@ -14,7 +14,9 @@ package crc32
 
 import (
 	"hash"
+	"reflect"
 	"sync"
+	"unsafe"
 )
 
 // The size of a CRC-32 checksum in bytes.
@@ -157,6 +159,14 @@ func updateSlicingBy8(crc uint32, tab *slicing8Table, p []byte) uint32 {
 	return update(crc, &tab[0], p)
 }
 
+func updateString(crc uint32, tab *Table, s string) uint32 {
+	crc = ^crc
+	for i := 0; i < len(s); i++ {
+		crc = tab[byte(crc)^s[i]] ^ (crc >> 8)
+	}
+	return ^crc
+}
+
 // Update returns the result of adding the bytes in p to the crc.
 func Update(crc uint32, tab *Table, p []byte) uint32 {
 	switch tab {
@@ -168,9 +178,26 @@ func Update(crc uint32, tab *Table, p []byte) uint32 {
 	return update(crc, tab, p)
 }
 
+// UpdateString returns the result of adding the bytes in s to the crc.
+func UpdateString(crc uint32, tab *Table, s string) uint32 {
+	switch tab {
+	case castagnoliTable, IEEETable:
+		sh := (*reflect.StringHeader)(unsafe.Pointer(&s))
+		bh := reflect.SliceHeader{sh.Data, sh.Len, sh.Len}
+
+		return Update(crc, tab, *(*[]byte)(unsafe.Pointer(&bh)))
+	}
+	return updateString(crc, tab, s)
+}
+
 func (d *digest) Write(p []byte) (n int, err error) {
 	d.crc = Update(d.crc, d.tab, p)
 	return len(p), nil
+}
+
+func (d *digest) WriteString(s string) (n int, err error) {
+	d.crc = UpdateString(d.crc, d.tab, s)
+	return len(s), nil
 }
 
 func (d *digest) Sum32() uint32 { return d.crc }
@@ -183,6 +210,12 @@ func (d *digest) Sum(in []byte) []byte {
 // Checksum returns the CRC-32 checksum of data
 // using the polynomial represented by the Table.
 func Checksum(data []byte, tab *Table) uint32 { return Update(0, tab, data) }
+
+// ChecksumString returns the CRC-32 checksum of s
+// using the polynomial represented by the Table.
+func ChecksumString(s string, tab *Table) uint32 {
+	return UpdateString(0, tab, s)
+}
 
 // ChecksumIEEE returns the CRC-32 checksum of data
 // using the IEEE polynomial.
