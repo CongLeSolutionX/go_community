@@ -19,10 +19,19 @@
 
 #define MOVE_LITTLE_ENDIAN MOVWZ
 
-TEXT ·block(SB),NOSPLIT,$0-32
-	MOVD	dig+0(FP), R10
-	MOVD	p+8(FP), R6
-	MOVD	p_len+16(FP), R5
+TEXT	·blockString(SB),NOSPLIT,$0-24
+	MOVD    dig+0(FP),	R10
+	MOVD    s+8(FP),	R6
+	MOVD    s_len+16(FP),	R5
+	JMP     block<>(SB)
+
+TEXT	·block(SB),NOSPLIT,$0-32
+	MOVD    dig+0(FP),	R10
+	MOVD    p+8(FP),	R6
+	MOVD    p_len+16(FP),	R5
+	JMP     block<>(SB)
+
+TEXT    block<>(SB),NOSPLIT,$0
 	SLD	$6, R5
 	SRD	$6, R5
 	ADD	R6, R5, R7
