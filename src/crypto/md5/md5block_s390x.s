@@ -12,11 +12,25 @@
 
 #include "textflag.h"
 
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT|NOFRAME,$0-24
+	MOVD	dig+0(FP), R1
+	MOVD	s+8(FP), R6
+	MOVD	s_len+16(FP), R5
+	BR	md5block<>(SB)
+
 // func block(dig *digest, p []byte)
-TEXT ·block(SB),NOSPLIT,$16-32
+TEXT	·block(SB),NOSPLIT|NOFRAME,$0-32
 	MOVD	dig+0(FP), R1
 	MOVD	p+8(FP), R6
 	MOVD	p_len+16(FP), R5
+	BR	md5block<>(SB)
+
+// Message block routine, expects:
+//   R1, dig+0(FP): pointer to digest
+//   R6: pointer to input bytes to hash
+//   R5: length of input
+TEXT	md5block<>(SB),NOSPLIT,$16-0
 	AND	$-64, R5
 	LAY	(R6)(R5*1), R7
 

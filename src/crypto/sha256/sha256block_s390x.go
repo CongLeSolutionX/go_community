@@ -10,3 +10,9 @@ package sha256
 func featureCheck() bool
 
 var useAsm = featureCheck()
+
+//go:noescape
+func block(dig *digest, p []byte)
+
+//go:noescape
+func blockString(dig *digest, s string)

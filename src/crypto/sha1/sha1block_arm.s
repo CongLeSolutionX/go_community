@@ -38,12 +38,6 @@
 #define Rctr	R12	// loop counter
 #define Rw	R14		// point to w buffer
 
-// func block(dig *digest, p []byte)
-// 0(FP) is *digest
-// 4(FP) is p.array (struct Slice)
-// 8(FP) is p.len
-//12(FP) is p.cap
-//
 // Stack frame
 #define p_end	end-4(SP)		// pointer to the end of data
 #define p_data	data-8(SP)	// current data pointer (unused?)
@@ -135,11 +129,10 @@
 	FUNC4(Ra, Rb, Rc, Rd, Re)	; \
 	MIX(Ra, Rb, Rc, Rd, Re)
 
-
-// func block(dig *digest, p []byte)
-TEXT	·block(SB), 0, $352-16
-	MOVW	p+4(FP), Rdata	// pointer to the data
-	MOVW	p_len+8(FP), Rt0	// number of bytes
+// func blockPtr(dig *digest, p uintptr, n int)
+TEXT    ·blockPtr(SB),0,$352-12
+	MOVW	p+4(FP),	Rdata	// pointer to the data
+	MOVW	n+8(FP),	Rt0	// number of bytes
 	ADD	Rdata, Rt0
 	MOVW	Rt0, p_end	// pointer to end of data
 

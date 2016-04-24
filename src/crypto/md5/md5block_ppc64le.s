@@ -19,10 +19,25 @@
 
 #define MOVE_LITTLE_ENDIAN MOVWZ
 
-TEXT ·block(SB),NOSPLIT,$0-32
-	MOVD	dig+0(FP), R10
-	MOVD	p+8(FP), R6
-	MOVD	p_len+16(FP), R5
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT|NOFRAME,$0-24
+	MOVD	dig+0(FP),	R10
+	MOVD	s+8(FP),	R6
+	MOVD	s_len+16(FP),	R5
+	BL	md5block<>(SB)
+
+// func block(dig *digest, p []byte)
+TEXT	·block(SB),NOSPLIT|NOFRAME,$0-32
+	MOVD	dig+0(FP),	R10
+	MOVD	p+8(FP),	R6
+	MOVD	p_len+16(FP),	R5
+	BL	md5block<>(SB)
+
+// Message block routine, expects:
+//   R10, dig+0(FP): pointer to digest
+//   R6: pointer to input bytes to hash
+//   R5: length of input
+TEXT    md5block<>(SB),NOSPLIT|NOFRAME,$0-0
 	SLD	$6, R5
 	SRD	$6, R5
 	ADD	R6, R5, R7

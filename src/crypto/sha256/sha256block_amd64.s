@@ -140,9 +140,11 @@
 	MSGSCHEDULE1(index); \
 	SHA256ROUND(index, const, a, b, c, d, e, f, g, h)
 
-TEXT ·block(SB),0,$264-32
-	MOVQ	p_base+8(FP), SI
-	MOVQ	p_len+16(FP), DX
+// func blockPtr(dig *digest, uintptr p, int n)
+TEXT	·blockPtr(SB),0,$272-24
+	MOVQ	dig+0(FP),	BP
+	MOVQ	p+8(FP),	SI
+	MOVQ	n+16(FP),	DX
 	SHRQ	$6, DX
 	SHLQ	$6, DX
 
@@ -151,7 +153,6 @@ TEXT ·block(SB),0,$264-32
 	CMPQ	SI, DI
 	JEQ	end
 
-	MOVQ	dig+0(FP), BP
 	MOVL	(0*4)(BP), R8		// a = H0
 	MOVL	(1*4)(BP), R9		// b = H1
 	MOVL	(2*4)(BP), R10		// c = H2

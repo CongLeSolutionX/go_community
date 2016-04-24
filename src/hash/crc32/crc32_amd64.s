@@ -4,12 +4,30 @@
 
 #include "textflag.h"
 
-// func castagnoliSSE42(crc uint32, p []byte) uint32
-TEXT ·castagnoliSSE42(SB),NOSPLIT,$0
-	MOVL crc+0(FP), AX  // CRC value
-	MOVQ p+8(FP), SI  // data pointer
-	MOVQ p_len+16(FP), CX  // len(p)
+// func castagnoliSSE42String(crc uint32, s string) uint32
+TEXT	·castagnoliSSE42String(SB),NOSPLIT,$0-28
+	MOVL	crc+0(FP),	AX  // CRC value
+	MOVQ	s+8(FP),	SI  // data pointer
+	MOVQ	s_len+16(FP),	CX  // len(s)
+	CALL	castagnolibody<>(SB)
+	MOVL	AX,	ret+24(FP)
+	RET
 
+// func castagnoliSSE42(crc uint32, p []byte) uint32
+TEXT 	·castagnoliSSE42(SB),NOSPLIT,$0-36
+	MOVL	crc+0(FP),	AX  // CRC value
+	MOVQ	p+8(FP),	SI  // data pointer
+	MOVQ	p_len+16(FP),	CX  // len(p)
+	CALL	castagnolibody<>(SB)
+	MOVL	AX,	ret+32(FP)
+	RET
+
+// Castagnoli SSE4.2 routine, expects:
+//   AX: CRC value
+//   SI: pointer to input bytes
+//   CX: length of input
+// Returns CRC in AX
+TEXT	castagnolibody<>(SB),NOSPLIT,$0-0
 	NOTL AX
 
 	/* If there's less than 8 bytes to process, we do it byte-by-byte. */
@@ -49,7 +67,6 @@ cleanup:
 
 done:
 	NOTL AX
-	MOVL AX, ret+32(FP)
 	RET
 
 // func haveSSE42() bool
@@ -104,12 +121,30 @@ GLOBL r5<>(SB),RODATA,$8
 // Based on http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/fast-crc-computation-generic-polynomials-pclmulqdq-paper.pdf
 // len(p) must be at least 64, and must be a multiple of 16.
 
-// func ieeeCLMUL(crc uint32, p []byte) uint32
-TEXT ·ieeeCLMUL(SB),NOSPLIT,$0
-	MOVL   crc+0(FP), X0             // Initial CRC value
-	MOVQ   p+8(FP), SI  	         // data pointer
-	MOVQ   p_len+16(FP), CX          // len(p)
+// func ieeeCLMULString(crc uint32, s string) uint32
+TEXT	·ieeeCLMULString(SB),NOSPLIT,$0-28
+	MOVL	crc+0(FP),	X0	// Initial CRC value
+	MOVQ	s+8(FP),	SI	// data pointer
+	MOVQ	s_len+16(FP),	CX	// len(s)
+	CALL	ieeeCLMULbody<>(SB)
+	MOVL	AX,	ret+24(FP)
+	RET
 
+// func ieeeCLMUL(crc uint32, p []byte) uint32
+TEXT ·ieeeCLMUL(SB),NOSPLIT,$0-36
+	MOVL	crc+0(FP),	X0	// Initial CRC value
+	MOVQ	p+8(FP),	SI	// data pointer
+	MOVQ	p_len+16(FP),	CX	// len(p)
+	CALL	ieeeCLMULbody<>(SB)
+	MOVL	AX,	ret+32(FP)
+	RET
+
+// IEEE CLMUL routine, expects:
+//   X0: CRC value
+//   SI: pointer to input bytes
+//   CX: length of input
+// Returns CRC in AX
+TEXT	ieeeCLMULbody<>(SB),NOSPLIT,$0-0
 	MOVOU  (SI), X1
 	MOVOU  16(SI), X2
 	MOVOU  32(SI), X3
@@ -226,6 +261,5 @@ finish:
 	PXOR        X2, X1
 
 	PEXTRD	$1, X1, AX
-	MOVL        AX, ret+32(FP)
 
 	RET
