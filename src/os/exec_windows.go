@@ -10,6 +10,7 @@ import (
 	"sync/atomic"
 	"syscall"
 	"time"
+	"unicode/utf16"
 	"unsafe"
 )
 
@@ -96,17 +97,87 @@ func findProcess(pid int) (p *Process, err error) {
 	return newProcess(pid, uintptr(h)), nil
 }
 
-func init() {
-	var argc int32
-	cmd := syscall.GetCommandLine()
-	argv, e := syscall.CommandLineToArgv(cmd, &argc)
-	if e != nil {
-		return
+func isCmdSpace(c byte) bool {
+	return c == ' ' || c == '\t'
+}
+
+// commandLineToArgv splits a command line into individual argument strings, following the
+// Windows conventions documented at https://msdn.microsoft.com/en-us/library/17w5ykft.aspx.
+func commandLineToArgv(cmd string) []string {
+	var argv []string
+	i := 0
+	for {
+		for i < len(cmd) && isCmdSpace(cmd[i]) {
+			i++
+		}
+		if i == len(cmd) {
+			break
+		}
+
+		var arg []byte
+		inquote := false
+		for {
+			nslash := 0
+			for i < len(cmd) && cmd[i] == '\\' {
+				i++
+				nslash++
+			}
+
+			if i < len(cmd) && cmd[i] == '"' {
+				for s := 0; s < nslash/2; s++ {
+					arg = append(arg, '\\')
+				}
+
+				if nslash%2 == 0 {
+					inquote = !inquote
+					// Special case: if the next character is also a quote,
+					// then this quote gets included.
+					if !inquote && i+1 < len(cmd) && cmd[i+1] == '"' {
+						arg = append(arg, '"')
+						i++
+					}
+				} else {
+					arg = append(arg, '"')
+				}
+			} else {
+				for nslash > 0 {
+					arg = append(arg, '\\')
+					nslash--
+				}
+
+				if i == len(cmd) || (!inquote && isCmdSpace(cmd[i])) {
+					break
+				}
+
+				arg = append(arg, cmd[i])
+			}
+
+			i++
+		}
+
+		argv = append(argv, string(arg))
 	}
-	defer syscall.LocalFree(syscall.Handle(uintptr(unsafe.Pointer(argv))))
-	Args = make([]string, argc)
-	for i, v := range (*argv)[:argc] {
-		Args[i] = syscall.UTF16ToString((*v)[:])
+	return argv
+}
+
+func init() {
+	cmd := syscall.UTF16ToString((*[0xffff]uint16)(unsafe.Pointer(syscall.GetCommandLine()))[:])
+
+	if len(cmd) != 0 {
+		Args = commandLineToArgv(cmd)
+	} else {
+		// No command line was provided, so get argv[0] from the module name.
+		dll := syscall.MustLoadDLL("kernel32.dll")
+		defer dll.Release()
+		fn := dll.MustFindProc("GetModuleFileNameW")
+
+		p := make([]uint16, syscall.MAX_PATH)
+		r, _, err := fn.Call(0, uintptr(unsafe.Pointer(&p[0])), uintptr(len(p)))
+		n := uint32(r)
+		if n == 0 || n >= uint32(len(p)) {
+			panic(err)
+		}
+		Args = []string{string(utf16.Decode(p[:n]))}
 	}
 }
 
