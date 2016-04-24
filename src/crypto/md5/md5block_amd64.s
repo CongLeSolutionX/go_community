@@ -13,10 +13,19 @@
 // Licence: I hereby disclaim the copyright on this code and place it
 // in the public domain.
 
+TEXT	·blockString(SB),NOSPLIT,$0-24
+	MOVQ	dig+0(FP),	BP
+	MOVQ	s+8(FP),	SI
+	MOVQ	s_len+16(FP),	DX
+	JMP	block<>(SB)
+
 TEXT	·block(SB),NOSPLIT,$0-32
 	MOVQ	dig+0(FP),	BP
 	MOVQ	p+8(FP),	SI
-	MOVQ	p_len+16(FP), DX
+	MOVQ	p_len+16(FP),	DX
+	JMP	block<>(SB)
+
+TEXT	block<>(SB),NOSPLIT,$0
 	SHRQ	$6,		DX
 	SHLQ	$6,		DX
 
