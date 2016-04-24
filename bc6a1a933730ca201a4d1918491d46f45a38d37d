@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_fefa8957",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-24T17:02:32Z",
+      "side": 1,
+      "message": "I\u0027m worried about all of these extra fields in mspan. Why don\u0027t we just replace start with startAddr and just use pageID(startAddr\u003e\u003e_PageShift) (or a method that does this) in the handful of places we actually want the page ID?",
+      "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_deffc545",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-24T17:02:32Z",
+      "side": 1,
+      "message": "This is unused.",
+      "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_3e154163",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-24T17:02:32Z",
+      "side": 1,
+      "message": "Since this is only used in two places and only for span initialization, just write out the shift in those two places, rather than having two methods that do almost but not *quite* exactly the same thing.",
+      "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
