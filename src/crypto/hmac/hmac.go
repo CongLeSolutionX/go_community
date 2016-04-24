@@ -54,6 +54,10 @@ func (h *hmac) Write(p []byte) (n int, err error) {
 	return h.inner.Write(p)
 }
 
+func (h *hmac) WriteString(s string) (n int, err error) {
+	return h.inner.WriteString(s)
+}
+
 func (h *hmac) Size() int { return h.size }
 
 func (h *hmac) BlockSize() int { return h.blocksize }

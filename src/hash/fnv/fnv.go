@@ -74,6 +74,16 @@ func (s *sum32) Write(data []byte) (int, error) {
 	return len(data), nil
 }
 
+func (s *sum32) WriteString(str string) (int, error) {
+	hash := *s
+	for i := 0; i < len(str); i++ {
+		hash *= prime32
+		hash ^= sum32(str[i])
+	}
+	*s = hash
+	return len(str), nil
+}
+
 func (s *sum32a) Write(data []byte) (int, error) {
 	hash := *s
 	for _, c := range data {
@@ -82,6 +92,16 @@ func (s *sum32a) Write(data []byte) (int, error) {
 	}
 	*s = hash
 	return len(data), nil
+}
+
+func (s *sum32a) WriteString(str string) (int, error) {
+	hash := *s
+	for i := 0; i < len(str); i++ {
+		hash ^= sum32a(str[i])
+		hash *= prime32
+	}
+	*s = hash
+	return len(str), nil
 }
 
 func (s *sum64) Write(data []byte) (int, error) {
@@ -94,6 +114,16 @@ func (s *sum64) Write(data []byte) (int, error) {
 	return len(data), nil
 }
 
+func (s *sum64) WriteString(str string) (int, error) {
+	hash := *s
+	for i := 0; i < len(str); i++ {
+		hash *= prime64
+		hash ^= sum64(str[i])
+	}
+	*s = hash
+	return len(str), nil
+}
+
 func (s *sum64a) Write(data []byte) (int, error) {
 	hash := *s
 	for _, c := range data {
@@ -102,6 +132,16 @@ func (s *sum64a) Write(data []byte) (int, error) {
 	}
 	*s = hash
 	return len(data), nil
+}
+
+func (s *sum64a) WriteString(str string) (int, error) {
+	hash := *s
+	for i := 0; i < len(str); i++ {
+		hash ^= sum64a(str[i])
+		hash *= prime64
+	}
+	*s = hash
+	return len(str), nil
 }
 
 func (s *sum32) Size() int  { return 4 }

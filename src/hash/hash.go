@@ -13,6 +13,9 @@ type Hash interface {
 	// It never returns an error.
 	io.Writer
 
+	// WriteString adds more string data to the running hash.
+	WriteString(s string) (n int, err error)
+
 	// Sum appends the current hash to b and returns the resulting slice.
 	// It does not change the underlying hash state.
 	Sum(b []byte) []byte

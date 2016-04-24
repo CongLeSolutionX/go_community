@@ -67,14 +67,32 @@ func update(crc uint64, tab *Table, p []byte) uint64 {
 	return ^crc
 }
 
+func updateString(crc uint64, tab *Table, s string) uint64 {
+	crc = ^crc
+	for i := 0; i < len(s); i++ {
+		crc = tab[byte(crc)^s[i]] ^ (crc >> 8)
+	}
+	return ^crc
+}
+
 // Update returns the result of adding the bytes in p to the crc.
 func Update(crc uint64, tab *Table, p []byte) uint64 {
 	return update(crc, tab, p)
 }
 
+// UpdateString returns the result of adding the bytes in s to the crc.
+func UpdateString(crc uint64, tab *Table, s string) uint64 {
+	return updateString(crc, tab, s)
+}
+
 func (d *digest) Write(p []byte) (n int, err error) {
 	d.crc = update(d.crc, d.tab, p)
 	return len(p), nil
+}
+
+func (d *digest) WriteString(s string) (n int, err error) {
+	d.crc = updateString(d.crc, d.tab, s)
+	return len(s), nil
 }
 
 func (d *digest) Sum64() uint64 { return d.crc }
@@ -87,3 +105,9 @@ func (d *digest) Sum(in []byte) []byte {
 // Checksum returns the CRC-64 checksum of data
 // using the polynomial represented by the Table.
 func Checksum(data []byte, tab *Table) uint64 { return update(0, tab, data) }
+
+// ChecksumString returns the CRC-64 checksum of s
+// using the polynomial represented by the Table.
+func ChecksumString(s string, tab *Table) uint64 {
+	return updateString(0, tab, s)
+}
