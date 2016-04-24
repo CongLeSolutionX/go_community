@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+#include "textflag.h"
+
 // SHA256 block routine. See sha256block.go for Go equivalent.
 //
 // The algorithm is detailed in FIPS 180-4:
@@ -141,9 +143,11 @@
 	MSGSCHEDULE1(index); \
 	SHA256ROUND(index, const, a, b, c, d, e, f, g, h)
 
-TEXT ·block(SB),0,$296-12
-	MOVL	p_base+4(FP), SI
-	MOVL	p_len+8(FP), DX
+// func blockPtr(dig *digest, uintptr p, int n)
+TEXT	·blockPtr(SB),0,$296-12
+	MOVL	dig+0(FP),	BP
+	MOVL	p+4(FP),	SI
+	MOVL	n+8(FP),	DX
 	SHRL	$6, DX
 	SHLL	$6, DX
 
@@ -154,7 +158,6 @@ TEXT ·block(SB),0,$296-12
 
 	LEAL	256(SP), DI		// variables
 
-	MOVL	dig+0(FP), BP
 	MOVL	(0*4)(BP), AX		// a = H0
 	MOVL	AX, (0*4)(DI)
 	MOVL	(1*4)(BP), BX		// b = H1

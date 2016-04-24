@@ -30,11 +30,7 @@ func updateCastagnoli(crc uint32, p []byte) uint32 {
 	if sse42 {
 		return castagnoliSSE42(crc, p)
 	}
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		return updateSlicingBy8(crc, castagnoliTable8, p)
-	}
-	return update(crc, castagnoliTable, p)
+	return updateCastagnoliGeneric(crc, p)
 }
 
 func updateIEEE(crc uint32, p []byte) uint32 {
@@ -47,14 +43,5 @@ func updateIEEE(crc uint32, p []byte) uint32 {
 		}
 		return crc
 	}
-
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		ieeeTable8Once.Do(func() {
-			ieeeTable8 = makeTable8(IEEE)
-		})
-		return updateSlicingBy8(crc, ieeeTable8, p)
-	}
-
-	return update(crc, IEEETable, p)
+	return updateIEEEGeneric(crc, p)
 }

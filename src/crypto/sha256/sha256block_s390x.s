@@ -18,10 +18,22 @@ nosha256:
 	MOVB	$0, ret+0(FP)
 	RET
 
-// func block(dig *digest, p []byte)
-TEXT ·block(SB),NOSPLIT,$0-32
-	MOVBZ	·useAsm(SB), R4
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT|NOFRAME,$0-24
 	LMG	dig+0(FP), R1, R3 // R2 = &p[0], R3 = len(p)
+	BR	block<>(SB)
+
+// func block(dig *digest, p []byte)
+TEXT	·block(SB),NOSPLIT|NOFRAME,$0-32
+	LMG	dig+0(FP), R1, R3 // R2 = &p[0], R3 = len(p)
+	BR	block<>(SB)
+
+// Message block routine, expects:
+//   R1: pointer to digest
+//   R2: pointer to input bytes to hash
+//   R3: length of input
+TEXT	block<>(SB),NOSPLIT|NOFRAME,$0-0
+	MOVBZ	·useAsm(SB), R4
 	CMPBNE	R4, $1, generic
 	MOVBZ	$2, R0        // SHA256 function code
 loop:

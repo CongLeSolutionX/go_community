@@ -82,6 +82,22 @@ func TestGolden(t *testing.T) {
 	}
 }
 
+func BenchmarkWriteKoopman(b *testing.B) {
+	benchmarkWrite(b, New(MakeTable(Koopman)))
+}
+
+func BenchmarkWriteStringKoopman(b *testing.B) {
+	benchmarkWriteString(b, New(MakeTable(Koopman)))
+}
+
+func BenchmarkWriteIEEE(b *testing.B) {
+	benchmarkWrite(b, NewIEEE())
+}
+
+func BenchmarkWriteStringIEEE(b *testing.B) {
+	benchmarkWriteString(b, NewIEEE())
+}
+
 func BenchmarkIEEECrc40B(b *testing.B) {
 	benchmark(b, NewIEEE(), 40)
 }
@@ -132,5 +148,32 @@ func benchmark(b *testing.B, h hash.Hash32, n int64) {
 		h.Reset()
 		h.Write(data)
 		h.Sum(in)
+	}
+}
+
+var buf = make([]byte, 1024)
+var str = string(buf)
+
+func benchmarkWrite(b *testing.B, h hash.Hash32) {
+	b.SetBytes(int64(len(buf)))
+	for i := 0; i < b.N; i++ {
+		h.Reset()
+		h.Write(buf)
+	}
+}
+
+func benchmarkWriteString(b *testing.B, h hash.Hash32) {
+	b.SetBytes(int64(len(str)))
+	for i := 0; i < b.N; i++ {
+		h.Reset()
+		io.WriteString(h, str)
+	}
+}
+
+func benchmarkWriteStringCopy(b *testing.B, h hash.Hash32) {
+	b.SetBytes(int64(len(str)))
+	for i := 0; i < b.N; i++ {
+		h.Reset()
+		h.Write([]byte(str))
 	}
 }

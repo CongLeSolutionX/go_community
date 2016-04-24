@@ -5,6 +5,7 @@
 package adler32
 
 import (
+	"io"
 	"strings"
 	"testing"
 )
@@ -84,22 +85,44 @@ func TestGolden(t *testing.T) {
 			t.Errorf("optimized implementation: Checksum(%q) = 0x%x want 0x%x", in, got, g.out)
 			continue
 		}
+		if got := ChecksumString(g.in); got != g.out {
+			t.Errorf("optimized implementation: ChecksumString(%q) = 0x%x want 0x%x", in, got, g.out)
+			continue
+		}
+	}
+}
+
+var bench = New()
+var buf = make([]byte, 1024)
+var str = string(buf)
+
+func BenchmarkWrite(b *testing.B) {
+	b.SetBytes(int64(len(buf)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		bench.Write(buf)
+	}
+}
+
+func BenchmarkWriteString(b *testing.B) {
+	b.SetBytes(int64(len(str)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		io.WriteString(bench, str)
 	}
 }
 
 func BenchmarkAdler32KB(b *testing.B) {
 	b.SetBytes(1024)
-	data := make([]byte, 1024)
-	for i := range data {
-		data[i] = byte(i)
+	in := make([]byte, 0, bench.Size())
+	for i := range buf {
+		buf[i] = byte(i)
 	}
-	h := New()
-	in := make([]byte, 0, h.Size())
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		h.Reset()
-		h.Write(data)
-		h.Sum(in)
+		bench.Reset()
+		bench.Write(buf)
+		bench.Sum(in)
 	}
 }
