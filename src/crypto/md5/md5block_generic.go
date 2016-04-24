@@ -7,3 +7,7 @@
 package md5
 
 var block = blockGeneric
+
+func blockString(d *digest, s string) {
+	block(d, []byte(s))
+}
