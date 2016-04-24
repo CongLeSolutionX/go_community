@@ -98,11 +98,27 @@
 	FUNC4(a, b, c, d, e); \
 	MIX(a, b, c, d, e, 0xCA62C1D6)
 
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$0-12
+	MOVL	dig+0(FP),	BP
+	MOVL	s+4(FP),	SI
+	MOVL	s_len+8(FP),	DX
+	JMP	sha1block<>(SB)
+
 // func block(dig *digest, p []byte)
-TEXT ·block(SB),NOSPLIT,$92-16
+TEXT	·block(SB),NOSPLIT,$0-16
 	MOVL	dig+0(FP),	BP
 	MOVL	p+4(FP),	SI
 	MOVL	p_len+8(FP),	DX
+	JMP	sha1block<>(SB)
+
+// Block hashing routine, expects:
+//   BP, dig+0(FP): pointer to digest
+//   SI: pointer to input bytes to hash
+//   DX: length of input
+//
+// All GPRs considered volatile
+TEXT	sha1block<>(SB),NOSPLIT,$92-0
 	SHRL	$6,		DX
 	SHLL	$6,		DX
 	

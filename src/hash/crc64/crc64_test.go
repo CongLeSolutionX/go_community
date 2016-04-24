@@ -72,19 +72,37 @@ func TestGolden(t *testing.T) {
 	}
 }
 
+var bench = New(MakeTable(ISO))
+var buf = make([]byte, 1024)
+var str = string(buf)
+
+func BenchmarkWrite(b *testing.B) {
+	b.SetBytes(int64(len(buf)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		bench.Write(buf)
+	}
+}
+
+func BenchmarkWriteString(b *testing.B) {
+	b.SetBytes(int64(len(str)))
+	for i := 0; i < b.N; i++ {
+		bench.Reset()
+		io.WriteString(bench, str)
+	}
+}
+
 func BenchmarkISOCrc64KB(b *testing.B) {
 	b.SetBytes(1024)
-	data := make([]byte, 1024)
-	for i := range data {
-		data[i] = byte(i)
+	in := make([]byte, 0, 1024)
+	for i := range buf {
+		buf[i] = byte(i)
 	}
-	h := New(MakeTable(ISO))
-	in := make([]byte, 0, h.Size())
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		h.Reset()
-		h.Write(data)
-		h.Sum(in)
+		bench.Reset()
+		bench.Write(buf[:1024])
+		bench.Sum(in)
 	}
 }
