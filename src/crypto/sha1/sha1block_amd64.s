@@ -87,10 +87,25 @@
 	FUNC4(a, b, c, d, e); \
 	MIX(a, b, c, d, e, 0xCA62C1D6)
 
-TEXT ·block(SB),NOSPLIT,$64-32
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$0-24
 	MOVQ	dig+0(FP),	BP
-	MOVQ	p_base+8(FP),	SI
+	MOVQ	s+8(FP),	SI
+	MOVQ	s_len+16(FP),	DX
+	JMP	sha1block<>(SB)
+
+// func block(dig *digest, p []byte)
+TEXT	·block(SB),NOSPLIT,$0-32
+	MOVQ	dig+0(FP),	BP
+	MOVQ	p+8(FP),	SI
 	MOVQ	p_len+16(FP),	DX
+	JMP	sha1block<>(SB)
+
+// Block hashing routine, expects:
+//   BP: pointer to digest
+//   SI: pointer to input bytes to hash
+//   DX: length of input
+TEXT	sha1block<>(SB),NOSPLIT,$64-0
 	SHRQ	$6,		DX
 	SHLQ	$6,		DX
 	

@@ -38,12 +38,6 @@
 #define Rctr	R12	// loop counter
 #define Rw	R14		// point to w buffer
 
-// func block(dig *digest, p []byte)
-// 0(FP) is *digest
-// 4(FP) is p.array (struct Slice)
-// 8(FP) is p.len
-//12(FP) is p.cap
-//
 // Stack frame
 #define p_end	end-4(SP)		// pointer to the end of data
 #define p_data	data-8(SP)	// current data pointer (unused?)
@@ -135,11 +129,23 @@
 	FUNC4(Ra, Rb, Rc, Rd, Re)	; \
 	MIX(Ra, Rb, Rc, Rd, Re)
 
+// func blockString(dig *digest, s string)
+TEXT	·blockString(SB),NOSPLIT,$-4-12
+	MOVW	s+4(FP),	Rdata	// pointer to the data
+	MOVW	s_len+8(FP),	Rt0	// number of bytes
+	B	sha1block<>(SB)
 
 // func block(dig *digest, p []byte)
-TEXT	·block(SB), 0, $352-16
-	MOVW	p+4(FP), Rdata	// pointer to the data
-	MOVW	p_len+8(FP), Rt0	// number of bytes
+TEXT	·block(SB),NOSPLIT,$-4-16
+	MOVW	p+4(FP),	Rdata	// pointer to the data
+	MOVW	p_len+8(FP),	Rt0	// number of bytes
+	B	sha1block<>(SB)
+
+// Block hashing routine, expects:
+//   dig+0(FP): pointer to digest
+//   R1/Rdata: pointer to input bytes to hash
+//   R12/Rt0: length of input
+TEXT    sha1block<>(SB),NOSPLIT,$352-0
 	ADD	Rdata, Rt0
 	MOVW	Rt0, p_end	// pointer to end of data
 

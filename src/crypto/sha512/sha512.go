@@ -190,6 +190,29 @@ func (d *digest) Write(p []byte) (nn int, err error) {
 	return
 }
 
+func (d *digest) WriteString(s string) (nn int, err error) {
+	nn = len(s)
+	d.len += uint64(nn)
+	if d.nx > 0 {
+		n := copy(d.x[d.nx:], s)
+		d.nx += n
+		if d.nx == chunk {
+			block(d, d.x[:])
+			d.nx = 0
+		}
+		s = s[n:]
+	}
+	if len(s) >= chunk {
+		n := len(s) &^ (chunk - 1)
+		blockString(d, s[:n])
+		s = s[n:]
+	}
+	if len(s) > 0 {
+		d.nx = copy(d.x[:], s)
+	}
+	return
+}
+
 func (d0 *digest) Sum(in []byte) []byte {
 	// Make a copy of d0 so that caller can keep writing and summing.
 	d := new(digest)
