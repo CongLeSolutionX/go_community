@@ -22,7 +22,9 @@ func ExampleMakeTable() {
 	// has the reversed notation 0b11010101100000101000001010000001, so the value
 	// that should be passed to MakeTable is 0xD5828281.
 	crc32q := crc32.MakeTable(0xD5828281)
+	fmt.Printf("%08x\n", crc32.ChecksumString("Hello world", crc32q))
 	fmt.Printf("%08x\n", crc32.Checksum([]byte("Hello world"), crc32q))
 	// Output:
+	// 2964d064
 	// 2964d064
 }

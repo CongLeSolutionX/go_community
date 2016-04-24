@@ -24,6 +24,7 @@ package hmac
 import (
 	"crypto/subtle"
 	"hash"
+	"io"
 )
 
 // FIPS 198-1:
@@ -52,6 +53,10 @@ func (h *hmac) Sum(in []byte) []byte {
 
 func (h *hmac) Write(p []byte) (n int, err error) {
 	return h.inner.Write(p)
+}
+
+func (h *hmac) WriteString(s string) (n int, err error) {
+	return io.WriteString(h.inner, s)
 }
 
 func (h *hmac) Size() int { return h.size }
