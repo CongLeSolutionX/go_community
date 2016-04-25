@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_21450a94",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "When I used them, I called them from the compiler,when an error occurred.  I\u0027m not sure what\u0027s the right way to make them obviously available when I need them in the compiler, except to put them in the compiler.",
+      "parentUuid": "085974e9_bdf68f77",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_ddf34b87",
         "filename": "src/cmd/compile/internal/ssa/block.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-25T22:26:35Z",
       "side": 1,
       "message": "Error here?  Or will the generated code reliably fail to compile?",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_81521e58",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "This is \"I don\u0027t know what to do, punt to the human\".  The human has to change the name of the generated method anyhow.  We don\u0027t have any blocks with more than 2 successors, do we?  Should I put something in it that guarantees a compilation failure?",
+      "parentUuid": "085974e9_ddf34b87",
       "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_614f12b2",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "085974e9_1dc5630b",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_fd42c73c",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-25T22:26:35Z",
       "side": 1,
       "message": "s \u003d append(s, entry), then remove v:\u003dentry",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_c11c26b4",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "085974e9_fd42c73c",
       "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_a1211aea",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "085974e9_bd4c4f6e",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_7d37b7db",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_01172e8e",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "I\u0027d prefer to keep this, because that\u0027s how they wrote it in the original.",
+      "parentUuid": "085974e9_7d37b7db",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_1d29e37a",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2016-04-25T22:26:35Z",
       "side": 1,
       "message": "Hardly seems worth a function call.",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_e11b22b6",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-04-25T23:32:09Z",
+      "side": 1,
+      "message": "Again, I\u0027d prefer to keep this, because that\u0027s how they wrote it in the original.",
+      "parentUuid": "085974e9_1d29e37a",
       "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
