@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_bdf68f77",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t all this be in a testing file somewhere?  Or a file with +build ignore in it?  It\u0027s a code generator, not part of the compiler.",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_ddf34b87",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "Error here?  Or will the generated code reliably fail to compile?",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_1dc5630b",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "Pointer to slice is strange.  Maybe just pass a []int and do len(ponums)\u003e0 here?",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_fd42c73c",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "s \u003d append(s, entry), then remove v:\u003dentry",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_bd4c4f6e",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "Then do s/node/v/ here?",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_7d37b7db",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "You\u0027re just making the identity map here.  DFS doesn\u0027t need to do this, lift it out to the caller.",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_1d29e37a",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-25T22:26:35Z",
+      "side": 1,
+      "message": "Hardly seems worth a function call.",
+      "revId": "247d3ff805682f8fb7484d4f2a6832ce49d215ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
