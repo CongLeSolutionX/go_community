@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_bed771de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "\"within\"",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_1ee95d9b",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary, since in this case allocCase will simply be drained to 0 and the next nextFree/nextFreeFast call will refill it.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_7ef6997a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "This should be a TODO\n\n(BTW, it seems like the crumbs a fresh span would have to leave behind are exactly the crumbs that would be needed to know that a slot doesn\u0027t have to be zeroed.)",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_5ef3d588",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "The allocfreetrace is just for debugging, of course, but the fact that we\u0027re sort of giving the wrong information about object freeing is going to make it rather confusing and useless.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_9e054d3a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "Something\u0027s not right here. With this change, we no longer msanfree all of the objects in a span when we return it back to the heap. That means when we reuse the span and change it\u0027s size class, we\u0027ll be calling msanfree on object boundaries that don\u0027t even match up with the msanmalloc from before we reused the span. That\u0027s exactly the sort of thing msan is designed to complain about.\n\nJust glancing at the msan tests, I don\u0027t think any of them run long enough to trigger the garbage collector, so we simply won\u0027t see this in the tests. What happens if you run go test -msan -short runtime?\n\nI think it might be necessary to fix that TODO above, at least before merging dev.garbage to master, and to call msanfree (and tracefree while we\u0027re at it) when a span is returned to the heap.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_9edc2d02",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "Please undo this change. It\u0027s not safe on big-endian architectures, and the SSA compiler is smart enough to turn the implementation I suggested in an earlier CL into this code when it\u0027s safe to do so.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f2f156_a0d71afd",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "// TODO: Use popcount intrinsic\n\n?",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f2f156_8004166f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "Don\u0027t you want 1 \u003c\u003c (s.nelems % 8) here? This is (1 \u003c\u003c n.elems) % 8.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d75c7d_be00112a",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "I don\u0027t understand this change for the same reason I didn\u0027t understand it before, but if this should be removed, remove it.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f2f156_c01fbea6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-25T17:40:55Z",
+      "side": 1,
+      "message": "// TODO: Look up nelems from sizeclass and remove field.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
