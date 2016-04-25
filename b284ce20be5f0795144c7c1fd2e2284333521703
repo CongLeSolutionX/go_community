@@ -16,6 +16,24 @@
       "revId": "b284ce20be5f0795144c7c1fd2e2284333521703",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_bd7bef47",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-25T22:38:57Z",
+      "side": 1,
+      "message": "\u003e replace \"lame\" with a less opinionated word unless this is a term\n \u003e of art.\n\n\"lame\" is a standard term for referring to DNS servers that give an unexpected referral/delegation response; e.g., see RFC 1912 section 2.8.\n\nHappy to use a different error message here though.\n\n \u003e Can we get a test?\n\nDone.",
+      "parentUuid": "085974e9_9d395327",
+      "revId": "b284ce20be5f0795144c7c1fd2e2284333521703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
