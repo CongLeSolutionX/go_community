@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "085974e9_fc908d0c",
+        "filename": "src/crypto/hmac/hmac_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-25T18:31:08Z",
+      "side": 1,
+      "message": "It seems to me you should test that the result of using WriteString is the same as the result of using Write.",
+      "revId": "76619a603fdac092b0edf921dbc29639e9bbd096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_9ce5d985",
+        "filename": "src/crypto/md5/md5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-25T18:31:08Z",
+      "side": 1,
+      "message": "This is an alloc+copy, which is precisely what WriteString wants to avoid. It might be worth having blockString and blockStringGeneric. blockStringGeneric can do the expensive conversion and call blockGeneric. block and blockString could each do the ptr+len extraction into known registers and then jump to a common core routine.\n\nCome to mention it, why do we copy in the case above (in Write, too), instead of just passing an appropriate subslice of p/s to block?\n\nBenchmarks for this would be good.",
+      "revId": "76619a603fdac092b0edf921dbc29639e9bbd096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_f1ec36ad",
         "filename": "src/crypto/sha1/sha1.go",
         "patchSetId": 2
@@ -55,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_1c1b2957",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-25T18:31:08Z",
+      "side": 1,
+      "message": "Ah, I see Brad saw this already. An unsafe conversion would certainly be simpler than my suggestion. If we do that, at some point the asm may as well take just a ptr+length instead of a slice, since we don\u0027t use capacity...but probably not this CL.",
+      "parentUuid": "085974e9_51366add",
+      "revId": "76619a603fdac092b0edf921dbc29639e9bbd096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_11ea3290",
         "filename": "src/crypto/sha256/sha256.go",
         "patchSetId": 2
@@ -66,6 +118,23 @@
       "writtenOn": "2016-04-25T16:47:47Z",
       "side": 1,
       "message": "etc",
+      "revId": "76619a603fdac092b0edf921dbc29639e9bbd096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_dc14b125",
+        "filename": "src/crypto/sha512/sha512.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-04-25T18:31:08Z",
+      "side": 1,
+      "message": "All this duplicated code is a bit unfortunate. If we\u0027re going to do unsafe conversions, we may as well just have WriteString pretend that s is a []byte and then call Write.",
       "revId": "76619a603fdac092b0edf921dbc29639e9bbd096",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
