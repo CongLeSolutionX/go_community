@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_7c7c9d8d",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-25T18:23:50Z",
+      "side": 1,
+      "message": "what is this loop for? Why is typ.Underlying() not enough?",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "fe07babe4bd0aa8dec4117af2ea3c35d9e617022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_7c37bddb",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-25T18:23:50Z",
+      "side": 1,
+      "message": "// skip non-struct composite literals",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "fe07babe4bd0aa8dec4117af2ea3c35d9e617022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_1c8ec9ef",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-25T18:23:50Z",
+      "side": 1,
+      "message": "Check this first? If it\u0027s a local type there\u0027s no need to iterate though the elements.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 15
+      },
+      "revId": "fe07babe4bd0aa8dec4117af2ea3c35d9e617022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_7c4edd6d",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-04-25T18:23:50Z",
+      "side": 1,
+      "message": "Please do one of the following:\n\n1) If you have a comment that starts with capital letter and ends in a period, make it a proper English sentence. Here, e.g.:\n// A type literal is a local type.\n\n2) otherwise, keep is small and short if it\u0027s not a sentence. Here. e.g.,\n// type literals are local types\n\nApply to all your comments. Use good judgement and taste to decide when a comment deserves to be a full sentence and when it\u0027s sufficient to have a few keywords pointing the reader in the right direction.",
+      "range": {
+        "startLine": 76,
+        "startChar": 5,
+        "endLine": 76,
+        "endChar": 14
+      },
+      "revId": "fe07babe4bd0aa8dec4117af2ea3c35d9e617022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
