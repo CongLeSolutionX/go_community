@@ -97,6 +97,66 @@ func (b *Block) LongString() string {
 	return s
 }
 
+func FormatFlowgraph(po []*Block) string {
+	s := ""
+	for i := len(po) - 1; i >= 0; i-- {
+		s += fmt.Sprintf("%v -> %s -> %v\n", po[i].Preds, po[i], po[i].Succs)
+	}
+	return s
+}
+
+func MakeTestFlowgraph(po []*Block) string {
+	var entry *Block
+
+	for i := len(po) - 1; i >= 0; i-- {
+		if len(po[i].Preds) == 0 {
+			entry = po[i]
+			break
+		}
+	}
+
+	s := `	func TestDominators____(t *testing.T) {
+	c := testConfig(t)
+	fun := Fun(c, "_` + entry.String() + `",
+		Bloc("_` + entry.String() + `",
+			Valu("mem", OpInitMem, TypeMem, 0, nil),
+			Valu("p", OpConstBool, TypeBool, 1, nil),
+			`
+
+	successors := func(b *Block) string {
+		switch len(b.Succs) {
+		case 0:
+			return `Exit("mem"))`
+		case 1:
+			return `Goto("_` + b.Succs[0].String() + `"))`
+		case 2:
+			return `If("p", "_` + b.Succs[0].String() + `", "_` + b.Succs[1].String() + `"))`
+		default:
+			return `// more than 2 successors: ` + fmt.Sprintf("%v", b.Succs)
+		}
+	}
+
+	s += successors(entry)
+
+	for i := len(po) - 1; i >= 0; i-- {
+		b := po[i]
+		if b == entry {
+			continue
+		}
+		s += `,
+		Bloc("_` + b.String() + `",
+			` + successors(b)
+	}
+
+	s += `)
+	CheckFunc(fun.f)
+	doms := generateDominatorMap(fun)
+	verifyDominators(t, fun, dominators, doms)
+}
+`
+	return s
+}
+
 func (b *Block) SetControl(v *Value) {
 	if w := b.Control; w != nil {
 		w.Uses--
