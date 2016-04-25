@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085974e9_9c95d95f",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-25T18:02:17Z",
+      "side": 1,
+      "message": "Should there be a n.SetSliceBounds(low, high, max) call afterwards in case any of the recursive calls modified {low,high,max}?",
+      "revId": "f1ab41735691528432c20fea85e94f4f1ca8295f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
