@@ -16,6 +16,24 @@
       "revId": "0acc299f87ad050de6a65e6c41f72a6289469ad2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8659cc5_c3699cc8",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6173
+      },
+      "writtenOn": "2016-04-25T20:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "085974e9_978132c6",
+      "revId": "0acc299f87ad050de6a65e6c41f72a6289469ad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
