@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_22291e7b",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-25T21:17:11Z",
+      "side": 1,
+      "message": "Done\n\n(Took me a moment to realize what \"U:\" meant. :))",
+      "parentUuid": "085974e9_42869adc",
+      "revId": "49128b68363ddceeacc29b8ab6e13e5573c3060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_0291820e",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "085974e9_c225aa9f",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-25T21:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "085974e9_0291820e",
+      "revId": "49128b68363ddceeacc29b8ab6e13e5573c3060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_c24cca6f",
         "filename": "test/fixedbugs/issue15439.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-25T21:12:34Z",
       "side": 1,
       "message": "Please also add:\n\nvar _ *struct{ x int } \u003d (*struct{ x int \"\" })(nil)\n\njust to be sure it compiles.",
+      "revId": "49128b68363ddceeacc29b8ab6e13e5573c3060e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_c2fe0a10",
+        "filename": "test/fixedbugs/issue15439.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-25T21:17:11Z",
+      "side": 1,
+      "message": "That\u0027s what the \"a \u003d b\" assignment below tests. Added comments.",
+      "parentUuid": "085974e9_c24cca6f",
       "revId": "49128b68363ddceeacc29b8ab6e13e5573c3060e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
