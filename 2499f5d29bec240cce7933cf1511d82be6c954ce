@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "486a8dda_d7a2fca9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 13460
+      },
+      "writtenOn": "2016-04-26T17:34:51Z",
+      "side": 1,
+      "message": "This case appears to be for commutative operations, and the code takes advantage of that. You should probably create a new one for non-commutative ones.",
+      "range": {
+        "startLine": 795,
+        "startChar": 40,
+        "endLine": 795,
+        "endChar": 106
+      },
+      "revId": "2499f5d29bec240cce7933cf1511d82be6c954ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "def37219_c498b2fe",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
