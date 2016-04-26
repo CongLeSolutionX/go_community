@@ -16,6 +16,24 @@
       "revId": "ebaaeeb6e9e8912a6a36294d6d225b67877ac027",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_c87b88f9",
+        "filename": "src/crypto/sha512/fallback_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-26T15:40:45Z",
+      "side": 1,
+      "message": "I don\u0027t think amd64 will ever need to fall back onto blockGeneric (since the current amd64 asm doesn\u0027t do any feature checks).\n\nI could add a simple test for blockGeneric in sha512_test.go (echoing what is done in the sha1 package). Sound good?",
+      "parentUuid": "085974e9_e8dd2459",
+      "revId": "ebaaeeb6e9e8912a6a36294d6d225b67877ac027",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
