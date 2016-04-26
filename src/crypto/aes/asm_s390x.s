@@ -33,3 +33,21 @@ loop:
 	BVS	loop        // branch back if interrupted
 	XOR	R0, R0
 	RET
+
+// func cryptBlocksChain(function code, iv, key, dst, src *byte, length int)
+TEXT ·cryptBlocksChain(SB),NOSPLIT,$48-48
+	LA	params-48(SP), R1
+	MOVD	iv+8(FP), R8
+	MOVD	key+16(FP), R9
+	MVC	$16, 0(R8), 0(R1)  // move iv into params
+	MVC	$32, 0(R9), 16(R1) // move key into params
+	MOVD	dst+24(FP), R2
+	MOVD	src+32(FP), R4
+	MOVD	length+40(FP), R5
+	MOVD	function+0(FP), R0
+loop:
+	WORD	$0xB92F0024       // cipher message with chaining (KMC)
+	BVS	loop              // branch back if interrupted
+	XOR	R0, R0
+	MVC	$16, 0(R1), 0(R8) // update iv
+	RET
