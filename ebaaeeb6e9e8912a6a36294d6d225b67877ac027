@@ -34,6 +34,24 @@
       "revId": "ebaaeeb6e9e8912a6a36294d6d225b67877ac027",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "085974e9_23059d66",
+        "filename": "src/crypto/sha512/fallback_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-26T15:53:07Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "085974e9_c87b88f9",
+      "revId": "ebaaeeb6e9e8912a6a36294d6d225b67877ac027",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
