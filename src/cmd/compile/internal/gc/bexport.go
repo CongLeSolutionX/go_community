@@ -121,7 +121,7 @@ const debugFormat = false // default: false
 const posInfoFormat = false
 
 // TODO(gri) remove eventually
-const forceNewExport = false // force new export format - DO NOT SUBMIT with this flag set
+const forceNewExport = false // force new export format - do NOT submit with this flag set
 
 const exportVersion = "v0"
 
