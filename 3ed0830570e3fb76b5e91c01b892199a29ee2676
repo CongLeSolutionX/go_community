@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_61c0b26a",
+        "filename": "src/cmd/link/internal/ld/decodesym.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-26T15:42:57Z",
+      "side": 1,
+      "message": "Note to self: we really need to find a way to integrate vet into our default workflow:\n\n$ go vet cmd/link/internal/ld\ngo/src/cmd/link/internal/ld/decodesym.go:242: data[1] too small for shift of 8\ngo/src/cmd/link/internal/ld/objfile.go:541: missing argument for Fatalf(\"%v\"): format reads arg 2, have only 1 args\nexit status 1\n$",
+      "parentUuid": "085974e9_48879841",
+      "revId": "3ed0830570e3fb76b5e91c01b892199a29ee2676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "085974e9_688cd462",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
