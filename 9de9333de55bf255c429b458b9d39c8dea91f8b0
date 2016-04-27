@@ -1,0 +1,531 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_5de22f14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "\"perform\"",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_bde6eb24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Isn\u0027t the big change here that we\u0027re now allocating the alloc and mark bits instead of storing them in the mspan?",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9de32715",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "s/areas/arenas/",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fdf063db",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "s/Arenat/Arena/",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_eeff07b9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "s/finishSweep/finishsweep_m/ (it *should* be called finishSweep, but it isn\u0027t.)\n\nAlso, the GC cycle only starts with a call to finishSweep. It doesn\u0027t end with it, too. (Or maybe you only mean this in the sense that a circle has no beginning or end, but in that case I think the wording can easily be misinterpreted.)",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7db45302",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Remove (or write a comment describing the constants).",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5db98ff8",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "s/Size/Bytes/",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_bdcd4b99",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "s/Size/Bytes/",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9dca077d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "What is gcBitsMap? What\u0027s this recursive type bug? Put an issue number in the comment.\n\nConsider uintptr instead of *uint. *uint suggests it\u0027s actually a pointer to uint. uintptr just suggests \"some pointer sized thing\".",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fdc7c372",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "What\u0027s markBitsHeader?",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5d87cf1f",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "// free is the index into bits of the next free byte.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_20bbced5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Size is a constant. Remove and just use len(gcBits{}.bits) when you need it (that compiles down to a constant, even if it doesn\u0027t look like it).",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_40b6c2ed",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "bits is only going to be 4 byte aligned on 32-bit architectures, not 8 byte. Probably getFreshArena needs to set free to something like:\n\n// Round free up to an 8 byte boundary.\nbits0 :\u003d uintptr(unsafe.Pointer(\u0026result.bits[0]))\nresult.free \u003d (bits0 + 7) / 8 - bits0",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_bd7b8b18",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Document what gcBitsLock protects. If it protects the following four vars, the canonical way to do this is something like\n\nvar gcBits struct {\n  lock mutex\n  freeArena *gcBits\n  nextArena *gcBits\n  currentArena *gcBits\n  previousArena *gcBits\n}",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9d78471d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "// getMarkBits returns ...",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fd750323",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "\"at word\"",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_dd72bf38",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "What does \"these structures\" refer to? (And does it matter to the caller of getMarkBits?)",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_8099fa80",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Based on the signature and name of this, I would expect it to return s\u0027s mark bits, but that\u0027s not at all what it does. In fact, it barely has anything to do with s. Consider changing this to\n\nfunc newMarkBits(nbits int) *uint8\n\nand have the callers pass in s.nelems.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_20946e46",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "How often do we call getMarkBits? Is this lock going to be a problem? (It would be easy enough to make this whole thing lock free.)",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_60b5c6dc",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "I think this would be clearer if you just wrote out gcNextArena \u003d getFreshArena().",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_a09fde5f",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Add a throw here or remove the print.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_00c4ca4e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Modulo a debug check, this function is letter-for-letter identical to getMarkBits. Is it supposed to be? (I expected it to allocate from a different arena, but it doesn\u0027t.)",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_20e2aee5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "What is finalizeSweep?",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_80e73af4",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "\"becomes\"",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_80357a38",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Remove. You\u0027re about to \"gcPreviousArena \u003d gcCurrentArena\" anyway.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_a0cd1e70",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "gcNextArena \u003d nil",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_8083badb",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "newArena?",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_c07652c8",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "This should probably be either \u0026memstats.gc_sys or \u0026memstats.other_sys\n\nAlso, you need to explicitly check for a nil return.\n\nif result \u003d\u003d nil {\n    throw(\"runtime: cannot allocate memory\")\n}",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_204f4e84",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Since sysAlloc always returns zeroed memory, I wouldn\u0027t both clearing next or free.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_a0087e1e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Same comment: since you just memclred the whole structure, don\u0027t bother clearing next or free.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_00068a10",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Unused. Remove.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
