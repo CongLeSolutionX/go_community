@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8fea96d_81dd6455",
+        "filename": "src/cmd/vet/internal/whitelist/whitelist.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-27T15:07:40Z",
+      "side": 0,
+      "message": "Leave this comment in place.",
+      "revId": "55154cf0b27e3c48e7cf7654c890868a95e7eed6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

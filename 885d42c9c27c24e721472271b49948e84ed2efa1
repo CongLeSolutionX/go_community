@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8fea96d_21d8f862",
+        "filename": "src/cmd/vet/internal/whitelist/whitelist.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-27T15:07:40Z",
+      "side": 1,
+      "message": "UnkeyedLiteral [NOTE THE SPELLING] is a white list of types in the standard packages that are used with unkeyed literals we deem to be acceptable.",
+      "revId": "885d42c9c27c24e721472271b49948e84ed2efa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_61e20015",
+        "filename": "src/cmd/vet/internal/whitelist/whitelist.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-04-27T15:07:40Z",
+      "side": 1,
+      "message": "I do not like your replacement list. I would rather fix these than white-list them.\nPlease delete lines 11 through 14.\nOur goal is not to silence the vet errors through whitelisting.",
+      "revId": "885d42c9c27c24e721472271b49948e84ed2efa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
