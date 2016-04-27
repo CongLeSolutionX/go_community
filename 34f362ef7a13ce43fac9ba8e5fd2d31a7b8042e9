@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_9d5a073f",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "Wrap this comment and add a period.",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5d406f46",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "What does racemalloc have to do with this? Isn\u0027t this just about tracealloc?",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9d2167a7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "Remove this blank line.",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fd2ea394",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "Consider \n\nif bitsInLastByte :\u003d s.nelems%8; bitsInLastByte !\u003d 0 {\n  ...\n}",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_dd2bdf82",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "Remove. (Though it would be better to just remove this line in the previous CL.)",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7d129353",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "layout does a division. I would just use bytes :\u003d s.npages \u003c\u003c _PageShift.",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5d17cf41",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:39:33Z",
+      "side": 1,
+      "message": "Don\u0027t remove this blank line.",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
