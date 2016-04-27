@@ -5677,6 +5677,23 @@ func TestNames(t *testing.T) {
 	}
 }
 
+// For types that don't fit easily into an interface{}.
+var nameElemTests = []nameTest{
+	{(*int32)(nil), "int32"}, // cross check
+	{(*interface{})(nil), ""},
+	{(*interface {
+		F()
+	})(nil), ""},
+}
+
+func TestElemNames(t *testing.T) {
+	for _, test := range nameElemTests {
+		if got := TypeOf(test.v).Elem().Name(); got != test.want {
+			t.Errorf("TypeOf((%T)(nil)).Elem().Name()=%q, want %q", test.v, got, test.want)
+		}
+	}
+}
+
 func TestExported(t *testing.T) {
 	type ΦExported struct{}
 	type φUnexported struct{}
