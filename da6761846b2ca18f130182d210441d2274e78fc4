@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_63bb1083",
+        "filename": "src/crypto/cipher/cbc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-27T22:10:45Z",
+      "side": 1,
+      "message": "one thing I don\u0027t like about these cross-package unexported interfaces is that you can\u0027t drop an interface assertion anywhere to prevent typos from silently breaking this optimization in the future.\n\nIt would be nice for the other package to say \"Yes, my implementation supports cbcEncable, and break at compile time if not.\", but you can\u0027t right now.\n\nMaybe this should move to a src/crypto/internal package (or some internal package anywhere) just so you can assert that. Also seems a little heavy just for that check.\n\nBut I\u0027d like some test that your fast path continues to work if this is deleted or is renamed.",
+      "revId": "da6761846b2ca18f130182d210441d2274e78fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
