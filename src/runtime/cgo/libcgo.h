@@ -58,7 +58,7 @@ void _cgo_sys_thread_start(ThreadStart *ts);
 /*
  * Waits for the Go runtime to be initialized (OS dependent).
  */
-void _cgo_wait_runtime_init_done();
+uintptr_t _cgo_wait_runtime_init_done();
 
 /*
  * Call fn in the 6c world.
@@ -84,3 +84,11 @@ void darwin_arm_init_thread_exception_port(void);
  * Starts a mach message server processing EXC_BAD_ACCESS.
  */
 void darwin_arm_init_mach_exception_handler(void);
+
+/*
+ * The cgo context function. See runtime.SetCgoTraceback.
+ */
+struct context_arg {
+	uintptr_t Context;
+};
+extern void (*x_cgo_context_function)(struct context_arg*);

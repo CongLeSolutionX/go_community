@@ -166,7 +166,7 @@ func cfree(p unsafe.Pointer) {
 
 // Call from C back to Go.
 //go:nosplit
-func cgocallbackg() {
+func cgocallbackg(ctxt uintptr) {
 	gp := getg()
 	if gp != gp.m.curg {
 		println("runtime: bad g in cgocallback")
@@ -184,11 +184,28 @@ func cgocallbackg() {
 	savedsp := unsafe.Pointer(gp.syscallsp)
 	savedpc := gp.syscallpc
 	exitsyscall(0) // coming out of cgo call
+
+	addCgoCtxt(gp, ctxt)
+
 	cgocallbackg1()
+
+	if ctxt != 0 {
+		gp.cgoCtxt = gp.cgoCtxt[:len(gp.cgoCtxt)-1]
+	}
+
 	// going back to cgo call
 	reentersyscall(savedpc, uintptr(savedsp))
 
 	gp.m.syscall = syscall
+}
+
+// addCgoCtxt adds a cgo context to gp.  This is a separate function to
+// save nosplit stack space.
+//go:nosplit
+func addCgoCtxt(gp *g, ctxt uintptr) {
+	if ctxt != 0 {
+		gp.cgoCtxt = append(gp.cgoCtxt, ctxt)
+	}
 }
 
 func cgocallbackg1() {
@@ -239,10 +256,10 @@ func cgocallbackg1() {
 		// On amd64, stack frame is one word, plus caller PC.
 		if framepointer_enabled {
 			// In this case, there's also saved BP.
-			cb = (*args)(unsafe.Pointer(sp + 3*sys.PtrSize))
+			cb = (*args)(unsafe.Pointer(sp + 4*sys.PtrSize))
 			break
 		}
-		cb = (*args)(unsafe.Pointer(sp + 2*sys.PtrSize))
+		cb = (*args)(unsafe.Pointer(sp + 3*sys.PtrSize))
 	case "386":
 		// On 386, stack frame is three words, plus caller PC.
 		cb = (*args)(unsafe.Pointer(sp + 4*sys.PtrSize))
