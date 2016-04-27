@@ -511,7 +511,6 @@ file compiled by gcc, the file x.cgo2.c:
 	void
 	_cgo_be59f0f25121_Cfunc_puts(void *v)
 	{
-		_cgo_wait_runtime_init_done();
 		struct {
 			char* p0;
 			int r;
@@ -539,8 +538,8 @@ linkage to the desired libraries. The main function is provided by
 _cgo_main.c:
 
 	int main() { return 0; }
-	void crosscall2(void(*fn)(void*, int), void *a, int c) { }
-	void _cgo_wait_runtime_init_done() { }
+	void crosscall2(void(*fn)(void*, int, uintptr_t), void *a, int c, uintptr_t ctxt) { }
+	uintptr_t _cgo_wait_runtime_init_done() { }
 	void _cgo_allocate(void *a, int c) { }
 	void _cgo_panic(void *a, int c) { }
 
