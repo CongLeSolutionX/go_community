@@ -2248,6 +2248,7 @@ func SliceOf(t Type) Type {
 	prototype := *(**sliceType)(unsafe.Pointer(&islice))
 	slice := new(sliceType)
 	*slice = *prototype
+	slice.tflag = 0
 	slice.str = resolveReflectName(newName(s, "", "", false))
 	slice.hash = fnv1(typ.hash, '[')
 	slice.elem = typ
