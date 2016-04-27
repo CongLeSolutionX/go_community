@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_9d0fa71e",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T18:32:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_10a14cbc",
+      "revId": "5503cd298a05defc6e9650b9c7f66e67ea22d402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_5acfd5c0",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 5
@@ -42,6 +60,24 @@
         "endLine": 475,
         "endChar": 23
       },
+      "revId": "5503cd298a05defc6e9650b9c7f66e67ea22d402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9d3de7ae",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T18:32:18Z",
+      "side": 1,
+      "message": "Bleh. Yes, you\u0027re right. I\u0027ve made a separate CL to do this for addb and its friends and slipped it in before this CL.",
+      "parentUuid": "a8594975_5acfd5c0",
       "revId": "5503cd298a05defc6e9650b9c7f66e67ea22d402",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
