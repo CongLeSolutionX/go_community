@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_7d3bb3db",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_baf8b1d5",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_fa0229a3",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-27T16:21:37Z",
       "side": 1,
       "message": "Capital and period.",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_bd40ab26",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_fa0229a3",
       "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_bd242bb7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "It was just belt and suspender code. I removed it.\nDone",
+      "parentUuid": "a8594975_1a31dd92",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_7a445964",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 13
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_1d1d5764",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_7a445964",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_7a26195a",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 13
@@ -81,6 +153,24 @@
       "writtenOn": "2016-04-27T16:21:37Z",
       "side": 1,
       "message": "I would say to add this blank line back, but since this code is being deleted in the next CL, it\u0027s not worth the trouble.",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_dd02bffa",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "OK, \nDone.",
+      "parentUuid": "a8594975_7a26195a",
       "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -122,6 +212,42 @@
     },
     {
       "key": {
+        "uuid": "a8594975_5d250f9a",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_9ae32d15",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_3d265bab",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5d498f7a",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_5a49957a",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 13
@@ -133,6 +259,24 @@
       "writtenOn": "2016-04-27T16:21:37Z",
       "side": 1,
       "message": "Please put this line break back. (I\u0027m not sure how it got removed; gofmt should have put it in.)",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1d2b9773",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5a49957a",
       "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
