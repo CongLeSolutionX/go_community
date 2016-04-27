@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_c3dadcf8",
+        "filename": "src/crypto/md5/md5.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-27T22:06:23Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t think we should do this kind of hackery in the standard library.",
+      "revId": "d311e368c59fe180c9a5011f6313a4f5aab2f224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
