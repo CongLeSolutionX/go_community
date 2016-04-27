@@ -16,6 +16,24 @@
       "revId": "ec58c68cfaa5633271c1edaaf038c796a475cd50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_006cca8b",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-04-27T21:54:58Z",
+      "side": 1,
+      "message": "Sorry, this was a rebase problem, the hconv change is coming up in the next CL.",
+      "parentUuid": "a8594975_c0dc9287",
+      "revId": "ec58c68cfaa5633271c1edaaf038c796a475cd50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
