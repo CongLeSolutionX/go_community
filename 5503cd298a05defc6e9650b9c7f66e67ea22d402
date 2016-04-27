@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d75c7d_10a14cbc",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T14:11:08Z",
+      "side": 1,
+      "message": "... and we use go:nosplit to ensure no preemption is possible which in turn ensures that the pointer writes and the write barriers will appear atomic to the GC.",
+      "range": {
+        "startLine": 215,
+        "startChar": 53,
+        "endLine": 215,
+        "endChar": 68
+      },
+      "revId": "5503cd298a05defc6e9650b9c7f66e67ea22d402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5acfd5c0",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T14:11:08Z",
+      "side": 1,
+      "message": "Don\u0027t we have to put a //go:nosplit (mbitmap.go:111) on addb if we are going to use it here?",
+      "range": {
+        "startLine": 475,
+        "startChar": 10,
+        "endLine": 475,
+        "endChar": 23
+      },
+      "revId": "5503cd298a05defc6e9650b9c7f66e67ea22d402",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
