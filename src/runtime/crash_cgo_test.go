@@ -221,3 +221,11 @@ func TestCgoCrashTraceback(t *testing.T) {
 		}
 	}
 }
+
+func TestCgoTracebackContext(t *testing.T) {
+	got := runTestProg(t, "testprogcgo", "TracebackContext")
+	want := "OK\n"
+	if got != want {
+		t.Errorf("expected %q got %v", want, got)
+	}
+}
