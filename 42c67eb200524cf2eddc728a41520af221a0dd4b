@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_5ab995f8",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T18:42:18Z",
+      "side": 1,
+      "message": "Fixed in next CL 20201",
+      "parentUuid": "a8594975_5a14f5e4",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_d0405418",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
