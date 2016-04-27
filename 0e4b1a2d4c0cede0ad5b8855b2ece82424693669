@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_5d498f7a",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T17:25:40Z",
+      "side": 1,
+      "message": "\u003e Or, even better: don\u0027t pass n to freeSpan at all. mspan.sweep already set s.allocCount to nelems - n before calling this. Just remove the argument (and update the function doc).\n\nI see, you actually do this in the next CL. Either way, the function documentation needs to be updated. It\u0027s probably easiest to remove this line and the \"n\" argument and update the function documentation in this CL.",
+      "parentUuid": "a8594975_9ae32d15",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_5a49957a",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 13
