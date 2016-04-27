@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_a1cd1e70",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "I commented in the previous CL but basically whenever we change s.freeindex as we do just after this if we have to update s.allocCache to the low bit of allocCache corresponds to s.freeindex. allocCache is just a cache of the bytes s.freeindex is pointing to.",
+      "parentUuid": "c8d75c7d_1ee95d9b",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_7ef6997a",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_81fe1a7a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_7ef6997a",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_5ef3d588",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 9
@@ -64,6 +100,24 @@
       "writtenOn": "2016-04-25T17:40:55Z",
       "side": 1,
       "message": "The allocfreetrace is just for debugging, of course, but the fact that we\u0027re sort of giving the wrong information about object freeing is going to make it rather confusing and useless.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8833a51f_81e8da8d",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "I\u0027m leaving a bit TODO here that includes other optimization such as avoiding zeroing on freshly initialized spans.",
+      "parentUuid": "c8d75c7d_5ef3d588",
       "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +159,42 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_c16ca229",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "I modified freeSpan to call msanfree for the entire span if msanenabled is true. This should fix this issue.\nDone",
+      "parentUuid": "8833a51f_01c4ca4e",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8833a51f_8183badb",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "Below.",
+      "parentUuid": "c8d75c7d_9e054d3a",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_9edc2d02",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -116,6 +206,24 @@
       "writtenOn": "2016-04-25T17:40:55Z",
       "side": 1,
       "message": "Please undo this change. It\u0027s not safe on big-endian architectures, and the SSA compiler is smart enough to turn the implementation I suggested in an earlier CL into this code when it\u0027s safe to do so.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8833a51f_615f9663",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_9edc2d02",
       "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_61edd69b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f2f156_a0d71afd",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f2f156_8004166f",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -150,6 +276,24 @@
       "writtenOn": "2016-04-25T17:40:55Z",
       "side": 1,
       "message": "Don\u0027t you want 1 \u003c\u003c (s.nelems % 8) here? This is (1 \u003c\u003c n.elems) % 8.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8833a51f_01e5eab7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "What I have is right. I\u0027m dealing with the last byte so I want the bits that remain, ie n.nelems % 8. Shift that many bits and - 1 and you get the mask. \nThat said some extra parens are always a good thing.",
+      "parentUuid": "68f2f156_8004166f",
       "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_c1d0220a",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "Yes this is now gone. The sweep logic calculates s.allocCount directly from the bit maps.",
+      "parentUuid": "c8d75c7d_be00112a",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f2f156_c01fbea6",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 9
@@ -184,6 +346,24 @@
       "writtenOn": "2016-04-25T17:40:55Z",
       "side": 1,
       "message": "// TODO: Look up nelems from sizeclass and remove field.",
+      "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8833a51f_21f3ce84",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:12Z",
+      "side": 1,
+      "message": "Turns out that duplicating this information avoids a cache miss.",
+      "parentUuid": "68f2f156_c01fbea6",
       "revId": "5600dee879cb1b605c49752e9f9cc149bb00a253",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
