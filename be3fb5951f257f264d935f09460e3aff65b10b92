@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_aecd0f70",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "bytePtr :\u003d addb(s.allocBits, whichByte)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_eeeee7c3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "bytes :\u003d (*[8]uint8)(unsafe.Pointer(addb(s.allocBits, whichByte)))\n\n(This actually boils this whole function down into ~5 instructions, which is pretty awesome.)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ee7d47a3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "This is the byte value, not a pointer. Perhaps,\n\nbyte :\u003d *addb(s.allocBits, whichByte)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ae0fcf1d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Just \"objIndex\"",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_6e25b79a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "p is unused (as it should be, since p and objIndex are redundant).\n\nDrop p and rename this markBitsForIndex or such.",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_6e5c9716",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Consider (objIndex % 8) instead so it\u0027s symmetric with objIndex / 8.",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_0e4b5b4a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "bytePtr :\u003d addb(s.gcmarkBits, whichByte)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_2e529f03",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ce67a3d9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "It\u0027s not an intrinsic, which is actually why it\u0027s not being inlined. If we want it to be inlined, we should make atomic.Or8 an intrinsic, rather than hand-inlining the method.",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_8ea5ab16",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "\"and the index of the object in s\"",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_4ee9d329",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "markBits :\u003d *addb(s.gcmarkBits, i)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_2eee1f33",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "markBits :\u003d *addb(s.gcmarkBits, maxIndex)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_0ebebb0f",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Likewise, it\u0027s not because of an intrinsic. It\u0027s because of an assembly function call.",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_6e5db7d9",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T23:39:11Z",
+      "side": 1,
+      "message": "Might as well:\n\nobjIndex :\u003d s.getObjIndex(special.offset)",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
