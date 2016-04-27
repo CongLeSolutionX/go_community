@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_9dd96796",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T19:15:51Z",
+      "side": 1,
+      "message": "Hmm. Now this comment doesn\u0027t really say what this does. It\u0027s surprisingly hard to write down what this does (which perhaps means this is the wrong abstraction), but here\u0027s a shot:\n\n// freeSpan updates c and s after sweeping s.\n// It sets s\u0027s sweepgen to the latest generation,\n// and, based on the number of free objects in s,\n// moves s to the appropriate list of c or returns it\n// to the heap.\n// freeSpan returns true if s was returned to the heap.\n// If preserve\u003dtrue, it does not move s (the caller\n// must take care of it).",
+      "revId": "d3e52894b9ce2e18446cd8ca3333486033427102",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
