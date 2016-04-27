@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8fea96d_8ca59b16",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5680,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-27T17:05:08Z",
+      "side": 1,
+      "message": "Even knowing that this comment is part of this change, I don\u0027t understand what the comment means.  Can you rewrite it?",
+      "revId": "c02485b5ea41023dc7d82dd8b6d83e1d728c1c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_2c874f73",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5682,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-27T17:05:08Z",
+      "side": 1,
+      "message": "This \"cross check\" comment also doesn\u0027t tell me anything.  I\u0027m not sure it\u0027s necessary.",
+      "revId": "c02485b5ea41023dc7d82dd8b6d83e1d728c1c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
