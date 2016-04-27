@@ -87,9 +87,6 @@ import (
 const (
 	debugMalloc = false
 
-	flagNoScan = _FlagNoScan
-	flagNoZero = _FlagNoZero
-
 	maxTinySize   = _TinySize
 	tinySizeClass = _TinySizeClass
 	maxSmallSize  = _MaxSmallSize
@@ -490,6 +487,7 @@ func (h *mheap) sysAlloc(n uintptr) unsafe.Pointer {
 // base address for all 0-byte allocations
 var zerobase uintptr
 
+<<<<<<< HEAD   (1354b3 [dev.garbage] runtime: add gc work buffer tryGet and put fas)
 const (
 	// flags to malloc
 	_FlagNoScan = 1 << 0 // GC doesn't have to scan object
@@ -561,20 +559,18 @@ func (c *mcache) nextFree(sizeclass int8) (v gclinkptr, shouldhelpgc bool) {
 	return
 }
 
+=======
+>>>>>>> BRANCH (d3c79d cmd/compile/internal/gc: remove oconv(op, 0) calls)
 // Allocate an object of size bytes.
 // Small objects are allocated from the per-P cache's free lists.
 // Large objects (> 32 kB) are allocated straight from the heap.
-func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
+func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	if gcphase == _GCmarktermination {
 		throw("mallocgc called with gcphase == _GCmarktermination")
 	}
 
 	if size == 0 {
 		return unsafe.Pointer(&zerobase)
-	}
-
-	if flags&flagNoScan == 0 && typ == nil {
-		throw("malloc missing type")
 	}
 
 	if debug.sbrk != 0 {
@@ -620,14 +616,15 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 	dataSize := size
 	c := gomcache()
 	var x unsafe.Pointer
+	noscan := typ == nil || typ.kind&kindNoPointers != 0
 	if size <= maxSmallSize {
-		if flags&flagNoScan != 0 && size < maxTinySize {
+		if noscan && size < maxTinySize {
 			// Tiny allocator.
 			//
 			// Tiny allocator combines several tiny allocation requests
 			// into a single memory block. The resulting memory block
 			// is freed when all subobjects are unreachable. The subobjects
-			// must be FlagNoScan (don't have pointers), this ensures that
+			// must be noscan (don't have pointers), this ensures that
 			// the amount of potentially wasted memory is bounded.
 			//
 			// Size of the memory block used for combining (maxTinySize) is tunable.
@@ -699,24 +696,38 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 				v, shouldhelpgc = c.nextFree(sizeclass)
 			}
 			x = unsafe.Pointer(v)
+<<<<<<< HEAD   (1354b3 [dev.garbage] runtime: add gc work buffer tryGet and put fas)
 			if flags&flagNoZero == 0 {
 				memclr(unsafe.Pointer(v), size)
 				// TODO:(rlh) Only clear if object is not known to be zeroed.
+=======
+			if needzero {
+				v.ptr().next = 0
+				if size > 2*sys.PtrSize && ((*[2]uintptr)(x))[1] != 0 {
+					memclr(unsafe.Pointer(v), size)
+				}
+>>>>>>> BRANCH (d3c79d cmd/compile/internal/gc: remove oconv(op, 0) calls)
 			}
 		}
 	} else {
 		var s *mspan
 		shouldhelpgc = true
 		systemstack(func() {
-			s = largeAlloc(size, flags)
+			s = largeAlloc(size, needzero)
 		})
 		s.freeindex = 1
 		x = unsafe.Pointer(s.base())
 		size = s.elemsize
 	}
 
+<<<<<<< HEAD   (1354b3 [dev.garbage] runtime: add gc work buffer tryGet and put fas)
 	if flags&flagNoScan != 0 {
 		heapBitsSetTypeNoScan(uintptr(x), size)
+=======
+	var scanSize uintptr
+	if noscan {
+		// All objects are pre-marked as noscan. Nothing to do.
+>>>>>>> BRANCH (d3c79d cmd/compile/internal/gc: remove oconv(op, 0) calls)
 	} else {
 		// If allocating a defer+arg block, now that we've picked a malloc size
 		// large enough to hold everything, cut the "asked for" size down to
@@ -733,11 +744,12 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 			// pointers, GC has to scan to the last
 			// element.
 			if typ.ptrdata != 0 {
-				c.local_scan += dataSize - typ.size + typ.ptrdata
+				scanSize = dataSize - typ.size + typ.ptrdata
 			}
 		} else {
-			c.local_scan += typ.ptrdata
+			scanSize = typ.ptrdata
 		}
+		c.local_scan += scanSize
 
 		// Ensure that the stores above that initialize x to
 		// type-safe memory and set the heap bits occur before
@@ -748,14 +760,12 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 		publicationBarrier()
 	}
 
-	// GCmarkterminate allocates black
+	// Allocate black during GC.
 	// All slots hold nil so no scanning is needed.
 	// This may be racing with GC so do it atomically if there can be
 	// a race marking the bit.
-	if gcphase == _GCmarktermination || gcBlackenPromptly {
-		systemstack(func() {
-			gcmarknewobject_m(uintptr(x), size)
-		})
+	if gcphase != _GCoff {
+		gcmarknewobject(uintptr(x), size, scanSize)
 	}
 
 	// The object x is about to be reused but tracefree and msanfree
@@ -813,7 +823,7 @@ func mallocgc(size uintptr, typ *_type, flags uint32) unsafe.Pointer {
 	return x
 }
 
-func largeAlloc(size uintptr, flag uint32) *mspan {
+func largeAlloc(size uintptr, needzero bool) *mspan {
 	// print("largeAlloc size=", size, "\n")
 
 	if size+_PageSize < size {
@@ -829,7 +839,7 @@ func largeAlloc(size uintptr, flag uint32) *mspan {
 	// pays the debt down to npage pages.
 	deductSweepCredit(npages*_PageSize, npages)
 
-	s := mheap_.alloc(npages, 0, true, flag&_FlagNoZero == 0)
+	s := mheap_.alloc(npages, 0, true, needzero)
 	if s == nil {
 		throw("out of memory")
 	}
@@ -840,11 +850,7 @@ func largeAlloc(size uintptr, flag uint32) *mspan {
 
 // implementation of new builtin
 func newobject(typ *_type) unsafe.Pointer {
-	flags := uint32(0)
-	if typ.kind&kindNoPointers != 0 {
-		flags |= flagNoScan
-	}
-	return mallocgc(typ.size, typ, flags)
+	return mallocgc(typ.size, typ, true)
 }
 
 //go:linkname reflect_unsafe_New reflect.unsafe_New
@@ -852,27 +858,17 @@ func reflect_unsafe_New(typ *_type) unsafe.Pointer {
 	return newobject(typ)
 }
 
-// implementation of make builtin for slices
-func newarray(typ *_type, n uintptr) unsafe.Pointer {
-	flags := uint32(0)
-	if typ.kind&kindNoPointers != 0 {
-		flags |= flagNoScan
+// newarray allocates an array of n elements of type typ.
+func newarray(typ *_type, n int) unsafe.Pointer {
+	if n < 0 || uintptr(n) > maxSliceCap(typ.size) {
+		panic(plainError("runtime: allocation size out of range"))
 	}
-	if int(n) < 0 || (typ.size > 0 && n > _MaxMem/typ.size) {
-		panic("runtime: allocation size out of range")
-	}
-	return mallocgc(typ.size*n, typ, flags)
+	return mallocgc(typ.size*uintptr(n), typ, true)
 }
 
 //go:linkname reflect_unsafe_NewArray reflect.unsafe_NewArray
-func reflect_unsafe_NewArray(typ *_type, n uintptr) unsafe.Pointer {
+func reflect_unsafe_NewArray(typ *_type, n int) unsafe.Pointer {
 	return newarray(typ, n)
-}
-
-// rawmem returns a chunk of pointerless memory. It is
-// not zeroed.
-func rawmem(size uintptr) unsafe.Pointer {
-	return mallocgc(size, nil, flagNoScan|flagNoZero)
 }
 
 func profilealloc(mp *m, x unsafe.Pointer, size uintptr) {
