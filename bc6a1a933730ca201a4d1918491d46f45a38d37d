@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_c18822d9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:54Z",
+      "side": 1,
+      "message": "I made it a TODO. It is an independent cleanup that can happen at anytime.",
+      "parentUuid": "c8d75c7d_fefa8957",
+      "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_deffc545",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8833a51f_819f3a13",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:54Z",
+      "side": 1,
+      "message": "Removed.\nDone",
+      "parentUuid": "c8d75c7d_deffc545",
+      "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_3e154163",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-24T17:02:32Z",
       "side": 1,
       "message": "Since this is only used in two places and only for span initialization, just write out the shift in those two places, rather than having two methods that do almost but not *quite* exactly the same thing.",
+      "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8833a51f_61a4b667",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_3e154163",
       "revId": "bc6a1a933730ca201a4d1918491d46f45a38d37d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
