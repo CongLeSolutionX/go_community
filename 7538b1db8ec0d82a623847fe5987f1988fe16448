@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8fea96d_f9b50842",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-04-27T19:52:07Z",
+      "side": 1,
+      "message": "FWIW, dneil and I looked into this, and it seems to just be an issue that the output from -S doesn\u0027t respect -trimpath. The actual .o files within the output .a are identical, only the __.PKGDEF entry is different (expectedly).",
+      "revId": "7538b1db8ec0d82a623847fe5987f1988fe16448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
