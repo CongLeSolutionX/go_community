@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_baf8b1d5",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "Add \"// This span is full.\" comment back.",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fa0229a3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "Capital and period.",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1a31dd92",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "Is this a useful check? Given the previous line, this would require result to be ^uintptr(0), which would seem to require quite a coincidence.",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7a445964",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "The code is right, but this the comment is wrong. It doesn\u0027t contain stale bits. It\u0027s all zeros at this point. (But you\u0027re right that allocCache must always be filled; my earlier comment was wrong.)",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7a26195a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "I would say to add this blank line back, but since this code is being deleted in the next CL, it\u0027s not worth the trouble.",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9ae32d15",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "Oh! I see why this changes now. This CL makes the \"n\" argument mean something completely different. It used to mean the number of *newly* freed objects. Now it\u0027s the *total* number of free objects in s. That\u0027s fine, but please update the doc comment on this function to reflect this.\n\nOr, even better: don\u0027t pass n to freeSpan at all. mspan.sweep already set s.allocCount to nelems - n before calling this. Just remove the argument (and update the function doc).",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5a49957a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-27T16:21:37Z",
+      "side": 1,
+      "message": "Please put this line break back. (I\u0027m not sure how it got removed; gofmt should have put it in.)",
+      "revId": "0e4b1a2d4c0cede0ad5b8855b2ece82424693669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
