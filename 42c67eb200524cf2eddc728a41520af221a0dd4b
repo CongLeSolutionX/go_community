@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_614392ef",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "I also think this should break under the old condition and in the next CL the computation of s.allocCount will be completely redone and a lot cleaner. The sweep code that maintains this counter between sweeps will be much simpler and if this is still a bug it will be much easier to debug.",
+      "parentUuid": "c8d75c7d_903b7cc5",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_d0405418",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "\"refillAllocCache\"",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_c150a6b1",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_d0405418",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_a1559a9f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_10230c86",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_7025289e",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "This does bounds check for each and every index here. If you write it as\n\nbytes :\u003d s.allocBits[whichByte:whichByte+8]\naCache :\u003d uint64(0)\naCache |\u003d uint64(bytes[0])\naCache |\u003d uint64(bytes[1]) \u003c\u003c (1 * 8)\n...\n\nIt will only do one bounds check *and* the compiler is now smart enough to turn the whole shift/or construct into a single 64 bit load on amd64 (!).",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_e14fa20b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Cool\nDone",
+      "parentUuid": "c8d75c7d_7025289e",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_4165b687",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_90e41c89",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_502d846b",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "I don\u0027t know what \"the\" means here. Isn\u0027t this just \"bit\" or maybe \"bitIndex\"?",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_21622a81",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_502d846b",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_815fbeb7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_101aec51",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_703088c5",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -132,6 +258,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "I wouldn\u0027t bother changing this now, but for future reference \"byteIndex\" seems like a more common way to name index variables like this.",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_615c32c3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Perhaps for a future cleanup.",
+      "parentUuid": "c8d75c7d_703088c5",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_a1fe3ac3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_9036dcc4",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_d0597408",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -166,6 +328,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "Capital.",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_61e71227",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_d0597408",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "e8f8a0fc_41ee5615",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_f05478d2",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_905ffcec",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -200,6 +398,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "This shouldn\u0027t be necessary at all. If we just pushed past the end of the cache, s.allocCache will be 0 and the next call to nextFreeIndex should get ctz \u003d\u003d 64 and refill the cache at that point.",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f2f156_c04d7eb6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "s.freeindex and s.allocCache need to be in sync. If we don\u0027t refill alloc cache here then the code will think what is in\ns.allocCache are the bits for s.freeindex to s.freeindex + 63 when in fact they are the stale bits from s.freeindex-64 to s.freeindex -1. I replaced the comment.",
+      "parentUuid": "c8d75c7d_905ffcec",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "2818f82b_5ba59b74",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This code is all going away in the next CL.",
+      "parentUuid": "c8d75c7d_50462427",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_104cac45",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -234,6 +468,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "Duplicate comment?",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "882d6479_ab38f521",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This code is all going away in the next CL.",
+      "parentUuid": "c8d75c7d_104cac45",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "e81b4059_66c0f06a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This code is all going away in the next CL.",
+      "parentUuid": "c8d75c7d_7049a835",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_b083208d",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -268,6 +538,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "This should be \"!\u003d 0\". It can only \"\u003d\u003d 1\" when mbits.mask is 1.",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e81b4059_46c3f477",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This code is all going away in the next CL.",
+      "parentUuid": "c8d75c7d_b083208d",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "2818f82b_bbd2efd5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This code is all going away in the next CL.",
+      "parentUuid": "c8d75c7d_90889ca8",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_d09214d4",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 9
@@ -302,6 +608,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "Capital. \"previous\"",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8ae7cf9_d5e4ce57",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This code is all going away in the next CL.",
+      "parentUuid": "c8d75c7d_d09214d4",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "68f2f156_a04a7a9a",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Removed.\nA thumbprint is simply a way to track the path through the code that got us to this place.",
+      "parentUuid": "c8d75c7d_509f44d7",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_70a24821",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 9
@@ -336,6 +678,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "\"allocBits\"",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f2f156_80c77622",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This is now gone.",
+      "parentUuid": "c8d75c7d_70a24821",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -359,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "68f2f156_60cc7246",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_9071bc70",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_b06cc098",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 9
@@ -370,6 +748,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "I wouldn\u0027t bother with this comment.  The details of what refillAllocCache is doing don\u0027t matter here. Maybe just \"// Initialize alloc bits cache.\"",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f2f156_40d16edc",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_b06cc098",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -393,6 +789,24 @@
     },
     {
       "key": {
+        "uuid": "68f2f156_20d66ad6",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_f06638b6",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_107e6c39",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 9
@@ -404,6 +818,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "I don\u0027t understand this change.",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48dfedf2_af735904",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "I admit that I don\u0027t either. I will respond to it in the next CL once the sweepSpan code has been simplified.",
+      "parentUuid": "c8d75c7d_107e6c39",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -427,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_da1c85b4",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "This is probably wrong but will be fixed in the next CL where heapBitsSweepSpan is greatly simplified.",
+      "parentUuid": "c8d75c7d_90da5c94",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_5078e44a",
         "filename": "src/runtime/mgcsweep.go",
         "patchSetId": 9
@@ -438,6 +888,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "Likewise, \"// Initialize alloc bits cache.\"",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1a7efdd4",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_5078e44a",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -461,6 +929,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_7a83b9dc",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_d0e4d457",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_10c78cbd",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 9
@@ -478,6 +964,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_9a696d18",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_10c78cbd",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8d75c7d_b0be8024",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 9
@@ -489,6 +993,24 @@
       "writtenOn": "2016-04-21T21:47:43Z",
       "side": 1,
       "message": "Add\n\n// allocCache may contain bits beyond s.nelems; the caller must ignore these.",
+      "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fa76a9f5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T00:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8d75c7d_b0be8024",
       "revId": "42c67eb200524cf2eddc728a41520af221a0dd4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
