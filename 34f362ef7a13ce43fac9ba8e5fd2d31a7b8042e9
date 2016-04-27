@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_1d6397a2",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_9d5a073f",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_5d406f46",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-27T17:39:33Z",
       "side": 1,
       "message": "What does racemalloc have to do with this? Isn\u0027t this just about tracealloc?",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fd6b4373",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Yes, we do a racemalloc but we don\u0027t do a racefree when an object dies so there is no work there.\nI\u0027ll remove the reference.",
+      "parentUuid": "a8594975_5d406f46",
       "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_dd68ff79",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_9d2167a7",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_fd2ea394",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-27T17:39:33Z",
       "side": 1,
       "message": "Consider \n\nif bitsInLastByte :\u003d s.nelems%8; bitsInLastByte !\u003d 0 {\n  ...\n}",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1d0a77c2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_fd2ea394",
       "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_7d0f33d2",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Already done in last CL change.\nDone",
+      "parentUuid": "a8594975_dd2bdf82",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_7d129353",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 13
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_5d14efe4",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Good catch there are probably more places where this will help performance. That is another CL. \nDone",
+      "parentUuid": "a8594975_7d129353",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_5d17cf41",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 13
@@ -115,6 +223,24 @@
       "writtenOn": "2016-04-27T17:39:33Z",
       "side": 1,
       "message": "Don\u0027t remove this blank line.",
+      "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_bdf8abd5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-27T20:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5d17cf41",
       "revId": "34f362ef7a13ce43fac9ba8e5fd2d31a7b8042e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
