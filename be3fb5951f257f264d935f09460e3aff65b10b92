@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_9a20428d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "\u003e Done and I used mrkBits instead of markBits which is a type and it confuses some tools.\n\nSounds like you need a better editor. :)",
+      "parentUuid": "a8594975_04033700",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_2eee1f33",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 17
@@ -486,6 +504,24 @@
       "side": 1,
       "message": "getObjIndex takes an object pointer not a a byte offset from the base of the span. No changes.",
       "parentUuid": "a8594975_6e5db7d9",
+      "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7a256e9a",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "\u003e getObjIndex takes an object pointer not a a byte offset from the base of the span. No changes.\n\nAh, you\u0027re right.",
+      "parentUuid": "a8594975_045fb7ff",
       "revId": "be3fb5951f257f264d935f09460e3aff65b10b92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
