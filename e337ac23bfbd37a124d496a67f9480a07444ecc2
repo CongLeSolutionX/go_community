@@ -22,6 +22,23 @@
       "revId": "e337ac23bfbd37a124d496a67f9480a07444ecc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1a6272c8",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:13:56Z",
+      "side": 1,
+      "message": "What happens if I try to open a 1.5 trace without specifying a program binary? Do I just get program counters instead of symbols and everything is otherwise okay? (If it\u0027s not otherwise okay, I\u0027d add a check, perhaps to trace.Parse, that gives a useful error message.)",
+      "revId": "e337ac23bfbd37a124d496a67f9480a07444ecc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

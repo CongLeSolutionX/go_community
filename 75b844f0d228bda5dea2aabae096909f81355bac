@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_ba6426d6",
+        "filename": "src/cmd/go/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:13:56Z",
+      "side": 0,
+      "message": "Is this not still true? (It may not be important, but if it\u0027s still true, I would leave it in.)",
+      "revId": "75b844f0d228bda5dea2aabae096909f81355bac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
