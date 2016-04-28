@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8594975_1a58b245",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-28T20:44:20Z",
+      "side": 1,
+      "message": "32",
+      "range": {
+        "startLine": 562,
+        "startChar": 41,
+        "endLine": 562,
+        "endChar": 43
+      },
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_da12ba47",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-28T20:44:20Z",
+      "side": 1,
+      "message": "24",
+      "range": {
+        "startLine": 632,
+        "startChar": 11,
+        "endLine": 632,
+        "endChar": 13
+      },
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ba0f061e",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-28T20:44:20Z",
+      "side": 1,
+      "message": "16",
+      "range": {
+        "startLine": 633,
+        "startChar": 11,
+        "endLine": 633,
+        "endChar": 13
+      },
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682111e2_92a5b916",
         "filename": "src/runtime/cgo/asm_s390x.s",
         "patchSetId": 7
