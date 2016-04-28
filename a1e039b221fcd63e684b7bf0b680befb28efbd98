@@ -16,6 +16,24 @@
       "revId": "a1e039b221fcd63e684b7bf0b680befb28efbd98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48b28df7_5ae7b1f4",
+        "filename": "src/cmd/compile/internal/ssa/copyelim.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13460
+      },
+      "writtenOn": "2016-04-28T11:21:43Z",
+      "side": 1,
+      "message": "One way this could happen would involve removing incoming edges from a loop that doesn\u0027t change some variable X (but it\u0027s predecessors do) until the loop becomes unreachable. At that point the phi for X still has an incoming back-edge, and corresponding incoming value for that predecessor is the phi itself (or some chain of copies leading to it).\nAn analysis pass that saw the 1-value phi might then turn it into a copy of that incoming value, creating a copy loop.\n\nThe current phi elimination code guards against this possibility though.",
+      "parentUuid": "889d6572_b147000d",
+      "revId": "a1e039b221fcd63e684b7bf0b680befb28efbd98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
