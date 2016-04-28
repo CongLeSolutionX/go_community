@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_3a4f7684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5de22f14",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_bde6eb24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Isn\u0027t the big change here that we\u0027re now allocating the alloc and mark bits instead of storing them in the mspan?",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ba5a663e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_bde6eb24",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_44636fa1",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_9de32715",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_fdf063db",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "s/Arenat/Arena/",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_a4588beb",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_fdf063db",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_841467e6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Dropping the end (of the previous cycle) reference, it is obvious.\nDone",
+      "parentUuid": "a8594975_eeff07b9",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_7db45302",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -98,6 +188,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Remove (or write a comment describing the constants).",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ba7386d6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_7db45302",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_4431af91",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5db98ff8",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_bdcd4b99",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -132,6 +258,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "s/Size/Bytes/",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_a426cb56",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_bdcd4b99",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_e47ba317",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "gcBitsMap should have been gcBits.\nComment updated.\nReference to issue 14620 added to comment.",
+      "parentUuid": "a8594975_9dca077d",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_fdc7c372",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -166,6 +328,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "What\u0027s markBitsHeader?",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_c4781f1e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "gcBitsHeader, comment updated",
+      "parentUuid": "a8594975_fdc7c372",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_d7a293a9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5d87cf1f",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_20bbced5",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -200,6 +398,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Size is a constant. Remove and just use len(gcBits{}.bits) when you need it (that compiles down to a constant, even if it doesn\u0027t look like it).",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_77ec67d8",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_20bbced5",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_b7cd5f70",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "If we aren\u0027t 8 byte aligned getFreshArena adjusts free so\nthat \u0026bits[free] will be 8 byte aligned. That said given the current definition it should be 8 byte aligned since we have two pointer sized fields.",
+      "parentUuid": "a8594975_40b6c2ed",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_bd7b8b18",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -234,6 +468,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Document what gcBitsLock protects. If it protects the following four vars, the canonical way to do this is something like\n\nvar gcBits struct {\n  lock mutex\n  freeArena *gcBits\n  nextArena *gcBits\n  currentArena *gcBits\n  previousArena *gcBits\n}",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_17036ba9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done but with different names.",
+      "parentUuid": "a8594975_bd7b8b18",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_f7ffd7b8",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_9d78471d",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_fd750323",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -268,6 +538,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "\"at word\"",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_572cc33a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "This paragraph was rewritten.",
+      "parentUuid": "a8594975_fd750323",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_97265b57",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "a8594975_dd72bf38",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_8099fa80",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -302,6 +608,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Based on the signature and name of this, I would expect it to return s\u0027s mark bits, but that\u0027s not at all what it does. In fact, it barely has anything to do with s. Consider changing this to\n\nfunc newMarkBits(nbits int) *uint8\n\nand have the callers pass in s.nelems.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9782db0e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_8099fa80",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_1776cb2e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "It is called for every span once per GC cycle. It does not appear to be on a hot path.",
+      "parentUuid": "a8594975_20946e46",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_60b5c6dc",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -336,6 +678,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "I think this would be clearer if you just wrote out gcNextArena \u003d getFreshArena().",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9ab042ef",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_60b5c6dc",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -359,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_7ab56edc",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_a09fde5f",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_00c4ca4e",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -370,6 +748,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Modulo a debug check, this function is letter-for-letter identical to getMarkBits. Is it supposed to be? (I expected it to allocate from a different arena, but it doesn\u0027t.)",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9a35e238",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "I want to keep the function for clarity of the abstraction and as a hook for future potential optimization.",
+      "parentUuid": "a8594975_00c4ca4e",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -393,6 +789,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_fa733e03",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "finishsweep_m\nfixed.",
+      "parentUuid": "a8594975_20e2aee5",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_80e73af4",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -404,6 +818,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "\"becomes\"",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9a5a0272",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_80e73af4",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -427,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_1a81d29f",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_80357a38",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_a0cd1e70",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -438,6 +888,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "gcNextArena \u003d nil",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5a950af3",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Not correct but it reinforces your comment that initNextArena should return an arena.",
+      "parentUuid": "a8594975_a0cd1e70",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -461,6 +929,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_1a93920b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_8083badb",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_c07652c8",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -472,6 +958,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "This should probably be either \u0026memstats.gc_sys or \u0026memstats.other_sys\n\nAlso, you need to explicitly check for a nil return.\n\nif result \u003d\u003d nil {\n    throw(\"runtime: cannot allocate memory\")\n}",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_daaf5a3a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done and Done.",
+      "parentUuid": "a8594975_c07652c8",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -495,6 +999,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_1aaa7229",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Yes, but I like being able to search for places where these fields are written to.",
+      "parentUuid": "a8594975_204f4e84",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_a0087e1e",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -512,6 +1034,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_5a634a0a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Same comment but any push back will result in these being eliminated.",
+      "parentUuid": "a8594975_a0087e1e",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_00068a10",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 15
@@ -523,6 +1063,24 @@
       "writtenOn": "2016-04-27T23:39:11Z",
       "side": 1,
       "message": "Unused. Remove.",
+      "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_3a6816e5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-28T20:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_00068a10",
       "revId": "9de9333de55bf255c429b458b9d39c8dea91f8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
