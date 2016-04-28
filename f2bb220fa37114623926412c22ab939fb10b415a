@@ -56,6 +56,261 @@
       "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_57dde323",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "I still feel like you\u0027re hardcoding when this optimization will be beneficial based on a very narrow view of existing chips.  Maybe it would help to look at it the other way: suppose we enabled this optimization any time it was correct (i.e. wouldn\u0027t fail with an illegal instruction trap or with data copied incorrectly).  Would that be ok?  Which chips would end up slower?  Can we redo this decision the other way around, enable by default and explicitly remove chips for which it is slower?\nI\u0027m trying to future-proof this logic so we don\u0027t have to revisit it each release as new chips come out.  (I\u0027m presuming that new chips would very likely do better with this optimization, so that should be the default.)",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_97e77bf4",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "This is a lot of code, most of which we don\u0027t use.  Can you define just the flags you need?\n  cfAVX2 \u003d 1\u003c\u003c5\n  ...",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_b79f1f60",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "Parens unnecessary.  \u003c\u003c has higher precedence than | in Go.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_17ad2b99",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_24c8fb83",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "\u00260xff\u0027s are unnecessary.  byte() does that for you.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_048df78b",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "TESTB $1, runtime·useMemmoveHaswell(SB)?",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_af3deead",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "I like the picture.\nJust add a comment that this is a picture of the source.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_0f4b5a4a",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "\"Aligned on 32\" isn\u0027t really right, as this is the source picture.  It might not be aligned.  It is the right offset to make the destination aligned.  A bit confusing, maybe remove this text and add a following sentence describing how to pick the head size.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_4f74428c",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "X4 -\u003e Y4 ?",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_8f574af2",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "Destination-aligned",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_cfae72f7",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "Just curious, why not save the last 128 bytes in Y5-Y8 instead?",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_6f7306a2",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "\"Adjust source address to point past head.\"",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_0f34facc",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "SUBL -\u003e SUBQ?  The total copy size could be \u003e32 bits.  Same below for all the L suffixes.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_6faae6e5",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "JAE -\u003e JA?  No need to do it again if there are 0 bytes left.",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8fea96d_6f0e6626",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-28T16:24:41Z",
+      "side": 1,
+      "message": "Where do the numbers 0x1c0 and 0x280 come from?  Why 2 prefetches instead of 1?\n(Put the answer as comments in the code.)",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
