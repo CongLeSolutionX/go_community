@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_a4836bdb",
+        "filename": "src/cmd/vet/testdata/asm5.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-04-28T14:04:18Z",
+      "side": 1,
+      "message": "16(R29)\nand 17, 18 in the following lines\nthis should fix the bad SP offset checking",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "50ce39cde1267ddc9b1738a994f79a9aaf3cfe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
