@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_5ad34a48",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Modulo depending on some reorganization of traceback.go, the changes in this file aren\u0027t actually related to the context stuff, right? They could at least theoretically have gone in on their own? (You don\u0027t have to do anything; I\u0027m mostly checking my understanding.)",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_da1f5af8",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "What happens if we get a profiler signal in the middle of when we\u0027re manipulating gp.cgoCtxt?",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ba1c2605",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Consider anySymbolized (\"any\" sounds like any frames)",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
