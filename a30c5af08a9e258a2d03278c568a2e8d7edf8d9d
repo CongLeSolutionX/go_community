@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_3a2bf673",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "markBitsForIndex? There\u0027s nothing about addresses in this function any more.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1a3432cd",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "\"for a span\u0027s\"? (Since you don\u0027t pass the span any more there\u0027s no \"this\" span.)",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fa47be39",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "I think this would be clearer written like\n\nif gcBitsArenas.next \u003d\u003d nil ||\n    gcBitsArenas.next.free+bytesNeeded \u003e uintptr(len(gcBits{}.bits)) {\n    // Allocate a new arena.\n    fresh :\u003d newArena()\n    fresh.next \u003d gcBitsArenas.next\n    gcBitsArenas.next \u003d fresh\n}\n\nThis commons-up the two arena allocation paths, eliminates the need for growNextArena, and also eliminates the redundant check for arena overflow between growNextArena and this function.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_da40fa27",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "// newArena allocates and zeroes a gcBits arena.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9a57a2f2",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "Move the two common \"result.next \u003d nil\" lines to after the if.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5a74ea8b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "I think this function should be eliminated (see above), but if it isn\u0027t, it needs a doc comment.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_3a793684",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "This check is redundant with the check in newMarkBits, and is also the only use of minimum in this function, which is a little weird.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ba3d46ae",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T21:01:53Z",
+      "side": 1,
+      "message": "Unused. Remove.",
+      "revId": "a30c5af08a9e258a2d03278c568a2e8d7edf8d9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
