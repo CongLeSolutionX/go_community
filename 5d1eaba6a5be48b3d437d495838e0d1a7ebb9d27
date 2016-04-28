@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8fea96d_b2cd5570",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-28T17:06:49Z",
+      "side": 1,
+      "message": "kills the process (by calling os.Process.Kill) if ....",
+      "revId": "5d1eaba6a5be48b3d437d495838e0d1a7ebb9d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
