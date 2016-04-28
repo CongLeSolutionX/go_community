@@ -16,6 +16,24 @@
       "revId": "da6761846b2ca18f130182d210441d2274e78fc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9735bb38",
+        "filename": "src/crypto/cipher/cbc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-28T16:43:49Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s not ideal.\n\nI\u0027ve added a set of tests that should make it harder to accidentally introduce regressions. If we moved the interfaces to an \"internal\" package and exported them we could move these tests to that package as well and out of crypto/aes, but I think this is ok for now.",
+      "parentUuid": "a8594975_63bb1083",
+      "revId": "da6761846b2ca18f130182d210441d2274e78fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
