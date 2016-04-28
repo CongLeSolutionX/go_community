@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8594975_7aaa8ee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Is this a fundamental problem (like, is the context part of the API a problem?), or one just has to be written?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_3a877673",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "I would leave in the _cgo_wait_runtime_init_done(). This is sort of a sketch of what cgo really does anyway, and that line is important for understanding the following paragraph.",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1ab9d23e",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Move \\n\\n from the previous line to this one.",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1a90b2a4",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Do you have a sense for how much additional overhead this introduces into a cgo call?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5ae98a29",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "I think this is no longer true. cgocallback_gofunc\u0027s frame is now 16 bytes, but we still only make a 12 byte frame below (plus room for the \"return\" IP).",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48f36dea_724bb61c",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 7
@@ -324,6 +409,108 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "48f36dea_6f02b130",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_3ad5b653",
+        "filename": "src/runtime/cgo/libcgo.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Update this comment to explain the return value.\n\nI wonder if the function should be named something different now that it\u0027s main purpose is rather different.",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_dac3da98",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "What happens if cgocallbackg1 panics? Is that unrecoverable at this point, so it doesn\u0027t matter that we leave behind the gp.cgoCtxt?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7acf2ec1",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "If we\u0027re this close to the nosplit boundary, does this still compile with noopt?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_bac0a68d",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Update this comment?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9a268257",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Would this be necessary if some of this were moved to a real C source file instead of being in an import \"C\" comment?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7a2bae20",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:51:05Z",
+      "side": 1,
+      "message": "Check that arg-\u003econtext matches contextCount?",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
