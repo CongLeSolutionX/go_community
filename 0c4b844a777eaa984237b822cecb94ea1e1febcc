@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_da711a69",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "Subtle. Definitely worth documenting.\n\n// s.elemsize is a power of 2. In this case the magic divShift happens to be log_2(s.elemsize).",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_ba6ee684",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "Period. (Or just remove this comment.)",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_fa685e79",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "s/words/bytes/",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_5a050ab1",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "s/words/blocks/ (on 32-bit, a \"word\" is 32 bits, but is always 8 bytes).",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_3a0ad6c2",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "s/words/bytes/",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_7a144ee5",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "\"previous arenas\" and period.",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_9a0fa2d1",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "\"calls\"",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_daf8fad6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "Strangely, this should actually be \"runtime: cannot allocate memory\" for consistency with the other calls to sysAlloc. We should probably fix that everywhere.",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_1a0392a9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-28T22:21:05Z",
+      "side": 1,
+      "message": "if uintptr(unsafe.Offsetof(gcBits{}.bits))\u00267 \u003d\u003d 0 {\n\nIt says what you mean more directly and the compiler will constant-fold it.",
+      "revId": "0c4b844a777eaa984237b822cecb94ea1e1febcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
