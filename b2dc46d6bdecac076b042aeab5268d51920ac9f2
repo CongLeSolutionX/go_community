@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_44d52f52",
+        "filename": "src/crypto/md5/md5block_arm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-28T15:18:35Z",
+      "side": 1,
+      "message": "JMP instead of B?\n\n(I don\u0027t know. I just usually see B for ARM)",
+      "revId": "b2dc46d6bdecac076b042aeab5268d51920ac9f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_c4477f0c",
+        "filename": "src/crypto/md5/md5block_generic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-28T15:18:35Z",
+      "side": 1,
+      "message": "if you call blockGeneric instead of block, then the compiler can in theory optimize more, since it can see the function is exactly blockGeneric and not potentially changing at runtime, and blockGeneric\u0027s []byte argument doesn\u0027t escape, so it could potentially remove this optimization. (https://github.com/golang/go/issues/2205)",
+      "revId": "b2dc46d6bdecac076b042aeab5268d51920ac9f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
