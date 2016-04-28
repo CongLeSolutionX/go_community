@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"crypto/rand"
 	. "runtime"
 	"testing"
 )
@@ -79,6 +80,126 @@ func TestMemmoveAlias(t *testing.T) {
 			}
 		}
 	}
+}
+
+func TestMemmoveLarge0x100000(t *testing.T) {
+	testSize(t, 0x100000)
+}
+
+func TestMemmoveLarge0x20007f(t *testing.T) {
+	testSize(t, 0x20007f)
+}
+
+func TestMemmoveLarge0x14754f5(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
+	testSize(t, 0x14754f5)
+}
+
+func TestMemmoveOverlapLarge0x100000(t *testing.T) {
+	testOverlap(t, 0x100000)
+}
+
+func TestMemmoveOverlapLarge0x20007f(t *testing.T) {
+	testOverlap(t, 0x20007f)
+}
+
+func TestMemmoveOverlapLarge0x14754f5(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
+	testOverlap(t, 0x13c86f5)
+}
+
+func testSize(t *testing.T, size int) {
+	src := make([]byte, size)
+	dst := make([]byte, size)
+	_, _ = rand.Read(src)
+	_, _ = rand.Read(dst)
+
+	ref := make([]byte, size)
+	copyref(ref, dst)
+
+	for n := size - 50; n > 1; n >>= 1 {
+		for x := 0; x <= size-n; x = x*3 + 1 { // offset in src
+			for y := 0; y <= size-n; y = y*5 + 1 { // offset in dst
+				copy(dst[y:y+n], src[x:x+n])
+				copyref(ref[y:y+n], src[x:x+n])
+				p := cmpb(dst, ref)
+				if p >= 0 {
+					t.Fatalf("Copy failed, copying from src[%d:%d] to dst[%d:%d].\nOffset %d is different, %v != %v", x, x+n, y, y+n, p, dst[p], ref[p])
+				}
+				//fmt.Printf("Tested len(%d), src[%d:%d] -> dst[%d:%d]\n", n, x, x+n, y, y+n)
+			}
+		}
+	}
+}
+
+func testOverlap(t *testing.T, size int) {
+	src := make([]byte, size)
+	test := make([]byte, size)
+	ref := make([]byte, size)
+	_, _ = rand.Read(src)
+
+	for n := size - 50; n > 1; n >>= 1 {
+		for x := 0; x <= size-n; x = x*3 + 1 { // offset in src
+			for y := 0; y <= size-n; y = y*5 + 1 { // offset in dst
+				// Reset input
+				copyref(test, src)
+				copyref(ref, src)
+				copy(test[y:y+n], test[x:x+n])
+				if y <= x {
+					copyref(ref[y:y+n], ref[x:x+n])
+				} else {
+					copybw(ref[y:y+n], ref[x:x+n])
+				}
+				p := cmpb(test, ref)
+				if p >= 0 {
+					t.Fatalf("Copy failed, copying from src[%d:%d] to dst[%d:%d].\nOffset %d is different, %v != %v", x, x+n, y, y+n, p, test[p], ref[p])
+				}
+				//fmt.Printf("Tested len(%d), src[%d:%d] -> dst[%d:%d]\n", n, x, x+n, y, y+n)
+			}
+		}
+	}
+
+}
+
+// Forward copy.
+func copyref(dst, src []byte) {
+	for i, v := range src {
+		dst[i] = v
+	}
+}
+
+// Backwards copy
+func copybw(dst, src []byte) {
+	if len(src) == 0 {
+		return
+	}
+	for i := len(src) - 1; i >= 0; i-- {
+		dst[i] = src[i]
+	}
+}
+
+// Returns offset of difference
+func matchLen(a, b []byte, max int) int {
+	a = a[:max]
+	b = b[:max]
+	for i, av := range a {
+		if b[i] != av {
+			return i
+		}
+	}
+	return max
+}
+
+func cmpb(a, b []byte) int {
+	l := matchLen(a, b, len(a))
+	if l == len(a) {
+		return -1
+	}
+	return l
 }
 
 func bmMemmove(b *testing.B, n int) {
