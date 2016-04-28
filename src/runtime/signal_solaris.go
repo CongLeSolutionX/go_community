@@ -22,7 +22,7 @@ var sigtable = [...]sigTabT{
 	/* 9 */ {0, "SIGKILL: kill (cannot be caught or ignored)"},
 	/* 10 */ {_SigPanic + _SigUnblock, "SIGBUS: bus error"},
 	/* 11 */ {_SigPanic + _SigUnblock, "SIGSEGV: segmentation violation"},
-	/* 12 */ {_SigThrow, "SIGSYS: bad argument to system call"},
+	/* 12 */ {_SigThrow + _SigUnblock, "SIGSYS: bad argument to system call"},
 	/* 13 */ {_SigNotify, "SIGPIPE: write on a pipe with no one to read it"},
 	/* 14 */ {_SigNotify, "SIGALRM: alarm clock"},
 	/* 15 */ {_SigNotify + _SigKill, "SIGTERM: software termination signal from kill"},
