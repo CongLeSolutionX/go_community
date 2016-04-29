@@ -22,6 +22,30 @@
       "revId": "abcb92ca144957962b2d456f02d9fd3026256b0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e85181a9_fc93e95d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-04-29T19:31:45Z",
+      "side": 1,
+      "message": "This changes does indeed fix TestExtraFiles, so\nI think you can remove the Plan 9 case in\nsrc/os/exec/exec_test.go:/TestHelperProcess\nto fully enable the tests.",
+      "parentUuid": "c84cbd16_9b98ab7c",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 11
+      },
+      "revId": "abcb92ca144957962b2d456f02d9fd3026256b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
