@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_d5e3ab13",
+        "filename": "src/crypto/sha256/sha256block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:02:11Z",
+      "side": 1,
+      "message": "Revert.",
+      "revId": "22f1c04ea282a55017c97abcfbe54edbc1e8dea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_f5e6af25",
+        "filename": "src/crypto/sha256/sha256block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:02:11Z",
+      "side": 1,
+      "message": "Same comment as in the SHA1 code.",
+      "revId": "22f1c04ea282a55017c97abcfbe54edbc1e8dea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_35f147de",
+        "filename": "src/crypto/sha256/sha256block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:02:11Z",
+      "side": 1,
+      "message": "A single // is fine:\n\n// Definitions for AVX2 version.",
+      "revId": "22f1c04ea282a55017c97abcfbe54edbc1e8dea3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
