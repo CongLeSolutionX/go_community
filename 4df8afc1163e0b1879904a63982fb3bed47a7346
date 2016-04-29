@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_958813f9",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "It took me a long time to figure out that SP in this comment is referring to gobuf.sp---that is,  the SP of the other stack *before* we switch to it---rather than the SP we switch to and actually run the new goroutine on. This is also inconsistent with the wording in 386 and amd64. When we actually put something into the SP register, 0(SP) is R5, 4(SP) is ctxt, and 8(SP) is unused and of course the negative offsets are unused.\n\nConsider either changing the wording to what I said above or add something like \"(where SP refers to m-\u003ecurg\u0027s SP while we\u0027re setting it up, before we\u0027ve adjusted it)\".",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_557e7bd5",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Same comment as in asm_arm.s about this comment being incredibly confusing.",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_f5250ffb",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Consider moving the \"// maintain 16-byte SP alignment\" comment to the MOVD $-(24+8)(R4), R0 line, since that\u0027s really what maintains the alignment.",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_357787f4",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Same comment.",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_157403ec",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_354e67b2",
+        "filename": "src/runtime/cgo/asm_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Goodness. I\u0027ve programmed chips that didn\u0027t even have this much memory.",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_154b63a1",
+        "filename": "src/runtime/cgo/asm_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "I\u0027d do 16(SP) for consistency.",
+      "revId": "4df8afc1163e0b1879904a63982fb3bed47a7346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
