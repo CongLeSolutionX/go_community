@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_f82b0522",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "It is entirely feasible to write a library that saves the current unwind context and then, later, unwinds from that context.  However, as far as I have been able to tell, no such library exists.  The two existing unwind libraries I know of work start from the context of the current stack frame and unwind from there.  They have internally the code that is needed, but they don\u0027t expose it.",
+      "parentUuid": "a8594975_7aaa8ee5",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_3a877673",
         "filename": "src/cmd/cgo/doc.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-28T22:51:05Z",
       "side": 1,
       "message": "I would leave in the _cgo_wait_runtime_init_done(). This is sort of a sketch of what cgo really does anyway, and that line is important for understanding the following paragraph.",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_58cb3183",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "This example is showing a call from Go to C.  Calls from Go to C don\u0027t use _cgo_wait_runtime_init_done.  Only calls from C to Go use it (that is, //export functions).  This example was changed incorrectly in https://golang.org/cl/8094 (I reviewed that CL but missed this aspect).\n\nThanks for noticing the following paragraph, I fixed it by removing the \"waits for Go runtime to be initialized.\"\n\nWe should at some point add an example showing how calls from C to Go work, but we currently do have not that.",
+      "parentUuid": "a8594975_3a877673",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_d8a5e1c5",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_1ab9d23e",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_1a90b2a4",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 7
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_189c8978",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "(Remember that this is a call from C to Go, not a general cgo call from Go to C.)\n\nI haven\u0027t measured but I think the overhead is very small in the normal case.  Of course if runtime.SetCgoTraceback is used to set a context function then the overhead depends on the context function.  If we think overhead is a problem in the normal case we can change this to\n     if (_cgo_ctxt !\u003d 0)\n         _cgo_release_context(_cgo_ctxt);\nwhich should reduce the overhead to near-zero.",
+      "parentUuid": "a8594975_1a90b2a4",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_5ae98a29",
         "filename": "src/runtime/asm_386.s",
         "patchSetId": 7
@@ -81,6 +153,24 @@
       "writtenOn": "2016-04-28T22:51:05Z",
       "side": 1,
       "message": "I think this is no longer true. cgocallback_gofunc\u0027s frame is now 16 bytes, but we still only make a 12 byte frame below (plus room for the \"return\" IP).",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_83a36eae",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_5ae98a29",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -432,6 +522,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_23c1623f",
+        "filename": "src/runtime/cgo/libcgo.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Updated comment.\n\nNo opinion on whether to change the function name.",
+      "parentUuid": "a8594975_3ad5b653",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_dac3da98",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 7
@@ -443,6 +551,24 @@
       "writtenOn": "2016-04-28T22:51:05Z",
       "side": 1,
       "message": "What happens if cgocallbackg1 panics? Is that unrecoverable at this point, so it doesn\u0027t matter that we leave behind the gp.cgoCtxt?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_23ef22c2",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "I moved this code into cgocallbackg1 and changed it to use defer.",
+      "parentUuid": "a8594975_dac3da98",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -466,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_83d12e0e",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Moving this into cgocallbackg1 means this is no longer needed.",
+      "parentUuid": "a8594975_7acf2ec1",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_bac0a68d",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 7
@@ -477,6 +621,24 @@
       "writtenOn": "2016-04-28T22:51:05Z",
       "side": 1,
       "message": "Update this comment?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_43db462c",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_bac0a68d",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -500,6 +662,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_03041e6c",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "No.  I plan to do that in a followup CL.",
+      "parentUuid": "a8594975_9a268257",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_7a2bae20",
         "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
         "patchSetId": 7
@@ -511,6 +691,24 @@
       "writtenOn": "2016-04-28T22:51:05Z",
       "side": 1,
       "message": "Check that arg-\u003econtext matches contextCount?",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_a302f25d",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_7a2bae20",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
