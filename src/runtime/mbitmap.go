@@ -1132,28 +1132,12 @@ func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 
 	case h.shift == 0:
 		// Ptrmask and heap bitmap are aligned.
-		// Handle first byte of bitmap specially.
 		//
-		// The first byte we write out covers the first four
-		// words of the object. The scan/dead bit on the first
-		// word must be set to scan since there are pointers
-		// somewhere in the object. The scan/dead bit on the
-		// second word is the checkmark, so we don't set it.
-		// In all following words, we set the scan/dead
-		// appropriately to indicate that the object contains
-		// to the next 2-bit entry in the bitmap.
-		//
-		// TODO: It doesn't matter if we set the checkmark, so
-		// maybe this case isn't needed any more.
-		hb = b & bitPointerAll
-		hb |= bitMarked | bitMarked<<(2*heapBitsShift) | bitMarked<<(3*heapBitsShift)
-		if w += 4; w >= nw {
-			goto Phase3
-		}
-		*hbitp = uint8(hb)
-		hbitp = subtract1(hbitp)
-		b >>= 4
-		nb -= 4
+		// We don't have to do anything special to get things
+		// aligned. We'll write a scan/dead bit over the
+		// checkmark bit in the second word, but it doesn't
+		// matter because we clear all checkmarks before
+		// running checkmark mode anyway.
 
 	case sys.PtrSize == 8 && h.shift == 2:
 		// Ptrmask and heap bitmap are misaligned.
@@ -1340,9 +1324,11 @@ Phase4:
 				}
 				if i != 1 {
 					want |= bitMarked
-				} else {
-					have &^= bitMarked
 				}
+			}
+			if i == 1 {
+				// Don't care what the checkmark is.
+				have &^= bitMarked
 			}
 			if have != want {
 				println("mismatch writing bits for", typ.string(), "x", dataSize/typ.size)
