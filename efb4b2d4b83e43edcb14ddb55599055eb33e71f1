@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "4841add6_6225f8b0",
+        "filename": "src/crypto/md5/md5block_386.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-29T19:22:17Z",
+      "side": 1,
+      "message": "You could save these 4 registers back into ([0-3]*4)(BP) so you wouldn\u0027t need stack for them.\nThe DI save above is harder to fix.",
+      "revId": "efb4b2d4b83e43edcb14ddb55599055eb33e71f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48f36dea_8395ae51",
         "filename": "src/crypto/md5/md5block_amd64.s",
         "patchSetId": 10
