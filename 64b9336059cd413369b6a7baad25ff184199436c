@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_3e7735f4",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T01:54:12Z",
+      "side": 1,
+      "message": "Sorry, I totally misunderstood your question.\n\nIf it\u0027s immediately before or after the manipulation of cgoCtxt, it shouldn\u0027t matter.  The traceback will or won\u0027t include the C portion of the traceback, which for one profiling signal shouldn\u0027t matter too much.\n\nIf it\u0027s during the actual assignment to cgoCtxt then I\u0027m not sure.  Perhaps I should change it to be a *[]uintptr and use atomic operations to set it.  Does that sound like a workable approach?",
+      "parentUuid": "a8594975_35db072d",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_ba1c2605",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 8
