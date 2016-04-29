@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_b5e717f4",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Out of curiosity, why are the atomics necessary for this test?",
+      "revId": "24c25c40cd82a7d11e83da1f206f893537fe59ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
