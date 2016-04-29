@@ -16,6 +16,52 @@
       "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_d0fe1948",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-29T20:08:29Z",
+      "side": 1,
+      "message": "Update comment.",
+      "range": {
+        "startLine": 1138,
+        "startChar": 4,
+        "endLine": 1140,
+        "endChar": 81
+      },
+      "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_70ee2d9d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-04-29T20:08:29Z",
+      "side": 1,
+      "message": "Is this still valid?",
+      "range": {
+        "startLine": 1168,
+        "startChar": 5,
+        "endLine": 1168,
+        "endChar": 83
+      },
+      "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
