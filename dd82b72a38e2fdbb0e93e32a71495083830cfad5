@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_10f9b15d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T20:23:42Z",
+      "side": 1,
+      "message": "Done. Actually, after updating this comment, I\u0027m not sure we need this case at all now, but I\u0027ll remove it separately.",
+      "parentUuid": "a8594975_d0fe1948",
+      "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_70ee2d9d",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 1
@@ -59,6 +77,24 @@
         "endLine": 1168,
         "endChar": 83
       },
+      "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_70958df3",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T20:23:42Z",
+      "side": 1,
+      "message": "Nope. Updated.",
+      "parentUuid": "a8594975_70ee2d9d",
       "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
