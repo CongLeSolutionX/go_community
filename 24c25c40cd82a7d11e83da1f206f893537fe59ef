@@ -16,6 +16,24 @@
       "revId": "24c25c40cd82a7d11e83da1f206f893537fe59ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_1ed8f12c",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T01:54:12Z",
+      "side": 1,
+      "message": "I\u0027m trying to catch the possible case of multiple threads somehow calling these callback functions.  I don\u0027t see any way that could happen, but if it does I want to catch it.  I can remove the atomics if you think that is pointless.",
+      "parentUuid": "a8594975_b5e717f4",
+      "revId": "24c25c40cd82a7d11e83da1f206f893537fe59ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
