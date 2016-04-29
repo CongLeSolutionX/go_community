@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_234ba2a2",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "That is correct.  I put these changes in this CL because I needed this CL to test this code, and vice-versa.  They are unrelated except for testing.",
+      "parentUuid": "a8594975_5ad34a48",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_da1f5af8",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "48f36dea_23f9625e",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Nothing.  cgoCtxt is only changed when there is a call from C to Go.  I\u0027m assuming that if we\u0027re doing a stack trace on gp, it isn\u0027t doing anything, and in particular is not being used to call from C to Go.",
+      "parentUuid": "a8594975_da1f5af8",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_ba1c2605",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-28T22:51:05Z",
       "side": 1,
       "message": "Consider anySymbolized (\"any\" sounds like any frames)",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_03953ef3",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T00:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8594975_ba1c2605",
       "revId": "64b9336059cd413369b6a7baad25ff184199436c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
