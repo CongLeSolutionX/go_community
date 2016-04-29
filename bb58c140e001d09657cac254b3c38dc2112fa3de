@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_f5886fd8",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T02:29:28Z",
+      "side": 1,
+      "message": "Do you have to pick up the cgoCtxt \u003d gp.m.curg.cgoCtxt here, when we walk from a system stack to a G stack?",
+      "revId": "bb58c140e001d09657cac254b3c38dc2112fa3de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
