@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_50ccc945",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T19:36:25Z",
+      "side": 1,
+      "message": "Removed in PS2.",
+      "revId": "dd82b72a38e2fdbb0e93e32a71495083830cfad5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
