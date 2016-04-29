@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_15c1a33e",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Oh, I see. I hadn\u0027t read enough of the preceding context.",
+      "parentUuid": "48f36dea_58cb3183",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_1ab9d23e",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 7
@@ -189,6 +207,24 @@
       "side": 1,
       "message": "And undone.  My original code passes the runtime tests and your suggested changes do not.",
       "parentUuid": "48f36dea_83a36eae",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_d5f44b99",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Oh, I see. cgocallback_gofunc\u0027s frame size is still 12 (the argument size is now 16, but that\u0027s not what this has to match up with).",
+      "parentUuid": "48f36dea_c35616f6",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -692,6 +728,24 @@
       "side": 1,
       "message": "No.  I plan to do that in a followup CL.",
       "parentUuid": "a8594975_9a268257",
+      "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_75dd7f24",
+        "filename": "src/runtime/testdata/testprogcgo/tracebackctxt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "48f36dea_03041e6c",
       "revId": "4c02c920e64f7efadac1cbfc680d8dd7cd683261",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
