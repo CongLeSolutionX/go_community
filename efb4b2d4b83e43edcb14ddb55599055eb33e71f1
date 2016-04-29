@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4841add6_e294a8f9",
+        "filename": "src/crypto/md5/md5block_386.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13380
+      },
+      "writtenOn": "2016-04-29T19:09:02Z",
+      "side": 1,
+      "message": "If I give block/blockString the same frame size I crash with \"runtime: unexpected return pc for block called from 0x0\". If I give block/blockString the 24 bytes of stack and block\u003c\u003e none, FP is inaccurate in the latter.",
+      "parentUuid": "4841add6_a234603a",
+      "revId": "efb4b2d4b83e43edcb14ddb55599055eb33e71f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48f36dea_8395ae51",
         "filename": "src/crypto/md5/md5block_amd64.s",
         "patchSetId": 10
