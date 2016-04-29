@@ -45,6 +45,75 @@
       "revId": "5f9a870bf1bf461ca3609502608b12cc4aab189a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4868cd70_47f80e8d",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-29T23:22:06Z",
+      "side": 1,
+      "message": "16",
+      "range": {
+        "startLine": 665,
+        "startChar": 24,
+        "endLine": 665,
+        "endChar": 25
+      },
+      "revId": "5f9a870bf1bf461ca3609502608b12cc4aab189a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4868cd70_67f51292",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-29T23:22:06Z",
+      "side": 1,
+      "message": "8",
+      "range": {
+        "startLine": 667,
+        "startChar": 24,
+        "endLine": 667,
+        "endChar": 26
+      },
+      "revId": "5f9a870bf1bf461ca3609502608b12cc4aab189a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4868cd70_87fda680",
+        "filename": "src/runtime/cgo/asm_ppc64x.s",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-29T23:22:06Z",
+      "side": 1,
+      "message": "3",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "5f9a870bf1bf461ca3609502608b12cc4aab189a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
