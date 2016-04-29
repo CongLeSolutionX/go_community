@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48f36dea_8395ae51",
+        "filename": "src/crypto/md5/md5block_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-04-29T01:13:32Z",
+      "side": 1,
+      "message": "I think that if we get a profiling signal while running this function we will not be able to unwind the stack correctly.  The unwinder is going to think there are no arguments here.  This could cause an unexpected program crash while profiling.",
+      "revId": "efb4b2d4b83e43edcb14ddb55599055eb33e71f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
