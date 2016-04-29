@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4841add6_a234603a",
+        "filename": "src/crypto/md5/md5block_386.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-29T18:55:08Z",
+      "side": 1,
+      "message": "This one isn\u0027t ok, block\u003c\u003e needs to have the same size frame as block/blockString.",
+      "parentUuid": "4841add6_5fce8b94",
+      "revId": "efb4b2d4b83e43edcb14ddb55599055eb33e71f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48f36dea_8395ae51",
         "filename": "src/crypto/md5/md5block_amd64.s",
         "patchSetId": 10
@@ -30,6 +48,23 @@
       "writtenOn": "2016-04-29T01:13:32Z",
       "side": 1,
       "message": "I think that if we get a profiling signal while running this function we will not be able to unwind the stack correctly.  The unwinder is going to think there are no arguments here.  This could cause an unexpected program crash while profiling.",
+      "revId": "efb4b2d4b83e43edcb14ddb55599055eb33e71f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4841add6_a2fd4080",
+        "filename": "src/crypto/md5/md5block_arm.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-04-29T18:55:08Z",
+      "side": 1,
+      "message": "Actually, this code is not ok.  The block\u003c\u003e and blockString/block must have the same size frame.  That\u0027s not the case here.",
       "revId": "efb4b2d4b83e43edcb14ddb55599055eb33e71f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
