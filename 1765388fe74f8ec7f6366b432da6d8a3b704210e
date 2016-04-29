@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_7560df25",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T01:18:05Z",
+      "side": 1,
+      "message": "I think the way this would get used is that you have one tree with the normal packages and one tree with the linker packages, so that you keep the -o that you have, say something like -o pkg/linux_amd64/math/big.a, and then add -linkobj pkg/linux_amd64_link/math/big.a. This is hypothetical since we\u0027re not going to change the go command itself, but there are many consumers of the -o file (future compiles but also anything using go/types with the gcimporter), so it seems clearest to keep that flag being the thing generating that data. The -linkobj flag splits out the stuff that only the linker cares about.",
+      "parentUuid": "a8fea96d_5bbb6f82",
+      "revId": "1765388fe74f8ec7f6366b432da6d8a3b704210e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8fea96d_7b9f5314",
         "filename": "test/linkobj.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-04-27T04:18:43Z",
       "side": 1,
       "message": "2016",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 17
+      },
+      "revId": "1765388fe74f8ec7f6366b432da6d8a3b704210e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_d569eb16",
+        "filename": "test/linkobj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T01:18:05Z",
+      "side": 1,
+      "message": "Done. (I started with linkx_run.go.)",
+      "parentUuid": "a8fea96d_7b9f5314",
       "range": {
         "startLine": 4,
         "startChar": 13,
