@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_95a49368",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T02:29:28Z",
+      "side": 1,
+      "message": "*[]uintptr would be unfortunate, since you\u0027d have to allocate a new slice header every time, but it would work.\n\nThis being the runtime, we could just reach into the slice header and manipulate the words in the right order. If the assignment after growing the slice is done pointer, then cap, then len, it should be signal safe. And the assignment when shrinking just has to change len (which is all the compiler will do anyway).",
+      "parentUuid": "48f36dea_3e7735f4",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_ba1c2605",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 8
