@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c84cbd16_9b98ab7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-04-29T19:23:46Z",
+      "side": 1,
+      "message": "This change doesn\u0027t really fix #7118 since TestExtraFiles\nis still failing after removing the Plan 9 case in src/os/exec/exec_test.go:/TestHelperProcess\n\nIssue #7118 was closed by mistake, I\u0027ve reopened it.",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 11
+      },
+      "revId": "abcb92ca144957962b2d456f02d9fd3026256b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
