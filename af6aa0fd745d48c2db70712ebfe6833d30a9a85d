@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48f36dea_fe62cd05",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2844,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2016-04-29T02:45:12Z",
+      "side": 1,
+      "message": "Is this tab character here included on purpose?",
+      "range": {
+        "startLine": 2844,
+        "startChar": 0,
+        "endLine": 2844,
+        "endChar": 1
+      },
+      "revId": "af6aa0fd745d48c2db70712ebfe6833d30a9a85d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48f36dea_7eb01d9c",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2016-04-29T02:45:12Z",
+      "side": 1,
+      "message": "Won\u0027t this falsely match all other strings with this prefix? E.g.:\n\n    //go:binary-only-packages\n\nor\n\n    //go:binary-only-package-not-allowed",
+      "revId": "af6aa0fd745d48c2db70712ebfe6833d30a9a85d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
