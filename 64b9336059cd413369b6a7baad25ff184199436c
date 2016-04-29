@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a8594975_35db072d",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-04-29T01:28:18Z",
+      "side": 1,
+      "message": "I don\u0027t think I understand your reply. Why can\u0027t we get a profiling signal in the middle of the C -\u003e Go calling sequence, when it\u0027s manipulating gp.cgoCtxt, causing the profiler to attempt to traceback with a partially manipulated cgoCtxt? Why can you assume that gp isn\u0027t doing anything during a profiling signal?",
+      "parentUuid": "48f36dea_23f9625e",
+      "revId": "64b9336059cd413369b6a7baad25ff184199436c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_ba1c2605",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 8
