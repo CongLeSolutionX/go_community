@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8594975_1517e3de",
+        "filename": "src/crypto/sha1/sha1block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:01:21Z",
+      "side": 1,
+      "message": "Delete change here. The Go project\u0027s policy is not to both updating the years in copyright lines, on advice from our open source lawyer.",
+      "revId": "7763ee0700420f67ecf4faca712dccb0aa14de73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_75d3bf48",
+        "filename": "src/crypto/sha1/sha1block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:01:21Z",
+      "side": 1,
+      "message": "To be clear, it is my understanding that Intel is contributing this code under CLA as the copyright holder of the code. The fact that Linux also has a copy of the code under a BSD license is not relevant and is confusing or misleading. Please change this to say:\n\n// AVX2 version by Intel, same algorithm as code in Linux kernel:",
+      "revId": "7763ee0700420f67ecf4faca712dccb0aa14de73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_55d83b63",
+        "filename": "src/crypto/sha1/sha1block_decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:01:21Z",
+      "side": 1,
+      "message": "Revert",
+      "revId": "7763ee0700420f67ecf4faca712dccb0aa14de73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8594975_b5dd5755",
+        "filename": "src/crypto/sha1/sha1block_decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-04-29T14:01:21Z",
+      "side": 1,
+      "message": "I think you need amd64p32 here (for nacl) still.",
+      "revId": "7763ee0700420f67ecf4faca712dccb0aa14de73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
