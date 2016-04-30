@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4841add6_0e3693f3",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-30T14:55:44Z",
+      "side": 1,
+      "message": "it returns",
+      "revId": "7b019f0d1c065998a4dfa07470f8ca2063e431eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4841add6_ae3a07d6",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-30T14:55:44Z",
+      "side": 1,
+      "message": "but this crashes if len(b) \u003c 2, which isn\u0027t documented. Is crashing okay?",
+      "revId": "7b019f0d1c065998a4dfa07470f8ca2063e431eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4841add6_ce3f4bc5",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-30T14:55:44Z",
+      "side": 1,
+      "message": "where did 39 suddenly come from?",
+      "revId": "7b019f0d1c065998a4dfa07470f8ca2063e431eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4841add6_6e25dfb0",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-30T14:55:44Z",
+      "side": 1,
+      "message": "what is 2? make a local constant for 2 with a name instead?\n\nOr a comment:  +2 /* stdin and stdout or whatever */",
+      "revId": "7b019f0d1c065998a4dfa07470f8ca2063e431eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4841add6_8e22a3a8",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-04-30T14:55:44Z",
+      "side": 1,
+      "message": "again 2",
+      "revId": "7b019f0d1c065998a4dfa07470f8ca2063e431eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
