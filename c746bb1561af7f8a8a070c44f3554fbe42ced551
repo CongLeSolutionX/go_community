@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4868cd70_4789eed9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-30T02:38:41Z",
+      "side": 1,
+      "message": "crypto/hmac, crypto/md5 now?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "c746bb1561af7f8a8a070c44f3554fbe42ced551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4868cd70_678672cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-30T02:38:41Z",
+      "side": 1,
+      "message": "and hmac?",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "c746bb1561af7f8a8a070c44f3554fbe42ced551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4868cd70_0793f60b",
+        "filename": "src/crypto/md5/md5block_s390x.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-04-30T02:38:41Z",
+      "side": 1,
+      "message": "Delete this. R1 is very volatile :)",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "c746bb1561af7f8a8a070c44f3554fbe42ced551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
