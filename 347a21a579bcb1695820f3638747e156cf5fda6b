@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e85181a9_9ce665f7",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-30T11:05:27Z",
+      "side": 1,
+      "message": "these could be made constants.",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "347a21a579bcb1695820f3638747e156cf5fda6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2831d982_76f5b091",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-30T11:05:27Z",
+      "side": 1,
+      "message": "maybe move hasFeature(cfAVX) into core4thGeneration with the other hasFeatures?",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 74,
+        "endChar": 42
+      },
+      "revId": "347a21a579bcb1695820f3638747e156cf5fda6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a81dc9f8_da038565",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-04-30T11:05:27Z",
+      "side": 1,
+      "message": "Since vendortStringBytes is an array this can be compared to an array containing the bytes for \"GenuineIntel\" directly without the need for an unsafe conversion with slicebytetostringtmp.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 66
+      },
+      "revId": "347a21a579bcb1695820f3638747e156cf5fda6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
