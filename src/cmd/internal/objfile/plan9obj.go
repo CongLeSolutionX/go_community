@@ -7,6 +7,7 @@
 package objfile
 
 import (
+	"cmd/internal/goobj"
 	"debug/dwarf"
 	"debug/plan9obj"
 	"errors"
@@ -90,14 +91,14 @@ func (f *plan9File) pcln() (textStart uint64, symtab, pclntab []byte, err error)
 	return textStart, symtab, pclntab, nil
 }
 
-func (f *plan9File) text() (textStart uint64, text []byte, err error) {
+func (f *plan9File) getText(s *Sym) ([]byte, error) {
 	sect := f.plan9.Section("text")
 	if sect == nil {
-		return 0, nil, fmt.Errorf("text section not found")
+		return nil, fmt.Errorf("text section not found")
 	}
-	textStart = f.plan9.LoadAddress + f.plan9.HdrSize
-	text, err = sect.Data()
-	return
+	text := make([]byte, s.Size)
+	_, err := sect.ReadAt(text, int64(s.Addr-uint64(sect.Offset)))
+	return text, err
 }
 
 func findPlan9Symbol(f *plan9obj.File, name string) (*plan9obj.Sym, error) {
@@ -153,4 +154,12 @@ func (f *plan9File) loadAddress() (uint64, error) {
 
 func (f *plan9File) dwarf() (*dwarf.Data, error) {
 	return nil, errors.New("no DWARF data in Plan 9 file")
+}
+
+func (f *plan9File) pc2line(s *Sym, pc uint64) (string, int) {
+	return "unknown", 0
+}
+
+func (f *plan9File) relocs(s *Sym) []goobj.Reloc {
+	return nil
 }

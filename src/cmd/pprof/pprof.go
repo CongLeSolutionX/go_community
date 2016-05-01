@@ -134,7 +134,7 @@ func (t *objTool) Disasm(file string, start, end uint64) ([]plugin.Inst, error) 
 		return nil, err
 	}
 	var asm []plugin.Inst
-	d.Decode(start, end, func(pc, size uint64, file string, line int, text string) {
+	d.DecodeAll(func(pc uint64, code []byte, file string, line int, text string) {
 		asm = append(asm, plugin.Inst{Addr: pc, File: file, Line: line, Text: text})
 	})
 	return asm, nil
@@ -172,12 +172,11 @@ func (*objTool) SetConfig(config string) {
 // (instead of invoking GNU binutils).
 // A file represents a single executable being analyzed.
 type file struct {
-	name   string
-	offset uint64
-	sym    []objfile.Sym
-	file   *objfile.File
-	pcln   *gosym.Table
-
+	name       string
+	offset     uint64
+	sym        []objfile.Sym
+	file       *objfile.File
+	pcln       *gosym.Table
 	triedDwarf bool
 	dwarf      *dwarf.Data
 }
@@ -197,19 +196,12 @@ func (f *file) BuildID() string {
 }
 
 func (f *file) SourceLine(addr uint64) ([]plugin.Frame, error) {
-	if f.pcln == nil {
-		pcln, err := f.file.PCLineTable()
-		if err != nil {
-			return nil, err
-		}
-		f.pcln = pcln
-	}
-	addr -= f.offset
-	file, line, fn := f.pcln.PCToLine(addr)
-	if fn != nil {
+	s := f.file.PC2Sym(addr)
+	if s != nil {
+		file, line := f.file.PC2Line(s, addr)
 		frame := []plugin.Frame{
 			{
-				Func: fn.Name,
+				Func: s.Name,
 				File: file,
 				Line: line,
 			},

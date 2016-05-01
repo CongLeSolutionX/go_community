@@ -6,7 +6,6 @@ package objfile
 
 import (
 	"bufio"
-	"debug/gosym"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -22,28 +21,15 @@ import (
 // Disasm is a disassembler for a given File.
 type Disasm struct {
 	syms      []Sym            //symbols in file, sorted by address
-	pcln      *gosym.Table     // pcln table
-	text      []byte           // bytes of text segment (actual instructions)
-	textStart uint64           // start PC of text
-	textEnd   uint64           // end PC of text
 	goarch    string           // GOARCH string
 	disasm    disasmFunc       // disassembler function for goarch
 	byteOrder binary.ByteOrder // byte order for goarch
+	f         *File            // underlying file
 }
 
 // Disasm returns a disassembler for the file f.
 func (f *File) Disasm() (*Disasm, error) {
 	syms, err := f.Symbols()
-	if err != nil {
-		return nil, err
-	}
-
-	pcln, err := f.PCLineTable()
-	if err != nil {
-		return nil, err
-	}
-
-	textStart, textBytes, err := f.Text()
 	if err != nil {
 		return nil, err
 	}
@@ -68,13 +54,10 @@ func (f *File) Disasm() (*Disasm, error) {
 	syms = keep
 	d := &Disasm{
 		syms:      syms,
-		pcln:      pcln,
-		text:      textBytes,
-		textStart: textStart,
-		textEnd:   textStart + uint64(len(textBytes)),
 		goarch:    goarch,
 		disasm:    disasm,
 		byteOrder: byteOrder,
+		f:         f,
 	}
 
 	return d, nil
@@ -105,20 +88,12 @@ func base(path string) string {
 // If filter is non-nil, the disassembly only includes functions with names matching filter.
 // The disassembly only includes functions that overlap the range [start, end).
 func (d *Disasm) Print(w io.Writer, filter *regexp.Regexp, start, end uint64) {
-	if start < d.textStart {
-		start = d.textStart
-	}
-	if end > d.textEnd {
-		end = d.textEnd
-	}
 	printed := false
 	bw := bufio.NewWriter(w)
-	for _, sym := range d.syms {
-		symStart := sym.Addr
-		symEnd := sym.Addr + uint64(sym.Size)
+	for i := range d.syms {
+		sym := &d.syms[i]
 		if sym.Code != 'T' && sym.Code != 't' ||
-			symStart < d.textStart ||
-			symEnd <= start || end <= symStart ||
+			sym.Addr+uint64(sym.Size) <= start || end <= sym.Addr ||
 			filter != nil && !filter.MatchString(sym.Name) {
 			continue
 		}
@@ -127,27 +102,22 @@ func (d *Disasm) Print(w io.Writer, filter *regexp.Regexp, start, end uint64) {
 		}
 		printed = true
 
-		file, _, _ := d.pcln.PCToLine(sym.Addr)
+		file, _ := d.f.PC2Line(sym, sym.Addr)
 		fmt.Fprintf(bw, "TEXT %s(SB) %s\n", sym.Name, file)
 
 		tw := tabwriter.NewWriter(bw, 1, 8, 1, '\t', 0)
-		if symEnd > end {
-			symEnd = end
-		}
-		code := d.text[:end-d.textStart]
-		d.Decode(symStart, symEnd, func(pc, size uint64, file string, line int, text string) {
-			i := pc - d.textStart
+		d.Decode(sym, func(pc uint64, code []byte, file string, line int, text string) {
 			fmt.Fprintf(tw, "\t%s:%d\t%#x\t", base(file), line, pc)
-			if size%4 != 0 || d.goarch == "386" || d.goarch == "amd64" {
+			if len(code)%4 != 0 || d.goarch == "386" || d.goarch == "amd64" {
 				// Print instruction as bytes.
-				fmt.Fprintf(tw, "%x", code[i:i+size])
+				fmt.Fprintf(tw, "%x", code)
 			} else {
 				// Print instruction as 32-bit words.
-				for j := uint64(0); j < size; j += 4 {
+				for j := 0; j < len(code); j += 4 {
 					if j > 0 {
 						fmt.Fprintf(tw, " ")
 					}
-					fmt.Fprintf(tw, "%08x", d.byteOrder.Uint32(code[i+j:]))
+					fmt.Fprintf(tw, "%08x", d.byteOrder.Uint32(code[j:]))
 				}
 			}
 			fmt.Fprintf(tw, "\t%s\n", text)
@@ -157,21 +127,42 @@ func (d *Disasm) Print(w io.Writer, filter *regexp.Regexp, start, end uint64) {
 	bw.Flush()
 }
 
-// Decode disassembles the text segment range [start, end), calling f for each instruction.
-func (d *Disasm) Decode(start, end uint64, f func(pc, size uint64, file string, line int, text string)) {
-	if start < d.textStart {
-		start = d.textStart
+// Decode disassembles all the symbols in the file, calling f for each instruction.
+func (d *Disasm) DecodeAll(f func(pc uint64, code []byte, file string, line int, text string)) {
+	for i := range d.syms {
+		d.Decode(&d.syms[i], f)
 	}
-	if end > d.textEnd {
-		end = d.textEnd
+}
+
+// Decode disassembles all the instructions in sym, calling f for each instruction.
+func (d *Disasm) Decode(sym *Sym, f func(pc uint64, code []byte, file string, line int, text string)) {
+	start := sym.Addr
+	end := sym.Addr + uint64(sym.Size)
+	code, err := d.f.GetText(sym)
+	if err != nil {
+		//TODO
+		fmt.Printf("decode err %s\n", err)
+		return
 	}
-	code := d.text[:end-d.textStart]
+	relocs := d.f.Relocs(sym)
+
 	lookup := d.lookup
 	for pc := start; pc < end; {
-		i := pc - d.textStart
+		i := pc - start
 		text, size := d.disasm(code[i:], pc, lookup)
-		file, line, _ := d.pcln.PCToLine(pc)
-		f(pc, uint64(size), file, line, text)
+		text += "\t"
+		first := true
+		for len(relocs) > 0 && relocs[0].Offset < int(i)+size {
+			if first {
+				first = false
+			} else {
+				text += " "
+			}
+			text += relocs[0].String(i)
+			relocs = relocs[1:]
+		}
+		file, line := d.f.PC2Line(sym, pc)
+		f(pc, code[i:i+uint64(size)], file, line, text)
 		pc += uint64(size)
 	}
 }

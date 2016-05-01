@@ -6,8 +6,8 @@
 package objfile
 
 import (
+	"cmd/internal/goobj"
 	"debug/dwarf"
-	"debug/gosym"
 	"fmt"
 	"os"
 	"sort"
@@ -15,17 +15,27 @@ import (
 
 type rawFile interface {
 	symbols() (syms []Sym, err error)
-	pcln() (textStart uint64, symtab, pclntab []byte, err error)
-	text() (textStart uint64, text []byte, err error)
 	goarch() string
 	loadAddress() (uint64, error)
 	dwarf() (*dwarf.Data, error)
+
+	// getText returns the text (instruction bytes) for s.
+	getText(s *Sym) ([]byte, error)
+
+	// pc2line returns file/line information for a pc in s.
+	// Returns "unknown",0 if unknown.
+	pc2line(s *Sym, pc uint64) (string, int)
+
+	// relocs returns relocations for s.
+	// Returned relocations are sorted in increasing Offset order.
+	relocs(s *Sym) []goobj.Reloc
 }
 
 // A File is an opened executable file.
 type File struct {
-	r   *os.File
-	raw rawFile
+	r    *os.File
+	raw  rawFile
+	syms []Sym
 }
 
 // A Sym is a symbol defined in an executable file.
@@ -54,7 +64,12 @@ func Open(name string) (*File, error) {
 	}
 	for _, try := range openers {
 		if raw, err := try(r); err == nil {
-			return &File{r, raw}, nil
+			syms, err := raw.symbols()
+			if err != nil {
+				return nil, err
+			}
+			sort.Sort(byAddr(syms))
+			return &File{r, raw, syms}, nil
 		}
 	}
 	r.Close()
@@ -66,12 +81,7 @@ func (f *File) Close() error {
 }
 
 func (f *File) Symbols() ([]Sym, error) {
-	syms, err := f.raw.symbols()
-	if err != nil {
-		return nil, err
-	}
-	sort.Sort(byAddr(syms))
-	return syms, nil
+	return f.syms, nil
 }
 
 type byAddr []Sym
@@ -80,16 +90,31 @@ func (x byAddr) Less(i, j int) bool { return x[i].Addr < x[j].Addr }
 func (x byAddr) Len() int           { return len(x) }
 func (x byAddr) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 
-func (f *File) PCLineTable() (*gosym.Table, error) {
-	textStart, symtab, pclntab, err := f.raw.pcln()
-	if err != nil {
-		return nil, err
+func (f *File) PC2Sym(pc uint64) *Sym {
+	// Binary search on sorted syms.
+	i := sort.Search(len(f.syms), func(i int) bool {
+		return pc < f.syms[i].Addr+uint64(f.syms[i].Size)
+	})
+	if i == len(f.syms) {
+		return nil
 	}
-	return gosym.NewTable(symtab, gosym.NewLineTable(pclntab, textStart))
+	s := &f.syms[i]
+	if pc >= s.Addr {
+		return s
+	}
+	return nil
 }
 
-func (f *File) Text() (uint64, []byte, error) {
-	return f.raw.text()
+func (f *File) PC2Line(s *Sym, pc uint64) (string, int) {
+	return f.raw.pc2line(s, pc)
+}
+
+func (f *File) GetText(s *Sym) ([]byte, error) {
+	return f.raw.getText(s)
+}
+
+func (f *File) Relocs(s *Sym) []goobj.Reloc {
+	return f.raw.relocs(s)
 }
 
 func (f *File) GOARCH() string {

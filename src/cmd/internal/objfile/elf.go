@@ -7,6 +7,7 @@
 package objfile
 
 import (
+	"cmd/internal/goobj"
 	"debug/dwarf"
 	"debug/elf"
 	"fmt"
@@ -80,14 +81,15 @@ func (f *elfFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
 	return textStart, symtab, pclntab, nil
 }
 
-func (f *elfFile) text() (textStart uint64, text []byte, err error) {
+// getText returns the text (instruction bytes) for s.
+func (f *elfFile) getText(s *Sym) ([]byte, error) {
 	sect := f.elf.Section(".text")
 	if sect == nil {
-		return 0, nil, fmt.Errorf("text section not found")
+		return nil, fmt.Errorf("text section not found")
 	}
-	textStart = sect.Addr
-	text, err = sect.Data()
-	return
+	text := make([]byte, s.Size)
+	_, err := sect.ReadAt(text, int64(s.Addr-sect.Addr))
+	return text, err
 }
 
 func (f *elfFile) goarch() string {
@@ -117,4 +119,12 @@ func (f *elfFile) loadAddress() (uint64, error) {
 
 func (f *elfFile) dwarf() (*dwarf.Data, error) {
 	return f.elf.DWARF()
+}
+
+func (f *elfFile) pc2line(s *Sym, pc uint64) (string, int) {
+	return "unknown", 0
+}
+
+func (f *elfFile) relocs(s *Sym) []goobj.Reloc {
+	return nil
 }

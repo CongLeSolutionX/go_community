@@ -7,6 +7,7 @@
 package objfile
 
 import (
+	"cmd/internal/goobj"
 	"debug/dwarf"
 	"debug/pe"
 	"fmt"
@@ -132,7 +133,7 @@ func (f *peFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
 	return textStart, symtab, pclntab, nil
 }
 
-func (f *peFile) text() (textStart uint64, text []byte, err error) {
+func (f *peFile) getText(s *Sym) ([]byte, error) {
 	var imageBase uint64
 	switch oh := f.pe.OptionalHeader.(type) {
 	case *pe.OptionalHeader32:
@@ -140,15 +141,15 @@ func (f *peFile) text() (textStart uint64, text []byte, err error) {
 	case *pe.OptionalHeader64:
 		imageBase = oh.ImageBase
 	default:
-		return 0, nil, fmt.Errorf("pe file format not recognized")
+		return nil, fmt.Errorf("pe file format not recognized")
 	}
 	sect := f.pe.Section(".text")
 	if sect == nil {
-		return 0, nil, fmt.Errorf("text section not found")
+		return nil, fmt.Errorf("text section not found")
 	}
-	textStart = imageBase + uint64(sect.VirtualAddress)
-	text, err = sect.Data()
-	return
+	text := make([]byte, s.Size)
+	_, err := sect.ReadAt(text, int64(s.Addr-imageBase)) // TODO: -imageBase correct?
+	return text, err
 }
 
 func findPESymbol(f *pe.File, name string) (*pe.Symbol, error) {
@@ -205,4 +206,12 @@ func (f *peFile) loadAddress() (uint64, error) {
 
 func (f *peFile) dwarf() (*dwarf.Data, error) {
 	return f.pe.DWARF()
+}
+
+func (f *peFile) pc2line(s *Sym, pc uint64) (string, int) {
+	return "unknown", 0
+}
+
+func (f *peFile) relocs(s *Sym) []goobj.Reloc {
+	return nil
 }

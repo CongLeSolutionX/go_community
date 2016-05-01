@@ -7,7 +7,9 @@
 package objfile
 
 import (
+	"cmd/internal/goobj"
 	"debug/dwarf"
+	"debug/gosym"
 	"debug/macho"
 	"fmt"
 	"os"
@@ -18,6 +20,7 @@ const stabTypeMask = 0xe0
 
 type machoFile struct {
 	macho *macho.File
+	pcln  *gosym.Table
 }
 
 func openMacho(r *os.File) (rawFile, error) {
@@ -25,7 +28,7 @@ func openMacho(r *os.File) (rawFile, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &machoFile{f}, nil
+	return &machoFile{macho: f, pcln: nil}, nil
 }
 
 func (f *machoFile) symbols() ([]Sym, error) {
@@ -78,31 +81,15 @@ func (f *machoFile) symbols() ([]Sym, error) {
 	return syms, nil
 }
 
-func (f *machoFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
-	if sect := f.macho.Section("__text"); sect != nil {
-		textStart = sect.Addr
-	}
-	if sect := f.macho.Section("__gosymtab"); sect != nil {
-		if symtab, err = sect.Data(); err != nil {
-			return 0, nil, nil, err
-		}
-	}
-	if sect := f.macho.Section("__gopclntab"); sect != nil {
-		if pclntab, err = sect.Data(); err != nil {
-			return 0, nil, nil, err
-		}
-	}
-	return textStart, symtab, pclntab, nil
-}
-
-func (f *machoFile) text() (textStart uint64, text []byte, err error) {
+// getText returns the text (instruction bytes) for s.
+func (f *machoFile) getText(s *Sym) ([]byte, error) {
 	sect := f.macho.Section("__text")
 	if sect == nil {
-		return 0, nil, fmt.Errorf("text section not found")
+		return nil, fmt.Errorf("text section not found")
 	}
-	textStart = sect.Addr
-	text, err = sect.Data()
-	return
+	text := make([]byte, s.Size)
+	_, err := sect.ReadAt(text, int64(s.Addr-sect.Addr))
+	return text, err
 }
 
 func (f *machoFile) goarch() string {
@@ -131,4 +118,36 @@ func (f *machoFile) loadAddress() (uint64, error) {
 
 func (f *machoFile) dwarf() (*dwarf.Data, error) {
 	return f.macho.DWARF()
+}
+
+func (f *machoFile) pc2line(s *Sym, pc uint64) (string, int) {
+	if f.pcln == nil {
+		var textStart uint64
+		var symtab []byte
+		var pclntab []byte
+		var err error
+		if sect := f.macho.Section("__text"); sect != nil {
+			textStart = sect.Addr
+		}
+		if sect := f.macho.Section("__gosymtab"); sect != nil {
+			if symtab, err = sect.Data(); err != nil {
+				return "unknown", 0
+			}
+		}
+		if sect := f.macho.Section("__gopclntab"); sect != nil {
+			if pclntab, err = sect.Data(); err != nil {
+				return "unknown", 0
+			}
+		}
+		f.pcln, err = gosym.NewTable(symtab, gosym.NewLineTable(pclntab, textStart))
+		if err != nil {
+			return "unknown", 0
+		}
+	}
+	file, line, _ := f.pcln.PCToLine(pc)
+	return file, line
+}
+
+func (f *machoFile) relocs(s *Sym) []goobj.Reloc {
+	return nil
 }

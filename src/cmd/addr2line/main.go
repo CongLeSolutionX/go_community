@@ -62,11 +62,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	tab, err := f.PCLineTable()
-	if err != nil {
-		log.Fatalf("reading %s: %v", flag.Arg(0), err)
-	}
-
 	stdin := bufio.NewScanner(os.Stdin)
 	stdout := bufio.NewWriter(os.Stdout)
 
@@ -81,11 +76,14 @@ func main() {
 			continue
 		}
 		pc, _ := strconv.ParseUint(strings.TrimPrefix(p, "0x"), 16, 64)
-		file, line, fn := tab.PCToLine(pc)
-		name := "?"
-		if fn != nil {
-			name = fn.Name
+		var name, file string
+		var line int
+		s := f.PC2Sym(pc)
+		if s != nil {
+			name = s.Name
+			file, line = f.PC2Line(s, pc)
 		} else {
+			name = ""
 			file = "?"
 			line = 0
 		}
