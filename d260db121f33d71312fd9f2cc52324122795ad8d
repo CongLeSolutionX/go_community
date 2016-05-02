@@ -45,6 +45,30 @@
       "revId": "d260db121f33d71312fd9f2cc52324122795ad8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68b8313e_7fdb3b2c",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-02T23:42:07Z",
+      "side": 1,
+      "message": "Yeah. Not sure why, but it wasn\u0027t a typo. :)",
+      "parentUuid": "68b8313e_4454ae43",
+      "range": {
+        "startLine": 744,
+        "startChar": 22,
+        "endLine": 744,
+        "endChar": 23
+      },
+      "revId": "d260db121f33d71312fd9f2cc52324122795ad8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
