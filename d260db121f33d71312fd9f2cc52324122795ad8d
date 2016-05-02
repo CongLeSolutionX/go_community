@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68b8313e_a4647a39",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13565
+      },
+      "writtenOn": "2016-05-02T22:43:32Z",
+      "side": 1,
+      "message": "i find \"most recently idle\" to be a bit of a nebulous concept.  i can\u0027t clearly articulate why it feels weirdmaybe because \"connection is idle\" is not a temporally definite event but rather an ongoing state?\n\nanyway, i think \"most recently used\" or \"most recently idled\" (my preference is the former) would be less ambiguous.",
+      "range": {
+        "startLine": 72,
+        "startChar": 56,
+        "endLine": 72,
+        "endChar": 64
+      },
+      "revId": "d260db121f33d71312fd9f2cc52324122795ad8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68b8313e_4454ae43",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 13565
+      },
+      "writtenOn": "2016-05-02T22:43:32Z",
+      "side": 1,
+      "message": "did you mean to terminate this comment with a colon?",
+      "range": {
+        "startLine": 744,
+        "startChar": 22,
+        "endLine": 744,
+        "endChar": 23
+      },
+      "revId": "d260db121f33d71312fd9f2cc52324122795ad8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
