@@ -1128,14 +1128,15 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// Avoid needless hbits.next() on last iteration.
 			hbits = hbits.next()
 		}
+		bits := hbits.bits()
 		// During checkmarking, 1-word objects store the checkmark
 		// in the type bit for the one word. The only one-word objects
 		// are pointers, or else they'd be merged with other non-pointer
 		// data into larger allocations.
-		if i != 1*sys.PtrSize && !hbits.morePointers() {
+		if i != 1*sys.PtrSize && bits&bitMarked == 0 {
 			break // no more pointers in this object
 		}
-		if !hbits.isPointer() {
+		if bits&bitPointer == 0 {
 			continue // not a pointer
 		}
 
