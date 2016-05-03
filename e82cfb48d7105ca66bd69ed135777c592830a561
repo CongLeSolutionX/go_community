@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd004ff2_818e5e35",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-05-03T07:40:10Z",
+      "side": 1,
+      "message": "nit: can *we* assert this",
+      "revId": "e82cfb48d7105ca66bd69ed135777c592830a561",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
