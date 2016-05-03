@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd004ff2_a17cbaa5",
+        "filename": "misc/cgo/fortran/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-05-03T14:06:08Z",
+      "side": 1,
+      "message": "You can remove double quote around $FC.\nYou don\u0027t have to export LIBRARY_PATH. \n-L option is nearly the same as export $LIBRARY_PATH.\n(likewise -rpath option is nearly the same as export $LD_LIBRARY_PATH)\nSee the comment on Line 26.",
+      "revId": "45bed6b2979f7a3583261a06c5540aea81d71689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd004ff2_6150f223",
+        "filename": "misc/cgo/fortran/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-05-03T14:06:08Z",
+      "side": 1,
+      "message": "I think this is valid - even if its $GOOS is darwin or linux, so let\u0027s move this line to Line 22 and delete unnecessary if-stmt.",
+      "revId": "45bed6b2979f7a3583261a06c5540aea81d71689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
