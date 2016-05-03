@@ -794,7 +794,7 @@ func (p *exporter) fieldName(sym *Sym, t *Field) {
 		Fatalf("exporter: invalid symbol name: %s", name)
 	}
 	p.string(name)
-	if name == "?" || name != "_" && name != "" && !exportname(name) {
+	if name == "?" || /*name != "_" &&*/ name != "" && !exportname(name) {
 		p.pkg(sym.Pkg)
 	}
 }
@@ -844,7 +844,7 @@ func (p *exporter) param(q *Field, n int, numbered bool) {
 	}
 	p.typ(t)
 	if n > 0 {
-		if name := parName(q, numbered); name != "" {
+		if name := parName(q, numbered); name != "" && name != "_" {
 			p.string(name)
 			// Because of (re-)exported inlined functions
 			// the importpkg may not be the package to which this
@@ -866,7 +866,7 @@ func (p *exporter) param(q *Field, n int, numbered bool) {
 			// during import (see also issue #15470).
 			// TODO(gri) review parameter encoding
 			p.string("_")
-			p.pkg(localpkg)
+			// p.pkg(localpkg)
 		}
 	}
 	// TODO(gri) This is compiler-specific (escape info).
@@ -1463,6 +1463,8 @@ func (p *exporter) fieldSym(s *Sym, short bool) {
 		}
 	}
 
+	// we should never see a _ (blank) here - these are accessible ("read") fields
+	// TODO(gri) can be assert this with an explicit check?
 	p.string(name)
 	if !exportname(name) {
 		p.pkg(s.Pkg)

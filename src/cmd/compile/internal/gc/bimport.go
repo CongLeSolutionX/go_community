@@ -68,7 +68,7 @@ func Import(in *bufio.Reader) {
 	p.typList = append(p.typList, predeclared()...)
 
 	// read package data
-	p.pkg()
+	p.pkg("import")
 
 	// defer some type-checking until all types are read in completely
 	// (parser.go:import_package)
@@ -183,7 +183,7 @@ func Import(in *bufio.Reader) {
 	testdclstack() // debugging only
 }
 
-func (p *importer) pkg() *Pkg {
+func (p *importer) pkg(msg string) *Pkg {
 	// if the package was seen before, i is its index (>= 0)
 	i := p.tagOrIndex()
 	if i >= 0 {
@@ -199,14 +199,19 @@ func (p *importer) pkg() *Pkg {
 	name := p.string()
 	path := p.string()
 
+	if name == "" && path == "go.builtin" {
+		p.pkgList = append(p.pkgList, builtinpkg)
+		return builtinpkg
+	}
+
 	// we should never see an empty package name
 	if name == "" {
-		Fatalf("importer: empty package name in import")
+		Fatalf("importer: empty package name for path %q (%s)", path, msg)
 	}
 
 	// we should never see a bad import path
 	if isbadimport(path) {
-		Fatalf("importer: bad path in import: %q", path)
+		Fatalf("importer: bad package path %q for package %s", path, name)
 	}
 
 	// an empty path denotes the package we are currently importing;
@@ -222,7 +227,7 @@ func (p *importer) pkg() *Pkg {
 	if pkg.Name == "" {
 		pkg.Name = name
 	} else if pkg.Name != name {
-		Fatalf("importer: conflicting names %s and %s for package %q", pkg.Name, name, path)
+		Fatalf("importer: conflicting package names %s and %s for path %q", pkg.Name, name, path)
 	}
 	p.pkgList = append(p.pkgList, pkg)
 
@@ -447,7 +452,7 @@ func (p *importer) typ() *Type {
 
 func (p *importer) qualifiedName() *Sym {
 	name := p.string()
-	pkg := p.pkg()
+	pkg := p.pkg("qualifiedName " + name)
 	return pkg.Lookup(name)
 }
 
@@ -514,7 +519,7 @@ func (p *importer) method() *Node {
 func (p *importer) fieldName() *Sym {
 	name := p.string()
 	pkg := localpkg
-	if name == "_" {
+	if false && name == "_" {
 		// During imports, unqualified non-exported identifiers are from builtinpkg
 		// (see parser.go:sym). The binary exporter only exports blank as a non-exported
 		// identifier without qualification.
@@ -523,7 +528,7 @@ func (p *importer) fieldName() *Sym {
 		if name == "?" {
 			name = ""
 		}
-		pkg = p.pkg()
+		pkg = p.pkg("fieldName " + name)
 	}
 	return pkg.Lookup(name)
 }
@@ -569,7 +574,10 @@ func (p *importer) param(named bool) *Node {
 		}
 		// TODO(gri) Supply function/method package rather than
 		// encoding the package for each parameter repeatedly.
-		pkg := p.pkg()
+		pkg := localpkg
+		if name != "_" {
+			pkg = p.pkg("param " + name)
+		}
 		n.Left = newname(pkg.Lookup(name))
 	}
 
@@ -1050,7 +1058,7 @@ func (p *importer) fieldSym() *Sym {
 	name := p.string()
 	pkg := localpkg
 	if !exportname(name) {
-		pkg = p.pkg()
+		pkg = p.pkg("fieldSym " + name)
 	}
 	return pkg.Lookup(name)
 }
@@ -1059,7 +1067,7 @@ func (p *importer) sym() *Sym {
 	name := p.string()
 	pkg := localpkg
 	if name != "_" {
-		pkg = p.pkg()
+		pkg = p.pkg("sym " + name)
 	}
 	return pkg.Lookup(name)
 }
