@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68b8313e_7f2fbb91",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5930
+      },
+      "writtenOn": "2016-05-03T00:22:09Z",
+      "side": 1,
+      "message": "I don\u0027t think it was decided that (ConstBool [1]) has representation 1. The only thing decided it that the same representation is used for all true values in the same binary.",
+      "revId": "3130cac6ceef94890c5940bb288fd2551b02a621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
