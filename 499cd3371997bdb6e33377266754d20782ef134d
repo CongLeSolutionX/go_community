@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd004ff2_819aded2",
+        "filename": "api/next.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-03T14:33:56Z",
+      "side": 0,
+      "message": "we generally only update this file in a separate commit. I suppose this is fine, though.",
+      "revId": "499cd3371997bdb6e33377266754d20782ef134d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
