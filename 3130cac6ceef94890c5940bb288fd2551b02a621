@@ -16,6 +16,24 @@
       "revId": "3130cac6ceef94890c5940bb288fd2551b02a621",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68b8313e_df450708",
+        "filename": "src/cmd/compile/internal/ssa/phiopt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-03T00:26:32Z",
+      "side": 1,
+      "message": "Right. There are several options here. Let\u0027s discuss when the tree opens for 1.8.",
+      "parentUuid": "68b8313e_7f2fbb91",
+      "revId": "3130cac6ceef94890c5940bb288fd2551b02a621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
