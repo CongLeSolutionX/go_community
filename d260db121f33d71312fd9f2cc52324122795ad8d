@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "68b8313e_fff28b15",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-03T00:23:41Z",
+      "side": 1,
+      "message": "sure, most recently used works.",
+      "parentUuid": "68b8313e_a4647a39",
+      "range": {
+        "startLine": 72,
+        "startChar": 56,
+        "endLine": 72,
+        "endChar": 64
+      },
+      "revId": "d260db121f33d71312fd9f2cc52324122795ad8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68b8313e_4454ae43",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yeah. Not sure why, but it wasn\u0027t a typo. :)",
       "parentUuid": "68b8313e_4454ae43",
+      "range": {
+        "startLine": 744,
+        "startChar": 22,
+        "endLine": 744,
+        "endChar": 23
+      },
+      "revId": "d260db121f33d71312fd9f2cc52324122795ad8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68b8313e_dff7c703",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-03T00:23:41Z",
+      "side": 1,
+      "message": "will fix.",
+      "parentUuid": "68b8313e_7fdb3b2c",
       "range": {
         "startLine": 744,
         "startChar": 22,
