@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cd004ff2_01692ead",
+        "filename": "misc/cgo/fortran/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-05-03T14:27:02Z",
+      "side": 1,
+      "message": "-rpath or LD_LIBRARY_PATH is required if your system contains multiple version of libgcc.so.\nWhat I said is you can write like this:\n\nlib_path \u003d $(dirname ...)\n\nexport CGO_LDFLAGS\u003d\"$CGO_LDFLAGS -rpath $lib_path -L $lib_path\"",
+      "parentUuid": "ed4c338d_447aae78",
+      "revId": "45bed6b2979f7a3583261a06c5540aea81d71689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd004ff2_6150f223",
         "filename": "misc/cgo/fortran/test.bash",
         "patchSetId": 1
