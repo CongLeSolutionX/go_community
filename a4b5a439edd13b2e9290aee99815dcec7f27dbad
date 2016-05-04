@@ -34,6 +34,24 @@
       "revId": "a4b5a439edd13b2e9290aee99815dcec7f27dbad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d6d6b11_d62aa47e",
+        "filename": "misc/cgo/fortran/test.bash",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-05-04T12:57:02Z",
+      "side": 1,
+      "message": "I have no preference whether we just test the name gfortran or we test the version string. Do you have a preference Dan or/and is there a common convention in cgo to only rely on names (or not)? For the cases i can test i guess it makes no difference.",
+      "parentUuid": "cd484fa3_709d9668",
+      "revId": "a4b5a439edd13b2e9290aee99815dcec7f27dbad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
