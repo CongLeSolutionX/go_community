@@ -16,6 +16,24 @@
       "revId": "a4b5a439edd13b2e9290aee99815dcec7f27dbad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd484fa3_709d9668",
+        "filename": "misc/cgo/fortran/test.bash",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2016-05-04T12:32:34Z",
+      "side": 1,
+      "message": "What is the outcome when cgo is calling gfortran and gfortran that $FC points to is not GNU fortran? What do we want to happen?",
+      "parentUuid": "cd484fa3_352ca088",
+      "revId": "a4b5a439edd13b2e9290aee99815dcec7f27dbad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
