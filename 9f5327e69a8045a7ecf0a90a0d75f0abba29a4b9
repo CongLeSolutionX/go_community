@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd484fa3_35678018",
+        "filename": "misc/cgo/fortran/test.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13112
+      },
+      "writtenOn": "2016-05-04T09:40:48Z",
+      "side": 1,
+      "message": "case $($FC --version) in",
+      "revId": "9f5327e69a8045a7ecf0a90a0d75f0abba29a4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
