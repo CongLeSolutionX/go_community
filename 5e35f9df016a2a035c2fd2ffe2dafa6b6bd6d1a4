@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d20172f_5ff9a38e",
+        "filename": "src/cmd/vet/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-05-05T20:47:44Z",
+      "side": 1,
+      "message": "Needs copyright notice",
+      "revId": "5e35f9df016a2a035c2fd2ffe2dafa6b6bd6d1a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d20172f_7ff6e7a1",
+        "filename": "src/cmd/vet/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-05-05T20:47:44Z",
+      "side": 1,
+      "message": "\"check for error handling when bufio.Scanner is used\"",
+      "revId": "5e35f9df016a2a035c2fd2ffe2dafa6b6bd6d1a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d20172f_9f33bb53",
+        "filename": "src/cmd/vet/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-05-05T20:47:44Z",
+      "side": 1,
+      "message": "this is a very vague name to introduce into the package main namespace",
+      "revId": "5e35f9df016a2a035c2fd2ffe2dafa6b6bd6d1a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
