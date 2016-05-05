@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d20172f_bcb9edfa",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-05-05T20:27:04Z",
+      "side": 1,
+      "message": "Actually, this may be a regular error due to stale files. Added TODO to investigate if that\u0027s possible.",
+      "parentUuid": "ad987b90_02ef6a97",
+      "revId": "b0ae2f6250ec0d63c9cc97dd3ab113af39abd659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9bb78c_41fd7248",
         "filename": "src/cmd/compile/internal/gc/export.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-05T20:22:27Z",
       "side": 1,
       "message": "ditto here",
+      "revId": "b0ae2f6250ec0d63c9cc97dd3ab113af39abd659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d20172f_1cc9f987",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-05-05T20:27:04Z",
+      "side": 1,
+      "message": "This code is never run with the new code. I prefer to leave it alone and not change old behavior.",
+      "parentUuid": "8d9bb78c_41fd7248",
       "revId": "b0ae2f6250ec0d63c9cc97dd3ab113af39abd659",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
