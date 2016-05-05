@@ -16,6 +16,24 @@
       "revId": "3c4b1e6b503187f2a94f756d1459cc3dad50aa0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb513f9_dc1ded63",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2016-05-05T16:23:16Z",
+      "side": 1,
+      "message": "buf contains one or more Stat messages (\u003d directory entries).\nsize is the length of the first message.\nBy passing to stringb only the portion of the buffer up to the end of the first message, I\u0027m allowing stringb to check that the length of the name field isn\u0027t too long to fit in the message (see comment at beginning of gstringb).\nbuf has already been checked to have length \u003e\u003d STATFIXLEN (the total size of fixed-length portions of a Stat message). But you are right, I\u0027ve overlooked checking whether size is also at least that long.\nI\u0027ll have another go at getting this right.",
+      "parentUuid": "6da203c1_0ad77c35",
+      "revId": "3c4b1e6b503187f2a94f756d1459cc3dad50aa0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
