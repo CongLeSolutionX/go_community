@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad987b90_02ef6a97",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-05-05T20:22:27Z",
+      "side": 1,
+      "message": "Say \"internal error\" and \"importer\" in the error message.",
+      "revId": "b0ae2f6250ec0d63c9cc97dd3ab113af39abd659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9bb78c_41fd7248",
+        "filename": "src/cmd/compile/internal/gc/export.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-05-05T20:22:27Z",
+      "side": 1,
+      "message": "ditto here",
+      "revId": "b0ae2f6250ec0d63c9cc97dd3ab113af39abd659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
