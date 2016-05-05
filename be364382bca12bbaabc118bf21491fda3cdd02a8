@@ -22,6 +22,30 @@
       "revId": "be364382bca12bbaabc118bf21491fda3cdd02a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c6f1d9_a83613c8",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2016-05-05T13:54:08Z",
+      "side": 1,
+      "message": "Well, I\u0027ll admit that I\u0027m not the biggest fan of regex (and good thing too given Go\u0027s regex performance :-P). But I think my regex is correct. Unitless zero must occur at the end of the string to parse (otherwise, the value must be non-zero or unitfull[?]). It may have any number of zeros, and a final . is allowed only so long as it is preceded or followed by another zero. That should be the meaning of my regex. \n\nDo you have a reason for preferring your version of the regex? It\u0027s a bit hard for me to parse yours, and since it\u0027s just documentation, readability would seem to be paramount (for example, as written the regex didn\u0027t match the micro-symbol but the reader was expected to understand from context that micro is acceptable).",
+      "parentUuid": "fc1ea258_5487ec04",
+      "range": {
+        "startLine": 1191,
+        "startChar": 0,
+        "endLine": 1191,
+        "endChar": 49
+      },
+      "revId": "be364382bca12bbaabc118bf21491fda3cdd02a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
