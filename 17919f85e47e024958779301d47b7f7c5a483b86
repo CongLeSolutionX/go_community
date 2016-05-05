@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6da203c1_dd827c11",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-05T17:22:29Z",
+      "side": 1,
+      "message": "you can just call this yourself, no?\n\nI don\u0027t think we want API changes in this package anymore. See https://github.com/golang/go/issues/15557",
+      "revId": "17919f85e47e024958779301d47b7f7c5a483b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6da203c1_7d7a5015",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-05T17:22:29Z",
+      "side": 1,
+      "message": "is access to the debugHTTP the thing you actually care about?",
+      "revId": "17919f85e47e024958779301d47b7f7c5a483b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
