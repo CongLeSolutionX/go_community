@@ -46,6 +46,30 @@
       "revId": "0ac7e7b8f7d6167d4641acb874983e9e772ba156",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d31eb82_966e4cb7",
+        "filename": "src/cmd/compile/internal/mips64/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-05-06T04:39:51Z",
+      "side": 1,
+      "message": "You\u0027re right. Thanks for the explanation.\n\nI\u0027m wondering if we should apply this to ppc64 too.",
+      "parentUuid": "8d20172f_d387ec1e",
+      "range": {
+        "startLine": 469,
+        "startChar": 21,
+        "endLine": 469,
+        "endChar": 40
+      },
+      "revId": "0ac7e7b8f7d6167d4641acb874983e9e772ba156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
