@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e8dc66_620c76e0",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-05-06T21:19:10Z",
+      "side": 1,
+      "message": "Playing around with this some, I feel confident this is technically correct, but it seems a little opaque. What do you think about changing it to something like:\n\n\t\t// Special: use temporary variables to hold result,\n\t\t// so that assertI2Tetc can take address of temporary.\n\t\tresults :\u003d n.List.Slice()\n\t\tvar assigns [2]*Node\n\t\tfor i, res :\u003d range results {\n\t\t\t// No temporary for blank assignment.\n\t\t\tif isblank(res) {\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tresults[i] \u003d ordertemp(res.Type, order, haspointers(res.Type))\n\t\t\tassigns[i] \u003d Nod(OAS, res, results[i])\n\t\t}\n\n\t\torder.out \u003d append(order.out, n)\n\n\t\tfor _, assign :\u003d range assigns {\n\t\t\tif assign !\u003d nil {\n\t\t\t\tassign \u003d typecheck(assign, Etop)\n\t\t\t\tordermapassign(assign, order)\n\t\t\t}\n\t\t}",
+      "range": {
+        "startLine": 573,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 36
+      },
+      "revId": "5f14d4d9084babe42aef291a641cf5dae6c1960b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
