@@ -22,6 +22,30 @@
       "revId": "0ac7e7b8f7d6167d4641acb874983e9e772ba156",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d20172f_d387ec1e",
+        "filename": "src/cmd/compile/internal/mips64/gsubr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-06T04:06:20Z",
+      "side": 1,
+      "message": "We (David Chase, and others) discussed today and we believe this is the correct approach. We need to compensate the rounding from 63-bit int to 53-bit mantissa. If the last 10 bits is nonzero in the original x, we need to keep the nonzero-ness after the shift.",
+      "parentUuid": "2d31eb82_16079c0e",
+      "range": {
+        "startLine": 469,
+        "startChar": 21,
+        "endLine": 469,
+        "endChar": 40
+      },
+      "revId": "0ac7e7b8f7d6167d4641acb874983e9e772ba156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
