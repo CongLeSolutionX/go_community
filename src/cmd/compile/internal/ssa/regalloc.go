@@ -631,7 +631,8 @@ func (s *regAllocState) regalloc(f *Func) {
 	// is safe to do this.
 	var toSink []spillToSink
 	// Will be used to figure out live inputs to exit blocks of inner loops.
-	entryCandidates := newSparseMap(f.NumValues())
+	// Double-sized because spills will be added to the set of variables.
+	entryCandidates := newSparseMap(2 * f.NumValues())
 
 	for _, b := range f.Blocks {
 		s.curBlock = b
