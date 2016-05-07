@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24c148d_0a615f28",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-05-07T15:13:58Z",
+      "side": 1,
+      "message": "add darwin/arm64 here?",
+      "revId": "30fa821f4eaf5a11c6f54a0269bd6460d5e7ef10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
