@@ -20,9 +20,7 @@ const (
 //go:cgo_import_dynamic runtime._CreateIoCompletionPort CreateIoCompletionPort%4 "kernel32.dll"
 //go:cgo_import_dynamic runtime._CreateThread CreateThread%6 "kernel32.dll"
 //go:cgo_import_dynamic runtime._CreateWaitableTimerA CreateWaitableTimerA%3 "kernel32.dll"
-//go:cgo_import_dynamic runtime._CryptAcquireContextW CryptAcquireContextW%5 "advapi32.dll"
-//go:cgo_import_dynamic runtime._CryptGenRandom CryptGenRandom%3 "advapi32.dll"
-//go:cgo_import_dynamic runtime._CryptReleaseContext CryptReleaseContext%2 "advapi32.dll"
+//go:cgo_import_dynamic runtime._RtlGenRandom SystemFunction036 "advapi32.dll"
 //go:cgo_import_dynamic runtime._DuplicateHandle DuplicateHandle%7 "kernel32.dll"
 //go:cgo_import_dynamic runtime._ExitProcess ExitProcess%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._FreeEnvironmentStringsW FreeEnvironmentStringsW%1 "kernel32.dll"
@@ -67,9 +65,7 @@ var (
 	_CreateIoCompletionPort,
 	_CreateThread,
 	_CreateWaitableTimerA,
-	_CryptAcquireContextW,
-	_CryptGenRandom,
-	_CryptReleaseContext,
+	_RtlGenRandom,
 	_DuplicateHandle,
 	_ExitProcess,
 	_FreeEnvironmentStringsW,
@@ -265,17 +261,9 @@ func osinit() {
 
 //go:nosplit
 func getRandomData(r []byte) {
-	const (
-		prov_rsa_full       = 1
-		crypt_verifycontext = 0xF0000000
-	)
-	var handle uintptr
 	n := 0
-	if stdcall5(_CryptAcquireContextW, uintptr(unsafe.Pointer(&handle)), 0, 0, prov_rsa_full, crypt_verifycontext) != 0 {
-		if stdcall3(_CryptGenRandom, handle, uintptr(len(r)), uintptr(unsafe.Pointer(&r[0]))) != 0 {
-			n = len(r)
-		}
-		stdcall2(_CryptReleaseContext, handle, 0)
+	if stdcall2(_RtlGenRandom, uintptr(unsafe.Pointer(&r[0])), uintptr(len(r)))&0xff != 0 {
+		n = len(r)
 	}
 	extendRandom(r, n)
 }
