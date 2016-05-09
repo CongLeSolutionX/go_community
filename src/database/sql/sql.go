@@ -17,8 +17,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"runtime"
 	"sort"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -542,14 +544,14 @@ func (db *DB) Close() error {
 	return err
 }
 
-const defaultMaxIdleConns = 2
+var maxIdleConns = parseIntFromEnv("DB_SQL_MAX_IDLE_CONNS", 2)
 
 func (db *DB) maxIdleConnsLocked() int {
 	n := db.maxIdle
 	switch {
 	case n == 0:
 		// TODO(bradfitz): ask driver, if supported, for its default preference
-		return defaultMaxIdleConns
+		return maxIdleConns
 	case n < 0:
 		return 0
 	default:
@@ -944,7 +946,19 @@ func (db *DB) putConnDBLocked(dc *driverConn, err error) bool {
 // maxBadConnRetries is the number of maximum retries if the driver returns
 // driver.ErrBadConn to signal a broken connection before forcing a new
 // connection to be opened.
-const maxBadConnRetries = 2
+var maxBadConnRetries = parseIntFromEnv("DB_SQL_MAX_BAD_CONN_RETRIES", 2)
+
+func parseIntFromEnv(envKey string, fallbackValue int) int {
+	envValue := os.Getenv(envKey)
+	if envValue == "" {
+		return fallbackValue
+	}
+	if parsedI, err := strconv.ParseInt(envValue, 10, 32); err == nil {
+		return int(parsedI)
+	}
+
+	return fallbackValue
+}
 
 // Prepare creates a prepared statement for later queries or executions.
 // Multiple queries or executions may be run concurrently from the

@@ -2250,7 +2250,7 @@ func TestConnectionLeak(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
 	// Start by opening defaultMaxIdleConns
-	rows := make([]*Rows, defaultMaxIdleConns)
+	rows := make([]*Rows, maxIdleConns)
 	// We need to SetMaxOpenConns > MaxIdleConns, so the DB can open
 	// a new connection and we can fill the idle queue with the released
 	// connections.
