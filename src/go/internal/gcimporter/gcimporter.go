@@ -10,7 +10,9 @@ import (
 	"errors"
 	"fmt"
 	"go/build"
+	exact "go/constant"
 	"go/token"
+	"go/types"
 	"io"
 	"io/ioutil"
 	"os"
@@ -19,9 +21,6 @@ import (
 	"strconv"
 	"strings"
 	"text/scanner"
-
-	exact "go/constant"
-	"go/types"
 )
 
 // debugging/development support
@@ -163,7 +162,10 @@ func Import(packages map[string]*types.Package, path, srcDir string) (pkg *types
 		var data []byte
 		data, err = ioutil.ReadAll(buf)
 		if err == nil {
-			_, pkg, err = BImportData(packages, data, id)
+			// TODO(gri): allow clients of go/importer to provide a FileSet.
+			// Or, define a new standard go/types/gcexportdata package.
+			fset := token.NewFileSet()
+			_, pkg, err = BImportData(fset, packages, data, id)
 			return
 		}
 	default:
