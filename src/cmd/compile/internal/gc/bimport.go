@@ -233,7 +233,7 @@ func (p *importer) pkg() *Pkg {
 	// an empty path denotes the package we are currently importing;
 	// it must be the first package we see
 	if (path == "") != (len(p.pkgList) == 0) {
-		panic(fmt.Sprintf("package path %q for pkg index %d", path, len(p.pkgList)))
+		Fatalf("importer: package path %q for pkg index %d", path, len(p.pkgList))
 	}
 
 	pkg := importpkg
@@ -826,7 +826,7 @@ func (p *importer) node() *Node {
 
 	case OPTRLIT:
 		n := p.expr()
-		if !p.bool() /* !implicit, i.e. '&' operator*/ {
+		if !p.bool() /* !implicit, i.e. '&' operator */ {
 			if n.Op == OCOMPLIT {
 				// Special case for &T{...}: turn into (*T){...}.
 				n.Right = Nod(OIND, n.Right, nil)
@@ -839,17 +839,17 @@ func (p *importer) node() *Node {
 
 	case OSTRUCTLIT:
 		n := Nod(OCOMPLIT, nil, nil)
-		if !p.bool() {
-			n.Right = typenod(p.typ())
-		}
+		//if !p.bool() {
+		n.Right = typenod(p.typ())
+		//}
 		n.List.Set(p.elemList())
 		return n
 
 	case OARRAYLIT, OMAPLIT:
 		n := Nod(OCOMPLIT, nil, nil)
-		if !p.bool() {
-			n.Right = typenod(p.typ())
-		}
+		//if !p.bool() {
+		n.Right = typenod(p.typ())
+		//}
 		n.List.Set(p.exprList())
 		return n
 
@@ -1090,7 +1090,8 @@ func (p *importer) node() *Node {
 		return nil
 
 	default:
-		Fatalf("importer: %s (%d) node not yet supported", op, op)
+		Fatalf("cannot import %s (%d) node\n"+
+			"==> please file an issue and assign to gri@\n", op, op)
 		panic("unreachable") // satisfy compiler
 	}
 }
