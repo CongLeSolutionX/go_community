@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92011840_d1a744b8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-05-09T04:43:57Z",
+      "side": 1,
+      "message": "According to its MSDN docs https://msdn.microsoft.com/en-us/library/windows/desktop/aa387694(v\u003dvs.85).aspx:\n\n[The RtlGenRandom function is available for use in the operating systems specified in the Requirements section. It may be altered or unavailable in subsequent versions. Instead, use the CryptGenRandom function.]\n\n\nShould we rely on such APIs?",
+      "range": {
+        "startLine": 23,
+        "startChar": 46,
+        "endLine": 23,
+        "endChar": 63
+      },
+      "revId": "280cb325beeab58fbb043e147e564e78e74a11a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
