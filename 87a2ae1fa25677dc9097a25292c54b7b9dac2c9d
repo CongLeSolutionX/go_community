@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d26b902f_03b40ee1",
+        "filename": "src/cmd/compile/internal/ssa/sparsemap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-09T16:56:42Z",
+      "side": 0,
+      "message": "Ok, but let\u0027s do this s/int/int32/ in a separate CL.",
+      "revId": "87a2ae1fa25677dc9097a25292c54b7b9dac2c9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

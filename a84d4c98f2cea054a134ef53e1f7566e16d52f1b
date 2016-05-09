@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32778c10_a69d0668",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-09T16:56:42Z",
+      "side": 1,
+      "message": "We don\u0027t need orig here.  s.live already only mentions original values.",
+      "revId": "a84d4c98f2cea054a134ef53e1f7566e16d52f1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f270941a_04b416e1",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-09T16:56:42Z",
+      "side": 1,
+      "message": "ss.Control may be a spill/restore.  It needs an s.orig wrapper.\nOr s.isLoopSpillCandidate needs to s.orig[] around its second argument.",
+      "revId": "a84d4c98f2cea054a134ef53e1f7566e16d52f1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_2392ea59",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-09T16:56:42Z",
+      "side": 1,
+      "message": "Same here, a needs a s.orig[] wrapper.",
+      "revId": "a84d4c98f2cea054a134ef53e1f7566e16d52f1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
