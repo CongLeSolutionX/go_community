@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "326dcc11_79a3c312",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-05-09T16:30:15Z",
+      "side": 1,
+      "message": "let\u0027s mention catapult-project/catapult#627",
+      "range": {
+        "startLine": 9,
+        "startChar": 76,
+        "endLine": 9,
+        "endChar": 78
+      },
+      "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326dcc11_99e17f11",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-05-09T16:30:15Z",
+      "side": 1,
+      "message": "can we relax a bit so the end param is not necessary? for example, when building a json, write up to 100MB or end of the trace whichever meets first.",
+      "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
