@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d26b902f_8f38182d",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-10T15:30:54Z",
+      "side": 1,
+      "message": "The sentence is lacking a clarifying word:\n\n   // Except on nacl, where waitRead always returns an error.\nOr:\n   // Except on nacl, where waitRead returns an error when there\u0027s no data to read.\n\nIndeed, if I remove that part:\n\n--- FAIL: TestWaitReadZeroByteRead (0.02s)\n        net_test.go:473: Read \u003d 0, read tcp 127.0.0.1:31-\u003e127.0.0.1:30: i/o timeout; want 0, nil\n        net_test.go:511: 0-byte read at EOF woke up with unexpected error: read tcp 127.0.0.1:31-\u003e127.0.0.1:30: i/o timeout\nFAIL\nFAIL    net     1.956s\n\n\nI\u0027ve updated the comment.",
+      "parentUuid": "d26b902f_ac96c258",
+      "revId": "62c7bc900d555961bfb5ed4a2f404c8b6ead799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d26b902f_cc93fe67",
         "filename": "src/net/net_test.go",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-10T15:09:40Z",
       "side": 1,
       "message": "Why return rather than continue?",
+      "revId": "62c7bc900d555961bfb5ed4a2f404c8b6ead799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_ef1d0cae",
+        "filename": "src/net/net_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-10T15:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d26b902f_cc93fe67",
       "revId": "62c7bc900d555961bfb5ed4a2f404c8b6ead799b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
