@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d26b902f_ac96c258",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-10T15:09:40Z",
+      "side": 1,
+      "message": "As far as I can see, this sentence isn\u0027t correct.  waitRead does not return an error if there is data to read.",
+      "revId": "62c7bc900d555961bfb5ed4a2f404c8b6ead799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_cc93fe67",
+        "filename": "src/net/net_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-10T15:09:40Z",
+      "side": 1,
+      "message": "Why return rather than continue?",
+      "revId": "62c7bc900d555961bfb5ed4a2f404c8b6ead799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
