@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9285985b_d147e46a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-05-10T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326dcc11_79a3c312",
+      "range": {
+        "startLine": 9,
+        "startChar": 76,
+        "endLine": 9,
+        "endChar": 78
+      },
+      "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "326dcc11_99e17f11",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2016-05-09T16:30:15Z",
       "side": 1,
       "message": "can we relax a bit so the end param is not necessary? for example, when building a json, write up to 100MB or end of the trace whichever meets first.",
+      "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9285985b_91415c58",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-05-10T12:03:14Z",
+      "side": 1,
+      "message": "But why?\nThis is will lead to duplication of logic, as start index calculation also needs to know json size.\nAlso, currently I split into parts in a very primitive way. Maybe we split by some user-emitted marks in future; or user wants to look at the range in between two parts. Actually it is possible even today by altering args in URL and one useful possibility may be to reduce \u0027end\u0027 argument to reduce amount of consumed memory. Not that I am promoting it as an official feature. But I want this part to be as dump as possible and just render what it is being asked to.",
+      "parentUuid": "326dcc11_99e17f11",
       "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
