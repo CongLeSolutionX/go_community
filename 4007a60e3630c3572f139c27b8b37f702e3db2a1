@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d26b902f_bd90afa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "s/Parse/parse/\n\nsubject line starts with small letter.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_7847256a",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "Please add GetModuleFileName syscall to internal/syscall/windows first and then use it. Feel free to copy part of https://go-review.googlesource.com/22969 into your CL.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_fd8a2775",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "Please do not create new test file. Use os_windows_test.go instead.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_38384ddd",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "Please add all tests listed here https://msdn.microsoft.com/en-us/library/17w5ykft.aspx",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_3d0cbfdf",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "Nice trick to compare your function with real CommandLineToArgv.",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_5d117bf2",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you use argc to workout how many parameters syscall.CommandLineToArgv has returned? For example I would make sure argc and len(out) are the same.",
+      "range": {
+        "startLine": 37,
+        "startChar": 71,
+        "endLine": 37,
+        "endChar": 75
+      },
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_7d2d5735",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "I don\u0027t think you need outwin slice. Just loop over out slice and compare its element values with correspondent syscall.UTF16ToString(c[i][:]).",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_bd6c2f91",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "I am confused here. It seems to me that len(outwin) \u003d\u003d len(out) will always be true here.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_9dfa13ca",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need \u0027valid\u0027 variable. You can just:\n\nt.Error(...)\ncontinue\n\nor similar.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d26b902f_5d289b26",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-10T05:14:03Z",
+      "side": 1,
+      "message": "If you use defer in front of this and move it up to after line 40, it will let you use \"continue\" and \"break\" inside your loop.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
