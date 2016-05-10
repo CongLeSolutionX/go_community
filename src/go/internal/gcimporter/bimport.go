@@ -28,6 +28,9 @@ type importer struct {
 	typList       []types.Type     // in order of appearance
 	trackAllTypes bool
 
+	// for delayed type verification
+	cmpList []struct{ obj, alt types.Object }
+
 	// position encoding
 	posInfoFormat bool
 	prevFile      string
@@ -111,10 +114,35 @@ func BImportData(imports map[string]*types.Package, data []byte, path string) (i
 	sort.Sort(byPath(list))
 	pkg.SetImports(list)
 
+	p.verifyTypes()
+
 	// package was imported completely and without errors
 	pkg.MarkComplete()
 
 	return p.read, pkg, nil
+}
+
+func (p *importer) verifyTypes() {
+	for _, pair := range p.cmpList {
+		obj := pair.obj
+		alt := pair.alt
+		// the object types must match
+		if types.Identical(obj.Type(), alt.Type()) {
+			// the objects must be of the same kind
+			switch pair.obj.(type) {
+			case *types.Var:
+				if _, ok := alt.(*types.Var); ok {
+					continue
+				}
+			case *types.Func:
+				if _, ok := pair.alt.(*types.Func); ok {
+					continue
+				}
+			}
+		}
+		// otherwise we have a conflicting import
+		panic(fmt.Sprintf("import inconsistency:\n\t%vpreviously imported as:\n\t%v", alt, obj))
+	}
 }
 
 func (p *importer) pkg() *types.Package {
@@ -163,14 +191,14 @@ func (p *importer) pkg() *types.Package {
 func (p *importer) declare(obj types.Object) {
 	pkg := obj.Pkg()
 	if alt := pkg.Scope().Insert(obj); alt != nil {
-		// This could only trigger if we import a (non-type) object a second time.
-		// This should never happen because 1) we only import a package once; and
-		// b) we ignore compiler-specific export data which may contain functions
-		// whose inlined function bodies refer to other functions that were already
-		// imported.
-		// (See also the comment in cmd/compile/internal/gc/bimport.go importer.obj,
-		// switch case importing functions).
-		panic(fmt.Sprintf("%s already declared", alt.Name()))
+		// This can only trigger if we import a non-type object a second time
+		// (type objects are handled separately, without calling this function).
+		// Variables and functions may be imported indirectly multiple times
+		// if they are referred to from inlined function bodies. If we see
+		// them, their types must match or we have an import inconsistency.
+		// Verify after the import is complete to avoid any issues due to
+		// possibly imcomplete types.
+		p.cmpList = append(p.cmpList, struct{ obj, alt types.Object }{obj, alt})
 	}
 }
 
