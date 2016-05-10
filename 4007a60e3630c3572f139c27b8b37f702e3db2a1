@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "9285985b_91a07c57",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-10T10:52:27Z",
+      "side": 1,
+      "message": "What bit of that Microsoft page\u0027s description does this match?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 38
+      },
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d26b902f_7847256a",
         "filename": "src/os/exec_windows.go",
         "patchSetId": 2
@@ -116,6 +139,30 @@
     },
     {
       "key": {
+        "uuid": "521a4004_b70ee87c",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-10T10:52:27Z",
+      "side": 1,
+      "message": "But it means the reader of the tests, me, can\u0027t see the expected output so it\u0027s not documentation, like normal.",
+      "parentUuid": "d26b902f_3d0cbfdf",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d26b902f_7d2d5735",
         "filename": "src/os/exec_windows_test.go",
         "patchSetId": 2
@@ -161,6 +208,29 @@
       "writtenOn": "2016-05-10T05:14:03Z",
       "side": 1,
       "message": "You shouldn\u0027t need \u0027valid\u0027 variable. You can just:\n\nt.Error(...)\ncontinue\n\nor similar.",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b21d3cf9_1aac9d45",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-10T10:52:27Z",
+      "side": 1,
+      "message": "The common \"got and want\" style make it more clear which is which.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 48
+      },
       "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
