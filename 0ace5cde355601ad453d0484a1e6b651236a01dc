@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25390c8_0f80e8d1",
+        "filename": "src/cmd/internal/pprof/tempfile/tempfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-11T17:39:31Z",
+      "side": 1,
+      "message": "drop parens after Cleanup",
+      "revId": "0ace5cde355601ad453d0484a1e6b651236a01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
