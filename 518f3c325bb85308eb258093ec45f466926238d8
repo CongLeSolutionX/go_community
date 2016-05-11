@@ -39,6 +39,24 @@
       "revId": "518f3c325bb85308eb258093ec45f466926238d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25390c8_b8df9d47",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-05-11T14:32:55Z",
+      "side": 1,
+      "message": "Yes.\n\nI thought about making Import expose a FileSet parameter and having its callers do NewFileSet, but the only caller outside the tests is, in effect, go/importer.For, which cannot expose the FileSet without an API change (and is disallowed by the deps_test from depending on go/token, though that\u0027s easily fixed).  So the main purpose of this change is to keep the logic in sync with golang.org/x/tools/gogcimporter15.\n\nAt some point I would like to delete the latter package.  This requires that we define a new API in the standard library.  I propose the following:\n\npackage gcexportdata // import \"go/types/gcexportdata\"\n\n// Export a package.\nfunc  Export(fset *go/token.FileSet, pkg *go/types.Package) []byte\n\n// Import a package.\nfunc  Import(fset *go/token.FileSet, imports map[string]*go/types.Package, data []byte, path string) (*go/types.Package, error)\n\n// Read from r (an archive file) up until the start of the export data.\nfunc  Advance(r *bufio.Reader) error\n\n// Find a .a file for the specified import, following GOPATH conventions.\nfunc  FindArchive(path string, srcDir string) (filename string, id string)\n\nWe may want to, say, use structs instead of args to give us some wiggle room as things evolve.",
+      "parentUuid": "d25390c8_124d725e",
+      "revId": "518f3c325bb85308eb258093ec45f466926238d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
