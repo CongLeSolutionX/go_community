@@ -16,6 +16,24 @@
       "revId": "68d8153b96e380afefe6f45336be75b6752266ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25390c8_6cadeafb",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-11T16:51:57Z",
+      "side": 1,
+      "message": "Is there any precedent for that? I\u0027d prefer this just be about to resource cleanup. Let\u0027s wait until somebody complains and keep this CL about one thing only.",
+      "parentUuid": "d25390c8_171c84ff",
+      "revId": "68d8153b96e380afefe6f45336be75b6752266ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
