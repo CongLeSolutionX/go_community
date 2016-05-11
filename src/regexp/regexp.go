@@ -681,7 +681,8 @@ func (re *Regexp) allMatches(s string, b []byte, n int, deliver func([]int)) {
 // Find returns a slice holding the text of the leftmost match in b of the regular expression.
 // A return value of nil indicates no match.
 func (re *Regexp) Find(b []byte) []byte {
-	a := re.doExecute(nil, b, "", 0, 2)
+	var dstCap [2]int
+	a := re.doExecuteExt(nil, b, "", 0, 2, dstCap[:])
 	if a == nil {
 		return nil
 	}
@@ -706,7 +707,8 @@ func (re *Regexp) FindIndex(b []byte) (loc []int) {
 // an empty string. Use FindStringIndex or FindStringSubmatch if it is
 // necessary to distinguish these cases.
 func (re *Regexp) FindString(s string) string {
-	a := re.doExecute(nil, nil, s, 0, 2)
+	var dstCap [2]int
+	a := re.doExecuteExt(nil, nil, s, 0, 2, dstCap[:])
 	if a == nil {
 		return ""
 	}
