@@ -16,6 +16,24 @@
       "revId": "0a9000fdecc46809409093cd52f7a3a960bb2b7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25390c8_8c9146ab",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-11T16:53:54Z",
+      "side": 1,
+      "message": "Kinda? That\u0027s about closing the connection. Which I guess is related, because sometimes we are immediately closing the connection afterwards too.",
+      "parentUuid": "d25390c8_b8223d94",
+      "revId": "0a9000fdecc46809409093cd52f7a3a960bb2b7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
