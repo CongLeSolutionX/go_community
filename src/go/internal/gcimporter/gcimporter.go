@@ -133,7 +133,7 @@ func Import(packages map[string]*types.Package, path, srcDir string) (pkg *types
 	}
 
 	// no need to re-import if the package was imported completely before
-	if pkg = packages[id]; pkg != nil && pkg.Complete() {
+	if pkg = packages[path]; pkg != nil && pkg.Complete() {
 		return
 	}
 
@@ -158,7 +158,7 @@ func Import(packages map[string]*types.Package, path, srcDir string) (pkg *types
 
 	switch hdr {
 	case "$$\n":
-		return ImportData(packages, filename, id, buf)
+		return ImportData(packages, filename, path, buf)
 	case "$$B\n":
 		var data []byte
 		data, err = ioutil.ReadAll(buf)
