@@ -413,6 +413,10 @@ var empty = make([]int, 0)
 // doExecute finds the leftmost match in the input and returns
 // the position of its subexpressions.
 func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap int) []int {
+	return re.doExecuteExt(r, b, s, pos, ncap, nil)
+}
+
+func (re *Regexp) doExecuteExt(r io.RuneReader, b []byte, s string, pos int, ncap int, dstCap []int) []int {
 	m := re.get()
 	var i input
 	var size int
@@ -449,8 +453,7 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 		re.put(m)
 		return empty // empty but not nil
 	}
-	cap := make([]int, len(m.matchcap))
-	copy(cap, m.matchcap)
+	dstCap = append(dstCap[:0], m.matchcap...)
 	re.put(m)
-	return cap
+	return dstCap
 }
