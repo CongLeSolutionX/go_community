@@ -405,14 +405,18 @@ func (m *machine) onepass(i input, pos int) bool {
 	return m.matched
 }
 
-// empty is a non-nil 0-element slice,
-// so doExecute can avoid an allocation
-// when 0 captures are requested from a successful match.
-var empty = make([]int, 0)
+// doMatch return true if either r, b or s match the regexp.
+// Otherwise it returns false.
+func (re *Regexp) doMatch(r io.RuneReader, b []byte, s string) bool {
+	var dstCap [0]int
+	return re.doExecute(r, b, s, 0, 0, dstCap[:0]) != nil
+}
 
-// doExecute finds the leftmost match in the input and returns
-// the position of its subexpressions.
-func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap int) []int {
+// doExecute finds the leftmost match in the input, appends the position
+// of its subexpressions to dstCap and returns dstCap.
+//
+// nil is returned if no matches are found.
+func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap int, dstCap []int) []int {
 	m := re.get()
 	var i input
 	var size int
@@ -445,12 +449,7 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 			return nil
 		}
 	}
-	if ncap == 0 {
-		re.put(m)
-		return empty // empty but not nil
-	}
-	cap := make([]int, len(m.matchcap))
-	copy(cap, m.matchcap)
+	dstCap = append(dstCap, m.matchcap...)
 	re.put(m)
-	return cap
+	return dstCap
 }
