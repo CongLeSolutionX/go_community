@@ -16,6 +16,29 @@
       "revId": "518f3c325bb85308eb258093ec45f466926238d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25390c8_124d725e",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-05-11T00:38:25Z",
+      "side": 1,
+      "message": "This needs a comment/TODO stating that eventually we need to expose the fileset. As is, this entire change has no useful effect.",
+      "range": {
+        "startLine": 165,
+        "startChar": 11,
+        "endLine": 165,
+        "endChar": 16
+      },
+      "revId": "518f3c325bb85308eb258093ec45f466926238d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
