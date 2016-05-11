@@ -564,6 +564,68 @@ func TestSwitchBacktrack(t *testing.T) {
 	re.Match(long[:1]) // triggers backtracker
 }
 
+func BenchmarkFind(b *testing.B) {
+	b.StopTimer()
+	re := MustCompile("a+b+")
+	expectedSubs := "aaabb"
+	s := []byte("acbb" + expectedSubs + "dd")
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		subs := re.Find(s)
+		if string(subs) != expectedSubs {
+			b.Fatalf("unexpected match: %q. Expecting %q on s=%q", subs, expectedSubs, s)
+		}
+	}
+}
+
+func BenchmarkFindString(b *testing.B) {
+	b.StopTimer()
+	re := MustCompile("a+b+")
+	expectedSubs := "aaabb"
+	s := "acbb" + expectedSubs + "dd"
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		subs := re.FindString(s)
+		if subs != expectedSubs {
+			b.Fatalf("unexpected match: %q. Expecting %q on s=%q", subs, expectedSubs, s)
+		}
+	}
+}
+
+func BenchmarkFindSubmatch(b *testing.B) {
+	b.StopTimer()
+	re := MustCompile("a(a+b+)b")
+	expectedSubs := "aaabb"
+	s := []byte("acbb" + expectedSubs + "dd")
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		subs := re.FindSubmatch(s)
+		if string(subs[0]) != expectedSubs {
+			b.Fatalf("unexpected match: %q. Expecting %q on s=%q", subs[0], expectedSubs, s)
+		}
+		if string(subs[1]) != "aab" {
+			b.Fatalf("unexpected submatch: %q. Expecting %q on s=%q", subs[1], "aab", s)
+		}
+	}
+}
+
+func BenchmarkFindStringSubmatch(b *testing.B) {
+	b.StopTimer()
+	re := MustCompile("a(a+b+)b")
+	expectedSubs := "aaabb"
+	s := "acbb" + expectedSubs + "dd"
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		subs := re.FindStringSubmatch(s)
+		if subs[0] != expectedSubs {
+			b.Fatalf("unexpected match: %q. Expecting %q on s=%q", subs[0], expectedSubs, s)
+		}
+		if subs[1] != "aab" {
+			b.Fatalf("unexpected submatch: %q. Expecting %q on s=%q", subs[1], "aab", s)
+		}
+	}
+}
+
 func BenchmarkLiteral(b *testing.B) {
 	x := strings.Repeat("x", 50) + "y"
 	b.StopTimer()

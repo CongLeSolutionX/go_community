@@ -410,9 +410,13 @@ func (m *machine) onepass(i input, pos int) bool {
 // when 0 captures are requested from a successful match.
 var empty = make([]int, 0)
 
-// doExecute finds the leftmost match in the input and returns
-// the position of its subexpressions.
-func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap int) []int {
+func (re *Regexp) doMatch(r io.RuneReader, b []byte, s string) bool {
+	return re.doExecute(r, b, s, 0, 0, nil) != nil
+}
+
+// doExecute finds the leftmost match in the input, appends the position
+// of its subexpressions to dstCap and returns dstCap.
+func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap int, dstCap []int) []int {
 	m := re.get()
 	var i input
 	var size int
@@ -449,8 +453,7 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 		re.put(m)
 		return empty // empty but not nil
 	}
-	cap := make([]int, len(m.matchcap))
-	copy(cap, m.matchcap)
+	dstCap = append(dstCap, m.matchcap...)
 	re.put(m)
-	return cap
+	return dstCap
 }
