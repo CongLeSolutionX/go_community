@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25390c8_0c29d67b",
+        "filename": "src/go/build/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-05-11T16:41:47Z",
+      "side": 1,
+      "message": "you want filepath.FromSlash(dir) as the argument here",
+      "revId": "52a67695f3bd1c4fc8b6ca98abe2b2f491905980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
