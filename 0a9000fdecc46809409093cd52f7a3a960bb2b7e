@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25390c8_b8223d94",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-05-11T12:46:02Z",
+      "side": 1,
+      "message": "Is it the last item under \"Requirements for HTTP/1.1 origin servers\" under 8.2.3?\n\n        If an origin server receives a request that does not include an\n        Expect request-header field with the \"100-continue\" expectation,\n        the request includes a request body, and the server responds\n        with a final status code before reading the entire request body\n        from the transport connection, then the server SHOULD NOT close\n        the transport connection until it has read the entire request,\n        or until the client closes the connection. Otherwise, the client\n        might not reliably receive the response message. However, this\n        requirement is not be construed as preventing a server from\n        defending itself against denial-of-service attacks, or from\n        badly broken client implementations.",
+      "revId": "0a9000fdecc46809409093cd52f7a3a960bb2b7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
