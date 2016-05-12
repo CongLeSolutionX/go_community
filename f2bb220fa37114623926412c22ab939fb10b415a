@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "1239a8b4_6572a1d3",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-12T22:32:38Z",
+      "side": 1,
+      "message": "We will make it better for these particular cases.  I want to *also* make it better for other cases.  I want to widen the rule to make this optimization applicable to other HW vendors as well as future Intel CPUs (although I guess the latter will most likely be covered by your existing CL).\n\nThe fact that other HW vendors should make REP MOVS fast is pretty speculative, especially given the existence proof that one vendor (Intel) didn\u0027t.  Have you run a benchmark on other x86_64 architectures?\n\nMy reading of http://support.amd.com/TechDocs/47414_15h_sw_opt_guide.pdf (circa 2014) suggests REP MOVS isn\u0027t so great.  It says things like \"Choose linear addresses for the source and destination operands of REP MOVS/CMPS that are not an exact multiple of 4K pages away from each other.\"  Huh?\nAlso \"If the repeat count is constant and large (in the hundreds), use REP string instructions up to approximately the data cache size. Above this limit, other techniques must be used to achieve optimal performance.\"  No mention of what the \"other techniques\" are, but presumably not REP MOVS, and maybe something very much like this CL?",
+      "parentUuid": "770bb618_b8dbd927",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_97e77bf4",
         "filename": "src/runtime/cpuflags_amd64.go",
         "patchSetId": 2
