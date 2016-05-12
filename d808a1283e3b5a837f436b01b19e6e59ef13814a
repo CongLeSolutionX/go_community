@@ -81,6 +81,24 @@
       "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_a828fb78",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-05-12T13:01:43Z",
+      "side": 1,
+      "message": "Because I also noticed I can alter the args in the URL and thought we could take advantage of it to allow users to navigate any arbitrary range (maybe javascript overlay?). \n\nBut currently user has to remember what\u0027s the len(data.Events), and guess about the amount of data she\u0027s asking for, etc. That is not impossible (e.g. I can get the len(data.Events) by inspecting the url of the last chunk), but cumbersome. Also, duplication of work is not a big concern because I think this is a fast part. Currently the slowest part is the chrome trace viewer.\n\nBut, agree that this is a temporary hack and too early to promote it as an official feature. Hopefully the chrome trace viewer team comes up with a better solution.",
+      "parentUuid": "9285985b_91415c58",
+      "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
