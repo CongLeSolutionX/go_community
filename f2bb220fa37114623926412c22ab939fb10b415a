@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "770bb618_b8dbd927",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 10734
+      },
+      "writtenOn": "2016-05-12T08:55:55Z",
+      "side": 1,
+      "message": "My understanding is that the best common implementation (and I hope that all HW vendors will try to make it the best one) is REP MOVS. It works quite well for most of modern x86_64 architectures. However we know method how to make it better for Haswell and some other newer intel\u0027s CPUs. So I not completely understand why don\u0027t we fix for these particular cases.",
+      "parentUuid": "a8594975_57dde323",
+      "revId": "f2bb220fa37114623926412c22ab939fb10b415a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8594975_97e77bf4",
         "filename": "src/runtime/cpuflags_amd64.go",
         "patchSetId": 2
