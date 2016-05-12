@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"internal/testenv"
+	"reflect"
 	"runtime"
 	"strings"
 	"testing"
@@ -614,47 +615,34 @@ var lookupPortTests = []struct {
 	network string
 	name    string
 	port    int
-	ok      bool
+	error
 }{
-	{"tcp", "0", 0, true},
-	{"tcp", "echo", 7, true},
-	{"tcp", "discard", 9, true},
-	{"tcp", "systat", 11, true},
-	{"tcp", "daytime", 13, true},
-	{"tcp", "chargen", 19, true},
-	{"tcp", "ftp-data", 20, true},
-	{"tcp", "ftp", 21, true},
-	{"tcp", "telnet", 23, true},
-	{"tcp", "smtp", 25, true},
-	{"tcp", "time", 37, true},
-	{"tcp", "domain", 53, true},
-	{"tcp", "finger", 79, true},
-	{"tcp", "42", 42, true},
+	// See http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
+	//
+	// Please be careful about adding new mappings for testings.
+	// There are platforms having incomplete mappings for
+	// restricted resource access and security reasons.
 
-	{"udp", "0", 0, true},
-	{"udp", "echo", 7, true},
-	{"udp", "tftp", 69, true},
-	{"udp", "bootpc", 68, true},
-	{"udp", "bootps", 67, true},
-	{"udp", "domain", 53, true},
-	{"udp", "ntp", 123, true},
-	{"udp", "snmp", 161, true},
-	{"udp", "syslog", 514, true},
-	{"udp", "42", 42, true},
+	{"tcp", "0", 0, nil},
+	{"tcp", "http", 80, nil},
+	{"udp", "0", 0, nil},
+	{"udp", "domain", 53, nil},
 
-	{"--badnet--", "zzz", 0, false},
-	{"tcp", "--badport--", 0, false},
-	{"tcp", "-1", 0, false},
-	{"tcp", "65536", 0, false},
-	{"udp", "-1", 0, false},
-	{"udp", "65536", 0, false},
-	{"tcp", "123456789", 0, false},
+	{"--badnet--", "zzz", 0, &DNSError{}},
+	{"tcp", "--badport--", 0, &DNSError{}},
+	{"tcp", "-1", 0, &AddrError{}},
+	{"tcp", "65536", 0, &AddrError{}},
+	{"udp", "-1", 0, &AddrError{}},
+	{"udp", "65536", 0, &AddrError{}},
+	{"tcp", "123456789", 0, &AddrError{}},
 
 	// Issue 13610: LookupPort("tcp", "")
-	{"tcp", "", 0, true},
-	{"tcp6", "", 0, true},
-	{"tcp4", "", 0, true},
-	{"udp", "", 0, true},
+	{"tcp", "", 0, nil},
+	{"tcp4", "", 0, nil},
+	{"tcp6", "", 0, nil},
+	{"udp", "", 0, nil},
+	{"udp4", "", 0, nil},
+	{"udp6", "", 0, nil},
 }
 
 func TestLookupPort(t *testing.T) {
@@ -668,8 +656,19 @@ func TestLookupPort(t *testing.T) {
 	}
 
 	for _, tt := range lookupPortTests {
-		if port, err := LookupPort(tt.network, tt.name); port != tt.port || (err == nil) != tt.ok {
-			t.Errorf("LookupPort(%q, %q) = %d, %v; want %d, error=%t", tt.network, tt.name, port, err, tt.port, !tt.ok)
+		port, err := LookupPort(tt.network, tt.name)
+		if (err == nil) != (tt.error == nil) {
+			t.Errorf("LookupPort(%q, %q) = %v; want %T", tt.network, tt.name, err, tt.error)
+		}
+		switch runtime.GOOS {
+		case "nacl", "plan9":
+		default:
+			if reflect.TypeOf(err) != reflect.TypeOf(tt.error) {
+				t.Errorf("LookupPort(%q, %q) = %v; want %T", tt.network, tt.name, err, tt.error)
+			}
+		}
+		if port != tt.port {
+			t.Errorf("LookupPort(%q, %q) = %d; want %d", tt.network, tt.name, port, tt.port)
 		}
 	}
 }
