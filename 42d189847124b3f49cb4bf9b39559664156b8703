@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_a02f1779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-12T23:51:24Z",
+      "side": 1,
+      "message": "The topic line should be something like\n\nruntime: remove redundant condition check",
+      "revId": "42d189847124b3f49cb4bf9b39559664156b8703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
