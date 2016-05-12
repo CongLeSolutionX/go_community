@@ -99,6 +99,24 @@
       "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "770bb618_b808791e",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-05-12T14:37:17Z",
+      "side": 1,
+      "message": "If I change URL params, I can as well want to increase/reduce range.\nIf user does not change params, then this logic does not matter. If she does, then I assume she knows what she is doing.",
+      "parentUuid": "722d8476_a828fb78",
+      "revId": "d808a1283e3b5a837f436b01b19e6e59ef13814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
