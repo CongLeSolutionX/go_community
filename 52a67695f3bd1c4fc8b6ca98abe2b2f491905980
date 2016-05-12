@@ -16,6 +16,24 @@
       "revId": "52a67695f3bd1c4fc8b6ca98abe2b2f491905980",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_0170fac9",
+        "filename": "src/go/build/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-12T03:27:20Z",
+      "side": 1,
+      "message": "aye aye, thanks. Done.",
+      "parentUuid": "d25390c8_0c29d67b",
+      "revId": "52a67695f3bd1c4fc8b6ca98abe2b2f491905980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
