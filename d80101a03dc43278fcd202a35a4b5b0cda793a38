@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_be19f711",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-13T13:23:03Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand this comment.  When should we add a new mapping?  Do you mean instead \"Please be careful about adding new mappings for testings.\" ?",
+      "revId": "d80101a03dc43278fcd202a35a4b5b0cda793a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
