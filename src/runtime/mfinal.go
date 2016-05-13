@@ -259,6 +259,26 @@ func runfinq() {
 // in initializers for package-level variables. Such objects may be
 // linker-allocated, not heap-allocated.
 //
+// A finalizer may run as soon as an object becomes unreachable.
+// Objects stored in global variables, or that can be found by tracing
+// pointers from a global variable, are reachable. If an object only
+// appears as a function receiver or argument or local variable,
+// it may become unreachable the last time it is mentioned.
+// If the last mention of an object refers to a field of the object,
+// and if the finalizer for the object modifies that field in some
+// way, then the modification may occur before the field value is used.
+//
+// For example, if p points to a struct that contains a file descriptor d,
+// and p has a finalizer that closes that file descriptor, and if the last
+// use of p in a function is a call to syscall.Write(p.d, buf, size), then
+// p may be unreachable as soon as the program enters syscall.Write. The
+// finalizer may run at that moment, closing p.d, causing syscall.Write
+// to fail because it is writing to a closed file descriptor (or, worse,
+// to an entirely different file descriptor opened by a different goroutine).
+//
+// The KeepAlive function may be used to avoid this problem for objects
+// that are not reachable from a global variable.
+//
 // A single goroutine runs all finalizers for a program, sequentially.
 // If a finalizer must run for a long time, it should do so by starting
 // a new goroutine.
@@ -416,3 +436,9 @@ func findObject(v unsafe.Pointer) (s *mspan, x unsafe.Pointer, n uintptr) {
 	}
 	return
 }
+
+// KeepAlive tells that the garbage collector that its argument is reachable.
+// This ensures that the object is not freed, and its finalizer is not run,
+// before the point in the program where KeepAlive is called.
+//go:noinline
+func KeepAlive(interface{}) {}
