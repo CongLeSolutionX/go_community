@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1239a8b4_90ac2448",
+        "filename": "src/net/dial.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-05-13T23:44:59Z",
+      "side": 1,
+      "message": "Good point, I hadn\u0027t thought about multiple users of the same httptrace. Done.",
+      "parentUuid": "1239a8b4_d07a2cdf",
+      "revId": "ffc3ceabfe7776e4585115f7ed3714a9970b309f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1239a8b4_b07680f1",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-13T23:31:12Z",
       "side": 1,
       "message": "not dns-is-faked, but should-not-resolve.golang",
+      "revId": "ffc3ceabfe7776e4585115f7ed3714a9970b309f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_5000fc27",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3326,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-05-13T23:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1239a8b4_b07680f1",
       "revId": "ffc3ceabfe7776e4585115f7ed3714a9970b309f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
