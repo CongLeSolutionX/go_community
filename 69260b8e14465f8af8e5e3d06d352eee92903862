@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "722d8476_ae53a304",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-05-13T18:42:12Z",
+      "side": 1,
+      "message": "Interesting, the other lines have tabs and this one has spaces.",
+      "range": {
+        "startLine": 457,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 28
+      },
+      "revId": "69260b8e14465f8af8e5e3d06d352eee92903862",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
