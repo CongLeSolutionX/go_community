@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_d07a2cdf",
+        "filename": "src/net/dial.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-13T23:31:12Z",
+      "side": 1,
+      "message": "this is kinda gross. It means that two people using the same httptrace (and thus the same nettrace) concurrently can lose TCP port 80 dials if another one is doing a DNS lookup at just the wrong time.\n\nI think I\u0027d instead pass a new sub-context to resolveAddrList with those hook points shadowed.",
+      "revId": "ffc3ceabfe7776e4585115f7ed3714a9970b309f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_b07680f1",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3326,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-13T23:31:12Z",
+      "side": 1,
+      "message": "not dns-is-faked, but should-not-resolve.golang",
+      "revId": "ffc3ceabfe7776e4585115f7ed3714a9970b309f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
