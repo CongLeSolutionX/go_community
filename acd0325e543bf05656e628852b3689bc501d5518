@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "722d8476_cece173f",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-13T16:33:32Z",
+      "side": 1,
+      "message": "This is descriptive, rather than proscriptive, which makes it more abstract than it needs to be. I think that\u0027s because most of this text is around the *wrong* way to use finalizers and why it\u0027s a problem; only the last sentence turns toward the right way to use finalizers, but even then, it doesn\u0027t say how to use KeepAlive to get finalizers right.\n\nInstead, consider focusing this text on how to use finalizers correctly, by using either global reachability or KeepAlive (plus some description of why this is necessary; even this isn\u0027t really necessary for concrete learners, but it will help abstract learners remember the rules).",
+      "revId": "acd0325e543bf05656e628852b3689bc501d5518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_6e760bf5",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-13T16:33:32Z",
+      "side": 1,
+      "message": "Perhaps\n\n// KeepAlive marks its argument as reachable.\n\nThis is less implementation-focused and more property-focused.\n\nMaybe \"currently reachable\" to emphasize that it\u0027s alive *up to* this point.",
+      "revId": "acd0325e543bf05656e628852b3689bc501d5518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_8e617f2e",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-13T16:33:32Z",
+      "side": 1,
+      "message": "This would be a great place for an example. Otherwise, I worry it\u0027s too easy for people to read this through the lens of their own expectations and think that KeepAlive has a permanent effect (keeping the object alive *after* the call to KeepAlive rather than up to it). An example should make the proper use completely obvious.",
+      "revId": "acd0325e543bf05656e628852b3689bc501d5518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_ee603b27",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-13T16:33:32Z",
+      "side": 1,
+      "message": "Move this above the doc comment so it doesn\u0027t show up in godoc (it\u0027ll just apply to whatever function comes next). With it moved out of the godoc, please also add a comment with it that explains the reason for the noinline and how it makes KeepAlive work with the current compiler rules (I\u0027m trying to always have justifications accompany these annotations; too many of the runtime annotations have become mysterious anachronisms :). An accompanying comment will also make it less likely to get lost in code motion.",
+      "revId": "acd0325e543bf05656e628852b3689bc501d5518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
