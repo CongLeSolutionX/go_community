@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_9a0b5e1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-16T13:27:29Z",
+      "side": 1,
+      "message": "net/http:",
+      "revId": "b8782ffcd61c30010d4dca647230ef41021e1882",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_ba081a20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-16T13:27:29Z",
+      "side": 1,
+      "message": "Aligns with? This sentence isn\u0027t incredibly clear.",
+      "revId": "b8782ffcd61c30010d4dca647230ef41021e1882",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
