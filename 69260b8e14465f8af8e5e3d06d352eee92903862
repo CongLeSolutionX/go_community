@@ -40,6 +40,23 @@
       "revId": "69260b8e14465f8af8e5e3d06d352eee92903862",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_ae84836f",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-16T14:49:32Z",
+      "side": 1,
+      "message": "Consider \"Without the above KeepAlive call, the finalizer ...\"",
+      "revId": "69260b8e14465f8af8e5e3d06d352eee92903862",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
