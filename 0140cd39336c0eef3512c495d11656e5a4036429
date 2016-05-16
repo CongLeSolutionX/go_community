@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "722d8476_71198a0f",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-16T14:49:32Z",
+      "side": 1,
+      "message": "Maybe type File struct { fd int } just to make the example a little more concrete?",
+      "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_91d0be3b",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-16T14:49:32Z",
+      "side": 1,
+      "message": "The way this comment is formatted, it reads like the following lines of code are checking that err \u003d\u003d nil. I would either use _ instead of err above (which is obviously bad style, but keeps the example simple), or change this to something like \"// ... check that err \u003d\u003d nil ...\" to make it clearer that it\u0027s denoting omitted code.",
+      "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "722d8476_b1d5c22a",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-05-16T14:49:32Z",
+      "side": 1,
+      "message": "Maybe add \"// Ensure p is not finalized until Read returns.\"",
+      "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
