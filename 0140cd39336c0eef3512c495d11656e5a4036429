@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1239a8b4_f84e2a60",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-16T18:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "722d8476_71198a0f",
+      "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "722d8476_91d0be3b",
         "filename": "src/runtime/mfinal.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1239a8b4_1854d6eb",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-16T18:52:26Z",
+      "side": 1,
+      "message": "Changed to\n// ... do something if err !\u003d nil ...",
+      "parentUuid": "722d8476_91d0be3b",
+      "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "722d8476_b1d5c22a",
         "filename": "src/runtime/mfinal.go",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-05-16T14:49:32Z",
       "side": 1,
       "message": "Maybe add \"// Ensure p is not finalized until Read returns.\"",
+      "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_3870b293",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-16T18:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "722d8476_b1d5c22a",
       "revId": "0140cd39336c0eef3512c495d11656e5a4036429",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
