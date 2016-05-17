@@ -157,7 +157,10 @@ func main() {
 					// w.Import(name) will return nil
 					continue
 				}
-				pkg, _ := w.Import(name)
+				pkg, err := w.Import(name)
+				if err != nil || pkg == nil {
+					continue
+				}
 				w.export(pkg)
 			}
 		}
