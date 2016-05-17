@@ -158,6 +158,10 @@ func main() {
 					continue
 				}
 				pkg, _ := w.Import(name)
+				if pkg == nil {
+					// https://github.com/golang/go/issues/15717
+					log.Fatalf("Invalid package organization, no buildable Go source files in parent package of \"%s\".\n", name)
+				}
 				w.export(pkg)
 			}
 		}
