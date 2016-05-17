@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7721f6e1_4b62792f",
+        "filename": "src/cmd/go/vcs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13770
+      },
+      "writtenOn": "2016-05-17T23:32:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b759ae75_da4da5b6",
+      "revId": "a56935f1c7f8495d46ab2d566e4f133fbbbf94f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b759ae75_1ac9dd36",
         "filename": "src/cmd/go/vcs_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-17T21:25:33Z",
       "side": 1,
       "message": "is the trailing slash notable?",
+      "revId": "a56935f1c7f8495d46ab2d566e4f133fbbbf94f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7721f6e1_eb508d4e",
+        "filename": "src/cmd/go/vcs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 13770
+      },
+      "writtenOn": "2016-05-17T23:32:08Z",
+      "side": 1,
+      "message": "Not even a little bit ... fixing.",
+      "parentUuid": "b759ae75_1ac9dd36",
       "revId": "a56935f1c7f8495d46ab2d566e4f133fbbbf94f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
