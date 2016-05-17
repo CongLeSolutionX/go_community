@@ -548,6 +548,8 @@ type p struct {
 
 	runSafePointFn uint32 // if 1, run sched.safePointFn at next safe point
 
+	debugLogger debugLogger
+
 	pad cpu.CacheLinePad
 }
 

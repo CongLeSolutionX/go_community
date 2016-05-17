@@ -87,7 +87,7 @@ func gwrite(b []byte) {
 	if len(b) == 0 {
 		return
 	}
-	recordForPanic(b)
+	//recordForPanic(b)
 	gp := getg()
 	if gp == nil || gp.writebuf == nil {
 		writeErr(b)
