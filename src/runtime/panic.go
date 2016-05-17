@@ -734,16 +734,19 @@ func dopanic_m(gp *g, pc, sp uintptr) {
 			tracebackothers(gp)
 		}
 	}
-	unlock(&paniclk)
 
 	if atomic.Xadd(&panicking, -1) != 0 {
 		// Some other m is panicking too.
 		// Let it print what it needs to print.
 		// Wait forever without chewing up cpu.
 		// It will exit when it's done.
+		unlock(&paniclk)
 		lock(&deadlock)
 		lock(&deadlock)
 	}
+
+	printDebugLog()
+	unlock(&paniclk)
 
 	if docrash {
 		crash()
