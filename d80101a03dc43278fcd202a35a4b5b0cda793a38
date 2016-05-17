@@ -16,6 +16,24 @@
       "revId": "d80101a03dc43278fcd202a35a4b5b0cda793a38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d79c622c_7b019ff6",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-05-17T03:24:02Z",
+      "side": 1,
+      "message": "yup, thx.",
+      "parentUuid": "1239a8b4_be19f711",
+      "revId": "d80101a03dc43278fcd202a35a4b5b0cda793a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
