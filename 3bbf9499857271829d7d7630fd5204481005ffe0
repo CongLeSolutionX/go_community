@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_1703c0aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-17T03:34:55Z",
+      "side": 1,
+      "message": "delete the word \"of\"",
+      "revId": "3bbf9499857271829d7d7630fd5204481005ffe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_771164f3",
+        "filename": "src/net/dial.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-17T03:34:55Z",
+      "side": 1,
+      "message": "these two lines of changes were unnecessary",
+      "revId": "3bbf9499857271829d7d7630fd5204481005ffe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1239a8b4_f70554ae",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-17T03:34:55Z",
+      "side": 1,
+      "message": "why changing it to end in ::1?",
+      "revId": "3bbf9499857271829d7d7630fd5204481005ffe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
