@@ -680,6 +680,8 @@ func dopanic_m(gp *g, pc, sp uintptr) {
 		lock(&deadlock)
 	}
 
+	printDebugLog()
+
 	if docrash {
 		crash()
 	}
