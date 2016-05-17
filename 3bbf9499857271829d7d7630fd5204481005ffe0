@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d79c622c_1b1f3b4a",
+        "filename": "src/net/dial.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-05-17T03:45:31Z",
+      "side": 1,
+      "message": "talking to the kernel with icmp is a bit tricky, as tests in x/net/icmp do. also, communicating ospf with a fixed pair of addresses is just for ospf over p2p link mode. i\u0027d prefer to change.",
+      "parentUuid": "1239a8b4_771164f3",
+      "revId": "3bbf9499857271829d7d7630fd5204481005ffe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1239a8b4_f70554ae",
         "filename": "src/net/ip.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-05-17T03:34:55Z",
       "side": 1,
       "message": "why changing it to end in ::1?",
+      "revId": "3bbf9499857271829d7d7630fd5204481005ffe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d79c622c_3b2477a1",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-05-17T03:45:31Z",
+      "side": 1,
+      "message": "nothing, i\u0027m fine w/ 68.",
+      "parentUuid": "1239a8b4_f70554ae",
       "revId": "3bbf9499857271829d7d7630fd5204481005ffe0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
