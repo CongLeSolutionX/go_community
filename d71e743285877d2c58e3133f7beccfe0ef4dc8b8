@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_85ae9691",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-17T14:56:45Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to ignore the error. We still want to die with an error, not continue.",
+      "revId": "d71e743285877d2c58e3133f7beccfe0ef4dc8b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
