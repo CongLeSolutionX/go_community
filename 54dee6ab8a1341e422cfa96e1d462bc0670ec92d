@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1239a8b4_9a9c356d",
+        "filename": "src/net/lookup_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-17T04:16:24Z",
+      "side": 1,
+      "message": "Do you mean to test that LookupPort returns an error of the expected type?  That seems implied by the use of \u0026DNSError{} and \u0026AddrError{} above.  But, you aren\u0027t testing it.",
+      "revId": "54dee6ab8a1341e422cfa96e1d462bc0670ec92d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
