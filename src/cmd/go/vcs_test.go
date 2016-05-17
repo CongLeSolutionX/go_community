@@ -86,6 +86,36 @@ func TestRepoRootForImportPath(t *testing.T) {
 			"hub.jazz.net/git/USER/pkgname",
 			nil,
 		},
+		// OpenStack tests
+		{
+			"git.openstack.org/openstack/swift",
+			&repoRoot{
+				vcs:  vcsGit,
+				repo: "https://git.openstack.org/openstack/swift",
+			},
+		},
+		{
+			"git.openstack.org/openstack/swift.git",
+			&repoRoot{
+				vcs:  vcsGit,
+				repo: "https://git.openstack.org/openstack/swift",
+			},
+		},
+		{
+			"git.openstack.org/openstack/swift/go/hummingbird/",
+			&repoRoot{
+				vcs:  vcsGit,
+				repo: "https://git.openstack.org/openstack/swift",
+			},
+		},
+		{
+			"git.openstack.org",
+			nil,
+		},
+		{
+			"git.openstack.org/openstack",
+			nil,
+		},
 		// Spaces are not valid in package name
 		{
 			"git.apache.org/package name/path/to/lib",
