@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f797a652_6feccda1",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-18T17:58:17Z",
+      "side": 1,
+      "message": "then the",
+      "revId": "923d6455bf01daf2efae7dc87b4f24f5c6658f09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
