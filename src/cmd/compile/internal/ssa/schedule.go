@@ -8,6 +8,7 @@ import "container/heap"
 
 const (
 	ScorePhi = iota // towards top of block
+	ScoreReadTuple
 	ScoreVarDef
 	ScoreMemory
 	ScoreDefault
@@ -103,7 +104,13 @@ func schedule(f *Func) {
 				// reduce register pressure. It also helps make sure
 				// VARDEF ops are scheduled before the corresponding LEA.
 				score[v.ID] = ScoreMemory
-			case v.Type.IsFlags():
+			case v.Op == OpARMCarry || v.Op == OpARMLoweredSelect0:
+				// Schedule the pseudo-op of reading implicit part of
+				// a tuple immediately after the tuple-generating op,
+				// since this value is already live. This also removes
+				// its false dependency on the other part of the tuple.
+				score[v.ID] = ScoreReadTuple
+			case v.Type.IsFlags() || v.Type.IsTuple():
 				// Schedule flag register generation as late as possible.
 				// This makes sure that we only have one live flags
 				// value at a time.
