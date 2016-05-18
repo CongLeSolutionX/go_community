@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f797a652_4f58f11f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-05-18T20:49:46Z",
+      "side": 1,
+      "message": "This is copying the mem value forward, right?\nMight be worth a comment.",
+      "revId": "678e3939aba1b5ef69068e9de461537db0f00f9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
