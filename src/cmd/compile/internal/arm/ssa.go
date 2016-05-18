@@ -149,7 +149,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 			p.To.Name = obj.NAME_AUTO
 		}
 	case ssa.OpARMADD,
+		ssa.OpARMADC,
 		ssa.OpARMSUB,
+		ssa.OpARMSBC,
 		ssa.OpARMRSB,
 		ssa.OpARMAND,
 		ssa.OpARMOR,
@@ -160,6 +162,18 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		r1 := gc.SSARegNum(v.Args[0])
 		r2 := gc.SSARegNum(v.Args[1])
 		p := gc.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = r2
+		p.Reg = r1
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = r
+	case ssa.OpARMADDS,
+		ssa.OpARMSUBS:
+		r := gc.SSARegNum(v)
+		r1 := gc.SSARegNum(v.Args[0])
+		r2 := gc.SSARegNum(v.Args[1])
+		p := gc.Prog(v.Op.Asm())
+		p.Scond = arm.C_SBIT
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = r2
 		p.Reg = r1
@@ -481,6 +495,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Offset = 1
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = gc.SSARegNum(v)
+	case ssa.OpARMCarry:
+		// nothing to do
 	default:
 		v.Unimplementedf("genValue not implemented: %s", v.LongString())
 	}

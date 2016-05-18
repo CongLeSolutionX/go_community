@@ -7,10 +7,18 @@
 (Add16 x y) -> (ADD x y)
 (Add8 x y) -> (ADD x y)
 
+(Add32setcarry x y) -> (ADDS x y)
+(Add32carrybit x y) -> (Carry (ADDS <x.Type> x y))
+(Add32withcarry x y c) -> (ADC x y c)
+
 (SubPtr x y) -> (SUB x y)
 (Sub32 x y) -> (SUB x y)
 (Sub16 x y) -> (SUB x y)
 (Sub8 x y) -> (SUB x y)
+
+(Sub32setcarry x y) -> (SUBS x y)
+(Sub32carrybit x y) -> (Carry (SUBS <x.Type> x y))
+(Sub32withcarry x y c) -> (SBC x y c)
 
 (Mul32 x y) -> (MUL x y)
 (Mul16 x y) -> (MUL x y)
@@ -134,6 +142,8 @@
 (SignExt8to16 x) -> (MOVBreg x)
 (SignExt8to32 x) -> (MOVBreg x)
 (SignExt16to32 x) -> (MOVHreg x)
+
+(Signmask x) -> (SRAconst x [31])
 
 // comparisons
 (Eq8 x y)  -> (Equal (CMP (ZeroExt8to32 x) (ZeroExt8to32 y)))

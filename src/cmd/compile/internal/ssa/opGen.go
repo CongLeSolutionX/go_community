@@ -332,6 +332,10 @@ const (
 	OpARMMUL
 	OpARMHMUL
 	OpARMHMULU
+	OpARMADDS
+	OpARMADC
+	OpARMSUBS
+	OpARMSBC
 	OpARMAND
 	OpARMANDconst
 	OpARMOR
@@ -384,6 +388,7 @@ const (
 	OpARMLessEqualU
 	OpARMGreaterThanU
 	OpARMGreaterEqualU
+	OpARMCarry
 	OpARMDUFFZERO
 	OpARMDUFFCOPY
 	OpARMLoweredZero
@@ -674,6 +679,16 @@ const (
 	OpVarDef
 	OpVarKill
 	OpVarLive
+	OpInt64Make
+	OpInt64Hi
+	OpInt64Lo
+	OpAdd32setcarry
+	OpAdd32carrybit
+	OpAdd32withcarry
+	OpSub32setcarry
+	OpSub32carrybit
+	OpSub32withcarry
+	OpSignmask
 )
 
 var opcodeTable = [...]opInfo{
@@ -3985,6 +4000,68 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:        "ADDS",
+		argLen:      2,
+		commutative: true,
+		asm:         arm.AADD,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 5119}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+				{1, 5119}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+			clobbers: 65536, // FLAGS
+			outputs: []regMask{
+				5119, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+		},
+	},
+	{
+		name:        "ADC",
+		argLen:      3,
+		commutative: true,
+		asm:         arm.AADC,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{2, 65536}, // FLAGS
+				{0, 5119},  // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+				{1, 5119},  // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+			outputs: []regMask{
+				5119, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+		},
+	},
+	{
+		name:   "SUBS",
+		argLen: 2,
+		asm:    arm.ASUB,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 5119}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+				{1, 5119}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+			clobbers: 65536, // FLAGS
+			outputs: []regMask{
+				5119, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+		},
+	},
+	{
+		name:   "SBC",
+		argLen: 3,
+		asm:    arm.ASBC,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{2, 65536}, // FLAGS
+				{0, 5119},  // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+				{1, 5119},  // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+			outputs: []regMask{
+				5119, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+		},
+	},
+	{
 		name:        "AND",
 		argLen:      2,
 		commutative: true,
@@ -4657,6 +4734,18 @@ var opcodeTable = [...]opInfo{
 			},
 			outputs: []regMask{
 				5119, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+		},
+	},
+	{
+		name:   "Carry",
+		argLen: 1,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 5119}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12
+			},
+			outputs: []regMask{
+				65536, // FLAGS
 			},
 		},
 	},
@@ -6190,6 +6279,58 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "VarLive",
 		auxType: auxSym,
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "Int64Make",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "Int64Hi",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "Int64Lo",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:        "Add32setcarry",
+		argLen:      2,
+		commutative: true,
+		generic:     true,
+	},
+	{
+		name:        "Add32carrybit",
+		argLen:      2,
+		commutative: true,
+		generic:     true,
+	},
+	{
+		name:    "Add32withcarry",
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "Sub32setcarry",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "Sub32carrybit",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "Sub32withcarry",
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "Signmask",
 		argLen:  1,
 		generic: true,
 	},
