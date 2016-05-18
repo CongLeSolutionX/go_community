@@ -14,6 +14,10 @@ func rewriteValueARM(v *Value, config *Config) bool {
 		return rewriteValueARM_OpAdd16(v, config)
 	case OpAdd32:
 		return rewriteValueARM_OpAdd32(v, config)
+	case OpAdd32carry:
+		return rewriteValueARM_OpAdd32carry(v, config)
+	case OpAdd32withcarry:
+		return rewriteValueARM_OpAdd32withcarry(v, config)
 	case OpAdd8:
 		return rewriteValueARM_OpAdd8(v, config)
 	case OpAddPtr:
@@ -28,6 +32,8 @@ func rewriteValueARM(v *Value, config *Config) bool {
 		return rewriteValueARM_OpAnd8(v, config)
 	case OpAndB:
 		return rewriteValueARM_OpAndB(v, config)
+	case OpCarry:
+		return rewriteValueARM_OpCarry(v, config)
 	case OpClosureCall:
 		return rewriteValueARM_OpClosureCall(v, config)
 	case OpCom16:
@@ -262,6 +268,8 @@ func rewriteValueARM(v *Value, config *Config) bool {
 		return rewriteValueARM_OpSignExt8to16(v, config)
 	case OpSignExt8to32:
 		return rewriteValueARM_OpSignExt8to32(v, config)
+	case OpSignmask:
+		return rewriteValueARM_OpSignmask(v, config)
 	case OpStaticCall:
 		return rewriteValueARM_OpStaticCall(v, config)
 	case OpStore:
@@ -270,6 +278,10 @@ func rewriteValueARM(v *Value, config *Config) bool {
 		return rewriteValueARM_OpSub16(v, config)
 	case OpSub32:
 		return rewriteValueARM_OpSub32(v, config)
+	case OpSub32carry:
+		return rewriteValueARM_OpSub32carry(v, config)
+	case OpSub32withcarry:
+		return rewriteValueARM_OpSub32withcarry(v, config)
 	case OpSub8:
 		return rewriteValueARM_OpSub8(v, config)
 	case OpSubPtr:
@@ -280,6 +292,8 @@ func rewriteValueARM(v *Value, config *Config) bool {
 		return rewriteValueARM_OpTrunc32to16(v, config)
 	case OpTrunc32to8:
 		return rewriteValueARM_OpTrunc32to8(v, config)
+	case OpValue32:
+		return rewriteValueARM_OpValue32(v, config)
 	case OpXor16:
 		return rewriteValueARM_OpXor16(v, config)
 	case OpXor32:
@@ -359,6 +373,38 @@ func rewriteValueARM_OpAdd32(v *Value, config *Config) bool {
 		v.reset(OpARMADD)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM_OpAdd32carry(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Add32carry x y)
+	// cond:
+	// result: (ADDS x y)
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpARMADDS)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM_OpAdd32withcarry(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Add32withcarry x y c)
+	// cond:
+	// result: (ADC x y c)
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		c := v.Args[2]
+		v.reset(OpARMADC)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
 		return true
 	}
 }
@@ -464,6 +510,19 @@ func rewriteValueARM_OpAndB(v *Value, config *Config) bool {
 		v.reset(OpARMAND)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM_OpCarry(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Carry x)
+	// cond:
+	// result: (LoweredCarry x)
+	for {
+		x := v.Args[0]
+		v.reset(OpARMLoweredCarry)
+		v.AddArg(x)
 		return true
 	}
 }
@@ -3007,6 +3066,20 @@ func rewriteValueARM_OpSignExt8to32(v *Value, config *Config) bool {
 		return true
 	}
 }
+func rewriteValueARM_OpSignmask(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Signmask x)
+	// cond:
+	// result: (SRAconst x [31])
+	for {
+		x := v.Args[0]
+		v.reset(OpARMSRAconst)
+		v.AddArg(x)
+		v.AuxInt = 31
+		return true
+	}
+}
 func rewriteValueARM_OpStaticCall(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
@@ -3107,6 +3180,38 @@ func rewriteValueARM_OpSub32(v *Value, config *Config) bool {
 		return true
 	}
 }
+func rewriteValueARM_OpSub32carry(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Sub32carry x y)
+	// cond:
+	// result: (SUBS x y)
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpARMSUBS)
+		v.AddArg(x)
+		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM_OpSub32withcarry(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Sub32withcarry x y c)
+	// cond:
+	// result: (SBC x y c)
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		c := v.Args[2]
+		v.reset(OpARMSBC)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(c)
+		return true
+	}
+}
 func rewriteValueARM_OpSub8(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
@@ -3175,6 +3280,19 @@ func rewriteValueARM_OpTrunc32to8(v *Value, config *Config) bool {
 		x := v.Args[0]
 		v.reset(OpCopy)
 		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValueARM_OpValue32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Value32 x)
+	// cond:
+	// result: (LoweredValue32 x)
+	for {
+		x := v.Args[0]
+		v.reset(OpARMLoweredValue32)
 		v.AddArg(x)
 		return true
 	}

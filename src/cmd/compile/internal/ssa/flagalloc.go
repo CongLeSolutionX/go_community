@@ -85,19 +85,34 @@ func flagalloc(f *Func) {
 			if v.Op == OpPhi && v.Type.IsFlags() {
 				f.Fatalf("phi of flags not supported: %s", v.LongString())
 			}
+			if v.Op == OpARMLoweredValue32 {
+				// this pseudo-op takes ValAndFlags as arg but it does not
+				// actually read the flags. So just issue v.
+				b.Values = append(b.Values, v)
+				continue
+			}
 			// Make sure any flag arg of v is in the flags register.
 			// If not, recompute it.
 			for i, a := range v.Args {
-				if !a.Type.IsFlags() {
+				if !a.Type.IsFlags() && !a.Type.IsValAndFlags() {
 					continue
 				}
 				if a == flag {
 					continue
 				}
 				// Recalculate a
+				var c1 *Value
+				if a.Op == OpARMLoweredCarry {
+					// Pseudo-op does not generate flags, its arg actually does
+					//TODO: generalize this condition?
+					c1 = a.Args[0].copyInto(b)
+				}
 				c := a.copyInto(b)
 				// Update v.
 				v.SetArg(i, c)
+				if c1 != nil {
+					c.SetArg(0, c1)
+				}
 				// Remember the most-recently computed flag value.
 				flag = a
 			}
@@ -106,7 +121,7 @@ func flagalloc(f *Func) {
 			if opcodeTable[v.Op].reg.clobbers&f.Config.flagRegMask != 0 {
 				flag = nil
 			}
-			if v.Type.IsFlags() {
+			if v.Type.IsFlags() || v.Type.IsValAndFlags() {
 				flag = v
 			}
 		}

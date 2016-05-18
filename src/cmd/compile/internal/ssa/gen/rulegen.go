@@ -693,7 +693,7 @@ func blockName(name string, arch arch) string {
 // typeName returns the string to use to generate a type.
 func typeName(typ string) string {
 	switch typ {
-	case "Flags", "Mem", "Void", "Int128":
+	case "Flags", "Mem", "Void", "Int128", "ValAndFlags":
 		return "Type" + typ
 	default:
 		return "config.fe.Type" + typ + "()"

@@ -7,10 +7,16 @@
 (Add16 x y) -> (ADD x y)
 (Add8 x y) -> (ADD x y)
 
+(Add32carry x y) -> (ADDS x y)
+(Add32withcarry x y c) -> (ADC x y c)
+
 (SubPtr x y) -> (SUB x y)
 (Sub32 x y) -> (SUB x y)
 (Sub16 x y) -> (SUB x y)
 (Sub8 x y) -> (SUB x y)
+
+(Sub32carry x y) -> (SUBS x y)
+(Sub32withcarry x y c) -> (SBC x y c)
 
 (Mul32 x y) -> (MUL x y)
 (Mul16 x y) -> (MUL x y)
@@ -135,6 +141,8 @@
 (SignExt8to32 x) -> (MOVBreg x)
 (SignExt16to32 x) -> (MOVHreg x)
 
+(Signmask x) -> (SRAconst x [31])
+
 // comparisons
 (Eq8 x y)  -> (Equal (CMP (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Eq16 x y) -> (Equal (CMP (ZeroExt16to32 x) (ZeroExt16to32 y)))
@@ -257,6 +265,10 @@
 (IsNonNil ptr) -> (NotEqual (CMPconst [0] ptr))
 (IsInBounds idx len) -> (LessThanU (CMP idx len))
 (IsSliceInBounds idx len) -> (LessEqualU (CMP idx len))
+
+// pseudo-ops
+(Carry x) -> (LoweredCarry x)
+(Value32 x) -> (LoweredValue32 x)
 
 // Absorb pseudo-ops into blocks.
 (If (Equal cc) yes no) -> (EQ cc yes no)

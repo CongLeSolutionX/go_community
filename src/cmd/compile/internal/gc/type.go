@@ -1194,9 +1194,10 @@ func (t *Type) ChanDir() ChanDir {
 	return t.Extra.(*ChanType).Dir
 }
 
-func (t *Type) IsMemory() bool { return false }
-func (t *Type) IsFlags() bool  { return false }
-func (t *Type) IsVoid() bool   { return false }
+func (t *Type) IsMemory() bool      { return false }
+func (t *Type) IsFlags() bool       { return false }
+func (t *Type) IsValAndFlags() bool { return false }
+func (t *Type) IsVoid() bool        { return false }
 
 // IsUntyped reports whether t is an untyped type.
 func (t *Type) IsUntyped() bool {
