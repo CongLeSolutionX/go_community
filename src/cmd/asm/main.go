@@ -54,16 +54,20 @@ func main() {
 	fmt.Fprintf(buf, "go object %s %s %s\n", obj.Getgoos(), obj.Getgoarch(), obj.Getgoversion())
 	fmt.Fprintf(buf, "!\n")
 
-	lexer := lex.NewLexer(flag.Arg(0), ctxt)
-	parser := asm.NewParser(ctxt, architecture, lexer)
-	diag := false
-	ctxt.DiagFunc = func(format string, args ...interface{}) {
-		diag = true
-		log.Printf(format, args...)
+	var ok, diag bool
+	for _, f := range flag.Args() {
+		lexer := lex.NewLexer(f, ctxt)
+		parser := asm.NewParser(ctxt, architecture, lexer)
+		ctxt.DiagFunc = func(format string, args ...interface{}) {
+			diag = true
+			log.Printf(format, args...)
+		}
+		pList := obj.Linknewplist(ctxt)
+		pList.Firstpc, ok = parser.Parse()
+		if !ok {
+			break
+		}
 	}
-	pList := obj.Linknewplist(ctxt)
-	var ok bool
-	pList.Firstpc, ok = parser.Parse()
 	if ok {
 		// reports errors to parser.Errorf
 		obj.Writeobjdirect(ctxt, buf)
