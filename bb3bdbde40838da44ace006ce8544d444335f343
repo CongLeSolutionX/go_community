@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f797a652_afda3583",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2016-05-18T22:24:28Z",
+      "side": 1,
+      "message": "period",
+      "range": {
+        "startLine": 206,
+        "startChar": 46,
+        "endLine": 206,
+        "endChar": 55
+      },
+      "revId": "bb3bdbde40838da44ace006ce8544d444335f343",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
