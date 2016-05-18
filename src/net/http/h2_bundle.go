@@ -30,6 +30,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net"
+	"net/http/httptrace"
 	"net/textproto"
 	"net/url"
 	"os"
@@ -1976,6 +1977,57 @@ func http2summarizeFrame(f http2Frame) string {
 func http2reqContext(r *Request) context.Context { return r.Context() }
 
 func http2setResponseUncompressed(res *Response) { res.Uncompressed = true }
+
+func http2traceGotConn(req *Request, cc *http2ClientConn) {
+	trace := httptrace.ContextClientTrace(req.Context())
+	if trace == nil || trace.GotConn == nil {
+		return
+	}
+	ci := httptrace.GotConnInfo{Conn: cc.tconn}
+	cc.mu.Lock()
+	ci.Reused = cc.nextStreamID > 1
+	ci.WasIdle = len(cc.streams) == 0
+	if ci.WasIdle {
+		ci.IdleTime = time.Now().Sub(cc.lastActive)
+	}
+	cc.mu.Unlock()
+
+	trace.GotConn(ci)
+}
+
+func http2traceWroteHeaders(ti http2clientTrace) {
+	if trace, ok := ti.(*httptrace.ClientTrace); ok {
+		if trace.WroteHeaders != nil {
+			trace.WroteHeaders()
+		}
+	}
+}
+
+func http2traceWroteRequest(ti http2clientTrace, err error) {
+	if trace, ok := ti.(*httptrace.ClientTrace); ok {
+		if trace.WroteRequest != nil {
+			trace.WroteRequest(httptrace.WroteRequestInfo{Err: err})
+		}
+	}
+}
+
+func http2traceFirstResponseByte(ti http2clientTrace) {
+	if ti == nil {
+		return
+	}
+	trace := ti.(*httptrace.ClientTrace)
+	if trace.GotFirstResponseByte != nil {
+		trace.GotFirstResponseByte()
+	}
+}
+
+func http2requestTrace(req *Request) http2clientTrace {
+	trace := httptrace.ContextClientTrace(req.Context())
+	if trace == nil {
+		return nil
+	}
+	return trace
+}
 
 var http2DebugGoroutines = os.Getenv("DEBUG_HTTP2_GOROUTINES") == "1"
 
@@ -4879,6 +4931,8 @@ type http2ClientConn struct {
 	bw           *bufio.Writer
 	br           *bufio.Reader
 	fr           *http2Framer
+	lastActive   time.Time
+
 	// Settings from peer:
 	maxFrameSize         uint32
 	maxConcurrentStreams uint32
@@ -4891,11 +4945,16 @@ type http2ClientConn struct {
 	werr error      // first write error that has occurred
 }
 
+// clientTrace is either nil, or a Go 1.7+ *httptrace.ClientTrace.
+// TODO(bradfitz): remove this type once our minimum requirement is Go 1.7.
+type http2clientTrace interface{}
+
 // clientStream is the state for a single HTTP/2 stream. One of these
 // is created for each Transport.RoundTrip call.
 type http2clientStream struct {
 	cc            *http2ClientConn
 	req           *Request
+	trace         http2clientTrace
 	ID            uint32
 	resc          chan http2resAndError
 	bufPipe       http2pipe // buffered pipe with the flow-controlled response payload
@@ -5014,6 +5073,7 @@ func (t *http2Transport) RoundTripOpt(req *Request, opt http2RoundTripOpt) (*Res
 			t.vlogf("http2: Transport failed to get client conn for %s: %v", addr, err)
 			return nil, err
 		}
+		http2traceGotConn(req, cc)
 		res, err := cc.RoundTrip(req)
 		if http2shouldRetryRequest(req, err) {
 			continue
@@ -5335,6 +5395,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 	}
 
 	cc.mu.Lock()
+	cc.lastActive = time.Now()
 	if cc.closed || !cc.canTakeNewRequestLocked() {
 		cc.mu.Unlock()
 		return nil, http2errClientConnUnusable
@@ -5342,6 +5403,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 
 	cs := cc.newStream()
 	cs.req = req
+	cs.trace = http2requestTrace(req)
 	hasBody := body != nil
 
 	if !cc.t.disableCompression() &&
@@ -5357,6 +5419,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 	endStream := !hasBody && !hasTrailers
 	werr := cc.writeHeaders(cs.ID, endStream, hdrs)
 	cc.wmu.Unlock()
+	http2traceWroteHeaders(cs.trace)
 	cc.mu.Unlock()
 
 	if werr != nil {
@@ -5365,6 +5428,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 		}
 		cc.forgetStreamID(cs.ID)
 
+		http2traceWroteRequest(cs.trace, werr)
 		return nil, werr
 	}
 
@@ -5376,6 +5440,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 			bodyCopyErrc <- cs.writeRequestBody(body, req.Body)
 		}()
 	} else {
+		http2traceWroteRequest(cs.trace, nil)
 		if d := cc.responseHeaderTimeout(); d != 0 {
 			timer := time.NewTimer(d)
 			defer timer.Stop()
@@ -5430,6 +5495,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 
 			return nil, cs.resetErr
 		case err := <-bodyCopyErrc:
+			http2traceWroteRequest(cs.trace, err)
 			if err != nil {
 				return nil, err
 			}
@@ -5729,6 +5795,7 @@ func (cc *http2ClientConn) streamByID(id uint32, andRemove bool) *http2clientStr
 	defer cc.mu.Unlock()
 	cs := cc.streams[id]
 	if andRemove && cs != nil && !cc.closed {
+		cc.lastActive = time.Now()
 		delete(cc.streams, id)
 		close(cs.done)
 	}
@@ -5851,6 +5918,10 @@ func (rl *http2clientConnReadLoop) processHeaders(f *http2MetaHeadersFrame) erro
 		cs.pastHeaders = true
 	} else {
 		return rl.processTrailers(cs, f)
+	}
+	if cs.trace != nil {
+
+		http2traceFirstResponseByte(cs.trace)
 	}
 
 	res, err := rl.handleResponse(cs, f)
