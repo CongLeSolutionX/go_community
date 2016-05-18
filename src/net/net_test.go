@@ -360,3 +360,46 @@ func TestAcceptIgnoreAbortedConnRequest(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestZeroByteRead(t *testing.T) {
+	for _, network := range []string{"tcp", "unix", "unixpacket"} {
+		network := network
+		if !testableNetwork(network) {
+			t.Logf("skipping %s test", network)
+			continue
+		}
+
+		ln, err := newLocalListener(network)
+		if err != nil {
+			t.Fatal(err)
+		}
+		connc := make(chan Conn, 1)
+		go func() {
+			defer ln.Close()
+			c, err := ln.Accept()
+			if err != nil {
+				t.Error(err)
+			}
+			connc <- c // might be nil
+		}()
+		c, err := Dial(network, ln.Addr().String())
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer c.Close()
+		sc := <-connc
+		if sc == nil {
+			continue
+		}
+		defer sc.Close()
+
+		n, err := c.Read(nil)
+		if n != 0 || err != nil {
+			t.Errorf("%s: zero byte client read = %v, %v; want 0, nil", network, n, err)
+		}
+		n, err = sc.Read(nil)
+		if n != 0 || err != nil {
+			t.Errorf("%s: zero byte server read = %v, %v; want 0, nil", network, n, err)
+		}
+	}
+}
