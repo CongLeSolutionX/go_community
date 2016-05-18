@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7721f6e1_b1c8c268",
+        "filename": "doc/effective_go.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 2017,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-05-18T02:05:46Z",
+      "side": 1,
+      "message": "Let\u0027s go with more formal English.\n// Body exactly the same as the Append function defined above.",
+      "revId": "2dd57ae53ce1220c2f91854675fcef47d9a0edc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
