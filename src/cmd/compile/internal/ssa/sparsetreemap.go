@@ -48,10 +48,11 @@ type SparseTreeMap RBTint32
 // as exposing some useful control-flow-related data to other
 // packages, such as gc.
 type SparseTreeHelper struct {
-	Sdom   []SparseTreeNode // indexed by block.ID
-	Po     []*Block         // exported data
-	Dom    []*Block         // exported data
-	Ponums []int32          // exported data
+	Sdom    []SparseTreeNode // indexed by block.ID
+	Po      []*Block         // exported data
+	Dom     []*Block         // exported data
+	Ponums  []int32          // exported data
+	Sccnums []int32          // exported data
 }
 
 // NewSparseTreeHelper returns a SparseTreeHelper for use
@@ -59,19 +60,25 @@ type SparseTreeHelper struct {
 func NewSparseTreeHelper(f *Func) *SparseTreeHelper {
 	dom := dominators(f)
 	ponums := make([]int32, f.NumBlocks())
-	po := postorderWithNumbering(f, ponums)
-	return makeSparseTreeHelper(newSparseTree(f, dom), dom, po, ponums)
+	sccnums := make([]int32, f.NumBlocks())
+	po := Scc(f, sccnums, ponums)
+	// fmt.Printf("scc sccnums=%v\n", sccnums)
+	// fmt.Printf("scc ponums=%v\n", ponums)
+	// po = postorderWithNumbering(f, ponums)
+	// fmt.Printf("old ponums=%v\n", ponums)
+	return makeSparseTreeHelper(newSparseTree(f, dom), dom, po, ponums, sccnums)
 }
 
 func (h *SparseTreeHelper) NewTree() *SparseTreeMap {
 	return &SparseTreeMap{}
 }
 
-func makeSparseTreeHelper(sdom SparseTree, dom, po []*Block, ponums []int32) *SparseTreeHelper {
+func makeSparseTreeHelper(sdom SparseTree, dom, po []*Block, ponums, sccnums []int32) *SparseTreeHelper {
 	helper := &SparseTreeHelper{Sdom: []SparseTreeNode(sdom),
-		Dom:    dom,
-		Po:     po,
-		Ponums: ponums,
+		Dom:     dom,
+		Po:      po,
+		Ponums:  ponums,
+		Sccnums: sccnums,
 	}
 	return helper
 }
