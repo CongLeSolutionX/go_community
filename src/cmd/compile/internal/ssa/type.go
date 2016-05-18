@@ -27,6 +27,7 @@ type Type interface {
 	IsMemory() bool // special ssa-package-only types
 	IsFlags() bool
 	IsVoid() bool
+	IsValAndFlags() bool
 
 	ElemType() Type // given []T or *T or [n]T, return T
 	PtrTo() Type    // given T, return *T
@@ -45,12 +46,13 @@ type Type interface {
 
 // Special compiler-only types.
 type CompilerType struct {
-	Name   string
-	size   int64
-	Memory bool
-	Flags  bool
-	Void   bool
-	Int128 bool
+	Name        string
+	size        int64
+	Memory      bool
+	Flags       bool
+	Void        bool
+	Int128      bool
+	valAndFlags bool
 }
 
 func (t *CompilerType) Size() int64            { return t.size } // Size in bytes
@@ -69,6 +71,7 @@ func (t *CompilerType) IsInterface() bool      { return false }
 func (t *CompilerType) IsMemory() bool         { return t.Memory }
 func (t *CompilerType) IsFlags() bool          { return t.Flags }
 func (t *CompilerType) IsVoid() bool           { return t.Void }
+func (t *CompilerType) IsValAndFlags() bool    { return t.valAndFlags }
 func (t *CompilerType) String() string         { return t.Name }
 func (t *CompilerType) SimpleString() string   { return t.Name }
 func (t *CompilerType) ElemType() Type         { panic("not implemented") }
@@ -117,9 +120,11 @@ func (t *CompilerType) Compare(u Type) Cmp {
 }
 
 var (
-	TypeInvalid = &CompilerType{Name: "invalid"}
-	TypeMem     = &CompilerType{Name: "mem", Memory: true}
-	TypeFlags   = &CompilerType{Name: "flags", Flags: true}
-	TypeVoid    = &CompilerType{Name: "void", Void: true}
-	TypeInt128  = &CompilerType{Name: "int128", size: 16, Int128: true}
+	TypeInvalid     = &CompilerType{Name: "invalid"}
+	TypeMem         = &CompilerType{Name: "mem", Memory: true}
+	TypeFlags       = &CompilerType{Name: "flags", Flags: true}
+	TypeVoid        = &CompilerType{Name: "void", Void: true}
+	TypeInt128      = &CompilerType{Name: "int128", size: 16, Int128: true}
+	TypeValAndFlags = &CompilerType{Name: "uint32,flags", size: 4, valAndFlags: true}
+	TypeUInt32x2    = &CompilerType{Name: "uint32,uint32", size: 4}
 )

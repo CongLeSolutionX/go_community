@@ -8,6 +8,7 @@ import "container/heap"
 
 const (
 	ScorePhi = iota // towards top of block
+	ScoreGetFlags
 	ScoreVarDef
 	ScoreMemory
 	ScoreDefault
@@ -103,7 +104,13 @@ func schedule(f *Func) {
 				// reduce register pressure. It also helps make sure
 				// VARDEF ops are scheduled before the corresponding LEA.
 				score[v.ID] = ScoreMemory
-			case v.Type.IsFlags():
+			case v.Op == OpARMLoweredCarry || v.Op == OpARMLoweredHi32:
+				// Schedule the pseudo-op of getting the flags from a
+				// ValAndFlags op immediately after it, since the very
+				// flags is already live. This also remove its false
+				// dependency on the Val.
+				score[v.ID] = ScoreGetFlags
+			case v.Type.IsFlags() || v.Type.IsValAndFlags():
 				// Schedule flag register generation as late as possible.
 				// This makes sure that we only have one live flags
 				// value at a time.
