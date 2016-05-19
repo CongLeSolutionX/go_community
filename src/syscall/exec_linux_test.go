@@ -125,3 +125,31 @@ func TestEmptyCredGroupsDisableSetgroups(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestUnshare(t *testing.T) {
+	// Make sure we are running as root so we have permissions to use unshare
+	// and create a network namespace.
+	if os.Getuid() != 0 {
+		t.Skip("kernel prohibits unshare in unprivileged process, unless using user namespace")
+	}
+
+	cmd := exec.Command("ip", "a")
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Unshare: int(syscall.CLONE_NEWNET),
+	}
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("Cmd failed with err %v, output: %s", err, out)
+	}
+
+	// Check there is only the local network interface
+	sout := strings.TrimSpace(string(out))
+	if !strings.Contains(sout, "lo") {
+		t.Fatalf("Expected lo network interface to exist, got %s", sout)
+	}
+
+	lines := strings.Split(sout, "\n")
+	if len(lines) != 2 {
+		t.Fatalf("Expected 2 lines of output, got %d", len(lines))
+	}
+}
