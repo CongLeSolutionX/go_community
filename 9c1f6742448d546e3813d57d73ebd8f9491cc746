@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7721f6e1_68b13807",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-19T04:43:30Z",
+      "side": 1,
+      "message": "Note that many of the builders are running in Kubernetes now, so they\u0027re running as root and can mostly do root-ish things, but not all. Grep this file for os.Getenv(\"IN_KUBERNETES\") to skip there too. \n\n(Aside: I\u0027ll move that to our testenv package later, but you can just copy/paste for now)",
+      "revId": "9c1f6742448d546e3813d57d73ebd8f9491cc746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
