@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d7c9c29d_f61afe69",
+        "filename": "src/math/rand/gen_cooked.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13410
+      },
+      "writtenOn": "2016-05-19T15:05:55Z",
+      "side": 1,
+      "message": "A lot of this code is actually Kens, which I copied from a very early revision in the old hg repository.\nI wrote this in 2014 (not sure, I\u0027ll check again), which is also the year of the first public release on the go-nuts list.\nThe file in the form it was submitted for review is from 2015. The latest changes during the review are of course from 2016.\n\nWhich one should I use? What are the rules here. I can look up the date in Kens original copyright notice if necessary.",
+      "parentUuid": "b7344e67_22dcce1e",
+      "revId": "bfa0f732b49eea5c26a480e188bc1257bc8585fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7344e67_c2ec02db",
         "filename": "src/math/rand/gen_cooked.go",
         "patchSetId": 4
