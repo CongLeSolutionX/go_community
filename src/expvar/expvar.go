@@ -39,6 +39,8 @@ import (
 // Var is an abstract type for all exported variables.
 type Var interface {
 	// String returns a valid JSON value for the variable.
+	// Types that have a String() method which does not return valid
+	// JSON should not be used as a Var directly, e.g. time.Time.
 	String() string
 }
 
