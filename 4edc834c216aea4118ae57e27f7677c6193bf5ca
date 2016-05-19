@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "97b82ad6_b9e0df0c",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-05-19T02:35:12Z",
+      "side": 1,
+      "message": "Proposed text:\n\n\"Types with String methods that do not return valid JSON (such as time.Time) must not be used as a Var.\"",
+      "revId": "4edc834c216aea4118ae57e27f7677c6193bf5ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7721f6e1_a8533059",
         "filename": "src/expvar/expvar.go",
         "patchSetId": 1
