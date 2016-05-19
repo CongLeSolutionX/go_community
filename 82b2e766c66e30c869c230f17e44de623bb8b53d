@@ -16,6 +16,24 @@
       "revId": "82b2e766c66e30c869c230f17e44de623bb8b53d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7721f6e1_e5c39168",
+        "filename": "src/net/net_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-19T01:01:57Z",
+      "side": 1,
+      "message": "Ah, indeed. The old CL from which this test came did close over it.",
+      "parentUuid": "7721f6e1_e5f71167",
+      "revId": "82b2e766c66e30c869c230f17e44de623bb8b53d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
