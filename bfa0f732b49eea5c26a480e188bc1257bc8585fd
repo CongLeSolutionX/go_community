@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7344e67_22dcce1e",
+        "filename": "src/math/rand/gen_cooked.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-19T14:46:32Z",
+      "side": 1,
+      "message": "2015 or 2016? When was this originally written?",
+      "revId": "bfa0f732b49eea5c26a480e188bc1257bc8585fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344e67_c2ec02db",
+        "filename": "src/math/rand/gen_cooked.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-19T14:46:32Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/wiki/CodeReviewComments#mixed-caps",
+      "revId": "bfa0f732b49eea5c26a480e188bc1257bc8585fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7344e67_82cfda66",
+        "filename": "src/math/rand/gen_cooked.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-19T14:46:32Z",
+      "side": 1,
+      "message": "https://golang.org/doc/effective_go.html#mixed-caps",
+      "revId": "bfa0f732b49eea5c26a480e188bc1257bc8585fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
