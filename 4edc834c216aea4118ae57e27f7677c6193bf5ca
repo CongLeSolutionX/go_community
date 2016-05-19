@@ -16,6 +16,24 @@
       "revId": "4edc834c216aea4118ae57e27f7677c6193bf5ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7721f6e1_28f2a07e",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13380
+      },
+      "writtenOn": "2016-05-19T01:53:15Z",
+      "side": 1,
+      "message": "Is it worth mentioning an example type at all, or could it be removed?",
+      "parentUuid": "7721f6e1_a8533059",
+      "revId": "4edc834c216aea4118ae57e27f7677c6193bf5ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
