@@ -1276,12 +1276,13 @@ func (b *builder) do(root *action) {
 		b.exec.Lock()
 		defer b.exec.Unlock()
 
-		if err != nil {
-			if err == errPrintedOutput {
-				setExitStatus(2)
-			} else {
-				errorf("%s", err)
-			}
+		if err == errPrintedOutput {
+			setExitStatus(2)
+			a.failed = true
+		} else if _, ok := err.(*build.NoGoError); ok && len(a.p.TestGoFiles) > 0 {
+			// Ignore the "no buildable Go source files" error for a package with only test files.
+		} else if err != nil {
+			errorf("%s", err)
 			a.failed = true
 		}
 
