@@ -606,6 +606,10 @@ func runInstall(cmd *Command, args []string) {
 
 	var b builder
 	b.init()
+	if cmd.Name() == "get" {
+		// set the behavior for `go get` to not error on packages with test files only.
+		b.testFilesOnlyOK = true
+	}
 	var a *action
 	if buildBuildmode == "shared" {
 		if libName, err := libname(args, pkgs); err != nil {
@@ -695,6 +699,8 @@ type builder struct {
 	mkdirCache  map[string]bool      // a cache of created directories
 	flagCache   map[string]bool      // a cache of supported compiler flags
 	print       func(args ...interface{}) (int, error)
+
+	testFilesOnlyOK bool // do not error if the packages only have test files
 
 	output    sync.Mutex
 	scriptDir string // current directory in printed script
@@ -1279,6 +1285,8 @@ func (b *builder) do(root *action) {
 		if err != nil {
 			if err == errPrintedOutput {
 				setExitStatus(2)
+			} else if _, ok := err.(*build.NoGoError); ok && len(a.p.TestGoFiles) > 0 && b.testFilesOnlyOK {
+				// Ignore the "no buildable Go source files" error for a package with only test files.
 			} else {
 				errorf("%s", err)
 			}
@@ -1365,7 +1373,7 @@ func (b *builder) build(a *action) (err error) {
 	}
 
 	defer func() {
-		if err != nil && err != errPrintedOutput {
+		if _, ok := err.(*build.NoGoError); !ok && err != nil && err != errPrintedOutput {
 			err = fmt.Errorf("go build %s: %v", a.p.ImportPath, err)
 		}
 	}()
