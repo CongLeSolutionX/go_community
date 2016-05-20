@@ -1279,9 +1279,12 @@ func (b *builder) do(root *action) {
 		if err != nil {
 			if err == errPrintedOutput {
 				setExitStatus(2)
+			} else if _, ok := err.(*build.NoGoError); ok && len(a.p.TestGoFiles) > 0 {
+				// Ignore the "no buildable Go source files" error for a package with only test files.
 			} else {
 				errorf("%s", err)
 			}
+
 			a.failed = true
 		}
 
@@ -1365,7 +1368,7 @@ func (b *builder) build(a *action) (err error) {
 	}
 
 	defer func() {
-		if err != nil && err != errPrintedOutput {
+		if _, ok := err.(*build.NoGoError); !ok && err != nil && err != errPrintedOutput {
 			err = fmt.Errorf("go build %s: %v", a.p.ImportPath, err)
 		}
 	}()
