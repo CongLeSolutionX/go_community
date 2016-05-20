@@ -1376,6 +1376,19 @@ func TestGoGetNonPkg(t *testing.T) {
 	tg.grepStderr("golang.org/x/tools: no buildable Go source files", "missing error")
 }
 
+func TestGoGetTestOnlyPkg(t *testing.T) {
+	testenv.MustHaveExternalNetwork(t)
+
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.tempDir("gobin")
+	tg.setenv("GOPATH", tg.path("."))
+	tg.setenv("GOBIN", tg.path("gobin"))
+	tg.runFail("get", "golang.org/x/tour/content")
+	tg.grepStderr("golang.org/x/tour/content: no buildable Go source files", "missing error")
+	tg.run("get", "-t", "golang.org/x/tour/content")
+}
+
 func TestInstalls(t *testing.T) {
 	if testing.Short() {
 		t.Skip("don't install into GOROOT in short mode")
@@ -2813,7 +2826,7 @@ func TestBinaryOnlyPackages(t *testing.T) {
 	tg.grepStderr("no buildable Go source files", "did not complain about missing sources")
 
 	tg.tempFile("src/p1/missing.go", `//go:binary-only-package
-	
+
 		package p1
 		func G()
 	`)

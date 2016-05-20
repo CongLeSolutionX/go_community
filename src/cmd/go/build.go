@@ -713,6 +713,7 @@ type action struct {
 
 	f          func(*builder, *action) error // the action itself (nil = no-op)
 	ignoreFail bool                          // whether to run f even if dependencies fail
+	ignoreErr  bool
 
 	// Generated files, directories.
 	link   bool   // target is executable, not just package
@@ -1273,7 +1274,9 @@ func (b *builder) do(root *action) {
 			if err == errPrintedOutput {
 				setExitStatus(2)
 			} else {
-				errorf("%s", err)
+				if !a.ignoreErr {
+					errorf("%s", err)
+				}
 			}
 			a.failed = true
 		}
@@ -1389,13 +1392,14 @@ func (b *builder) build(a *action) (err error) {
 		}
 	}
 
-	var gofiles, cgofiles, cfiles, sfiles, cxxfiles, objects, cgoObjects, pcCFLAGS, pcLDFLAGS []string
+	var gofiles, cgofiles, cfiles, sfiles, cxxfiles, testfiles, objects, cgoObjects, pcCFLAGS, pcLDFLAGS []string
 
 	gofiles = append(gofiles, a.p.GoFiles...)
 	cgofiles = append(cgofiles, a.p.CgoFiles...)
 	cfiles = append(cfiles, a.p.CFiles...)
 	sfiles = append(sfiles, a.p.SFiles...)
 	cxxfiles = append(cxxfiles, a.p.CXXFiles...)
+	testfiles = append(testfiles, a.p.TestGoFiles...)
 
 	if a.p.usesCgo() || a.p.usesSwig() {
 		if pcCFLAGS, pcLDFLAGS, err = b.getPkgConfigFlags(a.p); err != nil {
@@ -1458,6 +1462,11 @@ func (b *builder) build(a *action) (err error) {
 	}
 
 	if len(gofiles) == 0 {
+		// When running go get -t do not return a no buildable source files error
+		// if there are go test files present
+		if *getT && len(testfiles) > 0 {
+			a.ignoreErr = true
+		}
 		return &build.NoGoError{Dir: a.p.Dir}
 	}
 
