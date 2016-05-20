@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "974d8a5c_b185c06d",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2016-05-20T22:04:57Z",
+      "side": 1,
+      "message": "Should this be blacklisted or something?",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 18
+      },
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
