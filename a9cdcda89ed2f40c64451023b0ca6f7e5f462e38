@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d7a62227_8594d6f1",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:22:44Z",
+      "side": 1,
+      "message": "I fixed those two in patchset 4",
+      "parentUuid": "d7a62227_a57e32cf",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a62227_e5883afb",
         "filename": "AUTHORS",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "d7a62227_6591eaff",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:22:44Z",
+      "side": 1,
+      "message": "Done in PS4",
+      "parentUuid": "d7a62227_e5883afb",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a62227_65756ae7",
         "filename": "AUTHORS",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2016-05-20T22:11:19Z",
       "side": 1,
       "message": "Is this the company?  Should it be \"Zemanta Inc.\"?",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_25b08299",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:22:44Z",
+      "side": 1,
+      "message": "d.o.o. is društvo s ograničenom odgovornošću (LLC)",
+      "parentUuid": "d7a62227_65756ae7",
       "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
