@@ -1420,6 +1420,16 @@ func TestGoGetNonPkg(t *testing.T) {
 	tg.grepStderr("golang.org/x/tools: no buildable Go source files", "missing error")
 }
 
+func TestGoGetTestOnlyPkg(t *testing.T) {
+	testenv.MustHaveExternalNetwork(t)
+
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.setenv("GOPATH", tg.path("."))
+	tg.run("get", "golang.org/x/tour/content")
+	tg.run("get", "-t", "golang.org/x/tour/content")
+}
+
 func TestInstalls(t *testing.T) {
 	if testing.Short() {
 		t.Skip("don't install into GOROOT in short mode")
