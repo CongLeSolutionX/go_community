@@ -1279,9 +1279,12 @@ func (b *builder) do(root *action) {
 		if err != nil {
 			if err == errPrintedOutput {
 				setExitStatus(2)
+			} else if strings.Contains(err.Error(), "no buildable Go source files") && len(a.p.TestGoFiles) > 0 {
+				// Ignore the "no buildable Go source files" error for a package with only test files.
 			} else {
 				errorf("%s", err)
 			}
+
 			a.failed = true
 		}
 
