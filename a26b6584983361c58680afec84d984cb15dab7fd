@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a62227_252362b2",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:30:50Z",
+      "side": 1,
+      "message": "Nothing in the RFC or this package says \u0027#\u0027 is special. I\u0027d move this documentation down to the Comment field",
+      "revId": "a26b6584983361c58680afec84d984cb15dab7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_652d6a98",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:30:50Z",
+      "side": 1,
+      "message": "these docs are non-standard up here. they should be merged down into the fields below",
+      "revId": "a26b6584983361c58680afec84d984cb15dab7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_250c0232",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:30:50Z",
+      "side": 1,
+      "message": "let\u0027s make all 6 of these be standard:\n\n   // Comma is .....\n   // It is set to comma (\u0027,\u0027) by NewReader.\n   Comma rune\n\n   // FieldsPerRecord is the number ...\n   FieldsPerRecord int",
+      "revId": "a26b6584983361c58680afec84d984cb15dab7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_450f8e28",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:30:50Z",
+      "side": 1,
+      "message": "blank line before private and public fields",
+      "revId": "a26b6584983361c58680afec84d984cb15dab7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
