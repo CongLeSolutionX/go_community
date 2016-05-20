@@ -21,6 +21,11 @@
 // quoted-fields. The beginning and ending quote are not part of the
 // field.
 //
+// Lines that start with a hash character # are treated as comments and
+// ignored. However if the line has any leading whitespace before the #
+// it will not be ignored. This behavior applies even if TrimLeadingSpace
+// is true.
+//
 // The source:
 //
 //	normal string,"quoted-field"
@@ -47,6 +52,15 @@
 //
 //	{`Multi-line
 //	field`, `comma is ,`}
+//
+// The source:
+//
+//	# this is my comment line
+//	"Golang Gopher","123 Main St"
+//
+// results in
+//
+//	{`Golang Gopher`, `123 Main St`}
 package csv
 
 import (
