@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a62227_05af468f",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-05-20T22:03:04Z",
+      "side": 1,
+      "message": "I\u0027d put a comma after However. However, it\u0027d be even better without the word however.\n\nMaybe:\n\n  // Lines that start with a hash character (\u0027#\u0027) without any preceding\n  // whitespace are treated as comments. The TrimLeadingSpace option\n  // does not permit whitespace before the comment hash character.",
+      "revId": "3371cdc7b5ca6f5b32a9064bbe4a888c28f19ef0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
