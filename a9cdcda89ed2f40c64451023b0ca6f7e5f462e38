@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7a62227_851fb6a3",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-20T22:11:19Z",
+      "side": 1,
+      "message": "Is \"Chromium\" a legal entity that holds copyrights?",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_a57e32cf",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-20T22:11:19Z",
+      "side": 1,
+      "message": "Do we have a better name than \"djherbis\"?",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_e5883afb",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-20T22:11:19Z",
+      "side": 1,
+      "message": "Seems like the name here might be \"Niels Widger\".",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a62227_65756ae7",
+        "filename": "AUTHORS",
+        "patchSetId": 3
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-20T22:11:19Z",
+      "side": 1,
+      "message": "Is this the company?  Should it be \"Zemanta Inc.\"?",
+      "revId": "a9cdcda89ed2f40c64451023b0ca6f7e5f462e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "974d8a5c_b185c06d",
         "filename": "CONTRIBUTORS",
         "patchSetId": 3
