@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce84f67_02100a4a",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-21T10:15:42Z",
+      "side": 1,
+      "message": "Duplicate text;  matches start of next line?",
+      "range": {
+        "startLine": 92,
+        "startChar": 48,
+        "endLine": 92,
+        "endChar": 73
+      },
+      "revId": "ee7c28ed37efcba68dc3f28930209ddd47b519db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ce84f67_e20c0638",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-21T10:15:42Z",
+      "side": 1,
+      "message": "s/any //?",
+      "range": {
+        "startLine": 93,
+        "startChar": 47,
+        "endLine": 93,
+        "endChar": 58
+      },
+      "revId": "ee7c28ed37efcba68dc3f28930209ddd47b519db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d71b8259_43ee86ff",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-21T10:15:42Z",
+      "side": 1,
+      "message": "Missing `r\u0027.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "ee7c28ed37efcba68dc3f28930209ddd47b519db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ce84f67_221b0e74",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-21T10:15:42Z",
+      "side": 1,
+      "message": "Mention Comma?  \"If Comma is white space...\"?",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 14
+      },
+      "revId": "ee7c28ed37efcba68dc3f28930209ddd47b519db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
