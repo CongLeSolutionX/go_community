@@ -829,7 +829,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 			// otherwise, ignore null for primitives/string
 		}
 	case 't', 'f': // true, false
-		value := c == 't'
+		value := string(item) == "true"
 		switch v.Kind() {
 		default:
 			if fromQuoted {

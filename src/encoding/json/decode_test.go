@@ -1599,3 +1599,68 @@ func TestInvalidStringOption(t *testing.T) {
 		t.Fatalf("Unmarshal: %v", err)
 	}
 }
+
+// Test that string option boolean specifies is true iff "true"
+// Issue 15146.
+func TestInvalidBooleanSpecifiersWithBooleanPrefixes(t *testing.T) {
+	type item struct {
+		Allowed  bool   `json:",string"`
+		Name     string `json:"name"`
+		Examined bool   `json:"examined"`
+	}
+	testCases := [...]struct {
+		raw     string
+		mustErr bool
+		want    *item
+	}{
+		0: {raw: `{"allowed": "true"}`, want: &item{Allowed: true}},
+		1: {
+			raw:  `{"allowed": "true", "examined": true}`,
+			want: &item{Allowed: true, Examined: true},
+		},
+		2: {raw: `{"allowed": "t"}`, want: &item{Allowed: false}},
+		3: {raw: `{"allowed": "tru"}`, want: &item{Allowed: false}},
+		4: {raw: `{"allowed": "truee"}`, want: &item{Allowed: false}},
+		5: {raw: `{"allowed": "true "}`, want: &item{Allowed: false}},
+
+		6: {raw: `{"allowed": "True"}`, mustErr: true},
+		7: {raw: `{"allowed": "False"}`, mustErr: true},
+		8: {raw: `{"allowed": "Mix"}`, mustErr: true},
+
+		9:  {raw: `{"allowed": "f"}`, want: &item{Allowed: false}},
+		10: {raw: `{"allowed": "ffalse"}`, want: &item{Allowed: false}},
+		11: {raw: `{"allowed": "false"}`, want: &item{Allowed: false}},
+		12: {raw: `{"allowed": "terrible"}`, want: &item{Allowed: false}},
+		13: {
+			raw:  `{"allowed": "false", "examined": true}`,
+			want: &item{Allowed: false, Examined: true},
+		},
+		14: {raw: `{"name": "Gopher"}`, want: &item{Name: "Gopher"}},
+
+		15: {
+			raw:  `{"allowed": "false", "name": "flux"}`,
+			want: &item{Allowed: false, Name: "flux"},
+		},
+	}
+
+	for i, tt := range testCases {
+		it := new(item)
+		err := Unmarshal([]byte(tt.raw), it)
+		if tt.mustErr {
+			if err == nil {
+				t.Errorf("%d: got err=nil expected non-nil error; rawData=%q", i, tt.raw)
+			}
+			continue
+		}
+
+		if err != nil {
+			t.Errorf("%d: got err=%v expected nil error; rawData=%q", i, err, tt.raw)
+			continue
+		}
+
+		got, want := it, tt.want
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("#%d: got=%+v want=%+v", i, got, want)
+		}
+	}
+}
