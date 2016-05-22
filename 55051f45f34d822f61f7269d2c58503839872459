@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c39dbcf_974e8cb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-05-22T18:57:48Z",
+      "side": 1,
+      "message": "I tried running the same command on my linux computer, and I get slightly different output. I suspect it is because your local zoneinfo file is different from mine. I suggest you set\n\nexport ZONEINFO\u003d$GOROOT/lib/time/zoneinfo.zip\n\nbefore running your command. This should force it to use $GOROOT/lib/time/zoneinfo.zip for zone locations. $GOROOT/lib/time/zoneinfo.zip is the same for everyone. It is also has been updated recently. so it should be good enough.",
+      "revId": "55051f45f34d822f61f7269d2c58503839872459",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
