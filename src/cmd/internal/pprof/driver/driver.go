@@ -340,6 +340,8 @@ func grabProfile(source, exec, buildid string, fetch plugin.Fetcher, sym plugin.
 		if duration != 0 {
 			ui.Print("Please wait... (" + duration.String() + ")")
 		}
+	} else if exec == "" {
+		ui.PrintErr("warning: executable not specified, report may be incomplete")
 	}
 
 	now := time.Now()
