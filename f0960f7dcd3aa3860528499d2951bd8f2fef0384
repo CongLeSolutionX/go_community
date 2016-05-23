@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc7b0bab_558b4c2b",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-23T15:58:01Z",
+      "side": 1,
+      "message": "\"else\" not needed.  (If you have other changes worth making.)",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 114,
+        "endChar": 8
+      },
+      "revId": "f0960f7dcd3aa3860528499d2951bd8f2fef0384",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
