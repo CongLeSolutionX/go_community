@@ -16,6 +16,24 @@
       "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "974d8a5c_d4cdd242",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-23T14:52:41Z",
+      "side": 1,
+      "message": "OK, but it looks like ttt does not error.",
+      "parentUuid": "7c871bd2_c1a562ac",
+      "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
