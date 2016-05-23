@@ -34,6 +34,41 @@
       "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_7eb751e4",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-23T14:58:32Z",
+      "side": 1,
+      "message": "Ah I see, so it isn\u0027t obvious. I commented below on the line where the check for tt.mustErr is.",
+      "parentUuid": "974d8a5c_d4cdd242",
+      "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_bea5d9ac",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-23T14:58:32Z",
+      "side": 1,
+      "message": "@rsc please see here where we check that we expect an error. I guess I\u0027ll probably have to reword the CL to make it clearer. When we get to review time, any kinds hints on how I could improve it for readability?",
+      "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
