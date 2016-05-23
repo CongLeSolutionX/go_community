@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce84f67_e2c406a7",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-23T10:40:20Z",
+      "side": 1,
+      "message": "I think these pprof* functions all have the same type so the cases could assign them to a variable of that type and then the call, error check, and exit occur once after the switch if it\u0027s been set.  Or something along those lines.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 44
+      },
+      "revId": "14968554b6f7473c08790cb5aaad81b6a7267ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
