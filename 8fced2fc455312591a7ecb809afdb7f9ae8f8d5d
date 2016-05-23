@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c871bd2_c1a562ac",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-23T14:44:04Z",
+      "side": 1,
+      "message": "@rsc I think you misread the CL, \"True\" errors and so does \"False\" just like we expect, keeping in line with the old behavior.",
+      "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
