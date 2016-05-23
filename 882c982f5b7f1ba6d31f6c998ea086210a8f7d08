@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c98df32_6149f059",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-05-23T18:08:14Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me what the difference between finished and done is.\n\nAm I correct in believing that \u0027done\u0027 and \u0027finished\u0027 do not necessarily imply anything about the other?\n\n\n finished  done  | \n ---------------------------------------------\n false     false | Test just started, this is expected\n false     true  | Test did panic, and we went through the defer in tRunner\n true      false | Test finished and did not panic, and we\u0027re going through the defer in tRunner\n true      true  | Test finished and did not panic, and we went through the defer in tRunner",
+      "revId": "882c982f5b7f1ba6d31f6c998ea086210a8f7d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
