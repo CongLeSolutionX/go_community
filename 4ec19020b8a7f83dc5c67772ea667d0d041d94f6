@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c98df32_d281b4a3",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:54:41Z",
+      "side": 1,
+      "message": "It seems a bit weird that you\u0027re resetting the inputs in this test, but continuing with the modified array in the previous test.  We should use the same method in both places so we don\u0027t confuse people.  I\u0027d vote for the reset every time, it takes a bit longer but it\u0027s easier to understand.",
+      "revId": "4ec19020b8a7f83dc5c67772ea667d0d041d94f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_523e0418",
+        "filename": "src/runtime/memmove_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:54:41Z",
+      "side": 1,
+      "message": "Maybe provide a temp buffer, and do src -\u003e tmp, then tmp -\u003e dest.  Then you only need one version, not a forward and a backward version.",
+      "revId": "4ec19020b8a7f83dc5c67772ea667d0d041d94f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
