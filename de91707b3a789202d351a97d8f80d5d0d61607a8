@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c98df32_876c4cf7",
+        "filename": "src/cmd/compile/internal/ssa/export_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "TypeUInt32 on the second one.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_07c59ca0",
+        "filename": "src/cmd/compile/internal/ssa/flagalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "If we\u0027re guaranteed to schedule the Carry() immediately after the ValAndFlags-generating instruction, then I don\u0027t think we need to treat IsValAndFlags as a flag-generating instruction in this code.  Just the Carry should be sufficient.  I think the only mod needed in this file is 104-109 + 113-115.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_e70f502a",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "UInt32 here",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_27053804",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "UInt32 here.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_271c585a",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "UInt32\nAlso I think you want c \u0026 0xffffffff here and in the next rule.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_073a7cb0",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "Maybe we could make these generic First and Second ops and have generic tuple types.  We can definitely save that for another CL.\nI\u0027m not a fan of the Value32 name either.  But nothing better comes to mind.  SumOf?\nValAndFlags -\u003e SumAndCarry, with Sum and Carry selectors?",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c98df32_878bec81",
+        "filename": "src/cmd/compile/internal/ssa/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-23T21:14:50Z",
+      "side": 1,
+      "message": "Get rid of space.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
