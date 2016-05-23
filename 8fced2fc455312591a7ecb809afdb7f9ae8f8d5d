@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "974d8a5c_b4f12e7c",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-23T15:05:56Z",
+      "side": 1,
+      "message": "What\u0027s not obvious to me is why (for example) tests 2-5,9-12 look different from tests 6-8. They should all expect an error because none of them say \"true\" or \"false\". But only tests 6-8 says mustErr: true. It looks like this code is drawing a distinction between malformed upper case booleans and malformed lower case booleans. That\u0027s not right.",
+      "parentUuid": "1c98df32_7eb751e4",
+      "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_bea5d9ac",
         "filename": "src/encoding/json/decode_test.go",
         "patchSetId": 2
