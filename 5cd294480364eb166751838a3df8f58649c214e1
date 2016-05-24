@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c98df32_a5961d02",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2016-05-24T08:10:12Z",
+      "side": 1,
+      "message": "I am very puzzled by how this works, at least in Go 1.6...\n\nIn fact, I strongly suspect that using RawPath here is a typo/bug, and Path was meant to be used instead.\n\nIt went by unnoticed because this code has no tests (see comment https://github.com/golang/go/issues/11457#issuecomment-121768543) and because this SCP-like syntax parsing functionality was not necessary to resolve the original reported issue. It was sufficient to add \"ssh\" to vcsGit.scheme, because the people in the original issue mention using URLs of the form ssh://git@my.company/package, not git@my.company:package.\n\nHere\u0027s a playground snippet that shows how RawPath does not produce expected results (based on the comment above), but using Path does.\n\nhttps://play.golang.org/p/xt52Ilb6BE",
+      "range": {
+        "startLine": 176,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 10
+      },
+      "revId": "5cd294480364eb166751838a3df8f58649c214e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
