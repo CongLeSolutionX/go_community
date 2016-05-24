@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dca8075e_e7f09ca0",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARMOps.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:57:37Z",
+      "side": 1,
+      "message": "R0 is arbitrary here.",
+      "revId": "f3add0f7bf35fa12ae94db071b2a45e59948f00c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_c7f320ab",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:57:37Z",
+      "side": 1,
+      "message": "ScoreReadTuple? ScoreReadImplicit?",
+      "revId": "f3add0f7bf35fa12ae94db071b2a45e59948f00c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_27ff9474",
+        "filename": "src/cmd/compile/internal/ssa/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:57:37Z",
+      "side": 1,
+      "message": "this is probably another bad name...",
+      "revId": "f3add0f7bf35fa12ae94db071b2a45e59948f00c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
