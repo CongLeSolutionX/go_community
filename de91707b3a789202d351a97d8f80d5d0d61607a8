@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "1c98df32_887d38d7",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-24T15:06:14Z",
+      "side": 1,
+      "message": "Yes, a generic Tuple type would work here and probably other places where we need to do something similar.\nWe\u0027d need a Tuple type constructor that takes 2 types (are there any cases where we need \u003e2?  I can\u0027t think of one).  Then we can specify the pair of types that each instruction generates.\nFor selectors, maybe (Select0 x) and (Select1 x)?\nOr (Select [0] x) and (Select [1] x)?",
+      "parentUuid": "dca8075e_c7cc8079",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_878bec81",
         "filename": "src/cmd/compile/internal/ssa/type.go",
         "patchSetId": 2
