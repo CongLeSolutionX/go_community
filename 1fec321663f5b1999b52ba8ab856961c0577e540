@@ -22,6 +22,24 @@
       "revId": "1fec321663f5b1999b52ba8ab856961c0577e540",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_2ab29bf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-24T19:45:34Z",
+      "side": 1,
+      "message": "I omitted the # because I didn\u0027t think the cross-links would be useful in this case.  Do you think they would be?",
+      "parentUuid": "bc7513bb_96ed6ac7",
+      "revId": "1fec321663f5b1999b52ba8ab856961c0577e540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
