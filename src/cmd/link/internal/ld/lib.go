@@ -1137,6 +1137,16 @@ func hostlink() {
 			//
 			// In both cases, switch to gold.
 			argv = append(argv, "-fuse-ld=gold")
+
+			// If gold is not installed, gcc will silently switch
+			// back to ld.bfd. So we parse the version information
+			// and provide a useful error if gold is missing.
+			cmd := exec.Command(extld, "-fuse-ld=gold", "-Wl,--version")
+			if out, err := cmd.CombinedOutput(); err != nil {
+				if !bytes.Contains(out, []byte("GNU gold")) {
+					log.Fatalf("external linker needs to be gold, but it is not: %s", out)
+				}
+			}
 		}
 	}
 
