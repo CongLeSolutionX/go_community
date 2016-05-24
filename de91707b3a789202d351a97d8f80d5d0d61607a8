@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dca8075e_c498fe8e",
+        "filename": "src/cmd/compile/internal/ssa/export_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c98df32_876c4cf7",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_07c59ca0",
         "filename": "src/cmd/compile/internal/ssa/flagalloc.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-23T21:14:50Z",
       "side": 1,
       "message": "If we\u0027re guaranteed to schedule the Carry() immediately after the ValAndFlags-generating instruction, then I don\u0027t think we need to treat IsValAndFlags as a flag-generating instruction in this code.  Just the Carry should be sufficient.  I think the only mod needed in this file is 104-109 + 113-115.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_84a206b3",
+        "filename": "src/cmd/compile/internal/ssa/flagalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Yes. I was a bit conservative here. As you confirmed, this is removed.",
+      "parentUuid": "1c98df32_07c59ca0",
       "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dca8075e_64910a62",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c98df32_e70f502a",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_27053804",
         "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-05-23T21:14:50Z",
       "side": 1,
       "message": "UInt32 here.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_04861629",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c98df32_27053804",
       "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dca8075e_e47c1a0e",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c98df32_271c585a",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_073a7cb0",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "dca8075e_c7cc8079",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Tuple type sounds good, so we can use it for both +,- and * (though First clashes with \"First\" block). Do we distinguish \u003cuint32,flags\u003e vs \u003cuint32,uint32\u003e?\nSum seems too specific. Then we would need Diff for -?",
+      "parentUuid": "1c98df32_073a7cb0",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_878bec81",
         "filename": "src/cmd/compile/internal/ssa/type.go",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2016-05-23T21:14:50Z",
       "side": 1,
       "message": "Get rid of space.",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_0795b845",
+        "filename": "src/cmd/compile/internal/ssa/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T14:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c98df32_878bec81",
       "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
