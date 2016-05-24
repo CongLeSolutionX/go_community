@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7513bb_96ed6ac7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2016-05-24T19:28:26Z",
+      "side": 1,
+      "message": "perhaps prepend a # in front of each issue number so that people will see the cross-links easily in github\u0027s bug tracker?",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "1fec321663f5b1999b52ba8ab856961c0577e540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
