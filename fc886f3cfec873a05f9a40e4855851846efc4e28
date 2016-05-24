@@ -22,6 +22,74 @@
       "revId": "fc886f3cfec873a05f9a40e4855851846efc4e28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_07b7d8e4",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-24T18:36:44Z",
+      "side": 1,
+      "message": "This field needs a comment.",
+      "revId": "fc886f3cfec873a05f9a40e4855851846efc4e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_e7ed5cc6",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-24T18:36:44Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why you are checking `*getT` here.  It\u0027s not obvious to me that this behavior should depend on the -t flag in any way.  I think that in general we want to permit `go get` of a dependency that only contains test files.",
+      "revId": "fc886f3cfec873a05f9a40e4855851846efc4e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_c7bca0c4",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1468,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-24T18:36:44Z",
+      "side": 1,
+      "message": "This seems to ignore all errors.  That is not OK--it appears that it would ignore an error when the package did have buildable source files but there was an error actually building them.",
+      "revId": "fc886f3cfec873a05f9a40e4855851846efc4e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_07deb824",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-24T18:36:44Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to set GOBIN for this test, in which case you also don\u0027t need the gobin directory.",
+      "revId": "fc886f3cfec873a05f9a40e4855851846efc4e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
