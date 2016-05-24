@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "dca8075e_c77000fa",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-05-24T15:19:41Z",
+      "side": 1,
+      "message": "Sounds good to me. Will do.",
+      "parentUuid": "1c98df32_887d38d7",
+      "revId": "de91707b3a789202d351a97d8f80d5d0d61607a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_878bec81",
         "filename": "src/cmd/compile/internal/ssa/type.go",
         "patchSetId": 2
