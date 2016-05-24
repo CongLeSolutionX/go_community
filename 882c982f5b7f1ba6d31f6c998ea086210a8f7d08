@@ -34,6 +34,40 @@
       "revId": "882c982f5b7f1ba6d31f6c998ea086210a8f7d08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_e7c97c66",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-24T14:38:04Z",
+      "side": 1,
+      "message": "s/Fail/testing: Fail called/",
+      "revId": "882c982f5b7f1ba6d31f6c998ea086210a8f7d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca8075e_87d68805",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-24T14:38:04Z",
+      "side": 1,
+      "message": "The Lock/Unlock here is only to synchronize buggy tests that are racing the test finishing against another goroutine calling t.Fail. If you take the lock out, then tests run under the race detector will report the race, possibly more reliably. So probably take the Lock out.",
+      "revId": "882c982f5b7f1ba6d31f6c998ea086210a8f7d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
