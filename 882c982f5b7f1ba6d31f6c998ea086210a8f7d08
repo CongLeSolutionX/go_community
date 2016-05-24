@@ -16,6 +16,24 @@
       "revId": "882c982f5b7f1ba6d31f6c998ea086210a8f7d08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7513bb_33d34873",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2016-05-24T14:28:55Z",
+      "side": 1,
+      "message": "finished implies done (as I tried to clarify in the comment).\n\n\"finished\" means the test function (func(t *testing.T)) passed to Run has completed. \"done\" means that all parallel subtests spawned by a test have completed. Parallel subtests are always run after the test body that spawns them returned.\n\nNote that in the current implementation under the hood all top-level tests are subtests (spawned by Run) by a single \"main\" test. So the semantics parallelism for subtests is exactly the same as for top-level tests.",
+      "parentUuid": "1c98df32_6149f059",
+      "revId": "882c982f5b7f1ba6d31f6c998ea086210a8f7d08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
