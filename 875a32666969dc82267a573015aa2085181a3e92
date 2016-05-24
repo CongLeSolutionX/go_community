@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc14878a_5344ee5e",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-24T23:20:45Z",
+      "side": 1,
+      "message": "May as well just call ruleLog with rule.loc and let it add the \"rewrite \" text (or whatever). Then all the formatting logic is in a single function.",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_1321d69c",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-24T23:20:45Z",
+      "side": 1,
+      "message": "logRule? logRuleUse? logRuleTrigger? ruleLog is a noun.",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_f3a51a55",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-24T23:20:45Z",
+      "side": 1,
+      "message": "My main use for logging in the past is seeing the exactly number of times a rewrite rule triggers. That helps me see the impact as I adjust the rule to try to cover more cases.\n\nHow about instead we record counts (map[string]int) and then flush the accumulated log data at the end of every rewrite pass? The flush would be a no-op when logging isn\u0027t enabled--maybe controlled by a global var written in the generated code. The flushed data could still be line oriented for easy command line processing, e.g. \"rulefile:ruleline count\" or some such. (Maybe even \"path/to/pkg.funcname rulefile:ruleline count\"?) The consumer of these log files could then discard the counts or sum them as desired.",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc14878a_b3fd624b",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-24T23:20:45Z",
+      "side": 1,
+      "message": "Yes, we need to handle this. I think it\u0027d be easier to introduce an envvar that all.bash and make.bash respect and which they use to run everything in serial. They would detect that envvar and convert it into:\n\n* the -p flag to cmd/go\n* the appropriate flag to disable parallel tests during regular test runs\n* the appropriate flag for serial runs in testing/run.go (I\u0027m pretty sure one exists)",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
