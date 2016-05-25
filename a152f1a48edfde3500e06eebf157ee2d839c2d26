@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcf7d3e0_0c3576e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-25T23:24:03Z",
+      "side": 1,
+      "message": "d",
+      "revId": "a152f1a48edfde3500e06eebf157ee2d839c2d26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_8c0f2623",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-05-25T23:24:03Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure fmt.Fprintf makes exactly one write, so this could be\n\nfmt.Fprintf(ruleFile, \"rewrite %s\\n\", s)\n\nMay as well check the error too. :)",
+      "revId": "a152f1a48edfde3500e06eebf157ee2d839c2d26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
