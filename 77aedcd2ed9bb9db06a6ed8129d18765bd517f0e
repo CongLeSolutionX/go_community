@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcf7d3e0_09820da8",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-25T16:34:47Z",
+      "side": 1,
+      "message": "Should also mention Type.Method/NumMethod, I think.\n\nAlso now I wonder if we should explicitly mention this in the doc comments as well.",
+      "revId": "77aedcd2ed9bb9db06a6ed8129d18765bd517f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
