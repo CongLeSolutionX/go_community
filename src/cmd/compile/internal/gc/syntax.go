@@ -167,16 +167,16 @@ type Name struct {
 type Param struct {
 	Ntype *Node
 
-	// ONAME func param with PHEAP
-	Outerexpr  *Node // expression copied into closure for variable
-	Stackparam *Node // OPARAM node referring to stack copy of param
+	// ONAME PAUTOHEAP
+	Outerexpr *Node // expression copied into closure for variable
+	Stackcopy *Node // XXX
 
 	// ONAME PPARAM
 	Field *Field // TFIELD in arg struct
 
 	// ONAME closure param with PPARAMREF
 	Outer   *Node // outer PPARAMREF in nested closure
-	Closure *Node // ONAME/PHEAP <-> ONAME/PPARAMREF
+	Closure *Node // ONAME/PAUTOHEAP <-> ONAME/PPARAMREF
 }
 
 // Func holds Node fields used only with function-like nodes.
@@ -292,7 +292,7 @@ const (
 	OINDEX     // Left[Right] (index of array or slice)
 	OINDEXMAP  // Left[Right] (index of map)
 	OKEY       // Left:Right (key:value in struct/array/map literal, or slice index pair)
-	OPARAM     // variant of ONAME for on-stack copy of a parameter or return value that escapes.
+	_          // was OPARAM, but cannot remove without breaking binary blob in builtin.go
 	OLEN       // len(Left)
 	OMAKE      // make(List) (before type checking converts to one of the following)
 	OMAKECHAN  // make(Type, Left) (type is chan)

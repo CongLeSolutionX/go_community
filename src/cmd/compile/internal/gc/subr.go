@@ -332,6 +332,9 @@ func importdot(opkg *Pkg, pack *Node) {
 }
 
 func Nod(op Op, nleft *Node, nright *Node) *Node {
+	if Debug['r'] != 0 && op == ODCL && nleft != nil && nleft.Sym != nil && nleft.Sym.Name == "x" {
+		fmt.Fprintf(os.Stderr, "NEW DCL %v %p\n%s\n", nleft, nleft, debug.Stack())
+	}
 	n := new(Node)
 	n.Op = op
 	n.Left = nleft
@@ -1231,7 +1234,7 @@ func ullmancalc(n *Node) {
 	switch n.Op {
 	case OREGISTER, OLITERAL, ONAME:
 		ul = 1
-		if n.Class == PPARAMREF || (n.Class&PHEAP != 0) {
+		if n.Class == PPARAMREF || n.Class == PAUTOHEAP {
 			ul++
 		}
 		goto out
