@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_6c550a42",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-25T23:07:34Z",
+      "side": 1,
+      "message": "I just got rid of the deduping.  The raw size from all.bash is only 600MB.  Maybe if I really cared I could use a zipwriter.",
+      "parentUuid": "dc14878a_f3a51a55",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc14878a_b3fd624b",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 1
@@ -88,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_6ccaaa5c",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-25T23:07:34Z",
+      "side": 1,
+      "message": "I\u0027m going to leave this as a TODO for now. It\u0027s quite a big change.  Rule logging isn\u0027t critical, if some output gets corrupted that\u0027s ok.",
+      "parentUuid": "fccf8b9c_b55da070",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fccf8b9c_9562a426",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 1
@@ -105,6 +141,24 @@
         "endLine": 393,
         "endChar": 21
       },
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_8cf4c694",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-05-25T23:07:34Z",
+      "side": 1,
+      "message": "I don\u0027t think it matters that much.  Ideally we declare it inside the function ala C\u0027s static, but Go doesn\u0027t have that.  I always prefer to put exported things first (\"exported\" in this case means used by another file).",
+      "parentUuid": "fccf8b9c_9562a426",
       "revId": "875a32666969dc82267a573015aa2085181a3e92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
