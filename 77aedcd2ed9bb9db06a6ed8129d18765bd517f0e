@@ -16,6 +16,24 @@
       "revId": "77aedcd2ed9bb9db06a6ed8129d18765bd517f0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_57409c98",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-05-25T18:14:58Z",
+      "side": 1,
+      "message": "\u003e Should also mention Type.Method/NumMethod, I think.\n\nDone.\n\n \u003e Also now I wonder if we should explicitly mention this in the doc\n \u003e comments as well.\n\nMaybe. I\u0027m reluctant to take on specifying the reflect API myself.",
+      "parentUuid": "bcf7d3e0_09820da8",
+      "revId": "77aedcd2ed9bb9db06a6ed8129d18765bd517f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
