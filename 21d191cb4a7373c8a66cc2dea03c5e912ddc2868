@@ -34,6 +34,24 @@
       "revId": "21d191cb4a7373c8a66cc2dea03c5e912ddc2868",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c31bf82_36f5f85c",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-25T17:15:27Z",
+      "side": 1,
+      "message": "Don\u0027t worry about it. Let\u0027s just make the names good now.",
+      "parentUuid": "3cbe83e3_5719ac16",
+      "revId": "21d191cb4a7373c8a66cc2dea03c5e912ddc2868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
