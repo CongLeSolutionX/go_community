@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c31bf82_362178e7",
+        "filename": "src/math/big/arith_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-25T15:21:16Z",
+      "side": 1,
+      "message": "Why the \"_\"? The name is going to have a \"/\" before it anyway, right?\nThe old names were things like AddVV_1, AddVV_2.\nAs written these will be AddVV/_1; they might as well be AddVV/1.",
+      "revId": "21d191cb4a7373c8a66cc2dea03c5e912ddc2868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
