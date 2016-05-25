@@ -67,6 +67,47 @@
       "revId": "875a32666969dc82267a573015aa2085181a3e92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fccf8b9c_b55da070",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-25T11:38:09Z",
+      "side": 1,
+      "message": "AIUI write(2)s with O_APPEND to files are atomic, i.e. not interleaved, for all practical purposes, including on Windows, excluding NFSv4 or earlier, so if the WriteString action can translate to a single write(2) you could avoid ditching parallel.",
+      "parentUuid": "dc14878a_b3fd624b",
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fccf8b9c_9562a426",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-25T11:38:09Z",
+      "side": 1,
+      "message": "Is it better to have these before the function that uses them so I\u0027ve already seen their definitions?",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 21
+      },
+      "revId": "875a32666969dc82267a573015aa2085181a3e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
