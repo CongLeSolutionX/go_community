@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_06eb1cb2",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1626,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-25T07:48:06Z",
+      "side": 1,
+      "message": "Gotcha. In the next cycle, I\u0027ll switch them up to just test for one attribute. Currently they test a mix of other attributes ie `Allowed`, `Name` and `Examined` to ensure that we can always Unmarshal with a mix of values but for sure in the next iteration I\u0027ll explicitly make them just test true or false to match your suggestion.",
+      "parentUuid": "974d8a5c_b4f12e7c",
+      "revId": "8fced2fc455312591a7ecb809afdb7f9ae8f8d5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c98df32_bea5d9ac",
         "filename": "src/encoding/json/decode_test.go",
         "patchSetId": 2
