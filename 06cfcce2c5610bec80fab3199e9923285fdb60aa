@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c31bf82_562af4c8",
+        "filename": "src/compress/flate/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-25T15:01:41Z",
+      "side": 1,
+      "message": "Can you make this suite.name+\"/\"+l.name+\"/\"+s.name ?\nIf I understand correctly, that will make the -run argument nicer to use.",
+      "revId": "06cfcce2c5610bec80fab3199e9923285fdb60aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
