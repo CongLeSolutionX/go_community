@@ -34,6 +34,23 @@
       "revId": "1017feb8e61b41f93b51c27c30c807ac280251f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c863b2f_a925ddae",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-05-25T21:02:45Z",
+      "side": 1,
+      "message": "We really do need comments here, because I guessed at what was going on and my guess didn\u0027t resemble a \"linked list or something\".",
+      "revId": "1017feb8e61b41f93b51c27c30c807ac280251f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
