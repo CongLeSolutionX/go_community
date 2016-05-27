@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcaba7ee_b5902209",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-27T23:28:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure \"cleanup\" is the right word.  Calling setgroups is expected; we are avoiding doing it in a particular case.  Also, capitalize and punctuate.\n\nI\u0027m also not sure why this is correct.  It seems to me that we must avoid setgroups in the case where GidMappings is not nil \u0026\u0026 GidMappingsEnableSetgroups is false.  In other cases, it seems like setgroups ought to work.  So I don\u0027t understand why you are testing CLONE_NEWUSER, or, for that matter, testing ngroups \u003d\u003d 0.",
+      "revId": "87ca6054b42ed7462a1daea99df3bafcbafa6ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
