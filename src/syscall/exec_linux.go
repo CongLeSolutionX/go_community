@@ -206,8 +206,14 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	// User and groups
 	if cred := sys.Credential; cred != nil {
 		ngroups := uintptr(len(cred.Groups))
+		var groups unsafe.Pointer
 		if ngroups > 0 {
-			groups := unsafe.Pointer(&cred.Groups[0])
+			groups = unsafe.Pointer(&cred.Groups[0])
+		}
+		// We're avoiding calling setgroups in case of user namespace, gid mappings
+		// and disabled setgroups, because otherwise unprivileged user namespace
+		// will fail with any non-empty SysProcAttr.Credential.
+		if !(sys.GidMappings != nil && !sys.GidMappingsEnableSetgroups && ngroups == 0) {
 			_, _, err1 = RawSyscall(SYS_SETGROUPS, ngroups, uintptr(groups), 0)
 			if err1 != 0 {
 				goto childerror
