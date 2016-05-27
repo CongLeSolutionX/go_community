@@ -161,3 +161,65 @@ func TestUnshare(t *testing.T) {
 		t.Fatalf("Expected 3 lines of output, got %d", len(lines))
 	}
 }
+
+func TestGroupCleanup(t *testing.T) {
+	if os.Getuid() != 0 {
+		t.Skip("we need root for credential")
+	}
+	idBin, err := exec.LookPath("id")
+	if err != nil {
+		t.Skipf("failed to find id binary: %v", err)
+	}
+	cmd := exec.Command(idBin)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Credential: &syscall.Credential{
+			Uid: 0,
+			Gid: 0,
+		},
+	}
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("Cmd failed with err %v, output: %s", err, out)
+	}
+	strOut := strings.TrimSpace(string(out))
+	expected := "uid=0(root) gid=0(root) groups=0(root)"
+	if strOut != expected {
+		t.Fatalf("id command output: %s, expected: %s", strOut, expected)
+	}
+}
+
+func TestGroupCleanupUserNamespace(t *testing.T) {
+	if os.Getuid() != 0 {
+		t.Skip("we need root for credential")
+	}
+	idBin, err := exec.LookPath("id")
+	if err != nil {
+		t.Skipf("failed to find id binary: %v", err)
+	}
+	cmd := exec.Command(idBin)
+	uid, gid := os.Getuid(), os.Getgid()
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Cloneflags: syscall.CLONE_NEWUSER,
+		Credential: &syscall.Credential{
+			Uid: uint32(uid),
+			Gid: uint32(gid),
+		},
+		UidMappings: []syscall.SysProcIDMap{
+			{ContainerID: 0, HostID: uid, Size: 1},
+		},
+		GidMappings: []syscall.SysProcIDMap{
+			{ContainerID: 0, HostID: gid, Size: 1},
+		},
+	}
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("Cmd failed with err %v, output: %s", err, out)
+	}
+	strOut := strings.TrimSpace(string(out))
+	// there are two possible outs
+	expected1 := "uid=0(root) gid=0(root) groups=0(root)"
+	expected2 := "uid=0(root) gid=0(root) groups=0(root),65534(nobody)"
+	if strOut != expected1 && strOut != expected2 {
+		t.Fatalf("id command output: %s, expected: %s or %s", strOut, expected1, expected2)
+	}
+}
