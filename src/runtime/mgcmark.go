@@ -1113,6 +1113,8 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
 // object.
 //go:nowritebarrier
 func scanobject(b uintptr, gcw *gcWork) {
+	start := nanotime()
+
 	// Note that arena_used may change concurrently during
 	// scanobject and hence scanobject may encounter a pointer to
 	// a newly allocated heap object that is *not* in
@@ -1168,6 +1170,10 @@ func scanobject(b uintptr, gcw *gcWork) {
 	}
 	gcw.bytesMarked += uint64(n)
 	gcw.scanWork += int64(i)
+
+	if dur := nanotime() - start; debug.gctrace >= 1 && dur > 10e6 {
+		print("long scanobject: ", dur/1e6, " ms, obj size ", n, " bytes, scanned ", i, " bytes on G ", getg().goid, "\n")
+	}
 }
 
 // Shade the object if it isn't already.
