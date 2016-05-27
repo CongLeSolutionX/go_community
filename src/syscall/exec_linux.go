@@ -206,8 +206,13 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	// User and groups
 	if cred := sys.Credential; cred != nil {
 		ngroups := uintptr(len(cred.Groups))
+		var groups unsafe.Pointer
 		if ngroups > 0 {
-			groups := unsafe.Pointer(&cred.Groups[0])
+			groups = unsafe.Pointer(&cred.Groups[0])
+		}
+		// if we're in host user namespace, then we need to cleanup supplementary groups
+		// in case of user namespace, there will be only nobody group
+		if !(ngroups == 0 && sys.Cloneflags&CLONE_NEWUSER == CLONE_NEWUSER) {
 			_, _, err1 = RawSyscall(SYS_SETGROUPS, ngroups, uintptr(groups), 0)
 			if err1 != 0 {
 				goto childerror
