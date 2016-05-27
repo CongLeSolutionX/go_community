@@ -51,6 +51,24 @@
       "revId": "1017feb8e61b41f93b51c27c30c807ac280251f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ce39b4a_01af2aa2",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-05-27T03:08:46Z",
+      "side": 1,
+      "message": "I know, I know. This was C, remember? :-)\nAnd maybe I\u0027m wrong anyway.\n\nI will send comments in a followup CL though. I\u0027d like to get the semantic stuff in now.",
+      "parentUuid": "7c863b2f_a925ddae",
+      "revId": "1017feb8e61b41f93b51c27c30c807ac280251f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
