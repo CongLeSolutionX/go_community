@@ -478,10 +478,11 @@ func (w *changeImplConn) Close() error {
 func throughput(b *testing.B, totalBytes int64, dynamicRecordSizingDisabled bool) {
 	ln := newLocalListener(b)
 	defer ln.Close()
+	bN := b.N
 
 	var serr error
 	go func() {
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < bN; i++ {
 			sconn, err := ln.Accept()
 			if err != nil {
 				serr = err
@@ -525,7 +526,7 @@ func throughput(b *testing.B, totalBytes int64, dynamicRecordSizingDisabled bool
 
 func BenchmarkThroughput(b *testing.B) {
 	for _, mode := range []string{"Max", "Dynamic"} {
-		for size := 1; size <= 64; size<<=1{
+		for size := 1; size <= 64; size <<= 1 {
 			name := fmt.Sprintf("%sPacket/%dMB", mode, size)
 			b.Run(name, func(b *testing.B) {
 				throughput(b, int64(size<<20), mode == "Max")
@@ -546,8 +547,8 @@ func (c *slowConn) Write(p []byte) (int, error) {
 	t0 := time.Now()
 	wrote := 0
 	for wrote < len(p) {
-		time.Sleep(100*time.Microsecond)
-		allowed := int(time.Since(t0).Seconds() * float64(c.bps)) / 8
+		time.Sleep(100 * time.Microsecond)
+		allowed := int(time.Since(t0).Seconds()*float64(c.bps)) / 8
 		if allowed > len(p) {
 			allowed = len(p)
 		}
@@ -565,10 +566,11 @@ func (c *slowConn) Write(p []byte) (int, error) {
 func latency(b *testing.B, bps int, dynamicRecordSizingDisabled bool) {
 	ln := newLocalListener(b)
 	defer ln.Close()
+	bN := b.N
 
 	var serr error
 	go func() {
-		for i := 0; i < b.N; i++ {
+		for i := 0; i < bN; i++ {
 			sconn, err := ln.Accept()
 			if err != nil {
 				serr = err
@@ -612,7 +614,6 @@ func latency(b *testing.B, bps int, dynamicRecordSizingDisabled bool) {
 		conn.Close()
 	}
 }
-
 
 func BenchmarkLatency(b *testing.B) {
 	for _, mode := range []string{"Max", "Dynamic"} {
