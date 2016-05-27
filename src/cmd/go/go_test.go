@@ -1726,6 +1726,14 @@ func TestSymlinksVendor(t *testing.T) {
 	tg.run("run", "p.go")
 	tg.run("build")
 	tg.run("install")
+
+	tg.run("fix", "p.go")
+	tg.run("fmt", "p.go")
+	tg.run("vet", "p.go")
+
+	tg.run("fix", "./...")
+	tg.run("fmt", "./...")
+	tg.run("vet", "./...")
 }
 
 func TestSymlinksInternal(t *testing.T) {
@@ -1751,6 +1759,14 @@ func TestSymlinksInternal(t *testing.T) {
 	tg.run("run", "p.go")
 	tg.run("build")
 	tg.run("install")
+
+	tg.run("fix", "p.go")
+	tg.run("fmt", "p.go")
+	tg.run("vet", "p.go")
+
+	tg.run("fix", "./...")
+	tg.run("fmt", "./...")
+	tg.run("vet", "./...")
 }
 
 // Issue 4515.
