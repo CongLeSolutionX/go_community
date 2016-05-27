@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcaba7ee_ef949d4b",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-05-27T20:42:57Z",
+      "side": 1,
+      "message": "s/like/such as/",
+      "revId": "3a6a41868eb620912235f2dd3f9738c76035e731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
