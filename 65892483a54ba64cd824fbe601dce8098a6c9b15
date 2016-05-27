@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_78e13ba7",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Yap I agree, long lines of prose aren\u0027t easy to follow. Am fixing that. Ah I see. Thank you for that.",
+      "parentUuid": "1c31bf82_168f9ce2",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c31bf82_b6b6e893",
         "filename": "src/runtime/extern.go",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_58de7fef",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Roger that. Fixing that.",
+      "parentUuid": "1c31bf82_56ac3442",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c863b2f_69ff6573",
         "filename": "src/runtime/extern.go",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2016-05-25T18:17:48Z",
       "side": 1,
       "message": "I don\u0027t understand what all of the @s are. They don\u0027t appear in the output. In general, there seems to be a lot of unnecessary \"syntax\" here, while at the same time it leaves out the commas that actually appear in the line. Following the lead of the gc trace line above, how about something like\n\nscvg#: # MB released\nscvg#: inuse: #, idle: #, sys: #, released: #, consumed: # (MB)\nwhere the fields are as follows:\nscvg#      ...\ninuse: #   ...\nidle: #    ...\n...",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_a9d2c73a",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Yes, I copied the `@`s from the gc trace summary but I\u0027ve corrected that. Thanks. Done.",
+      "parentUuid": "7c863b2f_69ff6573",
       "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_89cf0b92",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Ahh I see. For sure, done.",
+      "parentUuid": "7c863b2f_89f3b9ab",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c863b2f_a9f07d9f",
         "filename": "src/runtime/extern.go",
         "patchSetId": 2
@@ -98,6 +170,24 @@
       "writtenOn": "2016-05-25T18:17:48Z",
       "side": 1,
       "message": "Don\u0027t mention free lists. They\u0027re an implementation detail that isn\u0027t necessary to understand the scavenger trace.\n\nFor all of these, rather than saying \"bytes ... in MB\", just say \"MB\" at the beginning.",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_69cccf9c",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Roger that. Removed in the latest patch set.",
+      "parentUuid": "7c863b2f_a9f07d9f",
       "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_8996eb5d",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Ah I see. Good point about \"bytes available\" suggesting that they\u0027re available for some purpose. Fixed. Thanks.",
+      "parentUuid": "7c863b2f_092fc9e4",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c863b2f_e9ea75ab",
         "filename": "src/runtime/extern.go",
         "patchSetId": 2
@@ -132,6 +240,24 @@
       "writtenOn": "2016-05-25T18:17:48Z",
       "side": 1,
       "message": "\"MB in spans pending scavenging\"?",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_a999a792",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c863b2f_e9ea75ab",
       "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_29a5b7c1",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c863b2f_4939c12d",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c863b2f_4910e19d",
         "filename": "src/runtime/extern.go",
         "patchSetId": 2
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "bcf7d3e0_09aafb92",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Gotcha. Done.",
+      "parentUuid": "7c863b2f_4910e19d",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c863b2f_8929f9d4",
         "filename": "src/runtime/extern.go",
         "patchSetId": 2
@@ -183,6 +345,24 @@
       "writtenOn": "2016-05-25T18:17:48Z",
       "side": 1,
       "message": "I would argue that this is best described as the \"allocated\" memory, since this is really the memory we\u0027ve mapped and haven\u0027t explicitly released back to the OS. It\u0027s not *quite* allocated, because it includes pages we\u0027ve mapped but haven\u0027t actually touched (so they\u0027re \"free\" for now), but that\u0027s close enough to splitting hairs that I don\u0027t think it matters here. So maybe \"MB allocated from the system\"? I wouldn\u0027t bother with the explanation of how it\u0027s computed, since none of the others explain that.",
+      "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf7d3e0_e9ae7fa4",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-05-27T08:10:31Z",
+      "side": 1,
+      "message": "Roger that. Done.",
+      "parentUuid": "7c863b2f_8929f9d4",
       "revId": "65892483a54ba64cd824fbe601dce8098a6c9b15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
