@@ -1980,12 +1980,17 @@ func shortPath(path string) string {
 func relPaths(paths []string) []string {
 	var out []string
 	pwd, _ := os.Getwd()
-	for _, p := range paths {
-		rel, err := filepath.Rel(pwd, p)
-		if err == nil && len(rel) < len(p) {
-			p = rel
+	pwd, err := filepath.EvalSymlinks(pwd)
+	if err != nil {
+		copy(out, paths)
+	} else {
+		for _, p := range paths {
+			rel, err := filepath.Rel(pwd, p)
+			if err == nil && len(rel) < len(p) {
+				p = rel
+			}
+			out = append(out, p)
 		}
-		out = append(out, p)
 	}
 	return out
 }
