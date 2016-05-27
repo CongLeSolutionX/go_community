@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"os"
 	"runtime"
 	"sort"
 	"strings"
@@ -620,6 +621,16 @@ func profileWriter(w io.Writer) {
 		}
 		w.Write(data)
 	}
+
+	if runtime.GOOS == "linux" {
+		f, err := os.Open("/proc/self/maps")
+		if err == nil {
+			io.WriteString(w, "\nMAPPED_LIBRARIES:\n")
+			io.Copy(w, f)
+			f.Close()
+		}
+	}
+
 	cpu.done <- true
 }
 
