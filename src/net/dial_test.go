@@ -12,6 +12,7 @@ import (
 	"net/internal/socktest"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -87,17 +88,11 @@ func TestDialTimeoutFDLeak(t *testing.T) {
 	// socktest.Switch.
 	// It may happen when the Dial call bumps against TCP
 	// simultaneous open. See selfConnect in tcpsock_posix.go.
-	defer func() {
-		sw.Set(socktest.FilterClose, nil)
-		forceCloseSockets()
-	}()
-	var mu sync.Mutex
-	var attempts int
+	defer func() { sw.Set(socktest.FilterClose, nil) }()
+	var attempts int32
 	sw.Set(socktest.FilterClose, func(so *socktest.Status) (socktest.AfterFilter, error) {
-		mu.Lock()
-		attempts++
-		mu.Unlock()
-		return nil, errTimedout
+		atomic.AddInt32(&attempts, 1)
+		return nil, nil
 	})
 
 	const N = 100
