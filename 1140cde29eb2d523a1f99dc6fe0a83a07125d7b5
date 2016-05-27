@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcaba7ee_cc9f2f15",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-27T19:28:58Z",
+      "side": 1,
+      "message": "The change to use atomic.AddInt32 seems unrelated.  Perhaps it should be in a different CL.\n\nIf you use atomic.AddInt32 here, then for consistency you should use atomic.LoadInt32 below when you check attempts.",
+      "revId": "1140cde29eb2d523a1f99dc6fe0a83a07125d7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
