@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3043cd_878a4626",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-05-28T09:07:43Z",
+      "side": 1,
+      "message": "Now needs to be singular, with an \"a\" before MarshalText?\nLikewise below.",
+      "range": {
+        "startLine": 655,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 7
+      },
+      "revId": "5411d52ba9c4bf72173e1ad6d448093d32f657b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
