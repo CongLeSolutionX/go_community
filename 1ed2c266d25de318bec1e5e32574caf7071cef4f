@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcaba7ee_c0a40ec8",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-28T03:33:47Z",
+      "side": 1,
+      "message": "You can\u0027t call b.Fatalf in a goroutine.",
+      "revId": "1ed2c266d25de318bec1e5e32574caf7071cef4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
