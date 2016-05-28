@@ -481,20 +481,17 @@ func throughput(b *testing.B, totalBytes int64, dynamicRecordSizingDisabled bool
 
 	N := b.N
 
-	var serr error
 	go func() {
 		for i := 0; i < N; i++ {
 			sconn, err := ln.Accept()
 			if err != nil {
-				serr = err
-				return
+				b.Fatalf("accept: %v", err)
 			}
 			serverConfig := *testConfig
 			serverConfig.DynamicRecordSizingDisabled = dynamicRecordSizingDisabled
 			srv := Server(sconn, &serverConfig)
 			if err := srv.Handshake(); err != nil {
-				serr = fmt.Errorf("handshake: %v", err)
-				return
+				b.Fatalf("handshake: %v", err)
 			}
 			io.Copy(srv, srv)
 		}
@@ -570,20 +567,17 @@ func latency(b *testing.B, bps int, dynamicRecordSizingDisabled bool) {
 
 	N := b.N
 
-	var serr error
 	go func() {
 		for i := 0; i < N; i++ {
 			sconn, err := ln.Accept()
 			if err != nil {
-				serr = err
-				return
+				b.Fatalf("accept: %v", err)
 			}
 			serverConfig := *testConfig
 			serverConfig.DynamicRecordSizingDisabled = dynamicRecordSizingDisabled
 			srv := Server(&slowConn{sconn, bps}, &serverConfig)
 			if err := srv.Handshake(); err != nil {
-				serr = fmt.Errorf("handshake: %v", err)
-				return
+				b.Fatalf("handshake: %v", err)
 			}
 			io.Copy(srv, srv)
 		}
