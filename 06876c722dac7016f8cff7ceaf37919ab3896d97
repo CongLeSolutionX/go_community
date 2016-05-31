@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79be4d92_e98075b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-05-31T23:16:59Z",
+      "side": 1,
+      "message": "Look at the previous commit messages for a guide to how to write this one.\neg:\n\nnet/http: update bundled http2\n\nUpdates x/net/http2 to git rev XXX for CL 23526:\nhttp2: GotFirstResponseByte hook should only fire once\n\nAlso updated the trace hooks test to verify that all trace hooks are called exactly once except ConnectStart/End, which may be called multiple times (due to happy-eyeballs).\n\nFixes #15777",
+      "revId": "06876c722dac7016f8cff7ceaf37919ab3896d97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
