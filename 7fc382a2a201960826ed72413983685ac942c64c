@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b97525bb_33990881",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-05-31T21:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcaba7ee_73308fed",
+      "revId": "7fc382a2a201960826ed72413983685ac942c64c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcaba7ee_330d6732",
         "filename": "src/cmd/go/build.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-31T13:18:16Z",
       "side": 1,
       "message": "s/[]string{}/nil/",
+      "revId": "7fc382a2a201960826ed72413983685ac942c64c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97525bb_d39d346d",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2901,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-05-31T21:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcaba7ee_330d6732",
       "revId": "7fc382a2a201960826ed72413983685ac942c64c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
