@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcaba7ee_73308fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-31T13:18:16Z",
+      "side": 1,
+      "message": "Omit the \"()\".  Since godoc doesn\u0027t recognize them we don\u0027t usually use them.",
+      "revId": "7fc382a2a201960826ed72413983685ac942c64c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcaba7ee_330d6732",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2901,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-05-31T13:18:16Z",
+      "side": 1,
+      "message": "s/[]string{}/nil/",
+      "revId": "7fc382a2a201960826ed72413983685ac942c64c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
