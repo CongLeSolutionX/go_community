@@ -27,16 +27,19 @@ x_cgo_sys_thread_create(void* (*func)(void*), void* arg) {
 
 uintptr_t
 _cgo_wait_runtime_init_done() {
+	void (*pfn)(struct context_arg*);
+
 	pthread_mutex_lock(&runtime_init_mu);
 	while (runtime_init_done == 0) {
 		pthread_cond_wait(&runtime_init_cond, &runtime_init_mu);
 	}
 	pthread_mutex_unlock(&runtime_init_mu);
-	if (x_cgo_context_function != nil) {
+	pfn = _cgo_get_context_function();
+	if (pfn != nil) {
 		struct context_arg arg;
 
 		arg.Context = 0;
-		(*x_cgo_context_function)(&arg);
+		(*pfn)(&arg);
 		return arg.Context;
 	}
 	return 0;
