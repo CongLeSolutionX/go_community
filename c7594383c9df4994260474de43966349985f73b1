@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9936a1dd_f2cba85c",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-05-31T18:04:09Z",
+      "side": 1,
+      "message": "Seems like we\u0027ll want a TODO to abstract on carried-ness and lowered-select-ness, if there will be more 32-bit SSA ports in the future.",
+      "revId": "c7594383c9df4994260474de43966349985f73b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
