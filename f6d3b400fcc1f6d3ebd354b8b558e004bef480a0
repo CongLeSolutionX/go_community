@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dcaba7ee_7391afac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-05-31T14:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cdabbaa_49bde1bc",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "f6d3b400fcc1f6d3ebd354b8b558e004bef480a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcaba7ee_f5f62a05",
         "filename": "src/net/http/h2_bundle.go",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "no worries. golang.org/x/tools/cmd/bundle was updated a few days ago.",
       "parentUuid": "dcaba7ee_f5f62a05",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "f6d3b400fcc1f6d3ebd354b8b558e004bef480a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcaba7ee_d3ece338",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-05-31T14:45:34Z",
+      "side": 1,
+      "message": "How do I fix this?",
+      "parentUuid": "7cdabbaa_69c0a540",
       "range": {
         "startLine": 44,
         "startChar": 1,
