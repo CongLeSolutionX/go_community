@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9936a1dd_8c2e7be5",
+        "filename": "src/go/internal/gcimporter/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-06-01T21:03:58Z",
+      "side": 1,
+      "message": "Did you mean to include this code?",
+      "revId": "789dde12af71d55d3f349dbb75873769f3293345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
