@@ -540,12 +540,17 @@ TEXT ·publicationBarrier(SB),NOSPLIT,$0-0
 // called from deferreturn.
 // 1. pop the caller
 // 2. sub 5 bytes from the callers return
+//    (when building for shared libraries, subtract 16 to cover load of GOT pointer into BX)
 // 3. jmp to the argument
 TEXT runtime·jmpdefer(SB), NOSPLIT, $0-8
 	MOVL	fv+0(FP), DX	// fn
 	MOVL	argp+4(FP), BX	// caller sp
 	LEAL	-4(BX), SP	// caller sp after CALL
+#ifdef GOBUILDMODE_shared
+	SUBL	$16, (SP)	// return to CALL again
+#else
 	SUBL	$5, (SP)	// return to CALL again
+#endif
 	MOVL	0(DX), BX
 	JMP	BX	// but first run the deferred function
 
