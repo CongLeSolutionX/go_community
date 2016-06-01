@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79be4d92_582e29e8",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-01T17:43:50Z",
+      "side": 1,
+      "message": "This seems a bit fragile. If the incoming sizes changes and shortNum is not updated, this is not working anymore and it\u0027s not obvious what\u0027s happening. I\u0027d suggest a little helper function:\n\nfunc valName(x int) string {\n   if s :\u003d x \u003e\u003e 10; s\u003c\u003c10 \u003d\u003d x {\n      return fmt.Sprintf(\"%dK\", s)\n   }\n   if s :\u003d x \u003e\u003e 20; s\u003c\u003c20 \u003d\u003d x {\n      return fmt.Sprintf(\"%dM\", s)\n   }\n   return fmt.Sprint(x)\n}\n\nor something like that. Might be useful elsewhere.",
+      "revId": "dd1f871457ed0cb84d0441bb1c551f5128af3fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79be4d92_181191a2",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-01T17:43:50Z",
+      "side": 1,
+      "message": "s/name/valName(n)/",
+      "revId": "dd1f871457ed0cb84d0441bb1c551f5128af3fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
