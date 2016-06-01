@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9936a1dd_925b3c15",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-06-01T01:14:06Z",
+      "side": 1,
+      "message": "This should say when the summary is printed. Maybe \"Setting gctrace to nay value \u003e 0 also causes the garbage collector to emit a summary when memory is released back to the system.\"? The details of what\u0027s in the summary are below, so you don\u0027t necessarily have to summarize that here.",
+      "revId": "023c6d722b34462d03202c09372c13780bb8262a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9936a1dd_b245203b",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-06-01T01:14:06Z",
+      "side": 1,
+      "message": "s/reclaiming memory/returning memory to the system/ (there are many levels of \"reclaiming\" memory; e.g., the garbage collector could be described as reclaiming memory for the Go heap.)",
+      "revId": "023c6d722b34462d03202c09372c13780bb8262a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9936a1dd_7271f897",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-06-01T01:14:06Z",
+      "side": 1,
+      "message": "This could be terser, which may get it on to one line. Perhaps \"(only if non-zero)\"?",
+      "revId": "023c6d722b34462d03202c09372c13780bb8262a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9936a1dd_12706c90",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-06-01T01:14:06Z",
+      "side": 1,
+      "message": "s/that//.\n\nYou could just say \"the scavenge cycle number\" or \"cycle number, incremented at each scavenge\". I think people would understand that, especially given the context from the \"gc\" line description. Up to you.",
+      "revId": "023c6d722b34462d03202c09372c13780bb8262a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
