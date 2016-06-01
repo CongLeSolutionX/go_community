@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79be4d92_b2b8a635",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-01T13:19:59Z",
+      "side": 1,
+      "message": "It\u0027s better to simply say what the change does--that will be more useful a year from now when none of us remember this.  I suggest something like\n\nsyscall: call setgroups for no groups on GNU/Linux",
+      "revId": "3f3a094fdfb1dc33c34024def60062d5e8befe70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79be4d92_f2ae1ef1",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-01T13:19:59Z",
+      "side": 1,
+      "message": "I think this code will be easier to maintain if it looks more like exec_bsd.go, so I would rather see\n    groups :\u003d uintptr(0)\n    if ngroups \u003e 0 {\n        groups \u003d uintptr(unsafe.Pointer(\u0026cred.Groups[0]))\n    }\nand then drop the conversion to uintptr in the SETGROUPS call.",
+      "revId": "3f3a094fdfb1dc33c34024def60062d5e8befe70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79be4d92_92bb2232",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-01T13:19:59Z",
+      "side": 1,
+      "message": "s/We\u0027re avoiding calling setgroups/Don\u0027t call setgroups/",
+      "revId": "3f3a094fdfb1dc33c34024def60062d5e8befe70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
