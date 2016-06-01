@@ -13,5 +13,6 @@ type Dep struct {
 }
 
 func F() int {
+	defer func() {}()
 	return V
 }
