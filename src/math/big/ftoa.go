@@ -42,7 +42,13 @@ import (
 // The prec value is ignored for the 'b' or 'p' format.
 func (x *Float) Text(format byte, prec int) string {
 	const extra = 10 // TODO(gri) determine a good/better value here
-	return string(x.Append(make([]byte, 0, prec+extra), format, prec))
+	var bufCap int
+	if prec < 0 {
+		bufCap = extra
+	} else {
+		bufCap = prec + extra
+	}
+	return string(x.Append(make([]byte, 0, bufCap), format, prec))
 }
 
 // String formats x like x.Text('g', 10).
