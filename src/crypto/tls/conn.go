@@ -694,6 +694,65 @@ Again:
 	return c.in.err
 }
 
+// readAlert reads and discards TLS records looking for an alert from
+// the other side. This is used after a write error to see if the
+// other side has an explanation. Because we are looking for an error,
+// the return value of this method is, in a sense, reversed: if an
+// alert was found, it returns an error value for the alert;
+// otherwise, it returns nil.
+func (c *Conn) readAlert() error {
+	if c.SetReadDeadline(time.Now().Add(100*time.Millisecond)) != nil {
+		// If we can't set a read deadline, this may hang.
+		return nil
+	}
+	for {
+		if c.rawInput == nil {
+			c.rawInput = c.in.newBlock()
+		}
+		b := c.rawInput
+		if err := b.readFromUntil(c.conn, recordHeaderLen); err != nil {
+			return nil
+		}
+		typ := recordType(b.data[0])
+		vers := uint16(b.data[1])<<8 | uint16(b.data[2])
+		n := int(b.data[3])<<8 | int(b.data[4])
+		if c.haveVers && vers != c.vers {
+			return nil
+		}
+		if n > maxCiphertext {
+			return nil
+		}
+		if !c.haveVers && typ != recordTypeAlert {
+			return nil
+		}
+		if err := b.readFromUntil(c.conn, recordHeaderLen+n); err != nil {
+			return nil
+		}
+		b, c.rawInput = c.in.splitBlock(b, recordHeaderLen+n)
+		ok, off, _ := c.in.decrypt(b)
+		if !ok {
+			return nil
+		}
+
+		if typ == recordTypeAlert {
+			b.off = off
+			data := b.data[b.off:]
+			if len(data) != 2 {
+				return nil
+			}
+			if alert(data[1]) == alertCloseNotify {
+				return io.EOF
+			}
+			// Ignore warnings.
+			if data[0] == alertLevelError {
+				return &net.OpError{Op: "remote error", Err: alert(data[1])}
+			}
+		}
+
+		c.in.freeBlock(b)
+	}
+}
+
 // sendAlert sends a TLS alert message.
 // c.out.Mutex <= L.
 func (c *Conn) sendAlertLocked(err alert) error {
@@ -863,6 +922,9 @@ func (c *Conn) writeRecordLocked(typ recordType, data []byte) (int, error) {
 		copy(b.data[recordHeaderLen+explicitIVLen:], data)
 		c.out.encrypt(b, explicitIVLen)
 		if _, err := c.conn.Write(b.data); err != nil {
+			if rerr := c.readAlert(); rerr != nil && rerr != io.EOF {
+				return n, rerr
+			}
 			return n, err
 		}
 		c.bytesSent += int64(m)
