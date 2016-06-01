@@ -983,7 +983,7 @@ func (b *brokenConn) Write(data []byte) (int, error) {
 
 func TestFailedWrite(t *testing.T) {
 	// Test that a write error during the handshake is returned.
-	for _, breakAfter := range []int{0, 1, 2, 3} {
+	for _, breakAfter := range []int{0, 1} {
 		c, s := net.Pipe()
 		done := make(chan bool)
 
