@@ -284,7 +284,12 @@ func (p *importer) typ(parent *types.Package) types.Type {
 		p.record(t)
 
 		// read underlying type
-		t0.SetUnderlying(p.typ(parent))
+		under := p.typ(parent)
+		// if _, ok := under.(*types.Named); ok {
+		// 	fmt.Println(">>>", t0.Obj().Name(), "=>", under)
+		// 	under = under.Underlying()
+		// }
+		t0.SetUnderlying(under)
 
 		// interfaces don't have associated methods
 		if types.IsInterface(t0) {
