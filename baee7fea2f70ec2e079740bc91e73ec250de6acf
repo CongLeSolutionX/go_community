@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79be4d92_9d45733b",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-06-01T16:40:40Z",
+      "side": 1,
+      "message": "Isn\u0027t it still possible that the second SIGWINCH will be delivered after this select?\n\nCould the initial SIGWINCH be moved out into an entirely different test?",
+      "revId": "baee7fea2f70ec2e079740bc91e73ec250de6acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
