@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79be4d92_58662919",
+        "filename": "src/math/big/floatconv_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-01T17:57:46Z",
+      "side": 1,
+      "message": "please add a couple of cases just around this corner case: prec \u003d -10, prec \u003d -12.",
+      "range": {
+        "startLine": 295,
+        "startChar": 4,
+        "endLine": 295,
+        "endChar": 5
+      },
+      "revId": "fb369ff9d991d7df264d23fe7049ea3d4037c711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79be4d92_78be8d71",
+        "filename": "src/math/big/ftoa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-01T17:57:46Z",
+      "side": 1,
+      "message": "Let\u0027s change this to:\n\ncap :\u003d 10 // TODO(gri) determine good value for spare capacity here\nif prec \u003e 0 {\n   cap +\u003d prec\n}\n\nand get rid of the extra const. It\u0027s ok to call this cap - it\u0027s a very small scope.",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 2
+      },
+      "revId": "fb369ff9d991d7df264d23fe7049ea3d4037c711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
