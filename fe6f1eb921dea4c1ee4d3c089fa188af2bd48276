@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99c1416f_7ac7f95b",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-06-02T02:33:29Z",
+      "side": 1,
+      "message": "I don\u0027t remember why it was easier to do it this way in progedit. Removing these lines makes the test fail (well, hang) and a quick effort to make one progedit call do all the work failed in the same way. I can try harder to fix this if you want...",
+      "parentUuid": "b96b6530_c31676e7",
+      "revId": "fe6f1eb921dea4c1ee4d3c089fa188af2bd48276",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b96b6530_43e0c608",
         "filename": "src/runtime/asm_386.s",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-02T00:39:11Z",
       "side": 1,
       "message": "Please list the instructions we are skipping.  That way a future debugger can see if there is a mismatch.",
+      "revId": "fe6f1eb921dea4c1ee4d3c089fa188af2bd48276",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c1416f_ba10f19f",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-06-02T02:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b96b6530_43e0c608",
       "revId": "fe6f1eb921dea4c1ee4d3c089fa188af2bd48276",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
