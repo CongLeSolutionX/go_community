@@ -274,12 +274,19 @@ func (hc *halfConn) decrypt(b *block) (ok bool, prefixLen int, alertValue alert)
 		case cipher.Stream:
 			c.XORKeyStream(payload, payload)
 		case cipher.AEAD:
-			explicitIVLen = 8
-			if len(payload) < explicitIVLen {
-				return false, 0, alertBadRecordMAC
+			var nonce []byte
+			if _, ok := c.(*xoredNonceAEAD); ok {
+				explicitIVLen = 0
+				nonce = hc.seq[:]
+			} else {
+				explicitIVLen = 8
+				if len(payload) < explicitIVLen {
+					return false, 0, alertBadRecordMAC
+				}
+
+				nonce = payload[:8]
+				payload = payload[8:]
 			}
-			nonce := payload[:8]
-			payload = payload[8:]
 
 			copy(hc.additionalData[:], hc.seq[:])
 			copy(hc.additionalData[8:], b.data[:3])
@@ -390,11 +397,21 @@ func (hc *halfConn) encrypt(b *block, explicitIVLen int) (bool, alert) {
 		case cipher.Stream:
 			c.XORKeyStream(payload, payload)
 		case cipher.AEAD:
-			payloadLen := len(b.data) - recordHeaderLen - explicitIVLen
-			b.resize(len(b.data) + c.Overhead())
-			nonce := b.data[recordHeaderLen : recordHeaderLen+explicitIVLen]
-			payload := b.data[recordHeaderLen+explicitIVLen:]
-			payload = payload[:payloadLen]
+			var nonce, payload []byte
+			var payloadLen int
+			if _, ok := c.(*xoredNonceAEAD); ok {
+				payloadLen = len(b.data) - recordHeaderLen
+				b.resize(len(b.data) + c.Overhead())
+				nonce = hc.seq[:]
+				payload = b.data[recordHeaderLen:]
+				payload = payload[:payloadLen]
+			} else {
+				payloadLen = len(b.data) - recordHeaderLen - explicitIVLen
+				b.resize(len(b.data) + c.Overhead())
+				nonce = b.data[recordHeaderLen : recordHeaderLen+explicitIVLen]
+				payload = b.data[recordHeaderLen+explicitIVLen:]
+				payload = payload[:payloadLen]
+			}
 
 			copy(hc.additionalData[:], hc.seq[:])
 			copy(hc.additionalData[8:], b.data[:3])
@@ -849,7 +866,9 @@ func (c *Conn) writeRecordLocked(typ recordType, data []byte) (int, error) {
 			}
 		}
 		if explicitIVLen == 0 {
-			if _, ok := c.out.cipher.(cipher.AEAD); ok {
+			if _, ok := c.out.cipher.(*xoredNonceAEAD); ok {
+				explicitIVLen = 0
+			} else if _, ok := c.out.cipher.(cipher.AEAD); ok {
 				explicitIVLen = 8
 				// The AES-GCM construction in TLS has an
 				// explicit nonce so that the nonce can be
