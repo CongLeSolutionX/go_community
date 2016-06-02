@@ -34,6 +34,24 @@
       "revId": "88ae6495d086ed5b0acb94d5adc49434ec47a675",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b96b6530_4970e5ca",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-02T04:08:18Z",
+      "side": 0,
+      "message": "If I\u0027m understanding Gerrit, this line is still gone in the latest patch set.",
+      "parentUuid": "99c1416f_dab725e3",
+      "revId": "88ae6495d086ed5b0acb94d5adc49434ec47a675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
