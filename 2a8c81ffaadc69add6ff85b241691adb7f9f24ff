@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b96b6530_c3a116b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-02T00:42:44Z",
+      "side": 1,
+      "message": "I see this is committed, but, next time: s|37c28759ca46cf381a466e32168a793165d9c9e9|http://golang.org/cl/19990|.  We can make the golang.org CL stable for all future uses, which is less true of the git ref.  Thanks.",
+      "revId": "2a8c81ffaadc69add6ff85b241691adb7f9f24ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
