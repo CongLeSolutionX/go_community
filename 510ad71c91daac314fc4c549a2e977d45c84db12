@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b96b6530_57523c08",
+        "filename": "src/runtime/cgo/gcc_libinit_openbsd.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-02T17:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "990f81b1_4a9b5378",
+      "revId": "510ad71c91daac314fc4c549a2e977d45c84db12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "990f81b1_2aa81f83",
         "filename": "src/runtime/cgo/gcc_libinit_openbsd.c",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-02T07:11:58Z",
       "side": 1,
       "message": "There is no pthread on openbsd? At least leave a TODO that it needs some synchronization like other implementations.",
+      "revId": "510ad71c91daac314fc4c549a2e977d45c84db12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b96b6530_1771a498",
+        "filename": "src/runtime/cgo/gcc_libinit_openbsd.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-02T17:16:52Z",
+      "side": 1,
+      "message": "I don\u0027t really know what the story is on OpenBSD.  Added a TODO comment.",
+      "parentUuid": "990f81b1_2aa81f83",
       "revId": "510ad71c91daac314fc4c549a2e977d45c84db12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
