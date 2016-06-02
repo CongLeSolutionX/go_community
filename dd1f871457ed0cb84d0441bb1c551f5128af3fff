@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "19f47101_de3c051f",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2016-06-02T20:22:34Z",
+      "side": 1,
+      "message": "Done.\n\nHad that originally, but thought it was too much trouble and that the brittleness was not too bad, as it would just display larger numbers.\n\nBut fine either way.",
+      "parentUuid": "79be4d92_582e29e8",
+      "revId": "dd1f871457ed0cb84d0441bb1c551f5128af3fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79be4d92_181191a2",
         "filename": "src/bytes/bytes_test.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-01T17:43:50Z",
       "side": 1,
       "message": "s/name/valName(n)/",
+      "revId": "dd1f871457ed0cb84d0441bb1c551f5128af3fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f47101_3e4249a4",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2016-06-02T20:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79be4d92_181191a2",
       "revId": "dd1f871457ed0cb84d0441bb1c551f5128af3fff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
