@@ -52,6 +52,24 @@
       "revId": "88ae6495d086ed5b0acb94d5adc49434ec47a675",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c1416f_1a159d31",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-06-02T08:22:17Z",
+      "side": 0,
+      "message": "Argh yes, now fixed.",
+      "parentUuid": "b96b6530_4970e5ca",
+      "revId": "88ae6495d086ed5b0acb94d5adc49434ec47a675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
