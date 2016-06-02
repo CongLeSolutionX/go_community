@@ -347,11 +347,11 @@ func init() {
 		{name: "SETGEF", argLength: 1, reg: flagsgp, asm: "SETCC"}, // extract floating >= condition from arg0
 
 		{name: "MOVBQSX", argLength: 1, reg: gp11nf, asm: "MOVBQSX"}, // sign extend arg0 from int8 to int64
-		{name: "MOVBQZX", argLength: 1, reg: gp11nf, asm: "MOVBQZX"}, // zero extend arg0 from int8 to int64
+		{name: "MOVBQZX", argLength: 1, reg: gp11nf, asm: "MOVBLZX"}, // zero extend arg0 from int8 to int64
 		{name: "MOVWQSX", argLength: 1, reg: gp11nf, asm: "MOVWQSX"}, // sign extend arg0 from int16 to int64
-		{name: "MOVWQZX", argLength: 1, reg: gp11nf, asm: "MOVWQZX"}, // zero extend arg0 from int16 to int64
+		{name: "MOVWQZX", argLength: 1, reg: gp11nf, asm: "MOVWLZX"}, // zero extend arg0 from int16 to int64
 		{name: "MOVLQSX", argLength: 1, reg: gp11nf, asm: "MOVLQSX"}, // sign extend arg0 from int32 to int64
-		{name: "MOVLQZX", argLength: 1, reg: gp11nf, asm: "MOVLQZX"}, // zero extend arg0 from int32 to int64
+		{name: "MOVLQZX", argLength: 1, reg: gp11nf, asm: "MOVL"},    // zero extend arg0 from int32 to int64
 
 		{name: "MOVLconst", reg: gp01, asm: "MOVL", typ: "UInt32", aux: "Int32", rematerializeable: true}, // 32 low bits of auxint
 		{name: "MOVQconst", reg: gp01, asm: "MOVQ", typ: "UInt64", aux: "Int64", rematerializeable: true}, // auxint
