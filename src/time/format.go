@@ -733,6 +733,16 @@ func Parse(layout, value string) (Time, error) {
 	return parse(layout, value, UTC, Local)
 }
 
+// MustParse is like Parse but panics if the time cannot be parsed.
+// It simplifies safe initialization of times in tests and constants.
+func MustParse(layout, value string) Time {
+	t, err := Parse(layout, value)
+	if err != nil {
+		panic("time.MustParse: Failed to parse: " + err.Error())
+	}
+	return t
+}
+
 // ParseInLocation is like Parse but differs in two important ways.
 // First, in the absence of time zone information, Parse interprets a time as UTC;
 // ParseInLocation interprets the time as in the given location.
