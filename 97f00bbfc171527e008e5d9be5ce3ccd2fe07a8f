@@ -16,6 +16,24 @@
       "revId": "97f00bbfc171527e008e5d9be5ce3ccd2fe07a8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6661a36_34db1035",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2332,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-06-03T02:13:15Z",
+      "side": 1,
+      "message": "The case where GOBUILDMODE_shared does not end up in buildAsmflags is when -buildmode\u003dshared is passed but -linkshared is not. That could be fixed in buildModeInit, of course ... but I\u0027d prefer to not encourage it\u0027s use by adding it there.",
+      "parentUuid": "b96b6530_cce94321",
+      "revId": "97f00bbfc171527e008e5d9be5ce3ccd2fe07a8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
