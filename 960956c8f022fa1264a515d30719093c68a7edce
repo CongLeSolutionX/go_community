@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6a3d67e_2983e96a",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-03T13:39:43Z",
+      "side": 1,
+      "message": "Both hasPrefix and s suggest a string.  I think I would say\n\nfunc hasPathPrefix(elem, prefix []string) bool {",
+      "revId": "960956c8f022fa1264a515d30719093c68a7edce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a3d67e_c997b5a1",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-03T13:39:43Z",
+      "side": 1,
+      "message": "for i, s :\u003d range prefix {\n\nand s/prefix[i]/s/ in the next line.",
+      "revId": "960956c8f022fa1264a515d30719093c68a7edce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a3d67e_a9b7d942",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-03T13:39:43Z",
+      "side": 1,
+      "message": "Just `return false` here, and `return true` at the bottom.  Drop the variable `r`.",
+      "revId": "960956c8f022fa1264a515d30719093c68a7edce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a3d67e_097e2d56",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-03T13:39:43Z",
+      "side": 1,
+      "message": "Move the declaration of `imp` outside the loop, the value doesn\u0027t change.",
+      "revId": "960956c8f022fa1264a515d30719093c68a7edce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a3d67e_e994f19e",
+        "filename": "src/cmd/go/vcs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-03T13:39:43Z",
+      "side": 1,
+      "message": "if (got \u003d\u003d nil) !\u003d (want \u003d\u003d nil)",
+      "revId": "960956c8f022fa1264a515d30719093c68a7edce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
