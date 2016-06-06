@@ -2579,6 +2579,7 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 			codeptr = s.newValue2(ssa.OpLoad, Types[TUINTPTR], itab, s.mem())
 		} else {
 			closure = itab
+			s.nilCheck(closure)
 		}
 		rcvr = s.newValue1(ssa.OpIData, Types[TUINTPTR], i)
 	}
