@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03688001_58e9a1c3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2577,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-06-06T20:51:53Z",
+      "side": 1,
+      "message": "I think you have to do the nil check before the OffPtr.",
+      "revId": "e359d0f9de648ac143e77bd4adc56b9ab063f0f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
