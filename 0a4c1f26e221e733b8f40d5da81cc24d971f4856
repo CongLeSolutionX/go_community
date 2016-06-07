@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231bc4b9_e67b9ed6",
+        "filename": "misc/cgo/testsanitizers/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-06-07T05:15:14Z",
+      "side": 1,
+      "message": "$CC -dumpversion would be better here? $ver ends up being \"20160528 Inc. NO PURPOSE.\" on my system!",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 49
+      },
+      "revId": "0a4c1f26e221e733b8f40d5da81cc24d971f4856",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231bc4b9_866e2a1a",
+        "filename": "misc/cgo/testsanitizers/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-06-07T05:15:14Z",
+      "side": 1,
+      "message": "7 :-)",
+      "range": {
+        "startLine": 147,
+        "startChar": 73,
+        "endLine": 147,
+        "endChar": 74
+      },
+      "revId": "0a4c1f26e221e733b8f40d5da81cc24d971f4856",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
