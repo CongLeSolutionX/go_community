@@ -94,6 +94,10 @@ func (k BlockKind) String() string { return blockString[k] }
 const (
 	OpInvalid Op = iota
 
+	Op386ADDL
+	Op386LEAL
+	Op386MOVLstore
+
 	OpAMD64ADDSS
 	OpAMD64ADDSD
 	OpAMD64SUBSS
@@ -739,6 +743,49 @@ const (
 
 var opcodeTable = [...]opInfo{
 	{name: "OpInvalid"},
+
+	{
+		name:        "ADDL",
+		argLen:      2,
+		commutative: true,
+		asm:         x86.AADDL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 239}, // AX CX DX BX BP SI DI
+				{0, 255}, // AX CX DX BX SP BP SI DI
+			},
+			clobbers: 131072, // FLAGS
+			outputs: []regMask{
+				239, // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:              "LEAL",
+		auxType:           auxSymOff,
+		argLen:            1,
+		rematerializeable: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65791}, // AX CX DX BX SP BP SI DI SB
+			},
+			outputs: []regMask{
+				239, // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:    "MOVLstore",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AMOVL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 255},   // AX CX DX BX SP BP SI DI
+				{0, 65791}, // AX CX DX BX SP BP SI DI SB
+			},
+		},
+	},
 
 	{
 		name:         "ADDSS",
@@ -6941,6 +6988,30 @@ var opcodeTable = [...]opInfo{
 func (o Op) Asm() obj.As    { return opcodeTable[o].asm }
 func (o Op) String() string { return opcodeTable[o].name }
 
+var registers386 = [...]Register{
+	{0, "AX"},
+	{1, "CX"},
+	{2, "DX"},
+	{3, "BX"},
+	{4, "SP"},
+	{5, "BP"},
+	{6, "SI"},
+	{7, "DI"},
+	{8, "X0"},
+	{9, "X1"},
+	{10, "X2"},
+	{11, "X3"},
+	{12, "X4"},
+	{13, "X5"},
+	{14, "X6"},
+	{15, "X7"},
+	{16, "SB"},
+	{17, "FLAGS"},
+}
+var gpRegMask386 = regMask(239)
+var fpRegMask386 = regMask(0)
+var flagRegMask386 = regMask(131072)
+var framepointerReg386 = int8(5)
 var registersAMD64 = [...]Register{
 	{0, "AX"},
 	{1, "CX"},
