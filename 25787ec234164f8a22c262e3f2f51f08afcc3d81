@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0ffc242a_d221d444",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-09T13:47:05Z",
+      "side": 1,
+      "message": "I think \"Stderr\" would be wrong, the runtime doesn\u0027t write to os.Stderr, it writes to the standard error file descriptor.  The previous sentence says \"standard error file descriptor\" so I think it\u0027s OK to say \"standard error\" here.",
+      "parentUuid": "0ffc242a_72da0026",
+      "revId": "25787ec234164f8a22c262e3f2f51f08afcc3d81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ffc242a_32e478e6",
         "filename": "src/os/file.go",
         "patchSetId": 1
@@ -47,6 +65,30 @@
       "writtenOn": "2016-06-09T09:00:54Z",
       "side": 1,
       "message": "fd can even reference a net.Conn on some systems, so maybe: \"closing Stderr causes those messages to go to the underlying file descriptor 2, which may reference a new file or connection opened later\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "25787ec234164f8a22c262e3f2f51f08afcc3d81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ffc242a_b21e4801",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-09T13:47:05Z",
+      "side": 1,
+      "message": "I\u0027m trying to say something here that is both short and true on all systems, including Windows, which does not use file descriptor 2.",
+      "parentUuid": "0ffc242a_92390cef",
       "range": {
         "startLine": 51,
         "startChar": 3,
