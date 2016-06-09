@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ffc242a_a784c86f",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-09T04:02:21Z",
+      "side": 1,
+      "message": "This last sentence seems slightly wrong.  How about something like\n\nThis is done even if the field delimiter, Comma, is white space.",
+      "revId": "20f57819c2b1b8180baef73450730cf078a02013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
