@@ -171,6 +171,7 @@ func writebarrierptr_nostore(dst *uintptr, src uintptr) {
 }
 
 // typedmemmove copies a value of type t to dst from src.
+// Must be nosplit, see #16026.
 //go:nosplit
 func typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	memmove(dst, src, typ.size)
