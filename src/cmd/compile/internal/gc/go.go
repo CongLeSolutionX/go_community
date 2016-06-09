@@ -377,6 +377,7 @@ var (
 	growslice,
 	panicdottype,
 	panicnildottype,
+	typedmemmove,
 	assertE2I,
 	assertE2I2,
 	assertI2I,

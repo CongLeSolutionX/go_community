@@ -17,9 +17,12 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/obj/x86"
 	"cmd/internal/sys"
 	"crypto/md5"
+	"crypto/sha1"
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 )
@@ -1022,6 +1025,104 @@ func newpcdataprog(prog *obj.Prog, index int32) *obj.Prog {
 	return pcdata
 }
 
+// clobber inserts code after p to trash the pointers in v.
+func clobber(bb *BasicBlock, p *obj.Prog, v *Node) {
+	clobberWalk(bb, p, v, 0, v.Type)
+}
+
+// p = location in assembly to put clobber instructions after.
+// v = variable
+// offset = offset of (sub-portion of) variable in section (in bytes)
+// t = type of sub-portion of v.
+func clobberWalk(bb *BasicBlock, p *obj.Prog, v *Node, offset int64, t *Type) {
+	switch t.Etype {
+	case TINT8,
+		TUINT8,
+		TINT16,
+		TUINT16,
+		TINT32,
+		TUINT32,
+		TINT64,
+		TUINT64,
+		TINT,
+		TUINT,
+		TUINTPTR,
+		TBOOL,
+		TFLOAT32,
+		TFLOAT64,
+		TCOMPLEX64,
+		TCOMPLEX128:
+
+	case TPTR32,
+		TPTR64,
+		TUNSAFEPTR,
+		TFUNC,
+		TCHAN,
+		TMAP:
+		clobberPtr(bb, p, v, offset)
+
+	case TSTRING:
+		// struct { byte *str; intgo len; }
+		clobberPtr(bb, p, v, offset)
+
+	case TINTER:
+		// struct { Itab *tab;	void *data; }
+		// or, when isnilinter(t)==true:
+		// struct { Type *type; void *data; }
+		clobberPtr(bb, p, v, offset)
+		clobberPtr(bb, p, v, offset+int64(Widthptr))
+
+	case TSLICE:
+		// struct { byte *array; uintgo len; uintgo cap; }
+		clobberPtr(bb, p, v, offset)
+
+	case TARRAY:
+		for i := int64(0); i < t.NumElem(); i++ {
+			clobberWalk(bb, p, v, offset+i*t.Elem().Size(), t.Elem())
+		}
+
+	case TSTRUCT:
+		for _, t1 := range t.Fields().Slice() {
+			clobberWalk(bb, p, v, offset+t1.Offset, t1.Type)
+		}
+
+	default:
+		Fatalf("clobberWalk: unexpected type, %v", t)
+	}
+}
+
+// insert clobbering of the pointer at offset offset in v just after p.
+func clobberPtr(bb *BasicBlock, p *obj.Prog, v *Node, offset int64) {
+	for i := int64(0); i < int64(Widthptr); i += 4 {
+		// TODO: x86 only
+		c := unlinkedprog(x86.AMOVL)
+		c.From.Type = obj.TYPE_CONST
+		c.From.Offset = 0xdeadbeef
+		c.To.Type = obj.TYPE_MEM
+		c.To.Reg = x86.REG_SP
+		c.To.Node = v
+		c.To.Sym = Linksym(v.Sym)
+		switch v.Class {
+		case PPARAM, PPARAMOUT:
+			c.To.Name = obj.NAME_PARAM
+		case PAUTO:
+			c.To.Name = obj.NAME_AUTO
+		}
+		c.To.Offset = v.Xoffset + offset + i
+		c.Lineno = p.Lineno
+		n := p.Link
+		c.Opt = p
+		c.Link = n
+		p.Link = c
+		if p == bb.last {
+			bb.last = c
+			// leave n.Opt nil, that marks n as the first Prog in its basic block.
+		} else {
+			n.Opt = c
+		}
+	}
+}
+
 // Returns true for instructions that are safe points that must be annotated
 // with liveness information.
 func issafepoint(prog *obj.Prog) bool {
@@ -1192,18 +1293,39 @@ func livenessepilogue(lv *Liveness) {
 	avarinit := bvalloc(nvars)
 	any := bvalloc(nvars)
 	all := bvalloc(nvars)
-	pparamout := bvalloc(localswords())
+	outLive := bvalloc(argswords())       // always-live output params
+	outLiveHeap := bvalloc(localswords()) // always-live pointers to heap-allocated copies of output params
 
-	// Record pointers to heap-allocated pparamout variables.  These
-	// are implicitly read by post-deferreturn code and thus must be
-	// kept live throughout the function (if there is any defer that
-	// recovers).
+	var use_deadbeef = os.Getenv("GODEADBEEF") != ""
+	if h := os.Getenv("GODEADBEEFHASH"); h != "" {
+		hstr := ""
+		for _, b := range sha1.Sum([]byte(lv.fn.Func.Nname.Sym.Name)) {
+			hstr += fmt.Sprintf("%08b", b)
+		}
+		use_deadbeef = strings.HasSuffix(hstr, h)
+		if use_deadbeef {
+			fmt.Printf("\t\t\tDEADBEEF %s\n", lv.fn.Func.Nname.Sym.Name)
+		}
+	}
+
+	// If there is a defer (that could recover), then all output
+	// parameters are live all the time.  In addition, any locals
+	// that are pointers to heap-allocated output parameters are
+	// also always live (post-deferrreturn code needs these
+	// pointers to copy values back to the stack).  TODO: if the
+	// latter, then we don't need the former?
 	if hasdefer {
 		for _, n := range lv.vars {
+			if n.Class == PPARAMOUT {
+				// Needzero not necessary, as the compiler
+				// explicitly zeroes output vars at start of fn.
+				xoffset := n.Xoffset
+				onebitwalktype1(n.Type, &xoffset, outLive)
+			}
 			if n.IsOutputParamHeapAddr() {
 				n.Name.Needzero = true
 				xoffset := n.Xoffset + stkptrsize
-				onebitwalktype1(n.Type, &xoffset, pparamout)
+				onebitwalktype1(n.Type, &xoffset, outLiveHeap)
 			}
 		}
 	}
@@ -1357,7 +1479,8 @@ func livenessepilogue(lv *Liveness) {
 
 				// Mark pparamout variables (as described above)
 				if p.As == obj.ACALL {
-					locals.Or(locals, pparamout)
+					args.Or(args, outLive)
+					locals.Or(locals, outLiveHeap)
 				}
 
 				// Show live pointer bitmaps.
@@ -1393,6 +1516,47 @@ func livenessepilogue(lv *Liveness) {
 					} else {
 						startmsg--
 						msg[startmsg] = fmt_
+					}
+				}
+
+				// insert clobberings of all dead values
+				if use_deadbeef && nvars < 10000 && len(lv.livepointers) < 10000 {
+					// Note: the <10000 conditions make sure we don't do too much work on giant functions.
+					before := true
+					if p.As == obj.ATEXT {
+						// Can't put code before ATEXT
+						before = false
+					}
+					if p.As == obj.ACALL && p.To.Type == obj.TYPE_MEM && p.To.Name == obj.NAME_EXTERN && p.To.Sym == Linksym(typedmemmove.Sym) {
+						// Can't put clobber code before the call to typedmemmove.
+						// The variable to-be-copied is marked as dead
+						// at the callsite. That is ok, though, as typedmemmove
+						// is marked as nosplit, and the first thing it does
+						// is to call memmove (also nosplit), after which
+						// the source value is dead.
+						// See issue 16026.
+						before = false
+					}
+					var c *obj.Prog
+					if before {
+						c = unlinkedprog(obj.ANOP)
+						c.Lineno = p.Lineno
+						splicebefore(lv, bb, c, p)
+						p, c = c, p // undo the swap that splicebefore did
+					}
+					for _, v := range lv.vars {
+						if v.Type.Size() >= 10000 { // Don't do too much work for giant variables.
+							continue
+						}
+						// Add clobbering after p.
+						if !islive(v, args, locals) {
+							clobber(bb, p, v)
+
+							// Also add clobbering before p, if we can.
+							if before {
+								clobber(bb, c, v)
+							}
+						}
 					}
 				}
 
