@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ffc242a_64259eb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-09T01:27:01Z",
+      "side": 1,
+      "message": "cmd/go: check for symlinks when creating a relative path",
+      "revId": "1d80f04f5b5893b8b6bf7a3dccf654ddc13ab4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
