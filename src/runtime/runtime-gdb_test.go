@@ -69,7 +69,7 @@ func checkGdbPython(t *testing.T) {
 
 const helloSource = `
 import "fmt"
-var gslice []string
+import "runtime"
 func main() {
 	mapvar := make(map[string]string,5)
 	mapvar["abc"] = "def"
@@ -79,8 +79,9 @@ func main() {
 	slicevar := make([]string, 0, 16)
 	slicevar = append(slicevar, mapvar["abc"])
 	fmt.Println("hi") // line 12
-	_ = ptrvar
-	gslice = slicevar
+	runtime.KeepAlive(mapvar)
+	runtime.KeepAlive(ptrvar)
+	runtime.KeepAlive(slicevar)
 }
 `
 
@@ -145,8 +146,8 @@ func testGdbPython(t *testing.T, cgo bool) {
 		"-ex", "echo BEGIN print mapvar\n",
 		"-ex", "print mapvar",
 		"-ex", "echo END\n",
-		"-ex", "echo BEGIN print strvar\n",
-		"-ex", "print strvar",
+		"-ex", "echo BEGIN print ptrvar\n",
+		"-ex", "print ptrvar",
 		"-ex", "echo END\n",
 		"-ex", "echo BEGIN info locals\n",
 		"-ex", "info locals",
@@ -194,9 +195,9 @@ func testGdbPython(t *testing.T, cgo bool) {
 		t.Fatalf("print mapvar failed: %s", bl)
 	}
 
-	strVarRe := regexp.MustCompile(`\Q = "abc"\E$`)
-	if bl := blocks["print strvar"]; !strVarRe.MatchString(bl) {
-		t.Fatalf("print strvar failed: %s", bl)
+	ptrVarRe := regexp.MustCompile(`\Q = "abc"\E$`)
+	if bl := blocks["print ptrvar"]; !ptrVarRe.MatchString(bl) {
+		t.Fatalf("print ptrvar failed: %s", bl)
 	}
 
 	// Issue 16338: ssa decompose phase can split a structure into
@@ -208,7 +209,7 @@ func testGdbPython(t *testing.T, cgo bool) {
 		t.Fatalf("info locals failed: %s", bl)
 	}
 
-	btGoroutineRe := regexp.MustCompile(`^#0\s+runtime.+at`)
+	btGoroutineRe := regexp.MustCompile(`^#0\s+(0x[0-9a-f]+\s+in\s+)?runtime.+at`)
 	if bl := blocks["goroutine 2 bt"]; !btGoroutineRe.MatchString(bl) {
 		t.Fatalf("goroutine 2 bt failed: %s", bl)
 	}

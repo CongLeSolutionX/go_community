@@ -306,6 +306,7 @@ func compile(fn *Node) {
 		growslice = Sysfunc("growslice")
 		panicdottype = Sysfunc("panicdottype")
 		panicnildottype = Sysfunc("panicnildottype")
+		typedmemmove = Sysfunc("typedmemmove")
 		assertE2I = Sysfunc("assertE2I")
 		assertE2I2 = Sysfunc("assertE2I2")
 		assertI2I = Sysfunc("assertI2I")
