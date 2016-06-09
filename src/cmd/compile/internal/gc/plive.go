@@ -17,9 +17,11 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/obj/x86"
 	"cmd/internal/sys"
 	"crypto/md5"
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 )
@@ -994,6 +996,116 @@ func newpcdataprog(prog *obj.Prog, index int32) *obj.Prog {
 	return pcdata
 }
 
+// clobber inserts code after p to trash the dead parts of v.  args and locals specify what words are live.
+func clobber(p *obj.Prog, v *Node, args bvec, locals bvec) {
+	switch v.Class {
+	case PAUTO:
+		clobberWalk(p, v, v.Xoffset+stkptrsize, v.Type, locals)
+
+	case PPARAM, PPARAMOUT:
+		clobberWalk(p, v, v.Xoffset, v.Type, args)
+	}
+}
+
+// p = location in assembly to put clobber instructions after.
+// v = variable
+// offset = offset in section (in bytes)
+// t = type of sub-portion of v.
+// bv = bit vector of live words in section.
+func clobberWalk(p *obj.Prog, v *Node, offset int64, t *Type, bv bvec) {
+	switch t.Etype {
+	case TINT8,
+		TUINT8,
+		TINT16,
+		TUINT16,
+		TINT32,
+		TUINT32,
+		TINT64,
+		TUINT64,
+		TINT,
+		TUINT,
+		TUINTPTR,
+		TBOOL,
+		TFLOAT32,
+		TFLOAT64,
+		TCOMPLEX64,
+		TCOMPLEX128:
+
+	case TPTR32,
+		TPTR64,
+		TUNSAFEPTR,
+		TFUNC,
+		TCHAN,
+		TMAP:
+		if bvget(bv, int32(offset/int64(Widthptr))) == 0 {
+			clobberPtr(p, v, offset)
+		}
+
+	case TSTRING:
+		// struct { byte *str; intgo len; }
+		if bvget(bv, int32(offset/int64(Widthptr))) == 0 {
+			clobberPtr(p, v, offset)
+		}
+
+	case TINTER:
+		// struct { Itab *tab;	void *data; }
+		// or, when isnilinter(t)==true:
+		// struct { Type *type; void *data; }
+		if bvget(bv, int32(offset/int64(Widthptr))) == 0 {
+			clobberPtr(p, v, offset)
+		}
+		if bvget(bv, int32(offset/int64(Widthptr))+1) == 0 {
+			clobberPtr(p, v, offset+int64(Widthptr))
+		}
+
+	case TSLICE:
+		// struct { byte *array; uintgo len; uintgo cap; }
+		if bvget(bv, int32(offset/int64(Widthptr))) == 0 {
+			clobberPtr(p, v, offset)
+		}
+
+	case TARRAY:
+		for i := int64(0); i < t.NumElem(); i++ {
+			clobberWalk(p, v, offset+i*t.Elem().Size(), t.Elem(), bv)
+		}
+
+	case TSTRUCT:
+		for _, t1 := range t.Fields().Slice() {
+			clobberWalk(p, v, offset+t1.Offset, t1.Type, bv)
+		}
+
+	default:
+		Fatalf("clobberWalk: unexpected type, %v", t)
+	}
+}
+
+// insert clobbering of the pointer at v+offset just after p.
+func clobberPtr(p *obj.Prog, v *Node, offset int64) {
+	for i := int64(0); i < int64(Widthptr); i += 4 {
+		// TODO: x86 only
+		c := unlinkedprog(x86.AMOVL)
+		c.From.Type = obj.TYPE_CONST
+		c.From.Offset = 0xdeadbeef
+		c.To.Type = obj.TYPE_MEM
+		c.To.Reg = x86.REG_SP
+		c.To.Node = v
+		c.To.Sym = Linksym(v.Sym)
+		switch v.Class {
+		case PPARAM, PPARAMOUT:
+			c.To.Name = obj.NAME_PARAM
+			c.To.Offset = offset + i
+		case PAUTO:
+			c.To.Name = obj.NAME_AUTO
+			c.To.Offset = offset + i - stkptrsize
+		}
+		n := p.Link
+		c.Opt = p
+		c.Link = n
+		n.Opt = c
+		p.Link = c
+	}
+}
+
 // Returns true for instructions that are safe points that must be annotated
 // with liveness information.
 func issafepoint(prog *obj.Prog) bool {
@@ -1165,6 +1277,8 @@ func livenessepilogue(lv *Liveness) {
 	any := bvalloc(nvars)
 	all := bvalloc(nvars)
 	ambig := bvalloc(localswords())
+
+	var use_deadbeef = os.Getenv("GODEADBEEF") != ""
 
 	for _, bb := range lv.cfg {
 		// Compute avarinitany and avarinitall for entry to block.
@@ -1359,6 +1473,17 @@ func livenessepilogue(lv *Liveness) {
 						startmsg--
 						msg[startmsg] = fmt_
 					}
+				}
+
+				// insert clobberings of all dead values
+				if use_deadbeef && p.As != obj.ATEXT && nvars < 10000 && len(lv.livepointers) < 10000 {
+					for _, v := range lv.vars {
+						if v.Type.Size() < 10000 {
+							clobber(p, v, args, locals)
+						}
+					}
+					// Note: embedded function wrappers look like they don't use their args, but they do.  That's why there is the p.As != obj.ATEXT condition.
+					// The other conditions make sure we don't do too much work on giant functions.
 				}
 
 				// Only CALL instructions need a PCDATA annotation.
