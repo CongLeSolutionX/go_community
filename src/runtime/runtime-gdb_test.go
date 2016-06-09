@@ -65,14 +65,16 @@ func checkGdbPython(t *testing.T) {
 const helloSource = `
 package main
 import "fmt"
+import "runtime"
 func main() {
 	mapvar := make(map[string]string,5)
 	mapvar["abc"] = "def"
 	mapvar["ghi"] = "jkl"
 	strvar := "abc"
 	ptrvar := &strvar
-	fmt.Println("hi") // line 10
-	_ = ptrvar
+	fmt.Println("hi") // line 11
+	runtime.KeepAlive(mapvar)
+	runtime.KeepAlive(ptrvar)
 }
 `
 
@@ -105,7 +107,7 @@ func TestGdbPython(t *testing.T) {
 		"-ex", "set startup-with-shell off",
 		"-ex", "info auto-load python-scripts",
 		"-ex", "set python print-stack full",
-		"-ex", "br main.go:10",
+		"-ex", "br main.go:11",
 		"-ex", "run",
 		"-ex", "echo BEGIN info goroutines\n",
 		"-ex", "info goroutines",
@@ -113,8 +115,8 @@ func TestGdbPython(t *testing.T) {
 		"-ex", "echo BEGIN print mapvar\n",
 		"-ex", "print mapvar",
 		"-ex", "echo END\n",
-		"-ex", "echo BEGIN print strvar\n",
-		"-ex", "print strvar",
+		"-ex", "echo BEGIN print ptrvar\n",
+		"-ex", "print ptrvar",
 		"-ex", "echo END\n"}
 
 	// without framepointer, gdb cannot backtrace our non-standard
@@ -167,9 +169,9 @@ func TestGdbPython(t *testing.T) {
 		t.Fatalf("print mapvar failed: %s", bl)
 	}
 
-	strVarRe := regexp.MustCompile(`\Q = "abc"\E$`)
-	if bl := blocks["print strvar"]; !strVarRe.MatchString(bl) {
-		t.Fatalf("print strvar failed: %s", bl)
+	ptrVarRe := regexp.MustCompile(`\Q = "abc"\E$`)
+	if bl := blocks["print ptrvar"]; !ptrVarRe.MatchString(bl) {
+		t.Fatalf("print ptrvar failed: %s", bl)
 	}
 
 	btGoroutineRe := regexp.MustCompile(`^#0\s+runtime.+at`)
