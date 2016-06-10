@@ -70,6 +70,30 @@
       "revId": "66e9afeee6b4c5f47d42ea411d2ead4c117e7c58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ffc242a_7443054d",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-10T04:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef4d1087_6545a631",
+      "range": {
+        "startLine": 476,
+        "startChar": 15,
+        "endLine": 476,
+        "endChar": 23
+      },
+      "revId": "66e9afeee6b4c5f47d42ea411d2ead4c117e7c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
