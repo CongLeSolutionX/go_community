@@ -137,6 +137,10 @@ func (p *Proc) Addr() uintptr {
 // Callers must inspect the primary return value to decide whether an error occurred
 // (according to the semantics of the specific function being called) before consulting
 // the error. The error will be guaranteed to contain syscall.Errno.
+//
+// If passing a pointer converted to a uintptr, make sure that the
+// pointer is live after the call. You can use runtime.KeepAlive for
+// this if necessary.
 func (p *Proc) Call(a ...uintptr) (r1, r2 uintptr, lastErr error) {
 	switch len(a) {
 	case 0:
@@ -295,6 +299,10 @@ func (p *LazyProc) Addr() uintptr {
 // Callers must inspect the primary return value to decide whether an error occurred
 // (according to the semantics of the specific function being called) before consulting
 // the error. The error will be guaranteed to contain syscall.Errno.
+//
+// If passing a pointer converted to a uintptr, make sure that the
+// pointer is live after the call. You can use runtime.KeepAlive for
+// this if necessary.
 func (p *LazyProc) Call(a ...uintptr) (r1, r2 uintptr, lastErr error) {
 	p.mustFind()
 	return p.proc.Call(a...)
