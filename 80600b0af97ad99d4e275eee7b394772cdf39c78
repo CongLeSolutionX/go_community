@@ -16,6 +16,24 @@
       "revId": "80600b0af97ad99d4e275eee7b394772cdf39c78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f861c98_40074e45",
+        "filename": "src/os/wait_wait6.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-06-13T08:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efeef035_bd33ffa3",
+      "revId": "80600b0af97ad99d4e275eee7b394772cdf39c78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
