@@ -286,8 +286,11 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
 	case ssa.OpARMADDconst,
+		ssa.OpARMADCconst,
 		ssa.OpARMSUBconst,
+		ssa.OpARMSBCconst,
 		ssa.OpARMRSBconst,
+		ssa.OpARMRSCconst,
 		ssa.OpARMANDconst,
 		ssa.OpARMORconst,
 		ssa.OpARMXORconst,
@@ -296,6 +299,16 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARMSRLconst,
 		ssa.OpARMSRAconst:
 		p := gc.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = v.AuxInt
+		p.Reg = gc.SSARegNum(v.Args[0])
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = gc.SSARegNum(v)
+	case ssa.OpARMADDSconst,
+		ssa.OpARMSUBSconst,
+		ssa.OpARMRSBSconst:
+		p := gc.Prog(v.Op.Asm())
+		p.Scond = arm.C_SBIT
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
 		p.Reg = gc.SSARegNum(v.Args[0])
@@ -641,6 +654,14 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		// is scheduled to the very beginning
 		// of the entry block.
 		// nothing to do here.
+	case ssa.OpARMFlagEQ,
+		ssa.OpARMFlagLT_ULT,
+		ssa.OpARMFlagLT_UGT,
+		ssa.OpARMFlagGT_ULT,
+		ssa.OpARMFlagGT_UGT:
+		v.Fatalf("Flag* ops should never make it to codegen %v", v.LongString())
+	case ssa.OpARMInvertFlags:
+		v.Fatalf("InvertFlags should never make it to codegen %v", v.LongString())
 	default:
 		v.Unimplementedf("genValue not implemented: %s", v.LongString())
 	}
