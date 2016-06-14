@@ -163,6 +163,25 @@ func cse(f *Func) {
 		}
 	}
 
+	// if we rewrite a tuple generator to a new one in a different block,
+	// copy its selectors to the new generator's block, so tuple generator
+	// and selectors stay together.
+	for _, b := range f.Blocks {
+		for _, v := range b.Values {
+			if rewrite[v.ID] != nil {
+				continue
+			}
+			if len(v.Args) == 0 || !v.Args[0].Type.IsTuple() {
+				continue
+			}
+			t := rewrite[v.Args[0].ID]
+			if t != nil && t.Block != b {
+				c := v.copyInto(t.Block)
+				rewrite[v.ID] = c
+			}
+		}
+	}
+
 	rewrites := int64(0)
 
 	// Apply substitutions
