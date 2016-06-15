@@ -64,6 +64,9 @@ func Parse(r io.Reader, bin string) ([]*Event, error) {
 	if err != nil {
 		return nil, err
 	}
+	if ver < 1007 && bin == "" {
+		return nil, fmt.Errorf("for traces produced by Go 1.6 or below, the binary argument must be provided")
+	}
 	events, stacks, err := parseEvents(ver, rawEvents, strings)
 	if err != nil {
 		return nil, err
@@ -82,7 +85,7 @@ func Parse(r io.Reader, bin string) ([]*Event, error) {
 			ev.Stk = stacks[ev.StkID]
 		}
 	}
-	if ver < 1007 && bin != "" {
+	if ver < 1007 {
 		if err := symbolize(events, bin); err != nil {
 			return nil, err
 		}

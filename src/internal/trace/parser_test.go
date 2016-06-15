@@ -7,10 +7,13 @@ package trace
 import (
 	"bytes"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 )
+
+var bin = os.Args[0]
 
 func TestCorruptedInputs(t *testing.T) {
 	// These inputs crashed parser previously.
@@ -25,7 +28,7 @@ func TestCorruptedInputs(t *testing.T) {
 		"go 1.5 trace\x00\x00\x00\x00\xc3\x0200",
 	}
 	for _, data := range tests {
-		events, err := Parse(strings.NewReader(data), "")
+		events, err := Parse(strings.NewReader(data), bin)
 		if err == nil || events != nil {
 			t.Fatalf("no error on input: %q", data)
 		}
@@ -42,7 +45,7 @@ func TestParseCanned(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to read input file: %v", err)
 		}
-		_, err = Parse(bytes.NewReader(data), "")
+		_, err = Parse(bytes.NewReader(data), bin)
 		switch {
 		case strings.HasSuffix(f.Name(), "_good"):
 			if err != nil {
