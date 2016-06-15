@@ -22,6 +22,30 @@
       "revId": "f3f6d1e733763cc8af910614e078ece445f0873b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b47a9131_f13c60dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-15T14:05:45Z",
+      "side": 1,
+      "message": "We seem to use both, but, sure, done.",
+      "parentUuid": "34edc138_7f47af8d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "f3f6d1e733763cc8af910614e078ece445f0873b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
