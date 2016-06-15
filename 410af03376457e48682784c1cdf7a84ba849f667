@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b47a9131_7f827718",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-06-15T19:46:50Z",
+      "side": 1,
+      "message": "Each sizeclass has a noscan spanClass and a scan spanClass. The noscan spanClass contains only noscan objects that do not contain pointers and thus do not need to be scanned by the garbage collector.",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 64
+      },
+      "revId": "410af03376457e48682784c1cdf7a84ba849f667",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
