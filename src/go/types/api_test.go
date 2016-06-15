@@ -500,105 +500,84 @@ func TestInitOrderInfo(t *testing.T) {
 		src   string
 		inits []string
 	}{
-		{`package p0; var (x = 1; y = x)`, []string{
-			"x = 1", "y = x",
-		}},
-		{`package p1; var (a = 1; b = 2; c = 3)`, []string{
-			"a = 1", "b = 2", "c = 3",
-		}},
-		{`package p2; var (a, b, c = 1, 2, 3)`, []string{
-			"a = 1", "b = 2", "c = 3",
-		}},
-		{`package p3; var _ = f(); func f() int { return 1 }`, []string{
-			"_ = f()", // blank var
-		}},
-		{`package p4; var (a = 0; x = y; y = z; z = 0)`, []string{
-			"a = 0", "z = 0", "y = z", "x = y",
-		}},
-		{`package p5; var (a, _ = m[0]; m map[int]string)`, []string{
-			"a, _ = m[0]", // blank var
-		}},
-		{`package p6; var a, b = f(); func f() (_, _ int) { return z, z }; var z = 0`, []string{
-			"z = 0", "a, b = f()",
-		}},
-		{`package p7; var (a = func() int { return b }(); b = 1)`, []string{
-			"b = 1", "a = (func() int literal)()",
-		}},
-		{`package p8; var (a, b = func() (_, _ int) { return c, c }(); c = 1)`, []string{
-			"c = 1", "a, b = (func() (_, _ int) literal)()",
-		}},
-		{`package p9; type T struct{}; func (T) m() int { _ = y; return 0 }; var x, y = T.m, 1`, []string{
-			"y = 1", "x = T.m",
-		}},
-		{`package p10; var (d = c + b; a = 0; b = 0; c = 0)`, []string{
-			"a = 0", "b = 0", "c = 0", "d = c + b",
-		}},
-		{`package p11; var (a = e + c; b = d + c; c = 0; d = 0; e = 0)`, []string{
-			"c = 0", "d = 0", "b = d + c", "e = 0", "a = e + c",
-		}},
-		// emit an initializer for n:1 initializations only once (not for each node
-		// on the lhs which may appear in different order in the dependency graph)
-		{`package p12; var (a = x; b = 0; x, y = m[0]; m map[int]int)`, []string{
-			"b = 0", "x, y = m[0]", "a = x",
-		}},
-		// test case from spec section on package initialization
-		{`package p12
-
-		var (
-			a = c + b
-			b = f()
-			c = f()
-			d = 3
-		)
-
-		func f() int {
-			d++
-			return d
-		}`, []string{
-			"d = 3", "b = f()", "c = f()", "a = c + b",
-		}},
-		// test case for issue 7131
-		{`package main
-
-		var counter int
-		func next() int { counter++; return counter }
-
-		var _ = makeOrder()
-		func makeOrder() []int { return []int{f, b, d, e, c, a} }
-
-		var a       = next()
-		var b, c    = next(), next()
-		var d, e, f = next(), next(), next()
-		`, []string{
-			"a = next()", "b = next()", "c = next()", "d = next()", "e = next()", "f = next()", "_ = makeOrder()",
-		}},
-		// test case for issue 10709
-		// TODO(gri) enable once the issue is fixed
-		// {`package p13
+		// {`package p0; var (x = 1; y = x)`, []string{
+		// 	"x = 1", "y = x",
+		// }},
+		// {`package p1; var (a = 1; b = 2; c = 3)`, []string{
+		// 	"a = 1", "b = 2", "c = 3",
+		// }},
+		// {`package p2; var (a, b, c = 1, 2, 3)`, []string{
+		// 	"a = 1", "b = 2", "c = 3",
+		// }},
+		// {`package p3; var _ = f(); func f() int { return 1 }`, []string{
+		// 	"_ = f()", // blank var
+		// }},
+		// {`package p4; var (a = 0; x = y; y = z; z = 0)`, []string{
+		// 	"a = 0", "z = 0", "y = z", "x = y",
+		// }},
+		// {`package p5; var (a, _ = m[0]; m map[int]string)`, []string{
+		// 	"a, _ = m[0]", // blank var
+		// }},
+		// {`package p6; var a, b = f(); func f() (_, _ int) { return z, z }; var z = 0`, []string{
+		// 	"z = 0", "a, b = f()",
+		// }},
+		// {`package p7; var (a = func() int { return b }(); b = 1)`, []string{
+		// 	"b = 1", "a = (func() int literal)()",
+		// }},
+		// {`package p8; var (a, b = func() (_, _ int) { return c, c }(); c = 1)`, []string{
+		// 	"c = 1", "a, b = (func() (_, _ int) literal)()",
+		// }},
+		// {`package p9; type T struct{}; func (T) m() int { _ = y; return 0 }; var x, y = T.m, 1`, []string{
+		// 	"y = 1", "x = T.m",
+		// }},
+		// {`package p10; var (d = c + b; a = 0; b = 0; c = 0)`, []string{
+		// 	"a = 0", "b = 0", "c = 0", "d = c + b",
+		// }},
+		// {`package p11; var (a = e + c; b = d + c; c = 0; d = 0; e = 0)`, []string{
+		// 	"c = 0", "d = 0", "b = d + c", "e = 0", "a = e + c",
+		// }},
+		// // emit an initializer for n:1 initializations only once (not for each node
+		// // on the lhs which may appear in different order in the dependency graph)
+		// {`package p12; var (a = x; b = 0; x, y = m[0]; m map[int]int)`, []string{
+		// 	"b = 0", "x, y = m[0]", "a = x",
+		// }},
+		// // test case from spec section on package initialization
+		// {`package p12
 
 		// var (
-		//     v = t.m()
-		//     t = makeT(0)
+		// 	a = c + b
+		// 	b = f()
+		// 	c = f()
+		// 	d = 3
 		// )
 
-		// type T struct{}
-
-		// func (T) m() int { return 0 }
-
-		// func makeT(n int) T {
-		//     if n > 0 {
-		//         return makeT(n-1)
-		//     }
-		//     return T{}
+		// func f() int {
+		// 	d++
+		// 	return d
 		// }`, []string{
-		// 	"t = makeT(0)", "v = t.m()",
+		// 	"d = 3", "b = f()", "c = f()", "a = c + b",
 		// }},
-		// test case for issue 10709: same as test before, but variable decls swapped
-		{`package p14
+		// // test case for issue 7131
+		// {`package main
+
+		// var counter int
+		// func next() int { counter++; return counter }
+
+		// var _ = makeOrder()
+		// func makeOrder() []int { return []int{f, b, d, e, c, a} }
+
+		// var a       = next()
+		// var b, c    = next(), next()
+		// var d, e, f = next(), next(), next()
+		// `, []string{
+		// 	"a = next()", "b = next()", "c = next()", "d = next()", "e = next()", "f = next()", "_ = makeOrder()",
+		// }},
+		// test case for issue 10709
+		{`package p13
 
 		var (
-		    t = makeT(0)
 		    v = t.m()
+		    t = makeT(0)
 		)
 
 		type T struct{}
@@ -613,6 +592,44 @@ func TestInitOrderInfo(t *testing.T) {
 		}`, []string{
 			"t = makeT(0)", "v = t.m()",
 		}},
+		// // test case for issue 10709: same as test before, but variable decls swapped
+		// {`package p14
+
+		// var (
+		//     t = makeT(0)
+		//     v = t.m()
+		// )
+
+		// type T struct{}
+
+		// func (T) m() int { return 0 }
+
+		// func makeT(n int) T {
+		//     if n > 0 {
+		//         return makeT(n-1)
+		//     }
+		//     return T{}
+		// }`, []string{
+		// 	"t = makeT(0)", "v = t.m()",
+		// }},
+		// // another candidate possibly causing problems with issue 10709
+		// {`package p15
+
+		// var y1 = f1()
+
+		// func f1() int { return g1() }
+		// func g1() int { f1(); return x1 }
+
+		// var x1 = 0
+
+		// var y2 = f2()
+
+		// func f2() int { return g2() }
+		// func g2() int { return x2 }
+
+		// var x2 = 0`, []string{
+		// 	"x1 = 0", "y1 = f1()", "x2 = 0", "y2 = f2()",
+		// }},
 	}
 
 	for _, test := range tests {
