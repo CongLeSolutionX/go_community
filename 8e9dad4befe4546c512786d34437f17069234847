@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d4fd45ea_17312352",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T19:44:51Z",
+      "side": 1,
+      "message": "The first reported line has a different message and different indentation, on purpose. Leaving as is. This is fine.",
+      "parentUuid": "d4fd45ea_77c34744",
+      "revId": "8e9dad4befe4546c512786d34437f17069234847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4fd45ea_97a1b3ae",
         "filename": "src/go/types/initorder.go",
         "patchSetId": 6
