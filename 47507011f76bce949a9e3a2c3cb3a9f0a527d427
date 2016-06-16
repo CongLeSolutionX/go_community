@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d4fd45ea_7916a09b",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T17:38:16Z",
+      "side": 1,
+      "message": "well, yes, that\u0027s what I thought, too, but it\u0027s wrong: we need to start at 0 and then descend all the way to 0 again, but with different messages. I could change the loop but it becomes more complicated.",
+      "parentUuid": "d4fd45ea_e6c20f63",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4fd45ea_c6ac33bb",
         "filename": "src/go/types/initorder.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-16T16:50:34Z",
       "side": 1,
       "message": "Simpler:\n\nfunc (s *nodeSet) add(p *graphNode) {\n    if *s \u003d\u003d nil {\n        *s \u003d make(nodeSet)\n    }\n    (*s)[p] \u003d true\n}\n\n...\n\nn.succ.add(d)\nd.pred.add(n)",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_796b4004",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T17:38:16Z",
+      "side": 1,
+      "message": "nice!\n\n(I\u0027ve added a named nodeSet type after the fact which is why I probably missed this.)",
+      "parentUuid": "d4fd45ea_c6ac33bb",
       "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d4fd45ea_b95dc864",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T17:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4fd45ea_06b73b07",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4fd45ea_268b5736",
         "filename": "src/go/types/initorder.go",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d4fd45ea_19195c6e",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T17:38:16Z",
+      "side": 1,
+      "message": "It may be an optimization but I believe the algorithm is correct for p \u003d\u003d s, that is we have two nodes p (\u003d\u003d s) and n (function node) and we remove n. The result is just p pointing to itself twice (as pred and succ). There may be other connections, of course.\n\nIn fact it\u0027s crucial to create that self-cycle. E.g.,\n\nvar x \u003d f()\nfunc f() int { return x }\n\nafter eliminating f we want x to point to itself so we can get the error.",
+      "parentUuid": "d4fd45ea_268b5736",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4fd45ea_3997f851",
         "filename": "src/go/types/initorder.go",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2016-06-16T16:50:34Z",
       "side": 1,
       "message": "You could piggyback this loop onto the previous one:\n\n\tfor obj, n :\u003d range M {\n\t\tif _, ok :\u003d obj.(*Func); ok {\n\t\t\t...\n\t\t} else {\n\t\t\t...here...\n\t\t}\n\t}\n\nand avoid the need to delete elements of M.\n\nThe only part that has to be done after the first loop is computing len(succs).",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_d969b4e3",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T17:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4fd45ea_3997f851",
       "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
