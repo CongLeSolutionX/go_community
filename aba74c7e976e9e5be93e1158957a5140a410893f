@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b47a9131_a5745273",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-06-16T14:39:44Z",
+      "side": 1,
+      "message": "A comment here to say what you think is going on would be helpful.  For example\n// t is a tuple generator CSE\u0027d into a different block, and v is a tuple selector\n// left behind.  Move v into the same block as t.\nThis is slightly redundant with the comment at the top of the loop.\nAlternately, if we had something along the lines of Op.isTupleGenerator() and\nOp.isTupleSelector(), we could assert these things, which would protect from\nfuture surprises and also document intentions.",
+      "revId": "aba74c7e976e9e5be93e1158957a5140a410893f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
