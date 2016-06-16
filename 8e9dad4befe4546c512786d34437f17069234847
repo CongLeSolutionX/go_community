@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "696200f0_6cca33af",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T22:58:49Z",
+      "side": 1,
+      "message": "That\u0027s a superficial typo: I replaced only two of the four obj expressions with cycle[i].  Just change each obj.Pos() to match the cycle[_] expression on the same line.",
+      "parentUuid": "696200f0_2c8f9b3d",
+      "revId": "8e9dad4befe4546c512786d34437f17069234847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4fd45ea_97a1b3ae",
         "filename": "src/go/types/initorder.go",
         "patchSetId": 6
