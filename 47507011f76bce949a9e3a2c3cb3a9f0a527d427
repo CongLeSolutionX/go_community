@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4fd45ea_e6c20f63",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T16:50:34Z",
+      "side": 1,
+      "message": "More obvious descending loop:\n\n  // go backward since cycle is in reverse order\n  for i :\u003d len(cycle)-1; i \u003e\u003d 0; i-- {",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_c6ac33bb",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T16:50:34Z",
+      "side": 1,
+      "message": "Simpler:\n\nfunc (s *nodeSet) add(p *graphNode) {\n    if *s \u003d\u003d nil {\n        *s \u003d make(nodeSet)\n    }\n    (*s)[p] \u003d true\n}\n\n...\n\nn.succ.add(d)\nd.pred.add(n)",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_06b73b07",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T16:50:34Z",
+      "side": 1,
+      "message": "s/the ones that have no dependencies and are not dependencies of other nodes/isolated ones, /",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_268b5736",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T16:50:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you also check that p !\u003d s?",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_3997f851",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T16:50:34Z",
+      "side": 1,
+      "message": "You could piggyback this loop onto the previous one:\n\n\tfor obj, n :\u003d range M {\n\t\tif _, ok :\u003d obj.(*Func); ok {\n\t\t\t...\n\t\t} else {\n\t\t\t...here...\n\t\t}\n\t}\n\nand avoid the need to delete elements of M.\n\nThe only part that has to be done after the first loop is computing len(succs).",
+      "revId": "47507011f76bce949a9e3a2c3cb3a9f0a527d427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
