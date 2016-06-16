@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "696200f0_2c8f9b3d",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-16T22:06:57Z",
+      "side": 1,
+      "message": "That would leave the same position for each line which is not what we want: we want to see the position of each object that makes a reference.\n\nBut I can remove the _ \u003d from the range.",
+      "parentUuid": "d4fd45ea_f73757f7",
+      "revId": "8e9dad4befe4546c512786d34437f17069234847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4fd45ea_97a1b3ae",
         "filename": "src/go/types/initorder.go",
         "patchSetId": 6
