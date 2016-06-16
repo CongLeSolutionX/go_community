@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4fd45ea_77c34744",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T19:36:28Z",
+      "side": 1,
+      "message": "Why not move this statement into to the loop, and delete L165, then you can delete the now-obvious \"with invariant...\" part of the comment?\n\nThe final reference to obj (L167) is identical to cycle[0].",
+      "revId": "8e9dad4befe4546c512786d34437f17069234847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_97a1b3ae",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T19:36:28Z",
+      "side": 1,
+      "message": "... 1  (not zero)",
+      "revId": "8e9dad4befe4546c512786d34437f17069234847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4fd45ea_f7ae3799",
+        "filename": "src/go/types/initorder.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-06-16T19:36:28Z",
+      "side": 1,
+      "message": "for range cycle",
+      "revId": "8e9dad4befe4546c512786d34437f17069234847",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
