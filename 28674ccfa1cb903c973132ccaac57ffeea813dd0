@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9704c1b_248af22c",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-06-17T23:22:20Z",
+      "side": 1,
+      "message": "Instead of testing the error, return an error value from parseRange and check for that exact error value.\n\ndeclare this global:\n\nvar errNoOverlap \u003d errors.New(\"invalid range: failed to overlap\")",
+      "revId": "28674ccfa1cb903c973132ccaac57ffeea813dd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9704c1b_448fee3b",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-06-17T23:22:20Z",
+      "side": 1,
+      "message": "noOverlap :\u003d false",
+      "revId": "28674ccfa1cb903c973132ccaac57ffeea813dd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9704c1b_6494ea4b",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-06-17T23:22:20Z",
+      "side": 1,
+      "message": "noOverlap \u003d true",
+      "revId": "28674ccfa1cb903c973132ccaac57ffeea813dd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
