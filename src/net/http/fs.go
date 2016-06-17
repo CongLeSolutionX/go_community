@@ -189,6 +189,9 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 	if size >= 0 {
 		ranges, err := parseRange(rangeReq, size)
 		if err != nil {
+			if strings.Contains(err.Error(), "invalid range failed to overlap") {
+				w.Header().Set("Content-Range", fmt.Sprintf("bytes */%d", size))
+			}
 			Error(w, err.Error(), StatusRequestedRangeNotSatisfiable)
 			return
 		}
@@ -552,6 +555,7 @@ func parseRange(s string, size int64) ([]httpRange, error) {
 		return nil, errors.New("invalid range")
 	}
 	var ranges []httpRange
+	var noOverlapCount int
 	for _, ra := range strings.Split(s[len(b):], ",") {
 		ra = strings.TrimSpace(ra)
 		if ra == "" {
@@ -577,8 +581,12 @@ func parseRange(s string, size int64) ([]httpRange, error) {
 			r.length = size - r.start
 		} else {
 			i, err := strconv.ParseInt(start, 10, 64)
-			if err != nil || i >= size || i < 0 {
+			if err != nil || i < 0 {
 				return nil, errors.New("invalid range")
+			}
+			if i >= size {
+				noOverlapCount++
+				continue
 			}
 			r.start = i
 			if end == "" {
@@ -596,6 +604,9 @@ func parseRange(s string, size int64) ([]httpRange, error) {
 			}
 		}
 		ranges = append(ranges, r)
+	}
+	if noOverlapCount > 0 && len(ranges) == 0 {
+		return nil, errors.New("invalid range failed to overlap")
 	}
 	return ranges, nil
 }
