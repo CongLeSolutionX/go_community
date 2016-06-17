@@ -251,7 +251,7 @@ func send(ireq *Request, rt RoundTripper, deadline time.Time) (*Response, error)
 	if !deadline.IsZero() {
 		forkReq()
 	}
-	stopTimer, wasCanceled := setRequestCancel(req, rt, deadline)
+	stopTimer, didTimeout := setRequestCancel(req, rt, deadline)
 
 	resp, err := rt.RoundTrip(req)
 	if err != nil {
@@ -271,9 +271,9 @@ func send(ireq *Request, rt RoundTripper, deadline time.Time) (*Response, error)
 	}
 	if !deadline.IsZero() {
 		resp.Body = &cancelTimerBody{
-			stop:           stopTimer,
-			rc:             resp.Body,
-			reqWasCanceled: wasCanceled,
+			stop:          stopTimer,
+			rc:            resp.Body,
+			reqDidTimeout: didTimeout,
 		}
 	}
 	return resp, nil
@@ -282,7 +282,7 @@ func send(ireq *Request, rt RoundTripper, deadline time.Time) (*Response, error)
 // setRequestCancel sets the Cancel field of req, if deadline is
 // non-zero. The RoundTripper's type is used to determine whether the legacy
 // CancelRequest behavior should be used.
-func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTimer func(), wasCanceled func() bool) {
+func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTimer func(), didTimeout func() bool) {
 	if deadline.IsZero() {
 		return nop, alwaysFalse
 	}
@@ -291,15 +291,6 @@ func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTi
 
 	cancel := make(chan struct{})
 	req.Cancel = cancel
-
-	wasCanceled = func() bool {
-		select {
-		case <-cancel:
-			return true
-		default:
-			return false
-		}
-	}
 
 	doCancel := func() {
 		// The new way:
@@ -324,19 +315,21 @@ func setRequestCancel(req *Request, rt RoundTripper, deadline time.Time) (stopTi
 	var once sync.Once
 	stopTimer = func() { once.Do(func() { close(stopTimerCh) }) }
 
+	timedOut := false
 	timer := time.NewTimer(deadline.Sub(time.Now()))
 	go func() {
 		select {
 		case <-initialReqCancel:
 			doCancel()
 		case <-timer.C:
+			timedOut = true
 			doCancel()
 		case <-stopTimerCh:
 			timer.Stop()
 		}
 	}()
 
-	return stopTimer, wasCanceled
+	return stopTimer, func() bool { return timedOut }
 }
 
 // See 2 (end of page 4) http://www.ietf.org/rfc/rfc2617.txt
@@ -637,12 +630,12 @@ func (c *Client) Head(url string) (resp *Response, err error) {
 
 // cancelTimerBody is an io.ReadCloser that wraps rc with two features:
 // 1) on Read error or close, the stop func is called.
-// 2) On Read failure, if reqWasCanceled is true, the error is wrapped and
+// 2) On Read failure, if reqDidTimeout is true, the error is wrapped and
 //    marked as net.Error that hit its timeout.
 type cancelTimerBody struct {
-	stop           func() // stops the time.Timer waiting to cancel the request
-	rc             io.ReadCloser
-	reqWasCanceled func() bool
+	stop          func() // stops the time.Timer waiting to cancel the request
+	rc            io.ReadCloser
+	reqDidTimeout func() bool
 }
 
 func (b *cancelTimerBody) Read(p []byte) (n int, err error) {
@@ -654,7 +647,7 @@ func (b *cancelTimerBody) Read(p []byte) (n int, err error) {
 	if err == io.EOF {
 		return n, err
 	}
-	if b.reqWasCanceled() {
+	if b.reqDidTimeout() {
 		err = &httpError{
 			err:     err.Error() + " (Client.Timeout exceeded while reading body)",
 			timeout: true,

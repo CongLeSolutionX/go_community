@@ -510,6 +510,9 @@ func testCancelRequestMidBody(t *testing.T, h2 bool) {
 	defer cst.close()
 	defer close(unblock)
 
+	// Make sure a Cancel is not mistaken for a Timeout. (Issue 16094)
+	cst.c.Timeout = 1 * time.Hour
+
 	req, _ := NewRequest("GET", cst.ts.URL, nil)
 	cancel := make(chan struct{})
 	req.Cancel = cancel
