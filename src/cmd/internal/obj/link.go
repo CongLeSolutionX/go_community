@@ -304,7 +304,8 @@ const (
 	ABaseMIPS64
 	ABaseS390X
 
-	AMask = 1<<12 - 1 // AND with this to use the opcode as an array index.
+	AllowedOpCodes = 1 << 12   // The number of opcodes available for any given architecture.
+	AMask          = 1<<12 - 1 // AND with this to use the opcode as an array index.
 )
 
 // An LSym is the sort of symbol that is written to an object file.
