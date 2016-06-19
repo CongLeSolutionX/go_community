@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9704c1b_8466463f",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-06-19T23:14:33Z",
+      "side": 1,
+      "message": "This seems to introduce a race condition between this write here and the read on line 332. Do you agree?",
+      "revId": "9ec3415b8f358bcd64b93c252bb8f1c093ca53ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
