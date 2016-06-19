@@ -197,7 +197,7 @@ func ParseInt(s string, base int, bitSize int) (i int64, err error) {
 	return n, nil
 }
 
-// Atoi is shorthand for ParseInt(s, 10, 0).
+// Atoi is shorthand for ParseInt(s, 10, 0), except that ParseInt returns an int64
 func Atoi(s string) (int, error) {
 	i64, err := ParseInt(s, 10, 0)
 	return int(i64), err
