@@ -625,6 +625,12 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) {
 		dargs = make([]ast.Expr, len(name.FuncType.Params))
 	}
 	for i, param := range name.FuncType.Params {
+		if len(call.Call.Args) <= i {
+			// Avoid a crash; this will be caught when the
+			// generated file is compiled.
+			return
+		}
+
 		origArg := call.Call.Args[i]
 		darg := origArg
 
