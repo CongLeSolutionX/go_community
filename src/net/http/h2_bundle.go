@@ -972,7 +972,7 @@ func http2terminalReadFrameError(err error) bool {
 //
 // If the frame is larger than previously set with SetMaxReadFrameSize, the
 // returned error is ErrFrameTooLarge. Other errors may be of type
-// ConnectionError, StreamError, or anything else from from the underlying
+// ConnectionError, StreamError, or anything else from the underlying
 // reader.
 func (fr *http2Framer) ReadFrame() (http2Frame, error) {
 	fr.errDetail = nil
