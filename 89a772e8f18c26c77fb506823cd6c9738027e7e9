@@ -16,6 +16,24 @@
       "revId": "89a772e8f18c26c77fb506823cd6c9738027e7e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce1e9259_97f226d7",
+        "filename": "test/run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-21T23:21:26Z",
+      "side": 1,
+      "message": "It is a flag. See the extraction of the flag for errorcheck.\n\nAnd as such, the use is as proposed:\n\n// compiledir singlefilepkgs",
+      "parentUuid": "ce1e9259_b7240258",
+      "revId": "89a772e8f18c26c77fb506823cd6c9738027e7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
