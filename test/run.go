@@ -306,7 +306,9 @@ func goDirFiles(longdir string) (filter []os.FileInfo, err error) {
 
 var packageRE = regexp.MustCompile(`(?m)^package (\w+)`)
 
-func goDirPackages(longdir string) ([][]string, error) {
+// If singlefilepkgs is set, each file is considered a separate package
+// even if the package names are the same.
+func goDirPackages(longdir string, singlefilepkgs bool) ([][]string, error) {
 	files, err := goDirFiles(longdir)
 	if err != nil {
 		return nil, err
@@ -324,7 +326,7 @@ func goDirPackages(longdir string) ([][]string, error) {
 			return nil, fmt.Errorf("cannot find package name in %s", name)
 		}
 		i, ok := m[pkgname[1]]
-		if !ok {
+		if singlefilepkgs || !ok {
 			i = len(pkgs)
 			pkgs = append(pkgs, nil)
 			m[pkgname[1]] = i
@@ -464,6 +466,7 @@ func (t *test) run() {
 
 	var args, flags []string
 	wantError := false
+	singlefilepkgs := false
 	f := strings.Fields(action)
 	if len(f) > 0 {
 		action = f[0]
@@ -503,6 +506,11 @@ func (t *test) run() {
 		t.err = skipError("skipped; unknown pattern: " + action)
 		t.action = "??"
 		return
+	}
+
+	if len(args) > 0 && args[0] == "singlefilepkgs" {
+		singlefilepkgs = true
+		args = args[1:]
 	}
 
 	t.makeTempDir()
@@ -578,7 +586,7 @@ func (t *test) run() {
 	case "compiledir":
 		// Compile all files in the directory in lexicographic order.
 		longdir := filepath.Join(cwd, t.goDirName())
-		pkgs, err := goDirPackages(longdir)
+		pkgs, err := goDirPackages(longdir, singlefilepkgs)
 		if err != nil {
 			t.err = err
 			return
@@ -594,7 +602,7 @@ func (t *test) run() {
 		// errorcheck all files in lexicographic order
 		// useful for finding importing errors
 		longdir := filepath.Join(cwd, t.goDirName())
-		pkgs, err := goDirPackages(longdir)
+		pkgs, err := goDirPackages(longdir, singlefilepkgs)
 		if err != nil {
 			t.err = err
 			return
@@ -631,7 +639,7 @@ func (t *test) run() {
 		// Compile all files in the directory in lexicographic order.
 		// then link as if the last file is the main package and run it
 		longdir := filepath.Join(cwd, t.goDirName())
-		pkgs, err := goDirPackages(longdir)
+		pkgs, err := goDirPackages(longdir, singlefilepkgs)
 		if err != nil {
 			t.err = err
 			return
