@@ -30,6 +30,9 @@ type state struct {
 	node  parse.Node // current node, for errors
 	vars  []variable // push-down stack of variable values.
 	depth int        // the height of the stack of executing templates.
+
+	// Cache struct fields by name to avoid a linear search.
+	fields map[reflect.Type]map[string]*reflect.StructField
 }
 
 // variable holds the dynamic value of a variable such as $, $x etc.
@@ -67,6 +70,32 @@ func (s *state) varValue(name string) reflect.Value {
 	}
 	s.errorf("undefined variable: %s", name)
 	return zero
+}
+
+// fieldByName looks up a field in a struct by name, using the cache.
+// Returns nil if the field is not there.
+func (s *state) fieldByName(typ reflect.Type, name string) *reflect.StructField {
+	fields, ok := s.fields[typ]
+	if !ok {
+		if s.fields == nil {
+			s.fields = make(map[reflect.Type]map[string]*reflect.StructField)
+		}
+		fields = make(map[string]*reflect.StructField)
+		s.fields[typ] = fields
+	}
+	field, ok := fields[name]
+	if !ok {
+		sf, ok := typ.FieldByName(name)
+		if ok {
+			field = &sf
+		} else {
+			field = nil
+		}
+		// Cache fields found as the *StructField,
+		// fields not found as nil.
+		fields[name] = field
+	}
+	return field
 }
 
 var zero reflect.Value
@@ -552,8 +581,8 @@ func (s *state) evalField(dot reflect.Value, fieldName string, node parse.Node, 
 	// It's not a method; must be a field of a struct or an element of a map.
 	switch receiver.Kind() {
 	case reflect.Struct:
-		tField, ok := receiver.Type().FieldByName(fieldName)
-		if ok {
+		tField := s.fieldByName(receiver.Type(), fieldName)
+		if tField != nil {
 			if isNil {
 				s.errorf("nil pointer evaluating %s.%s", typ, fieldName)
 			}
