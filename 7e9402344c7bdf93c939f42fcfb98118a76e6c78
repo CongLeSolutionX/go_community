@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3bfb931_830dfee7",
+        "filename": "src/go/constant/value_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-24T19:39:19Z",
+      "side": 1,
+      "message": "please put the comment on the right of the test case - no need to start a new section\n\n{\"0e9999999999\", \"0\", \"0\"}, // issue ...",
+      "revId": "7e9402344c7bdf93c939f42fcfb98118a76e6c78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_630722c1",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-24T19:39:19Z",
+      "side": 1,
+      "message": "Please still add a reference to the issue (apologies for not being clearer before)\n\nI think it\u0027s useful to have that reference even if it\u0027s just here and not in the other file.\n\n// special-case 0 (see also issue #....)",
+      "revId": "7e9402344c7bdf93c939f42fcfb98118a76e6c78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_4304a6ba",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-06-24T19:39:19Z",
+      "side": 1,
+      "message": "same here, please put the comment on the right of the entry",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 9
+      },
+      "revId": "7e9402344c7bdf93c939f42fcfb98118a76e6c78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
