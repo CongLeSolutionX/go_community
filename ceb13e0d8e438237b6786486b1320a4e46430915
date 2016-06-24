@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c37f4d20_2c5613be",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-24T17:42:02Z",
+      "side": 1,
+      "message": "The value of ut is irrelevant; you could write this as\n    if t.tflag\u0026tflagUncommon \u003d\u003d 0 {\n        return 0\n    }",
+      "revId": "ceb13e0d8e438237b6786486b1320a4e46430915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
