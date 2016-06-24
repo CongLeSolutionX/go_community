@@ -6,6 +6,10 @@
 // code but require careful thought to use correctly.
 package subtle
 
+import (
+	"unsafe"
+)
+
 // ConstantTimeCompare returns 1 if and only if the two slices, x
 // and y, have equal contents. The time taken is a function of the length of
 // the slices and is independent of the contents.
@@ -14,13 +18,69 @@ func ConstantTimeCompare(x, y []byte) int {
 		return 0
 	}
 
-	var v byte
-
-	for i := 0; i < len(x); i++ {
-		v |= x[i] ^ y[i]
+	if len(x) == 0 {
+		return 1
 	}
 
-	return ConstantTimeByteEq(v, 0)
+	var v int32
+
+	trailstart := 0
+	if len(x) >= 12 {
+		xp := (uintptr)(unsafe.Pointer(&x[0]))
+		yp := (uintptr)(unsafe.Pointer(&y[0]))
+
+		switch {
+		// same alignment on 4 byte boundary
+		case xp&0x7 == 0x4 && yp&0x7 == 0x4:
+
+			var vq int64
+
+			vq |= int64(*(*int32)(unsafe.Pointer(xp)) ^ *(*int32)(unsafe.Pointer(yp)))
+			xp += 4
+			yp += 4
+			length := uintptr((len(x) - 4) / 8)
+
+			trailstart = int(length*8 + 4)
+			for i := uintptr(0); i < length; i++ {
+				vq |= *(*int64)(unsafe.Pointer(xp + i*8)) ^ *(*int64)(unsafe.Pointer(yp + i*8))
+			}
+			v = int32(vq) | int32(vq>>32)
+
+		// aligned on 8 byte boundary
+		case xp&0x7 == 0 && yp&0x7 == 0:
+			length := uintptr(len(x) / 8)
+
+			trailstart = int(length * 8)
+			var vq int64
+
+			for i := uintptr(0); i < length; i++ {
+				vq |= *(*int64)(unsafe.Pointer(xp + i*8)) ^ *(*int64)(unsafe.Pointer(yp + i*8))
+			}
+			v = int32(vq) | int32(vq>>32)
+
+		// aligned on mismatched 4 byte boundary
+		case xp&0x3 == 0 && yp&0x3 == 0:
+			length := uintptr(len(x) / 4)
+			trailstart = int(length * 4)
+			for i := uintptr(0); i < length; i++ {
+				v |= *(*int32)(unsafe.Pointer(xp + i*4)) ^ *(*int32)(unsafe.Pointer(yp + i*4))
+			}
+
+		// not aligned
+		default:
+			trailstart = len(x)
+			var vb byte
+			for i := 0; i < len(x); i++ {
+				vb |= x[i] ^ y[i]
+			}
+			v = int32(vb)
+		}
+	}
+
+	for i := trailstart; i < len(x); i++ {
+		v |= int32(x[i]) ^ int32(y[i])
+	}
+	return ConstantTimeEq(v, 0)
 }
 
 // ConstantTimeSelect returns x if v is 1 and y if v is 0.

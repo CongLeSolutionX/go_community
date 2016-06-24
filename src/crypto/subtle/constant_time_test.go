@@ -20,6 +20,8 @@ var testConstantTimeCompareData = []TestConstantTimeCompareStruct{
 	{[]byte{0x12}, []byte{0x11}, 0},
 	{[]byte{0x11}, []byte{0x11, 0x12}, 0},
 	{[]byte{0x11, 0x12}, []byte{0x11}, 0},
+	{make([]byte, 4096), make([]byte, 4096), 1},
+	{[]byte{0, 1, 2, 3, 4, 5, 6, 6, 7, 9, 10, 11, 12}, []byte{0, 1, 2, 3, 4, 5, 6, 6, 7, 9, 10, 11, 13}, 0},
 }
 
 func TestConstantTimeCompare(t *testing.T) {
@@ -122,6 +124,39 @@ func TestConstantTimeLessOrEq(t *testing.T) {
 		result := ConstantTimeLessOrEq(test.x, test.y)
 		if result != test.result {
 			t.Errorf("#%d: %d <= %d gave %d, expected %d", i, test.x, test.y, result, test.result)
+		}
+	}
+}
+
+func BenchmarkConstantTimeCompare8Align(b *testing.B) {
+	a := make([]byte, 4096)
+	c := make([]byte, 4096)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if r := ConstantTimeCompare(a, c); r != 1 {
+			b.Error("comparison failed")
+		}
+	}
+}
+
+func BenchmarkConstantTimeCompareSame4Align(b *testing.B) {
+	a := make([]byte, 4096)
+	c := make([]byte, 4096)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if r := ConstantTimeCompare(a[4:], c[4:]); r != 1 {
+			b.Error("comparison failed")
+		}
+	}
+}
+
+func BenchmarkConstantTimeCompareMixed4Align(b *testing.B) {
+	a := make([]byte, 4096)
+	c := make([]byte, 4096)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if r := ConstantTimeCompare(a[:4092], c[4:]); r != 1 {
+			b.Error("comparison failed")
 		}
 	}
 }

@@ -96,7 +96,7 @@ var pkgDeps = map[string][]string{
 	// system calls.
 	"crypto":              {"L2", "hash"},          // interfaces
 	"crypto/cipher":       {"L2", "crypto/subtle"}, // interfaces
-	"crypto/subtle":       {},
+	"crypto/subtle":       {"unsafe"},
 	"encoding/base32":     {"L2"},
 	"encoding/base64":     {"L2"},
 	"encoding/binary":     {"L2", "reflect"},
