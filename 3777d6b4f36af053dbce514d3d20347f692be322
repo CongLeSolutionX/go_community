@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "630ce1ee_b96e7fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10345
+      },
+      "writtenOn": "2016-06-24T19:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839ab576_66a4f6b4",
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839ab576_86a9da8d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "630ce1ee_f978f7ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 10345
+      },
+      "writtenOn": "2016-06-24T19:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839ab576_86a9da8d",
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839ab576_c6668201",
         "filename": "src/go/constant/value_test.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-24T04:11:41Z",
       "side": 1,
       "message": "- once you have the issue number, please add a comment like so: // issue #...\n\n- also, consider using a less special looking exponent, perhaps just 1000000000 or 999999999",
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "630ce1ee_d97d339b",
+        "filename": "src/go/constant/value_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 10345
+      },
+      "writtenOn": "2016-06-24T19:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839ab576_c6668201",
       "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -164,6 +218,30 @@
       "writtenOn": "2016-06-24T04:11:41Z",
       "side": 1,
       "message": "same here as for the const test: please add a comment\n\n// issue #...",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 15
+      },
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "630ce1ee_19804ba8",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 10345
+      },
+      "writtenOn": "2016-06-24T19:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839ab576_4642924e",
       "range": {
         "startLine": 51,
         "startChar": 3,
