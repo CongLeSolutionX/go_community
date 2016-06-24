@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "839ab576_66a4f6b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-06-24T02:23:11Z",
+      "side": 1,
+      "message": "lowercase special",
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "839ab576_86a9da8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-06-24T02:23:11Z",
+      "side": 1,
+      "message": "Can you file a tracking bug for this, and then add:\n\nFixes #NNNN\n\n... at the end of this commit message (but before the Change-Id)",
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
