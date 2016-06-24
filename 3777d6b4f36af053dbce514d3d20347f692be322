@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "630ce1ee_3950af4b",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 10345
+      },
+      "writtenOn": "2016-06-24T17:58:27Z",
+      "side": 1,
+      "message": "I was trying to keep here and below as consistent as possible with https://github.com/golang/go/blob/master/src/math/big/floatconv.go#L59. Want me to make the changes over there as well?",
+      "parentUuid": "839ab576_06616ae6",
+      "revId": "3777d6b4f36af053dbce514d3d20347f692be322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "839ab576_263d8ed5",
         "filename": "src/math/big/ratconv.go",
         "patchSetId": 2
