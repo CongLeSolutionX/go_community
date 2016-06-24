@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c37f4d20_acf3e30c",
+        "filename": "src/context/context.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-06-24T17:35:54Z",
+      "side": 1,
+      "message": "We have decided to adopt single space after period in comments in Go files in the standard library.  Though I see that this file does not follow that elsewhere.",
+      "revId": "f932800432900c94e2b372b8d02afb0e21a24ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
