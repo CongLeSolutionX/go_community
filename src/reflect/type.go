@@ -820,6 +820,10 @@ func (t *rtype) NumMethod() int {
 		tt := (*interfaceType)(unsafe.Pointer(t))
 		return tt.NumMethod()
 	}
+	ut := t.uncommon()
+	if ut == nil {
+		return 0 // avoid methodCache lock in zero case
+	}
 	return len(t.exportedMethods())
 }
 
