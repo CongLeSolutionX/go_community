@@ -6,18 +6,21 @@
 // cancelation signals, and other request-scoped values across API boundaries
 // and between processes.
 //
-// Incoming requests to a server should create a Context, and outgoing calls to
-// servers should accept a Context.  The chain of function calls between them
-// must propagate the Context, optionally replacing it with a derived Context
-// created using WithCancel, WithDeadline, WithTimeout, or WithValue.  These
-// Context values form a tree: when a Context is canceled, all Contexts derived
-// from it are also canceled.
+// Incoming requests to a server should create a Context, and outgoing
+// calls to servers should accept a Context.  The chain of function
+// calls between them must propagate the Context, optionally replacing
+// it with a derived Context created using WithCancel, WithDeadline,
+// WithTimeout, or WithValue.  When a Context is canceled, all
+// Contexts derived from it are also canceled.
 //
-// The WithCancel, WithDeadline, and WithTimeout functions return a derived
-// Context and a CancelFunc.  Calling the CancelFunc cancels the new Context and
-// any Contexts derived from it, removes the Context from the parent's tree, and
-// stops any associated timers.  Failing to call the CancelFunc leaks the
-// associated resources until the parent Context is canceled or the timer fires.
+// The WithCancel, WithDeadline, and WithTimeout functions take a
+// Context (the parent) and return a derived Context (the child) and a
+// CancelFunc.  Calling the CancelFunc cancels the child and its
+// children, removes the parent's reference to the child, and stops
+// any associated timers.  Failing to call the CancelFunc leaks the
+// child and its children until the parent is canceled or the timer
+// fires.  The go vet tool checks that CancelFuncs are called on all
+// code paths.
 //
 // Programs that use Contexts should follow these rules to keep interfaces
 // consistent across packages and enable static analysis tools to check context
