@@ -19,6 +19,7 @@ import (
 	"runtime"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"unsafe"
 )
 
@@ -1373,25 +1374,43 @@ func (t *structType) FieldByNameFunc(match func(string) bool) (result StructFiel
 	return
 }
 
+var fieldByNameCache struct {
+	value atomic.Value // map[*structType]map[string]StructField // type -> field name -> StructField
+	mu    sync.Mutex   // used only by writers
+}
+
 // FieldByName returns the struct field with the given name
 // and a boolean to indicate if the field was found.
 func (t *structType) FieldByName(name string) (f StructField, present bool) {
 	// Quick check for top-level name, or struct without anonymous fields.
-	hasAnon := false
-	if name != "" {
-		for i := range t.fields {
-			tf := &t.fields[i]
-			tfname := tf.name.name()
-			if tfname == "" {
-				hasAnon = true
-				continue
-			}
-			if tfname == name {
-				return t.Field(i), true
-			}
-		}
+	if name == "" {
+		return
 	}
-	if !hasAnon {
+	m, _ := fieldByNameCache.value.Load().(map[*structType]map[string]StructField)
+	names := m[t]
+	if names == nil {
+		fieldByNameCache.mu.Lock()
+		m, _ = fieldByNameCache.value.Load().(map[*structType]map[string]StructField)
+		if m[t] == nil {
+			newM := make(map[*structType]map[string]StructField, len(m)+1)
+			for k, v := range m {
+				newM[k] = v
+			}
+			names = make(map[string]StructField, len(t.fields))
+			for i := range t.fields {
+				tf := &t.fields[i]
+				names[tf.name.name()] = t.Field(i)
+			}
+			newM[t] = names
+			fieldByNameCache.value.Store(newM)
+		}
+		fieldByNameCache.mu.Unlock()
+	}
+
+	if f, ok := names[name]; ok {
+		return f, true
+	}
+	if _, hasAnon := names[""]; !hasAnon {
 		return
 	}
 	return t.FieldByNameFunc(func(s string) bool { return s == name })
