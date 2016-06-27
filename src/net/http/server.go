@@ -2225,6 +2225,11 @@ var testHookServerServe func(*Server, net.Listener) // used if non-nil
 // Serve accepts incoming connections on the Listener l, creating a
 // new service goroutine for each. The service goroutines read requests and
 // then call srv.Handler to reply to them.
+//
+// For HTTP/2 support, srv.TLSConfig must be initialized to the
+// provided listener's TLS Config before calling Serve, and the Config
+// must include the string "h2" in Config.NextProtos.
+//
 // Serve always returns a non-nil error.
 func (srv *Server) Serve(l net.Listener) error {
 	defer l.Close()
@@ -2232,8 +2237,18 @@ func (srv *Server) Serve(l net.Listener) error {
 		fn(srv, l)
 	}
 	var tempDelay time.Duration // how long to sleep on accept failure
-	if err := srv.setupHTTP2(); err != nil {
-		return err
+
+	// Only configure HTTP/2 (the srv.TLSNextProto map) if the
+	// user already configured HTTP/2 on the listener.  We assume
+	// the listener (l) is a TLS Listener and that its
+	// configuration is the same as srv.TLSConfig, as recommended.
+	// The conditional here prevents us from modifying the user's
+	// tls.Config that they're already passed to
+	// tls.NewListener. (Issue 15908)
+	if srv.TLSConfig != nil && strSliceContains(srv.TLSConfig.NextProtos, http2NextProtoTLS) {
+		if err := srv.setupHTTP2(); err != nil {
+			return err
+		}
 	}
 	// TODO: allow changing base context? can't imagine concrete
 	// use cases yet.

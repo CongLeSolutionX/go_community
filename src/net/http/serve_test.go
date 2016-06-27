@@ -1107,11 +1107,31 @@ func TestTLSServer(t *testing.T) {
 	})
 }
 
-func TestAutomaticHTTP2_Serve(t *testing.T) {
+// Issue 15908
+func TestAutomaticHTTP2_Serve_NoTLSConfig(t *testing.T) {
 	defer afterTest(t)
 	ln := newLocalListener(t)
 	ln.Close() // immediately (not a defer!)
 	var s Server
+	if err := s.Serve(ln); err == nil {
+		t.Fatal("expected an error")
+	}
+	on := s.TLSNextProto["h2"] != nil
+	if on {
+		t.Errorf("http2 was configured but should not have been")
+	}
+}
+
+func TestAutomaticHTTP2_Serve_WithTLSConfig(t *testing.T) {
+	defer afterTest(t)
+	ln := newLocalListener(t)
+	ln.Close() // immediately (not a defer!)
+	var s Server
+	// Set the TLSConfig. In reality, this would be the
+	// *tls.Config given to tls.NewListener.
+	s.TLSConfig = &tls.Config{
+		NextProtos: []string{"h2"},
+	}
 	if err := s.Serve(ln); err == nil {
 		t.Fatal("expected an error")
 	}
