@@ -16,6 +16,24 @@
       "revId": "cf1339619bcf22fafe46e4c65fb43d2388d8fcec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_801b2716",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 10031
+      },
+      "writtenOn": "2016-06-27T21:19:18Z",
+      "side": 1,
+      "message": "The indirection seems unnecessary to me, but I don\u0027t have a strong opinion, specially if this is a common pattern in the go documentation.\n\nI had created a separate commit for a similar reference from the go runtime: https://go-review.googlesource.com/24502. I\u0027d like to keep them consistent.",
+      "parentUuid": "a3bfb931_afc45401",
+      "revId": "cf1339619bcf22fafe46e4c65fb43d2388d8fcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
