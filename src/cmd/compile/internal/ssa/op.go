@@ -125,6 +125,25 @@ func (x ValAndOff) add(off int64) int64 {
 	return makeValAndOff(x.Val(), x.Off()+off)
 }
 
+// SizeAndAlign holds both the size and the alignment of a type,
+// used in Zero and Move ops.
+// The high 32 bits hold the alignment.
+// The low 32 bits hold the size.
+type SizeAndAlign int64
+
+func (x SizeAndAlign) Size() int64 {
+	return int64(int32(x))
+}
+func (x SizeAndAlign) Align() int64 {
+	return int64(x) >> 32
+}
+func (x SizeAndAlign) Int64() int64 {
+	return int64(x)
+}
+func MakeSizeAndAlign(size, align int64) SizeAndAlign {
+	return SizeAndAlign(size | align<<32)
+}
+
 func (op Op) isTupleGenerator() bool {
 	switch op {
 	case OpAdd32carry, OpSub32carry, OpMul32uhilo,
