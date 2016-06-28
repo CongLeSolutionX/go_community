@@ -16,6 +16,24 @@
       "revId": "efec826a52325ed4da89c653c4cf7dc98ff5572f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0c0c717_0dedd18f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-06-28T17:21:50Z",
+      "side": 1,
+      "message": "Half-done, I kept the word \"reports\" to match the other bool methods on the interface.",
+      "parentUuid": "a3bfb931_7b9215be",
+      "revId": "efec826a52325ed4da89c653c4cf7dc98ff5572f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
