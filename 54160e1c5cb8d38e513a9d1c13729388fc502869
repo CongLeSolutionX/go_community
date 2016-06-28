@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "400b5318_7be41b47",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2016-06-28T12:50:01Z",
+      "side": 1,
+      "message": "Would it make sense to export this error?",
+      "revId": "54160e1c5cb8d38e513a9d1c13729388fc502869",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "400b5318_bb8cf39c",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2016-06-28T12:50:01Z",
+      "side": 1,
+      "message": "You\u0027re shadowing the timeout variable above, so it\u0027s always nil.",
+      "revId": "54160e1c5cb8d38e513a9d1c13729388fc502869",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "400b5318_9b892f8d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2016-06-28T12:50:01Z",
+      "side": 1,
+      "message": "I\u0027m not convinced it\u0027s safe to just abandon req here.  That would leak the connection, no?",
+      "revId": "54160e1c5cb8d38e513a9d1c13729388fc502869",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
