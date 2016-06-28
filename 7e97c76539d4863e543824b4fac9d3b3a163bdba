@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "a3bfb931_3b089d7c",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-06-28T15:27:00Z",
+      "side": 1,
+      "message": "Can we call it LoweredMoveU or LoweredMoveUnaligned or LoweredUMove or something more comprehensible than -1? (Note that we also already use -N in amd64 for indexed loads/stores.)",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_fb0d658f",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-06-28T15:27:00Z",
+      "side": 1,
+      "message": "Single line, please. The \"one line per case\" elsewhere in the compiler is an artifact of the c2go automated rewrite.",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_db7989e1",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2390,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-06-28T15:27:00Z",
+      "side": 1,
+      "message": "Add a helper function in this file? Something like:\n\nfunc SizeAlignAuxInt(t *Type) int64 {\n  return ssa.MakeSizeAndAlign(t.Size(), t.Alignment)).Int64()\n}",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "408ef3f0_a0fb7ab1",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 1
@@ -31,6 +82,57 @@
       "side": 1,
       "message": "Yes, we can do that.",
       "parentUuid": "408ef3f0_a0fb7ab1",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_bb4acd97",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-06-28T15:27:00Z",
+      "side": 1,
+      "message": "This is a mouthful. I know we have something called ValAndOff, but how do you feel about just SizeAlign here (and elsewhere as appropriate)?\n\nI even wonder whether (later) we should give auxint a type, a la:\n\ntype AuxInt int64\n\nAnd give it methods that take care of many of the things we do with an auxint, like treat it as a size/align or a val/align or etc.",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_bb73edf9",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-06-28T15:27:00Z",
+      "side": 1,
+      "message": "Panic if Size or Align doesn\u0027t fit in 32 bits?",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3bfb931_db60691b",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-06-28T15:27:00Z",
+      "side": 1,
+      "message": "Add a String method?",
       "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
