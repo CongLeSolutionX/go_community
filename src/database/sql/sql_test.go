@@ -1845,6 +1845,29 @@ func TestTxEndBadConn(t *testing.T) {
 	simulateBadConn("db.Tx.Query rollback", &hookRollbackBadConn, dbQuery((*Tx).Rollback))
 }
 
+func TestFreeConnTimeout(t *testing.T) {
+	db := newTestDB(t, "foo")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32,dead=bool")
+	db.SetMaxOpenConns(1)
+
+	sleeper := func(d int, hasError bool) {
+		rows, err := c.stmt.Query("sleep", d)
+		if hasError != (err != nil) {
+			t.Fatal(err)
+		}
+		rows.Close()
+	}
+
+	sleeper(2, nil)
+	sleeper(5, nil)
+
+	db.SetRequestFreeConnTimeout(3)
+
+	sleeper(2, nil)
+	sleeper(5, nil)
+}
+
 type concurrentTest interface {
 	init(t testing.TB, db *DB)
 	finish(t testing.TB)
