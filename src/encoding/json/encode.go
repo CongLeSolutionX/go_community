@@ -1106,7 +1106,7 @@ func typeFields(t reflect.Type) []field {
 				index[len(f.index)] = i
 
 				ft := sf.Type
-				if ft.Name() == "" && ft.Kind() == reflect.Ptr {
+				if !ft.IsNamed() && ft.Kind() == reflect.Ptr {
 					// Follow pointer.
 					ft = ft.Elem()
 				}

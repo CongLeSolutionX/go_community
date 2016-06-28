@@ -67,6 +67,9 @@ type Type interface {
 	// It returns an empty string for unnamed types.
 	Name() string
 
+	// IsNamed reports whether this is a named or unnamed type.
+	IsNamed() bool
+
 	// PkgPath returns a named type's package path, that is, the import path
 	// that uniquely identifies the package, such as "encoding/base64".
 	// If the type was predeclared (string, error) or unnamed (*T, struct{}, []int),
@@ -900,6 +903,10 @@ func (t *rtype) Name() string {
 		i--
 	}
 	return s[i+1:]
+}
+
+func (t *rtype) IsNamed() bool {
+	return t.tflag&tflagNamed == 0
 }
 
 func (t *rtype) ChanDir() ChanDir {
