@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "408ef3f0_a0fb7ab1",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-06-28T14:30:30Z",
+      "side": 1,
+      "message": "I assume we have the option of reallocating bits if the size needs to be larger than 2GB, since alignments are typically a wee bit smaller than that.",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
