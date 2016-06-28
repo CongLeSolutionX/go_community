@@ -238,14 +238,15 @@ type DB struct {
 	// maybeOpenNewConnections sends on the chan (one send per needed connection)
 	// It is closed during db.Close(). The close tells the connectionOpener
 	// goroutine to exit.
-	openerCh    chan struct{}
-	closed      bool
-	dep         map[finalCloser]depSet
-	lastPut     map[*driverConn]string // stacktrace of last conn's put; debug only
-	maxIdle     int                    // zero means defaultMaxIdleConns; negative means 0
-	maxOpen     int                    // <= 0 means unlimited
-	maxLifetime time.Duration          // maximum amount of time a connection may be reused
-	cleanerCh   chan struct{}
+	openerCh        chan struct{}
+	closed          bool
+	dep             map[finalCloser]depSet
+	lastPut         map[*driverConn]string // stacktrace of last conn's put; debug only
+	maxIdle         int                    // zero means defaultMaxIdleConns; negative means 0
+	maxOpen         int                    // <= 0 means unlimited
+	maxLifetime     time.Duration          // maximum amount of time a connection may be reused
+	freeConnTimeout time.Duration          // timeout duration for request free connection
+	cleanerCh       chan struct{}
 }
 
 // connReuseStrategy determines how (*DB).conn returns database connections.
@@ -632,6 +633,12 @@ func (db *DB) SetConnMaxLifetime(d time.Duration) {
 	db.mu.Unlock()
 }
 
+// SetRequestFreeConnTimeout sets the maximum amount of time to wait for a connection to become free.
+// if d <= 0 Wait forever for a connection to become free.
+func (db *DB) SetRequestFreeConnTimeout(d time.Duration) {
+	db.freeConnTimeout = d
+}
+
 // startCleanerLocked starts connectionCleaner if needed.
 func (db *DB) startCleanerLocked() {
 	if db.maxLifetime > 0 && db.numOpen > 0 && db.cleanerCh == nil {
@@ -772,6 +779,7 @@ type connRequest struct {
 }
 
 var errDBClosed = errors.New("sql: database is closed")
+var errFreeConnTimeout = errors.New("sql: request free connection timeout")
 
 // conn returns a newly-opened or cached *driverConn.
 func (db *DB) conn(strategy connReuseStrategy) (*driverConn, error) {
@@ -805,15 +813,23 @@ func (db *DB) conn(strategy connReuseStrategy) (*driverConn, error) {
 		req := make(chan connRequest, 1)
 		db.connRequests = append(db.connRequests, req)
 		db.mu.Unlock()
-		ret, ok := <-req
-		if !ok {
-			return nil, errDBClosed
+		timeout := nil
+		if db.freeConnTimeout > 0 {
+			timeout := time.After(db.freeConnTimeout)
 		}
-		if ret.err == nil && ret.conn.expired(lifetime) {
-			ret.conn.Close()
-			return nil, driver.ErrBadConn
+		select {
+		case ret, ok := <-req:
+			if !ok {
+				return nil, errDBClosed
+			}
+			if ret.err == nil && ret.conn.expired(lifetime) {
+				ret.conn.Close()
+				return nil, driver.ErrBadConn
+			}
+			return ret.conn, ret.err
+		case <-timeout:
+			return nil, errFreeConnTimeout
 		}
-		return ret.conn, ret.err
 	}
 
 	db.numOpen++ // optimistically

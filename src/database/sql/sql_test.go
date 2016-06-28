@@ -1845,6 +1845,38 @@ func TestTxEndBadConn(t *testing.T) {
 	simulateBadConn("db.Tx.Query rollback", &hookRollbackBadConn, dbQuery((*Tx).Rollback))
 }
 
+// https://golang.org/issue/16174
+func TestFreeConnTimeout(t *testing.T) {
+	db := newTestDB(t, "foo")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string,age=int32,dead=bool")
+	db.SetMaxOpenConns(1)
+
+	sleeper := func(d int, hasError bool, wg *sync.WaitGroup) {
+		wg.Add(1)
+		go func() {
+			rows, err := c.stmt.Query("sleep", d)
+			if hasError != (err != nil) {
+				t.Fatal(err)
+			}
+			rows.Close()
+			wg.Done()
+		}()
+	}
+
+	wg := &sync.WaitGroup{}
+	sleeper(5, false, wg)
+	sleeper(2, false, wg)
+	wg.Wait()
+
+	db.SetRequestFreeConnTimeout(1)
+
+	wg := &sync.WaitGroup{}
+	sleeper(5, false, wg)
+	sleeper(2, true, wg)
+	wg.Wait()
+}
+
 type concurrentTest interface {
 	init(t testing.TB, db *DB)
 	finish(t testing.TB)
