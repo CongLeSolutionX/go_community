@@ -657,6 +657,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		fallthrough
 	case ssa.OpARMMVN,
 		ssa.OpARMSQRTD,
+		ssa.OpARMNEGF,
+		ssa.OpARMNEGD,
 		ssa.OpARMMOVWF,
 		ssa.OpARMMOVWD,
 		ssa.OpARMMOVFW,
