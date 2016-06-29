@@ -16,6 +16,41 @@
       "revId": "9ec3415b8f358bcd64b93c252bb8f1c093ca53ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20be5fe3_97baa4e8",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-06-29T20:53:26Z",
+      "side": 1,
+      "message": "I noticed the same race before I saw your comment here.",
+      "parentUuid": "c9704c1b_8466463f",
+      "revId": "9ec3415b8f358bcd64b93c252bb8f1c093ca53ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20be5fe3_7a96d55a",
+        "filename": "src/net/http/clientserver_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-06-29T20:53:26Z",
+      "side": 1,
+      "message": "It took me a second to realize why line 514 helped test this.\n\nI\u0027d write maybe:\n\n   // We won\u0027t use this Timeout, but set it to something to verify\n   // the Transport doesn\u0027t get confused by it and return a\n   // Timeout error instead of a Cancel error. (Issue 16094)",
+      "revId": "9ec3415b8f358bcd64b93c252bb8f1c093ca53ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
