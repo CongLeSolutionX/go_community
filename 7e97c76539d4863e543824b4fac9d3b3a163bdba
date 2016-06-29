@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "408ef3f0_c3ab282e",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-06-29T00:03:06Z",
+      "side": 1,
+      "message": "1 was intended for \"1 byte a time\". Changed to LoweredMoveU.",
+      "parentUuid": "a3bfb931_3b089d7c",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3bfb931_fb0d658f",
         "filename": "src/cmd/compile/internal/arm/ssa.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "408ef3f0_8373e0cf",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-06-29T00:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bfb931_fb0d658f",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3bfb931_db7989e1",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-28T15:27:00Z",
       "side": 1,
       "message": "Add a helper function in this file? Something like:\n\nfunc SizeAlignAuxInt(t *Type) int64 {\n  return ssa.MakeSizeAndAlign(t.Size(), t.Alignment)).Int64()\n}",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "408ef3f0_039030b2",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2390,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-06-29T00:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bfb931_db7989e1",
       "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "408ef3f0_036830cb",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-06-29T00:03:06Z",
+      "side": 1,
+      "message": "\u003e This is a mouthful. I know we have something called ValAndOff, but how do you feel about just SizeAlign here (and elsewhere as appropriate)?\n\nI found there are a bunch of names in Go sourcetree that has And, e.g. TypeAndValue in go/types, so I\u0027m not sure here.\n\n \u003e \n \u003e I even wonder whether (later) we should give auxint a type, a la:\n \u003e \n \u003e type AuxInt int64\n \u003e \n \u003e And give it methods that take care of many of the things we do with an auxint, like treat it as a size/align or a val/align or etc.\n\nSounds a good thing to do. But maybe we will need many AuxInt-\u003eInt64 conversions? Will take another look (later).",
+      "parentUuid": "a3bfb931_bb4acd97",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3bfb931_bb73edf9",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 1
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "408ef3f0_a364e4f9",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-06-29T00:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bfb931_bb73edf9",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3bfb931_db60691b",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 1
@@ -133,6 +223,24 @@
       "writtenOn": "2016-06-28T15:27:00Z",
       "side": 1,
       "message": "Add a String method?",
+      "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "408ef3f0_c361e8e8",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-06-29T00:03:06Z",
+      "side": 1,
+      "message": "Done. But it does not seem to be used anywhere...",
+      "parentUuid": "a3bfb931_db60691b",
       "revId": "7e97c76539d4863e543824b4fac9d3b3a163bdba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
