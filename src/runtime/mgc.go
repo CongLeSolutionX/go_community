@@ -130,6 +130,8 @@ import (
 	"unsafe"
 )
 
+const gcIdleEnabled = true
+
 const (
 	_DebugGC         = 0
 	_ConcurrentSweep = true
