@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7db562d9_fa3969e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-07-01T21:12:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7db562d9_fa95e9f7",
+      "revId": "20516f2bddf9b87d0c7c2acbc4b86aff373fa4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7db562d9_3ac76109",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-01T21:00:22Z",
       "side": 1,
       "message": "Updates, please. We still need to decide what to do for 1.8.",
+      "revId": "20516f2bddf9b87d0c7c2acbc4b86aff373fa4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7db562d9_1a261dc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-07-01T21:12:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7db562d9_3ac76109",
       "revId": "20516f2bddf9b87d0c7c2acbc4b86aff373fa4b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
