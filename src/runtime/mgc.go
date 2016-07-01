@@ -556,7 +556,17 @@ func (c *gcControllerState) endCycle() {
 		utilization += float64(c.assistTime) / float64(assistDuration*int64(gomaxprocs))
 	}
 
-	triggerError := goalGrowthRatio - c.triggerRatio - utilization/gcGoalUtilization*(actualGrowthRatio-c.triggerRatio)
+	//triggerError := goalGrowthRatio - c.triggerRatio - utilization/gcGoalUtilization*(actualGrowthRatio-c.triggerRatio)
+
+	// Alternate trigger error: This accounts only for CPU
+	// utilization and leaves heap overshoot control to assists.
+	// In order to have a useful signal, this requires that
+	// gcGoalUtilization is less than triggerGoalUtilization.
+	var triggerGoalUtilization = .25
+	if triggerGoalUtilization < gcGoalUtilization+0.05 {
+		triggerGoalUtilization = gcGoalUtilization + 0.05
+	}
+	triggerError := (goalGrowthRatio - c.triggerRatio) - (goalGrowthRatio-c.triggerRatio)*utilization/triggerGoalUtilization
 
 	// Finally, we adjust the trigger for next time by this error,
 	// damped by the proportional gain.
