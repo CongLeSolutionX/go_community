@@ -393,10 +393,15 @@ func gcAssistAlloc(gp *g) {
 	}
 
 	// Compute the amount of scan work we need to do to make the
-	// balance positive. We over-assist to build up credit for
-	// future allocations and amortize the cost of assisting.
-	debtBytes := -gp.gcAssistBytes + gcOverAssistBytes
+	// balance positive.
+	debtBytes := -gp.gcAssistBytes
 	scanWork := int64(gcController.assistWorkPerByte * float64(debtBytes))
+	// Over-assist to build up credit for future allocations and
+	// amortize the cost of assisting. This over-assist is in
+	// terms of scan work instead of allocation bytes in order to
+	// roughly bound how much extra time we're committing to this
+	// assist.
+	scanWork += gcOverAssistWork
 
 retry:
 	// Steal as much credit as we can from the background GC's
@@ -410,11 +415,10 @@ retry:
 	if bgScanCredit > 0 {
 		if bgScanCredit < scanWork {
 			stolen = bgScanCredit
-			gp.gcAssistBytes += 1 + int64(gcController.assistBytesPerWork*float64(stolen))
 		} else {
 			stolen = scanWork
-			gp.gcAssistBytes += debtBytes
 		}
+		gp.gcAssistBytes += 1 + int64(gcController.assistBytesPerWork*float64(stolen))
 		atomic.Xaddint64(&gcController.bgScanCredit, -stolen)
 
 		scanWork -= stolen
