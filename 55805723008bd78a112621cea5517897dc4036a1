@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8082ab4f_6cc41747",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-01T14:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8082ab4f_b567aacf",
+      "revId": "55805723008bd78a112621cea5517897dc4036a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8082ab4f_959f06ce",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-30T18:07:40Z",
       "side": 1,
       "message": "Shouldn\u0027t these be MOVHs?",
+      "revId": "55805723008bd78a112621cea5517897dc4036a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8082ab4f_8cc13b38",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-01T14:00:10Z",
+      "side": 1,
+      "message": "Yes. Thanks!",
+      "parentUuid": "8082ab4f_959f06ce",
       "revId": "55805723008bd78a112621cea5517897dc4036a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8082ab4f_2cce0f65",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARMOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-01T14:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8082ab4f_35b17a5a",
+      "revId": "55805723008bd78a112621cea5517897dc4036a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8082ab4f_95786663",
         "filename": "src/cmd/compile/internal/ssa/op.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-30T18:07:40Z",
       "side": 1,
       "message": "I think it might be better if we used 56 bits for the size and 8 bits for the alignment. We need to handle objects \u003e2^32 bytes in size.  The frontend currently enforces a maximum alignment of 255 (it uses a uint8 to store alignments).",
+      "revId": "55805723008bd78a112621cea5517897dc4036a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8082ab4f_ecf80786",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-01T14:00:10Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "8082ab4f_95786663",
       "revId": "55805723008bd78a112621cea5517897dc4036a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
