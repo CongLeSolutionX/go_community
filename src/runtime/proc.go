@@ -2215,6 +2215,15 @@ func goexit0(gp *g) {
 	gp.waitreason = ""
 	gp.param = nil
 
+	if gcBlackenEnabled != 0 && gp.gcAssistBytes > 0 {
+		// Flush assist credit to the global pool. This gives
+		// better information to pacing if the application is
+		// rapidly creating an exiting goroutines.
+		scanCredit := int64(gcController.assistWorkPerByte * float64(gp.gcAssistBytes))
+		atomic.Xaddint64(&gcController.bgScanCredit, scanCredit)
+		gp.gcAssistBytes = 0
+	}
+
 	// Note that gp's stack scan is now "valid" because it has no
 	// stack. We could dequeueRescan, but that takes a lock and
 	// isn't really necessary.
