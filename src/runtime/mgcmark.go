@@ -952,14 +952,29 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 	blocking := flags&(gcDrainUntilPreempt|gcDrainNoBlock) == 0
 	flushBgCredit := flags&gcDrainFlushBgCredit != 0
 
+	var end int64
+	if preemptible {
+		// Yield CPU after 1ms.
+		//
+		// TODO: For idle workers, it would be much better if
+		// this could be interrupted as soon as work came in,
+		// just like an M can be woken up immediately.
+		end = nanotime() + 1e6
+	}
+
 	// Drain root marking jobs.
 	if work.markrootNext < work.markrootJobs {
+		// TODO: If markroot kept track of work, we could
+		// check the time less often.
 		for blocking || !gp.preempt {
 			job := atomic.Xadd(&work.markrootNext, +1) - 1
 			if job >= work.markrootJobs {
 				break
 			}
 			markroot(gcw, job)
+			if preemptible && nanotime() >= end {
+				gp.preempt = true
+			}
 		}
 	}
 
@@ -1001,6 +1016,10 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 				initScanWork = 0
 			}
 			gcw.scanWork = 0
+			// Periodically check the time if we're preemptible.
+			if preemptible && nanotime() >= end {
+				break
+			}
 		}
 	}
 
