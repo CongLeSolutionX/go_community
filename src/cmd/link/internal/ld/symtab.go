@@ -468,7 +468,7 @@ func (ctxt *Link) symtab() {
 			s.Attr |= AttrHidden
 			s.Outer = symgcbits
 
-		case strings.HasPrefix(s.Name, "go.func."):
+		case strings.HasSuffix(s.Name, "·f"):
 			s.Type = obj.SGOFUNC
 			s.Attr |= AttrHidden
 			s.Outer = symgofunc
