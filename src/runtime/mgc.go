@@ -739,7 +739,7 @@ func (c *gcControllerState) findRunnableGCWorker(_p_ *p) *g {
 
 // gcGoalUtilization is the goal CPU utilization for background
 // marking as a fraction of GOMAXPROCS.
-const gcGoalUtilization = 0.25
+const gcGoalUtilization = 0.01
 
 // gcCreditSlack is the amount of scan work credit that can can
 // accumulate locally before updating gcController.scanWork and,
