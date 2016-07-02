@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7db562d9_a351884f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-02T16:47:39Z",
+      "side": 1,
+      "message": "os/exec: add",
+      "revId": "5715300e7a5c8a69e5a69f24ae2adf30863a5111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7db562d9_c34e7cb0",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-02T16:47:39Z",
+      "side": 1,
+      "message": "this sentence begs more questions than it answers. Such as: \"May\" not work? Why not? How wouldn\u0027t it work? How do I build the string manually? If they\u0027re documenting this, why don\u0027t they just fix it?\n\nI don\u0027t think we want this sentence unless it can be clarified much more.",
+      "revId": "5715300e7a5c8a69e5a69f24ae2adf30863a5111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
