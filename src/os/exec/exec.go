@@ -126,6 +126,10 @@ type Cmd struct {
 // The returned Cmd's Args field is constructed from the command name
 // followed by the elements of arg, so arg should not include the
 // command name itself. For example, Command("echo", "hello")
+//
+// On Windows, the returned Cmd's Args field may not work with
+// cmd.exe and msiexec.exe so build the argument string manually
+// and pass to Cmd.SysProcAttr.CmdLine.
 func Command(name string, arg ...string) *Cmd {
 	cmd := &Cmd{
 		Path: name,
