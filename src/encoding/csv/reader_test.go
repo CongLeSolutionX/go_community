@@ -313,3 +313,53 @@ x,,,
 		}
 	}
 }
+
+func BenchmarkReadWithFieldsPerRecord(b *testing.B) {
+	data := `x,y,z,w
+x,y,z,
+x,y,,
+x,,,
+,,,
+"x","y","z","w"
+"x","y","z",""
+"x","y","",""
+"x","","",""
+"","","",""
+`
+
+	for i := 0; i < b.N; i++ {
+		r := NewReader(strings.NewReader(data))
+		r.FieldsPerRecord = 4
+
+		_, err := r.ReadAll()
+
+		if err != nil {
+			b.Fatalf("could not read data: %s", err)
+		}
+	}
+}
+
+func BenchmarkReadWithoutFieldsPerRecord(b *testing.B) {
+	data := `x,y,z,w
+x,y,z,
+x,y,,
+x,,,
+,,,
+"x","y","z","w"
+"x","y","z",""
+"x","y","",""
+"x","","",""
+"","","",""
+`
+
+	for i := 0; i < b.N; i++ {
+		r := NewReader(strings.NewReader(data))
+		r.FieldsPerRecord = -1
+
+		_, err := r.ReadAll()
+
+		if err != nil {
+			b.Fatalf("could not read data: %s", err)
+		}
+	}
+}
