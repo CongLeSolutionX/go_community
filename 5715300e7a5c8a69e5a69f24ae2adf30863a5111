@@ -33,6 +33,24 @@
       "revId": "5715300e7a5c8a69e5a69f24ae2adf30863a5111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd71ee1c_050b32d6",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 14331
+      },
+      "writtenOn": "2016-07-03T14:09:27Z",
+      "side": 1,
+      "message": "Ah, I see how you view it. This is the code that I use to build the argument string for msiexec. Do you think we should add this as an example somewhere and then reference the example in the comment?\n\n// Set to the misexec application, but don\u0027t pass command line arguments\ncmd :\u003d exec.Command(\"msiexec\")\n\n// Manually set the command line arguments so they are not escaped\ncmd.SysProcAttr \u003d \u0026syscall.SysProcAttr{\n    HideWindow:    false,\n    CmdLine:       fmt.Sprintf(` /a \"%v\" TARGETDIR\u003d\"%v\"`, msiFile, targetDir), // Leave a space at the beginning\n    CreationFlags: 0,\n}",
+      "parentUuid": "7db562d9_c34e7cb0",
+      "revId": "5715300e7a5c8a69e5a69f24ae2adf30863a5111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
