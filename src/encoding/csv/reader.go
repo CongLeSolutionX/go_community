@@ -111,10 +111,12 @@ type Reader struct {
 	// This is done even if the field delimiter, Comma, is white space.
 	TrimLeadingSpace bool
 
-	line   int
-	column int
-	r      *bufio.Reader
-	field  bytes.Buffer
+	line       int
+	column     int
+	r          *bufio.Reader
+	lineBuffer bytes.Buffer
+	// Indexes of fields inside lineBuffer
+	fieldIndexes []int
 }
 
 // NewReader returns a new Reader that reads from r.
@@ -233,31 +235,59 @@ func (r *Reader) parseRecord() (fields []string, err error) {
 	}
 	r.r.UnreadRune()
 
+	r.lineBuffer.Reset()
+	if cap(r.fieldIndexes) < r.FieldsPerRecord {
+		r.fieldIndexes = make([]int, 0, r.FieldsPerRecord)
+	} else if len(r.fieldIndexes) > 0 {
+		r.fieldIndexes = r.fieldIndexes[:0]
+	}
+
 	// At this point we have at least one field.
 	for {
-		haveField, delim, err := r.parseField()
+		idx := r.lineBuffer.Len()
+
+		var haveField bool
+		var delim rune
+
+		haveField, delim, err = r.parseField()
+
 		if haveField {
-			// If FieldsPerRecord is greater than 0 we can assume the final
-			// length of fields to be equal to FieldsPerRecord.
-			if r.FieldsPerRecord > 0 && fields == nil {
-				fields = make([]string, 0, r.FieldsPerRecord)
-			}
-			fields = append(fields, r.field.String())
+			r.fieldIndexes = append(r.fieldIndexes, idx)
 		}
+
 		if delim == '\n' || err == io.EOF {
-			return fields, err
-		} else if err != nil {
+			break
+		}
+
+		if err != nil {
 			return nil, err
 		}
 	}
+
+	fieldCount := len(r.fieldIndexes)
+
+	if fieldCount == 0 {
+		return nil, err
+	}
+
+	line := r.lineBuffer.String()
+	fields = make([]string, fieldCount)
+
+	for i, idx := range r.fieldIndexes {
+		if i == fieldCount-1 {
+			fields[i] = line[idx:]
+		} else {
+			fields[i] = line[idx:r.fieldIndexes[i+1]]
+		}
+	}
+
+	return fields, err
 }
 
 // parseField parses the next field in the record. The read field is
-// located in r.field. Delim is the first character not part of the field
+// appended to r.lineBuffer. Delim is the first character not part of the field
 // (r.Comma or '\n').
 func (r *Reader) parseField() (haveField bool, delim rune, err error) {
-	r.field.Reset()
-
 	r1, err := r.readRune()
 	for err == nil && r.TrimLeadingSpace && r1 != '\n' && unicode.IsSpace(r1) {
 		r1, err = r.readRune()
@@ -310,19 +340,19 @@ func (r *Reader) parseField() (haveField bool, delim rune, err error) {
 						return false, 0, r.error(ErrQuote)
 					}
 					// accept the bare quote
-					r.field.WriteRune('"')
+					r.lineBuffer.WriteRune('"')
 				}
 			case '\n':
 				r.line++
 				r.column = -1
 			}
-			r.field.WriteRune(r1)
+			r.lineBuffer.WriteRune(r1)
 		}
 
 	default:
 		// unquoted field
 		for {
-			r.field.WriteRune(r1)
+			r.lineBuffer.WriteRune(r1)
 			r1, err = r.readRune()
 			if err != nil || r1 == r.Comma {
 				break
