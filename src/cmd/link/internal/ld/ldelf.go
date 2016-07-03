@@ -922,7 +922,7 @@ func ldelf(f *bio.Reader, pkg string, length int64, pn string) {
 				rp.Sym = sym.sym
 			}
 
-			rp.Type = 256 + int32(info)
+			rp.Type = 256 + obj.RelocType(info)
 			rp.Siz = relSize(pn, uint32(info))
 			if rela != 0 {
 				rp.Add = int64(add)
