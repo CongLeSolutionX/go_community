@@ -51,6 +51,24 @@
       "revId": "5715300e7a5c8a69e5a69f24ae2adf30863a5111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d7daaed_c8fdaf3e",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-07-04T00:30:15Z",
+      "side": 1,
+      "message": "\u003e this sentence begs more questions than it answers. Such as: \"May\"\n \u003e not work? Why not? How wouldn\u0027t it work? How do I build the string\n \u003e manually?\n\ncmd.exe [1] and CommandLineToArgvW [2] and [3] (I am not sure about msiexec.exe) command line parsing rules are different. But the rules are close enough so *simple* parameter lists will work fine with both. Once you start putting *special* characters inside parameters (like \\, \" and space), things will start to break.\n \n \u003e If they\u0027re documenting this, why don\u0027t they just fix it?\n \u003e \n\nAt this moment I know only 2 programs (cmd.exe and msiexec.exe) that are affected. Are there others? Do you propose we take care of these 2 and wait for more bug reports?\n\nI also don\u0027t know how to encode parameters for msiexec.exe.\n\nI also suspect that you don\u0027t want user to change their code (os/exec.Command(\"cmd.exe\", ....)). You want us to automatically use correct encoding based on what the syscall.CreateProcess parameter is. But can we assume that \"cmd.exe\" always means Windows standard command prompt? What if someone wants to call their program cmd.exe? It is silly thing to do, but.\n\nPerhaps you have some better ideas?\n \n1) https://blogs.msdn.microsoft.com/twistylittlepassagesallalike/2011/04/23/everyone-quotes-command-line-arguments-the-wrong-way/\n2) https://blogs.msdn.microsoft.com/oldnewthing/20100917-00/?p\u003d12833/\n3) https://msdn.microsoft.com/en-us/library/17w5ykft.aspx",
+      "parentUuid": "7db562d9_c34e7cb0",
+      "revId": "5715300e7a5c8a69e5a69f24ae2adf30863a5111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
