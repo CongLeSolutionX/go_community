@@ -887,6 +887,11 @@ is set explicitly, following <a href="https://tools.ietf.org/html/rfc7230#sectio
 </p>
 
 <p>
+The server implementation in HTTP/1.X mode now rejects HTTP/0.X requests,
+and only allows HTTP/2 upgrade requests in the form PRI * HTTP/2.0
+</p>
+
+<p>
 In the server, a 200 status code is sent back by the timeout handler on an empty
 response body, instead of sending back 0 as the status code.
 </p>
