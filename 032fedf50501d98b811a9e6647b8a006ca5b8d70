@@ -16,6 +16,24 @@
       "revId": "032fedf50501d98b811a9e6647b8a006ca5b8d70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7db562d9_4e81b369",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-07-05T07:17:37Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure tbh. Sounds like a plan, let me edit that real quick. Thanks.",
+      "parentUuid": "3d7daaed_e8a993a2",
+      "revId": "032fedf50501d98b811a9e6647b8a006ca5b8d70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
