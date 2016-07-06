@@ -402,11 +402,11 @@ func rewriteValuePPC64_OpAddr(v *Value, config *Config) bool {
 	_ = b
 	// match: (Addr {sym} base)
 	// cond:
-	// result: (ADDconst {sym} base)
+	// result: (MOVDaddr {sym} base)
 	for {
 		sym := v.Aux
 		base := v.Args[0]
-		v.reset(OpPPC64ADDconst)
+		v.reset(OpPPC64MOVDaddr)
 		v.Aux = sym
 		v.AddArg(base)
 		return true
@@ -1448,13 +1448,13 @@ func rewriteValuePPC64_OpLoad(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (Load <t> ptr mem)
-	// cond: (t.IsBoolean() || (is8BitInt(t) && !isSigned(t)))
+	// cond: (t.IsBoolean() || (is8BitInt(t) && isSigned(t)))
 	// result: (MOVBload ptr mem)
 	for {
 		t := v.Type
 		ptr := v.Args[0]
 		mem := v.Args[1]
-		if !(t.IsBoolean() || (is8BitInt(t) && !isSigned(t))) {
+		if !(t.IsBoolean() || (is8BitInt(t) && isSigned(t))) {
 			break
 		}
 		v.reset(OpPPC64MOVBload)
