@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7db562d9_093ed5a8",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-06T00:25:08Z",
+      "side": 1,
+      "message": "This sounds like a bigger change than it is, since we never supported actual HTTP/0.9 requests anyway, at least not in Go 1.6. I don\u0027t recall whether we did before then.",
+      "revId": "cf253076eb64edfe2fc0810213c3c3960734504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7db562d9_296ab99d",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-06T00:25:08Z",
+      "side": 1,
+      "message": "And this is a little misleading, since there\u0027s only one type of HTTP/2 upgrade request (this string) and it almost implies there\u0027s a change to our HTTP/2 support, which isn\u0027t true.\n\nI might replace this whole bullet with:\n\nThe server implementation is now stricter about rejecting requests with invalid HTTP versions. Invalid requests claiming to be HTTP/0.x are now rejected (HTTP/0.9 was never fully supported), and plaintext HTTP/2 requests other than the \"PRI * HTTP/2.0\" upgrade request are now rejected as well. The server continues to handle encrypted HTTP/2 requests.",
+      "revId": "cf253076eb64edfe2fc0810213c3c3960734504a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
