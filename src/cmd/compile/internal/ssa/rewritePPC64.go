@@ -402,11 +402,11 @@ func rewriteValuePPC64_OpAddr(v *Value, config *Config) bool {
 	_ = b
 	// match: (Addr {sym} base)
 	// cond:
-	// result: (ADDconst {sym} base)
+	// result: (MOVDaddr {sym} base)
 	for {
 		sym := v.Aux
 		base := v.Args[0]
-		v.reset(OpPPC64ADDconst)
+		v.reset(OpPPC64MOVDaddr)
 		v.Aux = sym
 		v.AddArg(base)
 		return true
