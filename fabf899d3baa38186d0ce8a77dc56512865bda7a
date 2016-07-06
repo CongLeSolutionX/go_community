@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd71ee1c_6e17633c",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-06T20:27:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "408ef3f0_86cc4e9a",
+      "revId": "fabf899d3baa38186d0ce8a77dc56512865bda7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "408ef3f0_26c1c260",
         "filename": "src/cmd/compile/internal/arm/ssa.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-29T19:22:46Z",
       "side": 1,
       "message": "I understand how we ended up here with the Arm\u0027s crazy shift-and-op instructions, but do we have a test for all these different cases?",
+      "revId": "fabf899d3baa38186d0ce8a77dc56512865bda7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd71ee1c_6ef683fd",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-06T20:27:44Z",
+      "side": 1,
+      "message": "Tests for arithmetic ops added in cmd/compile/internal/gc/testdata/arith_ssa.go.",
+      "parentUuid": "408ef3f0_26c1c260",
       "revId": "fabf899d3baa38186d0ce8a77dc56512865bda7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
