@@ -637,6 +637,13 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		for q := p; q != nil; q = q.Link {
 			switch q.As {
 			case obj.ACALL:
+				// Ignore common runtime calls that take no arguments.
+				if q.To.Sym != nil {
+					switch q.To.Sym.Name {
+					case "runtime.panicindex", "runtime.panicslice", "runtime.panicdivide":
+						continue LeafSearch
+					}
+				}
 				leaf = false
 				break LeafSearch
 			case obj.ADUFFCOPY, obj.ADUFFZERO:
