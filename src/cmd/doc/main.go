@@ -39,6 +39,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"unicode"
@@ -69,9 +70,32 @@ func usage() {
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("doc: ")
-	err := do(os.Stdout, flag.CommandLine, os.Args[1:])
-	if err != nil {
-		log.Fatal(err)
+	if pager := os.Getenv("GODOC_PAGER"); pager != "" {
+		// set up the pager
+		cmd := exec.Command(pager)
+		stdin, stdout := io.Pipe()
+		cmd.Stdin = stdin
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+
+		done := make(chan struct{})
+		go func() {
+			defer close(done)
+			cmd.Run()
+		}()
+
+		err := do(stdout, flag.CommandLine, os.Args[1:])
+		if err != nil {
+			log.Fatal(err)
+		}
+		stdout.Close()
+
+		<-done
+	} else {
+		err := do(os.Stdout, flag.CommandLine, os.Args[1:])
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
