@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7daaed_f19b3a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-07-08T00:28:39Z",
+      "side": 1,
+      "message": "s/Mac OS/macOS/g",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "c856bac13c45e2671d909b3460e3ad16e58e02cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
