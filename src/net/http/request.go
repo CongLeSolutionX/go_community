@@ -473,7 +473,7 @@ func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, wai
 	ruri := req.URL.RequestURI()
 	if usingProxy && req.URL.Scheme != "" && req.URL.Opaque == "" {
 		ruri = req.URL.Scheme + "://" + host + ruri
-	} else if req.Method == "CONNECT" && req.URL.Path == "" {
+	} else if req.Method == MethodConnect && req.URL.Path == "" {
 		// CONNECT requests normally give just the host and port, not a full URL.
 		ruri = host
 	}
@@ -489,7 +489,7 @@ func (req *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, wai
 		w = bw
 	}
 
-	_, err = fmt.Fprintf(w, "%s %s HTTP/1.1\r\n", valueOrDefault(req.Method, "GET"), ruri)
+	_, err = fmt.Fprintf(w, "%s %s HTTP/1.1\r\n", valueOrDefault(req.Method, MethodGet), ruri)
 	if err != nil {
 		return err
 	}
@@ -668,7 +668,7 @@ func NewRequest(method, urlStr string, body io.Reader) (*Request, error) {
 		// We document that "" means "GET" for Request.Method, and people have
 		// relied on that from NewRequest, so keep that working.
 		// We still enforce validMethod for non-empty methods.
-		method = "GET"
+		method = MethodGet
 	}
 	if !validMethod(method) {
 		return nil, fmt.Errorf("net/http: invalid method %q", method)
@@ -819,7 +819,7 @@ func readRequest(b *bufio.Reader, deleteHostHeader bool) (req *Request, err erro
 	// that starts with a slash. It can be parsed with the regular URL parser,
 	// and the path will end up in req.URL.Path, where it needs to be in order for
 	// RPC to work.
-	justAuthority := req.Method == "CONNECT" && !strings.HasPrefix(rawurl, "/")
+	justAuthority := req.Method == MethodConnect && !strings.HasPrefix(rawurl, "/")
 	if justAuthority {
 		rawurl = "http://" + rawurl
 	}
@@ -1015,7 +1015,7 @@ func parsePostForm(r *Request) (vs url.Values, err error) {
 func (r *Request) ParseForm() error {
 	var err error
 	if r.PostForm == nil {
-		if r.Method == "POST" || r.Method == "PUT" || r.Method == "PATCH" {
+		if r.Method == MethodPost || r.Method == MethodPut || r.Method == MethodPatch {
 			r.PostForm, err = parsePostForm(r)
 		}
 		if r.PostForm == nil {
@@ -1167,8 +1167,8 @@ func (r *Request) closeBody() {
 
 func (r *Request) isReplayable() bool {
 	if r.Body == nil {
-		switch valueOrDefault(r.Method, "GET") {
-		case "GET", "HEAD", "OPTIONS", "TRACE":
+		switch valueOrDefault(r.Method, MethodGet) {
+		case MethodGet, MethodHead, MethodOptions, MethodTrace:
 			return true
 		}
 	}

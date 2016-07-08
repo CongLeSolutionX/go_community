@@ -310,7 +310,7 @@ func (cw *chunkWriter) Write(p []byte) (n int, err error) {
 	if !cw.wroteHeader {
 		cw.writeHeader(p)
 	}
-	if cw.res.req.Method == "HEAD" {
+	if cw.res.req.Method == MethodHead {
 		// Eat writes.
 		return len(p), nil
 	}
@@ -757,7 +757,7 @@ func (c *conn) readRequest(ctx context.Context) (w *response, err error) {
 
 	c.r.setReadLimit(c.server.initialReadLimitSize())
 	c.mu.Lock() // while using bufr
-	if c.lastMethod == "POST" {
+	if c.lastMethod == MethodPost {
 		// RFC 2616 section 4.1 tolerance for old buggy clients.
 		peek, _ := c.bufr.Peek(4) // ReadRequest will get err below
 		c.bufr.Discard(numLeadingCRorLF(peek))
@@ -963,7 +963,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 
 	w := cw.res
 	keepAlivesEnabled := w.conn.server.doKeepAlives()
-	isHEAD := w.req.Method == "HEAD"
+	isHEAD := w.req.Method == MethodHead
 
 	// header is written out to w.conn.buf below. Depending on the
 	// state of the handler, we either own the map or not. If we
@@ -1148,7 +1148,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 		hasCL = false
 	}
 
-	if w.req.Method == "HEAD" || !bodyAllowedForStatus(code) {
+	if w.req.Method == MethodHead || !bodyAllowedForStatus(code) {
 		// do nothing
 	} else if code == StatusNoContent {
 		delHeader("Transfer-Encoding")
@@ -1374,7 +1374,7 @@ func (w *response) shouldReuseConnection() bool {
 		return false
 	}
 
-	if w.req.Method != "HEAD" && w.contentLength != -1 && w.bodyAllowed() && w.contentLength != w.written {
+	if w.req.Method != MethodHead && w.contentLength != -1 && w.bodyAllowed() && w.contentLength != w.written {
 		// Did not write enough. Avoid getting out of sync.
 		return false
 	}
@@ -1823,7 +1823,7 @@ func Redirect(w ResponseWriter, r *Request, urlStr string, code int) {
 	// RFC 2616 recommends that a short note "SHOULD" be included in the
 	// response because older user agents may not understand 301/307.
 	// Shouldn't send the response for POST or HEAD; that leaves GET.
-	if r.Method == "GET" {
+	if r.Method == MethodGet {
 		note := "<a href=\"" + htmlEscape(urlStr) + "\">" + statusText[code] + "</a>.\n"
 		fmt.Fprintln(w, note)
 	}
@@ -1978,7 +1978,7 @@ func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 // If there is no registered handler that applies to the request,
 // Handler returns a ``page not found'' handler and an empty pattern.
 func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
-	if r.Method != "CONNECT" {
+	if r.Method != MethodConnect {
 		if p := cleanPath(r.URL.Path); p != r.URL.Path {
 			_, pattern = mux.handler(r.Host, p)
 			url := *r.URL
@@ -2197,7 +2197,7 @@ func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request) {
 	if handler == nil {
 		handler = DefaultServeMux
 	}
-	if req.RequestURI == "*" && req.Method == "OPTIONS" {
+	if req.RequestURI == "*" && req.Method == MethodOptions {
 		handler = globalOptionsHandler{}
 	}
 	handler.ServeHTTP(rw, req)

@@ -29,7 +29,7 @@ func TestNewRequest(t *testing.T) {
 			uri:    "/",
 			body:   nil,
 			want: &http.Request{
-				Method:     "GET",
+				Method:     http.MethodGet,
 				Host:       "example.com",
 				URL:        &url.URL{Path: "/"},
 				Header:     http.Header{},
@@ -44,11 +44,11 @@ func TestNewRequest(t *testing.T) {
 
 		// GET with full URL:
 		1: {
-			method: "GET",
+			method: http.MethodGet,
 			uri:    "http://foo.com/path/%2f/bar/",
 			body:   nil,
 			want: &http.Request{
-				Method: "GET",
+				Method: http.MethodGet,
 				Host:   "foo.com",
 				URL: &url.URL{
 					Scheme:  "http",
@@ -68,11 +68,11 @@ func TestNewRequest(t *testing.T) {
 
 		// GET with full https URL:
 		2: {
-			method: "GET",
+			method: http.MethodGet,
 			uri:    "https://foo.com/path/",
 			body:   nil,
 			want: &http.Request{
-				Method: "GET",
+				Method: http.MethodGet,
 				Host:   "foo.com",
 				URL: &url.URL{
 					Scheme: "https",
@@ -96,11 +96,11 @@ func TestNewRequest(t *testing.T) {
 
 		// Post with known length
 		3: {
-			method: "POST",
+			method: http.MethodPost,
 			uri:    "/",
 			body:   strings.NewReader("foo"),
 			want: &http.Request{
-				Method:        "POST",
+				Method:        http.MethodPost,
 				Host:          "example.com",
 				URL:           &url.URL{Path: "/"},
 				Header:        http.Header{},
@@ -116,11 +116,11 @@ func TestNewRequest(t *testing.T) {
 
 		// Post with unknown length
 		4: {
-			method: "POST",
+			method: http.MethodPost,
 			uri:    "/",
 			body:   struct{ io.Reader }{strings.NewReader("foo")},
 			want: &http.Request{
-				Method:        "POST",
+				Method:        http.MethodPost,
 				Host:          "example.com",
 				URL:           &url.URL{Path: "/"},
 				Header:        http.Header{},
@@ -136,10 +136,10 @@ func TestNewRequest(t *testing.T) {
 
 		// OPTIONS *
 		5: {
-			method: "OPTIONS",
+			method: http.MethodOptions,
 			uri:    "*",
 			want: &http.Request{
-				Method:     "OPTIONS",
+				Method:     http.MethodOptions,
 				Host:       "example.com",
 				URL:        &url.URL{Path: "*"},
 				Header:     http.Header{},

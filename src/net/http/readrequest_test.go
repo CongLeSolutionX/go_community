@@ -44,7 +44,7 @@ var reqTests = []reqTest{
 			"abcdef\n???",
 
 		&Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.techcrunch.com",
@@ -81,7 +81,7 @@ var reqTests = []reqTest{
 			"Host: foo.com\r\n\r\n",
 
 		&Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Path: "/",
 			},
@@ -107,7 +107,7 @@ var reqTests = []reqTest{
 			"Host: test\r\n\r\n",
 
 		&Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Path: "//user@host/is/actually/a/path/",
 			},
@@ -157,7 +157,7 @@ var reqTests = []reqTest{
 			"Trailer-Key: Trailer-Value\r\n" +
 			"\r\n",
 		&Request{
-			Method: "POST",
+			Method: MethodPost,
 			URL: &url.URL{
 				Path: "/",
 			},
@@ -189,7 +189,7 @@ var reqTests = []reqTest{
 			"0\r\n" +
 			"\r\n",
 		&Request{
-			Method: "POST",
+			Method: MethodPost,
 			URL: &url.URL{
 				Path: "/",
 			},
@@ -213,7 +213,7 @@ var reqTests = []reqTest{
 		"CONNECT www.google.com:443 HTTP/1.1\r\n\r\n",
 
 		&Request{
-			Method: "CONNECT",
+			Method: MethodConnect,
 			URL: &url.URL{
 				Host: "www.google.com:443",
 			},
@@ -237,7 +237,7 @@ var reqTests = []reqTest{
 		"CONNECT 127.0.0.1:6060 HTTP/1.1\r\n\r\n",
 
 		&Request{
-			Method: "CONNECT",
+			Method: MethodConnect,
 			URL: &url.URL{
 				Host: "127.0.0.1:6060",
 			},
@@ -261,7 +261,7 @@ var reqTests = []reqTest{
 		"CONNECT /_goRPC_ HTTP/1.1\r\n\r\n",
 
 		&Request{
-			Method: "CONNECT",
+			Method: MethodConnect,
 			URL: &url.URL{
 				Path: "/_goRPC_",
 			},
@@ -308,7 +308,7 @@ var reqTests = []reqTest{
 	{
 		"OPTIONS * HTTP/1.1\r\nServer: foo\r\n\r\n",
 		&Request{
-			Method: "OPTIONS",
+			Method: MethodOptions,
 			URL: &url.URL{
 				Path: "*",
 			},
@@ -332,7 +332,7 @@ var reqTests = []reqTest{
 	{
 		"GET / HTTP/1.1\r\nHost: issue8261.com\r\nConnection: close\r\n\r\n",
 		&Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Path: "/",
 			},
@@ -360,7 +360,7 @@ var reqTests = []reqTest{
 	{
 		"HEAD / HTTP/1.1\r\nHost: issue8261.com\r\nConnection: close\r\nContent-Length: 0\r\n\r\n",
 		&Request{
-			Method: "HEAD",
+			Method: MethodHead,
 			URL: &url.URL{
 				Path: "/",
 			},

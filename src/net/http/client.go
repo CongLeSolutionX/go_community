@@ -179,11 +179,11 @@ func (c *Client) send(req *Request, deadline time.Time) (*Response, error) {
 //
 // Generally Get, Post, or PostForm will be used instead of Do.
 func (c *Client) Do(req *Request) (*Response, error) {
-	method := valueOrDefault(req.Method, "GET")
-	if method == "GET" || method == "HEAD" {
+	method := valueOrDefault(req.Method, MethodGet)
+	if method == MethodGet || method == MethodHead {
 		return c.doFollowingRedirects(req, shouldRedirectGet)
 	}
-	if method == "POST" || method == "PUT" {
+	if method == MethodPost || method == MethodPut {
 		return c.doFollowingRedirects(req, shouldRedirectPost)
 	}
 	return c.send(req, c.deadline())
@@ -411,7 +411,7 @@ func Get(url string) (resp *Response, err error) {
 //
 // To make a request with custom headers, use NewRequest and Client.Do.
 func (c *Client) Get(url string) (resp *Response, err error) {
-	req, err := NewRequest("GET", url, nil)
+	req, err := NewRequest(MethodGet, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -449,7 +449,7 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 	)
 	uerr := func(err error) error {
 		req.closeBody()
-		method := valueOrDefault(reqs[0].Method, "GET")
+		method := valueOrDefault(reqs[0].Method, MethodGet)
 		var urlStr string
 		if resp != nil && resp.Request != nil {
 			urlStr = resp.Request.URL.String()
@@ -483,8 +483,8 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 				Cancel:   ireq.Cancel,
 				ctx:      ireq.ctx,
 			}
-			if ireq.Method == "POST" || ireq.Method == "PUT" {
-				req.Method = "GET"
+			if ireq.Method == MethodPost || ireq.Method == MethodPut {
+				req.Method = MethodGet
 			}
 			// Add the Referer header from the most recent
 			// request URL to the new one, if it's not https->http:
@@ -571,7 +571,7 @@ func Post(url string, bodyType string, body io.Reader) (resp *Response, err erro
 //
 // To set custom headers, use NewRequest and Client.Do.
 func (c *Client) Post(url string, bodyType string, body io.Reader) (resp *Response, err error) {
-	req, err := NewRequest("POST", url, body)
+	req, err := NewRequest(MethodPost, url, body)
 	if err != nil {
 		return nil, err
 	}
@@ -628,7 +628,7 @@ func Head(url string) (resp *Response, err error) {
 //    303 (See Other)
 //    307 (Temporary Redirect)
 func (c *Client) Head(url string) (resp *Response, err error) {
-	req, err := NewRequest("HEAD", url, nil)
+	req, err := NewRequest(MethodHead, url, nil)
 	if err != nil {
 		return nil, err
 	}

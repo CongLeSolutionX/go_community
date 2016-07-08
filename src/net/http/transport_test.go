@@ -177,7 +177,7 @@ func TestTransportConnectionCloseOnResponse(t *testing.T) {
 			if err != nil {
 				t.Fatalf("URL parse error: %v", err)
 			}
-			req.Method = "GET"
+			req.Method = MethodGet
 			req.Proto = "HTTP/1.1"
 			req.ProtoMajor = 1
 			req.ProtoMinor = 1
@@ -228,7 +228,7 @@ func TestTransportConnectionCloseOnRequest(t *testing.T) {
 			if err != nil {
 				t.Fatalf("URL parse error: %v", err)
 			}
-			req.Method = "GET"
+			req.Method = MethodGet
 			req.Proto = "HTTP/1.1"
 			req.ProtoMajor = 1
 			req.ProtoMinor = 1
@@ -613,7 +613,7 @@ func TestStressSurpriseServerCloses(t *testing.T) {
 func TestTransportHeadResponses(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
-		if r.Method != "HEAD" {
+		if r.Method != MethodHead {
 			panic("expected HEAD; got " + r.Method)
 		}
 		w.Header().Set("Content-Length", "123")
@@ -648,7 +648,7 @@ func TestTransportHeadResponses(t *testing.T) {
 func TestTransportHeadChunkedResponse(t *testing.T) {
 	defer afterTest(t)
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
-		if r.Method != "HEAD" {
+		if r.Method != MethodHead {
 			panic("expected HEAD; got " + r.Method)
 		}
 		w.Header().Set("Transfer-Encoding", "chunked") // client should ignore
@@ -722,7 +722,7 @@ func TestRoundTripGzip(t *testing.T) {
 
 	for i, test := range roundTripTests {
 		// Test basic request (no accept-encoding)
-		req, _ := NewRequest("GET", fmt.Sprintf("%s/?testnum=%d&expect_accept=%s", ts.URL, i, test.expectAccept), nil)
+		req, _ := NewRequest(MethodGet, fmt.Sprintf("%s/?testnum=%d&expect_accept=%s", ts.URL, i, test.expectAccept), nil)
 		if test.accept != "" {
 			req.Header.Set("Accept-Encoding", test.accept)
 		}
@@ -762,7 +762,7 @@ func TestTransportGzip(t *testing.T) {
 	const testString = "The test string aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	const nRandBytes = 1024 * 1024
 	ts := httptest.NewServer(HandlerFunc(func(rw ResponseWriter, req *Request) {
-		if req.Method == "HEAD" {
+		if req.Method == MethodHead {
 			if g := req.Header.Get("Accept-Encoding"); g != "" {
 				t.Errorf("HEAD request sent with Accept-Encoding of %q; want none", g)
 			}
@@ -918,7 +918,7 @@ func TestTransportExpect100Continue(t *testing.T) {
 		c := &Client{Transport: tr}
 
 		body := bytes.NewReader(v.body)
-		req, err := NewRequest("PUT", ts.URL+v.path, body)
+		req, err := NewRequest(MethodPut, ts.URL+v.path, body)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1114,7 +1114,7 @@ func TestTransportPersistConnLeakShortBody(t *testing.T) {
 	n0 := runtime.NumGoroutine()
 	body := []byte("Hello")
 	for i := 0; i < 20; i++ {
-		req, err := NewRequest("POST", ts.URL, bytes.NewReader(body))
+		req, err := NewRequest(MethodPost, ts.URL, bytes.NewReader(body))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1425,7 +1425,7 @@ func TestIssue4191_InfiniteGetToPutTimeout(t *testing.T) {
 			t.Errorf("Error issuing GET: %v", err)
 			break
 		}
-		req, _ := NewRequest("PUT", ts.URL+"/put", sres.Body)
+		req, _ := NewRequest(MethodPut, ts.URL+"/put", sres.Body)
 		_, err = client.Do(req)
 		if err == nil {
 			sres.Body.Close()
@@ -1531,7 +1531,7 @@ func TestTransportCancelRequest(t *testing.T) {
 	defer tr.CloseIdleConnections()
 	c := &Client{Transport: tr}
 
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	res, err := c.Do(req)
 	if err != nil {
 		t.Fatal(err)
@@ -1589,7 +1589,7 @@ func TestTransportCancelRequestInDial(t *testing.T) {
 	}
 	cl := &Client{Transport: tr}
 	gotres := make(chan bool)
-	req, _ := NewRequest("GET", "http://something.no-network.tld/", nil)
+	req, _ := NewRequest(MethodGet, "http://something.no-network.tld/", nil)
 	go func() {
 		_, err := cl.Do(req)
 		eventLog.Printf("Get = %v", err)
@@ -1641,7 +1641,7 @@ func TestCancelRequestWithChannel(t *testing.T) {
 	defer tr.CloseIdleConnections()
 	c := &Client{Transport: tr}
 
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	ch := make(chan struct{})
 	req.Cancel = ch
 
@@ -1706,7 +1706,7 @@ func testCancelRequestWithChannelBeforeDo(t *testing.T, withCtx bool) {
 	defer tr.CloseIdleConnections()
 	c := &Client{Transport: tr}
 
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	if withCtx {
 		ctx, cancel := context.WithCancel(context.Background())
 		cancel()
@@ -1737,7 +1737,7 @@ func TestTransportCancelBeforeResponseHeaders(t *testing.T) {
 	}
 	defer tr.CloseIdleConnections()
 	errc := make(chan error, 1)
-	req, _ := NewRequest("GET", "http://example.com/", nil)
+	req, _ := NewRequest(MethodGet, "http://example.com/", nil)
 	go func() {
 		_, err := tr.RoundTrip(req)
 		errc <- err
@@ -1748,7 +1748,7 @@ func TestTransportCancelBeforeResponseHeaders(t *testing.T) {
 	if _, err := io.ReadFull(sc, verb); err != nil {
 		t.Errorf("Error reading HTTP verb from server: %v", err)
 	}
-	if string(verb) != "GET" {
+	if string(verb) != MethodGet {
 		t.Errorf("server received %q; want GET", verb)
 	}
 	defer sc.Close()
@@ -1787,7 +1787,7 @@ func TestTransportCloseResponseBody(t *testing.T) {
 	defer tr.CloseIdleConnections()
 	c := &Client{Transport: tr}
 
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	defer tr.CancelRequest(req)
 
 	res, err := c.Do(req)
@@ -1876,7 +1876,7 @@ func TestTransportNoHost(t *testing.T) {
 
 // Issue 13311
 func TestTransportEmptyMethod(t *testing.T) {
-	req, _ := NewRequest("GET", "http://foo.com/", nil)
+	req, _ := NewRequest(MethodGet, "http://foo.com/", nil)
 	req.Method = ""                                 // docs say "For client requests an empty string means GET"
 	got, err := httputil.DumpRequestOut(req, false) // DumpRequestOut uses Transport
 	if err != nil {
@@ -2041,7 +2041,7 @@ Content-Length: %d
 
 	// Few 100 responses, making sure we're not off-by-one.
 	for i := 1; i <= numReqs; i++ {
-		req, _ := NewRequest("POST", "http://dummy.tld/", strings.NewReader(reqBody(i)))
+		req, _ := NewRequest(MethodPost, "http://dummy.tld/", strings.NewReader(reqBody(i)))
 		req.Header.Set("Request-Id", reqID(i))
 		testResponse(req, fmt.Sprintf("100, %d/%d", i, numReqs), 200)
 	}
@@ -2049,7 +2049,7 @@ Content-Length: %d
 	// And some other informational 1xx but non-100 responses, to test
 	// we return them but don't re-use the connection.
 	for i := 1; i <= numReqs; i++ {
-		req, _ := NewRequest("POST", "http://other.tld/", strings.NewReader(reqBody(i)))
+		req, _ := NewRequest(MethodPost, "http://other.tld/", strings.NewReader(reqBody(i)))
 		req.Header.Set("X-Want-Response-Code", "123 Sesame Street")
 		testResponse(req, fmt.Sprintf("123, %d/%d", i, numReqs), 123)
 	}
@@ -2127,7 +2127,7 @@ func TestProxyFromEnvironment(t *testing.T) {
 		if reqURL == "" {
 			reqURL = "http://example.com"
 		}
-		req, _ := NewRequest("GET", reqURL, nil)
+		req, _ := NewRequest(MethodGet, reqURL, nil)
 		url, err := ProxyFromEnvironment(req)
 		if g, e := fmt.Sprintf("%v", err), fmt.Sprintf("%v", tt.wanterr); g != e {
 			t.Errorf("%v: got error = %q, want %q", tt, g, e)
@@ -2391,7 +2391,7 @@ func TestTransportNoReuseAfterEarlyResponse(t *testing.T) {
 	defer closeConn()
 
 	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
-		if r.Method == "GET" {
+		if r.Method == MethodGet {
 			io.WriteString(w, "bar")
 			return
 		}
@@ -2409,7 +2409,7 @@ func TestTransportNoReuseAfterEarlyResponse(t *testing.T) {
 
 	const bodySize = 256 << 10
 	finalBit := make(byteFromChanReader, 1)
-	req, _ := NewRequest("POST", ts.URL, io.MultiReader(io.LimitReader(neverEnding('x'), bodySize-1), finalBit))
+	req, _ := NewRequest(MethodPost, ts.URL, io.MultiReader(io.LimitReader(neverEnding('x'), bodySize-1), finalBit))
 	req.ContentLength = bodySize
 	res, err := client.Do(req)
 	if err := wantBody(res, err, "foo"); err != nil {
@@ -2579,7 +2579,7 @@ func TestTransportClosesBodyOnError(t *testing.T) {
 	defer ts.Close()
 	fakeErr := errors.New("fake error")
 	didClose := make(chan bool, 1)
-	req, _ := NewRequest("POST", ts.URL, struct {
+	req, _ := NewRequest(MethodPost, ts.URL, struct {
 		io.Reader
 		io.Closer
 	}{
@@ -2663,7 +2663,7 @@ func TestRoundTripReturnsProxyError(t *testing.T) {
 
 	tr := &Transport{Proxy: badProxy}
 
-	req, _ := NewRequest("GET", "http://example.com", nil)
+	req, _ := NewRequest(MethodGet, "http://example.com", nil)
 
 	_, err := tr.RoundTrip(req)
 
@@ -2723,7 +2723,7 @@ func TestTransportRangeAndGzip(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	req.Header.Set("Range", "bytes=7-11")
 	res, err := DefaultClient.Do(req)
 	if err != nil {
@@ -2758,7 +2758,7 @@ func TestTransportResponseCancelRace(t *testing.T) {
 	tr := &Transport{}
 	defer tr.CloseIdleConnections()
 
-	req, err := NewRequest("GET", ts.URL, nil)
+	req, err := NewRequest(MethodGet, ts.URL, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2773,7 +2773,7 @@ func TestTransportResponseCancelRace(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	req2, err := NewRequest("GET", ts.URL, nil)
+	req2, err := NewRequest(MethodGet, ts.URL, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2794,7 +2794,7 @@ func TestTransportDialCancelRace(t *testing.T) {
 	tr := &Transport{}
 	defer tr.CloseIdleConnections()
 
-	req, err := NewRequest("GET", ts.URL, nil)
+	req, err := NewRequest(MethodGet, ts.URL, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2865,7 +2865,7 @@ func TestTransportFlushesBodyChunks(t *testing.T) {
 	}()
 	resc := make(chan *Response)
 	go func() {
-		req, _ := NewRequest("POST", "http://localhost:8080", bodyr)
+		req, _ := NewRequest(MethodPost, "http://localhost:8080", bodyr)
 		req.Header.Set("User-Agent", "x") // known value for test
 		res, err := tr.RoundTrip(req)
 		if err != nil {
@@ -2930,7 +2930,7 @@ func TestTransportPrefersResponseOverWriteError(t *testing.T) {
 	count := 100
 	bigBody := strings.Repeat("a", contentLengthLimit*2)
 	for i := 0; i < count; i++ {
-		req, err := NewRequest("PUT", ts.URL, strings.NewReader(bigBody))
+		req, err := NewRequest(MethodPut, ts.URL, strings.NewReader(bigBody))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -3080,7 +3080,7 @@ func TestNoCrashReturningTransportAltConn(t *testing.T) {
 
 	addr := ln.Addr().String()
 
-	req, _ := NewRequest("GET", "https://fake.tld/", nil)
+	req, _ := NewRequest(MethodGet, "https://fake.tld/", nil)
 	cancel := make(chan struct{})
 	req.Cancel = cancel
 
@@ -3260,7 +3260,7 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 		return []net.IPAddr{{IP: net.ParseIP(ip)}}, nil
 	})
 
-	req, _ := NewRequest("POST", cst.scheme()+"://dns-is-faked.golang:"+port, strings.NewReader("some body"))
+	req, _ := NewRequest(MethodPost, cst.scheme()+"://dns-is-faked.golang:"+port, strings.NewReader("some body"))
 	trace := &httptrace.ClientTrace{
 		GetConn:              func(hostPort string) { logf("Getting conn for %v ...", hostPort) },
 		GotConn:              func(ci httptrace.GotConnInfo) { logf("got conn: %+v", ci) },
@@ -3359,7 +3359,7 @@ func TestTransportEventTraceRealDNS(t *testing.T) {
 		buf.WriteByte('\n')
 	}
 
-	req, _ := NewRequest("GET", "http://dns-should-not-resolve.golang:80", nil)
+	req, _ := NewRequest(MethodGet, "http://dns-should-not-resolve.golang:80", nil)
 	trace := &httptrace.ClientTrace{
 		DNSStart:     func(e httptrace.DNSStartInfo) { logf("DNSStart: %+v", e) },
 		DNSDone:      func(e httptrace.DNSDoneInfo) { logf("DNSDone: %+v", e) },
@@ -3411,7 +3411,7 @@ func TestTransportMaxIdleConns(t *testing.T) {
 	})
 
 	hitHost := func(n int) {
-		req, _ := NewRequest("GET", fmt.Sprintf("http://host-%d.dns-is-faked.golang:"+port, n), nil)
+		req, _ := NewRequest(MethodGet, fmt.Sprintf("http://host-%d.dns-is-faked.golang:"+port, n), nil)
 		req = req.WithContext(ctx)
 		res, err := c.Do(req)
 		if err != nil {
@@ -3465,7 +3465,7 @@ func TestTransportIdleConnTimeout(t *testing.T) {
 
 	var conn string
 	doReq := func(n int) {
-		req, _ := NewRequest("GET", ts.URL, nil)
+		req, _ := NewRequest(MethodGet, ts.URL, nil)
 		req = req.WithContext(httptrace.WithClientTrace(context.Background(), &httptrace.ClientTrace{
 			PutIdleConn: func(err error) {
 				if err != nil {

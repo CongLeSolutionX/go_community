@@ -258,7 +258,7 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 
 	w.WriteHeader(code)
 
-	if r.Method != "HEAD" {
+	if r.Method != MethodHead {
 		io.CopyN(w, sendContent, sendSize)
 	}
 }
@@ -331,7 +331,7 @@ func checkETag(w ResponseWriter, r *Request, modtime time.Time) (rangeReq string
 		// also can't use weak cache validators (those with a "W/
 		// prefix).  But most users of ServeContent will be using
 		// it on GET or HEAD, so only support those for now.
-		if r.Method != "GET" && r.Method != "HEAD" {
+		if r.Method != MethodGet && r.Method != MethodHead {
 			return rangeReq, false
 		}
 

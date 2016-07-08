@@ -188,7 +188,7 @@ var streamBeginTypeStdin = bytes.Join([][]byte{
 	makeRecord(typeBeginRequest, 1,
 		[]byte{0, byte(roleResponder), 0, 0, 0, 0, 0, 0}),
 	// add required parameters to request 1
-	makeRecord(typeParams, 1, nameValuePair11("REQUEST_METHOD", "GET")),
+	makeRecord(typeParams, 1, nameValuePair11("REQUEST_METHOD", http.MethodGet)),
 	makeRecord(typeParams, 1, nameValuePair11("SERVER_PROTOCOL", "HTTP/1.1")),
 	makeRecord(typeParams, 1, nil),
 	// begin sending body of request 1

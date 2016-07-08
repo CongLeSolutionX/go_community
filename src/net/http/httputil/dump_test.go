@@ -31,7 +31,7 @@ var dumpTests = []dumpTest{
 	// HTTP/1.1 => chunked coding; body; empty trailer
 	{
 		Req: http.Request{
-			Method: "GET",
+			Method: http.MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.google.com",
@@ -54,7 +54,7 @@ var dumpTests = []dumpTest{
 	// and doesn't add a User-Agent.
 	{
 		Req: http.Request{
-			Method:     "GET",
+			Method:     http.MethodGet,
 			URL:        mustParseURL("/foo"),
 			ProtoMajor: 1,
 			ProtoMinor: 0,
@@ -68,7 +68,7 @@ var dumpTests = []dumpTest{
 	},
 
 	{
-		Req: *mustNewRequest("GET", "http://example.com/foo", nil),
+		Req: *mustNewRequest(http.MethodGet, "http://example.com/foo", nil),
 
 		WantDumpOut: "GET /foo HTTP/1.1\r\n" +
 			"Host: example.com\r\n" +
@@ -80,7 +80,7 @@ var dumpTests = []dumpTest{
 	// with a bytes.Buffer and hang with all goroutines not
 	// runnable.
 	{
-		Req: *mustNewRequest("GET", "https://example.com/foo", nil),
+		Req: *mustNewRequest(http.MethodGet, "https://example.com/foo", nil),
 
 		WantDumpOut: "GET /foo HTTP/1.1\r\n" +
 			"Host: example.com\r\n" +
@@ -91,7 +91,7 @@ var dumpTests = []dumpTest{
 	// Request with Body, but Dump requested without it.
 	{
 		Req: http.Request{
-			Method: "POST",
+			Method: http.MethodPost,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "post.tld",
@@ -116,7 +116,7 @@ var dumpTests = []dumpTest{
 	// Request with Body > 8196 (default buffer size)
 	{
 		Req: http.Request{
-			Method: "POST",
+			Method: http.MethodPost,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "post.tld",

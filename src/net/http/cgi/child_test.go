@@ -7,13 +7,14 @@
 package cgi
 
 import (
+	"net/http"
 	"testing"
 )
 
 func TestRequest(t *testing.T) {
 	env := map[string]string{
 		"SERVER_PROTOCOL": "HTTP/1.1",
-		"REQUEST_METHOD":  "GET",
+		"REQUEST_METHOD":  http.MethodGet,
 		"HTTP_HOST":       "example.com",
 		"HTTP_REFERER":    "elsewhere",
 		"HTTP_USER_AGENT": "goclient",
@@ -31,7 +32,7 @@ func TestRequest(t *testing.T) {
 	if g, e := req.UserAgent(), "goclient"; e != g {
 		t.Errorf("expected UserAgent %q; got %q", e, g)
 	}
-	if g, e := req.Method, "GET"; e != g {
+	if g, e := req.Method, http.MethodGet; e != g {
 		t.Errorf("expected Method %q; got %q", e, g)
 	}
 	if g, e := req.Header.Get("Content-Type"), "text/xml"; e != g {
@@ -69,7 +70,7 @@ func TestRequest(t *testing.T) {
 func TestRequestWithTLS(t *testing.T) {
 	env := map[string]string{
 		"SERVER_PROTOCOL": "HTTP/1.1",
-		"REQUEST_METHOD":  "GET",
+		"REQUEST_METHOD":  http.MethodGet,
 		"HTTP_HOST":       "example.com",
 		"HTTP_REFERER":    "elsewhere",
 		"REQUEST_URI":     "/path?a=b",
@@ -93,7 +94,7 @@ func TestRequestWithoutHost(t *testing.T) {
 	env := map[string]string{
 		"SERVER_PROTOCOL": "HTTP/1.1",
 		"HTTP_HOST":       "",
-		"REQUEST_METHOD":  "GET",
+		"REQUEST_METHOD":  http.MethodGet,
 		"REQUEST_URI":     "/path?a=b",
 		"CONTENT_LENGTH":  "123",
 	}
@@ -113,7 +114,7 @@ func TestRequestWithoutRequestURI(t *testing.T) {
 	env := map[string]string{
 		"SERVER_PROTOCOL": "HTTP/1.1",
 		"HTTP_HOST":       "example.com",
-		"REQUEST_METHOD":  "GET",
+		"REQUEST_METHOD":  http.MethodGet,
 		"SCRIPT_NAME":     "/dir/scriptname",
 		"PATH_INFO":       "/p1/p2",
 		"QUERY_STRING":    "a=1&b=2",
@@ -135,7 +136,7 @@ func TestRequestWithoutRemotePort(t *testing.T) {
 	env := map[string]string{
 		"SERVER_PROTOCOL": "HTTP/1.1",
 		"HTTP_HOST":       "example.com",
-		"REQUEST_METHOD":  "GET",
+		"REQUEST_METHOD":  http.MethodGet,
 		"REQUEST_URI":     "/path?a=b",
 		"CONTENT_LENGTH":  "123",
 		"REMOTE_ADDR":     "5.6.7.8",

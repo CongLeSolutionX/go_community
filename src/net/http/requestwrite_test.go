@@ -30,7 +30,7 @@ var reqWriteTests = []reqWriteTest{
 	// HTTP/1.1 => chunked coding; no body; no trailer
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.techcrunch.com",
@@ -77,7 +77,7 @@ var reqWriteTests = []reqWriteTest{
 	// HTTP/1.1 => chunked coding; body; empty trailer
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.google.com",
@@ -106,7 +106,7 @@ var reqWriteTests = []reqWriteTest{
 	// HTTP/1.1 POST => chunked coding; body; empty trailer
 	{
 		Req: Request{
-			Method: "POST",
+			Method: MethodPost,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.google.com",
@@ -139,7 +139,7 @@ var reqWriteTests = []reqWriteTest{
 	// HTTP/1.1 POST with Content-Length, no chunking
 	{
 		Req: Request{
-			Method: "POST",
+			Method: MethodPost,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.google.com",
@@ -174,7 +174,7 @@ var reqWriteTests = []reqWriteTest{
 	// HTTP/1.1 POST with Content-Length in headers
 	{
 		Req: Request{
-			Method: "POST",
+			Method: MethodPost,
 			URL:    mustParseURL("http://example.com/"),
 			Host:   "example.com",
 			Header: Header{
@@ -203,7 +203,7 @@ var reqWriteTests = []reqWriteTest{
 	// default to HTTP/1.1
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL:    mustParseURL("/search"),
 			Host:   "www.google.com",
 		},
@@ -217,7 +217,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a 0 ContentLength and a 0 byte body.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -246,7 +246,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a 0 ContentLength and a 1 byte body.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -272,7 +272,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a ContentLength of 10 but a 5 byte body.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -286,7 +286,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a ContentLength of 4 but an 8 byte body.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -300,7 +300,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a 5 ContentLength and nil body.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -313,7 +313,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a 0 ContentLength and a body with 1 byte content and an error.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -333,7 +333,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with a 0 ContentLength and a body without content and an error.
 	{
 		Req: Request{
-			Method:        "POST",
+			Method:        MethodPost,
 			URL:           mustParseURL("/"),
 			Host:          "example.com",
 			ProtoMajor:    1,
@@ -354,7 +354,7 @@ var reqWriteTests = []reqWriteTest{
 	// and doesn't add a User-Agent.
 	{
 		Req: Request{
-			Method:     "GET",
+			Method:     MethodGet,
 			URL:        mustParseURL("/foo"),
 			ProtoMajor: 1,
 			ProtoMinor: 0,
@@ -375,7 +375,7 @@ var reqWriteTests = []reqWriteTest{
 	// we don't change Go 1.0 behavior.
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			Host:   "",
 			URL: &url.URL{
 				Scheme: "http",
@@ -397,7 +397,7 @@ var reqWriteTests = []reqWriteTest{
 	// Opaque test #1 from golang.org/issue/4860
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.google.com",
@@ -416,7 +416,7 @@ var reqWriteTests = []reqWriteTest{
 	// Opaque test #2 from golang.org/issue/4860
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "x.google.com",
@@ -435,7 +435,7 @@ var reqWriteTests = []reqWriteTest{
 	// Testing custom case in header keys. Issue 5022.
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Scheme: "http",
 				Host:   "www.google.com",
@@ -459,7 +459,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with host header field; IPv6 address with zone identifier
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Host: "[fe80::1%en0]",
 			},
@@ -474,7 +474,7 @@ var reqWriteTests = []reqWriteTest{
 	// Request with optional host header field; IPv6 address with zone identifier
 	{
 		Req: Request{
-			Method: "GET",
+			Method: MethodGet,
 			URL: &url.URL{
 				Host: "www.example.com",
 			},
@@ -558,7 +558,7 @@ func (rc *closeChecker) Close() error {
 // inside a NopCloser, and that it serializes it correctly.
 func TestRequestWriteClosesBody(t *testing.T) {
 	rc := &closeChecker{Reader: strings.NewReader("my body")}
-	req, _ := NewRequest("POST", "http://foo.com/", rc)
+	req, _ := NewRequest(MethodPost, "http://foo.com/", rc)
 	if req.ContentLength != 0 {
 		t.Errorf("got req.ContentLength %d, want 0", req.ContentLength)
 	}
@@ -623,7 +623,7 @@ func TestRequestWriteError(t *testing.T) {
 		}),
 	}
 
-	req, _ := NewRequest("GET", "http://example.com/", nil)
+	req, _ := NewRequest(MethodGet, "http://example.com/", nil)
 	const writeCalls = 4 // number of Write calls in current implementation
 	sawGood := false
 	for n := 0; n <= writeCalls+2; n++ {

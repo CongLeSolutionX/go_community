@@ -109,7 +109,7 @@ func handleTLSProtocol09(srv *Server, conn *tls.Conn, h Handler) {
 	if path == line {
 		return
 	}
-	req, _ := NewRequest("GET", path, nil)
+	req, _ := NewRequest(MethodGet, path, nil)
 	req.Proto = "HTTP/0.9"
 	req.ProtoMajor = 0
 	req.ProtoMinor = 9

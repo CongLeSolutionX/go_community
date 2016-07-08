@@ -114,8 +114,8 @@ func TestGetRequestFormat(t *testing.T) {
 	client := &Client{Transport: tr}
 	url := "http://dummy.faketld/"
 	client.Get(url) // Note: doesn't hit network
-	if tr.req.Method != "GET" {
-		t.Errorf("expected method %q; got %q", "GET", tr.req.Method)
+	if tr.req.Method != MethodGet {
+		t.Errorf("expected method %q; got %q", MethodGet, tr.req.Method)
 	}
 	if tr.req.URL.String() != url {
 		t.Errorf("expected URL %q; got %q", url, tr.req.URL.String())
@@ -135,8 +135,8 @@ func TestPostRequestFormat(t *testing.T) {
 	b := strings.NewReader(json)
 	client.Post(url, "application/json", b) // Note: doesn't hit network
 
-	if tr.req.Method != "POST" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "POST")
+	if tr.req.Method != MethodPost {
+		t.Errorf("got method %q, want %q", tr.req.Method, MethodPost)
 	}
 	if tr.req.URL.String() != url {
 		t.Errorf("got URL %q, want %q", tr.req.URL.String(), url)
@@ -164,8 +164,8 @@ func TestPostFormRequestFormat(t *testing.T) {
 	form.Set("bar", "baz")
 	client.PostForm(urlStr, form) // Note: doesn't hit network
 
-	if tr.req.Method != "POST" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "POST")
+	if tr.req.Method != MethodPost {
+		t.Errorf("got method %q, want %q", tr.req.Method, MethodPost)
 	}
 	if tr.req.URL.String() != urlStr {
 		t.Errorf("got URL %q, want %q", tr.req.URL.String(), urlStr)
@@ -226,7 +226,7 @@ func TestClientRedirects(t *testing.T) {
 	}
 
 	// Do should also follow redirects.
-	greq, _ := NewRequest("GET", ts.URL, nil)
+	greq, _ := NewRequest(MethodGet, ts.URL, nil)
 	_, err = c.Do(greq)
 	if e, g := "Get /?n=10: stopped after 10 redirects", fmt.Sprintf("%v", err); e != g {
 		t.Errorf("with default client Do, expected error %q, got %q", e, g)
@@ -264,7 +264,7 @@ func TestClientRedirects(t *testing.T) {
 	}
 
 	// Test that Request.Cancel is propagated between requests (Issue 14053)
-	creq, _ := NewRequest("HEAD", ts.URL, nil)
+	creq, _ := NewRequest(MethodHead, ts.URL, nil)
 	cancel := make(chan struct{})
 	creq.Cancel = cancel
 	if _, err := c.Do(creq); err != nil {
@@ -306,7 +306,7 @@ func TestClientRedirectContext(t *testing.T) {
 		}
 		return nil
 	}}
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	req = req.WithContext(ctx)
 	_, err := c.Do(req)
 	ue, ok := err.(*url.Error)
@@ -444,11 +444,11 @@ func TestClientSendsCookieFromJar(t *testing.T) {
 	client.PostForm(us, url.Values{}) // Note: doesn't hit network
 	matchReturnedCookies(t, expectedCookies, tr.req.Cookies())
 
-	req, _ := NewRequest("GET", us, nil)
+	req, _ := NewRequest(MethodGet, us, nil)
 	client.Do(req) // Note: doesn't hit network
 	matchReturnedCookies(t, expectedCookies, tr.req.Cookies())
 
-	req, _ = NewRequest("POST", us, nil)
+	req, _ = NewRequest(MethodPost, us, nil)
 	client.Do(req) // Note: doesn't hit network
 	matchReturnedCookies(t, expectedCookies, tr.req.Cookies())
 }
@@ -706,7 +706,7 @@ func TestClientInsecureTransport(t *testing.T) {
 
 func TestClientErrorWithRequestURI(t *testing.T) {
 	defer afterTest(t)
-	req, _ := NewRequest("GET", "http://localhost:1234/", nil)
+	req, _ := NewRequest(MethodGet, "http://localhost:1234/", nil)
 	req.RequestURI = "/this/field/is/illegal/and/should/error/"
 	_, err := DefaultClient.Do(req)
 	if err == nil {
@@ -876,7 +876,7 @@ func testClientHeadContentLength(t *testing.T, h2 bool) {
 		{"", -1},
 	}
 	for _, tt := range tests {
-		req, _ := NewRequest("HEAD", cst.ts.URL+tt.suffix, nil)
+		req, _ := NewRequest(MethodHead, cst.ts.URL+tt.suffix, nil)
 		res, err := cst.c.Do(req)
 		if err != nil {
 			t.Fatal(err)
@@ -916,7 +916,7 @@ func TestEmptyPasswordAuth(t *testing.T) {
 	}))
 	defer ts.Close()
 	c := &Client{}
-	req, err := NewRequest("GET", ts.URL, nil)
+	req, err := NewRequest(MethodGet, ts.URL, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -937,8 +937,8 @@ func TestBasicAuth(t *testing.T) {
 	expected := "My User:My Pass"
 	client.Get(url)
 
-	if tr.req.Method != "GET" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "GET")
+	if tr.req.Method != MethodGet {
+		t.Errorf("got method %q, want %q", tr.req.Method, MethodGet)
 	}
 	if tr.req.URL.String() != url {
 		t.Errorf("got URL %q, want %q", tr.req.URL.String(), url)
@@ -969,7 +969,7 @@ func TestBasicAuthHeadersPreserved(t *testing.T) {
 
 	// If Authorization header is provided, username in URL should not override it
 	url := "http://My%20User@dummy.faketld/"
-	req, err := NewRequest("GET", url, nil)
+	req, err := NewRequest(MethodGet, url, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -977,8 +977,8 @@ func TestBasicAuthHeadersPreserved(t *testing.T) {
 	expected := "My User:My Pass"
 	client.Do(req)
 
-	if tr.req.Method != "GET" {
-		t.Errorf("got method %q, want %q", tr.req.Method, "GET")
+	if tr.req.Method != MethodGet {
+		t.Errorf("got method %q, want %q", tr.req.Method, MethodGet)
 	}
 	if tr.req.URL.String() != url {
 		t.Errorf("got URL %q, want %q", tr.req.URL.String(), url)
