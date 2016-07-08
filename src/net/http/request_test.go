@@ -22,7 +22,7 @@ import (
 )
 
 func TestQuery(t *testing.T) {
-	req := &Request{Method: "GET"}
+	req := &Request{Method: MethodGet}
 	req.URL, _ = url.Parse("http://www.google.com/search?q=foo&q=bar")
 	if q := req.FormValue("q"); q != "foo" {
 		t.Errorf(`req.FormValue("q") = %q, want "foo"`, q)
@@ -30,7 +30,7 @@ func TestQuery(t *testing.T) {
 }
 
 func TestPostQuery(t *testing.T) {
-	req, _ := NewRequest("POST", "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&empty=not",
+	req, _ := NewRequest(MethodPost, "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&empty=not",
 		strings.NewReader("z=post&both=y&prio=2&empty="))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
@@ -61,7 +61,7 @@ func TestPostQuery(t *testing.T) {
 }
 
 func TestPatchQuery(t *testing.T) {
-	req, _ := NewRequest("PATCH", "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&empty=not",
+	req, _ := NewRequest(MethodPatch, "http://www.google.com/search?q=foo&q=bar&both=x&prio=1&empty=not",
 		strings.NewReader("z=post&both=y&prio=2&empty="))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
@@ -109,7 +109,7 @@ var parseContentTypeTests = []parseContentTypeTest{
 func TestParseFormUnknownContentType(t *testing.T) {
 	for i, test := range parseContentTypeTests {
 		req := &Request{
-			Method: "POST",
+			Method: MethodPost,
 			Header: Header(test.contentType),
 			Body:   ioutil.NopCloser(strings.NewReader("body")),
 		}
@@ -124,10 +124,10 @@ func TestParseFormUnknownContentType(t *testing.T) {
 }
 
 func TestParseFormInitializeOnError(t *testing.T) {
-	nilBody, _ := NewRequest("POST", "http://www.google.com/search?q=foo", nil)
+	nilBody, _ := NewRequest(MethodPost, "http://www.google.com/search?q=foo", nil)
 	tests := []*Request{
 		nilBody,
-		{Method: "GET", URL: nil},
+		{Method: MethodGet, URL: nil},
 	}
 	for i, req := range tests {
 		err := req.ParseForm()
@@ -142,7 +142,7 @@ func TestParseFormInitializeOnError(t *testing.T) {
 
 func TestMultipartReader(t *testing.T) {
 	req := &Request{
-		Method: "POST",
+		Method: MethodPost,
 		Header: Header{"Content-Type": {`multipart/form-data; boundary="foo123"`}},
 		Body:   ioutil.NopCloser(new(bytes.Buffer)),
 	}
@@ -178,7 +178,7 @@ binary data
 --xxx--
 `
 	req := &Request{
-		Method: "POST",
+		Method: MethodPost,
 		Header: Header{"Content-Type": {`multipart/form-data; boundary=xxx`}},
 		Body:   ioutil.NopCloser(strings.NewReader(postData)),
 	}
@@ -222,7 +222,7 @@ binary data
 
 func TestParseMultipartForm(t *testing.T) {
 	req := &Request{
-		Method: "POST",
+		Method: MethodPost,
 		Header: Header{"Content-Type": {`multipart/form-data; boundary="foo123"`}},
 		Body:   ioutil.NopCloser(new(bytes.Buffer)),
 	}
@@ -268,7 +268,7 @@ func testRedirect(t *testing.T, h2 bool) {
 }
 
 func TestSetBasicAuth(t *testing.T) {
-	r, _ := NewRequest("GET", "http://example.com/", nil)
+	r, _ := NewRequest(MethodGet, "http://example.com/", nil)
 	r.SetBasicAuth("Aladdin", "open sesame")
 	if g, e := r.Header.Get("Authorization"), "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=="; g != e {
 		t.Errorf("got header %q, want %q", g, e)
@@ -312,7 +312,7 @@ func TestMissingFileMultipartRequest(t *testing.T) {
 
 // Test that FormValue invokes ParseMultipartForm.
 func TestFormValueCallsParseMultipartForm(t *testing.T) {
-	req, _ := NewRequest("POST", "http://www.google.com/", strings.NewReader("z=post"))
+	req, _ := NewRequest(MethodPost, "http://www.google.com/", strings.NewReader("z=post"))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	if req.Form != nil {
 		t.Fatal("Unexpected request Form, want nil")
@@ -409,7 +409,7 @@ var newRequestHostTests = []struct {
 
 func TestNewRequestHost(t *testing.T) {
 	for i, tt := range newRequestHostTests {
-		req, err := NewRequest("GET", tt.in, nil)
+		req, err := NewRequest(MethodGet, tt.in, nil)
 		if err != nil {
 			t.Errorf("#%v: %v", i, err)
 			continue
@@ -425,7 +425,7 @@ func TestRequestInvalidMethod(t *testing.T) {
 	if err == nil {
 		t.Error("expected error from NewRequest with invalid method")
 	}
-	req, err := NewRequest("GET", "http://foo.example/", nil)
+	req, err := NewRequest(MethodGet, "http://foo.example/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -438,7 +438,7 @@ func TestRequestInvalidMethod(t *testing.T) {
 	req, err = NewRequest("", "http://foo.com/", nil)
 	if err != nil {
 		t.Errorf("NewRequest(empty method) = %v; want nil", err)
-	} else if req.Method != "GET" {
+	} else if req.Method != MethodGet {
 		t.Errorf("NewRequest(empty method) has method %q; want GET", req.Method)
 	}
 }
@@ -462,7 +462,7 @@ func TestNewRequestContentLength(t *testing.T) {
 		{readByte(io.NewSectionReader(strings.NewReader("xy"), 0, 6)), 0},
 	}
 	for _, tt := range tests {
-		req, err := NewRequest("POST", "http://localhost/", tt.r)
+		req, err := NewRequest(MethodPost, "http://localhost/", tt.r)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -524,7 +524,7 @@ var getBasicAuthTests = []struct {
 
 func TestGetBasicAuth(t *testing.T) {
 	for _, tt := range getBasicAuthTests {
-		r, _ := NewRequest("GET", "http://example.com/", nil)
+		r, _ := NewRequest(MethodGet, "http://example.com/", nil)
 		r.SetBasicAuth(tt.username, tt.password)
 		username, password, ok := r.BasicAuth()
 		if ok != tt.ok || username != tt.username || password != tt.password {
@@ -533,7 +533,7 @@ func TestGetBasicAuth(t *testing.T) {
 		}
 	}
 	// Unauthenticated request.
-	r, _ := NewRequest("GET", "http://example.com/", nil)
+	r, _ := NewRequest(MethodGet, "http://example.com/", nil)
 	username, password, ok := r.BasicAuth()
 	if ok {
 		t.Errorf("expected false from BasicAuth when the request is unauthenticated")
@@ -561,7 +561,7 @@ var parseBasicAuthTests = []struct {
 
 func TestParseBasicAuth(t *testing.T) {
 	for _, tt := range parseBasicAuthTests {
-		r, _ := NewRequest("GET", "http://example.com/", nil)
+		r, _ := NewRequest(MethodGet, "http://example.com/", nil)
 		r.Header.Set("Authorization", tt.header)
 		username, password, ok := r.BasicAuth()
 		if ok != tt.ok || username != tt.username || password != tt.password {
@@ -588,7 +588,7 @@ func (l logWrites) Write(p []byte) (n int, err error) {
 
 func TestRequestWriteBufferedWriter(t *testing.T) {
 	got := []string{}
-	req, _ := NewRequest("GET", "http://foo.com/", nil)
+	req, _ := NewRequest(MethodGet, "http://foo.com/", nil)
 	req.Write(logWrites{t, &got})
 	want := []string{
 		"GET / HTTP/1.1\r\n",
@@ -603,7 +603,7 @@ func TestRequestWriteBufferedWriter(t *testing.T) {
 
 func TestRequestBadHost(t *testing.T) {
 	got := []string{}
-	req, err := NewRequest("GET", "http://foo/after", nil)
+	req, err := NewRequest(MethodGet, "http://foo/after", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -734,7 +734,7 @@ func testMissingFile(t *testing.T, req *Request) {
 
 func newTestMultipartRequest(t *testing.T) *Request {
 	b := strings.NewReader(strings.Replace(message, "\n", "\r\n", -1))
-	req, err := NewRequest("POST", "/", b)
+	req, err := NewRequest(MethodPost, "/", b)
 	if err != nil {
 		t.Fatal("NewRequest:", err)
 	}

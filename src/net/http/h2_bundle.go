@@ -4094,7 +4094,7 @@ func (sc *http2serverConn) newWriterAndRequest(st *http2stream, f *http2MetaHead
 	scheme := f.PseudoValue("scheme")
 	authority := f.PseudoValue("authority")
 
-	isConnect := method == "CONNECT"
+	isConnect := method == MethodConnect
 	if isConnect {
 		if path != "" || scheme != "" || authority == "" {
 			return nil, nil, http2StreamError{f.StreamID, http2ErrCodeProtocol}
@@ -4106,7 +4106,7 @@ func (sc *http2serverConn) newWriterAndRequest(st *http2stream, f *http2MetaHead
 	}
 
 	bodyOpen := !f.StreamEnded()
-	if method == "HEAD" && bodyOpen {
+	if method == MethodHead && bodyOpen {
 
 		return nil, nil, http2StreamError{f.StreamID, http2ErrCodeProtocol}
 	}
@@ -4471,7 +4471,7 @@ func (rws *http2responseWriterState) writeChunk(p []byte) (n int, err error) {
 		rws.writeHeader(200)
 	}
 
-	isHeadResp := rws.req.Method == "HEAD"
+	isHeadResp := rws.req.Method == MethodHead
 	if !rws.sentHeader {
 		rws.sentHeader = true
 		var ctype, clen string
@@ -5442,7 +5442,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 	if !cc.t.disableCompression() &&
 		req.Header.Get("Accept-Encoding") == "" &&
 		req.Header.Get("Range") == "" &&
-		req.Method != "HEAD" {
+		req.Method != MethodHead {
 
 		requestedGzip = true
 	}
@@ -5734,7 +5734,7 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 
 	cc.writeHeader(":authority", host)
 	cc.writeHeader(":method", req.Method)
-	if req.Method != "CONNECT" {
+	if req.Method != MethodConnect {
 		cc.writeHeader(":path", req.URL.RequestURI())
 		cc.writeHeader(":scheme", "https")
 	}
@@ -5793,7 +5793,7 @@ func http2shouldSendReqContentLength(method string, contentLength int64) bool {
 	}
 
 	switch method {
-	case "POST", "PUT", "PATCH":
+	case MethodPost, MethodPut, MethodPatch:
 		return true
 	default:
 		return false
@@ -6083,7 +6083,7 @@ func (rl *http2clientConnReadLoop) handleResponse(cs *http2clientStream, f *http
 	}
 
 	streamEnded := f.StreamEnded()
-	isHead := cs.req.Method == "HEAD"
+	isHead := cs.req.Method == MethodHead
 	if !streamEnded || isHead {
 		res.ContentLength = -1
 		if clens := res.Header["Content-Length"]; len(clens) == 1 {

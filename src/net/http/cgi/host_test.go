@@ -114,7 +114,7 @@ func TestCGIBasicGet(t *testing.T) {
 		"env-REMOTE_ADDR":       "1.2.3.4",
 		"env-REMOTE_HOST":       "1.2.3.4",
 		"env-REMOTE_PORT":       "1234",
-		"env-REQUEST_METHOD":    "GET",
+		"env-REQUEST_METHOD":    http.MethodGet,
 		"env-REQUEST_URI":       "/test.cgi?foo=bar&a=b",
 		"env-SCRIPT_FILENAME":   "testdata/test.cgi",
 		"env-SCRIPT_NAME":       "/test.cgi",
@@ -149,7 +149,7 @@ func TestCGIEnvIPv6(t *testing.T) {
 		"env-REMOTE_ADDR":       "2000::3000",
 		"env-REMOTE_HOST":       "2000::3000",
 		"env-REMOTE_PORT":       "12345",
-		"env-REQUEST_METHOD":    "GET",
+		"env-REQUEST_METHOD":    http.MethodGet,
 		"env-REQUEST_URI":       "/test.cgi?foo=bar&a=b",
 		"env-SCRIPT_FILENAME":   "testdata/test.cgi",
 		"env-SCRIPT_NAME":       "/test.cgi",
@@ -267,7 +267,7 @@ postfoo=postbar`
 	expectedMap := map[string]string{
 		"test":               "Hello CGI",
 		"param-postfoo":      "postbar",
-		"env-REQUEST_METHOD": "POST",
+		"env-REQUEST_METHOD": http.MethodPost,
 		"env-CONTENT_LENGTH": "15",
 		"env-REQUEST_URI":    "/test.cgi?a=b",
 	}
@@ -351,7 +351,7 @@ func TestCopyError(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	req, _ := http.NewRequest("GET", "http://example.com/test.cgi?bigresponse=1", nil)
+	req, _ := http.NewRequest(http.MethodGet, "http://example.com/test.cgi?bigresponse=1", nil)
 	err = req.Write(conn)
 	if err != nil {
 		t.Fatalf("Write: %v", err)

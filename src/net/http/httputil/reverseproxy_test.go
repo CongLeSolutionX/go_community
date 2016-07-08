@@ -33,7 +33,7 @@ func TestReverseProxy(t *testing.T) {
 	const backendResponse = "I am the backend"
 	const backendStatus = 404
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" && r.FormValue("mode") == "hangup" {
+		if r.Method == http.MethodGet && r.FormValue("mode") == "hangup" {
 			c, _, _ := w.(http.Hijacker).Hijack()
 			c.Close()
 			return
@@ -78,7 +78,7 @@ func TestReverseProxy(t *testing.T) {
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
-	getReq, _ := http.NewRequest("GET", frontend.URL, nil)
+	getReq, _ := http.NewRequest(http.MethodGet, frontend.URL, nil)
 	getReq.Host = "some-name"
 	getReq.Header.Set("Connection", "close")
 	getReq.Header.Set("Proxy-Connection", "should be deleted")
@@ -122,7 +122,7 @@ func TestReverseProxy(t *testing.T) {
 
 	// Test that a backend failing to be reached or one which doesn't return
 	// a response results in a StatusBadGateway.
-	getReq, _ = http.NewRequest("GET", frontend.URL+"/?mode=hangup", nil)
+	getReq, _ = http.NewRequest(http.MethodGet, frontend.URL+"/?mode=hangup", nil)
 	getReq.Close = true
 	res, err = http.DefaultClient.Do(getReq)
 	if err != nil {
@@ -158,7 +158,7 @@ func TestXForwardedFor(t *testing.T) {
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
-	getReq, _ := http.NewRequest("GET", frontend.URL, nil)
+	getReq, _ := http.NewRequest(http.MethodGet, frontend.URL, nil)
 	getReq.Host = "some-name"
 	getReq.Header.Set("Connection", "close")
 	getReq.Header.Set("X-Forwarded-For", prevForwardedFor)
@@ -200,7 +200,7 @@ func TestReverseProxyQuery(t *testing.T) {
 			t.Fatal(err)
 		}
 		frontend := httptest.NewServer(NewSingleHostReverseProxy(backendURL))
-		req, _ := http.NewRequest("GET", frontend.URL+tt.reqSuffix, nil)
+		req, _ := http.NewRequest(http.MethodGet, frontend.URL+tt.reqSuffix, nil)
 		req.Close = true
 		res, err := http.DefaultClient.Do(req)
 		if err != nil {
@@ -236,7 +236,7 @@ func TestReverseProxyFlushInterval(t *testing.T) {
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
-	req, _ := http.NewRequest("GET", frontend.URL, nil)
+	req, _ := http.NewRequest(http.MethodGet, frontend.URL, nil)
 	req.Close = true
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -293,7 +293,7 @@ func TestReverseProxyCancelation(t *testing.T) {
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
-	getReq, _ := http.NewRequest("GET", frontend.URL, nil)
+	getReq, _ := http.NewRequest(http.MethodGet, frontend.URL, nil)
 	go func() {
 		<-reqInFlight
 		http.DefaultTransport.(*http.Transport).CancelRequest(getReq)
@@ -372,7 +372,7 @@ func TestUserAgentHeader(t *testing.T) {
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
-	getReq, _ := http.NewRequest("GET", frontend.URL, nil)
+	getReq, _ := http.NewRequest(http.MethodGet, frontend.URL, nil)
 	getReq.Header.Set("User-Agent", explicitUA)
 	getReq.Close = true
 	res, err := http.DefaultClient.Do(getReq)
@@ -381,7 +381,7 @@ func TestUserAgentHeader(t *testing.T) {
 	}
 	res.Body.Close()
 
-	getReq, _ = http.NewRequest("GET", frontend.URL+"/noua", nil)
+	getReq, _ = http.NewRequest(http.MethodGet, frontend.URL+"/noua", nil)
 	getReq.Header.Set("User-Agent", "")
 	getReq.Close = true
 	res, err = http.DefaultClient.Do(getReq)
@@ -434,7 +434,7 @@ func TestReverseProxyGetPutBuffer(t *testing.T) {
 	frontend := httptest.NewServer(rp)
 	defer frontend.Close()
 
-	req, _ := http.NewRequest("GET", frontend.URL, nil)
+	req, _ := http.NewRequest(http.MethodGet, frontend.URL, nil)
 	req.Close = true
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -482,7 +482,7 @@ func TestReverseProxy_Post(t *testing.T) {
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
-	postReq, _ := http.NewRequest("POST", frontend.URL, bytes.NewReader(requestBody))
+	postReq, _ := http.NewRequest(http.MethodPost, frontend.URL, bytes.NewReader(requestBody))
 	res, err := http.DefaultClient.Do(postReq)
 	if err != nil {
 		t.Fatalf("Do: %v", err)

@@ -42,7 +42,7 @@ func TestHostingOurselves(t *testing.T) {
 		"env-REMOTE_ADDR":       "1.2.3.4",
 		"env-REMOTE_HOST":       "1.2.3.4",
 		"env-REMOTE_PORT":       "1234",
-		"env-REQUEST_METHOD":    "GET",
+		"env-REQUEST_METHOD":    http.MethodGet,
 		"env-REQUEST_URI":       "/test.go?foo=bar&a=b",
 		"env-SCRIPT_FILENAME":   os.Args[0],
 		"env-SCRIPT_NAME":       "/test.go",
@@ -104,7 +104,7 @@ func TestKillChildAfterCopyError(t *testing.T) {
 		Root: "/test.go",
 		Args: []string{"-test.run=TestBeChildCGIProcess"},
 	}
-	req, _ := http.NewRequest("GET", "http://example.com/test.cgi?write-forever=1", nil)
+	req, _ := http.NewRequest(http.MethodGet, "http://example.com/test.cgi?write-forever=1", nil)
 	rec := httptest.NewRecorder()
 	var out bytes.Buffer
 	const writeLen = 50 << 10

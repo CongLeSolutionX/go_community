@@ -37,7 +37,7 @@ import (
 // panic is acceptable.
 func NewRequest(method, target string, body io.Reader) *http.Request {
 	if method == "" {
-		method = "GET"
+		method = http.MethodGet
 	}
 	req, err := http.ReadRequest(bufio.NewReader(strings.NewReader(method + " " + target + " HTTP/1.0\r\n\r\n")))
 	if err != nil {

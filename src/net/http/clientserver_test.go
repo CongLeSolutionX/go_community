@@ -329,7 +329,7 @@ func TestH12_Head_ExplicitLen(t *testing.T) {
 	h12Compare{
 		ReqFunc: (*Client).Head,
 		Handler: func(w ResponseWriter, r *Request) {
-			if r.Method != "HEAD" {
+			if r.Method != MethodHead {
 				t.Errorf("unexpected method %q", r.Method)
 			}
 			w.Header().Set("Content-Length", "1235")
@@ -341,7 +341,7 @@ func TestH12_Head_ImplicitLen(t *testing.T) {
 	h12Compare{
 		ReqFunc: (*Client).Head,
 		Handler: func(w ResponseWriter, r *Request) {
-			if r.Method != "HEAD" {
+			if r.Method != MethodHead {
 				t.Errorf("unexpected method %q", r.Method)
 			}
 			io.WriteString(w, "foo")
@@ -510,7 +510,7 @@ func testCancelRequestMidBody(t *testing.T, h2 bool) {
 	defer cst.close()
 	defer close(unblock)
 
-	req, _ := NewRequest("GET", cst.ts.URL, nil)
+	req, _ := NewRequest(MethodGet, cst.ts.URL, nil)
 	cancel := make(chan struct{})
 	req.Cancel = cancel
 
@@ -574,7 +574,7 @@ func testTrailersClientToServer(t *testing.T, h2 bool) {
 	defer cst.close()
 
 	var req *Request
-	req, _ = NewRequest("POST", cst.ts.URL, io.MultiReader(
+	req, _ = NewRequest(MethodPost, cst.ts.URL, io.MultiReader(
 		eofReaderFunc(func() {
 			req.Trailer["Client-Trailer-A"] = []string{"valuea"}
 		}),
@@ -732,7 +732,7 @@ func testConcurrentReadWriteReqBody(t *testing.T, h2 bool) {
 		wg.Wait()
 	}))
 	defer cst.close()
-	req, _ := NewRequest("POST", cst.ts.URL, strings.NewReader(reqBody))
+	req, _ := NewRequest(MethodPost, cst.ts.URL, strings.NewReader(reqBody))
 	req.Header.Add("Expect", "100-continue") // just to complicate things
 	res, err := cst.c.Do(req)
 	if err != nil {
@@ -769,7 +769,7 @@ func testConnectRequest(t *testing.T, h2 bool) {
 	}{
 		{
 			req: &Request{
-				Method: "CONNECT",
+				Method: MethodConnect,
 				Header: Header{},
 				URL:    u,
 			},
@@ -777,7 +777,7 @@ func testConnectRequest(t *testing.T, h2 bool) {
 		},
 		{
 			req: &Request{
-				Method: "CONNECT",
+				Method: MethodConnect,
 				Header: Header{},
 				URL:    u,
 				Host:   "example.com:123",
@@ -794,7 +794,7 @@ func testConnectRequest(t *testing.T, h2 bool) {
 		}
 		res.Body.Close()
 		req := <-gotc
-		if req.Method != "CONNECT" {
+		if req.Method != MethodConnect {
 			t.Errorf("method = %q; want CONNECT", req.Method)
 		}
 		if req.Host != tt.want {
@@ -848,7 +848,7 @@ func testTransportUserAgent(t *testing.T, h2 bool) {
 		},
 	}
 	for i, tt := range tests {
-		req, _ := NewRequest("GET", cst.ts.URL, nil)
+		req, _ := NewRequest(MethodGet, cst.ts.URL, nil)
 		tt.setup(req)
 		res, err := cst.c.Do(req)
 		if err != nil {
@@ -869,8 +869,8 @@ func testTransportUserAgent(t *testing.T, h2 bool) {
 
 func TestStarRequestFoo_h1(t *testing.T)     { testStarRequest(t, "FOO", h1Mode) }
 func TestStarRequestFoo_h2(t *testing.T)     { testStarRequest(t, "FOO", h2Mode) }
-func TestStarRequestOptions_h1(t *testing.T) { testStarRequest(t, "OPTIONS", h1Mode) }
-func TestStarRequestOptions_h2(t *testing.T) { testStarRequest(t, "OPTIONS", h2Mode) }
+func TestStarRequestOptions_h1(t *testing.T) { testStarRequest(t, MethodOptions, h1Mode) }
+func TestStarRequestOptions_h2(t *testing.T) { testStarRequest(t, MethodOptions, h2Mode) }
 func testStarRequest(t *testing.T, method string, h2 bool) {
 	defer afterTest(t)
 	gotc := make(chan *Request, 1)
@@ -901,7 +901,7 @@ func testStarRequest(t *testing.T, method string, h2 bool) {
 
 	wantFoo := "bar"
 	wantLen := int64(-1)
-	if method == "OPTIONS" {
+	if method == MethodOptions {
 		wantFoo = ""
 		wantLen = 0
 	}
@@ -920,7 +920,7 @@ func testStarRequest(t *testing.T, method string, h2 bool) {
 		req = nil
 	}
 	if req == nil {
-		if method != "OPTIONS" {
+		if method != MethodOptions {
 			t.Fatalf("handler never got request")
 		}
 		return
@@ -1034,7 +1034,7 @@ func testTransportGCRequest(t *testing.T, h2, body bool) {
 	didGC := make(chan struct{})
 	(func() {
 		body := strings.NewReader("some body")
-		req, _ := NewRequest("POST", cst.ts.URL, body)
+		req, _ := NewRequest(MethodPost, cst.ts.URL, body)
 		runtime.SetFinalizer(req, func(*Request) { close(didGC) })
 		res, err := cst.c.Do(req)
 		if err != nil {
@@ -1095,7 +1095,7 @@ func testTransportRejectsInvalidHeaders(t *testing.T, h2 bool) {
 			dialedc <- true
 			return net.Dial(netw, addr)
 		}
-		req, _ := NewRequest("GET", cst.ts.URL, nil)
+		req, _ := NewRequest(MethodGet, cst.ts.URL, nil)
 		req.Header[tt.key] = []string{tt.val}
 		res, err := cst.c.Do(req)
 		var body []byte

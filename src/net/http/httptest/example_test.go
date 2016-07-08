@@ -17,7 +17,7 @@ func ExampleResponseRecorder() {
 		http.Error(w, "something failed", http.StatusInternalServerError)
 	}
 
-	req := httptest.NewRequest("GET", "http://example.com/foo", nil)
+	req := httptest.NewRequest(http.MethodGet, "http://example.com/foo", nil)
 	w := httptest.NewRecorder()
 	handler(w, req)
 

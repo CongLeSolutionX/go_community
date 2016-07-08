@@ -87,7 +87,7 @@ func TestServeFile(t *testing.T) {
 	if req.URL, err = url.Parse(ts.URL); err != nil {
 		t.Fatal("ParseURL:", err)
 	}
-	req.Method = "GET"
+	req.Method = MethodGet
 
 	// straight GET
 	_, body := getBody(t, "straight get", req)
@@ -252,7 +252,7 @@ func TestFileServerCleans(t *testing.T) {
 		{"//foo.txt", "/foo.txt"},
 		{"/../foo.txt", "/foo.txt"},
 	}
-	req, _ := NewRequest("GET", "http://example.com", nil)
+	req, _ := NewRequest(MethodGet, "http://example.com", nil)
 	for n, test := range tests {
 		rec := httptest.NewRecorder()
 		req.URL.Path = test.reqPath
@@ -699,7 +699,7 @@ func TestDirectoryIfNotModified(t *testing.T) {
 		t.Fatalf("initial Last-Modified = %q; want %q", lastMod, fileModStr)
 	}
 
-	req, _ := NewRequest("GET", ts.URL, nil)
+	req, _ := NewRequest(MethodGet, ts.URL, nil)
 	req.Header.Set("If-Modified-Since", lastMod)
 
 	res, err = DefaultClient.Do(req)
@@ -884,7 +884,7 @@ func TestServeContent(t *testing.T) {
 			etag:        tt.serveETag,
 			contentType: tt.serveContentType,
 		}
-		req, err := NewRequest("GET", ts.URL, nil)
+		req, err := NewRequest(MethodGet, ts.URL, nil)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -912,7 +912,7 @@ func TestServeContent(t *testing.T) {
 // Issue 12991
 func TestServerFileStatError(t *testing.T) {
 	rec := httptest.NewRecorder()
-	r, _ := NewRequest("GET", "http://foo/", nil)
+	r, _ := NewRequest(MethodGet, "http://foo/", nil)
 	redirect := false
 	name := "file.txt"
 	fs := issue12991FS{}
@@ -1065,7 +1065,7 @@ func TestFileServerCleanPath(t *testing.T) {
 	for _, tt := range tests {
 		var log []string
 		rr := httptest.NewRecorder()
-		req, _ := NewRequest("GET", "http://foo.localhost"+tt.path, nil)
+		req, _ := NewRequest(MethodGet, "http://foo.localhost"+tt.path, nil)
 		FileServer(fileServerCleanPathDir{&log}).ServeHTTP(rr, req)
 		if !reflect.DeepEqual(log, tt.wantOpen) {
 			t.Logf("For %s: Opens = %q; want %q", tt.path, log, tt.wantOpen)
