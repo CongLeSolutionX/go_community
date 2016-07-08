@@ -1318,6 +1318,22 @@ opswitch:
 			break
 		}
 
+		// Inline s == "literal" completely, for small literals
+		if Op(n.Etype) == OEQ && Isconst(n.Right, CTSTR) && len(strlit(n.Right)) < 8 {
+			r := Nod(OEQ, Nod(OLEN, n.Left, nil), Nod(OLEN, n.Right, nil))
+			for i, litbyte := range []byte(strlit(n.Right)) {
+				nstrbyte := Nod(OINDEX, n.Left, Nodintconst(int64(i)))
+				nstrbyte.Bounded = true
+				nlitbyte := Nodintconst(int64(litbyte))
+				r = Nod(OANDAND, r, Nod(OEQ, nstrbyte, nlitbyte))
+			}
+			typecheck(r, Erv)
+			walkexpr(r, init)
+			r.Type = n.Type
+			n = r
+			break
+		}
+
 		// s + "badgerbadgerbadger" == "badgerbadgerbadger"
 		if (Op(n.Etype) == OEQ || Op(n.Etype) == ONE) && Isconst(n.Right, CTSTR) && n.Left.Op == OADDSTR && n.Left.List.Len() == 2 && Isconst(n.Left.List.Second(), CTSTR) && strlit(n.Right) == strlit(n.Left.List.Second()) {
 			// TODO(marvin): Fix Node.EType type union.
