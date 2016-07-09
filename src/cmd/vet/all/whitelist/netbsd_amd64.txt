@@ -1,0 +1,1 @@
+runtime/sys_netbsd_amd64.s: [amd64] settls: function settls missing Go declaration
