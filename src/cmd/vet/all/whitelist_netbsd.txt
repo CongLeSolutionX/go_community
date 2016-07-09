@@ -1,0 +1,1 @@
+runtime/sys_netbsd_ARCHSUFF.s: [GOARCH] sigreturn_tramp: function sigreturn_tramp missing Go declaration
