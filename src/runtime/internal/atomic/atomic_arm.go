@@ -181,3 +181,5 @@ func And8(addr *uint8, v uint8) {
 		}
 	}
 }
+
+func armcas(ptr *uint32, old, new uint32) bool
