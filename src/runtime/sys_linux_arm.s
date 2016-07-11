@@ -259,9 +259,9 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	// Copy mp, gp, fn off parent stack for use by child.
 	// TODO(kaib): figure out which registers are clobbered by clone and avoid stack copying
 	MOVW	$-16(R1), R1
-	MOVW	mm+8(FP), R6
+	MOVW	mp+8(FP), R6
 	MOVW	R6, 0(R1)
-	MOVW	gg+12(FP), R6
+	MOVW	gp+12(FP), R6
 	MOVW	R6, 4(R1)
 	MOVW	fn+16(FP), R6
 	MOVW	R6, 8(R1)
@@ -491,7 +491,7 @@ TEXT runtime·access(SB),NOSPLIT,$0
 TEXT runtime·connect(SB),NOSPLIT,$0
 	MOVW	fd+0(FP), R0
 	MOVW	addr+4(FP), R1
-	MOVW	addrlen+8(FP), R2
+	MOVW	len+8(FP), R2
 	MOVW	$SYS_connect, R7
 	SWI	$0
 	MOVW	R0, ret+12(FP)
@@ -499,8 +499,8 @@ TEXT runtime·connect(SB),NOSPLIT,$0
 
 TEXT runtime·socket(SB),NOSPLIT,$0
 	MOVW	domain+0(FP), R0
-	MOVW	type+4(FP), R1
-	MOVW	protocol+8(FP), R2
+	MOVW	typ+4(FP), R1
+	MOVW	prot+8(FP), R2
 	MOVW	$SYS_socket, R7
 	SWI	$0
 	MOVW	R0, ret+12(FP)
