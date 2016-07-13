@@ -303,11 +303,11 @@ func TestImportVendor(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // really must just have source
 	ctxt := Default
 	ctxt.GOPATH = ""
-	p, err := ctxt.Import("golang.org/x/net/http2/hpack", filepath.Join(ctxt.GOROOT, "src/net/http"), 0)
+	p, err := ctxt.Import("go/golang.org/x/net/http2/hpack", filepath.Join(ctxt.GOROOT, "src/net/http"), 0)
 	if err != nil {
-		t.Fatalf("cannot find vendored golang.org/x/net/http2/hpack from net/http directory: %v", err)
+		t.Fatalf("cannot find vendored go/golang.org/x/net/http2/hpack from net/http directory: %v", err)
 	}
-	want := "vendor/golang.org/x/net/http2/hpack"
+	want := "vendor/go/golang.org/x/net/http2/hpack"
 	if p.ImportPath != want {
 		t.Fatalf("Import succeeded but found %q, want %q", p.ImportPath, want)
 	}

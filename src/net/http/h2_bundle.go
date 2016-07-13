@@ -41,8 +41,8 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/net/http2/hpack"
-	"golang.org/x/net/lex/httplex"
+	"go/golang.org/x/net/http2/hpack"
+	"go/golang.org/x/net/lex/httplex"
 )
 
 // ClientConnPool manages a pool of HTTP/2 client connections.
