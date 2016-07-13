@@ -48,10 +48,11 @@ type SparseTreeMap RBTint32
 // as exposing some useful control-flow-related data to other
 // packages, such as gc.
 type SparseTreeHelper struct {
-	Sdom   []SparseTreeNode // indexed by block.ID
-	Po     []*Block         // exported data
-	Dom    []*Block         // exported data
-	Ponums []int32          // exported data
+	Sdom    []SparseTreeNode // indexed by block.ID
+	Po      []*Block         // exported data
+	Dom     []*Block         // exported data
+	Ponums  []int32          // exported data
+	Sccnums []int32          // exported data
 }
 
 // NewSparseTreeHelper returns a SparseTreeHelper for use
@@ -59,19 +60,28 @@ type SparseTreeHelper struct {
 func NewSparseTreeHelper(f *Func) *SparseTreeHelper {
 	dom := dominators(f)
 	ponums := make([]int32, f.NumBlocks())
-	po := postorderWithNumbering(f, ponums)
-	return makeSparseTreeHelper(newSparseTree(f, dom), dom, po, ponums)
+	sccnums := make([]int32, f.NumBlocks())
+	po := Scc(f, sccnums, ponums)
+	return makeSparseTreeHelper(newSparseTree(f, dom), dom, po, ponums, sccnums)
 }
 
 func (h *SparseTreeHelper) NewTree() *SparseTreeMap {
 	return &SparseTreeMap{}
 }
 
-func makeSparseTreeHelper(sdom SparseTree, dom, po []*Block, ponums []int32) *SparseTreeHelper {
+// poToSCC converts a block's post-order index to the strongly-connected
+// component number of that block.  The number is negative if the component
+// is a non-cyclic singleton (i.e., if the block is not in any loop).
+func (h *SparseTreeHelper) PoToSCC(i int32) int32 {
+	return h.Sccnums[h.Po[i].ID]
+}
+
+func makeSparseTreeHelper(sdom SparseTree, dom, po []*Block, ponums, sccnums []int32) *SparseTreeHelper {
 	helper := &SparseTreeHelper{Sdom: []SparseTreeNode(sdom),
-		Dom:    dom,
-		Po:     po,
-		Ponums: ponums,
+		Dom:     dom,
+		Po:      po,
+		Ponums:  ponums,
+		Sccnums: sccnums,
 	}
 	return helper
 }
@@ -157,6 +167,19 @@ func (m *SparseTreeMap) Find(b *Block, adjust int32, helper *SparseTreeHelper) i
 		_, v = rbtree.Glb(otherIndex.entry - 1)
 	}
 	return nil // nothing found
+}
+
+func (m *SparseTreeMap) FindExactly(b *Block, adjust int32, helper *SparseTreeHelper) interface{} {
+	rbtree := (*RBTint32)(m)
+	if rbtree == nil {
+		return nil
+	}
+	blockIndex := &helper.Sdom[b.ID]
+	v := rbtree.Find(blockIndex.entry + adjust)
+	if v == nil {
+		return nil
+	}
+	return v.(*sparseTreeMapEntry).data
 }
 
 func (m *SparseTreeMap) String() string {

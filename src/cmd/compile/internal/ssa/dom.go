@@ -61,6 +61,148 @@ func postorderWithNumbering(f *Func, ponums []int32) []*Block {
 	return order
 }
 
+// Scc computes strongly connected components
+// and a postorder, returning the postorder with
+// all the elements of each SCC grouped together
+// (and also in postorder within the SCC, with loop
+// entry node last).
+// The parameter ponums is indexed by block.ID,
+// and ponums[b.ID] is assigned the postorder
+// index of b (i.e., postorder[ponums[b.ID]] == b)
+// starting with zero.
+// The parameter sccnums is indexed by block.ID.
+// If the strongly connected component C that contains
+// a block b is cyclic, then sccnums[b.ID] = C's number.
+// If the strongly connected component C that contains
+// a block b is not cyclic (and therefore also a singleton,
+// though some singletons are also cyclic), then
+// sccnums[b.ID] = negative of C's number.
+// The first SCC number is 1.
+//
+// An example:
+//
+//      A
+//      |
+//  +-->B
+//  |  / \
+//  +-+  C<--+
+//      / \  |
+//     E  D--+
+//
+// block  sccnum  postorder
+//   A       -4      4
+//   B       3       3
+//   C       2       2
+//   D       2       1
+//   E      -1       0
+func Scc(f *Func, sccnums, ponums []int32) []*Block {
+
+	var i, sccnum int32
+
+	mark := make([]markKind, f.NumBlocks())
+	lowlink := make([]int32, f.NumBlocks())
+	index := make([]int32, f.NumBlocks())
+
+	var s, order []*Block
+
+	var strongconnect func(b *Block)
+	strongconnect = func(b *Block) {
+		// First part of strongconnect is Tarjan's strongly connected components finder
+		i++
+		v := b.ID
+		index[v] = i
+		lowlink[v] = i
+		mark[v] = notExplored // notExplored acts as 'onStack == true'
+		s = append(s, b)
+
+		for _, ss := range b.Succs {
+			bb := ss.Block()
+			w := bb.ID
+			if index[w] == 0 { // never visited
+				strongconnect(bb)
+				if lowlink[w] < lowlink[v] {
+					lowlink[v] = lowlink[w]
+				}
+				continue
+			}
+			if mark[w] == notExplored { // currently on stack
+				if index[w] < lowlink[v] {
+					lowlink[v] = index[w]
+				}
+			}
+		}
+
+		if lowlink[v] == index[v] {
+			sccnum++
+			count := 0
+			for { // Pop nodes pushed by recursive calls to strongconnect.
+				count++
+				bb := s[len(s)-1]
+				s = s[:len(s)-1]
+				mark[bb.ID] = notFound
+				sccnums[bb.ID] = sccnum
+				if bb == b { // Note for reducible loops b/bb will be loop entry
+					break
+				}
+			}
+			// Second part; add node(s) in newly discovered SCC to postorder.
+			// Because SCC does not produce elements of component in a post order,
+			// the SCC must be postordered.
+			// First node in loop (entry node for reducible loops) is root of subgraph
+			// and this will be last in this subgraph's postorder.
+
+			if count <= 1 {
+				// Singleton SCC -- no further ordering needed, and may be acyclic.
+				ponums[b.ID] = int32(len(order))
+				order = append(order, b)
+				mark[b.ID] = done
+				// Check for b-not-self-cycle, in which case, negate SCC.
+				if len(b.Succs) < 2 || b.Succs[0].Block() != b && b.Succs[1].Block() != b {
+					sccnums[b.ID] = -sccnum
+				}
+				return
+			}
+			// Newly discovered SCC contains more than one node, but the ordering of nodes
+			// in the SCC is not necessarily a valid post-order.
+			// Run PO confined to new SCC to repair this.
+			// Work on top of s and mark; mark nodes will be left 'done'
+			end := len(s)
+			s = append(s, b)
+			mark[v] = notExplored
+			for len(s) > end {
+				b := s[len(s)-1]
+				switch mark[b.ID] {
+				case explored:
+					// Children have all been visited. Pop & output block.
+					s = s[:len(s)-1]
+					mark[b.ID] = done
+					ponums[b.ID] = int32(len(order))
+					order = append(order, b)
+				case notExplored:
+					// Children have not been visited yet. Mark as explored
+					// and queue any children we haven't seen yet.
+					mark[b.ID] = explored
+					for _, e := range b.Succs {
+						c := e.b
+						if sccnums[c.ID] != sccnum { // confine PO to just-discovered SCC
+							continue
+						}
+						if mark[c.ID] == notFound {
+							mark[c.ID] = notExplored
+							s = append(s, c)
+						}
+					}
+				default:
+					b.Fatalf("bad stack state %v %d", b, mark[b.ID])
+				}
+			}
+		}
+	}
+
+	strongconnect(f.Entry)
+	return order
+}
+
 type linkedBlocks func(*Block) []Edge
 
 const nscratchslices = 7

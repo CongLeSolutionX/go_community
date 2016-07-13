@@ -39,6 +39,7 @@ type onameDefs struct {
 	// and 0 is after-or-equal all exit nodes and infinite loops.
 	firstdef int32 // the first definition of this ONAME *in the postorder numbering*
 	lastuse  int32 // the last use of this ONAME *in the postorder numbering*
+	nDefs    int32
 }
 
 // defsFor finds or creates-and-inserts-in-map the definition information
@@ -62,6 +63,7 @@ func (m *sparseDefState) Insert(tree *onameDefs, b *ssa.Block, adjust int32) {
 	if bponum > tree.firstdef {
 		tree.firstdef = bponum
 	}
+	tree.nDefs++
 	tree.stm.Insert(b, adjust, b, m.helper)
 }
 
@@ -93,12 +95,11 @@ func (s *state) locatePotentialPhiFunctions(fn *Node) *sparseDefState {
 	dm := &sparseDefState{defmapForOname: trees, helper: helper}
 
 	// Process params, taking note of their special lifetimes
-	b := s.f.Entry
 	for _, n := range fn.Func.Dcl {
 		switch n.Class {
 		case PPARAM, PPARAMOUT:
 			t := dm.defsFor(n)
-			dm.Insert(t, b, ssa.AdjustBefore) // define param at entry block
+			dm.Insert(t, s.f.Entry, ssa.AdjustBefore) // define param at entry block
 			if n.Class == PPARAMOUT {
 				dm.Use(t, po[0]) // Explicitly use PPARAMOUT at very last block
 			}
@@ -108,8 +109,8 @@ func (s *state) locatePotentialPhiFunctions(fn *Node) *sparseDefState {
 
 	// Process memory variable.
 	t := dm.defsFor(&memVar)
-	dm.Insert(t, b, ssa.AdjustBefore) // define memory at entry block
-	dm.Use(t, po[0])                  // Explicitly use memory at last block
+	dm.Insert(t, s.f.Entry, ssa.AdjustBefore) // define memory at entry block
+	dm.Use(t, po[0])                          // Explicitly use memory at last block
 
 	// Next load the map w/ basic definitions for ONames recorded per-block
 	// Iterate over po to avoid unreachable blocks.
@@ -132,33 +133,89 @@ func (s *state) locatePotentialPhiFunctions(fn *Node) *sparseDefState {
 
 	for _, t := range trees {
 		// iterating over names in the outer loop
-		for change := true; change; {
-			change = false
-			for i := t.firstdef; i >= t.lastuse; i-- {
-				// Iterating in reverse of post-order reduces number of 'change' iterations;
-				// all possible forward flow goes through each time.
-				b := po[i]
+		if t.nDefs <= 1 {
+			continue
+		}
+		// First adjust def-use bounds to ends of SCCs that include them.
+		lastuse := t.lastuse
+		if lastuse >= int32(len(po)) {
+			continue
+		}
+		for lastuse > 0 && helper.PoToSCC(lastuse) > 0 && helper.PoToSCC(lastuse) == helper.PoToSCC(lastuse-1) {
+			lastuse--
+		}
+		firstdef := t.firstdef
+		for firstdef < int32(len(po))-1 && helper.PoToSCC(firstdef) > 0 && helper.PoToSCC(firstdef) == helper.PoToSCC(firstdef+1) {
+			firstdef++
+		}
+
+		for i := firstdef; i >= lastuse; {
+			// Iterating in reverse of post-order reduces number of 'change' iterations;
+			// all possible forward flow goes through each time.
+			b := po[i]
+			scc := helper.PoToSCC(i)
+			if scc > 0 { // If we step into an SCC, iteration is possible
+				sccnum := scc
+				var j int32
+				for change := true; change; {
+					change = false
+					for j = i; j >= lastuse && helper.PoToSCC(j) == sccnum; j-- {
+						b := po[j]
+						// Within tree t, would a use at b require a phi function to ensure a single definition?
+						// TODO: perhaps more efficient to record specific use sites instead of range?
+						if len(b.Preds) < 2 {
+							continue // no phi possible
+						}
+						phi := t.stm.FindExactly(b, ssa.AdjustBefore, helper) // Is there already a Phi function?
+						if phi != nil {
+							continue // has a phi already in this block.
+						}
+						var defseen interface{}
+						// Do preds see different definitions? if so, need a phi function.
+						for _, e := range b.Preds {
+							p := e.Block()
+							x := t.stm.Find(p, ssa.AdjustAfter, helper) // Look for defs reaching or within predecessors.
+							if x == nil {                               // nil def from a predecessor means a backedge that will be visited soon.
+								continue
+							}
+							if defseen == nil {
+								defseen = x
+							}
+							if defseen != x {
+								// Need to insert a phi function here because predecessors's definitions differ.
+								change = true
+								// Phi insertion is at AdjustBefore, visible with find in same block at AdjustWithin or AdjustAfter.
+								dm.Insert(t, b, ssa.AdjustBefore)
+								break
+							}
+						}
+					}
+				}
+				i = j
+			} else { // not in a loop, hence no need to iterate.
+				i-- // decrement i early before all the continues.
 				// Within tree t, would a use at b require a phi function to ensure a single definition?
 				// TODO: perhaps more efficient to record specific use sites instead of range?
 				if len(b.Preds) < 2 {
 					continue // no phi possible
 				}
-				phi := t.stm.Find(b, ssa.AdjustWithin, helper) // Look for defs in earlier block or AdjustBefore in this one.
-				if phi != nil && phi.(*ssa.Block) == b {
+				phi := t.stm.FindExactly(b, ssa.AdjustBefore, helper) // Is there already a Phi function?
+				if phi != nil {
 					continue // has a phi already in this block.
 				}
 				var defseen interface{}
 				// Do preds see different definitions? if so, need a phi function.
 				for _, e := range b.Preds {
 					p := e.Block()
-					dm.Use(t, p)                                // always count phi pred as "use"; no-op except for loop edges, which matter.
 					x := t.stm.Find(p, ssa.AdjustAfter, helper) // Look for defs reaching or within predecessors.
+					if x == nil {                               // nil def from a predecessor means a backedge that will be visited soon.
+						continue
+					}
 					if defseen == nil {
 						defseen = x
 					}
-					if defseen != x || x == nil { // TODO: too conservative at loops, does better if x == nil -> continue
+					if defseen != x {
 						// Need to insert a phi function here because predecessors's definitions differ.
-						change = true
 						// Phi insertion is at AdjustBefore, visible with find in same block at AdjustWithin or AdjustAfter.
 						dm.Insert(t, b, ssa.AdjustBefore)
 						break
