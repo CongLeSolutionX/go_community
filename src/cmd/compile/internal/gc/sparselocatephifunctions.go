@@ -91,6 +91,7 @@ func (s *state) locatePotentialPhiFunctions(fn *Node) *sparseDefState {
 	po := helper.Po // index by block.ID to obtain postorder # of block.
 	trees := make(map[*Node]*onameDefs)
 	dm := &sparseDefState{defmapForOname: trees, helper: helper}
+	sccnums := helper.Sccnums
 
 	// Process params, taking note of their special lifetimes
 	b := s.f.Entry
@@ -132,12 +133,66 @@ func (s *state) locatePotentialPhiFunctions(fn *Node) *sparseDefState {
 
 	for _, t := range trees {
 		// iterating over names in the outer loop
-		for change := true; change; {
-			change = false
-			for i := t.firstdef; i >= t.lastuse; i-- {
-				// Iterating in reverse of post-order reduces number of 'change' iterations;
-				// all possible forward flow goes through each time.
-				b := po[i]
+
+		// First adjust def-use bounds to ends of SCCs that include them.
+		tLastUse := t.lastuse
+		if tLastUse >= int32(len(po)) {
+			continue
+		}
+		for tLastUse > 0 && sccnums[po[tLastUse].ID] > 0 && sccnums[po[tLastUse].ID] == sccnums[po[tLastUse-1].ID] {
+			tLastUse--
+		}
+
+		tFirstDef := t.firstdef
+		for tFirstDef < int32(len(po))-1 && sccnums[po[tFirstDef].ID] > 0 && sccnums[po[tFirstDef].ID] == sccnums[po[tFirstDef+1].ID] {
+			tFirstDef++
+		}
+
+		for i := tFirstDef; i >= tLastUse; {
+			// Iterating in reverse of post-order reduces number of 'change' iterations;
+			// all possible forward flow goes through each time.
+			b := po[i]
+			scc := sccnums[b.ID]
+			if scc > 0 { // If we step into an SCC, iteration is possible
+				sccnum := scc
+				var j int32
+				for change := true; change; {
+					change = false
+					for j = i; j >= tLastUse && sccnums[po[j].ID] == sccnum; j-- {
+						b := po[j]
+						// Within tree t, would a use at b require a phi function to ensure a single definition?
+						// TODO: perhaps more efficient to record specific use sites instead of range?
+						if len(b.Preds) < 2 {
+							continue // no phi possible
+						}
+						phi := t.stm.Find(b, ssa.AdjustWithin, helper) // Look for defs in earlier block or AdjustBefore in this one.
+						if phi != nil && phi.(*ssa.Block) == b {
+							continue // has a phi already in this block.
+						}
+						var defseen interface{}
+						// Do preds see different definitions? if so, need a phi function.
+						for _, e := range b.Preds {
+							p := e.Block()
+							x := t.stm.Find(p, ssa.AdjustAfter, helper) // Look for defs reaching or within predecessors.
+							if x == nil {                               // nil def from a predecessor means a backedge that will be visited soon.
+								continue
+							}
+							if defseen == nil {
+								defseen = x
+							}
+							if defseen != x {
+								// Need to insert a phi function here because predecessors's definitions differ.
+								change = true
+								// Phi insertion is at AdjustBefore, visible with find in same block at AdjustWithin or AdjustAfter.
+								dm.Insert(t, b, ssa.AdjustBefore)
+								break
+							}
+						}
+					}
+				}
+				i = j
+			} else { // not in a loop, hence no need to iterate.
+				i-- // decrement i early before all the continues.
 				// Within tree t, would a use at b require a phi function to ensure a single definition?
 				// TODO: perhaps more efficient to record specific use sites instead of range?
 				if len(b.Preds) < 2 {
@@ -151,14 +206,15 @@ func (s *state) locatePotentialPhiFunctions(fn *Node) *sparseDefState {
 				// Do preds see different definitions? if so, need a phi function.
 				for _, e := range b.Preds {
 					p := e.Block()
-					dm.Use(t, p)                                // always count phi pred as "use"; no-op except for loop edges, which matter.
 					x := t.stm.Find(p, ssa.AdjustAfter, helper) // Look for defs reaching or within predecessors.
+					if x == nil {                               // nil def from a predecessor means a backedge that will be visited soon.
+						continue
+					}
 					if defseen == nil {
 						defseen = x
 					}
-					if defseen != x || x == nil { // TODO: too conservative at loops, does better if x == nil -> continue
+					if defseen != x {
 						// Need to insert a phi function here because predecessors's definitions differ.
-						change = true
 						// Phi insertion is at AdjustBefore, visible with find in same block at AdjustWithin or AdjustAfter.
 						dm.Insert(t, b, ssa.AdjustBefore)
 						break
