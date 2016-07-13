@@ -16,6 +16,24 @@
       "revId": "db4d507078993122b5d485b1ee7ad32b8824fe28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0f7c78_fb032507",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-07-13T20:15:00Z",
+      "side": 1,
+      "message": "Looking again at libresolv, I agree that \"n \u003d 0\" here seems better.  (I\u0027m responsible for suggesting \"n \u003d 1\" initially; I forgot that atoi returns 0 for failure, not -1.)\n\nNote though that I don\u0027t think we care about exactly matching glibc behavior in bogus configurations.  E.g., \"ndots:-3\" is handled as identical to \"ndots:13\" by glibc.  I don\u0027t have much sympathy for users relying on this behavior.",
+      "parentUuid": "9a0f7c78_98a8378a",
+      "revId": "db4d507078993122b5d485b1ee7ad32b8824fe28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
