@@ -34,6 +34,24 @@
       "revId": "db4d507078993122b5d485b1ee7ad32b8824fe28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0f7c78_297457e0",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-07-13T22:25:56Z",
+      "side": 1,
+      "message": "I don\u0027t have a super strong opinion on 0 vs 1 for negative/invalid things but using 0 in those cases would be a change from 1.7 and before. Don\u0027t like to think of users relying on that behavior either but unless we have a strong reason to deviate from glibc it\u0027s probably good to follow it.\n\nUpdated to use 0 if that\u0027s desired, PTAL.",
+      "parentUuid": "9a0f7c78_fb032507",
+      "revId": "db4d507078993122b5d485b1ee7ad32b8824fe28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
