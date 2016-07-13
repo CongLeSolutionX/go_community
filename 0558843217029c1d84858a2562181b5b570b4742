@@ -16,6 +16,24 @@
       "revId": "0558843217029c1d84858a2562181b5b570b4742",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0f7c78_f5fdf6b6",
+        "filename": "doc/go1.7.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-07-13T18:07:15Z",
+      "side": 1,
+      "message": "Added a line break.",
+      "parentUuid": "9a0f7c78_91777771",
+      "revId": "0558843217029c1d84858a2562181b5b570b4742",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
