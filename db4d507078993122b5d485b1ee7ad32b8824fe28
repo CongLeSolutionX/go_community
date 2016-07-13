@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0f7c78_98a8378a",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-07-13T18:26:25Z",
+      "side": 1,
+      "message": "Empirically, this is not what glibc does.\n\nTest: put \"options ndots:zero\" in resolv.conf and \"ping pn\". glibc will resolve \"pn.\", as if ndots was set to 0. Comment out the line and glibc will resolve \"pn.$search\" (assuming you have a pn.$search hostname).",
+      "revId": "db4d507078993122b5d485b1ee7ad32b8824fe28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
