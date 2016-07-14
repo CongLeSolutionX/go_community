@@ -85,7 +85,7 @@ func init() {
 	}
 	libgodir = GOOS + "_" + GOARCH
 	if GOOS == "darwin" && (GOARCH == "arm" || GOARCH == "arm64") {
-		libgodir = GOOS + "_" + GOARCH + "_shared"
+		libgodir = GOOS + "_" + GOARCH
 	}
 	cc = append(cc, "-I", filepath.Join("pkg", libgodir))
 
