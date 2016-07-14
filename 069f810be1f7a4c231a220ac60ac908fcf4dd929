@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "baab60ef_afef3553",
+        "filename": "misc/trace/trace_loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-14T23:40:29Z",
+      "side": 1,
+      "message": "\u003e it could be replaced without a rebuild\n\nI\u0027m not sure that this matters in practice.\n\n\u003e finally, we really must stay with exactly one static asset, and we can\u0027t make do with exactly what catapult ships, then we should simply add an additional build step to updating the catapult viewer asset, and put all of the javascript code in there\n\nThe advantage I see to keeping the lean trace viewer and the auxiliary js separate is that it should (one hopes) be easier to update the trace viewer part the fewer modifications that get made along the way.\n\nWhat I did earlier (not beautiful) was to assemble the components on the fly: https://github.com/josharian/go/commit/a5a9f7595338afbfd5f814956b17dc60e0bc586e#diff-f3a5f1780e7f702229cc143e633fd754R12. That eliminates the ajax request and simplifies all this code. Please do take a look at that, and see what you think. It wouldn\u0027t surprise me if there\u0027s a better way to do it--my javascript fu is weak--but I really do want to get to emitting a single html file that is fully standalone, with no network requests at all when it is opened by a browser.",
+      "parentUuid": "baab60ef_cc844ff4",
+      "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0f7c78_14b7eb98",
         "filename": "src/trace",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Oops, that\u0027s because git-codereview auto-added it.",
       "parentUuid": "9a0f7c78_14b7eb98",
+      "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_cf50c1f6",
+        "filename": "src/trace",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-14T23:40:29Z",
+      "side": 1,
+      "message": "Huh. I think it shouldn\u0027t do that. Feel free to file a bug if you can reproduce.",
+      "parentUuid": "baab60ef_cce0cfd4",
       "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
