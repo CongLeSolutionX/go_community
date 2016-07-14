@@ -16,6 +16,24 @@
       "revId": "c4397e6eceac4daf22d91be6e401100bb5fa9d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a83a81d_1ec8dd2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-07-14T17:36:17Z",
+      "side": 1,
+      "message": "If you refer to issue #16004 there are two cases where power8 instructions are used in Go1.7 on ppc64le but not for ppc64.",
+      "parentUuid": "7a83a81d_3e7be1d6",
+      "revId": "c4397e6eceac4daf22d91be6e401100bb5fa9d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
