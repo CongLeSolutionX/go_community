@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "baab60ef_cc844ff4",
+        "filename": "misc/trace/trace_loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14465
+      },
+      "writtenOn": "2016-07-14T22:38:40Z",
+      "side": 1,
+      "message": "Well here\u0027s how I see it:\n- the new location is strictly better, because it could be replaced without a rebuild\n- if http handler proliferation is a concern, could just switch to http.FileServer and host all of the misc/trace folder at /static\n- finally, we really must stay with exactly one static asset, and we can\u0027t make do with exactly what catapult ships, then we should simply add an additional build step to updating the catapult viewer asset, and put all of the javascript code in there\n\nI\u0027ll take a look into catapult viewer more directly; especially since we\u0027re talking about a 1.8 time scale here, we may as well address such issues as \"why can\u0027t catapult\u0027s component just support telling it where to get data from?\"",
+      "parentUuid": "9a0f7c78_d4bd5379",
+      "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0f7c78_14b7eb98",
         "filename": "src/trace",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-14T18:38:48Z",
       "side": 1,
       "message": "Looks like you accidentally committed the trace binary.",
+      "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_cce0cfd4",
+        "filename": "src/trace",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14465
+      },
+      "writtenOn": "2016-07-14T22:38:40Z",
+      "side": 1,
+      "message": "Oops, that\u0027s because git-codereview auto-added it.",
+      "parentUuid": "9a0f7c78_14b7eb98",
       "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
