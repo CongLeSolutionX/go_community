@@ -34,6 +34,24 @@
       "revId": "c4397e6eceac4daf22d91be6e401100bb5fa9d3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a83a81d_be7c319a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-07-14T18:26:08Z",
+      "side": 1,
+      "message": "so Go 1.7 linux/ppc64le port only works on power8?\n\nThen I think we need to revise the release notes to\ndocument the change for ppc64le.",
+      "parentUuid": "7a83a81d_1ec8dd2e",
+      "revId": "c4397e6eceac4daf22d91be6e401100bb5fa9d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
