@@ -424,10 +424,6 @@ func buildModeInit() {
 			buildAsmflags = append(buildAsmflags, codegenArg)
 			buildGcflags = append(buildGcflags, codegenArg)
 		}
-		if buildContext.InstallSuffix != "" {
-			buildContext.InstallSuffix += "_"
-		}
-		buildContext.InstallSuffix += codegenArg[1:]
 	}
 }
 

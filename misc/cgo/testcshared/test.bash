@@ -25,11 +25,7 @@ if [ ! -d "$goroot" ]; then
 fi
 
 # Directory where cgo headers and outputs will be installed.
-# The installation directory format varies depending on the platform.
-installdir=pkg/${goos}_${goarch}_testcshared_shared
-if [ "${goos}" == "darwin" ]; then
-	installdir=pkg/${goos}_${goarch}_testcshared
-fi
+installdir=pkg/${goos}_${goarch}_testcshared
 
 # Temporary directory on the android device.
 androidpath=/data/local/tmp/testcshared-$$
