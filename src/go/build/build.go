@@ -46,11 +46,11 @@ type Context struct {
 	BuildTags   []string
 	ReleaseTags []string
 
-	// The install suffix specifies a suffix to use in the name of the installation
-	// directory. By default it is empty, but custom builds that need to keep
-	// their outputs separate can set InstallSuffix to do so. For example, when
-	// using the race detector, the go command uses InstallSuffix = "race", so
-	// that on a Linux/386 system, packages are written to a directory named
+	// The install suffix specifies a suffix to use in the name of the installation directory.
+	// By default it is empty for most platforms; for some mobile platforms, it defaults to "shared".
+	// Custom builds that need to keep their outputs separate can set InstallSuffix to do so.
+	// For example, when using the race detector, the go command uses InstallSuffix = "race",
+	// so that on a Linux/386 system, packages are written to a directory named
 	// "linux_386_race" instead of the usual "linux_386".
 	InstallSuffix string
 
@@ -264,6 +264,12 @@ func defaultContext() Context {
 	c.GOROOT = pathpkg.Clean(runtime.GOROOT())
 	c.GOPATH = envOr("GOPATH", "")
 	c.Compiler = runtime.Compiler
+
+	// Match the default logic in cmd/go/build.go:buildModeInit. See issue 16378.
+	switch c.GOOS + "/" + c.GOARCH {
+	case "android/arm", "android/arm64", "android/amd64", "android/386", "darwin/arm", "darwin/arm64":
+		c.InstallSuffix = "shared"
+	}
 
 	// Each major Go release in the Go 1.x series should add a tag here.
 	// Old tags should not be removed. That is, the go1.x tag is present

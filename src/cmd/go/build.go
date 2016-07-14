@@ -357,6 +357,7 @@ func buildModeInit() {
 		}
 		ldBuildmode = "c-shared"
 	case "default":
+		// The list of default -shared platforms is duplicated in go/build/build.go:defaultContext.
 		switch platform {
 		case "android/arm", "android/arm64", "android/amd64", "android/386":
 			codegenArg = "-shared"
