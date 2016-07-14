@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0f7c78_d4bd5379",
+        "filename": "misc/trace/trace_loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-14T18:38:48Z",
+      "side": 1,
+      "message": "Is this the exact same code as was in trace.go, just in a new location? Or are there changes as well? If the latter, it\u0027d help with review to split this into two changes, one purely code movement, the other with changes.",
+      "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0f7c78_14b7eb98",
+        "filename": "src/trace",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-14T18:38:48Z",
+      "side": 1,
+      "message": "Looks like you accidentally committed the trace binary.",
+      "revId": "069f810be1f7a4c231a220ac60ac908fcf4dd929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
