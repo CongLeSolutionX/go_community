@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a83a81d_3e7be1d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-07-14T17:24:41Z",
+      "side": 1,
+      "message": "actually for 1.7, ppc64le also works on power5 (if there exists power5\nin little endian), so I think we should relax the statement:\nppc64le could require more recent architecture (power8).",
+      "revId": "c4397e6eceac4daf22d91be6e401100bb5fa9d3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
