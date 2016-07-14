@@ -18,9 +18,11 @@ import (
 )
 
 func init() {
+	miscDir := filepath.Join(runtime.GOROOT(), "misc", "trace")
 	http.HandleFunc("/trace", httpTrace)
 	http.HandleFunc("/jsontrace", httpJsonTrace)
-	http.HandleFunc("/trace_viewer_html", httpTraceViewerHTML)
+	http.HandleFunc("/trace_viewer.html", httpFileServer(filepath.Join(miscDir, "trace_viewer_lean.html")))
+	http.HandleFunc("/trace_loader.js", httpFileServer(filepath.Join(miscDir, "trace_loader.js")))
 }
 
 // httpTrace serves either whole trace (goid==0) or trace for goid goroutine.
@@ -46,88 +48,18 @@ func httpTrace(w http.ResponseWriter, r *http.Request) {
 var templTrace = `
 <html>
 <head>
-<link href="/trace_viewer_html" rel="import">
-<script>
-(function() {
-  var viewer;
-  var url;
-  var model;
-
-  function load() {
-    var req = new XMLHttpRequest();
-    var is_binary = /[.]gz$/.test(url) || /[.]zip$/.test(url);
-    req.overrideMimeType('text/plain; charset=x-user-defined');
-    req.open('GET', url, true);
-    if (is_binary)
-      req.responseType = 'arraybuffer';
-
-    req.onreadystatechange = function(event) {
-      if (req.readyState !== 4)
-        return;
-
-      window.setTimeout(function() {
-        if (req.status === 200)
-          onResult(is_binary ? req.response : req.responseText);
-        else
-          onResultFail(req.status);
-      }, 0);
-    };
-    req.send(null);
-  }
-
-  function onResultFail(err) {
-    var overlay = new tr.ui.b.Overlay();
-    overlay.textContent = err + ': ' + url + ' could not be loaded';
-    overlay.title = 'Failed to fetch data';
-    overlay.visible = true;
-  }
-
-  function onResult(result) {
-    model = new tr.Model();
-    var i = new tr.importer.Import(model);
-    var p = i.importTracesWithProgressDialog([result]);
-    p.then(onModelLoaded, onImportFail);
-  }
-
-  function onModelLoaded() {
-    viewer.model = model;
-    viewer.viewTitle = "trace";
-  }
-
-  function onImportFail() {
-    var overlay = new tr.ui.b.Overlay();
-    overlay.textContent = tr.b.normalizeException(err).message;
-    overlay.title = 'Import error';
-    overlay.visible = true;
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var container = document.createElement('track-view-container');
-    container.id = 'track_view_container';
-
-    viewer = document.createElement('tr-ui-timeline-view');
-    viewer.track_view_container = container;
-    viewer.appendChild(container);
-
-    viewer.id = 'trace-viewer';
-    viewer.globalMode = true;
-    document.body.appendChild(viewer);
-
-    url = '/jsontrace?{{PARAMS}}';
-    load();
-  });
-}());
-</script>
+<link href="/trace_viewer.html" rel="import">
+<script src="/trace_loader.js"></script>
 </head>
-<body>
-</body>
+<body data-trace-href="/jsontrace?{{PARAMS}}"></body>
 </html>
 `
 
-// httpTraceViewerHTML serves static part of trace-viewer.
-// This URL is queried from templTrace HTML.
-func httpTraceViewerHTML(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, filepath.Join(runtime.GOROOT(), "misc", "trace", "trace_viewer_lean.html"))
+// httpFileServer creates an http handler func for a single static file
+func httpFileServer(filePath string) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, filePath)
+	}
 }
 
 // httpJsonTrace serves json trace, requested from within templTrace HTML.
