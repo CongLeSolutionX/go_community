@@ -89,6 +89,44 @@ func NewUnstartedServer(handler http.Handler) *Server {
 	}
 }
 
+// Pipe changes the server from using the system's loopback interface
+// to using in-memory pipes. It returns a client that can be used to
+// make HTTP requests to the server.
+//
+// The provided addr argument is used as the address of the
+// net.Listener that serves the pipes. It may be safely left blank in
+// most cases, in which case DefaultRemoteAddr is used.
+//
+// If non-basic features of either HTTP or a network connection are
+// needed, such as redirects or timeouts, the standard Server should
+// be used.
+//
+// This must be called before the server is started. If it is called
+// on a started server, it will panic. This method does not start the
+// server itself.
+func (s *Server) Pipe(addr string) *http.Client {
+	if s.URL != "" {
+		panic("Server already started")
+	}
+
+	if addr == "" {
+		addr = DefaultRemoteAddr
+	}
+
+	lis := newPipeListener(addr)
+
+	if s.Listener != nil {
+		s.Listener.Close()
+	}
+	s.Listener = lis
+
+	return &http.Client{
+		Transport: &http.Transport{
+			Dial: lis.Dial,
+		},
+	}
+}
+
 // Start starts a server from NewUnstartedServer.
 func (s *Server) Start() {
 	if s.URL != "" {

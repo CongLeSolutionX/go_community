@@ -98,3 +98,23 @@ func TestServerCloseClientConnections(t *testing.T) {
 		t.Fatalf("Unexpected response: %#v", res)
 	}
 }
+
+func TestPipeServer(t *testing.T) {
+	ts := NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hello"))
+	}))
+	c := ts.Pipe("")
+	ts.Start()
+	defer ts.Close()
+	res, err := c.Get(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(got) != "hello" {
+		t.Errorf("got %q, want hello", string(got))
+	}
+}
