@@ -16,7 +16,7 @@ import (
 // what the code in mem_bsd.go, mem_darwin.go, and mem_linux.go expects.
 // See the uses of ENOMEM in sysMap in those files.
 func TestMmapErrorSign(t *testing.T) {
-	p := runtime.Mmap(nil, ^uintptr(0)&^(sys.PhysPageSize-1), 0, runtime.MAP_ANON|runtime.MAP_PRIVATE, -1, 0)
+	p := runtime.Mmap(nil, ^uintptr(0)&^(sys.DefaultPhysPageSize-1), 0, runtime.MAP_ANON|runtime.MAP_PRIVATE, -1, 0)
 
 	// The runtime.mmap function is nosplit, but t.Errorf is not.
 	// Reset the pointer so that we don't get an "invalid stack
