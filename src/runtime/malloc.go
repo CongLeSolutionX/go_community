@@ -217,6 +217,12 @@ func mallocinit() {
 		throw("bad TinySizeClass")
 	}
 
+	if physPageSize == 0 {
+		// The OS did not provide a physical page size. Assume
+		// a default based on the architecture.
+		physPageSize = sys.DefaultPhysPageSize
+	}
+
 	var p, bitmapSize, spansSize, pSize, limit uintptr
 	var reserved bool
 

@@ -76,6 +76,14 @@ type mheap struct {
 
 var mheap_ mheap
 
+// physPageSize is an upper bound on the size in bytes of the OS's
+// physical pages. Mapping and unmapping operations are done at
+// multiples of physPageSize.
+//
+// This may be set by the OS init code. If it is not set, mallocinit
+// sets it to a default based on the architecture.
+var physPageSize uintptr
+
 // An MSpan is a run of pages.
 //
 // When a MSpan is in the heap free list, state == MSpanFree
@@ -401,7 +409,7 @@ func (h *mheap) mapSpans(arena_used uintptr) {
 	n := arena_used
 	n -= h.arena_start
 	n = n / _PageSize * sys.PtrSize
-	n = round(n, sys.PhysPageSize)
+	n = round(n, physPageSize)
 	if h.spans_mapped >= n {
 		return
 	}
@@ -909,14 +917,14 @@ func scavengelist(list *mSpanList, now, limit uint64) uintptr {
 		if (now-uint64(s.unusedsince)) > limit && s.npreleased != s.npages {
 			start := s.base()
 			end := start + s.npages<<_PageShift
-			if sys.PhysPageSize > _PageSize {
+			if physPageSize > _PageSize {
 				// We can only release pages in
-				// PhysPageSize blocks, so round start
+				// physPageSize blocks, so round start
 				// and end in. (Otherwise, madvise
 				// will round them *out* and release
 				// more memory than we want.)
-				start = (start + sys.PhysPageSize - 1) &^ (sys.PhysPageSize - 1)
-				end &^= sys.PhysPageSize - 1
+				start = (start + physPageSize - 1) &^ (physPageSize - 1)
+				end &^= physPageSize - 1
 				if start == end {
 					continue
 				}
@@ -924,7 +932,7 @@ func scavengelist(list *mSpanList, now, limit uint64) uintptr {
 			len := end - start
 
 			released := len - (s.npreleased << _PageShift)
-			if sys.PhysPageSize > _PageSize && released == 0 {
+			if physPageSize > _PageSize && released == 0 {
 				continue
 			}
 			memstats.heap_released += uint64(released)
