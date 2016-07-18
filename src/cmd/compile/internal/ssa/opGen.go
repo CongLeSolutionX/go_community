@@ -172,17 +172,24 @@ const (
 	Op386ADDL
 	Op386ADDLconst
 	Op386ADDLcarry
+	Op386ADDLconstcarry
 	Op386ADCL
+	Op386ADCLconst
 	Op386SUBL
 	Op386SUBLconst
+	Op386SUBLcarry
+	Op386SUBLconstcarry
+	Op386SBBL
+	Op386SBBLconst
 	Op386MULL
 	Op386MULLconst
 	Op386HMULL
+	Op386HMULLU
 	Op386HMULW
 	Op386HMULB
-	Op386HMULLU
 	Op386HMULWU
 	Op386HMULBU
+	Op386MULLQU
 	Op386DIVL
 	Op386DIVW
 	Op386DIVLU
@@ -1510,6 +1517,22 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:         "ADDLconstcarry",
+		auxType:      auxInt32,
+		argLen:       1,
+		resultInArg0: true,
+		asm:          x86.AADDL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+			},
+			outputs: []outputInfo{
+				{0, 131072}, // FLAGS
+				{1, 239},    // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
 		name:         "ADCL",
 		argLen:       3,
 		commutative:  true,
@@ -1520,6 +1543,22 @@ var opcodeTable = [...]opInfo{
 				{2, 131072}, // FLAGS
 				{0, 239},    // AX CX DX BX BP SI DI
 				{1, 239},    // AX CX DX BX BP SI DI
+			},
+			outputs: []outputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:         "ADCLconst",
+		auxType:      auxInt32,
+		argLen:       2,
+		resultInArg0: true,
+		asm:          x86.AADCL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 131072}, // FLAGS
+				{0, 239},    // AX CX DX BX BP SI DI
 			},
 			outputs: []outputInfo{
 				{0, 239}, // AX CX DX BX BP SI DI
@@ -1553,6 +1592,70 @@ var opcodeTable = [...]opInfo{
 				{0, 239}, // AX CX DX BX BP SI DI
 			},
 			clobbers: 131072, // FLAGS
+			outputs: []outputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:         "SUBLcarry",
+		argLen:       2,
+		resultInArg0: true,
+		asm:          x86.ASUBL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+				{1, 239}, // AX CX DX BX BP SI DI
+			},
+			outputs: []outputInfo{
+				{0, 131072}, // FLAGS
+				{1, 239},    // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:         "SUBLconstcarry",
+		auxType:      auxInt32,
+		argLen:       1,
+		resultInArg0: true,
+		asm:          x86.ASUBL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+			},
+			outputs: []outputInfo{
+				{0, 131072}, // FLAGS
+				{1, 239},    // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:         "SBBL",
+		argLen:       3,
+		resultInArg0: true,
+		asm:          x86.ASBBL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{2, 131072}, // FLAGS
+				{0, 239},    // AX CX DX BX BP SI DI
+				{1, 239},    // AX CX DX BX BP SI DI
+			},
+			outputs: []outputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+			},
+		},
+	},
+	{
+		name:         "SBBLconst",
+		auxType:      auxInt32,
+		argLen:       2,
+		resultInArg0: true,
+		asm:          x86.ASBBL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 131072}, // FLAGS
+				{0, 239},    // AX CX DX BX BP SI DI
+			},
 			outputs: []outputInfo{
 				{0, 239}, // AX CX DX BX BP SI DI
 			},
@@ -1607,6 +1710,21 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:   "HMULLU",
+		argLen: 2,
+		asm:    x86.AMULL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 1},   // AX
+				{1, 255}, // AX CX DX BX SP BP SI DI
+			},
+			clobbers: 131073, // AX FLAGS
+			outputs: []outputInfo{
+				{0, 4}, // DX
+			},
+		},
+	},
+	{
 		name:   "HMULW",
 		argLen: 2,
 		asm:    x86.AIMULW,
@@ -1625,21 +1743,6 @@ var opcodeTable = [...]opInfo{
 		name:   "HMULB",
 		argLen: 2,
 		asm:    x86.AIMULB,
-		reg: regInfo{
-			inputs: []inputInfo{
-				{0, 1},   // AX
-				{1, 255}, // AX CX DX BX SP BP SI DI
-			},
-			clobbers: 131073, // AX FLAGS
-			outputs: []outputInfo{
-				{0, 4}, // DX
-			},
-		},
-	},
-	{
-		name:   "HMULLU",
-		argLen: 2,
-		asm:    x86.AMULL,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 1},   // AX
@@ -1678,6 +1781,22 @@ var opcodeTable = [...]opInfo{
 			clobbers: 131073, // AX FLAGS
 			outputs: []outputInfo{
 				{0, 4}, // DX
+			},
+		},
+	},
+	{
+		name:   "MULLQU",
+		argLen: 2,
+		asm:    x86.AMULL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 1},   // AX
+				{1, 255}, // AX CX DX BX SP BP SI DI
+			},
+			clobbers: 131072, // FLAGS
+			outputs: []outputInfo{
+				{0, 4}, // DX
+				{1, 1}, // AX
 			},
 		},
 	},
@@ -8909,8 +9028,8 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
 			},
-			outputs: []regMask{
-				4294967296, // FLAGS
+			outputs: []outputInfo{
+				{0, 4294967296}, // FLAGS
 			},
 		},
 	},
@@ -8922,8 +9041,8 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 4294901760}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
 			},
-			outputs: []regMask{
-				4294967296, // FLAGS
+			outputs: []outputInfo{
+				{0, 4294967296}, // FLAGS
 			},
 		},
 	},
