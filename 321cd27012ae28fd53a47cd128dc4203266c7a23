@@ -16,6 +16,24 @@
       "revId": "321cd27012ae28fd53a47cd128dc4203266c7a23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa69c26_9fb26311",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-18T20:49:28Z",
+      "side": 1,
+      "message": "\u003e Add some helper methods to config for generating these tuple types? More readable, reduces duplication with rules below.\n\nThere is MakeTuple in cmd/compile/internal/ssa/type.go. You can also define Ops in gen/*Ops.go with something like typ: \"(Int64,Int64)\" (see genericOps.go:/Add32carry).",
+      "parentUuid": "baab60ef_3849be1f",
+      "revId": "321cd27012ae28fd53a47cd128dc4203266c7a23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
