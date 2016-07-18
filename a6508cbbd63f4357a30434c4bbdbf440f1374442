@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4d0459_9426eabf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-07-18T21:46:04Z",
+      "side": 1,
+      "message": "Updates #12480 ?",
+      "revId": "a6508cbbd63f4357a30434c4bbdbf440f1374442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
