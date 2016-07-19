@@ -268,6 +268,49 @@ func isPublic(obj uintptr) bool {
 	return true
 }
 
+// makePublic sets the allocation bit indicating that the object
+// is public and visible to other goroutines.
+// Only one g can own a span at a time so only one g can change the byte
+// so setMarked does not need to be atomic.
+//go:nosplit
+//go:systemstack
+func makePublic(obj uintptr, s *mspan) {
+	abits := s.allocBitsForAddr(obj)
+	if abits.isMarked() {
+		return // We are already marked as public.
+	}
+	if s.freeindex <= abits.index {
+		if abits.isMarked() {
+			return
+		}
+		dumpMakePublicState(s, abits, obj)
+		// If we end up here we have a serious bug. For one thing the
+		// object being marked could just as easily been reallocated and
+		// overwritten.
+		throw("marking object beyond allocation frontier")
+	}
+	abits.setMarked()
+}
+
+func dumpMakePublicState(s *mspan, abits markBits, obj uintptr) {
+	if debug.gcroc < 2 {
+		return // short circuit unless gcroc > 1
+	}
+	println("runtime: marking beyond allocation frontier s.allocCount=", s.allocCount,
+		"s.nelems=", s.nelems,
+		"s.freeindex=", s.freeindex, "s.startindex=", s.startindex,
+		"s.isFree(s.startindex)=", s.isFree(s.startindex),
+		"s.isFree(s.freeindex)=", s.isFree(s.freeindex),
+		"s.allocCache=", hex(s.allocCache),
+		//		"s.rollbackCount=", s.rollbackCount,
+		//		"s.abortRollbackCount=", s.abortRollbackCount,
+		"abits.index=", abits.index,
+		"s.isFree(abits.index)=", s.isFree(abits.index),
+		"obj = ", hex(obj),
+		"s.base()=", hex(s.base()),
+		"getg().m.curg.goid=", getg().m.curg.goid)
+}
+
 //go:nosplit
 func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 	whichByte := allocBitIndex / 8
@@ -291,7 +334,16 @@ func (s *mspan) allocBitsForAddr(p uintptr) markBits {
 // can be used. It then places these 8 bytes into the cached 64 bit
 // s.allocCache.
 func (s *mspan) refillAllocCache(whichByte uintptr) {
+
 	bytes := (*[8]uint8)(unsafe.Pointer(addb(s.allocBits, whichByte)))
+
+	if uintptr(unsafe.Pointer(s)) < 1000 {
+		throw("bad s=")
+	}
+	if whichByte > 1024 {
+		println("whichByte > 1024")
+	}
+
 	aCache := uint64(0)
 	aCache |= uint64(bytes[0])
 	aCache |= uint64(bytes[1]) << (1 * 8)
@@ -591,12 +643,81 @@ func (h heapBits) morePointers() bool {
 	return h.bits()&bitMarked != 0
 }
 
+// publish takes an object obj that has been published. It then does
+// a transitive walk of the objects pointed to by obj ensuring that
+// they are also public.
+// This is done before the object is installed in a non-local slot.
+//go:nosplit
+//go:nowritebarrierrec
+//go:systemstack
+func publish(obj uintptr) {
+	if !isPublic(obj) {
+		throw("obj is not public")
+	}
+	const slotSize = unsafe.Sizeof(uintptr(0))
+	workbuf := &getg().m.p.ptr().pubwork
+	for ; obj != 0; obj = workbuf.pop() {
+		// iterate over the fields in obj. If the slot holds
+		// an object that is not public make it public and
+		// add it to data.
+		// refBase and refOff are not known so just pass in 0.
+		base, hbits, span, _ := heapBitsForObject(obj, 0, 0)
+
+		if span == nil {
+			println("runtime: base=", hex(base), "span=", span, "unsafe.Sizeof(uintptr(0))=", unsafe.Sizeof(uintptr(0)))
+			throw("publishing a non-heap object")
+		}
+
+		if !hbits.hasPointers(span.elemsize) {
+			continue
+		}
+
+		numSlots := span.elemsize / unsafe.Sizeof(uintptr(0))
+
+		for i, slot := uintptr(0), base; i < numSlots; hbits, i, slot = hbits.next(), i+1, slot+slotSize {
+			if !hbits.isPointer() {
+				continue
+			}
+			b := *(*uintptr)(unsafe.Pointer(slot))
+			if b == 0 {
+				continue // nil
+			}
+			if isPublic(b) {
+				continue // Already public
+			}
+
+			// b is a pointer that points to a local that
+			// needs to be published
+			if inheap(b) {
+				makePublic(b, spanOf(b))                                        // makePublic deals with interior pointers.
+				_, bsHbits, bsSpan, _ := heapBitsForObject(b, slot, i*slotSize) // Bits related to b.
+				if !bsHbits.hasPointers(bsSpan.elemsize) {
+					continue
+				}
+				workbuf.push(b)
+			}
+		}
+		// At this point we may have work on the p associated wbuf and / or work in the local data queue.
+	}
+	return
+}
+
 // isPointer reports whether the heap bits describe a pointer word.
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //go:nosplit
 func (h heapBits) isPointer() bool {
 	return h.bits()&bitPointer != 0
+}
+
+// hasPointers reports whether the given object has any pointers.
+// It must be told how large the object at h is for efficiency.
+// h must describe the initial word of the object.
+func (h heapBits) hasPointers(size uintptr) bool {
+	if size == sys.PtrSize { // 1-word objects are always pointers
+		return true
+	}
+	return (*h.bitp>>h.shift)&bitMarked != 0
 }
 
 // isCheckmarked reports whether the heap bits have the checkmarked bit set.
@@ -626,6 +747,88 @@ func (h heapBits) setCheckmarked(size uintptr) {
 	atomic.Or8(h.bitp, bitMarked<<(heapBitsShift+h.shift))
 }
 
+// heapBitsBulkPublish publishes all pointers found in src in
+// preparation for them being copied to dst. If src and dst
+// are the same then simple publish the pointer.
+//
+// Since src may hold data that does not have an associated
+// type bit map the map at dst needs to be used.
+//
+// nosplit since this is part of typedmemmove which needs to
+// be atomic w.r.t. the GC. The publishing needs to be done
+// prior to the memmove since the memmove will make the
+// pointers visible to other goroutines.
+//go:nosplit
+func heapBitsBulkPublish(src, dst, size uintptr) {
+	if (dst|size)&(sys.PtrSize-1) != 0 {
+		println("hex(dst)=", hex(dst), "hex(src)=", hex(src), "size=", size)
+		throw("heapBitsBulkPublish: unaligned arguments")
+	}
+
+	if !writeBarrier.needed && debug.gcroc == 0 {
+		return
+	}
+
+	if !inheap(dst) {
+		// If dst is on the stack and in a higher frame than the
+		// caller, we either need to execute write barriers on
+		// it (which is what happens for normal stack writes
+		// through pointers to higher frames), or we need to
+		// force the mark termination stack scan to scan the
+		// frame containing p.
+		//
+		// Executing write barriers on p is complicated in the
+		// general case because we either need to unwind the
+		// stack to get the stack map, or we need the type's
+		// bitmap, which may be a GC program.
+		//
+		// Hence, we opt for forcing the re-scan to scan the
+		// frame containing p, which we can do by simply
+		// unwinding the stack barriers between the current SP
+		// and p's frame.
+		gp := getg().m.curg
+		// When running ROC if the dst is on the stack then it is local and doesn't
+		// need to be published.
+		if gp != nil && gp.stack.lo <= dst && dst < gp.stack.hi {
+			// Run on the system stack to give it more
+			// stack space.
+			systemstack(func() {
+				gcUnwindBarriers(gp, dst)
+			})
+			return
+		}
+
+		// If dst is a global, use the data or BSS bitmaps to
+		// execute write barriers.
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if datap.data <= dst && dst < datap.edata {
+				bulkBarrierBitmap(src, size, dst-datap.data, datap.gcdatamask.bytedata)
+				return
+			}
+		}
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if datap.bss <= dst && dst < datap.ebss {
+				bulkBarrierBitmap(src, size, dst-datap.bss, datap.gcbssmask.bytedata)
+				return
+			}
+		}
+		return
+	}
+
+	// walk through the dst bitmap but publish based on value is src
+	// since the memmove might not yet have happened.
+	h := heapBitsForAddr(dst)
+	for i := uintptr(0); i < size; i += sys.PtrSize {
+		if h.isPointer() {
+			srcx := (*uintptr)(unsafe.Pointer(src + i))
+			dstx := (*uintptr)(unsafe.Pointer(dst + i))
+			writebarrierptr_nostore(dstx, *srcx)
+		}
+		h = h.next()
+	}
+
+}
+
 // heapBitsBulkBarrier executes writebarrierptr_nostore
 // for every pointer slot in the memory range [p, p+size),
 // using the heap, data, or BSS bitmap to locate those pointer slots.
@@ -648,9 +851,11 @@ func heapBitsBulkBarrier(p, size uintptr) {
 	if (p|size)&(sys.PtrSize-1) != 0 {
 		throw("heapBitsBulkBarrier: unaligned arguments")
 	}
-	if !writeBarrier.needed {
+
+	if !writeBarrier.needed && debug.gcroc == 0 {
 		return
 	}
+
 	if !inheap(p) {
 		// If p is on the stack and in a higher frame than the
 		// caller, we either need to execute write barriers on
@@ -777,6 +982,77 @@ func typeBitsBulkBarrier(typ *_type, p, size uintptr) {
 			x := (*uintptr)(unsafe.Pointer(p + i))
 			writebarrierptr_nostore(x, *x)
 		}
+	}
+}
+
+// typeBitsBulkPublish executes publish
+// for every pointer slot in the memory range [p, p+size),
+// using the type bitmap to locate those pointer slots.
+// The type typ must correspond exactly to [p, p+size).
+// This executes publish to insure that the object holds
+// no unpublished pointers.
+// Both p and size must be pointer-aligned.
+// The type typ must have a plain bitmap, not a GC program.
+// Use of this function by channel sends to publish a
+// channel element leverages the fact that 64 kB channel
+// element limit will not have a GC program.
+//
+// The writebarrier logic ignores writes to stacks
+// since stacks are assumed to be local.
+// However typeBitsBulkPublish forces the publishing objects
+// written to stack slots since the channel send code can
+// move structs between stacks thus circumventing the other
+// communication mechanisms consisting of publishing that
+// uses globals and already published heap objects.
+//
+// nosplit is required because typeBitsBulkPublish is
+// called right after memmove, and the GC must observe the
+// two actions atomically.
+// systemstack is used because publish uses pop which
+// assumes it is running on the system stack.
+//go:systemstack
+//go:nosplit
+func typeBitsBulkPublish(typ *_type, p, size uintptr) {
+	typeBitsBulkPublishValidation(typ, size) // throws if args are not valid
+	ptrmask := typ.gcdata
+	var bits uint32
+	for i := uintptr(0); i < typ.ptrdata; i += sys.PtrSize {
+		if i&(sys.PtrSize*8-1) == 0 {
+			bits = uint32(*ptrmask)
+			ptrmask = addb(ptrmask, 1)
+		} else {
+			bits = bits >> 1
+		}
+		if bits&1 != 0 {
+			x := (*uintptr)(unsafe.Pointer(p + i))
+			if inheap(*x) && !isPublic(*x) {
+				s := spanOf(*x)
+				if s == nil {
+					throw("x does not have associated span")
+				}
+				makePublic(*x, s)
+				publish(*x)
+			}
+		}
+	}
+}
+
+// Check that this call is valid. If it isn't throw.
+func typeBitsBulkPublishValidation(typ *_type, size uintptr) {
+	if typ == nil {
+		throw("runtime: typeBitsBulkPublish without type")
+	}
+	if typ.size != size {
+		println("runtime: typeBitsBulkPublish with type ", typ.string(), " of size ", typ.size, " but memory size", size)
+		throw("runtime: invalid typeBitsBulkPublish")
+	}
+	if typ.kind&kindGCProg != 0 {
+		println("runtime: typeBitsBulkPublish with type ", typ.string(), " with GC prog")
+		throw("runtime: invalid typeBitsBulkPublish")
+	}
+	if debug.gcroc == 0 && !writeBarrier.needed {
+		println("typeBitsBulkPublish says writeBarrier is not needed.")
+		throw("runtime: invalid typeBitsBulkPublish")
 	}
 }
 
