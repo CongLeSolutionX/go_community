@@ -190,10 +190,75 @@ type markBits struct {
 }
 
 //go:nosplit
-func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
+func inBss(p uintptr) bool {
+	for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		if p >= datap.bss && p < datap.ebss {
+			return true
+		}
+	}
+	return false
+}
+
+//go:nosplit
+func inData(p uintptr) bool {
+	for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		if p >= datap.data && p < datap.edata {
+			return true
+		}
+	}
+	return false
+}
+
+//go:nosplit
+func (s *mspan) allocBitsForAddr(p uintptr) markBits {
+	byteOffset := p - s.base()
+	allocBitIndex := byteOffset / s.elemsize
 	whichByte := allocBitIndex / 8
 	whichBit := allocBitIndex % 8
 	bytePtr := addb(s.allocBits, whichByte)
+	return markBits{bytePtr, uint8(1 << whichBit), allocBitIndex}
+}
+
+// isPublic checks whether the object has been published.
+// obj may not point to the start of the object.
+// This is conservative in the sense that it will return true
+// for all object that haven't been allocated by this
+// goroutine since the last toc checkpoint was performed.
+//go:nosplit
+func isPublic(obj uintptr) bool {
+	if debug.gcroc == 0 {
+		return false
+	}
+	if inLocalStack(obj) {
+		return false
+	}
+	if inBss(obj) {
+		return true
+	}
+	if inData(obj) {
+		return true
+	}
+	if !inheap(obj) {
+		return false
+	}
+	s := spanOf(obj)
+	abits := s.allocBitsForAddr(obj)
+	if abits.isMarked() {
+		return true
+	}
+	if s.startindex > (obj-s.base())/s.elemsize {
+		// Object allocated since the last toc checkpoint and not marked
+		return false
+	}
+	// object not part of this checkpoint
+	return true
+}
+
+//go:nosplit
+func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
+	whichByte := allocBitIndex / 8
+	whichBit := allocBitIndex % 8
+	bytePtr := (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
 	return markBits{bytePtr, uint8(1 << whichBit), allocBitIndex}
 }
 
