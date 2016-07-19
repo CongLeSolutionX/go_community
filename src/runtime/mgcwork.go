@@ -447,7 +447,7 @@ func handoff(b *workbuf) *workbuf {
 // used the by the write barrier when publishing an object
 // in the ROC.
 // Each P has a local publishWork and only one P can push or pop from the
-// publishWork. pushes always work, pop indicates that it is empty
+// its publishWork. push always works, pop indicates that it is empty
 // by returning 0.
 // The intended use is to call this with
 // (&p.publishWorkStack).push(obj) or

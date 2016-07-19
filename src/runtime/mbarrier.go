@@ -159,6 +159,37 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 			shade(ptr)
 		}
 	}
+
+	if ptr == 0 {
+		return
+	}
+
+	// ROC: publish local ptrs being written into public slots.
+	if writeBarrier.roc {
+		if !isPublic(uintptr(unsafe.Pointer(slot))) {
+			// local -> public
+			// local -> local
+			// If slot is local then we are done.
+			return
+		}
+		if isPublic(ptr) {
+			// public -> public
+			// if ptr is public we are done
+			return
+		}
+
+		if inheap(ptr) {
+			// public -> local
+			// Turn into a public -> public
+			makePublic(ptr, spanOfUnchecked(ptr))
+
+			publish(ptr)
+			if !isPublic(ptr) {
+				throw("published ptr but it is still not public")
+			}
+		}
+		return
+	}
 }
 
 // writebarrierptr_prewrite1 invokes a write barrier for *dst = src
@@ -230,19 +261,13 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	writebarrierptr_prewrite1(dst, src)
 }
 
-// typedmemmove copies a value of type t to dst from src.
+// typedmemmove copies a value of type t to dst from src,
+// publishing src if necessary.
 //go:nosplit
 func typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	if typ.kind&kindNoPointers == 0 {
 		bulkBarrierPreWrite(uintptr(dst), uintptr(src), typ.size)
 	}
-	// There's a race here: if some other goroutine can write to
-	// src, it may change some pointer in src after we've
-	// performed the write barrier but before we perform the
-	// memory copy. This safe because the write performed by that
-	// other goroutine must also be accompanied by a write
-	// barrier, so at worst we've unnecessarily greyed the old
-	// pointer that was in src.
 	memmove(dst, src, typ.size)
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, 0, typ.size)
