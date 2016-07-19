@@ -442,3 +442,85 @@ func handoff(b *workbuf) *workbuf {
 	putfull(b)
 	return b1
 }
+
+// A publishWork struct is similar to the gcWork struct and is
+// used the by the write barrier when publishing an object
+// in the ROC.
+// Each P has a local publishWork and only one P can push or pop from the
+// publishWork. pushes always work, pop indicates that it is empty
+// by returning 0.
+// The intended use is to call this with
+// (&p.publishWorkStack).push(obj) or
+// obj = &(p.publishWorkStack).pop
+// if obj == 0 {
+// 	   // empty publishWorkStack
+// }
+type publishWork struct {
+	wbuf1, wbuf2 *workbuf
+	// lfstack of full buffers
+	// TODO: Access of fullbus is never concurrent, so lfstack is overkill.
+	fullbufs uint64
+}
+
+// push or pop an object.
+// push enqueues a pointer for the garbage collector to and publish any
+// references it finds in the object.
+// obj must point to the beginning of a heap object.
+// This is part of ROC's publishing code which needs to run
+// on the system stack.
+//go:nowritebarrier
+//go:nowritebarrierrec
+//go:systemstack
+func (w *publishWork) push(obj uintptr) {
+	wbuf := w.wbuf1
+	if wbuf == nil {
+		w.init()
+		wbuf = w.wbuf1
+		// wbuf is empty at this point.
+	} else if wbuf.nobj == len(wbuf.obj) {
+		w.wbuf1, w.wbuf2 = w.wbuf2, w.wbuf1
+		wbuf = w.wbuf1
+		if wbuf.nobj == len(wbuf.obj) {
+			lfstackpush(&w.fullbufs, &wbuf.node)
+			wbuf = getempty()
+			w.wbuf1 = wbuf
+		}
+	}
+
+	wbuf.obj[wbuf.nobj] = obj
+	wbuf.nobj++
+}
+
+// pop dequeues a pointer that needs to be published.
+// If there are no pointers remaining pop returns 0.
+// This is part of ROC's publishing code which needs to run
+// on the system stack.
+//go:nowritebarrier
+//go:nowritebarrierrec
+//go:systemstack
+func (w *publishWork) pop() uintptr {
+	wbuf := w.wbuf1
+	if wbuf == nil {
+		return 0
+		// wbuf is empty at this point.
+	}
+	if wbuf.nobj == 0 {
+		w.wbuf1, w.wbuf2 = w.wbuf2, w.wbuf1
+		wbuf = w.wbuf1
+		if wbuf.nobj == 0 {
+			if w.fullbufs == 0 {
+				return 0
+			}
+			putempty(wbuf) // return empty w.wbuf1
+			wbuf = (*workbuf)(lfstackpop(&w.fullbufs))
+			w.wbuf1 = wbuf
+		}
+	}
+	wbuf.nobj--
+	return wbuf.obj[wbuf.nobj]
+}
+
+func (w *publishWork) init() {
+	w.wbuf1 = getempty()
+	w.wbuf2 = getempty()
+}

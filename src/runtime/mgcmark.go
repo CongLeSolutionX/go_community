@@ -1026,7 +1026,7 @@ const (
 //
 //go:nowritebarrier
 func gcDrain(gcw *gcWork, flags gcDrainFlags) {
-	if !writeBarrier.needed {
+	if !writeBarrier.mark {
 		throw("gcDrain phase incorrect")
 	}
 
@@ -1131,7 +1131,7 @@ done:
 //go:nowritebarrier
 //go:systemstack
 func gcDrainN(gcw *gcWork, scanWork int64) int64 {
-	if !writeBarrier.needed {
+	if !writeBarrier.mark {
 		throw("gcDrainN phase incorrect")
 	}
 
