@@ -522,6 +522,11 @@ type p struct {
 	// disposed on certain GC state transitions.
 	gcw gcWork
 
+	// pubwork is the work buffer used by the write barrier to store
+	// unpublished, yet transitively reachable, objects encountered
+	// while publishing an object.
+	pubwork publishWork
+
 	runSafePointFn uint32 // if 1, run sched.safePointFn at next safe point
 
 	pad [sys.CacheLineSize]byte
