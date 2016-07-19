@@ -6,7 +6,7 @@
 //
 // Stack, data, and bss bitmaps
 //
-// Stack frames and global variables in the data and bss sections are described
+// Stack frames and global variables in the data and BSS sections are described
 // by 1-bit bitmaps in which 0 means uninteresting and 1 means live pointer
 // to be visited during GC. The bits in each byte are consumed starting with
 // the low bit: 1<<0, 1<<1, and so on.
@@ -278,31 +278,20 @@ func isPublic(ptr uintptr) bool {
 //go:systemstack
 func makePublic(ptr uintptr, s *mspan) {
 	abits := s.allocBitsForAddr(ptr)
-	if abits.isMarked() {
-		return // We are already marked as public.
-	}
-	if s.freeindex <= abits.index {
-		if abits.isMarked() {
-			return
-		}
-		dumpMakePublicState(s, abits, ptr)
-		// If we end up here we have a serious bug. For one thing the
-		// object being marked could just as easily been reallocated and
-		// overwritten.
-		throw("marking object beyond allocation frontier")
-	}
 	abits.setMarked()
 }
 
+// Used for debugging only.
 func dumpMakePublicState(s *mspan, abits markBits, obj uintptr) {
+	if debug.gcroc < 5 {
+		return // short circuit unless gcroc => 5
+	}
 	println("runtime: marking beyond allocation frontier s.allocCount=", s.allocCount,
 		"s.nelems=", s.nelems,
 		"s.freeindex=", s.freeindex, "s.startindex=", s.startindex,
 		"s.isFree(s.startindex)=", s.isFree(s.startindex),
 		"s.isFree(s.freeindex)=", s.isFree(s.freeindex),
 		"s.allocCache=", hex(s.allocCache),
-		//		"s.rollbackCount=", s.rollbackCount,
-		//		"s.abortRollbackCount=", s.abortRollbackCount,
 		"abits.index=", abits.index,
 		"s.isFree(abits.index)=", s.isFree(abits.index),
 		"obj = ", hex(obj),
@@ -754,6 +743,8 @@ func (h heapBits) setCheckmarked(size uintptr) {
 // make sure the underlying allocation contains pointers, usually
 // by checking typ.kind&kindNoPointers.
 //
+// nosplit since this is part of heapBitsBulkPublish which needs to
+// be atomic w.r.t. the GC.
 //go:nosplit
 func bulkBarrierPreWrite(dst, src, size uintptr) {
 	if (dst|src|size)&(sys.PtrSize-1) != 0 {
