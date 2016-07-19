@@ -429,3 +429,80 @@ func handoff(b *workbuf) *workbuf {
 	putfull(b)
 	return b1
 }
+
+// A publishWork struct is similar to the gcWork struct and is
+// used the by the write barrier when publishing an object
+// in the ROC.
+// Each P has a local publishWork and only one P can push or pop from the
+// publishWork. pushes always work, pop indicates that it is empty
+// by returning 0.
+type publishWork struct {
+	wbuf1, wbuf2 wbufptr
+	fullbufs     uint64
+}
+
+// push or pop an object.
+// The intended use is to call this with
+// (&p.publishWorkStack).push(obj) or
+// obj = &(p.publishWorkStack).pop
+// if obj == 0 {
+// 	   // empty publishWorkStack
+// }
+// Push and pop can modify pw.
+
+// push enqueues a pointer for the garbage collector to trace.
+// obj must point to the beginning of a heap object.
+//go:nowritebarrier
+func (pw *publishWork) push(obj uintptr) {
+	w := (*publishWork)(noescape(unsafe.Pointer(pw))) // TODO: remove when escape analysis is fixed
+
+	wbuf := w.wbuf1.ptr()
+	if wbuf == nil {
+		w.init()
+		wbuf = w.wbuf1.ptr()
+		// wbuf is empty at this point.
+	} else if wbuf.nobj == len(wbuf.obj) {
+		w.wbuf1, w.wbuf2 = w.wbuf2, w.wbuf1
+		wbuf = w.wbuf1.ptr()
+		if wbuf.nobj == len(wbuf.obj) {
+			lfstackpush(&w.fullbufs, &wbuf.node)
+			wbuf = getempty()
+			w.wbuf1 = wbufptrOf(wbuf)
+		}
+	}
+
+	wbuf.obj[wbuf.nobj] = obj
+	wbuf.nobj++
+}
+
+// pop dequeues a pointer that needs to be published.
+// If there are no pointers remaining pop returns 0.
+//go:nowritebarrier
+func (pw *publishWork) pop() uintptr {
+	w := (*publishWork)(noescape(unsafe.Pointer(pw))) // TODO: remove when escape analysis is fixed
+	wbuf := w.wbuf1.ptr()
+	if wbuf == nil {
+		w.init()
+		return 0
+		// wbuf is empty at this point.
+	}
+	if wbuf.nobj == 0 {
+		w.wbuf1, w.wbuf2 = w.wbuf2, w.wbuf1
+		wbuf = w.wbuf1.ptr()
+		if wbuf.nobj == 0 {
+			if w.fullbufs == 0 {
+				return 0
+			}
+			putempty(wbuf) // return empty w.wbuf1
+			wbuf = (*workbuf)(lfstackpop(&w.fullbufs))
+			w.wbuf1 = wbufptrOf(wbuf)
+		}
+	}
+	wbuf.nobj--
+	return wbuf.obj[wbuf.nobj]
+}
+
+func (w *publishWork) init() {
+	w.wbuf1 = wbufptrOf(getempty())
+	w.wbuf2 = wbufptrOf(getempty())
+}
