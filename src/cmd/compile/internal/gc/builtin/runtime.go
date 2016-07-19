@@ -97,10 +97,15 @@ func chanrecv2(chanType *byte, hchan <-chan any, elem *any) bool
 func chansend1(chanType *byte, hchan chan<- any, elem *any)
 func closechan(hchan any)
 
+// Must be the same as used in go/src/runtime/mgc.go
 var writeBarrier struct {
 	enabled bool
+	pad     [3]byte
 	needed  bool
 	cgo     bool
+	roc     bool
+	mark    bool
+	alignme uint64
 }
 
 func writebarrierptr(dst *any, src any)

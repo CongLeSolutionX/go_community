@@ -757,6 +757,9 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			c.next_sample -= int32(size)
 		} else {
 			mp := acquirem()
+			if writeBarrier.roc {
+				makePublic(uintptr(x), spanOf(uintptr(x)))
+			}
 			profilealloc(mp, x, size)
 			releasem(mp)
 		}

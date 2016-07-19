@@ -140,7 +140,7 @@ import (
 //go:nowritebarrierrec
 //go:systemstack
 func gcmarkwb_m(slot *uintptr, ptr uintptr) {
-	if writeBarrier.needed {
+	if writeBarrier.mark {
 		// Note: This turns bad pointer writes into bad
 		// pointer reads, which could be confusing. We avoid
 		// reading from obviously bad pointers, which should
