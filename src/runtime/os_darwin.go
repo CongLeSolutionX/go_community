@@ -50,6 +50,8 @@ func osinit() {
 	// can look at the environment first.
 
 	ncpu = getncpu()
+
+	physPageSize = getPageSize()
 }
 
 func getncpu() int32 {
@@ -62,6 +64,20 @@ func getncpu() int32 {
 		return int32(out)
 	}
 	return 1
+}
+
+func getPageSize() uintptr {
+	// Use sysctl to fetch HW_PAGESIZE.
+	const CTL_HW = 6
+	const HW_PAGESIZE = 7
+	mib := [2]uint32{CTL_HW, HW_PAGESIZE}
+	out := uint32(0)
+	nout := unsafe.Sizeof(out)
+	ret := sysctl(&mib[0], 2, (*byte)(unsafe.Pointer(&out)), &nout, nil, 0)
+	if ret >= 0 && int32(out) > 0 {
+		return uintptr(out)
+	}
+	return 0
 }
 
 var urandom_dev = []byte("/dev/urandom\x00")
