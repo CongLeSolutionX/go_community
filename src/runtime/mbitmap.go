@@ -190,10 +190,99 @@ type markBits struct {
 }
 
 //go:nosplit
+func inBss(p uintptr) bool {
+	for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		if p >= datap.bss && p < datap.ebss {
+			return true
+		}
+	}
+	return false
+}
+
+//go:nosplit
+func inData(p uintptr) bool {
+	for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		if p >= datap.data && p < datap.edata {
+			return true
+		}
+	}
+	return false
+}
+
+// isPublic checks whether the object has been published.
+// obj may not point to the start of the object.
+// This is conservative in the sense that it will return true
+// for all object that haven't been allocated by this
+// goroutine since the last roc checkpoint was performed.
+//go:nosplit
+//go:systemstack
+func isPublic(obj uintptr) bool {
+	if debug.gcroc == 0 {
+		throw("isPublic but ROC is not running.")
+		return false
+	}
+
+	if inStack(obj, getg().stack) {
+		return false
+	}
+
+	if inLocalStack(obj) {
+		return false
+	}
+	if inBss(obj) {
+		return true
+	}
+	if inData(obj) {
+		return true
+	}
+	if !inheap(obj) {
+		// Note: Objects created using persistentalloc are not in the heap
+		// so any pointers from such object to local objects needs to be dealt
+		// with specially.
+		return false
+	}
+	// At this point we know the object is in the heap.
+	s := spanOf(obj)
+	oldSweepgen := atomic.Load(&s.sweepgen)
+	sg := mheap_.sweepgen
+	if oldSweepgen != sg {
+		// We have an unswept span which means that the pointer points to a public object since it will
+		// be found to be marked once it is swept.
+		return true
+	}
+	abits := s.allocBitsForAddr(obj)
+	if abits.isMarked() {
+		return true
+	} else if s.freeindex <= abits.index {
+		_ = *(*int)(unsafe.Pointer(uintptr(0))) // blowup without increase stack size with a throw.
+	}
+
+	// The object is not marked. If it is part of the current
+	// ROC epoch then it is not public.
+	if s.startindex <= (obj-s.base())/s.elemsize {
+		// Object allocated in this ROC epoch and since it is
+		// not marked it has not been published.
+		return false
+	}
+	// object allocated since last GC but in a previous ROC epoch so it is public.
+	return true
+}
+
+//go:nosplit
 func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 	whichByte := allocBitIndex / 8
 	whichBit := allocBitIndex % 8
-	bytePtr := addb(s.allocBits, whichByte)
+	bytePtr := (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
+	return markBits{bytePtr, uint8(1 << whichBit), allocBitIndex}
+}
+
+//go:nosplit
+func (s *mspan) allocBitsForAddr(p uintptr) markBits {
+	byteOffset := p - s.base()
+	allocBitIndex := byteOffset / s.elemsize
+	whichByte := allocBitIndex / 8
+	whichBit := allocBitIndex % 8
+	bytePtr := (*uint8)(unsafe.Pointer(uintptr(unsafe.Pointer(s.allocBits)) + whichByte))
 	return markBits{bytePtr, uint8(1 << whichBit), allocBitIndex}
 }
 
