@@ -257,7 +257,7 @@ const (
 func setGCPhase(x uint32) {
 	atomic.Store(&gcphase, x)
 	writeBarrier.needed = gcphase == _GCmark || gcphase == _GCmarktermination
-	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo
+	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo || writeBarrier.roc
 }
 
 // gcMarkWorkerMode represents the mode that a concurrent mark worker
