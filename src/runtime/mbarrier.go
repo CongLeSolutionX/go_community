@@ -159,6 +159,37 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 			shade(ptr)
 		}
 	}
+
+	if ptr == 0 {
+		return
+	}
+
+	// ROC: publish local ptrs being written into public slots.
+	if debug.gcroc >= 1 {
+		// local -> public
+		// local -> local
+		if !isPublic(uintptr(unsafe.Pointer(slot))) {
+			// If local slot then we are done.
+			return
+		}
+		// public -> public
+		if isPublic(ptr) {
+			// if ptr is public we are done
+			return
+		}
+
+		if inheap(ptr) {
+			// public -> local
+			// Turn into a public -> public
+			makePublic(ptr, spanOf(ptr))
+
+			publish(ptr)
+			if !isPublic(ptr) {
+				throw("published ptr but it is still not public")
+			}
+		}
+		return
+	}
 }
 
 // writebarrierptr_prewrite1 invokes a write barrier for *dst = src
@@ -198,7 +229,7 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
-	if !writeBarrier.needed {
+	if !writeBarrier.roc && !writeBarrier.needed {
 		*dst = src
 		return
 	}
@@ -221,7 +252,7 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
-	if !writeBarrier.needed {
+	if !writeBarrier.needed && !writeBarrier.roc {
 		return
 	}
 	if src != 0 && src < minPhysPageSize {
@@ -231,6 +262,7 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 }
 
 // typedmemmove copies a value of type t to dst from src.
+// before it does the memmove it must publish
 //go:nosplit
 func typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	if typ.kind&kindNoPointers == 0 {
@@ -239,10 +271,15 @@ func typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	// There's a race here: if some other goroutine can write to
 	// src, it may change some pointer in src after we've
 	// performed the write barrier but before we perform the
-	// memory copy. This safe because the write performed by that
+	// memory copy. This is safe because the write performed by that
 	// other goroutine must also be accompanied by a write
 	// barrier, so at worst we've unnecessarily greyed the old
 	// pointer that was in src.
+	if debug.gcroc >= 1 && isPublic(uintptr(dst)) && typ.kind&kindNoPointers == 0 {
+		// if dst is public we need to publish before we
+		// do the copy.
+		heapBitsBulkPublish(uintptr(src), uintptr(dst), typ.size)
+	}
 	memmove(dst, src, typ.size)
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, 0, typ.size)
@@ -266,7 +303,7 @@ func reflect_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 // dst and src point off bytes into the value and only copies size bytes.
 //go:linkname reflect_typedmemmovepartial reflect.typedmemmovepartial
 func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
-	if writeBarrier.needed && typ.kind&kindNoPointers == 0 && size >= sys.PtrSize {
+	if (writeBarrier.roc || writeBarrier.needed) && typ.kind&kindNoPointers == 0 && size >= sys.PtrSize {
 		// Pointer-align start address for bulk barrier.
 		adst, asrc, asize := dst, src, size
 		if frag := -off & (sys.PtrSize - 1); frag != 0 {
@@ -294,7 +331,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 //
 //go:nosplit
 func reflectcallmove(typ *_type, dst, src unsafe.Pointer, size uintptr) {
-	if writeBarrier.needed && typ != nil && typ.kind&kindNoPointers == 0 && size >= sys.PtrSize {
+	if (writeBarrier.needed || writeBarrier.roc) && typ != nil && typ.kind&kindNoPointers == 0 && size >= sys.PtrSize {
 		bulkBarrierPreWrite(uintptr(dst), uintptr(src), size)
 	}
 	memmove(dst, src, size)
@@ -333,7 +370,7 @@ func typedslicecopy(typ *_type, dst, src slice) int {
 	// compiler only emits calls to typedslicecopy for types with pointers,
 	// and growslice and reflect_typedslicecopy check for pointers
 	// before calling typedslicecopy.
-	if !writeBarrier.needed {
+	if !writeBarrier.needed && !writeBarrier.roc {
 		memmove(dstp, srcp, uintptr(n)*typ.size)
 		return n
 	}
