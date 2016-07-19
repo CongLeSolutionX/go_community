@@ -414,6 +414,7 @@ func parsedebugvars() {
 	// For the roc algorithm we turn on the write barrier at all times
 	if debug.gcroc >= 1 {
 		writeBarrier.roc = true
+		writeBarrier.needed = true
 		writeBarrier.enabled = true
 	}
 }

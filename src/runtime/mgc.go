@@ -239,12 +239,14 @@ var gcphase uint32
 
 // The compiler knows about this variable.
 // If you change it, you must change the compiler too.
+// Must be the same as used in go/src/cmd/compile/internal/gc/builtin/runtime.go
 var writeBarrier struct {
 	enabled bool    // compiler emits a check of this before calling write barrier
 	pad     [3]byte // compiler uses 32-bit load for "enabled" field
 	needed  bool    // whether we need a write barrier for current GC phase
 	cgo     bool    // whether we need a write barrier for a cgo check
 	roc     bool    // whether we need a write barrier for the ROC algorithm
+	mark    bool    // whether we need a write barrier to mark objects as reachable
 	alignme uint64  // guarantee alignment so that compiler can use a 32 or 64-bit load
 }
 
@@ -277,7 +279,8 @@ const (
 //go:nosplit
 func setGCPhase(x uint32) {
 	atomic.Store(&gcphase, x)
-	writeBarrier.needed = gcphase == _GCmark || gcphase == _GCmarktermination
+	writeBarrier.mark = gcphase == _GCmark || gcphase == _GCmarktermination
+	writeBarrier.needed = writeBarrier.mark || writeBarrier.roc
 	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo
 }
 

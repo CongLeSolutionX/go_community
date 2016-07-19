@@ -442,3 +442,69 @@ func handoff(b *workbuf) *workbuf {
 	putfull(b)
 	return b1
 }
+
+// A publishWork struct is similar to the gcWork struct and is
+// used the by the write barrier when publishing an object
+// in the ROC.
+// Each P has a local publishWork and only one P can push or pop from the
+// publishWork. pushes always work, pop indicates that it is empty
+// by returning 0. Since this is associated with the p, any code using it
+// must be non-preemptible.
+// The intended use is to call this with
+//     (&p.publishWorkStack).push(obj) or
+//     obj = &(p.publishWorkStack).pop
+//     if obj == 0 {
+// 	       // empty publishWorkStack
+//     }
+type publishWork struct {
+	wbuf *workbuf
+	// lfstack of full buffers
+	// TODO: Access of fullbufs is never concurrent, so lfstack is overkill.
+	fullbufs uint64
+}
+
+// push or pop an object.
+// push enqueues an object for ROC to publish along with any
+// references it finds in the object.
+func (w *publishWork) push(obj uintptr) {
+	wbuf := w.wbuf
+	if wbuf == nil {
+		w.init()
+		wbuf = w.wbuf
+		// wbuf is empty at this point.
+	} else if wbuf.nobj == len(wbuf.obj) {
+		lfstackpush(&w.fullbufs, &wbuf.node)
+		w.wbuf = getempty()
+		wbuf = w.wbuf
+	}
+
+	wbuf.obj[wbuf.nobj] = obj
+	wbuf.nobj++
+}
+
+// pop dequeues a pointer that needs to be published.
+// If there are no pointers remaining pop returns 0.
+func (w *publishWork) pop() uintptr {
+	wbuf := w.wbuf
+	if wbuf == nil {
+		return 0
+		// wbuf is empty at this point.
+	}
+	if wbuf.nobj == 0 {
+		if w.fullbufs == 0 {
+			return 0
+		}
+		putempty(wbuf) // return empty w.wbuf1
+		wbuf = (*workbuf)(lfstackpop(&w.fullbufs))
+		w.wbuf = wbuf
+		if wbuf == nil {
+			return 0
+		}
+	}
+	wbuf.nobj--
+	return wbuf.obj[wbuf.nobj]
+}
+
+func (w *publishWork) init() {
+	w.wbuf = getempty()
+}

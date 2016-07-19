@@ -1026,10 +1026,6 @@ const (
 //
 //go:nowritebarrier
 func gcDrain(gcw *gcWork, flags gcDrainFlags) {
-	if !writeBarrier.needed {
-		throw("gcDrain phase incorrect")
-	}
-
 	gp := getg().m.curg
 	preemptible := flags&gcDrainUntilPreempt != 0
 	blocking := flags&(gcDrainUntilPreempt|gcDrainIdle|gcDrainNoBlock) == 0
@@ -1131,10 +1127,6 @@ done:
 //go:nowritebarrier
 //go:systemstack
 func gcDrainN(gcw *gcWork, scanWork int64) int64 {
-	if !writeBarrier.needed {
-		throw("gcDrainN phase incorrect")
-	}
-
 	// There may already be scan work on the gcw, which we don't
 	// want to claim was done by this call.
 	workFlushed := -gcw.scanWork
