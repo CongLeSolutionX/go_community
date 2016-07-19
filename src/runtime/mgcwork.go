@@ -446,7 +446,7 @@ func handoff(b *workbuf) *workbuf {
 // A publishWork struct is similar to the gcWork struct and is
 // used the by the write barrier when publishing an object
 // in the ROC.
-// Each P has a local publishWork and only one P can push or pop from the
+// Each P has a local publishWork and only one P can push or pop from
 // publishWork. pushes always work, pop indicates that it is empty
 // by returning 0. Since this is associated with the p, any code using it
 // must be non-preemptible.

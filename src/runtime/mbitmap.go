@@ -6,7 +6,7 @@
 //
 // Stack, data, and bss bitmaps
 //
-// Stack frames and global variables in the data and bss sections are described
+// Stack frames and global variables in the data and BSS sections are described
 // by 1-bit bitmaps in which 0 means uninteresting and 1 means live pointer
 // to be visited during GC. The bits in each byte are consumed starting with
 // the low bit: 1<<0, 1<<1, and so on.
@@ -280,7 +280,11 @@ func makePublic(ptr uintptr, s *mspan) {
 	abits.setMarked()
 }
 
+// Used for debugging only.
 func dumpMakePublicState(s *mspan, abits markBits, obj uintptr) {
+	if debug.gcroc < 5 {
+		return
+	}
 	println("runtime: marking beyond allocation frontier s.allocCount=", s.allocCount,
 		"s.nelems=", s.nelems,
 		"s.freeindex=", s.freeindex, "s.startindex=", s.startindex,
@@ -626,7 +630,7 @@ func (h heapBits) morePointers() bool {
 // they are also public.
 // This is done before the object is installed in a non-local slot.
 func publish(ptr uintptr) {
-	s := spanOf(ptr)
+	s := spanOfUnchecked(ptr)
 	makePublic(ptr, s)
 	if s.spanclass.noscan() {
 		return
@@ -743,6 +747,7 @@ func (h heapBits) setCheckmarked(size uintptr) {
 // make sure the underlying allocation contains pointers, usually
 // by checking typ.kind&kindNoPointers.
 //
+// nosplit since this needs to be atomic w.r.t. the GC.
 //go:nosplit
 func bulkBarrierPreWrite(dst, src, size uintptr) {
 	if (dst|src|size)&(sys.PtrSize-1) != 0 {
