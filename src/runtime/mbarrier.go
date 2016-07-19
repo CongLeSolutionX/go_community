@@ -159,6 +159,34 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 			shade(ptr)
 		}
 	}
+
+	if ptr == 0 {
+		return
+	}
+
+	// ROC: publish local ptrs being written into public slots.
+	if writeBarrier.roc {
+		// local -> public
+		// local -> local
+		// If slot is local then we are done.
+		if !isPublic(uintptr(unsafe.Pointer(slot))) {
+			return
+		}
+		// public -> public
+		// if ptr is public we are done
+		if isPublic(ptr) {
+			return
+		}
+		// public -> local
+		// Turn into a public -> public
+		if inheap(ptr) {
+			publish(ptr)
+			if !isPublic(ptr) {
+				throw("published ptr but it is still not public")
+			}
+		}
+		return
+	}
 }
 
 // writebarrierptr_prewrite1 invokes a write barrier for *dst = src
@@ -230,7 +258,8 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	writebarrierptr_prewrite1(dst, src)
 }
 
-// typedmemmove copies a value of type t to dst from src.
+// typedmemmove copies a value of type t to dst from src,
+// publishing src if necessary.
 //go:nosplit
 func typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	if typ.kind&kindNoPointers == 0 {
