@@ -142,6 +142,12 @@ type mspan struct {
 	// helps performance.
 	nelems uintptr // number of object in the span.
 
+	// These 2 fields support ROC checkpointing the allocations the current
+	// g has made on this span. Multiple spans of the same span class are
+	// linked together using nextUsedSpan.
+	startindex   uintptr // index of where the current g started allocation in this span.
+	nextUsedSpan *mspan
+
 	// Cache of the allocBits at freeindex. allocCache is shifted
 	// such that the lowest bit corresponds to the bit freeindex.
 	// allocCache holds the complement of allocBits, thus allowing
