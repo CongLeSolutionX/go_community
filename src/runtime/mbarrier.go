@@ -105,6 +105,38 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 			shade(ptr)
 		}
 	}
+
+	if ptr == 0 {
+		return
+	}
+
+	// ROC: publish local ptrs being written into public slots.
+	if debug.gcroc >= 1 {
+		if writeBarrier.roc && gcphase == _GCoff { // If the GC is running ROC is turned off.
+			// local -> public
+			// local -> local
+			if !isPublic(uintptr(unsafe.Pointer(slot))) {
+				// If local slot then we are done.
+				return
+			}
+			// public -> public
+			if isPublic(ptr) {
+				// if ptr is public we are done
+				return
+			}
+
+			if inheap(ptr) {
+				// public -> local
+				// Turn into a public -> public
+				makePublic(ptr, spanOf(ptr))
+				publish(ptr)
+				if !isPublic(ptr) {
+					throw("published ptr but it is still not public")
+				}
+			}
+			return
+		}
+	}
 }
 
 // Write barrier calls must not happen during critical GC and scheduler
@@ -138,11 +170,11 @@ func writebarrierptr_nostore1(dst *uintptr, src uintptr) {
 // but if we do that, Go inserts a write barrier on *dst = src.
 //go:nosplit
 func writebarrierptr(dst *uintptr, src uintptr) {
-	*dst = src
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
-	if !writeBarrier.needed {
+	if !writeBarrier.roc && !writeBarrier.needed {
+		*dst = src // We need to do the write barrier before the store so publication works.
 		return
 	}
 	if src != 0 && src < sys.PhysPageSize {
@@ -152,6 +184,7 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 		})
 	}
 	writebarrierptr_nostore1(dst, src)
+	*dst = src // We need to do the write barrier before the store so publication works.
 }
 
 // Like writebarrierptr, but the store has already been applied.
@@ -161,7 +194,7 @@ func writebarrierptr_nostore(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
-	if !writeBarrier.needed {
+	if !writeBarrier.needed && !writeBarrier.roc {
 		return
 	}
 	if src != 0 && src < sys.PhysPageSize {
@@ -196,7 +229,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, off, size)
 	}
-	if !writeBarrier.needed || typ.kind&kindNoPointers != 0 || size < sys.PtrSize {
+	if (!writeBarrier.needed && !writeBarrier.roc) || typ.kind&kindNoPointers != 0 || size < sys.PtrSize {
 		return
 	}
 
@@ -216,7 +249,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 // the copy and write barrier appear atomic to GC.
 //go:nosplit
 func callwritebarrier(typ *_type, frame unsafe.Pointer, framesize, retoffset uintptr) {
-	if !writeBarrier.needed || typ == nil || typ.kind&kindNoPointers != 0 || framesize-retoffset < sys.PtrSize {
+	if (!writeBarrier.needed && !writeBarrier.roc) || typ == nil || typ.kind&kindNoPointers != 0 || framesize-retoffset < sys.PtrSize {
 		return
 	}
 	heapBitsBulkBarrier(uintptr(add(frame, retoffset)), framesize-retoffset)
@@ -255,7 +288,7 @@ func typedslicecopy(typ *_type, dst, src slice) int {
 	// compiler only emits calls to typedslicecopy for types with pointers,
 	// and growslice and reflect_typedslicecopy check for pointers
 	// before calling typedslicecopy.
-	if !writeBarrier.needed {
+	if !writeBarrier.needed && !writeBarrier.roc {
 		memmove(dstp, srcp, uintptr(n)*typ.size)
 		return n
 	}
