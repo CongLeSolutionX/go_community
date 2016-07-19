@@ -217,6 +217,51 @@ func getproccount() int32 {
 	return ncpu
 }
 
+var devswap = []byte("/dev/swap\x00")
+var pagesize = []byte(" pagesize\n")
+
+func getPageSize() uintptr {
+	var buf [2048]byte
+	var pos int
+	fd := open(&devswap[0], _OREAD, 0)
+	if fd < 0 {
+		return 0
+	}
+	for pos < len(buf) {
+		n := read(fd, unsafe.Pointer(&buf[pos]), int32(len(buf)-pos))
+		if n <= 0 {
+			break
+		}
+		pos += int(n)
+	}
+	closefd(fd)
+	text := buf[:pos]
+	// Find "<n> pagesize" line.
+	bol := 0
+	for i, c := range text {
+		if c == '\n' {
+			bol = i + 1
+		}
+		if bytesHasPrefix(text[i:], pagesize) {
+			// Parse number at the beginning of this line.
+			return uintptr(_atoi(text[bol:]))
+		}
+	}
+	return 0
+}
+
+func bytesHasPrefix(s, prefix []byte) bool {
+	if len(s) < len(prefix) {
+		return false
+	}
+	for i, p := range prefix {
+		if s[i] != p {
+			return false
+		}
+	}
+	return true
+}
+
 var pid = []byte("#c/pid\x00")
 
 func getpid() uint64 {
