@@ -254,6 +254,16 @@ func isPublic(obj uintptr) bool {
 	return true
 }
 
+// makePublic sets the allocation bit indicating that the object
+// is public and visible to other goroutines.
+// Only one g can own a span at a time so only one g can change the byte
+// so setMarked does not need to be atomic.
+//go:nosplit
+func makePublic(obj uintptr, s *mspan) {
+	abits := s.allocBitsForAddr(obj)
+	abits.setMarked()
+}
+
 //go:nosplit
 func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 	whichByte := allocBitIndex / 8
@@ -567,12 +577,81 @@ func (h heapBits) morePointers() bool {
 	return h.bits()&bitMarked != 0
 }
 
+// publish takes an object obj that has been published. It then does
+// a transitive walk of the objects pointed to by obj ensuring that
+// they are also public.
+// This is done before the object is installed in a non-local slot.
+//go:nosplit
+//go:nowritebarrierrec
+//go:systemstack
+func publish(obj uintptr) {
+	if !isPublic(obj) {
+		throw("obj is not public")
+	}
+	const slotSize = unsafe.Sizeof(uintptr(0))
+	workbuf := &getg().m.p.ptr().pubwork
+	for ; obj != 0; obj = workbuf.pop() {
+		// iterate over the fields in obj. If the slot holds
+		// an object that is not public make it public and
+		// add it to data.
+		// refBase and refOff are not known so just pass in 0.
+		base, hbits, span, _ := heapBitsForObject(obj, 0, 0)
+
+		if span == nil {
+			println("runtime: base=", hex(base), "span=", span, "unsafe.Sizeof(uintptr(0))=", unsafe.Sizeof(uintptr(0)))
+			throw("publishing a non-heap object")
+		}
+
+		if !hbits.hasPointers(span.elemsize) {
+			continue
+		}
+
+		numSlots := span.elemsize / unsafe.Sizeof(uintptr(0))
+
+		for i, slot := uintptr(0), base; i < numSlots; hbits, i, slot = hbits.next(), i+1, slot+slotSize {
+			if !hbits.isPointer() {
+				continue
+			}
+			b := *(*uintptr)(unsafe.Pointer(slot))
+			if b == 0 {
+				continue // nil
+			}
+			if isPublic(b) {
+				continue // Already public
+			}
+
+			// b is a pointer that points to a local that
+			// needs to be published
+			if inheap(b) {
+				makePublic(b, spanOf(b))                                        // makePublic deals with interior pointers.
+				_, bsHbits, bsSpan, _ := heapBitsForObject(b, slot, i*slotSize) // Bits related to b.
+				if !bsHbits.hasPointers(bsSpan.elemsize) {
+					continue
+				}
+				workbuf.push(b)
+			}
+		}
+		// At this point we may have work on the p associated wbuf and / or work in the local data queue.
+	}
+	return
+}
+
 // isPointer reports whether the heap bits describe a pointer word.
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //go:nosplit
 func (h heapBits) isPointer() bool {
 	return h.bits()&bitPointer != 0
+}
+
+// hasPointers reports whether the given object has any pointers.
+// It must be told how large the object at h is for efficiency.
+// h must describe the initial word of the object.
+func (h heapBits) hasPointers(size uintptr) bool {
+	if size == sys.PtrSize { // 1-word objects are always pointers
+		return true
+	}
+	return (*h.bitp>>h.shift)&bitMarked != 0
 }
 
 // isCheckmarked reports whether the heap bits have the checkmarked bit set.
