@@ -1225,3 +1225,13 @@ func morestackc() {
 		throw("attempt to execute C code on Go stack")
 	})
 }
+
+//go:nosplit
+func inLocalStack(p uintptr) bool {
+	return inStack(p, getg().stack)
+}
+
+//go:nosplit
+func inStack(p uintptr, s stack) bool {
+	return s.lo <= p && p < s.hi
+}
