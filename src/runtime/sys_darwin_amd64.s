@@ -234,7 +234,7 @@ TEXT runtime·sigreturn(SB),NOSPLIT,$0-12
 	MOVL infostyle+8(FP),  SI
 	MOVL $(0x2000000+184), AX
 	SYSCALL
-	INT $3 // not reached
+	INT $3 // not reached (see issue 16453)
 
 TEXT runtime·sigtramp(SB),NOSPLIT,$32
 	MOVQ DI,  0(SP) // fn
@@ -244,6 +244,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$32
 	MOVQ R8, 24(SP) // ctx
 	MOVQ $runtime·sigtrampgo(SB), AX
 	CALL AX
+	INT $3 // not reached
 
 TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
