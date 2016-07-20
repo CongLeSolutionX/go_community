@@ -81,9 +81,11 @@ func makeSparseTreeHelper(sdom SparseTree, dom, po []*Block, ponums []int32) *Sp
 // Each entry is added twice, once keyed by entry-1/entry/entry+1 and
 // once keyed by exit+1/exit/exit-1. (there are three choices of paired indices, not 9, and they properly nest)
 type sparseTreeMapEntry struct {
-	index *SparseTreeNode
-	block *Block // TODO: store this in a separate index.
-	data  interface{}
+	index        *SparseTreeNode
+	block        *Block // TODO: store this in a separate index.
+	data         interface{}
+	sparseParent *sparseTreeMapEntry
+	adjust       int32
 }
 
 // Insert creates a definition within b with data x.
@@ -98,12 +100,22 @@ func (m *SparseTreeMap) Insert(b *Block, adjust int32, x interface{}, helper *Sp
 		// assert unreachable
 		return
 	}
-	entry := &sparseTreeMapEntry{index: blockIndex, data: x}
+	sp := m.findEntry(b, adjust, helper)
+	entry := &sparseTreeMapEntry{index: blockIndex, block: b, data: x, sparseParent: sp, adjust: adjust}
+
 	right := blockIndex.exit - adjust
 	_ = rbtree.Insert(right, entry)
 
 	left := blockIndex.entry + adjust
 	_ = rbtree.Insert(left, entry)
+
+	// Iterate through nodes in tree that see this new entry
+	k, d := rbtree.Lub(left)
+	for d != nil && k != 0 && d.(*sparseTreeMapEntry) != entry {
+		tme := d.(*sparseTreeMapEntry)
+		tme.sparseParent = entry
+		k, d = rbtree.Lub(tme.index.exit - tme.adjust)
+	}
 }
 
 // Find returns the definition visible from block b, or nil if none can be found.
@@ -118,45 +130,37 @@ func (m *SparseTreeMap) Insert(b *Block, adjust int32, x interface{}, helper *Sp
 //
 // Another way to think of this is that Find searches for inputs, Insert defines outputs.
 func (m *SparseTreeMap) Find(b *Block, adjust int32, helper *SparseTreeHelper) interface{} {
+	v := m.findEntry(b, adjust, helper)
+	if v == nil {
+		return nil
+	}
+	return v.data
+}
+
+func (m *SparseTreeMap) findEntry(b *Block, adjust int32, helper *SparseTreeHelper) *sparseTreeMapEntry {
 	rbtree := (*RBTint32)(m)
 	if rbtree == nil {
 		return nil
 	}
 	blockIndex := &helper.Sdom[b.ID]
 	_, v := rbtree.Glb(blockIndex.entry + adjust)
-	for v != nil {
-		otherEntry := v.(*sparseTreeMapEntry)
-		otherIndex := otherEntry.index
-		// Two cases -- either otherIndex brackets blockIndex,
-		// or it doesn't.
-		//
-		// Note that if otherIndex and blockIndex are
-		// the same block, then the glb test only passed
-		// because the definition is "before",
-		// i.e., k == blockIndex.entry-1
-		// allowing equality is okay on the blocks check.
-		if otherIndex.exit >= blockIndex.exit {
-			// bracketed.
-			return otherEntry.data
-		}
-		// In the not-bracketed case, we could memoize the results of
-		// walking up the tree, but for now we won't.
-		// Memoize plan is to take the gap (inclusive)
-		// from otherIndex.exit+1 to blockIndex.entry-1
-		// and insert it into this or a second tree.
-		// Said tree would then need adjusting whenever
-		// an insertion occurred.
 
-		// Expectation is that per-variable tree is sparse,
-		// therefore probe siblings instead of climbing up.
-		// Note that each sibling encountered in this walk
-		// to find a defining ancestor shares that ancestor
-		// because the walk skips over the interior -- each
-		// Glb will be an exit, and the iteration is to the
-		// Glb of the entry.
-		_, v = rbtree.Glb(otherIndex.entry - 1)
+	if v == nil {
+		return nil
 	}
-	return nil // nothing found
+
+	otherEntry := v.(*sparseTreeMapEntry)
+	if otherEntry.index.exit >= blockIndex.exit { // otherEntry brackets
+		return otherEntry
+	}
+	sp := otherEntry.sparseParent
+	if sp != nil {
+		if sp.index.exit < blockIndex.exit { // no ancestor found
+			return nil
+		}
+		return sp
+	}
+	return nil
 }
 
 func (m *SparseTreeMap) String() string {
@@ -165,5 +169,8 @@ func (m *SparseTreeMap) String() string {
 }
 
 func (e *sparseTreeMapEntry) String() string {
-	return fmt.Sprintf("index=%v, data=%v", e.index, e.data)
+	if e == nil {
+		return "nil"
+	}
+	return fmt.Sprintf("(index=%v, block=%v, data=%v)->%v", e.index, e.block, e.data, e.sparseParent)
 }
