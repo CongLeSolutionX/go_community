@@ -8,8 +8,13 @@
 #include "textflag.h"
 #include "funcdata.h"
 
+// +build netbsd
+// +build freebsd
+// +build openbsd
+// +build dragonfly
+
 //
-// System call support for AMD64, NetBSD
+// System call support for AMD64 unixes
 //
 
 // func Syscall(trap int64, a1, a2, a3 int64) (r1, r2, err int64);

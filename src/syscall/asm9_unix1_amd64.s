@@ -8,8 +8,11 @@
 #include "textflag.h"
 #include "funcdata.h"
 
+// +build netbsd
+// +build openbsd
+
 //
-// Syscall9 support for AMD64, NetBSD
+// Syscall9 support for AMD64, NetBSD and OpenBSD
 //
 
 // func Syscall9(trap int64, a1, a2, a3, a4, a5, a6, a7, a8, a9 int64) (r1, r2, err int64);
