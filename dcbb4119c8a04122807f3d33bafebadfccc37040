@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a89b33d_effd15a3",
+        "filename": "src/cmd/compile/internal/ssa/sparsetreemap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-07-21T06:11:41Z",
+      "side": 1,
+      "message": "We set the parent here, but what if a future insert creates an entry between b and what is returned by findEntry here?  The entry structure we create here now contains obsolete data.",
+      "revId": "dcbb4119c8a04122807f3d33bafebadfccc37040",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_cf00519e",
+        "filename": "src/cmd/compile/internal/ssa/sparsetreemap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-07-21T06:11:41Z",
+      "side": 1,
+      "message": "I don\u0027t understand this part.  Why are we looking at parents?  And why not all ancestors?",
+      "revId": "dcbb4119c8a04122807f3d33bafebadfccc37040",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
