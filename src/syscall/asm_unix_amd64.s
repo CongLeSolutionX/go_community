@@ -1,3 +1,8 @@
+// +build netbsd
+// +build freebsd
+// +build openbsd
+// +build dragonfly
+
 // Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -9,7 +14,7 @@
 #include "funcdata.h"
 
 //
-// System call support for AMD64, NetBSD
+// System call support for AMD64 unixes
 //
 
 // func Syscall(trap int64, a1, a2, a3 int64) (r1, r2, err int64);
