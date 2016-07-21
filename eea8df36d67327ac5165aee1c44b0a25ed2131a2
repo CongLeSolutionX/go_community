@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a89b33d_52308aed",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "Consider s/sccnums/sccs/",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_d2439a46",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "s/tLastUse/lastuse/ or maybe even just use\ns/tFirstDef/firstdef/ or maybe even just def\n\nThese naming nitpicks are aimed at readability.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_b2462658",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "There are a lot of lookups of the form\n\nsccnums[po[x].ID]\n\nIs it worth adding a well-named method to helper that does this lookup? The goal would mainly be code clarity.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_f257befb",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "Do we know a priori that tFirstDef \u003e\u003d 0?",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_8f3cf985",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "The iteration itself is pretty cheap, and it seems like the code is just duplicated. (Humans are pretty bad at diffing, though, so maybe I am missing a small change.)\n\nSo I\u0027d suggest to just always iterate, even though it is sometimes a priori know to be unnecessary. If there is some minor variation in the code, just guard with an if statement to only do it when iterating (or not, as appropriate).",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_5267aaf4",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "This is really part of a different CL, no?",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_cf18c125",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "What is the relationship between the negative and the non-negative scc numbers?\n\nAn example CFG with sample output might be helpful.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_2ffea5b2",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "var i, sccnum int32",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_efb77dff",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "Please move these comments next to the code that does the work. It\u0027s not obvious which part of the code below is the \"first part\" and the \"second part\".",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_92be8218",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "Recursion+captured variables makes my head hurt.\n\nIt\u0027d be nice to derecurse, but if we\u0027re not going to, I think it might help readability for this to be a top level function with explicit arguments. If there are too many arguments, we could make a local struct type to hold them and make the recursive function a method on the struct.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_f2c5fea3",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "Add a \u0027continue\u0027 here and convert the \u0027else if\u0027 on the next line to just an \u0027if\u0027.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_2fa225c2",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "if lowlink[v] !\u003d index[v] {\n  return\n}\n\nand then unindent everything below.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baab60ef_8f9b5989",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T15:20:01Z",
+      "side": 1,
+      "message": "if count \u003d\u003d 1 {\n  // do the simple work\n  return\n}\n\nand then unindent the SCC-specific PO.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
