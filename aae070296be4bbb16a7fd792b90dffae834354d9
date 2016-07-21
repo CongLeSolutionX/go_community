@@ -16,6 +16,23 @@
       "revId": "aae070296be4bbb16a7fd792b90dffae834354d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_695685d7",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-07-21T00:18:23Z",
+      "side": 1,
+      "message": "Other sigtramp routines appear to use RET for this.\n\nMention the bug number?",
+      "revId": "aae070296be4bbb16a7fd792b90dffae834354d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
