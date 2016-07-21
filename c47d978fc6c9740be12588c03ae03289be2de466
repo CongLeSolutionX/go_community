@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae3abef_c4bdb4ad",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-07-21T14:04:17Z",
+      "side": 1,
+      "message": "There is an sp \u003d buildReg(\"sp\") earlier in this file and a commented sb \u003d buildReg(\"sb\"), can the sb line be uncommented and then you can use sp | sb here instead of using buildReg?\n\nAlso I believe that all the earlier regInfo definitions in this file that now use gp | sp should be gp | sp | sb.",
+      "range": {
+        "startLine": 170,
+        "startChar": 18,
+        "endLine": 170,
+        "endChar": 20
+      },
+      "revId": "c47d978fc6c9740be12588c03ae03289be2de466",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
