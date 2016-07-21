@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ae3abef_4458c463",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-21T14:47:04Z",
+      "side": 1,
+      "message": "It\u0027s a mistake, I\u0027ll fix.",
+      "parentUuid": "8ae3abef_84948ce6",
+      "revId": "c47d978fc6c9740be12588c03ae03289be2de466",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae3abef_c4bdb4ad",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 170,
         "endChar": 20
       },
+      "revId": "c47d978fc6c9740be12588c03ae03289be2de466",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae3abef_645dc052",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-21T14:47:04Z",
+      "side": 1,
+      "message": "will do, thanks.",
+      "parentUuid": "8ae3abef_c4bdb4ad",
       "revId": "c47d978fc6c9740be12588c03ae03289be2de466",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
