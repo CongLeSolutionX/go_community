@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a89b33d_9277629c",
+        "filename": "src/cmd/compile/internal/ssa/sparsetreemap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-07-21T15:12:43Z",
+      "side": 1,
+      "message": "s/maybe/may/",
+      "range": {
+        "startLine": 94,
+        "startChar": 115,
+        "endLine": 94,
+        "endChar": 120
+      },
+      "revId": "63708193d42293f72f23c698d705b8b7ced4a7ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
