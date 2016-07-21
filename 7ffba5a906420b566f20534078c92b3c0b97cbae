@@ -16,6 +16,23 @@
       "revId": "7ffba5a906420b566f20534078c92b3c0b97cbae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_1802b162",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-21T18:19:53Z",
+      "side": 1,
+      "message": "I assume there is existing test coverage for this somewhere?",
+      "revId": "7ffba5a906420b566f20534078c92b3c0b97cbae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
