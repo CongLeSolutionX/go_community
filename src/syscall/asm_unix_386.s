@@ -8,8 +8,12 @@
 #include "textflag.h"
 #include "funcdata.h"
 
+// +build netbsd
+// +build freebsd
+// +build openbsd
+
 //
-// System call support for 386, FreeBSD
+// System call support for some 386 unixes
 //
 
 // func Syscall(trap int32, a1, a2, a3 int32) (r1, r2, err int32);
