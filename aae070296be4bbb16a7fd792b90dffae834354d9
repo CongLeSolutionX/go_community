@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4a89b33d_6924c567",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-07-21T00:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a2837c6_b3dd6a3b",
+      "revId": "aae070296be4bbb16a7fd792b90dffae834354d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a89b33d_695685d7",
         "filename": "src/runtime/sys_darwin_amd64.s",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-21T00:18:23Z",
       "side": 1,
       "message": "Other sigtramp routines appear to use RET for this.\n\nMention the bug number?",
+      "revId": "aae070296be4bbb16a7fd792b90dffae834354d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_2941edf4",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-07-21T00:23:45Z",
+      "side": 1,
+      "message": "\u003e Other sigtramp routines appear to use RET for this.\n\nOther sigtramp routines work differently.  On Darwin, sigtrampgo always calls sigreturn, which never returns.\n\n \u003e Mention the bug number?\n\nDone.",
+      "parentUuid": "4a89b33d_695685d7",
       "revId": "aae070296be4bbb16a7fd792b90dffae834354d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
