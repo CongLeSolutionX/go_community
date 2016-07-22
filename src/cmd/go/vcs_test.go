@@ -306,6 +306,13 @@ func TestMatchGoImport(t *testing.T) {
 			path: "example.com",
 			err:  errors.New("pathologically short path"),
 		},
+		{
+			imports: []metaImport{
+				{Prefix: "example.com/user/tristanfo", VCS: "git", RepoRoot: "https://example.com/repo/target"},
+			},
+			path: "different.example.com/user/tristanfoo",
+			err:  errors.New("meta tags do not match import path"),
+		},
 	}
 
 	for _, test := range tests {
