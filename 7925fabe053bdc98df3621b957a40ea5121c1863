@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae3abef_35084032",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-22T13:38:46Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to remove this line, and perhaps combine this case and the case above.\n\nMaybe add some comments about operand ordering?",
+      "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae3abef_15f3443e",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-22T13:38:46Z",
+      "side": 1,
+      "message": "This should be v. This might fix 8-bit fib?",
+      "range": {
+        "startLine": 232,
+        "startChar": 26,
+        "endLine": 232,
+        "endChar": 35
+      },
+      "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae3abef_9507541f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-22T13:38:46Z",
+      "side": 1,
+      "message": "I think inputs[0] and inputs[1] should be swapped. Stores have arg0\u003dptr, arg1\u003dval. (although FP stores seem not implemented yet).",
+      "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
