@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a89b33d_4bf9ac82",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-22T05:35:00Z",
+      "side": 1,
+      "message": "this is very odd for a number of reasons.\n\nerr variables are named errFoo, and error types are named fooError.\n\nbut why is this a type now?\n\noh, for your assert things. typically you\u0027d make this be a non-interface type so the error value was inspectable, and then you\u0027d add a String method here.",
+      "revId": "4603b6f918be6c6385c2f911980a44aaeaf9b693",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a89b33d_6bee70bb",
+        "filename": "src/cmd/go/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-22T05:35:00Z",
+      "side": 1,
+      "message": "premature. just use a \"var x []string\"",
+      "revId": "4603b6f918be6c6385c2f911980a44aaeaf9b693",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
