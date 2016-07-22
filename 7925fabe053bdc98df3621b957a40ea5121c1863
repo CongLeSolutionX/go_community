@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ae3abef_756728f5",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-22T15:29:37Z",
+      "side": 1,
+      "message": "Fixed, except I forgot to add the operand order comment.",
+      "parentUuid": "8ae3abef_35084032",
+      "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae3abef_15f3443e",
         "filename": "src/cmd/compile/internal/ppc64/ssa.go",
         "patchSetId": 3
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "8ae3abef_956cb4d9",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-22T15:29:37Z",
+      "side": 1,
+      "message": "Yes, and it did fix it.",
+      "parentUuid": "8ae3abef_15f3443e",
+      "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae3abef_9507541f",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
@@ -53,6 +89,24 @@
       "writtenOn": "2016-07-22T13:38:46Z",
       "side": 1,
       "message": "I think inputs[0] and inputs[1] should be swapped. Stores have arg0\u003dptr, arg1\u003dval. (although FP stores seem not implemented yet).",
+      "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae3abef_b550d008",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-22T15:29:37Z",
+      "side": 1,
+      "message": "I agree, and I did this, though it is not yet tested.",
+      "parentUuid": "8ae3abef_9507541f",
       "revId": "7925fabe053bdc98df3621b957a40ea5121c1863",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
