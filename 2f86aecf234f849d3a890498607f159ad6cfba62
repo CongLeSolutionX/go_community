@@ -16,6 +16,24 @@
       "revId": "2f86aecf234f849d3a890498607f159ad6cfba62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_81833aa8",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-07-23T21:19:52Z",
+      "side": 1,
+      "message": "The assembler would use a tmp register (REGTMP) for large offset, and emits multiple instructions. The assembler might be buggy in some cases, will check (and fix).",
+      "parentUuid": "4ae6135b_014a8ab1",
+      "revId": "2f86aecf234f849d3a890498607f159ad6cfba62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
