@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae6135b_c11a62d5",
+        "filename": "src/context/context_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2016-07-23T02:57:23Z",
+      "side": 1,
+      "message": "We should be able to have a much tighter bound in this case.\nPlease also add a test for deadline\u003d\u003dtime.Now().",
+      "range": {
+        "startLine": 260,
+        "startChar": 43,
+        "endLine": 260,
+        "endChar": 54
+      },
+      "revId": "34d75c306cd4948ecc6cd1e050f46b04df6f579b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
