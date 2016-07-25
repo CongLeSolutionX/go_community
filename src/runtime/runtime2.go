@@ -389,6 +389,8 @@ type g struct {
 	// If gcphase != _GCoff and this G is visible to the garbage
 	// collector, writes to this are protected by work.rescan.lock.
 	gcRescan int32
+	rocvalid bool // if true and if mstats.gcnum matches rocgcnum then we can rollback
+	rocgcnum uint32
 
 	// gcAssistBytes is this G's GC assist credit in terms of
 	// bytes allocated. If this is positive, then the G has credit

@@ -284,6 +284,10 @@ func setGCPhase(x uint32) {
 	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo
 }
 
+func isGCoff() bool {
+	return atomic.Load(&gcphase) == _GCoff
+}
+
 // gcMarkWorkerMode represents the mode that a concurrent mark worker
 // should operate in.
 //

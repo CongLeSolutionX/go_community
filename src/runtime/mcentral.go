@@ -132,6 +132,38 @@ havespan:
 	return s
 }
 
+// releaseROCSpan moves a span associated with a ROC epoch out of the
+// mcache structure and places it on the appropriate list associated with
+// c. When the span was moved onto the mcache the memstats values were updated
+// to indicate that the span was completely full. If some space remains in the
+// span then update memstats accordingly.
+func (c *mcentral) releaseROCSpan(s *mspan) {
+	lock(&c.lock)
+	s.incache = false
+	if s.nextUsedSpan != nil {
+		throw("releaseROCSpan has non-nil s.nextUsedSpan")
+	}
+	// 3 possibilities even though two do the same thing.
+	if s.allocCount == s.nelems {
+		// 1. Free list is empty so put on empty freelist list.
+		c.empty.remove(s)
+		c.empty.insert(s)
+	} else {
+		// 2. (s.allocCount > 0) freelist is not empty but entire span is not free,
+		// put on nonempty freelist list.
+		// or
+		// 3. entire span is empty, leave it on nonempty freelist list instead
+		// of calling freeSpan. The likelihood that it will be needed
+		// is high.
+		// Another reasonable approach would be to call freeSpan with
+		// this span.
+		c.empty.remove(s)
+		c.nonempty.insert(s) // nonempty free list
+	}
+	atomic.Xadd64(&memstats.heap_live, -int64(s.nelems-s.allocCount)*int64(s.elemsize))
+	unlock(&c.lock)
+}
+
 // Return span from an MCache.
 func (c *mcentral) uncacheSpan(s *mspan) {
 	lock(&c.lock)

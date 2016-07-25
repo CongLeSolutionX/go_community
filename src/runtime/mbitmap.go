@@ -1112,7 +1112,7 @@ func (s *mspan) countFree() uintptr {
 		bits := mrkBits & mask
 		count += uintptr(oneBitCount[bits])
 	}
-	return (s.nelems) - count
+	return s.nelems - count
 }
 
 // allocated counts allocated objects. This is sometimes called popcount.
