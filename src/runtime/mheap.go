@@ -190,7 +190,9 @@ type mspan struct {
 	// undefined and should never be referenced.
 	//
 	// Object n starts at address n*elemsize + (start << pageShift).
-	freeindex uintptr
+	freeindex          uintptr
+	rollbackCount      uintptr
+	abortRollbackCount uintptr
 	// TODO: Look up nelems from sizeclass and remove this field if it
 	// helps performance.
 	nelems uintptr // number of object in the span.
@@ -244,7 +246,7 @@ type mspan struct {
 	sweepgen    uint32
 	divMul      uint16     // for divide by elemsize - divMagic.mul
 	baseMask    uint16     // if non-0, elemsize is a power of 2, & this will get object allocation base
-	allocCount  uint16     // capacity - number of objects in freelist
+	allocCount  uintptr    // capacity - number of objects in freelist
 	spanclass   spanClass  // size class and noscan (uint8)
 	incache     bool       // being used by an mcache
 	state       mSpanState // mspaninuse etc
@@ -257,6 +259,19 @@ type mspan struct {
 	limit       uintptr    // end of data in span
 	speciallock mutex      // guards specials list
 	specials    *special   // linked list of special records sorted by offset.
+}
+
+func (s *mspan) trace(str string) {
+	if debug.gcroc >= 3 {
+		if s == &emptymspan {
+			println(str, "emptymspan")
+		} else {
+			println(str, "g=", getg(), "s.base()=", hex(s.base()),
+				"\n     s.elemsize=", s.elemsize, "s.startindex=", s.startindex,
+				"\n     s.freeindex=", s.freeindex, "s.nelems=", s.nelems,
+				"\n     s.allocCount=", s.allocCount, "s.sweepgen", s.sweepgen)
+		}
+	}
 }
 
 func (s *mspan) base() uintptr {
@@ -1056,6 +1071,7 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.spanclass = 0
 	span.incache = false
 	span.elemsize = 0
+	span.nelems = 0
 	span.state = _MSpanDead
 	span.unusedsince = 0
 	span.npreleased = 0
@@ -1063,8 +1079,11 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.specials = nil
 	span.needzero = 0
 	span.freeindex = 0
+	span.startindex = 0
 	span.allocBits = nil
 	span.gcmarkBits = nil
+	span.allocCache = 0
+	span.nextUsedSpan = nil
 }
 
 func (span *mspan) inList() bool {

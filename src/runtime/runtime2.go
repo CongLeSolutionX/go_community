@@ -390,6 +390,11 @@ type g struct {
 	// collector, writes to this are protected by work.rescan.lock.
 	gcRescan int32
 
+	rocvalid bool // if true and if mstats.gcnum matches rocgcnum then we can rollback
+	rocgcnum uint32
+
+	// Per-G gcController state
+
 	// gcAssistBytes is this G's GC assist credit in terms of
 	// bytes allocated. If this is positive, then the G has credit
 	// to allocate gcAssistBytes bytes without assisting. If this
