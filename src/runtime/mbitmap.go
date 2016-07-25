@@ -254,6 +254,9 @@ func isPublic(obj uintptr) bool {
 	if abits.isMarked() {
 		return true
 	} else if s.freeindex <= abits.index {
+		systemstack(func() {
+			dumpBrokenIsPublicState(s, oldSweepgen, obj, abits, sg)
+		})
 		_ = *(*int)(unsafe.Pointer(uintptr(0))) // blowup without increase stack size with a throw.
 	}
 
@@ -1181,20 +1184,20 @@ var oneBitCount = [256]uint8{
 
 // countFree runs through the mark bits in a span and counts the number of free objects
 // in the span.
-func (s *mspan) countFree() uint16 {
-	count := uint16(0)
+func (s *mspan) countFree() uintptr {
+	count := uintptr(0)
 	maxIndex := s.nelems / 8
 	for i := uintptr(0); i < maxIndex; i++ {
 		mrkBits := *addb(s.gcmarkBits, i)
-		count += uint16(oneBitCount[mrkBits])
+		count += uintptr(oneBitCount[mrkBits])
 	}
 	if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
 		mrkBits := *addb(s.gcmarkBits, maxIndex)
 		mask := uint8((1 << bitsInLastByte) - 1)
 		bits := mrkBits & mask
-		count += uint16(oneBitCount[bits])
+		count += uintptr(oneBitCount[bits])
 	}
-	return uint16(s.nelems) - count
+	return s.nelems - count
 }
 
 // allocatedMasker returns the number of objects allocated in a span. It sums
