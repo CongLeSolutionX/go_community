@@ -29,6 +29,7 @@ type mcache struct {
 	tiny             uintptr
 	tinyoffset       uintptr
 	local_tinyallocs uintptr // number of tiny allocs not counted in other stats
+	rocgoid          int64   // The goid associated with the last roc checkpoint
 
 	// The rest is not accessed on every malloc.
 

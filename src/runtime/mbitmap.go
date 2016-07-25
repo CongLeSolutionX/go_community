@@ -960,20 +960,66 @@ var oneBitCount = [256]uint8{
 
 // countFree runs through the mark bits in a span and counts the number of free objects
 // in the span.
-func (s *mspan) countFree() uint16 {
-	count := uint16(0)
+func (s *mspan) countFree() uintptr {
+	count := uintptr(0)
 	maxIndex := s.nelems / 8
 	for i := uintptr(0); i < maxIndex; i++ {
 		mrkBits := *addb(s.gcmarkBits, i)
-		count += uint16(oneBitCount[mrkBits])
+		count += uintptr(oneBitCount[mrkBits])
 	}
 	if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
 		mrkBits := *addb(s.gcmarkBits, maxIndex)
 		mask := uint8((1 << bitsInLastByte) - 1)
 		bits := mrkBits & mask
-		count += uint16(oneBitCount[bits])
+		count += uintptr(oneBitCount[bits])
 	}
-	return uint16(s.nelems) - count
+	return s.nelems - count
+}
+
+// allocated returns the number of objects allocated in a span. It sums
+// s.freeindex and the set bits in the allocBits >= s.freeindex and
+// < s.nelems
+func (s *mspan) allocated() uintptr {
+	if s.freeindex == s.nelems {
+		return s.freeindex
+	}
+	count := s.freeindex
+	maxIndex := s.nelems / 8
+	// Deal with byte holding freeindex
+	idx := s.freeindex / 8
+	allocByte := *addb(s.allocBits, idx)
+	mask := ^(1>>(byte(s.freeindex)&7) - 1) // mask out bits accounted for by freeindex
+	allocByte &= byte(mask)
+	if idx == s.nelems%8 {
+		bitsToCount := s.nelems % 8
+		// mask out bites beyond nelems
+		maskBeyond := uint8((1 << bitsToCount) - 1)
+		allocByte &= maskBeyond
+	}
+	count += uintptr(oneBitCount[allocByte])
+	if idx == maxIndex {
+		if count > s.nelems {
+			throw("allocCount > s.nelems")
+		}
+		return count
+	}
+
+	for i := idx + 1; i < maxIndex; i++ {
+		allocBits := *addb(s.allocBits, i)
+		count += uintptr(oneBitCount[allocBits])
+	}
+
+	// Now deal with maxIndex bits if there are any.
+	if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
+		allocBits := *addb(s.allocBits, maxIndex)
+		mask := uint8((1 << bitsInLastByte) - 1)
+		bits := allocBits & mask
+		count += uintptr(oneBitCount[bits])
+	}
+	if count > s.nelems {
+		throw("allocCount > s.nelems")
+	}
+	return count
 }
 
 // heapBitsSetType records that the new allocation [x, x+size)
