@@ -31,12 +31,12 @@ type mcache struct {
 	tiny             uintptr
 	tinyoffset       uintptr
 	local_tinyallocs uintptr // number of tiny allocs not counted in other stats
+	rocgoid          int64   // The goid associated with the last roc checkpoint
 
 	// The rest is not accessed on every malloc.
-
-	alloc [numSpanClasses]*mspan // spans to allocate from, indexed by spanClass
-
-	stackcache [_NumStackOrders]stackfreelist
+	alloc           [numSpanClasses]*mspan // spans to allocate from, indexed by spanClass
+	largeAllocSpans *mspan
+	stackcache      [_NumStackOrders]stackfreelist
 
 	// Local allocator stats, flushed during GC.
 	local_nlookup    uintptr                  // number of pointer lookups
