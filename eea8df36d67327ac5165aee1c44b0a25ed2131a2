@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_24f99c20",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "new method on helper made it go away completely.",
+      "parentUuid": "4a89b33d_52308aed",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a89b33d_d2439a46",
         "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-21T15:20:01Z",
       "side": 1,
       "message": "s/tLastUse/lastuse/ or maybe even just use\ns/tFirstDef/firstdef/ or maybe even just def\n\nThese naming nitpicks are aimed at readability.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_01c44a62",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a89b33d_d2439a46",
       "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_84f6a82c",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a89b33d_b2462658",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a89b33d_f257befb",
         "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-07-21T15:20:01Z",
       "side": 1,
       "message": "Do we know a priori that tFirstDef \u003e\u003d 0?",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_c40ef036",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "yes. It is specifically an index from po where a definition was seen.\nShould there be a comment?",
+      "parentUuid": "4a89b33d_f257befb",
       "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_44a0203a",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "The iteration is not cheap.\nThis is what accounts for the bulk of the time savings for gogo/protobuf.\nI can attempt to common up the code.",
+      "parentUuid": "baab60ef_8f3cf985",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a89b33d_5267aaf4",
         "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2016-07-21T15:20:01Z",
       "side": 1,
       "message": "This is really part of a different CL, no?",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_21db4e46",
+        "filename": "src/cmd/compile/internal/gc/sparselocatephifunctions.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Yes.  I intended this one to subsume the other, since it was not moving in 1.7 (except that it did).\nFor performance comparisons/tracking, I need to leave it in, and will wait till dev.ssa is remerged w/ 1.7 and then I\u0027ll fix the CL.",
+      "parentUuid": "4a89b33d_5267aaf4",
       "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_847188e0",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baab60ef_cf18c125",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baab60ef_2ffea5b2",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2016-07-21T15:20:01Z",
       "side": 1,
       "message": "var i, sccnum int32",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_646e04fe",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baab60ef_2ffea5b2",
       "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_81afba90",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done?",
+      "parentUuid": "baab60ef_efb77dff",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a89b33d_92be8218",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2016-07-21T15:20:01Z",
       "side": 1,
       "message": "Recursion+captured variables makes my head hurt.\n\nIt\u0027d be nice to derecurse, but if we\u0027re not going to, I think it might help readability for this to be a top level function with explicit arguments. If there are too many arguments, we could make a local struct type to hold them and make the recursive function a method on the struct.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_61ac369c",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "The last person who tried that with one of these fine Tarjan graph algorithms got it subtly wrong, so I\u0027m going to do this last, if at all.",
+      "parentUuid": "4a89b33d_92be8218",
       "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_21a22eaa",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a89b33d_f2c5fea3",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baab60ef_2fa225c2",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "4ae6135b_41a5b2b0",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baab60ef_2fa225c2",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baab60ef_8f9b5989",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 1
@@ -217,6 +433,24 @@
       "writtenOn": "2016-07-21T15:20:01Z",
       "side": 1,
       "message": "if count \u003d\u003d 1 {\n  // do the simple work\n  return\n}\n\nand then unindent the SCC-specific PO.",
+      "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae6135b_e1bfa6c4",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-25T18:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baab60ef_8f9b5989",
       "revId": "eea8df36d67327ac5165aee1c44b0a25ed2131a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
