@@ -255,9 +255,6 @@ func isPublic(ptr uintptr) bool {
 	abits := s.allocBitsForAddr(ptr)
 	if abits.isMarked() {
 		return true
-	} else if s.freeindex <= abits.index {
-		// blowup without supressing inlining.
-		_ = *(*int)(unsafe.Pointer(uintptr(0)))
 	}
 
 	// The object is not marked. If it is part of the current
@@ -1099,20 +1096,20 @@ var oneBitCount = [256]uint8{
 // countFree runs through the mark bits in a span and counts the number of free objects
 // in the span.
 // TODO:(rlh) Use popcount intrinsic.
-func (s *mspan) countFree() uint16 {
-	count := uint16(0)
+func (s *mspan) countFree() uintptr {
+	count := uintptr(0)
 	maxIndex := s.nelems / 8
 	for i := uintptr(0); i < maxIndex; i++ {
 		mrkBits := *addb(s.gcmarkBits, i)
-		count += uint16(oneBitCount[mrkBits])
+		count += uintptr(oneBitCount[mrkBits])
 	}
 	if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
 		mrkBits := *addb(s.gcmarkBits, maxIndex)
 		mask := uint8((1 << bitsInLastByte) - 1)
 		bits := mrkBits & mask
-		count += uint16(oneBitCount[bits])
+		count += uintptr(oneBitCount[bits])
 	}
-	return uint16(s.nelems) - count
+	return s.nelems - count
 }
 
 // allocated counts allocated objects. This is sometimes called popcount.
