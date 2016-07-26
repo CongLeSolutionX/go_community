@@ -4,7 +4,9 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"unsafe"
+)
 
 // Per-thread (in Go, per-P) cache for small objects.
 // No locking needed because it is per-thread (per-P).
@@ -145,4 +147,10 @@ func (c *mcache) releaseAll() {
 	// Clear tinyalloc pool.
 	c.tiny = 0
 	c.tinyoffset = 0
+}
+
+// rollbackAllocCount recalculates the number of objects allocated in s
+// and reflects that in s.allocCount.
+func (s *mspan) rollbackAllocCount() {
+	s.allocCount = s.allocated()
 }
