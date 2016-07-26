@@ -22,6 +22,24 @@
       "revId": "7e1592c8b65ee37c54198ff363b1011f84c71392",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfacd570_0537f298",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-07-26T16:46:49Z",
+      "side": 1,
+      "message": "Perfect, thanks. I figured something like that existed.\n\nI didn\u0027t mind the exec too much because that\u0027s how we used to get the roots on OS X anyway by shelling out to a program, and it only happens at most once anyway. But no exec is better.",
+      "parentUuid": "8f181d70_93f35c3e",
+      "revId": "7e1592c8b65ee37c54198ff363b1011f84c71392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
