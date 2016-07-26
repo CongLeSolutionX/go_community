@@ -87,19 +87,78 @@ int FetchPEMRoots(CFDataRef *pemRoots) {
 	*pemRoots = combinedData;
 	return 0;
 }
+
+// FetchPEMRoots_MountainLion is the version of FetchPEMRoots from Go 1.6
+// which still works on OS X 10.8 (Mountain Lion).
+// It lacks support for admin & user cert domains.
+// See golang.org/issue/16473
+int FetchPEMRoots_MountainLion(CFDataRef *pemRoots) {
+	if (pemRoots == NULL) {
+		return -1;
+	}
+	CFArrayRef certs = NULL;
+	OSStatus err = SecTrustCopyAnchorCertificates(&certs);
+	if (err != noErr) {
+		return -1;
+	}
+	CFMutableDataRef combinedData = CFDataCreateMutable(kCFAllocatorDefault, 0);
+	int i, ncerts = CFArrayGetCount(certs);
+	for (i = 0; i < ncerts; i++) {
+		CFDataRef data = NULL;
+		SecCertificateRef cert = (SecCertificateRef)CFArrayGetValueAtIndex(certs, i);
+		if (cert == NULL) {
+			continue;
+		}
+		// Note: SecKeychainItemExport is deprecated as of 10.7 in favor of SecItemExport.
+		// Once we support weak imports via cgo we should prefer that, and fall back to this
+		// for older systems.
+		err = SecKeychainItemExport(cert, kSecFormatX509Cert, kSecItemPemArmour, NULL, &data);
+		if (err != noErr) {
+			continue;
+		}
+		if (data != NULL) {
+			CFDataAppendBytes(combinedData, CFDataGetBytePtr(data), CFDataGetLength(data));
+			CFRelease(data);
+		}
+	}
+	CFRelease(certs);
+	*pemRoots = combinedData;
+	return 0;
+}
+
 */
 import "C"
 import (
 	"errors"
+	"os/exec"
+	"strings"
 	"unsafe"
 )
+
+func productVersion() (string, error) {
+	ver, err := exec.Command("/usr/bin/sw_vers", "-productVersion").Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(ver)), nil
+}
 
 func loadSystemRoots() (*CertPool, error) {
 	roots := NewCertPool()
 
+	ver, err := productVersion()
+	if err != nil {
+		return nil, err
+	}
+
 	var data C.CFDataRef = nil
-	err := C.FetchPEMRoots(&data)
-	if err == -1 {
+	var fetchErr C.int
+	if strings.HasPrefix(ver, "10.8.") || ver == "10.8" {
+		fetchErr = C.FetchPEMRoots_MountainLion(&data)
+	} else {
+		fetchErr = C.FetchPEMRoots(&data)
+	}
+	if fetchErr == -1 {
 		// TODO: better error message
 		return nil, errors.New("crypto/x509: failed to load darwin system roots with cgo")
 	}
