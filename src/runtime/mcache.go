@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 // Per-thread (in Go, per-P) cache for small objects.
 // No locking needed because it is per-thread (per-P).
@@ -144,4 +147,72 @@ func (c *mcache) releaseAll() {
 	// Clear tinyalloc pool.
 	c.tiny = 0
 	c.tinyoffset = 0
+}
+
+// rollbackAllocCount recalculates the number of objects allocated in s
+// and reflects that in s.allocCount.
+func (s *mspan) rollbackAllocCount() {
+	s.allocCount = s.allocated()
+}
+
+// rollbackAllocCountDebug is used when debug.gcroc >= 2 and contains prints
+// out informative messages.
+func (s *mspan) rollbackAllocCountDebug(oldfreeindex uintptr, ssweepgen uint32, mheapsweepgen uint32, brand int) {
+	if s.startindex != s.freeindex {
+		println("runtime: rollbackAllocCount sees span with freeindex != startindex so recycle logic is suspect.")
+		throw("startindex not same as freeindex")
+	}
+	oldsweepgen := atomic.Load(&s.sweepgen)
+	traceOn := debug.gcroc >= 3
+	if traceOn {
+		s.trace("rollbackAllocCount")
+		println("s.startindex=", s.startindex, "s.freeindex=", s.freeindex,
+			"s.allocCount=", s.allocCount, "s.nelems=", s.nelems, "s.elemsize=", s.elemsize)
+	}
+	allocated := s.allocated()
+	if debug.gcroc >= 2 {
+		count := s.startindex // everything before the start index is considered allocated
+		for i := s.startindex; i < s.nelems; i++ {
+			if !s.isFree(i) {
+				count++ // everything between the start index and the last index (s.nelems-1) that is 1 is considered allocated
+			}
+		}
+		if count != s.allocated() {
+			freshCount := s.startindex
+			for i := s.startindex; i < s.nelems; i++ {
+				if !s.isFree(i) {
+					freshCount++ // everything between the start index and the last index (s.nelems-1) that is 1 is considered allocated
+				}
+			}
+			if freshCount != count {
+				throw("freshCount != count")
+			}
+			println("runtime: freshCount == count")
+			recount := s.allocatedDebug(count)
+			println("count=", count, "s.allocated()=", s.allocated(), "s.startindex, s.freeindex=", s.startindex, s.freeindex,
+				"s.nelems=", s.nelems, "recount=", recount)
+			throw("count != s.allocated")
+		}
+
+		if s.startindex != s.freeindex && atomic.Load(&gcphase) == _GCoff {
+			if oldsweepgen != atomic.Load(&s.sweepgen) || oldsweepgen != mheap_.sweepgen {
+				println("oldsweepgen(", oldsweepgen, ") != atomic.Load(&s.sweepgen)", atomic.Load(&s.sweepgen))
+			}
+			println("mcache.go:397 busted s.startindex=", s.startindex, "s.freeindex=", s.freeindex, "oldfreeindex=", oldfreeindex,
+				"\n     s.allocCount=", s.allocCount, "s.nelems=", s.nelems, "s.elemsize=", s.elemsize, "oldsweepgen=", oldsweepgen,
+				"\n     s.sweepgen=", s.sweepgen, "mheap_.sweepgen=", mheap_.sweepgen, "gcphase=", atomic.Load(&gcphase),
+				"\n ssweepgen=", ssweepgen, "mheapsweepgen=", mheapsweepgen, "brand=", brand)
+			throw(" rollback but s.startindex != s.freeindex")
+		}
+	}
+	s.allocCount = allocated
+	if !s.checkAllocCount(s.freeindex) {
+		throw("bad checkAllocCount")
+	}
+
+	if traceOn {
+		println("free objects s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
+		s.trace("rollbackAllocCount exits")
+	}
+
 }

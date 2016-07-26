@@ -1323,6 +1323,72 @@ func (s *mspan) allocated() uintptr {
 	return count
 }
 
+func (s *mspan) allocatedDebug(target uintptr) uintptr {
+	if s.freeindex == s.nelems {
+		return s.freeindex
+	}
+	count := s.freeindex
+	maxIndex := (s.nelems - 1) / 8
+	println("1249: maxIndex =", maxIndex, "s.nelems=", s.nelems, "s.freeindex=", s.freeindex)
+	// Deal with byte holding freeindex
+	idx := s.freeindex / 8
+	allocByte := *addb(s.allocBits, idx)
+	println("1253: allocByte before mask=", hex(allocByte))
+	mask := ^(1<<(byte(s.freeindex)&7) - 1) // mask out bits accounted for by freeindex
+	allocByte &= byte(mask)
+	println("1256: idx=", idx, "allocByte=", hex(allocByte), "mask=", hex(mask), "1<<(byte(s.freeindex)&7)=", hex(1<<(byte(s.freeindex)&7)),
+		"^(1<<(byte(s.freeindex)&7) - 1)", hex(^(1<<(byte(s.freeindex)&7) - 1)))
+	if idx == maxIndex {
+		bitsToCount := s.nelems % 8
+		if bitsToCount == 0 {
+			bitsToCount = 8
+		}
+		// mask out bites beyond nelems
+		maskBeyond := uint8((1 << bitsToCount) - 1)
+		allocByte &= maskBeyond
+		println("1265: idx==maxIndex=", idx, " bitsToCount=", bitsToCount, "maskBeyond=", maskBeyond, "allocByte=", hex(allocByte))
+	}
+	count += uintptr(oneBitCount[allocByte])
+	println("1266: count=", count)
+	if idx == maxIndex {
+		if count > s.nelems {
+			throw("allocCount > s.nelems")
+		}
+		println("idx=maxIndex =", idx, maxIndex, "count=", count, "want=", target)
+		return count
+	}
+	println("-- start for -- idx=", idx, "maxIndex=", maxIndex)
+	for i := idx + 1; i < maxIndex; i++ {
+		allocBits := *addb(s.allocBits, i)
+		count += uintptr(oneBitCount[allocBits])
+		println("i=", i, "allocBits=", hex(allocBits), "oneBitCount[allocBits]=", oneBitCount[allocBits], "count=", count)
+	}
+	println("--- end for --- ")
+	allocBits := *addb(s.allocBits, maxIndex)
+	bitsInLastByte := s.nelems % 8
+	if bitsInLastByte == 0 {
+		// all of last byte is used.
+		count += uintptr(oneBitCount[allocBits])
+		println("1286: entire last byte used allocBits=", allocBits, "count=", count)
+	} else {
+		println("1289: allocBits=", hex(allocBits), "bitsInLastByte=", bitsInLastByte)
+		// Now deal with maxIndex bits if there are any.
+		if bitsInLastByte := s.nelems % 8; bitsInLastByte != 0 {
+			allocBits := *addb(s.allocBits, maxIndex)
+			mask := uint8((1 << bitsInLastByte) - 1)
+			bits := allocBits & mask
+			count += uintptr(oneBitCount[bits])
+			println("1295: --- allocBits=", hex(allocBits), "bitsInLastByte=", bitsInLastByte,
+				"mask=", hex(mask), "bits=", bits, "count=", count)
+		}
+	}
+	if count > s.nelems {
+		throw("allocCount > s.nelems")
+	}
+	println("11302: end debug count=", count, "want=", target)
+	return count
+}
+
 // heapBitsSetType records that the new allocation [x, x+size)
 // holds in [x, x+dataSize) one or more values of type typ.
 // (The number of values is given by dataSize / typ.size.)
