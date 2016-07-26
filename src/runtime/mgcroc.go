@@ -66,3 +66,63 @@ func (c *mcache) startG() {
 	c.rocgoid = _g_.goid // To support debugging.
 	releasem(mp)
 }
+
+// publishG is called when the ROC epoch need to have all
+// the its local objects published. This happens when it
+// is no longer feasible to track the local objects.
+func (c *mcache) publishG() {
+	if debug.gcroc == 0 {
+		throw("publishG called but debug.gcroc < 1")
+	}
+	mp := acquirem()
+	_g_ := getg().m.curg
+	for i := range c.alloc {
+		if c.alloc[i] == &emptymspan {
+			continue
+		}
+		if !c.alloc[i].incache {
+			println("runtime: i=", i, "gcphase=", gcphase, "mheap_.sweepgen=", mheap_.sweepgen, "c.alloc[i].sweepgen=", c.alloc[i].sweepgen)
+			throw("c.alloc[i].incache should be true")
+		}
+		for s := c.alloc[i]; s != nil; s, s.nextUsedSpan = s.nextUsedSpan, nil {
+			if s == &emptymspan {
+				throw("s == &emptymspan")
+			}
+			if s.elemsize == 0 {
+				throw("s.elemsize == 0")
+			}
+			if s != c.alloc[i] {
+				if s.incache {
+					// only the first span is considered in an mcache
+					throw("publishG encounters span that should not be marked incache")
+				}
+				if s.freeindex != s.nelems {
+					throw("s.freeindex != s.nelems and span is on ROC used list.")
+				}
+				s.startindex = s.freeindex
+				mheap_.central[i].mcentral.releaseROCSpan(s) // empty free list so leave s on empty list....
+			} else {
+				// This is the active span in the mcache.
+				s.startindex = s.freeindex
+			}
+			s.abortRollbackCount++ // Save some statistics
+		}
+	}
+	// publish all the largeAllocSpans
+	for s := c.largeAllocSpans; s != nil; s, s.nextUsedSpan = s.nextUsedSpan, nil {
+		// aborting rollback so just release the spans after adjusting allocCount to s.nelems.
+		if s.freeindex != s.nelems {
+			throw("s.freeindex != s.nelems and span is on ROC incache used largeAllocSpan list.")
+		}
+		s.startindex = s.freeindex
+	}
+	c.largeAllocSpans = nil
+	if _g_ != nil {
+		_g_.rocvalid = false
+		_g_.rocgcnum = 0
+	}
+	// clean up tiny logic
+	c.tiny = 0
+	c.tinyoffset = 0
+	releasem(mp)
+}
