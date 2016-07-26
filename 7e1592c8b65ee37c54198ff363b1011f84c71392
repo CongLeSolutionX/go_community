@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f181d70_93f35c3e",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-07-26T15:27:28Z",
+      "side": 1,
+      "message": "Please don\u0027t shell out to determine which OS X version is in use... we\u0027re already in C here with access to CF.\n\nif kCFCoreFoundationVersionNumber \u003c kCFCoreFoundationVersionNumber10_9\n\n(Of course, since we want to be able to build on OS X \u003c 10.9, that probably means that we have to hardcode the value of the constant.)",
+      "range": {
+        "startLine": 139,
+        "startChar": 13,
+        "endLine": 139,
+        "endChar": 64
+      },
+      "revId": "7e1592c8b65ee37c54198ff363b1011f84c71392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
