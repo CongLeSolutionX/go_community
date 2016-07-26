@@ -139,7 +139,7 @@ type mspan struct {
 	// Object n starts at address n*elemsize + (start << pageShift).
 	freeindex          uintptr
 	highWaterMark      uintptr
-	rollbackCount      uintptr
+	recycleCount       uintptr
 	abortRollbackCount uintptr
 	// TODO: Look up nelems from sizeclass and remove this field if it
 	// helps performance.
