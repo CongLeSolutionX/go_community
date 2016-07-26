@@ -137,7 +137,10 @@ type mspan struct {
 	// undefined and should never be referenced.
 	//
 	// Object n starts at address n*elemsize + (start << pageShift).
-	freeindex uintptr
+	freeindex          uintptr
+	highWaterMark      uintptr
+	rollbackCount      uintptr
+	abortRollbackCount uintptr
 	// TODO: Look up nelems from sizeclass and remove this field if it
 	// helps performance.
 	nelems uintptr // number of object in the span.
