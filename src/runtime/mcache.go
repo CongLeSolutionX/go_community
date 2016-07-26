@@ -146,3 +146,9 @@ func (c *mcache) releaseAll() {
 	c.tiny = 0
 	c.tinyoffset = 0
 }
+
+// rollbackAllocCount recalculates the number of objects allocated in s
+// and reflects that in s.allocCount.
+func (s *mspan) rollbackAllocCount() {
+	s.allocCount = s.allocated()
+}
