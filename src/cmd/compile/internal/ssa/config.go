@@ -182,6 +182,7 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config 
 		c.gpRegMask = gpRegMaskPPC64
 		c.fpRegMask = fpRegMaskPPC64
 		c.FPReg = framepointerRegPPC64
+		c.noDuffDevice = true // not known to have Duff device, maybe it does
 		c.hasGReg = true
 	default:
 		fe.Unimplementedf(0, "arch %s not implemented", arch)
