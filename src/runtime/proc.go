@@ -1803,6 +1803,10 @@ func execute(gp *g, inheritTime bool) {
 		traceGoStart()
 	}
 
+	// ROC: start a new ROC epoch.
+	if debug.gcroc >= 1 {
+		_g_.m.mcache.startG()
+	}
 	gogo(&gp.sched)
 }
 
@@ -2043,6 +2047,11 @@ func injectglist(glist *g) {
 func schedule() {
 	_g_ := getg()
 
+	if debug.gcroc >= 1 {
+		// swapping to another g, abort any active ROC transaction.
+		_g_.m.mcache.publishG()
+	}
+
 	if _g_.m.locks != 0 {
 		throw("schedule: holding locks")
 	}
@@ -2205,6 +2214,26 @@ func goexit0(gp *g) {
 	if isSystemGoroutine(gp) {
 		atomic.Xadd(&sched.ngsys, -1)
 	}
+
+	// ROC: reset the allocation pointers and recycle unmarked objects.
+	if debug.gcroc >= 1 {
+		mp := acquirem() // This means that we don't need an acquirem in ROCrollback or in what it calls.
+		if debug.gcroc >= 2 {
+			println("goexit0 rolling back gp.goid=", gp.goid)
+		}
+		if gp.m.p == 0 {
+			throw("gp.m.p is nil so this m doesn't have a legal mcache")
+		}
+		if gp.m.p.ptr().mcache != gp.m.mcache {
+			throw("gp.m.p.mcache not same as gp.m.mcache not a legal mcache")
+		}
+		if gp.m != mp {
+			throw("gm.m != mp but we did an mp=acquirem()")
+		}
+		gp.m.mcache.recycleG()
+		releasem(mp)
+	}
+
 	gp.m = nil
 	gp.lockedm = nil
 	_g_.m.lockedg = nil
@@ -2345,6 +2374,13 @@ func reentersyscall(pc, sp uintptr) {
 // Standard syscall entry used by the go syscall library and normal cgo calls.
 //go:nosplit
 func entersyscall(dummy int32) {
+	_g_ := getg()
+
+	// The g may get preempted so we need to publsh all local objects and abort the ROC epoch.
+	if debug.gcroc >= 1 {
+		systemstack(_g_.m.mcache.publishG)
+	}
+
 	reentersyscall(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
 }
 
@@ -2777,6 +2813,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	if trace.enabled {
 		traceGoCreate(newg, newg.startpc)
 	}
+
 	runqput(_p_, newg, true)
 
 	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 && unsafe.Pointer(fn.fn) != unsafe.Pointer(funcPC(main)) { // TODO: fast atomic
@@ -3407,6 +3444,10 @@ func acquirep(_p_ *p) {
 	_g_ := getg()
 	_g_.m.mcache = _p_.mcache
 
+	// ROC: start a new ROC epoch.
+	if debug.gcroc >= 1 {
+		_g_.m.mcache.startG()
+	}
 	if trace.enabled {
 		traceProcStart()
 	}

@@ -133,7 +133,23 @@ func (c *mcache) refill(spc spanClass) *mspan {
 	return s
 }
 
+// publishAllGs publishes all local objects in all of the ROC epochs.
+// The world is stopped.
+func publishAllGs() {
+	for _, p := range &allp {
+		if p == nil || p.mcache == nil {
+			continue
+		}
+		p.mcache.publishG()
+	}
+}
+
 func (c *mcache) releaseAll() {
+	if debug.gcroc >= 1 {
+		// publish all local objects in the current ROC epoch.
+		c.publishG()
+	}
+
 	for i := range c.alloc {
 		s := c.alloc[i]
 		if s != &emptymspan {

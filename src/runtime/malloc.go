@@ -751,6 +751,9 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	}
 
 	if shouldhelpgc && gcShouldStart(false) {
+		if debug.gcroc >= 1 {
+			c.publishG() // Abort the ROC epoch since we are starting the GC.
+		}
 		gcStart(gcBackgroundMode, false)
 	}
 
