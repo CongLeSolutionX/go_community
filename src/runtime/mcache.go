@@ -105,43 +105,132 @@ func freemcache(c *mcache) {
 }
 
 // Gets a span that has a free object in it and assigns it
-// to be the cached span for the given sizeclass. Returns this span.
+// to be the cached span for the given spanClass. Returns this span.
 func (c *mcache) refill(spc spanClass) *mspan {
 	_g_ := getg()
 
 	_g_.m.locks++
 	// Return the current cached span to the central lists.
-	s := c.alloc[spc]
-
-	if uintptr(s.allocCount) != s.nelems {
-		throw("refill of span with free space remaining")
-	}
-
-	if s != &emptymspan {
-		s.incache = false
-	}
+	olds := c.alloc[spc]
 
 	// Get a new cached span from the central lists.
-	s = mheap_.central[spc].mcentral.cacheSpan()
+
+	// ROC:
+	// empty means the there is no unused objects that can be used
+	// for allocation. Historically this indicated an empty freelist.
+	//
+	// cacheSpan returns an *mspan to allocate from.
+	//
+	// If recycleG recovers an object making the span nonempty
+	// then the s *mspan is placed on the spanClass's mcentral's nonempty
+	// list.
+	//
+	// Multiple spans from the same spanClass can be used to allocate
+	// during a ROC epoch. As spans are used up they are linked onto
+	// the new span via the nextUsedSpan field and the new span replaces
+	// it in the alloc[spanClass] cache. recycleG and publishG
+	// iterated down this list to recycle or publish the objects.
+
+	s := mheap_.central[spc].mcentral.cacheSpan()
 	if s == nil {
 		throw("out of memory")
 	}
 
-	if uintptr(s.allocCount) == s.nelems {
-		throw("span has no free space")
+	if s.nextUsedSpan != nil {
+		println("runtime: s.base()=", hex(s.base()), "s.nextUsedSpan.base()=", hex(s.nextUsedSpan.base()))
+		throw("s.nextUsedSpan is not nil.")
 	}
 
+	// Update the ROC structures to include this new span.
+	s.startindex = s.freeindex
+	if c.alloc[spc] != &emptymspan {
+		if debug.gcroc >= 1 {
+			s.nextUsedSpan = c.alloc[spc]
+		}
+		if !c.alloc[spc].incache {
+			throw("c.alloc[spc].incache is not true.")
+		}
+		c.alloc[spc].incache = false
+	} else {
+		s.nextUsedSpan = nil
+	}
+	s.incache = true
 	c.alloc[spc] = s
+	s.checkAllocCount(s.freeindex)
+
+	if olds != &emptymspan {
+		olds.incache = false
+		olds.trace("refill sets incache to false")
+
+		if olds.nelems != olds.freeindex {
+			println("runtime: refill called with olds.nelems=", olds.nelems, "olds.freeindex=", olds.freeindex)
+			throw("olds.nelems != olds.freeindex")
+		}
+	}
+
 	_g_.m.locks--
+	s.trace("span returned from refill")
 	return s
 }
 
+// publishAllGs publishes all local objects.
+// The world is stopped.
+func publishAllGs() {
+	for _, p := range &allp {
+		if p == nil || p.mcache == nil {
+			continue
+		}
+		systemstack(p.mcache.publishG)
+	}
+	if debug.gcroc >= 2 {
+		// As a debug check we call checkAllocCount on all the spans in the heap.
+		for _, s := range h_allspans {
+			if s != nil && s.state == mSpanInUse {
+				if !s.checkAllocCount(s.freeindex) {
+					println("runtime: publishAllG:196 trips over a checkAllocCount check.")
+				}
+			}
+		}
+	}
+}
+
+// releaseAll releases all spans associated with this p's mcache.
 func (c *mcache) releaseAll() {
+	if debug.gcroc >= 1 {
+		// publish all local objects in the current ROC epoch.
+		systemstack(c.publishG)
+	}
+
 	for i := range c.alloc {
 		s := c.alloc[i]
-		if s != &emptymspan {
-			mheap_.central[i].mcentral.uncacheSpan(s)
-			c.alloc[i] = &emptymspan
+		// ROC can introduce a span without allocated objects in it where
+		// this was previously not possible. Such spans are uncached
+		// so they can be reused by any spanClass.
+		if debug.gcroc >= 1 {
+			if s != &emptymspan {
+				next := c.alloc[i]
+				for s := next; s != nil; s = next {
+					next = s.nextUsedSpan
+					s.nextUsedSpan = nil
+					if s.allocCount == 0 {
+						mheap_.central[i].mcentral.uncacheNoAllocsSpan(s)
+					} else if s.allocCount < s.nelems {
+						mheap_.central[i].mcentral.uncacheSpan(s)
+					} else {
+						// allocCount == s.elems so the "freelist" is empty.
+						if s.allocCount != s.nelems {
+							throw(" allocCount should not be > s.nelems")
+						}
+						mheap_.central[i].mcentral.uncacheSpan(s)
+					}
+				}
+				c.alloc[i] = &emptymspan
+			}
+		} else {
+			if s != &emptymspan {
+				mheap_.central[i].mcentral.uncacheSpan(s)
+				c.alloc[i] = &emptymspan
+			}
 		}
 	}
 	// Clear tinyalloc pool.
@@ -152,6 +241,9 @@ func (c *mcache) releaseAll() {
 // rollbackAllocCount recalculates the number of objects allocated in s
 // and reflects that in s.allocCount.
 func (s *mspan) rollbackAllocCount() {
+	if s.allocatedMasker() != s.allocated() {
+		throw("rollback fails with Masker vs. shifter approaches.")
+	}
 	s.allocCount = s.allocated()
 }
 
@@ -188,8 +280,8 @@ func (s *mspan) rollbackAllocCountDebug(oldfreeindex uintptr, ssweepgen uint32, 
 				throw("freshCount != count")
 			}
 			println("runtime: freshCount == count")
-			recount := s.allocatedDebug(count)
-			println("count=", count, "s.allocated()=", s.allocated(), "s.startindex, s.freeindex=", s.startindex, s.freeindex,
+			recount := s.allocatedMasker()
+			println("using allocatedMasker recount=", recount, "s.allocated()=", s.allocated(), "s.startindex, s.freeindex=", s.startindex, s.freeindex,
 				"s.nelems=", s.nelems, "recount=", recount)
 			throw("count != s.allocated")
 		}
