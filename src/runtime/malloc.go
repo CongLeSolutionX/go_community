@@ -519,7 +519,7 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 	if freeIndex == s.nelems {
 		// The span is full.
 		if uintptr(s.allocCount) != s.nelems {
-			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
+			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems, "s.base()=", hex(s.base()))
 			throw("s.allocCount != s.nelems && freeIndex == s.nelems")
 		}
 		systemstack(func() {
@@ -538,7 +538,7 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 	v = gclinkptr(freeIndex*s.elemsize + s.base())
 	s.allocCount++
 	if uintptr(s.allocCount) > s.nelems {
-		println("s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
+		println("s.allocCount=", s.allocCount, "s.nelems=", s.nelems, "s.freeindex=", s.freeindex)
 		throw("s.allocCount > s.nelems")
 	}
 	return
@@ -548,6 +548,7 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 // Small objects are allocated from the per-P cache's free lists.
 // Large objects (> 32 kB) are allocated straight from the heap.
 func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
+
 	if gcphase == _GCmarktermination {
 		throw("mallocgc called with gcphase == _GCmarktermination")
 	}
@@ -680,7 +681,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				v, span, shouldhelpgc = c.nextFree(spc)
 			}
 			x = unsafe.Pointer(v)
-			if needzero && span.needzero != 0 {
+			if writeBarrier.roc || needzero && span.needzero != 0 {
 				memclrNoHeapPointers(unsafe.Pointer(v), size)
 			}
 		}
@@ -689,9 +690,11 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		shouldhelpgc = true
 		systemstack(func() {
 			s = largeAlloc(size, needzero, noscan)
+			if writeBarrier.roc {
+				s.nextUsedSpan = c.largeAllocSpans
+			}
+			c.largeAllocSpans = s
 		})
-		s.freeindex = 1
-		s.allocCount = 1
 		x = unsafe.Pointer(s.base())
 		size = s.elemsize
 	}
@@ -772,9 +775,11 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	}
 
 	if shouldhelpgc && gcShouldStart(false) {
+		if writeBarrier.roc {
+			systemstack(c.publishG) // Abort the ROC epoch since we are starting the GC.
+		}
 		gcStart(gcBackgroundMode, false)
 	}
-
 	return x
 }
 
@@ -794,12 +799,20 @@ func largeAlloc(size uintptr, needzero bool, noscan bool) *mspan {
 	// pays the debt down to npage pages.
 	deductSweepCredit(npages*_PageSize, npages)
 
-	s := mheap_.alloc(npages, makeSpanClass(0, noscan), true, needzero)
+	// RLH TODO: since we are dealing with this at the span level
+	// shouldn't a ROC rollback of the span be responsible for
+	// zeroing the span instead of the mheap_.alloc? If so
+	// then we can drop the || writeBarrier.roc part.
+	s := mheap_.alloc(npages, makeSpanClass(0, noscan), true, needzero || writeBarrier.roc)
 	if s == nil {
 		throw("out of memory")
 	}
 	s.limit = s.base() + size
 	heapBitsForSpan(s.base()).initSpan(s)
+	s.nelems = 1
+	s.freeindex = 1
+	s.startindex = 0
+	s.allocCount = 1
 	return s
 }
 

@@ -186,6 +186,26 @@ func (c *mcentral) uncacheSpan(s *mspan) {
 	unlock(&c.lock)
 }
 
+// uncacheNoAllocsSpaan return a span from MCache that does not contain any allocated
+// objects. This can happen when ROC recycles a span.
+func (c *mcentral) uncacheNoAllocsSpan(s *mspan) {
+	if !writeBarrier.roc {
+		throw("uncacheNoAllocsSpan only for ROC logic")
+	}
+	lock(&c.lock)
+
+	s.incache = false
+	s.trace("uncacehNoAllocSpan set incache to false")
+
+	if s.allocCount != 0 {
+		throw("uncacheNoAllocsSpan has allocated object in it")
+	}
+	c.empty.remove(s)
+	mheap_.freeSpan(s, 1)
+	s.trace("uncachedNoAllocsSpan ends")
+	unlock(&c.lock)
+}
+
 // freeSpan updates c and s after sweeping s.
 // It sets s's sweepgen to the latest generation,
 // and, based on the number of free objects in s,
