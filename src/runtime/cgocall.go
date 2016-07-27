@@ -146,6 +146,10 @@ func cgocall(fn, arg unsafe.Pointer) int32 {
 	KeepAlive(arg)
 
 	endcgo(mp)
+
+	if writeBarrier.roc {
+		getg().m.p.ptr().mcache.startG()
+	}
 	return errno
 }
 

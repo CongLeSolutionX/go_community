@@ -191,6 +191,9 @@ func gcinit() {
 	}
 	work.startSema = 1
 	work.markDoneSema = 1
+	for _, s := range mheap_.allspans {
+		s.startindex = s.freeindex
+	}
 }
 
 func readgogc() int32 {
@@ -1074,6 +1077,10 @@ func gcStart(mode gcMode, forceTrigger bool) {
 		// the world.
 		gcController.markStartTime = now
 
+		if writeBarrier.roc {
+			publishAllGs() // The world is stopped.
+		}
+
 		// Concurrent mark.
 		systemstack(startTheWorldWithSema)
 		now = nanotime()
@@ -1086,6 +1093,10 @@ func gcStart(mode gcMode, forceTrigger bool) {
 
 		if forced {
 			memstats.numforcedgc++
+		}
+
+		if writeBarrier.roc {
+			publishAllGs() // The world is stopped.
 		}
 
 		// Perform mark termination. This will restart the world.
@@ -1278,6 +1289,9 @@ func gcMarkTermination() {
 
 	_g_.m.traceback = 0
 	casgstatus(gp, _Gwaiting, _Grunning)
+	if writeBarrier.roc {
+		gp.m.mcache.startG()
+	}
 
 	if trace.enabled {
 		traceGCDone()
@@ -1317,6 +1331,10 @@ func gcMarkTermination() {
 	// Reset sweep state.
 	sweep.nbgsweep = 0
 	sweep.npausesweep = 0
+
+	if writeBarrier.roc {
+		publishAllGs() // The world is stopped in markTermination phase.
+	}
 
 	systemstack(startTheWorldWithSema)
 
@@ -1379,6 +1397,11 @@ func gcMarkTermination() {
 			print(" (forced)")
 		}
 		print("\n")
+		if writeBarrier.roc {
+			rocData.recoveredBytesAll += rocData.recoveredBytes
+			print("ROC: ", rocData.recoveredBytes/1000, "KB Recycled, ", rocData.recoveredBytesAll/1000000, "MB total recycled.\n")
+			rocData.recoveredBytes = 0
+		}
 		printunlock()
 	}
 
