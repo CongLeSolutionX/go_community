@@ -676,7 +676,10 @@ func (h *mheap) alloc(npage uintptr, spanclass spanClass, large bool, needzero b
 	})
 
 	if s != nil {
-		if needzero && s.needzero != 0 {
+		// ROC - RLH This seems like an opportunity for optimization. I believe all that
+		// needs to be done is to set s.needzero when we recycle a ROC epoch.
+		// If that is true then we can eliminate the writeBarrier.roc in the predicate.
+		if needzero && s.needzero != 0 || writeBarrier.roc {
 			memclrNoHeapPointers(unsafe.Pointer(s.base()), s.npages<<_PageShift)
 		}
 		s.needzero = 0
