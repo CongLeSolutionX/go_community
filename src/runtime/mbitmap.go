@@ -663,7 +663,9 @@ func publish(ptr uintptr) {
 			if b == 0 {
 				continue // nil
 			}
-			if isPublic(b) {
+
+			bBase, _, _, _ := heapBitsForObject(b, 0, 0)
+			if isPublic(bBase) {
 				continue // Already public
 			}
 

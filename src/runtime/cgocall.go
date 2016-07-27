@@ -144,8 +144,11 @@ func cgocall(fn, arg unsafe.Pointer) int32 {
 	// GC by forcing them to stay live across this time warp.
 	KeepAlive(fn)
 	KeepAlive(arg)
-
 	endcgo(mp)
+
+	if debug.gcroc >= 1 {
+		getg().m.p.ptr().mcache.startG()
+	}
 	return errno
 }
 

@@ -191,6 +191,9 @@ func gcinit() {
 	}
 	work.startSema = 1
 	work.markDoneSema = 1
+	for _, s := range mheap_.allspans {
+		s.startindex = s.freeindex
+	}
 }
 
 func readgogc() int32 {
@@ -1073,6 +1076,10 @@ func gcStart(mode gcMode, forceTrigger bool) {
 		// the world.
 		gcController.markStartTime = now
 
+		if debug.gcroc >= 1 {
+			publishAllGs() // The world is stopped.
+		}
+
 		// Concurrent mark.
 		systemstack(startTheWorldWithSema)
 		now = nanotime()
@@ -1085,6 +1092,10 @@ func gcStart(mode gcMode, forceTrigger bool) {
 
 		if forced {
 			memstats.numforcedgc++
+		}
+
+		if debug.gcroc >= 1 {
+			publishAllGs() // The world is stopped.
 		}
 
 		// Perform mark termination. This will restart the world.
@@ -1317,6 +1328,10 @@ func gcMarkTermination() {
 	sweep.nbgsweep = 0
 	sweep.npausesweep = 0
 
+	if debug.gcroc >= 1 {
+		publishAllGs() // The world is stopped in markTermination phase.
+	}
+
 	systemstack(startTheWorldWithSema)
 
 	// Update heap profile stats if gcSweep didn't do it. This is
@@ -1378,6 +1393,11 @@ func gcMarkTermination() {
 			print(" (forced)")
 		}
 		print("\n")
+		if debug.gcroc >= 1 {
+			rocData.recoveredBytesAll += rocData.recoveredBytes
+			print("ROC: ", rocData.recoveredBytes/1000, "KB Recycled, ", rocData.recoveredBytesAll/1000000, "MB total recycled.\n")
+			rocData.recoveredBytes = 0
+		}
 		printunlock()
 	}
 
