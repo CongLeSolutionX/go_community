@@ -447,7 +447,6 @@ func schedinit() {
 
 	goargs()
 	goenvs()
-	parsedebugvars()
 	gcinit()
 
 	sched.lastpoll = uint64(nanotime())
@@ -470,6 +469,7 @@ func schedinit() {
 		// to ensure runtime·buildVersion is kept in the resulting binary.
 		buildVersion = "unknown"
 	}
+	parsedebugvars()
 }
 
 func dumpgstatus(gp *g) {
@@ -727,6 +727,12 @@ func casgstatus(gp *g, oldval, newval uint32) {
 	// See http://golang.org/cl/21503 for justification of the yield delay.
 	const yieldDelay = 5 * 1000
 	var nextYield int64
+	// TODO(rlh) _Gsyscall invalidates here but it only needs to invalidate if the _Gsyscall
+	// doesn't not immediately return to this P in this ROC epoch. At some future point
+	// we could preserve ROC validity over non-blocking syscalls.
+	if oldval == _Grunning && newval != _Gdead && newval != _Gsyscall && gp.rocvalid {
+		gp.rocvalid = false
+	}
 
 	// loop if gp->atomicstatus is in a scan state giving
 	// GC time to finish and change the state to oldval.
@@ -1803,6 +1809,10 @@ func execute(gp *g, inheritTime bool) {
 		traceGoStart()
 	}
 
+	// ROC: start a new ROC epoch.
+	if debug.gcroc >= 1 {
+		_g_.m.mcache.startG()
+	}
 	gogo(&gp.sched)
 }
 
@@ -2117,8 +2127,30 @@ top:
 // appropriate time. After calling dropg and arranging for gp to be
 // readied later, the caller can do other work but eventually should
 // call schedule to restart the scheduling of goroutines on this m.
-func dropg() {
+// recycleG or publishG is called based on whether recycle is true.
+func dropg(recycle bool) {
 	_g_ := getg()
+
+	// ROC: reset the allocation pointers and recycle unmarked objects.
+	if debug.gcroc >= 1 {
+		mp := acquirem()
+		if _g_.m.p != 0 && _g_.m.p.ptr().mcache != _g_.m.mcache {
+			// _g_.m.p might be 0 if this is the result of an exitsyscall0
+			throw("_g_.m.p.mcache not same as _g_.m.mcache not a legal mcache")
+		}
+		if _g_.m != mp {
+			throw("_g_.m != mp but we did an mp=acquirem()")
+		}
+		if _g_.m.mcache != nil {
+			// _g_ has an associated mcache, either recycle or publish
+			if recycle {
+				_g_.m.mcache.recycleG()
+			} else {
+				_g_.m.mcache.publishG()
+			}
+		}
+		releasem(mp)
+	}
 
 	_g_.m.curg.m = nil
 	_g_.m.curg = nil
@@ -2138,7 +2170,7 @@ func park_m(gp *g) {
 	}
 
 	casgstatus(gp, _Grunning, _Gwaiting)
-	dropg()
+	dropg(false) // alternatively scan the stack publishing local objects and call dropg(true)
 
 	if _g_.m.waitunlockf != nil {
 		fn := *(*func(*g, unsafe.Pointer) bool)(unsafe.Pointer(&_g_.m.waitunlockf))
@@ -2151,6 +2183,8 @@ func park_m(gp *g) {
 			}
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			execute(gp, true) // Schedule it back, never returns.
+			// TBD there might be a ROC optimzation here since we don't need to
+			// publishG and startG if we are just goint go resume execution.
 		}
 	}
 	schedule()
@@ -2163,7 +2197,7 @@ func goschedImpl(gp *g) {
 		throw("bad g status")
 	}
 	casgstatus(gp, _Grunning, _Grunnable)
-	dropg()
+	dropg(false) // alternatively scan the stack publishing local objects and call dropg(true)
 	lock(&sched.lock)
 	globrunqput(gp)
 	unlock(&sched.lock)
@@ -2200,11 +2234,15 @@ func goexit1() {
 // goexit continuation on g0.
 func goexit0(gp *g) {
 	_g_ := getg()
-
+	if _g_ != gp && _g_.m != gp.m {
+		println("_g_=", _g_, "gp=", gp, "_g_.m=", _g_.m, "gp.m=", gp.m)
+		throw("gp and getg do not have consistent ms")
+	}
 	casgstatus(gp, _Grunning, _Gdead)
 	if isSystemGoroutine(gp) {
 		atomic.Xadd(&sched.ngsys, -1)
 	}
+
 	gp.m = nil
 	gp.lockedm = nil
 	_g_.m.lockedg = nil
@@ -2219,7 +2257,7 @@ func goexit0(gp *g) {
 	// stack. We could dequeueRescan, but that takes a lock and
 	// isn't really necessary.
 	gp.gcscanvalid = true
-	dropg()
+	dropg(true) // recycleG in dropg
 
 	if _g_.m.locked&^_LockExternal != 0 {
 		print("invalid m->locked = ", _g_.m.locked, "\n")
@@ -2345,6 +2383,13 @@ func reentersyscall(pc, sp uintptr) {
 // Standard syscall entry used by the go syscall library and normal cgo calls.
 //go:nosplit
 func entersyscall(dummy int32) {
+	_g_ := getg()
+
+	// The g may get preempted so we need to publish all local objects and abort the ROC epoch.
+	if debug.gcroc >= 1 {
+		systemstack(_g_.m.mcache.publishG)
+	}
+
 	reentersyscall(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
 }
 
@@ -2474,7 +2519,7 @@ func exitsyscall(dummy int32) {
 		_g_.throwsplit = false
 		return
 	}
-
+	_g_.rocvalid = false
 	_g_.sysexitticks = 0
 	if trace.enabled {
 		// Wait till traceGoSysBlock event is emitted.
@@ -2523,6 +2568,7 @@ func exitsyscallfast() bool {
 	// Try to re-acquire the last P.
 	if _g_.m.p != 0 && _g_.m.p.ptr().status == _Psyscall && atomic.Cas(&_g_.m.p.ptr().status, _Psyscall, _Prunning) {
 		// There's a cpu for us, so we can run.
+		// call to _g_.m.mcache.startG() is done in caller.
 		_g_.m.mcache = _g_.m.p.ptr().mcache
 		_g_.m.p.ptr().m.set(_g_.m)
 		if _g_.m.syscalltick != _g_.m.p.ptr().syscalltick {
@@ -2589,7 +2635,7 @@ func exitsyscall0(gp *g) {
 	_g_ := getg()
 
 	casgstatus(gp, _Gsyscall, _Grunnable)
-	dropg()
+	dropg(false)
 	lock(&sched.lock)
 	_p_ := pidleget()
 	if _p_ == nil {
@@ -2759,6 +2805,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 		// mark the stack dirty.
 		newg.gcscanvalid = false
 	}
+
 	casgstatus(newg, _Gdead, _Grunnable)
 
 	if _p_.goidcache == _p_.goidcacheend {
@@ -2777,6 +2824,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	if trace.enabled {
 		traceGoCreate(newg, newg.startpc)
 	}
+
 	runqput(_p_, newg, true)
 
 	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 && unsafe.Pointer(fn.fn) != unsafe.Pointer(funcPC(main)) { // TODO: fast atomic
@@ -3407,6 +3455,10 @@ func acquirep(_p_ *p) {
 	_g_ := getg()
 	_g_.m.mcache = _p_.mcache
 
+	// ROC: start a new ROC epoch.
+	if debug.gcroc >= 1 {
+		_g_.m.mcache.startG()
+	}
 	if trace.enabled {
 		traceProcStart()
 	}
@@ -3706,6 +3758,11 @@ func retake(now int64) uint32 {
 			if pd.schedwhen+forcePreemptNS > now {
 				continue
 			}
+			// ROC could scan the stack publishing all reachable local objects
+			// and then execute recycleG. preemptone is best effort so if it succeeds
+			// then ROC scans the stack and recycles the mcache.
+			// This could done by telling the goroutine that is being preempted to
+			// do the publishing scan.
 			preemptone(_p_)
 		}
 	}
