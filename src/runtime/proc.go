@@ -3003,6 +3003,12 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 		traceGoCreate(newg, newg.startpc)
 	}
 
+	if writeBarrier.roc {
+		if gcphase == _GCoff {
+			publishStack(newg)
+		}
+	}
+
 	runqput(_p_, newg, true)
 
 	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 && runtimeInitTime != 0 {
