@@ -761,7 +761,10 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		} else {
 			mp := acquirem()
 			if writeBarrier.roc {
-				makePublic(uintptr(x), spanOf(uintptr(x)))
+				systemstack(func() {
+					makePublic(uintptr(x), spanOf(uintptr(x)))
+					publish(uintptr(x))
+				})
 			}
 			profilealloc(mp, x, size)
 			releasem(mp)
