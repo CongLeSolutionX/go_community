@@ -221,6 +221,7 @@ func newdefer(siz int32) *_defer {
 		systemstack(func() {
 			total := roundupsize(totaldefersize(uintptr(siz)))
 			d = (*_defer)(mallocgc(total, deferType, true))
+			makePublic(uintptr(unsafe.Pointer(d)), spanOf(uintptr(unsafe.Pointer(d))))
 		})
 	}
 	d.siz = siz
