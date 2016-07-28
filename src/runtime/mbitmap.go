@@ -835,6 +835,72 @@ func typeBitsBulkBarrier(typ *_type, p, size uintptr) {
 	}
 }
 
+// typeBitsBulkPublish executes publish
+// for every pointer slot in the memory range [p, p+size),
+// using the type bitmap to locate those pointer slots.
+// The type typ must correspond exactly to [p, p+size).
+// This executes publish to insure that the object holds
+// no unpublished pointers.
+// Both p and size must be pointer-aligned.
+// The type typ must have a plain bitmap, not a GC program.
+// Use of this function by channel sends to publish a
+// channel element leverages the fact that 64 kB channel
+// element limit will not have a GC program.
+//
+// The writebarrier logic ignores writes to stacks
+// since stacks are assumed to be local.
+// However typeBitsBulkPublish forces the publishing objects
+// written to stack slots since the channel send code can
+// move structs between stacks thus circumventing the other
+// communication mechanisms consisting of publishing that
+// uses globals and already published heap objects.
+//
+// nosplit is required because typeBitsBulkPublish is
+// called right after memmove, and the GC must observe the
+// two actions atomically.
+// systemstack is used because publish uses pop which
+// assumes it is running on the system stack.
+//go:systemstack
+//go:nosplit
+func typeBitsBulkPublish(typ *_type, p, size uintptr) {
+	if typ == nil {
+		throw("runtime: typeBitsBulkBarrier without type")
+	}
+	if typ.size != size {
+		println("runtime: typeBitsBulkBarrier with type ", typ.string(), " of size ", typ.size, " but memory size", size)
+		throw("runtime: invalid typeBitsBulkBarrier")
+	}
+	if typ.kind&kindGCProg != 0 {
+		println("runtime: typeBitsBulkBarrier with type ", typ.string(), " with GC prog")
+		throw("runtime: invalid typeBitsBulkBarrier")
+	}
+	if debug.gcroc == 0 && !writeBarrier.needed {
+		println("typeBitsBulkPublish says writeBarrier is not needed.")
+		throw("runtime: invalid typeBitsBulkBarrier")
+	}
+	ptrmask := typ.gcdata
+	var bits uint32
+	for i := uintptr(0); i < typ.ptrdata; i += sys.PtrSize {
+		if i&(sys.PtrSize*8-1) == 0 {
+			bits = uint32(*ptrmask)
+			ptrmask = addb(ptrmask, 1)
+		} else {
+			bits = bits >> 1
+		}
+		if bits&1 != 0 {
+			x := (*uintptr)(unsafe.Pointer(p + i))
+			if inheap(*x) && !isPublic(*x) {
+				s := spanOf(*x)
+				if s == nil {
+					throw("x does not have associated span")
+				}
+				makePublic(*x, s)
+				publish(*x)
+			}
+		}
+	}
+}
+
 // The methods operating on spans all require that h has been returned
 // by heapBitsForSpan and that size, n, total are the span layout description
 // returned by the mspan's layout method.
