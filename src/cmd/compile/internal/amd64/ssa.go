@@ -649,10 +649,20 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpAMD64CVTSS2SD, ssa.OpAMD64CVTSD2SS:
 		opregreg(v.Op.Asm(), gc.SSARegNum(v), gc.SSARegNum(v.Args[0]))
 	case ssa.OpAMD64DUFFZERO:
-		p := gc.Prog(obj.ADUFFZERO)
+		off := ssa.DuffStartAMD64(v.AuxInt)
+		adj := ssa.DuffAdjAMD64(v.AuxInt)
+		var p *obj.Prog
+		if adj != 0 {
+			p = gc.Prog(x86.AADDQ)
+			p.From.Type = obj.TYPE_CONST
+			p.From.Offset = adj
+			p.To.Type = obj.TYPE_REG
+			p.To.Reg = x86.REG_DI
+		}
+		p = gc.Prog(obj.ADUFFZERO)
 		p.To.Type = obj.TYPE_ADDR
 		p.To.Sym = gc.Linksym(gc.Pkglookup("duffzero", gc.Runtimepkg))
-		p.To.Offset = v.AuxInt
+		p.To.Offset = off
 	case ssa.OpAMD64MOVOconst:
 		if v.AuxInt != 0 {
 			v.Unimplementedf("MOVOconst can only do constant=0")

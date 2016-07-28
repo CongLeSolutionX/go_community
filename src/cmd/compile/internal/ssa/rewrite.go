@@ -271,11 +271,16 @@ const (
 	dzSize     = dzBlocks * dzBlockSize
 )
 
-func duffStart(size int64) int64 {
+// DuffStartAMD64 returns the offset from duffzero (in bytes) required
+// to use the duffzero mechanism for a block of the given size on AMD64.
+func DuffStartAMD64(size int64) int64 {
 	x, _ := duff(size)
 	return x
 }
-func duffAdj(size int64) int64 {
+
+// DuffAdjAMD64 returns the pointer adjust (in bytes) required to use
+// the duffzero mechanism for a block of the given size on AMD64.
+func DuffAdjAMD64(size int64) int64 {
 	_, x := duff(size)
 	return x
 }
