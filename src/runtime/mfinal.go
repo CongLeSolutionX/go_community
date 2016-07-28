@@ -390,6 +390,24 @@ func SetFinalizer(obj interface{}, finalizer interface{}) {
 	}
 	throw("runtime.SetFinalizer: cannot pass " + etyp.string() + " to finalizer " + ftyp.string())
 okarg:
+
+	if writeBarrier.roc {
+		// Publish the object and the finalizer since at some point in the future
+		// both will be visible to the goroutine running the finalizer.
+		// Publishing the finalizer will result in publishing any free variables
+		// that the finalizer may have access to.
+		systemstack(func() {
+			publish(uintptr(e.data))
+		})
+		if inheap(uintptr(f.data)) {
+			systemstack(func() {
+				// Closures are allocated on the heap with the required GC maps
+				// this will publish them.
+				publish(uintptr(f.data))
+			})
+		}
+	}
+
 	// compute size needed for return parameters
 	nret := uintptr(0)
 	for _, t := range ft.out() {
