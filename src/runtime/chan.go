@@ -99,6 +99,13 @@ func makechan(t *chantype, size int64) *hchan {
 	if debugChan {
 		print("makechan: chan=", c, "; elemsize=", elem.size, "; elemalg=", elem.alg, "; dataqsiz=", size, "\n")
 	}
+
+	if writeBarrier.roc {
+		systemstack(func() {
+			// Channels aren't of much use unless they are shared to publish c
+			publish(uintptr(unsafe.Pointer(c)))
+		})
+	}
 	return c
 }
 
@@ -178,6 +185,27 @@ func chansend(t *chantype, c *hchan, ep unsafe.Pointer, block bool, callerpc uin
 	if c.closed != 0 {
 		unlock(&c.lock)
 		panic(plainError("send on closed channel"))
+	}
+
+	if writeBarrier.roc {
+		// ep is a pointer to the stack that holds what is to be moved so publishing
+		// ep is a waste since it is not in the heap.
+		//
+		// publishing *ep works if it is a pointer, if it is a struct on the stack or a
+		// primitive type then this does not work.
+		//
+		// Therefore ROC needs to inspect t (the channel type) to determine what to do.
+		elem := t.elem
+		size := t.elem.size
+		if elem.kind&kindNoPointers == 0 && size != 0 {
+			x := *(*uintptr)(ep)
+			if x != 0 {
+				// elem is the type of the element whose fields need to be published.
+				systemstack(func() {
+					typeBitsBulkPublish(t.elem, uintptr(ep), size)
+				})
+			}
+		}
 	}
 
 	if sg := c.recvq.dequeue(); sg != nil {
@@ -305,6 +333,17 @@ func sendDirect(t *_type, sg *sudog, src unsafe.Pointer) {
 	// So make sure that no preemption points can happen between read & use.
 	dst := sg.elem
 	typeBitsBulkBarrier(t, uintptr(dst), uintptr(src), t.size)
+	if writeBarrier.roc {
+		// ROC needs to publish on the send side since the receive will not
+		// assume that the pointer is already published.
+		// This is done on the system stack (unlike typeBitsBulkBarrier) since
+		// publish uses the wbuf pop routine which needs to run on the
+		// systemstack. This is also the reason we don't move the publish
+		// logic into typeBitsBulkBarrier.
+		systemstack(func() {
+			typeBitsBulkPublish(t, uintptr(src), t.size)
+		})
+	}
 	memmove(dst, src, t.size)
 }
 
