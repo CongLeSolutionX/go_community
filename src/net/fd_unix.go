@@ -109,10 +109,19 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) error {
 	go func() {
 		select {
 		case <-ctx.Done():
-			// Force the runtime's poller to immediately give
-			// up waiting for writability.
-			fd.setWriteDeadline(aLongTimeAgo)
-			<-done
+			select {
+			case <-done:
+				// If this channel is readable, the connect is done.
+				// The outer select saw both channels readable and
+				// picked ctx.Done, but we don't want to mess with the
+				// fd's write deadline if the connect is done.
+				return
+			default:
+				// Force the runtime's poller to immediately give
+				// up waiting for writability.
+				fd.setWriteDeadline(aLongTimeAgo)
+				<-done
+			}
 		case <-done:
 		}
 	}()
