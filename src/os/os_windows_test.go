@@ -5,6 +5,8 @@
 package os_test
 
 import (
+	"fmt"
+	"internal/syscall/windows"
 	"io/ioutil"
 	"os"
 	osexec "os/exec"
@@ -13,9 +15,8 @@ import (
 	"strings"
 	"syscall"
 	"testing"
+	"unsafe"
 )
-
-var supportJunctionLinks = true
 
 func init() {
 	tmpdir, err := ioutil.TempDir("", "symtest")
@@ -33,11 +34,6 @@ func init() {
 		}
 	}
 	defer os.Remove("target")
-
-	b, _ := osexec.Command("cmd", "/c", "mklink", "/?").Output()
-	if !strings.Contains(string(b), " /J ") {
-		supportJunctionLinks = false
-	}
 }
 
 func TestSameWindowsFile(t *testing.T) {
@@ -93,34 +89,318 @@ func TestSameWindowsFile(t *testing.T) {
 	}
 }
 
-func TestStatJunctionLink(t *testing.T) {
-	if !supportJunctionLinks {
-		t.Skip("skipping because junction links are not supported")
-	}
+type dirLinkTest struct {
+	name    string
+	mklink  func(link, target string) error
+	issueNo int // correspondent issue number (for broken tests)
+}
 
-	dir, err := ioutil.TempDir("", "go-build")
+func testDirLinks(t *testing.T, tests []dirLinkTest) {
+	tmpdir, err := ioutil.TempDir("", "testDirLinks")
 	if err != nil {
-		t.Fatalf("failed to create temp directory: %v", err)
+		t.Fatal(err)
 	}
-	defer os.RemoveAll(dir)
+	defer os.RemoveAll(tmpdir)
 
-	link := filepath.Join(filepath.Dir(dir), filepath.Base(dir)+"-link")
-
-	output, err := osexec.Command("cmd", "/c", "mklink", "/J", link, dir).CombinedOutput()
+	oldwd, err := os.Getwd()
 	if err != nil {
-		t.Fatalf("failed to run mklink %v %v: %v %q", link, dir, err, output)
+		t.Fatal(err)
 	}
-	defer os.Remove(link)
-
-	fi, err := os.Stat(link)
+	err = os.Chdir(tmpdir)
 	if err != nil {
-		t.Fatalf("failed to stat link %v: %v", link, err)
+		t.Fatal(err)
 	}
-	expected := filepath.Base(dir)
-	got := fi.Name()
-	if !fi.IsDir() || expected != got {
-		t.Fatalf("link should point to %v but points to %v instead", expected, got)
+	defer os.Chdir(oldwd)
+
+	dir := filepath.Join(tmpdir, "dir")
+	err = os.Mkdir(dir, 0777)
+	if err != nil {
+		t.Fatal(err)
 	}
+	err = ioutil.WriteFile(filepath.Join(dir, "abc"), []byte("abc"), 0644)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, test := range tests {
+		link := filepath.Join(tmpdir, test.name+"_link")
+		err := test.mklink(link, dir)
+		if err != nil {
+			t.Errorf("creating link for %s test failed: %v", test.name, err)
+			continue
+		}
+
+		data, err := ioutil.ReadFile(filepath.Join(link, "abc"))
+		if err != nil {
+			t.Errorf("failed to read abc file: %v", err)
+			continue
+		}
+		if string(data) != "abc" {
+			t.Errorf(`abc file is expected to have "abc" in it, but has %v`, data)
+			continue
+		}
+
+		if test.issueNo > 0 {
+			t.Logf("skipping broken %q test: see issue %d", test.name, test.issueNo)
+			continue
+		}
+
+		fi, err := os.Stat(link)
+		if err != nil {
+			t.Errorf("failed to stat link %v: %v", link, err)
+			continue
+		}
+		expected := filepath.Base(dir)
+		got := fi.Name()
+		if !fi.IsDir() || expected != got {
+			t.Errorf("link should point to %v but points to %v instead", expected, got)
+			continue
+		}
+	}
+}
+
+// reparseData is used to build reparse buffer data required for tests.
+type reparseData struct {
+	substituteName namePosition
+	printName      namePosition
+	pathBuf        []uint16
+}
+
+type namePosition struct {
+	offset uint16
+	length uint16
+}
+
+func (rd *reparseData) addUint16s(s []uint16) (offset uint16) {
+	off := len(rd.pathBuf) * 2
+	rd.pathBuf = append(rd.pathBuf, s...)
+	return uint16(off)
+}
+
+func (rd *reparseData) addString(s string) (offset, length uint16) {
+	p := syscall.StringToUTF16(s)
+	return rd.addUint16s(p), uint16(len(p)-1) * 2 // do not include terminating NUL in the legth (as per PrintNameLength and SubstituteNameLength documentation)
+}
+
+func (rd *reparseData) addSubstituteName(name string) {
+	rd.substituteName.offset, rd.substituteName.length = rd.addString(name)
+}
+
+func (rd *reparseData) addPrintName(name string) {
+	rd.printName.offset, rd.printName.length = rd.addString(name)
+}
+
+func (rd *reparseData) addStringNoNUL(s string) (offset, length uint16) {
+	p := syscall.StringToUTF16(s)
+	p = p[:len(p)-1]
+	return rd.addUint16s(p), uint16(len(p)) * 2
+}
+
+func (rd *reparseData) addSubstituteNameNoNUL(name string) {
+	rd.substituteName.offset, rd.substituteName.length = rd.addStringNoNUL(name)
+}
+
+func (rd *reparseData) addPrintNameNoNUL(name string) {
+	rd.printName.offset, rd.printName.length = rd.addStringNoNUL(name)
+}
+
+// pathBuffeLen returns length of rd pathBuf in bytes.
+func (rd *reparseData) pathBuffeLen() uint16 {
+	return uint16(len(rd.pathBuf)) * 2
+}
+
+// _REPARSE_DATA_BUFFER is used to build reparse buffer data required for tests.
+type _REPARSE_DATA_BUFFER struct {
+	header windows.REPARSE_DATA_BUFFER_HEADER
+	detail [4096]byte // large enough for these tests
+}
+
+func createDirLink(link string, rdb *_REPARSE_DATA_BUFFER) error {
+	err := os.Mkdir(link, 0777)
+	if err != nil {
+		return err
+	}
+
+	linkp := syscall.StringToUTF16(link)
+	fd, err := syscall.CreateFile(&linkp[0], syscall.GENERIC_WRITE, 0, nil, syscall.OPEN_EXISTING,
+		syscall.FILE_FLAG_OPEN_REPARSE_POINT|syscall.FILE_FLAG_BACKUP_SEMANTICS, 0)
+	if err != nil {
+		return err
+	}
+	defer syscall.CloseHandle(fd)
+
+	buflen := uint32(rdb.header.ReparseDataLength) + uint32(unsafe.Sizeof(rdb.header))
+	var bytesReturned uint32
+	return syscall.DeviceIoControl(fd, windows.FSCTL_SET_REPARSE_POINT,
+		(*byte)(unsafe.Pointer(&rdb.header)), buflen, nil, 0, &bytesReturned, nil)
+}
+
+func createMountPoint(link string, target *reparseData) error {
+	var buf *windows.MountPointReparseBuffer
+	buflen := uint16(unsafe.Offsetof(buf.PathBuffer)) + target.pathBuffeLen() // see ReparseDataLength documentation
+	byteblob := make([]byte, buflen)
+	buf = (*windows.MountPointReparseBuffer)(unsafe.Pointer(&byteblob[0]))
+	buf.SubstituteNameOffset = target.substituteName.offset
+	buf.SubstituteNameLength = target.substituteName.length
+	buf.PrintNameOffset = target.printName.offset
+	buf.PrintNameLength = target.printName.length
+	copy((*[2048]uint16)(unsafe.Pointer(&buf.PathBuffer[0]))[:], target.pathBuf)
+
+	var rdb _REPARSE_DATA_BUFFER
+	rdb.header.ReparseTag = windows.IO_REPARSE_TAG_MOUNT_POINT
+	rdb.header.ReparseDataLength = buflen
+	copy(rdb.detail[:], byteblob)
+
+	return createDirLink(link, &rdb)
+}
+
+func TestDirectoryJunction(t *testing.T) {
+	var tests = []dirLinkTest{
+		{
+			name: "standard",
+			mklink: func(link, target string) error {
+				var t reparseData
+				t.addSubstituteName(`\??\` + target)
+				t.addPrintName(target)
+				return createMountPoint(link, &t)
+			},
+		},
+		{
+			// Do as junction utility https://technet.microsoft.com/en-au/sysinternals/bb896768.aspx does - set PrintNameLength to 0.
+			name: "have_blank_print_name",
+			mklink: func(link, target string) error {
+				var t reparseData
+				t.addSubstituteName(`\??\` + target)
+				t.addPrintName("")
+				return createMountPoint(link, &t)
+			},
+			issueNo: 16145,
+		},
+	}
+	output, _ := osexec.Command("cmd", "/c", "mklink", "/?").Output()
+	mklinkSupportsJunctionLinks := strings.Contains(string(output), " /J ")
+	if mklinkSupportsJunctionLinks {
+		tests = append(tests,
+			dirLinkTest{
+				name: "use_mklink_cmd",
+				mklink: func(link, target string) error {
+					output, err := osexec.Command("cmd", "/c", "mklink", "/J", link, target).CombinedOutput()
+					if err != nil {
+						fmt.Errorf("failed to run mklink %v %v: %v %q", link, target, err, output)
+					}
+					return nil
+				},
+			},
+		)
+	} else {
+		t.Log(`skipping "use_mklink_cmd" test, mklink does not supports directory junctions`)
+	}
+	testDirLinks(t, tests)
+}
+
+func enablePrivilege(privilegeName string) error {
+	p, err := syscall.GetCurrentProcess()
+	if err != nil {
+		return err
+	}
+	var t syscall.Token
+	err = syscall.OpenProcessToken(p, syscall.TOKEN_QUERY|windows.TOKEN_ADJUST_PRIVILEGES, &t)
+	if err != nil {
+		return err
+	}
+	defer syscall.CloseHandle(syscall.Handle(t))
+
+	var tp windows.TOKEN_PRIVILEGES
+
+	privStr, err := syscall.UTF16PtrFromString(privilegeName)
+	if err != nil {
+		return err
+	}
+	err = windows.LookupPrivilegeValue(nil, privStr, &tp.Privileges[0].Luid)
+	if err != nil {
+		return err
+	}
+	tp.PrivilegeCount = 1
+	tp.Privileges[0].Attributes = windows.SE_PRIVILEGE_ENABLED
+	return windows.AdjustTokenPrivileges(t, false, &tp, 0, nil, nil)
+}
+
+func createSymbolicLink(link string, target *reparseData, isrelative bool) error {
+	var buf *windows.SymbolicLinkReparseBuffer
+	buflen := uint16(unsafe.Offsetof(buf.PathBuffer)) + target.pathBuffeLen() // see ReparseDataLength documentation
+	byteblob := make([]byte, buflen)
+	buf = (*windows.SymbolicLinkReparseBuffer)(unsafe.Pointer(&byteblob[0]))
+	buf.SubstituteNameOffset = target.substituteName.offset
+	buf.SubstituteNameLength = target.substituteName.length
+	buf.PrintNameOffset = target.printName.offset
+	buf.PrintNameLength = target.printName.length
+	if isrelative {
+		buf.Flags = windows.SYMLINK_FLAG_RELATIVE
+	}
+	copy((*[2048]uint16)(unsafe.Pointer(&buf.PathBuffer[0]))[:], target.pathBuf)
+
+	var rdb _REPARSE_DATA_BUFFER
+	rdb.header.ReparseTag = syscall.IO_REPARSE_TAG_SYMLINK
+	rdb.header.ReparseDataLength = buflen
+	copy(rdb.detail[:], byteblob)
+
+	return createDirLink(link, &rdb)
+}
+
+func TestDirectorySymbolicLink(t *testing.T) {
+	if !supportsSymlinks {
+		t.Skip("skipping test, your system does not supports symlinks")
+	}
+	var tests []dirLinkTest
+	output, _ := osexec.Command("cmd", "/c", "mklink", "/?").Output()
+	mklinkSupportsDirectorySymbolicLinks := strings.Contains(string(output), " /D ")
+	if mklinkSupportsDirectorySymbolicLinks {
+		tests = append(tests,
+			dirLinkTest{
+				name: "use_mklink_cmd",
+				mklink: func(link, target string) error {
+					output, err := osexec.Command("cmd", "/c", "mklink", "/D", link, target).CombinedOutput()
+					if err != nil {
+						fmt.Errorf("failed to run mklink %v %v: %v %q", link, target, err, output)
+					}
+					return nil
+				},
+			},
+		)
+	} else {
+		t.Log(`skipping "use_mklink_cmd" test, mklink does not supports directory symbolic links`)
+	}
+	// TODO: maybe run this test in a subprocess, because we are adjusting process privileges, and we don't want other tests to be affected
+	if err := enablePrivilege("SeCreateSymbolicLinkPrivilege"); err != nil {
+		t.Skipf(`skipping some tests, could not enable "SeCreateSymbolicLinkPrivilege": %v`, err)
+	}
+	tests = append(tests,
+		dirLinkTest{
+			name: "use_os_pkg",
+			mklink: func(link, target string) error {
+				return os.Symlink(target, link)
+			},
+		},
+		dirLinkTest{
+			name: "standard",
+			mklink: func(link, target string) error {
+				var t reparseData
+				t.addPrintName(target)
+				t.addSubstituteName(`\??\` + target)
+				return createSymbolicLink(link, &t, false)
+			},
+		},
+		dirLinkTest{
+			name: "relative",
+			mklink: func(link, target string) error {
+				var t reparseData
+				t.addSubstituteNameNoNUL(filepath.Base(target))
+				t.addPrintNameNoNUL(filepath.Base(target))
+				return createSymbolicLink(link, &t, true)
+			},
+			issueNo: 15978,
+		},
+	)
+	testDirLinks(t, tests)
 }
 
 func TestStartProcessAttr(t *testing.T) {

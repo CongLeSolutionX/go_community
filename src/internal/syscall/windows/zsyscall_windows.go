@@ -13,12 +13,15 @@ var _ unsafe.Pointer
 var (
 	modiphlpapi = syscall.NewLazyDLL(sysdll.Add("iphlpapi.dll"))
 	modkernel32 = syscall.NewLazyDLL(sysdll.Add("kernel32.dll"))
+	modadvapi32 = syscall.NewLazyDLL(sysdll.Add("advapi32.dll"))
 
-	procGetAdaptersAddresses = modiphlpapi.NewProc("GetAdaptersAddresses")
-	procGetComputerNameExW   = modkernel32.NewProc("GetComputerNameExW")
-	procMoveFileExW          = modkernel32.NewProc("MoveFileExW")
-	procGetACP               = modkernel32.NewProc("GetACP")
-	procMultiByteToWideChar  = modkernel32.NewProc("MultiByteToWideChar")
+	procGetAdaptersAddresses  = modiphlpapi.NewProc("GetAdaptersAddresses")
+	procGetComputerNameExW    = modkernel32.NewProc("GetComputerNameExW")
+	procMoveFileExW           = modkernel32.NewProc("MoveFileExW")
+	procGetACP                = modkernel32.NewProc("GetACP")
+	procMultiByteToWideChar   = modkernel32.NewProc("MultiByteToWideChar")
+	procLookupPrivilegeValueW = modadvapi32.NewProc("LookupPrivilegeValueW")
+	procAdjustTokenPrivileges = modadvapi32.NewProc("AdjustTokenPrivileges")
 )
 
 func GetAdaptersAddresses(family uint32, flags uint32, reserved uintptr, adapterAddresses *IpAdapterAddresses, sizePointer *uint32) (errcode error) {
@@ -63,6 +66,37 @@ func MultiByteToWideChar(codePage uint32, dwFlags uint32, str *byte, nstr int32,
 	r0, _, e1 := syscall.Syscall6(procMultiByteToWideChar.Addr(), 6, uintptr(codePage), uintptr(dwFlags), uintptr(unsafe.Pointer(str)), uintptr(nstr), uintptr(unsafe.Pointer(wchar)), uintptr(nwchar))
 	nwrite = int32(r0)
 	if nwrite == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func LookupPrivilegeValue(systemname *uint16, name *uint16, luid *LUID) (err error) {
+	r1, _, e1 := syscall.Syscall(procLookupPrivilegeValueW.Addr(), 3, uintptr(unsafe.Pointer(systemname)), uintptr(unsafe.Pointer(name)), uintptr(unsafe.Pointer(luid)))
+	if r1 == 0 {
+		if e1 != 0 {
+			err = error(e1)
+		} else {
+			err = syscall.EINVAL
+		}
+	}
+	return
+}
+
+func adjustTokenPrivileges(token syscall.Token, disableAllPrivileges bool, newstate *TOKEN_PRIVILEGES, buflen uint32, prevstate *TOKEN_PRIVILEGES, returnlen *uint32) (ret uint32, err error) {
+	var _p0 uint32
+	if disableAllPrivileges {
+		_p0 = 1
+	} else {
+		_p0 = 0
+	}
+	r0, _, e1 := syscall.Syscall6(procAdjustTokenPrivileges.Addr(), 6, uintptr(token), uintptr(_p0), uintptr(unsafe.Pointer(newstate)), uintptr(buflen), uintptr(unsafe.Pointer(prevstate)), uintptr(unsafe.Pointer(returnlen)))
+	ret = uint32(r0)
+	if true {
 		if e1 != 0 {
 			err = error(e1)
 		} else {
