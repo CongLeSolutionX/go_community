@@ -278,7 +278,7 @@ func makePublic(ptr uintptr, s *mspan) {
 	abits.setMarked()
 }
 
-// Used for debugging only.
+// Eventually this goes to mgcroc.go
 func dumpMakePublicState(s *mspan, abits markBits, obj uintptr) {
 	if debug.gcroc < 5 {
 		return // short circuit unless gcroc => 5
@@ -927,7 +927,7 @@ func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {
 // systemstack is used because publish uses pop which
 // assumes it is running on the system stack.
 //go:nosplit
-func typeBitsBulkPublish(typ *_type, p, size uintptr) {
+func typeBitsBulkPublish(typ *_type, src, size uintptr) {
 	typeBitsBulkPublishValidation(typ, size) // throws if args are not valid
 	ptrmask := typ.gcdata
 	var bits uint32
@@ -939,7 +939,7 @@ func typeBitsBulkPublish(typ *_type, p, size uintptr) {
 			bits = bits >> 1
 		}
 		if bits&1 != 0 {
-			x := (*uintptr)(unsafe.Pointer(p + i))
+			x := (*uintptr)(unsafe.Pointer(src + i))
 			if inheap(*x) && !isPublic(*x) {
 				s := spanOf(*x)
 				if s == nil {
